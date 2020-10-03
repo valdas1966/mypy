@@ -1,0 +1,101 @@
+import math
+import pandas as pd
+from f_utils import u_dict
+
+
+def remove_duplicated_columns(df):
+    """
+    =======================================================================
+     Description: Remove Duplicated Columns in the DataFrame (same names).
+    =======================================================================
+     Arguments:
+    -----------------------------------------------------------------------
+         1. df : DataFrame (with duplicated columns).
+    =======================================================================
+     Return: DataFrame (without duplicated columns).
+    =======================================================================
+    """
+    return df.loc[:, ~df.columns.duplicated()]
+
+
+def split_to_x_y(df):
+    """
+    =======================================================================
+     Description: Split DataFrame to X (without label) and Y (label).
+    =======================================================================
+     Arguments:
+    -----------------------------------------------------------------------
+        1. df : DataFrame (must have column "label").
+    =======================================================================
+     Return: Tuple(DataFrame, Series) (x, y)
+    =======================================================================
+    """
+    x = df.drop('label', axis=1)
+    y = df['label']
+    return x, y
+
+
+def divide(df, parts):
+    """
+    =======================================================================
+     Description: Return List of Sub-DataFrames.
+    =======================================================================
+     Arguments:
+    -----------------------------------------------------------------------
+        1. df : DataFrame (The main DataFrame).
+        2. parts : int (Number of Sub-DataFrames to divide).
+    =======================================================================
+     Return: list of df.
+    =======================================================================
+    """
+    len_df = len(df)
+    if not len_df:
+        return [pd.DataFrame() for x in parts]
+
+    bulk = math.ceil(len_df / parts)
+
+    li_dfs = list()
+    for i in range(parts):
+        a = i * bulk
+        b = (i+1) * bulk
+        li_dfs.append(df[a:b])
+
+    return li_dfs
+
+
+def drop_columns(df, columns):
+    """
+    ============================================================================
+     Description: Drop Columns in DataFrame.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. df : DataFrame.
+        2. columns : list of str (Columns Names).
+    ============================================================================
+     Return : DataFrame (without dropped columns).
+    ============================================================================
+    """
+    return df.drop(columns, axis=1)
+
+
+def to_dict(df, col_key=0, col_val=1):
+    """
+    ============================================================================
+     Description: Return Dict-Representation of the DataFrame.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. df : DataFrame.
+        2. col_key : str (Key-Column Name).
+        3. col_val : str (Val-Column Name).
+    ============================================================================
+     Return : dict.
+    ============================================================================
+    """
+    d = dict()
+    for index, row in df.iterrows():
+        key = row[col_key]
+        val = row[col_val]
+        d = u_dict.update(d, key, val)
+    return d
