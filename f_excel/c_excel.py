@@ -27,5 +27,5 @@ class Excel:
         self.ws.cell(row=row, column=column).value = value
 
     def close(self):
-        self.wb.save(filename)
+        self.wb.save(self.filename)
         self.wb.close()
