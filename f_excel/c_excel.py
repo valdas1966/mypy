@@ -29,13 +29,3 @@ class Excel:
     def close(self):
         self.wb.save(filename)
         self.wb.close()
-
-
-filename = 'D:\\Temp\\temp_1.xlsx'
-excel = Excel(filename)
-excel.write_value(1,1,100)
-excel.write_value(2,1,200)
-excel.write_value(3,1,300)
-excel.close()
-
-#en
