@@ -1,4 +1,6 @@
 import openpyxl as xl
+from openpyxl.styles import PatternFill
+import openpyxl.styles.colors as Colors
 
 
 class Excel:
@@ -26,6 +28,18 @@ class Excel:
     def write_value(self, row, column, value):
         self.ws.cell(row=row, column=column).value = value
 
+    def fill_cell(self, row, column, name_color):
+        fill = Excel.color_excel(name_color)
+        self.ws.cell(row=row, column=column).fill = fill
+
     def close(self):
         self.wb.save(self.filename)
         self.wb.close()
+
+    @staticmethod
+    def color_excel(name_color):
+        enum = {'BLACK': 0, 'WHITE': 1, 'YELLOW': 51, 'GREEN': 57, 'RED': 60}
+        color = Colors.COLOR_INDEX[enum[name_color]]
+        return PatternFill(start_color=color,
+                           end_color=color,
+                           fill_type='solid')
