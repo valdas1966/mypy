@@ -217,3 +217,14 @@ class Map:
             distance = point_1.distance(point_2)
             distances[direction] = min(distances[direction], distance)
         return distances
+
+    def zfill(self):
+        """
+        ========================================================================
+         Description: Fill Grid with Zeroes when the Nodes are Valid.
+        ========================================================================
+        """
+        for row in range(self.rows):
+            for col in range(self.cols):
+                if self.grid[row][col] > -1:
+                    self.grid[row][col] = 0

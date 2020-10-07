@@ -1,4 +1,5 @@
 from f_utils import u_tester
+from f_grid import u_grid
 from f_map.c_map import Map
 from f_map.c_point import Point
 from f_const.directions import Directions
@@ -16,6 +17,7 @@ class TestMap:
         TestMap.__tester_to_point()
         TestMap.__tester_nearest()
         TestMap.__tester_nearest_closed()
+        TestMap.__tester_zfill()
         u_tester.print_finish(__file__)
 
     @staticmethod
@@ -103,6 +105,19 @@ class TestMap:
                         Directions.DOWN: 1,
                         Directions.LEFT: 2}
         p0 = nearest_test = nearest_true
+        u_tester.run(p0)
+
+    @staticmethod
+    def __tester_zfill():
+        map = Map(rows=3, cols=4)
+        map.grid[1][1] = -1
+        map.zfill()
+        li_1 = [0, 0, 0, 0]
+        li_2 = [0, -1, 0, 0]
+        li_3 = [0, 0, 0, 0]
+        li = [li_1, li_2, li_3]
+        grid_true = u_grid.lists_to_grid(li)
+        p0 = (map.grid == grid_true).all()
         u_tester.run(p0)
 
 
