@@ -34,14 +34,14 @@ class Map:
         self.rows = self.grid.shape[0]
         self.cols = self.grid.shape[1]
 
-    def set_value(self, val, idd=None, row=None, col=None):
+    def set_value(self, value, idd=None, row=None, col=None):
         """
         ========================================================================
          Description: Set Value in Map.Grid by Idd or by Row and Col.
         ========================================================================
          Arguments:
         ------------------------------------------------------------------------
-            1. val : obj (Value to Set).
+            1. value : obj (Value to Set).
             2. idd : int (Node's Idd).
             3. row : int (Node's Row).
             4. col : int (Node's Col).
@@ -49,7 +49,7 @@ class Map:
         """
         if idd is not None:
             row, col = self.to_row_col(idd)
-        self.grid[row][col] = val
+        self.grid[row][col] = value
 
     def offsets(self, idd_1, idd_2=None):
         """
