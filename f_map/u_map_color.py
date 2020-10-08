@@ -8,7 +8,7 @@ pickle_maps = dir_data + 'maps.pickle'
 pickle_start_goals = dir_data + 'start_goals.pickle'
 pickle_forward = dir_data + 'forward.pickle'
 pickle_backward = dir_data + 'backward.pickle'
-pickle_maps_color = dir_data + 'bimaps.pickle'
+pickle_maps_color = dir_data + 'maps_color.pickle'
 
 
 def dump():
@@ -34,15 +34,11 @@ def dump():
     u_pickle.dump(maps_color, pickle_maps_color)
 
 
-dump()
+excel_temp = dir_data + 'temp_2.xlsx'
 
-"""
-excel_temp = dir_data + 'temp_1.xlsx'
-
-bimaps = u_pickle.load(pickle_bimaps)
-bimap = bimaps[0][0]
+maps_color = u_pickle.load(pickle_maps_color)
+map_color = maps_color[1][1]
 
 xl = Excel(excel_temp)
-bimap.draw(xl, row_start=2, col_start=2)
+map_color.draw(xl, row_start=3, col_start=3)
 xl.close()
-"""

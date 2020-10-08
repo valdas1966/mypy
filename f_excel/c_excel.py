@@ -39,7 +39,7 @@ class Excel:
     @staticmethod
     def color_excel(name_color):
         enum = {'BLACK': 0, 'WHITE': 1, 'YELLOW': 51, 'GREEN': 57, 'RED': 60,
-                'GRAY': 55, 'TRANSPARENT': 64}
+                'GRAY': 55}
         color = Colors.COLOR_INDEX[enum[name_color]]
         return PatternFill(start_color=color,
                            end_color=color,

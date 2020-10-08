@@ -37,17 +37,20 @@ class MapColor:
                 row = row_start + i
                 column = col_start + j
                 value = str()
+                color = 'WHITE'
                 cat = self.map.grid[i][j]
                 if cat == self.cats['START']:
                     value = 'S'
+                    color = 'GRAY'
                 elif cat == self.cats['GOAL_NEAR']:
                     value = 'G1'
+                    color = 'GRAY'
                 elif cat == self.cats['GOAL_FAR']:
                     value = 'G2'
+                    color = 'RED'
                 xl.write_value(row, column, value)
-                color = 'WHITE'
                 if cat == self.cats['LOOKUP']:
-                    color = 'TRANSPARENT'
+                    color = 'GRAY'
                 elif cat == self.cats['FORWARD']:
                     color = 'YELLOW'
                 elif cat == self.cats['BACKWARD']:
