@@ -166,7 +166,8 @@ def run_report():
             closed_far = len(fw['closed_far'])
             closed_back = len(backward[i][j])
             delta = closed_far - closed_back
-            min_ratio = min(closed_far/closed_back, closed_back/closed_far)
+            min_ratio = min(closed_far / max(closed_back, 1),
+                            closed_back / max(closed_far, 1))
             metric = round(min_ratio * u_int.sign(delta), 2)
             file.write(f'{i}, {j}, {start}, {goal_near}, {goal_far},'
                        f'{distance_near}, {distance_far}, {distance_goals},'
