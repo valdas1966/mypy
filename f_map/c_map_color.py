@@ -71,12 +71,9 @@ class MapColor:
         start = start_goals['start']
         goal_near = start_goals['goal_near']
         goal_far = start_goals['goal_far']
-        self.map_forward.set_value(idd=start, value=self.cats['START'])
-        self.map_forward.set_value(idd=goal_near, value=self.cats['GOAL_NEAR'])
-        self.map_forward.set_value(idd=goal_far, value=self.cats['GOAL_FAR'])
-        self.map_backward.set_value(idd=start, value=self.cats['START'])
-        self.map_backward.set_value(idd=goal_near, value=self.cats['GOAL_NEAR'])
-        self.map_backward.set_value(idd=goal_far, value=self.cats['GOAL_FAR'])
+        self.map.set_value(idd=start, value=self.cats['START'])
+        self.map.set_value(idd=goal_near, value=self.cats['GOAL_NEAR'])
+        self.map.set_value(idd=goal_far, value=self.cats['GOAL_FAR'])
 
     def __set_idds(self, idds, cat):
         for idd in idds:
