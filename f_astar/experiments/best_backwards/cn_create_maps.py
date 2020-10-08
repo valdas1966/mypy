@@ -1,10 +1,11 @@
 from f_map.c_map import Map
 from f_utils import u_pickle
+from f_utils import u_int
 from f_astar.c_astar import AStar
 from f_astar.c_astar_lookup import AStarLookup
 
 
-dir_maps = 'G:\\MyPy\\f_astar\\experiments\\best_backwards\\Maps\\'
+dir_maps = 'D:\\Temp\\'
 pickle_maps = dir_maps + 'maps.pickle'
 pickle_start_goals = dir_maps + 'start_goals.pickle'
 pickle_forward = dir_maps + 'forward.pickle'
@@ -146,8 +147,8 @@ def run_report():
     backward = u_pickle.load(pickle_backward)
     file = open(csv_report, 'w')
     file.write('Map, Epoch, Start, Goal Near, Goal Far, Distance Near, '
-               'Distance Far, Distance Goals, Lookup, Ratio, Forward, Backward,'
-               'Delta\n')
+               'Distance Far, Distance Goals, Lookup, Forward, Backward,'
+               'Delta, Metric\n')
     for i in range(len(maps)):
         map = maps[i]
         for j in range(len(start_goals)):
@@ -164,11 +165,13 @@ def run_report():
             closed_near = len(fw['closed_near'])
             closed_far = len(fw['closed_far'])
             closed_back = len(backward[i][j])
-            ratio_near = round(distance_near / closed_near * 100, 0)
+            delta = closed_far - closed_back
+            min_ratio = min(closed_far/closed_back, closed_back/closed_far)
+            metric = round(min_ratio * u_int.sign(delta), 2)
             file.write(f'{i}, {j}, {start}, {goal_near}, {goal_far},'
-                       f'{distance_near}, {distance_far}, {distance_goals}'
-                       f',{closed_near}, {ratio_near}, {closed_far},'
-                       f' {closed_back}, {closed_far-closed_back}\n')
+                       f'{distance_near}, {distance_far}, {distance_goals},'
+                       f'{closed_near}, {closed_far}, {closed_back},'
+                       f'{delta}, {metric}\n')
         print(f'Report {i}')
     file.close()
 
