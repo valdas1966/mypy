@@ -18,6 +18,7 @@ class TestMap:
         TestMap.__tester_nearest()
         TestMap.__tester_nearest_closed()
         TestMap.__tester_zfill()
+        TestMap.__tester_eq()
         u_tester.print_finish(__file__)
 
     @staticmethod
@@ -36,9 +37,9 @@ class TestMap:
     @staticmethod
     def __tester_set_value():
         map = Map(rows=3)
-        map.set_value(val=2, idd=4)
+        map.set_value(value=2, idd=4)
         p0 = map.grid[1][1] == 2
-        map.set_value(val=3, row=1, col=1)
+        map.set_value(value=3, row=1, col=1)
         p1 = map.grid[1][1] = 3
         u_tester.run(p0, p1)
 
@@ -120,6 +121,14 @@ class TestMap:
         p0 = (map.grid == grid_true).all()
         u_tester.run(p0)
 
+    @staticmethod
+    def __tester_eq():
+        map_1 = Map(rows=3)
+        map_2 = Map(rows=3)
+        p0 = map_1 == map_2
+        map_2.grid[1][1] = -1
+        p1 = map_1 != map_2
+        u_tester.run(p0, p1)
 
 if __name__ == '__main__':
     TestMap()
