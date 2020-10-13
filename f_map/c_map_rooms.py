@@ -21,10 +21,12 @@ class MapRooms(Map):
         """
         if not cols:
             cols = rows
-        if not row_door:
+        if row_door is None:
             row_door = row_block
-        if not col_door:
+        if col_door is None:
             col_door = col_block
+        if row_door == row_block and col_door == col_block:
+            print('error', row_block, col_block)
         super().__init__(rows=rows, cols=cols)
         self.row_block = row_block
         self.col_block = col_block
@@ -32,11 +34,12 @@ class MapRooms(Map):
         self.col_door = col_door
         self.zfill()
         self.__set_blocks()
+        self.__set_door()
 
     def __set_blocks(self):
         """
         ========================================================================
-         Description: Build the Blocks in the Map the separates between Rooms.
+         Description: Build the Blocks in the Map that separates between Rooms.
         =======================================================================
         """
         # Block Column
@@ -46,3 +49,22 @@ class MapRooms(Map):
         for col in range(self.col_block+1):
             self.grid[self.row_block][col] = -1
 
+    def __set_door(self):
+        """
+        ========================================================================
+         Description: Build the Door in the Map.
+        ========================================================================
+        """
+        self.grid[self.row_door][self.col_door] = 0
+
+    def __hash__(self):
+        """
+        ========================================================================
+         Description: Return Hash Function that has unique int for each Map.
+        ========================================================================
+         Return : int (Hash Value).
+        ========================================================================
+        """
+        h = str(self.row_block) + str(self.col_block) + \
+            str(self.row_door) + str(self.col_door)
+        return int(h)

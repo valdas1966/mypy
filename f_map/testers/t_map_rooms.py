@@ -8,7 +8,7 @@ class TestMapRooms:
     def __init__(self):
         u_tester.print_start(__file__)
         TestMapRooms.__tester_init()
-        TestMapRooms.__tester_set_blocks()
+        TestMapRooms.__tester_set_blocks_and_door() 
         u_tester.print_finish(__file__)
 
     @staticmethod
@@ -18,7 +18,7 @@ class TestMapRooms:
         u_tester.run(p0)
 
     @staticmethod
-    def __tester_set_blocks():
+    def __tester_set_blocks_and_door():
         map_rooms = MapRooms(rows=5, row_block=2, col_block=3, row_door=1)
         map_rooms.zfill()
         li_0 = [0, 0, 0, -1, 0]
@@ -30,7 +30,6 @@ class TestMapRooms:
         grid_true = u_grid.lists_to_grid(lists)
         p0 = (map_rooms.grid == grid_true).all()
         u_tester.run(p0)
-        print(map_rooms.grid)
 
 
 if __name__ == '__main__':
