@@ -52,11 +52,25 @@ class Excel:
         self.ws.cell(row, column).border = border
 
     def close(self):
+        """
+        ========================================================================
+         Description: Save and Close the Workbook.
+        ========================================================================
+        """
         self.wb.save(self.filename)
         self.wb.close()
 
     @staticmethod
     def color_excel(name_color):
+        """
+        ========================================================================
+         Description: Get Color's Name and return its Excel PatternFill.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. name_color : str (Color's Name).
+        ========================================================================
+        """
         enum = {'BLACK': 0, 'WHITE': 1, 'YELLOW': 51, 'GREEN': 57, 'RED': 60,
                 'GRAY': 55}
         color = Colors.COLOR_INDEX[enum[name_color]]

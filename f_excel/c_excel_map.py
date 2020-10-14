@@ -3,19 +3,34 @@ from f_excel.c_excel import Excel
 
 class ExcelMap(Excel):
 
-    def set_block(self, row, column):
+    def set_blocks(self, row, col, row_last=None, col_last=None,
+                   rows=1, cols=1):
         """
         ========================================================================
-         Description: S
-        :param row:
-        :param column:
-        :return:
+         Description: Get Square of Coordinates and set Cells as Block.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. row : int
+        ========================================================================
+        """
+        if not row_last:
+            row_last = row + rows - 1
+        if not col_last:
+            col_last = col + cols - 1
+        for r in range(row, row_last+1):
+            for c in range(col, col_last+1):
+                self.__set_block(r, c)
+
+    def __set_block(self, row, column):
+        """
+        ========================================================================
+         Description: Get Coordinates and set Cell as Block.
+        ========================================================================
+            1. row : int (start from 1).
+            2. column : int (start from 1).
+        ========================================================================
         """
         self.set_value(row, column, value=str())
         self.set_color_back(row, column, color='BLACK')
         self.set_border(row, column, style='thick')
-
-    def set_blocks(self, rf, rl, cf, cl):
-        for row in range(rf, rl+1):
-            for column in range(cf, cl+1):
-                self.set_block(row, column)
