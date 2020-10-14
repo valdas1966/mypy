@@ -29,7 +29,7 @@ def gen_maps(rows, cols, amount):
     return list(maps)
 
 
-maps = gen_maps(rows=10, cols=10, amount=10)
-for map in maps:
-    print(map.grid)
+maps_rooms = gen_maps(rows=10, cols=10, amount=10)
+for map_room in maps_rooms:
+    print(map_room.grid)
     print()

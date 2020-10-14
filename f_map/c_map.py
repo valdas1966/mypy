@@ -242,3 +242,9 @@ class Map:
         ========================================================================
         """
         return (self.grid == other.grid).all()
+
+    def draw_excel(self, xl, row_start, col_start):
+        # Draw Top Border
+        for col in range(col_start+1, col_start+self.cols+3):
+            xl.write_value(row=row_start, column=col, value='')
+            xl.fill_cell(row=row_start, column=col, )
