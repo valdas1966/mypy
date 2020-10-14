@@ -8,6 +8,19 @@ from f_utils import u_set
 from f_utils import u_text_mining
 
 
+def is_exists(path):
+    """
+    ============================================================================
+     Description: Return True if the file is exist.
+    ============================================================================
+     Arguemtns:
+    ----------------------------------------------------------------------------
+        1. path : str (Path to the File).
+    ============================================================================
+    """
+    return os.path.isfile(path)
+
+
 def read(path):
     """
     =======================================================================
@@ -209,9 +222,10 @@ def cosine_similarity(path_1, path_2):
      Return: float (Cosine Similarity between the two files).
     ===========================================================================
     """
-    str_1 = to_str(path_1)
-    str_2 = to_str(path_2)
-    return u_text_mining.cosine_similarity(str_1, str_2)
+    # str_1 = to_str(path_1)
+    # str_2 = to_str(path_2)
+    # return u_text_mining.cosine_similarity(str_1, str_2)
+    pass
 
 
 def datetime_created(filepath):
@@ -228,143 +242,3 @@ def datetime_created(filepath):
     """
     t = os.path.getctime(filepath)
     return datetime.datetime.fromtimestamp(t)
-
-
-"""
-===============================================================================
-===============================================================================
-=========================  Tester  ============================================
-===============================================================================
-===============================================================================
-
-def tester():
-    
-    import u_tester       
-    import u_dir     
-        
-    def tester_path_to_filename():
-        
-        path = 'c:\\test\\file.name.py'
-        
-        # With Domain
-        filename_test = path_to_filename(path)
-        filename_true = 'file.name.py'
-        p1 = filename_test == filename_true
-        
-        # Without Domain
-        filename_test = path_to_filename(path,with_domain=False)
-        filename_true = 'file.name'
-        p2 = filename_test == filename_true
-    
-        u_tester.run([p1,p2])
-        
-    
-    def tester_create_txt():
-        
-        path_dir = 'c:\\tester_create_txt'
-        u_dir.create(path_dir)
-        
-        path_file = path_dir + '\\test.txt'
-        
-        line_1 = 'hello'
-        line_2 = 'world'
-        lines = [line_1, line_2]
-        create_txt(path_file, lines)
-        
-        str_test = to_str(path_file)
-        str_true = 'hello\nworld\n'
-        
-        u_dir.delete(path_dir)
-        
-        p0 = str_test == str_true
-        
-        u_tester.run([p0])
-       
-        
-        
-    def tester_to_str():
-        
-        path_dir = 'c:\\tester_to_list_words'
-        u_dir.create(path_dir)
-        
-        line_1 = 'aaa\tbbb ccc'
-        line_2 = 'ccc bbb aaa'
-        lines = [line_1, line_2]
-        
-        path_file = path_dir + '\\test.txt'
-        create_txt(path_file,lines)
-        
-        str_test = to_str(path_file)
-        str_true = 'aaa\tbbb ccc\nccc bbb aaa\n'
-        
-        p0 = str_test == str_true
-        
-        u_dir.delete(path_dir)
-        
-        u_tester.run([p0])
-
-
-    def tester_cosine_similarity():
-
-        path_dir = 'c:\\tester_cosine_similarity'
-        u_dir.create(path_dir)
-        
-        path_file_1 = path_dir + '\\test_1.txt'
-        path_file_2 = path_dir + '\\test_2.txt'
-        
-        lines = ['hello world']
-        create_txt(path_file_1,lines)
-        create_txt(path_file_2,lines)
-        
-        p0 = cosine_similarity(path_file_1, path_file_2) >= 0.99
-        
-        u_dir.delete(path_dir) 
-        
-        u_tester.run([p0])
-        
-        
-    def tester_get_paths_by_extension():
-    
-        path_dir = 'c:\\tester_get_paths_by_extensions'
-        u_dir.create(path_dir)
-        
-        path_dir_1 = path_dir + '\\1'
-        path_dir_2 = path_dir + '\\2'
-        path_dir_11 = path_dir_1 + '\\11'
-        u_dir.create(path_dir_1)
-        u_dir.create(path_dir_2)
-        u_dir.create(path_dir_11)
-                
-        path_file_1 = path_dir + '\\test_1.java'
-        path_file_2 = path_dir + '\\test_2.java'
-        path_file_3 = path_dir_1 + '\\test.java'
-        path_file_4 = path_dir_2 + '\\test.java'
-        path_file_5 = path_dir_11 + '\\test.java'
-
-        create_txt(path_file_1)
-        create_txt(path_file_2)
-        create_txt(path_file_3)
-        create_txt(path_file_4)
-        create_txt(path_file_5)
-        
-        paths_test = get_paths_by_extension(path_dir, 'java')
-        paths_true = [path_file_1, path_file_2, path_file_3, path_file_4, path_file_5] 
-        
-        u_dir.delete(path_dir)
-        
-        p0 = set(paths_test) == set(paths_true)
-        
-        u_tester.run([p0])
-        
-    
-    u_tester.print_start(__file__)
-    tester_path_to_filename()
-    tester_create_txt()
-    tester_to_str()
-    tester_cosine_similarity()
-    tester_get_paths_by_extension()
-    u_tester.print_finish(__file__)        
-    
-    
-#tester()
-"""

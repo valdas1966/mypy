@@ -1,7 +1,8 @@
 import openpyxl as xl
-from openpyxl.styles import PatternFill
+from openpyxl.styles import PatternFill, Font, Alignment
 import openpyxl.styles.colors as Colors
 from openpyxl.styles.borders import Border, Side
+from f_utils import u_file
 
 
 class Excel:
@@ -23,13 +24,23 @@ class Excel:
         ========================================================================
         """
         self.filename = filename
-        self.wb = xl.load_workbook(filename=filename)
+        self.wb = None
+        if u_file.is_exists(filename):
+            self.wb = xl.load_workbook(filename=filename)
+        else:
+            self.wb = xl.Workbook()
         self.ws = self.wb.worksheets[index_ws]
 
-    def set_value(self, row, column, value):
-        self.ws.cell(row=row, column=column).value = value
+    def set_value(self, row, col, value):
+        self.ws.cell(row=row, column=col).value = value
 
-    def set_color_back(self, row, column, color):
+    def set_font(self, row, col, color='000000', is_bold=False):
+        font = Font(color=color, bold=is_bold, vertAlign='baseline')
+        self.ws.cell(row, col).font = font
+        self.ws.cell(row, col).alignment = Alignment(horizontal='center',
+                                                     vertical='center')
+
+    def set_background(self, row, column, color):
         fill = Excel.color_excel(color)
         self.ws.cell(row=row, column=column).fill = fill
 
@@ -47,9 +58,63 @@ class Excel:
         """
         border = None
         if style:
-            border = Border(left=Side(style), right=Side(style),
-                            top=Side(style), bottom=Side(style))
+            border = Border(left=Side(style=style),
+                            right=Side(style=style),
+                            top=Side(style=style),
+                            bottom=Side(style=style))
         self.ws.cell(row, column).border = border
+
+    def clear_cells(self, row, col, row_last=None, col_last=None,
+                    rows=1, cols=1):
+        """
+        ========================================================================
+         Description: Clear the Cell (Value, Background, Borders).
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. row : int (First Row).
+            2. col : int (First Col).
+            3. row_last : int (Equals to Row on None).
+            4. col_last : int (Equals to Col on None).
+            5. rows : int (Amount of Rows).
+            6. cols : int (Amount of Cols).
+        ========================================================================
+        """
+        if not row_last:
+            row_last = row + rows - 1
+        if not col_last:
+            col_last = col + cols - 1
+        for r in range(row, row_last+1):
+            for c in range(col, col_last+1):
+                self.set_value(r, c, value=str())
+                self.set_background(r, c, color='WHITE')
+                self.set_border(r, c, style='thin')
+
+    def merge_cells(self, row, col, row_last=None, col_last=None,
+                    rows=1, cols=1):
+        """
+        ========================================================================
+         Description: Merge Cells.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. row : int (First Row).
+            2. col : int (First Col).
+            3. row_last : int (Equals to Row on None).
+            4. col_last : int (Equals to Col on None).
+            5. rows : int (Amount of Rows).
+            6. cols : int (Amount of Cols).
+        ========================================================================
+        """
+        if not row_last:
+            row_last = row + rows - 1
+        if not col_last:
+            col_last = col + cols - 1
+        self.ws.merge_cells(start_row=row, start_column=col,
+                            end_row=row_last, end_column=col_last)
+
+    def set_column_width(self, col):
+        self.ws.column_dimensions[col] = 4
 
     def close(self):
         """

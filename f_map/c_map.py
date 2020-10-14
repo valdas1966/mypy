@@ -243,8 +243,26 @@ class Map:
         """
         return (self.grid == other.grid).all()
 
-    def draw_excel(self, xl, row_start, col_start):
+    def draw_excel(self, xl_map, row_start, col_start, title=str()):
+        # Draw the Title
+        xl_map.set_blocks(row=row_start, col=col_start, cols=self.cols+2)
+        xl_map.set_value(row=row_start, col=col_start+1, value=title)
+        xl_map.set_font(row=row_start, col=col_start+1,
+                        color='FFFFFF', is_bold=True)
+        xl_map.merge_cells(row=row_start, col=col_start + 1, cols=self.cols)
+        # Draw the Map
+        for row in range(self.rows):
+            for col in range(self.cols):
+                if self.grid[row][col] == -1:
+                    xl_map.set_blocks(row_start+row+2, col_start+col+1)
         # Draw Top Border
-        for col in range(col_start+1, col_start+self.cols+3):
-            xl.write_value(row=row_start, column=col, value='')
-            xl.fill_cell(row=row_start, column=col, )
+        xl_map.set_blocks(row=row_start+1, col=col_start, cols=self.cols+2)
+        # Draw Bottom Border
+        xl_map.set_blocks(row=row_start+self.rows+2, col=col_start,
+                          cols=self.cols+2)
+        # Draw Left Border
+        xl_map.set_blocks(row=row_start+2, col=col_start, rows=self.rows)
+        # Draw Right Border
+        xl_map.set_blocks(row=row_start+2, col=col_start+self.cols+1,
+                          rows=self.rows)
+

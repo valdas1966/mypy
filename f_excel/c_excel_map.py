@@ -22,15 +22,15 @@ class ExcelMap(Excel):
             for c in range(col, col_last+1):
                 self.__set_block(r, c)
 
-    def __set_block(self, row, column):
+    def __set_block(self, row, col):
         """
         ========================================================================
          Description: Get Coordinates and set Cell as Block.
         ========================================================================
             1. row : int (start from 1).
-            2. column : int (start from 1).
+            2. col : int (start from 1).
         ========================================================================
         """
-        self.set_value(row, column, value=str())
-        self.set_color_back(row, column, color='BLACK')
-        self.set_border(row, column, style='thick')
+        self.set_value(row, col, value=str())
+        self.set_background(row, col, color='BLACK')
+        self.set_border(row, col, style='thick')

@@ -10,7 +10,7 @@ xl.set_color_back(row=1, column=1, color='RED')
 xl.set_color_back(row=2, column=1, color='YELLOW')
 xl.set_color_back(row=3, column=1, color='GREEN')
 xl.set_border(row=17, column=2, style='thick')
-xl.set_block(row=17, column=2)
+xl.clear_cell(row=17, column=2)
 xl.close()
 
 """
