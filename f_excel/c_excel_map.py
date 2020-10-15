@@ -34,3 +34,4 @@ class ExcelMap(Excel):
         self.set_value(row, col, value=str())
         self.set_background(row, col, color='BLACK')
         self.set_border(row, col, style='thick')
+        self.set_font(row, col, color='FFFFFF')

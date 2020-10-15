@@ -243,7 +243,8 @@ class Map:
         """
         return (self.grid == other.grid).all()
 
-    def draw_excel(self, xl_map, row_start, col_start, title=str()):
+    def draw_excel(self, xl_map, row_start, col_start, title=str(),
+                   with_numbers=False):
         # Draw the Title
         xl_map.set_blocks(row=row_start, col=col_start, cols=self.cols+2)
         xl_map.set_value(row=row_start, col=col_start+1, value=title)
@@ -265,4 +266,12 @@ class Map:
         # Draw Right Border
         xl_map.set_blocks(row=row_start+2, col=col_start+self.cols+1,
                           rows=self.rows)
+        if with_numbers:
+            # Left Numbers
+            for i, row in enumerate(range(row_start+2, row_start+self.rows+2)):
+                xl_map.set_value(row, col_start, value=str(i))
+            # Top Numbers
+            for i, col in enumerate(range(col_start+1, col_start+self.cols+1)):
+                xl_map.set_value(row_start+1, col, value=str(i))
+
 

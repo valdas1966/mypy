@@ -1,5 +1,12 @@
 from f_map.c_map_rooms import MapRooms
 from f_utils import u_random
+from f_utils import u_pickle
+from f_excel.c_excel_map import ExcelMap
+
+
+dir_storage = 'D:\\Temp'
+pickle_maps = dir_storage + '\\maps.pickle'
+excel_maps = dir_storage + '\\maps.xlsx'
 
 
 def gen_maps(rows, cols, amount):
@@ -26,10 +33,22 @@ def gen_maps(rows, cols, amount):
                 continue
             maps.add(map_rooms)
             is_valid = True
-    return list(maps)
+    u_pickle(list(maps), pickle_maps)
 
 
-maps_rooms = gen_maps(rows=10, cols=10, amount=10)
-for map_room in maps_rooms:
-    print(map_room.grid)
-    print()
+def draw_maps():
+    row_current = 2
+    rows_delta = 14
+    col_start = 2
+    maps = u_pickle.load(pickle_maps)
+    xl_map = ExcelMap(excel_maps)
+    for i, map in enumerate(maps):
+        map.draw_excel(xl_map=xl_map, row_start=row_current,
+                       col_start=col_start, title=f'Map {str(i).zfill(2)}',
+                       with_numbers=True)
+        row_current += rows_delta
+    xl_map.close()
+
+
+# gen_maps(rows=10, cols=10, amount=100)
+draw_maps()
