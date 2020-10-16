@@ -7,7 +7,7 @@ from f_utils import u_set
 class AStarLookup:
     """
     ===========================================================================
-     Description: AStar
+     Description: AStar with Lookup-Set (Perfect Heuristic for some Nodes).
     ===========================================================================
      Methods:
     ---------------------------------------------------------------------------
