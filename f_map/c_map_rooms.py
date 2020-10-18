@@ -1,4 +1,5 @@
 from f_map.c_map import Map
+from f_map.c_point import Point
 
 
 class MapRooms(Map):
@@ -35,6 +36,39 @@ class MapRooms(Map):
         self.zfill()
         self.__set_blocks()
         self.__set_door()
+
+    def get_left_points(self):
+        """
+        ========================================================================
+         Description: Return Points in the Left Room.
+        ========================================================================
+         Return : List of Point.
+        ========================================================================
+        """
+        points = list()
+        for row in range(self.rows):
+            for col in range(self.cols):
+                if row < self.row_block:
+                    if col < self.col_block:
+                        point = Point(row, col)
+                        points.append(point)
+        return points
+
+    def get_right_points(self):
+        """
+        ========================================================================
+         Description: Return Points in the Right Room.
+        ========================================================================
+         Return : List of Point.
+        ========================================================================
+        """
+        points = list()
+        for row in range(self.rows):
+            for col in range(self.cols):
+                if row > self.row_block or col > self.col_block:
+                    point = Point(row, col)
+                    points.append(point)
+        return points
 
     def __set_blocks(self):
         """

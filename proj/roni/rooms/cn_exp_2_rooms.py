@@ -4,7 +4,7 @@ from f_utils import u_pickle
 from f_excel.c_excel_map import ExcelMap
 
 
-dir_storage = 'D:\\Temp'
+dir_storage = 'D:\\Temp\\Rooms'
 pickle_maps = dir_storage + '\\maps.pickle'
 excel_maps = dir_storage + '\\maps.xlsx'
 
@@ -50,5 +50,6 @@ def draw_maps():
     xl_map.close()
 
 
+
 # gen_maps(rows=10, cols=10, amount=100)
-draw_maps()
+# draw_maps()
