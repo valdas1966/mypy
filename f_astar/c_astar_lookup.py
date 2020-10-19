@@ -6,17 +6,9 @@ from f_utils import u_set
 
 class AStarLookup:
     """
-    ===========================================================================
+    ============================================================================
      Description: AStar with Lookup-Dict (Perfect Heuristic for some Nodes).
-    ===========================================================================
-     Methods:
-    ---------------------------------------------------------------------------
-        1. run()
-            Run the algorithm.
-
-        2. get_path() -> List of Points
-            Return the Optimal Path from Start to Goal as list of node's id.
-    ===========================================================================
+    ============================================================================
     """
 
     def __init__(self, grid, start, goal, lookup=dict()):
@@ -27,8 +19,8 @@ class AStarLookup:
          Arguments:
         -------------------------------------------------------------------
             1. grid : Grid.
-            2. start : int (Start's Id).
-            3. goal : int (Goal's Id).
+            2. start : Point.
+            3. goal : Point.
             4. lookup : dict (Point -> int).
         ===================================================================
         """  

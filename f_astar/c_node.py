@@ -1,7 +1,7 @@
 class Node:
     """
     ===========================================================================
-     Decription: Class of Node in Grid.
+     Description: Class of Node in Grid.
     ===========================================================================
     """
 
@@ -18,7 +18,7 @@ class Node:
         self.point = point
         self.w = 1  
         self.father = None  
-        self.g = float('Infinity')
+        self.g = 0
         self.h = float('Infinity')
         self.f = float('Infinity')
 
@@ -127,6 +127,14 @@ class Node:
         return str(self.point)
     
     def __repr__(self):
+        """
+        =======================================================================
+         Description: Return String Representation of Node (Node's
+         Point).
+        =======================================================================
+         Return: str
+        =======================================================================
+        """
         return str(self.point)
 
     def __hash__(self):
@@ -137,168 +145,4 @@ class Node:
          Return: int
         =======================================================================
         """
-        return self.idd
-    
-    
-"""
-===============================================================================
-===============================================================================
-=========================  Tester  ============================================
-===============================================================================
-===============================================================================
-"""
-def tester():
-    
-    import sys
-    sys.path.append('D:\\MyPy\\f_utils')
-    import u_tester
-    
-    
-    def tester_eq():
-        
-        node_1 = Node(1)
-        node_2 = Node(2)
-        node_3 = Node(1)
-        
-        p0 = node_1 == node_3
-        p1 = not (node_1 == node_2)
-        
-        u_tester.run([p0,p1])
-        
-        
-    def tester_ne():
-        
-        node_1 = Node(1)
-        node_2 = Node(2)
-        node_3 = Node(1)
-        
-        p0 = not (node_1 != node_3)
-        p1 = node_1 != node_2
-        
-        u_tester.run([p0,p1])
-        
-        
-    def tester_lt():
-        
-        node_1 = Node(1)
-        node_2 = Node(2)
-        node_3 = Node(3)
-        node_1.f = 10
-        node_2.f = 20
-        node_3.f = 10
-        node_1.g = 9
-        node_3.g = 1
-        
-        # equal
-        p0 = not (node_1 < node_1)
-        
-        # f_1 < f_2
-        p1 = node_1 < node_2
-        
-        # f_1 == f_2 and g_1 < g_2
-        p2 = node_1 < node_3
-        
-        u_tester.run([p0,p1,p2])
-        
-        
-    def tester_le():
-        
-        node_1 = Node(1)
-        node_2 = Node(2)
-        node_3 = Node(3)
-        node_1.f = 10
-        node_2.f = 20
-        node_3.f = 10
-        node_1.g = 9
-        node_3.g = 1
-        
-        # equal
-        p0 = node_1 <= node_1
-        
-        # f_1 < f_2
-        p1 = node_1 <= node_2
-        
-        # f_1 == f_2 and g_1 < g_2
-        p2 = node_1 <= node_3
-        
-        u_tester.run([p0,p1,p2])
-        
-        
-    def tester_gt():
-        
-        node_1 = Node(1)
-        node_2 = Node(2)
-        node_3 = Node(3)
-        node_1.f = 10
-        node_2.f = 20
-        node_3.f = 10
-        node_1.g = 9
-        node_3.g = 1
-        
-        # equal
-        p0 = not (node_1 > node_1)
-        
-        # f_2 > f_1
-        p1 = node_2 > node_1
-        
-        # f_2 == f_1 and g_2 > g_1
-        p2 = node_3 > node_1
-        
-        u_tester.run([p0,p1,p2])
-        
-        
-    def tester_ge():
-        
-        node_1 = Node(1)
-        node_2 = Node(2)
-        node_3 = Node(3)
-        node_1.f = 10
-        node_2.f = 20
-        node_3.f = 10
-        node_1.g = 9
-        node_3.g = 1
-        
-        # equal by idd
-        p0 = node_1 >= node_1
-        
-        # f_2 < f_1
-        p1 = node_2 >= node_1
-        
-        # f_1 == f_2 and g_2 > g_1
-        p2 = node_3 >= node_1
-        
-        u_tester.run([p0,p1,p2])
-        
-        
-    def tester_str():
-        
-        node = Node(1)
-        p0 = str(node) == '1'
-        
-        u_tester.run([p0])
-        
-        
-    def tester_hash():
-        
-        node = Node(1)
-        p0 = hash(node) == 1
-        
-        u_tester.run([p0])
-        
-    
-    u_tester.print_start(__file__)
-    tester_eq()
-    tester_ne()
-    tester_lt()
-    tester_le()
-    tester_gt()
-    tester_ge()
-    tester_str()
-    tester_hash()
-    u_tester.print_finish(__file__)       
-    
-    
-if __name__ == '__main__':
-    tester()
-        
-  
+        return self.point.__hash__()

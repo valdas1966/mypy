@@ -105,6 +105,16 @@ class Point:
         """
         return not self.__lt__(self, other)
 
+    def __hash__(self):
+        """
+        ========================================================================
+         Description: Return Hash-Value of the Point.
+        ========================================================================
+         Return: int
+        ========================================================================
+        """
+        return self.x * 1000000 + self.y
+
     @classmethod
     def direction(cls, p1, p2):
         """

@@ -34,6 +34,33 @@ class Map:
         self.rows = self.grid.shape[0]
         self.cols = self.grid.shape[1]
 
+    def get_neighbors(self, point):
+        """
+        ========================================================================
+         Description: Return List of Neighbors (in the clockwise order).
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. point : Point
+        ========================================================================
+         Return: List of Points.
+        ========================================================================
+        """
+        neighbors = list()
+        # Up Neighbor
+        if point.x > 0:
+            neighbors.append(Point(point.x-1, point.y))
+        # Right Neighbor
+        if point.y < self.cols-1:
+            neighbors.append(Point(point.x, point.y+1))
+        # Down Neighbor
+        if point.x < self.rows-1:
+            neighbors.append(Point(point.x+1, point.y))
+        # Left Neighbor
+        if point.y > 0:
+            neighbors.append(Point(point.x, point.y+1))
+        return neighbors
+
     def set_value(self, value, idd=None, row=None, col=None):
         """
         ========================================================================
