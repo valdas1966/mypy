@@ -2,10 +2,12 @@ from f_map.c_map_rooms import MapRooms
 from f_utils import u_random
 from f_utils import u_pickle
 from f_excel.c_excel_map import ExcelMap
+import random
 
 
 dir_storage = 'D:\\Temp\\Rooms'
 pickle_maps = dir_storage + '\\maps.pickle'
+pickle_start_goals = dir_storage + '\\start_goals.pickle'
 excel_maps = dir_storage + '\\maps.xlsx'
 
 
@@ -50,6 +52,41 @@ def draw_maps():
     xl_map.close()
 
 
+def gen_start_goals():
+    """
+    ============================================================================
+     Description: Generate Random Start and Goals Nodes.
+    ============================================================================
+     Pickle: List (100) of List (25*2*3) of Tuple (Point, List of Points).
+    ============================================================================
+    """
+    maps = u_pickle.load(pickle_maps)
+    start_goals_all = list()
+    for i, map in enumerate(maps):
+        start_goals_map = list()
+        for j in range(25):
+            left = map.get_left_points()
+            right = map.get_right_points()
+            # Start in Left Room
+            random.shuffle(left)
+            random.shuffle(right)
+            start = left[0]
+            for k in [2, 3, 5]:
+                goals = right[:k]
+                start_goals_map.append((start, goals))
+                print(i, j, k, 'left')
+            # Start in Right Room
+            random.shuffle(left)
+            random.shuffle(right)
+            start = right[0]
+            for k in [2, 3, 5]:
+                goals = left[:k]
+                start_goals_map.append((start, goals))
+                print(i, j, k, 'right')
+        start_goals_all.append(start_goals_map)
+        u_pickle.dump(start_goals_all, pickle_start_goals)
+
 
 # gen_maps(rows=10, cols=10, amount=100)
 # draw_maps()
+# gen_start_goals()

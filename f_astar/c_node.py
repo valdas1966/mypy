@@ -4,26 +4,24 @@ class Node:
      Decription: Class of Node in Grid.
     ===========================================================================
     """
-    
-    
-    def __init__(self, idd):
+
+    def __init__(self, point):
         """
         =======================================================================
          Description: Init Node with Idd.
         =======================================================================
          Arguments:
         -----------------------------------------------------------------------
-            1. idd : int (Node's Id).
+            1. point : Point (f_map.c_point).
         =======================================================================
         """
-        self.idd = idd
+        self.point = point
         self.w = 1  
         self.father = None  
         self.g = float('Infinity')
         self.h = float('Infinity')
         self.f = float('Infinity')
-        
-    
+
     def __eq__(self, other):
         """
         =======================================================================
@@ -36,10 +34,9 @@ class Node:
          Return: bool (True if Self equals to Other).
         =======================================================================
         """
-        if self.idd == other.idd:
+        if self.point == other.point:
             return True
-    
-    
+
     def __ne__(self, other):
         """
         =======================================================================
@@ -53,8 +50,7 @@ class Node:
         =======================================================================
         """
         return not self.__eq__(other)
-    
-    
+
     def __lt__(self, other):
         """
         =======================================================================
@@ -67,18 +63,17 @@ class Node:
          Return: bool (True if Self is less than Other).
         =======================================================================
         """
-        if (self == other):
+        if self == other:
             return False
-        if (self.f < other.f):
+        if self.f < other.f:
             return True
-        if (self.f == other.f):
-            if (self.g > other.g):
+        if self.f == other.f:
+            if self.g > other.g:
                 return True
-            elif (self.g == other.g) and (self.idd < other.idd):
+            elif self.g == other.g and self.point < other.point:
                 return True
         return False
-    
-    
+
     def __le__(self, other):
         """
         =======================================================================
@@ -92,8 +87,7 @@ class Node:
         =======================================================================
         """
         return self == other or self < other
-    
-    
+
     def __gt__(self, other):
         """
         =======================================================================
@@ -107,8 +101,7 @@ class Node:
         =======================================================================
         """
         return not (self < other) and not (self == other)
-    
-    
+
     def __ge__(self, other):
         """
         =======================================================================
@@ -122,19 +115,20 @@ class Node:
         =======================================================================
         """
         return self == other or self > other
-    
-    
+
     def __str__(self):
         """
         =======================================================================
-         Description: Return String Representation of Node (Node's Id).
+         Description: Return String Representation of Node (Node's Point).
         =======================================================================
          Return: str
         =======================================================================
         """
-        return str(self.idd)
+        return str(self.point)
     
-    
+    def __repr__(self):
+        return str(self.point)
+
     def __hash__(self):
         """
         =======================================================================

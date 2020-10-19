@@ -7,19 +7,19 @@ from f_utils import u_set
 class AStarLookup:
     """
     ===========================================================================
-     Description: AStar with Lookup-Set (Perfect Heuristic for some Nodes).
+     Description: AStar with Lookup-Dict (Perfect Heuristic for some Nodes).
     ===========================================================================
      Methods:
     ---------------------------------------------------------------------------
         1. run()
             Run the algorithm.
 
-        2. get_path() -> list of int
+        2. get_path() -> List of Points
             Return the Optimal Path from Start to Goal as list of node's id.
     ===========================================================================
     """
 
-    def __init__(self, grid, start, goal, closed=set()):
+    def __init__(self, grid, start, goal, lookup=dict()):
         """
         ===================================================================
          Description: A* Algorithm.
@@ -29,7 +29,7 @@ class AStarLookup:
             1. grid : Grid.
             2. start : int (Start's Id).
             3. goal : int (Goal's Id).
-            4. closed : set (Set of Nodes).
+            4. lookup : dict (Point -> int).
         ===================================================================
         """  
         self.start = start
@@ -41,8 +41,7 @@ class AStarLookup:
         self.best = Node(start)
         self.best.g = 0
 
-        self.closed_lookup = closed.copy()
-        self.lookup = {node.idd: node.g for node in closed}
+        self.lookup = lookup
         self.closed = set()                     
         self.opened = Opened()
         self.opened.push(self.best)
@@ -110,7 +109,6 @@ class AStarLookup:
                 path_2.append(node.idd)
             path_2.reverse()
             return path_1 + path_2
-
 
     def _expand(self):   
         """
