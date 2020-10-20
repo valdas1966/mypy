@@ -34,7 +34,7 @@ class Map:
         self.rows = self.grid.shape[0]
         self.cols = self.grid.shape[1]
 
-    def get_neighbors(self, point):
+    def neighbors(self, point):
         """
         ========================================================================
          Description: Return List of Neighbors (in the clockwise order).
@@ -46,22 +46,28 @@ class Map:
          Return: List of Points.
         ========================================================================
         """
-        neighbors = list()
+        points = list()
+
+        def add_point_neighbor(x, y):
+            point_neighbor = Point(x, y)
+            if not self.is_block(point_neighbor):
+                points.append(point_neighbor)
+
         # Up Neighbor
         if point.x > 0:
-            neighbors.append(Point(point.x-1, point.y))
+            add_point_neighbor(x=point.x-1, y=point.y)
         # Right Neighbor
         if point.y < self.cols-1:
-            neighbors.append(Point(point.x, point.y+1))
+            add_point_neighbor(x=point.x, y=point.y+1)
         # Down Neighbor
         if point.x < self.rows-1:
-            neighbors.append(Point(point.x+1, point.y))
+            add_point_neighbor(x=point.x+1, y=point.y)
         # Left Neighbor
         if point.y > 0:
-            neighbors.append(Point(point.x, point.y+1))
-        return neighbors
+            add_point_neighbor(x=point.x, y=point.y-1)
+        return points
 
-    def set_value(self, value, idd=None, row=None, col=None):
+    def set_value(self, value, point=None, row=None, col=None):
         """
         ========================================================================
          Description: Set Value in Map.Grid by Idd or by Row and Col.
@@ -74,9 +80,41 @@ class Map:
             4. col : int (Node's Col).
         ========================================================================
         """
-        if idd is not None:
-            row, col = self.to_row_col(idd)
+        if point:
+            row, col = point.x, point.y
         self.grid[row][col] = value
+
+    def set_block(self, point=None, row=None, col=None):
+        """
+        ========================================================================
+         Description: Set Block (value = -1) in the Map.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. point : Point
+            2. row : int
+            3. col : int
+        ========================================================================
+        """
+        self.set_value(value=-1, point=point, row=row, col=col)
+
+    def is_block(self, point=None, row=None, col=None):
+        """
+        ========================================================================
+         Description: Return True if the Point is Block in the Map.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. point : Point
+            2. row : int
+            3. col : int
+        ========================================================================
+         Return : bool
+        ========================================================================
+        """
+        if point:
+            row, col = point.x, point.y
+        return self.grid[row][col] == -1
 
     def offsets(self, idd_1, idd_2=None):
         """
@@ -233,6 +271,7 @@ class Map:
          Return: dict of { Directions: int (min distance) }.
         ============================================================================
         """
+        return None
         distances = {Directions.UP: float('Infinity'),
                      Directions.RIGHT: float('Infinity'),
                      Directions.DOWN: float('Infinity'),
