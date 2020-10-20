@@ -79,7 +79,7 @@ class Point:
          Return : Boolean
         ========================================================================
         """
-        return self.__lt__(self, other) or self.__eq__(self, other)
+        return self.__lt__(other) or self.__eq__(other)
 
     def __gt__(self, other):
         """
@@ -91,7 +91,7 @@ class Point:
          Return : Boolean
         ========================================================================
         """
-        return not self.__le__(self, other)
+        return not self.__le__(other)
 
     def __ge__(self, other):
         """
@@ -103,7 +103,7 @@ class Point:
          Return : Boolean
         ========================================================================
         """
-        return not self.__lt__(self, other)
+        return not self.__lt__(other)
 
     def __hash__(self):
         """

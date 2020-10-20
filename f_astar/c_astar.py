@@ -1,7 +1,6 @@
 from f_astar.c_node import Node
 from f_astar.c_opened import Opened
-from f_grid import u_grid
-from f_utils import u_set
+from f_map.c_point import Point
 
 
 class AStar:
@@ -11,7 +10,7 @@ class AStar:
     ============================================================================
     """
 
-    def __init__(self, grid, start, goal):
+    def __init__(self, map, start, goal):
         """
         ========================================================================
          Description: A* Algorithm.
@@ -25,7 +24,7 @@ class AStar:
         """  
         self.start = start
         self.goal = goal
-        self.grid = grid
+        self.map = map
         self.is_found = False
         self.closed = set()                     
         self.opened = Opened()
@@ -60,14 +59,15 @@ class AStar:
         if self.best.point == self.goal:
             self.is_found = True
         else:
+            print(type(self.best), self.best)
             self.__expand()
 
-    def get_path(self):
+    def optimal_path(self):
         """
         =======================================================================
          Description: Return Optimal Path from Start to Goal.
         =======================================================================
-         Return: list of int (List of Points).
+         Return: List of Points.
         =======================================================================
         """
         if not self.is_found:
@@ -86,25 +86,24 @@ class AStar:
          Description: Expand the Best.
         =======================================================================
         """
-        row, col = u_grid.to_row_col(self.grid, self.best.idd)
-        idds = u_grid.get_neighbors(self.grid, row, col)
-        children = {Node(x) for x in idds} - self.closed      
+        points_neighbors = self.map.neighbors(self.best.point)
+        children = {Node(point) for point in points_neighbors} - self.closed
         for child in sorted(children):
             if self.opened.contains(child):
                 child = self.opened.get(child)
             g_new = self.best.g + child.w
             if child.g <= g_new:
                 continue
-            self._update_node(child,self.best,g_new)
+            self.__update_node(child, self.best, g_new)
             if not self.opened.contains(child):
                 self.opened.push(child)
             
     def __update_node(self, node, father, g):
         """
         =======================================================================
-         Description: Update Node.
+         Description: Update Node (Father and G).
         =======================================================================
-         Attributes:
+         Arguments:
         -----------------------------------------------------------------------
             1. node : Node (node to update)
             2. father : Node
@@ -113,5 +112,5 @@ class AStar:
         """
         node.father = father
         node.g = g
-        node.h = u_grid.distance(self.grid, node.idd, self.goal)
+        node.h = node.point.distance(self.goal)
         node.f = node.g + node.h

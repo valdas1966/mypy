@@ -7,9 +7,29 @@ class TestPoint:
 
     def __init__(self):
         u_tester.print_start(__file__)
+        TestPoint.__tester_eq()
         TestPoint.__tester_direction()
-        TestPoint.__tester_compass_direction()
+        TestPoint.__tester_ordering()
+        # TestPoint.__tester_compass_direction()
         u_tester.print_finish(__file__)
+
+    @staticmethod
+    def __tester_eq():
+        p0 = Point(1, 2) == Point(1, 2)
+        p1 = Point(1, 2) != Point(3, 4)
+        u_tester.run(p0, p1)
+
+    @staticmethod
+    def __tester_ordering():
+        p0 = Point(1, 2) < Point(1, 3)
+        p1 = Point(1, 2) < Point(2, 3)
+        p2 = Point(1, 2) <= Point(1, 2)
+        p3 = Point(1, 2) <= Point(1, 3)
+        p4 = Point(1, 2) > Point(0, 0)
+        p5 = Point(1, 2) > Point(1, 1)
+        p6 = Point(1, 2) >= Point(1, 2)
+        p7 = Point(1, 2) >= Point(0, 3)
+        u_tester.run(p0, p1, p2, p3, p4, p5, p6, p7)
 
     @staticmethod
     def __tester_direction():

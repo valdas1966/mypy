@@ -132,7 +132,7 @@ class TestMap:
         p0 = neighbors_test == neighbors_true
         # Top Right
         neighbors_test = map.neighbors(Point(1, 4))
-        neighbors_true = [Point(0, 4), Point(2, 4), Point(1, 3)]
+        neighbors_true = [Point(0, 4), Point(1, 3), Point(2, 4)]
         p1 = neighbors_test == neighbors_true
         # Bottom Left
         neighbors_test = map.neighbors(Point(4, 0))
@@ -144,11 +144,11 @@ class TestMap:
         p3 = neighbors_test == neighbors_true
         # Block
         neighbors_test = map.neighbors(Point(0, 1))
-        neighbors_true = [Point(0, 2), Point(0, 0)]
+        neighbors_true = [Point(0, 0), Point(0, 2)]
         p4 = neighbors_test == neighbors_true
         # Free
         neighbors_test = map.neighbors(Point(3, 3))
-        neighbors_true = [Point(2, 3), Point(3, 4), Point(4, 3), Point(3, 2)]
+        neighbors_true = [Point(2, 3), Point(3, 2), Point(3, 4), Point(4, 3)]
         p5 = neighbors_test == neighbors_true
         u_tester.run(p0, p1, p2, p3, p4, p5)
 

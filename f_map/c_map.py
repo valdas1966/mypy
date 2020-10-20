@@ -1,5 +1,3 @@
-from f_grid import u_grid
-from f_grid import u_gen_grid
 from f_utils import u_dict
 from f_map.c_point import Point
 from f_const.directions import Directions
@@ -13,21 +11,22 @@ class Map:
     ============================================================================
     """
 
-    def __init__(self, grid=None, rows=None, cols=None, path=None,
-                 obstacles=None):
+    def __init__(self, rows, cols=None, obstacles=None):
         """
         ========================================================================
          Description: Constructor.
         ========================================================================
          Arguments:
         ------------------------------------------------------------------------
-            1. grid : Grid of the Map.
+            1. rows : int
+            2. cols : int
+            3. obstacles : int (Percent of Obstacles in the Map).
         ========================================================================
         """
-        if grid is not None:
-            self.grid = grid
-        elif path:
-            self.grid = u_gen_grid.from_map(path)
+        if not cols:
+            cols = rows
+        self.rows = rows
+        self.cols = cols
         else:
             self.grid = u_gen_grid.random(rows, cols, obstacles)
         self.shape = self.grid.shape
@@ -37,7 +36,7 @@ class Map:
     def neighbors(self, point):
         """
         ========================================================================
-         Description: Return List of Neighbors (in the clockwise order).
+         Description: Return List of Neighbors (in the Point order).
         ========================================================================
          Arguments:
         ------------------------------------------------------------------------
@@ -56,15 +55,15 @@ class Map:
         # Up Neighbor
         if point.x > 0:
             add_point_neighbor(x=point.x-1, y=point.y)
+        # Left Neighbor
+        if point.y > 0:
+            add_point_neighbor(x=point.x, y=point.y - 1)
         # Right Neighbor
         if point.y < self.cols-1:
             add_point_neighbor(x=point.x, y=point.y+1)
         # Down Neighbor
         if point.x < self.rows-1:
             add_point_neighbor(x=point.x+1, y=point.y)
-        # Left Neighbor
-        if point.y > 0:
-            add_point_neighbor(x=point.x, y=point.y-1)
         return points
 
     def set_value(self, value, point=None, row=None, col=None):
@@ -146,61 +145,24 @@ class Map:
         left = col_1 - col_2
         return top, left
 
-    def to_row_col(self, idd):
-        """
-        ========================================================================
-         Description: Return Tuple of the Node's Row and Col (row, col).
-        ========================================================================
-         Arguments:
-        ------------------------------------------------------------------------
-            1. idd : int (Node's Id).
-        ========================================================================
-         Return: tuple (int, int).
-        ========================================================================
-        """
-        return u_grid.to_row_col(self.grid, idd)
 
-    def to_point(self, idd):
-        """
-        ========================================================================
-         Description: Return Point-Representation of the Node.
-        ========================================================================
-         Arguments:
-        ------------------------------------------------------------------------
-            1. idd : int (Node's Idd).
-        ========================================================================
-         Return: Point.
-        ========================================================================
-        """
-        row, col = self.to_row_col(idd)
-        x = self.grid.shape[0] - row - 1
-        y = col
-        return Point(x, y)
 
-    def valid_idds(self):
-        """
-        ========================================================================
-         Description: Return Set of Valid Idds of the Map.
-        ========================================================================
-         Return: set of int.
-        ========================================================================
-        """
-        return set(u_grid.get_valid_idds(self.grid))
 
-    def distance(self, idd_1, idd_2):
+    def points_valid(self):
         """
         ========================================================================
-         Description: Return Manhattan-Distance between two Nodes.
+         Description: Return List of Valid Points of the Map (not Blocks).
         ========================================================================
-         Arguments:
-        ------------------------------------------------------------------------
-            1. idd_1 : int (Node's Id).
-            2. idd_2 : int (Node's Id).
-        ========================================================================
-         Return: int (Manhattan-Distance between two Nodes).
+         Return: List of Point.
         ========================================================================
         """
-        return u_grid.distance(self.grid, idd_1, idd_2)
+        points = list()
+        for row in range(self.rows):
+            for col in range(self.cols):
+                point = Point(row, col)
+                if not self.is_block(point):
+                    points.append(point)
+        return points
 
     def get_random_idds(self, n):
         """
