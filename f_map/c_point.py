@@ -22,10 +22,36 @@ class Point:
         """
         return abs(self.x - other.x) + abs(self.y - other.y)
 
+    def neighbor_up(self):
+        return Point(self.x-1, self.y)
+
+    def neighbor_down(self):
+        return Point(self.x+1, self.y)
+
+    def neighbor_left(self):
+        return Point(self.x, self.y-1)
+
+    def neighbor_right(self):
+        return Point(self.x, self.y+1)
+
     def __str__(self):
+        """
+        ========================================================================
+         Description: Return str-representation of the Point.
+        ========================================================================
+         Return: str in format of (Point.x, Point.y)
+        ========================================================================
+        """
         return f'({self.x},{self.y})'
 
     def __repr__(self):
+        """
+        ========================================================================
+         Description: Return str-representation of the Point.
+        ========================================================================
+         Return: str in format of (Point.x, Point.y)
+        ========================================================================
+        """
         return self.__str__()
 
     def __eq__(self, other):
