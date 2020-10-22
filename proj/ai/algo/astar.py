@@ -68,7 +68,7 @@ class AStar:
         """
         self.best = self.opened.pop()
         self.closed.add(self.best)
-        if self.best.point == self.goal:
+        if self.best == self.goal:
             self.is_found = True
         else:
             self.__expand()
@@ -97,17 +97,14 @@ class AStar:
          Description: Expand the Best.
         =======================================================================
         """
-        points_neighbors = self.map.neighbors(self.best.point)
+        points_neighbors = self.grid.neighbors(self.best)
         children = {Node(point) for point in points_neighbors} - self.closed
         for child in sorted(children):
             if self.opened.contains(child):
                 child = self.opened.get(child)
             else:
                 self.opened.push(child)
-            g_new = self.best.g + child.w
-            if child.g <= g_new:
-                continue
-            self.__update_node(child, self.best, g_new)
+            child.update(father_cand=self.best, goal=self.goal)
             
 
 grid = GridBlocks(rows=5)

@@ -27,37 +27,24 @@ class Node(Point):
         self.father = None
         self.w = 1
         self.g = 0
-        self.set_h(goal)
-        self.set_f()
+        self.h = float('Infinity')
+        self.__set_h(goal)
+        self.__set_f()
 
-    def update_node(self, father, goal):
+    def update(self, father_cand, goal):
         """
         =======================================================================
          Description: Update Node (Father and G).
         =======================================================================
          Arguments:
         -----------------------------------------------------------------------
-            1. father : Node
+            1. father_cand : Node
             2. goal : Point
         =======================================================================
         """
-
-        # first initialization
-        if not self.father or not father:
-            self.father = father
-            self.g = father.g + self.w
-            self.h = self.distance(goal)
-            self.f = self.g + self.h
-        # have father
-        if self.father:
-            # candidate father is better than current
-            g_cand = father.g + self.w
-            if self.g > g_cand:
-                self.father = father
-                self.g = g_cand
-                self.f = self.g + self.h
-        # not have father
-        else:
+        self.__set_father(father_cand)
+        self.__set_h(goal)
+        self.__set_f()
 
     def __set_father(self, father_cand):
         """
@@ -87,10 +74,8 @@ class Node(Point):
             1. goal : Point
         ========================================================================
         """
-        if self.goal:
-            self.h = self.distance(self.goal)
-        else:
-            self.h = float('Infinity')
+        if goal and self.h == float('Infinity'):
+            self.h = self.distance(goal)
 
     def __set_f(self):
         """

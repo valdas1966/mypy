@@ -108,6 +108,7 @@ class GridBlocks(Grid):
          Return: List of Points in Point-Ordering (Up, Left, Right, Down).
         ========================================================================
         """
+        assert issubclass(type(point), Point), f'type(point)={type(point)}'
         return [p for p in self.neighbors(point) if self.is_valid_point(p)]
 
     def blocks(self):
