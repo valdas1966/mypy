@@ -1,5 +1,5 @@
-from f_map.c_grid import Grid
-from f_map.c_point import Point
+from proj.ai.model.grid import Grid
+from proj.ai.model.point import Point
 import random
 
 

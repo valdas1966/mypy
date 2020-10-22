@@ -1,6 +1,7 @@
 from f_astar.c_node import Node
 from f_astar.c_opened import Opened
 from f_map.c_point import Point
+from f_map.c_grid_blocks import GridBlocks
 
 
 class AStar:
@@ -10,21 +11,32 @@ class AStar:
     ============================================================================
     """
 
-    def __init__(self, map, start, goal):
+    def __init__(self, grid, start, goal):
         """
         ========================================================================
          Description: A* Algorithm.
         ========================================================================
          Arguments:
         ------------------------------------------------------------------------
-            1. grid : Grid
+            1. grid : GridBlcoks
             2. start : Point
             3. goal : Point
         ========================================================================
-        """  
+        """
+        assert type(grid) == GridBlocks, f'type(grid)={type(grid)}'
+        assert type(start) == Point, f'type(start)={type(start)}'
+        assert type(goal) == Point, f'type(goal)={type(goal)}'
+        assert grid.is_valid_point(start), f'start={start}, grid.shape=(' \
+                                           f'{grid.rows,grid.cols}), ' \
+                                           f'grid.is_block(start)=' \
+                                           f'{grid.is_block(start)}'
+        assert grid.is_valid_point(start), f'start={goal}, grid.shape=(' \
+                                           f'{grid.rows, grid.cols}), ' \
+                                           f'grid.is_block(goal)=' \
+                                           f'{grid.is_block(goal)}'
         self.start = start
         self.goal = goal
-        self.map = map
+        self.grid = grid
         self.is_found = False
         self.closed = set()                     
         self.opened = Opened()
@@ -59,7 +71,6 @@ class AStar:
         if self.best.point == self.goal:
             self.is_found = True
         else:
-            print(type(self.best), self.best)
             self.__expand()
 
     def optimal_path(self):
@@ -91,12 +102,12 @@ class AStar:
         for child in sorted(children):
             if self.opened.contains(child):
                 child = self.opened.get(child)
+            else:
+                self.opened.push(child)
             g_new = self.best.g + child.w
             if child.g <= g_new:
                 continue
             self.__update_node(child, self.best, g_new)
-            if not self.opened.contains(child):
-                self.opened.push(child)
             
     def __update_node(self, node, father, g):
         """
