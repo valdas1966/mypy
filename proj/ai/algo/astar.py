@@ -84,10 +84,10 @@ class AStar:
         if not self.is_found:
             return list()
         node = self.best
-        path = [node.point]
-        while node.point != self.start:
+        path = [node]
+        while node != self.start:
             node = node.father
-            path.append(node.point)
+            path.append(node)
         path.reverse()
         return path
 
@@ -105,10 +105,3 @@ class AStar:
             else:
                 self.opened.push(child)
             child.update(father_cand=self.best, goal=self.goal)
-            
-
-grid = GridBlocks(rows=5)
-start = Point(0, 0)
-goal = Point(1, 1)
-astar = AStar(grid, start, goal)
-astar.run()

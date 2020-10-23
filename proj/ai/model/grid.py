@@ -134,6 +134,7 @@ class Grid:
          Return: List of Points.
         ========================================================================
         """
+        assert issubclass(type(point), Point), f'type(point)={type(point)}'
         points = list()
 
         def add_if_valid(p):
@@ -144,6 +145,8 @@ class Grid:
         add_if_valid(point.neighbor_left())
         add_if_valid(point.neighbor_right())
         add_if_valid(point.neighbor_down())
+
+        return points
 
     def __eq__(self, other):
         """

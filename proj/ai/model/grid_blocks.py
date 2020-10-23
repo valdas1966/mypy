@@ -78,7 +78,7 @@ class GridBlocks(Grid):
          Return: List of Points.
         ========================================================================
         """
-        return [point for point in self.points() if self.is_block(point)]
+        return [p for p in super().points() if self.is_valid_point(p)]
 
     def points_random(self, amount):
         """
@@ -109,7 +109,7 @@ class GridBlocks(Grid):
         ========================================================================
         """
         assert issubclass(type(point), Point), f'type(point)={type(point)}'
-        return [p for p in self.neighbors(point) if self.is_valid_point(p)]
+        return [p for p in super().neighbors(point) if self.is_valid_point(p)]
 
     def blocks(self):
         """
