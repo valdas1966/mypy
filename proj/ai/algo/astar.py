@@ -30,10 +30,10 @@ class AStar:
                                            f'{grid.rows,grid.cols}), ' \
                                            f'grid.is_block(start)=' \
                                            f'{grid.is_block(start)}'
-        assert grid.is_valid_point(start), f'start={goal}, grid.shape=(' \
-                                           f'{grid.rows, grid.cols}), ' \
-                                           f'grid.is_block(goal)=' \
-                                           f'{grid.is_block(goal)}'
+        assert grid.is_valid_point(goal), f'start={goal}, grid.shape=(' \
+                                          f'{grid.rows, grid.cols}), ' \
+                                          f'grid.is_block(goal)=' \
+                                          f'{grid.is_block(goal)}'
         self.start = start
         self.goal = goal
         self.grid = grid
