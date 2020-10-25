@@ -3,6 +3,7 @@ from f_utils import u_random
 from proj.ai.model.point import Point
 from proj.ai.model.grid_blocks import GridBlocks
 from proj.ai.algo.astar import AStar
+from proj.ai.logic.grid_blocks_ghf import LogicGridBlocksGHF
 
 
 class TestAlgoAStar:
@@ -11,6 +12,7 @@ class TestAlgoAStar:
         u_tester.print_start(__file__)
         TestAlgoAStar.__tester_run_manual()
         TestAlgoAStar.__tester_run_random()
+        TestAlgoAStar.__tester_random_blocks()
         u_tester.print_finish(__file__)
 
     @staticmethod
@@ -59,6 +61,25 @@ class TestAlgoAStar:
             if not p0 or not p1:
                 break
         u_tester.run(p0, p1)
+
+    @staticmethod
+    def __tester_random_blocks():
+        p0 = True
+        p1 = True
+        for i in range(1000):
+            n = u_random.get_random_int(3, 10)
+            b = u_random.get_random_int(10, 50)
+            grid = GridBlocks(rows=n, percent_blocks=b)
+            start, goal = grid.points_random(2)
+            astar = AStar(grid, start, goal)
+            astar.run()
+            if not astar.is_found:
+                continue
+            nodes_f = LogicGridBlocksGHF.to_nodes_below_f(grid, start, goal)
+            p0 = nodes_f.issubset(astar.closed)
+            if not p0:
+                break
+        u_tester.run(p0)
 
 
 if __name__ == '__main__':
