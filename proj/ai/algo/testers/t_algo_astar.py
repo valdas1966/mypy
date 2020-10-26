@@ -65,7 +65,6 @@ class TestAlgoAStar:
     @staticmethod
     def __tester_random_blocks():
         p0 = True
-        p1 = True
         for i in range(1000):
             n = u_random.get_random_int(3, 10)
             b = u_random.get_random_int(10, 50)

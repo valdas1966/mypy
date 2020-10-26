@@ -1,5 +1,6 @@
 from proj.ai.model.point import Point
 from proj.ai.model.grid_blocks import GridBlocks
+from proj.ai.model.opened import Opened
 from proj.ai.logic.point_distance import LogicPointDistance
 from proj.ai.algo.astar import AStar
 
@@ -21,11 +22,25 @@ class KAStarProjection:
         assert type(grid) == GridBlocks, f'type(grid)={type(grid)}'
         assert type(start) == Point, f'type(start)={type(start)}'
         assert type(goals) in [tuple, list, set], f'type(goals)={type(goals)}'
+        assert len(goals) == len(set(goals))
         self.grid = grid
         self.start = start
         self.goals = LogicPointDistance.points_nearest(start, goals)
+        self.opened = Opened()
+        self.closed = set()
 
     def run(self):
+        """
+        ========================================================================
+         Description: Run KA* Algo in Projective Mode (one Goal each run).
+        ========================================================================
+        """
         for goal in self.goals:
+            for node in self.opened.get_nodes():
+                node.update(goal=goal)
             astar = AStar(self.grid, self.start, goal)
+            astar.opened = self.opened
+            astar.closed = self.closed
             astar.run()
+            self.opened = astar.opened
+            self.closed = astar.closed

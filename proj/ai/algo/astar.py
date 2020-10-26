@@ -26,22 +26,15 @@ class AStar:
         assert type(grid) == GridBlocks, f'type(grid)={type(grid)}'
         assert type(start) == Point, f'type(start)={type(start)}'
         assert type(goal) == Point, f'type(goal)={type(goal)}'
-        assert grid.is_valid_point(start), f'start={start}, grid.shape=(' \
-                                           f'{grid.rows,grid.cols}), ' \
-                                           f'grid.is_block(start)=' \
-                                           f'{grid.is_block(start)}'
-        assert grid.is_valid_point(goal), f'start={goal}, grid.shape=(' \
-                                          f'{grid.rows, grid.cols}), ' \
-                                          f'grid.is_block(goal)=' \
-                                          f'{grid.is_block(goal)}'
+        assert grid.is_valid_point(start)
+        assert grid.is_valid_point(goal)
         self.start = start
         self.goal = goal
         self.grid = grid
         self.is_found = False
+        self.best = None
         self.closed = set()                     
         self.opened = Opened()
-        self.best = Node(start)
-        self.opened.push(self.best)
 
     def run(self):
         """
@@ -50,28 +43,23 @@ class AStar:
                         empty - Run the next move of the A* algorithm.
         ========================================================================
         """
+        self.best = Node(self.start)
+        self.best.update(father_cand=None, goal=self.goal)
+        self.opened.push(self.best)
         while not self.opened.is_empty() and not self.is_found:
             self.next_move()
 
     def next_move(self):
         """
         ========================================================================
-         Description:
-        ------------------------------------------------------------------------
-            1. Best <- Opened.Pop()
-            2. Closed.Add(Best)
-            3. If Best == Goal:
-                3.1 Is_Found = True
-            4. Otherwise:
-                4.1 Expand Best
+         Description: Run the next move of the Algorithm.
         ========================================================================
         """
         self.best = self.opened.pop()
         self.closed.add(self.best)
+        self.__expand()
         if self.best == self.goal:
             self.is_found = True
-        else:
-            self.__expand()
 
     def optimal_path(self):
         """
@@ -98,10 +86,11 @@ class AStar:
         =======================================================================
         """
         points_neighbors = self.grid.neighbors(self.best)
-        children = {Node(point) for point in points_neighbors} - self.closed
+        children = {point for point in points_neighbors} - self.closed
         for child in sorted(children):
             if self.opened.contains(child):
                 child = self.opened.get(child)
             else:
+                child = Node(child)
                 self.opened.push(child)
             child.update(father_cand=self.best, goal=self.goal)

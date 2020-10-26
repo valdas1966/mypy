@@ -64,6 +64,9 @@ class Point:
          Return : Boolean
         ========================================================================
         """
+        if other is None:
+            return False
+        assert issubclass(type(other), Point), f'type(other)={type(other)}'
         return self.x == other.x and self.y == other.y
 
     def __ne__(self, other):

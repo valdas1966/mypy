@@ -114,9 +114,9 @@ class LogicGridBlocksGHF:
         dict_g = LogicGridBlocksGHF.to_dict_g(grid, start)
         nodes = list()
         for point, g in dict_g.items():
-            node = Node(point=point, goal=goal)
+            node = Node(point=point)
             node.g = g
-            node.f = node.g + node.h
+            node.update(goal=goal)
             nodes.append(node)
         return sorted(nodes)
 
