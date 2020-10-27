@@ -1,4 +1,3 @@
-from proj.ai.model.point import Point
 from proj.ai.model.point_node import Node
 from proj.ai.algo.astar import AStar
 
@@ -47,7 +46,8 @@ class AStarLookup(AStar):
                 child = self.opened.get(child)
             else:
                 child = Node(child)
-                if child in self.lookup:
-                    child.set_h(self.lookup[child])
+
                 self.opened.push(child)
             child.update(father_cand=self.best, goal=self.goal)
+            if child in self.lookup:
+                child.set_h(self.lookup[child])

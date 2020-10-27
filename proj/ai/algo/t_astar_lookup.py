@@ -28,7 +28,6 @@ class TestAStarLookup:
                        Point(2, 1), Point(2, 2), Point(2, 3),
                        Point(3, 3)}
         p0 = closed_test == closed_true
-        assert p0, print(closed_test)
         u_tester.run(p0)
 
 

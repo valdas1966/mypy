@@ -35,9 +35,9 @@ class GridBlocks(Grid):
             3. y : int
         ========================================================================
         """
-        assert type(point) in [Point, type(None)], f'type(point)={type(point)}'
-        assert type(x) in [int, type(None)], f'type(x)={type(x)}'
-        assert type(y) in [int, type(None)], f'type(y)={type(x)}'
+        assert type(point) == Point and isinstance(x, None) and isinstance(y, None)
+        assert type(x) == int and type(y) == int and isinstance(point, None)
+        assert super().is_valid_point(point)
         self.set_value(value=self.BLOCK, point=point, x=x, y=y)
 
     def is_block(self, point=None, x=None, y=None):
