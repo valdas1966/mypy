@@ -69,11 +69,13 @@ class GridBlocksRooms(GridBlocks):
         =======================================================================
         """
         # Block Column
-        for x in range(self.corner.x + 1):
+        for x in range(self.corner.x):
             self.set_block(x=x, y=self.corner.y)
         # Block Row
-        for y in range(self.corner.y + 1):
+        for y in range(self.corner.y):
             self.set_block(x=self.corner.x, y=y)
+        # Block Corner
+        self.set_block(self.corner)
 
     def __set_door(self):
         """

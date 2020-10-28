@@ -44,7 +44,7 @@ class Grid:
             y = point.y
         assert type(x) == int, f'type(x)={type(x)}, point={point}'
         assert type(y) == int, f'type(x)={type(y)}, point={point}'
-        assert self.is_valid_point(Point(x, y))
+        assert self.is_valid_point(Point(x, y), only_shape=True), Point(x, y)
         self.ndarray[x][y] = value
 
     def is_value(self, value, point=None, x=None, y=None):
@@ -109,20 +109,14 @@ class Grid:
          Return: bool
         ========================================================================
         """
-        print('is_valid_point', point)
         if point.x < 0:
-            print('point.x < 0')
             return False
         if point.x >= self.rows:
-            print('point.x >= self.rows')
             return False
         if point.y < 0:
-            print('point.y < 0')
             return False
         if point.y >= self.cols:
-            print('point.y >= self.cols')
             return False
-        print(point)
         return True
 
     def neighbors(self, point):

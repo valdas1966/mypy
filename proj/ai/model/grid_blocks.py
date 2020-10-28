@@ -23,22 +23,22 @@ class GridBlocks(Grid):
         self.percent_blocks = percent_blocks
         self.__set_random_blocks()
 
-    def set_block(self, point=None, x=None, y=None):
+    def set_block(self, x, y=None):
         """
         ========================================================================
          Description: Set Block (value = -1) in the Map.
         ========================================================================
          Arguments:
         ------------------------------------------------------------------------
-            1. point : Point
-            2. x : int
-            3. y : int
+            1. x : int (or Point)
+            2. y : int (or None)
         ========================================================================
         """
-        assert type(point) == Point and isinstance(x, None) and isinstance(y, None)
-        assert type(x) == int and type(y) == int and isinstance(point, None)
-        assert super().is_valid_point(point)
-        self.set_value(value=self.BLOCK, point=point, x=x, y=y)
+        if type(x) == Point:
+            x, y = x.x, x.y
+        assert type(x) == int and type(y) == int
+        assert super().is_valid_point(Point(x, y))
+        self.set_value(value=self.BLOCK, x=x, y=y)
 
     def is_block(self, point=None, x=None, y=None):
         """
@@ -56,7 +56,7 @@ class GridBlocks(Grid):
         """
         return self.is_value(value=self.BLOCK, point=point, x=x, y=y)
 
-    def is_valid_point(self, point):
+    def is_valid_point(self, point, only_shape=False):
         """
         ========================================================================
          Description: Return True if Point is not Block.
@@ -64,10 +64,13 @@ class GridBlocks(Grid):
          Arguments:
         ------------------------------------------------------------------------
             1. point : Point
+            2. only_shape : bool
         ========================================================================
          Return: bool
         ========================================================================
         """
+        if only_shape:
+            return super().is_valid_point(point)
         return super().is_valid_point(point) and not self.is_block(point)
 
     def points(self):
