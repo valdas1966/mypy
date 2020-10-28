@@ -90,6 +90,27 @@ class LogicGridBlocksGHF:
         return dict_f
 
     @staticmethod
+    def true_distance(grid, point_a, point_b):
+        """
+        ========================================================================
+         Description: Return the True-Distance between the Points.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. grid : GridBlocks
+            2. point_a : Point
+            3. point_b : Point
+        ========================================================================
+         Return: int
+        ========================================================================
+        """
+        assert issubclass(type(grid), GridBlocks)
+        assert issubclass(type(point_a), Point)
+        assert issubclass(type(point_b), Point)
+        dict_g = LogicGridBlocksGHF.to_dict_g(grid, point_a)
+        return dict_g[point_b]
+
+    @staticmethod
     def to_nodes(grid, start, goal):
         """
         ========================================================================

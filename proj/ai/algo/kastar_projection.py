@@ -19,7 +19,7 @@ class KAStarProjection:
             3. goals : Set of Points
         ========================================================================
         """
-        assert type(grid) == GridBlocks, f'type(grid)={type(grid)}'
+        assert issubclass(type(grid), GridBlocks), f'type(grid)={type(grid)}'
         assert type(start) == Point, f'type(start)={type(start)}'
         assert type(goals) in [tuple, list, set], f'type(goals)={type(goals)}'
         assert len(goals) == len(set(goals))

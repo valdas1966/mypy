@@ -80,6 +80,36 @@ def update(d, key, val):
     return d
 
 
+def union(dict_1, dict_2):
+    """
+    ============================================================================
+     Description: Return Dict as Union of two Dicts (must have the same value
+                    on the same key).
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. dict_1 : dict
+        2. dict_2 : dict
+    ============================================================================
+     Return: dict
+    ============================================================================
+    """
+    assert type(dict_1) == dict
+    assert type(dict_2) == dict
+    left = dict_1.keys() - dict_2.keys()
+    right = dict_2.keys() - dict_1.keys()
+    intersect = set.intersection(set(dict_1.keys()), set(dict_2.keys()))
+    d_union = dict()
+    for key in left:
+        d_union[key] = dict_1[key]
+    for key in right:
+        d_union[key] = dict_2[key]
+    for key in intersect:
+        assert dict_1[key] == dict_2[key]
+        d_union[key] = dict_1[key]
+    return d_union
+
+
 def sort_by_value(d, reverse=False):
     """
     ============================================================================

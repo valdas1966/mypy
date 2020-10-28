@@ -23,7 +23,7 @@ class AStar:
             3. goal : Point
         ========================================================================
         """
-        assert type(grid) == GridBlocks, f'type(grid)={type(grid)}'
+        assert issubclass(type(grid), GridBlocks), f'type(grid)={type(grid)}'
         assert type(start) == Point, f'type(start)={type(start)}'
         assert type(goal) == Point, f'type(goal)={type(goal)}'
         assert grid.is_valid_point(start)

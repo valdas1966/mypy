@@ -133,7 +133,7 @@ class GridBlocks(Grid):
                         color='FFFFFF', is_bold=True)
         xl_map.merge_cells(row=row_start, col=col_start + 1, cols=self.cols)
         # Draw the Map
-        for block in self.blocks:
+        for block in self.blocks():
             xl_map.set_blocks(row_start+block.x+2, col_start+block.y+1)
         # Draw Top Border
         xl_map.set_blocks(row=row_start+1, col=col_start, cols=self.cols+2)
@@ -148,10 +148,10 @@ class GridBlocks(Grid):
         if with_numbers:
             # Left Numbers
             for i, row in enumerate(range(row_start+2, row_start+self.rows+2)):
-                xl_map.set_value(row, col_start, value=str(i))
+                xl_map.set_value(row, col_start, value=i)
             # Top Numbers
             for i, col in enumerate(range(col_start+1, col_start+self.cols+1)):
-                xl_map.set_value(row_start+1, col, value=str(i))
+                xl_map.set_value(row_start+1, col, value=i)
 
     def __set_random_blocks(self):
         """
@@ -164,4 +164,4 @@ class GridBlocks(Grid):
             return
         points_blocks = self.points_random(len_blocks)
         for point in points_blocks:
-            self.set_block(point=point)
+            self.set_block(point)

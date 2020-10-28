@@ -12,6 +12,7 @@ class TestLogicGridBlocksGHF:
         TestLogicGridBlocksGHF.__tester_to_dict_h()
         TestLogicGridBlocksGHF.__tester_to_dict_g()
         TestLogicGridBlocksGHF.__tester_to_dict_f()
+        TestLogicGridBlocksGHF.__tester_true_distance()
         TestLogicGridBlocksGHF.__tester_to_nodes()
         TestLogicGridBlocksGHF.__tester_to_nodes_below_f()
         u_tester.print_finish(__file__)
@@ -51,6 +52,17 @@ class TestLogicGridBlocksGHF:
                        Point(1, 0): 4, Point(1, 2): 4,
                        Point(2, 0): 4, Point(2, 1): 4, Point(2, 2): 4}
         p0 = dict_f_test == dict_f_true
+        u_tester.run(p0)
+
+    @staticmethod
+    def __tester_true_distance():
+        grid = GridBlocks(rows=3)
+        grid.set_block(0, 1)
+        point_a = Point(0, 0)
+        point_b = Point(0, 2)
+        distance_test = LogicGridBlocksGHF.true_distance(grid, point_a, point_b)
+        distance_true = 4
+        p0 = distance_test == distance_true
         u_tester.run(p0)
 
     @staticmethod

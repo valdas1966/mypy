@@ -1,10 +1,11 @@
+from proj.ai.model.point import Point
 from proj.ai.model.point_node import Node
 from proj.ai.algo.astar import AStar
-
+from proj.ai.logic.grid_blocks_ghf import LogicGridBlocksGHF as lgb
 
 class AStarLookup(AStar):
 
-    def __init__(self, grid, start, goal, lookup):
+    def __init__(self, grid, start, goal, lookup=dict()):
         super().__init__(grid, start, goal)
         self.lookup = lookup
 
@@ -33,6 +34,37 @@ class AStarLookup(AStar):
         if self.best == self.goal or self.best in self.lookup:
             self.is_found = True
 
+    def lookup_start(self):
+        """
+        ========================================================================
+         Description: Return Lookup (Dict) of True-Distance to the Start
+                        from the Nodes in the Closed-Set (by their G-Value).
+        ========================================================================
+         Return: Dict {Point -> int (True-Distance to the Start}
+        ========================================================================
+        """
+        lookup = dict()
+        for node in self.closed:
+            lookup[Point(node.x, node.y)] = node.g
+        return lookup
+
+    def lookup_goal(self):
+        """
+        ========================================================================
+         Description: Return Lookup (Dict) of True-Distance to the Goal from
+                        the Nodes in the Optimal Path.
+        ========================================================================
+         Return: Dict {Point -> int (True-Distance to the Goal}
+        ========================================================================
+        """
+        lookup = dict()
+        node = self.best
+        while node != self.start:
+            lookup[node] = lgb.true_distance(self.grid, self.goal, node)
+            node = node.father
+        lookup[self.start] = lgb.true_distance(self.grid, self.goal, self.start)
+        return lookup
+
     def __expand(self):
         """
         =======================================================================
@@ -46,7 +78,6 @@ class AStarLookup(AStar):
                 child = self.opened.get(child)
             else:
                 child = Node(child)
-
                 self.opened.push(child)
             child.update(father_cand=self.best, goal=self.goal)
             if child in self.lookup:

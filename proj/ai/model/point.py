@@ -4,7 +4,12 @@ from f_const.directions import Directions
 
 class Point:
 
-    def __init__(self, x, y):
+    def __init__(self, x, y=None):
+        if type(x) == Point:
+            x = x.x
+            y = x.y
+        assert type(x) == int, print(type(x))
+        assert type(y) == int
         self.x = x
         self.y = y
 

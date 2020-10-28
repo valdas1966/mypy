@@ -11,6 +11,7 @@ class TestDict:
         self.tester_sum()
         TestDict.__tester_sorted_by_value()
         TestDict.__tester_update()
+        TestDict.__tester_union()
         u_tester.print_finish(__file__)
 
     def tester_to_key_value_str(self):
@@ -44,6 +45,15 @@ class TestDict:
         dict_true = {1: 2}
         p1 = dict_sum == dict_true
         u_tester.run(p0, p1)
+
+    @staticmethod
+    def __tester_union():
+        dict_1 = {'a': 1, 'b': 2}
+        dict_2 = {'b': 2, 'c': 3}
+        dict_test = u_dict.union(dict_1, dict_2)
+        dict_true = {'a': 1, 'b': 2, 'c': 3}
+        p0 = dict_test == dict_true
+        u_tester.run(p0)
 
     @staticmethod
     def __tester_sorted_by_value():
