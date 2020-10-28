@@ -127,7 +127,7 @@ def gen_back_astar_lookup():
             for goal in goals:
                 astar = AStarLookup(grid, goal, start, lookup)
                 astar.run()
-                lookup = u_dict.union(lookup, astar.to_lookup())
+                lookup = u_dict.union(lookup, astar.lookup_goal())
                 astars.append(astar)
             backward_grid.append(astars)
             print(i, j)
@@ -148,29 +148,60 @@ def gen_report():
         left = len(grid.get_left_room())
         right = len(grid.get_right_room())
         ratio_left_right = round(left / right, 2)
+        is_left = True
+        counter = 0
         for j, kastar in enumerate(forwards[i]):
-            start_in_left = 1
-            if j >= 75:
-                start_in_left = 0
-            goals = 2
-            if (25 <= j < 50) or (100 <= j < 125):
-                goals = 3
-            elif (50 <= j < 75) or (j >= 125):
-                goals = 5
+            start_in_left = int(is_left)
+            counter += 1
+            if counter == 3:
+                counter = 0
+                is_left = not is_left
             forward = len(kastar.closed)
             astars_back = backwards[i][j]
             closed_back = set()
             for astar in astars_back:
                 closed_back.update(astar.closed)
             backward = len(closed_back)
-            metric = 1 - (backward / ((backward + forward) / 2))
+            metric = round(1 - (backward / ((backward + forward) / 2)), 2)
             start_goals = li_start_goals[i][j]
             start = start_goals[0]
             goals = start_goals[1]
             distance_start_goals = lpd.distances_to(start, goals)
+            distance_goals = lpd.distances(goals)
+            distance_start_door = start.distance(grid.door)
+            distance_goals_door = lpd.distances_to(grid.door, goals)
+            file.write(f'{i},{j},{len(goals)},{start_in_left},'
+                       f'{ratio_left_right},{distance_start_goals},'
+                       f'{distance_goals},{distance_start_door},'
+                       f'{distance_goals_door},{forward},{backward},'
+                       f'{metric}\n')
+            print(i, j)
+    file.close()
 
 
 # gen_grids(rows=10, cols=10, amount=100)
 # gen_start_goals()
 # gen_kastar_projective()
 gen_back_astar_lookup()
+gen_report()
+
+"""
+from f_excel.c_excel_map import ExcelMap
+grids = u_pickle.load(pickle_grids)
+grid = grids[47]
+xl_map = ExcelMap(filename='D:\\Temp\\Rooms\\test_1.xlsx')
+grid.draw_excel(xl_map=xl_map, row_start=45, col_start=2, with_numbers=True)
+xl_map.close()
+
+li_start_goals = u_pickle.load(pickle_start_goals)
+print(li_start_goals[95][2])
+"""
+
+"""
+backwards = u_pickle.load(pickle_backward)
+astars = backwards[47][95]
+for astar in astars:
+    print(astar.start, astar.goal, astar.closed)
+li_start_goals = u_pickle.load(pickle_start_goals)
+print(li_start_goals[47][95])
+"""

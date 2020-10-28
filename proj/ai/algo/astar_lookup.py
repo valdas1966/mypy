@@ -57,13 +57,13 @@ class AStarLookup(AStar):
          Return: Dict {Point -> int (True-Distance to the Goal}
         ========================================================================
         """
-        lookup = dict()
+        optimal_nodes = list()
         node = self.best
         while node != self.start:
-            lookup[node] = lgb.true_distance(self.grid, self.goal, node)
+            optimal_nodes.append(node)
             node = node.father
-        lookup[self.start] = lgb.true_distance(self.grid, self.goal, self.start)
-        return lookup
+        optimal_nodes.append(self.start)
+        return lgb.true_distance(self.grid, self.goal, optimal_nodes)
 
     def __expand(self):
         """

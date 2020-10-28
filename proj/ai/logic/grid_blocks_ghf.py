@@ -46,7 +46,7 @@ class LogicGridBlocksGHF:
          Return: Dict {Point -> int (G-Value, True distance from the Start)}.
         ========================================================================
         """
-        assert type(grid) == GridBlocks, f'type(grid)={type(grid)}'
+        assert issubclass(type(grid), GridBlocks), f'type(grid)={type(grid)}'
         assert type(start) == Point, f'type(goal)={type(start)}'
         assert grid.is_valid_point(start), f'is_valid_point(start)=' \
                                            f'{grid.is_valid_point(start)}'
@@ -90,7 +90,7 @@ class LogicGridBlocksGHF:
         return dict_f
 
     @staticmethod
-    def true_distance(grid, point_a, point_b):
+    def true_distance(grid, point_a, points):
         """
         ========================================================================
          Description: Return the True-Distance between the Points.
@@ -99,16 +99,28 @@ class LogicGridBlocksGHF:
         ------------------------------------------------------------------------
             1. grid : GridBlocks
             2. point_a : Point
-            3. point_b : Point
+            3. point_b : Set of Points
         ========================================================================
          Return: int
         ========================================================================
         """
         assert issubclass(type(grid), GridBlocks)
         assert issubclass(type(point_a), Point)
-        assert issubclass(type(point_b), Point)
-        dict_g = LogicGridBlocksGHF.to_dict_g(grid, point_a)
-        return dict_g[point_b]
+        assert type(points) in [tuple, list, set]
+        points = set(points)
+        opened = collections.deque([(point_a, 0)])
+        lookup = dict()
+        closed = dict()
+        while opened and points:
+            point, g = opened.popleft()
+            closed[point] = g
+            if point in points:
+                lookup[point] = g
+                points = points - {point}
+            children = set(grid.neighbors(point)) - closed.keys()
+            for child in children:
+                opened.append((child, g + 1))
+        return lookup
 
     @staticmethod
     def to_nodes(grid, start, goal):

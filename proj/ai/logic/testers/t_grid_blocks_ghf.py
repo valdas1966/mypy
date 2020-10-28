@@ -59,9 +59,9 @@ class TestLogicGridBlocksGHF:
         grid = GridBlocks(rows=3)
         grid.set_block(0, 1)
         point_a = Point(0, 0)
-        point_b = Point(0, 2)
-        distance_test = LogicGridBlocksGHF.true_distance(grid, point_a, point_b)
-        distance_true = 4
+        points = {Point(0, 2), Point(2, 0)}
+        distance_test = LogicGridBlocksGHF.true_distance(grid, point_a, points)
+        distance_true = {Point(0, 2): 4, Point(2, 0): 2}
         p0 = distance_test == distance_true
         u_tester.run(p0)
 
