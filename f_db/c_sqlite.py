@@ -39,7 +39,8 @@ class Sqlite:
 
     def load(self, df, tname, with_index=False, verbose=True):
         assert type(df) == pd.DataFrame()
-
+        assert type(tname) == str()
+        assert type(with_index) == bool()
         df.to_sql(con=self.con, name=tname, if_exists='replace',
                   index=with_index, df=df)
     def count(self, tname):
