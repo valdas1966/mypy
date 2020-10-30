@@ -36,6 +36,8 @@ class KAStarProjection:
         ========================================================================
         """
         for goal in self.goals:
+            if goal in self.closed:
+                continue
             for node in self.opened.get_nodes():
                 node.update(goal=goal)
             astar = AStar(self.grid, self.start, goal)
@@ -44,3 +46,4 @@ class KAStarProjection:
             astar.run()
             self.opened = astar.opened
             self.closed = astar.closed
+

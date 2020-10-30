@@ -9,12 +9,13 @@ from proj.ai.algo.astar_lookup import AStarLookup
 from proj.ai.logic.point_distance import LogicPointDistance as lpd
 
 
-dir_storage = 'D:\\Temp\\Rooms\\'
+dir_storage = 'G:\\Study\\Thesis\\Roni\\Rooms\\'
 pickle_grids = dir_storage + 'grids.pickle'
 pickle_start_goals = dir_storage + 'start_goals.pickle'
 pickle_forward = dir_storage + 'forward.pickle'
 pickle_backward = dir_storage + 'backward.pickle'
 csv_report = dir_storage + 'report.csv'
+
 
 def gen_grids(rows, cols, amount):
     """
@@ -182,22 +183,32 @@ def gen_report():
 # gen_grids(rows=10, cols=10, amount=100)
 # gen_start_goals()
 # gen_kastar_projective()
-gen_back_astar_lookup()
-gen_report()
+# gen_back_astar_lookup()
+# gen_report()
 
-"""
+
+
 from f_excel.c_excel_map import ExcelMap
 grids = u_pickle.load(pickle_grids)
-grid = grids[47]
-xl_map = ExcelMap(filename='D:\\Temp\\Rooms\\test_1.xlsx')
-grid.draw_excel(xl_map=xl_map, row_start=45, col_start=2, with_numbers=True)
+grid = grids[11]
+xl_map = ExcelMap(filename='G:\\Study\\Thesis\\Roni\\Rooms\\test_1.xlsx')
+grid.draw_excel(xl_map=xl_map, row_start=62, col_start=2, with_numbers=True)
 xl_map.close()
 
+
 li_start_goals = u_pickle.load(pickle_start_goals)
-print(li_start_goals[95][2])
-"""
+print(li_start_goals[11][136])
 
 """
+forwards = u_pickle.load(pickle_forward)
+kastar = forwards[76][45]
+print(len(kastar.closed))
+
+from proj.ai.algo.kastar_projection import KAStarProjection
+
+kastar = KAStarProjection(grid, start, goals)
+kastar.run()
+
 backwards = u_pickle.load(pickle_backward)
 astars = backwards[47][95]
 for astar in astars:
