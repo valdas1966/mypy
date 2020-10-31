@@ -143,16 +143,21 @@ def gen_report():
     backwards = u_pickle.load(pickle_backward)
     file = open(csv_report, 'w')
     file.write('map,experiment,goals,start_in_left,ratio_left_right,'
+               'ratio_small_big,ratio_start_goals,'
                'distance_start_goals,distance_goals,distance_start_door,'
                'distance_goals_door,forward,backward,metric\n')
     for i, grid in enumerate(grids):
         left = len(grid.get_left_room())
         right = len(grid.get_right_room())
         ratio_left_right = round(left / right, 2)
+        ratio_small_big = round(min(left, right) / max(left, right))
         is_left = True
         counter = 0
         for j, kastar in enumerate(forwards[i]):
             start_in_left = int(is_left)
+            ratio_start_goals = ratio_left_right
+            if not start_in_left:
+                ratio_start_goals = round(right / left, 2)
             counter += 1
             if counter == 3:
                 counter = 0
@@ -172,7 +177,9 @@ def gen_report():
             distance_start_door = start.distance(grid.door)
             distance_goals_door = lpd.distances_to(grid.door, goals)
             file.write(f'{i},{j},{len(goals)},{start_in_left},'
-                       f'{ratio_left_right},{distance_start_goals},'
+                       f'{ratio_left_right},'
+                       f'{ratio_small_big},'
+                       f'{ratio_start_goals},{distance_start_goals},'
                        f'{distance_goals},{distance_start_door},'
                        f'{distance_goals_door},{forward},{backward},'
                        f'{metric}\n')
@@ -184,10 +191,10 @@ def gen_report():
 # gen_start_goals()
 # gen_kastar_projective()
 # gen_back_astar_lookup()
-# gen_report()
+gen_report()
 
 
-
+"""
 from f_excel.c_excel_map import ExcelMap
 grids = u_pickle.load(pickle_grids)
 grid = grids[11]
@@ -199,7 +206,6 @@ xl_map.close()
 li_start_goals = u_pickle.load(pickle_start_goals)
 print(li_start_goals[11][136])
 
-"""
 forwards = u_pickle.load(pickle_forward)
 kastar = forwards[76][45]
 print(len(kastar.closed))
