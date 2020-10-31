@@ -56,7 +56,7 @@ class Sqlite:
         assert type(verbose) == bool
         try:
             df.to_sql(con=self.con, name=tname, if_exists='replace',
-                      index=with_index, df=df)
+                      index=with_index)
             if verbose:
                 print(f'DF loaded into the Table {tname} [{len(df)} rows]')
         except Exception as e:
