@@ -150,7 +150,7 @@ def gen_report():
         left = len(grid.get_left_room())
         right = len(grid.get_right_room())
         ratio_left_right = round(left / right, 2)
-        ratio_small_big = round(min(left, right) / max(left, right))
+        ratio_small_big = round(min(left, right) / max(left, right), 2)
         is_left = True
         counter = 0
         for j, kastar in enumerate(forwards[i]):
