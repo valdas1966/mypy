@@ -87,6 +87,7 @@ class Sqlite:
         except Exception as e:
             print(f'Error in Creating Table {tname}: {e}\n{query}')
 
+
     def count(self, tname):
         """
         ========================================================================
