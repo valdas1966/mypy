@@ -35,7 +35,7 @@ class Sqlite:
             return df
         except Exception as e:
             print(f'Error in Selecting Query: {e}\n{query}')
-            exit(0)
+            exit
 
     def load(self, df, tname, with_index=False, verbose=True):
         """
@@ -61,7 +61,7 @@ class Sqlite:
                 print(f'DF loaded into the Table {tname} [{len(df)} rows]')
         except Exception as e:
             print(f'Error in Loading DF into Table {tname}: {e}')
-            exit(0)
+            exit
 
     def ctas(self, tname, query, verbose=True):
         """
@@ -83,7 +83,7 @@ class Sqlite:
                 print(f"Table '{tname}' successfully created [{cnt} rows]")
         except Exception as e:
             print(f'Error in Creating Table {tname}: {e}\n{query}')
-            exit(0)
+            exit
 
     def count(self, tname):
         """
@@ -103,7 +103,7 @@ class Sqlite:
             return self.cursor.fetchone()[0]
         except Exception as e:
             print(f'Error in Counting Table: {e}\n{tname}')
-            exit(1)
+            exit
 
     def close(self):
         """
