@@ -74,6 +74,10 @@ class Sqlite:
             3. verbose : bool
         ========================================================================
         """
+        try:
+            self.cursor.execute(f'drop table {tname}')
+        except Exception as e:
+            pass
         query = f'create table {tname} as {query}'
         try:
             self.cursor.execute(query)
