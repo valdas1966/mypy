@@ -31,7 +31,7 @@ class Sqlite:
         try:
             df = pd.read_sql_query(con=self.con, sql=query)
             if verbose:
-                print(f'{query}\n{len(df)} rows were loaded into the DataFrame')
+                print(f'[{len(df):,} rows] were loaded into the DataFrame')
             return df
         except Exception as e:
             print(f'Error in Selecting Query: {e}\n{query}')
@@ -58,7 +58,8 @@ class Sqlite:
             df.to_sql(con=self.con, name=tname, if_exists='replace',
                       index=with_index)
             if verbose:
-                print(f'DF loaded into the Table {tname} [{len(df)} rows]')
+                print(f"DataFrame loaded into the Table '{tname}' [{len(df):,} "
+                      f"rows]")
         except Exception as e:
             print(f'Error in Loading DF into Table {tname}: {e}')
             exit
