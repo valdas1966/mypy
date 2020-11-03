@@ -69,7 +69,6 @@ class Element:
         ========================================================================
         """
         str_indents = '\t' * self.indents
-        s = str()
         if self.tag:
             if self.is_empty:
                 s = '{0}<{1}{2}>'
