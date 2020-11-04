@@ -1,5 +1,11 @@
 from f_ds import u_df
 
+"""
+================================================================================
+ Description: Feature Selection static functions.
+================================================================================
+"""
+
 
 def drop_correlated_features(df, threshold=1):
     """

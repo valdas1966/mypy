@@ -1,5 +1,11 @@
 import pandas as pd
 
+"""
+================================================================================
+ Description: Feature Engineering static functions.
+================================================================================
+"""
+
 
 def synthetic(df, columns_to_exclude=set()):
     """
