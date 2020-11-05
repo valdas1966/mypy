@@ -18,7 +18,7 @@ def remove_duplicated_columns(df):
     return df.loc[:, ~df.columns.duplicated()]
 
 
-def split_to_x_y(df):
+def split_to_x_y(df, cols_features, col_label):
     """
     =======================================================================
      Description: Split DataFrame to X (without label) and Y (label).
@@ -30,7 +30,8 @@ def split_to_x_y(df):
      Return: Tuple(DataFrame, Series) (x, y)
     =======================================================================
     """
-    x = df.drop('label', axis=1)
+    x = df[cols_features]
+    df = df.rename({col_label: 'label'}, axis=1)
     y = df['label']
     return x, y
 
@@ -82,7 +83,8 @@ def drop_columns(df, columns):
 def to_dict(df, col_key=0, col_val=1):
     """
     ============================================================================
-     Description: Return Dict-Representation of the DataFrame.
+     Description: Return Dict-Representation of the DataFrame
+                    (work only on two specified columns - key and value).
     ============================================================================
      Arguments:
     ----------------------------------------------------------------------------

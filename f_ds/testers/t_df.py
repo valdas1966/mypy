@@ -28,11 +28,14 @@ class TestDF:
     def __tester_split_to_x_y():
         col_1 = [1, 2, 3]
         col_2 = [4, 5, 6]
-        label = [1, 0, 1]
-        df = pd.DataFrame({'col_1': col_1, 'col_2': col_2, 'label': label})
-        x, y = u_df.split_to_x_y(df)
-        x_true = pd.DataFrame({'col_1': col_1, 'col_2': col_2})
-        y_true = pd.Series(label)
+        col_3 = [7, 8, 9]
+        col_4 = [1, 0, 1]
+        data = {'col_1': col_1, 'col_2': col_2, 'col_3': col_3, 'col_4': col_4}
+        df = pd.DataFrame(data)
+        x, y = u_df.split_to_x_y(df, cols_features=['col_1', 'col_3'],
+                                 col_label='col_4')
+        x_true = pd.DataFrame({'col_1': col_1, 'col_3': col_3})
+        y_true = pd.Series(col_4)
         p0 = x.equals(x_true)
         p1 = y.equals(y_true)
         u_tester.run(p0, p1)
