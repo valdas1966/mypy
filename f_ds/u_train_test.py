@@ -21,3 +21,6 @@ def split(x, y, is_classifier=True):
     if is_classifier:
         return train_test_split(x, y, stratify=y)
     return train_test_split(x, y)
+
+def gen_index_test(label):
+    
