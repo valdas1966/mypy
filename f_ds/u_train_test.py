@@ -22,5 +22,18 @@ def split(x, y, is_classifier=True):
         return train_test_split(x, y, stratify=y)
     return train_test_split(x, y)
 
-def gen_index_test(label):
-    
+
+def index_train_test(label):
+    """
+    ============================================================================
+     Description: Return Indeces of Splitted Train and Test.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. label : Series
+    ============================================================================
+     Return : Tuple(Index, Index)
+    ============================================================================
+    """
+    x_train, x_test, _, _ = split(label, label)
+    return x_train.index, x_test.index
