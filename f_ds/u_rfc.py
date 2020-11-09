@@ -110,7 +110,3 @@ def evaluate(y_pred, y_test):
     df = pd.DataFrame(results)
     return df[['Proba', 'Count', 'Percent', 'Precision', 'Recall', 'TP',
                'FP', 'TN', 'FN']]
-
-
-def simulate_score(df, y_pred, col_0, col_1, threshold=0.5):
-    li_pred =
