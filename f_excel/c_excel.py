@@ -32,7 +32,37 @@ class Excel:
         self.ws = self.wb.worksheets[index_ws]
 
     def set_value(self, row, col, value):
+        """
+        ========================================================================
+         Description: Set Value in Cell by Row and Col numbers.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. row : int
+            2. col : int
+            3. value : obj
+        ========================================================================
+        """
+        assert type(row) == int
+        assert type(col) == int
+        assert row >= 1
+        assert col >= 1
         self.ws.cell(row=row, column=col).value = value
+
+    def get_value(self, row, col):
+        """
+        ========================================================================
+         Description: Return Value in the Cell by Row and Col numbers.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. row : int
+            2. col : int
+        ========================================================================
+         Return: obj
+        ========================================================================
+        """
+        return self.ws.cell(row, col).value
 
     def set_font(self, row, col, color='000000', is_bold=False):
         font = Font(color=color, bold=is_bold, vertAlign='baseline')
