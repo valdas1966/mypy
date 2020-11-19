@@ -79,6 +79,19 @@ class AStar:
         path.reverse()
         return path
 
+    def expanded_nodes(self):
+        """
+        ========================================================================
+         Description: Return Amount of Expanded Nodes.
+        ========================================================================
+         Return: int
+        ========================================================================
+        """
+        if self.is_found:
+            # Goal-Node is not expanded
+            return len(self.closed) - 1
+        return len(self.closed)
+
     def __expand(self):
         """
         =======================================================================

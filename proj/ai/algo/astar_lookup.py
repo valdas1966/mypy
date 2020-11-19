@@ -3,9 +3,28 @@ from proj.ai.model.point_node import Node
 from proj.ai.algo.astar import AStar
 from proj.ai.logic.grid_blocks_ghf import LogicGridBlocksGHF as lgb
 
+
 class AStarLookup(AStar):
+    """
+    ============================================================================
+     Description: A* Algorithm with Lookup Nodes (Perfect Heuristic to Goal).
+    ============================================================================
+    """
 
     def __init__(self, grid, start, goal, lookup=dict()):
+        """
+        ========================================================================
+         Description: Init A* Algorithm
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. grid : Grid
+            2. start : Point
+            3. goal : Point
+            4. lookup : Dict {point -> int (True-Distance to Goal)}
+        ========================================================================
+        """
+        assert type(lookup) == dict
         super().__init__(grid, start, goal)
         self.lookup = lookup
 
@@ -74,11 +93,14 @@ class AStarLookup(AStar):
         points_neighbors = self.grid.neighbors(self.best)
         children = {point for point in points_neighbors} - self.closed
         for child in sorted(children):
+            # Add Child into Opened if it is not there
             if self.opened.contains(child):
                 child = self.opened.get(child)
             else:
                 child = Node(child)
                 self.opened.push(child)
+            # Update Child if needed
             child.update(father_cand=self.best, goal=self.goal)
+            # If Child in Lookup -> Set it's H-Value to be the True-Distance
             if child in self.lookup:
                 child.set_h(self.lookup[child])
