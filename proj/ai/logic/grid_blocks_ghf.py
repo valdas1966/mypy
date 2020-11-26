@@ -8,6 +8,34 @@ import collections
 class LogicGridBlocksGHF:
 
     @staticmethod
+    def to_grid_g(grid, start):
+        """
+        ========================================================================
+         Description: Return Grid of G-Value for each Point 
+                        (true distance from the Start).
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. grid : GridBlocks
+            2. start : Point
+        ========================================================================
+         Return: GridBlocks
+        ========================================================================
+        """
+        assert issubclass(type(grid), GridBlocks)
+        assert type(start) == Point
+        assert grid.is_valid_point(start)
+        opened = collections.deque([(start, 0)])
+        closed = dict()
+        while opened:
+            point, g = opened.popleft()
+            closed[point] = g
+            children = set(grid.neighbors(point)) - closed.keys()
+            for child in children:
+                opened.append((child, g + 1))
+        return closed
+        
+    @staticmethod
     def to_dict_h(grid, goal):
         """
         ========================================================================

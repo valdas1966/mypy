@@ -1,9 +1,7 @@
 from f_utils import u_tester
-from f_utils import u_random
 from proj.ai.model.point import Point
 from proj.ai.model.grid_blocks import GridBlocks
 from proj.ai.algo.kastar_projection import KAStarProjection
-from proj.ai.algo.astar import AStar
 
 
 class TestKAStarProjection:

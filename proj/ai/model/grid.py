@@ -18,10 +18,10 @@ class Grid:
         """
         self.rows = rows
         self.cols = cols or self.rows
-        assert type(self.rows) == int, f'type(rows)={type(self.rows)}'
-        assert type(self.cols) == int, f'type(cols)={type(self.cols)}'
-        assert self.rows > 0, f'rows={self.rows}'
-        assert self.cols > 0, f'rows={self.cols}'
+        assert type(self.rows) == int
+        assert type(self.cols) == int
+        assert self.rows > 0
+        assert self.cols > 0
         self.ndarray = np.zeros(shape=(self.rows, self.cols), dtype=int)
 
     def set_value(self, value, point=None, x=None, y=None):

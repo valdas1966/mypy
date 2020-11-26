@@ -1,4 +1,5 @@
 from f_utils import u_tester
+from proj.ai.model.point import Point
 from proj.ai.model.grid_blocks import GridBlocks
 from proj.ai.algo.astar import AStar
 from proj.ai.algo.kastar_backward import KAStarBackward
@@ -13,28 +14,23 @@ class TestKAStarBackward:
 
     @staticmethod
     def __tester_run():
-        p0 = True
-        for i in range(100):
-            grid = GridBlocks(5, 5, 30)
-            start, goal_1, goal_2 = grid.points_random(3)
-            kastar = KAStarBackward(grid, start, [goal_1, goal_2])
-            kastar.run()
-            expanded_nodes_test = len(kastar.closed)
-            astar_1 = AStar(grid, goal_1, start)
-            astar_1.run()
-            closed = astar_1.closed
-            astar_2 = AStar(grid, goal_2, start)
-            astar_2.run()
-            closed = closed.union(astar_2.closed)
-            expanded_nodes_true = len(closed)
-            p0 = expanded_nodes_test == expanded_nodes_true
-            if not p0:
-                print(grid)
-                print(start, goal_1, goal_2)
-                print(expanded_nodes_true, expanded_nodes_test)
-                print(sorted(closed))
-                print(sorted(kastar.closed))
-                break
+        # Manual
+        grid = GridBlocks(5)
+        grid.set_block(1, 3)
+        grid.set_block(1, 4)
+        grid.set_block(2, 2)
+        grid.set_block(3, 1)
+        start = Point(3, 2)
+        goal_1 = Point(2, 1)
+        goal_2 = Point(0, 2)
+        kastar = KAStarBackward(grid, start, [goal_1, goal_2])
+        kastar.run()
+        closed_test = kastar.closed
+        closed_true = {Point(0, 0), Point(0, 1), Point(0, 2), Point(0, 3),
+                       Point(0, 4), Point(1, 0), Point(1, 1), Point(1, 2),
+                       Point(2, 0), Point(2, 1), Point(3, 0), Point(3, 2),
+                       Point(4, 0), Point(4, 1), Point(4, 2)}
+        p0 = closed_test == closed_true
         u_tester.run(p0)
 
 

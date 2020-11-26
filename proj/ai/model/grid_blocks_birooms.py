@@ -2,7 +2,7 @@ from proj.ai.model.point import Point
 from proj.ai.model.grid_blocks import GridBlocks
 
 
-class GridBlocksRooms(GridBlocks):
+class GridBlocksBiRooms(GridBlocks):
 
     def __init__(self, rows, corner, door, cols=None):
         """

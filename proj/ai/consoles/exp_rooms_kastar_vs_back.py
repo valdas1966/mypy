@@ -3,7 +3,7 @@ from f_utils import u_random
 from f_utils import u_pickle
 from f_utils import u_dict
 from proj.ai.model.point import Point
-from proj.ai.model.grid_blocks_rooms import GridBlocksRooms
+from proj.ai.model.grid_blocks_birooms import GridBlocksRooms
 from proj.ai.algo.kastar_projection import KAStarProjection
 from proj.ai.algo.astar_lookup import AStarLookup
 from proj.ai.logic.point_distance import LogicPointDistance as lpd

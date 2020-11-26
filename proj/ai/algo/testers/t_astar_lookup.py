@@ -1,7 +1,7 @@
 from f_utils import u_tester
 from proj.ai.model.point import Point
 from proj.ai.model.grid_blocks import GridBlocks
-from proj.ai.model.grid_blocks_rooms import GridBlocksRooms
+from proj.ai.model.grid_blocks_birooms import GridBlocksRooms
 from proj.ai.algo.astar import AStar
 from proj.ai.algo.astar_lookup import AStarLookup
 
