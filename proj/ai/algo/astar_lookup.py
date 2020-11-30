@@ -48,10 +48,14 @@ class AStarLookup(AStar):
         ========================================================================
         """
         self.best = self.opened.pop()
+        # print(self.start, self.goal, self.best)
         self.closed.add(self.best)
         self.__expand()
-        if self.best == self.goal or self.best in self.lookup:
+        if self.best == self.goal:
             self.is_found = True
+        if self.best in self.lookup:
+            self.is_found = True
+            self.closed.remove(self.best)
 
     def lookup_start(self):
         """

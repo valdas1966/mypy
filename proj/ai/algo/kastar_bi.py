@@ -1,3 +1,4 @@
+from collections import Counter
 from proj.ai.model.point import Point
 from proj.ai.model.grid import Grid
 from proj.ai.algo.astar_lookup import AStarLookup
@@ -27,7 +28,7 @@ class KAStarBi:
         assert type(goals) in {tuple, list, set}
         assert type(type_forward_goal) == str
         assert type(type_next_goal) == str
-        self.closed = set()
+        self.closed = Counter(list())
         self.grid = grid
         self.start = start
         self.goals = goals
@@ -37,17 +38,18 @@ class KAStarBi:
             self.goals = list(logic.points_nearest(start, goals).keys())
             self.goal_forward = self.goals[0]
             self.goals = set(self.goals) - {self.goal_forward}
+        self.__run()
 
-    def run(self):
+    def __run(self):
         """
         ========================================================================
          Description: Run the Algorithm.
         ========================================================================
         """
-        astar = AStarLookup(self.grid, self.start, self.goal_first)
+        astar = AStarLookup(self.grid, self.start, self.goal_forward)
         astar.run()
         lookup = astar.lookup_start()
         kastar = KAStarBackward(self.grid, self.start, self.goals, lookup,
                                 self.type_next_goal)
-        kastar.run()
-        self.closed = astar.closed.union(kastar.closed)
+        self.closed = kastar.closed
+        self.closed.update(astar.closed)
