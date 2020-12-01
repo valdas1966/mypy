@@ -74,7 +74,7 @@ def create_backward():
         epochs = list()
         for j, sg in enumerate(start_goals[i]):
             start, goals = sg
-            goals = goals[:3]
+            goals = goals
             kastar = KAStarBackward(grid, start, goals)
             epochs.append(kastar)
             elapsed = timer.elapsed()
