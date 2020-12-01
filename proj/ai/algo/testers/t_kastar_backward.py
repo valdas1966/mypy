@@ -19,17 +19,15 @@ class TestKAStarBackward:
         grid.set_block(1, 2)
         grid.set_block(1, 3)
         grid.set_block(2, 2)
-        grid.set_block(3, 1)
-        start = Point(3, 2)
-        goal_1 = Point(2, 1)
-        goal_2 = Point(0, 0)
-        kastar = KAStarBackward(grid, start, [goal_1, goal_2])
+        grid.set_block(3, 2)
+        start = Point(2, 3)
+        goals = [Point(0, 3), Point(0, 1), Point(0, 0)]
+        kastar = KAStarBackward(grid, start, goals)
         closed_test = kastar.closed
-        closed_true = {Point(0, 0): 1, Point(0, 1): 1, Point(0, 2): 1,
-                       Point(0, 3): 1, Point(1, 0): 1, Point(1, 1): 2,
-                       Point(2, 0): 1, Point(2, 1): 1, Point(3, 0): 1,
-                       Point(3, 2): 1, Point(4, 0): 1, Point(4, 1): 1,
-                       Point(4, 2): 1}
+        closed_true = {Point(0, 0): 1, Point(0, 1): 1, Point(0, 2): 2,
+                       Point(0, 3): 1, Point(0, 4): 1, Point(1, 0): 1,
+                       Point(1, 1): 2, Point(1, 4): 1, Point(2, 0): 1,
+                       Point(2, 1): 2, Point(2, 3): 1, Point(2, 4): 1}
         p0 = closed_test == closed_true
         u_tester.run(p0)
 

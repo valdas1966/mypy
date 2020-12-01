@@ -19,6 +19,8 @@ class GridBlocks(Grid):
             3. percent_blocks : int [0:100]
         ========================================================================
         """
+        assert type(rows) == int
+        assert type(percent_blocks) == int
         super().__init__(rows, cols)
         self.percent_blocks = percent_blocks
         self.__set_random_blocks()

@@ -74,10 +74,9 @@ class LogicGridBlocksGHF:
          Return: Dict {Point -> int (G-Value, True distance from the Start)}.
         ========================================================================
         """
-        assert issubclass(type(grid), GridBlocks), f'type(grid)={type(grid)}'
-        assert type(start) == Point, f'type(goal)={type(start)}'
-        assert grid.is_valid_point(start), f'is_valid_point(start)=' \
-                                           f'{grid.is_valid_point(start)}'
+        assert issubclass(type(grid), GridBlocks)
+        assert type(start) == Point
+        assert grid.is_valid_point(start)
         opened = collections.deque([(start, 0)])
         closed = dict()
         while opened:
@@ -129,7 +128,7 @@ class LogicGridBlocksGHF:
             2. point_a : Point
             3. point_b : Set of Points
         ========================================================================
-         Return: int
+         Return: dict {Point: int}
         ========================================================================
         """
         assert issubclass(type(grid), GridBlocks)

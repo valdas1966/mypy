@@ -30,6 +30,7 @@ class Node(Point):
         self.g = 0
         self.h = float('Infinity')
         self.f = float('Infinity')
+        self.is_lookup = False
 
     def update(self, father_cand=None, goal=None):
         """
@@ -104,6 +105,10 @@ class Node(Point):
         if self.f < other.f:
             return True
         if self.f == other.f:
+            if self.is_lookup and not other.is_lookup:
+                return True
+            if other.is_lookup and not self.is_lookup:
+                return False
             if self.g > other.g:
                 return True
             elif self.g == other.g:

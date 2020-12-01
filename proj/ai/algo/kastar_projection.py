@@ -28,8 +28,9 @@ class KAStarProjection:
         self.goals = LogicPointDistance.points_nearest(start, goals)
         self.opened = Opened()
         self.closed = set()
+        self.__run()
 
-    def run(self):
+    def __run(self):
         """
         ========================================================================
          Description: Run KA* Algo in Projective Mode (one Goal each run).

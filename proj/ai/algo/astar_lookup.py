@@ -80,13 +80,15 @@ class AStarLookup(AStar):
          Return: Dict {Point -> int (True-Distance to the Goal}
         ========================================================================
         """
-        optimal_nodes = list()
+        lookup = dict()
         node = self.best
         while node != self.start:
-            optimal_nodes.append(node)
+            distance_goal = self.best.g + self.best.h - node.g
+            if not node.is_lookup:
+                lookup[node] = distance_goal
             node = node.father
-        optimal_nodes.append(self.start)
-        return lgb.true_distance(self.grid, self.goal, optimal_nodes)
+        lookup[self.start] = self.best.g + self.best.h
+        return lookup
 
     def __expand(self):
         """
@@ -108,3 +110,4 @@ class AStarLookup(AStar):
             # If Child in Lookup -> Set it's H-Value to be the True-Distance
             if child in self.lookup:
                 child.set_h(self.lookup[child])
+                child.is_lookup = True
