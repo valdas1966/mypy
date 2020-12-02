@@ -1,7 +1,6 @@
 from f_utils import u_tester
 from proj.ai.model.point import Point
 from proj.ai.model.grid_blocks import GridBlocks
-from proj.ai.algo.astar import AStar
 from proj.ai.algo.kastar_backward import KAStarBackward
 
 

@@ -22,12 +22,11 @@ class TestKAStarBi:
         goals = {Point(4, 2), Point(3, 1), Point(3, 0)}
         kastar = KAStarBi(grid, start, goals)
         closed_test = kastar.closed
-        closed_true = {Point(1, 0): 1, Point(1, 1): 1, Point(1, 2): 1,
-                       Point(1, 3): 1, Point(1, 4): 1, Point(2, 0): 1,
-                       Point(2, 1): 1, Point(2, 2): 1, Point(2, 4): 1,
-                       Point(3, 0): 2, Point(3, 1): 1, Point(3, 2): 1,
-                       Point(3, 4): 1, Point(4, 0): 2, Point(4, 1): 2,
-                       Point(4, 2): 1, Point(4, 4): 1}
+        closed_true = {Point(1, 2): 1, Point(1, 3): 1, Point(1, 4): 1,
+                       Point(2, 0): 1, Point(2, 1): 1, Point(2, 2): 1,
+                       Point(2, 4): 1, Point(3, 0): 2, Point(3, 1): 1,
+                       Point(3, 2): 1, Point(3, 4): 1, Point(4, 0): 2,
+                       Point(4, 1): 2, Point(4, 2): 1, Point(4, 4): 1}
         p0 = closed_test == closed_true
         u_tester.run(p0)
 

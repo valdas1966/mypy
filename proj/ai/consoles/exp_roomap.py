@@ -12,6 +12,7 @@ pickle_grids = dir_results + 'grids.pickle'
 pickle_start_goals = dir_results + 'start_goals.pickle'
 pickle_forward = dir_results + 'forward.pickle'
 pickle_backward = dir_results + 'backward.pickle'
+pickle_bi = dir_results + 'bi.pickle'
 
 
 def get_size_room(path):
@@ -74,7 +75,6 @@ def create_backward():
         epochs = list()
         for j, sg in enumerate(start_goals[i]):
             start, goals = sg
-            goals = goals
             kastar = KAStarBackward(grid, start, goals)
             epochs.append(kastar)
             elapsed = timer.elapsed()
@@ -83,7 +83,44 @@ def create_backward():
     u_pickle.dump(li_backward, pickle_backward)
 
 
+def create_bi():
+    timer = Timer()
+    li_bi = list()
+    grids = u_pickle.load(pickle_grids)
+    start_goals = u_pickle.load(pickle_start_goals)
+    for i, grid in enumerate(grids):
+        epochs = list()
+        for j, sg in enumerate(start_goals[i]):
+            start, goals = sg
+            kastar = KAStarBi(grid, start, goals)
+            epochs.append(kastar)
+            elapsed = timer.elapsed()
+            print(i, j, elapsed)
+        li_bi.append(epochs)
+    u_pickle.dump(li_bi, pickle_bi)
+
+
+def create_report():
+    li_forward = u_pickle.load(pickle_forward)
+    li_backward = u_pickle.load(pickle_backward)
+    li_bi = u_pickle.load(pickle_bi)
+    csv_report = dir_results + 'report.csv'
+    file = open(csv_report, 'w')
+    file.write('map,experiment,forward,backward,bidirectional,oracle\n')
+    for i in range(40):
+        for j in range(10):
+            forward = len(li_forward[i][j].closed)
+            backward = len(li_backward[i][j].closed)
+            bi = len(li_bi[i][j].closed)
+            oracle = min(forward, backward, bi)
+            file.write(f'{i},{j},{forward},{backward},{bi},{oracle}\n')
+    file.close()
+
+
 # create_grids()
 # create_start_goals()
 # create_forward()
-create_backward()
+# create_backward()
+# create_bi()
+# create_report()
+
