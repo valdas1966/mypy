@@ -44,8 +44,28 @@ class KAStarBackward:
         """
         li_closed = list()
         for goal in self.goals:
-            astar = AStarLookup(self.grid, goal, self.start, self.lookup)
+            astar = AStarLookup(grid=self.grid, start=goal, goal=self.start,
+                                lookup=self.lookup)
             astar.run()
             li_closed = li_closed + list(astar.closed)
             self.lookup.update(astar.lookup_goal())
         self.closed = Counter(li_closed)
+
+
+"""
+from f_utils import u_pickle
+
+dir_results = 'D:\\Exp_RooMap\\'
+pickle_grids = dir_results + 'grids.pickle'
+pickle_start_goals = dir_results + 'start_goals.pickle'
+
+grids = u_pickle.load(pickle_grids)
+grid = grids[0]
+
+sg = u_pickle.load(pickle_start_goals)
+start, goals = sg[0][4]
+
+kastar = KAStarBackward(grid, start, goals)
+print(kastar.start, kastar.goals)
+print(sum(kastar.closed.values()))
+"""

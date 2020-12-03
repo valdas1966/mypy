@@ -7,7 +7,7 @@ from proj.ai.algo.kastar_projection import KAStarProjection
 from proj.ai.algo.kastar_backward import KAStarBackward
 from proj.ai.algo.kastar_bi import KAStarBi
 
-dir_results = 'D:\\Exp_RooMap\\'
+dir_results = 'D:\\Exp_RooMap\\2\\'
 pickle_grids = dir_results + 'grids.pickle'
 pickle_start_goals = dir_results + 'start_goals.pickle'
 pickle_forward = dir_results + 'forward.pickle'
@@ -60,7 +60,7 @@ def create_forward():
         for j, sg in enumerate(start_goals[i]):
             print(i, j)
             start, goals = sg
-            kastar = KAStarProjection(grid, start, goals)
+            kastar = KAStarProjection(grid, start, goals[:2])
             epochs.append(kastar)
         li_forward.append(epochs)
     u_pickle.dump(li_forward, pickle_forward)
@@ -75,7 +75,7 @@ def create_backward():
         epochs = list()
         for j, sg in enumerate(start_goals[i]):
             start, goals = sg
-            kastar = KAStarBackward(grid, start, goals)
+            kastar = KAStarBackward(grid, start, goals[:2], lookup=dict())
             epochs.append(kastar)
             elapsed = timer.elapsed()
             print(i, j, elapsed)
@@ -92,7 +92,7 @@ def create_bi():
         epochs = list()
         for j, sg in enumerate(start_goals[i]):
             start, goals = sg
-            kastar = KAStarBi(grid, start, goals)
+            kastar = KAStarBi(grid, start, goals[:2])
             epochs.append(kastar)
             elapsed = timer.elapsed()
             print(i, j, elapsed)
@@ -110,8 +110,8 @@ def create_report():
     for i in range(40):
         for j in range(10):
             forward = len(li_forward[i][j].closed)
-            backward = len(li_backward[i][j].closed)
-            bi = len(li_bi[i][j].closed)
+            backward = sum(li_backward[i][j].closed.values())
+            bi = sum(li_bi[i][j].closed.values())
             oracle = min(forward, backward, bi)
             file.write(f'{i},{j},{forward},{backward},{bi},{oracle}\n')
     file.close()
@@ -119,8 +119,7 @@ def create_report():
 
 # create_grids()
 # create_start_goals()
-# create_forward()
-# create_backward()
-# create_bi()
-# create_report()
-
+create_forward()
+create_backward()
+create_bi()
+create_report()
