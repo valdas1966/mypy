@@ -1,7 +1,6 @@
 from proj.ai.model.point import Point
 from proj.ai.model.point_node import Node
 from proj.ai.algo.astar import AStar
-from proj.ai.logic.grid_blocks_ghf import LogicGridBlocksGHF as lgb
 
 
 class AStarLookup(AStar):
@@ -56,6 +55,18 @@ class AStarLookup(AStar):
         if self.best in self.lookup:
             self.is_found = True
             self.closed.remove(self.best)
+
+    def f_value(self):
+        """
+        ========================================================================
+         Description: Return the F-Value of the Goal.
+        ========================================================================
+         Return: int
+        ========================================================================
+        """
+        if not self.is_found:
+            return float('Infinity')
+        return self.best.g + int(self.lookup.get(self.best))
 
     def lookup_start(self):
         """

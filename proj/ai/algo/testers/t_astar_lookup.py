@@ -10,6 +10,7 @@ class TestAstarLookup:
     def __init__(self):
         u_tester.print_start(__file__)
         TestAstarLookup.__tester_run()
+        TestAstarLookup.__tester_f_value()
         TestAstarLookup.__tester_lookup_start()
         TestAstarLookup.__tester_lookup_goal()
         u_tester.print_finish(__file__)
@@ -32,6 +33,22 @@ class TestAstarLookup:
             p0 = astar.closed == astar_lookup.closed
             p1 = astar.optimal_path() == astar_lookup.optimal_path()
         u_tester.run(p0, p1)
+
+    @staticmethod
+    def __tester_f_value():
+        grid = GridBlocks(rows=4)
+        grid.set_block(1, 2)
+        grid.set_block(1, 3)
+        start = Point(3, 3)
+        goal_1 = Point(0, 3)
+        goal_2 = Point(0, 0)
+        astar_forward = AStarLookup(grid, start, goal_1)
+        astar_forward.run()
+        lookup = astar_forward.lookup_start()
+        astar_backward = AStarLookup(grid, goal_2, start, lookup)
+        astar_backward.run()
+        p0 = astar_backward.f_value() == 6
+        u_tester.run(p0)
 
     @staticmethod
     def __tester_lookup_start():

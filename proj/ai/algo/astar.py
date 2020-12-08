@@ -79,6 +79,18 @@ class AStar:
         path.reverse()
         return path
 
+    def f_value(self):
+        """
+        ========================================================================
+         Description: Return the F-Value of the Goal.
+        ========================================================================
+         Return: int
+        ========================================================================
+        """
+        if not self.is_found:
+            return float('Infinity')
+        return self.best.f
+
     def expanded_nodes(self):
         """
         ========================================================================
