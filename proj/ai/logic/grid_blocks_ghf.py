@@ -33,7 +33,10 @@ class LogicGridBlocksGHF:
             children = set(grid.neighbors(point)) - closed.keys()
             for child in children:
                 opened.append((child, g + 1))
-        return closed
+        grid_g = GridBlocks(rows=grid.rows)
+        grid_g.ndarray = grid.ndarray
+
+
         
     @staticmethod
     def to_dict_h(grid, goal):
