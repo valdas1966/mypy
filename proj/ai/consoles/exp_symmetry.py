@@ -43,13 +43,13 @@ def run_rooms():
         forward = astar_forward.expanded_nodes()
         astar_backward = AStar(grid, goal, start)
         astar_backward.run()
-        backward = astar_backward.run()
+        backward = astar_backward.expanded_nodes()
         results.append((forward, backward))
         print(i)
     file = open(csv_roomap, 'w')
     file.write('forward,backward\n')
     for forward, backward in results:
-        file.write(f'{forward},{backward}')
+        file.write(f'{forward},{backward}\n')
     file.close()
 
 

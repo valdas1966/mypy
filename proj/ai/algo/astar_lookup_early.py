@@ -1,9 +1,9 @@
 from proj.ai.model.point import Point
 from proj.ai.model.point_node import Node
-from proj.ai.algo.astar import AStar
+from proj.ai.algo.astar_lookup import AStarLookup
 
 
-class AStarLookup(AStar):
+class AStarLookupEarly(AStarLookup):
     """
     ============================================================================
      Description: A* Algorithm with Lookup Nodes (Perfect Heuristic to Goal).
@@ -24,8 +24,7 @@ class AStarLookup(AStar):
         ========================================================================
         """
         assert type(lookup) == dict
-        super().__init__(grid, start, goal)
-        self.lookup = lookup
+        super().__init__(grid, start, goal, lookup)
 
     def run(self):
         """
@@ -56,52 +55,6 @@ class AStarLookup(AStar):
             self.closed.remove(self.best)
         self.__expand()
 
-    def f_value(self):
-        """
-        ========================================================================
-         Description: Return the F-Value of the Goal.
-        ========================================================================
-         Return: int
-        ========================================================================
-        """
-        if not self.is_found:
-            return float('Infinity')
-        dist_true = self.lookup[self.best] if self.best in self.lookup else 0
-        return self.best.g + dist_true
-
-    def lookup_start(self):
-        """
-        ========================================================================
-         Description: Return Lookup (Dict) of True-Distance to the Start
-                        from the Nodes in the Closed-Set (by their G-Value).
-        ========================================================================
-         Return: Dict {Point -> int (True-Distance to the Start}
-        ========================================================================
-        """
-        lookup = dict()
-        for node in self.closed:
-            lookup[Point(node.x, node.y)] = node.g
-        return lookup
-
-    def lookup_goal(self):
-        """
-        ========================================================================
-         Description: Return Lookup (Dict) of True-Distance to the Goal from
-                        the Nodes in the Optimal Path.
-        ========================================================================
-         Return: Dict {Point -> int (True-Distance to the Goal}
-        ========================================================================
-        """
-        lookup = dict()
-        node = self.best
-        while node != self.start:
-            distance_goal = self.best.g + self.best.h - node.g
-            if not node.is_lookup:
-                lookup[node] = distance_goal
-            node = node.father
-        lookup[self.start] = self.best.g + self.best.h
-        return lookup
-
     def __expand(self):
         """
         =======================================================================
@@ -123,3 +76,6 @@ class AStarLookup(AStar):
             if child in self.lookup:
                 child.set_h(self.lookup[child])
                 child.is_lookup = True
+                self.best = child
+                self.is_found = True
+                break
