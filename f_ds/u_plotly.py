@@ -54,3 +54,21 @@ def pie(df, col_name, col_val, title):
     """
     fig = px.sunburst(df, path=[col_name], values=col_val, title=title)
     fig.show()
+
+
+def line(df, col_x, col_y, col_color, title):
+    """
+    ============================================================================
+     Description: Plot Interactive Line Chart.
+    ============================================================================
+    Arguments:
+    ----------------------------------------------------------------------------
+        1. df : DataFrame.
+        2. col_x : str (Column Name of X-Axis).
+        3. col_y : str (Column Name for Y-Axis).
+        4. col_color : str (Column Name to decide the bubble color).
+        5. title : str (Title of the Bar).
+    ============================================================================
+    """
+    fig = px.line(df=df, x=col_x, y=col_y, color=col_color, title=title)
+    fig.show()

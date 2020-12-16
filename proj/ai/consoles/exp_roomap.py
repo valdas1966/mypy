@@ -7,7 +7,7 @@ from proj.ai.algo.kastar_backward import KAStarBackward
 from proj.ai.algo.kastar_bi import KAStarBi
 
 
-dir_results = 'D:\\Exp_RooMap\\5\\'
+dir_results = 'D:\\Exp_RooMap\\10\\'
 pickle_grids = dir_results + 'grids.pickle'
 pickle_start_goals = dir_results + 'start_goals.pickle'
 pickle_forward = dir_results + 'forward.pickle'
@@ -131,7 +131,7 @@ def create_report():
     file.close()
 
 
-k = 5
+k = 10
 # create_grids()
 # create_start_goals()
 create_forward(k)

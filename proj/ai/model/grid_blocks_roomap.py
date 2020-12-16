@@ -65,6 +65,23 @@ class GridBlocksRooMap(GridBlocks):
         grid.ndarray = ndarray
         return grid
 
+    def get_point_room(self, point):
+        """
+        ========================================================================
+         Description: Return Point (Room-Representation) of given Point in Map.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. point : Point
+        ========================================================================
+         Return: Point (Room-Representation)
+        ========================================================================
+        """
+        assert type(point) == Point
+        x = point.x // self.size_room
+        y = point.y // self.size_room
+        return Point(x, y)
+
     def random_rooms(self, amount):
         """
         ========================================================================
