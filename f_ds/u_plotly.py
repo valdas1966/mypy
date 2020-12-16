@@ -72,6 +72,3 @@ def line(df, col_x, col_y, col_color, title):
     """
     fig = px.line(df, x=col_x, y=col_y, color=col_color, title=title)
     fig.show()
-
-
-
