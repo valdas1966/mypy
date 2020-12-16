@@ -7,7 +7,7 @@ from proj.ai.algo.kastar_backward import KAStarBackward
 from proj.ai.algo.kastar_bi import KAStarBi
 
 
-dir_results = 'D:\\Exp_RooMap\\3\\'
+dir_results = 'D:\\Exp_RooMap\\5\\'
 pickle_grids = dir_results + 'grids.pickle'
 pickle_start_goals = dir_results + 'start_goals.pickle'
 pickle_forward = dir_results + 'forward.pickle'
@@ -54,7 +54,7 @@ def create_start_goals():
     u_pickle.dump(start_goals, pickle_start_goals)
 
 
-def create_forward():
+def create_forward(k):
     li_forward = list()
     grids = u_pickle.load(pickle_grids)
     start_goals = u_pickle.load(pickle_start_goals)
@@ -66,7 +66,7 @@ def create_forward():
             print(i, j)
             start, goals = sg
             timer = Timer()
-            kastar = KAStarProjection(grid, start, goals[:3])
+            kastar = KAStarProjection(grid, start, goals[:k])
             file.write(f'{i},{j},{timer.elapsed()}\n')
             epochs.append(kastar)
         li_forward.append(epochs)
@@ -74,7 +74,7 @@ def create_forward():
     u_pickle.dump(li_forward, pickle_forward)
 
 
-def create_backward():
+def create_backward(k):
     li_backward = list()
     grids = u_pickle.load(pickle_grids)
     start_goals = u_pickle.load(pickle_start_goals)
@@ -85,7 +85,7 @@ def create_backward():
         for j, sg in enumerate(start_goals[i]):
             start, goals = sg
             timer = Timer()
-            kastar = KAStarBackward(grid, start, goals[:3], lookup=dict())
+            kastar = KAStarBackward(grid, start, goals[:k], lookup=dict())
             file.write(f'{i},{j},{timer.elapsed()}\n')
             epochs.append(kastar)
             print(i, j)
@@ -94,7 +94,7 @@ def create_backward():
     u_pickle.dump(li_backward, pickle_backward)
 
 
-def create_bi():
+def create_bi(k):
     li_bi = list()
     grids = u_pickle.load(pickle_grids)
     start_goals = u_pickle.load(pickle_start_goals)
@@ -105,7 +105,7 @@ def create_bi():
         for j, sg in enumerate(start_goals[i]):
             start, goals = sg
             timer = Timer()
-            kastar = KAStarBi(grid, start, goals[:3])
+            kastar = KAStarBi(grid, start, goals[:k])
             file.write(f'{i},{j},{timer.elapsed()}\n')
             epochs.append(kastar)
             print(i, j)
@@ -131,10 +131,10 @@ def create_report():
     file.close()
 
 
-k = 3
+k = 5
 # create_grids()
 # create_start_goals()
-create_forward()
-create_backward()
-create_bi()
+create_forward(k)
+create_backward(k)
+create_bi(k)
 # create_report()
