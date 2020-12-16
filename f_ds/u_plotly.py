@@ -70,5 +70,5 @@ def line(df, col_x, col_y, col_color, title):
         5. title : str (Title of the Bar).
     ============================================================================
     """
-    fig = px.line(df=df, x=col_x, y=col_y, color=col_color, title=title)
+    fig = px.line(df, x=col_x, y=col_y, color=col_color, title=title)
     fig.show()
