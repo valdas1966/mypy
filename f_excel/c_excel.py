@@ -12,7 +12,7 @@ class Excel:
     ============================================================================
     """
 
-    def __init__(self, filename, index_ws=0):
+    def __init__(self, xlsx, index_ws=0):
         """
         ========================================================================
          Description: Constructor. Open Excel Workbook and Worksheet.
@@ -23,10 +23,10 @@ class Excel:
             2. index_ws : int (Index of the Worksheet in Excel File).
         ========================================================================
         """
-        self.filename = filename
+        self.xlsx = xlsx
         self.wb = None
-        if u_file.is_exists(filename):
-            self.wb = xl.load_workbook(filename=filename)
+        if u_file.is_exists(xlsx):
+            self.wb = xl.load_workbook(filename=xlsx)
         else:
             self.wb = xl.Workbook()
         self.ws = self.wb.worksheets[index_ws]
@@ -62,7 +62,26 @@ class Excel:
          Return: obj
         ========================================================================
         """
-        return self.ws.cell(row, col).value
+        try:
+            return self.ws.cell(row, col).value
+        except Exception:
+            print(f'Error in try get_value(row={row}, col={col})')
+            return None
+
+    def is_blank(self, row, col):
+        """
+        ========================================================================
+         Description: Return True if the specified cell is blank.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. row : int
+            2. col : int
+        ========================================================================
+         Return: bool
+        ========================================================================
+        """
+        return self.get_value(row, col) is None
 
     def set_font(self, row, col, color='000000', is_bold=False):
         font = Font(color=color, bold=is_bold, vertAlign='baseline')
@@ -71,6 +90,17 @@ class Excel:
                                                      vertical='center')
 
     def set_background(self, row, column, color):
+        """
+        ========================================================================
+         Description: Set background color to specified cell.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. row : int
+            2. column : int
+            3. color : str
+        ========================================================================
+        """
         fill = Excel.color_excel(color)
         self.ws.cell(row=row, column=column).fill = fill
 
@@ -152,7 +182,7 @@ class Excel:
          Description: Save and Close the Workbook.
         ========================================================================
         """
-        self.wb.save(self.filename)
+        self.wb.save(self.xlsx)
         self.wb.close()
 
     @staticmethod
