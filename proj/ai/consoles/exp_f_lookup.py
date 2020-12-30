@@ -2,11 +2,16 @@ from proj.ai.model.point import Point
 from proj.ai.model.grid_blocks import GridBlocks
 from proj.ai.algo.astar_lookup_early import AStarLookupEarly
 from f_utils import u_pickle
+from f_excel.c_excel_map import ExcelMap
+from f_utils import u_file
+
 
 dir_storage = 'D:\\Exp\\'
 pickle_grids = dir_storage + 'grids.pickle'
 pickle_results = dir_storage + 'results_early.pickle'
 csv_report_early = dir_storage + 'report_early.csv'
+xls_template = dir_storage + 'template_draw.xlsx'
+xls_draw = dir_storage + 'draw.xlsx'
 
 
 def create_results():
@@ -44,7 +49,13 @@ def create_report():
 # create_results()
 # create_report()
 
+u_file.delete(xls_draw)
+u_file.copy(xls_template, xls_draw)
+
 results = u_pickle.load(pickle_results)
 astar_forward, astar_backward, astar_true = results[6]
 grid = astar_forward.grid
-
+xl_map = ExcelMap(xlsx=xls_draw)
+grid.draw_excel(xl_map, row_start=2, col_start=2, title='Map',
+                with_numbers=True)
+xl_map.close()

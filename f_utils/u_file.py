@@ -120,10 +120,10 @@ def get_files_names(path):
     return names
 
 
-def move_file(path_src, path_dest):
+def copy(path_src, path_dest):
     """
     ===========================================================================
-     Description: Move file from src to dest.
+     Description: Copy file from src to dest.
     ===========================================================================
      Arguments:
     ---------------------------------------------------------------------------
@@ -134,10 +134,10 @@ def move_file(path_src, path_dest):
     shutil.copyfile(path_src, path_dest)
     
     
-def move_files(path_src, path_dest):
+def copy_files(path_src, path_dest):
     """
     ===========================================================================
-     Description: Move all Files from Source Dir to Destination Dir.
+     Description: Copy all Files from Source Dir to Destination Dir.
     ===========================================================================
      Arguments:
     ---------------------------------------------------------------------------
@@ -149,7 +149,7 @@ def move_files(path_src, path_dest):
     for name in names:
         path_src = u_str.get_path(path_src,name)
         path_dest = u_str.get_path(path_dest,name)
-        move_file(path_src, path_dest)
+        copy(path_src, path_dest)
     
     
 def replace_in_file(path, tuples):
