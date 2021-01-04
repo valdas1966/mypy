@@ -1,4 +1,5 @@
 from collections import defaultdict
+import random
 from f_utils import u_file
 from f_utils import u_pickle
 from f_utils.c_timer import Timer
@@ -12,10 +13,11 @@ from proj.ai.logic.point_distance import LogicPointDistance as logic
 dir_results = 'D:\\Exp_RooMap_Equal\\'
 pickle_grids = dir_results + 'grids.pickle'
 pickle_start_goals = dir_results + 'start_goals.pickle'
+pickle_start_goals_potential = dir_results + 'start_goals_potential.pickle'
 pickle_forward = dir_results + 'forward.pickle'
 pickle_backward = dir_results + 'backward.pickle'
 pickle_bi = dir_results + 'bi.pickle'
-csv_times_forward = dir_results + 'times_forward.csv'
+csv_forward = dir_results + 'forward.csv'
 csv_times_backward = dir_results + 'times_backward.csv'
 csv_times_bi = dir_results + 'times_bi.csv'
 
@@ -37,16 +39,17 @@ def create_grids():
     u_pickle.dump(grids, pickle_grids)
 
 
-def create_start_goals():
+def create_start_goals_potential():
+    print('ok')
     start_goals = dict()
     grids = u_pickle.load(pickle_grids)
-    for key in grids.keys():
-        start_goals[key] = dict()
-        start_goals[key][2] = defaultdict(set)
-        start_goals[key][3] = defaultdict(set)
-        start_goals[key][5] = defaultdict(set)
-        start_goals[key][10] = defaultdict(set)
-        grid = grids[key][0]
+    for size in grids.keys():
+        start_goals[size] = dict()
+        start_goals[size][2] = defaultdict(set)
+        start_goals[size][3] = defaultdict(set)
+        start_goals[size][5] = defaultdict(set)
+        start_goals[size][10] = defaultdict(set)
+        grid = grids[size][0]
         for i in range(100000):
             point_room_start, point_room_goals = grid.random_rooms(2)
             room_start = grid.get_room(point_room_start)
@@ -57,36 +60,56 @@ def create_start_goals():
             goals = [grid.to_actual_point(goal, point_room_goals) for goal in
                      goals]
             distance_2 = logic.distances_to(start, goals[:2])
-            start_goals[key][2][distance_2].add((start, tuple(goals[:2])))
+            start_goals[size][2][distance_2].add((start, tuple(goals[:2])))
+            random.shuffle(goals)
             distance_3 = logic.distances_to(start, goals[:3])
-            start_goals[key][3][distance_3].add((start, tuple(goals[:3])))
+            start_goals[size][3][distance_3].add((start, tuple(goals[:3])))
+            random.shuffle(goals)
             distance_5 = logic.distances_to(start, goals[:5])
-            start_goals[key][5][distance_5].add((start, tuple(goals[:5])))
+            start_goals[size][5][distance_5].add((start, tuple(goals[:5])))
+            random.shuffle(goals)
             distance_10 = logic.distances_to(start, goals[:10])
-            start_goals[key][10][distance_10].add((start, tuple(goals[:10])))
+            start_goals[size][10][distance_10].add((start, tuple(goals[:10])))
             if not i % 1000:
-                print(key, f'{i:,}')
-    u_pickle.dump(start_goals, pickle_start_goals)
+                print(size, f'{i:,}')
+    u_pickle.dump(start_goals, pickle_start_goals_potential)
 
 
-def create_forward(k):
-    li_forward = list()
+def create_start_goals():
+    potential = u_pickle.load(pickle_start_goals_potential)
+    sg = dict()
+    for size, d_k in potential.items():
+        sg[size] = dict()
+        for k, d_distance in d_k.items():
+            sg[size][k] = dict()
+            d = defaultdict(list)
+            for distance, li in d_distance.items():
+                d[((distance // 100) * 100)+100].extend(li)
+            for distance, li in d.items():
+                random.shuffle(li)
+                sg[size][k][distance] = li[:10]
+    u_pickle.dump(sg, pickle_start_goals)
+
+
+def create_forward():
     grids = u_pickle.load(pickle_grids)
     start_goals = u_pickle.load(pickle_start_goals)
-    file = open(csv_times_forward, 'w')
-    file.write(f'map,experiment,seconds\n')
-    for i, grid in enumerate(grids):
-        epochs = list()
-        for j, sg in enumerate(start_goals[i]):
-            print(i, j)
-            start, goals = sg
-            timer = Timer()
-            kastar = KAStarProjection(grid, start, goals[:k])
-            file.write(f'{i},{j},{timer.elapsed()}\n')
-            epochs.append(kastar)
-        li_forward.append(epochs)
+    file = open(csv_forward, 'w')
+    file.write(f'size,map,k,distance,sg,seconds,nodes\n')
     file.close()
-    u_pickle.dump(li_forward, pickle_forward)
+    for size, li_grids in grids.items():
+        for i, grid in enumerate(li_grids):
+            for k, d_k in start_goals[size].items():
+                for distance, li_sg in d_k.items():
+                    for j, sg in enumerate(li_sg):
+                        start, goals = sg
+                        timer = Timer()
+                        kastar = KAStarProjection(grid, start, goals[:k])
+                        file = open(csv_forward, 'a')
+                        file.write(f'{size},{i},{k},{distance},{j},'
+                                   f'{timer.elapsed()},{len(kastar.closed)}\n')
+                        file.close()
+                        print(size, i, k, distance, j)
 
 
 def create_backward(k):
@@ -146,10 +169,11 @@ def create_report():
     file.close()
 
 
-k = 10
+#k = 10
 # create_grids()
-create_start_goals()
-# create_forward(k)
+# create_start_goals_potential()
+# create_start_goals()
+create_forward()
 # create_backward(k)
 # create_bi(k)
 # create_report()
