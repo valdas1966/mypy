@@ -176,6 +176,34 @@ class Excel:
     def set_column_width(self, col):
         self.ws.column_dimensions[col] = 4
 
+    def to_linked_list(self, fr=1, fc=1):
+        """
+        ========================================================================
+         Description: Create Linked List from Excel-Cells.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. fr : int (First Relevant Row in Excel).
+            2. fc : int (First Relevant Col in Excel).
+        ========================================================================
+         Return: List (Row) of lists (Cols) of Str (Value).
+        ========================================================================
+        """
+        li_rows = list()
+        row = fr
+        # Go Through Rows
+        while not self.is_blank(row, fc):
+            li_cols = list()
+            col = fc
+            # Go Through Columns
+            while not self.is_blank(row, col):
+                value = self.get_value(row, col)
+                li_cols.append(value)
+                col += 1
+            li_rows.append(li_cols)
+            row += 1
+        return li_rows
+
     def close(self):
         """
         ========================================================================
