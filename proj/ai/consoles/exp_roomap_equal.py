@@ -39,39 +39,68 @@ def create_grids():
     u_pickle.dump(grids, pickle_grids)
 
 
+def create_valid_points_per_room():
+    grids = u_pickle.load(pickle_grids)
+    for size in grids.keys():
+        grid_zero = grids[size][0]
+        rooms = grid_zero.rooms
+        for grid in grids[size]:
+            if not grid.rooms == rooms:
+                print(rooms)
+                break
+    """
+    points_intersect = set()
+    for grid in grids:
+        room = grid.get_room(point_room)
+        points = set(room.points())
+        if not points_intersect:
+            points_intersect = points
+        else:
+            points_intersect = points_intersect.intersection(points)
+    points_intersect = list(points_intersect)
+    random.shuffle(points_intersect)
+    return points_intersect[amount]
+    """
+
+
 def create_start_goals_potential():
-    print('ok')
     start_goals = dict()
     grids = u_pickle.load(pickle_grids)
     for size in grids.keys():
         start_goals[size] = dict()
-        start_goals[size][2] = defaultdict(set)
-        start_goals[size][3] = defaultdict(set)
-        start_goals[size][5] = defaultdict(set)
-        start_goals[size][10] = defaultdict(set)
-        grid = grids[size][0]
-        for i in range(100000):
-            point_room_start, point_room_goals = grid.random_rooms(2)
-            room_start = grid.get_room(point_room_start)
-            start = room_start.points_random(amount=1)[0]
-            start = grid.to_actual_point(start, point_room_start)
-            room_goals = grid.get_room(point_room_goals)
-            goals = room_goals.points_random(amount=10)
-            goals = [grid.to_actual_point(goal, point_room_goals) for goal in
-                     goals]
-            distance_2 = logic.distances_to(start, goals[:2])
-            start_goals[size][2][distance_2].add((start, tuple(goals[:2])))
-            random.shuffle(goals)
-            distance_3 = logic.distances_to(start, goals[:3])
-            start_goals[size][3][distance_3].add((start, tuple(goals[:3])))
-            random.shuffle(goals)
-            distance_5 = logic.distances_to(start, goals[:5])
-            start_goals[size][5][distance_5].add((start, tuple(goals[:5])))
-            random.shuffle(goals)
-            distance_10 = logic.distances_to(start, goals[:10])
-            start_goals[size][10][distance_10].add((start, tuple(goals[:10])))
-            if not i % 1000:
-                print(size, f'{i:,}')
+        for map, grid in enumerate(grids[size]):
+            start_goals[size][map] = dict()
+            start_goals[size][map][2] = defaultdict(set)
+            start_goals[size][map][3] = defaultdict(set)
+            start_goals[size][map][5] = defaultdict(set)
+            start_goals[size][map][10] = defaultdict(set)
+            for i in range(100000):
+                point_room_start, point_room_goals = grid.random_rooms(2)
+                room_start = grid.get_room(point_room_start)
+                start = room_start.points_random(amount=1)[0]
+                start = grid.to_actual_point(point=start,
+                                             point_room=point_room_start)
+                room_goals = grid.get_room(point_room_goals)
+                goals = room_goals.points_random(amount=10)
+                goals = [grid.to_actual_point(goal, point_room_goals) for goal
+                         in goals]
+                distance_2 = logic.distances_to(start, goals[:2])
+                start_goals[size][map][2][distance_2].add((start,
+                                                           tuple(goals[:2])))
+                random.shuffle(goals)
+                distance_3 = logic.distances_to(start, goals[:3])
+                start_goals[size][map][3][distance_3].add((start,
+                                                           tuple(goals[:3])))
+                random.shuffle(goals)
+                distance_5 = logic.distances_to(start, goals[:5])
+                start_goals[size][map][5][distance_5].add((start,
+                                                           tuple(goals[:5])))
+                random.shuffle(goals)
+                distance_10 = logic.distances_to(start, goals[:10])
+                start_goals[size][map][10][distance_10].add((start,
+                                                             tuple(goals[:10])))
+                if not i % 1000:
+                    print(size, f'{i:,}')
     u_pickle.dump(start_goals, pickle_start_goals_potential)
 
 
@@ -171,9 +200,10 @@ def create_report():
 
 #k = 10
 # create_grids()
-# create_start_goals_potential()
+# create_valid_points_per_room()
+create_start_goals_potential()
 # create_start_goals()
-create_forward()
+# create_forward()
 # create_backward(k)
 # create_bi(k)
 # create_report()

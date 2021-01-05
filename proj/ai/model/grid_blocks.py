@@ -58,6 +58,12 @@ class GridBlocks(Grid):
         """
         return self.is_value(value=self.BLOCK, point=point, x=x, y=y)
 
+    def is_valid_points(self, points, only_shape=False):
+        for point in points:
+            if not self.is_valid_point(point, only_shape):
+                return False
+        return True
+
     def is_valid_point(self, point, only_shape=False):
         """
         ========================================================================
