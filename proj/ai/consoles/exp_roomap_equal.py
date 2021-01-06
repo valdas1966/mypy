@@ -39,30 +39,6 @@ def create_grids():
     u_pickle.dump(grids, pickle_grids)
 
 
-def create_valid_points_per_room():
-    grids = u_pickle.load(pickle_grids)
-    for size in grids.keys():
-        grid_zero = grids[size][0]
-        rooms = grid_zero.rooms
-        for grid in grids[size]:
-            if not grid.rooms == rooms:
-                print(rooms)
-                break
-    """
-    points_intersect = set()
-    for grid in grids:
-        room = grid.get_room(point_room)
-        points = set(room.points())
-        if not points_intersect:
-            points_intersect = points
-        else:
-            points_intersect = points_intersect.intersection(points)
-    points_intersect = list(points_intersect)
-    random.shuffle(points_intersect)
-    return points_intersect[amount]
-    """
-
-
 def create_start_goals_potential():
     start_goals = dict()
     grids = u_pickle.load(pickle_grids)
@@ -107,38 +83,53 @@ def create_start_goals_potential():
 def create_start_goals():
     potential = u_pickle.load(pickle_start_goals_potential)
     sg = dict()
-    for size, d_k in potential.items():
+    for size, d_size in potential.items():
         sg[size] = dict()
-        for k, d_distance in d_k.items():
-            sg[size][k] = dict()
-            d = defaultdict(list)
-            for distance, li in d_distance.items():
-                d[((distance // 100) * 100)+100].extend(li)
-            for distance, li in d.items():
-                random.shuffle(li)
-                sg[size][k][distance] = li[:10]
-    u_pickle.dump(sg, pickle_start_goals)
+        for map, d_map in d_size.items():
+            sg[size][map] = dict()
+            for k, d_k in d_map.items():
+                sg[size][map][k] = defaultdict(list)
+                for distance, set_sg in d_k.items():
+                    sg[size][map][k][((distance // 100) * 100)+100].extend(
+                        list(set_sg))
+    sg_final = dict()
+    for size, d_size in potential.items():
+        sg_final[size] = dict()
+        for map, d_map in d_size.items():
+            sg_final[size][map] = dict()
+            for k, d_k in d_map.items():
+                if k not in {2, 10}:
+                    continue
+                print(k)
+                sg_final[size][map][k] = defaultdict(list)
+                for distance, set_sg in d_k.items():
+                    li_sg = sg[size][map][k][distance]
+                    random.shuffle(li_sg)
+                    sg[size][map][k][distance] = li_sg[:5]
+    u_pickle.dump(sg_final, pickle_start_goals)
 
 
 def create_forward():
     grids = u_pickle.load(pickle_grids)
     start_goals = u_pickle.load(pickle_start_goals)
     file = open(csv_forward, 'w')
-    file.write(f'size,map,k,distance,sg,seconds,nodes\n')
+    file.write(f'size,map,k,distance,i_sg,seconds,nodes\n')
     file.close()
-    for size, li_grids in grids.items():
-        for i, grid in enumerate(li_grids):
-            for k, d_k in start_goals[size].items():
+    for size, d_size in start_goals.items():
+        for map, d_map in d_size.items():
+            for k, d_k in d_map.items():
+                print(len(d_k))
                 for distance, li_sg in d_k.items():
-                    for j, sg in enumerate(li_sg):
+                    for i_sg, sg in enumerate(li_sg):
+                        grid = grids[size][map]
                         start, goals = sg
                         timer = Timer()
-                        kastar = KAStarProjection(grid, start, goals[:k])
+                        kastar = KAStarProjection(grid, start, goals)
                         file = open(csv_forward, 'a')
-                        file.write(f'{size},{i},{k},{distance},{j},'
+                        file.write(f'{size},{map},{k},{distance},{i_sg},'
                                    f'{timer.elapsed()},{len(kastar.closed)}\n')
                         file.close()
-                        print(size, i, k, distance, j)
+                        print(size, map, k, distance, i_sg)
 
 
 def create_backward(k):
@@ -201,8 +192,8 @@ def create_report():
 #k = 10
 # create_grids()
 # create_valid_points_per_room()
-create_start_goals_potential()
-# create_start_goals()
+# create_start_goals_potential()
+create_start_goals()
 # create_forward()
 # create_backward(k)
 # create_bi(k)
