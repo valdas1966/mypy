@@ -18,8 +18,8 @@ pickle_forward = dir_results + 'forward.pickle'
 pickle_backward = dir_results + 'backward.pickle'
 pickle_bi = dir_results + 'bi.pickle'
 csv_forward = dir_results + 'forward.csv'
-csv_times_backward = dir_results + 'times_backward.csv'
-csv_times_bi = dir_results + 'times_bi.csv'
+csv_backward = dir_results + 'backward.csv'
+csv_bi = dir_results + 'bi.csv'
 
 
 def get_size_room(path):
@@ -130,44 +130,51 @@ def create_forward():
                         print(size, map, k, distance, i_sg)
 
 
-def create_backward(k):
-    li_backward = list()
+def create_backward():
     grids = u_pickle.load(pickle_grids)
     start_goals = u_pickle.load(pickle_start_goals)
-    file = open(csv_times_backward, 'w')
-    file.write(f'map,experiment,seconds\n')
-    for i, grid in enumerate(grids):
-        epochs = list()
-        for j, sg in enumerate(start_goals[i]):
-            start, goals = sg
-            timer = Timer()
-            kastar = KAStarBackward(grid, start, goals[:k], lookup=dict())
-            file.write(f'{i},{j},{timer.elapsed()}\n')
-            epochs.append(kastar)
-            print(i, j)
-        li_backward.append(epochs)
+    file = open(csv_backward, 'w')
+    file.write(f'size,map,k,distance,i_sg,seconds,nodes\n')
     file.close()
-    u_pickle.dump(li_backward, pickle_backward)
+    for size, d_size in start_goals.items():
+        for map, d_map in d_size.items():
+            for k, d_k in d_map.items():
+                for distance, li_sg in d_k.items():
+                    for i_sg, sg in enumerate(li_sg):
+                        grid = grids[size][map]
+                        start, goals = sg
+                        timer = Timer()
+                        kastar = KAStarBackward(grid, start, goals,
+                                                lookup=dict())
+                        file = open(csv_backward, 'a')
+                        file.write(f'{size},{map},{k},{distance},{i_sg},'
+                                   f'{timer.elapsed()},'
+                                   f'{sum(kastar.closed.values())}\n')
+                        file.close()
+                        print(size, map, k, distance, i_sg)
 
 
-def create_bi(k):
-    li_bi = list()
+def create_bi():
     grids = u_pickle.load(pickle_grids)
     start_goals = u_pickle.load(pickle_start_goals)
-    file = open(csv_times_bi, 'w')
-    file.write(f'map,experiment,seconds\n')
-    for i, grid in enumerate(grids):
-        epochs = list()
-        for j, sg in enumerate(start_goals[i]):
-            start, goals = sg
-            timer = Timer()
-            kastar = KAStarBi(grid, start, goals[:k])
-            file.write(f'{i},{j},{timer.elapsed()}\n')
-            epochs.append(kastar)
-            print(i, j)
-        li_bi.append(epochs)
+    file = open(csv_bi, 'w')
+    file.write(f'size,map,k,distance,i_sg,seconds,nodes\n')
     file.close()
-    u_pickle.dump(li_bi, pickle_bi)
+    for size, d_size in start_goals.items():
+        for map, d_map in d_size.items():
+            for k, d_k in d_map.items():
+                for distance, li_sg in d_k.items():
+                    for i_sg, sg in enumerate(li_sg):
+                        grid = grids[size][map]
+                        start, goals = sg
+                        timer = Timer()
+                        kastar = KAStarBi(grid, start, goals)
+                        file = open(csv_bi, 'a')
+                        file.write(f'{size},{map},{k},{distance},{i_sg},'
+                                   f'{timer.elapsed()},'
+                                   f'{sum(kastar.closed.values())}\n')
+                        file.close()
+                        print(size, map, k, distance, i_sg)
 
 
 def create_report():
@@ -192,8 +199,8 @@ def create_report():
 # create_valid_points_per_room()
 # create_start_goals_potential()
 # create_start_goals()
-create_forward()
-# create_backward(k)
-# create_bi(k)
+# create_forward()
+# create_backward()
+create_bi()
 # create_report()
 
