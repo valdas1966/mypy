@@ -99,7 +99,6 @@ def filepaths(path_dir, extensions=set()):
     return li
 
 
-
 def get_files_names(path):
     """
     ===========================================================================
