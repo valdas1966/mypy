@@ -93,19 +93,18 @@ def create_start_goals():
                     sg[size][map][k][((distance // 100) * 100)+100].extend(
                         list(set_sg))
     sg_final = dict()
-    for size, d_size in potential.items():
+    for size, d_size in sg.items():
         sg_final[size] = dict()
         for map, d_map in d_size.items():
             sg_final[size][map] = dict()
             for k, d_k in d_map.items():
                 if k not in {2, 10}:
                     continue
-                print(k)
                 sg_final[size][map][k] = defaultdict(list)
                 for distance, set_sg in d_k.items():
                     li_sg = sg[size][map][k][distance]
                     random.shuffle(li_sg)
-                    sg[size][map][k][distance] = li_sg[:5]
+                    sg_final[size][map][k][distance] = li_sg[:5]
     u_pickle.dump(sg_final, pickle_start_goals)
 
 
@@ -118,7 +117,6 @@ def create_forward():
     for size, d_size in start_goals.items():
         for map, d_map in d_size.items():
             for k, d_k in d_map.items():
-                print(len(d_k))
                 for distance, li_sg in d_k.items():
                     for i_sg, sg in enumerate(li_sg):
                         grid = grids[size][map]
@@ -193,8 +191,8 @@ def create_report():
 # create_grids()
 # create_valid_points_per_room()
 # create_start_goals_potential()
-create_start_goals()
-# create_forward()
+# create_start_goals()
+create_forward()
 # create_backward(k)
 # create_bi(k)
 # create_report()
