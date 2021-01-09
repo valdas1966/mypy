@@ -5,7 +5,6 @@ import fileinput
 import datetime
 from f_utils import u_str
 from f_utils import u_set
-from f_utils import u_text_mining
 
 
 def is_exists(path):
@@ -78,6 +77,7 @@ def filepaths(path_dir, extensions=set()):
     =======================================================================
      Description: Return Full-FilePaths of Files in the Directory with
                     the specified extensions (ex: 'txt').
+                  If extensions is empty -> Return all FilePaths.
     =======================================================================
      Arguments:
     -----------------------------------------------------------------------

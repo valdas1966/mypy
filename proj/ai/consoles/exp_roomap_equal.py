@@ -10,13 +10,10 @@ from proj.ai.algo.kastar_bi import KAStarBi
 from proj.ai.logic.point_distance import LogicPointDistance as logic
 
 
-dir_results = 'D:\\Exp_RooMap_Equal\\'
+dir_results = 'G:\\Exp_RooMap_Equal\\'
 pickle_grids = dir_results + 'grids.pickle'
 pickle_start_goals = dir_results + 'start_goals.pickle'
 pickle_start_goals_potential = dir_results + 'start_goals_potential.pickle'
-pickle_forward = dir_results + 'forward.pickle'
-pickle_backward = dir_results + 'backward.pickle'
-pickle_bi = dir_results + 'bi.pickle'
 csv_forward = dir_results + 'forward.csv'
 csv_backward = dir_results + 'backward.csv'
 csv_bi = dir_results + 'bi.csv'
