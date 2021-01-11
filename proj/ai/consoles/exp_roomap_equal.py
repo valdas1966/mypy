@@ -10,7 +10,7 @@ from proj.ai.algo.kastar_bi import KAStarBi
 from proj.ai.logic.point_distance import LogicPointDistance as logic
 
 
-dir_results = 'G:\\Exp_RooMap_Equal\\'
+dir_results = 'D:\\Exp_RooMap_Equal\\'
 pickle_grids = dir_results + 'grids.pickle'
 pickle_start_goals = dir_results + 'start_goals.pickle'
 pickle_start_goals_potential = dir_results + 'start_goals_potential.pickle'
@@ -191,6 +191,21 @@ def create_report():
     file.close()
 
 
+def test_1():
+    grids = u_pickle.load(pickle_grids)
+    start_goals = u_pickle.load(pickle_start_goals)
+    size = 64
+    map = 9
+    k = 10
+    distance = 600
+    i_sg = 0
+    grid = grids[size][map]
+    start, goals = start_goals[size][map][k][distance][i_sg]
+    timer = Timer()
+    kastar = KAStarBackward(grid, start, goals)
+    print(f'{timer.elapsed()},{sum(kastar.closed.values())}')
+
+
 #k = 10
 # create_grids()
 # create_valid_points_per_room()
@@ -198,6 +213,7 @@ def create_report():
 # create_start_goals()
 # create_forward()
 # create_backward()
-create_bi()
+#create_bi()
 # create_report()
 
+test_1()

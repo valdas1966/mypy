@@ -23,4 +23,4 @@ class Timer:
         finish = time.time()
         seconds = round(finish - self.start)
         self.start = finish
-        return f'{seconds:,}'
+        return seconds

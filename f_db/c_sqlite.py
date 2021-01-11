@@ -54,6 +54,8 @@ class Sqlite:
         assert type(with_index) == bool
         assert type(verbose) == bool
         try:
+            if with_index:
+                df.index.names = ['i']
             df.to_sql(con=self.con, name=tname, if_exists='replace',
                       index=with_index)
             if verbose:
