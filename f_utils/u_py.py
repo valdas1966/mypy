@@ -1,4 +1,5 @@
 import re
+from f_utils import u_file
 
 
 def get_funcs(path):
@@ -24,3 +25,26 @@ def get_funcs(path):
             funcs.append(func)
     file.close()
     return funcs
+
+
+def change_import(path_dir, old, new, verbose=True):
+    """
+    ============================================================================
+     Description: Change Imports (Modules) in all Python-Files in the Folder.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. path_dir : str (Path to Folder with Python-Files).
+        2. old : str (Old Module).
+        3. new : str (New Module).
+        4. verbose : bool (To Print the FilePaths after Update).
+    ============================================================================
+    """
+    filepaths = u_file.filepaths(path_dir, extensions='py')
+    for filepath in filepaths:
+        u_file.replace_in_file(filepath, [(old, new)])
+        if verbose:
+            print(filepath)
+
+
+# change_import('d:\\kg', 'model.', 'from model.')

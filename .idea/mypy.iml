@@ -7,14 +7,7 @@
     <orderEntry type="jdk" jdkName="Python 3.7 (Python Virtual Environment)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="exam" />
-    <orderEntry type="module" module-name="exam" />
-    <orderEntry type="module" module-name="exam" />
-    <orderEntry type="module" module-name="exam" />
     <orderEntry type="module" module-name="myq" />
-    <orderEntry type="module" module-name="myq" />
-    <orderEntry type="module" module-name="myq" />
-    <orderEntry type="module" module-name="myq" />
-    <orderEntry type="module" module-name="myq" />
-    <orderEntry type="module" module-name="myq" />
+    <orderEntry type="module" module-name="kg" />
   </component>
 </module>

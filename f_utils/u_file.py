@@ -167,7 +167,7 @@ def replace_in_file(path, tuples):
         what_replace = t[0]
         with_replace = t[1]
         for line in fileinput.input(path, inplace=1):                    
-            sys.stdout.write(line.replace(what_replace,with_replace))
+            sys.stdout.write(line.replace(what_replace, with_replace))
             
             
 def get_filename(path, with_domain=True):
@@ -241,3 +241,4 @@ def datetime_created(filepath):
     """
     t = os.path.getctime(filepath)
     return datetime.datetime.fromtimestamp(t)
+
