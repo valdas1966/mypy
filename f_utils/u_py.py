@@ -47,4 +47,4 @@ def change_import(path_dir, old, new, verbose=True):
             print(filepath)
 
 
-# change_import('d:\\kg', 'model.', 'from model.')
+# change_import('d:\\kg', 'from from', 'from')
