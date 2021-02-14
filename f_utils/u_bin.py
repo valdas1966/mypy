@@ -1,4 +1,8 @@
 
+def text_to_bin(path_text, path_bin):
+
+
+"""
 path_1 = 'G:\\Temp\\1.txt'
 path_2 = 'G:\\Temp\\2.bin'
 path_3 = 'G:\\Temp\\3.txt'
@@ -12,3 +16,4 @@ b = bytearray(txt.encode('utf-8'))
 print(b.hex())
 
 print(bytearray.fromhex(b.hex()).decode())
+"""
