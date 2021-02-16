@@ -1,5 +1,6 @@
 
 def text_to_bin(path_text, path_bin):
+    pass
 
 
 """

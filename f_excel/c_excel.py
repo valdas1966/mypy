@@ -25,10 +25,23 @@ class Excel:
         """
         self.xlsx = xlsx
         self.wb = None
+        self.ws = None
         if u_file.is_exists(xlsx):
             self.wb = xl.load_workbook(filename=xlsx)
         else:
             self.wb = xl.Workbook()
+        self.select_worksheet(index_ws)
+
+    def select_worksheet(self, index_ws):
+        """
+        ========================================================================
+         Description: Select Excel-WorkSheet by Index.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. index_ws : int
+        ========================================================================
+        """
         self.ws = self.wb.worksheets[index_ws]
 
     def set_value(self, row, col, value):
@@ -48,6 +61,26 @@ class Excel:
         assert row >= 1
         assert col >= 1
         self.ws.cell(row=row, column=col).value = value
+
+    def set_values_col(self, row_start, col, values):
+        """
+        ========================================================================
+         Description: Set Values to Column.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. row_start : int
+            2. col : int
+            3. values : list
+        ========================================================================
+        """
+        assert type(row_start) == int
+        assert type(col) == int
+        assert type(values) == list
+        assert row_start > 0
+        assert col > 0
+        for i, val in enumerate(values):
+            self.set_value(row_start + i, col, val)
 
     def get_value(self, row, col):
         """
@@ -203,6 +236,19 @@ class Excel:
             li_rows.append(li_cols)
             row += 1
         return li_rows
+
+    def save_as(self, xlsx):
+        """
+        ========================================================================
+         Description: Save Excel-File as other Name.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. xlsx : str (Other Name for Excel-File).
+        ========================================================================
+        """
+        self.xlsx = xlsx
+        self.wb.save(self.xlsx)
 
     def close(self):
         """
