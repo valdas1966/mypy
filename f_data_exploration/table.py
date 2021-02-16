@@ -59,6 +59,7 @@ class Table:
         row_start = self.row_name
         col = self.col_val
         excel.set_values_col(row_start, col, values)
+        excel.copy_worksheet()
         excel.save_as(xlsx)
         excel.close()
 

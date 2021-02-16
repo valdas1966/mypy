@@ -44,6 +44,10 @@ class Excel:
         """
         self.ws = self.wb.worksheets[index_ws]
 
+    def copy_worksheet(self):
+        source = self.wb.active
+        target = self.wb.copy_worksheet(source)
+
     def set_value(self, row, col, value):
         """
         ========================================================================

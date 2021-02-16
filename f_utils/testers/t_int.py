@@ -8,6 +8,7 @@ class TestInt:
         u_tester.print_start(__file__)
         TestInt.__tester_to_percent()
         TestInt.__tester_to_commas()
+        TestInt.__tester_are_int()
         u_tester.print_finish(__file__)
 
     @staticmethod
@@ -37,6 +38,20 @@ class TestInt:
         commas_true = '1,999'
         p0 = commas_test == commas_true
         u_tester.run(p0)
+
+    @staticmethod
+    def __tester_are_int():
+        values = [0, 1]
+        p0 = u_int.are_int(values)
+        values = [0, 1, 1.5]
+        p1 = not u_int.are_int(values)
+        values = [0, 1, True]
+        p2 = u_int.are_int(values)
+        values = [0, 1, 'True']
+        p3 = not u_int.are_int(values)
+        values = ['0', '1']
+        p4 = u_int.are_int(values)
+        u_tester.run(p0, p1, p2, p3, p4)
 
 
 if __name__ == '__main__':
