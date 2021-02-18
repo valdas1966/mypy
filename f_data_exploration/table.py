@@ -1,5 +1,6 @@
 import pathlib
 import pandas as pd
+from f_data_exploration.column import Column
 from f_excel.c_excel import Excel
 
 
@@ -31,6 +32,7 @@ class Table:
         self.rows_all = 0
         self.rows_duplicate = 0
         self.rows_unique = 0
+        self.cols = [Column(self.df, col) for col in self.df.columns]
         
     def run(self):
         """

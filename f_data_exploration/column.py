@@ -1,9 +1,14 @@
 import pandas as pd
 from f_utils import u_int
 from f_utils import u_float
+from f_excel.c_excel import Excel
 
 
 class Column:
+
+    col_main = 4
+    col_sub = 5
+    row_type = 3
 
     def __init__(self, df, name_col):
         """
@@ -25,6 +30,19 @@ class Column:
         self.values_null = self.values_all - len(self.values)
         self.dtype = self.__dtype()
 
+    def to_excel(self, excel):
+        """
+        ========================================================================
+         Description: Fill Excel with Column-Statistics.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. excel : Excel
+        ========================================================================
+        """
+        assert type(excel) == Excel
+        excel.set_value(self.row_type, self.col_main, self.dtype)
+
     def __dtype(self):
         """
         ========================================================================
@@ -38,3 +56,4 @@ class Column:
         if u_float.are_float(self.values):
             return float
         return str
+

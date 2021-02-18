@@ -86,6 +86,3 @@ def are_int(values):
         except:
             return False
     return True
-
-values = ['0', 1]
-print(all(isinstance(val, int) for val in values))
