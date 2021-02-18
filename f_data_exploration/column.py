@@ -10,7 +10,7 @@ class Column:
     col_sub = 5
     row_type = 3
 
-    def __init__(self, df, name_col):
+    def __init__(self, df, name):
         """
         ========================================================================
          Description: Constructor. Init Private Attributes.
@@ -18,13 +18,14 @@ class Column:
          Arguments:
         ------------------------------------------------------------------------
             1. df : DataFrame
-            2. name_col : str
+            2. name : str (Column Name)
         ========================================================================
         """
         assert type(df) == pd.DataFrame
-        assert type(name_col) == str
-        assert name_col in df.columns
-        self.values = df[name_col].tolist()
+        assert type(name) == str
+        assert name in df.columns
+        self.name = name
+        self.values = df[name].tolist()
         self.values_all = len(self.values)
         self.values = [val for val in self.values if not pd.isnull(val)]
         self.values_null = self.values_all - len(self.values)
@@ -41,7 +42,9 @@ class Column:
         ========================================================================
         """
         assert type(excel) == Excel
-        excel.set_value(self.row_type, self.col_main, self.dtype)
+        excel.copy_worksheet('Column', self.name)
+        excel.ws = excel.wb[self.name]
+        excel.set_value(row=self.row_type, col=self.col_main, value=self.dtype)
 
     def __dtype(self):
         """
@@ -52,8 +55,8 @@ class Column:
         ========================================================================
         """
         if u_int.are_int(self.values):
-            return int
+            return 'int'
         if u_float.are_float(self.values):
-            return float
-        return str
+            return 'float'
+        return 'str'
 

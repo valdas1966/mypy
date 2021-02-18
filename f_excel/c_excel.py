@@ -30,23 +30,25 @@ class Excel:
             self.wb = xl.load_workbook(filename=xlsx)
         else:
             self.wb = xl.Workbook()
-        self.select_worksheet(index_ws)
+        self.ws = self.wb.worksheets[index_ws]
 
-    def select_worksheet(self, index_ws):
+    def copy_worksheet(self, title_source, title_target):
         """
         ========================================================================
-         Description: Select Excel-WorkSheet by Index.
+         Description: Make a Copy of Worksheet.
         ========================================================================
          Arguments:
         ------------------------------------------------------------------------
-            1. index_ws : int
+            1. title_source : str (Title of Source Worksheet).
+            2. title_target : str (Title of New Worksheet).
+        ========================================================================
+         Return: Worksheet.
         ========================================================================
         """
-        self.ws = self.wb.worksheets[index_ws]
-
-    def copy_worksheet(self):
-        source = self.wb.active
+        source = self.wb[title_source]
         target = self.wb.copy_worksheet(source)
+        target.title = title_target
+        return target
 
     def set_value(self, row, col, value):
         """
