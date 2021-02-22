@@ -164,7 +164,7 @@ class Excel:
         self.ws.cell(row, column).border = border
 
     def clear_cells(self, row, col, row_last=None, col_last=None,
-                    rows=1, cols=1):
+                    rows=1, cols=1, with_style=False):
         """
         ========================================================================
          Description: Clear the Cell (Value, Background, Borders).
@@ -185,9 +185,10 @@ class Excel:
             col_last = col + cols - 1
         for r in range(row, row_last+1):
             for c in range(col, col_last+1):
-                self.set_value(r, c, value=str())
-                self.set_background(r, c, color='WHITE')
-                self.set_border(r, c, style='thin')
+                self.set_value(r, c, value=None)
+                if with_style:
+                    self.set_background(r, c, color='WHITE')
+                    self.set_border(r, c, style='thin')
 
     def merge_cells(self, row, col, row_last=None, col_last=None,
                     rows=1, cols=1):
