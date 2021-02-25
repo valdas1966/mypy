@@ -15,7 +15,10 @@ class Column:
     row_null = 7
     row_min = 8
     row_max = 9
-    row_common = 17
+    row_common_first = 5
+    col_common_value = 11
+    col_common_count = 12
+    col_common_percent = 13
 
     def __init__(self, df, name):
         """
@@ -84,14 +87,19 @@ class Column:
     def __to_excel_common(self, excel, n=10):
         assert type(excel) == Excel
         li_common = self.counter_values.most_common(n)
+        """
         rows_to_delete = n - len(li_common)
         if rows_to_delete:
             excel.ws.delete_rows(self.row_common, rows_to_delete)
+        """
         for i, (value, freq) in enumerate(li_common):
-            excel.set_value(self.row_common + i, self.col_value, value)
-            excel.set_value(self.row_common + i, self.col_count, freq)
+            excel.set_value(self.row_common_first + i, self.col_common_value,
+                            value)
+            excel.set_value(self.row_common_first + i, self.col_common_count,
+                            freq)
             percent = round(freq / self.count_all, 2)
-            excel.set_value(self.row_common + i, self.col_percent, percent)
+            excel.set_value(self.row_common_first + i, self.col_common_percent,
+                            percent)
 
     def __dtype(self):
         """
