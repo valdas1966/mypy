@@ -1,5 +1,5 @@
 import pandas as pd
-from collections import Counter
+from collections import Counter, defaultdict
 from f_utils import u_int
 from f_utils import u_float
 from f_excel.c_excel import Excel
@@ -7,18 +7,26 @@ from f_excel.c_excel import Excel
 
 class Column:
 
-    col_value = 3
-    col_count = 4
-    col_percent = 5
-    row_type = 5
-    row_distinct = 6
-    row_null = 7
-    row_min = 8
-    row_max = 9
-    row_common_first = 5
+    excel = None
+
+    row_first = 5
+
+    row_basic_type = 5
+    row_basic_distinct = 6
+    row_basic_null = 7
+    row_basic_min = 8
+    row_basic_max = 9
+
+    col_basic_value = 4
+    col_basic_percent = 5
+
     col_common_value = 11
     col_common_count = 12
     col_common_percent = 13
+
+    col_len_value = 19
+    col_len_count = 20
+    col_len_percent = 21
 
     def __init__(self, df, name):
         """
@@ -38,7 +46,8 @@ class Column:
         self.values = df[name].tolist()
         self.count_all = len(self.values)
         self.values = [val for val in self.values if not pd.isnull(val)]
-        self.count_null = self.count_all - len(self.values)
+        self.count_not_null = len(self.values)
+        self.count_null = self.count_all - self.count_not_null
         self.counter_values = Counter(self.values)
         self.count_distinct = len(self.counter_values)
         self.value_min = (min(self.counter_values)
@@ -58,34 +67,44 @@ class Column:
         ========================================================================
         """
         assert type(excel) == Excel
-        excel.copy_worksheet('Column', self.name)
-        excel.ws = excel.wb[self.name]
-        self.__to_excel_basic(excel)
-        self.__to_excel_common(excel)
+        self.excel = excel
+        self.excel.copy_worksheet('Column', self.name)
+        self.excel.ws = excel.wb[self.name]
+        self.__to_excel_basic()
+        self.__to_excel_common()
+        self.__to_excel_lengths()
 
-    def __to_excel_basic(self, excel):
+    def __to_excel_basic(self):
         """
         ========================================================================
          Description: Fill Excel with Column basic data.
         ========================================================================
-         Arguments:
-        ------------------------------------------------------------------------
-            1. excel: Excel
-        ========================================================================
         """
-        assert type(excel) == Excel
-        excel.set_value(self.row_type, self.col_count, self.dtype)
-        excel.set_value(self.row_distinct, self.col_count, self.count_distinct)
-        percent_distinct = round(self.count_distinct / self.count_all, 2)
-        excel.set_value(self.row_distinct, self.col_percent, percent_distinct)
-        excel.set_value(self.row_null, self.col_count, self.count_null)
+        self.excel.set_value(self.row_basic_type,
+                             self.col_basic_value,
+                             self.dtype)
+        self.excel.set_value(self.row_basic_distinct,
+                             self.col_basic_value,
+                             self.count_distinct)
+        percent_distinct = round(self.count_distinct / self.count_not_null, 2)
+        self.excel.set_value(self.row_basic_distinct,
+                             self.col_basic_percent,
+                             percent_distinct)
+        self.excel.set_value(self.row_basic_null,
+                             self.col_basic_value,
+                             self.count_null)
         percent_null = round(self.count_null / self.count_all, 2)
-        excel.set_value(self.row_null, self.col_percent, percent_null)
-        excel.set_value(self.row_min, self.col_count, self.value_min)
-        excel.set_value(self.row_max, self.col_count, self.value_max)
+        self.excel.set_value(self.row_basic_null,
+                             self.col_basic_percent,
+                             percent_null)
+        self.excel.set_value(self.row_basic_min,
+                             self.col_basic_value,
+                             self.value_min)
+        self.excel.set_value(self.row_basic_max,
+                             self.col_basic_value,
+                             self.value_max)
 
-    def __to_excel_common(self, excel, n=10):
-        assert type(excel) == Excel
+    def __to_excel_common(self, n=10):
         li_common = self.counter_values.most_common(n)
         """
         rows_to_delete = n - len(li_common)
@@ -93,13 +112,34 @@ class Column:
             excel.ws.delete_rows(self.row_common, rows_to_delete)
         """
         for i, (value, freq) in enumerate(li_common):
-            excel.set_value(self.row_common_first + i, self.col_common_value,
-                            value)
-            excel.set_value(self.row_common_first + i, self.col_common_count,
-                            freq)
-            percent = round(freq / self.count_all, 2)
-            excel.set_value(self.row_common_first + i, self.col_common_percent,
-                            percent)
+            self.excel.set_value(self.row_first + i,
+                                 self.col_common_value,
+                                 value)
+            self.excel.set_value(self.row_first + i,
+                                 self.col_common_count,
+                                 freq)
+            percent = round(freq / self.count_not_null, 2)
+            self.excel.set_value(self.row_first+i,
+                                 self.col_common_percent,
+                                 percent)
+
+    def __to_excel_lengths(self, n=10):
+        lengths = defaultdict(int)
+        for val, freq in self.counter_values.items():
+            length = len(str(val))
+            lengths[length] += freq
+        li_common = Counter(lengths).most_common(n)
+        for i, (value, freq) in enumerate(li_common):
+            self.excel.set_value(self.row_first + i,
+                                 self.col_len_value,
+                                 value)
+            self.excel.set_value(self.row_first + i,
+                                 self.col_len_count,
+                                 freq)
+            percent = round(freq / self.count_not_null, 2)
+            self.excel.set_value(self.row_first+i,
+                                 self.col_len_percent,
+                                 percent)
 
     def __dtype(self):
         """
