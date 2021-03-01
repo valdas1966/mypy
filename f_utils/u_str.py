@@ -51,35 +51,16 @@ def get_nums(text, len_min=1):
     return nums
 
 
-"""
-===============================================================================
-===============================================================================
-=========================  Tester  ============================================
-===============================================================================
-===============================================================================
-"""
-def tester():
-    
-    import sys
-    
-    def tester_get_nums(): 
-        
-        nums = get_nums('1a23bb4')
-        p1 = nums == [1,23,4]
-        
-        nums = get_nums('1a22bb333',3)
-        p2 = nums == [333]
-              
-        fname = sys._getframe().f_code.co_name[7:]
-        if (p1 and p2):        
-            print('OK: {0}'.format(fname))
+def to_regex(value, digit='d', alpha='w', white='_', black='x'):
+    li = list()
+    for ch in str(value):
+        if ch.isspace():
+            li.append(white)
+        elif ch.isalnum():
+            if ch.isdigit():
+                    li.append(digit)
+            elif ch.isalpha():
+                li.append(alpha)
         else:
-            print('Failed: {0}'.format(fname))            
-    
-    print('\n====================\nStart Tester\n====================')    
-    tester_get_nums()
-    print('====================\nEnd Tester\n====================')        
-    
-    
-#tester()
-            
+            li.append(black)
+    return ''.join(li)

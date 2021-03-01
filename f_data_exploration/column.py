@@ -1,6 +1,7 @@
 import pandas as pd
 from collections import Counter, defaultdict
 from f_utils import u_int
+from f_utils import u_str
 from f_utils import u_float
 from f_excel.c_excel import Excel
 
@@ -27,6 +28,10 @@ class Column:
     col_len_value = 19
     col_len_count = 20
     col_len_percent = 21
+
+    col_regex_value = 27
+    col_regex_count = 28
+    col_regex_percent = 29
 
     def __init__(self, df, name):
         """
@@ -73,6 +78,7 @@ class Column:
         self.__to_excel_basic()
         self.__to_excel_common()
         self.__to_excel_lengths()
+        self.__to_excel_regex()
 
     def __to_excel_basic(self):
         """
@@ -139,6 +145,24 @@ class Column:
             percent = round(freq / self.count_not_null, 2)
             self.excel.set_value(self.row_first+i,
                                  self.col_len_percent,
+                                 percent)
+            
+    def __to_excel_regex(self, n=10):
+        d_regex = defaultdict(int)
+        for val, freq in self.counter_values.items():
+            regex = u_str.to_regex(val)
+            d_regex[regex] += freq
+        li_common = Counter(d_regex).most_common(n)
+        for i, (value, freq) in enumerate(li_common):
+            self.excel.set_value(self.row_first + i,
+                                 self.col_regex_value,
+                                 value)
+            self.excel.set_value(self.row_first + i,
+                                 self.col_regex_count,
+                                 freq)
+            percent = round(freq / self.count_not_null, 2)
+            self.excel.set_value(self.row_first+i,
+                                 self.col_regex_percent,
                                  percent)
 
     def __dtype(self):

@@ -1,4 +1,6 @@
-id,name,medium,volume
+id,name,med,volume
 1,A,999,10
 2,BB,888,5
 2,BB,888,5
+3,CC,7,
+4,DDD,66,
