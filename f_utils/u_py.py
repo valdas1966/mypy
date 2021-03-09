@@ -1,5 +1,6 @@
 import re
 from f_utils import u_file
+from f_utils import u_hex
 
 
 def get_funcs(path):
@@ -47,4 +48,15 @@ def change_import(path_dir, old, new, verbose=True):
             print(filepath)
 
 
-# change_import('d:\\kg', 'from from', 'from')
+def temp_1():
+    dir_mypy = 'd:\\mypy'
+    dir_hex = 'd:\\hex\\'
+    li_py = u_file.filepaths(dir_mypy, 'py')
+    for path_py in li_py:
+        filename = path_py.split('\\')[-1]
+        file_hex = filename.split('.')[0] + '.txt'
+        path_hex = dir_hex + file_hex
+        u_hex.file_to_hex(path_py, path_hex)
+        print(path_py)
+
+temp_1()
