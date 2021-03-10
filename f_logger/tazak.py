@@ -40,8 +40,8 @@ class LoggerTazak:
             1. values : str or list (Values to Log).
         ========================================================================
         """
-        assert type(values) in {str, list}
-        if type(values) == list:
+        assert type(values) in {str, tuple, list}
+        if type(values) != str:
             values = ','.join(values)
         dt_now = datetime.datetime.now()
         delta_seconds = (dt_now - self.dt_init).seconds
