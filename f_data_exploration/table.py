@@ -33,19 +33,8 @@ class Table:
         self.rows_duplicate = 0
         self.rows_unique = 0
         self.cols = [Column(self.df, col) for col in self.df.columns]
-        
-    def run(self):
-        """
-        ========================================================================
-         Description: Collect Statistics about the Table.
-        ========================================================================
-        """
-        self.cols_all = len(self.df.columns)
-        self.rows_all = len(self.df)
-        self.df = self.df.drop_duplicates()
-        self.rows_unique = len(self.df)
-        self.rows_duplicate = self.rows_all - self.rows_unique
-        
+        self.__run()
+
     def to_excel(self, xlsx):
         """
         ========================================================================
@@ -66,11 +55,14 @@ class Table:
         excel.save_as(xlsx)
         excel.close()
 
-
-temp = 'd:\\mypy\\f_data_exploration\\temp.xlsx'
-csv_sample = 'd:\\mypy\\f_data_exploration\\sample.csv'
-df = pd.read_csv(csv_sample)
-tname = 'temp'
-table = Table(tname, df)
-table.run()
-table.to_excel(temp)
+    def __run(self):
+        """
+        ========================================================================
+         Description: Collect Statistics about the Table.
+        ========================================================================
+        """
+        self.cols_all = len(self.df.columns)
+        self.rows_all = len(self.df)
+        self.df = self.df.drop_duplicates()
+        self.rows_unique = len(self.df)
+        self.rows_duplicate = self.rows_all - self.rows_unique

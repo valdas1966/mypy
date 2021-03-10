@@ -48,15 +48,19 @@ def change_import(path_dir, old, new, verbose=True):
             print(filepath)
 
 
-def temp_1():
-    dir_mypy = 'd:\\mypy'
-    dir_hex = 'd:\\hex\\'
-    li_py = u_file.filepaths(dir_mypy, 'py')
-    for path_py in li_py:
-        filename = path_py.split('\\')[-1]
-        file_hex = filename.split('.')[0] + '.txt'
-        path_hex = dir_hex + file_hex
-        u_hex.file_to_hex(path_py, path_hex)
-        print(path_py)
+from f_utils import u_dir
 
+
+def temp_1():
+    li_py = u_file.filepaths(dir_hex, 'py')
+    for path_py in li_py:
+        path_hex = path_py.replace('.py', '.txt')
+        u_hex.file_to_hex(path_py, path_hex)
+        u_file.delete(path_py)
+        print(path_py, path_hex)
+
+
+dir_mypy = 'd:\\mypy'
+dir_hex = 'd:\\hex\\'
+u_dir.copy(dir_mypy, dir_hex)
 temp_1()
