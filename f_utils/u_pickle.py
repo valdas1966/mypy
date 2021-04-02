@@ -33,6 +33,10 @@ def dump(obj, path):
     gc.enable()
     gc.collect()
     sys.setrecursionlimit(1000000)
-    file = open(path,'wb')
-    pickle.dump(obj,file)
-    file.close()
+    file = open(path, 'wb')
+    try:
+        pickle.dump(obj, file)
+    except Exception as e:
+        print(str(e))
+    finally:
+        file.close()
