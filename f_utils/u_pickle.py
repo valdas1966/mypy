@@ -32,7 +32,7 @@ def dump(obj, path):
     """
     gc.enable()
     gc.collect()
-    sys.setrecursionlimit(1000000)
+    sys.setrecursionlimit(10000000)
     file = open(path, 'wb')
     try:
         pickle.dump(obj, file)
