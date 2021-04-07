@@ -21,6 +21,8 @@ class LoggerTazak:
             2. path_dir : str (Path to Directory to store the logs).
         ========================================================================
         """
+        if type(titles) == list:
+            titles = ','.join(titles)
         assert type(titles) == str
         assert dir_logger is None or type(dir_logger) == str
         self.dt_init = datetime.datetime.now()
@@ -42,7 +44,7 @@ class LoggerTazak:
         """
         assert type(values) in {str, tuple, list}
         if type(values) != str:
-            values = ','.join(values)
+            values = ','.join([str(val) for val in values])
         dt_now = datetime.datetime.now()
         delta_seconds = (dt_now - self.dt_init).seconds
         self.logger.write(f'{delta_seconds},{values}\n')
