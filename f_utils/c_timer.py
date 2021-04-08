@@ -17,7 +17,7 @@ class Timer:
          Description: Return elapsed seconds from start of the Timer
                         and restart the Timer.
         ===================================================================
-         Return: str (Elapsed Seconds with commas format, ex: 1,234).
+         Return: int
         ===================================================================
         """
         finish = time.time()
