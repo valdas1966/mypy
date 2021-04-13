@@ -38,18 +38,34 @@ def read(path):
     return text
 
 
-def write(text, path):
+def write(path, text):
     """
     =======================================================================
      Description: Write text into File.
     =======================================================================
      Arguments:
     -----------------------------------------------------------------------
-        1. text : str (Text to Write).
-        2. path : str (Path to File to Write).
+        1. path : str (Path to File to Write).
+        2. text : str (Text to Write).
     =======================================================================
     """
     file = open(path, 'w')
+    file.write(text)
+    file.close()
+
+
+def append(path, text):
+    """
+        =======================================================================
+         Description: Write text into File.
+        =======================================================================
+         Arguments:
+        -----------------------------------------------------------------------
+            1. path : str (Path to File to Append).
+            2. text : str (Text to Append).
+        ========================================================================
+        """
+    file = open(path, 'a')
     file.write(text)
     file.close()
 
