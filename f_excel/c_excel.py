@@ -283,13 +283,3 @@ class Excel:
         return PatternFill(start_color=color,
                            end_color=color,
                            fill_type='solid')
-
-
-fr = 1
-lr = 16
-fc = 1
-lc = 7
-xlsx = 'd:\\temp\\temp_3.xlsx'
-excel = Excel(xlsx)
-excel.ws.move_range('A13:G20', rows=-12, cols=10)
-excel.close()
