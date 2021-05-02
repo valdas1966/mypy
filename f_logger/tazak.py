@@ -42,15 +42,11 @@ class LoggerTazak:
             1. values : str or list (Values to Log).
         ========================================================================
         """
-        print('tazak')
         assert type(values) in {str, tuple, list}
         if type(values) != str:
             values = ','.join([str(val) for val in values])
         dt_now = datetime.datetime.now()
         delta_seconds = (dt_now - self.dt_init).seconds
-        print(delta_seconds)
-        print(f'{delta_seconds}')
-        print(f',{values}\n')
         self.logger.write(f'{delta_seconds},{values}\n')
 
     def close(self):
