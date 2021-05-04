@@ -47,6 +47,7 @@ class LoggerTazak:
             values = ','.join([str(val) for val in values])
         dt_now = datetime.datetime.now()
         delta_seconds = (dt_now - self.dt_init).seconds
+        print(delta_seconds)
         self.logger.write(f'{delta_seconds},{values}\n')
 
     def close(self):
@@ -55,4 +56,5 @@ class LoggerTazak:
          Description: Close the CSV-File with the Logger.
         ========================================================================
         """
+        print('CLOSE LOGGER TAZAK')
         self.logger.close()
