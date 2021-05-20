@@ -1,4 +1,5 @@
 import math
+import random
 import pandas as pd
 from f_utils import u_dict
 
@@ -34,6 +35,29 @@ def split_to_x_y(df, cols_features, col_label):
     df = df.rename({col_label: 'label'}, axis=1)
     y = df['label']
     return x, y
+
+
+def split_random(df, percent):
+    """
+    ============================================================================
+     Description: Split DataFrame into 2 Random DataFrames.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. df : DataFrame to split.
+        2. percent : int (Percent of rows for first DataFrame).
+    ============================================================================
+     Return: Tuple (DataFrame, DataFrame).
+    ============================================================================
+    """
+    x = len(df) * percent // 100
+    li = list(df.index)
+    random.shuffle(li)
+    li_x = li[:x]
+    li_y = list(set(li) - set(li_x))
+    df_x = df.iloc[li_x, :]
+    df_y = df.iloc[li_y, :]
+    return df_x, df_y
 
 
 def divide(df, parts):
@@ -101,5 +125,3 @@ def to_dict(df, col_key=0, col_val=1):
         val = row[col_val]
         d = u_dict.update(d, key, val)
     return d
-
-
