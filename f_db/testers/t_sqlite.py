@@ -43,4 +43,3 @@ class TestSqlite:
 
 if __name__ == '__main__':
     TestSqlite()
-
