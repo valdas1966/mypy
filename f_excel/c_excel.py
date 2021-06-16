@@ -3,6 +3,7 @@ from openpyxl.styles import PatternFill, Font, Alignment
 import openpyxl.styles.colors as Colors
 from openpyxl.styles.borders import Border, Side
 from f_utils import u_file
+import pandas as pd
 
 
 class Excel:
@@ -75,9 +76,9 @@ class Excel:
         ========================================================================
          Arguments:
         ------------------------------------------------------------------------
-            1. row_start : int
-            2. col : int
-            3. values : list
+            1. row_start : int (First Row in Excel).
+            2. col : int (Column Index).
+            3. values : list (Column Values).
         ========================================================================
         """
         assert type(row_start) == int
@@ -102,7 +103,7 @@ class Excel:
         ========================================================================
         """
         try:
-            return self.ws.cell(row, col).value
+            return self.ws.cell(row=row, column=col).value
         except Exception:
             print(f'Error in try get_value(row={row}, col={col})')
             return None
@@ -216,6 +217,81 @@ class Excel:
     def set_column_width(self, col):
         self.ws.column_dimensions[col] = 4
 
+    def last_row(self, fr=1, col=1):
+        """
+        ========================================================================
+         Description: Return Last-Filled Row in Particular Excel-Column.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. fr : int (Row Start).
+            2. col : int (Column Index).
+        ========================================================================
+         Return: int
+        ========================================================================
+        """
+        row = fr
+        while not self.is_blank(row, col):
+            row = row + 1
+        return row-1
+
+    def to_df(self, fr, lr, fc, lc):
+        """
+        ========================================================================
+         Description: Convert Excel-Range into DataFrame.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. fr : int (First Row).
+            2. lr : int (Last Row).
+            3. fc : int (First Column).
+            4. lc : int (Last Column).
+        ========================================================================
+         Return: DataFrame
+        ========================================================================
+        """
+        assert type(fr) == int
+        assert type(lr) == int
+        assert type(fc) == int
+        assert type(lc) == int
+        assert fr > 0
+        assert lr > 0
+        assert fc > 0
+        assert lc > 0
+        li_col_name = list()
+        li_col_values = list()
+        for i_col, col in enumerate(range(fc, lc+1)):
+            li_col_name.append(f'col_{i_col+1}')
+            col_values = list()
+            for row in range(fr, lr+1):
+                col_values.append(self.get_value(row, col))
+            li_col_values.append(col_values)
+        d = dict(zip(li_col_name, li_col_values))
+        return pd.DataFrame(d)
+
+    def from_df(self, df, fr, fc):
+        """
+        ========================================================================
+         Description: Paste DataFrame-Values into Excel-Range.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. df : DataFrame.
+            2. fr : int (First Row).
+            3. fc : int (First Col).
+        ========================================================================
+        """
+        assert type(df) == pd.DataFrame
+        assert type(fr) == int
+        assert type(fc) == int
+        assert fr >= 1
+        assert fc >= 1
+        d = df.to_dict()
+        for i_col, (col_name, col_values) in enumerate(d.items()):
+            col = fc + i_col
+            col_values = [val for key, val in col_values.items()]
+            self.set_values_col(fr, col, col_values)
+
     def to_linked_list(self, fr=1, fc=1):
         """
         ========================================================================
@@ -283,3 +359,4 @@ class Excel:
         return PatternFill(start_color=color,
                            end_color=color,
                            fill_type='solid')
+
