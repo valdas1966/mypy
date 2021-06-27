@@ -1,3 +1,3 @@
 x = 5
-from temp_1 import x
+import temp_1.x
 print(x)
