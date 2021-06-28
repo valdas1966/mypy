@@ -7,9 +7,7 @@ class TestNodeTree:
     def __init__(self):
         u_tester.print_start(__file__)
         self.__tester_init()
-        self.__tester_add()
-        self.__tester_set_depth()
-        # self.__tester_get_descendants()
+        self.__tester_get_descendants()
         u_tester.print_finish(__file__)
 
     @staticmethod
@@ -27,22 +25,12 @@ class TestNodeTree:
         node_e = Node(name='e')
         node_a.add(node_b)
         node_a.add(node_c)
-        print({n.name for n in node_a.children})
         node_c.add(node_d)
-        print({n.name for n in node_c.children})
         node_c.add(node_e)
         p0 = node_a.children == {node_b, node_c}
-        p1 = node_b.children = {}
-        p2 = node_c.children = {node_d, node_e}
+        p1 = node_b.children == set()
+        p2 = node_c.children == {node_d, node_e}
         u_tester.run(p0, p1, p2)
-
-    @staticmethod
-    def __tester_set_depth():
-        node = Node(name='a', data=None)
-        p0 = node.depth == 0
-        node.set_depth(1)
-        p1 = node.depth == 1
-        u_tester.run(p0, p1)
 
     @staticmethod
     def __tester_get_descendants():
@@ -51,13 +39,15 @@ class TestNodeTree:
         node_c = Node(name='c')
         node_d = Node(name='d')
         node_e = Node(name='e')
-        node_a.add(node_b)
-        node_a.add(node_c)
-        node_c.add(node_d)
-        node_c.add(node_e)
-        p0 = node_a.get_descendants() == ['a', 'b', 'c', 'd', 'e']
-        p1 = node_b.get_descendants() == ['b']
+        node_a.children.add(node_b)
+        node_a.children.add(node_c)
+        node_c.children.add(node_d)
+        node_c.children.add(node_e)
+        descendants_true = ['a', 'b', 'c', 'd', 'e']
+        p0 = [n.name for n in node_a.get_descendants()] == descendants_true
+        p1 = [n.name for n in node_b.get_descendants()] == ['b']
         u_tester.run(p0, p1)
+
 
 if __name__ == '__main__':
     TestNodeTree()
