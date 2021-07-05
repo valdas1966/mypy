@@ -4,13 +4,13 @@ import pandas as pd
 
 class Sqlite:
 
-    def __init__(self):
+    def __init__(self, db_file=':memory:'):
         """
         ========================================================================
          Description: Constructor. Init Connection.
         ========================================================================
         """
-        self.con = sqlite3.connect(':memory:')
+        self.con = sqlite3.connect(db_file)
         self.cursor = self.con.cursor()
 
     def select(self, query, verbose=True):
@@ -63,6 +63,44 @@ class Sqlite:
                       f"rows]")
         except Exception as e:
             print(f'Error in Loading DF into Table {tname}: {e}')
+
+    def run(self, command, verbose=True):
+        """
+        ========================================================================
+         Description: Run SQLite Command.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. command : str
+            2. verbose : bool
+        ========================================================================
+         Return: bool (True if the Command executed successfully).
+        ========================================================================
+        """
+        try:
+            self.cursor.execute(command)
+            if verbose:
+                print('SQLite command executed successfully')
+            return True
+        except Exception as e:
+            if verbose:
+                print(f'Error in: {command}\n{e}')
+            return False
+
+    def drop(self, tname):
+        """
+        ========================================================================
+         Description: Drop Table (if exists).
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. tname : str (Table Name to Drop).
+        ========================================================================
+         Return: bool
+        ========================================================================
+        """
+        command = f'drop table {tname}'
+        return self.run(command=command, verbose=False)
 
     def ctas(self, tname, query, verbose=True):
         """
