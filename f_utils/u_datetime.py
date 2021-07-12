@@ -1,3 +1,20 @@
+from datetime import datetime
+
+
+def now(format='yyyymmddhhmiss'):
+    """
+    ============================================================================
+     Description: Return Str-Representation of Current-DateTime.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. format : str (Str-Representation Format).
+    ============================================================================
+     Return: str
+    ============================================================================
+    """
+    return to_str(datetime.now(), format)
+
 
 def to_str(dt, format='yyyymmddhhmiss'):
     """

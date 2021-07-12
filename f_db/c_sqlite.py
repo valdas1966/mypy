@@ -146,6 +146,24 @@ class Sqlite:
         except Exception as e:
             print(f'Error in Counting Table: {e}\n{tname}')
 
+    def insert_into(self, tname_from, tname_to, verbose=False):
+        """
+        ========================================================================
+         Description: Insert rows from one table into another.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. tname_from : str (Table Name from where to insert).
+            2. tname_to : str (Table Name to insert into).
+            3. verbose : bool
+        ========================================================================
+        """
+        command = f'insert into {tname_to} select * from {tname_from}'
+        self.run(command, verbose)
+
+    def commit(self):
+        self.con.commit()
+
     def close(self):
         """
         ========================================================================
