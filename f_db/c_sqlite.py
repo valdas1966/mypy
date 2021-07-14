@@ -2,7 +2,7 @@ import sqlite3
 import pandas as pd
 
 
-class Sqlite:
+class SQLite:
 
     def __init__(self, db_file=':memory:'):
         """
@@ -35,6 +35,21 @@ class Sqlite:
             return df
         except Exception as e:
             print(f'Error in Selecting Query: {e}\n{query}')
+
+    def select_first_value(self, query):
+        """
+        ========================================================================
+         Description: Return First Value of the Table (first row and column).
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. query : str (SQLite Query).
+        ========================================================================
+         Return: obj
+        ========================================================================
+        """
+        df = self.select(query, verbose=False)
+        return df.loc[0][0]
 
     def load(self, df, tname, with_index=False, verbose=True):
         """
