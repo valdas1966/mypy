@@ -7,7 +7,7 @@ class TestNumbers:
     def __init__(self):
         u_tester.print_start(__file__)
         self.__tester_factors()
-        self.__tester_common()
+        self.__tester_common_factors()
         self.__tester_gcf()
         u_tester.print_finish(__file__)
 
@@ -21,7 +21,7 @@ class TestNumbers:
         u_tester.run(p0, p1, p2, p3, p4)
 
     @staticmethod
-    def __tester_common():
+    def __tester_common_factors():
         p0 = u_numbers.common_factors(1, 2) == [1]
         p1 = u_numbers.common_factors(2, 4) == [1, 2]
         p2 = u_numbers.common_factors(4, 4) == [1, 2, 4]

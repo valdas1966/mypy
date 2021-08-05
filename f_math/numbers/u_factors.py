@@ -2,25 +2,25 @@
 def factors(n):
     """
     ============================================================================
-     Description: Return sorted List of Factors of the given Integer.
+     Description: Return Set of Factors of the given Integer.
+    ----------------------------------------------------------------------------
+        1. Factors(n) = {x for x*y=n, when x,y,n are positive int}
     ============================================================================
      Arguments:
     ----------------------------------------------------------------------------
-        1. n : int
+        1. n : positive int
     ============================================================================
-     Return: list of int (Sorted List of Factors).
+     Return: set of int (Set of Factors of a given positive number N).
     ============================================================================
     """
     assert type(n) == int
+    assert n > 0
     s = {1, n}
-    for i in range(2, n//2+1):
-        if i in s:
-            break
-        if n % i == 0:
-            s.update({i, n//i})
-            if i == n//i:
-                break
-    return sorted([x for x in s])
+    for x in range(2, int(n**0.5)+1):
+        if n % x == 0:
+            y = n // x
+            s = s.union({x, y})
+    return s
 
 
 def common_factors(a, b):
@@ -57,3 +57,21 @@ def gcf(a, b):
     """
     common = common_factors(a, b)
     return max(common)
+
+
+def is_prime(n):
+    """
+    ============================================================================
+     Description: Return True if the given number is a Prime Number.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. n : int
+    ============================================================================
+     Result: bool
+    ============================================================================
+    """
+    assert type(n) == int
+    if n <= 0:
+        return False
+    return len(factors(n) == 2)
