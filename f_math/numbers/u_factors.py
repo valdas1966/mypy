@@ -14,7 +14,7 @@ def factors(n):
     ============================================================================
     """
     assert type(n) == int
-    assert n > 0
+    assert n >= 1
     s = {1, n}
     for x in range(2, int(n**0.5)+1):
         if n % x == 0:
@@ -26,20 +26,21 @@ def factors(n):
 def common_factors(a, b):
     """
     ============================================================================
-     Description: Return sorted List of Common Factors of 2 given Integers.
+     Description: Return set of Common Factors of 2 given Integers.
     ============================================================================
      Arguments:
     ----------------------------------------------------------------------------
         1. a : int
         2. b : int
     ============================================================================
-     Return: list of int (Sorted List of Common Factors).
+     Return: set of int (Set of Common Factors).
     ============================================================================
     """
-    factors_a = set(factors(a))
-    factors_b = set(factors(b))
-    common = factors_a.intersection(factors_b)
-    return sorted([x for x in common])
+    assert type(a) == int
+    assert type(b) == int
+    assert a >= 1
+    assert b >= 1
+    return factors(a).intersection(factors(b))
 
 
 def gcf(a, b):
@@ -55,6 +56,10 @@ def gcf(a, b):
      Return: int (GCF of two given Integers).
     ============================================================================
     """
+    assert type(a) == int
+    assert type(b) == int
+    assert a >= 1
+    assert b >= 1
     common = common_factors(a, b)
     return max(common)
 
