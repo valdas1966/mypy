@@ -47,21 +47,24 @@ def gcf(a, b):
     """
     ============================================================================
      Description: Return the Greatest Common Factor of two given integers.
+    ----------------------------------------------------------------------------
+     Built-in Function - math.gcd(a,b)
     ============================================================================
      Arguments:
     ----------------------------------------------------------------------------
         1. a : int
         2. b : int
     ============================================================================
-     Return: int (GCF of two given Integers).
+     Return: int in range [1, min(a,b)]
     ============================================================================
     """
     assert type(a) == int
     assert type(b) == int
     assert a >= 1
     assert b >= 1
-    common = common_factors(a, b)
-    return max(common)
+    while b > 0:
+        a, b = b, a % b
+    return a
 
 
 def is_prime(n):
