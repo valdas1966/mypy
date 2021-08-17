@@ -54,7 +54,7 @@ class Excel:
     def set_value(self, row, col, value):
         """
         ========================================================================
-         Description: Set Value in Cell by Row and Col numbers.
+         Description: Set Value in Cell by Row and Col number.
         ========================================================================
          Arguments:
         ------------------------------------------------------------------------
@@ -92,7 +92,7 @@ class Excel:
     def get_value(self, row, col):
         """
         ========================================================================
-         Description: Return Value in the Cell by Row and Col numbers.
+         Description: Return Value in the Cell by Row and Col number.
         ========================================================================
          Arguments:
         ------------------------------------------------------------------------
