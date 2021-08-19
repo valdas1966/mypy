@@ -45,7 +45,7 @@ def common_factors(a, b):
 
 def gcf(a, b):
     """
-    ============================================================================
+    ===================================/=========================================
      Description: Return the Greatest Common Factor of two given integers.
     ----------------------------------------------------------------------------
      Built-in Function - math.gcd(a,b)
@@ -62,7 +62,7 @@ def gcf(a, b):
     assert type(b) == int
     assert a >= 1
     assert b >= 1
-    while b > 0:
+    while b:
         a, b = b, a % b
     return a
 

@@ -87,3 +87,107 @@ def digit_at(n, i):
     pow_div = 10 ** (i)
     return (n % pow_mod) // pow_div
 
+
+def sum(a, b):
+    """
+    ============================================================================
+     Description: Return Result of Addition of two given Integers.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. a : int
+        2. b : int
+    ============================================================================
+     Return: int
+    ============================================================================
+    """
+    if a < b:
+        a, b = b, a
+    i = 0
+    summer = 0
+    prev = 0
+    while a >= 10**i:
+        d_a = digit_at(a, i)
+        d_b = digit_at(b, i)
+        remainder, prev = u_digit.sum(d_a, d_b, prev)
+        summer += remainder * (10**i)
+        i += 1
+    summer += prev * (10**i)
+    return summer
+
+
+def mult_digit_int(d, n):
+    """
+    ============================================================================
+     Description: Return Multiplication of given Digit and Integer.
+                    (Sub-Function for mult(a, b))
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. d : int (Digit from 0 to 9)
+        2. n : int
+    ============================================================================
+     Return: int
+    ============================================================================
+    """
+    assert type(d) == int
+    assert type(n) == int
+    assert 0 <= d <= 9
+    assert n >= 0
+    i, prev, summer = 0, 0, 0
+    while n >= 10**i:
+        d_n = digit_at(n, i)
+        remainder, prev = u_digit.mult(d, d_n, prev)
+        # sum and shift
+        summer += remainder * 10**i
+        i += 1
+    return summer + prev * 10**i
+
+
+def mult(a, b):
+    """
+    ============================================================================
+     Description: Return the Result of Multiplication of two given Integers.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. a : int
+        2. b : int
+    ============================================================================
+     Return: int
+    ============================================================================
+    """
+    assert type(a) == int
+    assert type(b) == int
+    assert a >= 0
+    assert b >= 0
+    i, summer = 0, 0
+    while a >= 10**i:
+        d = digit_at(a, i)
+        # sum and shift
+        summer += mult_digit_int(d, b) * (10**i)
+        i += 1
+    return summer
+
+
+def pow(a, b):
+    """
+    ============================================================================
+     Description: Return a^b.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. a : int
+        2. b : int
+    ============================================================================
+     Return: int
+    ============================================================================
+    """
+    assert type(a) == int
+    assert type(b) == int
+    assert a >= 0
+    assert b >= 0
+    ret = 1
+    for _ in range(b):
+        ret *= a
+    return ret
