@@ -121,7 +121,8 @@ def minus(a, b):
     assert type(b) == int
     assert a >= 0
     assert b >= 0
-
+    i = 0
+    while a >= 10**i
 
 
 def mult_digit_int(d, n):

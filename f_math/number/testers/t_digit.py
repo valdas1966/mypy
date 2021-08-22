@@ -8,6 +8,7 @@ class TestDigit:
     def __init__(self):
         u_tester.print_start(__file__)
         self.__tester_plus()
+        self.__tester_minus()
         self.__tester_mult()
         u_tester.print_finish(__file__)
 
@@ -26,6 +27,14 @@ class TestDigit:
                 p0 = False
                 break
         u_tester.run(p0)
+
+    @staticmethod
+    def __tester_minus():
+        p0 = u_digit.minus(5, 2, 0) == 3, 0
+        p1 = u_digit.minus(5, 2, 1) == 2, 0
+        p2 = u_digit.minus(2, 5, 0) == 7, 1
+        p3 = u_digit.minus(2, 5, 1) == 6, 1
+        u_tester.run(p0, p1, p2, p3)
 
     @staticmethod
     def __tester_mult():
