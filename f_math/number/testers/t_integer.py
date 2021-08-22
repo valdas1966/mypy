@@ -10,7 +10,7 @@ class TestInteger:
         self.__tester_div()
         self.__tester_mod()
         self.__tester_digit_at()
-        self.__tester_sum()
+        self.__tester_plus()
         self.__tester_mult_digit_int()
         self.__tester_mult()
         self.__tester_pow()
@@ -54,12 +54,12 @@ class TestInteger:
         u_tester.run(p0)
 
     @staticmethod
-    def __tester_sum():
+    def __tester_plus():
         p0 = True
         for _ in range(1000):
             a = randint(0, 1000)
             b = randint(0, 1000)
-            if u_integer.sum(a, b) != (a+b):
+            if u_integer.plus(a, b) != (a+b):
                 p0 = False
                 # print(a, b, u_integer.sum(a, b))
                 break

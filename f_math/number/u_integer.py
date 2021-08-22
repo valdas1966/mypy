@@ -88,7 +88,7 @@ def digit_at(n, i):
     return (n % pow_mod) // pow_div
 
 
-def sum(a, b):
+def plus(a, b):
     """
     ============================================================================
      Description: Return Result of Addition of two given Integers.
@@ -109,11 +109,19 @@ def sum(a, b):
     while a >= 10**i:
         d_a = digit_at(a, i)
         d_b = digit_at(b, i)
-        remainder, prev = u_digit.sum(d_a, d_b, prev)
+        remainder, prev = u_digit.plus(d_a, d_b, prev)
         summer += remainder * (10**i)
         i += 1
     summer += prev * (10**i)
     return summer
+
+
+def minus(a, b):
+    assert type(a) == int
+    assert type(b) == int
+    assert a >= 0
+    assert b >= 0
+
 
 
 def mult_digit_int(d, n):

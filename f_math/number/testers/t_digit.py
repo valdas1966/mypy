@@ -7,12 +7,12 @@ class TestDigit:
 
     def __init__(self):
         u_tester.print_start(__file__)
-        self.__tester_sum()
+        self.__tester_plus()
         self.__tester_mult()
         u_tester.print_finish(__file__)
 
     @staticmethod
-    def __tester_sum():
+    def __tester_plus():
         p0 = True
         for _ in range(100):
             a = randint(0, 9)
@@ -21,7 +21,7 @@ class TestDigit:
             sum = a + b + prev
             remainder_true = sum % 10
             whole_true = sum // 10
-            remainder_test, whole_test = u_digit.sum(a, b, prev)
+            remainder_test, whole_test = u_digit.plus(a, b, prev)
             if remainder_test != remainder_true or whole_test != whole_true:
                 p0 = False
                 break
