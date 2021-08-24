@@ -121,8 +121,20 @@ def minus(a, b):
     assert type(b) == int
     assert a >= 0
     assert b >= 0
-    i = 0
-    while a >= 10**i
+    a_is_greater = True
+    if a < b:
+        a, b = b, a
+        a_is_greater = False
+    i, prev, res = 0, 0, 0
+    while a >= 10**i:
+        d_a = digit_at(a, i)
+        d_b = digit_at(b, i)
+        remainder, prev = u_digit.minus(d_a, d_b, prev)
+        res += remainder * 10**i
+        i += 1
+    if a_is_greater:
+        return res
+    return -res
 
 
 def mult_digit_int(d, n):
