@@ -101,6 +101,10 @@ def plus(a, b):
      Return: int
     ============================================================================
     """
+    assert type(a) == int
+    assert type(b) == int
+    assert a >= 0
+    assert b >= 0
     if a < b:
         a, b = b, a
     i = 0
@@ -117,24 +121,35 @@ def plus(a, b):
 
 
 def minus(a, b):
+    """
+    ============================================================================
+     Description: Return Result of Addition of two given Integers.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. a : int
+        2. b : int
+    ============================================================================
+     Return: int
+    ============================================================================
+    """
     assert type(a) == int
     assert type(b) == int
     assert a >= 0
     assert b >= 0
-    a_is_greater = True
+    # if A<B: replace the order in subtraction and return the opposite result
     if a < b:
-        a, b = b, a
-        a_is_greater = False
+        return -minus(b, a)
     i, prev, res = 0, 0, 0
+    # for each digit in number A
     while a >= 10**i:
-        d_a = digit_at(a, i)
-        d_b = digit_at(b, i)
+        d_a, d_b = digit_at(a, i), digit_at(b, i)
+        # subtract the appropriate digit in number B
         remainder, prev = u_digit.minus(d_a, d_b, prev)
+        # sum the result and shift (by digit's place)
         res += remainder * 10**i
         i += 1
-    if a_is_greater:
-        return res
-    return -res
+    return res
 
 
 def mult_digit_int(d, n):
