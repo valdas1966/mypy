@@ -35,7 +35,7 @@ def div(a, b):
     assert type(a) == int
     assert type(b) == int
     assert a >= 0
-    assert b > 0
+    assert b >= 1
     if a < b:
         return 0
     count = 0
@@ -61,7 +61,7 @@ def mod(a, b):
     assert type(a) == int
     assert type(b) == int
     assert a >= 0
-    assert b > 0
+    assert b >= 1
     return a - b * (div(a, b))
 
 

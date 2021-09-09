@@ -18,6 +18,6 @@ def lcm(a, b):
     assert type(b) == int
     assert a >= 1
     assert b >= 1
-    return a*b // gcd(a,b)
+    return a*b // gcd(a, b)
 
 
