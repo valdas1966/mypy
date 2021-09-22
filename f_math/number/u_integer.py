@@ -65,6 +65,23 @@ def mod(a, b):
     return a - b * (div(a, b))
 
 
+def length(n):
+    """
+    ============================================================================
+     Description: Return the number of digits in the given Integer.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. n : int
+    ============================================================================
+     Return: int (Number of Digits in the given Integer).
+    ============================================================================
+    """
+    assert type(n) == int
+    assert n >= 0
+    return len(str(n))
+
+
 def digit_at(n, i):
     """
     ============================================================================
@@ -88,6 +105,52 @@ def digit_at(n, i):
     return (n % pow_mod) // pow_div
 
 
+def digits(n):
+    """
+    ============================================================================
+     Description: Return List of Integer's Digits ordered from right to left.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. n : int
+    ============================================================================
+     Return: list of int (List of Digits).
+    ============================================================================
+    """
+    assert type(n) == int
+    assert n >= 0
+    if not n:
+        return [0]
+    i = 0
+    li = list()
+    while n >= 10**i:
+        d = digit_at(n, i)
+        li.append(d)
+        i += 1
+    return li
+
+
+def shift_left(n, i):
+    """
+    ============================================================================
+     Description: Shift Integer i places Left.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. n : int (int to shift)
+        2. i : int (places to shift)
+    ============================================================================
+     Return: int (Shifted Integer)
+    ============================================================================
+    """
+    assert type(n) == int
+    assert type(i) == int
+    assert n >= 0
+    assert i >= 0
+    # shift i places left
+    return n * 10**i
+
+
 def plus(a, b):
     """
     ============================================================================
@@ -105,19 +168,14 @@ def plus(a, b):
     assert type(b) == int
     assert a >= 0
     assert b >= 0
-    if a < b:
-        a, b = b, a
-    i = 0
-    summer = 0
-    prev = 0
-    while a >= 10**i:
-        d_a = digit_at(a, i)
+    a, b = max(a, b), min(a, b)
+    res, d_prev = 0, 0
+    for i, d_a in enumerate(digits(a)):
         d_b = digit_at(b, i)
-        remainder, prev = u_digit.plus(d_a, d_b, prev)
-        summer += remainder * (10**i)
-        i += 1
-    summer += prev * (10**i)
-    return summer
+        d_remainder, d_prev = u_digit.plus(d_a, d_b, d_prev)
+        res += shift_left(d_remainder, i)
+    res += shift_left(d_prev, length(a))
+    return res
 
 
 def minus(a, b):
@@ -137,18 +195,13 @@ def minus(a, b):
     assert type(b) == int
     assert a >= 0
     assert b >= 0
-    # if A<B: replace the order in subtraction and return the opposite result
     if a < b:
         return -minus(b, a)
-    i, prev, res = 0, 0, 0
-    # for each digit in number A
-    while a >= 10**i:
-        d_a, d_b = digit_at(a, i), digit_at(b, i)
-        # subtract the appropriate digit in number B
-        remainder, prev = u_digit.minus(d_a, d_b, prev)
-        # sum the result and shift (by digit's place)
-        res += remainder * 10**i
-        i += 1
+    d_prev, res = 0, 0
+    for i, d_a in enumerate(digits(a)):
+        d_b = digit_at(b, i)
+        d_remainder, d_prev = u_digit.minus(d_a, d_b, d_prev)
+        res += shift_left(d_remainder, i)
     return res
 
 
@@ -170,14 +223,12 @@ def mult_digit_int(d, n):
     assert type(n) == int
     assert 0 <= d <= 9
     assert n >= 0
-    i, prev, summer = 0, 0, 0
-    while n >= 10**i:
-        d_n = digit_at(n, i)
-        remainder, prev = u_digit.mult(d, d_n, prev)
-        # sum and shift
-        summer += remainder * 10**i
-        i += 1
-    return summer + prev * 10**i
+    d_prev, res = 0, 0
+    for i, d_n in enumerate(digits(n)):
+        d_remainder, d_prev = u_digit.mult(d, d_n, d_prev)
+        res += shift_left(d_remainder, i)
+    res += shift_left(d_prev, length(n))
+    return res
 
 
 def mult(a, b):
@@ -197,13 +248,10 @@ def mult(a, b):
     assert type(b) == int
     assert a >= 0
     assert b >= 0
-    i, summer = 0, 0
-    while a >= 10**i:
-        d = digit_at(a, i)
-        # sum and shift
-        summer += mult_digit_int(d, b) * (10**i)
-        i += 1
-    return summer
+    res = 0
+    for i, d in enumerate(digits(a)):
+        res += shift_left(mult_digit_int(d, b), i)
+    return res
 
 
 def pow(a, b):
@@ -223,7 +271,7 @@ def pow(a, b):
     assert type(b) == int
     assert a >= 0
     assert b >= 0
-    ret = 1
+    res = 1
     for _ in range(b):
-        ret *= a
-    return ret
+        res *= a
+    return res

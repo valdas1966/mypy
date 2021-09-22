@@ -10,6 +10,8 @@ class TestInteger:
         self.__tester_div()
         self.__tester_mod()
         self.__tester_digit_at()
+        self.__tester_digits()
+        self.__tester_shift_left()
         self.__tester_plus()
         self.__tester_minus()
         self.__tester_mult_digit_int()
@@ -55,6 +57,31 @@ class TestInteger:
         u_tester.run(p0)
 
     @staticmethod
+    def __tester_digits():
+        p0 = True
+        for _ in range(1000):
+            n = randint(0, 999)
+            digits_test = u_integer.digits(n)
+            digits_true = [int(d) for d in str(n)[::-1]]
+            if digits_test != digits_true:
+                p0 = False
+                break
+        u_tester.run(p0)
+
+    @staticmethod
+    def __tester_shift_left():
+        p0 = True
+        for _ in range(1000):
+            n = randint(0, 999)
+            i = randint(0, 3)
+            shifted_test = u_integer.shift_left(n, i)
+            shifted_true = int(str(n) + '0' * i)
+            if shifted_test != shifted_true:
+                p0 = False
+                break
+        u_tester.run(p0)
+
+    @staticmethod
     def __tester_plus():
         p0 = True
         for _ in range(1000):
@@ -62,7 +89,7 @@ class TestInteger:
             b = randint(0, 1000)
             if u_integer.plus(a, b) != (a+b):
                 p0 = False
-                # print(a, b, u_integer.sum(a, b))
+                # print(a, b, u_integer.plus(a, b))
                 break
         u_tester.run(p0)
 
