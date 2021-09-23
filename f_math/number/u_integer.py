@@ -124,6 +124,7 @@ def digits(n):
     i = 0
     li = list()
     while n >= 10**i:
+        # while there is digit in index i
         d = digit_at(n, i)
         li.append(d)
         i += 1
