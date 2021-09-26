@@ -64,3 +64,24 @@ def to_regex(value, digit='d', alpha='w', white='_', black='x'):
         else:
             li.append(black)
     return ''.join(li)
+
+
+def push_at(s, what, i):
+    """
+    ============================================================================
+     Description: Push str into another str.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. s : str (Main String).
+        2. what : str (String to Push).
+        3. i : int (Index where to Push).
+    ============================================================================
+     Return: str (String after a Push process).
+    ============================================================================
+    """
+    assert type(s) == str
+    assert type(what) == str
+    assert type(i) == int
+    assert 0 <= i <= len(s)
+    return f'{s[:i]}{what}{s[i:]}'
