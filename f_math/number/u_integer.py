@@ -100,9 +100,7 @@ def digit_at(n, i):
     assert type(i) == int
     assert n >= 0
     assert i >= 0
-    pow_mod = 10 ** (i+1)
-    pow_div = 10 ** (i)
-    return (n % pow_mod) // pow_div
+    return (n // 10**i) % 10
 
 
 def digits(n):
