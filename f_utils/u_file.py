@@ -258,3 +258,6 @@ def datetime_created(filepath):
     t = os.path.getctime(filepath)
     return datetime.datetime.fromtimestamp(t)
 
+
+def replace_filename(path, filename):
+    return '\\'.join(path.split('\\')[:-1]) + '\\' + filename
