@@ -260,4 +260,16 @@ def datetime_created(filepath):
 
 
 def replace_filename(path, filename):
+    """
+    ============================================================================
+     Description: Get full filepath and return it with replaced filename.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. path : str (Full FilePath).
+        2. filename : str (FileName to Replace).
+    ============================================================================
+     Return: str (FilePath with replaced FileName).
+    ============================================================================
+    """
     return '\\'.join(path.split('\\')[:-1]) + '\\' + filename
