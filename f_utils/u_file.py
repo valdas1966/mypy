@@ -70,7 +70,7 @@ def append(path, text):
     file.close()
 
 
-def delete(paths):
+def delete(paths, verbose=True):
     """
     =======================================================================
      Description: Delete a File (by FilePath).
@@ -78,14 +78,16 @@ def delete(paths):
      Arguments:
     -----------------------------------------------------------------------
         1. paths : str or set of str.
+        2. verbose : bool (to print the error msg or not).
     =======================================================================
     """
     paths = u_set.generalize(paths)
     for path in paths:
         try:
             os.remove(path)
-        except:
-            print('Cannot Delete: ' + path)
+        except Exception as e:
+            if verbose:
+                print('Cannot Delete: ' + path + '\n' + str(e))
 
 
 def filepaths(path_dir, extensions=set()):
