@@ -2,28 +2,30 @@ from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from pptx.dml.color import RGBColor
+from collections import namedtuple
 from f_utils import u_file
 from f_const import u_rgb
 
 
 class MyPresentation:
+
+    # width of standard pptx slide
     WIDTH = 13.33
+    # height of standard pptx slide
     HEIGHT = 7.5
+    # pptx.Presentation object
+    p = None
+    # pptx.Presentation.slide object
+    slide = None
+    # map user-given name with shape
+    shapes = dict()
+    # namedtuple of shape parameters
+    params_shape = None
 
     def __init__(self, path):
         self.path = path
-        self.p = None
-        self.slide = None
-        if u_file.is_exists(path):
-            self.p = Presentation(path)
-            self.slide = self.p.slides[0]
-        else:
-            self.p = Presentation()
-            layout_blank = 6
-            layout = self.p.slide_layouts[layout_blank]
-            self.slide = self.p.slides.add_slide(layout)
-        # map user-given name with shape
-        self.shapes = dict()
+        self.__init_slide()
+        self.__init_params_shape()
 
     def map(self, li):
         assert type(li) in {tuple, list, set}
@@ -75,3 +77,24 @@ class MyPresentation:
     def to_rgb_color(cls, rgb):
         red, green, blue = rgb
         return RGBColor(red, green, blue)
+
+    def __init_slide(self):
+        if u_file.is_exists(self.path):
+            self.p = Presentation(self.path)
+            self.slide = self.p.slides[0]
+        else:
+            self.p = Presentation()
+            layout_blank = 6
+            layout = self.p.slide_layouts[layout_blank]
+            self.slide = self.p.slides.add_slide(layout)
+
+    def __init_params_shape(self):
+        fields = ('name', 'text', 'font_name', 'font_size', 'font_bold',
+                  'forecolor', 'background', 'line_color', 'line_width',
+                  'inches')
+        defaults = (None, str(), 'Tahoma', '18', True, u_rgb.BLACK,
+                    u_rgb.WHITE, u_rgb.BLACK, 0.01, None)
+        self.params_shape = namedtuple('Params Shape', fields, defaults)
+
+
+p = MyPresentation('d:\\test.pptx')
