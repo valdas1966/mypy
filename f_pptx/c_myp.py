@@ -19,13 +19,10 @@ class MyPresentation:
     slide = None
     # map user-given name with shape
     shapes = dict()
-    # namedtuple of shape parameters
-    params_shape = None
 
     def __init__(self, path):
         self.path = path
         self.__init_slide()
-        self.__init_params_shape()
 
     def map(self, li):
         assert type(li) in {tuple, list, set}
@@ -40,25 +37,32 @@ class MyPresentation:
         self.shape[name].width = Inches(self.WIDTH / 100 * width)
         self.shape[name].height = Inches(self.HEIGHT / 100 * height)
 
-    def add_text(self, name, text, inches, font_size, font_rgb):
-        left, top, width, height = inches
+    def gen_params_shape(self):
+        fields = 'name inches text text_font text_size text_is_bold'
+        fields += ' text_color line_width line_color back_color'
+        defaults = (None, None, str(), 'Tahoma', 18, True, u_rgb.BLACK,
+                    0.01, u_rgb.BLACK, u_rgb.WHITE)
+        return namedtuple('Params', fields, defaults=defaults)
+
+    def add_text(self, params):
+        left, top, width, height = params.inches
         textbox = self.slide.shapes.add_textbox(left, top, width, height)
-        textbox.line.color.rgb = self.to_rgb_color(u_rgb.BLACK)
-        textbox.line.width = Inches(0.0416)
+        textbox.line.color.rgb = self.to_rgb_color(params.line_color)
+        textbox.line.width = params.line_width
         textbox.fill.solid()
-        textbox.fill.fore_color.rgb = self.to_rgb_color(u_rgb.GREEN)
-        self.shapes[name] = self.slide.shapes[-1]
+        textbox.fill.fore_color.rgb = self.to_rgb_color(params.back_color)
+        self.shapes[params.name] = self.slide.shapes[-1]
         tf = textbox.text_frame
         tf.vertical_anchor = MSO_ANCHOR.MIDDLE
         parag = tf.paragraphs[0]
         parag.alignment = PP_ALIGN.CENTER
         run = parag.add_run()
-        run.text = text
+        run.text = params.text
         font = run.font
-        font.name = 'Tahoma'
-        font.size = Pt(font_size)
-        font.color.rgb = self.to_rgb_color(font_rgb)
-        font.bold = True
+        font.name = params.font
+        font.size = Pt(params.text_size)
+        font.color.rgb = self.to_rgb_color(params.text_color)
+        font.bold = params.text_is_bold
 
     def save(self, path=None):
         if not path:
@@ -88,13 +92,15 @@ class MyPresentation:
             layout = self.p.slide_layouts[layout_blank]
             self.slide = self.p.slides.add_slide(layout)
 
-    def __init_params_shape(self):
-        fields = ('name', 'text', 'font_name', 'font_size', 'font_bold',
-                  'forecolor', 'background', 'line_color', 'line_width',
-                  'inches')
-        defaults = (None, str(), 'Tahoma', '18', True, u_rgb.BLACK,
-                    u_rgb.WHITE, u_rgb.BLACK, 0.01, None)
-        self.params_shape = namedtuple('Params Shape', fields, defaults)
+    class Params:
+        name = None
+        inches = None
+        text = str()
+        font = 'Tahoma'
+        text_color = u_rgb.BLACK
+        text_size = 18
+        text_is_bold = True
+        line_width = Inches(0.01)
+        line_color = u_rgb.BLACK
+        back_color = u_rgb.WHITE
 
-
-p = MyPresentation('d:\\test.pptx')
