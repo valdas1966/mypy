@@ -8,11 +8,24 @@ path_out = repo + 'temp_out.pptx'
 
 p = MyPresentation(path_in)
 slide = Canvas()
-params = p.Params()
-coor = slide.get_coor((30, 10, 60, 50))
-params.inches = p.to_inches(coor)
-params.name = 'a'
-params.text = 'A'
-params.back_color = u_rgb.RED
-p.add_text(params)
+# Params A
+params_a = p.Params()
+coor_a = slide.get_coor((0.3, 0.1, 0.6, 0.5))
+params_a.inches = p.to_inches(coor_a)
+params_a.name = 'a'
+params_a.text = 'A'
+params_a.back_color = u_rgb.RED
+params_a.transparency = 0.25
+p.add_text(params_a)
+# Params B
+params_b = p.Params()
+coor_b = slide.get_coor((0.5, 0.4, 0.3, 0.5))
+params_b.inches = p.to_inches(coor_b)
+params_b.name = 'b'
+params_b.text = 'B'
+params_b.back_color = u_rgb.BLUE
+p.add_text(params_b)
+# General
+p.map_shapes_names(['a', 'b'])
+p.organize_front(['a', 'b'])
 p.save(path_out)
