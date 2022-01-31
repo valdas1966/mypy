@@ -1,4 +1,6 @@
 import u_list
+import pandas as pd
+
 
 def create(path, li):
     """
@@ -70,6 +72,39 @@ def to_dic(path, cols_key, cols_val, has_title=True):
     return ans
 
 
-def repair(csv_in, csv_out, verbose=True):
+def repair(csv_in, csv_out, csv_errors=None, verbose=True):
     file_in = open(csv_in, 'r')
     file_out = open(csv_out, 'w')
+    file_errors = None
+    if csv_errors:
+            file_errors = open(csv_errors, 'w')
+    line = True
+    cnt_errors = 0
+    i = 1
+    while not line == '':
+        try:
+            line = file_in.readline()
+            if line:
+                file_out.write(line)
+        except Exception as _:
+            cnt_errors += 1
+            if csv_errors:
+                file_errors.write(f'{i}\n')
+        i += 1
+    if verbose:
+        print(f'Repair CSV: {csv_in}')
+        print(f'{i-cnt_errors} Success, {cnt_errors} Errors')
+
+
+def append(csv_1, csv_2, csv_out, verbose=True):
+    df_1 = pd.read_csv(csv_1)
+    df_2 = pd.read_csv(csv_2)
+    df_out = df_1.append(df_2)
+    df_out.to_csv(csv_out)
+    if verbose:
+        print(f'{csv_1} [{len(df_1)} rows]')
+        print('append vs')
+        print(f'{csv_2} [{len(df_2)} rows]')
+        print(f'into {csv_out}')
+        print(f'[{len(df_out)} rows]')
+
