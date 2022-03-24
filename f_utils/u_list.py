@@ -1,3 +1,6 @@
+import math
+
+
 def sublist_by_index(li, indices):
     """
     ===========================================================================
@@ -15,6 +18,28 @@ def sublist_by_index(li, indices):
     for index in indices:
         sub.append(li[index])
     return sub
+
+
+def to_slices(li, size):
+    """
+    ============================================================================
+     Description: Slice List into Sub-Lists by given Size of Sub-List.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. li : list
+        2. size : int
+    ============================================================================
+     Return: list (List of Sub-Lists).
+    ============================================================================
+    """
+    slices = list()
+    len_slices = math.ceil(len(li)/size)
+    for i in range(len_slices):
+        index_from = i*size
+        index_to = (i+1)*size
+        slices.append(li[index_from: index_to])
+    return slices
 
 
 def bigram(li):

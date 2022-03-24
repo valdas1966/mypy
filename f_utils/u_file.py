@@ -90,6 +90,26 @@ def delete(paths, verbose=True):
                 print('Cannot Delete: ' + path + '\n' + str(e))
 
 
+def to_set(path, verbose=False):
+    """
+    ============================================================================
+     Description: Transpose Elements from Text-File into a Set.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. path : str (Path to Text-File).
+        2. verbose : bool
+    ============================================================================
+     Return: set of str
+    ============================================================================
+    """
+    text = read(path)
+    if verbose:
+        cnt = text.count('\n')+1
+        print(f'{cnt} elements are inserted into a set from {path}')
+    return set(text.split('\n'))
+
+
 def filepaths(path_dir, extensions=set()):
     """
     =======================================================================
