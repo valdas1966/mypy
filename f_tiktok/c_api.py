@@ -9,7 +9,8 @@ from f_utils import u_zip
 
 class Api:
 
-    def __init__(self, repo, key_api="15c9a5c367msh4b3db71995ecbd2p11b32bjsn422839c9a3a4", user_id):
+    def __init__(self, repo,
+                 key_api="15c9a5c367msh4b3db71995ecbd2p11b32bjsn422839c9a3a4", user_id='6943972350728700930'):
         self.repo = repo
         self.key_api = key_api
         self.user_id = user_id
@@ -25,8 +26,8 @@ class Api:
         headers = {'x-rapidapi-host': "tiktok-video-no-watermark2.p.rapidapi.com",
             'x-rapidapi-key': self.api.key}
         conn.request("GET",
-                     "/user/posts?unique_id=%40{0}&user_id=6943972350728700930"
-                     "&count=1000&cursor=0".format(unique_id),
+                     "/user/posts?unique_id=%40{0}&user_id={1}"
+                     "&count=1000&cursor=0".format(unique_id, self.user_id),
                      headers=headers)
         res = conn.getresponse()
         data = res.read()
