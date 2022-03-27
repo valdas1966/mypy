@@ -91,7 +91,7 @@ def delete(paths, verbose=True):
 
 
 def to_set(path, verbose=False):
-    """
+    """"
     ============================================================================
      Description: Transpose Elements from Text-File into a Set.
     ============================================================================
