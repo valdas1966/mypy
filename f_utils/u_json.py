@@ -17,3 +17,4 @@ def to_dict(str_json=str(), path_json=str()):
     if path_json:
         str_json = u_file.read(path_json)
     return json.loads(str_json)
+
