@@ -1,7 +1,8 @@
 import json
+import u_file
 
 
-def to_dict(str_json):
+def to_dict(str_json=str(), path_json=str()):
     """
     ============================================================================
      Description: Convert JSON-str into Dictionary.
@@ -13,4 +14,6 @@ def to_dict(str_json):
      Return: dict
     ============================================================================
     """
+    if path_json:
+        str_json = u_file.read(path_json)
     return json.loads(str_json)
