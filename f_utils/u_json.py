@@ -1,5 +1,5 @@
 import json
-import u_file
+from f_utils import u_file
 
 
 def to_dict(str_json=str(), path_json=str()):
