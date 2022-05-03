@@ -13,6 +13,22 @@ class SQLite:
         self.con = sqlite3.connect(db_file)
         self.cursor = self.con.cursor()
 
+    def create(self, tname, cols, verbose=False):
+        """
+        ========================================================================
+         Description: Create Table by given TName and Cols Signature.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. tname: str
+            2. cols : list of str
+            3. verbose : bool
+        ========================================================================
+        """
+        self.drop(tname)
+        str_cols = ','.join(cols)
+        self.run(f'create table {tname}({str_cols})', verbose)
+
     def select(self, query, verbose=True):
         """
         ========================================================================
@@ -35,6 +51,27 @@ class SQLite:
             return df
         except Exception as e:
             print(f'Error in Selecting Query: {e}\n{query}')
+
+    def to_list(self, query, col=None):
+        """
+        ========================================================================
+         Description: Return Specified DF-Column as a List.
+                        If a Column-Name is not given - Return First Column.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. query : str (can take only table-name).
+            2. col : str
+        ========================================================================
+         Return: list
+        """
+        df = self.select(query, verbose=False)
+        li = None
+        if col:
+            li = df[col].to_list()
+        else:
+            li = df.iloc[:, 0].to_list()
+        return [str(x) for x in li]
 
     def select_first_value(self, query):
         """
@@ -142,7 +179,7 @@ class SQLite:
         except Exception as e:
             print(f'Error in Creating Table {tname}: {e}\n{query}')
 
-    def count(self, tname):
+    def count(self, tname, verbose=True):
         """
         ========================================================================
          Description: Return Number of Rows in the Table.
@@ -150,6 +187,7 @@ class SQLite:
          Arguments:
         ------------------------------------------------------------------------
             1. tname : str (Table Name).
+            2. verbose : bool
         ========================================================================
          Return: int (Number of Rows in the Table, -1 on Error).
         ========================================================================
@@ -159,9 +197,43 @@ class SQLite:
             self.cursor.execute(f'select count(*) from {tname}')
             return self.cursor.fetchone()[0]
         except Exception as e:
-            print(f'Error in Counting Table: {e}\n{tname}')
+            if verbose:
+                print(f'Error in Counting Table: {e}\n{tname}')
+            return None
 
-    def insert_into(self, tname_from, tname_to, verbose=False):
+    def is_exists(self, tname):
+        """
+        ========================================================================
+         Description: Return True if there exists table with the given name.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. tname : str
+        ========================================================================
+         Return: bool
+        ========================================================================
+        """
+        cnt = self.count(tname, verbose=False)
+        if cnt is None:
+            return False
+        return True
+
+    def insert(self, tname, values, verbose=False):
+        """
+        ========================================================================
+         Description: Insert Row-Values into TName Table.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. tname : str
+            2. values : list
+        ========================================================================
+        """
+        str_values = ','.join(values)
+        self.run(f'insert into {tname} values({str_values})', verbose)
+        self.commit()
+
+    def insert_into(self, tname_from, tname_to, cols=None, verbose=False):
         """
         ========================================================================
          Description: Insert rows from one table into another.
@@ -170,11 +242,34 @@ class SQLite:
         ------------------------------------------------------------------------
             1. tname_from : str (Table Name from where to insert).
             2. tname_to : str (Table Name to insert into).
-            3. verbose : bool
+            3. cols : list of str (Columns Names to Insert).
+            4. verbose : bool
         ========================================================================
         """
-        command = f'insert into {tname_to} select * from {tname_from}'
+        if cols:
+            str_cols = ','.join(cols)
+            command = f"""insert into {tname_to}({str_cols})
+                          select {str_cols} from {tname_from}
+                        """
+        else:
+            command = f'insert into {tname_to} select * from {tname_from}'
         self.run(command, verbose)
+        self.commit()
+
+    def cols(self, tname):
+        """
+        ========================================================================
+         Description: Return Column-Names of the given Table.
+        ========================================================================
+         Arguments:
+        ------------------------------------------------------------------------
+            1. tname : str
+        ========================================================================
+         Return: list of str
+        ========================================================================
+        """
+        query = f'select * from {tname} limit 0'
+        return self.select(query).columns.to_list()
 
     def commit(self):
         self.con.commit()
