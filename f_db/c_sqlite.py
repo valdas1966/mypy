@@ -1,5 +1,8 @@
 import sqlite3
 import pandas as pd
+from f_utils import u_str
+from f_data_structure import u_graph
+
 
 
 class SQLite:
@@ -73,7 +76,7 @@ class SQLite:
             li = df.iloc[:, 0].to_list()
         return [str(x) for x in li]
 
-    def select_first_value(self, query):
+    def select_value(self, query):
         """
         ========================================================================
          Description: Return First Value of the Table (first row and column).
@@ -218,7 +221,7 @@ class SQLite:
             return False
         return True
 
-    def insert(self, tname, values, verbose=False):
+    def insert(self, tname, values, cols=None, verbose=False):
         """
         ========================================================================
          Description: Insert Row-Values into TName Table.
@@ -227,10 +230,15 @@ class SQLite:
         ------------------------------------------------------------------------
             1. tname : str
             2. values : list
+            3. cols : list of str
+            4. verbose : bool
         ========================================================================
         """
+        values = (u_str.wrap(s, "'") for s in values)
         str_values = ','.join(values)
-        self.run(f'insert into {tname} values({str_values})', verbose)
+        str_cols = f'({",".join(cols)})' if cols else ''
+        command = f'insert into {tname}{str_cols} values({str_values})'
+        self.run(command, verbose)
         self.commit()
 
     def insert_into(self, tname_from, tname_to, cols=None, verbose=False):
@@ -255,6 +263,21 @@ class SQLite:
             command = f'insert into {tname_to} select * from {tname_from}'
         self.run(command, verbose)
         self.commit()
+
+    def get_descendants(self,
+                        tname: str,
+                        col_parent: str,
+                        col_child: str) -> any:
+        query = f"""
+                    select
+                        {col_parent},
+                        {col_child}
+                    from
+                        {tname}
+                    where
+                        id_parent = {col_parent}"""
+
+
 
     def cols(self, tname):
         """

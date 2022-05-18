@@ -85,3 +85,13 @@ def push_at(s, what, i):
     assert type(i) == int
     assert 0 <= i <= len(s)
     return f'{s[:i]}{what}{s[i:]}'
+
+
+def wrap(s: str, ch: str) -> str:
+    """
+    ============================================================================
+     Description: Wrap str "s" with "ch" from both sides.
+    ============================================================================
+    """
+    return f'{ch}{s}{ch}'
+
