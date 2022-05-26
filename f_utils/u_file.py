@@ -5,6 +5,7 @@ import fileinput
 import datetime
 from f_utils import u_str
 from f_utils import u_set
+from f_utils import u_inspect
 
 
 def is_exists(path):
@@ -20,7 +21,7 @@ def is_exists(path):
     return os.path.isfile(path)
 
 
-def read(path):
+def read(path: str) -> (str, str):
     """
     =======================================================================
      Description: Return the file as string.
@@ -32,10 +33,17 @@ def read(path):
      Return: str (String-Representation of the File).
     =======================================================================
     """
-    file = open(path, 'r')
+    assert type(path) == str, type(path)
+    try:
+        file = open(path, 'r')
+    except Exception as e:
+        msg = u_inspect.gen_msg(line="file = open(path, 'r')",
+                                value=f'path={path}',
+                                e=e)
+        return None, msg
     text = file.read()
     file.close()
-    return text
+    return text, None
 
 
 def write(path, text):
@@ -332,3 +340,4 @@ def replace_filename(path, filename):
     ============================================================================
     """
     return '\\'.join(path.split('\\')[:-1]) + '\\' + filename
+

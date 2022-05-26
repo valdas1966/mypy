@@ -4,6 +4,40 @@ import pandas as pd
 from f_utils import u_dict
 
 
+def select_cols_prefix(df: pd.DataFrame,
+                       cols_prefix: str) -> (pd.DataFrame, str):
+    cols = [col for col in df.columns if col.startswith(cols_prefix)]
+    cols = [col[len(cols_prefix):] for col in cols]
+    try:
+        df = df[cols]
+    except Exception as e:
+        msg = f'Error in Function f_ds.u_df.select_cols_prefix() in ' \
+              f'statement df = df[cols] when cols={cols} and ' \
+              f'df.columns={df.columns}, Error = {e}'
+        return None, msg
+
+
+def select_cols(df: pd.DataFrame,
+                cols: list) -> (pd.DataFrame, str):
+    """
+    ============================================================================
+     Description: Return DataFrame with specified Columns-Names.
+    ============================================================================
+    """
+    if cols == list():
+        msg = f'Error in function f_ds.u_df.select_cols() in statement ' \
+              f'df_new = df[cols] when cols={cols}'
+        return None, msg
+    try:
+        df_new = df[cols]
+    except Exception as e:
+        msg = f'Error in function f_ds.u_df.select_cols() in statement ' \
+              f'df_new = df[cols] when cols={cols} and df.columns=' \
+              f'{df.columns}, Error={e}'
+        return None, msg
+    return df_new
+
+
 def remove_duplicated_columns(df):
     """
     =======================================================================
@@ -126,5 +160,4 @@ def to_dict(df, col_key=0, col_val=1):
         val = row[col_val]
         d = u_dict.update(d, key, val)
     return d
-
 
