@@ -7,11 +7,22 @@ class TestDF:
 
     def __init__(self):
         u_tester.print_start(__file__)
+        TestDF.__tester_select_cols_prefix()
         TestDF.__tester_remove_duplicated_columns()
-        TestDF.__tester_split_to_x_y()
         TestDF.__tester_drop_columns()
         TestDF.__tester_to_dict()
         u_tester.print_finish(__file__)
+
+    @staticmethod
+    def __tester_select_cols_prefix():
+        df = pd.DataFrame({'ab': [1], 'ba': [2]})
+        df_test = u_df.select_cols_prefix(df, prefix='a', remain_prefix=True)
+        df_true = pd.DataFrame({'ab': [1]})
+        p0 = df_test.equals(df_true)
+        df_test = u_df.select_cols_prefix(df, prefix='a', remain_prefix=False)
+        df_true = pd.DataFrame({'b': [1]})
+        p1 = df_test.equals(df_true)
+        u_tester.run(p0, p1)
 
     @staticmethod
     def __tester_remove_duplicated_columns():
@@ -23,22 +34,6 @@ class TestDF:
         df_true = pd.DataFrame({'col_1': col_2})
         p0 = df_test.equals(df_true)
         u_tester.run(p0)
-
-    @staticmethod
-    def __tester_split_to_x_y():
-        col_1 = [1, 2, 3]
-        col_2 = [4, 5, 6]
-        col_3 = [7, 8, 9]
-        col_4 = [1, 0, 1]
-        data = {'col_1': col_1, 'col_2': col_2, 'col_3': col_3, 'col_4': col_4}
-        df = pd.DataFrame(data)
-        x, y = u_df.split_to_x_y(df, cols_features=['col_1', 'col_3'],
-                                 col_label='col_4')
-        x_true = pd.DataFrame({'col_1': col_1, 'col_3': col_3})
-        y_true = pd.Series(col_4)
-        p0 = x.equals(x_true)
-        p1 = y.equals(y_true)
-        u_tester.run(p0, p1)
 
     @staticmethod
     def __tester_drop_columns():

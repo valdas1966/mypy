@@ -1,6 +1,7 @@
 import sqlite3
 import pandas as pd
 from f_utils import u_str
+from f_utils.u_inspect import emsg
 from f_data_structure import u_graph
 
 
@@ -12,115 +13,104 @@ class SQLite:
          Description: Constructor. Init Connection.
         ========================================================================
         """
-        self._db_file = db_file
-        self._con = None
-        self._cursor = None
-
-    def open(self) -> (bool, str):
-        """
-        ========================================================================
-         Description: Open Connection and Cursor to DataBase.
-        ========================================================================
-        """
         try:
+            self._db_file = db_file
             self._con = sqlite3.connect(self._db_file)
             self._cursor = self._con.cursor()
         except Exception as e:
-            return None, e
-        return self, f'DataBase {self._db_file} was successfully connected'
+            msg = emsg({'db_file': db_file})
+            raise Exception(f'{msg}\n{e}')
 
-    def run(self, command: str) -> (bool, str):
+    def run(self, command: str) -> None:
         """
         ========================================================================
-         Return: bool (True if the Command executed successfully).
+         Run SQLite Command.
         ========================================================================
         """
         try:
             self._cursor.execute(command)
-            return True, 'SQLite command executed successfully'
         except Exception as e:
-            return False, e
+            msg = emsg({'command': command})
+            raise Exception(f'{msg}\n{e}')
 
     def create(self,
                tname: str,
-               cols: list) -> (bool, str):
+               cols: list[str]) -> None:
         """
         ========================================================================
          Description: Create Table by given TName and Cols Signature.
         ========================================================================
         """
-        self.drop(tname)
-        str_cols = ','.join(cols)
-        ans = self.run(f'create table {tname}({str_cols})')
-        if ans:
-            return True, f'Table {tname} was successfully created'
-        return ans
+        try:
+            self.drop(tname, report=False)
+            str_cols = ','.join(cols)
+            self.run(f'create table {tname}({str_cols})')
+        except Exception as e:
+            msg = emsg({'tname': tname, 'cols': cols})
+            raise Exception(f'{msg}\n{e}')
 
     def select(self,
                query: str,  # SQL-Query or Table-Name
                limit: int = -1
-               ) -> (pd.DataFrame, str):
+               ) -> pd.DataFrame:
         """
         ========================================================================
          Description: Load Query Results into DataFrame.
         ========================================================================
         """
-        if ' ' not in query:
-            tname = query
-            query = f'select * from {tname}'
-        if limit > -1:
-            query += f' limit {limit}'
         try:
-            df = pd.read_sql_query(con=self._con, sql=query)
-            return df, f'[{len(df):,} rows] were loaded into the DataFrame'
+            if ' ' not in query:
+                tname = query
+                query = f'select * from {tname}'
+            if limit > -1:
+                query += f' limit {limit}'
+            return pd.read_sql_query(con=self._con, sql=query)
         except Exception as e:
-            return None, e
+            msg = emsg({'query': query, 'limit': limit})
+            raise Exception(f'{msg}\n{e}')
 
     def to_list(self,
                 query: str,  # SQL-Query or Table-Name
-                col: str = None) -> (list, str):
+                col: str = None) -> list:
         """
         ========================================================================
          Description: Return Specified Column as a List of str.
                         If a Column-Name is not given - Return First Column.
         ========================================================================
         """
-        ans = self.select(query)
-        if not ans:
-            return ans
-        df = ans[0]
-        if col:
-            try:
+        try:
+            df = self.select(query)
+            if col:
                 li = df[col].to_list()
-            except Exception as e:
-                return None, e
-        else:
-            li = df.iloc[:, 0].to_list()
-        li = [str(x) for x in li]
-        return li, f'{len(li)} rows were retrieved into the list'
+            else:
+                li = df.iloc[:, 0].to_list()
+            return [str(x) for x in li]
+        except Exception as e:
+            msg = emsg({'query': query, 'col': col})
+            raise Exception(f'{msg}\n{e}')
 
     def select_first(self,
                      query: str  # SQL-Query or Table-Name
-                     ) -> (any, str):
+                     ) -> any:
         """
         ========================================================================
          Description: Return First Value of the Table (first row and column).
         ========================================================================
         """
-        if ' ' not in query:
-            tname = query
-            query = f'select * from {tname}'
         try:
+            if ' ' not in query:
+                tname = query
+                query = f'select * from {tname} limit 1'
             self._cursor.execute(query)
-            return self.cursor.fetchone()[0], None
+            return self.cursor.fetchone()[0]
         except Exception as e:
-            return None, e
+            msg = emsg({'query': query})
+            raise Exception(f'{msg}\n{e}')
 
     def load(self,
              df: pd.DataFrame,
              tname: str,
-             with_index: bool = False,
-             ) -> (bool, str):
+             with_index: bool = False) -> None:
         """
         ========================================================================
          Description: Load DataFrame into Sqlite Table.
@@ -131,50 +121,52 @@ class SQLite:
                 df.index.names = ['i']
             df.to_sql(con=self._con, name=tname, if_exists='replace',
                       index=with_index)
-            msg = f"DataFrame loaded into the Table '{tname}' [{len(df):,} rows"
-            return True, msg
         except Exception as e:
-            return False, e
+            msg = emsg({'df': df, 'tname': tname, 'with_index': with_index})
+            raise Exception(f'{msg}\n{e}')
 
-    def drop(self, tname: str) -> (bool, str):
+    def drop(self, tname: str, report: bool = False) -> None:
         """
         ========================================================================
          Description: Drop Table (if exists).
         ========================================================================
         """
-        command = f'drop table {tname}'
-        ans = self.run(command)
-        if not ans[0]:
-            return ans
-        return True, f'Table {tname} was successfully dropped'
+        try:
+            command = f'drop table {tname}'
+            self.run(command)
+        except Exception as e:
+            if report:
+                msg = emsg({'tname': tname, 'report': report})
+                raise Exception(f'{msg}\n{e}')
 
     def ctas(self,
              tname: str,
-             query: str) -> (bool, str):
+             query: str) -> None:
         """
         ========================================================================
          Description: Create Table (tname) as Query.
         ========================================================================
         """
-        self.drop(tname)
-        query = f'create table {tname} as {query}'
-        ans = self.run(query)
-        if not ans[0]:
-            return ans
-        cnt = self.count(tname)[0]
-        msg = f"Table '{tname}' successfully created [{cnt} rows]"
-        return True, msg
+        command = None
+        try:
+            self.drop(tname, report=False)
+            command = f'create table {tname} as {query}'
+            self.run(command)
+        except Exception as e:
+            msg = emsg({'tname': tname, 'query': query, 'command': command})
+            raise Exception(f'{msg}\n{e}')
 
-    def count(self, tname: str) -> (int, str):
+    def count(self, tname: str) -> int:
         """
         ========================================================================
          Description: Return Number of Rows in the Table.
         ========================================================================
         """
-        (count, msg) = self.select_first(f'select count(*) from {tname}')
-        if count:
-            return int(count), msg
-        return count, msg
+        try:
+            return int(self.select_first(f'select count(*) from {tname}'))
+        except Exception as e:
+            msg = emsg({'tname': tname})
+            raise Exception(f'{msg}\n{e}')
 
     def is_exists(self, tname: str) -> bool:
         """
@@ -182,47 +174,54 @@ class SQLite:
          Description: Return True if there exists table with the given name.
         ========================================================================
         """
-        val, _ = self.select_first(tname)
-        return True if val else False
+        try:
+            self.select_first(tname)
+            return True
+        except Exception as e:
+            return False
 
     def insert(self,
                tname: str,
                values: list,
-               cols: list = None) -> (bool, str):
+               cols: list = None) -> None:
         """
         ========================================================================
          Description: Insert Row-Values into TName Table.
         ========================================================================
         """
-        values = (u_str.wrap(s, "'") for s in values)
-        str_values = ','.join(values)
-        str_cols = f'({",".join(cols)})' if cols else ''
-        command = f'insert into {tname}{str_cols} values({str_values})'
-        ans = self.run(command)
-        if ans:
-            self.commit()
-        return ans
+        try:
+            values = (u_str.wrap(s, "'") for s in values)
+            str_values = ','.join(values)
+            str_cols = f'({",".join(cols)})' if cols else ''
+            command = f'insert into {tname}{str_cols} values({str_values})'
+            self.run(command)
+        except Exception as e:
+            msg = emsg({'tname': tname, 'values': values, 'cols': cols})
+            raise Exception(f'{msg}\n{e}')
 
     def insert_into(self,
                     tname_from: str,
                     tname_to: str,
-                    cols: list = None) -> (bool, str):
+                    cols: list = None) -> None:
         """
         ========================================================================
          Description: Insert rows from one table into another.
         ========================================================================
         """
-        if cols:
-            str_cols = ','.join(cols)
-            command = f"""insert into {tname_to}({str_cols})
-                          select {str_cols} from {tname_from}
-                        """
-        else:
-            command = f'insert into {tname_to} select * from {tname_from}'
-        ans = self.run(command)
-        if ans:
+        try:
+            if cols:
+                str_cols = ','.join(cols)
+                command = f"""insert into {tname_to}({str_cols})
+                              select {str_cols} from {tname_from}
+                            """
+            else:
+                command = f'insert into {tname_to} select * from {tname_from}'
+            self.run(command)
             self.commit()
-        return ans
+        except Exception as e:
+            msg = emsg({'tname_from': tname_from, 'tname_to': tname_to,
+                        'cols': cols})
+            raise Exception(f'{msg}\n{e}')
 
     def get_descendants(self,
                         tname: str,
@@ -243,10 +242,12 @@ class SQLite:
          Description: Return Column-Names of the given Table-Name.
         ========================================================================
         """
-        df, msg = self.select(query=tname, limit=0)
-        if df is None:
-            return df, f'Cannot retrieve Column-Names: {msg}'
-        return df.columns.to_list()
+        try:
+            df = self.select(query=tname, limit=0)
+            return df.columns.to_list()
+        except Exception as e:
+            msg = emsg({'tname': tname})
+            raise Exception(f'{msg}\n{e}')
 
     def commit(self) -> None:
         """
@@ -254,7 +255,11 @@ class SQLite:
          Description: Commit the DataBase.
         ========================================================================
         """
-        self._con.commit()
+        try:
+            self._con.commit()
+        except Exception as e:
+            msg = emsg(dict())
+            raise Exception(f'{msg}\n{e}')
 
     def close(self, with_commit: bool = True) -> None:
         """
@@ -262,7 +267,11 @@ class SQLite:
          Description: Close Sqlite Cursor and Connection.
         ========================================================================
         """
-        if with_commit:
-            self.commit()
-        self._cursor.close()
-        self._con.close()
+        try:
+            if with_commit:
+                self.commit()
+            self._cursor.close()
+            self._con.close()
+        except Exception as e:
+            msg = emsg()
+            raise Exception(f'{msg}\n{e}')

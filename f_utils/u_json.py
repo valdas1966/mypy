@@ -1,56 +1,39 @@
 import json
 import pandas as pd
-from f_utils import u_inspect
-from f_utils import u_file
+from f_utils.u_inspect import emsg
+from f_ds import u_df
 
 
-def to_dict(str_json=str(), path_json=str()):
+def to_dict(str_json: str) -> dict:
     """
     ============================================================================
-     Description: Convert JSON-str into Dictionary.
-    ============================================================================
-     Arguments:
-    ----------------------------------------------------------------------------
-        1: str_json : str
-    ============================================================================
-     Return: dict
+     Description: Convert JSON-Str into Dictionary.
     ============================================================================
     """
-    if path_json:
-        str_json = u_file.read(path_json)
-    return json.loads(str_json)
+    try:
+        return json.loads(str_json)
+    except Exception as e:
+        msg = emsg({'str_json': str_json})
+        raise Exception(f'{msg}\n{e}')
 
 
-def to_df(str_json: str = None,
-          path_json: str = None,
-          col_prefix: str = None) -> (pd.DataFrame, str):
+def to_df(dict_json: dict,
+          prefix: str = None) -> pd.DataFrame:
     """
     ============================================================================
      Description: Convert JSON (Str or Path) into DataFrame.
                     It works also on Nested-JSON and can return only Columns
                     with specified Prefix.
-                  1. If path_json is given: Read the JSON as Str-Representation.
-                  2. Convert JSON Str into Dict-Representation.
-                  3. Convert Dict into DataFrame-Representation.
     ============================================================================
     """
-    if path_json:
-        try:
-            str_json = u_file.read(path_json)
-        except Exception as e:
-            msg = u_inspect.gen_msg(line='str_json = u_file.read(path_json)',
-                                    value=f'path_json={path_json}', e=e)
-            return None, msg
+    df_json = None
     try:
-        d_json = json.loads(str_json)
+        df_json = pd.json_normalize(dict_json, sep='_')
+        if prefix:
+            df_json = u_df.select_cols_prefix(df_json, prefix,
+                                              remain_prefix=False)
+        return df_json
     except Exception as e:
-        msg = u_inspect.gen_msg(line='d_json = json.loads(str_json)',
-                                value=f'str_json={str_json}', e=e)
-        return None, msg
-    try:
-        df = pd.json_normalize(d_json, sep='_')
-    except Exception as e:
-        msg = u_inspect.gen_msg(line="df=json_normalize(d_json, sep='_'",
-                                value=f'd_json={d_json}', e=e)
-        return None, msg
-    return df, None
+        msg = emsg({'dict_json': dict_json, 'prefix': prefix,
+                    'df_json': df_json})
+        raise Exception(f'{msg}\n{e}')

@@ -9,6 +9,7 @@ class TestList:
         TestList.__tester_sublist_by_index()
         TestList.__tester_bigram()
         TestList.__tester_to_str()
+        TestList.__tester_starts_with()
         u_tester.print_finish(__file__)
 
     @staticmethod
@@ -42,6 +43,20 @@ class TestList:
         str_true = '1,2,3'
         p1 = str_test == str_true
         u_tester.run(p0, p1)
+
+    @staticmethod
+    def __tester_starts_with():
+        li = ['ab', 'ba']
+        sub_test = u_list.starts_with(li, prefix='a')
+        sub_true = ['ab']
+        p0 = sub_test == sub_true
+        sub_test = u_list.starts_with(li, prefix='a', remain_prefix=False)
+        sub_true = ['b']
+        p1 = sub_test == sub_true
+        sub_test = u_list.starts_with(li, prefix='c')
+        sub_true = list()
+        p2 = sub_test == sub_true
+        u_tester.run(p0, p1, p2)
 
 
 if __name__ == '__main__':
