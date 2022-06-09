@@ -1,9 +1,9 @@
 from pptx import Presentation
 from pptx.util import Inches, Pt
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
+#from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
+from pptx.enum.text import PP_PARAGRAPH_ALIGNMENT, MSO_VERTICAL_ANCHOR
 from pptx.dml.color import RGBColor
 from pptx.oxml.xmlchemy import OxmlElement
-from collections import namedtuple
 from f_utils import u_file
 from f_const import u_rgb
 
@@ -47,9 +47,9 @@ class MyPresentation:
         textbox.fill.fore_color.rgb = self.to_rgb_color(params.back_color)
         self.shapes[params.name] = self.slide.shapes[-1]
         tf = textbox.text_frame
-        tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+        tf.vertical_anchor = MSO_VERTICAL_ANCHOR.MIDDLE  #MSO_ANCHOR.MIDDLE
         parag = tf.paragraphs[0]
-        parag.alignment = PP_ALIGN.CENTER
+        parag.alignment = PP_PARAGRAPH_ALIGNMENT.CENTER  #.CENTER
         run = parag.add_run()
         run.text = params.text
         font = run.font
