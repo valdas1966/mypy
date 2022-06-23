@@ -2,7 +2,6 @@ import math
 import random
 import pandas as pd
 from f_utils import u_dict
-from f_utils.u_inspect import emsg
 
 
 def select_cols_prefix(df: pd.DataFrame,
@@ -17,17 +16,11 @@ def select_cols_prefix(df: pd.DataFrame,
         2. Relevant for Nested-JSON, ex of col: data_videos_info
     ============================================================================
     """
-    cols = None
-    try:
-        cols = [col for col in df.columns if col.startswith(prefix)]
-        df = df[cols]
-        if not remain_prefix:
-            df.columns = [col[len(prefix):] for col in cols]
-        return df
-    except Exception as e:
-        msg = emsg({'df': df, 'prefix': prefix, 'remain_prefix':
-                        remain_prefix, 'cols': cols})
-        raise Exception(f'{msg}\n{e}')
+    cols = [col for col in df.columns if col.startswith(prefix)]
+    df = df[cols]
+    if not remain_prefix:
+        df.columns = [col[len(prefix):] for col in cols]
+    return df
 
 
 def remove_duplicated_columns(df):

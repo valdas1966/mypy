@@ -1,8 +1,9 @@
+from f_logging.dec import log_info
 import json
 import pandas as pd
-from f_ds import u_df
 
 
+@log_info
 def to_dict(str_json: str) -> dict:
     """
     ============================================================================
@@ -12,8 +13,8 @@ def to_dict(str_json: str) -> dict:
     return json.loads(str_json)
 
 
-def to_df(dict_json: dict,
-          prefix: str = None) -> pd.DataFrame:
+@log_info
+def to_df(dict_json: dict) -> pd.DataFrame:
     """
     ============================================================================
      Description: Convert Dict-JSON into DataFrame.
@@ -21,8 +22,4 @@ def to_df(dict_json: dict,
                     with specified Prefix.
     ============================================================================
     """
-    df_json = pd.json_normalize(dict_json, sep='_')
-    if prefix:
-        df_json = u_df.select_cols_prefix(df_json, prefix,
-                                          remain_prefix=False)
-    return df_json
+    return pd.json_normalize(dict_json, sep='_')

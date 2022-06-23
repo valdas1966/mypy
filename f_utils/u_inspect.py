@@ -1,4 +1,5 @@
 import inspect
+import re
 
 
 def called_method():
@@ -25,67 +26,22 @@ def trace() -> str:
     return ans
 
 
-def gen_msg(line: str,
-            value: str,
-            e: str) -> str:
-    assert type(line) == str, type(line)
-    assert type(value) == str, type(value)
-    assert type(e) == str, type(e)
-    msg = 'Exception Caught!\n'
-    msg += f'{trace()}\n'
-    msg += f'Line: {line}\n'
-    msg += f'Value: {value}\n'
-    msg += f'Exception: {e}'
-    return msg
-
-
-def check(var: any,
-          name: str,
-          obj: any,
-          nullable: bool = False) -> None:
-    if nullable:
-        assert any(type(var) == type(obj), var is None),\
-            gen_msg(line=f'type({name}={type(var)} and not {type(obj)}',
-                    value=f'{name}={var}', e='DataType Error')
-    else:
-        assert type(var) == type(obj), \
-            gen_msg(line=f'type({name}={type(var)} and not {type(obj)}',
-                    value=f'{name}={var}', e='DataType Error')
-
-
-def emsg(d: dict = dict()) -> str:
-    ans = f'\n{"="*50}\n'
-    ans += f'{called_func(back=2)}\n{"-"*50}\n'
-    for name, val in d.items():
-        ans += f'{name} = '
-        if len(val.__str__()) <= 100:
-            ans += str(val)
-        else:
-            ans += '?'
-        ans += f', {type(val)}\n'
-    return ans
-
-
-"""
-def f1():
-    x = 5
+def get_desc(func) -> str:
+    """
+    ============================================================================
+     Description: Return Description-Text of the given Function.
+    ============================================================================
+    """
     try:
-        f2()
+        source = inspect.getsource(func)
+        source = source.replace('\n', ' ')
+        s = ' '.join(source.split())
+        p = '= Description: (.*) ='
+        match = re.search(pattern=p, string=s)
+        ret = match.group(1).upper()
+        if '=' in ret:
+            ret = ret[:ret.find('=')]
+        return ret
     except Exception as e:
-        msg = emsg({'x': x})
-        raise Exception(f'{msg}\n{e.args}')
+        return str(e)
 
-def f2():
-    y = 8
-    try:
-        1 / 0
-    except Exception as e:
-        msg = emsg({'y': y})
-        raise Exception(f'{msg}\n{e.args}')
-
-
-try:
-    f1()
-except Exception as e:
-    print(e.args)
-"""

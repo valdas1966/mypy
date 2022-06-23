@@ -1,4 +1,9 @@
 import logging
+from f_utils import u_inspect
+
+
+global count
+count = 0
 
 
 def log_all_methods(decorator):
@@ -11,27 +16,51 @@ def log_all_methods(decorator):
 
 
 def log_info(func):
-    def inner(*args, **kwargs):
-        logging.info(f'BEGIN, {func.__module__}.{func.__name__}')
-        for val in args:
-            logging.info(f'ARG, {type(val)}, {val.__str__()[:100]}')
-        for key, val in kwargs.items():
-            logging.info(f'ARG, {type(val)}, {key}={val.__str__()[:100]}')
-        x = func(*args, **kwargs)
-        logging.info(f'END, {func.__module__}.{func.__name__}')
-        return x
-    return inner
+    return log_template(func, is_class=False)
 
 
-def log_info_without_self(func):
+def log_info_class(func):
+    return log_template(func, is_class=True)
+
+
+def log_template(func, is_class=False):
     def inner(*args, **kwargs):
-        logging.info(f'BEGIN, {func.__module__}.{func.__name__}')
-        for i, val in enumerate(args):
-            if i == 0:
-                continue
-            logging.info(f'ARG, {type(val)}, {val.__str__()[:100]}')
-        for key, val in kwargs.items():
-            logging.info(f'ARG, {type(val)}, {key}={val.__str__()[:100]}')
-        func(*args, **kwargs)
-        logging.info(f'END, {func.__module__}.{func.__name__}')
+        global count
+        try:
+            tabs = '\t' * count
+            logging.info(f'{tabs}BEGIN, {func.__module__}.{func.__name__}')
+            logging.info(f'{tabs}DESC, {u_inspect.get_desc(func)}')
+            count += 1
+            tabs = '\t' * count
+            for i, val in enumerate(args):
+                if is_class and not i:
+                    continue
+                logging.info(f'{tabs}ARG, {details_val(val)}')
+            for key, val in kwargs.items():
+                logging.info(f'{tabs}KWARG, {details_val(val, key)}')
+            return func(*args, **kwargs)
+        except Exception as e:
+            logging.info(f'{tabs}EXCEPTION, {e}')
+            raise Exception(e)
+        finally:
+            count -= 1
+            tabs = '\t' * count
+            logging.info(f'{tabs}END, {func.__module__}.{func.__name__}')
     return inner
+
+def log_row(msg):
+    global count
+    tabs = '\t' * count
+    logging.info(f'{tabs}MSG, {msg[:100]}')
+
+
+def details_val(val, key=None):
+    str_type = type(val)
+    str_length = str()
+    try:
+        str_length = f'[{len(val)}]'
+    except Exception as e:
+        pass
+    str_key = f'{key}=' if key else str()
+    str_val = val.__str__().replace('\n', '')[:100]
+    return f'{str_type}, {str_length}, {str_key}{str_val}'

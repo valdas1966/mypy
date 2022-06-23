@@ -1,6 +1,6 @@
 from tenacity import retry, stop_after_attempt
 from google.cloud import bigquery
-from f_logging.dec import log_all_methods, log_info_without_self
+from f_logging.dec import log_all_methods, log_info_class
 import pandas as pd
 import os
 
@@ -14,11 +14,11 @@ logging.basicConfig(filename='test.log',
 """
 
 
-@log_all_methods(decorator=log_info_without_self)
+@log_all_methods(decorator=log_info_class)
 class BigQuery:
 
     credentials_path = 'd:\\professor\\gcp\\big_query.json'
-    # dataset = 'crafty-stock-253813.tiktok'
+    dataset = 'crafty-stock-253813.tiktok'
 
     def __init__(self, credentials_path: str = None):
         """
@@ -42,7 +42,7 @@ class BigQuery:
         """
         if ' ' not in query:
             tname = query
-            query = f'select * from {tname}'
+            query = f'select * from {self.dataset}.{tname}'
         if limit > -1:
             query += f' limit {limit}'
         df = self._client.query(query).result().to_dataframe()
@@ -51,7 +51,7 @@ class BigQuery:
     def run(self, command: str) -> None:
         """
         ========================================================================
-         Run BigQuery Command.
+         Description: Run BigQuery Command.
         ========================================================================
         """
         job = self._client.query(command)
@@ -67,7 +67,7 @@ class BigQuery:
         """
         self.drop(tname, report=False)
         str_cols = ','.join(cols)
-        self.run(f'create table {tname}({str_cols})')
+        self.run(f'create table {self.dataset}.{tname}({str_cols})')
 
     def ctas(self,
              tname: str,
@@ -110,10 +110,10 @@ class BigQuery:
                d: dict) -> None:
         """
         ========================================================================
-         Description: Insert Row-Values into TName Table.
+         Description: Insert Row-Values into BigQuery Table.
         ========================================================================
         """
-        table = self._client.get_table(tname)
+        table = self._client.get_table(f'{self.dataset}.{tname}')
         self._client.insert_rows(table=table, rows=[d])
 
     def insert_into(self,
@@ -146,7 +146,8 @@ class BigQuery:
         if_exists = 'append' if append else 'replace'
         self.drop(tname, report=False)
         # self._client.load_table_from_dataframe(df, destination=tname)
-        df.to_gbq(destination_table=tname, if_exists=if_exists)
+        table = f'{self.dataset}.{tname}'
+        df.to_gbq(destination_table=table, if_exists=if_exists)
 
     def drop(self, tname: str, report: bool = False) -> None:
         """
@@ -154,8 +155,12 @@ class BigQuery:
          Description: Drop Table (if exists).
         ========================================================================
         """
-        command = f'drop table {tname}'
-        self.run(command)
+        command = f'drop table {self.dataset}.{tname}'
+        try:
+            self.run(command=command)
+        except Exception as e:
+            if report:
+                raise Exception(e)
 
     def close(self):
         """
