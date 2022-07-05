@@ -5,7 +5,6 @@ import fileinput
 import datetime
 from f_utils import u_str
 from f_utils import u_set
-from f_utils.u_inspect import emsg
 
 
 def is_exists(path):
@@ -33,15 +32,10 @@ def read(path: str) -> str:
      Return: str (String-Representation of the File).
     =======================================================================
     """
-    try:
-        file = open(path, 'r')
-        text = file.read()
-        file.close()
-    except Exception as e:
-        msg = emsg({'path': path})
-        raise Exception(f'{msg}\n{e}')
-    else:
-        return text
+    file = open(path, 'r')
+    text = file.read()
+    file.close()
+    return text
 
 
 def write(path, text):

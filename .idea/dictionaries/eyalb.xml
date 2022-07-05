@@ -2,17 +2,20 @@
   <dictionary name="eyalb">
     <words>
       <w>algo</w>
+      <w>annotaion</w>
       <w>astar</w>
       <w>astars</w>
       <w>blcoks</w>
       <w>cand</w>
       <w>colab</w>
+      <w>dest</w>
       <w>doctype</w>
       <w>dtype</w>
       <w>einfo</w>
       <w>emsg</w>
       <w>filepath</w>
       <w>filepaths</w>
+      <w>fname</w>
       <w>idds</w>
       <w>kastar</w>
       <w>ndarray</w>

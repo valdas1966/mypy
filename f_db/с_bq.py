@@ -48,6 +48,22 @@ class BigQuery:
         df = self._client.query(query).result().to_dataframe()
         return df
 
+    def select_list(self,
+                    query: str,  # SQL-Query or Table-Name
+                    col: str = None) -> list[str]:
+        """
+        ========================================================================
+         Description: Return Specified Column as a List of str.
+                        If a Column-Name is not given - Return First Column.
+        ========================================================================
+        """
+        df = self.select(query)
+        if col:
+            li = df[col].to_list()
+        else:
+            li = df.iloc[:, 0].to_list()
+        return [str(x) for x in li]
+
     def run(self, command: str) -> None:
         """
         ========================================================================
@@ -105,16 +121,17 @@ class BigQuery:
             return False
 
     @retry(stop=stop_after_attempt(100))
-    def insert(self,
+    def insert_rows(self,
                tname: str,
-               d: dict) -> None:
+               rows: 'list of dict') -> None:
         """
         ========================================================================
-         Description: Insert Row-Values into BigQuery Table.
+         Description: Get BigQuery Table-Name and List of Rows (Dicts). Insert
+                       the Rows into the BigQuery Table.
         ========================================================================
         """
         table = self._client.get_table(f'{self.dataset}.{tname}')
-        self._client.insert_rows(table=table, rows=[d])
+        self._client.insert_rows(table=table, rows=rows)
 
     def insert_into(self,
                     tname_from: str,
@@ -122,7 +139,7 @@ class BigQuery:
                     cols: list = None) -> None:
         """
         ========================================================================
-         Description: Insert rows from one table into another.
+         Description: Insert rows from one BigQuery table into another.
         ========================================================================
         """
         if cols:

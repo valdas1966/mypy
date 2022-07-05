@@ -48,6 +48,7 @@ def log_template(func, is_class=False):
             logging.info(f'{tabs}END, {func.__module__}.{func.__name__}')
     return inner
 
+
 def log_row(msg):
     global count
     tabs = '\t' * count
