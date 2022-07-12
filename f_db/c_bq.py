@@ -50,7 +50,7 @@ class BigQuery:
 
     def select_list(self,
                     query: str,  # SQL-Query or Table-Name
-                    col: str = None) -> list[str]:
+                    col: str = None) -> 'list[str]':
         """
         ========================================================================
          Description: Return Specified Column as a List of str.
