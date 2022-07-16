@@ -4,30 +4,18 @@ from pptx.util import Inches, Pt
 from pptx.enum.text import PP_PARAGRAPH_ALIGNMENT, MSO_VERTICAL_ANCHOR
 from pptx.dml.color import RGBColor
 from pptx.oxml.xmlchemy import OxmlElement
+from myp_init import MyPresentationInit
 from f_utils import u_file
 from f_const import u_rgb
 
 
-class MyPresentation:
+class MyPresentation(MyPresentationInit):
 
-    # width of standard pptx slide
-    WIDTH = 10 #13.33
-    # height of standard pptx slide
-    HEIGHT = 7.5
-    # pptx.Presentation object
-    p = None
-    # pptx.Presentation.slide object
-    slide = None
-    # map user-given name with shape
-    shapes = dict()
+    def __init__(self, path: str):
+        super().__init__(path)
 
-    def __init__(self, path):
-        self.path = path
-        self.__init_slide()
-
-    def map_shapes_names(self, li):
-        assert type(li) in {tuple, list, set}
-        assert len(li) == len(self.slide.shapes)
+    def map_shapes_names(self, li: list[str]) -> None:
+        self.shapes = {name: self.slide.shapes[i] for i, name in enumerate(li)}
         for i, name in enumerate(li):
             self.shapes[name] = self.slide.shapes[i]
 
@@ -62,11 +50,6 @@ class MyPresentation:
             alpha = round((1-params.transparency) * 100000)
             self.__set_shape_transparency(shape, alpha)
 
-    def save(self, path=None):
-        if not path:
-            path = self.path
-        self.p.save(path)
-
     @classmethod
     def to_inches(cls, coor):
         left = Inches(cls.WIDTH * coor[0])
@@ -79,16 +62,6 @@ class MyPresentation:
     def to_rgb_color(cls, rgb):
         red, green, blue = rgb
         return RGBColor(red, green, blue)
-
-    def __init_slide(self):
-        if u_file.is_exists(self.path):
-            self.p = Presentation(self.path)
-            self.slide = self.p.slides[0]
-        else:
-            self.p = Presentation()
-            layout_blank = 6
-            layout = self.p.slide_layouts[layout_blank]
-            self.slide = self.p.slides.add_slide(layout)
 
     def __set_shape_transparency(self, shape, alpha):
         """ Set the transparency (alpha) of a shape"""
@@ -114,4 +87,3 @@ class MyPresentation:
         line_color = u_rgb.BLACK
         back_color = u_rgb.WHITE
         transparency = 0.0
-

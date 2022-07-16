@@ -25,6 +25,7 @@ def log_info_class(func):
 
 def log_template(func, is_class=False):
     def inner(*args, **kwargs):
+        # return func(*args, **kwargs)
         global count
         try:
             tabs = '\t' * count

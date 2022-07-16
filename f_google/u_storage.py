@@ -1,12 +1,11 @@
 from google.cloud import storage
 from f_logging.dec import log_info
 
-json_key = 'd:\\professor\\gcp\\storage.json'
-project = 'crafty-stock-253813'
-
 
 @log_info
-def copy(str_bucket: str,
+def copy(json_key: str,
+         project: str,
+         str_bucket: str,
          path_src: str,
          path_dest: str):
     client = storage.Client.from_service_account_json(json_key, project=project)

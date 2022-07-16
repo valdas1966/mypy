@@ -122,8 +122,8 @@ class BigQuery:
 
     @retry(stop=stop_after_attempt(100))
     def insert_rows(self,
-               tname: str,
-               rows: 'list of dict') -> None:
+                    tname: str,
+                    rows: 'list of dict') -> None:
         """
         ========================================================================
          Description: Get BigQuery Table-Name and List of Rows (Dicts). Insert
