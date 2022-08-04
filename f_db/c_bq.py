@@ -17,18 +17,15 @@ logging.basicConfig(filename='test.log',
 @log_all_methods(decorator=log_info_class)
 class BigQuery:
 
-    credentials_path = 'd:\\professor\\gcp\\big_query.json'
     dataset = 'crafty-stock-253813.tiktok'
 
-    def __init__(self, credentials_path: str = None):
+    def __init__(self, json_key: str):
         """
         ========================================================================
          Description: Constructor - Initialize the Connection.
         ========================================================================
         """
-        if credentials_path:
-            self.credentials_path = credentials_path
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = self.credentials_path
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = json_key
         self._client = bigquery.Client()
 
     def select(self,
