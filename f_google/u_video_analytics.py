@@ -20,7 +20,7 @@ def __mp4_to_annotations(json_key: str,
                          bucket: str,
                          id_video: str) -> 'list of dict':
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = json_key
-    path_mp4 = f'{bucket}/mp4/{id_video}.mp4'
+    path_mp4 = f'{bucket}/{id_video}.mp4'
     client = videointelligence.VideoIntelligenceServiceClient()
     features = ['LABEL_DETECTION']
     job = client.annotate_video(input_uri=path_mp4, features=features)
@@ -42,3 +42,12 @@ def __annotations_to_dicts(id_video: str,
              'annotation': annotaion,
              'cnt': cnt}
             for annotaion, cnt in c_clean.items()]
+
+
+"""
+json_key = 'd:\\tiktok\\repo\\viewer.json'
+str_bucket = 'noteret_mp4'
+id_video = '7075396968930954497'
+a = get_annotations(json_key=json_key, str_bucket=str_bucket, id_video=id_video)
+print(a)
+"""
