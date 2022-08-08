@@ -1,41 +1,27 @@
 from f_logging.dec import log_all_methods, log_info_class
+from f_excel.model.wb.base import MyExcelWorkBookBase
 from f_excel.ws import MyExcelWorkSheet
-import openpyxl as xl
-from f_utils import u_file
 
 
 @log_all_methods(decorator=log_info_class)
-class MyExcelWorkBook:
+class MyExcelWorkBookSheets(MyExcelWorkBookBase):
     """
     ============================================================================
      Description:
     ----------------------------------------------------------------------------
         1. Represents the Excel-Workbook file.
-        2. Stores privately the openpyxl.workbook Object.
-        3. Can Save, Save-As and Close the Workbook.
-        4. Can make a copy of a WorkSheet.
-        5. Can return a MyExcelWorkSheet object by its Title or Index.
+        2. Can make a copy of a WorkSheet.
+        3. Can return a MyExcelWorkSheet object by its Title or Index.
     ============================================================================
     """
 
     def __init__(self, xlsx: str):
         """
         ========================================================================
-         Description: Constructor. Open new or existed Excel-File for editing.
+         Description: Run the super().
         ========================================================================
         """
-        # Path to XL-File
-        self._xlsx = xlsx
-        # Working Excel-WorkBook
-        self._wb = self.__set_workbook()
-
-    def __del__(self):
-        """
-        ========================================================================
-         Description: Destructor. Close the Excel-WorkBook.
-        ========================================================================
-        """
-        self.close(to_save=True)
+        super().__init__(xlsx=xlsx)
 
     def get_worksheet(self,
                       title: str = None,
@@ -46,8 +32,10 @@ class MyExcelWorkBook:
         ========================================================================
         """
         try:
-            ref = title if title else index
-            ws = self._wb.worksheets[ref]
+            if title:
+                ws = self._wb[title]
+            else:
+                ws = self._wb.worksheets[index]
             return MyExcelWorkSheet(ws=ws)
         except Exception as e:
             self.close()
@@ -69,48 +57,3 @@ class MyExcelWorkBook:
         except Exception as e:
             self._wb.close()
             raise Exception(e)
-
-    def save(self) -> None:
-        """
-        ========================================================================
-         Description: Save the Excel-File.
-        ========================================================================
-        """
-        self._wb.save(filename=self._xlsx)
-
-    def save_as(self, xlsx_new: str) -> None:
-        """
-        ========================================================================
-         Description: Save the Excel-File as other name. Delete the (other)
-                       file if it exists.
-        ========================================================================
-        """
-        try:
-            if u_file.is_exists(xlsx_new):
-                u_file.delete(xlsx_new)
-            self._wb.save(xlsx_new)
-        except Exception as e:
-            self.close()
-            raise Exception(e)
-
-    def close(self, to_save: bool = False) -> None:
-        """
-        ========================================================================
-         Description: Close (and optionally save) the Excel-File.
-        ========================================================================
-        """
-        if to_save:
-            self.save()
-        self._wb.close()
-
-    def __set_workbook(self) -> xl.Workbook:
-        """
-        ========================================================================
-         Description: Set the Working Excel WorkBook. If the Excel path-file is
-                        passed to the Constructor, then open it for editing.
-                        Otherwise, create and open a new blank Excel-File.
-        ========================================================================
-        """
-        if u_file.is_exists(self._xlsx):
-            return xl.load_workbook(filename=self._xlsx)
-        return xl.Workbook()

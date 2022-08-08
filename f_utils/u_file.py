@@ -98,6 +98,8 @@ def delete(paths, verbose=True):
         2. verbose : bool (to print the error msg or not).
     =======================================================================
     """
+    if type(paths) in {list, tuple}:
+        paths = set(paths)
     paths = u_set.generalize(paths)
     for path in paths:
         try:

@@ -33,7 +33,7 @@ class MyExcelCellValue(MyExcelCell):
         """
         return self._cell.value
 
-    @value.setter
+    @property.setter
     def value(self, val: any) -> None:
         """
         ========================================================================
