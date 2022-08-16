@@ -1,5 +1,5 @@
 import pandas as pd
-from f_ds import u_plotly
+from f_data_science import u_plotly
 from f_utils import u_tester
 
 

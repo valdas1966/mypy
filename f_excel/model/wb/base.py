@@ -4,7 +4,7 @@ from f_utils import u_file
 
 
 @log_all_methods(decorator=log_info_class)
-class MyExcelWorkBookBase:
+class MyWorkBookBase:
     """
     ============================================================================
      Description:

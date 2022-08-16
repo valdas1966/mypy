@@ -3,7 +3,7 @@ import openpyxl.worksheet
 
 
 @log_all_methods(decorator=log_info_class)
-class MyExcelCell:
+class MyCellBase:
     """
     ============================================================================
      Description:

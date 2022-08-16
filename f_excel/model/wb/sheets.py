@@ -1,10 +1,10 @@
 from f_logging.dec import log_all_methods, log_info_class
-from f_excel.model.wb.base import MyExcelWorkBookBase
-from f_excel.ws import MyExcelWorkSheet
+from f_excel.model.wb.base import MyWorkBookBase
+from f_excel.ws import MyWorkSheet
 
 
 @log_all_methods(decorator=log_info_class)
-class MyExcelWorkBookSheets(MyExcelWorkBookBase):
+class MyWorkBookSheets(MyWorkBookBase):
     """
     ============================================================================
      Description:
@@ -23,24 +23,6 @@ class MyExcelWorkBookSheets(MyExcelWorkBookBase):
         """
         super().__init__(xlsx=xlsx)
 
-    def get_worksheet(self,
-                      title: str = None,
-                      index: int = 0) -> MyExcelWorkSheet:
-        """
-        ========================================================================
-         Description: Return Excel-WorkSheet Object by its Title or Index.
-        ========================================================================
-        """
-        try:
-            if title:
-                ws = self._wb[title]
-            else:
-                ws = self._wb.worksheets[index]
-            return MyExcelWorkSheet(ws=ws)
-        except Exception as e:
-            self.close()
-            raise Exception(e)
-
     def copy_worksheet(self, title_src: str, title_dest: str) -> None:
         """
         ========================================================================
@@ -57,3 +39,18 @@ class MyExcelWorkBookSheets(MyExcelWorkBookBase):
         except Exception as e:
             self._wb.close()
             raise Exception(e)
+
+    def __getitem__(self, item: int | str) -> MyWorkSheet:
+        """
+        ========================================================================
+         Description: Return MyWorkSheet by Index(int) or Title(str).
+                      Raise Exception if argument[item] in not int|str.
+        ========================================================================
+        """
+        if type(item) == str:
+            return MyWorkSheet(self._wb[item])
+        elif type(item) == int:
+            return MyWorkSheet(self._wb.worksheets[item])
+        else:
+            raise Exception(f'EXCEPTION! Expected: [str, int], Given: '
+                            f'[{type(item)}]')

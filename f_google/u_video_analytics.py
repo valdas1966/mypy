@@ -2,6 +2,7 @@ from google.cloud import videointelligence
 from collections import Counter
 import os
 from f_logging.dec import log_info
+from tenacity import retry, stop_after_attempt
 
 
 @log_info
@@ -16,6 +17,7 @@ def get_annotations(json_key: str,
 
 
 @log_info
+@retry(stop=stop_after_attempt(5))
 def __mp4_to_annotations(json_key: str,
                          bucket: str,
                          id_video: str) -> 'list of dict':

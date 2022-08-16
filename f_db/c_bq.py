@@ -20,6 +20,7 @@ class BigQuery:
     #dataset = 'crafty-stock-253813.tiktok'
     dataset = 'noteret.tiktok'
 
+    @retry(stop=stop_after_attempt(100))
     def __init__(self, json_key: str):
         """
         ========================================================================
@@ -29,6 +30,7 @@ class BigQuery:
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = json_key
         self._client = bigquery.Client()
 
+    @retry(stop=stop_after_attempt(100))
     def select(self,
                query: str,  # SQL-Query or Table-Name
                limit: int = -1
@@ -48,20 +50,30 @@ class BigQuery:
 
     def select_list(self,
                     query: str,  # SQL-Query or Table-Name
-                    col: str = None) -> 'list[str]':
+                    col: str = None) -> list[str]:
         """
         ========================================================================
          Description: Return Specified Column as a List of str.
                         If a Column-Name is not given - Return First Column.
         ========================================================================
         """
-        df = self.select(query)
+        df = self.select(query=query)
         if col:
             li = df[col].to_list()
         else:
             li = df.iloc[:, 0].to_list()
         return [str(x) for x in li]
 
+    def select_value(self, query: str) -> any:
+        """
+        ========================================================================
+         Description: Return the First-Value (from the first Row and Col).
+        ========================================================================
+        """
+        df = self.select(query=query)
+        return df.iloc[0][0]
+
+    @retry(stop=stop_after_attempt(5))
     def run(self, command: str) -> None:
         """
         ========================================================================
@@ -83,6 +95,7 @@ class BigQuery:
         str_cols = ','.join(cols)
         self.run(f'create table {self.dataset}.{tname}({str_cols})')
 
+    @retry(stop=stop_after_attempt(5))
     def ctas(self,
              tname: str,
              query: str) -> None:
@@ -118,7 +131,7 @@ class BigQuery:
         except Exception as e:
             return False
 
-    @retry(stop=stop_after_attempt(100))
+    @retry(stop=stop_after_attempt(5))
     def insert_rows(self,
                     tname: str,
                     rows: 'list of dict') -> None:
@@ -149,6 +162,7 @@ class BigQuery:
             command = f'insert into {tname_to} select * from {tname_from}'
         self.run(command)
 
+    @retry(stop=stop_after_attempt(5))
     def load(self,
              df: pd.DataFrame,
              tname: str,
@@ -177,6 +191,7 @@ class BigQuery:
             if report:
                 raise Exception(e)
 
+    @retry(stop=stop_after_attempt(5))
     def close(self):
         """
         ========================================================================

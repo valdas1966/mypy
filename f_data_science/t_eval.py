@@ -1,6 +1,6 @@
 import pandas as pd
 from f_utils import u_tester
-from f_ds import u_eval
+from f_data_science import u_eval
 
 
 class TestEval:

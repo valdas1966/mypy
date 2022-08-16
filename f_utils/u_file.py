@@ -87,16 +87,17 @@ def append(path, text):
     file.close()
 
 
-def delete(paths, verbose=True):
+def delete(paths: str | tuple | list | set) -> None | str:
     """
-    =======================================================================
+    ============================================================================
      Description: Delete a File (by FilePath).
-    =======================================================================
+    ============================================================================
      Arguments:
-    -----------------------------------------------------------------------
+    ----------------------------------------------------------------------------
         1. paths : str or set of str.
-        2. verbose : bool (to print the error msg or not).
-    =======================================================================
+    ============================================================================
+     Return: None on success, str Error-Message otherwise.
+    ============================================================================
     """
     if type(paths) in {list, tuple}:
         paths = set(paths)
@@ -104,9 +105,9 @@ def delete(paths, verbose=True):
     for path in paths:
         try:
             os.remove(path)
+            return None
         except Exception as e:
-            if verbose:
-                print('Cannot Delete: ' + path + '\n' + str(e))
+            return str(e)
 
 
 def to_list(path, verbose=False):
