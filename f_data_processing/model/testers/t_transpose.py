@@ -4,7 +4,7 @@ from f_data_processing.model.transpose.base import TransposeBase
 from f_data_processing.model.transpose.key_val import TransposeKeyVal
 
 
-class TestTranspose:
+class TestTranspose1:
 
     def __init__(self):
         u_tester.print_start(__file__)

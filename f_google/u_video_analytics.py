@@ -17,7 +17,7 @@ def get_annotations(json_key: str,
 
 
 @log_info
-@retry(stop=stop_after_attempt(5))
+@retry(stop=stop_after_attempt(10))
 def __mp4_to_annotations(json_key: str,
                          bucket: str,
                          id_video: str) -> 'list of dict':
