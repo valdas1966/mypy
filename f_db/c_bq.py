@@ -210,3 +210,5 @@ df = bq.select('select id_video from tiktok.videos_completed where '
 bq.close()
 print(df)
 """
+"""
+"""
