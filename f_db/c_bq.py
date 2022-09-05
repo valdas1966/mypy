@@ -142,7 +142,9 @@ class BigQuery:
         ========================================================================
         """
         table = self._client.get_table(f'{self.dataset}.{tname}')
-        self._client.insert_rows(table=table, rows=rows)
+        ans = self._client.insert_rows(table=table, rows=rows)
+        if ans:
+            raise Exception(ans[0]['errors'][0]['message'])
 
     def insert_into(self,
                     tname_from: str,
