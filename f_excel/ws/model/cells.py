@@ -1,40 +1,36 @@
 from f_logging.dec import log_all_methods, log_info_class
+from f_excel.model.ws.base import MyExcelWorkSheet
+from f_excel.model.cell.prod import MyExcelCell
 import openpyxl.worksheet
 
 
 @log_all_methods(decorator=log_info_class)
-class MyCellBase:
+class MyExcelWorkSheetCells(MyExcelWorkSheet):
     """
     ============================================================================
      Description:
     ----------------------------------------------------------------------------
-        1. Wraps the openpyxl.cell.cell.Cell class.
-        2. Returns the Row and Col indexes of the Cell.
+        1. Represents the Excel-Worksheet.
+        2. Initializes with the openpyxl.worksheet object.
+        3. Can return MyExcelCell object by its indexes (eg: ws[1,2]).
     ============================================================================
     """
 
-    def __init__(self, cell: openpyxl.cell.cell.Cell):
+    def __init__(self, ws: openpyxl.worksheet):
         """
         ========================================================================
-         Description: Constructor. Init the Attributes.
+         Description: Constructor. Call the Super().
         ========================================================================
         """
-        self._cell = cell
+        super().__init__(ws=ws)
 
-    @property
-    def row(self):
+    def __getitem__(self, item: tuple[int, int]) -> any:
         """
         ========================================================================
-         Description: Return the Row-Index of the Cell.
+         Description: Return the Str-Representation of the Cell-Value in the
+                       given coordinates (row, col).
         ========================================================================
         """
-        return self._cell.row
-
-    @property
-    def col(self):
-        """
-        ========================================================================
-         Description: Return the Col-Index of the Cell.
-        ========================================================================
-        """
-        return self._cell.column
+        row, col = item
+        cell = self._ws.cell(row, col)
+        return MyExcelCell(cell=cell)

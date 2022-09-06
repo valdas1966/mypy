@@ -1,18 +1,17 @@
 from f_logging.dec import log_all_methods, log_info_class
-from f_excel.model.cell.base import MyExcelCell
+from f_excel.model.cell.base import MyCellBase
 import openpyxl.worksheet
 
 
 @log_all_methods(decorator=log_info_class)
-class MyExcelCellValue(MyExcelCell):
+class MyExcelCellValue(MyCellBase):
     """
     ============================================================================
      Description:
     ----------------------------------------------------------------------------
-        1. Represents the Excel-Cell.
-        2. Initializes with the Cell-Object of the openpyxl Package.
-        3. Gets and Sets the Cells' Value.
-        4. Empties the Cell (from Value) and Checks if the Cell is Empty.
+        1. Gets and Sets the Cells' Value.
+        2. Empties the Cell (from Value).
+        3. Checks if the Cell is Empty.
     ============================================================================
     """
 
