@@ -87,7 +87,7 @@ def append(path, text):
     file.close()
 
 
-def delete(paths: str | tuple | list | set) -> None | str:
+def delete(paths: str | tuple | list | set) -> list[str]:
     """
     ============================================================================
      Description: Delete a File (by FilePath).
@@ -96,18 +96,19 @@ def delete(paths: str | tuple | list | set) -> None | str:
     ----------------------------------------------------------------------------
         1. paths : str or set of str.
     ============================================================================
-     Return: None on success, str Error-Message otherwise.
+     Return: List of Error-Messages (if any).
     ============================================================================
     """
     if type(paths) in {list, tuple}:
         paths = set(paths)
     paths = u_set.generalize(paths)
+    errors = list()
     for path in paths:
         try:
             os.remove(path)
-            return None
         except Exception as e:
-            return str(e)
+            errors.append(str(e))
+    return errors
 
 
 def to_list(path, verbose=False):

@@ -9,9 +9,8 @@ class MyWorkBookBase:
     ============================================================================
      Description:
     ----------------------------------------------------------------------------
-        1. Represents the Excel-Workbook file.
-        2. Stores privately the openpyxl.workbook Object.
-        3. Can Save, Save-As and Close the Workbook.
+        1. Wraps the openpyxl.workbook Class.
+        2. Can Save, Save-As and Close the Workbook.
     ============================================================================
     """
 

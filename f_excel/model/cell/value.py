@@ -4,7 +4,7 @@ import openpyxl.worksheet
 
 
 @log_all_methods(decorator=log_info_class)
-class MyExcelCellValue(MyCellBase):
+class MyCellValue(MyCellBase):
     """
     ============================================================================
      Description:
@@ -32,7 +32,7 @@ class MyExcelCellValue(MyCellBase):
         """
         return self._cell.value
 
-    @property.setter
+    @value.setter
     def value(self, val: any) -> None:
         """
         ========================================================================
