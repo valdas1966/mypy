@@ -1,6 +1,7 @@
 from f_logging.dec import log_all_methods, log_info_class
 from f_excel.model.wb.base import MyWorkBookBase
 from f_excel.ws import MyWorkSheet
+from f_excel.cell import MyCell
 
 
 @log_all_methods(decorator=log_info_class)
@@ -14,14 +15,6 @@ class MyWorkBookSheets(MyWorkBookBase):
         3. Can return a MyExcelWorkSheet object by its Title or Index.
     ============================================================================
     """
-
-    def __init__(self, xlsx: str):
-        """
-        ========================================================================
-         Description: Run the super().
-        ========================================================================
-        """
-        super().__init__(xlsx=xlsx)
 
     def copy_worksheet(self, title_src: str, title_dest: str) -> None:
         """
@@ -40,7 +33,8 @@ class MyWorkBookSheets(MyWorkBookBase):
             self._wb.close()
             raise Exception(e)
 
-    def __getitem__(self, item: int | str) -> MyWorkSheet:
+    def __getitem__(self, item: int | str | tuple[int, int])\
+            -> MyWorkSheet | MyCell:
         """
         ========================================================================
          Description: Return MyWorkSheet by Index(int) or Title(str).
@@ -51,6 +45,7 @@ class MyWorkBookSheets(MyWorkBookBase):
             return MyWorkSheet(self._wb[item])
         elif type(item) == int:
             return MyWorkSheet(self._wb.worksheets[item])
+        elif type(item) == tuple:
+            return MyCell(self[0][item])
         else:
-            raise Exception(f'EXCEPTION! Expected: [str, int], Given: '
-                            f'[{type(item)}]')
+            raise TypeError(f'Expected int|str|tuple, {type(item)} was given ')

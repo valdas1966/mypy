@@ -66,8 +66,7 @@ def write_lines(path, lines):
     ============================================================================
     """
     file = open(path, 'w')
-    for line in lines:
-        file.write(f'{line}\n')
+    file.write('\n'.join(lines))
     file.close()
 
 
@@ -111,44 +110,14 @@ def delete(paths: str | tuple | list | set) -> list[str]:
     return errors
 
 
-def to_list(path, verbose=False):
+def to_lines(path: str) -> list[str]:
     """"
     ============================================================================
-     Description: Transpose Elements from Text-File into a List.
-    ============================================================================
-     Arguments:
-    ----------------------------------------------------------------------------
-        1. path : str (Path to Text-File).
-        2. verbose : bool
-    ============================================================================
-     Return: list of str
+     Description: Transpose Lines from a given Text-File into a List of str.
     ============================================================================
     """
     text = read(path)
-    if verbose:
-        cnt = text.count('\n')+1
-        print(f'{cnt} elements are inserted into a list from {path}')
     return text.split('\n')
-
-
-def to_set(path, verbose=False):
-    """"
-    ============================================================================
-     Description: Transpose Elements from Text-File into a Set.
-    ============================================================================
-     Arguments:
-    ----------------------------------------------------------------------------
-        1. path : str (Path to Text-File).
-        2. verbose : bool
-    ============================================================================
-     Return: set of str
-    ============================================================================
-    """
-    li = to_list(path, verbose)
-    s = set(li)
-    if verbose:
-        print(f'{len(s)} elements are inserted into a set from {path}')
-    return s
 
 
 def filepaths(path_dir, extensions=set()):
@@ -248,7 +217,28 @@ def replace_in_file(path, tuples):
         for line in fileinput.input(path, inplace=1):                    
             sys.stdout.write(line.replace(what_replace, with_replace))
             
-            
+
+def replace_lines(path: str, d: dict[str: str]) -> None:
+    """
+    ============================================================================
+     Description: Replace Lines in the File by a given Dictionary.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. path : str (Path to the File)
+        2. d : dict {what -> into}
+    ============================================================================
+    """
+    lines_old = to_lines(path)
+    lines_new = list()
+    for line in lines_old:
+        if line in d:
+            lines_new.append(d[line])
+        else:
+            lines_new.append(line)
+    write_lines(path, lines_new)
+
+
 def get_filename(path, with_domain=True):
     """
     ===========================================================================
@@ -268,23 +258,6 @@ def get_filename(path, with_domain=True):
         vals = filename.split('.')
         filename = '.'.join(vals[:-1])
     return filename
-
-    
-def create_txt(path, lines=list()):
-    """
-    ===========================================================================
-     Description: Create Text File from List of Lines (str + '\n').
-    ===========================================================================
-     Arguments:
-    ---------------------------------------------------------------------------
-        1. path : str (Path to Text File to create).
-        2. lines : list of str (List of Lines str + '\n').
-    ===========================================================================
-    """
-    file = open(path, 'w')
-    for line in lines:
-        file.write(line + '\n')
-    file.close()
 
 
 def cosine_similarity(path_1, path_2):

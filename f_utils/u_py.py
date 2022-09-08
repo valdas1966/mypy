@@ -1,6 +1,36 @@
 import re
+from f_utils import u_dir
 from f_utils import u_file
-from f_utils import u_hex
+from f_utils import u_filepath
+
+
+def create_tester_file(filepath: str) -> None:
+    dir_file = u_filepath.get_dir(filepath=filepath)
+    dir_testers = f'{dir_file}\\testers'
+    u_dir.create(dir_testers, overwrite=False)
+    filename = u_filepath.get_filename(filepath, with_domain=False)
+    class_name = f'Test{snake_to_pascal(snake=filename)}'
+    file_tester = f'{dir_testers}\\t_{filename}.py'
+    lines = list()
+    lines.append('from f_utils import u_tester')
+    lines.append('')
+    lines.append('')
+    lines.append(f'class {class_name}:')
+    lines.append('')
+    lines.append('    def __init__(self):')
+    lines.append('        u_tester.print_start(__file__)')
+    lines.append(f'        {class_name}.__tester_()')
+    lines.append('        u_tester.print_finish(__file__)')
+    lines.append('')
+    lines.append('    @staticmethod')
+    lines.append('    def __tester_():')
+    lines.append('        pass')
+    lines.append('')
+    lines.append('')
+    lines.append("if __name__ == '__main__':")
+    lines.append(f'    {class_name}()')
+    lines.append('')
+    u_file.write_lines(file_tester, lines)
 
 
 def get_funcs(path):
@@ -48,19 +78,20 @@ def change_import(path_dir, old, new, verbose=True):
             print(filepath)
 
 
-from f_utils import u_dir
-
-
-def temp_1():
-    li_py = u_file.filepaths(dir_hex, 'py')
-    for path_py in li_py:
-        path_hex = path_py.replace('.py', '.txt')
-        u_hex.file_to_hex(path_py, path_hex)
-        u_file.delete(path_py)
-        print(path_py, path_hex)
-
-
-dir_mypy = 'd:\\mypy'
-dir_hex = 'd:\\hex\\'
-u_dir.copy(dir_mypy, dir_hex)
-temp_1()
+def snake_to_pascal(snake: str) -> str:
+    """
+    ============================================================================
+     Description: Convert SnakeCase Variable-Name into PascalCase.
+    ============================================================================
+    """
+    pascal = list()
+    for i, ch in enumerate(snake):
+        if i == 0:
+            pascal.append(ch.capitalize())
+        elif ch == '_':
+            continue
+        elif snake[i-1] == '_':
+            pascal.append(ch.capitalize())
+        else:
+            pascal.append(ch)
+    return ''.join(pascal)
