@@ -9,6 +9,7 @@ class TestDict:
         self.tester_to_key_value_str()
         self.tester_minus()
         self.tester_sum()
+        TestDict.__tester_filter_by_keys()
         TestDict.__tester_sorted_by_value()
         TestDict.__tester_update()
         TestDict.__tester_union()
@@ -45,6 +46,14 @@ class TestDict:
         dict_true = {1: 2}
         p1 = dict_sum == dict_true
         u_tester.run(p0, p1)
+
+    @staticmethod
+    def __tester_filter_by_keys():
+        d = {'a': 1, 'b': 2}
+        d_test = u_dict.filter_by_keys(d=d, keys=['b'])
+        d_true = {'b': 2}
+        p0 = d_test == d_true
+        u_tester.run(p0)
 
     @staticmethod
     def __tester_union():

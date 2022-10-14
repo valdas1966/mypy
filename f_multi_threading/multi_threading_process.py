@@ -1,37 +1,29 @@
-from f_logging.dec import log_all_methods, log_info_class
 from f_abstract.process import Process
 import concurrent.futures as pool
 
 
-@log_all_methods(decorator=log_info_class)
 class MultiThreadingProcess(Process):
+
+    # self._kw = {f: func,
+    #             params: sequence,
+    #             max_workers: int = None}
 
     def __init__(self,
                  f: 'func',
-                 li_param: 'sequence',
+                 params: 'sequence',
                  max_workers: int = None):
-        """
-        ========================================================================
-         Description: Constructor.
-        ========================================================================
-         Arguments:
-        ------------------------------------------------------------------------
-            1. f : func (Function for each Worker).
-            2. li_param : list (Param for each Worker).
-            3. max_workers : int (Manually by given argument or Auto by
-                                    len of li_param).
-        ========================================================================
-        """
-        self._f = f
-        self._li_param = li_param
-        self._max_workers = max_workers if max_workers else len(li_param)
+        super().__init__(f=f, params=params, max_workers=max_workers)
 
-    def run(self) -> None:
+    def _add_kwargs(self) -> None:
+        if 'max_workers' not in self._kw or not self._kw['max_workers']:
+            self._kw['max_workers'] = len(self._kw['params'])
+
+    def _run(self) -> None:
         """
         ========================================================================
          Description: Run Workers simultaneously.
         ========================================================================
         """
-        worker = pool.ThreadPoolExecutor(max_workers=self._max_workers)
-        worker.map(self._f, self._li_param)
+        worker = pool.ThreadPoolExecutor(max_workers=self._kw['max_workers'])
+        worker.map(self._kw['f'], self._kw['params'])
         worker.shutdown()

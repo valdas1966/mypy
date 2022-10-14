@@ -86,7 +86,7 @@ def append(path, text):
     file.close()
 
 
-def delete(paths: str | tuple | list | set) -> list[str]:
+def delete(paths: 'str | sequence') -> list[str]:
     """
     ============================================================================
      Description: Delete a File (by FilePath).

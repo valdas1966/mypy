@@ -1,11 +1,9 @@
 from google.cloud import videointelligence
 from collections import Counter
 import os
-from f_logging.dec import log_info
-from tenacity import retry, stop_after_attempt
+from tenacity import retry, stop_after_attempt, wait_random_exponential
 
 
-@log_info
 def get_annotations(json_key: str,
                     str_bucket: str,
                     id_video: str) -> list[dict]:
@@ -16,8 +14,8 @@ def get_annotations(json_key: str,
     return __annotations_to_dicts(id_video=id_video, annotations=annotations)
 
 
-@log_info
-@retry(stop=stop_after_attempt(10))
+@retry(stop=stop_after_attempt(100), wait=wait_random_exponential(
+    multiplier=1, max=60))
 def __mp4_to_annotations(json_key: str,
                          bucket: str,
                          id_video: str) -> 'list of dict':
@@ -29,7 +27,6 @@ def __mp4_to_annotations(json_key: str,
     return job.result()
 
 
-@log_info
 def __annotations_to_dicts(id_video: str,
                            annotations) -> dict:
     res = annotations.annotation_results[0]

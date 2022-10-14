@@ -125,3 +125,12 @@ def sort_by_value(d, reverse=False):
     """
     s = sorted(d.items(), key=lambda kv: kv[1], reverse=reverse)
     return dict(collections.OrderedDict(s))
+
+
+def filter_by_keys(d: dict, keys: 'sequence') -> dict:
+    """
+    ============================================================================
+     Description: Return a new Dict with specified keys.
+    ============================================================================
+    """
+    return {key: d[key] for key in keys}

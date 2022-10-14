@@ -1,9 +1,7 @@
 from google.cloud import storage
-from f_logging.dec import log_info
 from tenacity import retry, stop_after_attempt
 
 
-@log_info
 @retry(stop=stop_after_attempt(5))
 def copy(json_key: str,
          project: str,

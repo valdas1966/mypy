@@ -1,6 +1,5 @@
 from tenacity import retry, stop_after_attempt
 from google.cloud import bigquery
-from f_logging.dec import log_all_methods, log_info_class
 import pandas as pd
 import os
 
@@ -14,10 +13,8 @@ logging.basicConfig(filename='test.log',
 """
 
 
-@log_all_methods(decorator=log_info_class)
 class BigQuery:
 
-    #dataset = 'crafty-stock-253813.tiktok'
     dataset = 'noteret.tiktok'
 
     @retry(stop=stop_after_attempt(100))
@@ -201,16 +198,3 @@ class BigQuery:
         ========================================================================
         """
         self._client.close()
-
-
-"""
-bq = BigQuery(json_key='d:\\tiktok\\repo\\viewer.json')
-bq.run(command='insert into tiktok.videos_completed(id_video) '
-               'values("0")')
-df = bq.select('select id_video from tiktok.videos_completed where '
-              'id_video="0"')
-bq.close()
-print(df)
-"""
-"""
-"""

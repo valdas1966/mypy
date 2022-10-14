@@ -1,9 +1,7 @@
-from f_logging.dec import log_info
 import json
 import pandas as pd
 
 
-@log_info
 def to_dict(str_json: str) -> dict:
     """
     ============================================================================
@@ -13,7 +11,6 @@ def to_dict(str_json: str) -> dict:
     return json.loads(str_json)
 
 
-@log_info
 def to_df(dict_json: dict) -> pd.DataFrame:
     """
     ============================================================================
