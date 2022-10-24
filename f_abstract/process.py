@@ -17,7 +17,7 @@ class Process(ABC, Initable):
         """
         pass
 
-    def _log(self, **kwargs_log) -> None:
+    def _log(self, params) -> None:
         """
         ========================================================================
          Description: Log an Operation.

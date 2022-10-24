@@ -12,7 +12,8 @@ class Initable:
             2. Set additional manual KWArgs (requires func implementation).
         ========================================================================
         """
-        self._kw = kwargs.get('kwargs', kwargs)
+        for key, val in kwargs.items():
+            self.__dict__[key] = val
         self._add_kwargs()
 
     def _add_kwargs(self) -> None:
@@ -29,4 +30,4 @@ class Initable:
          Description: Return kwargs filtered by keys.
         ========================================================================
         """
-        return u_dict.filter_by_keys(d=self._kw, keys=keys)
+        return u_dict.filter_by_keys(d=self.__dict__, keys=keys)

@@ -14,20 +14,20 @@ class TestInitible:
     @staticmethod
     def __tester_init():
         a = Initable(x=1)
-        p0 = a._kw['x'] == 1
-        b = Initable(kwargs={'y': 2})
-        p1 = b._kw['y'] == 2
-        c = Initable()
-        p2 = c._kw == dict()
+        p0 = a.x == 1
+        b = Initable(**{'y': 2})
+        p1 = b.y == 2
+        Initable()
+        p2 = True
         u_tester.run(p0, p1, p2)
 
     @staticmethod
     def __tester_add_kwargs():
         class A(Initable):
             def _add_kwargs(self) -> None:
-                self._kw['b'] = 2
-        a = A(a=1)
-        p0 = a._kw == {'a': 1, 'b': 2}
+                self.y = 2
+        a = A(x=1)
+        p0 = (a.x == 1) and (a.y == 2)
         u_tester.run(p0)
 
     @staticmethod

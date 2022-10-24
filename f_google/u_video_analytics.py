@@ -14,8 +14,8 @@ def get_annotations(json_key: str,
     return __annotations_to_dicts(id_video=id_video, annotations=annotations)
 
 
-@retry(stop=stop_after_attempt(100), wait=wait_random_exponential(
-    multiplier=1, max=60))
+@retry(stop=stop_after_attempt(1000),
+       wait=wait_random_exponential(multiplier=1, max=60))
 def __mp4_to_annotations(json_key: str,
                          bucket: str,
                          id_video: str) -> 'list of dict':

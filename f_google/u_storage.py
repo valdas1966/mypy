@@ -1,8 +1,9 @@
 from google.cloud import storage
-from tenacity import retry, stop_after_attempt
+from tenacity import retry, stop_after_attempt, wait_random_exponential
 
 
-@retry(stop=stop_after_attempt(5))
+@retry(stop=stop_after_attempt(100),
+       wait=wait_random_exponential(multiplier=1, max=60))
 def copy(json_key: str,
          project: str,
          str_bucket: str,
