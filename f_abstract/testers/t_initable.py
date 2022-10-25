@@ -1,5 +1,5 @@
 from f_utils import u_tester
-from f_abstract.initable import Initable
+from f_abstract.inittable import Initable
 
 
 class TestInitible:

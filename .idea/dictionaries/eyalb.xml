@@ -17,11 +17,13 @@
       <w>filepaths</w>
       <w>fname</w>
       <w>idds</w>
+      <w>inittable</w>
       <w>kastar</w>
       <w>ndarray</w>
       <w>pred</w>
       <w>qtype</w>
       <w>roomap</w>
+      <w>succ</w>
       <w>vals</w>
     </words>
   </dictionary>

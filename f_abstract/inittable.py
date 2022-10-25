@@ -1,7 +1,7 @@
 from f_utils import u_dict
 
 
-class Initable:
+class Inittable:
 
     def __init__(self, **kwargs):
         """
