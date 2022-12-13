@@ -9,7 +9,7 @@ class TestList:
         TestList.__tester_sublist_by_index()
         TestList.__tester_bigram()
         TestList.__tester_to_str()
-        TestList.__tester_starts_with()
+        TestList.__tester_to_slices_breadth()
         u_tester.print_finish(__file__)
 
     @staticmethod
@@ -45,18 +45,16 @@ class TestList:
         u_tester.run(p0, p1)
 
     @staticmethod
-    def __tester_starts_with():
-        li = ['ab', 'ba']
-        sub_test = u_list.starts_with(li, prefix='a')
-        sub_true = ['ab']
-        p0 = sub_test == sub_true
-        sub_test = u_list.starts_with(li, prefix='a', remain_prefix=False)
-        sub_true = ['b']
-        p1 = sub_test == sub_true
-        sub_test = u_list.starts_with(li, prefix='c')
-        sub_true = list()
-        p2 = sub_test == sub_true
-        u_tester.run(p0, p1, p2)
+    def __tester_to_slices_breadth():
+        li = [1, 2, 3, 4, 5, 6]
+        slices_test = u_list.to_slices_breadth(li=li, num_slices=2)
+        slices_true = [[1, 3, 5], [2, 4, 6]]
+        p0 = slices_test == slices_true
+        li = [1, 2, 3, 4, 5]
+        slices_test = u_list.to_slices_breadth(li=li, num_slices=2)
+        slices_true = [[1, 3, 5], [2, 4]]
+        p1 = slices_test == slices_true
+        u_tester.run(p0, p1)
 
 
 if __name__ == '__main__':

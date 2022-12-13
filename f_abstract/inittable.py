@@ -13,6 +13,8 @@ class Inittable:
         ========================================================================
         """
         for key, val in kwargs.items():
+            if not key[0] == '_':
+                key = f'_{key}'
             self.__dict__[key] = val
         self._add_kwargs()
 

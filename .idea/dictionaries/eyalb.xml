@@ -19,12 +19,16 @@
       <w>idds</w>
       <w>inittable</w>
       <w>kastar</w>
+      <w>loggable</w>
       <w>ndarray</w>
       <w>pred</w>
       <w>qtype</w>
       <w>roomap</w>
       <w>succ</w>
+      <w>tittable</w>
+      <w>validdable</w>
       <w>vals</w>
+      <w>yyyymmddhhmiss</w>
     </words>
   </dictionary>
 </component>

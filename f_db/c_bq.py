@@ -1,24 +1,17 @@
-from tenacity import retry, stop_after_attempt
 from google.cloud import bigquery
 import pandas as pd
 import os
 
-"""
-logging.basicConfig(filename='test.log',
-                    level=logging.WARNING,
-                    filemode='w',
-                    encoding='utf-8',
-                    format='%(asctime)s: %(levelname)s: %(pathname)s: '
-                           '%(funcName)s: %(message)s')
-"""
-
 
 class BigQuery:
 
-    dataset = 'noteret.tiktok'
+    # str : Project-DataSet
+    _dataset = None
 
-    @retry(stop=stop_after_attempt(100))
-    def __init__(self, json_key: str):
+    # BigQuery Client
+    _client = None
+
+    def __init__(self, json_key: str, dataset: str):
         """
         ========================================================================
          Description: Constructor - Initialize the Connection.
@@ -26,8 +19,8 @@ class BigQuery:
         """
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = json_key
         self._client = bigquery.Client()
+        self._dataset = dataset
 
-    @retry(stop=stop_after_attempt(100))
     def select(self,
                query: str,  # SQL-Query or Table-Name
                limit: int = -1
@@ -39,7 +32,7 @@ class BigQuery:
         """
         if ' ' not in query:
             tname = query
-            query = f'select * from {self.dataset}.{tname}'
+            query = f'select * from {self._dataset}.{tname}'
         if limit > -1:
             query += f' limit {limit}'
         df = self._client.query(query).result().to_dataframe()
@@ -70,11 +63,10 @@ class BigQuery:
         df = self.select(query=query)
         return df.iloc[0][0]
 
-    @retry(stop=stop_after_attempt(5))
     def run(self, command: str) -> None:
         """
         ========================================================================
-         Description: Run BigQuery Command.
+         Description: Run a BigQuery-Command.
         ========================================================================
         """
         job = self._client.query(command)
@@ -90,9 +82,8 @@ class BigQuery:
         """
         self.drop(tname, report=False)
         str_cols = ','.join(cols)
-        self.run(f'create table {self.dataset}.{tname}({str_cols})')
+        self.run(f'create table {self._dataset}.{tname}({str_cols})')
 
-    @retry(stop=stop_after_attempt(5))
     def ctas(self,
              tname: str,
              query: str) -> None:
@@ -125,10 +116,9 @@ class BigQuery:
         try:
             self.count(tname)
             return True
-        except Exception as e:
+        except Exception:
             return False
 
-    @retry(stop=stop_after_attempt(5))
     def insert_rows(self,
                     tname: str,
                     rows: 'list of dict') -> None:
@@ -138,10 +128,10 @@ class BigQuery:
                        the Rows into the BigQuery Table.
         ========================================================================
         """
-        table = self._client.get_table(f'{self.dataset}.{tname}')
+        table = self._client.get_table(f'{self._dataset}.{tname}')
         ans = self._client.insert_rows(table=table, rows=rows)
         if ans:
-            raise Exception(ans[0]['errors'][0]['message'])
+            raise Exception(f"{ans[0]['errors'][0]['message']}\n{rows}")
 
     def insert_into(self,
                     tname_from: str,
@@ -161,7 +151,6 @@ class BigQuery:
             command = f'insert into {tname_to} select * from {tname_from}'
         self.run(command)
 
-    @retry(stop=stop_after_attempt(5))
     def load(self,
              df: pd.DataFrame,
              tname: str,
@@ -174,7 +163,7 @@ class BigQuery:
         if_exists = 'append' if append else 'replace'
         self.drop(tname, report=False)
         # self._client.load_table_from_dataframe(df, destination=tname)
-        table = f'{self.dataset}.{tname}'
+        table = f'{self._dataset}.{tname}'
         df.to_gbq(destination_table=table, if_exists=if_exists)
 
     def drop(self, tname: str, report: bool = False) -> None:
@@ -183,14 +172,13 @@ class BigQuery:
          Description: Drop Table (if exists).
         ========================================================================
         """
-        command = f'drop table {self.dataset}.{tname}'
+        command = f'drop table {self._dataset}.{tname}'
         try:
             self.run(command=command)
         except Exception as e:
             if report:
                 raise Exception(e)
 
-    @retry(stop=stop_after_attempt(5))
     def close(self):
         """
         ========================================================================

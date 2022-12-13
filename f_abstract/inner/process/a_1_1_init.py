@@ -1,10 +1,11 @@
-from f_abstract.inner.process.a_3_ops_io import ProcessOps
+from f_abstract.operation import Operation
 
 
-class Process(ProcessOps):
+class ProcessInit(Operation):
     """
     ============================================================================
-     Description: Process of sequential Operations.
+     Description: Operation is the Process' Prototype.
     ============================================================================
     """
-    pass
+
+    _to_pre_log = True

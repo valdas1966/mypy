@@ -1,25 +1,53 @@
-import u_list
+from f_utils import u_list
+from f_utils import u_file
 import pandas as pd
 
 
-def create(path, li):
+def create(path: str,
+           header: 'list of obj' = None,
+           rows: 'list of list of obj' = None) -> None:
     """
     ===========================================================================
-     Description: Create CSV File from List of Rows (Row is List of Strings).
+     Description: Create CSV-File [Empty | Header | Rows]
     ===========================================================================
      Arguments:
     ---------------------------------------------------------------------------
-        1. path : str (Path of CSV File to create).
-        2. li : list of rows (Row is List of Strings).
+        1. path : str (Path to Create).
+        2. header: list[obh] (List of Column-Names).
+        2. rows: list[list[obj]]
     ===========================================================================
     """
-    file = open(path,'w')
-    for row in li:
-        row = [str(val) for val in row]
-        line = ','.join(row)
-        file.write(line + '\n')
+    def __write_line(vals):
+        vals = [str(val) for val in vals]
+        line = ','.join(vals)
+        file.write(f'{line}\n')
+
+    file = open(path, 'w')
+    if header:
+        __write_line(vals=header)
+    if rows:
+        for row in rows:
+            __write_line(vals=row)
     file.close()
-    
+
+
+def append(path: str, row: 'list of obj') -> None:
+    """
+    ============================================================================
+     Description: Append New-Line into CSV-File.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. path : str [CSV-File Path].
+        2. row : list[obj] [List of Row-Values].
+    ============================================================================
+    """
+    file = open(path, 'a')
+    vals = [str(val) for val in row]
+    line = ','.join(vals)
+    file.write(f'{line}\n')
+    file.close()
+
     
 def to_list(path):
     """
@@ -96,15 +124,39 @@ def repair(csv_in, csv_out, csv_errors=None, verbose=True):
         print(f'{i-cnt_errors} Success, {cnt_errors} Errors')
 
 
-def append(csv_1, csv_2, csv_out, verbose=True):
-    df_1 = pd.read_csv(csv_1)
-    df_2 = pd.read_csv(csv_2)
-    df_out = df_1.append(df_2)
-    df_out.to_csv(csv_out)
-    if verbose:
-        print(f'{csv_1} [{len(df_1)} rows]')
-        print('append vs')
-        print(f'{csv_2} [{len(df_2)} rows]')
-        print(f'into {csv_out}')
-        print(f'[{len(df_out)} rows]')
+def append_files(csvs: 'list of str',
+                 csv_out: str) -> None:
+    """
+    ============================================================================
+     Description: Append Csv-Files into one Csv-File.
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. csvs : list[str] (List of Csv-Paths).
+        2. csv_out : str (Csv-Out-Path).
+    ============================================================================
+    """
+    dfs = [pd.read_csv(csv) for csv in csvs]
+    df_all = pd.concat(dfs)
+    df_all.to_csv(csv_out, index=None)
 
+
+def to_dict_rows(csv: str) -> 'list of dict':
+    """
+    ============================================================================
+     Description: Convert Csv-File into List of Dict-Rows (Ready to BigQuery).
+    ============================================================================
+     Arguments:
+    ----------------------------------------------------------------------------
+        1. csv : str (Csv-Path).
+    ============================================================================
+    """
+    lines = u_file.read(csv).split('\n')
+    keys = lines[0].split(',')
+    rows = list()
+    for i in range(1, len(keys)):
+        vals = lines[i].split(',')
+        vals = [None if val == 'None' else val for val in vals]
+        d_row = dict(zip(keys, vals))
+        rows.append(d_row)
+    return rows

@@ -103,7 +103,11 @@ class SQLite:
         ========================================================================
         """
         command = f'drop table {tname}'
-        self.run(command)
+        try:
+            self.run(command)
+        except Exception as e:
+            if report:
+                raise Exception(e)
 
     def ctas(self,
              tname: str,

@@ -1,10 +1,10 @@
-from f_abstract.inner.process.a_3_ops_io import ProcessOps
+from f_abstract.inner.process.a_3_ops_io import ProcessOpsIO
 
 
-class Process(ProcessOps):
+class ProcessIO(ProcessOpsIO):
     """
     ============================================================================
-     Description: Process of sequential Operations.
+     Description: Process of Sequential Input/Output Operations.
     ============================================================================
     """
     pass
