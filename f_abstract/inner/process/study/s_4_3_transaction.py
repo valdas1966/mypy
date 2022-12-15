@@ -8,8 +8,8 @@ class Op(Operation):
         if self._index == 1:
             raise Exception('index == 1')
 
-    def _add_post_log_kwargs(self) -> None:
-        self._post_log_kwargs['index'] = self._index
+    def _add_post_log(self) -> None:
+        self._d_post_log['index'] = self._index
 
 
 class Process(ProcessTransaction):

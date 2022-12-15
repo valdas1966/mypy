@@ -21,13 +21,13 @@ class Operation(OperationIO):
             raise Exception('input == 4')
         self._output = self.input * 2
 
-    def _add_pre_log_kwargs(self) -> None:
-        self._pre_log_kwargs['input'] = self.input
-        self._pre_log_kwargs['output'] = self.output
+    def _add_pre_log(self) -> None:
+        self._d_pre_log['input'] = self.input
+        self._d_pre_log['output'] = self.output
 
-    def _add_post_log_kwargs(self) -> None:
-        self._post_log_kwargs['input'] = self.input
-        self._post_log_kwargs['output'] = self.output
+    def _add_post_log(self) -> None:
+        self._d_post_log['input'] = self.input
+        self._d_post_log['output'] = self.output
 
 
 class Process(ProcessIO):
@@ -36,13 +36,13 @@ class Process(ProcessIO):
 
     _arg_ops = [{}] * 2
 
-    def _add_pre_log_kwargs(self) -> None:
-        self._pre_log_kwargs['input'] = self.input
-        self._pre_log_kwargs['output'] = self.output
+    def _add_pre_log(self) -> None:
+        self._d_pre_log['input'] = self.input
+        self._d_pre_log['output'] = self.output
 
-    def _add_post_log_kwargs(self) -> None:
-        self._post_log_kwargs['input'] = self.input
-        self._post_log_kwargs['output'] = self.output
+    def _add_post_log(self) -> None:
+        self._d_post_log['input'] = self.input
+        self._d_post_log['output'] = self.output
 
 
 p = Process(input=2)

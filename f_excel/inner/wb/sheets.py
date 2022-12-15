@@ -1,10 +1,8 @@
-from f_logging.dec import log_all_methods, log_info_class
-from f_excel.model.wb.base import MyWorkBookBase
+from f_excel.inner.wb.i_1_base import MyWorkBookBase
 from f_excel.ws import MyWorkSheet
 from f_excel.cell import MyCell
 
 
-@log_all_methods(decorator=log_info_class)
 class MyWorkBookSheets(MyWorkBookBase):
     """
     ============================================================================
@@ -37,8 +35,9 @@ class MyWorkBookSheets(MyWorkBookBase):
             -> MyWorkSheet | MyCell:
         """
         ========================================================================
-         Description: Return MyWorkSheet by Index(int) or Title(str).
+         Description: Return MyWorkSheet by [Index(int)] or [Title(str)].
                       Raise Exception if argument[item] in not int|str.
+                      Return MyCell by coordinates[int][int] (on first ws).
         ========================================================================
         """
         if type(item) == str:

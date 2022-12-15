@@ -1,9 +1,7 @@
-from f_logging.dec import log_all_methods, log_info_class
 import openpyxl as xl
 from f_utils import u_file
 
 
-@log_all_methods(decorator=log_info_class)
 class MyWorkBookBase:
     """
     ============================================================================
