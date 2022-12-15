@@ -13,10 +13,10 @@ class OperationLog(OperationDT):
     _to_pre_log = False
 
     # dict : Pre-Log Params
-    __d_pre_log = dict()
+    _d_pre_log = dict()
 
     # dict : Post-Log Params
-    __d_post_log = dict()
+    _d_post_log = dict()
 
     # OperationDT
     def _pre_run(self, **kwargs) -> None:
@@ -46,13 +46,13 @@ class OperationLog(OperationDT):
          Description: Pre-Logging.
         ========================================================================
         """
-        kwargs_std = {'state': 'START', 'status': None,
+        kwargs = {'state': 'START', 'status': None,
                       'dt_start': u_dt.to_str(self._dt_start),
                       'dt_finish': None, 'secs': None, 'title': self.title,
                       'e_msg': None}
-        self.__add_log_kwargs(d=self._d_pre_log)
-        kwargs_std.update(self._d_pre_log)
-        self._log(**kwargs_std)
+        self._add_pre_log()
+        kwargs.update(self._d_pre_log)
+        self._log(**kwargs)
 
     # Loggable
     def _post_log(self) -> None:
@@ -62,33 +62,29 @@ class OperationLog(OperationDT):
         ========================================================================
         """
         secs = round((self._dt_finish - self._dt_start).total_seconds(), 2)
-        kwargs_std = {'state': 'FINISH',
+        kwargs = {'state': 'FINISH',
                       'status': self.is_valid,
                       'dt_start': u_dt.to_str(self._dt_start),
                       'dt_finish': u_dt.to_str(self._dt_finish),
                       'secs': secs,
                       'title': self.title,
                       'e_msg': self.e_msg}
-        self.__add_log_kwargs(d=self._d_post_log)
-        kwargs_std.update(self._d_post_log)
-        super()._pre_log(**kwargs_std)
+        self._add_post_log()
+        kwargs.update(self._d_post_log)
+        super()._pre_log(**kwargs)
 
-    def __add_log_kwargs(self, d: dict) -> None:
+    def _add_pre_log(self) -> None:
         """
         ========================================================================
-         Description: Add [Pre|Post] Log-Kwargs.
-        ========================================================================
-         Arguments:
-        ------------------------------------------------------------------------
-            1. d : dict (pre_log_kwargs or post_log_kwargs).
+         Description: Add Pre-Log Params into Params-Dict.
         ========================================================================
         """
-        for key, val in d:
-            if val.startswith('self.'):
-                att = val[5:]
-                d[key] = self.__class__.__dict__[att]
-            elif val.startswith('globs.'):
-                att = val[6:]
-                d[key] = self.__class__.__dict__['_globs'][att]
-            else:
-                d[key] = val
+        pass
+
+    def _add_post_log(self) -> None:
+        """
+        ========================================================================
+         Description: Add Post-Log Params into Params-Dict.
+        ========================================================================
+        """
+        pass
