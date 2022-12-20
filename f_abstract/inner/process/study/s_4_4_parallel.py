@@ -5,6 +5,8 @@ from f_abstract.inner.process.a_4_4_parallel import ProcessParallel
 class Op(Operation):
 
     def _run(self) -> None:
+        if self._id_session == 1:
+            raise Exception('id_session==1')
         print(self._id_session, self._globs['x'])
 
 
@@ -12,7 +14,7 @@ class Process(ProcessParallel):
 
     _ops = Op
 
-    _arg_ops = [(1), (2)]
+    _arg_ops = [(1), (2), (3)]
 
     def _set_globs(self) -> None:
         self._globs['x'] = 2
