@@ -8,7 +8,8 @@ class MyWorkBookBase:
      Description:
     ----------------------------------------------------------------------------
         1. Wraps the openpyxl.workbook Class.
-        2. Can Save, Save-As and Close the Workbook.
+        2. Can Open-New-File, Open-Existed-FileSave, Save-As and Close the
+            Workbook.
     ============================================================================
     """
 
