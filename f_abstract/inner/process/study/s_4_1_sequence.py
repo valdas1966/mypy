@@ -8,7 +8,7 @@
     4. One-Operation-Fail does not cause Whole-Process-Fail.
 ================================================================================
 """
-from f_abstract.inner.process.a_4_1_sequence import ProcessSequence
+from f_abstract.process_sequence import ProcessSequence
 from f_abstract.operation import Operation
 
 

@@ -63,12 +63,12 @@ class OperationLog(OperationDT):
         """
         secs = round((self._dt_finish - self._dt_start).total_seconds(), 2)
         kwargs = {'state': 'FINISH',
-                      'status': self.is_valid,
-                      'dt_start': u_dt.to_str(self._dt_start),
-                      'dt_finish': u_dt.to_str(self._dt_finish),
-                      'secs': secs,
-                      'title': self.title,
-                      'e_msg': self.e_msg}
+                  'status': self.is_valid,
+                  'dt_start': u_dt.to_str(self._dt_start),
+                  'dt_finish': u_dt.to_str(self._dt_finish),
+                  'secs': secs,
+                  'title': self.title,
+                  'e_msg': self.e_msg}
         self._add_post_log()
         kwargs.update(self._d_post_log)
         super()._pre_log(**kwargs)

@@ -1,4 +1,4 @@
-from f_abstract.inner.process.a_3_ops_io import ProcessOps
+from f_abstract.inner.process.a_3_ops import ProcessOps
 
 
 class Process(ProcessOps):
