@@ -12,10 +12,13 @@ class OperationLog(OperationDT):
     # bool : PreLogging or not
     _to_pre_log = False
 
-    # dict : Pre-Log Params
+    # dict : [Pre & Post] Log Params
+    _d_log = dict()
+
+    # dict : Pre-Log Params only
     _d_pre_log = dict()
 
-    # dict : Post-Log Params
+    # dict : Post-Log Params only
     _d_post_log = dict()
 
     # OperationDT
@@ -72,6 +75,14 @@ class OperationLog(OperationDT):
         self._add_post_log()
         kwargs.update(self._d_post_log)
         super()._pre_log(**kwargs)
+
+    def _add_log(self) -> None:
+        """
+        ========================================================================
+         Description: Add both [Pre & Post] Log-Params into Params-Dict.
+        ========================================================================
+        """
+        pass
 
     def _add_pre_log(self) -> None:
         """
