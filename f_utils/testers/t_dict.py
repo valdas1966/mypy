@@ -13,6 +13,7 @@ class TestDict:
         TestDict.__tester_sorted_by_value()
         TestDict.__tester_update()
         TestDict.__tester_union()
+        TestDict.__tester_exclude_keys()
         u_tester.print_finish(__file__)
 
     def tester_to_key_value_str(self):
@@ -86,6 +87,15 @@ class TestDict:
         d = u_dict.update(d, 2, 33)
         d_true = {1: [11], 2: [22, 33]}
         p0 = d == d_true
+        u_tester.run(p0)
+
+    @staticmethod
+    def __tester_exclude_keys():
+        d = {'a': 1, 'b': 2}
+        keys = ['b']
+        d_test = u_dict.exclude_keys(d=d, keys_to_exclude=keys)
+        d_true = {'a': 1}
+        p0 = d_test == d_true
         u_tester.run(p0)
 
 

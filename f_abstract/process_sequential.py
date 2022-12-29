@@ -1,10 +1,11 @@
 from f_abstract.inner.process.a_3_ops import ProcessOps
 
 
-class ProcessSequence(ProcessOps):
+class ProcessSequential(ProcessOps):
     """
     ============================================================================
-     Description: Run the Inner-Operations sequentially.
+     Description: Run the Inner-Operations sequentially as Transaction
+                    (Process fails when one Operation is failed).
     ============================================================================
     """
 
@@ -12,5 +13,6 @@ class ProcessSequence(ProcessOps):
     def _run(self) -> None:
         for i, op in enumerate(self._ops):
             args = self._arg_ops[i]
-            args['_globs'] = dict(self._globs)
-            op(**args)
+            operation = op(**args)
+            if not operation.is_valid:
+                raise Exception(operation.e_msg)

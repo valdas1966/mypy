@@ -1,23 +1,31 @@
-from f_abstract.inner.operation.a_4_io import OperationIO as OIO
+from f_abstract.inner.operation.a_3_log import OperationLog
 
 
-class OperationIO(OIO):
+class OperationIO(OperationLog):
     """
     ============================================================================
-     Inheritance:
+     Description: Operation Input & Output properties.
+    ============================================================================
+     Attributes:
     ----------------------------------------------------------------------------
-        1. Inittable (init kwargs).
-        2. Runnable (pre_run, run, post_run, on_error).
-        3. Tittable (title).
-        4. Validdable (is_valid, e_msg).
-        5. Loggable (pre_log, post_log, log).
-    ----------------------------------------------------------------------------
-     Inner:
-    ----------------------------------------------------------------------------
-        1. Init (Init all the Inheritances).
-        2. DT (Start & Finish DateTimes).
-        3. Log (Pre & Post Logging).
-        4. IO (Input & Output properties).
+        1. input : any.
     ============================================================================
     """
-    pass
+
+    def _add_atts(self) -> None:
+        """
+        ========================================================================
+         Description: Additional Attrs.
+        ========================================================================
+        """
+        super()._add_atts()
+        # obj (Operation-Output Property)
+        self._output = None
+
+    @property
+    def input(self) -> any:
+        return self._input
+
+    @property
+    def output(self) -> any:
+        return self._output

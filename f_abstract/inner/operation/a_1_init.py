@@ -19,7 +19,6 @@ class OperationInit(Runnable, Tittable, Loggable):
         """
         Tittable.__init__(self, **kwargs)
         Loggable.__init__(self, **kwargs)
-        self._set_title()
         Runnable.__init__(self, **kwargs)
 
     def _set_title(self) -> None:

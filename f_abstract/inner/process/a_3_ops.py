@@ -1,15 +1,65 @@
-from f_abstract.inner.process.a_2_globs import ProcessGlobs
+from f_abstract.inner.process.a_1_init import ProcessInit
 
 
-class ProcessOps(ProcessGlobs):
+class ProcessOps(ProcessInit):
     """
     ============================================================================
      Description: List of Operations and List of their Arguments (dicts).
     ============================================================================
     """
 
-    # list[Operation] : List of Operations to Execute
-    _ops = None
+    # OperationLog
+    def _add_atts(self) -> None:
+        super()._add_atts()
+        # list[Operation] : List of Operations to Execute
+        self._ops = None
+        # list[dict] : List of Operations-Arguments
+        self._arg_ops = None
 
-    # list[dict] : List of Operations-Arguments
-    _arg_ops = None
+    # OperationLog
+    def _add_black_list_log(self, li: list = None) -> None:
+        li_new = ['ops', 'arg_ops']
+        if li:
+            li_new.extend(li)
+        super()._add_black_list_log(li=li_new)
+
+    # ProcessInit
+    def _pre_run(self) -> None:
+        super()._pre_run()
+        self._set_ops()
+        self._set_arg_ops()
+        self._add_to_arg_ops()
+
+    def _set_ops(self) -> None:
+        """
+        ========================================================================
+         Desc: Set the list of operations to run.
+        ========================================================================
+        """
+        pass
+
+    def _set_arg_ops(self) -> None:
+        """
+        ========================================================================
+         Desc: Set the list of arguments for each Operation.
+        ========================================================================
+        """
+        self._arg_ops = [{}] * len(self._ops)
+
+    def _add_to_arg_ops(self, adds: list = list()) -> None:
+        """
+        ========================================================================
+         Desc: Add arguments for each Operation.
+        ========================================================================
+        """
+        if not self._arg_ops:
+            return
+        d_adds = dict()
+        for name, name_new in adds:
+            if name_new:
+                d_adds[name_new] = getattr(self, f'_{name}')
+            else:
+                d_adds[name] = getattr(self, f'_{name}')
+        for args in self._arg_ops:
+            args.update(self._get_log_atts())
+            args.update(d_adds)

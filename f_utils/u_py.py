@@ -33,6 +33,7 @@ def create_tester_file(filepath: str) -> None:
     u_file.write_lines(file_tester, lines)
 
 
+
 def get_funcs(path):
     """
     ============================================================================
@@ -95,3 +96,12 @@ def snake_to_pascal(snake: str) -> str:
         else:
             pascal.append(ch)
     return ''.join(pascal)
+
+
+def is_protected(name: str) -> bool:
+    """
+    ============================================================================
+     Description: Return True if the given Object-Name is protected.
+    ============================================================================
+    """
+    return name.startswith('_') and not '__' in name

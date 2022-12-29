@@ -8,11 +8,18 @@ class Validdable(Inittable):
     ============================================================================
     """
 
-    # bool : Object-Validity
-    _is_valid = None
-
-    # str : Error-Message
-    _e_msg = None
+    # Inittable
+    def _add_atts(self) -> None:
+        """
+        ========================================================================
+         Description: Add additional attributes to those in the init.
+        ========================================================================
+        """
+        super()._add_atts()
+        # bool : Object-Validity
+        self._is_valid = None
+        # str : Error-Message
+        self._e_msg = None
 
     @property
     def is_valid(self) -> bool:

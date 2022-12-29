@@ -1,4 +1,4 @@
-from f_abstract.inner.process.a_1_2_init_io import ProcessInitIO
+from f_abstract.inner.process.a_2_init_io import ProcessInitIO
 
 """
 ================================================================================
@@ -11,6 +11,7 @@ class Process(ProcessInitIO):
 
     def _run(self) -> None:
         self._output = 'output'
+        print(self._to_pre_log)
 
 
 p = Process(input='input')

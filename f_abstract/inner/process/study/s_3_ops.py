@@ -1,14 +1,13 @@
-from f_abstract.inner.process.a_1_init import ProcessInit
-
 """
 ================================================================================
- Description: Check Pre & Post Logging
+ Check: Ops and Arg-Ops are not being Logged.
 ================================================================================
 """
+from f_abstract.inner.process.a_3_ops import ProcessOps
 
 
-class Process(ProcessInit):
-    pass
+class Process(ProcessOps):
+        pass
 
 
 p = Process()

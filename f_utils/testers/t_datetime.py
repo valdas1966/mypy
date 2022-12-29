@@ -26,7 +26,5 @@ class TestDateTime:
         u_tester.run(p0, p1, p2)
 
 
-
-
 if __name__ == '__main__':
     TestDateTime()

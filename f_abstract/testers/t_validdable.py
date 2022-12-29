@@ -6,12 +6,11 @@ class TestValiddable():
 
     def __init__(self):
         u_tester.print_start(__file__)
-        TestValiddable._tester_is_valid()
+        TestValiddable.__tester_is_valid()
         u_tester.print_finish(__file__)
 
-
     @staticmethod
-    def _tester_is_valid():
+    def __tester_is_valid():
         class T(Validdable):
             def turn_on(self):
                 self._is_valid = True

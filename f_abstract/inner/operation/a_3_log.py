@@ -1,5 +1,7 @@
 from f_abstract.inner.operation.a_2_dt import OperationDT
 from f_utils import u_datetime as u_dt
+from f_utils import u_dict
+from f_utils import u_class
 
 
 class OperationLog(OperationDT):
@@ -9,53 +11,67 @@ class OperationLog(OperationDT):
     ============================================================================
     """
 
-    # bool : PreLogging or not
-    _to_pre_log = False
+    # OperationDT
+    def _add_atts(self) -> None:
+        """
+        ========================================================================
+         Description: Additional Attributes.
+        ========================================================================
+        """
+        super()._add_atts()
+        # bool : PreLogging or not
+        self._to_pre_log = False
+        # list : Attributes-Names that should not be logged
+        self._black_list_log = ['black_list_log', 'to_pre_log', 'dt_start',
+                                'dt_finish', 'title', 'e_msg', 'is_valid', 'verbose',
+                                'Loggable__deli']
 
-    # dict : [Pre & Post] Log Params
-    _d_log = dict()
-
-    # dict : Pre-Log Params only
-    _d_pre_log = dict()
-
-    # dict : Post-Log Params only
-    _d_post_log = dict()
+    def _add_black_list_log(self, li: list = list()) -> None:
+        """
+        ========================================================================
+         Description: Extend Black-List of Log-Params.
+        ========================================================================
+        """
+        self._black_list_log.extend(li)
 
     # OperationDT
-    def _pre_run(self, **kwargs) -> None:
+    def _pre_run(self) -> None:
         """
         ========================================================================
          Description: Add Pre-Logging.
         ========================================================================
         """
-        super()._pre_run(**kwargs)
+        super()._pre_run()
+        self._add_black_list_log()
         if self._to_pre_log:
             self._pre_log()
 
     # OperationDT
-    def _post_run(self, **kwargs) -> None:
+    def _post_run(self) -> None:
         """
         ========================================================================
          Description: Add Post-Logging.
         ========================================================================
         """
-        super()._post_run(**kwargs)
+        super()._post_run()
         self._post_log()
 
     # Loggable
-    def _pre_log(self, **kwargs) -> None:
+    def _pre_log(self) -> None:
         """
         ========================================================================
          Description: Pre-Logging.
         ========================================================================
         """
-        kwargs = {'state': 'START', 'status': None,
-                      'dt_start': u_dt.to_str(self._dt_start),
-                      'dt_finish': None, 'secs': None, 'title': self.title,
-                      'e_msg': None}
-        self._add_pre_log()
-        kwargs.update(self._d_pre_log)
-        self._log(**kwargs)
+        params = {'state': 'START',
+                  'status': None,
+                  'dt_start': u_dt.to_str(self._dt_start),
+                  'dt_finish': None,
+                  'secs': None,
+                  'title': self.title,
+                  'e_msg': None,
+                  'adds': self._additional_log_params()}
+        self._log(**params)
 
     # Loggable
     def _post_log(self) -> None:
@@ -65,37 +81,37 @@ class OperationLog(OperationDT):
         ========================================================================
         """
         secs = round((self._dt_finish - self._dt_start).total_seconds(), 2)
-        kwargs = {'state': 'FINISH',
+        params = {'state': 'FINISH',
                   'status': self.is_valid,
                   'dt_start': u_dt.to_str(self._dt_start),
                   'dt_finish': u_dt.to_str(self._dt_finish),
                   'secs': secs,
                   'title': self.title,
-                  'e_msg': self.e_msg}
-        self._add_post_log()
-        kwargs.update(self._d_post_log)
-        super()._pre_log(**kwargs)
+                  'e_msg': self.e_msg,
+                  'adds': self._additional_log_params()}
+        self._log(**params)
 
-    def _add_log(self) -> None:
+    def _additional_log_params(self) -> dict:
         """
         ========================================================================
-         Description: Add both [Pre & Post] Log-Params into Params-Dict.
+         Description: Add Protected-Atts to the standard Operation-Log-Params.
         ========================================================================
         """
-        pass
+        d = self._get_log_atts()
+        for key, val in d.items():
+            if type(val) in (tuple, list, set, dict):
+                d[key] = len(val)
+            if type(val) == str:
+                d[key] = val[:100]
+        return d
 
-    def _add_pre_log(self) -> None:
+    def _get_log_atts(self) -> dict:
         """
         ========================================================================
-         Description: Add Pre-Log Params into Params-Dict.
+         Desc: Return a dict of protected-atts, excluding those on blacklist.
         ========================================================================
         """
-        pass
-
-    def _add_post_log(self) -> None:
-        """
-        ========================================================================
-         Description: Add Post-Log Params into Params-Dict.
-        ========================================================================
-        """
-        pass
+        d = u_class.get_protected_atts(self=self)
+        d = {key[1:]: val for key, val in d.items()}
+        d = u_dict.exclude_keys(d=d, keys_to_exclude=self._black_list_log)
+        return d

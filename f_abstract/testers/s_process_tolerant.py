@@ -8,7 +8,7 @@
     4. One-Operation-Fail does not cause Whole-Process-Fail.
 ================================================================================
 """
-from f_abstract.process_sequence import ProcessSequence
+from f_abstract.process_tolerant import ProcessTolerant
 from f_abstract.operation import Operation
 
 
@@ -21,7 +21,7 @@ class Op(Operation):
             raise Exception('index=2')
 
 
-class Process(ProcessSequence):
+class Process(ProcessTolerant):
 
     def _set_globs(self) -> None:
         self._globs['name'] = self._name

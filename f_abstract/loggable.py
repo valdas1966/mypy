@@ -3,11 +3,18 @@ from f_abstract.inittable import Inittable
 
 class Loggable(Inittable):
 
-    # bool : Print Logs on Screen
-    _verbose = True
-
-    # str : Delimiter in Print-Logging
-    __deli = ' | '
+    # Inittable
+    def _add_atts(self) -> None:
+        """
+        ========================================================================
+         Description: Add additional attributes to those in the init.
+        ========================================================================
+        """
+        super()._add_atts()
+        # bool : Print Logs on Screen
+        self._verbose = True
+        # str : Delimiter in Print-Logging
+        self.__deli = ' | '
 
     def _log(self, **kwargs) -> None:
         """

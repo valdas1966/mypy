@@ -134,3 +134,11 @@ def filter_by_keys(d: dict, keys: 'sequence') -> dict:
     ============================================================================
     """
     return {key: d[key] for key in keys}
+
+
+def exclude_keys(d: dict, keys_to_exclude: list) -> dict:
+    d = d.copy()
+    for key in keys_to_exclude:
+        if key in d:
+            del d[key]
+    return d

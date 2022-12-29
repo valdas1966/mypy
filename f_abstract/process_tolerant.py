@@ -1,11 +1,11 @@
 from f_abstract.inner.process.a_3_ops import ProcessOps
 
 
-class ProcessTransaction(ProcessOps):
+class ProcessTolerant(ProcessOps):
     """
     ============================================================================
-     Description: Run the Inner-Operations sequentially as Transaction
-                    (Process fails when one Operation is failed).
+     Description: Run the Inner-Operations sequentially in tolerant manner
+                    (one op failing does not cause the entire process to fail).
     ============================================================================
     """
 
@@ -13,7 +13,4 @@ class ProcessTransaction(ProcessOps):
     def _run(self) -> None:
         for i, op in enumerate(self._ops):
             args = self._arg_ops[i]
-            args['_globs'] = dict(self._globs)
-            operation = op(**args)
-            if not operation.is_valid:
-                raise Exception(operation.e_msg)
+            op(**args)

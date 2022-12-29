@@ -30,7 +30,7 @@ class Runnable(Validdable):
         """
         pass
 
-    def _pre_run(self, **kwargs) -> None:
+    def _pre_run(self) -> None:
         """
         ========================================================================
          Description: Run Pre-Run Commands.
@@ -38,7 +38,7 @@ class Runnable(Validdable):
         """
         pass
 
-    def _post_run(self, **kwargs) -> None:
+    def _post_run(self) -> None:
         """
         ========================================================================
          Description: Run Post-Run Commands.
@@ -46,7 +46,7 @@ class Runnable(Validdable):
         """
         pass
 
-    def _on_error(self, **kwargs) -> None:
+    def _on_error(self) -> None:
         """
         ========================================================================
          Description: Run On-Error Scenario.

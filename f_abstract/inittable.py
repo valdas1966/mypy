@@ -16,12 +16,12 @@ class Inittable:
             if not key[0] == '_':
                 key = f'_{key}'
             self.__dict__[key] = val
-        self._add_kwargs()
+        self._add_atts()
 
-    def _add_kwargs(self) -> None:
+    def _add_atts(self) -> None:
         """
         ========================================================================
-         Description: Add additional KWARgs. Requires implementation.
+         Description: Add additional attributes to those in the __init__.
         ========================================================================
         """
         pass

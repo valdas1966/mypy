@@ -6,13 +6,13 @@ class TestRunnable:
 
     def __init__(self):
         u_tester.print_start(__file__)
-        TestRunnable._tester_run()
-        TestRunnable._tester_pre_run()
-        TestRunnable._tester_post_run()
+        TestRunnable.__tester_run()
+        TestRunnable.__tester_pre_run()
+        TestRunnable.__tester_post_run()
         u_tester.print_finish(__file__)
 
     @staticmethod
-    def _tester_run():
+    def __tester_run():
         class T(Runnable):
             def _run(self):
                 self.x = 5
@@ -21,7 +21,7 @@ class TestRunnable:
         u_tester.run(p0)
 
     @staticmethod
-    def _tester_pre_run():
+    def __tester_pre_run():
         class T(Runnable):
             def _pre_run(self):
                 self.x = 5
@@ -32,7 +32,7 @@ class TestRunnable:
         u_tester.run(p0)
 
     @staticmethod
-    def _tester_post_run():
+    def __tester_post_run():
         class T(Runnable):
             def _post_run(self):
                 self.x = 5

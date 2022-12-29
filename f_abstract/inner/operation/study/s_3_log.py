@@ -20,28 +20,19 @@ class Op_2(OperationLog):
 
 
 class Op_3(OperationLog):
-
     _to_pre_log = True
-
-    def _add_pre_log(self) -> None:
-        self._d_pre_log['a'] = 1
-
-    def _add_post_log(self) -> None:
-        self._d_post_log['a'] = 1
+    _a = 1
 
 
-class A(OperationLog):
-    def _add_post_log(self) -> None:
-        self._d_post_log['a'] = 'A'
+class Op_4(Op_3):
+    _b = 2
 
 
-class B(A):
-    def _add_post_log(self) -> None:
-        super()._add_post_log()
-        self._d_post_log['b'] = 'B'
-
-
+print('Check: Only Post-Log')
 Op_1()
+print('Check: Pre & Post Log')
 Op_2()
+print('Check: Addition Log-Params (Protected-Attributes)')
 Op_3()
-B()
+print('Check: Inheritance')
+Op_4()

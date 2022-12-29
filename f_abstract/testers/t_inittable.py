@@ -7,7 +7,7 @@ class TestInittible:
     def __init__(self):
         u_tester.print_start(__file__)
         TestInittible.__tester_init()
-        TestInittible.__tester_add_kwargs()
+        TestInittible.__tester_add_attrs()
         TestInittible.__tester_filter_kwargs()
         u_tester.print_finish(__file__)
 
@@ -22,9 +22,9 @@ class TestInittible:
         u_tester.run(p0, p1, p2)
 
     @staticmethod
-    def __tester_add_kwargs():
+    def __tester_add_attrs():
         class A(Inittable):
-            def _add_kwargs(self) -> None:
+            def _add_attrs(self) -> None:
                 self._y = 2
         a = A(x=1)
         p0 = (a._x == 1) and (a._y == 2)
