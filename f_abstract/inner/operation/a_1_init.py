@@ -11,16 +11,6 @@ class OperationInit(Runnable, Tittable, Loggable):
     ============================================================================
     """
 
-    def __init__(self, **kwargs):
-        """
-        ========================================================================
-         Description: Multi-Inheritance Constructor.
-        ========================================================================
-        """
-        Tittable.__init__(self, **kwargs)
-        Loggable.__init__(self, **kwargs)
-        Runnable.__init__(self, **kwargs)
-
     def _set_title(self) -> None:
         """
         ========================================================================

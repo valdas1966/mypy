@@ -12,13 +12,13 @@ class OperationLog(OperationDT):
     """
 
     # OperationDT
-    def _add_atts(self) -> None:
+    def _init_add_atts(self) -> None:
         """
         ========================================================================
          Description: Additional Attributes.
         ========================================================================
         """
-        super()._add_atts()
+        super()._init_add_atts()
         # bool : PreLogging or not
         self._to_pre_log = False
         # list : Attributes-Names that should not be logged

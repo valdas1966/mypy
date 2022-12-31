@@ -12,13 +12,15 @@ class Inittable:
             2. Set additional manual KWArgs (requires func implementation).
         ========================================================================
         """
+        print('init')
         for key, val in kwargs.items():
             if not key[0] == '_':
                 key = f'_{key}'
             self.__dict__[key] = val
-        self._add_atts()
+        self._init_add_atts()
+        self._init_run_funcs()
 
-    def _add_atts(self) -> None:
+    def _init_add_atts(self) -> None:
         """
         ========================================================================
          Description: Add additional attributes to those in the __init__.
@@ -26,10 +28,10 @@ class Inittable:
         """
         pass
 
-    def _filter_kwargs(self, keys: 'sequence') -> dict:
+    def _init_run_funcs(self) -> None:
         """
-        ========================================================================
-         Description: Return kwargs filtered by keys.
-        ========================================================================
+        ==============================================================================
+         Desc: Run functions in the Init process.
+        ==============================================================================
         """
-        return u_dict.filter_by_keys(d=self.__dict__, keys=keys)
+        pass

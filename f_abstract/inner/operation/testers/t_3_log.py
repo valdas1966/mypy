@@ -16,6 +16,7 @@ class TestOperationLog:
         p0 = op._additional_log_params()['x'] == 5
         u_tester.run(p0)
 
+
     @staticmethod
     def __tester_log_list():
         op = OperationLog(li=[1, 2, 3])

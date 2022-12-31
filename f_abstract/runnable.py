@@ -9,8 +9,8 @@ class Runnable(Validdable):
     ============================================================================
     """
 
-    def __init__(self, **kwargs):
-        Validdable.__init__(self, **kwargs)
+    # Inittable
+    def _init_run_funcs(self) -> None:
         self._pre_run()
         try:
             self._run()

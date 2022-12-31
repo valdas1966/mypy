@@ -4,13 +4,13 @@ from f_abstract.inittable import Inittable
 class Loggable(Inittable):
 
     # Inittable
-    def _add_atts(self) -> None:
+    def _init_add_atts(self) -> None:
         """
         ========================================================================
          Description: Add additional attributes to those in the init.
         ========================================================================
         """
-        super()._add_atts()
+        super()._init_add_atts()
         # bool : Print Logs on Screen
         self._verbose = True
         # str : Delimiter in Print-Logging

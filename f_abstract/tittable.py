@@ -9,8 +9,8 @@ class Tittable(Inittable):
     """
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
         self._set_title()
+        super().__init__(**kwargs)
 
     def _set_title(self, title: str = None) -> None:
         """

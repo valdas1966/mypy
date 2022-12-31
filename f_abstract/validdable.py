@@ -9,13 +9,13 @@ class Validdable(Inittable):
     """
 
     # Inittable
-    def _add_atts(self) -> None:
+    def _init_add_atts(self) -> None:
         """
         ========================================================================
          Description: Add additional attributes to those in the init.
         ========================================================================
         """
-        super()._add_atts()
+        super()._init_add_atts()
         # bool : Object-Validity
         self._is_valid = None
         # str : Error-Message

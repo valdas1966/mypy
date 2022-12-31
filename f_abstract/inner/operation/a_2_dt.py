@@ -10,13 +10,13 @@ class OperationDT(OperationInit):
     """
 
     # Inittable
-    def _add_atts(self) -> None:
+    def _init_add_atts(self) -> None:
         """
         ========================================================================
          Description: Additional Attributes.
         ========================================================================
         """
-        super()._add_atts()
+        super()._init_add_atts()
         # datetime : Operation Start-Time
         self._dt_start = None
         # datetime : Operation Finish-Time

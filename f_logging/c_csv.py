@@ -4,24 +4,31 @@ from f_utils import u_datetime
 
 
 class CsvLogger(Inittable):
+    """
+    ==================================================================================
+     Desc: Write Logs into CSV-File.
+    ==================================================================================
+     Attributes:
+    ----------------------------------------------------------------------------------
+        1. _folder : str (CSV-Folder).
+        2. _name : str (Logger-Name).
+        3. _header : list (Column-Names).
+    ==================================================================================
+    """
 
-    # str [INIT] (CSV-Folder)
-    _folder = None
 
-    # str [INIT] (Logger-Name)
-    _name = None
-
-    # list[obj] [INIT] (Logger Column-Names)
-    _header = None
-
-    # str (CSV-Path)
-    _path = None
 
     def __init__(self, **kwargs) -> None:
         """
         ========================================================================
-         Description: Constructor. Set CSV-Path and Create Csv-File.
+         Desc: Set CSV-Path by datetime and Create Csv-File by the path.
         ========================================================================
+         Attributes:
+        ------------------------------------------------------------------------
+            1. _folder : str (CSV-Folder).
+            2. _name : str (Logger-Name).
+            3. _header : list (Column-Names).
+        =========================================================================
         """
         super().__init__(**kwargs)
         self._set_path()
