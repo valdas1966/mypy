@@ -1,4 +1,4 @@
-from f_utils import u_dict
+from f_utils import u_class
 
 
 class Inittable:
@@ -12,7 +12,6 @@ class Inittable:
             2. Set additional manual KWArgs (requires func implementation).
         ========================================================================
         """
-        print('init')
         for key, val in kwargs.items():
             if not key[0] == '_':
                 key = f'_{key}'
@@ -35,3 +34,12 @@ class Inittable:
         ==============================================================================
         """
         pass
+
+    def _get_protected_atts(self) -> dict:
+        """
+        ========================================================================
+         Desc: Return a dict of Protected-Attributes (include the Inherited).
+        ========================================================================
+        """
+        d = u_class.get_protected_atts(self=self)
+        return {key[1:]: val for key, val in d.items()}

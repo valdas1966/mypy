@@ -1,7 +1,6 @@
 from f_abstract.inner.operation.a_2_dt import OperationDT
 from f_utils import u_datetime as u_dt
 from f_utils import u_dict
-from f_utils import u_class
 
 
 class OperationLog(OperationDT):
@@ -23,8 +22,8 @@ class OperationLog(OperationDT):
         self._to_pre_log = False
         # list : Attributes-Names that should not be logged
         self._black_list_log = ['black_list_log', 'to_pre_log', 'dt_start',
-                                'dt_finish', 'title', 'e_msg', 'is_valid', 'verbose',
-                                'Loggable__deli']
+                                'dt_finish', 'title', 'e_msg', 'is_valid',
+                                'verbose', 'logger_csv', 'Loggable__deli']
 
     def _add_black_list_log(self, li: list = list()) -> None:
         """
@@ -101,7 +100,7 @@ class OperationLog(OperationDT):
         for key, val in d.items():
             if type(val) in (tuple, list, set, dict):
                 d[key] = len(val)
-            if type(val) == str:
+            elif type(val) == str:
                 d[key] = val[:100]
         return d
 
@@ -111,7 +110,6 @@ class OperationLog(OperationDT):
          Desc: Return a dict of protected-atts, excluding those on blacklist.
         ========================================================================
         """
-        d = u_class.get_protected_atts(self=self)
-        d = {key[1:]: val for key, val in d.items()}
+        d = self._get_protected_atts()
         d = u_dict.exclude_keys(d=d, keys_to_exclude=self._black_list_log)
         return d

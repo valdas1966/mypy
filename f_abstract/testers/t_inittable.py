@@ -9,6 +9,7 @@ class TestInittible:
         TestInittible.__tester_init()
         TestInittible.__tester_init_add_atts()
         self.__tester_init_run_funcs()
+        self.__tester_get_protected_atts()
         u_tester.print_finish(__file__)
 
     @staticmethod
@@ -39,6 +40,17 @@ class TestInittible:
                 self._x += 1
         a = A(x=1)
         p0 = a._x == 2
+        u_tester.run(p0)
+
+    @staticmethod
+    def __tester_get_protected_atts():
+        class A(Inittable):
+            def _init_add_atts(self) -> None:
+                self._a = 1
+        class B(A):
+            pass
+        t = B(b=2)
+        p0 = t._get_protected_atts() == {'a': 1, 'b': 2}
         u_tester.run(p0)
 
 

@@ -137,8 +137,26 @@ def filter_by_keys(d: dict, keys: 'sequence') -> dict:
 
 
 def exclude_keys(d: dict, keys_to_exclude: list) -> dict:
+    """
+    ============================================================================
+     Desc: Return a Dict without the Excluded-Keys.
+    ============================================================================
+    """
     d = d.copy()
     for key in keys_to_exclude:
         if key in d:
             del d[key]
     return d
+
+
+def get_ordered_values(d: dict, keys_order: list) -> list:
+    """
+    ============================================================================
+     Desc: Get Dict and List of Keys, and return List of Dict-Values
+            in the order specified by the given List.
+    ============================================================================
+    """
+    res = list()
+    for key in keys_order:
+        res.append(d.get(key))
+    return res

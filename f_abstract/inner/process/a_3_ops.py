@@ -9,16 +9,26 @@ class ProcessOps(ProcessInit):
     """
 
     # OperationLog
-    def _add_atts(self) -> None:
-        super()._add_atts()
+    def _init_add_atts(self) -> None:
+        super()._init_add_atts()
         # list[Operation] : List of Operations to Execute
         self._ops = None
         # list[dict] : List of Operations-Arguments
         self._arg_ops = None
+        # set : Procedure-Attributes that are not being logged
+        self._proc_atts_not_logged = {'logger_csv'}
+
+    def _add_proc_atts_not_logged(self, s: set = set()) -> None:
+        """
+        ========================================================================
+         Desc: Add Names of Procedure-Attributes that are not being logged.
+        ========================================================================
+        """
+        self._proc_atts_not_logged = set.union(self._proc_atts_not_logged, s)
 
     # OperationLog
     def _add_black_list_log(self, li: list = None) -> None:
-        li_new = ['ops', 'arg_ops']
+        li_new = ['ops', 'arg_ops', 'proc_atts_not_logged']
         if li:
             li_new.extend(li)
         super()._add_black_list_log(li=li_new)
@@ -29,6 +39,7 @@ class ProcessOps(ProcessInit):
         self._set_ops()
         self._set_arg_ops()
         self._add_to_arg_ops()
+        self._add_proc_atts_not_logged()
 
     def _set_ops(self) -> None:
         """
@@ -62,4 +73,14 @@ class ProcessOps(ProcessInit):
                 d_adds[name] = getattr(self, f'_{name}')
         for args in self._arg_ops:
             args.update(self._get_log_atts())
+            args.update(self._get_proc_atts_not_logged())
             args.update(d_adds)
+
+    def _get_proc_atts_not_logged(self) -> dict:
+        """
+        ========================================================================
+         Desc: Return Procedure-Attributes that are not being logged.
+        ========================================================================
+        """
+        d = {att: getattr(self, f'_{att}') for att in self._proc_atts_not_logged}
+        return d

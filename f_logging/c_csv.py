@@ -1,6 +1,7 @@
 from f_abstract.inittable import Inittable
 from f_utils import u_csv
 from f_utils import u_datetime
+from f_utils import u_dict
 
 
 class CsvLogger(Inittable):
@@ -16,31 +17,27 @@ class CsvLogger(Inittable):
     ==================================================================================
     """
 
-
-
-    def __init__(self, **kwargs) -> None:
-        """
-        ========================================================================
-         Desc: Set CSV-Path by datetime and Create Csv-File by the path.
-        ========================================================================
-         Attributes:
-        ------------------------------------------------------------------------
-            1. _folder : str (CSV-Folder).
-            2. _name : str (Logger-Name).
-            3. _header : list (Column-Names).
-        =========================================================================
-        """
-        super().__init__(**kwargs)
+    # Inittable
+    def _init_run_funcs(self) -> None:
         self._set_path()
         self._create()
 
-    def append(self, row: 'list of obj') -> None:
+    def append_list(self, row: list) -> None:
         """
         ========================================================================
          Description: Append New-Log-Row.
         ========================================================================
         """
         u_csv.append(path=self._path, row=row)
+
+    def append_dict(self, d: dict) -> None:
+        """
+        ========================================================================
+         Desc: Append New-Log Row by matching the Header with the Dict-Keys.
+        ========================================================================
+        """
+        row = u_dict.get_ordered_values(d=d, keys_order=self._header)
+        self.append_list(row=row)
 
     def _set_path(self) -> None:
         """

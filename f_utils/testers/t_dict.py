@@ -14,6 +14,7 @@ class TestDict:
         TestDict.__tester_update()
         TestDict.__tester_union()
         TestDict.__tester_exclude_keys()
+        self.__tester_get_ordered_values()
         u_tester.print_finish(__file__)
 
     def tester_to_key_value_str(self):
@@ -96,6 +97,15 @@ class TestDict:
         d_test = u_dict.exclude_keys(d=d, keys_to_exclude=keys)
         d_true = {'a': 1}
         p0 = d_test == d_true
+        u_tester.run(p0)
+
+    @staticmethod
+    def __tester_get_ordered_values():
+        d = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
+        keys_order = ['b', 'a', 'c', 'e']
+        values_test = u_dict.get_ordered_values(d=d, keys_order=keys_order)
+        values_true = [2, 1, 3, None]
+        p0 = values_test == values_true
         u_tester.run(p0)
 
 
