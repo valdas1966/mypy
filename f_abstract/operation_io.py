@@ -12,13 +12,13 @@ class OperationIO(OperationLog):
     ============================================================================
     """
 
-    def _add_atts(self) -> None:
+    def _init_add_atts(self) -> None:
         """
         ========================================================================
          Description: Additional Attrs.
         ========================================================================
         """
-        super()._add_atts()
+        super()._init_add_atts()
         # obj (Operation-Output Property)
         self._output = None
 

@@ -5,8 +5,8 @@ import time
 
 class ProcessMulti(ProcessOps):
 
-    def _add_atts(self) -> None:
-        super()._add_atts()
+    def _init_add_atts(self) -> None:
+        super()._init_add_atts()
         self._seconds_to_sleep = 0
 
     def _add_black_list_log(self, li: list = list()) -> None:
@@ -20,5 +20,6 @@ class ProcessMulti(ProcessOps):
             thread = Thread(target=op, kwargs=args)
             thread.start()
             time.sleep(self._seconds_to_sleep)
-            thread.join()
             threads.append(thread)
+        for thread in threads:
+            thread.join()

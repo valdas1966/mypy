@@ -1,5 +1,6 @@
 from f_abstract.inittable import Inittable
-from f_logging.c_csv import CsvLogger
+from f_logging.c_loguru import LoGuru
+from f_utils import u_datetime
 
 
 class Loggable(Inittable):
@@ -15,24 +16,22 @@ class Loggable(Inittable):
         # bool : Print Logs on Screen
         if not hasattr(self, '_verbose'):
             self._verbose = True
+        # Loguru
+        if not hasattr(self, '_loguru'):
+            self._loguru = None
         # str : Delimiter in Print-Logging
         self.__deli = ' | '
-        # CsvLogger
-        if not hasattr(self, '_logger_csv'):
-            self._logger_csv = None
 
-    def _create_logger_csv(self,
-                           folder: str,
-                           header: str,
-                           name: str = ()) -> None:
+    def _create_loguru(self,
+                       folder: str,
+                       name: str = ()) -> None:
         """
         ========================================================================
-         Desc: Create CsvLogger for Logging.
+         Desc: Create LoGuru
         ========================================================================
         """
-        self._logger_csv = CsvLogger(folder=folder,
-                                     name=name,
-                                     header=header)
+        filepath = f"{folder}\\{u_datetime.now(format='NUM')}_{name}.log"
+        self._loguru = LoGuru(filepath=filepath)
 
     def _log(self, **kwargs) -> None:
         """
@@ -40,10 +39,12 @@ class Loggable(Inittable):
          Description: Log.
         ========================================================================
         """
+        """
         if self._verbose:
             values = (str(val) for val in kwargs.values())
             print(self.__deli.join(values))
-        if self._logger_csv:
+        """
+        if self._loguru:
             adds = kwargs.pop('adds')
             kwargs.update(adds)
-            self._logger_csv.append_dict(d=kwargs, )
+            self._loguru.log(kwargs)

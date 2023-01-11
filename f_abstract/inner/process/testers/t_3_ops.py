@@ -101,7 +101,7 @@ class TestProcessOps:
                 super()._add_black_list_log(li=['x'])
             def _add_proc_atts_not_logged(self) -> None:
                 super()._add_proc_atts_not_logged(s={'x'})
-        p = P(verbose=False)
+        p = P(verbose=False, x=2)
         p0 = p._proc_atts_not_logged == {'logger_csv', 'x'}
         u_tester.run(p0)
 

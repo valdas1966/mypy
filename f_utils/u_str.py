@@ -1,3 +1,14 @@
+import ast
+
+
+def to_dict(s: str) -> dict:
+    """
+    ============================================================================
+     Desc: Convert Dict's Str-Representation into Dict.
+    ============================================================================
+    """
+    return ast.literal_eval(s)
+
 
 def endswith(text, extensions=set()):
     """

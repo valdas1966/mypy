@@ -23,7 +23,7 @@ class OperationLog(OperationDT):
         # list : Attributes-Names that should not be logged
         self._black_list_log = ['black_list_log', 'to_pre_log', 'dt_start',
                                 'dt_finish', 'title', 'e_msg', 'is_valid',
-                                'verbose', 'logger_csv', 'Loggable__deli']
+                                'verbose', 'loguru', 'Loggable__deli']
 
     def _add_black_list_log(self, li: list = list()) -> None:
         """

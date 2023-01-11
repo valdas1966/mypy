@@ -5,13 +5,7 @@ import os
 
 class BigQuery:
 
-    # str : Project-DataSet
-    _dataset = None
-
-    # BigQuery Client
-    _client = None
-
-    def __init__(self, json_key: str, dataset: str):
+    def __init__(self, json_key: str):
         """
         ========================================================================
          Description: Constructor - Initialize the Connection.
@@ -19,7 +13,6 @@ class BigQuery:
         """
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = json_key
         self._client = bigquery.Client()
-        self._dataset = dataset
 
     def select(self,
                query: str,  # SQL-Query or Table-Name
@@ -32,7 +25,7 @@ class BigQuery:
         """
         if ' ' not in query:
             tname = query
-            query = f'select * from {self._dataset}.{tname}'
+            query = f'select * from {tname}'
         if limit > -1:
             query += f' limit {limit}'
         df = self._client.query(query).result().to_dataframe()
@@ -74,7 +67,7 @@ class BigQuery:
 
     def create(self,
                tname: str,
-               cols: 'list of str') -> None:
+               cols: 'list[str]') -> None:
         """
         ========================================================================
          Description: Create Table by given TName and Cols Signature.
@@ -82,7 +75,7 @@ class BigQuery:
         """
         self.drop(tname, report=False)
         str_cols = ','.join(cols)
-        self.run(f'create table {self._dataset}.{tname}({str_cols})')
+        self.run(f'create table {tname}({str_cols})')
 
     def ctas(self,
              tname: str,
@@ -128,7 +121,7 @@ class BigQuery:
                        the Rows into the BigQuery Table.
         ========================================================================
         """
-        table = self._client.get_table(f'{self._dataset}.{tname}')
+        table = self._client.get_table(tname)
         ans = self._client.insert_rows(table=table, rows=rows)
         if ans:
             raise Exception(f"{ans[0]['errors'][0]['message']}\n{rows}")
@@ -151,20 +144,41 @@ class BigQuery:
             command = f'insert into {tname_to} select * from {tname_from}'
         self.run(command)
 
+    def insert_if_not_exist(self,
+                            tname_a: str,
+                            tname_b: str) -> None:
+        """
+        ========================================================================
+            Desc: Insert into B rows from A that are not exist in B.
+        ========================================================================
+        """
+        cols = self.cols(tname=tname_b)
+        cols_t1 = ', '.join([f't1.{col}' for col in cols])
+        cols_equals = ' and '.join([f't1.{col}=t2.{col}' for col in cols])
+        cols_is_null = ' and '.join([f't2.{col} is null' for col in cols])
+        command = f"""
+                        insert into {tname_b}
+                        select {cols_t1}
+                        from {tname_a} t1
+                        left join {tname_b} t2
+                        on {cols_equals}
+                        where {cols_is_null}
+                    """
+        self.run(command=command)
+
     def load(self,
              df: pd.DataFrame,
              tname: str,
              append: bool = False) -> None:
         """
         ========================================================================
-         Description: Load DataFrame into Sqlite Table.
+         Description: Load DataFrame into BigQuery Table.
         ========================================================================
         """
         if_exists = 'append' if append else 'replace'
         self.drop(tname, report=False)
         # self._client.load_table_from_dataframe(df, destination=tname)
-        table = f'{self._dataset}.{tname}'
-        df.to_gbq(destination_table=table, if_exists=if_exists)
+        df.to_gbq(destination_table=tname, if_exists=if_exists)
 
     def drop(self, tname: str, report: bool = False) -> None:
         """
@@ -172,12 +186,21 @@ class BigQuery:
          Description: Drop Table (if exists).
         ========================================================================
         """
-        command = f'drop table {self._dataset}.{tname}'
+        command = f'drop table {tname}'
         try:
             self.run(command=command)
         except Exception as e:
             if report:
                 raise Exception(e)
+
+    def cols(self, tname: str) -> list:
+        """
+        ========================================================================
+         Desc: Return Table Column-Names as list[str].
+        ========================================================================
+        """
+        table = self._client.get_table(tname)
+        return [field.name for field in table.schema]
 
     def close(self):
         """

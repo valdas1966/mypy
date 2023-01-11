@@ -19,7 +19,7 @@ class Runnable(Validdable):
             self._is_valid = False
             self._e_msg = str(e)
             self._on_error()
-            # raise Exception(self._e_msg)
+            raise Exception(self._e_msg)
         self._post_run()
 
     def _run(self) -> None:

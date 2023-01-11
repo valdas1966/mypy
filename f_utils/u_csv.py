@@ -43,7 +43,7 @@ def append(path: str, row: 'list of obj') -> None:
     ============================================================================
     """
     file = open(path, 'a')
-    vals = [str(val) for val in row]
+    vals = [str(val).replace(',', '') for val in row]
     line = ','.join(vals)
     file.write(f'{line}\n')
     file.close()

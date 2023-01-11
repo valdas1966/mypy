@@ -16,7 +16,7 @@ class ProcessOps(ProcessInit):
         # list[dict] : List of Operations-Arguments
         self._arg_ops = None
         # set : Procedure-Attributes that are not being logged
-        self._proc_atts_not_logged = {'logger_csv'}
+        self._proc_atts_not_logged = {'loguru'}
 
     def _add_proc_atts_not_logged(self, s: set = set()) -> None:
         """
@@ -35,11 +35,11 @@ class ProcessOps(ProcessInit):
 
     # ProcessInit
     def _pre_run(self) -> None:
+        self._add_proc_atts_not_logged()
         super()._pre_run()
         self._set_ops()
         self._set_arg_ops()
         self._add_to_arg_ops()
-        self._add_proc_atts_not_logged()
 
     def _set_ops(self) -> None:
         """
