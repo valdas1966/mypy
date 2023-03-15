@@ -1,12 +1,11 @@
-from f_abstract.inittable import Inittable
 
-
-class MyWorkSheetBase(Inittable):
+class MyWorkSheetInit:
     """
     ============================================================================
      Description: Excel-WorkSheet Init by openpyxl.worksheet
     ============================================================================
     """
 
-    # openpyxl.worksheet : The working WorkSheet
-    ._ws = None
+    def __init__(self):
+        # openpyxl.worksheet : The working WorkSheet
+        self._ws = None

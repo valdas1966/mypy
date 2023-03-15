@@ -1,4 +1,5 @@
 import collections
+import json
 
 
 def to_key_value_str(dic):
@@ -59,55 +60,15 @@ def sum(dict_1, dict_2):
     return dict_sum
 
 
-def update(d, key, val):
+def union(d_1: dict, d_2: dict) -> dict:
     """
     ============================================================================
-     Description: Update Dictionary with new Key and Val.
-    ============================================================================
-     Arguments:
-    ----------------------------------------------------------------------------
-        1. d : dict (Dictionary to Update).
-        2. key : obj.
-        3. val : obj.
-    ============================================================================
-     Return: dict (Updated Dictionary).
+     Description: Return Union of two Dicts (on key-conflicts, d_1 is preferred)
     ============================================================================
     """
-    if key in d:
-        d[key].append(val)
-    else:
-        d[key] = [val]
+    d = dict(d_2)
+    d.update(d_1)
     return d
-
-
-def union(dict_1, dict_2):
-    """
-    ============================================================================
-     Description: Return Dict as Union of two Dicts (must have the same value
-                    on the same key).
-    ============================================================================
-     Arguments:
-    ----------------------------------------------------------------------------
-        1. dict_1 : dict
-        2. dict_2 : dict
-    ============================================================================
-     Return: dict
-    ============================================================================
-    """
-    assert type(dict_1) == dict
-    assert type(dict_2) == dict
-    left = dict_1.keys() - dict_2.keys()
-    right = dict_2.keys() - dict_1.keys()
-    intersect = set.intersection(set(dict_1.keys()), set(dict_2.keys()))
-    d_union = dict()
-    for key in left:
-        d_union[key] = dict_1[key]
-    for key in right:
-        d_union[key] = dict_2[key]
-    for key in intersect:
-        assert dict_1[key] == dict_2[key]
-        d_union[key] = dict_1[key]
-    return d_union
 
 
 def sort_by_value(d, reverse=False):
@@ -160,3 +121,12 @@ def get_ordered_values(d: dict, keys_order: list) -> list:
     for key in keys_order:
         res.append(d.get(key))
     return res
+
+
+def to_json_str(d: 'dict or list') -> str:
+    return json.dumps(d)
+
+
+def to_json_file(d: 'dict or list', path: str) -> None:
+    with open(path, 'w') as file_json:
+        json.dump(d, file_json)

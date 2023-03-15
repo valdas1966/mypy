@@ -11,7 +11,6 @@ class TestDict:
         self.tester_sum()
         TestDict.__tester_filter_by_keys()
         TestDict.__tester_sorted_by_value()
-        TestDict.__tester_update()
         TestDict.__tester_union()
         TestDict.__tester_exclude_keys()
         self.__tester_get_ordered_values()
@@ -60,11 +59,12 @@ class TestDict:
     @staticmethod
     def __tester_union():
         dict_1 = {'a': 1, 'b': 2}
-        dict_2 = {'b': 2, 'c': 3}
+        dict_2 = {'b': 4, 'c': 3}
         dict_test = u_dict.union(dict_1, dict_2)
         dict_true = {'a': 1, 'b': 2, 'c': 3}
         p0 = dict_test == dict_true
-        u_tester.run(p0)
+        p1 = dict_1 == {'a': 1, 'b': 2} and dict_2 == {'b': 4, 'c': 3}
+        u_tester.run(p0, p1)
 
     @staticmethod
     def __tester_sorted_by_value():
@@ -78,17 +78,6 @@ class TestDict:
         d_true = {'a': 3, 'c': 2, 'b': 1}
         p1 = d_test == d_true
         u_tester.run(p0, p1)
-
-    @staticmethod
-    def __tester_update():
-        # Vals in Set
-        d = dict()
-        d = u_dict.update(d, 1, 11)
-        d = u_dict.update(d, 2, 22)
-        d = u_dict.update(d, 2, 33)
-        d_true = {1: [11], 2: [22, 33]}
-        p0 = d == d_true
-        u_tester.run(p0)
 
     @staticmethod
     def __tester_exclude_keys():

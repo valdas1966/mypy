@@ -3,7 +3,7 @@ from threading import Thread
 import time
 
 
-class ProcessMulti(ProcessOps):
+class ProcessMultiThreading(ProcessOps):
 
     def _init_add_atts(self) -> None:
         super()._init_add_atts()

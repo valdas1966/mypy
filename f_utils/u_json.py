@@ -20,3 +20,9 @@ def to_df(dict_json: dict) -> pd.DataFrame:
     ============================================================================
     """
     return pd.json_normalize(dict_json, sep='_')
+
+
+def to_str(path: str) -> str:
+    with open(path, 'r') as f:
+        data = json.loads(f.read())
+    return data

@@ -1,5 +1,5 @@
 from f_utils import u_tester
-from f_abstract.process_sequential import ProcessSequential
+from f_abstract.process_block import ProcessSequential
 from f_abstract.operation import Operation
 
 

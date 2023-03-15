@@ -4,8 +4,6 @@ from f_excel.c_excel import Excel
 
 class TestExcel:
 
-
-
     def __init__(self):
         u_tester.print_start(__file__)
         TestExcel.__tester_to_linked_list()

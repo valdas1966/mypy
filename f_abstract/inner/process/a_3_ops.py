@@ -1,4 +1,5 @@
 from f_abstract.inner.process.a_1_init import ProcessInit
+from f_utils import u_dict
 
 
 class ProcessOps(ProcessInit):
@@ -16,7 +17,7 @@ class ProcessOps(ProcessInit):
         # list[dict] : List of Operations-Arguments
         self._arg_ops = None
         # set : Procedure-Attributes that are not being logged
-        self._proc_atts_not_logged = {'loguru'}
+        self._proc_atts_not_logged = {'loguru', 'stack_driver'}
 
     def _add_proc_atts_not_logged(self, s: set = set()) -> None:
         """
@@ -57,24 +58,23 @@ class ProcessOps(ProcessInit):
         """
         self._arg_ops = [{}] * len(self._ops)
 
-    def _add_to_arg_ops(self, adds: list = list()) -> None:
+    def _add_to_arg_ops(self, adds: list[tuple] = list()) -> None:
         """
         ========================================================================
          Desc: Add arguments for each Operation.
         ========================================================================
         """
-        if not self._arg_ops:
-            return
         d_adds = dict()
         for name, name_new in adds:
             if name_new:
                 d_adds[name_new] = getattr(self, f'_{name}')
             else:
                 d_adds[name] = getattr(self, f'_{name}')
-        for args in self._arg_ops:
-            args.update(self._get_log_atts())
-            args.update(self._get_proc_atts_not_logged())
-            args.update(d_adds)
+        for i, args in enumerate(self._arg_ops):
+            args = u_dict.union(args, self._get_log_atts())
+            args = u_dict.union(args, self._get_proc_atts_not_logged())
+            args = u_dict.union(args, d_adds)
+            self._arg_ops[i] = args
 
     def _get_proc_atts_not_logged(self) -> dict:
         """

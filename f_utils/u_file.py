@@ -17,7 +17,9 @@ def is_exists(path):
         1. path : str (Path to the File).
     ============================================================================
     """
-    return os.path.isfile(path)
+    if path:
+        return os.path.isfile(path)
+    return False
 
 
 def read(path: str) -> str:
@@ -86,7 +88,7 @@ def append(path, text):
     file.close()
 
 
-def delete(paths: 'str | sequence') -> list[str]:
+def delete(paths: 'str | sequence') -> 'list[str]':
     """
     ============================================================================
      Description: Delete a File (by FilePath).
@@ -110,7 +112,7 @@ def delete(paths: 'str | sequence') -> list[str]:
     return errors
 
 
-def to_lines(path: str) -> list[str]:
+def to_lines(path: str) -> 'list[str]':
     """"
     ============================================================================
      Description: Transpose Lines from a given Text-File into a List of str.

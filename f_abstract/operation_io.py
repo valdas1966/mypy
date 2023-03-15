@@ -19,6 +19,8 @@ class OperationIO(OperationLog):
         ========================================================================
         """
         super()._init_add_atts()
+        if not hasattr(self, '_input'):
+            self._input = None
         # obj (Operation-Output Property)
         self._output = None
 

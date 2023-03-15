@@ -1,14 +1,12 @@
-from f_excel.inner.wb.i_1_base import MyWorkBookBase
-from f_excel.ws import MyWorkSheet
-from f_excel.cell import MyCell
+from f_excel.inner.wb.i2_open_save_close import MyWorkBookOpenSaveClose
+from f_excel.inner.ws.ws import MyWorkSheet
 
 
-class MyWorkBookSheets(MyWorkBookBase):
+class MyWorkBookSheets(MyWorkBookOpenSaveClose):
     """
     ============================================================================
      Description:
     ----------------------------------------------------------------------------
-        1. Represents the Excel-Workbook file.
         2. Can make a copy of a WorkSheet.
         3. Can return a MyExcelWorkSheet object by its Title or Index.
     ============================================================================
@@ -31,20 +29,16 @@ class MyWorkBookSheets(MyWorkBookBase):
             self._wb.close()
             raise Exception(e)
 
-    def __getitem__(self, item: int | str | tuple[int, int])\
-            -> MyWorkSheet | MyCell:
+    def __getitem__(self, item: int | str) -> MyWorkSheet:
         """
         ========================================================================
-         Description: Return MyWorkSheet by [Index(int)] or [Title(str)].
-                      Raise Exception if argument[item] in not int|str.
-                      Return MyCell by coordinates[int][int] (on first ws).
+         Description: Return MyWorkSheet by Index(int) or Title(str).
+                      Raise Exception if the input is not int|str.
         ========================================================================
         """
         if type(item) == str:
             return MyWorkSheet(self._wb[item])
         elif type(item) == int:
             return MyWorkSheet(self._wb.worksheets[item])
-        elif type(item) == tuple:
-            return MyCell(self[0][item])
         else:
-            raise TypeError(f'Expected int|str|tuple, {type(item)} was given ')
+            raise TypeError(f'Expected int|str, {type(item)} was given ')

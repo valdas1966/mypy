@@ -1,7 +1,7 @@
 from f_abstract.inner.process.a_3_ops import ProcessOps
 
 
-class ProcessSequential(ProcessOps):
+class ProcessBlock(ProcessOps):
     """
     ============================================================================
      Description: Run the Inner-Operations sequentially as Transaction

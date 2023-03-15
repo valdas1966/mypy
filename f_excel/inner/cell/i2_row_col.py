@@ -1,25 +1,13 @@
-from f_logging.dec import log_all_methods, log_info_class
 import openpyxl.worksheet
+from f_excel.inner.cell.i1_init import MyCellInit
 
 
-@log_all_methods(decorator=log_info_class)
-class MyCellBase:
+class MyCellRowCol(MyCellInit):
     """
     ============================================================================
-     Description:
-    ----------------------------------------------------------------------------
-        1. Wraps the openpyxl.cell.cell.Cell class.
-        2. Returns the Row and Col indexes of the Cell.
+     Desc: Return Row and Col indexes of the Cell.
     ============================================================================
     """
-
-    def __init__(self, cell: openpyxl.cell.cell.Cell):
-        """
-        ========================================================================
-         Description: Constructor. Init the Attributes.
-        ========================================================================
-        """
-        self._cell = cell
 
     @property
     def row(self):

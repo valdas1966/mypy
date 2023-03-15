@@ -1,4 +1,4 @@
-from f_abstract.process_multi import ProcessMulti
+from f_abstract.process_multi_threading import ProcessMulti
 from f_abstract.process_tolerant import ProcessTolerant
 from f_abstract.operation import Operation
 import time

@@ -1,5 +1,5 @@
 from f_utils import u_tester
-from f_abstract.process_multi import ProcessMulti
+from f_abstract.process_multi_threading import ProcessMulti
 from f_abstract.operation import Operation
 
 

@@ -1,10 +1,7 @@
-from f_logging.dec import log_all_methods, log_info_class
-from f_excel.model.cell.base import MyCellBase
-import openpyxl.worksheet
+from f_excel.inner.cell.i2_row_col import MyCellRowCol
 
 
-@log_all_methods(decorator=log_info_class)
-class MyCellValue(MyCellBase):
+class MyCellValue(MyCellRowCol):
     """
     ============================================================================
      Description:
@@ -14,14 +11,6 @@ class MyCellValue(MyCellBase):
         3. Checks if the Cell is Empty.
     ============================================================================
     """
-
-    def __init__(self, cell: openpyxl.cell.cell.Cell):
-        """
-        ========================================================================
-         Description: Constructor. Initializes the Super().
-        ========================================================================
-        """
-        super().__init__(cell=cell)
 
     @property
     def value(self) -> any:
@@ -55,5 +44,4 @@ class MyCellValue(MyCellBase):
          Description: Return True if the Cell's Value is Empty.
         ========================================================================
         """
-        val = self._cell.value
-        return val is None or val == ''
+        return self._cell.value in (None, '')

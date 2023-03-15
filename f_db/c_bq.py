@@ -100,6 +100,24 @@ class BigQuery:
         cnt = int(df.iloc(0)[0][0])
         return cnt
 
+    def count_duplicate_rows(self,
+                             tname: str,
+                             limit: int) -> pd.DataFrame:
+        cols = self.cols(tname=tname)
+        cols = ', '.join(cols)
+        query = f"""
+                    select
+                        {cols},
+                        count(*) as cnt
+                    from
+                        {tname}
+                    group by
+                        {cols}
+                    order by
+                        count(*) desc
+                """
+        return self.select(query=query, limit=limit)
+
     def is_exists(self, tname: str) -> bool:
         """
         ========================================================================
@@ -122,7 +140,10 @@ class BigQuery:
         ========================================================================
         """
         table = self._client.get_table(tname)
-        ans = self._client.insert_rows(table=table, rows=rows)
+        ans = self._client.insert_rows(table=table,
+                                       rows=rows,
+                                       #ignore_unknown_values=True,
+                                       skip_invalid_rows=True)
         if ans:
             raise Exception(f"{ans[0]['errors'][0]['message']}\n{rows}")
 
@@ -154,7 +175,9 @@ class BigQuery:
         """
         cols = self.cols(tname=tname_b)
         cols_t1 = ', '.join([f't1.{col}' for col in cols])
-        cols_equals = ' and '.join([f't1.{col}=t2.{col}' for col in cols])
+        cols_equals = ' and '.join([f"COALESCE(CAST(t1.{col} as string), '')="
+                                    f"COALESCE(CAST(t2.{col} as string), '')"
+                                    for col in cols])
         cols_is_null = ' and '.join([f't2.{col} is null' for col in cols])
         command = f"""
                         insert into {tname_b}
@@ -179,6 +202,21 @@ class BigQuery:
         self.drop(tname, report=False)
         # self._client.load_table_from_dataframe(df, destination=tname)
         df.to_gbq(destination_table=tname, if_exists=if_exists)
+
+    def insert_into_from_json(self,
+                              str_json: str,
+                              tname: str):
+        self._client.load_table_from_json(json_rows=str_json,
+                                          destination=tname)
+
+    def insert_rows_json(self,
+                         rows: list,
+                         tname: str):
+        job = self._client.insert_rows_json(tname, rows,
+                                            ignore_unknown_values=True)
+                                            # ,skip_invalid_rows=True)
+        if job:
+            raise Exception(str(job))
 
     def drop(self, tname: str, report: bool = False) -> None:
         """
@@ -209,3 +247,6 @@ class BigQuery:
         ========================================================================
         """
         self._client.close()
+
+    def __repr__(self):
+        return "'Class BigQuery'"
