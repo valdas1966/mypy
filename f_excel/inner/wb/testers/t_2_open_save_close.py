@@ -1,7 +1,7 @@
 from f_utils import u_tester, u_file
 from f_excel.inner.wb.i2_open_save_close import MyWorkBookOpenSaveClose
-import openpyxl.utils.exceptions
 import zipfile
+import os
 
 
 class TesterOpenSaveClose:
@@ -17,7 +17,7 @@ class TesterOpenSaveClose:
     ============================================================================
     """
 
-    repo = 'd:\\temp'
+    repo = f'{os.getcwd()[0]}:\\temp'
     xlsx_1 = f'{repo}\\test_1.xlsx'
     xlsx_2 = f'{repo}\\test_2.xlsx'
     xlsx_invalid = f'{repo}\\test_invalid.xlsx'
@@ -37,6 +37,7 @@ class TesterOpenSaveClose:
         u_tester.run(True)
 
     def __tester_save_file(self):
+        u_file.delete(self.xlsx_1)
         xl = MyWorkBookOpenSaveClose(xlsx=self.xlsx_1)
         xl.save()
         xl.close()
@@ -53,8 +54,7 @@ class TesterOpenSaveClose:
         u_file.write(path=self.xlsx_invalid, text=str())
         try:
             MyWorkBookOpenSaveClose(xlsx=self.xlsx_invalid)
-        except (openpyxl.utils.exceptions.InvalidFileException,  # not xlsx
-                zipfile.BadZipfile):  # invalid xlsx
+        except zipfile.BadZipfile:
             p1 = True
         u_tester.run(p0, p1)
 

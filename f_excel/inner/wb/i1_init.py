@@ -6,13 +6,13 @@ class MyWorkBookInit:
     ============================================================================
     """
 
-    def __init__(self, xlsx: str) -> None:
+    def __init__(self, xlsx: str = None) -> None:
         """
         ========================================================================
          Description: Init Attributes.
         ========================================================================
         """
-        assert type(xlsx) == str, type(xlsx)
+        assert isinstance(xlsx, str) or xlsx is None, type(xlsx)
         # Path to XL-File
         self._xlsx = xlsx
         # Working Excel-WorkBook
