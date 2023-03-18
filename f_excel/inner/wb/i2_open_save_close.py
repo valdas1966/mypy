@@ -30,7 +30,10 @@ class MyWorkBookOpenSaveClose(MyWorkBookInit):
          Description: Destructor. Close the Excel-WorkBook.
         ========================================================================
         """
-        self.close()
+        try:
+            self.close()
+        except AttributeError:
+            pass
 
     def save(self) -> None:
         """
