@@ -1,3 +1,5 @@
+from f_utils import u_file
+
 
 class MyWorkBookInit:
     """
@@ -6,13 +8,12 @@ class MyWorkBookInit:
     ============================================================================
     """
 
-    def __init__(self, xlsx: str) -> None:
+    def __init__(self, xlsx: str = None) -> None:
         """
         ========================================================================
          Description: Init Attributes.
         ========================================================================
         """
-        assert type(xlsx) == str, type(xlsx)
         # Path to XL-File
         self._xlsx = xlsx
         # Working Excel-WorkBook
