@@ -2,13 +2,13 @@ from google.cloud import storage
 from tenacity import retry, stop_after_attempt, wait_random_exponential
 
 
-@retry(stop=stop_after_attempt(100),
+@retry(stop=stop_after_attempt(5),
        wait=wait_random_exponential(multiplier=1, max=60))
-def copy(json_key: str,
-         project: str,
-         str_bucket: str,
-         path_src: str,
-         path_dest: str):
+def upload(json_key: str,
+           project: str,
+           str_bucket: str,
+           path_src: str,
+           path_dest: str):
     client = storage.Client.from_service_account_json(json_key, project=project)
     bucket = client.bucket(str_bucket)
     blob = bucket.blob(path_dest)

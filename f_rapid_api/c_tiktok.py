@@ -17,3 +17,19 @@ class TikTok:
                                      params=params,
                                      headers=self._headers)
         return d['data']['play']
+    
+    def videos_by_hashtag(self,
+                          hashtag_id: str,
+                          cursor: int = 0):
+        url = f'https://{self._host}/challenge/posts'
+        params = {'challenge_id': hashtag_id,
+                  'count': '100',
+                  'cursor': cursor}
+        return u_http_requests.get_response(url=url,
+                                            params=params,
+                                            headers=self._headers)
+
+    def get_hashtag_id(self, hashtag_name: str) -> str:
+        pass
+
+    def get_comments(self, id_video: str):

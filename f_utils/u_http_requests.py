@@ -2,10 +2,13 @@ from requests import request, get
 import json
 
 
+def get_response(url: str, params: dict, headers: dict):
+	return request('GET', url, params=params, headers=headers)
+
 def get_text(url: str,
 			 params: dict,
 			 headers: dict) -> str:
-	response = request('GET', url, headers=headers, params=params)
+	response = get_response(url=url, params=params, headers=headers)
 	return response.text
 
 
