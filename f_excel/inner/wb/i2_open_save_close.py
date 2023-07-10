@@ -9,7 +9,7 @@ class MyWorkBookOpenSaveClose(MyWorkBookInit):
      Description:
     ----------------------------------------------------------------------------
         1. Open New or Existed Excel-File (by path).
-        2. Save or Save-As the Excel-File.
+        2. Save or Save-As (by new path) the Excel-File.
         3. Close the Excel-File.
     ============================================================================
     """
@@ -20,7 +20,6 @@ class MyWorkBookOpenSaveClose(MyWorkBookInit):
          Description: Constructor. Open new or existed Excel-File for editing.
         ========================================================================
         """
-        assert isinstance(xlsx, str) or xlsx is None, type(xlsx)
         super().__init__(xlsx=xlsx)
         self._wb = self.__set_workbook()
 
@@ -47,11 +46,10 @@ class MyWorkBookOpenSaveClose(MyWorkBookInit):
     def save_as(self, xlsx_new: str) -> None:
         """
         ========================================================================
-         Description: Save the Excel-File as other name. Delete the (other)
-                       file if it exists.
+         Description: Save the Excel-File as other name.
+                      Delete the (other) file if it exists.
         ========================================================================
         """
-        assert type(xlsx_new) == str, type(xlsx_new)
         try:
             if u_file.is_exists(xlsx_new):
                 u_file.delete(xlsx_new)

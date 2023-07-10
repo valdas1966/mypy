@@ -68,3 +68,17 @@ def names_dirs(path):
         if os.path.isdir(full_path):
             ans.append(full_path)
     return ans
+
+
+def get_dir_name(path_dir: str) -> str:
+    """
+    ============================================================================
+     Desc: Return Dir-Name from Dir-Path.
+    ============================================================================
+     Example:
+    ----------------------------------------------------------------------------
+                path_dir = 'c:\\folder\\sub_folder'
+                get_dir_name(path_dir) -> 'sub_folder'
+    ============================================================================
+    """
+    return path_dir.split('\\')[-1]
