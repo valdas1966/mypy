@@ -6,6 +6,7 @@ def test_init():
     assert not q
     assert len(q) == 0
 
+
 def test_push():
     q = PriorityQueue()
     q.push(1)
