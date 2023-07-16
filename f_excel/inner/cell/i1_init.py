@@ -4,7 +4,7 @@ import openpyxl.worksheet
 class MyCellInit:
     """
     ============================================================================
-     Desc: Wraps the openpyxl.cell.cell.Cell class.
+     Desc: Wraps the openpyxl.xyable.xyable.Cell class.
     ============================================================================
     """
 

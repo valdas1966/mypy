@@ -111,7 +111,7 @@ class Excel:
     def is_blank(self, row, col):
         """
         ========================================================================
-         Description: Return True if the specified cell is blank.
+         Description: Return True if the specified xyable is blank.
         ========================================================================
          Arguments:
         ------------------------------------------------------------------------
@@ -132,7 +132,7 @@ class Excel:
     def set_background(self, row, column, color):
         """
         ========================================================================
-         Description: Set background color to specified cell.
+         Description: Set background color to specified xyable.
         ========================================================================
          Arguments:
         ------------------------------------------------------------------------

@@ -7,7 +7,7 @@ def plot_grid(grid, special_rows_cols=[], special_colors=[], path=None):
      Description - Plot Grid with black and white or special colors.
     ---------------------------------------------------------------------------
         1. Plot special cells with special colors.
-        2. Other cells plot with black and white colors (valid cell or not).
+        2. Other cells plot with black and white colors (valid xyable or not).
     ===========================================================================
      Arguments:
     ---------------------------------------------------------------------------
