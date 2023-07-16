@@ -13,6 +13,7 @@ class Informed(SPPAble):
         self._generate_node(cell=self.start)
         while self.open:
             best = self.open.heappop()
+            print(best)
 
     def _generate_node(self,
                        cell: Cell,
