@@ -8,10 +8,10 @@ class Node(Cell):
     ============================================================================
      Inherited Members:
     ----------------------------------------------------------------------------
-           1. name (str)            : Cell's Name.
-        2. x (int)               : Cell's X-Coordinate.
-        3. y (int)               : Cells' Y-Coordinate.
-        4. is_valid (bool)       : Cell's Validity (Traversability).
+        1. name (str)            : Node's Name.
+        2. x (int)               : Node's X-Coordinate.
+        3. y (int)               : Node's Y-Coordinate.
+
     """
 
     def __init__(self,

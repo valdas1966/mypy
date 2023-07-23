@@ -12,8 +12,10 @@ class XYAble:
     ============================================================================
      Methods:
     ----------------------------------------------------------------------------
-        1. distance(other: 'XYAble') -> int : Return Manhattan-Distance between
+        1. distance(other: XYAble) -> int : Return Manhattan-Distance between
                                               this and other XYAble object.
+        2. neighbors() -> list[XYAble]    : Return adjacent neighbors in
+                                             clockwise order.
     ============================================================================
     """
 
