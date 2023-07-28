@@ -6,7 +6,7 @@ from f_utils.u_enum import ClockDirection
 class CellNeighbors(CellInit):
     """
     ============================================================================
-     Desc: XY-Object that returns the adjacent neighbors.
+     Desc: Cell object that returns the adjacent neighbors.
     ============================================================================
     Inherited Properties:
     ----------------------------------------------------------------------------
@@ -23,70 +23,53 @@ class CellNeighbors(CellInit):
     ============================================================================
      Methods:
     ----------------------------------------------------------------------------
-        1. neighbors() -> list[Cell]
-           - Return adjacent neighbors (in clockwise order by default).
-        2. neighbor_north() -> Cell
-           - Returns Cell to the North of current (upward).
-        3. neighbor_east() -> Cell
-           - Returns Cell to the East of current (leftward).
-        4. neighbor_south() -> Cell
-           - Returns Cell to the South of current (downward).
-        5. neighbor_west() -> Cell
-           - Returns Cell to the West of current (rightward).
+        1. neighbors(direction: ClockDirection = CLOCKWISE) -> list[Cell]
+           - Return the adjacent neighbors.
     ============================================================================
     """
 
-    def __init__(self,
-                 x: int | float,
-                 y: int | float,
-                 clock_direction: ClockDirection = ClockDirection.CLOCKWISE):
-        super().__init__(x=x, y=y)
-        self._clock_direction = clock_direction
+    def neighbors(self,
+                  direction: ClockDirection = ClockDirection.CLOCKWISE
+                  ) -> list[CellNeighbors]:
+        """
+        ========================================================================
+         Desc: Returns List[Cell] of adjacent neighbors in clockwise order.
+        ========================================================================
+        """
+        if direction == ClockDirection.CLOCKWISE:
+            return [self._neighbor_north(),
+                    self._neighbor_east(),
+                    self._neighbor_south(),
+                    self._neighbor_west()]
 
-    def neighbors(self) -> list[CellNeighbors]:
+    def _neighbor_north(self) -> CellNeighbors:
         """
         ========================================================================
-         Desc: Returns List[XY] of adjacent neighbors in clockwise order.
-        ========================================================================
-        """
-        if self._clock_direction == ClockDirection.CLOCKWISE:
-            return [self.neighbor_north(),
-                    self.neighbor_east(),
-                    self.neighbor_south(),
-                    self.neighbor_west()]
-
-    def neighbor_north(self) -> CellNeighbors:
-        """
-        ========================================================================
-        Desc: Returns the XYAble object to the north of current (upward).
-               Increments y coordinate by 1.
+        Desc: Return the adjacent Cell to the North (upward).
         ========================================================================
         """
         return CellNeighbors(x=self.x, y=self.y + 1)
 
-    def neighbor_south(self) -> CellNeighbors:
+    def _neighbor_south(self) -> CellNeighbors:
         """
         ========================================================================
-        Desc: Returns the XYAble object to the south of current (downward).
-               Decrements y coordinate by 1.
+        Desc: Return the adjacent Cell to the South (downward).
         ========================================================================
         """
         return CellNeighbors(x=self.x, y=self.y - 1)
 
-    def neighbor_west(self) -> CellNeighbors:
+    def _neighbor_west(self) -> CellNeighbors:
         """
         ========================================================================
-        Desc: Returns the XYAble object to the west of current (leftward).
-               Decrements x coordinate by 1.
+        Desc: Return the adjacent Cell to the West (leftward).
         ========================================================================
         """
         return CellNeighbors(x=self.x - 1, y=self.y)
 
-    def neighbor_east(self) -> Cell.XYNeighbors:
+    def _neighbor_east(self) -> CellNeighbors:
         """
         ========================================================================
-        Desc: Returns the XYAble object to the east of current (rightward).
-               Increments y coordinate by 1.
+        Desc: Return the adjacent Cell to the East (rightward).
         ========================================================================
         """
         return CellNeighbors(x=self.x + 1, y=self.y)

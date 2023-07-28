@@ -8,8 +8,8 @@ class XYInit:
     ============================================================================
      Properties:
     ----------------------------------------------------------------------------
-         1. x (int|float): Object's X-Coordinate in the 2D-Space.
-         2. y (int|float): Object's Y-Coordinate in the 2D-Space.
+         1. x (int|float): Object's X-Coordinate.
+         2. y (int|float): Object's Y-Coordinate.
     ============================================================================
     """
 
