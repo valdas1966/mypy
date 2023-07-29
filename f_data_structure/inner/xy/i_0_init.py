@@ -1,10 +1,11 @@
 from __future__ import annotations
+from f_abstract.interfaces.nameable import Nameable
 
 
-class XYInit:
+class XYInit(Nameable):
     """
     ============================================================================
-     Desc: Represents an Object with a (x,Y) position in 2D-Space.
+     Desc: Represents a Nameable object with a (x,Y) position in 2D-Space.
     ============================================================================
      Properties:
     ----------------------------------------------------------------------------
@@ -13,7 +14,11 @@ class XYInit:
     ============================================================================
     """
 
-    def __init__(self, x: int | float, y: int | float) -> None:
+    def __init__(self,
+                 x: int | float,
+                 y: int | float,
+                 name: str = None) -> None:
+        Nameable.__init__(self, name)
         self._x = x
         self._y = y
 
@@ -23,7 +28,8 @@ class XYInit:
          Desc: Return STR-Representation of the Object as (X,Y).
         ========================================================================
         """
-        return f'({self.x},{self.y})'
+        name = self._name if self._name else str()
+        return f'{name}({self.x},{self.y})'
 
     def __repr__(self) -> str:
         return self.__str__()
@@ -35,14 +41,6 @@ class XYInit:
         ========================================================================
         """
         return self.x == other.x and self.y == other.y
-
-    def __nq__(self, other: XYInit) -> bool:
-        """
-        ========================================================================
-         Desc: Check if two obj are not equal based on their (X,Y) coordinates.
-        ========================================================================
-        """
-        return not self.__eq__(other=other)
 
     @property
     def x(self) -> int | float:

@@ -1,12 +1,13 @@
-from f_data_structure.xy import XY
+from f_data_structure.inner.cell.i_1_traversable import CellTraversable
+from f_data_structure.inner.cell.i_1_neighbors import CellNeighbors
 
 
-class Cell(XY):
+class Cell(CellTraversable, CellNeighbors):
     """
     ============================================================================
-     Desc: Cell object in the Grid.
-            Has (x,y) integer coordinates and
-             indicates whether the cell is traversable.
+     Desc: Represents Cell in the Grid (XY object with int [x,y] coordinates).
+            Has indication if it is Traversable and can return list of adjacent
+             Cells-Neighbors.
     ============================================================================
      Inherited Properties:
     ----------------------------------------------------------------------------
@@ -24,6 +25,9 @@ class Cell(XY):
     ----------------------------------------------------------------------------
         1. is_traversable : bool (Traversable Cell in the Grid).
     ============================================================================
+     Methods:
+    ----------------------------------------------------------------------------
+
     """
 
     def __init__(self,

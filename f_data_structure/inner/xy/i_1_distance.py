@@ -1,17 +1,12 @@
 from __future__ import annotations
 from f_data_structure.inner.xy.i_0_init import XYInit
-from f_utils.u_enum import XYDistanceMetric
+from f_const.u_enum import XYDistanceMetric
 
 
 class XYDistance(XYInit):
     """
     ============================================================================
      Desc: Distantable XY object (Default by a Manhattan-Distance metric).
-    ============================================================================
-     Inherited Properties:
-    ----------------------------------------------------------------------------
-         1. x (int|float): Object's X-Coordinate.
-         2. y (int|float): Object's Y-Coordinate.
     ============================================================================
      Methods:
     ----------------------------------------------------------------------------
@@ -20,6 +15,7 @@ class XYDistance(XYInit):
             Returns the distance between this and other XY obj.
     ============================================================================
     """
+
     def distance(self,
                  other: XYDistance,
                  metric: XYDistanceMetric = XYDistanceMetric.MANHATTAN

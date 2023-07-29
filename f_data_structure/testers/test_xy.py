@@ -1,5 +1,5 @@
 from f_data_structure.xy import XY
-from f_utils.u_enum import XYDistanceMetric
+from f_const.u_enum import XYDistanceMetric
 
 
 def test_init_default():

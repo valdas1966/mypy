@@ -1,25 +1,12 @@
 from __future__ import annotations
 from f_data_structure.inner.cell.i_0_init import CellInit
-from f_utils.u_enum import ClockDirection
+from f_const.u_enum import ClockDirection
 
 
 class CellNeighbors(CellInit):
     """
     ============================================================================
      Desc: Cell object that returns the adjacent neighbors.
-    ============================================================================
-    Inherited Properties:
-    ----------------------------------------------------------------------------
-        1. name (str)            : Cell's Name.
-        2. x (int)               : Cell's X-Coordinate.
-        3. y (int)               : Cells' Y-Coordinate.
-        4. is_valid (bool)       : Cell's Validity (Traversability).
-    ============================================================================
-     Inherited Methods:
-    ----------------------------------------------------------------------------
-        1. distance(other: Cell) -> int
-           - Return the distance between this and other Cell.
-              Uses Manhattan distance by default.
     ============================================================================
      Methods:
     ----------------------------------------------------------------------------

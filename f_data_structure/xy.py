@@ -1,21 +1,24 @@
-from f_abstract.interfaces.nameable import Nameable
 from f_data_structure.inner.xy.i_1_order import XYOrder
 from f_data_structure.inner.xy.i_1_distance import XYDistance
+from f_const.u_enum import CoordinateSystem
 
 
-class XY(Nameable, XYOrder, XYDistance):
+class XY(XYOrder, XYDistance):
     """
     ============================================================================
-     Desc: XY object that is orderable and can calculate its distance to
-            another XY object.
+     Desc: XY Nameable object that is also Orderable (default by cartesian
+            coordinate system) and can calculate its distance to other XY obj.
     ============================================================================
      Inherited Properties:
     ----------------------------------------------------------------------------
         1. name (str)         : Object's Name.
-        2. x (int|float)      : Object's X-Coordinate.
-        3. y (int|float)      : Object's Y-Coordinate.
     ============================================================================
-     Inherited Methods:
+     Properties:
+    ----------------------------------------------------------------------------
+        1. x (int|float)      : Object's X-Coordinate.
+        2. y (int|float)      : Object's Y-Coordinate.
+    ============================================================================
+     Methods:
     ----------------------------------------------------------------------------
         1. distance(other: XY) -> int|float
            - Returns the distance between this object and another XY object.
@@ -26,7 +29,7 @@ class XY(Nameable, XYOrder, XYDistance):
     def __init__(self,
                  x: int | float,
                  y: int | float,
-                 name: str = None) -> None:
-        XYOrder.__init__(self, x, y)
-        XYDistance.__init__(self, x, y)
-        Nameable.__init__(self, name)
+                 name: str = None,
+                 coordinate_system: CoordinateSystem = CoordinateSystem.CARTESIAN
+                 ) -> None:
+        XYOrder.__init__(self, x, y, name, coordinate_system)
