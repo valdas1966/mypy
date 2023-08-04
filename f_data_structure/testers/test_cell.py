@@ -6,26 +6,30 @@ from f_data_structure.cell import Cell
 
 def test_init_default():
     cell = Cell(x=2, y=3)
-    assert isinstance(cell, Nameable)
-    assert isinstance(cell, XYAble)
-    assert isinstance(cell, Validatable)
     assert cell.x == 2
     assert cell.y == 3
     assert cell.name is None
-    assert cell.is_valid
 
 
 def test_init_not_default():
-    cell = Cell(x=1, y=2, name='MyCell', is_valid=False)
-    assert isinstance(cell, Nameable)
-    assert isinstance(cell, XYAble)
-    assert isinstance(cell, Validatable)
+    cell = Cell(x=1, y=2, name='a')
     assert cell.x == 1
     assert cell.y == 2
-    assert cell.name == "MyCell"
-    assert not cell.is_valid
+    assert cell.name == 'a'
 
 
-def test_str():
-    cell = Cell(x=1, y=2, name='Cell')
-    assert cell.__str__() == 'Cell(1,2)'
+def test_traversable():
+    cell = Cell(1, 2)
+    assert cell.is_traversable
+    cell.is_traversable = False
+    assert not cell.is_traversable
+
+
+def test_neighbors():
+    cell = Cell(1, 2)
+    north = Cell(1, 3)
+    east = Cell(2, 2)
+    south = Cell(1, 1)
+    west = Cell(0, 2)
+    expected = [north, east, south, west]
+    assert cell.neighbors() == expected

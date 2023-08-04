@@ -15,7 +15,7 @@ class CellTraversable(CellInit):
     def __init__(self,
                  x: int,
                  y: int,
-                 name: str) -> None:
+                 name: str = None) -> None:
         super().__init__(x, y, name)
         self._is_traversable = True
 

@@ -6,20 +6,8 @@ class Cell(CellTraversable, CellNeighbors):
     """
     ============================================================================
      Desc: Represents Cell in the Grid (XY object with int [x,y] coordinates).
-            Has indication if it is Traversable and can return list of adjacent
-             Cells-Neighbors.
-    ============================================================================
-     Inherited Properties:
-    ----------------------------------------------------------------------------
-        1. name (str)            : Cell's Name.
-        2. x (int)               : Cell's X-Coordinate.
-        3. y (int)               : Cell's Y-Coordinate.
-    ============================================================================
-     Inherited Methods:
-    ----------------------------------------------------------------------------
-        1. distance(other: Cell) -> int
-           - Returns the distance between this cell and another.
-              Uses Manhattan distance by default.
+            It indicates whether it is Traversable and can provide a list of
+             its adjacent Cell-Neighbors.
     ============================================================================
      Properties:
     ----------------------------------------------------------------------------
@@ -27,21 +15,8 @@ class Cell(CellTraversable, CellNeighbors):
     ============================================================================
      Methods:
     ----------------------------------------------------------------------------
-
+        1. neighbors(ClockDirection=CLOCKWISE) -> list[Cell]
+           - Returns List of Cell-Neighbors (in default by ClockWise direction).
+    ============================================================================
     """
-
-    def __init__(self,
-                 x: int,
-                 y: int,
-                 name: str = None,
-                 is_traversable: bool = True) -> None:
-        XY.__init__(self, x, y, name)
-        self._is_traversable = is_traversable
-
-    @property
-    def is_traversable(self) -> bool:
-        return self._is_traversable
-
-    @is_traversable.setter
-    def is_traversable(self, new_value: bool) -> None:
-        self._is_traversable = new_value
+    pass
