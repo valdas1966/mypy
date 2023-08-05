@@ -1,7 +1,7 @@
 import pytest
 from f_data_structure.interfaces.xyable import XYAble
-from f_data_structure.grid_cells import GridCells
-from f_data_structure.cell import Cell
+from f_data_structure.old_grid_cells import GridCells
+from f_data_structure.old_cell import Cell
 
 
 @pytest.fixture

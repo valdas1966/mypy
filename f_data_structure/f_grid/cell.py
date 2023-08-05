@@ -1,12 +1,12 @@
 from __future__ import annotations
-from f_data_structure.inner.cell.i_0_init import CellInit
-from f_const.u_enum import ClockDirection
+from f_data_structure.f_grid.location_row_col import LocationRowCol
+from f_const.u_enum import ClockDirection, CoordinateSystem
 
 
-class CellNeighbors(CellInit):
+class Cell(LocationRowCol):
     """
     ============================================================================
-     Desc: Cell object that returns the adjacent neighbors.
+     Desc: Represents a Cell in the Grid.
     ============================================================================
      Methods:
     ----------------------------------------------------------------------------
@@ -17,7 +17,7 @@ class CellNeighbors(CellInit):
 
     def neighbors(self,
                   direction: ClockDirection = ClockDirection.CLOCKWISE
-                  ) -> list[CellNeighbors]:
+                  ) -> list[Cell]:
         """
         ========================================================================
          Desc: Returns List[Cell] of adjacent neighbors in clockwise order.
@@ -29,34 +29,38 @@ class CellNeighbors(CellInit):
                     self._neighbor_south(),
                     self._neighbor_west()]
 
-    def _neighbor_north(self) -> CellNeighbors:
+    def _neighbor_north(self) -> Cell:
         """
         ========================================================================
         Desc: Return the adjacent Cell to the North (upward).
         ========================================================================
         """
-        return CellNeighbors(x=self.x, y=self.y + 1)
+        if self._coordinate_system == CoordinateSystem.CARTESIAN:
+            return Cell(self.row + 1, self.col)
 
-    def _neighbor_south(self) -> CellNeighbors:
+    def _neighbor_south(self) -> Cell:
         """
         ========================================================================
         Desc: Return the adjacent Cell to the South (downward).
         ========================================================================
         """
-        return CellNeighbors(x=self.x, y=self.y - 1)
+        if self._coordinate_system == CoordinateSystem.CARTESIAN:
+            return Cell(self.row - 1, self.col)
 
-    def _neighbor_west(self) -> CellNeighbors:
+    def _neighbor_west(self) -> Cell:
         """
         ========================================================================
         Desc: Return the adjacent Cell to the West (leftward).
         ========================================================================
         """
-        return CellNeighbors(x=self.x - 1, y=self.y)
+        if self._coordinate_system == CoordinateSystem.CARTESIAN:
+            return Cell(self.row, self.col - 1)
 
-    def _neighbor_east(self) -> CellNeighbors:
+    def _neighbor_east(self) -> Cell:
         """
         ========================================================================
         Desc: Return the adjacent Cell to the East (rightward).
         ========================================================================
         """
-        return CellNeighbors(x=self.x + 1, y=self.y)
+        if self._coordinate_system == CoordinateSystem.CARTESIAN:
+            return Cell(self.row, self.col + 1)

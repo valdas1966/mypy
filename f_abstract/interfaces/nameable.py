@@ -23,3 +23,6 @@ class Nameable:
 
     def __str__(self) -> str:
         return self.name if self.name else ''
+
+    def __repr__(self) -> str:
+        return self.__str__()

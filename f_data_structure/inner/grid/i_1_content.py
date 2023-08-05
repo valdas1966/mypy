@@ -1,5 +1,5 @@
 from f_data_structure.inner.grid.i_0_init import GridInit
-from f_data_structure.cell import Cell
+from f_data_structure.old_cell import Cell
 
 
 class GridContent(GridInit):

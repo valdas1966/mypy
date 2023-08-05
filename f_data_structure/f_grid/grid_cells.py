@@ -1,0 +1,41 @@
+from f_data_structure.f_grid.grid_layout import GridLayout
+from f_data_structure.f_grid.cell import Cell
+
+
+class GridCells(GridLayout):
+    """
+    ============================================================================
+     Desc: Represents a Grid of Cells.
+           Allows direct access to a Row of Cells by [Row] Property and
+            to a specific Cell by [Row][Col] Properties.
+    ============================================================================
+     Methods:
+    ----------------------------------------------------------------------------
+        1. cells() -> list[Cell]
+           - Returns a flattened List of all Cells in the Grid.
+    ============================================================================
+    """
+
+    def __init__(self,
+                 rows: int,
+                 cols: int = None,
+                 name: str = None):
+        GridLayout.__init__(self, rows, cols, name)
+        self._grid = [Cell(row, col) for row, col in self._locations_all()]
+
+    def cells(self) -> list[Cell]:
+        """
+        ========================================================================
+         Desc: Returns a flattened List of all Cells in the Grid.
+        ========================================================================
+        """
+        return [cell for row in self._grid for cell in row]
+
+    def __getitem__(self, index) -> list[Cell]:
+        """
+        ========================================================================
+         Desc: Allows direct access to a Row of Cells by [Row] Property and to
+                a specific Cell by [Row][Col] Properties.
+        ========================================================================
+        """
+        return self._grid[index]

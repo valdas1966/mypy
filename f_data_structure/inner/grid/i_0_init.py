@@ -1,5 +1,5 @@
 from f_abstract.interfaces.nameable import Nameable
-from f_data_structure.cell import Cell
+from f_data_structure.old_cell import Cell
 
 
 class GridInit(Nameable):

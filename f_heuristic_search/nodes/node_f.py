@@ -1,4 +1,4 @@
-from f_data_structure.cell import Cell
+from f_data_structure.old_cell import Cell
 from f_heuristic_search.nodes.node_g import NodeG
 from f_heuristic_search.nodes.node_h import NodeH
 

@@ -1,7 +1,7 @@
 from f_heuristic_search.algos.spp.interfaces.sppable import SPPAble
 from f_heuristic_search.algos.spp.interfaces.open_closed import OpenClosed
 from f_heuristic_search.problem_types.spp import SPP
-from f_data_structure.cell import Cell
+from f_data_structure.old_cell import Cell
 
 
 class BestFirst(SPPAble, OpenClosed):

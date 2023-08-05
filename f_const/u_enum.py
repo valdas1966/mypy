@@ -6,7 +6,7 @@ class ClockDirection(Enum):
     COUNTER_CLOCKWISE = auto()
 
 
-class XYDistanceMetric(Enum):
+class DistanceMetric(Enum):
     MANHATTAN = auto()
 
 
