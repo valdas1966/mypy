@@ -1,7 +1,7 @@
 import pathlib
 import pandas as pd
 from f_data_exploration.column import Column
-from f_excel.c_excel import Excel
+from f_excel.old_c_excel import Excel
 
 
 class Table:

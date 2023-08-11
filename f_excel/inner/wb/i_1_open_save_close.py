@@ -1,9 +1,8 @@
-from f_excel.inner.wb.i1_init import MyWorkBookInit
 import openpyxl as xl
 from f_utils import u_file
 
 
-class MyWorkBookOpenSaveClose(MyWorkBookInit):
+class MyWorkBookOpenSaveClose:
     """
     ============================================================================
      Description:
@@ -11,6 +10,15 @@ class MyWorkBookOpenSaveClose(MyWorkBookInit):
         1. Open New or Existed Excel-File (by path).
         2. Save or Save-As (by new path) the Excel-File.
         3. Close the Excel-File.
+    ============================================================================
+     Methods:
+    ----------------------------------------------------------------------------
+        1. save() -> None
+           - Save the Excel-File.
+        2. save_as(xlsx: str) -> None
+           - Save the Excel-File in a new Path.
+        3. close(to_save: bool = False) -> None
+           - Close the Excel-File.
     ============================================================================
     """
 
@@ -20,7 +28,9 @@ class MyWorkBookOpenSaveClose(MyWorkBookInit):
          Description: Constructor. Open new or existed Excel-File for editing.
         ========================================================================
         """
-        super().__init__(xlsx=xlsx)
+        # Path to Excel-File
+        self._xlsx = xlsx
+        # Working Excel-WorkBook
         self._wb = self.__set_workbook()
 
     def __del__(self):

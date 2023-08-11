@@ -55,11 +55,3 @@ class GridLayout(Nameable):
         is_valid_row = 0 <= row < self._num_rows
         is_valid_col = 0 <= col <= self._num_cols
         return is_valid_row and is_valid_col
-
-    def _locations_all(self) -> list[tuple[int, int]]:
-        """
-        ========================================================================
-         Desc: Returns a List of all Possible-Locations within the Grid.
-        ========================================================================
-        """
-        return u_combinatorics.cartesian_product(self.num_rows, self.num_cols)

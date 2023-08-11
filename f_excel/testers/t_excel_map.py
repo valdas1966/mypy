@@ -1,4 +1,4 @@
-from f_excel.c_excel_map import ExcelMap
+from f_excel.old_c_excel_map import ExcelMap
 from f_map.c_map import Map
 
 excel_test = 'D:\\Temp\\test.xlsx'

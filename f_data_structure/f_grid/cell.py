@@ -1,12 +1,13 @@
 from __future__ import annotations
 from f_data_structure.f_grid.location_row_col import LocationRowCol
+from f_data_structure.interfaces.traversable import Traversable
 from f_const.u_enum import ClockDirection, CoordinateSystem
 
 
-class Cell(LocationRowCol):
+class Cell(LocationRowCol, Traversable):
     """
     ============================================================================
-     Desc: Represents a Cell in the Grid.
+     Desc: Represents a Traversable-Cell in the Grid.
     ============================================================================
      Methods:
     ----------------------------------------------------------------------------
@@ -14,6 +15,17 @@ class Cell(LocationRowCol):
            - Return the adjacent neighbors.
     ============================================================================
     """
+
+    def __init__(self,
+                 row: int,
+                 col: int = None,
+                 name: str = None,
+                 coordinate_system: CoordinateSystem =
+                 CoordinateSystem.CARTESIAN,
+                 is_traversable: bool = True
+                 ) -> None:
+        LocationRowCol.__init__(self, row, col, name, coordinate_system)
+        Traversable.__init__(self, is_traversable)
 
     def neighbors(self,
                   direction: ClockDirection = ClockDirection.CLOCKWISE

@@ -1,4 +1,4 @@
-from f_excel.c_excel import Excel
+from f_excel.old_c_excel import Excel
 
 
 class ExcelMap(Excel):

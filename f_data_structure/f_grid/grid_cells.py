@@ -17,11 +17,14 @@ class GridCells(GridLayout):
     """
 
     def __init__(self,
-                 rows: int,
-                 cols: int = None,
+                 num_rows: int,
+                 num_cols: int = None,
                  name: str = None):
-        GridLayout.__init__(self, rows, cols, name)
-        self._grid = [Cell(row, col) for row, col in self._locations_all()]
+        GridLayout.__init__(self, num_rows, num_cols, name)
+        self._grid = [
+                      [Cell(row, col) for col in range(self.num_cols)]
+                      for row in range(self.num_rows)
+                     ]
 
     def cells(self) -> list[Cell]:
         """

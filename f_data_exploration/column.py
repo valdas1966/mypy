@@ -3,7 +3,7 @@ from collections import Counter, defaultdict
 from f_utils import u_int
 from f_utils import u_str
 from f_utils import u_float
-from f_excel.c_excel import Excel
+from f_excel.old_c_excel import Excel
 
 
 class Column:
