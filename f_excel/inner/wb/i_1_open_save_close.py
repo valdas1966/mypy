@@ -64,6 +64,7 @@ class MyWorkBookOpenSaveClose:
             if u_file.is_exists(xlsx_new):
                 u_file.delete(xlsx_new)
             self._wb.save(xlsx_new)
+            self._xlsx = xlsx_new
         except Exception as e:
             self.close()
             raise Exception(e)
