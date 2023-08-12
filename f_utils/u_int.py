@@ -1,33 +1,32 @@
 
-def to_percent(count_true, count_all, precision=0, to_str=False):
+def to_percent(numerator: int,
+               denominator: int,
+               precision: int = 0,        # Number of Digits after the Point
+               to_str: bool = False
+               ) -> int | float | str:
     """
     =======================================================================
-     Description: Return Percent-Representation of ratio of two value.
+     Description: Return the PCT-REPR of the ratio of two numbers.
     =======================================================================
-     Arguments:
-    -----------------------------------------------------------------------
-        1. count_true : int (Count of True-Values).
-        2. count_all : int (Count of All-Values).
-        3. precision : int (Amount of digits after the dot).
-        4. to_str : bool (if return Str-Representation).
-    =======================================================================
-     Return: int of float or str
+
     -----------------------------------------------------------------------
         1. int (if not to_str and not precision).
         2. float (it not to_str and precision).
         3. str (if to_str).
     =======================================================================
     """
-    f = f'.{precision}f'
-    percent = format(0, f)
-    # Prevent divided-by-zero problem
-    if count_all:
-        percent = format(count_true / count_all * 100, f)
+    if not denominator:
+        res = 0.0
+    else:
+        res = (numerator / denominator) * 100
+    # Return STR
     if to_str:
-        return percent + '%'
+        return f'{res:.{precision}f}%'
+    # Return INT
     if not precision:
-            return int(percent)
-    return float(percent)
+        return int(res)
+    # Return FLOAT
+    return round(res, precision)
 
 
 def to_commas(n):

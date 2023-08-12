@@ -1,5 +1,5 @@
 import pytest
-from f_data_structure.interfaces.xyable import XYAble
+from f_data_structure.mixins.xyable import XYAble
 from f_data_structure.grid import Grid
 
 

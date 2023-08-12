@@ -1,4 +1,4 @@
-from f_abstract.interfaces.validatable import Validatable
+from f_abstract.mixins.validatable import Validatable
 
 
 def test_init_default():

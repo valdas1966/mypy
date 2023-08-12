@@ -1,10 +1,10 @@
 from __future__ import annotations
 from f_const.u_enum import DistanceMetric
 from f_const.u_enum import CoordinateSystem
-from f_abstract.interfaces.nameable import Nameable
+from f_abstract.mixins.nameable import Nameable
 
 
-class LocationRowCol(Nameable):
+class RowCol(Nameable):
     """
     ============================================================================
      Desc: Represents a Location in a Grid.
@@ -16,8 +16,8 @@ class LocationRowCol(Nameable):
     ============================================================================
      Methods:
     ----------------------------------------------------------------------------
-        1. distance(other: LocationRowCol) -> int
-           - Returns distance between this and other LocationRowCol
+        1. distance(other: RowCol) -> int
+           - Returns distance between this and other RowCol
     ============================================================================
     """
 
@@ -41,12 +41,12 @@ class LocationRowCol(Nameable):
         return self._col
 
     def distance(self,
-                 other: LocationRowCol,
+                 other: RowCol,
                  metric: DistanceMetric = DistanceMetric.MANHATTAN
                  ) -> int:
         """
         ========================================================================
-         Desc: Returns the distance between this and other LocationRowCol.
+         Desc: Returns the distance between this and other RowCol.
         ========================================================================
         """
         if metric == DistanceMetric.MANHATTAN:
@@ -54,21 +54,21 @@ class LocationRowCol(Nameable):
             diff_col = abs(self.col - other.col)
             return diff_row + diff_col
 
-    def __eq__(self, other: LocationRowCol) -> bool:
+    def __eq__(self, other: RowCol) -> bool:
         return self.row == other.row and self.col == other.col
 
-    def __lt__(self, other: LocationRowCol) -> bool:
+    def __lt__(self, other: RowCol) -> bool:
         if self._coordinate_system == CoordinateSystem.CARTESIAN:
             if self.row < other.row:
                 return True
             elif self.row == other.row:
                 return self.col < other.col
 
-    def __le__(self, other: LocationRowCol) -> bool:
+    def __le__(self, other: RowCol) -> bool:
         return self < other or self == other
 
-    def __gt__(self, other: LocationRowCol) -> bool:
+    def __gt__(self, other: RowCol) -> bool:
         return not (self <= other)
 
-    def __ge__(self, other: LocationRowCol) -> bool:
+    def __ge__(self, other: RowCol) -> bool:
         return not (self < other)

@@ -1,4 +1,4 @@
-from f_abstract.interfaces.nameable import Nameable
+from f_abstract.mixins.nameable import Nameable
 
 
 def test_init_default():

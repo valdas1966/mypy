@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_abstract.interfaces.nameable import Nameable
+from f_abstract.mixins.nameable import Nameable
 
 
 class XYInit(Nameable):

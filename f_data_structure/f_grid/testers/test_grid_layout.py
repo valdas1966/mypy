@@ -1,5 +1,5 @@
 from f_data_structure.f_grid.grid_layout import GridLayout
-from f_data_structure.f_grid.location_row_col import LocationRowCol
+from f_data_structure.f_grid.row_col import LocationRowCol
 
 
 def test_shape():

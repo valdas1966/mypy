@@ -17,3 +17,18 @@ def are_float(values):
         except:
             return False
     return True
+
+
+def to_str_pct(val: float,
+               precision: int,
+               to_100: bool = True       # For example: 0.75 to 75%
+               ) -> str:
+    """
+    ============================================================================
+     Desc: Returns a STR-REPR of a Float as a Percentage
+           (ex: from 0.75 to 75%).
+    ============================================================================
+    """
+    if to_100:
+        val = round(val * 100, precision)
+    return f'{val:.{precision}f}%'

@@ -14,3 +14,9 @@ def test_get():
     assert cell.row == 1
     assert cell.col == 2
     assert cell.name == 'A'
+
+
+def test_cells_random():
+    grid = GridCells(5)
+    assert len(grid.cells_random(size=15)) == 15
+    assert len(grid.cells_random(pct=40)) == 10

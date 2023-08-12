@@ -23,4 +23,6 @@ def to_groups(values: Sequence,
     return groups
 
 
+def sample(li: list, size: int) -> list:
+    size = min(size, len(li))
 

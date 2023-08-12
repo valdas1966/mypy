@@ -1,5 +1,5 @@
-from f_abstract.interfaces.nameable import Nameable
-from f_data_structure.f_grid.location_row_col import LocationRowCol
+from f_abstract.mixins.nameable import Nameable
+from f_data_structure.f_grid.row_col import RowCol
 from f_math import u_combinatorics
 
 
@@ -17,7 +17,7 @@ class GridLayout(Nameable):
     ----------------------------------------------------------------------------
         1. shape() -> str
            - Return STR-Representation of the Grid's Shape as (1,2).
-        2. is_within(row: int, col: int) -> bool
+        2. is_within(row: int, col: int, row_col: RowCol) -> bool
            - Returns True if the given (row,col) are in the Grid's borders.
     ============================================================================
     """
@@ -39,19 +39,24 @@ class GridLayout(Nameable):
         return self._num_cols
 
     def shape(self) -> str:
+        """
+        ========================================================================
+         Desc: Return STR-REPR of the Grid's Shape as (num_rows,num_cols).
+        ========================================================================
+        """
         return f'({self._num_rows},{self._num_cols})'
 
     def is_within(self,
                   row: int = None,
                   col: int = None,
-                  loc: LocationRowCol = None) -> bool:
+                  row_col: RowCol = None) -> bool:
         """
         ========================================================================
          Desc: Returns True if the given Location is within the Grid's Borders.
         ========================================================================
         """
-        if loc:
-            row, col = loc.row, loc.col
+        if row_col:
+            row, col = row_col.row, row_col.col
         is_valid_row = 0 <= row < self._num_rows
-        is_valid_col = 0 <= col <= self._num_cols
+        is_valid_col = 0 <= col < self._num_cols
         return is_valid_row and is_valid_col

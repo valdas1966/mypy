@@ -1,5 +1,5 @@
-from f_data_structure.old_grid_cells import GridCells
-from f_data_structure.old_cell import Cell
+from f_heuristic_search.alias.grid import Grid
+from f_heuristic_search.alias.cell import Cell
 
 
 class SPP:
@@ -9,14 +9,14 @@ class SPP:
     ============================================================================
      Properties:
     ----------------------------------------------------------------------------
-        1. grid (GridCells)        : Problem Space.
-        2. start (Cell)            : Problem's Start-Cell.
-        3. goal (Cell)             : Problem's Goal-Cell.
+        1. grid (Grid)        : Problem Space.
+        2. start (Cell)       : Problem's Start-Cell.
+        3. goal (Cell)        : Problem's Goal-Cell.
     ============================================================================
     """
 
     def __init__(self,
-                 grid: GridCells,
+                 grid: Grid,
                  start: Cell,
                  goal: Cell) -> None:
         self._grid = grid
@@ -24,7 +24,7 @@ class SPP:
         self._goal = goal
 
     @property
-    def grid(self) -> GridCells:
+    def grid(self) -> Grid:
         return self._grid
 
     @property
