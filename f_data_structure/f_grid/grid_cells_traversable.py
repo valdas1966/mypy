@@ -1,40 +1,29 @@
+from __future__ import annotations
 from f_data_structure.f_grid.grid_cells import GridCells
 from f_data_structure.f_grid.cell_traversable import CellTraversable
-from f_data_structure.mixins.container_traversable import ContainerTraversable
-from typing import Type, TYPE_CHECKING
+from typing import Type
 
 
-if TYPE_CHECKING:
-    class _IDETypeHints:
-        def cells_traversable(self) -> list[CellTraversable]: pass
-        def num_cells_traversable(self) -> int: pass
-        def num_cells_not_traversable(self) -> int: pass
-        def pct_cells_traversable(self) -> float: pass
-        def pct_cells_not_traversable(self) -> float: pass
-
-
-class GridCellsTraversable(GridCells, ContainerTraversable, _IDETypeHints):
+class GridCellsTraversable(GridCells):
     """
     ============================================================================
      Desc: Represents a Grid-Map of Traversable-Cells.
     ============================================================================
      Methods:
     ----------------------------------------------------------------------------
-        1. cells_traversable_random() -> list[CellTraversable]
-           - Returns Random-Traversable-Cells from the Grid.
+        1. cells(only_traversable: bool = True) -> list[CellTraversable]
+           [*] Returns List of Grid's Cells (Can return only Traversable).
+        2. pct_cells_traversable() -> float
+           [*] Returns Percentage of Traversable-Cells in the Grid.
     ============================================================================
-     Methods from Mixin-ContainerTraversable:
+     Class-Methods:
     ----------------------------------------------------------------------------
-        1. cells_traversable() -> list[CellTraversable]
-           - Returns List of all Traversable-Cells in the Grid.
-        2. num_cells_traversable() -> int
-           - Returns a number of Traversable-Cells in the Grid.
-        3. num_cells_not_traversable() -> int
-           - Returns a number of Non-Traversable-Cells in the Grid.
-        4. pct_cells_traversable() -> float
-           - Returns a percentage of Traversable-Cells in the Grid.
-        5. pct_cells_not_traversable() -> float
-           - Returns a percentage of Non-Traversable-Cells in the Grid.
+        1. generate(num_rows,
+                    num_cols,
+                    pct_non_traversable,
+                    name) -> GridCellsTraversable
+              * Generates a GridCellsTraversable object with a received
+                 Percentage of non-traversable cells.
     ============================================================================
     """
 
@@ -45,17 +34,44 @@ class GridCellsTraversable(GridCells, ContainerTraversable, _IDETypeHints):
                  class_cell: Type[CellTraversable] = CellTraversable,
                  ) -> None:
         GridCells.__init__(self, num_rows, num_cols, name, class_cell)
-        ContainerTraversable.__init__(self, elements='cells')
+
+    def cells(self, only_traversable: bool = True) -> list[CellTraversable]:
+        """
+        ========================================================================
+         Desc: Returns List of Grid's Cells (Can return only Traversable).
+        ========================================================================
+        """
+        res = super().cells()
+        if only_traversable:
+            res = [cell for cell in res if cell.is_traversable]
+        return res
+
+    def pct_cells_traversable(self) -> float:
+        """
+        ========================================================================
+         Desc: Returns Percentage of Traversable-Cells in the Grid.
+        ========================================================================
+        """
+        return len(self) / super().__len__()
+
+    def __len__(self) -> int:
+        """
+        ========================================================================
+         Desc: Returns the Number of Traversable-Cells in the Grid.
+        ========================================================================
+        """
+        return len(self.cells())
 
     @classmethod
     def generate(cls,
                  num_rows: int,
                  num_cols: int = None,
-                 pct_non_traversable: int = 0,
-                 name: str = None) -> 'GridCellsTraversable':
+                 name: str = None,
+                 pct_non_traversable: int = 0
+                 ) -> GridCellsTraversable:
         """
         ========================================================================
-         Desc: Creates a GridCellsTraversable object with a received
+         Desc: Generates a GridCellsTraversable object with a received
                 Percentage of non-traversable cells.
         ========================================================================
         """

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from f_heuristic_search.alias.grid import Grid
 from f_heuristic_search.alias.cell import Cell
 
@@ -19,9 +20,19 @@ class SPP:
                  grid: Grid,
                  start: Cell,
                  goal: Cell) -> None:
+        start.name = 'START'
+        goal.name = 'GOAL'
         self._grid = grid
         self._start = start
         self._goal = goal
+
+    def __str__(self) -> str:
+        res = f'SPP[{self.grid.name}]: '
+        res += f'{self.start} -> {self.goal}'
+        return res
+
+    def __repr__(self) -> str:
+        return str(self)
 
     @property
     def grid(self) -> Grid:
@@ -34,3 +45,20 @@ class SPP:
     @property
     def goal(self) -> Cell:
         return self._goal
+
+    @classmethod
+    def generate(cls,
+                 num_rows: int,
+                 num_cols: int = None,
+                 name: str = None,
+                 pct_non_traversable: int = 0
+                 ) -> SPP:
+        grid = Grid.generate(num_rows=num_rows,
+                             num_cols=num_cols,
+                             name=name,
+                             pct_non_traversable=pct_non_traversable)
+        # Ensure the Grid can accommodate both Start and Goal Cells
+        if len(grid) < 2:
+            return None
+        start, goal = grid.cells_random(size=2)
+        return SPP(grid, start, goal)

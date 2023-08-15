@@ -14,11 +14,11 @@ class GridCells(GridLayout):
      Methods:
     ----------------------------------------------------------------------------
         1. cells() -> list[Cell]
-           - Returns a flattened List of all Cells in the Grid.
+           [*] Returns a flattened List of all Cells in the Grid.
         2. num_all() -> int
-           - Returns Number of Cells in the Grid.
+           [*] Returns Number of Cells in the Grid.
         3. __getitem__(self, index) -> list[Cell]
-           - Allows direct access to a Row of Cells by [Row] Property and to
+           [*] Allows direct access to a Row of Cells by [Row] Property and to
                 a specific Cell by [Row][Col] Properties.
     ============================================================================
     """
@@ -33,14 +33,6 @@ class GridCells(GridLayout):
                       [class_cell(row, col) for col in range(self.num_cols)]
                       for row in range(self.num_rows)
                      ]
-
-    def num_cells_all(self) -> int:
-        """
-        ========================================================================
-         Desc: Returns Number of Cells in the Grid.
-        ========================================================================
-        """
-        return self.num_rows * self.num_cols
 
     def cells(self) -> list[Cell]:
         """
@@ -62,9 +54,17 @@ class GridCells(GridLayout):
                 2. pct  : The percentage of total cells to retrieve.
         ========================================================================
         """
-        if not size:
-            size = int(pct * self.num_cells_all() / 100)
+        if pct:
+            size = int(pct * len(self) / 100)
         return random.sample(self.cells(), k=size)
+
+    def __len__(self) -> int:
+        """
+        ========================================================================
+         Desc: Returns a Number of Cells in the Grid.
+        ========================================================================
+        """
+        return self.num_rows * self.num_cols
 
     def __getitem__(self, index) -> list[Cell]:
         """

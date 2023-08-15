@@ -54,6 +54,13 @@ class RowCol(Nameable):
             diff_col = abs(self.col - other.col)
             return diff_row + diff_col
 
+    def __str__(self) -> str:
+        res = self.name or ''
+        return f'{res}({self.row},{self.col})'
+
+    def __repr__(self) -> str:
+        return str(self)
+
     def __eq__(self, other: RowCol) -> bool:
         return self.row == other.row and self.col == other.col
 

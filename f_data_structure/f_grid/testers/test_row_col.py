@@ -1,6 +1,13 @@
 from f_data_structure.f_grid.row_col import RowCol
 
 
+def test_str():
+    loc = RowCol(1, 2)
+    assert str(loc) == '(1,2)'
+    loc = RowCol(1, 2, name='A')
+    assert str(loc) == 'A(1,2)'
+
+
 def test_distance():
     loc_1 = RowCol(1, 2)
     loc_2 = RowCol(3, 4)

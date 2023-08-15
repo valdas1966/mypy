@@ -5,6 +5,7 @@ def test_cells():
     grid = GridCells(2)
     cells = grid.cells()
     assert len(cells) == 4
+    assert len(grid) == 4
 
 
 def test_get():
