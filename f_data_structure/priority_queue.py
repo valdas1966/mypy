@@ -14,7 +14,7 @@ class PriorityQueue:
     def __init__(self):
         """
         ========================================================================
-         Desc: Initialize empty Priority-Queue.
+         Desc: Initialize an empty Priority-Queue.
         ========================================================================
         """
         self._items = []
@@ -22,7 +22,7 @@ class PriorityQueue:
     def push(self, item: T):
         """
         ========================================================================
-         Desc: Push item onto the Priority-Queue.
+         Desc: Push an item onto the Priority-Queue.
         ========================================================================
         """
         heapq.heappush(self._items, item)
@@ -30,7 +30,7 @@ class PriorityQueue:
     def pop(self) -> T:
         """
         ========================================================================
-         Desc: Pop and Return the minimal item in the Priority-Queue.
+         Desc: Pop and Return the minimal item from the Priority-Queue.
         ========================================================================
         """
         return heapq.heappop(self._items)

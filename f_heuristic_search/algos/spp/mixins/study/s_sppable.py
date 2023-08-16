@@ -1,7 +1,7 @@
 from f_data_structure.old_cell import Cell
 from f_data_structure.old_grid_cells import GridCells
 from f_heuristic_search.problem_types.spp import SPP
-from f_heuristic_search.algos.spp.interfaces.sppable import SPPAble
+from f_heuristic_search.algos.spp.mixins.sppable import SPPAble
 
 
 grid = GridCells(5)

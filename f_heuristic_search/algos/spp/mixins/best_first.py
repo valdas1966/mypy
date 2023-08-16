@@ -1,7 +1,7 @@
-from f_heuristic_search.algos.spp.interfaces.sppable import SPPAble
-from f_heuristic_search.algos.spp.interfaces.open_closed import OpenClosed
+from f_heuristic_search.algos.spp.mixins.sppable import SPPAble
+from f_heuristic_search.algos.spp.mixins.open_closed import OpenClosed
 from f_heuristic_search.problem_types.spp import SPP
-from f_data_structure.old_cell import Cell
+from f_heuristic_search.alias.cell import Cell
 
 
 class BestFirst(SPPAble, OpenClosed):
@@ -11,8 +11,8 @@ class BestFirst(SPPAble, OpenClosed):
         OpenClosed.__init__(self)
         self._to_node = to_node
 
-    def search(self) -> None:
-        self._generate_node(cell=self.start)
+    def run(self) -> None:
+        self._generate_node(cell=self.spp.start)
         while self.open:
             best = self.open.pop()
 
