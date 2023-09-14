@@ -4,7 +4,7 @@ from f_heuristic_search.problem_types.spp import SPP
 
 
 def test_str():
-    grid = Grid(num_rows=5, name='Test')
+    grid = Grid(rows=5, name='Test')
     start = Cell(1, 1)
     goal = Cell(2, 2)
     spp = SPP(grid, start, goal)

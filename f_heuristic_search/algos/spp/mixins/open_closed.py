@@ -4,7 +4,12 @@ from f_data_structure.priority_queue import PriorityQueue
 class OpenClosed:
     """
     ============================================================================
-     Desc: Mixin Class for Algorithms that use Open and Closed lists.
+     Mixin Class for Algorithms that use Open and Closed lists.
+    ============================================================================
+     Properties:
+    ----------------------------------------------------------------------------
+        1. open (PriorityQueue)          : Generated Nodes (not expanded yet).
+        2. closed (set)                  : Expanded Nodes.
     ============================================================================
     """
 

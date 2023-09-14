@@ -8,6 +8,12 @@ class CellTraversable(Cell, Traversable):
     ============================================================================
      Desc: Represents a Traversable-Cell in the Grid.
     ============================================================================
+     Properties:
+    ----------------------------------------------------------------------------
+        1. row : int     (Cell's Row in the Grid).
+        2. col : int     (Cell's Col in the Grid).
+        3. name : str    (Cell's Name).
+    ============================================================================
     """
 
     def __init__(self,

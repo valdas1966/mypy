@@ -18,22 +18,22 @@ class GridCellsTraversable(GridCells):
     ============================================================================
      Class-Methods:
     ----------------------------------------------------------------------------
-        1. generate(num_rows,
-                    num_cols,
+        1. generate(rows,
+                    cols,
                     pct_non_traversable,
                     name) -> GridCellsTraversable
-              * Generates a GridCellsTraversable object with a received
-                 Percentage of non-traversable cells.
+              [*] Generates a GridCellsTraversable object with a received
+                   Percentage of non-traversable cells.
     ============================================================================
     """
 
     def __init__(self,
-                 num_rows: int,
-                 num_cols: int = None,
+                 rows: int,
+                 cols: int = None,
                  name: str = None,
                  class_cell: Type[CellTraversable] = CellTraversable,
                  ) -> None:
-        GridCells.__init__(self, num_rows, num_cols, name, class_cell)
+        GridCells.__init__(self, rows, cols, name, class_cell)
 
     def cells(self, only_traversable: bool = True) -> list[CellTraversable]:
         """
@@ -64,8 +64,8 @@ class GridCellsTraversable(GridCells):
 
     @classmethod
     def generate(cls,
-                 num_rows: int,
-                 num_cols: int = None,
+                 rows: int,
+                 cols: int = None,
                  name: str = None,
                  pct_non_traversable: int = 0
                  ) -> GridCellsTraversable:
@@ -75,7 +75,7 @@ class GridCellsTraversable(GridCells):
                 Percentage of non-traversable cells.
         ========================================================================
         """
-        grid = cls(num_rows, num_cols, name)
+        grid = cls(rows, cols, name)
         cells_random = grid.cells_random(pct=pct_non_traversable)
         for cell in cells_random:
             cell.is_traversable = False

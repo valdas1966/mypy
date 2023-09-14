@@ -18,10 +18,12 @@
       <w>filepaths</w>
       <w>fname</w>
       <w>idds</w>
+      <w>inits</w>
       <w>inittable</w>
       <w>kastar</w>
       <w>loggable</w>
       <w>ndarray</w>
+      <w>parentable</w>
       <w>pred</w>
       <w>qtype</w>
       <w>roomap</w>

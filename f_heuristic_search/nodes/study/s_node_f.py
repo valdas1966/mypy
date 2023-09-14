@@ -1,4 +1,4 @@
-from f_heuristic_search.nodes.node_f import NodeF
+from f_heuristic_search.nodes.old_node_f import NodeF
 
 
 a = NodeF(x=1, y=1)

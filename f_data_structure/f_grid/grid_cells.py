@@ -24,14 +24,14 @@ class GridCells(GridLayout):
     """
 
     def __init__(self,
-                 num_rows: int,
-                 num_cols: int = None,
+                 rows: int,
+                 cols: int = None,
                  name: str = None,
                  class_cell: Type[Cell] = Cell):
-        GridLayout.__init__(self, num_rows, num_cols, name)
+        GridLayout.__init__(self, rows, cols, name)
         self._grid = [
-                      [class_cell(row, col) for col in range(self.num_cols)]
-                      for row in range(self.num_rows)
+                      [class_cell(row, col) for col in range(self.cols)]
+                      for row in range(self.rows)
                      ]
 
     def cells(self) -> list[Cell]:
@@ -64,7 +64,7 @@ class GridCells(GridLayout):
          Desc: Returns a Number of Cells in the Grid.
         ========================================================================
         """
-        return self.num_rows * self.num_cols
+        return self.rows * self.cols
 
     def __getitem__(self, index) -> list[Cell]:
         """

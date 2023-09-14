@@ -6,7 +6,7 @@ from f_heuristic_search.alias.cell import Cell
 class SPP:
     """
     ============================================================================
-     Desc: Represents a Shortest-Path-Problem Type.
+     Desc: Represents a Shortest-Path-Problem Type in 2D-Grids.
     ============================================================================
      Properties:
     ----------------------------------------------------------------------------
@@ -48,13 +48,13 @@ class SPP:
 
     @classmethod
     def generate(cls,
-                 num_rows: int,
-                 num_cols: int = None,
+                 rows: int,
+                 cols: int = None,
                  name: str = None,
                  pct_non_traversable: int = 0
                  ) -> SPP:
-        grid = Grid.generate(num_rows=num_rows,
-                             num_cols=num_cols,
+        grid = Grid.generate(rows=rows,
+                             cols=cols,
                              name=name,
                              pct_non_traversable=pct_non_traversable)
         # Ensure the Grid can accommodate both Start and Goal Cells

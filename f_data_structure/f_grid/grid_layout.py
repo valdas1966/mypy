@@ -9,8 +9,8 @@ class GridLayout(Nameable):
     ============================================================================
      Properties:
     ----------------------------------------------------------------------------
-        1. num_rows (int)     : Number of Rows in the Grid.
-        2. num_cols (int)     : Number of Cols in the Grid.
+        1. rows (int)     : Number of Rows in the Grid.
+        2. cols (int)     : Number of Cols in the Grid.
     ============================================================================
      Methods:
     ----------------------------------------------------------------------------
@@ -22,21 +22,21 @@ class GridLayout(Nameable):
     """
 
     def __init__(self,
-                 num_rows: int,
-                 num_cols: int = None,
+                 rows: int,
+                 cols: int = None,
                  name: str = None) -> None:
         Nameable.__init__(self, name)
-        self._num_rows = num_rows
-        self._num_cols = num_cols or num_rows
+        self._rows = rows
+        self._cols = cols or rows
         self.name = self.name + self.shape() if self.name else self.shape()
 
     @property
-    def num_rows(self) -> int:
-        return self._num_rows
+    def rows(self) -> int:
+        return self._rows
 
     @property
-    def num_cols(self) -> int:
-        return self._num_cols
+    def cols(self) -> int:
+        return self._cols
 
     def shape(self) -> str:
         """
@@ -44,7 +44,7 @@ class GridLayout(Nameable):
          Desc: Return STR-REPR of the Grid's Shape as (num_rows,num_cols).
         ========================================================================
         """
-        return f'({self._num_rows},{self._num_cols})'
+        return f'({self._rows},{self._cols})'
 
     def is_within(self, row_col: RowCol) -> bool:
         """
@@ -52,6 +52,6 @@ class GridLayout(Nameable):
          Desc: Returns True if the given Location is within the Grid's Borders.
         ========================================================================
         """
-        is_valid_row = 0 <= row_col.row < self._num_rows
-        is_valid_col = 0 <= row_col.col < self._num_cols
+        is_valid_row = 0 <= row_col.row < self._rows
+        is_valid_col = 0 <= row_col.col < self._cols
         return is_valid_row and is_valid_col
