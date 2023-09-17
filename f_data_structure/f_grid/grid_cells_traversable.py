@@ -54,6 +54,18 @@ class GridCellsTraversable(GridCells):
         """
         return len(self) / super().__len__()
 
+    def filter_valid(self, li: list[CellTraversable]) -> list[CellTraversable]:
+        """
+        ========================================================================
+         Returns List[CellTraversable] that are Traversable.
+        ========================================================================
+        """
+        li = super().filter_valid(li=li)
+        c = li[0]
+        print(c, type(c))
+        print(c.is_traversable)
+        return [cell for cell in li if cell.is_traversable]
+
     def __len__(self) -> int:
         """
         ========================================================================

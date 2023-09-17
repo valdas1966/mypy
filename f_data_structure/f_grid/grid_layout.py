@@ -55,3 +55,12 @@ class GridLayout(Nameable):
         is_valid_row = 0 <= row_col.row < self._rows
         is_valid_col = 0 <= row_col.col < self._cols
         return is_valid_row and is_valid_col
+
+    def filter_valid(self, li: list[RowCol]) -> list[RowCol]:
+        """
+        ========================================================================
+         Returns List[RowCol] that are within the Grid's boundaries.
+        ========================================================================
+        """
+        return [rc for rc in li if self.is_within(row_col=rc)]
+
