@@ -1,6 +1,11 @@
 from f_data_structure.f_grid.grid_layout import GridLayout
 
 
+def test_total():
+    grid = GridLayout(3)
+    assert grid.total() == 9
+
+
 def test_shape():
     grid = GridLayout(2)
     assert grid.shape() == '(2,2)'

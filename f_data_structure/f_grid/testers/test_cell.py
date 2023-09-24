@@ -8,6 +8,14 @@ def test_str():
     assert str(cell) == '(3,3)'
 
 
+def test_eq():
+    cell_1 = Cell(1)
+    cell_2 = Cell(2)
+    cell_3 = Cell(1)
+    assert cell_1 == cell_3
+    assert not cell_1 == cell_2
+
+
 def test_distance():
     cell_1 = Cell(1, 2)
     cell_2 = Cell(3, 2)

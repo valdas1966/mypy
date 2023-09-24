@@ -16,12 +16,10 @@ class GridCells(GridLayout):
         2. cells_random(size: int, pct: int) -> list[Cell]
            [*] Returns a List of random Grid's valid Cells.
         3. neighbors() -> List[Cell]
-           [*] Returns a list of Cell's valid neighbors.
+           [*] Returns a list of neighbors for a given Cell.
         4. make_invalid(cells: list[Cell) -> None
            [*] Turns list[Cell] into invalid cells.
-        5. is_within(cell: Cell) -> bool
-           [*] Returns True if the received Cell is within the Grid's borders.
-        6. pct_cells_valid() -> float
+        5. pct_cells_valid() -> float
            [*] Returns Percentage of Valid-Cells in the Grid.
     ============================================================================
      Magic Methods:
@@ -82,13 +80,13 @@ class GridCells(GridLayout):
         ========================================================================
         """
         if pct:
-            size = int(pct * len(self) / 100)
+            size = int(pct * self.total() / 100)
         return random.sample(self.cells(), k=size)
 
     def neighbors(self, cell: Cell) -> list[Cell]:
         """
         ========================================================================
-         Returns a list of Cell's valid neighbors.
+         Returns a list of valid neighbors for a given Cell.
         ========================================================================
         """
         coords = [(cell.row - 1, cell.col),
@@ -96,10 +94,11 @@ class GridCells(GridLayout):
                   (cell.row, cell.col + 1),
                   (cell.row + 1, cell.col)
                   ]
-        return [self._grid[row][col]
-                for row, col
-                in coords
-                if self.is_within(row, col) and self._grid[row][col].is_valid]
+        coords_valid = [(r, c) for r, c in coords if self.is_within(r, c)]
+        return [self._grid[r][c]
+                for r, c
+                in coords_valid
+                if self._grid[r][c].is_valid]
 
     def make_invalid(self, cells: list[Cell]) -> None:
         """
@@ -109,14 +108,6 @@ class GridCells(GridLayout):
         """
         for cell in cells:
             cell.is_valid = False
-
-    def is_within(self, cell: Cell) -> bool:
-        """
-        ========================================================================
-         Returns True if the received Cell is withing the Grid's boundaries.
-        ========================================================================
-        """
-        return super().is_within(cell.row, cell.col)
 
     def pct_cells_valid(self) -> float:
         """
@@ -129,8 +120,8 @@ class GridCells(GridLayout):
     def __getitem__(self, index) -> list[Cell]:
         """
         ========================================================================
-         Desc: Allows direct access to a Row of Cells by [Row] Property and to
-                a specific Cell by [Row][Col] Properties.
+         Allows direct access to a Row of Cells by [Row] Property and to a
+          specific Cell by [Row][Col] Properties.
         ========================================================================
         """
         return self._grid[index]
