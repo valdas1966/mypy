@@ -1,66 +1,50 @@
 from __future__ import annotations
-from f_data_structure.f_grid.row_col import RowCol
-from f_const.u_enum import ClockDirection, CoordinateSystem
+from f_abstract.mixins.validatable import Validatable
+from f_data_structure.mixins.has_row_col import HasRowCol
+from f_const.u_enum import DistanceMetric
 
 
-class Cell(RowCol):
+class Cell(HasRowCol, Validatable):
     """
     ============================================================================
-     Desc: Represents a Cell in the Grid.
+     Represents a Cell in a 2D-Grid.
     ============================================================================
      Methods:
     ----------------------------------------------------------------------------
-        1. neighbors(direction: ClockDirection = CLOCKWISE) -> list[Cell]
-           - Return the adjacent neighbors.
+        1. distance(other: Cell) -> int
+           - Returns distance between this Cell and another Cell.
+    ============================================================================
+     Magic Methods:
+    ----------------------------------------------------------------------------
+        1. str -> '(row, col)'
+        2. repr -> str
+        3. eq -> (row, col) == (other.row, other.col)
+        4. comparison based on row-major system.
     ============================================================================
     """
 
-    def neighbors(self,
-                  direction: ClockDirection = ClockDirection.CLOCKWISE
-                  ) -> list[Cell]:
-        """
-        ========================================================================
-         Desc: Returns List[Cell] of adjacent neighbors in clockwise order.
-        ========================================================================
-        """
-        if direction == ClockDirection.CLOCKWISE:
-            return [self._neighbor_north(),
-                    self._neighbor_east(),
-                    self._neighbor_south(),
-                    self._neighbor_west()]
+    _row: int                  # Row-Position in the Grid.
+    _col: int                  # Col-Position in the Grid
+    _is_valid: bool            # Is Traversable in the Grid
 
-    def _neighbor_north(self) -> Cell:
-        """
-        ========================================================================
-        Desc: Return the adjacent Cell to the North (upward).
-        ========================================================================
-        """
-        if self._coordinate_system == CoordinateSystem.CARTESIAN:
-            return Cell(self.row + 1, self.col)
+    def __init__(self,
+                 row: int,
+                 col: int = None,
+                 is_valid: bool = True
+                 ) -> None:
+        HasRowCol.__init__(self, row, col)
+        Validatable.__init__(self, is_valid)
 
-    def _neighbor_south(self) -> Cell:
+    def distance(self,
+                 other: Cell,
+                 metric: DistanceMetric = DistanceMetric.MANHATTAN
+                 ) -> int:
         """
         ========================================================================
-        Desc: Return the adjacent Cell to the South (downward).
+         Returns the distance between this Cell and another Cell.
         ========================================================================
         """
-        if self._coordinate_system == CoordinateSystem.CARTESIAN:
-            return Cell(self.row - 1, self.col)
-
-    def _neighbor_west(self) -> Cell:
-        """
-        ========================================================================
-        Desc: Return the adjacent Cell to the West (leftward).
-        ========================================================================
-        """
-        if self._coordinate_system == CoordinateSystem.CARTESIAN:
-            return Cell(self.row, self.col - 1)
-
-    def _neighbor_east(self) -> Cell:
-        """
-        ========================================================================
-        Desc: Return the adjacent Cell to the East (rightward).
-        ========================================================================
-        """
-        if self._coordinate_system == CoordinateSystem.CARTESIAN:
-            return Cell(self.row, self.col + 1)
+        if metric == DistanceMetric.MANHATTAN:
+            diff_row = abs(self.row - other.row)
+            diff_col = abs(self.col - other.col)
+            return diff_row + diff_col

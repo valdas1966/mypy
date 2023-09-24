@@ -1,4 +1,5 @@
 from f_data_structure.f_grid.grid_cells import GridCells
+from f_data_structure.f_grid.cell import Cell
 
 
 def test_cells():
@@ -21,3 +22,9 @@ def test_cells_random():
     grid = GridCells(5)
     assert len(grid.cells_random(size=15)) == 15
     assert len(grid.cells_random(pct=40)) == 10
+
+
+def test_neighbors():
+    grid = GridCells(5)
+    cell = grid[0][0]
+    assert grid.neighbors(cell) == [Cell(0, 1), Cell(1, 0)]

@@ -60,10 +60,11 @@ class GridCellsTraversable(GridCells):
          Returns List[CellTraversable] that are Traversable.
         ========================================================================
         """
+        for cell in li:
+            print(cell, type(cell), cell.is_traversable)
         li = super().filter_valid(li=li)
-        c = li[0]
-        print(c, type(c))
-        print(c.is_traversable)
+        for cell in li:
+            print(cell, type(cell), cell.is_traversable)
         return [cell for cell in li if cell.is_traversable]
 
     def __len__(self) -> int:
@@ -92,3 +93,10 @@ class GridCellsTraversable(GridCells):
         for cell in cells_random:
             cell.is_traversable = False
         return grid
+
+
+grid = GridCellsTraversable(5)
+grid[0][1].is_traversable = False
+cell = CellTraversable(0, 0)
+neighbors = cell.neighbors()
+assert grid.filter_valid(li=neighbors) == [CellTraversable(1, 0)]

@@ -2,7 +2,7 @@
 class Validatable:
     """
     ============================================================================
-     Desc: Represents an Object that can be validated (Default=True).
+     Represents an Object that can be validated (Default=True).
     ============================================================================
      Properties:
     ----------------------------------------------------------------------------
