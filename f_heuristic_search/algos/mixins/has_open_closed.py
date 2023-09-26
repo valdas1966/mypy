@@ -1,17 +1,15 @@
 from f_data_structure.priority_queue import PriorityQueue
 
 
-class OpenClosed:
+class HasOpenClosed:
     """
     ============================================================================
-     Mixin Class for Algorithms that use Open and Closed lists.
-    ============================================================================
-     Properties:
-    ----------------------------------------------------------------------------
-        1. open (PriorityQueue)          : Generated Nodes (not expanded yet).
-        2. closed (set)                  : Expanded Nodes.
+     Mixin for algorithms that utilize Open and Closed lists.
     ============================================================================
     """
+
+    open: PriorityQueue       # Queue for Generated Nodes (not expanded yet).
+    closed: set               # Set of Expanded (visited) Nodes.
 
     def __init__(self) -> None:
         self._open = PriorityQueue()

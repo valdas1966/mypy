@@ -2,6 +2,12 @@ from f_heuristic_search.nodes.node_3_f import NodeF
 
 
 def test_f():
+    """
+    ============================================================================
+     start(g=0, h=2, f=2) => a(g=1, h=1, f=2) => goal(g=2, h=0, f=2)
+     start(g=0, h=2, f=2) => b(g=1, h=2, f=3) => c(g=2, h=1, f=3)
+    ============================================================================
+    """
     start = NodeF(name='start', h=2)
     assert start.f() == 2
     a = NodeF(name='a', parent=start, h=1)

@@ -6,18 +6,16 @@ from f_abstract.mixins.parentable import Parentable
 class NodeBase(Nameable, Parentable):
     """
     ============================================================================
-     Base General Node-Class.
-    ============================================================================
-     Properties:
-    ----------------------------------------------------------------------------
-        1. name (str)                    : Node's Name.
-        2. children (list[NodeBase])     : Node's Children.
+     Base Node-Class.
     ============================================================================
     """
 
+    _name: str                       # Node's Name
+    _parent: NodeBase                # Node's Parent
+    _children: list[NodeBase]        # Node's Children
+
     def __init__(self,
                  name: str = None,
-                 parent: NodeBase = None,
-                 children: list[NodeBase] = list()) -> None:
+                 parent: NodeBase = None) -> None:
         Nameable.__init__(self, name)
-        Parentable.__init__(self, parent, children)
+        Parentable.__init__(self, parent)

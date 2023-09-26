@@ -19,7 +19,7 @@ class Cell(HasRowCol, Validatable):
         1. str -> '(row, col)'
         2. repr -> str
         3. eq -> (row, col) == (other.row, other.col)
-        4. comparison based on row-major system.
+        4. comparison funcs based on row-major system.
     ============================================================================
     """
 

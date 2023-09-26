@@ -10,6 +10,8 @@ def test_g():
     assert c.g == 1
     b.parent = c
     assert b.g == 2
+    b.parent = None
+    assert b.g == 0
 
 
 def test_sort():

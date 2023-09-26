@@ -2,13 +2,16 @@
 class Nameable:
     """
     ============================================================================
-     Desc: Represents an Object with a Name property (Default=None).
+     Mixin with a Name property (Default=None).
     ============================================================================
-     Properties:
+     Magic Methods:
     ----------------------------------------------------------------------------
-        1. name (str) : Object's Name.
+        1. str -> 'name' or '' if None
+        2. repr -> str
     ============================================================================
     """
+
+    _name: str               # Object's Name
 
     def __init__(self, name: str = None) -> None:
         self._name = name

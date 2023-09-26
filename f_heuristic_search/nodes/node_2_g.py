@@ -1,48 +1,53 @@
 from __future__ import annotations
 from f_abstract.mixins.parentable import Parentable
 from f_heuristic_search.nodes.node_1_cell import NodeCell
-from f_heuristic_search.alias.cell import Cell
 
 
 class NodeG(NodeCell):
     """
     ============================================================================
-     1. Node with a W-Value (Node's Weight) and a G-Value (Cost from the Start).
-     2. The sorting is in opposite direction (the least NodeG is the Node with
-         the largest G-Value, the farthest from the Start Node).
-    ============================================================================
-     Properties:
-    ----------------------------------------------------------------------------
-        1. name (str)               : Node's Name.
-        2. row (int)                : Node's Row.
-        3. col (int)                : Node's Col.
-        4. parent (NodeG)           : Node's Parent.
-        5. children (list[NodeG])   : Node's Children.
-        6. w (int)                  : Node's Weight.
-        7. g (int)                  : Cost from Start to Node.
-    ============================================================================
+     Node with a weight value (W) and a cost value (G) from the start node.
+    ==========================================================================
      Methods:
     ----------------------------------------------------------------------------
         1. is_better_parent(parent: NodeG) -> bool
-           [*] Returns True if the received Parent has a lower G-Value than the
+           [*] Returns True if the given Parent has a lower G-Value than the
                 current one.
     ============================================================================
-     Class Methods:
+     Inherited Methods:
     ----------------------------------------------------------------------------
-        1. from_node_cell(node: NodeCell) -> NodeG
-           [*] Converts NodeCell into NodeG.
+        1. distance(other: NodeCell) -> int
+           [*] Manhattan-Distance between the Nodes.
+    ============================================================================
+     Magic Methods:
+    ----------------------------------------------------------------------------
+        1. str -> 'name(row, col)'
+        2. repr -> str
+        3. eq -> (row, col) == (other.row, other.col)
+        4. Comparison funcs based on G-Value.
+            An object is considered 'less than' another if its G-Value is
+            larger (indicating it is more reliable).
     ============================================================================
     """
 
+    _name: str                        # Node's Name
+    _parent: NodeG                    # Node's Parent
+    _children: list[NodeG]            # Node's Children
+    _row: int                         # Node's Row
+    _col: int                         # Node's Col
+    _w: int                           # Node's Weight
+    _g: int                           # Cost to reach the Node from the Start
+
     def __init__(self,
-                 cell: Cell,
+                 row: int = 0,
+                 col: int = None,
                  name: str = None,
                  parent: NodeG = None,
                  w: int = 1
                  ) -> None:
-        NodeCell.__init__(self, cell=cell, name=name, parent=parent)
+        NodeCell.__init__(self, row=row, col=col, name=name, parent=parent)
         self._w = w
-        self._g = 0 if parent is None else parent.g + self._w
+        self._update_g()
 
     @property
     def w(self) -> int:
@@ -50,31 +55,34 @@ class NodeG(NodeCell):
 
     @property
     def g(self) -> int:
-        """
-        ========================================================================
-         Computes G-Value based on Cost from the Start-Node to the Parent-Node.
-        ========================================================================
-        """
         return self._g
 
     @Parentable.parent.setter
     def parent(self, parent: NodeG) -> None:
         """
         ========================================================================
-         Sets new Parent and updates the G-Value respectively.
+         Sets a new Parent and updates the G-Value accordingly.
         ========================================================================
         """
         self._parent = parent
-        self._g = parent.g + self.w
+        self._update_g()
 
     def is_better_parent(self, parent: NodeG) -> bool:
         """
         ========================================================================
          Returns True if the received Parent is better than the current
-                  (lower G-Value).
+         (lower G-Value).
         ========================================================================
         """
         return self.g > parent.g + self.w
+
+    def _update_g(self) -> None:
+        """
+        ========================================================================
+         Updates Node's G-Value.
+        ========================================================================
+        """
+        self._g = self.parent.g + self._w if self.parent else 0
 
     def __lt__(self, other: NodeG) -> bool:
         return self.g > other.g
@@ -87,12 +95,3 @@ class NodeG(NodeCell):
 
     def __ge__(self, other: NodeG) -> bool:
         return self._g <= other.g
-
-    @classmethod
-    def from_node_cell(cls, node: NodeCell) -> NodeG:
-        """
-        ========================================================================
-         Converts NodeCell into NodeG.
-        ========================================================================
-        """
-        return cls(cell=node.cell, name=node.name, parent=node.parent)
