@@ -18,7 +18,7 @@ class HasRowCol:
     _row: int        # Object's Row
     _col: int        # Object's Col
 
-    def __init__(self, row: int, col: int = None) -> None:
+    def __init__(self, row: int = 0, col: int = None) -> None:
         """
         ========================================================================
          1. Inits the Object with received Row and Col arguments.
@@ -41,6 +41,9 @@ class HasRowCol:
 
     def __repr__(self) -> str:
         return str(self)
+
+    def __hash__(self) -> int:
+        return hash((self.row, self.col))
 
     def __eq__(self, other: HasRowCol) -> bool:
         return (self.row, self.col) == (other.row, other.col)

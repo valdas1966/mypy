@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_heuristic_search.nodes.node_3_f import NodeF as Node
+from f_heuristic_search.nodes.node_1_cell import NodeCell as Node
 from f_data_structure.f_grid.grid_cells import GridCells as Grid
 
 

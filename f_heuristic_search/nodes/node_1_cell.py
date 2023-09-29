@@ -32,7 +32,10 @@ class NodeCell(NodeBase, Cell):
                  row: int = 0,
                  col: int = None,
                  name: str = None,
-                 parent: NodeCell = None) -> None:
+                 parent: NodeCell = None,
+                 cell: Cell = None) -> None:
+        if cell:
+            row, col = cell.row, cell.col
         NodeBase.__init__(self, name=name, parent=parent)
         Cell.__init__(self, row=row, col=col)
 

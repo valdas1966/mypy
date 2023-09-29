@@ -1,14 +1,15 @@
 from f_heuristic_search.algos.mixins.has_open_closed import HasOpenClosed
 from f_heuristic_search.algos.mixins.sppable import SPPAble
 from f_heuristic_search.problem_types.spp import SPP
-from f_heuristic_search.nodes.node_1_cell import NodeCell
+from f_heuristic_search.nodes.node_3_f import NodeF as Node
 from f_data_structure.priority_queue import PriorityQueue
+from f_data_structure.f_grid.cell import Cell
 
 
-class BestFirst(SPPAble, HasOpenClosed):
+class AStar(SPPAble, HasOpenClosed):
     """
     ============================================================================
-     Mixin for Best-First Search Algorithms.
+     A* Algorithm.
     ============================================================================
      Methods:
     ----------------------------------------------------------------------------
@@ -25,8 +26,8 @@ class BestFirst(SPPAble, HasOpenClosed):
 
     spp: SPP                       # Shortest Path Problem
     is_path_found: bool            # True if found a path from Start to Goal
-    open: PriorityQueue[NodeCell]  # Queue of generated nodes (not expanded yet)
-    closed: set[NodeCell]          # Set of expanded (visited) nodes
+    open: PriorityQueue            # Queue of generated nodes (not expanded yet)
+    closed: dict[Node: None]       # Set of expanded nodes in insertion order
 
     def __init__(self, spp: SPP) -> None:
         SPPAble.__init__(self, spp)
@@ -47,28 +48,59 @@ class BestFirst(SPPAble, HasOpenClosed):
             self._expand_node(node=best)
         self._is_path_found = False
 
-    def _expand_node(self, node: NodeCell) -> None:
+    def _expand_node(self, node: Node) -> None:
         """
         ========================================================================
-         1. Push Node's Children into the Open if they are not in Open|Closed.
-         2. Updates a child's parent if the new parent is better
-             (offers a lower G-value).
+         Visits the Node and Generates its Children.
         ========================================================================
         """
-        for child in self.spp.grid.neighbors(node):
-            if child in self.closed:
+        for child in self._get_children(node):
+            if self._is_expanded(child):
                 continue
-            if child not in self.open:
-                child.h = self.h_to_goal(child)
-                self.open.push(child)
-            elif child.is_better_parent(node):
-                child.parent = node
+            if self._is_generated(child):
+                self._try_new_parent(cell=child, parent=node)
+            else:
+                self._generate_node(child)
         self.closed.add(node)
 
-    def h_to_goal(self, node: NodeCell) -> int:
+    def _generate_node(self, cell: Cell) -> None:
         """
         ========================================================================
-         Returns Heuristic-Distance between the given Node and the Goal.
+         Generates a Node from a Cell and inserts it into an Open list.
         ========================================================================
         """
-        return node.distance(self.spp.goal)
+        node = Node(cell=cell)
+        node.h = node.distance(self.spp.goal)
+        self.open.push(node)
+
+    def _get_children(self, node: Node) -> list[Node]:
+        """
+        ========================================================================
+         Returns a List of Node's Children.
+        ========================================================================
+        """
+        return [Node(cell)
+                for cell
+                in self.spp.grid.neighbors(node)
+                if not cell == node.parent]
+
+    def _is_expanded(self, cell: Cell) -> bool:
+        """
+        ========================================================================
+         Returns True if the given Cell is have already been expanded.
+        ========================================================================
+        """
+        return cell in self.closed
+
+    def _is_generated(self, cell: Cell) -> bool:
+        """
+        ========================================================================
+         Returns True if the given Cell is have already generated.
+        ========================================================================
+        """
+        return cell in self.open
+
+    def _try_new_parent(self, child: Cell, parent: Node) -> None:
+        node = self.open.get(child)
+        if node.is_better_parent(parent):
+            node.parent = parent

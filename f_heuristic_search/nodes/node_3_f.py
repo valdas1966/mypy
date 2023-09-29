@@ -93,3 +93,8 @@ class NodeF(NodeG, NodeH):
         ========================================================================
         """
         return self.f() >= other.f() or NodeG.__ge__(self, other)
+
+
+node = NodeF()
+s = {node}
+print(node in s)
