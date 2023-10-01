@@ -1,4 +1,4 @@
-from f_data_structure.nodes.node_0_base import NodeBase
+from f_data_structure.nodes.node_0_hierarchy import NodeBase
 
 
 def test_children():

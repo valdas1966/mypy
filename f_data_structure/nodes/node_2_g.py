@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_abstract.mixins.parentable import Parentable
+from f_abstract.mixins.hierarchicable import Parentable
 from f_data_structure.nodes.node_1_cell import NodeCell
 
 

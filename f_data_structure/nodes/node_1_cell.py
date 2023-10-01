@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_data_structure.nodes.node_0_base import NodeBase
+from f_data_structure.nodes.node_0_hierarchy import NodeBase
 from f_data_structure.f_grid.cell import Cell
 
 

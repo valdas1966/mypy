@@ -1,4 +1,4 @@
-from f_abstract.mixins.parentable import Parentable
+from f_abstract.mixins.hierarchicable import Parentable
 
 
 def test_init():
