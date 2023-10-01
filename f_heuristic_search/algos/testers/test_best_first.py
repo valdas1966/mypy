@@ -1,5 +1,5 @@
 from f_heuristic_search.algos.a_star import BestFirst
-from f_heuristic_search.nodes.node_3_f import NodeF as Node
+from f_data_structure.nodes.node_3_f import NodeF as Node
 from f_data_structure.f_grid.grid_cells import GridCells as Grid
 from f_heuristic_search.problem_types.spp import SPP
 

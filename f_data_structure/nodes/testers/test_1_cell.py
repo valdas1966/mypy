@@ -1,4 +1,4 @@
-from f_heuristic_search.nodes.node_1_cell import NodeCell
+from f_data_structure.nodes.node_1_cell import NodeCell
 
 
 def test_str():

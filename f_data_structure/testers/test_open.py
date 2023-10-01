@@ -1,5 +1,5 @@
 from f_data_structure.open import Open
-from f_heuristic_search.nodes.node_1_cell import NodeCell
+from f_data_structure.nodes.node_1_cell import NodeCell
 
 
 def tester_push():

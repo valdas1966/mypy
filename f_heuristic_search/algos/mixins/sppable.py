@@ -1,5 +1,5 @@
 from f_heuristic_search.problem_types.spp import SPP
-from f_heuristic_search.nodes.node_1_cell import NodeCell
+from f_data_structure.nodes.node_1_cell import NodeCell
 
 
 class SPPAble:
@@ -38,11 +38,4 @@ class SPPAble:
         """
         if not self.is_path_found:
             return list()
-        current = self.spp.goal
-        res = list()
-        while not current == self.spp.start:
-            res.append(current)
-            current = current.parent
-        res.append(current)
-        res.reverse()
-        return res
+        return self.spp.goal.path_from(self.spp.start)

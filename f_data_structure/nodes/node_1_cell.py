@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_heuristic_search.nodes.node_0_base import NodeBase
+from f_data_structure.nodes.node_0_base import NodeBase
 from f_data_structure.f_grid.cell import Cell
 
 
@@ -12,13 +12,18 @@ class NodeCell(NodeBase, Cell):
     ----------------------------------------------------------------------------
         1. distance(other: NodeCell) -> int
            [*] Manhattan-Distance between the Nodes.
+        2. path_from(other: NodeBase) -> list[NodeBase]
+          [*] Returns a Path from a given Node to the Current.
     ============================================================================
      Magic Methods:
     ----------------------------------------------------------------------------
         1. str -> 'name(row, col)'
-        2. repr -> str
-        3. eq -> (row, col) == (other.row, other.col)
-        4. comparison funcs based on row-major system.
+    ============================================================================
+     Inherited Magic Methods:
+    ----------------------------------------------------------------------------
+        1. repr -> str
+        2. eq -> (row, col) == (other.row, other.col)
+        3. comparison funcs based on row-major system.
     ============================================================================
     """
 
@@ -32,10 +37,7 @@ class NodeCell(NodeBase, Cell):
                  row: int = 0,
                  col: int = None,
                  name: str = None,
-                 parent: NodeCell = None,
-                 cell: Cell = None) -> None:
-        if cell:
-            row, col = cell.row, cell.col
+                 parent: NodeCell = None) -> None:
         NodeBase.__init__(self, name=name, parent=parent)
         Cell.__init__(self, row=row, col=col)
 
@@ -48,3 +50,12 @@ class NodeCell(NodeBase, Cell):
         str_node_base = NodeBase.__str__(self)
         str_cell = Cell.__str__(self)
         return f'{str_node_base}{str_cell}'
+
+    @classmethod
+    def from_cell(cls, cell: Cell) -> NodeCell:
+        """
+        ========================================================================
+         Converts Cell into a NodeCell.
+        ========================================================================
+        """
+        return NodeCell(row=cell.row, col=cell.col)

@@ -1,5 +1,5 @@
-from queue import PriorityQueue
-from ordered_set import OrderedSet
+from f_data_structure.open import Open
+from f_data_structure.closed import Closed
 
 
 class HasOpenClosed:
@@ -9,17 +9,17 @@ class HasOpenClosed:
     ============================================================================
     """
 
-    open: PriorityQueue       # Queue for Generated Nodes (not expanded yet).
-    closed: OrderedSet        # List of Expanded Nodes in insertion order.
+    open: Open            # Queue for Generated Nodes (not expanded yet).
+    closed: Closed        # List of Expanded Nodes in insertion order.
 
     def __init__(self) -> None:
-        self._open = PriorityQueue()
-        self._closed = OrderedSet()
+        self._open = Open()
+        self._closed = Closed()
 
     @property
-    def open(self) -> PriorityQueue:
+    def open(self) -> Open:
         return self._open
 
     @property
-    def closed(self) -> OrderedSet:
+    def closed(self) -> Closed:
         return self._closed

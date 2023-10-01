@@ -1,6 +1,6 @@
 from __future__ import annotations
 from f_abstract.mixins.parentable import Parentable
-from f_heuristic_search.nodes.node_1_cell import NodeCell
+from f_data_structure.nodes.node_1_cell import NodeCell
 
 
 class NodeG(NodeCell):
@@ -16,8 +16,10 @@ class NodeG(NodeCell):
     ============================================================================
      Inherited Methods:
     ----------------------------------------------------------------------------
-        1. distance(other: NodeCell) -> int
+        1. distance(other: NodeG) -> int
            [*] Manhattan-Distance between the Nodes.
+        2. path_from(other: NodeG) -> list[NodeG]
+          [*] Returns a Path from a given Node to the Current.
     ============================================================================
      Magic Methods:
     ----------------------------------------------------------------------------

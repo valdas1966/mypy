@@ -1,4 +1,4 @@
-from f_heuristic_search.nodes.node_3_f import NodeF
+from f_data_structure.nodes.node_3_f import NodeF
 
 
 def test_f():

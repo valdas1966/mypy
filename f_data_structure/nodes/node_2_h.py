@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_heuristic_search.nodes.node_1_cell import NodeCell
+from f_data_structure.nodes.node_1_cell import NodeCell
 
 
 class NodeH(NodeCell):
@@ -11,6 +11,8 @@ class NodeH(NodeCell):
     ----------------------------------------------------------------------------
         1. distance(other: NodeCell) -> int
            [*] Manhattan-Distance between the Nodes.
+        2. path_from(other: NodeBase) -> list[NodeBase]
+          [*] Returns a Path from a given Node to the Current.
     ============================================================================
      Magic Methods:
     ----------------------------------------------------------------------------
