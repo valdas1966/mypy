@@ -4,7 +4,9 @@ from __future__ import annotations
 class Hierarchicable:
     """
     ============================================================================
-     Mixin that manages Parent-Children relationships.
+     1. Mixin that manages Parent-Children relationships.
+     2. There can be only one Parent. When a new Parent is set, the Object
+         removes automatically from the previous Parent's children-list.
     ============================================================================
      Methods:
     ----------------------------------------------------------------------------
@@ -12,7 +14,7 @@ class Hierarchicable:
            [*] Adds a Child.
         2. remove_child(child: Parentable) -> None
            [*] Removes a Child from the Children-List.
-        3. hierarchical_path_from(other: Hierarchicable) -> List[Hierarchicable]
+        3. path_from_ancestor(other: Hierarchicable) -> List[Hierarchicable]
            [*] Returns a Parent-Hierarchical Path from other Object to Current.
     ============================================================================
     """
@@ -40,9 +42,9 @@ class Hierarchicable:
     def parent(self, new_parent: Hierarchicable) -> None:
         """
         ========================================================================
-            1. Remove self from the old Parent children-list (if not is None).
+            1. Remove self from the old Parent children-list (if is not None).
             2. Set a new Parent.
-            3. Add self to the new Parent's children-list (if not is None).
+            3. Add self to the new Parent's children-list (if is not None).
         ========================================================================
         """
         if self._parent:
@@ -71,8 +73,8 @@ class Hierarchicable:
         """
         self._children.remove(child)
 
-    def hierarchical_path_from(self,
-                               other: Hierarchicable) -> list[Hierarchicable]:
+    def path_from_ancestor(self,
+                           other: Hierarchicable) -> list[Hierarchicable]:
         """
         ========================================================================
          Returns a Parent-Hierarchy Path from a given Object to the Current.
@@ -85,7 +87,7 @@ class Hierarchicable:
         while current and not current == other:
             path.append(current)
             current = current.parent
-        # if path not found
+        # if the path is not found
         if not current:
             return list()
         path.append(other)

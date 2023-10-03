@@ -1,12 +1,12 @@
 from __future__ import annotations
-from f_abstract.mixins.nameable import Nameable
 from f_abstract.mixins.hierarchicable import Hierarchicable
+from f_data_structure.nodes.node_0_nameable import NodeNameable
 
 
-class NodeHierarchy(Nameable, Hierarchicable):
+class NodeHierarchy(NodeNameable, Hierarchicable):
     """
     ============================================================================
-     Base Node-Class.
+     Represents a Node with a Name and Parent-Children relationship.
     ============================================================================
      Inherited Methods:
     ----------------------------------------------------------------------------
@@ -14,17 +14,24 @@ class NodeHierarchy(Nameable, Hierarchicable):
            [*] Adds a Child.
         2. remove_child(child: Parentable) -> None
            [*] Removes a Child from the Children-List.
-        3. hierarchical_path_from(other: Hierarchicable) -> List[Hierarchicable]
+        3. path_from_ancestor(other: Hierarchicable) -> List[Hierarchicable]
            [*] Returns a Parent-Hierarchical Path from other Object to Current.
     ============================================================================
     """
 
+    # NodeNameable
     _name: str                               # Node's Name
+    # Hierarchicable
     _parent: NodeHierarchy                   # Node's Parent
     _children: list[NodeHierarchy]           # Node's Children
 
     def __init__(self,
                  name: str = None,
                  parent: NodeHierarchy = None) -> None:
-        Nameable.__init__(self, name)
+        """
+        ========================================================================
+         Inits the Node's Name and Parent (the children-list starts as empty).
+        ========================================================================
+        """
+        NodeNameable.__init__(self, name)
         Hierarchicable.__init__(self, parent)

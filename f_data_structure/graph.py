@@ -1,4 +1,4 @@
-from f_data_structure.nodes.node_0_hierarchy import NodeBase as Node
+from f_data_structure.nodes.node_1_hierarchy import NodeHierarchy as Node
 
 
 class Graph:
@@ -13,11 +13,9 @@ class Graph:
         2. add_edge(node_a: Node, node_b: Node) -> None
            [*] Adds a new Edge in the Graph between the two given Nodes.
         3. nodes() -> List[Node]
-           [*] Return a List of Graph's Nodes in Insertion-Order.
+           [*] Returns a List of Graph's Nodes in Insertion-Order.
         4. neighbors(node: Node) -> list[Node]
            [*] Returns a List of Neighbors for a given Node
-        5. children(node: Node) -> List[Node]
-           [*] Returns Node's Children (Neighbors that are not Parent).
     ============================================================================
     """
 
@@ -62,14 +60,3 @@ class Graph:
         ========================================================================
         """
         return self._nodes[node]
-
-    def children(self, node: Node) -> list[Node]:
-        """
-        ========================================================================
-         Returns a List of a Node's children (neighbors that are not parent).
-        ========================================================================
-        """
-        return [child
-                for child
-                in self.neighbors(node)
-                if not child == node.parent]
