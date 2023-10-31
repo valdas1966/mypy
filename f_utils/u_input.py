@@ -3,7 +3,7 @@ from enum import Enum
 
 """
 ================================================================================
- Desc: Utils Module for Input functions.
+ Utils Module for Input functions.
 ================================================================================
 """
 
@@ -17,16 +17,16 @@ def get(prompt: str,
         -> str | tuple[str, datetime, datetime]:
     """
     ============================================================================
-     Desc: Prints a Prompt to the User and receives its Response.
-            In addition to the response, the function can return the date-times
-             for when the prompt was displayed and when the response was
-              received.
+     1. Prints a Prompt to the User and Receives its Response.
+     2. In addition to the Response, the function can return the date-times for
+         when the Prompt was displayed and when the Response was received.
     ============================================================================
     """
     print(prompt)
     if not with_dt:
         return input()
-    dt_start = datetime.now()
+    # with date-times
+    dt_prompt = datetime.now()
     response = input()
-    dt_finish = datetime.now()
-    return response, dt_start, dt_finish
+    dt_response = datetime.now()
+    return response, dt_prompt, dt_response

@@ -1,4 +1,5 @@
 from google.cloud import videointelligence
+from google.protobuf.json_format import MessageToDict
 from collections import Counter
 import os
 from tenacity import retry, stop_after_attempt, wait_random_exponential
@@ -24,6 +25,7 @@ def __mp4_to_annotations(json_key: str,
     client = videointelligence.VideoIntelligenceServiceClient()
     features = ['LABEL_DETECTION']
     job = client.annotate_video(input_uri=path_mp4, features=features)
+    print(MessageToDict(job.result()))
     return job.result()
 
 
@@ -43,10 +45,9 @@ def __annotations_to_dicts(id_video: str,
             for annotaion, cnt in c_clean.items()]
 
 
-"""
+
 json_key = 'd:\\tiktok\\repo\\viewer.json'
 str_bucket = 'noteret_mp4'
 id_video = '7075396968930954497'
 a = get_annotations(json_key=json_key, str_bucket=str_bucket, id_video=id_video)
 print(a)
-"""

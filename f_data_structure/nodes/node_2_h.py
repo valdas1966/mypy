@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_data_structure.nodes.node_1_cell import NodeCell
+from f_data_structure.nodes.node_2_cell import NodeCell
 
 
 class NodeH(NodeCell):

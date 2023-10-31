@@ -1,12 +1,14 @@
-from myq.subs.question.sub_1_text import QuestionText
+from myq.inner.question.i_0_text import QuestionText
 
 
 class ExamOnlyQuestion:
     """
     ============================================================================
-     Desc: Base-Class of Exam with Text-Question.
+     Base-Class of Exam with Text-Question.
     ============================================================================
     """
+
+    _q: QuestionText           # Current Question
 
     def __init__(self):
         self._q = None
@@ -15,7 +17,7 @@ class ExamOnlyQuestion:
     def _run_methods(self) -> None:
         """
         ========================================================================
-         Desc: Run all methods of the Class.
+         Executes the Methods.
         ========================================================================
         """
         self._set_question()
@@ -23,7 +25,7 @@ class ExamOnlyQuestion:
     def _set_question(self) -> None:
         """
         ========================================================================
-         Desc: Set the Class-Question.
+         Sets the Class-Question.
         ========================================================================
         """
         self._q = QuestionText(text='2+2', answer='4')

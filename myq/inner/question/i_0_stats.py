@@ -2,13 +2,7 @@
 class QuestionStats:
     """
     ============================================================================
-     Desc: Question's Statistics.
-    ============================================================================
-     Properties:
-    ----------------------------------------------------------------------------
-        1. asked (int)          : Number of times the Question was asked.
-        2. answered (int)       : Number of times the Question was answered
-                                   correctly.
+     Manages statistics related to a question.
     ============================================================================
      Methods:
     ----------------------------------------------------------------------------
@@ -18,6 +12,9 @@ class QuestionStats:
            [*] Updates the Stats based on the answer being correct (is_true).
     ============================================================================
     """
+
+    asked: int         # Number of times the Question was asked.
+    answered: int      # Number of times the Question was answered correctly.
 
     def __init__(self) -> None:
         self._asked = 0
@@ -32,6 +29,11 @@ class QuestionStats:
         return self._answered
 
     def pct_answered(self) -> float:
+        """
+        ========================================================================
+         Returns the Percentage of correct answers.
+        ========================================================================
+        """
         if not self.asked:
             return 0
         return self.answered / self.asked
@@ -39,7 +41,7 @@ class QuestionStats:
     def update(self, is_true: bool) -> None:
         """
         ========================================================================
-         Desc: Updates the Stats based on the answer being correct (is_true).
+         Updates the Stats based on the answer being correct (is_true).
         ========================================================================
         """
         self._asked += 1

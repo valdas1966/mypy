@@ -1,37 +1,46 @@
 from __future__ import annotations
-from f_abstract.mixins.hierarchicable import Hierarchicable
+from f_data_structure.mixins.hierarchical import Hierarchical
 from f_data_structure.nodes.node_0_nameable import NodeNameable
 
 
-class NodeHierarchy(NodeNameable, Hierarchicable):
+class NodeHierarchical(NodeNameable, Hierarchical):
     """
     ============================================================================
      Represents a Node with a Name and Parent-Children relationship.
     ============================================================================
      Inherited Methods:
     ----------------------------------------------------------------------------
-        1. add_child(child: Parentable) -> None
+        1. add_child(child: Hierarchical) -> None
            [*] Adds a Child.
-        2. remove_child(child: Parentable) -> None
+        2. remove_child(child: Hierarchical) -> None
            [*] Removes a Child from the Children-List.
-        3. path_from_ancestor(other: Hierarchicable) -> List[Hierarchicable]
+        3. path_from_ancestor(other: Hierarchical) -> List[Hierarchical]
            [*] Returns a Parent-Hierarchical Path from other Object to Current.
+    ============================================================================
+     Inherited Magic Methods:
+    ----------------------------------------------------------------------------
+        # NameAble
+        1. str() -> str
+        2. repr() -> str
+        3. hash() -> int
+        4. eq() -> bool
+        5. ne() -> bool
     ============================================================================
     """
 
     # NodeNameable
-    _name: str                               # Node's Name
+    _name: str                                  # Node's Name
     # Hierarchicable
-    _parent: NodeHierarchy                   # Node's Parent
-    _children: list[NodeHierarchy]           # Node's Children
+    _parent: NodeHierarchical                   # Node's Parent
+    _children: list[NodeHierarchical]           # Node's Children
 
     def __init__(self,
                  name: str = None,
-                 parent: NodeHierarchy = None) -> None:
+                 parent: NodeHierarchical = None) -> None:
         """
         ========================================================================
          Inits the Node's Name and Parent (the children-list starts as empty).
         ========================================================================
         """
         NodeNameable.__init__(self, name)
-        Hierarchicable.__init__(self, parent)
+        Hierarchical.__init__(self, parent)

@@ -1,4 +1,4 @@
-from f_data_structure.nodes.node_1_cell import NodeCell as Node
+from f_data_structure.nodes.node_2_cell import NodeCell as Node
 from f_data_structure.f_grid.grid_cells import GridCells as Grid
 from f_heuristic_search.problem_types.spp import SPP
 

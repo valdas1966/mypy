@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 
 class Nameable:
     """
@@ -8,6 +10,9 @@ class Nameable:
     ----------------------------------------------------------------------------
         1. str -> 'name' or '' if None
         2. repr -> str
+        3. eq -> bool
+        4. ne -> bool
+        5. hash -> int
     ============================================================================
     """
 
@@ -20,12 +25,17 @@ class Nameable:
     def name(self) -> str:
         return self._name
 
-    @name.setter
-    def name(self, value: str) -> None:
-        self._name = value
-
     def __str__(self) -> str:
         return self.name if self.name else ''
 
     def __repr__(self) -> str:
-        return self.__str__()
+        return f'<{type(self).__name__}: {self.__str__()}>'
+
+    def __eq__(self, other: Nameable) -> bool:
+        return self.name == other.name and self.name is not None
+
+    def __ne__(self, other: Nameable) -> bool:
+        return not self.__eq__(other)
+
+    def __hash__(self) -> int:
+        return hash(self.name)

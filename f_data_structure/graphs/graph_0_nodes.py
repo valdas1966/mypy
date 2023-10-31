@@ -1,7 +1,7 @@
-from f_data_structure.nodes.node_1_hierarchy import NodeHierarchy as Node
+from f_data_structure.nodes.node_0_nameable import NodeNameable as Node
 
 
-class Graph:
+class GraphNodes:
     """
     ============================================================================
      Represents a simple Graph with Nodes and Edges.
@@ -29,7 +29,7 @@ class Graph:
         """
         self._nodes = dict()
 
-    def nodes(self) -> list:
+    def nodes(self) -> list[Node]:
         """
         ========================================================================
          Returns a list of Graph's Nodes in the Insertion-Order.

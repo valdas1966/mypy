@@ -1,13 +1,21 @@
-from myq.exams.e_0_only_question import ExamOnlyQuestion
+from myq.inner.exam.i_0_only_question import ExamOnlyQuestion
+from myq.inner.question.i_0_text import QuestionText
+from datetime import datetime
 from f_utils import u_input
 
 
 class ExamWithResponse(ExamOnlyQuestion):
     """
     ============================================================================
-     Desc: Extends ExamOnlyQuestion to include User's Response.
+     Extends ExamOnlyQuestion to include User's Response.
     ============================================================================
     """
+
+    _q:            QuestionText     # Current Question
+    _response:     str              # User Response
+    _dt_a:         datetime         # Prompt DateTime
+    _dt_b:         datetime         # Response DateTime
+    _is_correct:   bool             # Response Correctness
 
     def __init__(self):
         self._response = None
@@ -15,39 +23,31 @@ class ExamWithResponse(ExamOnlyQuestion):
         self._dt_b = None
         self._is_correct = None
         ExamOnlyQuestion.__init__(self)
-
-    def _run_methods(self) -> None:
-        """
-        ========================================================================
-         Desc: Run all methods of the Class.
-        ========================================================================
-        """
-        ExamOnlyQuestion._run_methods(self)
         self._set_response()
         self._set_is_correct()
-
-    def _get_prompt(self) -> str:
-        """
-        ========================================================================
-         Desc: Return the Prompt that will be displayed to the User.
-        ========================================================================
-        """
-        return f'{self._q.text}:'
 
     def _set_response(self) -> None:
         """
         ========================================================================
-         Desc: Get Response from the User and set it in class attributes.
+         Gets Response from the User.
         ========================================================================
         """
-        prompt = self._get_prompt()
+        prompt = self.__get_prompt()
         t = u_input.get(prompt=prompt, with_dt=True)
         self._response, self._dt_a, self._dt_b = t
 
     def _set_is_correct(self) -> None:
         """
         ========================================================================
-         Desc: Check if the User's Response is a correct Answer.
+         Checks if the User's Response is a correct Answer.
         ========================================================================
         """
         self._is_correct = self._q.answer == self._response
+
+    def _prompt(self) -> str:
+        """
+        ========================================================================
+         Returns the Prompt that will be displayed to the User.
+        ========================================================================
+        """
+        return f'{self._q.text}:'

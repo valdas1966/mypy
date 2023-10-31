@@ -2,14 +2,16 @@
 class QuestionText:
     """
     ============================================================================
-     Desc: Text-Based Question.
+     Text-Based Question.
     ============================================================================
-     Properties:
+     Magic Methods:
     ----------------------------------------------------------------------------
-        1. text (str)       : Question's Text.
-        2. answer (str)     : Question's Answer.
+        1. str
     ============================================================================
     """
+
+    text:   str   # Question's Text
+    answer: str   # Question's Answer
 
     def __init__(self,
                  text: str,

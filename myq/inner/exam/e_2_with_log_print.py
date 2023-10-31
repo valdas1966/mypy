@@ -1,4 +1,4 @@
-from myq.exams.e_1_with_response import ExamWithResponse
+from myq.inner.exam.i_1_with_response import ExamWithResponse
 from f_utils import u_datetime
 
 

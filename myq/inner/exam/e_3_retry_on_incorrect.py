@@ -1,4 +1,4 @@
-from myq.subs.question.sub_1_text import QuestionText
+from myq.inner.question.i_0_text import QuestionText
 from f_utils import u_input
 
 
