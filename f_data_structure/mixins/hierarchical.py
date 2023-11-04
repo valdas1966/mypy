@@ -1,7 +1,8 @@
 from __future__ import annotations
+from f_abstract.mixins.nameable import Nameable
 
 
-class Hierarchical:
+class Hierarchical(Nameable):
     """
     ============================================================================
      1. Mixin that manages Parent-Children relationships.
@@ -19,16 +20,18 @@ class Hierarchical:
     ============================================================================
     """
 
-    _parent: Hierarchical                 # Object's Parent
-    _children: list[Hierarchical]         # Object's Children
+    parent: Hierarchical                 # Object's Parent
+    children: list[Hierarchical]         # Object's Children
 
     def __init__(self,
+                 name: str = None,
                  parent: Hierarchical = None) -> None:
         """
         ========================================================================
          Inits the Attributes and adds self to the parent's children-list.
         ========================================================================
         """
+        Nameable.__init__(self, name)
         self._parent = parent
         if self._parent:
             self._parent.add_child(self)
@@ -48,9 +51,10 @@ class Hierarchical:
         ========================================================================
         """
         if self._parent:
-            self._parent.remove_child(self)
+            if self in self._parent.children:
+                self._parent.remove_child(self)
         self._parent = new_parent
-        if self._parent:
+        if self._parent and self not in self._parent.children:
             self._parent.add_child(self)
 
     @property
@@ -64,11 +68,12 @@ class Hierarchical:
         ========================================================================
         """
         self._children.append(child)
-        child.parent = self
+        if child.parent is not self:
+            child.parent = self
 
     def remove_child(self, child: Hierarchical) -> None:
         """
-        ========================================================================
+        ================    ========================================================
          Removes a Child from the Children-List.
         ========================================================================
         """

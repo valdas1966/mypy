@@ -17,15 +17,24 @@ class NodeG(NodeHierarchical, NodeHasCost):
      Inherited Methods:
     ----------------------------------------------------------------------------
         # Hierarchical
+    ----------------------------------------------------------------------------
         1. path_from_ancestor(other: NodeG) -> list[NodeG]
           [*] Returns a Path from a given Node to the Current.
+    ----------------------------------------------------------------------------
+        # NodeHasCost
+    ----------------------------------------------------------------------------
+        1. cost() -> int
+           [*] Returns the Negative-G (the highest G, the lowest Cost).
     ============================================================================
      Inherited Magic Methods:
     ----------------------------------------------------------------------------
         # NameAble
+    ----------------------------------------------------------------------------
         1. str() -> str
         2. repr() -> str
+    ----------------------------------------------------------------------------
         # HasCost
+    ----------------------------------------------------------------------------
         3. eq() -> bool
         4. ne() -> bool
         5. lt() -> bool
@@ -35,11 +44,11 @@ class NodeG(NodeHierarchical, NodeHasCost):
     ============================================================================
     """
 
-    name: str                        # Node's Name
-    parent: NodeG                    # Node's Parent
-    children: list[NodeG]            # Node's Children
-    w: int                           # Node's Weight
-    g: int                           # Cost to reach the Node from the Start
+    name:     str           # Node's Name
+    parent:   NodeG         # Node's Parent
+    children: list[NodeG]   # Node's Children
+    w:        int           # Node's Weight
+    g:        int           # Cost to reach the Node from the Start
 
     def __init__(self,
                  name: str = None,

@@ -26,9 +26,9 @@ def test_set_new_parent():
 
 
 def test_path_from_ancestor():
-    a = Hierarchical()
-    b = Hierarchical(parent=a)
-    c = Hierarchical(parent=b)
+    a = Hierarchical(name='A')
+    b = Hierarchical(name='B', parent=a)
+    c = Hierarchical(name='C', parent=b)
     assert c.path_from_ancestor(a) == [a, b, c]
     assert c.path_from_ancestor(c) == [c]
     assert b.path_from_ancestor(c) is None

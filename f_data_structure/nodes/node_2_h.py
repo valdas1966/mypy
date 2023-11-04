@@ -1,43 +1,55 @@
 from __future__ import annotations
-from f_data_structure.nodes.node_2_cell import NodeCell
+from f_data_structure.nodes.node_1_hierarchical import NodeHierarchical
+from f_data_structure.nodes.node_1_has_cost import NodeHasCost
 
 
-class NodeH(NodeCell):
+class NodeH(NodeHierarchical, NodeHasCost):
     """
     ============================================================================
      Node with a H-Value (Heuristic cost for reaching the Goal).
     ============================================================================
-      Inherited Methods:
+     Inherited Methods:
     ----------------------------------------------------------------------------
-        1. distance(other: NodeCell) -> int
-           [*] Manhattan-Distance between the Nodes.
-        2. path_from(other: NodeBase) -> list[NodeBase]
+        # Hierarchical
+    ----------------------------------------------------------------------------
+        1. path_from_ancestor(other: NodeG) -> list[NodeG]
           [*] Returns a Path from a given Node to the Current.
-    ============================================================================
-     Magic Methods:
     ----------------------------------------------------------------------------
-        1. str -> 'name(row, col)'
-        2. repr -> str
-        3. eq -> (row, col) == (other.row, other.col)
-        4. comparison funcs based on row-major system.
+        # NodeHasCost
+    ----------------------------------------------------------------------------
+        1. cost() -> int
+           [*] Returns the H-Value.
+    ============================================================================
+     Inherited Magic Methods:
+    ----------------------------------------------------------------------------
+        # NameAble
+    ----------------------------------------------------------------------------
+        1. str() -> str
+        2. repr() -> str
+    ----------------------------------------------------------------------------
+        # HasCost
+    ----------------------------------------------------------------------------
+        3. eq() -> bool
+        4. ne() -> bool
+        5. lt() -> bool
+        6. le() -> bool
+        7. gt() -> bool
+        8. ge() -> bool
     ============================================================================
     """
 
-    _name: str                  # Node's Name
-    _parent: NodeH              # Node's Parent
-    _children: list[NodeH]      # Node's Children
-    _row: int                   # Node's Row
-    _col: int                   # Node's Col
-    _h: int                     # Heuristic-Cost for reaching the Goal
+    name: str                  # Node's Name
+    parent: NodeH              # Node's Parent
+    children: list[NodeH]      # Node's Children
+    h: int                     # Heuristic-Cost for reaching the Goal
 
     def __init__(self,
-                 row: int = 0,
-                 col: int = None,
                  name: str = None,
                  parent: NodeH = None,
                  h: int = None
                  ) -> None:
-        NodeCell.__init__(self, row=row, col=col, name=name, parent=parent)
+        NodeHierarchical.__init__(self, name=name, parent=parent)
+        NodeHasCost.__init__(self, name=name)
         self._h = h
 
     @property
@@ -47,3 +59,11 @@ class NodeH(NodeCell):
     @h.setter
     def h(self, h_new: int) -> None:
         self._h = h_new
+
+    def cost(self) -> int:
+        """
+        ========================================================================
+         Returns Node's Cost-Func (the H-Value).
+        ========================================================================
+        """
+        return self.h

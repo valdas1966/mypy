@@ -4,10 +4,11 @@ from datetime import datetime
 
 
 class AskerInputable(Inputable):
+    """
+    ============================================================================
+        
+    """
 
-    # QuestionText
-    text:      str        # Question's Text
-    answer:    str        # Question's Answer
     # Inputable
     input:     str        # User's Input
     dt_prompt: datetime   # Prompt DateTime
@@ -25,9 +26,15 @@ class AskerInputable(Inputable):
         return f'{self._q.text}:'
 
     def ask(self) -> None:
+        """
+        ========================================================================
+         1. Asks a Question the User and captures its Answer.
+         2. Updates the Question-Stats based on the answer correctness.
+        ========================================================================
+        """
         self.get_input()
-        if self._input == self.answer:
-            self.update(True)
+        if self.input == self.answer:
+            self._q.update(True)
         else:
-            self.update(False)
+            self._q.update(False)
             print(f'The correct answer is: {self.answer}')

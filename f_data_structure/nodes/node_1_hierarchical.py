@@ -10,6 +10,8 @@ class NodeHierarchical(NodeNameable, Hierarchical):
     ============================================================================
      Inherited Methods:
     ----------------------------------------------------------------------------
+        # Hierarchical
+    ----------------------------------------------------------------------------
         1. add_child(child: Hierarchical) -> None
            [*] Adds a Child.
         2. remove_child(child: Hierarchical) -> None
@@ -20,6 +22,7 @@ class NodeHierarchical(NodeNameable, Hierarchical):
      Inherited Magic Methods:
     ----------------------------------------------------------------------------
         # NameAble
+    ----------------------------------------------------------------------------
         1. str() -> str
         2. repr() -> str
         3. hash() -> int
