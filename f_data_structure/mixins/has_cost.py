@@ -22,13 +22,13 @@ class HasCost:
     ============================================================================
     """
 
-    def cost(self) -> int:
+    def cost(self) -> int | list[int]:
         """
         ========================================================================
          Returns the Object's Cost-Function Value.
         ========================================================================
         """
-        return None
+        raise NotImplementedError('Must implement cost() in subclass')
 
     def __eq__(self, other: HasCost) -> bool:
         return self.cost() == other.cost()

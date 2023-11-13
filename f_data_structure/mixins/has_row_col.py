@@ -6,33 +6,25 @@ class HasRowCol:
     ============================================================================
      Mixin for classes with Row and Col properties.
     ============================================================================
-     Magic Methods:
-    ----------------------------------------------------------------------------
-        1. str -> '(row, col)'
-        2. repr -> str
-        3. eq -> (row, col) == (other.row, other.col)
-        4. comparison based on row-major system.
-    ============================================================================
     """
 
-    _row: int        # Object's Row
-    _col: int        # Object's Col
-
-    def __init__(self, row: int = 0, col: int = None) -> None:
+    def __init__(self, row: int = None, col: int = None) -> None:
         """
         ========================================================================
          1. Inits the Object with received Row and Col arguments.
          2. If the Col is None, it takes the value of Row.
         ========================================================================
         """
-        self._row = row
-        self._col = row if col is None else col
+        self._row = row if row is not None else 0
+        self._col = col if col is not None else self._row
 
     @property
+    # Object's Row
     def row(self) -> int:
         return self._row
 
     @property
+    # Objects Col
     def col(self) -> int:
         return self._col
 

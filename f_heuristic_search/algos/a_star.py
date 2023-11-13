@@ -1,7 +1,7 @@
 from f_heuristic_search.algos.mixins.has_open_closed import HasOpenClosed
 from f_heuristic_search.algos.mixins.sppable import SPPAble
-from f_heuristic_search.problem_types.spp import SPP
-from f_data_structure.nodes.node_3_f import NodeF as Node
+from f_heuristic_search.problem_types.spp_grid import SPP
+from f_heuristic_search.nodes.i_2_f_cell import NodeFCell as Node
 from f_data_structure.open import Open
 from f_data_structure.closed import Closed
 from f_data_structure.f_grid.cell import Cell
@@ -12,25 +12,7 @@ class AStar(SPPAble, HasOpenClosed):
     ============================================================================
      A* Algorithm.
     ============================================================================
-     Methods:
-    ----------------------------------------------------------------------------
-        1. run() -> None
-           [*] Executes the Algorithm.
-    ============================================================================
-     Inherited Methods:
-    ----------------------------------------------------------------------------
-        1. optimal_path() -> list[NodeCell]
-           [*] Returns an Optimal-Path from Start to Node.
-               An empty list is returned if the Goal is unreachable.
-    ============================================================================
     """
-
-    # SPPAble
-    spp: SPP                      # Shortest Path Problem
-    is_path_found: bool           # True if found a path from Start to Goal
-    # HasOpenClose
-    open: Open                    # Queue of generated nodes (not expanded yet)
-    closed: Closed                # Set of expanded nodes in insertion order
 
     def __init__(self, spp: SPP) -> None:
         SPPAble.__init__(self, spp)

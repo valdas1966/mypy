@@ -1,3 +1,4 @@
+from __future__ import annotations
 from f_data_structure.f_tree.node import Node
 from f_data_structure.mixins.has_cost import HasCost
 
@@ -7,37 +8,19 @@ class NodeHasCost(Node, HasCost):
     ============================================================================
      Node with a Cost-Function.
     ============================================================================
-     Methods:
-    ----------------------------------------------------------------------------
-        1. cost() -> int
-           [*] Returns Object's Cost-Function Value.
-    ============================================================================
-     Magic Methods:
-    ----------------------------------------------------------------------------
-        # NameAble
-    ----------------------------------------------------------------------------
-        1. str() -> str
-        2. repr() -> str
-    ----------------------------------------------------------------------------
-        # HasCost
-    ----------------------------------------------------------------------------
-        3. eq() -> bool
-        4. ne() -> bool
-        5. lt() -> bool
-        6. le() -> bool
-        7. gt() -> bool
-        8. ge() -> bool
-    ============================================================================
     """
 
-    # NameAble
-    name: str                     # Object's Name
-
-    def __init__(self, name: str = None) -> None:
+    def __init__(self, name: str = None, parent: NodeHasCost = None) -> None:
         """
         ========================================================================
          Initializes the Base-Classes.
         ========================================================================
         """
-        NodeNameable.__init__(self, name)
+        Node.__init__(self, name, parent)
         HasCost.__init__(self)
+
+    def __eq__(self, other: NodeHasCost) -> bool:
+        return HasCost.__eq__(self, other)
+
+    def __ne__(self, other: NodeHasCost) -> bool:
+        return HasCost.__ne__(self, other)

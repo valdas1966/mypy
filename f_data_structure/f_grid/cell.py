@@ -9,28 +9,10 @@ class Cell(HasRowCol, Validatable):
     ============================================================================
      Represents a Cell in a 2D-Grid.
     ============================================================================
-     Methods:
-    ----------------------------------------------------------------------------
-        1. distance(other: Cell) -> int
-           [*] Returns distance between this Cell and another Cell.
-        2. to_has_row_col() -> HasRowCol
-           [*] Converts to a HasRowCol object.
-    ============================================================================
-     Magic Methods:
-    ----------------------------------------------------------------------------
-        1. str -> '(row, col)'
-        2. repr -> str
-        3. eq -> (row, col) == (other.row, other.col)
-        4. comparison funcs based on row-major system.
-    ============================================================================
     """
 
-    _row: int                  # Row-Position in the Grid.
-    _col: int                  # Col-Position in the Grid
-    _is_valid: bool            # Is Traversable in the Grid
-
     def __init__(self,
-                 row: int,
+                 row: int = None,
                  col: int = None,
                  is_valid: bool = True
                  ) -> None:

@@ -4,7 +4,6 @@ from anytree import NodeMixin
 from f_abstract.mixins.nameable import Nameable
 
 
-
 class Node(Nameable, NodeMixin):
     """
     ============================================================================

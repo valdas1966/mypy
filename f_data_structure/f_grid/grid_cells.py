@@ -9,39 +9,8 @@ class GridCells(GridLayout):
     ============================================================================
      1. Represents a 2D-Grid of Cells.
     ============================================================================
-     Methods:
-    ----------------------------------------------------------------------------
-        1. cells() -> list[Cell]
-           [*] Returns a flattened List of all Grid's valid Cells.
-        2. cells_random(size: int, pct: int) -> list[Cell]
-           [*] Returns a List of random Grid's valid Cells.
-        3. neighbors() -> List[Cell]
-           [*] Returns a list of neighbors for a given Cell.
-        4. make_invalid(cells: list[Cell) -> None
-           [*] Turns list[Cell] into invalid cells.
-        5. pct_cells_valid() -> float
-           [*] Returns Percentage of Valid-Cells in the Grid.
-    ============================================================================
-     Magic Methods:
-    ----------------------------------------------------------------------------
-        1. __getitem__(self, index) -> list[Cell]
-           [*] Allows direct access to a Row of Cells (list) by [Row] Property
-                and to a specific Cell by [Row][Col] Properties.
-    ============================================================================
-     Class Methods:
-    ----------------------------------------------------------------------------
-        1. generate(rows: int,
-                    cols: int = None,
-                    name: str = None,
-                    pct_cells_invalid: int = 0) -> GridCells
-        [*] Generates a random Grid based on received parameters
-            (size and percentage of invalid cells).
-    ============================================================================
     """
 
-    _name: str                 # Grid's Name.
-    _rows: int                 # Number of Rows in the Grid.
-    _cols: int                 # Number of Cols in the Grid.
     _grid: list[list[Cell]]    # 2D-Grid of Cells.
 
     def __init__(self,

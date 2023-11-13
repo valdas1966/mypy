@@ -33,7 +33,6 @@ def create_tester_file(filepath: str) -> None:
     u_file.write_lines(file_tester, lines)
 
 
-
 def get_funcs(path):
     """
     ============================================================================
