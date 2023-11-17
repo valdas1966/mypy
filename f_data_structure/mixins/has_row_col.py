@@ -1,7 +1,8 @@
 from __future__ import annotations
+from f_abstract.mixins.nameable import Nameable
 
 
-class HasRowCol:
+class HasRowCol(Nameable):
     """
     ============================================================================
      Mixin for classes with Row and Col properties.
@@ -17,6 +18,7 @@ class HasRowCol:
         """
         self._row = row if row is not None else 0
         self._col = col if col is not None else self._row
+        Nameable.__init__(self, name=f'({self._row},{self._col})')
 
     @property
     # Object's Row
@@ -28,26 +30,5 @@ class HasRowCol:
     def col(self) -> int:
         return self._col
 
-    def __str__(self) -> str:
-        return f'({self.row},{self.col})'
-
-    def __repr__(self) -> str:
-        return str(self)
-
-    def __hash__(self) -> int:
-        return hash((self.row, self.col))
-
-    def __eq__(self, other: HasRowCol) -> bool:
-        return (self.row, self.col) == (other.row, other.col)
-
-    def __lt__(self, other: HasRowCol) -> bool:
-        return (self.row, self.col) < (other.row, other.col)
-
-    def __le__(self, other: HasRowCol) -> bool:
-        return (self.row, self.col) <= (other.row, other.col)
-
-    def __gt__(self, other: HasRowCol) -> bool:
-        return (self.row, self.col) > (other.row, other.col)
-
-    def __ge__(self, other: HasRowCol) -> bool:
-        return (self.row, self.col) >= (other.row, other.col)
+    def key_comparison(self) -> list:
+        return [self.row, self.col]

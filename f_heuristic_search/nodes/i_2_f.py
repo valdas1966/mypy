@@ -30,10 +30,10 @@ class NodeF(NodeG, NodeH):
         """
         return self.g + self.h
 
-    def cost(self) -> list[int]:
+    def key_comparison(self) -> list[int]:
         """
         ========================================================================
          Returns Node's Cost-Func (F-Value, and G-Value on Tie-Break).
         ========================================================================
         """
-        return [self.f(), NodeG.cost(self)]
+        return [self.f(), NodeG.key_comparison()]

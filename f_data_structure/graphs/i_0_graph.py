@@ -1,33 +1,28 @@
-from f_data_structure.nodes.node_0_nameable import NodeNameable as Node
+from f_data_structure.nodes.i_0_node import Node
+from f_abstract.mixins.nameable import Nameable
+from collections import defaultdict
 
 
-class GraphNodes:
+class Graph(Nameable):
     """
     ============================================================================
-     Represents a simple Graph with Nodes and Edges.
-    ============================================================================
-     Methods:
-    ----------------------------------------------------------------------------
-        1. add_node(node: Node) -> None
-           [*] Adds a new Node to the Graph.
-        2. add_edge(node_a: Node, node_b: Node) -> None
-           [*] Adds a new Edge in the Graph between the two given Nodes.
-        3. nodes() -> List[Node]
-           [*] Returns a List of Graph's Nodes in Insertion-Order.
-        4. neighbors(node: Node) -> list[Node]
-           [*] Returns a List of Neighbors for a given Node
+     Graph with Nodes and Edges.
     ============================================================================
     """
 
-    _nodes: dict[Node: list[Node]]    # Dict mapping Nodes to their Neighbors
+    # Dict mapping Nodes to their Neighbors
+    _nodes: defaultdict[Node: list[Node]]
 
-    def __init__(self) -> None:
+    def __init__(self,
+                 name: str = None,
+                 nodes: defaultdict[Node: list[Node]] = None) -> None:
         """
         ========================================================================
-         Initializes the private dictionary.
+         Initialize the private dictionary.
         ========================================================================
         """
-        self._nodes = dict()
+        Nameable.__init__(self, name)
+        self._nodes = defaultdict(list, nodes or {})
 
     def nodes(self) -> list[Node]:
         """
@@ -43,7 +38,7 @@ class GraphNodes:
          Adds a new Node to the Graph.
         ========================================================================
         """
-        self._nodes[node] = list()
+        self._nodes[node]
 
     def add_edge(self, node_a: Node, node_b: Node) -> None:
         """
@@ -52,6 +47,7 @@ class GraphNodes:
         ========================================================================
         """
         self._nodes[node_a].append(node_b)
+        self._nodes[node_b]
 
     def neighbors(self, node: Node) -> list[Node]:
         """

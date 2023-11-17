@@ -1,8 +1,8 @@
 from __future__ import annotations
-from f_heuristic_search.nodes.i_0_has_cost import NodeHasCost
+from f_data_structure.nodes.i_1_path import NodePath
 
 
-class NodeH(NodeHasCost):
+class NodeH(NodePath):
     """
     ============================================================================
      Node with a H-Value (Heuristic cost for reaching the Goal).
@@ -11,10 +11,9 @@ class NodeH(NodeHasCost):
 
     def __init__(self,
                  name: str = None,
-                 parent: NodeH = None,
-                 h: int = None) -> None:
-        NodeHasCost.__init__(self, name, parent)
-        self._h = h
+                 parent: NodeH = None) -> None:
+        NodePath.__init__(self, name, parent)
+        self._h = None
 
     @property
     # Heuristic-Cost for reaching the Goal.
@@ -25,10 +24,10 @@ class NodeH(NodeHasCost):
     def h(self, new_value: int) -> None:
         self._h = new_value
 
-    def cost(self) -> int:
+    def key_comparison(self) -> list[int]:
         """
         ========================================================================
          Returns Node's Cost-Func (the H-Value).
         ========================================================================
         """
-        return self._h
+        return [self._h]

@@ -1,8 +1,8 @@
 from __future__ import annotations
-from f_heuristic_search.nodes.i_0_has_cost import NodeHasCost
+from f_data_structure.nodes.i_1_path import NodePath
 
 
-class NodeG(NodeHasCost):
+class NodeG(NodePath):
     """
     ============================================================================
      Node with a weight value (W) and a cost value (G) from the start node.
@@ -11,9 +11,9 @@ class NodeG(NodeHasCost):
 
     def __init__(self,
                  name: str = None,
-                 parent: NodeHasCost = None,
+                 parent: NodeG = None,
                  w: int = 1) -> None:
-        NodeHasCost.__init__(self, name, parent)
+        NodePath.__init__(self, name, parent)
         self._w = w
         self.update_g()
 
@@ -26,14 +26,6 @@ class NodeG(NodeHasCost):
     # Return the Cost to reach the Node from the Start.
     def g(self) -> int:
         return self._g
-
-    def cost(self) -> int:
-        """
-        ========================================================================
-         Returns Node's Cost-Func (the highest G-Value the lowest Cost-Value).
-        ========================================================================
-        """
-        return -self._g
 
     def is_better_parent(self, parent: NodeG) -> bool:
         """
@@ -50,3 +42,11 @@ class NodeG(NodeHasCost):
         ========================================================================
         """
         self._g = self.parent.g + self._w if self.parent else 0
+
+    def key_comparison(self) -> list[int]:
+        """
+        ========================================================================
+         Returns Node's Cost-Func (the highest G-Value the lowest Cost-Value).
+        ========================================================================
+        """
+        return [-self._g]

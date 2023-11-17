@@ -11,12 +11,6 @@ def test_init_not_default():
     assert nameable.name == "John"
 
 
-def test_set():
-    nameable = Nameable("John")
-    nameable.name = "Jane"
-    assert nameable.name == "Jane"
-
-
 def test_eq():
     a = Nameable('test')
     b = Nameable('test')
@@ -35,3 +29,9 @@ def test_repr():
         pass
     b = B(name='SubClass')
     assert b.__repr__() == '<B: SubClass>'
+
+
+def test_sort():
+    a = Nameable('A')
+    b = Nameable('B')
+    assert a < b
