@@ -1,5 +1,5 @@
-from f_data_structure.graphs.i_0_graph import Graph
-from f_data_structure.nodes.i_0_node import Node
+from f_data_structure.graphs.i_0_base import Graph
+from f_data_structure.nodes.i_0_base import Node
 
 
 def test_graph():

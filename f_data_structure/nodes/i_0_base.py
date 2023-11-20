@@ -1,7 +1,7 @@
 from f_abstract.mixins.nameable import Nameable
 
 
-class Node(Nameable):
+class NodeBase(Nameable):
     """
     ============================================================================
      Node with a Name.

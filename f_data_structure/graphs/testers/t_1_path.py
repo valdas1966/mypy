@@ -1,4 +1,4 @@
-from f_data_structure.graphs.i_1_path import GraphPath as Graph
+from f_data_structure.graphs.i_1_editable import GraphPath as Graph
 from f_data_structure.nodes.i_1_path import NodePath as Node
 
 

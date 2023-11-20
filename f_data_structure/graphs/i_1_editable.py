@@ -1,9 +1,9 @@
-from f_data_structure.nodes.i_0_node import Node
-from f_abstract.mixins.nameable import Nameable
+from f_data_structure.graphs.i_0_base import GraphBase
+from f_data_structure.nodes.i_0_base import NodeBase as Node
 from collections import defaultdict
 
 
-class Graph(Nameable):
+class GraphEditable(GraphBase):
     """
     ============================================================================
      Graph with Nodes and Edges.
@@ -11,17 +11,17 @@ class Graph(Nameable):
     """
 
     # Dict mapping Nodes to their Neighbors
-    _nodes: defaultdict[Node: list[Node]]
+    _nodes: defaultdict[Node, list[Node]]
 
     def __init__(self,
                  name: str = None,
-                 nodes: defaultdict[Node: list[Node]] = None) -> None:
+                 nodes: defaultdict[Node, list[Node]] = None) -> None:
         """
         ========================================================================
          Initialize the private dictionary.
         ========================================================================
         """
-        Nameable.__init__(self, name)
+        GraphBase.__init__(self, name)
         self._nodes = defaultdict(list, nodes or {})
 
     def nodes(self) -> list[Node]:
@@ -47,9 +47,9 @@ class Graph(Nameable):
         ========================================================================
         """
         self._nodes[node_a].append(node_b)
-        self._nodes[node_b]
+        self._nodes[node_b].append(node_a)
 
-    def neighbors(self, node: Node) -> list[Node]:
+    def get_neighbors(self, node: Node) -> list[Node]:
         """
         ========================================================================
          Returns a List of a given Node's neighbors.

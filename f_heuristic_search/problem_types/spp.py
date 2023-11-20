@@ -1,4 +1,5 @@
-from f_data_structure.f_tree.node import Node
+from f_heuristic_search.nodes.i_2_f import NodeF as Node
+from f_data_structure.graphs.i_0_base import GraphBase as Graph
 
 
 class SPP:
@@ -11,14 +12,12 @@ class SPP:
     def __init__(self,
                  start: Node,
                  goal: Node,
-                 nodes: list[Node] = None,
-                 edges: dict[Node, list[Node]] = None) -> None:
+                 graph: Graph) -> None:
         start.name = 'START'
         goal.name = 'GOAL'
         self._start = start
         self._goal = goal
-        self._nodes = nodes
-        self._edges = edges
+        self._graph = graph
 
     @property
     # SPP Start-Node
@@ -31,14 +30,6 @@ class SPP:
         return self._goal
 
     @property
-    # All SPP Nodes
-    def nodes(self) -> set[Node]:
-        return self._nodes
-
-    def get_children(self, node: Node) -> list[Node]:
-        """
-        ========================================================================
-         Return List of Node's Children.
-        ========================================================================
-        """
-        return [child for child in self._edges[node] if child != node.parent]
+    # SPP Graph
+    def graph(self) -> Graph:
+        return self._graph

@@ -1,5 +1,5 @@
 from f_data_structure.f_grid.grid_cells import GridCells as Grid
-from f_data_structure.graphs.i_2_grid import GraphGrid as Graph
+from f_data_structure.graphs.i_1_grid import GraphGrid as Graph
 
 
 def test():

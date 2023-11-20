@@ -1,8 +1,8 @@
 from __future__ import annotations
-from f_data_structure.nodes.i_0_node import Node
+from f_data_structure.nodes.i_0_base import NodeBase
 
 
-class NodePath(Node):
+class NodePath(NodeBase):
     """
     ============================================================================
      Node in a Path.
@@ -12,7 +12,7 @@ class NodePath(Node):
     def __init__(self,
                  name: str = None,
                  parent: NodePath = None) -> None:
-        Node.__init__(self, name)
+        NodeBase.__init__(self, name)
         self._parent = parent
 
     @property
