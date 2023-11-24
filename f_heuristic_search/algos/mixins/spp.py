@@ -1,8 +1,9 @@
+from f_heuristic_search.algos.mixins.has_open_closed import HasOpenClosed
 from f_heuristic_search.problem_types.spp_grid import SPP
-from f_heuristic_search.nodes.i_2_f import NodeF as Node
+from f_heuristic_search.nodes.i_2_f_cell import NodeFCell as Node
 
 
-class SPPAble:
+class SPPAlgo(HasOpenClosed):
     """
     ============================================================================
      Mixin designed for algorithms that solve Shortest Path Problems.
@@ -10,6 +11,7 @@ class SPPAble:
     """
 
     def __init__(self, spp: SPP) -> None:
+        HasOpenClosed.__init__(self)
         self._spp = spp
         self._is_path_found = None
 
@@ -32,3 +34,21 @@ class SPPAble:
         if not self.is_path_found:
             return list()
         return self.spp.goal.path_from(self.spp.start)
+
+    def _generate_node(self, node: Node) -> None:
+        """
+        ========================================================================
+         Set a Heuristic-Value to the Node and Push it into the Open.
+        ========================================================================
+        """
+        node.h = node.distance(self.spp.goal)
+        self.open.push(node)
+
+    def _can_terminate(self, node: Node) -> bool:
+        """
+        ========================================================================
+         Return True if the Search can be terminated (the Goal is found).
+        ========================================================================
+        """
+        return node == self.spp.goal
+

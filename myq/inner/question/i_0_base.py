@@ -1,30 +1,22 @@
 
-class QuestionStats:
+class QuestionBase:
     """
     ============================================================================
-     Manages statistics related to a question.
-    ============================================================================
-     Methods:
-    ----------------------------------------------------------------------------
-        1. pct_answered() -> float
-           [*] Percentage of correct answers.
-        2. update(is_true: bool) -> None
-           [*] Updates the Stats based on the answer being correct (is_true).
+     Manages basic statistics related to a question.
     ============================================================================
     """
-
-    asked: int         # Number of times the Question was asked.
-    answered: int      # Number of times the Question was answered correctly.
 
     def __init__(self) -> None:
         self._asked = 0
         self._answered = 0
 
     @property
+    # Number of times the Question was asked.
     def asked(self) -> int:
         return self._asked
 
     @property
+    # Number of times the Question was answered correctly.
     def answered(self) -> int:
         return self._answered
 

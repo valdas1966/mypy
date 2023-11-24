@@ -1,31 +1,32 @@
+from myq.inner.question.i_0_base import QuestionBase
 
-class QuestionText:
+
+class QuestionText(QuestionBase):
     """
     ============================================================================
-     Text-Based Question.
-    ============================================================================
-     Magic Methods:
-    ----------------------------------------------------------------------------
-        1. str
+     Text-Based Question (both Question and the Answer are Texts).
     ============================================================================
     """
-
-    text:   str   # Question's Text
-    answer: str   # Question's Answer
 
     def __init__(self,
                  text: str,
                  answer: str) -> None:
+        QuestionBase.__init__(self)
         self._text = text
         self._answer = answer
 
     @property
+    # Question's Text
     def text(self) -> str:
         return self._text
 
     @property
+    # Question's Answer
     def answer(self) -> str:
         return self._answer
 
     def __str__(self) -> str:
         return f'{self._text} -> {self.answer}'
+
+    def __repr__(self) -> str:
+        return self.__str__()

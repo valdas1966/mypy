@@ -26,5 +26,10 @@ class GraphGrid(GraphBase):
                 for cell
                 in self._grid.neighbors(node.cell)]
 
-    def _cell_to_node(self, cell: Cell) -> Node:
+    def cell_to_node(self, cell: Cell) -> Node:
+        """
+        ========================================================================
+         Convert Cell into Node.
+        ========================================================================
+        """
         return self._cells_nodes[cell]

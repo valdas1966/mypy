@@ -1,13 +1,9 @@
-from f_heuristic_search.algos.mixins.has_open_closed import HasOpenClosed
-from f_heuristic_search.algos.mixins.sppable import SPPAble
+from f_heuristic_search.algos.mixins.spp import SPPAlgo
 from f_heuristic_search.problem_types.spp_grid import SPP
-from f_heuristic_search.nodes.i_2_f_cell import NodeFCell as Node
-from f_data_structure.open import Open
-from f_data_structure.closed import Closed
-from f_data_structure.f_grid.cell import Cell
+from f_heuristic_search.nodes.i_2_f import NodeF as Node
 
 
-class AStar(SPPAble, HasOpenClosed):
+class AStar(SPPAlgo):
     """
     ============================================================================
      A* Algorithm.
@@ -15,8 +11,7 @@ class AStar(SPPAble, HasOpenClosed):
     """
 
     def __init__(self, spp: SPP) -> None:
-        SPPAble.__init__(self, spp)
-        HasOpenClosed.__init__(self)
+        SPPAlgo.__init__(self, spp)
 
     def run(self) -> None:
         """
@@ -28,7 +23,7 @@ class AStar(SPPAble, HasOpenClosed):
         while len(self.open):
             best = self.open.pop()
             self.closed.push(best)
-            if best == self.spp.goal:
+            if self._can_terminate(node=best):
                 self._is_path_found = True
                 return
             self._expand_node(best)
@@ -41,7 +36,7 @@ class AStar(SPPAble, HasOpenClosed):
          Visits the Node and Generates its Children.
         ========================================================================
         """
-        for child in self._get_children(node):
+        for child in self.spp.graph.get_neighbors(node):
             if self._is_expanded(child):
                 continue
             if self._is_generated(child):
@@ -49,44 +44,13 @@ class AStar(SPPAble, HasOpenClosed):
             else:
                 self._generate_node(child)
 
-    def _generate_node(self, cell: Cell) -> None:
-        """
-        ========================================================================
-         Generates a Node from a Cell and inserts it into an Open list.
-        ========================================================================
-        """
-        node = Node.from_cell(cell)
-        node.h = node.distance(self.spp.goal)
-        self.open.push(node)
-
-    def _get_children(self, node: Node) -> list[Cell]:
-        """
-        ========================================================================
-         Returns a List of Node's Children.
-        ========================================================================
-        """
-        return [cell
-                for cell
-                in self.spp.grid.neighbors(node)
-                if not cell == node.parent]
-
-    def _is_expanded(self, cell: Cell) -> bool:
-        """
-        ========================================================================
-         Returns True if the given Cell is have already been expanded.
-        ========================================================================
-        """
-        return cell in self.closed
-
-    def _is_generated(self, cell: Cell) -> bool:
-        """
-        ========================================================================
-         Returns True if the given Cell is have already generated.
-        ========================================================================
-        """
-        return cell in self.open
-
     def _try_new_parent(self, child: Node, parent: Node) -> None:
+        """
+        ========================================================================
+         Set a new Parent to a Child if the path from the Start to it is
+          nearer (less G-Value).
+        ========================================================================
+        """
         node = self.open.get(child)
         if node.is_better_parent(parent):
             node.parent = parent

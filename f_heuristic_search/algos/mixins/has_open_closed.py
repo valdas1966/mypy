@@ -1,5 +1,5 @@
-from f_data_structure.open import Open
-from f_data_structure.closed import Closed
+from f_data_structure.priority_queue import PriorityQueue
+from f_data_structure.nodes.i_0_base import NodeBase as Node
 
 
 class HasOpenClosed:
@@ -9,17 +9,33 @@ class HasOpenClosed:
     ============================================================================
     """
 
-    open: Open            # Queue for Generated Nodes (not expanded yet).
-    closed: Closed        # List of Expanded Nodes in insertion order.
+    open: PriorityQueue[Node]  # Queue for Generated Nodes (not expanded yet).
+    closed: set[Node]          # List of Expanded Nodes in insertion order.
 
     def __init__(self) -> None:
-        self._open = Open()
-        self._closed = Closed()
+        self._open = PriorityQueue()
+        self._closed = set()
 
     @property
-    def open(self) -> Open:
+    def open(self) -> PriorityQueue[Node]:
         return self._open
 
     @property
-    def closed(self) -> Closed:
+    def closed(self) -> set[Node]:
         return self._closed
+
+    def _is_expanded(self, node: Node) -> bool:
+        """
+        ========================================================================
+         Returns True if the given Node is have already been expanded.
+        ========================================================================
+        """
+        return node in self.closed
+
+    def _is_generated(self, node: Node) -> bool:
+        """
+        ========================================================================
+         Returns True if the given Node is have already generated.
+        ========================================================================
+        """
+        return node in self.open

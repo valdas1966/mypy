@@ -1,20 +1,11 @@
 from f_utils import u_input
-from myq.question import Question
+from myq.inner.question.i_2_inputable import QuestionInputable as Question
 
 
 class ManagerQuestion:
     """
     ============================================================================
      Manages the Question process.
-    ============================================================================
-     Methods:
-    ----------------------------------------------------------------------------
-        1. run() -> None
-            [*] Prompt the Question to the User.
-            [*] Capture the User's Answer.
-            [*] Check the Answer-Correctness.
-            [*] Update the Question-Stats based on Correctness.
-            [*] Print the Correct-Answer (on fail guess).
     ============================================================================
     """
 
@@ -37,8 +28,8 @@ class ManagerQuestion:
             1. Prompt the Question to the User.
             2. Capture the User's Answer.
             3. Check the Answer-Correctness.
-            4. Update the Question-Stats based on Correctness.
-            5. Print the Correct-Answer (on fail guess).
+            4. Print the Correct-Answer (on fail guess).
+            5. Update the Question-Stats based on Correctness.
         ========================================================================
         """
         self._prompt = self._get_prompt()

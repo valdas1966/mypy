@@ -1,6 +1,8 @@
 from f_heuristic_search.problem_types.spp import SPP
 from f_heuristic_search.nodes.i_2_f_cell import NodeFCell as Node
+from f_data_structure.f_grid.cell import Cell
 from f_data_structure.f_grid.grid_cells import GridCells as Grid
+from f_data_structure.graphs.i_1_grid import GraphGrid as Graph
 
 
 class SPPGrid(SPP):
@@ -11,38 +13,14 @@ class SPPGrid(SPP):
     """
 
     def __init__(self,
-                 grid: Grid,
-                 start: Node,
-                 goal: Node) -> None:
-        SPP.__init__(self, start, goal)
+                 start: Cell,
+                 goal: Cell,
+                 grid: Grid) -> None:
+        graph = Graph(grid=grid)
+        start = graph.cell_to_node(cell=start)
+        goal = graph.cell_to_node(cell=goal)
+        SPP.__init__(self, start, goal, graph)
         self._grid = grid
-
-    def generate_node(self, node: Node) -> None:
-        """
-        ========================================================================
-         Set Heuristic (Manhattan) Distance to Goal-Node.
-        ========================================================================
-        """
-        node.h = node.distance(self.goal)
-
-    def get_children(self, node: Node) -> list[Node]:
-        """
-        ========================================================================
-         Return Node's Children after converting them into Nodes.
-        ========================================================================
-        """
-        return [Node(parent=node, cell=cell)
-                for cell
-                in self._grid.neighbors(node)
-                if cell != node.parent]
-
-    def __str__(self) -> str:
-        res = f'SPP[{self.grid.name}]: '
-        res += f'{self.start} -> {self.goal}'
-        return res
-
-    def __repr__(self) -> str:
-        return str(self)
 
     @classmethod
     def generate(cls,

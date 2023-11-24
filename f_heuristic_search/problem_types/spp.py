@@ -33,3 +33,9 @@ class SPP:
     # SPP Graph
     def graph(self) -> Graph:
         return self._graph
+
+    def __str__(self) -> str:
+        return f'SPP[{self._graph.name}]: {self._start} -> {self._goal}'
+
+    def __repr__(self) -> str:
+        return self.__str__()

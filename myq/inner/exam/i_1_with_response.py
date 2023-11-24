@@ -1,5 +1,5 @@
 from myq.inner.exam.i_0_only_question import ExamOnlyQuestion
-from myq.inner.question.i_0_text import QuestionText
+from myq.inner.question.i_1_text import QuestionText
 from datetime import datetime
 from f_utils import u_input
 
