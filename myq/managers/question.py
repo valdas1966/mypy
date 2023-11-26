@@ -1,5 +1,5 @@
 from f_utils import u_input
-from myq.inner.question.i_2_inputable import QuestionInputable as Question
+from myq.question import Question
 
 
 class ManagerQuestion:
@@ -14,15 +14,7 @@ class ManagerQuestion:
     _input:      str        # User's Answer
     _is_correct: bool       # User's Answer Correctness
 
-    def __init__(self, q: Question) -> None:
-        """
-        ========================================================================
-         Constructor.
-        ========================================================================
-        """
-        self._q = q
-
-    def run(self) -> None:
+    def run(self, q: Question) -> None:
         """
         ========================================================================
             1. Prompt the Question to the User.
@@ -32,12 +24,33 @@ class ManagerQuestion:
             5. Update the Question-Stats based on Correctness.
         ========================================================================
         """
+        self._reset(q)
+        self._ask()
+        self._update()
+        while not self._is_correct:
+            self._print_correct_answer()
+            self._ask()
+
+    def _reset(self, q: Question) -> None:
+        """
+        ========================================================================
+         Reset the Private-Attributes.
+        ========================================================================
+        """
+        self._q = q
+        self._prompt = None
+        self._input = None
+        self._is_correct = None
+
+    def _ask(self) -> None:
+        """
+        ========================================================================
+         Ask the Question, Capture the Answer and Check its correctness.
+        ========================================================================
+        """
         self._prompt = self._get_prompt()
         self._input = self._get_input()
         self._is_correct = self._get_is_correct()
-        if not self._is_correct:
-            self._print_correct_answer()
-        self._update()
 
     def _get_prompt(self) -> str:
         """

@@ -1,5 +1,5 @@
 
-class QuestionBase:
+class QuestionStats:
     """
     ============================================================================
      Manages basic statistics related to a question.

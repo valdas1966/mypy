@@ -1,4 +1,4 @@
-from myq.inner.question.i_0_base import QuestionStats
+from myq.inner.question.i_0_stats import QuestionStats
 
 
 def test_pct_answered():

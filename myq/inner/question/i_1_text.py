@@ -1,7 +1,7 @@
-from myq.inner.question.i_0_base import QuestionBase
+from myq.inner.question.i_0_stats import QuestionStats
 
 
-class QuestionText(QuestionBase):
+class QuestionText(QuestionStats):
     """
     ============================================================================
      Text-Based Question (both Question and the Answer are Texts).
@@ -11,7 +11,7 @@ class QuestionText(QuestionBase):
     def __init__(self,
                  text: str,
                  answer: str) -> None:
-        QuestionBase.__init__(self)
+        QuestionStats.__init__(self)
         self._text = text
         self._answer = answer
 
