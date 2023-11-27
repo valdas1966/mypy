@@ -20,9 +20,3 @@ class NodeFCell(NodeF, Cell):
     def __str__(self) -> str:
         return f'{self.name if self.name else str()}({self.row},{self.col})' \
                f'[g={self.g}, h={self.h}, f={self.f()}]'
-
-    def __eq__(self, other: NodeFCell) -> bool:
-        return Cell.__eq__(self, other)
-
-    def __ne__(self, other: NodeFCell) -> bool:
-        return Cell.__ne__(self, other)

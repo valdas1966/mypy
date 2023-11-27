@@ -13,8 +13,6 @@ class SPP:
                  start: Node,
                  goal: Node,
                  graph: Graph) -> None:
-        start.name = 'START'
-        goal.name = 'GOAL'
         self._start = start
         self._goal = goal
         self._graph = graph
