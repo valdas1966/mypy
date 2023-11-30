@@ -28,7 +28,9 @@ class NodeF(NodeG, NodeH):
          2. This estimate is used to prioritize nodes during the search.
         ========================================================================
         """
-        return self.g + self.h
+        if self.g is not None and self.h is not None:
+            return self.g + self.h
+        return None
 
     def key_comparison(self) -> list[int]:
         """

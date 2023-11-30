@@ -6,6 +6,8 @@ def test_str():
     assert str(rc) == '(1,2)'
     rc = HasRowCol(3)
     assert str(rc) == '(3,3)'
+    rc = HasRowCol()
+    assert str(rc) == '(0,0)'
 
 
 def test_comparison():

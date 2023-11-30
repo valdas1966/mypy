@@ -1,4 +1,4 @@
-from f_heuristic_search.algos.mixins.spp import SPPAlgo
+from f_heuristic_search.algos.abc.spp import SPPAlgo
 from f_heuristic_search.problem_types.spp_grid import SPP
 from f_heuristic_search.nodes.i_2_f import NodeF as Node
 

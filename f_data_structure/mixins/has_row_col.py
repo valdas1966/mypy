@@ -1,15 +1,17 @@
 from __future__ import annotations
-from f_abstract.mixins.nameable import Nameable
+from f_abstract.mixins.sortable import Sortable
 
 
-class HasRowCol(Nameable):
+class HasRowCol(Sortable):
     """
     ============================================================================
      Mixin for classes with Row and Col properties.
     ============================================================================
     """
 
-    def __init__(self, row: int = None, col: int = None) -> None:
+    def __init__(self,
+                 row: int = None,
+                 col: int = None) -> None:
         """
         ========================================================================
          1. Inits the Object with received Row and Col arguments.
@@ -18,7 +20,6 @@ class HasRowCol(Nameable):
         """
         self._row = row if row is not None else 0
         self._col = col if col is not None else self._row
-        Nameable.__init__(self, name=f'({self._row},{self._col})')
 
     @property
     # Object's Row
@@ -32,3 +33,6 @@ class HasRowCol(Nameable):
 
     def key_comparison(self) -> list:
         return [self.row, self.col]
+
+    def __str__(self) -> str:
+        return f'({self._row},{self._col})'

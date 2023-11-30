@@ -1,7 +1,7 @@
 from f_data_structure.graphs.i_0_base import GraphBase
 from f_data_structure.f_grid.grid_cells import GridCells as Grid
 from f_data_structure.f_grid.cell import Cell
-from f_data_structure.nodes.i_2_cell import NodeCell as Node
+from f_data_structure.nodes.i_1_cell import NodeCell as Node
 
 
 class GraphGrid(GraphBase):
