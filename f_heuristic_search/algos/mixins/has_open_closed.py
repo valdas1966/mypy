@@ -9,15 +9,15 @@ class HasOpenClosed:
     ============================================================================
     """
 
-    open: PriorityQueue[Node]  # Queue for Generated Nodes (not expanded yet).
-    closed: set[Node]          # List of Expanded Nodes in insertion order.
+    open: PriorityQueue  # Queue for Generated Nodes (not expanded yet).
+    closed: set[Node]    # List of Expanded Nodes in insertion order.
 
     def __init__(self) -> None:
         self._open = PriorityQueue()
         self._closed = set()
 
     @property
-    def open(self) -> PriorityQueue[Node]:
+    def open(self) -> PriorityQueue:
         return self._open
 
     @property

@@ -36,3 +36,9 @@ class HasRowCol(Sortable):
 
     def __str__(self) -> str:
         return f'({self._row},{self._col})'
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+    def __hash__(self) -> str:
+        return hash(self.__str__())

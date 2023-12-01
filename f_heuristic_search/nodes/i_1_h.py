@@ -12,7 +12,7 @@ class NodeH(NodePath):
     def __init__(self,
                  name: str = None,
                  parent: NodeH = None) -> None:
-        NodePath.__init__(self, name, parent)
+        NodePath.__init__(self, name=name, parent=parent)
         self._h = None
 
     @property

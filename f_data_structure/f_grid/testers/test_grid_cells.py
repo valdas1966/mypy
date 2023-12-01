@@ -41,6 +41,8 @@ def test_make_invalid():
     row = grid[0]
     grid.make_invalid(cells=row)
     assert not grid[0][0].is_valid and not grid[0][1].is_valid
+    grid.make_invalid(cells=[(1, 0), (1, 1)])
+    assert not grid[1][0].is_valid and not grid[1][1].is_valid
 
 
 def test_pct_cells_valid():

@@ -13,7 +13,7 @@ class NodeG(NodePath):
                  name: str = None,
                  parent: NodeG = None,
                  w: int = 1) -> None:
-        NodePath.__init__(self, name, parent)
+        NodePath.__init__(self, name=name, parent=parent)
         self._w = w
         self.update_g()
 

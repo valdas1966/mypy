@@ -1,9 +1,10 @@
 from f_heuristic_search.algos.mixins.has_open_closed import HasOpenClosed
 from f_heuristic_search.problem_types.spp_grid import SPP
 from f_heuristic_search.nodes.i_2_f_cell import NodeFCell as Node
+from abc import ABC
 
 
-class SPPAlgo(HasOpenClosed):
+class SPPAlgo(ABC, HasOpenClosed):
     """
     ============================================================================
      Mixin designed for algorithms that solve Shortest Path Problems.
@@ -33,14 +34,17 @@ class SPPAlgo(HasOpenClosed):
         """
         if not self.is_path_found:
             return list()
-        return self.spp.goal.path_from(self.spp.start)
+        return self.spp.goal.path_from_root()
 
-    def _generate_node(self, node: Node) -> None:
+    def _generate_node(self, node: Node, parent: Node = None) -> None:
         """
         ========================================================================
          Set a Heuristic-Value to the Node and Push it into the Open.
         ========================================================================
         """
+        if parent:
+            node.parent = parent
+            node.update_g()
         node.h = node.distance(self.spp.goal)
         self.open.push(node)
 
@@ -51,4 +55,3 @@ class SPPAlgo(HasOpenClosed):
         ========================================================================
         """
         return node == self.spp.goal
-

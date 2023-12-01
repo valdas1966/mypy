@@ -50,3 +50,6 @@ class PriorityQueue:
         ========================================================================
         """
         return len(self._items)
+
+    def __contains__(self, item: T) -> bool:
+        return item in self._items

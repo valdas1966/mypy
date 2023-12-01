@@ -19,10 +19,10 @@ class AStar(SPPAlgo):
          Executes the Algorithm.
         ========================================================================
         """
-        self.open.push(self.spp.start)
+        self._generate_node(node=self.spp.start)
         while len(self.open):
             best = self.open.pop()
-            self.closed.push(best)
+            self.closed.add(best)
             if self._can_terminate(node=best):
                 self._is_path_found = True
                 return
@@ -42,7 +42,7 @@ class AStar(SPPAlgo):
             if self._is_generated(child):
                 self._try_new_parent(child=child, parent=node)
             else:
-                self._generate_node(child)
+                self._generate_node(node=child, parent=node)
 
     def _try_new_parent(self, child: Node, parent: Node) -> None:
         """
@@ -51,6 +51,6 @@ class AStar(SPPAlgo):
           nearer (less G-Value).
         ========================================================================
         """
-        node = self.open.get(child)
-        if node.is_better_parent(parent):
-            node.parent = parent
+        if child.is_better_parent(parent):
+            child.parent = parent
+            child.g = parent.g + child.w

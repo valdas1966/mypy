@@ -13,20 +13,19 @@ class SPPGrid(SPP):
     """
 
     def __init__(self,
+                 grid: Grid,
                  start: Cell,
-                 goal: Cell,
-                 grid: Grid) -> None:
-        graph = Graph(grid=grid)
+                 goal: Cell) -> None:
+        graph = Graph(grid=grid, type_node=Node)
         start = graph.cell_to_node(cell=start)
         goal = graph.cell_to_node(cell=goal)
-        SPP.__init__(self, start, goal, graph)
+        SPP.__init__(self, graph=graph, start=start, goal=goal)
         self._grid = grid
 
     @classmethod
     def generate(cls,
                  rows: int,
                  cols: int = None,
-                 name: str = None,
                  pct_non_valid: int = 0
                  ) -> SPP:
         """
@@ -38,7 +37,6 @@ class SPPGrid(SPP):
         """
         grid = Grid.generate(rows=rows,
                              cols=cols,
-                             name=name,
                              pct_non_valid=pct_non_valid)
         # Ensure the Grid can accommodate both Start and Goal Cells
         if len(grid.cells()) < 2:

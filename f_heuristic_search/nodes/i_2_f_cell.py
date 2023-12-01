@@ -1,6 +1,6 @@
 from __future__ import annotations
 from f_heuristic_search.nodes.i_2_f import NodeF
-from f_data_structure.nodes.i_1_cell import NodeCell
+from f_data_structure.nodes.i_2_cell import NodeCell
 from f_data_structure.f_grid.cell import Cell
 
 
@@ -13,10 +13,10 @@ class NodeFCell(NodeF, NodeCell):
 
     def __init__(self,
                  name: str = None,
-                 cell: Cell = None,
+                 cell: Cell = Cell(),
                  parent: NodeFCell = None) -> None:
-        NodeF.__init__(self, name, parent)
-        NodeCell.__init__(self, name, cell)
+        NodeF.__init__(self, name=name, parent=parent)
+        NodeCell.__init__(self, name=name, parent=parent, cell=cell)
 
     def __str__(self) -> str:
         return f'{NodeCell.__str__(self)}' \

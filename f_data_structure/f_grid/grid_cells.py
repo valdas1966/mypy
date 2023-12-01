@@ -69,14 +69,18 @@ class GridCells(GridLayout):
                 in coords_valid
                 if self._grid[r][c].is_valid]
 
-    def make_invalid(self, cells: list[Cell]) -> None:
+    def make_invalid(self, cells: list[Cell | tuple]) -> None:
         """
         ========================================================================
-         Turns received List[Cell] to invalid.
+         Turns received List[Cell|Tuple] to invalid.
         ========================================================================
         """
-        for cell in cells:
-            cell.is_valid = False
+        for t in cells:
+            if isinstance(t, Cell):
+                row, col = t.row, t.col
+            else:
+                row, col = t
+            self._grid[row][col].is_valid = False
 
     def pct_cells_valid(self) -> float:
         """
@@ -99,7 +103,6 @@ class GridCells(GridLayout):
     def generate(cls,
                  rows: int,
                  cols: int = None,
-                 name: str = None,
                  pct_non_valid: int = 0
                  ) -> GridCells:
         """
@@ -108,7 +111,7 @@ class GridCells(GridLayout):
           (size and percentage of invalid cells).
         ========================================================================
         """
-        grid = GridCells(rows, cols, name)
+        grid = GridCells(rows, cols)
         cells_random = grid.cells_random(pct=pct_non_valid)
         grid.make_invalid(cells_random)
         return grid

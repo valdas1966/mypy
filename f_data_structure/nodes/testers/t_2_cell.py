@@ -1,4 +1,4 @@
-from f_data_structure.nodes.i_1_cell import NodeCell
+from f_data_structure.nodes.i_2_cell import NodeCell
 from f_data_structure.f_grid.cell import Cell
 
 

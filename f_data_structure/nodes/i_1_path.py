@@ -24,7 +24,7 @@ class NodePath(NodeBase):
     def parent(self, new_value: NodePath = None) -> None:
         self._parent = new_value
 
-    def path_to_root(self) -> list[NodePath]:
+    def path_from_root(self) -> list[NodePath]:
         """
         ========================================================================
          Return the Path from the Start to the Current Node.
