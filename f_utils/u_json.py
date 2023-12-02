@@ -2,6 +2,17 @@ import json
 import pandas as pd
 
 
+def json_to_dict(path: str) -> str:
+    """
+    ============================================================================
+     Convert Json-File into String.
+    ============================================================================
+    """
+    with open(path, 'r') as f:
+        data = json.load(f)
+    return data
+
+
 def to_dict(str_json: str) -> dict:
     """
     ============================================================================
@@ -20,9 +31,3 @@ def to_df(dict_json: dict) -> pd.DataFrame:
     ============================================================================
     """
     return pd.json_normalize(dict_json, sep='_')
-
-
-def to_str(path: str) -> str:
-    with open(path, 'r') as f:
-        data = json.loads(f.read())
-    return data
