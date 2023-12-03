@@ -29,7 +29,10 @@ class TikTok:
                                             params=params,
                                             headers=self._headers)
 
-    def get_hashtag_id(self, hashtag_name: str) -> str:
-        pass
-
-    def get_comments(self, id_video: str):
+    def get_user_info(self,
+                      unique_id: str) -> dict:
+        url = f'https://{self._host}/user/info'
+        params = {'unique_id': unique_id}
+        return u_http_requests.get_response(url=url,
+                                            params=params,
+                                            headers=self._headers)
