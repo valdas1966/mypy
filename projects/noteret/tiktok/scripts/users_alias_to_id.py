@@ -12,7 +12,7 @@ path_gcp = 'd:\\tiktok2\\repo\\viewer.json'
 bq = BigQuery(json_key=path_gcp)
 tname = 'noteret.tiktok2.users_alias_to_id'
 tname_input = tname + '_input'
-tname_output = tname + '_out'
+tname_output = tname + '_output'
 aliases = bq.select_list(query='select alias from ' + tname_input)
 d = {alias: tiktok.alias_to_id(alias)
      for alias
