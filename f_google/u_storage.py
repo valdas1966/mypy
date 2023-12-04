@@ -19,7 +19,7 @@ def upload(json_key: str,
 
 
 def upload_dag(path_dag: str) -> None:
-    json_key = 'd:\\tiktok\\repo\\viewer.json'
+    json_key = 'd:\\noteret\\repo\\viewer.json'
     project = 'gfunc-377012'
     str_bucket = 'us-central1-noteret-bf653c49-bucket'
     path_src = path_dag
@@ -33,7 +33,7 @@ def upload_dag(path_dag: str) -> None:
 
 
 """
-json_key = 'd:\\tiktok\\repo\\viewer.json'
+json_key = 'd:\\noteret\\repo\\viewer.json'
 project = 'noteret'
 path_src = 'd:\\professor\\repo\\mp4\\7075396968930954497.mp4'
 path_dest = '7075396968930954497.mp4'

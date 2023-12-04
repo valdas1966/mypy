@@ -20,9 +20,9 @@ class Api:
         self.txt_uploaded = repo + 'uploaded.txt'
 
     def get_json(self, unique_id):
-        str_api_con = 'tiktok-video-no-watermark2.p.rapidapi.com'
+        str_api_con = 'noteret-video-no-watermark2.p.rapidapi.com'
         conn = http.client.HTTPSConnection(str_api_con)
-        headers = {'X-RapidAPI-Host': "tiktok-video-no-watermark2.p.rapidapi.com",
+        headers = {'X-RapidAPI-Host': "noteret-video-no-watermark2.p.rapidapi.com",
             'X-RapidAPI-Key': self.key_api}
         conn.request("GET",
                      "/user/posts?unique_id=%40{0}&user_id={1}"

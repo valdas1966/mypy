@@ -2,7 +2,7 @@ from f_google import u_storage
 
 
 def upload():
-     json_key = 'd:\\tiktok\\repo\\viewer.json'
+     json_key = 'd:\\noteret\\repo\\viewer.json'
      project = 'noteret'
      project = 'gfunc-377012'
      path_src = 'd:\\temp\\sp500.xlsx'

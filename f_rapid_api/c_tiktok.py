@@ -25,14 +25,17 @@ class TikTok:
         params = {'challenge_id': hashtag_id,
                   'count': '100',
                   'cursor': cursor}
-        return u_http_requests.get_response(url=url,
-                                            params=params,
-                                            headers=self._headers)
+        return u_http_requests.get_dict(url=url,
+                                        params=params,
+                                        headers=self._headers)
 
-    def get_user_info(self,
-                      unique_id: str) -> dict:
+    def alias_to_id(self, alias: str) -> dict:
         url = f'https://{self._host}/user/info'
-        params = {'unique_id': unique_id}
-        return u_http_requests.get_response(url=url,
-                                            params=params,
-                                            headers=self._headers)
+        params = {'unique_id': alias}
+        r = u_http_requests.get_dict(url=url,
+                                     params=params,
+                                     headers=self._headers)
+        try:
+            return r['data']['user']['id']
+        except Exception:
+            return alias

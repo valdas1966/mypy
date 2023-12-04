@@ -46,7 +46,7 @@ def __annotations_to_dicts(id_video: str,
 
 
 
-json_key = 'd:\\tiktok\\repo\\viewer.json'
+json_key = 'd:\\noteret\\repo\\viewer.json'
 str_bucket = 'noteret_mp4'
 id_video = '7075396968930954497'
 a = get_annotations(json_key=json_key, str_bucket=str_bucket, id_video=id_video)

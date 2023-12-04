@@ -5,6 +5,7 @@ import json
 def get_response(url: str, params: dict, headers: dict):
 	return request('GET', url, params=params, headers=headers)
 
+
 def get_text(url: str,
 			 params: dict,
 			 headers: dict) -> str:
