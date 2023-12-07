@@ -14,7 +14,8 @@ class NodeG(NodePath):
                  parent: NodeG = None,
                  w: int = 1) -> None:
         NodePath.__init__(self, name=name, parent=parent)
-        self._w = w
+        self._w: int = w
+        self._g: int = 0
         self.update_g()
 
     @property
@@ -27,26 +28,36 @@ class NodeG(NodePath):
     def g(self) -> int:
         return self._g
 
-    def is_better_parent(self, parent: NodeG) -> bool:
-        """
-        ========================================================================
-         Return True if the given Parent offers a better path (lower G-Value).
-        ========================================================================
-        """
-        return self.g > parent.g + self.w
-
     def update_g(self) -> None:
         """
         ========================================================================
-         Calculate a Node's G-Value.
+         Update the Node's G-value (Cost from the start node to this node).
         ========================================================================
         """
         self._g = self.parent.g + self._w if self.parent else 0
 
+    def update_parent_if_needed(self, parent: NodeG) -> None:
+        """
+        ========================================================================
+         Update Node's Parent if it offers a lower G-Value.
+        ========================================================================
+        """
+        if self.g > parent.g + self.w:
+            self.update_parent(parent)
+
+    def update_parent(self, parent: NodeG) -> None:
+        """
+        ========================================================================
+         Update Node's Parent and G-Value consequently.
+        ========================================================================
+        """
+        self.parent = parent
+        self.update_g()
+
     def key_comparison(self) -> list[int]:
         """
         ========================================================================
-         Returns Node's Cost-Func (the highest G-Value the lowest Cost-Value).
+         Returns Node's Cost-Func (highest G-Value = lowest Cost).
         ========================================================================
         """
         return [-self._g]

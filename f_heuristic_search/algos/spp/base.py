@@ -1,6 +1,6 @@
 from f_heuristic_search.algos.mixins.has_open_closed import HasOpenClosed
-from f_heuristic_search.problem_types.spp_grid import SPP
-from f_heuristic_search.nodes.i_2_f_cell import NodeFCell as Node
+from f_heuristic_search.problem_types.spp import SPP
+from f_heuristic_search.algos.spp.node import Node
 from abc import ABC
 
 
@@ -12,6 +12,11 @@ class SPPAlgo(ABC, HasOpenClosed):
     """
 
     def __init__(self, spp: SPP) -> None:
+        """
+        ========================================================================
+         Init private attributes.
+        ========================================================================
+        """
         HasOpenClosed.__init__(self)
         self._spp = spp
         self._is_path_found = None
@@ -35,23 +40,3 @@ class SPPAlgo(ABC, HasOpenClosed):
         if not self.is_path_found:
             return list()
         return self.spp.goal.path_from_root()
-
-    def _generate_node(self, node: Node, parent: Node = None) -> None:
-        """
-        ========================================================================
-         Set a Heuristic-Value to the Node and Push it into the Open.
-        ========================================================================
-        """
-        if parent:
-            node.parent = parent
-            node.update_g()
-        node.h = node.distance(self.spp.goal)
-        self.open.push(node)
-
-    def _can_terminate(self, node: Node) -> bool:
-        """
-        ========================================================================
-         Return True if the Search can be terminated (the Goal is found).
-        ========================================================================
-        """
-        return node == self.spp.goal

@@ -34,6 +34,9 @@ class HasRowCol(Sortable):
     def key_comparison(self) -> list:
         return [self.row, self.col]
 
+    def to_tuple(self) -> tuple[int, int]:
+        return self.row, self.col
+
     def __str__(self) -> str:
         return f'({self._row},{self._col})'
 

@@ -1,9 +1,9 @@
-from f_data_structure.graphs.i_0_base import GraphBase
+from f_data_structure.graphs.abc.base import GraphBase
 from f_data_structure.nodes.i_0_base import NodeBase as Node
 from collections import defaultdict
 
 
-class GraphEditable(GraphBase):
+class GraphMutable(GraphBase):
     """
     ============================================================================
      Graph with Nodes and Edges.

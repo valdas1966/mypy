@@ -1,6 +1,7 @@
 from __future__ import annotations
 from f_data_structure.nodes.i_1_path import NodePath
 from f_data_structure.f_grid.cell import Cell
+from f_utils import u_str
 
 
 class NodeCell(NodePath):
@@ -36,10 +37,20 @@ class NodeCell(NodePath):
          Return the Distance between the Nodes' Cells.
         ========================================================================
         """
-        return self.cell.distance(other.cell)
+        return self._cell.distance(other.cell)
+
+    def to_tuple(self) -> tuple[int, int]:
+        """
+        ========================================================================
+         Return Cell's Coordinates.
+        ========================================================================
+        """
+        return self._cell.to_tuple()
 
     def __str__(self) -> str:
-        return (self._name or str()) + self._cell.__str__()
+        text = str(self._cell)
+        prefix = self._name
+        return u_str.add_prefix(text, prefix)
 
     def __hash__(self) -> int:
         return self._cell.__hash__()

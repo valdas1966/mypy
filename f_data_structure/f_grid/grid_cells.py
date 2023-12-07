@@ -7,7 +7,7 @@ import random
 class GridCells(GridLayout):
     """
     ============================================================================
-     1. Represents a 2D-Grid of Cells.
+     Represents a 2D-Grid of Cells.
     ============================================================================
     """
 
@@ -26,7 +26,7 @@ class GridCells(GridLayout):
     def cells(self) -> list[Cell]:
         """
         ========================================================================
-         Desc: Returns a flattened List of Grid's valid Cells.
+         Desc: Returns a flattened List of the Grid's valid Cells.
         ========================================================================
         """
         return [cell
@@ -41,7 +41,7 @@ class GridCells(GridLayout):
                      pct: int = None) -> list[Cell]:
         """
         ========================================================================
-         Desc: Return List of Random-Cells from the Grid.
+         Desc: Return a List of Random-Cells from the Grid.
         ------------------------------------------------------------------------
                 Either [size] or [pct] should be provided:
                 1. size : The number of random cells to retrieve.
@@ -69,32 +69,45 @@ class GridCells(GridLayout):
                 in coords_valid
                 if self._grid[r][c].is_valid]
 
-    def make_invalid(self, cells: list[Cell | tuple]) -> None:
+    def make_invalid_cells(self, cells: list[Cell]) -> None:
         """
         ========================================================================
-         Turns received List[Cell|Tuple] to invalid.
+         Turns the received List[Cell] to Invalid.
         ========================================================================
         """
-        for t in cells:
-            if isinstance(t, Cell):
-                row, col = t.row, t.col
-            else:
-                row, col = t
-            self._grid[row][col].is_valid = False
+        for cell in cells:
+            self._make_invalid_row_col(cell.row, cell.col)
+
+    def make_invalid_tuples(self, tuples: list[tuple]) -> None:
+        """
+        ========================================================================
+         Turns the received List[Tuple] to Invalid.
+        ========================================================================
+        """
+        for t in tuples:
+            self._make_invalid_row_col(t[0], t[1])
 
     def pct_cells_valid(self) -> float:
         """
         ========================================================================
-         Returns Percentage of Valid-Cells in the Grid.
+         Returns the Percentage of Valid-Cells in the Grid.
         ========================================================================
         """
         return len(self.cells()) / (self.rows * self.cols)
 
+    def _make_invalid_row_col(self, row: int, col: int) -> None:
+        """
+        ========================================================================
+         Turn the Cell in the received Coords to Invalid.
+        ========================================================================
+        """
+        self._grid[row][col].is_valid = False
+
     def __getitem__(self, index) -> list[Cell]:
         """
         ========================================================================
-         Allows direct access to a Row of Cells by [Row] Property and to a
-          specific Cell by [Row][Col] Properties.
+         1. Direct access to a Row of Cells via the [Row] Property.
+         2. Direct access specific Cell using [Row][Col] Properties.
         ========================================================================
         """
         return self._grid[index]

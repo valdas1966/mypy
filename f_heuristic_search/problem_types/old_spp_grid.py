@@ -1,8 +1,5 @@
 from f_heuristic_search.problem_types.spp import SPP
-from f_heuristic_search.nodes.i_2_f_cell import NodeFCell as Node
-from f_data_structure.f_grid.cell import Cell
 from f_data_structure.f_grid.grid_cells import GridCells as Grid
-from f_data_structure.graphs.i_1_grid import GraphGrid as Graph
 
 
 class SPPGrid(SPP):
@@ -11,16 +8,6 @@ class SPPGrid(SPP):
      Represents a Shortest-Path-Problem Type in 2D-Grids.
     ============================================================================
     """
-
-    def __init__(self,
-                 grid: Grid,
-                 start: Cell,
-                 goal: Cell) -> None:
-        graph = Graph(grid=grid, type_node=Node)
-        start = graph.cell_to_node(cell=start)
-        goal = graph.cell_to_node(cell=goal)
-        SPP.__init__(self, graph=graph, start=start, goal=goal)
-        self._grid = grid
 
     @classmethod
     def generate(cls,

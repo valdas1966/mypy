@@ -1,6 +1,6 @@
-from f_heuristic_search.problem_types.spp_grid import SPPGrid
-from f_heuristic_search.nodes.i_2_f_cell import NodeFCell
-from f_data_structure.graphs.i_1_grid import GraphGrid
+from f_heuristic_search.problem_types.old_spp_grid import SPPGrid
+from f_heuristic_search.domain.grid.node import NodeFCell
+from f_data_structure.graphs.i_0_grid import GraphGrid
 from f_data_structure.f_grid.grid_cells import GridCells
 from f_data_structure.f_grid.cell import Cell
 

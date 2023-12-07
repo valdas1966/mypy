@@ -1,5 +1,5 @@
-from f_heuristic_search.problem_types.spp_grid import SPPGrid as SPP
-from f_data_structure.graphs.i_1_grid import GraphGrid as Graph
+from f_heuristic_search.problem_types.old_spp_grid import SPPGrid as SPP
+from f_data_structure.graphs.i_0_grid import GraphGrid as Graph
 from f_data_structure.f_grid.grid_cells import GridCells as Grid
 
 

@@ -1,5 +1,5 @@
 from f_heuristic_search.nodes.i_2_f import NodeF as Node
-from f_data_structure.graphs.i_0_base import GraphBase as Graph
+from f_data_structure.graphs.abc.base import GraphBase as Graph
 from typing import Type
 
 
