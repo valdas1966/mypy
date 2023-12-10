@@ -2,7 +2,7 @@ from f_heuristic_search.algos.spp.base import SPPAlgo
 from f_heuristic_search.problem_types.spp import SPP
 from f_heuristic_search.algos.spp.node import Node
 from f_heuristic_search.algos.strategy.heuristic.base import HeuristicBase
-from f_heuristic_search.algos.strategy.termination.base import TerminationBase
+from f_heuristic_search.algos.spp.strategy.termination.i_0_base import TerminationBase
 
 
 class AStar(SPPAlgo):

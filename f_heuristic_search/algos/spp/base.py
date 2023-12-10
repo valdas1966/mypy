@@ -1,7 +1,7 @@
 from f_heuristic_search.algos.mixins.has_open_closed import HasOpenClosed
 from f_heuristic_search.problem_types.spp import SPP
 from f_heuristic_search.algos.spp.node import Node
-from abc import ABC
+from abc import ABC, abstractmethod
 
 
 class SPPAlgo(ABC, HasOpenClosed):
@@ -30,6 +30,15 @@ class SPPAlgo(ABC, HasOpenClosed):
     # True if found a path from Start to Goal
     def is_path_found(self) -> bool:
         return self._is_path_found
+
+    @abstractmethod
+    def run(self) -> None:
+        """
+        ========================================================================
+         Run the Algorithm.
+        ========================================================================
+        """
+        pass
 
     def optimal_path(self) -> list[Node]:
         """

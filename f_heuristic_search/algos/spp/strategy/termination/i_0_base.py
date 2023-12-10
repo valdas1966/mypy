@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from f_heuristic_search.nodes.i_1_g import NodeG as Node
+from f_heuristic_search.algos.spp.node import Node
 
 
 class TerminationBase(ABC):

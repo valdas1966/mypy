@@ -1,26 +1,29 @@
-from f_heuristic_search.algos.strategy.termination.base import TerminationBase
-from f_heuristic_search.nodes.i_1_g import NodeG as Node
+from f_heuristic_search.algos.spp.strategy.termination.i_1_goal import TerminationGoal
+from f_heuristic_search.algos.spp.node import Node
 
 
-class TerminationLookup(TerminationBase):
+class TerminationLookup(TerminationGoal):
     """
     ============================================================================
      Strategy for Search-Termination using a Lookup-Table.
     ============================================================================
     """
 
-    def __init__(self, lookup: dict[Node, int]) -> None:
+    def __init__(self,
+                 goal: Node,
+                 lookup: dict[Node, int]) -> None:
         """
         ========================================================================
          Init private attributes.
         ========================================================================
         """
+        TerminationGoal.__init__(self, goal=goal)
         self._lookup = lookup
 
     def can_terminate(self, node: Node) -> bool:
         """
         ========================================================================
-         Return True if the Node is in the Lookup-Table.
+         Return True if the Node is the Goal or in the Lookup-Table.
         ========================================================================
         """
-        return node in self._lookup
+        return TerminationGoal.can_terminate(node=node) or node in self._lookup

@@ -1,5 +1,5 @@
-from f_heuristic_search.algos.strategy.termination.base import TerminationBase
-from f_heuristic_search.nodes.i_1_g import NodeG as Node
+from f_heuristic_search.algos.spp.strategy.termination.i_0_base import TerminationBase
+from f_heuristic_search.algos.spp.node import Node
 
 
 class TerminationGoal(TerminationBase):

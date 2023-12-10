@@ -1,6 +1,5 @@
 from f_heuristic_search.nodes.i_2_f import NodeF as Node
 from f_data_structure.graphs.abc.base import GraphBase as Graph
-from typing import Type
 
 
 class SPP:
@@ -11,27 +10,39 @@ class SPP:
     """
 
     def __init__(self,
-                 graph: Type[Graph],
-                 start: Type[Node],
-                 goal: Type[Node]) -> None:
+                 graph: Graph,
+                 start: Node,
+                 goal: Node,
+                 heuristics: dict[Node, int] = dict()) -> None:
+        """
+        ========================================================================
+         Init private attributes.
+        ========================================================================
+        """
         self._graph = graph
         self._start = start
         self._goal = goal
+        self._heuristics = heuristics
 
     @property
     # SPP Start-Node
-    def start(self) -> Type[Node]:
+    def start(self) -> Node:
         return self._start
 
     @property
     # SPP Goal-Node
-    def goal(self) -> Type[Node]:
+    def goal(self) -> Node:
         return self._goal
 
     @property
     # SPP Graph
-    def graph(self) -> Type[Graph]:
+    def graph(self) -> Graph:
         return self._graph
+
+    @property
+    # SPP Lookup-Table with Manual-Heuristics
+    def heuristics(self) -> dict[Node, int]:
+        return self._heuristics.copy()
 
     def __str__(self) -> str:
         return f'SPP[{self._graph.name}]: {self._start} -> {self._goal}'

@@ -1,4 +1,4 @@
-from f_heuristic_search.algos.spp.a_star import AStar
+from f_heuristic_search.algos.spp.a_star.base import AStar
 from f_heuristic_search.problem_types.spp import SPP
 from f_heuristic_search.domain.grid.node import NodeFCell
 from f_data_structure.graphs.i_0_grid import GraphGrid as Graph

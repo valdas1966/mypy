@@ -16,8 +16,9 @@ class NodeF(NodeG, NodeH):
 
     def __init__(self,
                  name: str = None,
-                 parent: NodeF = None) -> None:
-        NodeG.__init__(self, name, parent)
+                 parent: NodeF = None,
+                 w: int = 1) -> None:
+        NodeG.__init__(self, name=name, parent=parent, w=w)
         NodeH.__init__(self, name, parent)
 
     def f(self) -> int:
