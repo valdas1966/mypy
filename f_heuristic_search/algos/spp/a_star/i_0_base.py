@@ -5,7 +5,7 @@ from f_heuristic_search.algos.strategy.heuristic.base import HeuristicBase
 from f_heuristic_search.algos.spp.strategy.termination.i_0_base import TerminationBase
 
 
-class AStar(SPPAlgo):
+class AStarBase(SPPAlgo):
     """
     ============================================================================
      A* Algorithm.

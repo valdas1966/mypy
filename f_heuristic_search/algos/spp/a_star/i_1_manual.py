@@ -1,4 +1,4 @@
-from f_heuristic_search.algos.spp.a_star.base import AStar
+from f_heuristic_search.algos.spp.a_star.i_0_base import AStar
 from f_heuristic_search.problem_types.spp import SPP
 from f_heuristic_search.algos.strategy.heuristic.manual import HeuristicManual
 from f_heuristic_search.algos.spp.strategy.termination.i_1_goal import TerminationGoal

@@ -19,6 +19,10 @@ class PriorityQueue:
         """
         self._items = []
 
+    @property
+    def items(self) -> list[T]:
+        return self._items.copy()
+
     def push(self, item: T):
         """
         ========================================================================
