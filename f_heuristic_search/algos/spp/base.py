@@ -1,13 +1,15 @@
 from f_heuristic_search.algos.mixins.has_open_closed import HasOpenClosed
 from f_heuristic_search.problem_types.spp import SPP
-from f_heuristic_search.algos.spp.node import Node
+from f_heuristic_search.nodes.i_1_g import NodeG
 from abc import ABC, abstractmethod
+from typing import Generic, TypeVar
+Node = TypeVar('Node', bound=NodeG)
 
 
-class SPPAlgo(ABC, HasOpenClosed):
+class SPPAlgo(Generic[Node], ABC, HasOpenClosed):
     """
     ============================================================================
-     Mixin designed for algorithms that solve Shortest Path Problems.
+     Abstract Class for a Shortest-Path-Problem Algorithm.
     ============================================================================
     """
 

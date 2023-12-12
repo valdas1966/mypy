@@ -1,8 +1,11 @@
-from f_heuristic_search.nodes.i_2_f import NodeF as Node
-from f_data_structure.graphs.abc.base import GraphBase as Graph
+from f_heuristic_search.nodes.i_1_g import NodeG
+from f_data_structure.graphs.abc.base import GraphBase
+from typing import Generic, TypeVar
+Node = TypeVar('Node', bound=NodeG)
+Graph = TypeVar('Graph', bound=GraphBase)
 
 
-class SPP:
+class SPP(Generic[Graph, Node]):
     """
     ============================================================================
      Represents a Shortest-Path-Problem in Heuristic Search.
@@ -12,8 +15,7 @@ class SPP:
     def __init__(self,
                  graph: Graph,
                  start: Node,
-                 goal: Node,
-                 heuristics: dict[Node, int] = dict()) -> None:
+                 goal: Node) -> None:
         """
         ========================================================================
          Init private attributes.
@@ -22,7 +24,6 @@ class SPP:
         self._graph = graph
         self._start = start
         self._goal = goal
-        self._heuristics = heuristics
 
     @property
     # SPP Start-Node
@@ -38,11 +39,6 @@ class SPP:
     # SPP Graph
     def graph(self) -> Graph:
         return self._graph
-
-    @property
-    # SPP Lookup-Table with Manual-Heuristics
-    def heuristics(self) -> dict[Node, int]:
-        return self._heuristics.copy()
 
     def __str__(self) -> str:
         return f'SPP[{self._graph.name}]: {self._start} -> {self._goal}'

@@ -1,29 +1,28 @@
-from f_heuristic_search.algos.spp.strategy.termination.i_1_goal import TerminationGoal
+from f_heuristic_search.algos.spp.a_star.i_1_manual import AStarManual
 from f_heuristic_search.algos.spp.node import Node
 
 
-class TerminationLookup(TerminationGoal):
+class AStarLookup(AStarManual):
     """
     ============================================================================
-     Strategy for Search-Termination using a Lookup-Table.
+     AStar with Manual and Lookup Heuristics.
     ============================================================================
     """
 
-    def __init__(self,
-                 goal: Node,
-                 lookup: dict[Node, int]) -> None:
+    def _can_terminate(self) -> bool:
         """
         ========================================================================
-         Init private attributes.
+         Return True if the Search-Process can be Terminated.
         ========================================================================
         """
-        TerminationGoal.__init__(self, goal=goal)
-        self._lookup = lookup
+        return AStarManual._can_terminate() or self._best in self._spp.heuristics
 
-    def can_terminate(self, node: Node) -> bool:
+    def _calc_heuristics(self, node: Node) -> int:
         """
         ========================================================================
-         Return True if the Node is the Goal or in the Lookup-Table.
+         Return Heuristics-Distance from the received Node to the Goal.
         ========================================================================
         """
-        return TerminationGoal.can_terminate(node=node) or node in self._lookup
+        if node in self._spp.heuristics:
+            return self._calc_heuristics[node]
+        return AStarManual._calc_heuristics(node=node)

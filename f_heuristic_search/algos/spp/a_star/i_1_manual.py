@@ -1,23 +1,27 @@
-from f_heuristic_search.algos.spp.a_star.i_0_base import AStar
-from f_heuristic_search.problem_types.spp import SPP
-from f_heuristic_search.algos.strategy.heuristic.manual import HeuristicManual
-from f_heuristic_search.algos.spp.strategy.termination.i_1_goal import TerminationGoal
+from f_heuristic_search.algos.spp.a_star.i_0_base import AStarBase
+from f_heuristic_search.algos.spp.node import Node
 
 
-class AStarManual(AStar):
+class AStarManual(AStarBase):
     """
     ============================================================================
      AStar with Manual-Heuristics.
     ============================================================================
     """
 
-    def __init__(self, spp: SPP) -> None:
+    def _can_terminate(self) -> bool:
         """
         ========================================================================
-         Init Private Attributes.
+         Return True if the Search-Process can be Terminated.
         ========================================================================
         """
-        heuristic = HeuristicManual(heuristics=spp.heuristics)
-        termination = TerminationGoal(goal=spp.goal)
-        AStar.__init__(self, spp, heuristic, termination)
+        return self._best == self._spp.goal
+
+    def _calc_heuristics(self, node: Node) -> int:
+        """
+        ========================================================================
+         Return Heuristics-Distance from the received Node to the Goal.
+        ========================================================================
+        """
+        return self._spp.heuristics[node]
 
