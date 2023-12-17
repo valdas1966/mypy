@@ -1,8 +1,7 @@
-from f_heuristic_search.algos.spp.a_star.i_0_base import AStarBase
-from f_heuristic_search.algos.spp.node import Node
+from f_heuristic_search.algos.spp.a_star.i_0_base import AStarBase, Node
 
 
-class AStarManual(AStarBase):
+class AStarManual(AStarBase[Node]):
     """
     ============================================================================
      AStar with Manual-Heuristics.

@@ -1,8 +1,8 @@
-from f_heuristic_search.algos.spp.base import SPPAlgo
-from abc import abstractmethod
+from f_heuristic_search.algos.spp.base import SPPAlgo, Node
+from abc import ABC, abstractmethod
 
 
-class AStarBase(SPPAlgo):
+class AStarBase(ABC, SPPAlgo[Node]):
     """
     ============================================================================
      Base-Class for A* Algorithm.
