@@ -48,13 +48,13 @@ class AStar(SPPAlgo[Node]):
         """
         if self._best:
             node.update_parent(parent=self._best)
-        node.h = self._calc_heuristics(node)
+        node.h = self._calc_heuristics(node=node)
         self.open.push(node)
 
     def _can_terminate(self) -> bool:
         """
         ========================================================================
-         Return True if the Best is the Goal-Node.
+         Return True if the Search-Process can be Terminated.
         ========================================================================
         """
         return self._best == self.spp.goal
@@ -62,7 +62,7 @@ class AStar(SPPAlgo[Node]):
     def _calc_heuristics(self, node: Node) -> int:
         """
         ========================================================================
-         Return Heuristics-Distance from the received Node to the Goal.
+         Calculate Heuristic-Search from Node to Goal.
         ========================================================================
         """
         return self.spp.heuristics[node]

@@ -1,13 +1,16 @@
-from f_heuristic_search.algos.spp.a_star.i_1_manual import AStarManual
-from f_heuristic_search.algos.spp.node import Node
+from f_heuristic_search.problem_types.spp_lookup import SPPLookup, Node
+from f_heuristic_search.algos.spp.a_star import AStar
 
 
-class AStarLookup(AStarManual):
+class AStarLookup(AStar[Node]):
     """
     ============================================================================
-     AStar with Manual and Lookup Heuristics.
+     AStar with Lookup-Table (Accurate distances from Nodes to Goal).
     ============================================================================
     """
+
+    def __init__(self, spp: SPPLookup) -> None:
+        AStar.__init__(self, spp=spp)
 
     def _can_terminate(self) -> bool:
         """
@@ -15,14 +18,14 @@ class AStarLookup(AStarManual):
          Return True if the Search-Process can be Terminated.
         ========================================================================
         """
-        return AStarManual._can_terminate() or self._best in self._spp.heuristics
+        return AStar._can_terminate(self) or self._best in self.spp.lookup
 
     def _calc_heuristics(self, node: Node) -> int:
         """
         ========================================================================
-         Return Heuristics-Distance from the received Node to the Goal.
+         Return Heuristic-Distance from the Node to the Goal.
         ========================================================================
         """
-        if node in self._spp.heuristics:
-            return self._calc_heuristics[node]
-        return AStarManual._calc_heuristics(node=node)
+        if node in self.spp.lookup:
+            return sum(n.w for n in self.spp.lookup[node])
+        return AStar._calc_heuristics(self, node)
