@@ -5,32 +5,37 @@ from gspread.spreadsheet import Spreadsheet
 import gspread
 
 
-class Sheet(Nameable):
+class SpreadSheet(Nameable):
     """
     ============================================================================
-     Google-Sheet Class.
+     Google-SpreadSheet Class.
     ============================================================================
     """
 
     _paths:  dict = {'valdas': 'd:\\temp\\2023\\12\\gsheet.json'}
 
-    def __init__(self, id_sheet: str, name: str = 'valdas') -> None:
+    def __init__(self, id_spread_sheet: str, name: str = 'valdas') -> None:
+        """
+        ========================================================================
+         Init the Attributes.
+        ========================================================================
+        """
         Nameable.__init__(self, name=name)
-        self._id_sheet = id_sheet
+        self._id_spread_sheet = id_spread_sheet
         self._client: Client = None
-        self._sheet: Spreadsheet = None
+        self._spread_sheet: Spreadsheet = None
 
     @property
-    def id_sheet(self) -> str:
-        return self._id_sheet
+    def id_spread_sheet(self) -> str:
+        return self._id_spread_sheet
 
     def open(self) -> None:
         """
         ========================================================================
-         Open the Google Sheet.
+         Open the Google-SpreadSheet.
         ========================================================================
         """
         path_json = self._paths[self.name]
         creds = u_auth.get_credentials(path_json=path_json)
         self._client = gspread.authorize(creds)
-        self._sheet = self._client.open_by_key(self._id_sheet)
+        self._spread_sheet = self._client.open_by_key(self._id_spread_sheet)

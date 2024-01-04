@@ -1,5 +1,5 @@
-from f_heuristic_search.algos.spp.a_star import AStar
-from f_heuristic_search.problem_types.spp import SPP
+from f_heuristic_search.algos.spp.a_star_lookup import AStarLookup
+from f_heuristic_search.problem_types.spp_lookup import SPPLookup
 from f_data_structure.graphs.i_0_mutable import GraphMutable as Graph
 from f_heuristic_search.nodes.i_2_f import NodeF as Node
 
@@ -15,9 +15,14 @@ def test_astar_manual():
     graph.add_edge(b, d)
     graph.add_edge(c, d)
     heuristics = {a: 2, b: 1, c: 2, d: 0}
-    spp = SPP(graph=graph, start=a, goal=d, heuristics=heuristics)
-    astar = AStar(spp=spp)
+    lookup = {b: [d]}
+    spp = SPPLookup(graph=graph,
+                    start=a,
+                    goal=d,
+                    heuristics=heuristics,
+                    lookup=lookup)
+    astar = AStarLookup(spp=spp)
     astar.run()
     assert astar.optimal_path() == [a, c, d]
-    assert astar.closed == {a, b, c, d}
-    assert astar.open.items == []
+    assert astar.closed == {a, c, d}
+    assert astar.open.items == [b]
