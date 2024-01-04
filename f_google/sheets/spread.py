@@ -14,3 +14,6 @@ class Spread:
     @property
     def id_spread(self) -> str:
         return self._id_spread
+
+    def stam(self) -> None:
+        pass
