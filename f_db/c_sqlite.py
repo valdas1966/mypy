@@ -1,7 +1,6 @@
 import sqlite3
 import pandas as pd
 from f_utils import u_str
-from f_data_structure import u_graph
 
 
 class SQLite:

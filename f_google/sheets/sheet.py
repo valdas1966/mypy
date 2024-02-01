@@ -1,41 +1,37 @@
-from f_google.utils import u_auth
-from f_abstract.mixins.nameable import Nameable
-from gspread.client import Client
-from gspread.spreadsheet import Spreadsheet
-import gspread
+from gspread.worksheet import Worksheet
+from gspread.cell import Cell as GSCell
+from f_google.sheets.batch import Batch
+from f_google.sheets.cell import Cell
 
 
-class SpreadSheet(Nameable):
+class Sheet:
     """
     ============================================================================
-     Google-SpreadSheet Class.
+     Google-Sheets WorkSheet.
     ============================================================================
     """
 
-    _paths:  dict = {'valdas': 'd:\\temp\\2023\\12\\gsheet.json'}
-
-    def __init__(self, id_spread_sheet: str, name: str = 'valdas') -> None:
-        """
-        ========================================================================
-         Init the Attributes.
-        ========================================================================
-        """
-        Nameable.__init__(self, name=name)
-        self._id_spread_sheet = id_spread_sheet
-        self._client: Client = None
-        self._spread_sheet: Spreadsheet = None
+    def __init__(self, ws: Worksheet) -> None:
+        self._ws = ws
+        self._batch = Batch(ws=ws)
 
     @property
-    def id_spread_sheet(self) -> str:
-        return self._id_spread_sheet
+    def title(self) -> str:
+        return self._ws.title
 
-    def open(self) -> None:
+    @property
+    def index(self) -> int:
+        return self._ws.index
+
+    def update(self) -> None:
         """
         ========================================================================
-         Open the Google-SpreadSheet.
+         Update the Google-Sheet with the updates in the Batch.
         ========================================================================
         """
-        path_json = self._paths[self.name]
-        creds = u_auth.get_credentials(path_json=path_json)
-        self._client = gspread.authorize(creds)
-        self._spread_sheet = self._client.open_by_key(self._id_spread_sheet)
+        self._batch.run()
+
+    def __getitem__(self, coords: tuple[int, int]) -> Cell:
+        row, col = coords
+        gs_cell: GSCell = self._ws.cell(row, col)
+        return Cell(cell=gs_cell, add_to_batch=self._batch.add)

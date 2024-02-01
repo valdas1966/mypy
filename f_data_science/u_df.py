@@ -147,21 +147,22 @@ def to_dict(df, col_key=0, col_val=1):
     return d
 
 
-def transpose(df: pd.DataFrame,
-              col_key: str,
-              col_val: str,
-              col_agg: str = None,
-              f_agg: 'func' = None) -> pd.DataFrame:
-    df = df[[col_key, col_val, col_agg]]
-    key_cur = None
-    vals = list()
-    aggs = list()
-    for r in df.iterrows():
-        key, val, agg = r[1]
-        if key == key_cur:
-            vals.append(val)
-            aggs.append(agg)
-        else:
-            
+def shift_prev(df: pd.DataFrame, col: str) -> pd.DataFrame:
+    """
+    ============================================================================
+     Add Column with previous-row data.
+    ============================================================================
+    """
+    df[col + '_prev'] = df[col].shift(1)
+    return df
 
+# Example DataFrame with stock prices
+data = {
+    'date': pd.date_range(start='2021-01-01', periods=5, freq='D'),
+    'stock_price': [100, 102, 101, 105, 107]
+}
+df = pd.DataFrame(data)
 
+# Use shift_column to compare the stock price to the previous day's price
+df = shift_column(df=df, col='stock_price')
+print(df)
