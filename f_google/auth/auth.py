@@ -4,6 +4,11 @@ import google.auth
 
 
 class Auth:
+    """
+    ============================================================================
+     Static-Methods for Google Authentication process.
+    ============================================================================
+    """
 
     # Paths to JSon-Keys to Google Account
     _JSONS = frozendict({'VALDAS': 'd:\\temp\\2023\\12\\gsheet.json'})
