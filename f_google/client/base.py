@@ -9,7 +9,7 @@ class ClientBase(ABC):
     ============================================================================
     """
 
-    def __init__(self, user: str) -> None:
+    def __init__(self, user: str = None) -> None:
         self._user = user
         self._creds = Auth.get_creds(user=user)
         self._client = self._open_client()
