@@ -1,0 +1,14 @@
+from abc import ABC
+from google.cloud.bigquery import Client
+
+
+class Command(ABC):
+    """
+    ============================================================================
+     Base Class for BigQuery-Commands.
+    ============================================================================
+    """
+
+    def __init__(self,
+                 client: Client) -> None:
+        self._client = client

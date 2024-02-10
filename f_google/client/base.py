@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from f_google.auth.auth import Auth, Credentials
+from google.oauth2.service_account import Credentials
+from f_google.auth.auth import Auth
 
 
 class ClientBase(ABC):

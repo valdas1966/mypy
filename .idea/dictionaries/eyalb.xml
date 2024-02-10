@@ -31,6 +31,7 @@
       <w>parentable</w>
       <w>pred</w>
       <w>qtype</w>
+      <w>retryable</w>
       <w>roomap</w>
       <w>succ</w>
       <w>tittable</w>

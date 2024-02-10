@@ -12,7 +12,8 @@ class Auth:
 
     # Paths to JSon-Keys to Google Account
     _JSONS = frozendict({'VALDAS': 'd:\\temp\\2023\\12\\gsheet.json',
-                         'RAMI': 'd:\\professor\\gcp\\owner.json'})
+                         #'RAMI': 'd:\\professor\\gcp\\owner.json'})
+                         'RAMI': 'd:\\professor\\json\\viewer.json'})
 
     @staticmethod
     def get_creds(user: str = None) -> Credentials:
