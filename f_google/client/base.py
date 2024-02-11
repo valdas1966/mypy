@@ -1,6 +1,12 @@
+from typing import Union
 from abc import ABC, abstractmethod
+from google.cloud import bigquery, storage
 from google.oauth2.service_account import Credentials
 from f_google.auth.auth import Auth
+
+
+# Define the Union of possible client types
+GoogleClient = Union[bigquery.Client, storage.Client]
 
 
 class ClientBase(ABC):
@@ -13,7 +19,7 @@ class ClientBase(ABC):
     def __init__(self, user: str = None) -> None:
         self._user = user
         self._creds = Auth.get_creds(user=user)
-        self._client = self._open_client()
+        self._client = self._get_client()
 
     @property
     def user(self) -> str:
@@ -24,10 +30,5 @@ class ClientBase(ABC):
         return self._creds
 
     @abstractmethod
-    def _open_client(self):
-        """
-        ========================================================================
-         Open and Return a specific Google-Client.
-        ========================================================================
-        """
+    def _get_client(self) -> GoogleClient:
         pass
