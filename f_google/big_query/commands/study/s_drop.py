@@ -1,5 +1,5 @@
-from f_google.big_query.client import ClientBigQuery
+from f_google.big_query.client import BigQuery
 
 
-bq = ClientBigQuery(user='RAMI')
-bq.drop.table(name='noteret.tiktok2.temp_1')
+bq = BigQuery(user='RAMI')
+bq.drop.table(tname='noteret.tiktok2.temp_1', verbose=False)

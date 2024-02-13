@@ -1,7 +1,7 @@
-from f_google.big_query.client import ClientBigQuery
+from f_google.big_query.client import BigQuery
 
 
-bq = ClientBigQuery(user='RAMI')
+bq = BigQuery(user='RAMI')
 
 print(bq.user)
 print(bq.creds)

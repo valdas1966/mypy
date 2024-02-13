@@ -20,17 +20,17 @@ class Create(Command):
         self._drop = drop
 
     def table(self,
-              name: str,
+              tname: str,
               schema: Schema) -> None:
         """
         ========================================================================
          Create a table by the received Col Names and Types.
         ========================================================================
         """
-        self._drop.table(name=name)
-        table = Table(table_ref=name, schema=schema.build())
-        table.
+        self._drop.table(tname=tname)
+        table = Table(table_ref=tname, schema=schema.build())
         self._client.create_table(table=table,
                                   retry=Retry())
-        print(f'Table [{name}] has been created.')
+        if self._verbose:
+            print(f'Table [{tname}] has been created.')
 

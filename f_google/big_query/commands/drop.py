@@ -1,4 +1,5 @@
 from f_google.big_query.abc.command import Command
+from google.api_core.exceptions import NotFound
 
 
 class Drop(Command):
@@ -8,15 +9,20 @@ class Drop(Command):
     ============================================================================
     """
 
-    def table(self, name: str) -> None:
+    def table(self,
+              tname: str,
+              verbose: bool = None) -> None:
         """
         ========================================================================
          Drop Table if Exists.
         ========================================================================
         """
-        if self._verbose:
-            table = self._client.get_table(table=name)
-        self._client.delete_table(table=name,
-                                  not_found_ok=True)
-        if self._verbose:
-            print(f'Table [{name}] has been dropped.')
+        if verbose is not None:
+            self._verbose = verbose
+        try:
+            self._client.delete_table(table=tname)
+            if self._verbose:
+                print(f'Table [{tname}] has been dropped')
+        except NotFound:
+            if self._verbose:
+                print(f'Table [{tname}] does not exist and cannot be dropped')

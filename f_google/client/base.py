@@ -31,4 +31,9 @@ class ClientBase(ABC):
 
     @abstractmethod
     def _get_client(self) -> GoogleClient:
+        """
+        ========================================================================
+         Open and Return a new Google-Client.
+        ========================================================================
+        """
         pass

@@ -1,10 +1,10 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 
-def now(format='yyyy-mm-dd hh:mi:ss'):
+def now(format='yyyy-mm-dd hh:mi:ss', is_utc: bool = False) -> str:
     """
     ============================================================================
-     Description: Return Str-Representation of Current-DateTime.
+     Description: Return Str-Repr of the Current-DateTime in a given Format.
     ============================================================================
      Arguments:
     ----------------------------------------------------------------------------
@@ -13,7 +13,11 @@ def now(format='yyyy-mm-dd hh:mi:ss'):
      Return: str
     ============================================================================
     """
-    return to_str(datetime.now(), format)
+    if not is_utc:
+        dt = datetime.now()
+    else:
+        dt = datetime.now(timezone.utc)
+    return to_str(dt=dt, format=format)
 
 
 def to_str(dt: datetime, format: str = 'LOG') -> str:

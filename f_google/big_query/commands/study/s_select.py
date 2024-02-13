@@ -1,9 +1,16 @@
-from f_google.big_query.client import Client
+from f_google.big_query.client import BigQuery
 
 
-bq = Client(user='RAMI')
-
-df = bq.select.to_df(query='select * from tiktok2.users limit 1')
+query = """
+            select
+                *
+            from
+                noteret.tiktok2.test_insert_1
+            order by
+                inserted desc
+        """
+bq = BigQuery(user='RAMI')
+df = bq.select.to_df(query=query)
 
 print(df)
 
