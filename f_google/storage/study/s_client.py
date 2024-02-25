@@ -1,8 +1,7 @@
-from f_google.storage.client import Client
+from f_google.storage.client import Storage
 
 
-path_json = 'd:\\professor\\json\\viewer.json'
-client = Client(path_json=path_json)
-for b in client.names_bucket():
+storage = Storage(user='GFUNC')
+for b in storage.names_bucket():
     print(b)
     

@@ -1,30 +1,19 @@
 from google.cloud import storage
 from google.cloud.storage.client import Client
 from google.cloud.storage.bucket import Bucket as GBucket
-from f_google.utils import u_auth
+from f_google.client.base import ClientBase
 from f_google.storage.bucket import Bucket
 
 
-class Client:
+class Storage(ClientBase):
     """
     ============================================================================
      Google-Storage Client.
     ============================================================================
     """
 
-    # Mapping Users to their JSONs
-    class JSon:
-        EYAL = 'd:\\temp\\2023\\12\\gsheet.json'
-        GCP = None
-
-    def __init__(self, json: JSon) -> None:
-        self._json = json
-        creds = u_auth.get_credentials(path_json=json)
-        self._client: Client = storage.Client(credentials=creds)
-
-    @property
-    def json(self) -> JSon:
-        return self._json
+    def __init__(self, user: str) -> None:
+        ClientBase.__init__(self, user=user)
 
     def bucket(self, name: str) -> Bucket:
         """
@@ -42,3 +31,11 @@ class Client:
         ========================================================================
         """
         return [b.name for b in self._client.list_buckets()]
+
+    def _get_client(self) -> Client:
+        """
+        ========================================================================
+         Open and a Return a Storage-Client.
+        ========================================================================
+        """
+        return storage.Client(credentials=self.creds)
