@@ -29,6 +29,7 @@
       <w>loggable</w>
       <w>ndarray</w>
       <w>parentable</w>
+      <w>pcts</w>
       <w>pred</w>
       <w>qtype</w>
       <w>retryable</w>

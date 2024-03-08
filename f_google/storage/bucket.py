@@ -21,9 +21,7 @@ class Bucket:
         ========================================================================
         """
         pages = self._bucket.list_blobs(delimiter='/').pages
-        prefixes = set()
-        for page in pages:
-            prefixes.update(page.prefixes)
+        prefixes = {page.prefixes for page in pages}
         return list(prefixes)
 
     def files(self, folder: str = None) -> list[str]:
@@ -54,23 +52,24 @@ class Bucket:
         if verbose:
             print(f'{path_from} uploaded to {path_to}')
 
-    def upload_files(self,
-                     paths_from: list[str],
-                     path_to: str,
-                     verbose: bool = True) -> None:
+    def upload_folder(self,
+                      folder_from: str,
+                      folder_to: str,
+                      verbose: bool = True) -> None:
         """
         ========================================================================
-         Upload Files from PC into Google-Storage Bucket.
+         1. Upload Folder from a PC into Google-Storage.
+         2. It remains the folder hierarchy from the PC.
         ========================================================================
         """
-        for path_from in paths_from:
+        def gen_paths_to(folder_from: str, folder_to: str) -> list[str]:
+            folder_to = Blob.to_folder_format(name=folder_to)
+            paths_rel = [path.replace('\\', '/') for path in
+                         u_folder.filepaths_without_common(folder=folder_from)]
+            return [f'{folder_to}{path_rel}' for path_rel in paths_rel]
+        paths_from = u_folder.filepaths(folder=folder_from)
+        paths_to = gen_paths_to(folder_from=folder_from, folder_to=folder_to)
+        for path_from, path_to in zip(paths_from, paths_to):
             self.upload_file(path_from=path_from,
                              path_to=path_to,
                              verbose=verbose)
-
-    def upload_folder(self,
-                      path_from: str,
-                      path_to: str,
-                      verbose: bool = True) -> None:
-        paths_from = u_folder.filepaths(folder=path_from)
-        paths_to = u_folder.filepaths_without_common()

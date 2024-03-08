@@ -1,3 +1,4 @@
+from __future__ import annotations
 from f_data_structure.graphs.abc.base import GraphBase
 from f_data_structure.f_grid.grid_cells import GridCells as Grid
 from f_data_structure.nodes.i_2_cell import NodeCell as Node
@@ -32,6 +33,30 @@ class GraphGrid(GraphBase):
                         for row in range(grid.rows)
                       ]
 
+    @property
+    def rows(self) -> int:
+        return self._grid.rows
+
+    @property
+    def cols(self) -> int:
+        return self._grid.cols
+
+    def shape(self) -> str:
+        """
+        ========================================================================
+         Return STR-REPR of the Grid's Shape (dimensions).
+        ========================================================================
+        """
+        return self._grid.shape()
+
+    def pct_non_valid(self) -> int:
+        """
+        ========================================================================
+         Return the Percentage of the Non-Valid Cells in the Grid.
+        ========================================================================
+        """
+        return self._grid.pct_non_valid()
+
     def get_neighbors(self, node: Node) -> list[Type[Node]]:
         """
         ========================================================================
@@ -58,3 +83,18 @@ class GraphGrid(GraphBase):
         ========================================================================
         """
         return self._nodes[index]
+
+    @classmethod
+    def generate(cls,
+                 rows: int,
+                 cols: int = None,
+                 pct_non_valid: int = 0,
+                 type_node: Type[Node] = Node) -> GraphGrid:
+        """
+        ========================================================================
+         Generates a Graph with a random Grid based on received params
+          (size and percentage of invalid cells).
+        ========================================================================
+        """
+        grid = Grid.generate(rows=rows, cols=cols, pct_non_valid=pct_non_valid)
+        return GraphGrid(grid=grid, type_node=type_node)

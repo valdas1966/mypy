@@ -95,6 +95,14 @@ class GridCells(GridLayout):
         """
         return len(self.cells()) / (self.rows * self.cols)
 
+    def pct_non_valid(self) -> int:
+        """
+        ========================================================================
+         Returns the Percentage of Non-Valid Cells in the Grid.
+        ========================================================================
+        """
+        return round((1 - self.pct_cells_valid()) * 100, 0)
+
     def _make_invalid_row_col(self, row: int, col: int) -> None:
         """
         ========================================================================
@@ -126,5 +134,5 @@ class GridCells(GridLayout):
         """
         grid = GridCells(rows, cols)
         cells_random = grid.cells_random(pct=pct_non_valid)
-        grid.make_invalid(cells_random)
+        grid.make_invalid_cells(cells_random)
         return grid

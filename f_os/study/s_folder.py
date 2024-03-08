@@ -10,7 +10,7 @@ for f in filepaths:
 
 print()
 
-paths_rel = u_folder.filepaths_without_common(paths=filepaths)
+paths_rel = u_folder.filepaths_without_common(folder=folder)
 
 for f in paths_rel:
     print(f)

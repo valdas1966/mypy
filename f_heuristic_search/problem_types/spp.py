@@ -1,3 +1,4 @@
+from typing import Type
 from f_heuristic_search.nodes.i_1_g import NodeG as Node
 from f_data_structure.graphs.abc.base import GraphBase as Graph
 """
@@ -15,10 +16,10 @@ class SPP:
     """
 
     def __init__(self,
-                 graph: Graph,
-                 start: Node,
-                 goal: Node,
-                 heuristics: dict[Node, int] = dict()) -> None:
+                 graph: Type[Graph],
+                 start: Type[Node],
+                 goal: Type[Node],
+                 heuristics: dict[Type[Node], int] = dict()) -> None:
         """
         ========================================================================
          Init private attributes.
@@ -31,22 +32,22 @@ class SPP:
 
     @property
     # SPP Start-Node
-    def start(self) -> Node:
+    def start(self) -> Type[Node]:
         return self._start
 
     @property
     # SPP Goal-Node
-    def goal(self) -> Node:
+    def goal(self) -> Type[Node]:
         return self._goal
 
     @property
     # SPP Graph
-    def graph(self) -> Graph:
+    def graph(self) -> Type[Graph]:
         return self._graph
 
     @property
     # Heuristic-Distance from Node to Goal
-    def heuristics(self) -> dict[Node, int]:
+    def heuristics(self) -> dict[Type[Node], int]:
         return self._heuristics
 
     def __str__(self) -> str:
