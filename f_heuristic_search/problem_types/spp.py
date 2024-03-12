@@ -1,11 +1,5 @@
-from typing import Type
 from f_heuristic_search.nodes.i_1_g import NodeG as Node
 from f_data_structure.graphs.abc.base import GraphBase as Graph
-"""
-from typing import Generic, TypeVar
-Node = TypeVar('Node', bound=NodeG)
-Graph = TypeVar('Graph', bound=GraphBase)
-"""
 
 
 class SPP:
@@ -16,10 +10,10 @@ class SPP:
     """
 
     def __init__(self,
-                 graph: Type[Graph],
-                 start: Type[Node],
-                 goal: Type[Node],
-                 heuristics: dict[Type[Node], int] = dict()) -> None:
+                 graph: Graph,
+                 start: Node,
+                 goal: Node,
+                 heuristics: dict[Node, int] = None) -> None:
         """
         ========================================================================
          Init private attributes.
@@ -28,27 +22,30 @@ class SPP:
         self._graph = graph
         self._start = start
         self._goal = goal
-        self._heuristics = heuristics
+        self._heuristics = heuristics or dict()
 
     @property
     # SPP Start-Node
-    def start(self) -> Type[Node]:
+    def start(self) -> Node:
         return self._start
 
     @property
     # SPP Goal-Node
-    def goal(self) -> Type[Node]:
+    def goal(self) -> Node:
         return self._goal
 
     @property
     # SPP Graph
-    def graph(self) -> Type[Graph]:
+    def graph(self) -> Graph:
         return self._graph
 
-    @property
-    # Heuristic-Distance from Node to Goal
-    def heuristics(self) -> dict[Type[Node], int]:
-        return self._heuristics
+    def heuristics(self, node: Node) -> int:
+        """
+        ========================================================================
+         Return the Heuristic-Distance from the given Node to the Goal.
+        ========================================================================
+        """
+        return self._heuristics[node]
 
     def __str__(self) -> str:
         return f'SPP[{self._graph.name}]: {self._start} -> {self._goal}'

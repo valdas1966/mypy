@@ -10,15 +10,29 @@ class SPPLookup(SPP):
     """
 
     def __init__(self,
-                 graph: Type[Graph],
-                 start: Type[Node],
-                 goal: Type[Node],
-                 heuristics: dict[Type[Node], int] = dict(),
-                 lookup: dict[Type[Node], list[Type[Node]]] = dict()) -> None:
+                 graph: Graph,
+                 start: Node,
+                 goal: Node,
+                 heuristics: dict[Node, int] = None,
+                 lookup: dict[Node, list[Node]] = None) -> None:
         SPP.__init__(self, graph, start, goal, heuristics)
-        self._lookup = lookup
+        self._lookup = lookup or dict()
 
-    @property
-    # Accurate Distance from SPP-Nodes to the Goal
-    def lookup(self) -> dict[Type[Node], int]:
-        return self._lookup
+    def heuristics(self, node: Node) -> int:
+        """
+        ========================================================================
+         If the given Node is in the Lookup-Table: Return the accurate distance
+          to the Goal. Otherwise, return the heuristic-distance to the Goal.
+        ========================================================================
+        """
+        if node in self._lookup:
+            return len(self._lookup[node])
+        return SPP.heuristics(self, node=node)
+
+    def lookup(self, node: Node) -> list[Node]:
+        """
+        ========================================================================
+         Return accurate Distance from the given Node to the Goal.
+        ========================================================================
+        """
+        return self._lookup[node]

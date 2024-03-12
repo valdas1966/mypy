@@ -65,4 +65,4 @@ class AStar(SPPAlgo[Node]):
          Calculate Heuristic-Search from Node to Goal.
         ========================================================================
         """
-        return self.spp.heuristics[node]
+        return self.spp.heuristics(node)
