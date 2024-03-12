@@ -1,7 +1,5 @@
 from f_heuristic_search.domain.grid.graph import Graph
-from f_heuristic_search.domain.grid.node import Node
-from f_heuristic_search.problem_types.spp import SPP
-from collections import namedtuple
+from f_heuristic_search.nodes.i_3_f_cell import Node
 from f_utils import u_pickle
 
 

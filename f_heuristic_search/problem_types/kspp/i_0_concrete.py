@@ -12,7 +12,7 @@ class KSPP:
     def __init__(self,
                  graph: Graph,
                  start: Node,
-                 goals: list[Node]) -> None:
+                 goals: tuple[Node]) -> None:
         self._graph = graph
         self._start = start
         self._goals = goals
@@ -26,5 +26,5 @@ class KSPP:
         return self._start
 
     @property
-    def goals(self) -> list[Node]:
+    def goals(self) -> tuple[Node]:
         return self._goals

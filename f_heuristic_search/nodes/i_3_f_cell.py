@@ -4,7 +4,7 @@ from f_data_structure.nodes.i_2_cell import NodeCell
 from f_data_structure.f_grid.cell import Cell
 
 
-class Node(NodeF, NodeCell):
+class NodeFCell(NodeF, NodeCell):
     """
     ============================================================================
      NodeF represents a Cell.
@@ -13,10 +13,9 @@ class Node(NodeF, NodeCell):
 
     def __init__(self,
                  name: str = None,
-                 cell: Cell = Cell(),
-                 parent: Node = None) -> None:
-        NodeF.__init__(self, name=name, parent=parent)
-        NodeCell.__init__(self, name=name, parent=parent, cell=cell)
+                 cell: Cell = Cell()) -> None:
+        NodeF.__init__(self, name=name)
+        NodeCell.__init__(self, name=name, cell=cell)
 
     def __str__(self) -> str:
         return f'{NodeCell.__str__(self)}' \

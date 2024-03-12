@@ -1,4 +1,4 @@
-from f_heuristic_search.domain.grid.node import NodeFCell
+from f_heuristic_search.nodes.i_3_f_cell import NodeFCell
 
 
 node = NodeFCell(name='A')
