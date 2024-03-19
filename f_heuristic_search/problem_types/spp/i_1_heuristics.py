@@ -1,5 +1,6 @@
 from f_heuristic_search.problem_types.spp.i_0_concrete import SPPConcrete, \
     Graph, Node
+from enum import Enum, auto
 
 
 class SPPHeuristics(SPPConcrete):
@@ -9,11 +10,19 @@ class SPPHeuristics(SPPConcrete):
     ============================================================================
     """
 
+    class Heuristic(Enum):
+        """
+        ========================================================================
+         Enum for different Heuristic-Functions that the class enables.
+        ========================================================================
+        """
+        MANHATTAN_DISTANCE = auto()
+
     def __init__(self,
                  graph: Graph,
                  start: Node,
                  goal: Node,
-                 h_func: str = 'MANHATTAN_DISTANCE') -> None:
+                 h_func: Heuristic = Heuristic.MANHATTAN_DISTANCE) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -23,7 +32,7 @@ class SPPHeuristics(SPPConcrete):
         self._h_func = h_func
 
     @property
-    def h_func(self) -> str:
+    def h_func(self) -> Heuristic:
         return self._h_func
 
     def calc_h(self, node: Node) -> int:
@@ -32,21 +41,5 @@ class SPPHeuristics(SPPConcrete):
          Return Heuristic-Distance from the given Node to the Goal.
         ========================================================================
         """
-        return self._get_calc_h(node=node)
-
-    def _get_calc_h(self, node: Node) -> int:
-        """
-        ========================================================================
-         Return Heuristic-Function to Calculate by the Mapping.
-        ========================================================================
-        """
-        h_funcs = {'MANHATTAN_DISTANCE': self._manhattan_distance}
-        return h_funcs[self._h_func](node=node)
-
-    def _manhattan_distance(self, node: Node) -> int:
-        """
-        ========================================================================
-         Return Manhattan-Distance from Node to Goal.
-        ========================================================================
-        """
-        return node.distance(other=self.goal)
+        if self._h_func == self.Heuristic.MANHATTAN_DISTANCE:
+            return node.distance(other=self.goal)

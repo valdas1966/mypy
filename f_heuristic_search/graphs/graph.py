@@ -41,10 +41,10 @@ class Graph(GraphGrid):
             3. Type of Node the Grid will consist.
         ========================================================================
         """
-        return GraphGrid.generate(rows=rows,
-                                  cols=cols,
-                                  pct_non_valid=pct_non_valid,
-                                  type_node=type_node)
+        return Graph.generate(rows=rows,
+                              cols=cols,
+                              pct_non_valid=pct_non_valid,
+                              type_node=type_node)
 
     @classmethod
     def generate_many(cls,

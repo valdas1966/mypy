@@ -1,7 +1,10 @@
-from f_heuristic_search.nodes.i_3_f_cell import NodeFCell as Node
+from f_data_structure.nodes.i_2_cell import NodeCell
+from typing import Generic, TypeVar
+
+Node = TypeVar('Node', bound=NodeCell)
 
 
-class HasGoal:
+class HasGoal(Generic[Node]):
     """
     ============================================================================
      Mixin-Class for Problems with a Goal Node.

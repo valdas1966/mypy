@@ -1,5 +1,5 @@
 from f_heuristic_search.algos.mixins.has_open_closed import HasOpenClosed
-from f_heuristic_search.problem_types.spp.i_0_concrete import SPP
+from f_heuristic_search.problem_types.spp.i_0_concrete import SPPConcrete
 from f_heuristic_search.nodes.i_1_g import NodeG
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar

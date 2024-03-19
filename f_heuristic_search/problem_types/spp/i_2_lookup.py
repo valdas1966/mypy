@@ -14,7 +14,7 @@ class SPPLookup(SPPHeuristics):
                  graph: Graph,
                  start: Node,
                  goal: Node,
-                 h_func: str = 'MANHATTAN_DISTANCE',
+                 h_func: SPPHeuristics.Heuristic = SPPHeuristics.Heuristic.MANHATTAN_DISTANCE,
                  lookup: dict[Node, tuple[Node, ...]] = None) -> None:
         """
         ========================================================================
@@ -41,7 +41,7 @@ class SPPLookup(SPPHeuristics):
         """
         if node in self._lookup:
             return len(self._lookup[node])
-        return SPPHeuristics.calc_h(node=node)
+        return SPPHeuristics.calc_h(self, node=node)
 
     def lookup_to_goal(self, node: Node) -> tuple[Node, ...]:
         """
@@ -50,4 +50,3 @@ class SPPLookup(SPPHeuristics):
         ========================================================================
         """
         return self._lookup[node]
-

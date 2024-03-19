@@ -1,4 +1,4 @@
-from f_data_structure.priority_queue import PriorityQueue
+from f_data_structure.collections.priority_queue import PriorityQueue
 
 
 def test_init():

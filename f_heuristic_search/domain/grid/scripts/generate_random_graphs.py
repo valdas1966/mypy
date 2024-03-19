@@ -1,4 +1,4 @@
-from f_heuristic_search.graphs.grid import Graph
+from f_heuristic_search.graphs.graph import Graph
 from f_heuristic_search.nodes.i_3_f_cell import Node
 from f_utils import u_pickle
 

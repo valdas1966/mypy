@@ -1,4 +1,4 @@
-from f_heuristic_search.graphs.grid import GraphGrid as Graph
+from f_heuristic_search.graphs.graph import Graph
 
 
 class HasGraph:

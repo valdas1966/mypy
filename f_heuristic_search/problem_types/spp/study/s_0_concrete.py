@@ -1,5 +1,5 @@
 from f_heuristic_search.problem_types.spp.i_0_concrete import SPPConcrete, \
-    Graph, Node
+    Graph
 
 
 graph = Graph(rows=5)

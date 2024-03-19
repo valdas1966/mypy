@@ -13,24 +13,19 @@ class GraphGrid(GraphBase):
     """
 
     def __init__(self,
-                 rows: int = None,
+                 rows: int,
                  cols: int = None,
                  name: str = None,
-                 grid: Grid = None,
                  type_node: Type[Node] = Node) -> None:
-        if grid and not name:
-            name = grid.name
         GraphBase.__init__(self, name=name)
-        if rows:
-            cols = cols or rows
-            grid = Grid(rows, cols)
-        self._grid = grid
+        cols = cols or rows
+        self._grid = Grid(rows, cols)
         self._type_node = type_node
         self._nodes = [
-                        [type_node(cell=grid[row][col])
+                        [type_node(cell=self._grid[row][col])
                          for col
-                         in range(grid.cols)]
-                        for row in range(grid.rows)
+                         in range(self._grid.cols)]
+                        for row in range(self._grid.rows)
                       ]
 
     @property

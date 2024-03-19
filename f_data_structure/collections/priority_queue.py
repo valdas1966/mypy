@@ -1,35 +1,34 @@
 import heapq
-from typing import TypeVar
+from f_data_structure.collections.base.i_0_base import CollectionBase
+from typing import Generic, TypeVar
 
+# Define a type variable for the elements stored in SetOrdered
 T = TypeVar('T')
 
 
-class PriorityQueue:
+class PriorityQueue(Generic[T], CollectionBase[T]):
     """
     ============================================================================
      Desc: Min-Priority-Queue implemented using heapq module.
     ============================================================================
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         ========================================================================
-         Desc: Initialize an empty Priority-Queue.
+         Init an empty Priority-Queue.
         ========================================================================
         """
-        self._items = []
+        CollectionBase.__init__(self)
+        self._elements = list[T]()
 
-    @property
-    def items(self) -> list[T]:
-        return self._items.copy()
-
-    def push(self, item: T):
+    def add(self, element: T) -> None:
         """
         ========================================================================
-         Desc: Push an item onto the Priority-Queue.
+         Add an element onto the Priority-Queue.
         ========================================================================
         """
-        heapq.heappush(self._items, item)
+        heapq.heappush(self._elements, element)
 
     def pop(self) -> T:
         """

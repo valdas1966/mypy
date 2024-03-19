@@ -1,5 +1,5 @@
 from f_heuristic_search.nodes.i_1_g import NodeG as Node
-from f_heuristic_search.graphs.grid import Graph
+from f_heuristic_search.graphs.graph import Graph
 
 
 class KSPP:
