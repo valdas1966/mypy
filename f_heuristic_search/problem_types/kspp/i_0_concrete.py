@@ -1,5 +1,5 @@
 from f_heuristic_search.nodes.i_1_g import NodeG as Node
-from f_data_structure.graphs.abc.base import GraphBase as Graph
+from f_heuristic_search.graphs.grid import Graph
 
 
 class KSPP:
@@ -12,10 +12,11 @@ class KSPP:
     def __init__(self,
                  graph: Graph,
                  start: Node,
-                 goals: tuple[Node]) -> None:
+                 goals: tuple[Node, ...]) -> None:
         self._graph = graph
         self._start = start
         self._goals = goals
+        self._goals_active = set(goals)
 
     @property
     def graph(self) -> Graph:
@@ -26,5 +27,17 @@ class KSPP:
         return self._start
 
     @property
-    def goals(self) -> tuple[Node]:
+    def goals(self) -> tuple[Node, ...]:
         return self._goals
+
+    @property
+    def goals_active(self) -> set[Node]:
+        return self._goals_active
+
+    def remove_goal_active(self, goal: Node) -> None:
+        """
+        ========================================================================
+         Remove Goal from the Active-List (after search reached it).
+        ========================================================================
+        """
+        self._goals_active.remove(element=goal)

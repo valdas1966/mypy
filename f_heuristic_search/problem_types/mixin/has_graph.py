@@ -1,16 +1,21 @@
+from f_heuristic_search.graphs.grid import GraphGrid as Graph
 
-class Blob:
+
+class HasGraph:
     """
     ============================================================================
-     Static-Methods for a BLOB-Object in the Google-Storage.
+     Mixin-Class for Problems that are represented by a Graph.
     ============================================================================
     """
 
-    @staticmethod
-    def is_folder(name: str) -> bool:
+    def __init__(self, graph: Graph) -> None:
         """
         ========================================================================
-         Return True if the Folder-Name represents a Folder.
+         Init private Attributes.
         ========================================================================
         """
-        return name.endswith('/')
+        self._graph = graph
+
+    @property
+    def graph(self) -> Graph:
+        return self._graph

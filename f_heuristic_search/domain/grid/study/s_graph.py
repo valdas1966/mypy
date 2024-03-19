@@ -1,4 +1,4 @@
-from f_heuristic_search.domain.grid.graph import Graph
+from f_heuristic_search.graphs.grid import Graph
 
 
 g = Graph(rows=5, name='GridTest')

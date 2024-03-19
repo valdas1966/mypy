@@ -1,4 +1,4 @@
-from f_heuristic_search.domain.grid.graph import Graph
+from f_heuristic_search.graphs.grid import Graph
 from f_heuristic_search.domain.grid.spp_lookup import SPPLookup
 
 

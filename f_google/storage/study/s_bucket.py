@@ -4,7 +4,11 @@ from f_google.storage.bucket import Bucket
 
 storage = Storage(user='GFUNC')
 bucket: Bucket = storage.bucket(name='us-central1-noteret-bf653c49-bucket')
-print(bucket.files(folder='plugins/'))
+folders = bucket.folders(folder='plugins/')
+print(folders)
+files = bucket.files(folder='plugins/')
+print(files)
+
 
 """
 bucket.upload_file(path_from='d:\\temp\\2023\\02\\select.py',

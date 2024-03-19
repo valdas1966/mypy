@@ -1,5 +1,5 @@
-from f_heuristic_search.problem_types.spp import SPP as SPPBase
-from f_heuristic_search.domain.grid.graph import Graph
+from f_heuristic_search.problem_types.spp.i_0_concrete import SPP as SPPBase
+from f_heuristic_search.graphs.grid import Graph
 from f_heuristic_search.nodes.i_3_f_cell import Node
 
 

@@ -1,5 +1,4 @@
-from typing import Type
-from f_heuristic_search.problem_types.spp import SPP, Graph, Node
+from f_heuristic_search.problem_types.spp.i_0_concrete import SPP, Graph, Node
 
 
 class SPPLookup(SPP):
