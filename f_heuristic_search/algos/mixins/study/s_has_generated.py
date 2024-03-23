@@ -17,8 +17,3 @@ class Algo(HasGenerated[NodeBase]):
 algo = Algo()
 algo.run()
 print(algo.generated)
-
-
-
-
-

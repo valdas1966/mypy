@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import Type
-from f_data_structure.graphs.i_0_grid import GraphGrid
+from f_data_structure.graphs.i_1_grid import GraphGrid
 from f_heuristic_search.nodes.i_3_f_cell import NodeFCell as Node
 
 

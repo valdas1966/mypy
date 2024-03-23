@@ -11,6 +11,11 @@ class GraphBase(ABC, Nameable):
     """
 
     def __init__(self, name: str = None) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
         Nameable.__init__(self, name)
 
     @abstractmethod

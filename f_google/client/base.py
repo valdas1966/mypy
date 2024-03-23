@@ -3,10 +3,11 @@ from abc import ABC, abstractmethod
 from google.cloud import bigquery, storage
 from google.oauth2.service_account import Credentials
 from f_google.auth.auth import Auth
+import gspread
 
 
 # Define the Union of possible client types
-GoogleClient = Union[bigquery.Client, storage.Client]
+GoogleClient = Union[bigquery.Client, storage.Client, gspread.Client]
 
 
 class ClientBase(ABC):

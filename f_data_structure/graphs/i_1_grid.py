@@ -1,11 +1,13 @@
 from __future__ import annotations
-from f_data_structure.graphs.abc.base import GraphBase
-from f_data_structure.f_grid.grid_cells import GridCells as Grid
-from f_data_structure.nodes.i_2_cell import NodeCell as Node
-from typing import Type
+from f_data_structure.graphs.i_0_base import GraphBase
+from f_data_structure.f_grid.grid_cells import GridCells
+from f_data_structure.nodes.i_2_cell import NodeCell
+from typing import Generic, TypeVar
+
+Node = TypeVar('Node', bound=NodeCell)
 
 
-class GraphGrid(GraphBase):
+class GraphGrid(Generic[Node], GraphBase):
     """
     ============================================================================
      Grid-Based Graph.
@@ -16,13 +18,20 @@ class GraphGrid(GraphBase):
                  rows: int,
                  cols: int = None,
                  name: str = None,
-                 type_node: Type[Node] = Node) -> None:
+                 grid: GridCells = None) -> None:
+        """
+        ========================================================================
+         1. Init private Attributes.
+         2. The Object can be initialized by Rows & Cols or by a Grid.
+        ========================================================================
+        """
         GraphBase.__init__(self, name=name)
-        cols = cols or rows
-        self._grid = Grid(rows, cols)
-        self._type_node = type_node
+        if not grid:
+            cols = cols or rows
+            grid = GridCells(rows, cols)
+        self._grid = grid
         self._nodes = [
-                        [type_node(cell=self._grid[row][col])
+                        [Node(cell=self._grid[row][col])
                          for col
                          in range(self._grid.cols)]
                         for row in range(self._grid.rows)
@@ -52,7 +61,7 @@ class GraphGrid(GraphBase):
         """
         return self._grid.pct_non_valid()
 
-    def get_neighbors(self, node: Node) -> list[Type[Node]]:
+    def get_neighbors(self, node: Node) -> list[Node]:
         """
         ========================================================================
          Return list of a given Node's neighbors.
@@ -65,7 +74,7 @@ class GraphGrid(GraphBase):
     def make_invalid(self, tuples: list[tuple]) -> None:
         """
         ========================================================================
-         Turn the received Tuples to Invalid.
+         Turn the received Tuples (Coordinates) to Invalid.
         ========================================================================
         """
         self._grid.make_invalid_tuples(tuples)
@@ -92,4 +101,4 @@ class GraphGrid(GraphBase):
         ========================================================================
         """
         grid = Grid.generate(rows=rows, cols=cols, pct_non_valid=pct_non_valid)
-        return GraphGrid(grid=grid, type_node=type_node)
+        return GraphGrid[type_node](grid=grid)

@@ -1,4 +1,4 @@
-from f_data_structure.graphs.abc.base import GraphBase
+from f_data_structure.graphs.i_0_base import GraphBase
 from f_data_structure.nodes.i_0_base import NodeBase as Node
 from collections import defaultdict
 
@@ -10,19 +10,17 @@ class GraphMutable(GraphBase):
     ============================================================================
     """
 
-    # Dict mapping Nodes to their Neighbors
-    _nodes: defaultdict[Node, list[Node]]
-
     def __init__(self,
                  name: str = None,
-                 nodes: defaultdict[Node, list[Node]] = None) -> None:
+                 nodes = defaultdict[Node, list[Node]()]) -> None:
         """
         ========================================================================
          Initialize the private dictionary.
         ========================================================================
         """
         GraphBase.__init__(self, name)
-        self._nodes = defaultdict(list, nodes or {})
+        # Dict mapping Nodes to their Neighbors
+        self._nodes = nodes
 
     def nodes(self) -> list[Node]:
         """

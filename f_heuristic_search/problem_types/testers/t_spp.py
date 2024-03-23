@@ -1,5 +1,5 @@
 from f_heuristic_search.problem_types.spp.i_0_concrete import SPP
-from f_data_structure.graphs.i_0_mutable import GraphMutable as Graph
+from f_data_structure.graphs.i_1_mutable import GraphMutable as Graph
 from f_data_structure.nodes.i_0_base import NodeBase as Node
 
 

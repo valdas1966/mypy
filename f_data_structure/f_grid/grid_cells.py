@@ -11,17 +11,22 @@ class GridCells(GridLayout):
     ============================================================================
     """
 
-    _grid: list[list[Cell]]    # 2D-Grid of Cells.
-
     def __init__(self,
                  rows: int,
                  cols: int = None,
                  name: str = None) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
         GridLayout.__init__(self, rows, cols, name)
-        self._grid = [
-                      [Cell(row, col) for col in range(self.cols)]
-                      for row in range(self.rows)
-                     ]
+        # 2D-Grid of Cells
+        self._grid: list[list[Cell]] = [
+                                        [Cell(row, col)
+                                         for col in range(self.cols)]
+                                        for row in range(self.rows)
+                                        ]
 
     def cells(self) -> list[Cell]:
         """
