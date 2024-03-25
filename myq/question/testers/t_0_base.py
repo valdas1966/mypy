@@ -1,8 +1,8 @@
-from myq.inner.question.i_0_stats import QuestionStats
+from myq.question.i_0_base import QuestionBase
 
 
 def test_pct_answered():
-    q = QuestionStats()
+    q = QuestionBase()
     assert q.pct_answered() == 0
     q.update(True)
     assert q.pct_answered() == 1

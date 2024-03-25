@@ -2,12 +2,10 @@ from __future__ import annotations
 from f_data_structure.graphs.i_0_base import GraphBase
 from f_data_structure.f_grid.grid_cells import GridCells
 from f_data_structure.nodes.i_2_cell import NodeCell
-from typing import Generic, TypeVar
-
-Node = TypeVar('Node', bound=NodeCell)
+from typing import Type
 
 
-class GraphGrid(Generic[Node], GraphBase):
+class GraphGrid(GraphBase):
     """
     ============================================================================
      Grid-Based Graph.
@@ -15,23 +13,21 @@ class GraphGrid(Generic[Node], GraphBase):
     """
 
     def __init__(self,
-                 rows: int,
-                 cols: int = None,
+                 grid: GridCells,
                  name: str = None,
-                 grid: GridCells = None) -> None:
+                 type_node: Type[NodeCell] = NodeCell) -> None:
         """
         ========================================================================
          1. Init private Attributes.
-         2. The Object can be initialized by Rows & Cols or by a Grid.
+         2. The Object can be initialized by [Rows & Cols | Grid].
+         3. If only the Rows are provided, the Grid will be square.
         ========================================================================
         """
         GraphBase.__init__(self, name=name)
-        if not grid:
-            cols = cols or rows
-            grid = GridCells(rows, cols)
         self._grid = grid
+        self._type_node = type_node
         self._nodes = [
-                        [Node(cell=self._grid[row][col])
+                        [type_node(cell=self._grid[row][col])
                          for col
                          in range(self._grid.cols)]
                         for row in range(self._grid.rows)
@@ -44,6 +40,10 @@ class GraphGrid(Generic[Node], GraphBase):
     @property
     def cols(self) -> int:
         return self._grid.cols
+
+    @property
+    def type_node(self) -> Type[NodeCell]:
+        return self._type_node
 
     def shape(self) -> str:
         """
@@ -61,7 +61,7 @@ class GraphGrid(Generic[Node], GraphBase):
         """
         return self._grid.pct_non_valid()
 
-    def get_neighbors(self, node: Node) -> list[Node]:
+    def get_neighbors(self, node: NodeCell) -> list[NodeCell]:
         """
         ========================================================================
          Return list of a given Node's neighbors.
@@ -79,7 +79,7 @@ class GraphGrid(Generic[Node], GraphBase):
         """
         self._grid.make_invalid_tuples(tuples)
 
-    def __getitem__(self, index: int) -> list[Node]:
+    def __getitem__(self, index: int) -> list[NodeCell]:
         """
         ========================================================================
          1. Direct access to a Row of Nodes by [Row] Property.
@@ -88,17 +88,70 @@ class GraphGrid(Generic[Node], GraphBase):
         """
         return self._nodes[index]
 
+    def __str__(self) -> str:
+        """
+        ========================================================================
+         Return STR-REPR of the GraphGrid (Boolean-Grid based on Cell-Validity).
+        ========================================================================
+        """
+        return str(self._grid)
+
+    @classmethod
+    def from_grid(cls,
+                  grid: GridCells,
+                  name: str = None,
+                  type_node: Type[NodeCell] = NodeCell) -> GraphGrid:
+        """
+        ========================================================================
+         Create GraphGrid by a given GridCells.
+        ========================================================================
+        """
+        return cls(grid=grid, name=name, type_node=type_node)
+
+    @classmethod
+    def from_shape(cls,
+                   rows: int,
+                   cols: int = None,
+                   name: str = None,
+                   type_node: Type[NodeCell] = NodeCell) -> GraphGrid:
+        """
+        ========================================================================
+         Create GraphGrid by a given Shape (Rows and Cols).
+        ========================================================================
+        """
+        grid = GridCells(rows=rows, cols=cols)
+        return cls.from_grid(grid=grid, name=name, type_node=type_node)
+
     @classmethod
     def generate(cls,
                  rows: int,
                  cols: int = None,
                  pct_non_valid: int = 0,
-                 type_node: Type[Node] = Node) -> GraphGrid:
+                 type_node: Type[NodeCell] = NodeCell) -> GraphGrid:
         """
         ========================================================================
          Generates a Graph with a random Grid based on received params
-          (size and percentage of invalid cells).
+             (size and percentage of invalid cells).
         ========================================================================
         """
-        grid = Grid.generate(rows=rows, cols=cols, pct_non_valid=pct_non_valid)
-        return GraphGrid[type_node](grid=grid)
+        grid = GridCells.generate(rows=rows,
+                                  cols=cols,
+                                  pct_non_valid=pct_non_valid)
+        return cls.from_grid(grid=grid, type_node=type_node)
+
+    @classmethod
+    def generate_list(cls,
+                      cnt: int,
+                      rows: int,
+                      cols: int = None,
+                      pct_non_valid: int = 0,
+                      type_node: Type[NodeCell] = NodeCell
+                      ) -> list[GraphGrid]:
+        """
+        ========================================================================
+         Generates a List of Graphs with a random Grid based on received
+          params (size and percentage of invalid cells).
+        ========================================================================
+        """
+        return [cls.generate(rows, cols, pct_non_valid, type_node)
+                for _ in range(cnt)]

@@ -18,6 +18,11 @@ class ClientBase(ABC):
     """
 
     def __init__(self, user: str = None) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
         self._user = user
         self._creds = Auth.get_creds(user=user)
         self._client = self._get_client()

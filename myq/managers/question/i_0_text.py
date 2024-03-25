@@ -1,18 +1,16 @@
+from myq.question.i_1_text import QuestionText
+from typing import Generic, TypeVar
 from f_utils import u_input
-from myq.question import Question
+
+Question = TypeVar('Question', bound=QuestionText)
 
 
-class ManagerQuestion:
+class ManagerQuestionText(Generic[Question]):
     """
     ============================================================================
-     Manages the Question process.
+     Manages the Inputable Question-Text process.
     ============================================================================
     """
-
-    _q:          Question   # Question to ask
-    _prompt:     str        # Prompt (Question-Text) to the User
-    _input:      str        # User's Answer
-    _is_correct: bool       # User's Answer Correctness
 
     def run(self, q: Question) -> None:
         """
@@ -58,7 +56,7 @@ class ManagerQuestion:
          Return Prompt that will be displayed to the user (Question-Text).
         ========================================================================
         """
-        return f'{self._q.text}:'
+        return f'\n{self._q.text}:'
 
     def _get_input(self) -> str:
         """
@@ -82,7 +80,7 @@ class ManagerQuestion:
          Update Question-Stats with the Answer Correctness.
         ========================================================================
         """
-        self._q.update(self._is_correct)
+        self._q.stats.update(self._is_correct)
 
     def _print_correct_answer(self) -> None:
         """

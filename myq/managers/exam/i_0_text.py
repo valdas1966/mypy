@@ -1,27 +1,33 @@
-from myq.exam import Exam
-from myq.managers.question import ManagerQuestion
+from myq.exam.i_0_base import ExamBase as Exam
+from myq.managers.question.i_0_text import ManagerQuestionText
 
 
-class ManagerExam:
+class ManagerExamText:
     """
     ============================================================================
-     Manage the Exam-Process.
+     Manage the Inputable Question-Text Exam-Process.
     ============================================================================
     """
 
     def __init__(self, exam: Exam) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
         self._exam = exam
-        self._manager_question = ManagerQuestion()
+        self._man_question = ManagerQuestionText()
 
     def run(self) -> None:
         """
         ========================================================================
-         Ask a Question in the list ordering.
+         1. Run the Exam-Process.
+         2. Ask a Question in the list ordering.
         ========================================================================
         """
         self._print_start()
         for q in self._exam.questions:
-            self._manager_question.run(q)
+            self._man_question.run(q)
         self._print_finish()
 
     @staticmethod
@@ -30,4 +36,4 @@ class ManagerExam:
 
     @staticmethod
     def _print_finish() -> None:
-        print('FINISH EXAM')
+        print('\nFINISH EXAM')

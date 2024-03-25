@@ -1,21 +1,20 @@
-from f_data_structure.graphs.i_1_grid import GraphGrid as Graph
+from abc import ABC, abstractmethod
 
 
-class HasGraph:
+class ManagerBase(ABC):
     """
     ============================================================================
-     Mixin-Class for Problems that are represented by a Graph.
+     Abstract-Class that manages some Process.
     ============================================================================
     """
 
-    def __init__(self, graph: Graph) -> None:
+    @classmethod
+    @abstractmethod
+    def run(cls, **kwargs) -> None:
         """
         ========================================================================
-         Init private Attributes.
+         Run the Process.
         ========================================================================
         """
-        self._graph = graph
+        pass
 
-    @property
-    def graph(self) -> Graph:
-        return self._graph

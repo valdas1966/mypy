@@ -106,7 +106,7 @@ class GridCells(GridLayout):
          Returns the Percentage of Non-Valid Cells in the Grid.
         ========================================================================
         """
-        return round((1 - self.pct_cells_valid()) * 100, 0)
+        return int(round((1 - self.pct_cells_valid()) * 100, 0))
 
     def _make_invalid_row_col(self, row: int, col: int) -> None:
         """
@@ -125,6 +125,14 @@ class GridCells(GridLayout):
         """
         return self._grid[index]
 
+    def __str__(self) -> str:
+        res = str()
+        for row in range(self.rows):
+            for col in range(self.cols):
+                res += '1 ' if self._grid[row][col].is_valid else '0 '
+            res += '\n'
+        return res
+
     @classmethod
     def generate(cls,
                  rows: int,
@@ -141,3 +149,18 @@ class GridCells(GridLayout):
         cells_random = grid.cells_random(pct=pct_non_valid)
         grid.make_invalid_cells(cells_random)
         return grid
+
+    @classmethod
+    def generate_list(cls,
+                      cnt: int,
+                      rows: int,
+                      cols: int = None,
+                      pct_non_valid: int = 0
+                      ) -> list[GridCells]:
+        """
+        ========================================================================
+         Generates a List of randoms Grid based on received params
+          (size and percentage of invalid cells).
+        ========================================================================
+        """
+        return [cls.generate(rows, cols, pct_non_valid) for _ in range(cnt)]

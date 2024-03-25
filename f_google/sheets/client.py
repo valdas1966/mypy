@@ -19,7 +19,7 @@ class Client(ClientBase):
         spread: gspread.spreadsheet = self._client.open_by_key(key=id_spread)
         return Spread(id_spread=id_spread, spread=spread)
 
-    def _open_client(self) -> gspread.client.Client:
+    def _get_client(self) -> gspread.client.Client:
         """
         ========================================================================
          Open Google-Sheets Client.

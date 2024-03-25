@@ -5,14 +5,7 @@ from f_utils import u_input
 class Inputable:
     """
     ============================================================================
-     Prints a Prompt to the User and receives an Input from them.
-    ============================================================================
-     Methods:
-    ----------------------------------------------------------------------------
-        1. gen_prompt() -> str
-           [*] Generates a Prompt that will be displayed to the User.
-        2. get_input() -> None
-           [*] Captures the User's Input (input-str and date-times).
+     Mixin Class for printing a Prompt to the User and receive the Input.
     ============================================================================
     """
 
@@ -21,19 +14,27 @@ class Inputable:
     dt_input:  datetime   # Input DateTime
 
     def __init__(self) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
         self._input = None
         self._dt_prompt = None
         self._dt_input = None
 
     @property
+    # User's Input
     def input(self) -> str:
         return self._input
 
     @property
+    # Prompt's DateTime
     def dt_prompt(self) -> datetime:
         return self._dt_prompt
 
     @property
+    # Input's DateTime
     def dt_input(self) -> datetime:
         return self._dt_input
 
