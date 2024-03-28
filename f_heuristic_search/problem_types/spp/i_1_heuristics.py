@@ -1,9 +1,13 @@
 from f_heuristic_search.problem_types.spp.i_0_concrete import SPPConcrete, \
-    Graph, Node
+    Graph
+from f_data_structure.nodes.i_2_cell import NodeCell
 from enum import Enum, auto
+from typing import TypeVar
+
+Node = TypeVar('Node', bound=NodeCell)
 
 
-class SPPHeuristics(SPPConcrete):
+class SPPHeuristics(SPPConcrete[Node]):
     """
     ============================================================================
      One-to-One Shortest-Path-Problem with Heuristics.
