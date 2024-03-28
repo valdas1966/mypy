@@ -1,4 +1,4 @@
-from f_heuristic_search.algos.spp.base import SPPAlgo, Node
+from f_heuristic_search.algos.spp.i_0_base import SPPAlgo, Node
 
 
 class AStar(SPPAlgo[Node]):

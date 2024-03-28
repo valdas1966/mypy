@@ -1,13 +1,9 @@
-from f_heuristic_search.algos.spp.base import SPPAlgoBase
+from f_heuristic_search.algos.spp.i_0_base import SPPAlgoBase, Node
 from f_heuristic_search.problem_types.spp.i_0_concrete import SPPConcrete
 from f_data_structure.collections.queue_fifo import QueueFIFO
-from f_data_structure.nodes.i_1_path import NodePath
-from typing import Generic, TypeVar
-
-Node = TypeVar('Node', bound=NodePath)
 
 
-class BFS(Generic[Node], SPPAlgoBase):
+class BFS(SPPAlgoBase):
     """
     ============================================================================
      Breadth-First-Search Algorithm.
@@ -26,16 +22,12 @@ class BFS(Generic[Node], SPPAlgoBase):
                              spp=spp,
                              type_queue=QueueFIFO)
 
-    def run(self) -> None:
+    def _process_child(self, child: Node, node: Node) -> None:
         """
         ========================================================================
-         Run the BFS Algo.
+         Generate a Child if it is not already generated.
         ========================================================================
         """
-        self._generate_node(node=self.spp.start)
-        while self._generated:
-            best = self._generated.pop()
-            if best == self.spp.goal:
-                self._is_path_found = True
-                break
-            self._expand_node(node=best)
+        if child not in self.generated:
+            child.parent = node
+            self._generate_node(node=child)

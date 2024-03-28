@@ -1,8 +1,8 @@
-from f_heuristic_search.problem_types.spp.i_0_concrete import SPPConcrete
+from f_heuristic_search.problem_types.spp.i_0_concrete import (SPPConcrete,
+                                                               NodePath)
 from f_heuristic_search.algos.mixins.has_generated import HasGenerated
 from f_heuristic_search.algos.mixins.has_expanded import HasExpanded
 from f_data_structure.collections.base.i_1_queue import QueueBase
-from f_data_structure.nodes.i_1_path import NodePath
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar, Type
 
@@ -39,14 +39,19 @@ class SPPAlgoBase(ABC, Generic[Node], HasGenerated[Node], HasExpanded[Node]):
     def is_path_found(self) -> bool:
         return self._is_path_found
 
-    @abstractmethod
     def run(self) -> None:
         """
         ========================================================================
          Run the Algorithm.
         ========================================================================
         """
-        pass
+        self._generate_node(node=self.spp.start)
+        while self._generated:
+            best = self._generated.pop()
+            if best == self.spp.goal:
+                self._is_path_found = True
+                break
+            self._expand_node(node=best)
 
     def optimal_path(self) -> list[Node]:
         """
@@ -74,6 +79,14 @@ class SPPAlgoBase(ABC, Generic[Node], HasGenerated[Node], HasExpanded[Node]):
         """
         for child in self.spp.graph.get_neighbors(node=node):
             if child not in self.expanded:
-                if child not in self.generated:
-                    self._generate_node(node=child)
+                self._process_child(child=child, node=node)
         self._expanded.add(node)
+
+    @abstractmethod
+    def _process_child(self, child: Node, node: Node) -> None:
+        """
+        ========================================================================
+         Process the Child of the expanded Node.
+        ========================================================================
+        """
+        pass

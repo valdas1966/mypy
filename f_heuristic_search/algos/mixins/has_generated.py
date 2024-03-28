@@ -8,7 +8,7 @@ Node = TypeVar('Node', bound=NodeBase)
 class HasGenerated(Generic[Node]):
     """
     ============================================================================
-     Mixin for Algorithms that use a Generated (Open) List.
+     Mixin for Algorithms that use a Generated Queue (Open List).
     ============================================================================
     """
 

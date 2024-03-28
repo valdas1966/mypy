@@ -3,7 +3,7 @@ from f_heuristic_search.problem_types.spp.i_1_heuristics import \
 
 
 def test_heuristics():
-    graph = Graph(rows=5)
+    graph = Graph.from_shape(rows=5)
     start = graph[1][3]
     goal = graph[3][3]
     spp = SPPHeuristics(graph, start, goal)

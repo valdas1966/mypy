@@ -1,9 +1,10 @@
 from f_heuristic_search.problem_types.spp.i_1_heuristics import \
-    SPPHeuristics, Graph, Node
+    SPPHeuristics, Graph
 
 
-graph = Graph(rows=5)
+graph = Graph.from_shape(rows=5)
 start = graph[1][2]
 goal = graph[3][2]
-spp = SPPHeuristics(graph, start, goal, h_func='MANHATTAN_DISTANCE')
+spp = SPPHeuristics(graph, start, goal,
+                    h_func=SPPHeuristics.Heuristic.MANHATTAN_DISTANCE)
 print(spp.calc_h(node=start))
