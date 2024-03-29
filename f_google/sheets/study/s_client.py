@@ -1,7 +1,6 @@
-from f_google.sheets.client import Client
+from f_google.sheets.client import GSheets
 
 
-client = Client(user='VALDAS')
+gs = GSheets(user='VALDAS')
 
-print(type(client._client))
-
+print(type(gs._client))

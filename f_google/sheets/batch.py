@@ -27,5 +27,7 @@ class Batch:
          Update the Cells-Data into the Google-Sheet.
         ========================================================================
         """
+        # Update the Cells in the Google Sheets
         self._ws.update_cells(self._cells)
+        # Reset the Cells-List of the Batch
         self._cells: list[Cell] = list()

@@ -5,13 +5,20 @@ from gspread.cell import Cell as GSCell
 class Cell:
     """
     ============================================================================
-     Google-Sheets Cell.
+     1. Google-Sheets Cell.
+     2. Every change in the Cells' Values stores in a Batch.
+     3. The Batch can updates all Cells-Changes at once.
     ============================================================================
     """
 
     def __init__(self,
                  cell: GSCell,
                  add_to_batch: Callable[[GSCell], None]) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
         self._cell = cell
         self._add_to_batch = add_to_batch
 

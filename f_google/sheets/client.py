@@ -3,7 +3,7 @@ from f_google.client.base import ClientBase
 from f_google.sheets.spread import Spread
 
 
-class Client(ClientBase):
+class GSheets(ClientBase):
     """
     ============================================================================
      Google-Sheets Client.
@@ -26,3 +26,14 @@ class Client(ClientBase):
         ========================================================================
         """
         return gspread.authorize(credentials=self.creds)
+
+    @classmethod
+    def spread(cls, user: str, id_spread: str) -> Spread:
+        """
+        ========================================================================
+         1. Open GSheets-Client by a given User.
+         2. Return SpreadSheet by a given Id-Spread.
+        ========================================================================
+        """
+        gs = GSheets(user=user)
+        return gs.open_spread(id_spread=id_spread)
