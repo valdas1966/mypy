@@ -25,9 +25,9 @@ class Bucket:
     def folders(self, folder: str = None) -> list[str]:
         """
         ========================================================================
-         1. Return a list of top-level folders within a specified folder path.
+         1. Return a list of top-level english within a specified folder path.
          2. Folder Path should ends with a "/".
-         3. If no folder is specified, it returns the top-level folders in
+         3. If no folder is specified, it returns the top-level english in
             the bucket.
         ========================================================================
         """

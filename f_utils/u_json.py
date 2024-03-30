@@ -2,10 +2,10 @@ import json
 import pandas as pd
 
 
-def json_to_dict(path: str) -> str:
+def file_to_dict(path: str) -> dict:
     """
     ============================================================================
-     Convert Json-File into String.
+     Convert Json-File into a Dict.
     ============================================================================
     """
     with open(path, 'r') as f:
