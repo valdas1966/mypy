@@ -1,6 +1,5 @@
-from f_google.sheets.client import GSheets
-from myq.gsheets import keys
 from abc import ABC
+from f_google.sheets.client import GSheets
 
 
 class SheetBase(ABC):
@@ -10,8 +9,7 @@ class SheetBase(ABC):
     ============================================================================
     """
 
-    # Name of the Myq-Spread
-    __NAME_SPREAD = 'English'
+    __ID_SPREAD = '1mOhkn4DPpUlgtuQxzTPNWlymBSmq9fS7T0t3IaDFf98'
 
     def __init__(self) -> None:
         """
@@ -19,6 +17,5 @@ class SheetBase(ABC):
          Init private Attributes.
         ========================================================================
         """
-        id_spread = keys.get(name_spread=SheetBase.__NAME_SPREAD)
         self._spread = GSheets.spread(user='VALDAS',
-                                      id_spread=id_spread)
+                                      id_spread=SheetBase.__ID_SPREAD)
