@@ -11,8 +11,7 @@ class Sheet:
     ============================================================================
     """
 
-    __ROW_MAX = 10000000
-    __VALUE_EMPTY = str()
+    __ROW_MAX = 1000
 
     def __init__(self, ws: Worksheet) -> None:
         """
@@ -31,46 +30,46 @@ class Sheet:
     def index(self) -> int:
         return self._ws.index
 
-    def row_last(self, col: int, row_first: int = 1) -> int:
+    def get_row_last(self, col: int, row_first: int = 1) -> int:
         """
         ========================================================================
          Return the Last non-empty Row in the given Col.
         ========================================================================
         """
-        row = row_first + 1
-        while row < Sheet.__ROW_MAX:
-            if self._ws.cell(row, col) == Sheet.__VALUE_EMPTY:
-                return row - 1
-            row += 1
-        return None
+        if self[row_first, col].is_empty():
+            return -1
+        a1_range = Sheet.to_a1_range(row_first=row_first,
+                                     row_last=row_first+Sheet.__ROW_MAX,
+                                     col_first=col,
+                                     col_last=col)
+        cells: list[GSCell] = self._ws.range(name=a1_range)
+        for i in range(1, len(cells)-1):
+            if cells[i].value == str() or cells[i].value is None:
+                return cells[i].row - 1
+        return -1
 
     def to_tuples(self,
                   col_first: int,
                   col_last: int,
                   row_first: int,
-                  row_last: int = None) -> list[tuple]:
+                  row_last: int = None) -> tuple:
+        """
+        ========================================================================
+         Convert the Range-Values in given coordinates into Tuple of Tuples.
+        ========================================================================
+        """
         if not row_last:
-            row_last = self.row_last(col=col_first, row_first=row_first)
+            row_last = self.get_row_last(col=col_first, row_first=row_first)
         a1_range = Sheet.to_a1_range(row_first=row_first,
                                      row_last=row_last,
                                      col_first=col_first,
                                      col_last=col_last)
-        range = self._ws.range(a1_range)
-
-        def to_tuples(self, col_first: int, col_last: int, row_first: int,
-                      row_last: int = None) -> list[tuple]:
-            if row_last is None:
-                row_last = self.row_last(col=col_first, row_first=row_first)
-                if row_last is None:
-                    return []  # Return an empty list if no last row is found
-
-            a1_range = self.to_a1_range(row_first=row_first, row_last=row_last,
-                                        col_first=col_first, col_last=col_last)
-            cells = self._ws.range(a1_range)
-
-            num_columns = col_last - col_first + 1
-            return [tuple(cell.value for cell in cells[i:i + num_columns]) for i
-                    in range(0, len(cells), num_columns)]
+        cells: list[GSCell] = self._ws.range(name=a1_range)
+        num_cols = col_last - col_first + 1
+        return tuple(
+                        tuple(cell.value for cell in cells[i:i + num_cols])
+                        for i in range(0, len(cells), num_cols)
+                    )
 
     def update(self) -> None:
         """

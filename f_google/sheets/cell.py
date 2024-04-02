@@ -1,5 +1,6 @@
 from typing import Callable
 from gspread.cell import Cell as GSCell
+from f_utils import u_str
 
 
 class Cell:
@@ -38,6 +39,14 @@ class Cell:
     def value(self, val: str) -> None:
         self._cell.value = val
         self._add_to_batch(cell=self._cell)
+
+    def is_empty(self) -> bool:
+        """
+        ========================================================================
+         Return True if the Cell's Values is Empty.
+        ========================================================================
+        """
+        return u_str.is_empty(self.value)
 
     def __str__(self) -> str:
         """
