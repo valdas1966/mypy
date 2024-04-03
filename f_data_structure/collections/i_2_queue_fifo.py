@@ -3,7 +3,7 @@ from f_data_structure.collections.i_1_queue import QueueBase, T
 from typing import Deque
 
 
-class QueueFIFO(QueueBase[T]):
+class QueueFIFO(QueueBase):
     """
     ============================================================================
      FIFO (First In - First Out) Queue.
@@ -16,6 +16,7 @@ class QueueFIFO(QueueBase[T]):
          Init with an empty Queue.
         ========================================================================
         """
+        QueueBase.__init__(self)
         self._elements: Deque[T] = deque()
 
     def push(self, element: T) -> None:

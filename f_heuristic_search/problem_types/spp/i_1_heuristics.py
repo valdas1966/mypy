@@ -2,13 +2,13 @@ from f_heuristic_search.problem_types.spp.i_0_concrete import SPPConcrete
 from f_data_structure.graphs.i_1_grid import GraphGrid
 from f_data_structure.nodes.i_2_cell import NodeCell
 from enum import Enum, auto
-from typing import TypeVar
+from typing import Generic, TypeVar
 
 Graph = TypeVar('Graph', bound=GraphGrid)
 Node = TypeVar('Node', bound=NodeCell)
 
 
-class SPPHeuristics(SPPConcrete):
+class SPPHeuristics(Generic[Graph, Node], SPPConcrete[Graph, Node]):
     """
     ============================================================================
      One-to-One Shortest-Path-Problem with Heuristics.

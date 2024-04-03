@@ -1,9 +1,16 @@
-from f_heuristic_search.problem_types.mixin.has_graph import HasGraph, Graph
-from f_heuristic_search.problem_types.mixin.has_start import HasStart, Node
+from f_heuristic_search.problem_types.mixin.has_graph import HasGraph, GraphBase
+from f_heuristic_search.problem_types.mixin.has_start import HasStart, NodePath
 from f_heuristic_search.problem_types.mixin.has_goal import HasGoal
+from typing import Generic, TypeVar
+
+Graph = TypeVar('Graph', bound=GraphBase)
+Node = TypeVar('Node', bound=NodePath)
 
 
-class SPPConcrete(HasGraph, HasStart, HasGoal):
+class SPPConcrete(Generic[Graph, Node],
+                  HasGraph[Graph],
+                  HasStart[Node],
+                  HasGoal[Node]):
     """
     ============================================================================
      Represents a one-to-one Shortest-Path-Problem in Heuristic Search.

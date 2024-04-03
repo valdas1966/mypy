@@ -1,12 +1,12 @@
 import heapq
-from f_data_structure.collections.i_0_base import CollectionBase
+from f_data_structure.collections.i_1_queue import QueueBase
 from f_abstract.mixins.sortable import Sortable
 from typing import TypeVar
 
 T = TypeVar('T', bound=Sortable)
 
 
-class QueuePriority(CollectionBase[T]):
+class QueuePriority(QueueBase[T]):
     """
     ============================================================================
      Min-Priority-Queue implemented using heapq module.
@@ -19,7 +19,7 @@ class QueuePriority(CollectionBase[T]):
          Init an empty Priority-Queue.
         ========================================================================
         """
-        CollectionBase.__init__(self)
+        QueueBase.__init__(self)
         self._elements: list[T] = list()
 
     def push(self, element: T) -> None:

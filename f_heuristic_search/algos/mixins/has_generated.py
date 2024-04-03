@@ -12,13 +12,13 @@ class HasGenerated(Generic[Node]):
     ============================================================================
     """
 
-    def __init__(self, type_queue: Type[QueueBase[Node]]) -> None:
+    def __init__(self, type_queue: Type[QueueBase]) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._generated = type_queue[Node]()
+        self._generated = type_queue()
 
     @property
     def generated(self) -> list[Node]:

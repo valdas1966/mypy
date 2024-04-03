@@ -1,9 +1,12 @@
 from abc import ABC, abstractmethod
 from f_abstract.mixins.nameable import Nameable
-from f_data_structure.nodes.i_0_base import NodeBase as Node
+from f_data_structure.nodes.i_0_base import NodeBase
+from typing import TypeVar, Generic
+
+Node = TypeVar('Node', bound=NodeBase)
 
 
-class GraphBase(ABC, Nameable):
+class GraphBase(ABC, Generic[Node], Nameable):
     """
     ============================================================================
      Base Graph.

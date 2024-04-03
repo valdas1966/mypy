@@ -1,12 +1,14 @@
-from f_heuristic_search.problem_types.spp.i_0_concrete import SPPConcrete, Node
+from f_heuristic_search.problem_types.spp.i_0_concrete import SPPConcrete, NodePath
 from f_heuristic_search.algos.mixins.has_generated import HasGenerated
 from f_heuristic_search.algos.mixins.has_expanded import HasExpanded
 from f_data_structure.collections.i_1_queue import QueueBase
 from abc import ABC, abstractmethod
-from typing import Type
+from typing import Generic, TypeVar, Type
+
+Node = TypeVar('Node', bound=NodePath)
 
 
-class SPPAlgoBase(ABC, HasGenerated, HasExpanded):
+class SPPAlgoBase(ABC, Generic[Node], HasGenerated[Node], HasExpanded[Node]):
     """
     ============================================================================
      Abstract-Class for a Shortest-Path-Problem Algorithm.
@@ -60,12 +62,13 @@ class SPPAlgoBase(ABC, HasGenerated, HasExpanded):
             return list()
         return self.spp.goal.path_from_root()
 
-    def _generate_node(self, node: Node) -> None:
+    def _generate_node(self, node: Node, parent: Node = None) -> None:
         """
         ========================================================================
          Generate a Node.
         ========================================================================
         """
+        node.update_parent(parent=parent)
         self._generated.push(node)
 
     def _expand_node(self, node: Node) -> None:
@@ -76,11 +79,11 @@ class SPPAlgoBase(ABC, HasGenerated, HasExpanded):
         """
         for child in self.spp.graph.get_neighbors(node=node):
             if child not in self.expanded:
-                self._process_child(child=child, node=node)
+                self._process_child(child=child, parent=node)
         self._expanded.add(node)
 
     @abstractmethod
-    def _process_child(self, child: Node, node: Node) -> None:
+    def _process_child(self, child: Node, parent: Node) -> None:
         """
         ========================================================================
          Process the Child of the expanded Node.

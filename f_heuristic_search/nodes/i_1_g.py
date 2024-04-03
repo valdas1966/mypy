@@ -51,7 +51,7 @@ class NodeG(NodePath):
          Update Node's Parent and G-Value consequently.
         ========================================================================
         """
-        self.parent = parent
+        NodePath.update_parent(self, parent=parent)
         self._update_g()
 
     def key_comparison(self) -> list[int]:

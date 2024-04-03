@@ -10,4 +10,6 @@ def test_bfs():
     spp = SPPConcrete(graph=graph, start=start, goal=goal)
     bfs = BFS(spp=spp)
     bfs.run()
-    assert len(bfs.optimal_path()) == 4
+    assert len(bfs.optimal_path()) == 5
+    assert len(bfs.expanded) == 8
+    assert len(bfs.generated) == 0

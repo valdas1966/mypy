@@ -2,7 +2,7 @@ from f_data_structure.collections.i_0_base import CollectionBase, T
 from abc import abstractmethod
 
 
-class QueueBase(CollectionBase):
+class QueueBase(CollectionBase[T]):
     """
     ============================================================================
      Abstract-Class of Queue.

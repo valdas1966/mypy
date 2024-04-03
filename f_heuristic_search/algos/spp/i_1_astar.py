@@ -8,7 +8,7 @@ from typing import TypeVar
 Node = TypeVar('Node', bound=NodeFCell)
 
 
-class AStar(SPPAlgoBase):
+class AStar(SPPAlgoBase[Node]):
     """
     ============================================================================
      Base-Class for A* Algorithm.
@@ -21,16 +21,15 @@ class AStar(SPPAlgoBase):
          Init private Attributes.
         ========================================================================
         """
-        SPPAlgoBase.__init__(spp=spp, type_queue=QueuePriority)
+        SPPAlgoBase.__init__(self, spp=spp, type_queue=QueuePriority)
 
-    def _process_child(self, child: Node, node: Node) -> None:
+    def _process_child(self, child: Node, parent: Node) -> None:
         """
         ========================================================================
          Generate a Child if it is not already generated.
         ========================================================================
         """
         if child in self.generated:
-            child.update_parent_if_needed(parent=node)
+            child.update_parent_if_needed(parent=parent)
         else:
-            child.update_parent(parent=node)
-            self._generate_node(node=child)
+            self._generate_node(node=child, parent=parent)

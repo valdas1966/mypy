@@ -20,9 +20,13 @@ class NodePath(NodeBase):
     def parent(self) -> NodePath:
         return self._parent
 
-    @parent.setter
-    def parent(self, new_value: NodePath = None) -> None:
-        self._parent = new_value
+    def update_parent(self, parent: NodePath) -> None:
+        """
+        ========================================================================
+         Set a new Parent.
+        ========================================================================
+        """
+        self._parent = parent
 
     def path_from_root(self) -> list[NodePath]:
         """
