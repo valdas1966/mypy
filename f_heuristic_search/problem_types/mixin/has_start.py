@@ -1,7 +1,7 @@
-from f_data_structure.nodes.i_2_cell import NodeCell
+from f_data_structure.nodes.i_1_path import NodePath
 from typing import Generic, TypeVar
 
-Node = TypeVar('Node', bound=NodeCell)
+Node = TypeVar('Node', bound=NodePath)
 
 
 class HasStart(Generic[Node]):

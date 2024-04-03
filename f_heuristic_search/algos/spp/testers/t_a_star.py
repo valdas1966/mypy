@@ -1,4 +1,4 @@
-from f_heuristic_search.algos.spp.a_star import AStar
+from f_heuristic_search.algos.spp.i_1_astar import AStar
 from f_heuristic_search.problem_types.spp.i_0_concrete import SPP
 from f_data_structure.graphs.i_1_mutable import GraphMutable as Graph
 from f_heuristic_search.nodes.i_2_f import NodeF as Node

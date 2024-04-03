@@ -1,26 +1,27 @@
-from f_heuristic_search.algos.spp.i_0_base import SPPAlgoBase, Node
-from f_heuristic_search.problem_types.spp.i_0_concrete import SPPConcrete
-from f_data_structure.collections.i_2_queue_fifo import QueueFIFO
+from f_heuristic_search.algos.spp.i_0_base import SPPAlgoBase
+from f_heuristic_search.problem_types.spp.i_1_heuristics import SPPHeuristics
+from f_heuristic_search.nodes.i_3_f_cell import NodeFCell
+from f_data_structure.collections.i_2_queue_priority import QueuePriority
+from typing import TypeVar
 
 
-class BFS(SPPAlgoBase):
+Node = TypeVar('Node', bound=NodeFCell)
+
+
+class AStar(SPPAlgoBase):
     """
     ============================================================================
-     Breadth-First-Search Algorithm.
+     Base-Class for A* Algorithm.
     ============================================================================
     """
 
-    def __init__(self,
-                 spp: SPPConcrete) -> None:
+    def __init__(self, spp: SPPHeuristics) -> None:
         """
         ========================================================================
-         1. Init private Attributes.
-         2. The Queue should be FIFO.
+         Init private Attributes.
         ========================================================================
         """
-        SPPAlgoBase.__init__(self,
-                             spp=spp,
-                             type_queue=QueueFIFO)
+        SPPAlgoBase.__init__(spp=spp, type_queue=QueuePriority)
 
     def _process_child(self, child: Node, node: Node) -> None:
         """
@@ -28,6 +29,8 @@ class BFS(SPPAlgoBase):
          Generate a Child if it is not already generated.
         ========================================================================
         """
-        if child not in self.generated:
-            child.parent = node
+        if child in self.generated:
+            child.update_parent_if_needed(parent=node)
+        else:
+            child.update_parent(parent=node)
             self._generate_node(node=child)

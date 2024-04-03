@@ -16,7 +16,7 @@ class NodeG(NodePath):
         NodePath.__init__(self, name=name, parent=parent)
         self._w: int = w
         self._g: int = 0
-        self.update_g()
+        self._update_g()
 
     @property
     # Return the Node's Weight.
@@ -28,7 +28,7 @@ class NodeG(NodePath):
     def g(self) -> int:
         return self._g
 
-    def update_g(self) -> None:
+    def _update_g(self) -> None:
         """
         ========================================================================
          Update the Node's G-value (Cost from the start node to this node).
@@ -52,7 +52,7 @@ class NodeG(NodePath):
         ========================================================================
         """
         self.parent = parent
-        self.update_g()
+        self._update_g()
 
     def key_comparison(self) -> list[int]:
         """

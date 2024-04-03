@@ -1,38 +1,38 @@
-from f_data_structure.collections.base.i_0_base import CollectionBase
+from f_data_structure.collections.i_0_base import CollectionBase
 from abc import ABC
 from typing import Generic, TypeVar
 
-# Define a Type for the Elements in the Collection
-T = TypeVar('T')
+K = TypeVar('K')   # Type for Keys
+V = TypeVar('V')   # Type for Values
 
 
-class CollectionSet(ABC, Generic[T], CollectionBase[T]):
+class CollectionDict(ABC, Generic[K, V], CollectionBase[K]):
     """
     ============================================================================
-     Abstract-Class represents Collection of Elements based on a Set.
+     Abstract-Class represents Collection of Elements based on a Dict.
     ============================================================================
     """
 
     def __init__(self) -> None:
         """
         ========================================================================
-         Init empty Set.
+         Init empty Dict.
         ========================================================================
         """
-        self._elements = set[T]()
+        self._elements = dict[K, V]()
 
-    def add(self, element: T) -> None:
+    def add(self, key: K, value: V) -> None:
         """
         ========================================================================
          Add a new Element to Collection.
         ========================================================================
         """
-        self._elements.add(element)
+        self._elements[key] = value
 
-    def remove(self, element: T) -> None:
+    def remove(self, key: K) -> None:
         """
         ========================================================================
          Remove an Element from the Collection.
         ========================================================================
         """
-        self._elements.remove(element)
+        del self._elements[key]

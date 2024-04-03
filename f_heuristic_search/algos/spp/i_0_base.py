@@ -1,15 +1,12 @@
-from f_heuristic_search.problem_types.spp.i_0_concrete import (SPPConcrete,
-                                                               NodePath)
+from f_heuristic_search.problem_types.spp.i_0_concrete import SPPConcrete, Node
 from f_heuristic_search.algos.mixins.has_generated import HasGenerated
 from f_heuristic_search.algos.mixins.has_expanded import HasExpanded
-from f_data_structure.collections.base.i_1_queue import QueueBase
+from f_data_structure.collections.i_1_queue import QueueBase
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar, Type
-
-Node = TypeVar('Node', bound=NodePath)
+from typing import Type
 
 
-class SPPAlgoBase(ABC, Generic[Node], HasGenerated[Node], HasExpanded[Node]):
+class SPPAlgoBase(ABC, HasGenerated, HasExpanded):
     """
     ============================================================================
      Abstract-Class for a Shortest-Path-Problem Algorithm.

@@ -1,11 +1,8 @@
-from f_data_structure.collections.base.i_0_base import CollectionBase
-from typing import Generic, TypeVar
+from f_data_structure.collections.i_0_base import CollectionBase, T
 from abc import abstractmethod
 
-T = TypeVar('T')   # Type of Elements in the Queue
 
-
-class QueueBase(CollectionBase[T]):
+class QueueBase(CollectionBase):
     """
     ============================================================================
      Abstract-Class of Queue.

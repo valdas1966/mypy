@@ -1,7 +1,6 @@
 from f_heuristic_search.problem_types.spp.i_0_concrete import SPPConcrete
 from f_heuristic_search.algos.spp.i_1_bfs import BFS
-from f_data_structure.graphs.i_1_grid import (GraphGrid as Graph,
-                                              NodeCell as Node)
+from f_data_structure.graphs.i_1_grid import GraphGrid as Graph
 
 
 graph = Graph.from_shape(rows=3)

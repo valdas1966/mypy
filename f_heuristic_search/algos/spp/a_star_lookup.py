@@ -1,5 +1,5 @@
 from f_heuristic_search.problem_types.spp_lookup import SPPLookup, Node
-from f_heuristic_search.algos.spp.a_star import AStar
+from f_heuristic_search.algos.spp.i_1_astar import AStar
 
 
 class AStarLookup(AStar[Node]):

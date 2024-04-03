@@ -1,4 +1,4 @@
-from f_data_structure.collections.base.i_1_queue import QueueBase
+from f_data_structure.collections.i_1_queue import QueueBase
 from f_data_structure.nodes.i_0_base import NodeBase
 from typing import Generic, TypeVar, Type
 

@@ -1,4 +1,4 @@
-from f_data_structure.collections.queue_fifo import QueueFIFO
+from f_data_structure.collections.i_2_queue_fifo import QueueFIFO
 
 
 q = QueueFIFO()

@@ -1,7 +1,10 @@
-from f_data_structure.graphs.i_1_grid import GraphGrid as Graph
+from f_data_structure.graphs.i_0_base import GraphBase
+from typing import Generic, TypeVar
+
+Graph = TypeVar('Graph', bound=GraphBase)
 
 
-class HasGraph:
+class HasGraph(Generic[Graph]):
     """
     ============================================================================
      Mixin-Class for Problems that are represented by a Graph.
