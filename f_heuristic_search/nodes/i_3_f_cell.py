@@ -20,3 +20,6 @@ class NodeFCell(NodeF, NodeCell):
     def __str__(self) -> str:
         return f'{NodeCell.__str__(self)}' \
                f'[g={self.g}, h={self.h}, f={self.f()}]'
+
+    def key_comparison(self) -> list:
+        return [NodeF.key_comparison(self), NodeCell.key_comparison(self)]

@@ -8,6 +8,7 @@ start = graph[0][0]
 goal = graph[2][2]
 spp = SPPHeuristics(graph=graph, start=start, goal=goal)
 astar = AStar(spp=spp)
+print(spp)
 print(astar.is_path_found)
 astar.run()
 print(astar.is_path_found)

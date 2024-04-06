@@ -39,4 +39,4 @@ class NodeF(NodeG, NodeH):
          Returns Node's Cost-Func (F-Value, and G-Value on Tie-Break).
         ========================================================================
         """
-        return [self.f(), NodeG.key_comparison(self)]
+        return [self.f(), NodeG.key_comparison(self), ]

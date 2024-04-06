@@ -32,4 +32,15 @@ class AStar(SPPAlgoBase[Node]):
         if child in self.generated:
             child.update_parent_if_needed(parent=parent)
         else:
+            child.h = self.spp.calc_h(node=child)
             self._generate_node(node=child, parent=parent)
+
+    def _generate_node(self, node: Node, parent: Node = None) -> None:
+        """
+        ========================================================================
+         In addition to Generate_Node process in SPPAlgoBase (setting a parent
+          and updating the g-value), set also a heuristic distance to Goal.
+        ========================================================================
+        """
+        SPPAlgoBase._generate_node(self, node=node, parent=parent)
+        node.h = self.spp.calc_h(node=node)
