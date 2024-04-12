@@ -2,7 +2,7 @@ from f_heuristic_search.problem_types.spp.i_1_heuristics import \
     SPPHeuristics, Graph, Node
 
 
-class SPPLookup(SPPHeuristics[Node]):
+class SPPLookup(SPPHeuristics):
     """
     ============================================================================
      1. One-to-One Shortest-Path-Problem with a Lookup-Table.
@@ -26,7 +26,7 @@ class SPPLookup(SPPHeuristics[Node]):
                                start=start,
                                goal=goal,
                                h_func=h_func)
-        self._lookup = lookup
+        self._lookup = lookup or dict()
 
     @property
     def lookup(self) -> dict[Node, tuple[Node, ...]]:

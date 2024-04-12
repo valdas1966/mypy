@@ -126,8 +126,10 @@ class GridCells(GridLayout):
         return self._grid[index]
 
     def __str__(self) -> str:
-        res = str()
+        # Cols Title
+        res = '  ' + ' '.join((str(col) for col in range(self.cols))) + '\n'
         for row in range(self.rows):
+            res += str(row) + ' '
             for col in range(self.cols):
                 res += '1 ' if self._grid[row][col].is_valid else '0 '
             res += '\n'

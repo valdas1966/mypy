@@ -4,18 +4,18 @@ from f_heuristic_search.nodes.i_3_f_cell import NodeFCell
 from f_data_structure.collections.i_2_queue_priority import QueuePriority
 from typing import TypeVar
 
-
+SPP = TypeVar('SPP', bound=SPPHeuristics)
 Node = TypeVar('Node', bound=NodeFCell)
 
 
-class AStar(SPPAlgoBase[Node]):
+class AStar(SPPAlgoBase[SPP, Node]):
     """
     ============================================================================
      Base-Class for A* Algorithm.
     ============================================================================
     """
 
-    def __init__(self, spp: SPPHeuristics) -> None:
+    def __init__(self, spp: SPP) -> None:
         """
         ========================================================================
          Init private Attributes.

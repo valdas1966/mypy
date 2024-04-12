@@ -1,9 +1,8 @@
-from f_heuristic_search.algos.spp.i_0_base import SPPAlgoBase, Node
-from f_heuristic_search.problem_types.spp.i_0_concrete import SPPConcrete
+from f_heuristic_search.algos.spp.i_0_base import SPPAlgoBase, SPP, Node
 from f_data_structure.collections.i_2_queue_fifo import QueueFIFO
 
 
-class BFS(SPPAlgoBase):
+class BFS(SPPAlgoBase[SPP, Node]):
     """
     ============================================================================
      Breadth-First-Search Algorithm.
@@ -11,7 +10,7 @@ class BFS(SPPAlgoBase):
     """
 
     def __init__(self,
-                 spp: SPPConcrete) -> None:
+                 spp: SPP) -> None:
         """
         ========================================================================
          1. Init private Attributes.

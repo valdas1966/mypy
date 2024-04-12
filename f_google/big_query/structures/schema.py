@@ -17,13 +17,13 @@ class Schema:
     def __init__(self) -> None:
         self._fields = list()
 
-    def add(self, name: str, dt: str) -> None:
+    def add(self, name: str, dtype: str = STRING) -> None:
         """
         ========================================================================
          Add a Field to the Schema.
         ========================================================================
         """
-        self._fields.append(Field(name=name, dt=dt))
+        self._fields.append(Field(name=name, dt=dtype))
 
     def build(self) -> list[SchemaField]:
         """

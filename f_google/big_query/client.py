@@ -14,7 +14,7 @@ class BigQuery(ClientBase):
     """
 
     def __init__(self,
-                 user: str,
+                 user: str = 'RAMI',
                  verbose: bool = True) -> None:
         ClientBase.__init__(self, user=user)
         self._drop = Drop(client=self._client,

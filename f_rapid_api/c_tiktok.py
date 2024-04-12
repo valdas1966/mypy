@@ -1,15 +1,38 @@
+from __future__ import annotations
+from collections import namedtuple
 from f_utils import u_http_requests
+from f_utils import u_file
 
 
 class TikTok:
+    """
+    ============================================================================
+     1. TikTok-Crawler - Tiktok video no watermark.
+     2. https://rapidapi.com/yi005/api/tiktok-video-no-watermark2/
+    ============================================================================
+    """
 
-    def __init__(self, key: str):
-        self._host = 'tiktok-video-no-watermark2.p.rapidapi.com'
-        self._key = key
-        self._headers = {'X-RapidAPI-Key': self._key,
-                         'X-RapidAPI-Host': self._host}
+    _PATH_KEY = 'd:\\professor\\json\\tiktok no watermark.txt'
+
+    def __init__(self, path_key: str = None) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
+        path_key = path_key or u_file.to_drive(__file__) + TikTok._PATH_KEY[1:]
+        self._key: str = u_file.read(path_key)
+        self._host: str = 'tiktok-video-no-watermark2.p.rapidapi.com'
+        self._headers: dict[str, str] = {'X-RapidAPI-Key': self._key,
+                                         'X-RapidAPI-Host': self._host}
 
     def id_video_to_url(self, id_video: str) -> str:
+        """
+        ========================================================================
+         1. Get Id-Video (str).
+         2. Return URL to play / download the Video (str).
+        ========================================================================
+        """
         url = f'https://{self._host}/'
         params = {'url': f'https://www.tiktok.com/@tiktok/video/{id_video}',
                   'hd': '0'}
@@ -20,7 +43,13 @@ class TikTok:
     
     def videos_by_hashtag(self,
                           hashtag_id: str,
-                          cursor: int = 0):
+                          cursor: int = 0) -> dict:
+        """
+        ========================================================================
+         1. Get Id-Hashtag (str) and Cursor (int).
+         2. Return next 100 Videos with this Hashtag.
+        ========================================================================
+        """
         url = f'https://{self._host}/challenge/posts'
         params = {'challenge_id': hashtag_id,
                   'count': '100',
@@ -29,7 +58,13 @@ class TikTok:
                                         params=params,
                                         headers=self._headers)
 
-    def alias_to_id(self, alias: str) -> dict:
+    def alias_to_id(self, alias: str) -> str:
+        """
+        ========================================================================
+         1. Get User's Alias (str).
+         2. Return User's Id (str).
+        ========================================================================
+        """
         url = f'https://{self._host}/user/info'
         params = {'unique_id': alias}
         r = u_http_requests.get_dict(url=url,
@@ -39,3 +74,27 @@ class TikTok:
             return r['data']['user']['id']
         except Exception:
             return alias
+
+    def keyword_to_hashtags(self, keyword: str) -> tuple[namedtuple, ...]:
+        """
+        ========================================================================
+         Return Top-10 Hashtags associated to the given Keyword.
+        ========================================================================
+        """
+        url: str = f'https://{self._host}/challenge/search'
+        params: dict[str, str] = {'keywords': keyword,
+                                  'count': '10',
+                                  'cursor': "0"}
+        r = u_http_requests.get_dict(url=url,
+                                     params=params,
+                                     headers=self._headers)
+        try:
+            results: list[dict[str, str|int]] = r['data']['challenge_list']
+            Hashtag = namedtuple('Hashtag',
+                                 ['id', 'name', 'users'])
+            return (Hashtag(id=d['id'],
+                            name=d['cha_name'],
+                            users=d['user_count'])
+                    for d in results)
+        except Exception as e:
+            print(e)

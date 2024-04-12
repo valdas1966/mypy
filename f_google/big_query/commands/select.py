@@ -11,7 +11,7 @@ class Select(Command):
     ============================================================================
     """
 
-    def to_df(self, query: str) -> pd.DataFrame:
+    def df(self, query: str) -> pd.DataFrame:
         """
         ========================================================================
          Return a Query-Result as a DataFrame.
@@ -22,8 +22,19 @@ class Select(Command):
             query = f'select * from {query}'
         job: QueryJob = self._client.query(query=query, retry=Retry())
         if self._verbose:
-            df = job.to_dataframe(progress_bar_type='tqdm')
-            print(f'Selected [{len(df)}] rows.')
+            _df = job.to_dataframe(progress_bar_type='tqdm')
+            print(f'Selected [{len(_df)}] rows.')
         else:
-            df = job.to_dataframe()
-        return df
+            _df = job.to_dataframe()
+        return _df
+
+    def list(self, query: str) -> list:
+        """
+        ========================================================================
+         Return the First-Col of the Query-Result as a List of Values.
+        ========================================================================
+        """
+        df = self.df(query=query)
+        if df.empty:
+            return list()
+        return df.iloc[:, 0].tolist()

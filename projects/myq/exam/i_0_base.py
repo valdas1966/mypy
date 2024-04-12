@@ -1,14 +1,18 @@
-from myq.question.i_0_base import QuestionBase as Question
+from abc import ABC
+from projects.myq.question.i_0_base import QuestionBase
+from typing import Generic, TypeVar
+
+Question = TypeVar('Question', bound=QuestionBase)
 
 
-class ExamBase:
+class ExamBase(ABC, Generic[Question]):
     """
     ============================================================================
      Base Exam-Class.
     ============================================================================
     """
 
-    def __init__(self, qs: list[Question]) -> None:
+    def __init__(self, qs: tuple[Question, ...]) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -18,5 +22,5 @@ class ExamBase:
 
     @property
     # List of Exam's Questions
-    def questions(self) -> list[Question]:
+    def questions(self) -> tuple[Question, ...]:
         return self._qs

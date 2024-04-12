@@ -1,7 +1,7 @@
 from frozendict import frozendict
 from google.oauth2.service_account import Credentials
 import google.auth
-import os
+from f_utils import u_file
 
 
 class Auth:
@@ -12,7 +12,7 @@ class Auth:
     """
 
     # Paths to JSon-Keys to Google Account
-    _JSONS = frozendict({'VALDAS': 'VALDAS',
+    _JSONS = frozendict({'VALDAS': 'd:\\jsons\\valdas\\gsheets.json',
                          #'RAMI': 'd:\\professor\\gcp\\owner.json'})
                          'RAMI': 'd:\\professor\\json\\viewer.json',
                          'GFUNC': 'd:\\professor\\json\\gfunc.json'})
@@ -29,6 +29,7 @@ class Auth:
             return google.auth.default()[0]
         scopes = ['https://www.googleapis.com/auth/cloud-platform',
                   'https://www.googleapis.com/auth/spreadsheets']
-        filename = os.environ.get(Auth._JSONS[user])
+        filename = Auth._JSONS[user]
+        filename = u_file.to_drive(__file__) + filename[1:]
         return Credentials.from_service_account_file(filename=filename,
                                                      scopes=scopes)

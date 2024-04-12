@@ -1,5 +1,4 @@
-from myq.gsheets.english.i_0_base import SheetBase
-from myq.question.i_1_text import QuestionText
+from projects.myq.gsheets.english.i_0_base import SheetBase, QuestionText
 
 
 class SheetWords(SheetBase):
@@ -9,12 +8,12 @@ class SheetWords(SheetBase):
     ============================================================================
     """
 
-    __NAME_SHEET = 'Words'
+    _NAME_SHEET = 'Words'
 
-    __COL_QUESTION = 2
-    __COL_ANSWER = 3
+    _COL_QUESTION = 2
+    _COL_ANSWER = 3
 
-    __ROW_FIRST = 2
+    _ROW_FIRST = 2
 
     def __init__(self) -> None:
         """
@@ -23,7 +22,7 @@ class SheetWords(SheetBase):
         ========================================================================
         """
         SheetBase.__init__(self)
-        self._sheet = self._spread[SheetWords.__NAME_SHEET]
+        self._sheet = self._spread[SheetWords._NAME_SHEET]
 
     def to_questions(self) -> tuple[QuestionText, ...]:
         """
@@ -31,8 +30,8 @@ class SheetWords(SheetBase):
          Return Tuple of Questions extracted from the SheetWords.
         ========================================================================
         """
-        tuples = self._sheet.to_tuples(col_first=SheetWords.__COL_QUESTION,
-                                       col_last=SheetWords.__COL_ANSWER,
-                                       row_first=SheetWords.__ROW_FIRST)
+        tuples = self._sheet.to_tuples(col_first=SheetWords._COL_QUESTION,
+                                       col_last=SheetWords._COL_ANSWER,
+                                       row_first=SheetWords._ROW_FIRST)
         return tuple(QuestionText(text=text, answer=answer)
                      for text, answer in tuples)

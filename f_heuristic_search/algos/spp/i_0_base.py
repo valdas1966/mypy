@@ -5,18 +5,23 @@ from f_data_structure.collections.i_1_queue import QueueBase
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar, Type
 
+SPP = TypeVar('SPP', bound=SPPConcrete)
 Node = TypeVar('Node', bound=NodePath)
 
 
-class SPPAlgoBase(ABC, Generic[Node], HasGenerated[Node], HasExpanded[Node]):
+class SPPAlgoBase(ABC,
+                  Generic[SPP, Node],
+                  HasGenerated[Node],
+                  HasExpanded[Node]):
     """
     ============================================================================
-     Abstract-Class for a Shortest-Path-Problem Algorithm.
+     1. Abstract-Class for a Shortest-Path-Problem Algorithm.
+     2. The SPP-Algo should have Generated and Expanded lists (Open & Closed).
     ============================================================================
     """
 
     def __init__(self,
-                 spp: SPPConcrete,
+                 spp: SPP,
                  type_queue: Type[QueueBase]) -> None:
         """
         ========================================================================
@@ -27,10 +32,11 @@ class SPPAlgoBase(ABC, Generic[Node], HasGenerated[Node], HasExpanded[Node]):
         HasExpanded.__init__(self)
         self._spp = spp
         self._is_path_found = None
+        self._best: Node = None
 
     @property
     # Shortest Path Problem
-    def spp(self) -> SPPConcrete:
+    def spp(self) -> SPP:
         return self._spp
 
     @property
@@ -46,13 +52,13 @@ class SPPAlgoBase(ABC, Generic[Node], HasGenerated[Node], HasExpanded[Node]):
         """
         self._generate_node(node=self.spp.start)
         while self._generated:
-            best = self._generated.pop()
-            if best == self.spp.goal:
+            self._best = self._generated.pop()
+            if self._can_terminate():
                 self._is_path_found = True
                 break
-            self._expand_node(node=best)
+            self._expand_node(node=self._best)
 
-    def optimal_path(self) -> list[Node]:
+    def path_optimal(self) -> list[Node]:
         """
         ========================================================================
          Returns an Optimal-Path from Start to Goal (empty list if unreachable).
@@ -61,6 +67,14 @@ class SPPAlgoBase(ABC, Generic[Node], HasGenerated[Node], HasExpanded[Node]):
         if not self.is_path_found:
             return list()
         return self.spp.goal.path_from_root()
+
+    def _can_terminate(self) -> bool:
+        """
+        ========================================================================
+         Return True if the Goal is the Best-Node in Generated-List.
+        ========================================================================
+        """
+        return self._best == self.spp.goal
 
     def _generate_node(self, node: Node, parent: Node = None) -> None:
         """

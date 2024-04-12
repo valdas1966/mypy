@@ -1,4 +1,4 @@
-from myq.question.i_0_base import QuestionBase
+from projects.myq.question.i_0_base import QuestionBase
 
 
 def test_pct_answered():
