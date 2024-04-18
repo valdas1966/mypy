@@ -23,11 +23,3 @@ class HasGenerated(Generic[Node]):
     @property
     def generated(self) -> list[Node]:
         return self._generated.elements()
-
-    def _is_generated(self, node: Node) -> bool:
-        """
-        ========================================================================
-         Returns True if the given Node was already generated.
-        ========================================================================
-        """
-        return node in self._generated

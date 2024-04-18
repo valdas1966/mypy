@@ -1,14 +1,15 @@
-from f_heuristic_search.algos.spp.i_0_base import SPPAlgoBase
-from f_heuristic_search.problem_types.spp.i_1_heuristics import SPPHeuristics
+from f_heuristic_search.problem_types.spp.i_0_concrete import SPPConcrete
+from f_heuristic_search.algos.mixins.has_heuristics.i_1_spp import HasHeuristicsSPP
+from f_heuristic_search.algos.spp.i_0_base import AlgoSPPBase
 from f_heuristic_search.nodes.i_3_f_cell import NodeFCell
 from f_data_structure.collections.i_2_queue_priority import QueuePriority
 from typing import TypeVar
 
-SPP = TypeVar('SPP', bound=SPPHeuristics)
+SPP = TypeVar('SPP', bound=SPPConcrete)
 Node = TypeVar('Node', bound=NodeFCell)
 
 
-class AStar(SPPAlgoBase[SPP, Node]):
+class AStar(AlgoSPPBase[SPP, Node], HasHeuristicsSPP[SPP, Node]):
     """
     ============================================================================
      Base-Class for A* Algorithm.
@@ -21,7 +22,8 @@ class AStar(SPPAlgoBase[SPP, Node]):
          Init private Attributes.
         ========================================================================
         """
-        SPPAlgoBase.__init__(self, spp=spp, type_queue=QueuePriority)
+        AlgoSPPBase.__init__(self, spp=spp, type_queue=QueuePriority)
+        HasHeuristicsSPP.__init__(self, spp=spp)
 
     def _process_child(self, child: Node, parent: Node) -> None:
         """

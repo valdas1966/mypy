@@ -1,43 +1,48 @@
-from f_heuristic_search.nodes.i_1_g import NodeG as Node
-from f_heuristic_search.graphs.graph import Graph
+from f_heuristic_search.problem_types.mixin.has_graph import HasGraph, GraphBase
+from f_heuristic_search.problem_types.mixin.has_start import HasStart, NodePath
+from f_heuristic_search.problem_types.mixin.has_goals import HasGoals
+from typing import Generic, TypeVar
+
+Graph = TypeVar('Graph', bound=GraphBase)
+Node = TypeVar('Node', bound=NodePath)
 
 
-class KSPP:
+class KSPPConcrete(Generic[Graph, Node],
+                  HasGraph[Graph],
+                  HasStart[Node],
+                  HasGoals[Node]):
     """
     ============================================================================
-     Represents K-Shortest-Path-Problems with the same Start.
+     One-to-One Shortest-Path-Problem in Heuristic Search.
     ============================================================================
     """
 
     def __init__(self,
                  graph: Graph,
                  start: Node,
-                 goals: tuple[Node, ...]) -> None:
-        self._graph = graph
-        self._start = start
-        self._goals = goals
-        self._goals_active = set(goals)
-
-    @property
-    def graph(self) -> Graph:
-        return self._graph
-
-    @property
-    def start(self) -> Node:
-        return self._start
-
-    @property
-    def goals(self) -> tuple[Node, ...]:
-        return self._goals
-
-    @property
-    def goals_active(self) -> set[Node]:
-        return self._goals_active
-
-    def remove_goal_active(self, goal: Node) -> None:
+                 goal: Node) -> None:
         """
         ========================================================================
-         Remove Goal from the Active-List (after search reached it).
+         Init private Attributes.
         ========================================================================
         """
-        self._goals_active.remove(element=goal)
+        HasGraph.__init__(self, graph=graph)
+        HasStart.__init__(self, start=start)
+        HasGoals.__init__(self, goal=goal)
+
+    def __str__(self) -> str:
+        """
+        ========================================================================
+         1. Return STR-REPR of the SPP.
+         2. Example: 'SPP[Maze]: (0,1) -> (2,3)'
+        ========================================================================
+        """
+        return f'SPP[{self._graph.name}]: {self._start} -> {self._goals}'
+
+    def __repr__(self) -> str:
+        """
+        ========================================================================
+         Return STR-REPR of the SPP.
+        ========================================================================
+        """
+        return self.__str__()

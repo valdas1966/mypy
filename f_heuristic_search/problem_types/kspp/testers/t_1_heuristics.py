@@ -1,4 +1,4 @@
-from f_heuristic_search.problem_types.kspp.i_1_heuristics import \
+from f_heuristic_search.problem_types.kspp.old_i_1_heuristics import \
  KSPPHeuristics, Node
 from f_data_structure.graphs.i_1_mutable import GraphMutable as Graph
 

@@ -1,24 +1,22 @@
-from f_data_structure.nodes.i_0_base import NodeBase
+from f_data_structure.nodes.i_2_cell import NodeCell
+from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
-Node = TypeVar('Node', bound=NodeBase)
+Node = TypeVar('Node', bound=NodeCell)
 
 
-class HasExpanded(Generic[Node]):
+class HasHeuristicsBase(ABC, Generic[Node]):
     """
     ============================================================================
-     Mixin for Algorithms that utilize an already Expanded-Set of Nodes.
+     Base-Class for Algo with Heuristics.
     ============================================================================
     """
 
-    def __init__(self) -> None:
+    @abstractmethod
+    def calc(self, node: Node) -> int:
         """
         ========================================================================
-         Init private Attributes.
+         Return Heuristics-Value for a given Node.
         ========================================================================
         """
-        self._expanded = set[Node]()
-
-    @property
-    def expanded(self) -> set[Node]:
-        return self._expanded
+        pass

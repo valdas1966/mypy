@@ -1,8 +1,8 @@
-from f_heuristic_search.algos.spp.i_0_base import SPPAlgoBase, SPP, Node
+from f_heuristic_search.algos.spp.i_0_base import AlgoSPPBase, SPP, Node
 from f_data_structure.collections.i_2_queue_fifo import QueueFIFO
 
 
-class BFS(SPPAlgoBase[SPP, Node]):
+class BFS(AlgoSPPBase[SPP, Node]):
     """
     ============================================================================
      Breadth-First-Search Algorithm.

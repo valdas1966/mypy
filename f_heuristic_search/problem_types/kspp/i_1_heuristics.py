@@ -1,27 +1,51 @@
-from f_heuristic_search.problem_types.kspp.i_0_concrete import KSPP, Graph
-from f_heuristic_search.nodes.i_2_f import NodeF as Node
-from typing import Callable
+from f_heuristic_search.problem_types.kspp.i_0_concrete import KSPPConcrete
+from f_data_structure.graphs.i_1_grid import GraphGrid
+from f_data_structure.nodes.i_2_cell import NodeCell
+from enum import Enum, auto
+from typing import Generic, TypeVar
+
+Graph = TypeVar('Graph', bound=GraphGrid)
+Node = TypeVar('Node', bound=NodeCell)
 
 
-class KSPPHeuristics(KSPP):
+class SPPHeuristics(Generic[Graph, Node], KSPPConcrete[Graph, Node]):
     """
     ============================================================================
-     Represents K-Shortest-Path-Problems with Heuristics.
+     One-to-Many Shortest-Path-Problem with Heuristics.
     ============================================================================
     """
+
+    class HEURISTIC(Enum):
+        """
+        ========================================================================
+         Enum for different Heuristic-Functions that the class enables.
+        ========================================================================
+        """
+        NEAREST = auto(),
+        FARTHEST = auto()
 
     def __init__(self,
                  graph: Graph,
                  start: Node,
-                 goals: tuple[Node],
-                 heuristics: Callable[[Node, tuple[Node, ...]], int]) -> None:
-        KSPP.__init__(self, graph, start, goals)
-        self._heuristics = heuristics
+                 goals: tuple[Node, ...],
+                 h_func: HEURISTIC = HEURISTIC.NEAREST) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
+        KSPPConcrete.__init__(self, graph=graph, start=start, goals=goals)
+        self._h_func = h_func
 
-    def heuristics(self, node: Node) -> int:
+    @property
+    def h_func(self) -> HEURISTIC:
+        return self._h_func
+
+    def calc_h(self, node: Node) -> int:
         """
         ========================================================================
-         Return Heuristic-Distance from Node to Goals.
+         Return Heuristic-Distance from the given Node to the Goal.
         ========================================================================
         """
-        return self._heuristics(node, self.goals)
+        if self._h_func == self.HEURISTIC.MANHATTAN_DISTANCE:
+            return node.distance(other=self.goal)

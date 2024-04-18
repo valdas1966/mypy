@@ -1,4 +1,4 @@
-from f_heuristic_search.problem_types.spp.i_1_heuristics import \
+from f_heuristic_search.problem_types.spp.old_i_1_heuristics import \
     SPPHeuristics, Graph, Node
 
 

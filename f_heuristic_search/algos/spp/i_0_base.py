@@ -9,7 +9,7 @@ SPP = TypeVar('SPP', bound=SPPConcrete)
 Node = TypeVar('Node', bound=NodePath)
 
 
-class SPPAlgoBase(ABC,
+class AlgoSPPBase(ABC,
                   Generic[SPP, Node],
                   HasGenerated[Node],
                   HasExpanded[Node]):

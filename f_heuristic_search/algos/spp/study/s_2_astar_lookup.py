@@ -18,7 +18,7 @@ def run_without_lookup():
     spp = SPP(graph, start, goal)
     astar = AStarLookup(spp=spp)
     astar.run()
-    print(astar.path_optimal())
+    print(len(astar.path_optimal()))
     print(len(astar.expanded))
 
 def run_with_lookup():
@@ -27,7 +27,7 @@ def run_with_lookup():
     spp = SPP(graph=graph, start=start, goal=goal, lookup=lookup)
     astar = AStarLookup(spp=spp)
     astar.run()
-    print(astar.path_optimal())
+    print(len(astar.path_optimal()))
     print(len(astar.expanded))
 
 
