@@ -30,7 +30,7 @@ class Inittable:
     def _init_run_funcs(self) -> None:
         """
         ==============================================================================
-         Desc: Run functions in the Init process.
+         Desc: Run funcs in the Init process.
         ==============================================================================
         """
         pass

@@ -11,12 +11,12 @@ class Data(Generic[Queue, Node], DataBase):
 
     def __init__(self) -> None:
         self._generated = Queue[Node]()
-        self._expanded = set[Node]()
+        self._explored = set[Node]()
 
     @property
-    def generated(self) -> Queue:
+    def generated(self) -> Queue[Node]:
         return self._generated
 
     @property
-    def expanded(self) -> set[Node]:
-        return self._expanded
+    def explored(self) -> set[Node]:
+        return self._explored

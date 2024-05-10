@@ -1,6 +1,6 @@
 from f_heuristic_search.problem_types.spp.i_0_concrete import SPP as SPPBase
 from f_heuristic_search.graphs.graph import Graph
-from f_heuristic_search.nodes.i_3_f_cell import Node
+from f_hs.nodes.i_3_f_cell import Node
 
 
 class SPP(SPPBase):

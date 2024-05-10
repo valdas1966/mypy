@@ -1,7 +1,7 @@
 from f_heuristic_search.problem_types.spp.i_0_concrete import SPPConcrete
 from f_heuristic_search.algos.mixins.has_heuristics.i_1_spp import HasHeuristicsSPP
 from f_heuristic_search.algos.spp.i_0_base import AlgoSPPBase
-from f_heuristic_search.nodes.i_3_f_cell import NodeFCell
+from f_hs.nodes.i_3_f_cell import NodeFCell
 from f_data_structure.collections.i_2_queue_priority import QueuePriority
 from typing import TypeVar
 

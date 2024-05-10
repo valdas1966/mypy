@@ -55,7 +55,7 @@ class TesterQuery():
         q_test.Where = 'col_1=col_2'
         q_true = 'select col_1 as c1, count(distinct col_2) as c2 from tname where col_1=col_2 group by col_1 order by 1'
         p1 = str(q_test) == q_true
-        # Without single columns (only aggregate functions)
+        # Without single columns (only aggregate funcs)
         q_test = Query()
         q_test.Select = 'max(col) as col'
         q_test.From = 'tname'

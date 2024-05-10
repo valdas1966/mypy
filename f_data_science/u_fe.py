@@ -2,7 +2,7 @@ import pandas as pd
 
 """
 ================================================================================
- Description: Feature Engineering static functions.
+ Description: Feature Engineering static funcs.
 ================================================================================
 """
 

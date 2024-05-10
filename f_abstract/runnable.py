@@ -5,7 +5,7 @@ class Runnable(Validdable):
     """
     ============================================================================
      Description: Class with Secured (Try-Except) Runnable function
-                  (enriched with Pre-Run, Post-Run, and On-Error functions).
+                  (enriched with Pre-Run, Post-Run, and On-Error funcs).
     ============================================================================
     """
 

@@ -1,5 +1,5 @@
 from f_heuristic_search.problem_types.kspp.old_i_0_concrete import KSPP, Graph
-from f_heuristic_search.nodes.i_2_f import NodeF as Node
+from f_hs.nodes.i_2_f import NodeF as Node
 from typing import Callable
 
 

@@ -1,7 +1,7 @@
 from f_heuristic_search.algos.spp.a_star_lookup import AStarLookup
 from f_heuristic_search.problem_types.spp_lookup import SPPLookup
 from f_data_structure.graphs.i_1_mutable import GraphMutable as Graph
-from f_heuristic_search.nodes.i_2_f import NodeF as Node
+from f_hs.nodes.i_2_f import NodeF as Node
 
 
 def test_astar_manual():

@@ -2,7 +2,7 @@ from f_data_science import u_df
 
 """
 ================================================================================
- Description: Feature Selection static functions.
+ Description: Feature Selection static funcs.
 ================================================================================
 """
 

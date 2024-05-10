@@ -1,6 +1,6 @@
 from f_heuristic_search.problem_types.spp.i_2_lookup import SPPLookup as SPP
 from f_data_structure.graphs.i_1_grid import GraphGrid as Graph
-from f_heuristic_search.nodes.i_3_f_cell import NodeFCell
+from f_hs.nodes.i_3_f_cell import NodeFCell
 from f_heuristic_search.algos.spp.i_2_astar_lookup import AStarLookup
 
 

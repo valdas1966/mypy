@@ -7,7 +7,7 @@ class OperationInit(Runnable, Tittable, Loggable):
     """
     ============================================================================
      Description: Multi-Inheritance from Runnable, Tittable and
-                    Loggable classes (enriched with set_title functions).
+                    Loggable classes (enriched with set_title funcs).
     ============================================================================
     """
 
