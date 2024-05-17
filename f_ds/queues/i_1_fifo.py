@@ -1,39 +1,36 @@
-import heapq
-from f_ds.collections.queue.i_0_base import QueueBase
-from f_abstract.mixins.sortable import Sortable
-from typing import TypeVar
-
-T = TypeVar('T', bound=Sortable)
+from collections import deque
+from f_ds.queues.i_0_base import QueueBase, Item
+from typing import Deque
 
 
-class QueuePriority(QueueBase[T]):
+class QueueFIFO(QueueBase[Item]):
     """
     ============================================================================
-     Min-Priority-Queue implemented using heapq module.
+     FIFO (First In - First Out) Queue.
     ============================================================================
     """
 
     def __init__(self) -> None:
         """
         ========================================================================
-         Init an empty Priority-Queue.
+         Init with an empty Queue.
         ========================================================================
         """
         QueueBase.__init__(self)
-        self._elements: list[T] = list()
+        self._items: Deque[Item] = deque()
 
-    def push(self, element: T) -> None:
+    def push(self, item: Item) -> None:
         """
         ========================================================================
-         Push an element onto the Priority-Queue. [O(1)]
+         Push an Item at the end of the Queue. [O(1)]
         ========================================================================
         """
-        heapq.heappush(self._elements, element)
+        self._items.append(item)
 
-    def pop(self) -> T:
+    def pop(self) -> Item:
         """
         ========================================================================
-         Pop and Return the minimal item from the Priority-Queue. [O(n)]
+         Pop the first Item from the Queue. [O(1)]
         ========================================================================
         """
-        return heapq.heappop(self._elements)
+        return self._items.popleft()

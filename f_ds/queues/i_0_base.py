@@ -1,8 +1,8 @@
-from f_ds.collections.i_0_base import CollectionBase, T
+from f_ds.collection import CollectionBase, Item
 from abc import abstractmethod
 
 
-class QueueBase(CollectionBase[T]):
+class QueueBase(CollectionBase[Item]):
     """
     ============================================================================
      Abstract-Class of Queue.
@@ -10,7 +10,7 @@ class QueueBase(CollectionBase[T]):
     """
 
     @abstractmethod
-    def push(self, element: T) -> None:
+    def push(self, item: Item) -> None:
         """
         ========================================================================
          Push an Element into the Queue.
@@ -19,7 +19,7 @@ class QueueBase(CollectionBase[T]):
         pass
 
     @abstractmethod
-    def pop(self) -> T:
+    def pop(self) -> Item:
         """
         ========================================================================
          Pop an Element from the Queue.

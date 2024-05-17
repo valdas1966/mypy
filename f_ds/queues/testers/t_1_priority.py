@@ -1,4 +1,4 @@
-from f_ds.collections.queue.i_1_priority import QueuePriority
+from f_ds.queues.i_1_priority import QueuePriority
 
 
 def test_priority():
