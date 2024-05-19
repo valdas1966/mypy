@@ -1,4 +1,4 @@
-from f_data_structure.mixins.has_row_col import HasRowCol
+from f_abstract.mixins.has_row_col import HasRowCol
 
 
 def test_str():

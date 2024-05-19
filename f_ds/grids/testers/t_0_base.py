@@ -21,4 +21,3 @@ def test_is_within():
     assert grid.is_within(2, 3)
     assert not grid.is_within(-1, 0)
     assert not grid.is_within(10, 5)
-    assert grid.is_within(2, 3)

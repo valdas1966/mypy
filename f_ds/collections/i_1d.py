@@ -1,25 +1,27 @@
 from typing import Generic, TypeVar, Iterator, Collection
+from f_abstract.mixins.nameable import Nameable
 from abc import ABC
 
 Item = TypeVar('Item')   # Type of Items in the Collection
 
 
-class CollectionBase(ABC, Generic[Item]):
+class Collection1D(ABC, Generic[Item], Nameable):
     """
     ============================================================================
      Abstract-Class represents a Collection of Items.
     ============================================================================
     """
 
-    def __init__(self) -> None:
+    def __init__(self, name: str = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
+        Nameable.__init__(self, name=name)
         self._items: Collection[Item] = None
 
-    def items(self) -> list[Item]:
+    def to_list(self) -> list[Item]:
         """
         ========================================================================
          Return a List of Items in the Collection.
@@ -49,7 +51,7 @@ class CollectionBase(ABC, Generic[Item]):
          Return True if the Collection is not Empty.
         ========================================================================
         """
-        return bool(self.__len__())
+        return bool(len(self))
 
     def __str__(self) -> str:
         """
@@ -57,7 +59,7 @@ class CollectionBase(ABC, Generic[Item]):
          Return STR-REPR of the Collection.
         ========================================================================
         """
-        return f'{self.__class__.__name__}({self.items()})'
+        return f'{self.__class__.__name__}({self.to_list()})'
 
     def __repr__(self) -> str:
         return self.__str__()

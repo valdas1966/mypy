@@ -1,6 +1,6 @@
 from __future__ import annotations
 from f_ds.nodes.i_1_path import NodePath
-from f_ds.cell import Cell
+from f_ds.grids.cell import Cell
 from f_utils import u_str
 
 

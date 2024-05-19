@@ -1,4 +1,4 @@
-from f_ds.collection import CollectionBase, Item
+from f_ds.collections.i_1d import CollectionBase, Item
 from abc import abstractmethod
 
 

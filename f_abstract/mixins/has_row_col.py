@@ -43,5 +43,5 @@ class HasRowCol(Sortable):
     def __repr__(self) -> str:
         return self.__str__()
 
-    def __hash__(self) -> str:
+    def __hash__(self) -> int:
         return hash(self.__str__())

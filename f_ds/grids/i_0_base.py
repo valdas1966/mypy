@@ -1,15 +1,12 @@
 from f_abstract.mixins.nameable import Nameable
-from f_ds.cell import Cell
-from typing import Generic, TypeVar
+from f_ds.grids.cell import Cell
 from abc import ABC
 
-C = TypeVar('C', bound=Cell)
 
-
-class GridBase(ABC, Generic[C], Nameable):
+class GridBase(ABC, Nameable):
     """
     ============================================================================
-     Desc: Represents a Grid-Layout base class.
+     Base Grid-Class.
     ============================================================================
     """
 

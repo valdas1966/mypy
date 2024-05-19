@@ -2,6 +2,7 @@ from typing import Generic, TypeVar, Callable, Sequence
 
 T = TypeVar('T')
 
+
 class StatsItems(Generic[T]):
     """
     ============================================================================
@@ -30,6 +31,7 @@ class StatsItems(Generic[T]):
         ========================================================================
         """
         return [item for item in self._items if self._is_spec(item)]
+
     def count(self) -> int:
         """
         ========================================================================
@@ -46,4 +48,4 @@ class StatsItems(Generic[T]):
         """
         if not self._items:
             return 0
-        return round(self.count() / len(self._items) * 100, 0)
+        return int(round(self.count() / len(self._items) * 100, 0))

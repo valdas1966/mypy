@@ -20,20 +20,20 @@ class QueuePriority(QueueBase[Item]):
         ========================================================================
         """
         QueueBase.__init__(self)
-        self._elements: list[T] = list()
+        self._items: list[Item] = list()
 
-    def push(self, element: T) -> None:
+    def push(self, item: Item) -> None:
         """
         ========================================================================
-         Push an element onto the Priority-Queue. [O(1)]
+         Push an element onto the Priority-Queue. O(1)
         ========================================================================
         """
-        heapq.heappush(self._elements, element)
+        heapq.heappush(self._items, item)
 
-    def pop(self) -> T:
+    def pop(self) -> Item:
         """
         ========================================================================
-         Pop and Return the minimal item from the Priority-Queue. [O(n)]
+         Pop and Return the minimal item from the Priority-Queue. O(n)
         ========================================================================
         """
-        return heapq.heappop(self._elements)
+        return heapq.heappop(self._items)

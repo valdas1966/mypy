@@ -1,12 +1,10 @@
 from __future__ import annotations
 from f_ds.grids.i_0_base import GridBase, Cell
-from typing import Generic, TypeVar
+from f_abstract.components.stats_items import StatsItems
 import random
 
-C = TypeVar('C', bound=Cell)
 
-
-class GridCells(Generic[C], GridBase[C]):
+class GridCells(GridBase):
     """
     ============================================================================
      Represents a 2D-Grid of Cells.
@@ -24,13 +22,13 @@ class GridCells(Generic[C], GridBase[C]):
         """
         GridBase.__init__(self, rows, cols, name)
         # 2D-Grid of Cells
-        self._grid: list[list[C]] = [
-                                        [C(row, col)
+        self._grid: list[list[Cell]] = [
+                                        [Cell(row, col)
                                          for col in range(self.cols)]
                                         for row in range(self.rows)
                                         ]
 
-    def cells(self) -> list[C]:
+    def cells(self) -> list[Cell]:
         """
         ========================================================================
          Desc: Returns a flattened List of the Grid's valid Cells.
@@ -45,7 +43,7 @@ class GridCells(Generic[C], GridBase[C]):
 
     def cells_random(self,
                      size: int = None,
-                     pct: int = None) -> list[C]:
+                     pct: int = None) -> list[Cell]:
         """
         ========================================================================
          Desc: Return a List of Random-Cells from the Grid.
@@ -59,7 +57,7 @@ class GridCells(Generic[C], GridBase[C]):
             size = int(pct * self.total() / 100)
         return random.sample(self.cells(), k=size)
 
-    def neighbors(self, cell: C) -> list[C]:
+    def neighbors(self, cell: Cell) -> list[Cell]:
         """
         ========================================================================
          Returns a list of valid neighbors for a given Cell.
@@ -76,7 +74,7 @@ class GridCells(Generic[C], GridBase[C]):
                 in coords_valid
                 if self._grid[r][c].is_valid]
 
-    def make_invalid_cells(self, cells: list[C]) -> None:
+    def make_invalid_cells(self, cells: list[Cell]) -> None:
         """
         ========================================================================
          Turns the received List[Cell] to Invalid.
@@ -118,7 +116,7 @@ class GridCells(Generic[C], GridBase[C]):
         """
         self._grid[row][col].is_valid = False
 
-    def __getitem__(self, index) -> list[C]:
+    def __getitem__(self, index) -> list[Cell]:
         """
         ========================================================================
          1. Direct access to a Row of Cells via the [Row] Property.

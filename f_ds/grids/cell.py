@@ -1,7 +1,7 @@
 from __future__ import annotations
 from f_abstract.mixins.validatable import Validatable
+from f_abstract.mixins.has_row_col import HasRowCol
 from f_const.u_enum import DistanceMetric
-from f_ds.mixins.has_row_col import HasRowCol
 
 
 class Cell(HasRowCol, Validatable):

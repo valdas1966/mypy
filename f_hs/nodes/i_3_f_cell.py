@@ -1,7 +1,7 @@
 from __future__ import annotations
 from f_hs.nodes.i_2_f import NodeF
 from f_ds.nodes.i_2_cell import NodeCell
-from f_ds.cell import Cell
+from f_ds.grids.cell import Cell
 
 
 class NodeFCell(NodeF, NodeCell):
