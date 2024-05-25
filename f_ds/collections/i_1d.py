@@ -1,6 +1,7 @@
 from typing import Generic, TypeVar, Iterator, Collection
 from f_abstract.mixins.nameable import Nameable
 from abc import ABC
+import random
 
 Item = TypeVar('Item')   # Type of Items in the Collection
 
@@ -12,14 +13,16 @@ class Collection1D(ABC, Generic[Item], Nameable):
     ============================================================================
     """
 
-    def __init__(self, name: str = None) -> None:
+    def __init__(self,
+                 name: str = None,
+                 items: Collection[Item] = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         Nameable.__init__(self, name=name)
-        self._items: Collection[Item] = None
+        self._items: Collection[Item] = items
 
     def to_list(self) -> list[Item]:
         """
@@ -29,12 +32,26 @@ class Collection1D(ABC, Generic[Item], Nameable):
         """
         return list(self._items)
 
+    def random(self,
+               size: int = None,
+               pct: int = None) -> list[Item]:
+        """
+        ========================================================================
+         Return List of Random-Items (by size or pct).
+        ========================================================================
+        """
+        if pct:
+            size = int(pct * len(self) / 100)
+        return random.sample(self.to_list(), k=size)
+
     def __contains__(self, item: Item) -> bool:
         """
         ========================================================================
          Return True if the Item is in the Collection.
         ========================================================================
         """
+        if not self._items:
+            return False
         return item in self._items
 
     def __len__(self) -> int:
@@ -43,6 +60,8 @@ class Collection1D(ABC, Generic[Item], Nameable):
          Return number of Items in the Collection.
         ========================================================================
         """
+        if not self._items:
+            return 0
         return len(self._items)
 
     def __bool__(self) -> bool:
@@ -57,12 +76,28 @@ class Collection1D(ABC, Generic[Item], Nameable):
         """
         ========================================================================
          Return STR-REPR of the Collection.
+         Ex: Name([...])
         ========================================================================
         """
-        return f'{self.__class__.__name__}({self.to_list()})'
+        if self._items is None:
+            return f'{self.name}(None)'
+        return f'{self.name}({self.to_list()})'
 
     def __repr__(self) -> str:
-        return self.__str__()
+        """
+        ========================================================================
+         Return friendly REPR.
+         Ex: <Collection1D: Name([...])>
+        ========================================================================
+        """
+        return f'<{self.__class__.__name__}: {str(self)}>'
 
     def __iter__(self) -> Iterator[Item]:
+        """
+        ========================================================================
+         Enable iterating over the Items.
+        ========================================================================
+        """
+        if not self._items:
+            return iter(list())
         return iter(self._items)

@@ -68,15 +68,7 @@ class HasRowsCols(Sortable):
         """
         ========================================================================
          Return STR-REPR of the Object's Shape.
-         Ex: '(1,2)'
+         Ex: '<HasRowsCols>(1,2)'
         ========================================================================
         """
-        return str(self)
-
-    def __hash__(self) -> int:
-        """
-        ========================================================================
-         Hash by the number of Rows and Cols.
-        ========================================================================
-        """
-        return hash((self.rows, self.cols))
+        return f'<{self.__class__.__name__}: {str(self)}>'

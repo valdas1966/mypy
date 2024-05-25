@@ -1,8 +1,8 @@
-from f_ds.collections.i_1d import CollectionBase, Item
+from f_ds.collections.i_1d import Collection1D, Item
 from abc import abstractmethod
 
 
-class QueueBase(CollectionBase[Item]):
+class QueueBase(Collection1D[Item]):
     """
     ============================================================================
      Abstract-Class of Queue.
