@@ -22,6 +22,8 @@ class Collection1D(ABC, Generic[Item], Nameable):
         ========================================================================
         """
         Nameable.__init__(self, name=name)
+        if items is None:
+            items = list[Item]()
         self._items: Collection[Item] = items
 
     def to_list(self) -> list[Item]:
@@ -32,17 +34,22 @@ class Collection1D(ABC, Generic[Item], Nameable):
         """
         return list(self._items)
 
-    def random(self,
-               size: int = None,
-               pct: int = None) -> list[Item]:
+    def random_by_size(self, size: int) -> list[Item]:
         """
         ========================================================================
-         Return List of Random-Items (by size or pct).
+         Return List of Random-Items by Size (number of items).
         ========================================================================
         """
-        if pct:
-            size = int(pct * len(self) / 100)
         return random.sample(self.to_list(), k=size)
+
+    def random_by_pct(self, pct: int) -> list[Item]:
+        """
+        ========================================================================
+         Return List of Random-Items by Percentage (relative to len(self)).
+        ========================================================================
+        """
+        size = int(pct * len(self) / 100)
+        return self.random_by_size(size=size)
 
     def __contains__(self, item: Item) -> bool:
         """
@@ -60,8 +67,6 @@ class Collection1D(ABC, Generic[Item], Nameable):
          Return number of Items in the Collection.
         ========================================================================
         """
-        if not self._items:
-            return 0
         return len(self._items)
 
     def __bool__(self) -> bool:
@@ -86,7 +91,7 @@ class Collection1D(ABC, Generic[Item], Nameable):
     def __repr__(self) -> str:
         """
         ========================================================================
-         Return friendly REPR.
+         Return Friendly-REPR.
          Ex: <Collection1D: Name([...])>
         ========================================================================
         """
@@ -98,6 +103,4 @@ class Collection1D(ABC, Generic[Item], Nameable):
          Enable iterating over the Items.
         ========================================================================
         """
-        if not self._items:
-            return iter(list())
         return iter(self._items)

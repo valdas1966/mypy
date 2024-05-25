@@ -6,6 +6,7 @@ from f_ds.collections.i_1d import Collection1D
 def ex_empty() -> Collection1D:
     return Collection1D()
 
+
 @pytest.fixture
 def ex_full() -> Collection1D:
     return Collection1D(name='Test', items=[1, 2])
@@ -20,9 +21,12 @@ def test_to_list(ex_full):
     assert ex_full.to_list() == [1, 2]
 
 
-def test_random(ex_full):
-    assert len(ex_full.random(size=1)) == 1
-    assert len(ex_full.random(pct=50)) == 1
+def test_random_by_size(ex_full):
+    assert len(ex_full.random_by_size(size=1)) == 1
+
+
+def test_random_by_pct(ex_full):
+    assert len(ex_full.random_by_pct(pct=50)) == 1
 
 
 def test_contains(ex_empty, ex_full):
@@ -41,12 +45,12 @@ def test_bool(ex_empty, ex_full):
 
 
 def test_str(ex_empty, ex_full):
-    assert str(ex_empty) == 'None(None)'
+    assert str(ex_empty) == 'None([])'
     assert str(ex_full) == 'Test([1, 2])'
 
 
 def test_repr(ex_empty, ex_full):
-    assert repr(ex_empty) == '<Collection1D: None(None)>'
+    assert repr(ex_empty) == '<Collection1D: None([])>'
     assert repr(ex_full) == '<Collection1D: Test([1, 2])>'
 
 

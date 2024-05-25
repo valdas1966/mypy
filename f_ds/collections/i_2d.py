@@ -1,9 +1,10 @@
-from f_ds.collections.i_1d import Collection1D, Item
+from f_ds.collections.i_1d import Collection1D
 from f_abstract.mixins.has_row_col import HasRowCol
 from f_abstract.mixins.has_rows_cols import HasRowsCols
 from typing import TypeVar, Iterator
 
 Item = TypeVar('Item', bound=HasRowCol)
+
 
 class Collection2D(Collection1D[Item], HasRowsCols):
     """
