@@ -32,11 +32,3 @@ class Cell(HasRowCol, Validatable):
             diff_row = abs(self.row - other.row)
             diff_col = abs(self.col - other.col)
             return diff_row + diff_col
-
-    def to_has_row_col(self) -> HasRowCol:
-        """
-        ========================================================================
-         Converts into HasRowCol object.
-        ========================================================================
-        """
-        return HasRowCol(self.row, self.col)

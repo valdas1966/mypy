@@ -20,6 +20,9 @@ class Collection2D(Collection1D[Item], HasRowsCols):
                  cols: int = None
                  ) -> None:
         Collection1D.__init__(self, name=name, items=items)
+        if items:
+            rows = len(items)
+            cols = len(items[0])
         HasRowsCols.__init__(self, rows=rows, cols=cols)
 
     def to_list(self) -> list[Item]:
@@ -46,7 +49,7 @@ class Collection2D(Collection1D[Item], HasRowsCols):
          Return number of Items in the Collection.
         ========================================================================
         """
-        return sum(len(row) for row in self._items)
+        return self.rows * self.cols
 
     def __bool__(self) -> bool:
         """

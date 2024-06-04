@@ -1,14 +1,41 @@
+import pytest
 from f_abstract.mixins.has_row_col import HasRowCol
 
 
-def test_str():
-    rc = HasRowCol(1, 2)
-    assert str(rc) == '(1,2)'
-    rc = HasRowCol(3)
-    assert str(rc) == '(3,3)'
-    rc = HasRowCol()
-    assert str(rc) == '(0,0)'
+@pytest.fixture
+def ex_zero() -> HasRowCol:
+    return HasRowCol()
 
+@pytest.fixture
+def ex_one() -> HasRowCol:
+    return HasRowCol(1)
+
+
+def test_init(ex_zero, ex_one):
+    assert (ex_zero.row, ex_zero.col) == (0, 0)
+    assert (ex_one.row, ex_one.col) == (1, 1)
+
+
+def test_str(ex_zero, ex_one):
+    assert str(ex_zero) == '(0,0)'
+    assert str(ex_one) == '(1,1)'
+
+
+def test_repr(ex_zero):
+    assert repr(ex_zero) == '<HasRowCol: (0,0)>'
+
+
+def test_neighbors(ex_zero, ex_one):
+    assert ex_zero.neighbors() == [HasRowCol(0, 1),
+                                    HasRowCol(1, 0)]
+    assert ex_one.neighbors() == [HasRowCol(0, 1),
+                                  HasRowCol(1, 2),
+                                  HasRowCol(row=2, col=1),
+                                  HasRowCol(row=1, col=0)]
+    
 
 def test_comparison():
-    assert HasRowCol(0, 0) < HasRowCol(0, 1) < HasRowCol(1, 0) < HasRowCol(1, 1)
+    assert (HasRowCol(0, 0) <
+            HasRowCol(0, 1) <
+            HasRowCol(1, 0) <
+            HasRowCol(1, 1))

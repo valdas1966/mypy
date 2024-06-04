@@ -15,3 +15,35 @@ class Grid(Collection2D[Cell]):
                         for row in range(self.rows)
                         ]
 
+    def neighbors(self, cell: Cell) -> list[Cell]:
+        """
+        ========================================================================
+         Return List of a valid Cell-Neighbors in Clockwise-Order.
+        ========================================================================
+        """
+        cells_within = [self._items[n.row][n.col] for n in cell.neighbors()]
+        return [cell for cell in cells_within if cell.is_valid]
+
+    def __getitem__(self, index) -> list[Cell]:
+        """
+        ========================================================================
+         1. Direct access to a Row of Cells via the [Row] Property.
+         2. Direct access specific Cell using [Row][Col] Properties.
+        ========================================================================
+        """
+        return self._items[index]
+
+    def __str__(self) -> str:
+        """
+        ========================================================================
+         Plot the Grid with (0,1) values.
+        ========================================================================
+        """
+        # Cols Title
+        res = '  ' + ' '.join((str(col) for col in range(self.cols))) + '\n'
+        for row in range(self.rows):
+            res += str(row) + ' '
+            for col in range(self.cols):
+                res += '1 ' if self._grid[row][col].is_valid else '0 '
+            res += '\n'
+        return res

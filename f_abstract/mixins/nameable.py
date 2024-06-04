@@ -26,7 +26,7 @@ class Nameable(Sortable):
         return [self._name]
 
     def __str__(self) -> str:
-        return self.name if self.name else ''
+        return self.name if self.name else 'None'
 
     def __repr__(self) -> str:
         return f'<{type(self).__name__}: {self.__str__()}>'
