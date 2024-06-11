@@ -23,7 +23,7 @@ class Nameable(Sortable):
          Returns the Object's Key for Sorting.
         ========================================================================
         """
-        return [self._name]
+        return [str() if self._name is None else self._name]
 
     def __str__(self) -> str:
         return self.name if self.name else 'None'

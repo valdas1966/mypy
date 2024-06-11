@@ -1,37 +1,35 @@
+import pytest
+from pytest import fixture
 from f_abstract.mixins.nameable import Nameable
 
 
-def test_init_default():
-    nameable = Nameable()
-    assert nameable.name is None
+@pytest.fixture
+def ex_none():
+    return Nameable()
+
+@pytest.fixture
+def ex_test():
+    return Nameable(name='Test')
 
 
-def test_init_not_default():
-    nameable = Nameable("John")
-    assert nameable.name == "John"
+def test_init_default(ex_none, ex_test):
+    assert ex_none.name is None
+    assert ex_test.name == 'Test'
 
+def test_eq(ex_none, ex_test):
+    assert ex_none == ex_none
+    assert ex_none != ex_test
 
-def test_eq():
-    a = Nameable('test')
-    b = Nameable('test')
-    assert a == b
+def test_sort(ex_none, ex_test):
+    assert ex_none < ex_test
 
+def test_str(ex_none, ex_test):
+    assert str(ex_none) == 'None'
+    assert str(ex_test) == 'Test'
 
-def test_str():
-    a = Nameable('test')
-    assert str(a) == 'test'
+def test_repr(ex_none, ex_test):
+    assert repr(ex_none) == '<Nameable: None>'
+    assert repr(ex_test) == '<Nameable: Test>'
 
-
-def test_repr():
-    a = Nameable('test')
-    assert a.__repr__() == '<Nameable: test>'
-    class B(Nameable):
-        pass
-    b = B(name='SubClass')
-    assert b.__repr__() == '<B: SubClass>'
-
-
-def test_sort():
-    a = Nameable('A')
-    b = Nameable('B')
-    assert a < b
+def test_hash(ex_none, ex_test):
+    assert {ex_none, ex_test, ex_test} == {ex_none, ex_test}

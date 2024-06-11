@@ -28,7 +28,7 @@ class Collection2D(Collection1D[Item], HasRowsCols):
     def to_list(self) -> list[Item]:
         """
         ========================================================================
-         Return a List of Items in the Collection.
+         Return a Flattened-List of Items in the Collection.
         ========================================================================
         """
         return [item for row in self._items
@@ -50,32 +50,6 @@ class Collection2D(Collection1D[Item], HasRowsCols):
         ========================================================================
         """
         return self.rows * self.cols
-
-    def __bool__(self) -> bool:
-        """
-        ========================================================================
-         Return True if the Collection is not Empty.
-        ========================================================================
-        """
-        return bool(len(self))
-
-    def __str__(self) -> str:
-        """
-        ========================================================================
-         Return STR-REPR of the Collection.
-         Ex: Name([...])
-        ========================================================================
-        """
-        return f'{self.name}({self.to_list()})'
-
-    def __repr__(self) -> str:
-        """
-        ========================================================================
-         Return friendly REPR.
-         Ex: <Collection1D: Name([...])>
-        ========================================================================
-        """
-        return f'<{self.__class__.__name__}: {str(self)}>'
 
     def __iter__(self) -> Iterator[Item]:
         """

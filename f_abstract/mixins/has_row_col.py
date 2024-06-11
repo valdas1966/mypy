@@ -1,8 +1,8 @@
 from __future__ import annotations
-from f_abstract.mixins.sortable import Sortable
+from f_abstract.mixins.nameable import Nameable
 
 
-class HasRowCol(Sortable):
+class HasRowCol(Nameable):
     """
     ============================================================================
      Mixin for classes with Row and Col properties.
@@ -11,7 +11,8 @@ class HasRowCol(Sortable):
 
     def __init__(self,
                  row: int = None,
-                 col: int = None) -> None:
+                 col: int = None,
+                 name: str = None) -> None:
         """
         ========================================================================
          1. Inits the Object with received Row and Col arguments.
@@ -20,6 +21,7 @@ class HasRowCol(Sortable):
         """
         self._row = row if row is not None else 0
         self._col = col if col is not None else self._row
+        Nameable.__init__(self, name=name)
 
     @property
     # Object's Row
@@ -39,7 +41,7 @@ class HasRowCol(Sortable):
         return [HasRowCol(n[0], n[1])
                 for n
                 in (n_north, n_east, n_south, n_west)
-                if (self._is_valid(n[0], n[1]))]
+                if n[0]>=0 and n[1]>=0]
 
     def key_comparison(self) -> list:
         """
@@ -49,30 +51,14 @@ class HasRowCol(Sortable):
         """
         return [self.row, self.col]
 
-    def to_tuple(self) -> tuple[int, int]:
-        """
-        ========================================================================
-         Return Tuple of (Row, Col).
-        ========================================================================
-        """
-        return self.row, self.col
-
     def __str__(self) -> str:
         """
         ========================================================================
          Return STR-REPR of the Object.
-         Ex: '(Row,Col)'
+         Ex: 'Name(Row,Col)'
         ========================================================================
         """
         return f'({self._row},{self._col})'
-
-    def __repr__(self) -> str:
-        """
-        ========================================================================
-         Return Friendly-REPR of the Object.
-        ========================================================================
-        """
-        return f'<{self.__class__.__name__}: {str(self)}>'
 
     def __hash__(self) -> int:
         #0506892032 - Mati
@@ -82,11 +68,3 @@ class HasRowCol(Sortable):
         ========================================================================
         """
         return hash((self.row, self.col))
-
-    def _is_valid(self, row: int, col: int) -> bool:
-        """
-        ========================================================================
-         Return True if Row and Col are Zero or Positive.
-        ========================================================================
-        """
-        return row >= 0 and col >= 0

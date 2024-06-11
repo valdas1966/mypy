@@ -1,4 +1,12 @@
 
+def is_even(n: int) -> bool:
+    """
+    ============================================================================
+     Return True if the given N is an Even-Number.
+    ============================================================================
+    """
+    return not n % 2
+
 def to_percent(numerator: int,
                denominator: int,
                precision: int = 0,        # Number of Digits after the Point

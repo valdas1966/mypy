@@ -1,11 +1,11 @@
 import pytest
 from f_ds.collections.i_1d import Collection1D
+from f_utils import u_int
 
 
 @pytest.fixture
 def ex_empty() -> Collection1D:
     return Collection1D()
-
 
 @pytest.fixture
 def ex_full() -> Collection1D:
@@ -16,18 +16,8 @@ def test_init(ex_empty, ex_full):
     assert ex_empty.name is None
     assert ex_full.name == 'Test'
 
-
 def test_to_list(ex_full):
     assert ex_full.to_list() == [1, 2]
-
-
-def test_random_by_size(ex_full):
-    assert len(ex_full.random_by_size(size=1)) == 1
-
-
-def test_random_by_pct(ex_full):
-    assert len(ex_full.random_by_pct(pct=50)) == 1
-
 
 def test_contains(ex_empty, ex_full):
     assert 2 not in ex_empty

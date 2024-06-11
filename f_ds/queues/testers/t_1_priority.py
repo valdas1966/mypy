@@ -1,9 +1,16 @@
+import pytest
 from f_ds.queues.i_1_priority import QueuePriority
 
 
-def test_priority():
+@pytest.fixture
+def ex() -> QueuePriority:
     q = QueuePriority()
     q.push(item=2)
     q.push(item=1)
-    # 1 is the Min-Item
-    assert q.pop() == 1
+    return q
+
+def test_push(ex):
+    assert ex.to_list() == [1, 2]
+
+def test_pop(ex):
+    assert ex.pop() == 1

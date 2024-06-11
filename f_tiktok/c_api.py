@@ -3,7 +3,7 @@ import pandas as pd
 from f_utils import u_json
 from f_utils import u_url
 from f_utils import u_file
-from f_utils import u_list
+from f_utils import old_u_list
 from f_utils import u_zip
 
 

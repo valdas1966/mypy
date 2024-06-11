@@ -11,7 +11,6 @@ def ex() -> Collection2D:
 def test_to_list(ex):
     assert ex.to_list() == [1, 2, 3, 4]
 
-
 def test_contains(ex):
     assert 3 in ex
 

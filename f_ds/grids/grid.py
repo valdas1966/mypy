@@ -3,17 +3,38 @@ from f_ds.grids.cell import Cell
 
 
 class Grid(Collection2D[Cell]):
+    """
+    ============================================================================
+     2D-Grid Class of Cells.
+    ============================================================================
+    """
 
     def __init__(self,
                  rows: int,
                  cols: int = None,
                  name: str = None) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
         Collection2D.__init__(self, name=name, rows=rows, cols=cols)
         self._items = [
                         [Cell(row, col)
                          for col in range(self.cols)]
                         for row in range(self.rows)
                         ]
+
+    @staticmethod
+    def distance(cell_a: Cell, cell_b: Cell) -> int:
+        """
+        ========================================================================
+         Return a Manhattan-Distance between the two given Cells.
+        ========================================================================
+        """
+        diff_row = abs(cell_a.row - cell_b.row)
+        diff_col = abs(cell_a.col - cell_b.col)
+        return diff_row + diff_col
 
     def neighbors(self, cell: Cell) -> list[Cell]:
         """
@@ -22,7 +43,11 @@ class Grid(Collection2D[Cell]):
         ========================================================================
         """
         cells_within = [self._items[n.row][n.col] for n in cell.neighbors()]
-        return [cell for cell in cells_within if cell.is_valid]
+        return [cell for cell in cells_within if cell]
+
+    def __len__(self) -> bool:
+        # Need grid.filter(predicate=bool)
+        return len(
 
     def __getitem__(self, index) -> list[Cell]:
         """
@@ -44,6 +69,6 @@ class Grid(Collection2D[Cell]):
         for row in range(self.rows):
             res += str(row) + ' '
             for col in range(self.cols):
-                res += '1 ' if self._grid[row][col].is_valid else '0 '
+                res += '1 ' if self._items[row][col] else '0 '
             res += '\n'
         return res

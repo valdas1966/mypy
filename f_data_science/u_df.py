@@ -156,13 +156,11 @@ def shift_prev(df: pd.DataFrame, col: str) -> pd.DataFrame:
     df[col + '_prev'] = df[col].shift(1)
     return df
 
-# Example DataFrame with stock prices
-data = {
-    'date': pd.date_range(start='2021-01-01', periods=5, freq='D'),
-    'stock_price': [100, 102, 101, 105, 107]
-}
-df = pd.DataFrame(data)
-
-# Use shift_column to compare the stock price to the previous day's price
-df = shift_column(df=df, col='stock_price')
-print(df)
+def explode_col_kv(df: pd.DataFrame, col_kv: str) -> pd.DataFrame:
+    """
+    ============================================================================
+     Explode Col with Key=Val format into additional Cols.
+    ============================================================================
+    """
+    df_kv = df[col_kv].apply(u_dict.from_str_kv).apply(pd.Series)
+    return df.join(df_kv)

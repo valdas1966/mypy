@@ -1,7 +1,7 @@
-from typing import Generic, TypeVar, Iterator, Collection
+from typing import Generic, TypeVar, Iterator, Collection, Callable
 from f_abstract.mixins.nameable import Nameable
 from abc import ABC
-import random
+from f_utils import u_list
 
 Item = TypeVar('Item')   # Type of Items in the Collection
 
@@ -33,23 +33,6 @@ class Collection1D(ABC, Generic[Item], Nameable):
         ========================================================================
         """
         return list(self._items)
-
-    def random_by_size(self, size: int) -> list[Item]:
-        """
-        ========================================================================
-         Return List of Random-Items by Size (number of items).
-        ========================================================================
-        """
-        return random.sample(self.to_list(), k=size)
-
-    def random_by_pct(self, pct: int) -> list[Item]:
-        """
-        ========================================================================
-         Return List of Random-Items by Percentage (relative to len(self)).
-        ========================================================================
-        """
-        size = int(pct * len(self) / 100)
-        return self.random_by_size(size=size)
 
     def __contains__(self, item: Item) -> bool:
         """
@@ -87,15 +70,6 @@ class Collection1D(ABC, Generic[Item], Nameable):
         if self._items is None:
             return f'{self.name}(None)'
         return f'{self.name}({self.to_list()})'
-
-    def __repr__(self) -> str:
-        """
-        ========================================================================
-         Return Friendly-REPR.
-         Ex: <Collection1D: Name([...])>
-        ========================================================================
-        """
-        return f'<{self.__class__.__name__}: {str(self)}>'
 
     def __iter__(self) -> Iterator[Item]:
         """

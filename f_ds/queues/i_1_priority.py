@@ -25,7 +25,7 @@ class QueuePriority(QueueBase[Item]):
     def push(self, item: Item) -> None:
         """
         ========================================================================
-         Push an element onto the Priority-Queue. O(1)
+         Push an element onto the Priority-Queue. O(n)
         ========================================================================
         """
         heapq.heappush(self._items, item)
@@ -33,7 +33,7 @@ class QueuePriority(QueueBase[Item]):
     def pop(self) -> Item:
         """
         ========================================================================
-         Pop and Return the minimal item from the Priority-Queue. O(n)
+         Pop and Return the Minimal-Item from the Priority-Queue. O(1)
         ========================================================================
         """
         return heapq.heappop(self._items)

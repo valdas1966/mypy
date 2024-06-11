@@ -130,3 +130,20 @@ def to_json_str(d: 'dict or list') -> str:
 def to_json_file(d: 'dict or list', path: str) -> None:
     with open(path, 'w') as file_json:
         json.dump(d, file_json)
+
+
+def from_str_kv(str_kv: str,
+                enclosure: str = '{}',
+                delimiter: str = ', ',
+                separator: str = '=',
+                ) -> dict[str, str]:
+    """
+    ============================================================================
+     Convert String with format '{k1=v1, k2=v2}' into Dict.
+    ============================================================================
+    """
+    str_kv = str_kv.strip(enclosure)
+    if not str_kv:
+        return dict()
+    pairs = str_kv.split(delimiter)
+    return dict(pair.split(separator) for pair in pairs)

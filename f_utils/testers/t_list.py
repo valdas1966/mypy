@@ -1,61 +1,26 @@
-from f_utils import u_tester
-from f_utils import u_list
+import pytest
+from f_utils import (u_list, u_int)
 
 
-class TestList:
+@pytest.fixture
+def ex_10() -> list[int]:
+    return list(range(1, 11))
 
-    def __init__(self):
-        u_tester.print_start(__file__)
-        TestList.__tester_sublist_by_index()
-        TestList.__tester_bigram()
-        TestList.__tester_to_str()
-        TestList.__tester_to_slices_breadth()
-        u_tester.print_finish(__file__)
-
-    @staticmethod
-    def __tester_sublist_by_index():
-        # Simple Test
-        li = ['a', 'b', 'c']
-        indices = [0, 2]
-        li_test = u_list.sublist_by_index(li, indices)
-        li_true = ['a', 'c']
-        p0 = li_test == li_true
-        u_tester.run(p0)
-
-    @staticmethod
-    def __tester_bigram():
-        li = list('abc')
-        bigram_test = u_list.bigram(li)
-        bigram_true = [tuple('ab'), tuple('bc')]
-        p0 = bigram_test == bigram_true
-        u_tester.run(p0)
-
-    @staticmethod
-    def __tester_to_str():
-        # List of str
-        li = ['a', 'b', 'c']
-        str_test = u_list.to_str(li)
-        str_true = 'a,b,c'
-        p0 = str_test == str_true
-        # List of int
-        li = [1, 2, 3]
-        str_test = u_list.to_str(li)
-        str_true = '1,2,3'
-        p1 = str_test == str_true
-        u_tester.run(p0, p1)
-
-    @staticmethod
-    def __tester_to_slices_breadth():
-        li = [1, 2, 3, 4, 5, 6]
-        slices_test = u_list.to_slices_breadth(li=li, num_slices=2)
-        slices_true = [[1, 3, 5], [2, 4, 6]]
-        p0 = slices_test == slices_true
-        li = [1, 2, 3, 4, 5]
-        slices_test = u_list.to_slices_breadth(li=li, num_slices=2)
-        slices_true = [[1, 3, 5], [2, 4]]
-        p1 = slices_test == slices_true
-        u_tester.run(p0, p1)
+def test_to_filter(ex_10):
+    evens = u_list.to_filter(li=ex_10, predicate=u_int.is_even)
+    assert evens == [2, 4, 6, 8, 10]
 
 
-if __name__ == '__main__':
-    TestList()
+def test_to_sample(ex_10):
+    # Test - Size
+    size = 7
+    sample_size = u_list.to_sample(li=ex_10, size=size)
+    assert len(sample_size) == size
+    # Test - Pct
+    pct = 40
+    sample_pct = u_list.to_sample(li=ex_10, pct=pct)
+    assert len(sample_pct) == 4
+    # Test - Predicate
+    predicate = u_int.is_even
+    sample_predicate = u_list.to_sample(li=ex_10, predicate=predicate, size=5)
+    assert set(sample_predicate) == {2, 4, 6, 8, 10}

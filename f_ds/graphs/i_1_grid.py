@@ -1,7 +1,7 @@
 from __future__ import annotations
-from f_data_structure.graphs.i_0_base import GraphBase
-from f_data_structure.f_grid.grid_cells import GridCells
-from f_data_structure.nodes.i_2_cell import NodeCell
+from f_ds.grids.grid import Grid
+from f_ds.graphs.i_0_base import GraphBase
+from f_ds.graphs.nodes.i_2_cell import NodeCell
 from typing import Type
 
 
@@ -13,7 +13,7 @@ class GraphGrid(GraphBase):
     """
 
     def __init__(self,
-                 grid: GridCells,
+                 grid: Grid,
                  name: str = None,
                  type_node: Type[NodeCell] = NodeCell) -> None:
         """

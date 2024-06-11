@@ -1,17 +1,21 @@
 from __future__ import annotations
-from f_abstract.mixins.sortable import Sortable
+from f_abstract.mixins.nameable import Nameable
 
 
-class HasRowsCols(Sortable):
+class HasRowsCols(Nameable):
     """
     ============================================================================
      Mixin-Class for Objects with Rows and Cols.
     ============================================================================
     """
 
-    def __init__(self, rows: int, cols: int = None) -> None:
+    def __init__(self,
+                 rows: int,
+                 cols: int = None,
+                 name: str = None) -> None:
         self._rows = rows
         self._cols = cols if cols else rows
+        Nameable.__init__(self, name=name)
 
     @property
     def rows(self) -> int:
@@ -64,11 +68,10 @@ class HasRowsCols(Sortable):
         """
         return self.shape()
 
-    def __repr__(self) -> str:
+    def __hash__(self) -> int:
         """
         ========================================================================
-         Return STR-REPR of the Object's Shape.
-         Ex: '<HasRowsCols>(1,2)'
+         Compute Hash-Value by Object's Shape.
         ========================================================================
         """
-        return f'<{self.__class__.__name__}: {str(self)}>'
+        return hash((self.rows, self.cols))
