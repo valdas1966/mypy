@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from f_abstract.mixins.nameable import Nameable
 
+
 class Pie(Nameable):
     """
     ============================================================================
