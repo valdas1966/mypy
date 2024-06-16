@@ -83,15 +83,7 @@ class Pie(Nameable):
         ========================================================================
         """
         plt.pie(self._pcts,
-                #colors=['skyblue', 'lightcoral'],
                 labels=self._labels,
                 startangle=140,
                 textprops={'fontweight': 'bold'},
                 autopct=lambda pct: f'{int(round(pct)):d}%')
-
-
-labels = ['Alive', 'Dead']
-pcts = [90, 10]
-name = 'Distribution of Alive/Dead People'
-
-Pie(name=name, labels=labels, pcts=pcts).show()

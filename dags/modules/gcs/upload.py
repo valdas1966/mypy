@@ -1,6 +1,5 @@
 from google.cloud import storage
 
-
 def json_string(project_id: str,
                 bucket: str,
                 json_name: str,
