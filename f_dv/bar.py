@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-import matplotlib.colors as mcolors
 from f_abstract.mixins.nameable import Nameable
+from f_color.u_color import RGB, UColor
 
 
 class Bar(Nameable):
@@ -18,8 +18,9 @@ class Bar(Nameable):
     def __init__(self,
                  labels: list[str],
                  values: list[int],
-                 name_labels: str,
-                 name_values: str,
+                 name_labels: str = str(),
+                 name_values: str = str(),
+                 rgbs: list[RGB] = None,
                  name: str = None) -> None:
         """
         ========================================================================
@@ -31,6 +32,9 @@ class Bar(Nameable):
         self._values = values
         self._name_labels = name_labels
         self._name_values = name_values
+        if not rgbs:
+            rgbs = UColor.to_gradients(RGB('my_cyan'), RGB('black'), len(labels))
+        self._rgbs = rgbs
         self._set_params()
 
     def show(self) -> None:
@@ -86,19 +90,12 @@ class Bar(Nameable):
          Set Bar Chart Parameters.
         ========================================================================
         """
-        # Generate a colormap based on the starting color
-        cmap = mcolors.LinearSegmentedColormap.from_list("my_gradient",
-                                                         ["#005a8d",
-                                                          "#003350"])  # Start to dark blue
+        # Convert RGB objects to matplotlib color tuples
+        colors = [rgb.to_tuple() for rgb in self._rgbs]
 
-        # Normalize the values for color mapping
-        norm = mcolors.Normalize(vmin=min(self._values), vmax=max(self._values))
+        # Create the bar chart with the gradient colors
+        bars = plt.bar(self._labels, self._values, color=colors)
 
-        # Create the bar chart with the colormap
-        bars = plt.bar(self._labels, self._values,
-                       color=cmap(norm(self._values)))
-
-        #bars = plt.bar(self._labels, self._values, color='#005a8d')
         # Add labels and values on top of the bars, in bold
         for bar in bars:
             height = bar.get_height()
