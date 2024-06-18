@@ -2,7 +2,6 @@ from __future__ import annotations
 from f_abstract.mixins.nameable import Nameable
 import matplotlib.colors as mcolors
 
-
 class RGB(Nameable):
     """
     ============================================================================
