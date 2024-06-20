@@ -4,7 +4,7 @@ from f_ds.grids.cell import Cell
 from f_utils import u_str
 
 
-class NodeCell(Cell):
+class NodeCell(NodePath):
     """
     ============================================================================
      Node represents a Cell in the Grid.

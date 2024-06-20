@@ -45,9 +45,8 @@ class Grid(Collection2D[Cell]):
         cells_within = [self._items[n.row][n.col] for n in cell.neighbors()]
         return [cell for cell in cells_within if cell]
 
-    def __len__(self) -> bool:
-        # Need grid.filter(predicate=bool)
-        return len(
+    def __len__(self) -> int:
+        return len(self.filter(predicate=bool(Cell)))
 
     def __getitem__(self, index) -> list[Cell]:
         """

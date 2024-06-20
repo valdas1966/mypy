@@ -34,6 +34,28 @@ class Collection1D(ABC, Generic[Item], Nameable):
         """
         return list(self._items)
 
+    def filter(self, predicate: Callable[[Item], True]) -> list[Item]:
+        """
+        ========================================================================
+         Return List of Items that met the Predicate.
+        ========================================================================
+        """
+        return u_list.to_filter(li=self.to_list(), predicate=predicate)
+
+    def sample(self,
+               pct: int = None,
+               size: int = None,
+               predicate: Callable[[Item], True] = None) -> list[Item]:
+        """
+        ========================================================================
+         Return Sample List of Items by Pct/Size and Predicate.
+        ========================================================================
+        """
+        return u_list.to_sample(li=self.to_list(),
+                                pct=pct,
+                                size=size,
+                                predicate=predicate)
+
     def __contains__(self, item: Item) -> bool:
         """
         ========================================================================

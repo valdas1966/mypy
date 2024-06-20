@@ -1,7 +1,7 @@
 from f_ds.grids.grid import Grid
 from f_utils import u_list
 
-class UtilsGrid:
+class UGrid:
     """
     ============================================================================
      Grid Utils-Class.
@@ -10,8 +10,8 @@ class UtilsGrid:
 
     @staticmethod
     def generate(rows: int,
-                 cols: int,
-                 pct_valid: int,
+                 cols: int = None,
+                 pct_valid: int = 100,
                  name: str = None) -> Grid:
         """
         ========================================================================

@@ -1,6 +1,6 @@
-from f_ds.grids.utils_grid import UtilsGrid
+from f_ds.grids.u_grid import UGrid
 
 
 def test_generate():
-    grid = UtilsGrid.generate(rows=10, pct_valid=90)
-    assert len(grud)
+    grid = UGrid.generate(rows=10, pct_valid=90)
+    assert len(grid) == 90

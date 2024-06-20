@@ -13,7 +13,7 @@ class StatsItems(Generic[T]):
 
     def __init__(self,
                  items: Sequence[T],
-                 is_spec: Callable[[T], bool]) -> None:
+                 predicate: Callable[[T], bool]) -> None:
         """
         ========================================================================
          Init private attributes.
@@ -22,7 +22,7 @@ class StatsItems(Generic[T]):
         # The Sequence of Items to analyze
         self._items = items
         # A callable that determines whether an item should be in the stats
-        self._is_spec = is_spec
+        self._predicate = predicate
 
     def to_list(self) -> list[T]:
         """
