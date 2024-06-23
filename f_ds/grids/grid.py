@@ -1,5 +1,7 @@
+from f_abstract.components.stats_items import StatsItems
 from f_ds.collections.i_2d import Collection2D
 from f_ds.grids.cell import Cell
+from typing import Optional
 
 
 class Grid(Collection2D[Cell]):
@@ -24,6 +26,11 @@ class Grid(Collection2D[Cell]):
                          for col in range(self.cols)]
                         for row in range(self.rows)
                         ]
+        self._cells_valid = StatsItems(items=list(self), predicate=bool)
+
+    @property
+    def cells_valid(self) -> StatsItems[Cell]:
+        return self._cells_valid
 
     @staticmethod
     def distance(cell_a: Cell, cell_b: Cell) -> int:
@@ -44,9 +51,6 @@ class Grid(Collection2D[Cell]):
         """
         cells_within = [self._items[n.row][n.col] for n in cell.neighbors()]
         return [cell for cell in cells_within if cell]
-
-    def __len__(self) -> int:
-        return len(self.filter(predicate=bool(Cell)))
 
     def __getitem__(self, index) -> list[Cell]:
         """

@@ -1,9 +1,6 @@
-from f_ds.collections.i_1d import Collection1D
-from f_abstract.mixins.has_row_col import HasRowCol
+from f_ds.collections.i_1d import Collection1D, Item
 from f_abstract.mixins.has_rows_cols import HasRowsCols
-from typing import TypeVar, Iterator
-
-Item = TypeVar('Item', bound=HasRowCol)
+from typing import Iterator
 
 
 class Collection2D(Collection1D[Item], HasRowsCols):
@@ -24,16 +21,6 @@ class Collection2D(Collection1D[Item], HasRowsCols):
             rows = len(items)
             cols = len(items[0])
         HasRowsCols.__init__(self, rows=rows, cols=cols)
-
-    def to_list(self) -> list[Item]:
-        """
-        ========================================================================
-         Return a Flattened-List of Items in the Collection.
-        ========================================================================
-        """
-        return [item for row in self._items
-                for item in row
-                if item is not None]
 
     def __contains__(self, item: Item) -> bool:
         """

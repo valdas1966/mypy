@@ -1,5 +1,4 @@
 import pytest
-from pytest import fixture
 from f_abstract.mixins.nameable import Nameable
 
 

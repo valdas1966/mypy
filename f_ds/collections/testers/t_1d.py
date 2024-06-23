@@ -16,9 +16,6 @@ def test_init(ex_empty, ex_full):
     assert ex_empty.name is None
     assert ex_full.name == 'Test'
 
-def test_to_list(ex_full):
-    assert ex_full.to_list() == [1, 2]
-
 def test_contains(ex_empty, ex_full):
     assert 2 not in ex_empty
     assert 2 in ex_full
@@ -47,3 +44,4 @@ def test_repr(ex_empty, ex_full):
 def test_iter(ex_empty, ex_full):
     assert [x for x in ex_empty] == []
     assert [x for x in ex_full] == [1, 2]
+    assert list(ex_full) == [1, 2]

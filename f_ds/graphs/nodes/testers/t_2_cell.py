@@ -19,6 +19,7 @@ def test_str(ex_00, ex_11):
     assert str(ex_11) == 'One(1,1)'
 
 def test_hash():
+    # Test the Hash by Cell (not by Name)
     a = NodeCell(name='Node', cell=Cell(0))
     b = NodeCell(name='Node', cell=Cell(1))
     c = NodeCell(cell=Cell(1))

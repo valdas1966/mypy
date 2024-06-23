@@ -1,5 +1,7 @@
 from f_ds.grids.u_grid import UGrid
 
 
-grid = UGrid.generate(rows=10, pct_valid=99)
+grid = UGrid.generate(rows=4, pct_valid=75)
 print(grid)
+print(len(grid))
+print(list(grid.cells_valid))

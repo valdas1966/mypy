@@ -1,8 +1,9 @@
 from __future__ import annotations
 from f_abstract.mixins.sortable import Sortable
+from f_abstract.mixins.printable import Printable
 
 
-class Nameable(Sortable):
+class Nameable(Sortable, Printable):
     """
     ============================================================================
      Mixin with a Name property (Default=None).
@@ -10,6 +11,11 @@ class Nameable(Sortable):
     """
 
     def __init__(self, name: str = None) -> None:
+        """
+        ========================================================================
+         Init private attributes.
+        ========================================================================
+        """
         self._name = name
 
     @property
@@ -23,13 +29,20 @@ class Nameable(Sortable):
          Returns the Object's Key for Sorting.
         ========================================================================
         """
-        return [str() if self._name is None else self._name]
+        return [self._name or str()]
 
     def __str__(self) -> str:
-        return self.name if self.name else 'None'
-
-    def __repr__(self) -> str:
-        return f'<{type(self).__name__}: {self.__str__()}>'
+        """
+        ========================================================================
+         Return object string representation.
+        ========================================================================
+        """
+        return self.name or 'None'
 
     def __hash__(self) -> int:
+        """
+        ========================================================================
+         Return a Hash-Value of the object's name.
+        ========================================================================
+        """
         return hash(self.name)

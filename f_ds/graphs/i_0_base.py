@@ -22,6 +22,15 @@ class GraphBase(ABC, Generic[Node], Nameable):
         Nameable.__init__(self, name)
 
     @abstractmethod
+    def nodes(self) -> list[Node]:
+        """
+        ========================================================================
+         Return List of Nodes in the Graph.
+        ========================================================================
+        """
+        pass
+
+    @abstractmethod
     def get_neighbors(self, node: Node) -> list[Node]:
         """
         ========================================================================
@@ -29,3 +38,19 @@ class GraphBase(ABC, Generic[Node], Nameable):
         ========================================================================
         """
         pass
+
+    def __len__(self) -> int:
+        """
+        ========================================================================
+         Return the number of Nodes in the Grid.
+        ========================================================================
+        """
+        return len(self.nodes())
+
+    def __bool__(self) -> bool:
+        """
+        ========================================================================
+         Return True if the Graph is not Empty.
+        ========================================================================
+        """
+        return bool(len(self))

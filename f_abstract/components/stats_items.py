@@ -1,4 +1,5 @@
-from typing import Generic, TypeVar, Callable, Sequence
+from typing import Generic, TypeVar, Callable, Sequence, Iterator
+from f_utils import u_list
 
 T = TypeVar('T')
 
@@ -24,21 +25,13 @@ class StatsItems(Generic[T]):
         # A callable that determines whether an item should be in the stats
         self._predicate = predicate
 
-    def to_list(self) -> list[T]:
-        """
-        ========================================================================
-         Return a List of Specified-Items that meet the Spec-Condition.
-        ========================================================================
-        """
-        return [item for item in self._items if self._is_spec(item)]
-
-    def count(self) -> int:
+    def cnt(self) -> int:
         """
         ========================================================================
          Return the count of Specified-Items.
         ========================================================================
         """
-        return len(self.to_list())
+        return len(list(self))
 
     def pct(self) -> int:
         """
@@ -48,4 +41,12 @@ class StatsItems(Generic[T]):
         """
         if not self._items:
             return 0
-        return int(round(self.count() / len(self._items) * 100, 0))
+        return int(round(self.cnt() / len(self._items) * 100, 0))
+
+    def __iter__(self) -> Iterator[T]:
+        """
+        ========================================================================
+         Iterate over the Items that meet the Predicate.
+        ========================================================================
+        """
+        return (item for item in self._items if self._predicate(item))
