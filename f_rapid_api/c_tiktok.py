@@ -12,7 +12,7 @@ class TikTok:
     ============================================================================
     """
 
-    _PATH_KEY = 'd:\\professor\\json\\tiktok no watermark.txt'
+    _PATH_KEY = 'd:\\professor\\json\\tiktok no watermark.old_old_txt'
 
     def __init__(self, path_key: str = None) -> None:
         """

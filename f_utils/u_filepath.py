@@ -4,7 +4,7 @@ def get_filename(filepath: str, with_domain: bool = True) -> str:
     ============================================================================
      Description: Return FileName extracted from the FilePath.
     ============================================================================
-     Example: with domain [test_1.txt], without [test_1]
+     Example: with domain [test_1.old_old_txt], without [test_1]
     ============================================================================
     """
     ans = filepath.split('\\')[-1]

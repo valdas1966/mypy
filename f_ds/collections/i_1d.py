@@ -7,7 +7,7 @@ from f_utils import u_list
 Item = TypeVar('Item')   # Type of Items in the Collection
 
 
-class Collection1D(ABC, Generic[Item], Nameable, Iterable):
+class Collection1D(ABC, Generic[Item], Iterable[Item], Nameable):
     """
     ============================================================================
      Abstract-Class represents a Collection of Items.
@@ -23,7 +23,6 @@ class Collection1D(ABC, Generic[Item], Nameable, Iterable):
         ========================================================================
         """
         Nameable.__init__(self, name=name)
-        Iterable[Item].__init__(self)
         if items is None:
             items = list[Item]()
         self._items: Collection[Item] = items
@@ -34,7 +33,7 @@ class Collection1D(ABC, Generic[Item], Nameable, Iterable):
          Return List of Items that met the Predicate.
         ========================================================================
         """
-        return u_list.to_filter(li=list(self), predicate=predicate)
+        return u_list.to_filter(li=self.to_list(), predicate=predicate)
 
     def sample(self,
                pct: int = None,
@@ -45,10 +44,20 @@ class Collection1D(ABC, Generic[Item], Nameable, Iterable):
          Return Sample List of Items by Pct/Size and Predicate.
         ========================================================================
         """
-        return u_list.to_sample(li=list(self),
+        return u_list.to_sample(li=self.to_list(),
                                 pct=pct,
                                 size=size,
                                 predicate=predicate)
+
+    def to_list(self) -> list[Item]:
+        """
+        ========================================================================
+         Return a list representation of the Object.
+        ========================================================================
+        """
+        if isinstance(self._items, list):
+            return self._items
+        return list(self._items)
 
     def __str__(self) -> str:
         """
@@ -59,28 +68,4 @@ class Collection1D(ABC, Generic[Item], Nameable, Iterable):
         """
         if self._items is None:
             return f'{self.name}(None)'
-        return f'{self.name}({list(self)})'
-
-    def __iter__(self) -> Iterator[Item]:
-        """
-        ========================================================================
-         Enable iterating over the Items.
-        ========================================================================
-        """
-        return iter(self._items)
-
-    def __len__(self) -> int:
-        """
-        ========================================================================
-         Return the number of Items in the Collection.
-        ========================================================================
-        """
-        return len(self._items)
-
-    def __contains__(self, item: Item) -> bool:
-        """
-        ========================================================================
-         Return True if the given Item is in the Collection.
-        ========================================================================
-        """
-        return item in self._items
+        return f'{self.name}({self.to_list()})'

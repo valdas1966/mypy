@@ -4,7 +4,7 @@ from f_utils import u_file
 import time
 
 
-path_rapid = 'd:\\professor\\gcp\\tiktok no watermark.txt'
+path_rapid = 'd:\\professor\\gcp\\tiktok no watermark.old_old_txt'
 key_rapid = u_file.read(path_rapid)
 tiktok = TikTok(key=key_rapid)
 

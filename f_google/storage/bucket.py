@@ -1,7 +1,7 @@
 from google.cloud.storage.bucket import Bucket as GBucket
 from f_google.strategies.retry import Retry
 from f_google.storage.blob import Blob
-from f_os import u_file, u_folder
+from f_os import old_u_file, u_folder
 
 
 class Bucket:

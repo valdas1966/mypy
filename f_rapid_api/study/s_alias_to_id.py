@@ -3,7 +3,7 @@ from f_rapid_api.c_tiktok import TikTok
 from f_utils import u_file
 
 
-path_key = 'd:\\professor\\gcp\\tiktok no watermark.txt'
+path_key = 'd:\\professor\\gcp\\tiktok no watermark.old_old_txt'
 key = u_file.read(path_key)
 
 

@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
 from f_abstract.mixins.nameable import Nameable
+from f_abstract.mixins.iterable import Iterable
 from f_ds.graphs.nodes.i_0_base import NodeBase
 from typing import TypeVar, Generic
 
 Node = TypeVar('Node', bound=NodeBase)
 
 
-class GraphBase(ABC, Generic[Node], Nameable):
+class GraphBase(ABC, Generic[Node], Iterable[Node], Nameable):
     """
     ============================================================================
      Graph Base-Class.
@@ -39,18 +40,10 @@ class GraphBase(ABC, Generic[Node], Nameable):
         """
         pass
 
-    def __len__(self) -> int:
+    def to_list(self) -> list[Node]:
         """
         ========================================================================
-         Return the number of Nodes in the Grid.
+         Return a list representation of the Object.
         ========================================================================
         """
-        return len(self.nodes())
-
-    def __bool__(self) -> bool:
-        """
-        ========================================================================
-         Return True if the Graph is not Empty.
-        ========================================================================
-        """
-        return bool(len(self))
+        return self.nodes()

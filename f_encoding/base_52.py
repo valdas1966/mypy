@@ -38,8 +38,6 @@ class Base52:
         """
         num = 0
         for char in e:
-            if char not in Base52._CHARS:
-                raise ValueError(f"Invalid character found: {char}")
             num = num * Base52._BASE + Base52._CHARS.index(char)
         # Convert number back to bytes
         len_byte = (num.bit_length() + 7) // 8

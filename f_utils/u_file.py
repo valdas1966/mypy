@@ -126,14 +126,14 @@ def filepaths(path_dir, extensions=set()):
     """
     =======================================================================
      Description: Return Full-FilePaths of Files in the Directory with
-                    the specified extensions (ex: 'txt').
+                    the specified extensions (ex: 'old_old_txt').
                   If extensions is empty -> Return all FilePaths.
     =======================================================================
      Arguments:
     -----------------------------------------------------------------------
         1. path_dir : str (Path to Directory to Inspect).
         2. extensions : str or set (str if one extensions, set if many).
-                        The extensions should be like: 'txt', 'py' and etc.
+                        The extensions should be like: 'old_old_txt', 'py' and etc.
     =======================================================================
      Return: list of str (List of Full-FilePaths).
     =======================================================================
@@ -249,7 +249,7 @@ def get_filename(path, with_domain=True):
      Arguments:
     ---------------------------------------------------------------------------
         1. path : str (FullPath of the FileName).
-        2. with_domain : bool (Domain is for example .txt or .py).
+        2. with_domain : bool (Domain is for example .old_old_txt or .py).
     ===========================================================================
      Return: str (FileName extracted from the FullPath).
     ===========================================================================

@@ -16,8 +16,8 @@ class Api:
         self.repo_videos = repo + 'videos\\'
         self.repo_zip = repo + 'zip\\'
         self.csv_video = repo + 'df_video.csv'
-        self.txt_unique_id = repo + 'unique_id.txt'
-        self.txt_uploaded = repo + 'uploaded.txt'
+        self.txt_unique_id = repo + 'unique_id.old_old_txt'
+        self.txt_uploaded = repo + 'uploaded.old_old_txt'
 
     def get_json(self, unique_id):
         str_api_con = 'noteret-video-no-watermark2.p.rapidapi.com'

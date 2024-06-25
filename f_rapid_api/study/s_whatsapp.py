@@ -3,7 +3,7 @@ from f_utils import u_file
 
 
 json_key = path_key = 'd:\\professor\\gcp\\owner.json'
-path_key = 'd:\\professor\\gcp\\whatsapp profile pic.txt'
+path_key = 'd:\\professor\\gcp\\whatsapp profile pic.old_old_txt'
 
 key = u_file.read(path_key)
 tel = '972562000072'

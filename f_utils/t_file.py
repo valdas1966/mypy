@@ -12,7 +12,7 @@ class TestFile:
 
     @staticmethod
     def __tester_replace_in_file():
-        txt_test = 'test.txt'
+        txt_test = 'test.old_old_txt'
         text = 'First Row\nSecond Row\n'
         u_file.write(txt_test, text)
         u_file.replace_in_file(txt_test, [('o', 'a')])
@@ -23,7 +23,7 @@ class TestFile:
 
     @staticmethod
     def __tester_replace_filename():
-        path = 'c:\\temp\\test_1.txt'
+        path = 'c:\\temp\\test_1.old_old_txt'
         filename = 'test_2.csv'
         path_test = u_file.replace_filename(path, filename)
         path_true = 'c:\\temp\\test_2.csv'

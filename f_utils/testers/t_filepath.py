@@ -12,16 +12,16 @@ class TestFilePath:
 
     @staticmethod
     def __tester_get_filename():
-        filepath = 'c:\\test\\test.txt'
+        filepath = 'c:\\test\\test.old_old_txt'
         # with domain
-        p0 = u_filepath.get_filename(filepath) == 'test.txt'
+        p0 = u_filepath.get_filename(filepath) == 'test.old_old_txt'
         # without domain
         p1 = u_filepath.get_filename(filepath, with_domain=False) == 'test'
         u_tester.run(p0, p1)
 
     @staticmethod
     def __tester_get_dir():
-        filepath = 'c:\\test\\test.txt'
+        filepath = 'c:\\test\\test.old_old_txt'
         p0 = u_filepath.get_dir(filepath) == 'c:\\test'
         u_tester.run(p0)
 
