@@ -13,7 +13,7 @@ class Bar(Nameable):
     _WIDTH: int = 12
     _HEIGHT: int = 8
     _DPI: int = 1200
-    _SIZE_NAME: int = 16
+    _SIZE_TITLE: int = 16
 
     def __init__(self,
                  labels: list[str],
@@ -82,7 +82,7 @@ class Bar(Nameable):
         if self.name:
             plt.title(label=self.name,
                       fontweight='bold',
-                      fontsize=self._SIZE_NAME)
+                      fontsize=self._SIZE_TITLE)
 
     def _set_bar(self) -> None:
         """
