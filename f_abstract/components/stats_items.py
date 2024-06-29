@@ -1,10 +1,10 @@
 from typing import Generic, TypeVar, Callable, Sequence, Iterator
-from f_utils import u_list
+from f_abstract.mixins.iterable import Iterable, Item
 
 T = TypeVar('T')
 
 
-class StatsItems(Generic[T]):
+class StatsItems(Generic[T], Iterable[T]):
     """
     ============================================================================
      Component-Class for Stats about a sequence of items based on a
@@ -25,13 +25,13 @@ class StatsItems(Generic[T]):
         # A callable that determines whether an item should be in the stats
         self._predicate = predicate
 
-    def cnt(self) -> int:
+    def to_list(self) -> list[T]:
         """
         ========================================================================
-         Return the count of Specified-Items.
+         Return a list of items that meet the predicate.
         ========================================================================
         """
-        return len(list(self))
+        return [item for item in self._items if self._predicate(item)]
 
     def pct(self) -> int:
         """
@@ -41,12 +41,4 @@ class StatsItems(Generic[T]):
         """
         if not self._items:
             return 0
-        return int(round(self.cnt() / len(self._items) * 100, 0))
-
-    def __iter__(self) -> Iterator[T]:
-        """
-        ========================================================================
-         Iterate over the Items that meet the Predicate.
-        ========================================================================
-        """
-        return (item for item in self._items if self._predicate(item))
+        return int(round(len(self) / len(self._items) * 100, 0))

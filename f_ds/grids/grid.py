@@ -26,7 +26,7 @@ class Grid(Collection2D[Cell]):
                          for col in range(self.cols)]
                         for row in range(self.rows)
                         ]
-        self._cells_valid = StatsItems(items=list(self), predicate=bool)
+        self._cells_valid = StatsItems(items=self.to_list(), predicate=bool)
 
     @property
     def cells_valid(self) -> StatsItems[Cell]:

@@ -1,6 +1,5 @@
 from f_ds.collections.i_1d import Collection1D, Item
 from f_abstract.mixins.has_rows_cols import HasRowsCols
-from typing import Iterator
 
 
 class Collection2D(Collection1D[Item], HasRowsCols):
@@ -22,28 +21,19 @@ class Collection2D(Collection1D[Item], HasRowsCols):
             cols = len(items[0])
         HasRowsCols.__init__(self, rows=rows, cols=cols)
 
-    def __contains__(self, item: Item) -> bool:
+    def to_list(self) -> list[Item]:
         """
         ========================================================================
-         Return True if the Item is in the Collection.
+         Return a flattened list representation of the 2D Object.
         ========================================================================
         """
-        return any(item in row for row in self._items)
+        return [item for row in self._items for item in row]
 
-    def __len__(self) -> int:
+    def __str__(self) -> str:
         """
         ========================================================================
-         Return number of Items in the Collection.
+         Return STR-REPR of the Object.
+         Ex: 'Name(Row,Col)'
         ========================================================================
         """
-        return self.rows * self.cols
-
-    def __iter__(self) -> Iterator[Item]:
-        """
-        ========================================================================
-         Enable iterating over the Items.
-        ========================================================================
-        """
-        for row in self._items:
-            for item in row:
-                yield item
+        return f'{self.name}{self.shape()}'

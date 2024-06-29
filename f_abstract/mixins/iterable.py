@@ -1,11 +1,12 @@
 from f_abstract.mixins.printable import Printable
 from typing import Generic, TypeVar, Iterator
+from collections.abc import Iterable as ABCIterable, Sized, Container
 from abc import abstractmethod
 
 Item = TypeVar('Item')
 
 
-class Iterable(Generic[Item], Printable):
+class Iterable(Generic[Item], Printable, ABCIterable, Sized, Container):
     """
     ============================================================================
      Mixin-Class for Iterable objects.

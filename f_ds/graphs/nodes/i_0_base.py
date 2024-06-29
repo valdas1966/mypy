@@ -1,8 +1,7 @@
-from abc import ABC
 from f_abstract.mixins.nameable import Nameable
 
 
-class NodeBase(ABC, Nameable):
+class NodeBase(Nameable):
     """
     ============================================================================
      Node Base-Class.

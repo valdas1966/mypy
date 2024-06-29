@@ -7,7 +7,7 @@ from f_utils import u_list
 Item = TypeVar('Item')   # Type of Items in the Collection
 
 
-class Collection1D(ABC, Generic[Item], Iterable[Item], Nameable):
+class Collection1D(Generic[Item], Iterable[Item], Nameable):
     """
     ============================================================================
      Abstract-Class represents a Collection of Items.
@@ -68,4 +68,4 @@ class Collection1D(ABC, Generic[Item], Iterable[Item], Nameable):
         """
         if self._items is None:
             return f'{self.name}(None)'
-        return f'{self.name}({self.to_list()})'
+        return f'{self.name}({Iterable.__str__(self)})'
