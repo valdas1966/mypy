@@ -1,10 +1,10 @@
-from typing import Generic, TypeVar, Callable, Sequence, Iterator
-from f_abstract.mixins.iterable import Iterable, Item
+from typing import Generic, TypeVar, Callable, Sequence
+from f_ds.collections.i_1d import Collection1D
 
 T = TypeVar('T')
 
 
-class StatsItems(Generic[T], Iterable[T]):
+class StatsItems(Generic[T], Collection1D[T]):
     """
     ============================================================================
      Component-Class for Stats about a sequence of items based on a
@@ -14,14 +14,14 @@ class StatsItems(Generic[T], Iterable[T]):
 
     def __init__(self,
                  items: Sequence[T],
-                 predicate: Callable[[T], bool]) -> None:
+                 predicate: Callable[[T], bool],
+                 name: str = None) -> None:
         """
         ========================================================================
          Init private attributes.
         ========================================================================
         """
-        # The Sequence of Items to analyze
-        self._items = items
+        Collection1D.__init__(self, items=items, name=name)
         # A callable that determines whether an item should be in the stats
         self._predicate = predicate
 
