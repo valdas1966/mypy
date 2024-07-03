@@ -27,6 +27,11 @@ class User:
         self._headers = headers
 
     def info(self, id_user: str) -> ResInfo:
+        """
+
+        :param id_user:
+        :return:
+        """
         url = f'{self._host}/user/info'
         params = {'user_id': id_user}
         d = u_http_requests.get_dict(url, params, self._headers)
