@@ -14,5 +14,3 @@ def test_to_list(ex):
 
 def test_str(ex):
     assert str(ex) == 'None(2,2)'
-
-

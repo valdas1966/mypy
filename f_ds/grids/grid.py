@@ -1,7 +1,6 @@
 from f_abstract.components.stats_items import StatsItems
 from f_ds.collections.i_2d import Collection2D
 from f_ds.grids.cell import Cell
-from typing import Optional
 
 
 class Grid(Collection2D[Cell]):
@@ -20,12 +19,11 @@ class Grid(Collection2D[Cell]):
          Init private Attributes.
         ========================================================================
         """
-        Collection2D.__init__(self, name=name, rows=rows, cols=cols)
-        self._items = [
-                        [Cell(row, col)
-                         for col in range(self.cols)]
-                        for row in range(self.rows)
-                        ]
+        items = [
+                    [Cell(row, col) for col in range(self.cols)]
+                    for row in range(self.rows)
+                ]
+        Collection2D.__init__(self, name=name, items=items)
         self._cells_valid = StatsItems(items=self.to_list(), predicate=bool)
 
     @property

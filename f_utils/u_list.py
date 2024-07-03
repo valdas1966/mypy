@@ -9,6 +9,7 @@ Item = TypeVar('Item')
 ================================================================================
 """
 
+
 def to_filter(li: list[Item],
               predicate: Callable[[Item], bool]) -> list[Item]:
     """
@@ -33,5 +34,6 @@ def to_sample(li: list[Item],
         li = to_filter(li=li, predicate=predicate)
     if pct:
         size = int(len(li) / 100 * pct)
-    print(len(li), size)
+    if not pct and not size:
+        return li
     return random.sample(population=li, k=size)

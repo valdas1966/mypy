@@ -12,7 +12,7 @@ class TikTok:
     ============================================================================
     """
 
-    _PATH_KEY = 'd:\\professor\\json\\tiktok no watermark.old_old_txt'
+    _PATH_KEY = 'd:\\professor\\json\\tiktok no watermark.txt'
 
     def __init__(self, path_key: str = None) -> None:
         """
@@ -21,8 +21,8 @@ class TikTok:
         ========================================================================
         """
         path_key = path_key or u_file.to_drive(__file__) + TikTok._PATH_KEY[1:]
-        self._key: str = u_file.read(path_key)
-        self._host: str = 'tiktok-video-no-watermark2.p.rapidapi.com'
+        self._key = u_file.read(path_key)
+        self._host = 'tiktok-video-no-watermark2.p.rapidapi.com'
         self._headers: dict[str, str] = {'X-RapidAPI-Key': self._key,
                                          'X-RapidAPI-Host': self._host}
 
@@ -98,3 +98,21 @@ class TikTok:
                     for d in results)
         except Exception as e:
             print(e)
+
+    def get_followers(self,
+                      id_user: str,
+                      time: str = str()) -> dict:
+        """
+        ========================================================================
+         Return 200 Followers of the given User.
+        ========================================================================
+        """
+        url = f'https://{self._host}/user/followers'
+        params: dict[str, str] = {'user_id': id_user,
+                                  'count': '200',
+                                  'time': time}
+        r = u_http_requests.get_dict(url=url,
+                                     params=params,
+                                     headers=self._headers)
+        return r
+

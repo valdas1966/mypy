@@ -9,6 +9,9 @@ class QueueBase(Collection1D[Item]):
     ============================================================================
     """
 
+    def __init__(self, items) -> None:
+        Collection1D.__init__()
+
     @abstractmethod
     def push(self, item: Item) -> None:
         """

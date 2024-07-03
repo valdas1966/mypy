@@ -7,8 +7,7 @@ T = TypeVar('T')
 class StatsItems(Generic[T], Collection1D[T]):
     """
     ============================================================================
-     Component-Class for Stats about a sequence of items based on a
-      specified condition.
+     Component-Class for Stats about a Collection based on a spec condition.
     ============================================================================
     """
 
@@ -31,7 +30,7 @@ class StatsItems(Generic[T], Collection1D[T]):
          Return a list of items that meet the predicate.
         ========================================================================
         """
-        return [item for item in self._items if self._predicate(item)]
+        return list(filter(self._predicate, self._items))
 
     def pct(self) -> int:
         """

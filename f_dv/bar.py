@@ -10,9 +10,9 @@ class Bar(Nameable):
     ============================================================================
     """
 
-    _WIDTH: int = 12
-    _HEIGHT: int = 8
-    _DPI: int = 1200
+    _WIDTH: int = 4
+    _HEIGHT: int = 3
+    _DPI: int = 600
     _SIZE_TITLE: int = 16
 
     def __init__(self,

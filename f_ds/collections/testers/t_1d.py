@@ -5,7 +5,7 @@ from f_utils import u_int
 
 @pytest.fixture
 def ex_empty() -> Collection1D:
-    return Collection1D()
+    return Collection1D(items=list())
 
 @pytest.fixture
 def ex_full() -> Collection1D:

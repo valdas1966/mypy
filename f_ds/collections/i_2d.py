@@ -10,16 +10,15 @@ class Collection2D(Collection1D[Item], HasRowsCols):
     """
 
     def __init__(self,
-                 name: str = None,
-                 items: list[list[Item]] = None,
-                 rows: int = None,
-                 cols: int = None
-                 ) -> None:
+                 items: list[list[Item]],
+                 name: str = None) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
         Collection1D.__init__(self, name=name, items=items)
-        if items:
-            rows = len(items)
-            cols = len(items[0])
-        HasRowsCols.__init__(self, rows=rows, cols=cols)
+        HasRowsCols.__init__(self, rows=len(items), cols=len(items[0]))
 
     def to_list(self) -> list[Item]:
         """
