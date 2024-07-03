@@ -26,18 +26,24 @@ class User:
         self._host = host
         self._headers = headers
 
-    def info(self, id_user: str) -> dict:
+    def info(self, id_user: str) -> ResInfo:
         url = f'{self._host}/user/info'
         params = {'user_id': id_user}
         d = u_http_requests.get_dict(url, params, self._headers)
         is_valid = d['code'] == 0
         is_exists = d['msg'] == 'success'
-        id_user = d['data']['id']
-        nick = d['data']['nickname']
-        following = d['stats']['followingCount']
-        followers = d['stats']['followerCount']
+        id_user = None
+        nick = None
+        following = None
+        followers = None
+        if is_valid and is_exists:
+            id_user = d['data']['id']
+            nick = d['data']['nickname']
+            following = d['stats']['followingCount']
+            followers = d['stats']['followerCount']
         return self.ResInfo(id=id_user,
                             nick=nick,
                             following=following,
                             followers=followers,
-                            is_exists = )
+                            is_exists=is_exists,
+                            is_valid=is_valid)
