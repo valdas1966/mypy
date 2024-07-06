@@ -12,7 +12,7 @@ class Auth:
     """
 
     # Paths to JSon-Keys to Google Account
-    _JSONS = frozendict({'VALDAS': 'd:\\jsons\\valdas\\gsheets.json',
+    _JSONS = frozendict({'VALDAS': 'd:\\jsons\\gsheet.json',
                          #'RAMI': 'd:\\professor\\gcp\\owner.json'})
                          'RAMI': 'd:\\professor\\json\\viewer.json',
                          'GFUNC': 'd:\\professor\\json\\gfunc.json'})
