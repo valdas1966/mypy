@@ -1,7 +1,7 @@
 from __future__ import annotations
 from f_ds.grids.grid import Grid
 from f_ds.graphs.i_0_base import GraphBase
-from f_ds.graphs.nodes.i_2_cell import NodeCell
+from f_ds.graphs.nodes.i_1_cell import NodeCell
 from typing import Type
 
 

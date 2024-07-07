@@ -1,10 +1,10 @@
 from __future__ import annotations
-from f_ds.graphs.nodes.i_1_path import NodePath
+from f_ds.graphs.nodes.i_0_base import NodeBase
 from f_ds.grids.cell import Cell
 from f_utils import u_str
 
 
-class NodeCell(NodePath):
+class NodeCell(NodeBase):
     """
     ============================================================================
      Node represents a Cell in the Grid.
@@ -20,7 +20,7 @@ class NodeCell(NodePath):
          Init private Attributes.
         ========================================================================
         """
-        NodePath.__init__(self, name=name, parent=parent)
+        NodeBase.__init__(self, name=name, parent=parent)
         self._cell = cell
 
     @property
@@ -43,7 +43,7 @@ class NodeCell(NodePath):
          Ex: 'Name(1,2)'
         ========================================================================
         """
-        prefix = NodePath.__str__(self)
+        prefix = NodeBase.__str__(self)
         text = str(self._cell)
         return u_str.add_prefix(prefix=prefix, text=text)
 

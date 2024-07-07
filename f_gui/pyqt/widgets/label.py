@@ -1,27 +1,18 @@
+from f_gui.pyqt.widget_text import WidgetText
 from PyQt5.QtWidgets import QLabel
-from f_gui.pyqt.widget import Widget
 
 
-class Label(Widget):
+class Label(WidgetText):
     """
     ============================================================================
-     QLabel Encapsulation.
+     Label Class to wrap QLabel.
     ============================================================================
     """
 
-    def __init__(self,
-                 name: str = None) -> None:
+    def __init__(self, name: str = None) -> None:
         """
         ========================================================================
-         Initialize the Label.
+         Initialize the Label with its own QLabel.
         ========================================================================
         """
-        Widget.__init__(self, widget=QLabel(), name=name)
-
-    def set_text(self, text: str) -> None:
-        """
-        ========================================================================
-         Set the text of the label.
-        ========================================================================
-        """
-        self.widget.setText(text)
+        WidgetText.__init__(self, widget=QLabel(), name=name)

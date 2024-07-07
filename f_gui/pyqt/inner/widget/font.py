@@ -1,4 +1,6 @@
 from PyQt5.QtWidgets import QWidget
+from PyQt5.QtGui import QFont
+
 
 class Font:
     """
@@ -34,7 +36,7 @@ class Font:
         ========================================================================
         """
         self._font.setFamily(value)
-        self._widget.setFont(self._font)
+        self._update()
 
     @property
     def size(self) -> int:
@@ -53,42 +55,32 @@ class Font:
         ========================================================================
         """
         self._font.setPointSize(value)
-        self._widget.setFont(self._font)
+        self._update()
 
     @property
-    def color(self) -> str:
+    def is_bold(self) -> bool:
         """
         ========================================================================
-         Get the current font color.
+         Return True if the Font is Bold.
         ========================================================================
         """
-        return self._widget.styles.get('color', '')
+        return self._font.weight() == QFont.Bold
 
-    @color.setter
-    def color(self, value: str) -> None:
+    @is_bold.setter
+    def is_bold(self, val: bool) -> None:
         """
         ========================================================================
-         Set the font color.
+         Set the Font to Bold or not.
         ========================================================================
         """
-        self._widget.styles['color'] = value
-        self._widget.apply_styles()
+        weight = QFont.Bold if val else QFont.Normal
+        self._font.setWeight(weight)
+        self._update()
 
-    @property
-    def weight(self) -> int:
+    def _update(self) -> None:
         """
         ========================================================================
-         Get the current font weight.
+         Update the widget's font.
         ========================================================================
         """
-        return self._font.weight()
-
-    @weight.setter
-    def weight(self, value: int) -> None:
-        """
-        ========================================================================
-         Set the font weight.
-        ========================================================================
-        """
-        self._font.setWeight(value)
         self._widget.setFont(self._font)

@@ -9,6 +9,8 @@ class Alignment:
     ============================================================================
     """
 
+    LEFT = Qt.AlignLeft
+
     def __init__(self, widget: QWidget) -> None:
         """
         ========================================================================
@@ -16,8 +18,9 @@ class Alignment:
         ========================================================================
         """
         self._widget = widget
-        self._horizontal: Qt.AlignmentFlag = Qt.AlignLeft
-        self._vertical: Qt.AlignmentFlag = Qt.AlignTop
+        self._horizontal: Qt.AlignmentFlag = Qt.AlignCenter
+        self._vertical: Qt.AlignmentFlag = Qt.AlignVCenter
+        self._update()
 
     @property
     def horizontal(self) -> Qt.AlignmentFlag:
@@ -36,7 +39,7 @@ class Alignment:
         ========================================================================
         """
         self._horizontal = value
-        self._apply_alignment()
+        self._update()
 
     @property
     def vertical(self) -> Qt.AlignmentFlag:
@@ -55,9 +58,9 @@ class Alignment:
         ========================================================================
         """
         self._vertical = value
-        self._apply_alignment()
+        self._update()
 
-    def _apply_alignment(self) -> None:
+    def _update(self) -> None:
         """
         ========================================================================
          Apply the current alignment settings to the widget.
