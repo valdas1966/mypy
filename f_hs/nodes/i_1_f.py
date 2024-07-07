@@ -1,51 +1,35 @@
 from __future__ import annotations
 from f_ds.graphs.nodes.i_0_base import NodeBase
+from f_hs.nodes.mixins.has_g import NodeG
+from f_hs.nodes.mixins.has_h import NodeH
 
 
-class NodeG(NodeBase):
+class NodeF(NodeBase, NodeG, NodeH):
     """
     ============================================================================
-     Node with G-Value (Cost from Start to current Node).
+     Informed Node with F-Value (G + H).
     ============================================================================
     """
 
     def __init__(self,
                  name: str = None,
-                 parent: NodeG = None) -> None:
+                 parent: NodeF = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        super().__init__(name=name, parent=parent)
-        self._g = (parent.g + 1) if parent else 0
+        NodeBase.__init__(self, name=name, parent=parent)
+        NodeG.__init__(self, name=name, parent=parent)
+        NodeH.__init__(self, name=name, parent=parent)
 
-    @property
-    def g(self) -> int:
+    def f(self) -> int:
         """
         ========================================================================
-         Cost from Start to current Node.
+         Calculate the total Estimated Cost (G + H).
         ========================================================================
         """
-        return self._g
-
-    @NodeBase.parent.setter
-    def parent(self, parent_new: NodeG) -> None:
-        """
-        ========================================================================
-         Set a new Parent and update the G-Value respectively.
-        ========================================================================
-        """
-        self._parent = parent_new
-        self._g = parent_new.g + 1
-
-    def is_better_parent(self, parent_new: NodeG) -> bool:
-        """
-        ========================================================================
-         Check if the new parent is better than the current based on G-Value.
-        ========================================================================
-        """
-        return self._parent is None or (parent_new.g < self.parent.g)
+        return (self._g + self._h) if self._h is not None else None
 
     def key_comparison(self) -> list:
         """
@@ -53,4 +37,12 @@ class NodeG(NodeBase):
          If F-Values are equal, break ties on H-Value.
         ========================================================================
         """
-        return [-self.g, NodeBase.key_comparison(self)]
+        return [self.f(), NodeG.key_comparison(self)]
+
+    def __repr__(self) -> str:
+        """
+        ========================================================================
+         '<NodeF: Name> G=5, H=10, F=15'
+        ========================================================================
+        """
+        return f'{NodeG.__repr__(self)}, H={self.h}, F={self.f()}'

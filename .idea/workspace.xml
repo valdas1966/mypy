@@ -5,41 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_gui/pyqt/widget_resizable.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/pyqt/widget_text.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/nodes/i_0_f.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/nodes/i_0_g.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/testers/t_int.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/u_int.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/nodes/mixins/has_h.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/nodes/mixins/testers/t_has_g.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/nodes/study/s_0_g.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/parentable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/parentable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/graphs/i_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/i_1_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/graphs/nodes/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/nodes/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/graphs/nodes/i_1_path.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/graphs/nodes/i_2_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/nodes/i_1_cell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/graphs/nodes/testers/t_1_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/nodes/testers/t_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/graphs/nodes/testers/t_2_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/nodes/testers/t_1_cell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/graphs/old_i_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/old_i_1_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/nodes/i_0_base.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/nodes/i_1_path.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/nodes/i_2_cell.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/nodes/study/s_2_cell.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/nodes/testers/t_1_path.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/nodes/testers/t_2_cell.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/container.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/container.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/inner/widget/alignment.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/inner/widget/alignment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/inner/widget/font.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/inner/widget/font.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/study/s_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/study/s_app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widget.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/widget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widgets/label.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/widgets/label.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widgets/old_label.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/window.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/window.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_1_g.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_1_h.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_2_f.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_3_f_cell.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/nodes/study/s_1_g.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/nodes/study/s_2_f_cell.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_0_f.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/i_1_f.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_0_g.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/mixins/has_g.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/testers/t_1_g.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/testers/t_1_h.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/testers/t_0_h.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/testers/t_2_f.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/testers/t_1_f.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,12 +36,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
-    &quot;accountId&quot;: &quot;9193838d-ef26-4e0d-b77f-58e2bc1908f8&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/valdas1966/mypy.git",
+    "accountId": "ddaa2239-897e-4e37-90b9-04afc5364900"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -82,9 +56,15 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Python tests.Python tests for t_0_h.test_repr.executor": "Run",
     "Python tests.Python tests for t_int.test_dims_rel_to_abs.executor": "Run",
     "Python tests.Python tests in t_0_base.py.executor": "Run",
+    "Python tests.Python tests in t_0_g.py.executor": "Run",
+    "Python tests.Python tests in t_0_h.py.executor": "Run",
     "Python tests.Python tests in t_1_cell.py.executor": "Run",
+    "Python tests.Python tests in t_1_f.py.executor": "Run",
+    "Python tests.Python tests in t_1_g.py.executor": "Run",
+    "Python tests.Python tests in t_has_g.py.executor": "Run",
     "Python tests.Python tests in t_int.py.executor": "Run",
     "Python.app.executor": "Run",
     "Python.layout.executor": "Run",
@@ -93,12 +73,14 @@
     "Python.q2.executor": "Run",
     "Python.run (1).executor": "Run",
     "Python.run.executor": "Run",
+    "Python.s_0_g.executor": "Run",
     "Python.s_0_text.executor": "Run",
     "Python.s_1_phrases.executor": "Run",
     "Python.s_1_words.executor": "Run",
     "Python.s_app (1).executor": "Run",
     "Python.s_app (2).executor": "Run",
     "Python.s_app (3).executor": "Run",
+    "Python.s_app.executor": "Run",
     "Python.s_exam.executor": "Run",
     "Python.s_window (1).executor": "Run",
     "Python.s_window.executor": "Run",
@@ -112,12 +94,14 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\mypy\f_hs\nodes\mixins" />
+      <recent name="D:\mypy\f_hs\nodes\mixins\testers" />
       <recent name="G:\mypy\f_gui\pyqt" />
       <recent name="G:\mypy\projects" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_1_cell.py">
-    <configuration name="s_app (3)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests in t_has_g.py">
+    <configuration name="s_0_g" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -126,11 +110,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/pyqt/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/nodes/study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_gui/pyqt/study/s_app.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/nodes/study/s_0_g.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -139,73 +123,73 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_int.test_dims_rel_to_abs" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_0_h.test_repr" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_utils/dtypes/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/nodes/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_int.test_dims_rel_to_abs&quot;" />
+      <option name="_new_target" value="&quot;t_0_h.test_repr&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_0_base.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_0_h.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/graphs/nodes/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/nodes/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/graphs/nodes/testers/t_0_base.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_hs/nodes/testers/t_0_h.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_1_cell.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_1_f.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/graphs/nodes/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/nodes/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/graphs/nodes/testers/t_1_cell.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_hs/nodes/testers/t_1_f.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_int.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_has_g.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_utils/dtypes/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/nodes/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_utils/dtypes/testers/t_int.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_hs/nodes/mixins/testers/t_has_g.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in t_1_cell.py" />
-        <item itemvalue="Python tests.Python tests in t_0_base.py" />
-        <item itemvalue="Python.s_app (3)" />
-        <item itemvalue="Python tests.Python tests in t_int.py" />
-        <item itemvalue="Python tests.Python tests for t_int.test_dims_rel_to_abs" />
+        <item itemvalue="Python tests.Python tests in t_has_g.py" />
+        <item itemvalue="Python tests.Python tests in t_1_f.py" />
+        <item itemvalue="Python tests.Python tests in t_0_h.py" />
+        <item itemvalue="Python tests.Python tests for t_0_h.test_repr" />
+        <item itemvalue="Python.s_0_g" />
       </list>
     </recent_temporary>
   </component>
