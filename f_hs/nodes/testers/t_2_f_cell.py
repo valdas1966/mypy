@@ -1,8 +1,7 @@
-from f_hs.nodes.i_3_f_cell import NodeFCell
-from f_ds.grids.cell import Cell
+from f_hs.nodes.i_2_f_cell import NodeFCell
 
 
-def test_from_cell():
-    cell = Cell(2, 3)
-    node = NodeFCell(cell=cell)
-    assert node.cell.row, node.cell.col == (2, 3)
+def test_repr():
+    node = NodeFCell(name='A')
+    node.h = 5
+    assert repr(node) == '<NodeFCell: A(0,0)> G=0, H=5, F=5'

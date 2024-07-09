@@ -1,5 +1,5 @@
 import pytest
-from f_ds.graphs.nodes.i_1_cell import NodeCell, Cell
+from f_ds.graphs.nodes.i_2_cell import NodeCell, Cell
 
 
 @pytest.fixture

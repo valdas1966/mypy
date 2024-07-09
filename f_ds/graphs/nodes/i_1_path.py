@@ -1,18 +1,22 @@
 from __future__ import annotations
-from f_abstract.mixins.nameable import Nameable
+from f_ds.graphs.nodes.i_0_base import NodeBase
+from f_abstract.mixins.parentable import Parentable
 
 
-class NodeBase(Nameable):
+class NodePath(NodeBase, Parentable):
     """
     ============================================================================
-     Node Base-Class.
+     Node with Path functionality.
     ============================================================================
     """
 
-    def __init__(self, name: str = None) -> None:
+    def __init__(self,
+                 name: str = None,
+                 parent: NodePath = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        Nameable.__init__(self, name=name)
+        NodeBase.__init__(self, name=name)
+        Parentable.__init__(self, parent=parent)

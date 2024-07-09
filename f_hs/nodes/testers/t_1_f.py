@@ -21,4 +21,4 @@ def test_key_comparison(ex_a, ex_b):
 
 
 def test_repr(ex_a):
-    assert repr(ex_a) == '<NodeH: None> H=5'
+    assert repr(ex_a) == '<NodeF: None> G=0, H=1, F=1'

@@ -1,18 +1,18 @@
 import pytest
-from f_hs.nodes.mixins.has_h import NodeH
+from f_hs.nodes.i_0_h import NodeH
 
 
 @pytest.fixture
 def ex_a() -> NodeH:
     node = NodeH()
-    node.h = 5
+    node.h = 1
     return node
 
 
 @pytest.fixture
-def ex_b(ex_a) -> NodeH:
+def ex_b() -> NodeH:
     node = NodeH()
-    node.h = 10
+    node.h = 2
     return node
 
 
@@ -21,4 +21,4 @@ def test_key_comparison(ex_a, ex_b):
 
 
 def test_repr(ex_a):
-    assert repr(ex_a) == '<NodeH: None> H=5'
+    assert repr(ex_a) == '<NodeH: None> H=1'

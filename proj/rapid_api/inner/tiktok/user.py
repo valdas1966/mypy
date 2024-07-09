@@ -28,11 +28,11 @@ class User:
 
     def info(self, id_user: str) -> ResInfo:
         """
-
-        :param id_user:
-        :return:
+        ========================================================================
+         Return User-Info.
+        ========================================================================
         """
-        url = f'{self._host}/user/info'
+        url = f'https://{self._host}/user/info'
         params = {'user_id': id_user}
         d = u_http_requests.get_dict(url, params, self._headers)
         is_valid = d['code'] == 0
@@ -42,10 +42,11 @@ class User:
         following = None
         followers = None
         if is_valid and is_exist:
-            id_user = d['data']['id']
-            nick = d['data']['nickname']
-            following = d['stats']['followingCount']
-            followers = d['stats']['followerCount']
+            data = d['data']
+            id_user = data['user']['id']
+            nick = data['user']['nickname']
+            following = data['stats']['followingCount']
+            followers = data['stats']['followerCount']
         return self.ResInfo(id=id_user,
                             nick=nick,
                             following=following,

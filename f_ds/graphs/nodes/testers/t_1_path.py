@@ -1,14 +1,14 @@
 import pytest
-from f_ds.graphs.nodes.i_0_base import NodeBase
+from f_ds.graphs.nodes.i_1_path import NodePath
 
 
 @pytest.fixture
-def ex_root() -> NodeBase:
-    return NodeBase()
+def ex_root() -> NodePath:
+    return NodePath()
 
 @pytest.fixture
-def ex_leaf(ex_root) -> NodeBase:
-    return NodeBase(parent=ex_root)
+def ex_leaf(ex_root) -> NodePath:
+    return NodePath(parent=ex_root)
 
 
 def test_parent(ex_root, ex_leaf):

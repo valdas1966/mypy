@@ -1,8 +1,8 @@
 from __future__ import annotations
-from f_ds.graphs.nodes.i_0_base import NodeBase
+from f_ds.graphs.nodes.i_1_path import NodePath
 
 
-class HasG(NodeBase):
+class NodeG(NodePath):
     """
     ============================================================================
      Mixin-Class for Nodes with G-Value (Cost from Start to current Node).
@@ -11,13 +11,13 @@ class HasG(NodeBase):
 
     def __init__(self,
                  name: str = None,
-                 parent: HasG = None) -> None:
+                 parent: NodeG = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        NodeBase.__init__(self, name=name, parent=parent)
+        NodePath.__init__(self, name=name, parent=parent)
         self._g = (parent.g + 1) if parent else 0
 
     @property
@@ -29,8 +29,8 @@ class HasG(NodeBase):
         """
         return self._g
 
-    @NodeBase.parent.setter
-    def parent(self, parent_new: HasG) -> None:
+    @NodePath.parent.setter
+    def parent(self, parent_new: NodeG) -> None:
         """
         ========================================================================
          Set a new Parent and update the G-Value respectively.
@@ -39,7 +39,7 @@ class HasG(NodeBase):
         self._parent = parent_new
         self._g = parent_new.g + 1
 
-    def is_better_parent(self, parent_new: HasG) -> bool:
+    def is_better_parent(self, parent_new: NodeG) -> bool:
         """
         ========================================================================
          Check if the new parent is better than the current based on G-Value.
@@ -53,7 +53,7 @@ class HasG(NodeBase):
          If F-Values are equal, break ties on H-Value.
         ========================================================================
         """
-        return [-self.g, NodeBase.key_comparison(self)]
+        return [-self.g, NodePath.key_comparison(self)]
 
     def __repr__(self) -> str:
         """
@@ -61,4 +61,4 @@ class HasG(NodeBase):
          '<NodeG: None> G=1'
         ========================================================================
         """
-        return f'{NodeBase.__repr__(self)} G={self.g}'
+        return f'{NodePath.__repr__(self)} G={self.g}'

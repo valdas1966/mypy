@@ -1,50 +1,56 @@
 from __future__ import annotations
+from f_ds.graphs.nodes.i_1_path import NodePath
+from f_ds.grids.cell import Cell
+from f_utils import u_str
 
-class NodeH:
+
+class NodeCell(NodePath):
     """
     ============================================================================
-     Node with H-Value (Heuristic Cost from current Node to Goal).
+     Node represents a Cell in the Grid.
     ============================================================================
     """
 
-    def __init__(self) -> None:
+    def __init__(self,
+                 name: str = None,
+                 cell: Cell = Cell(),
+                 parent: NodeCell = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._h = None
+        NodePath.__init__(self, name=name, parent=parent)
+        self._cell = cell
 
     @property
-    def h(self) -> int:
-        """
-        ========================================================================
-         Heuristic Cost from current Node to Goal.
-        ========================================================================
-        """
-        return self._h
+    def cell(self) -> Cell:
+        return self._cell
 
-    @h.setter
-    def h(self, val: int) -> None:
-        """
-        ========================================================================
-         Set Heuristic Cost from current Node to Goal.
-        ========================================================================
-        """
-        self._h = val
-
+    # Override NodeBase
     def key_comparison(self) -> list:
         """
         ========================================================================
-         Prefer Nodes with lower H-Value (less uncertainty).
+         Compare by (Row, Col) and not by Name.
         ========================================================================
         """
-        return [self.h]
+        return self._cell.key_comparison()
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         """
         ========================================================================
-         '<HasH: Name> H=10'
+         Return STR-REPR.
+         Ex: 'Name(1,2)'
         ========================================================================
         """
-        return f'{NodeBase.__repr__(self)} H={self.h}'
+        prefix = NodePath.__str__(self)
+        text = str(self._cell)
+        return u_str.add_prefix(prefix=prefix, text=text)
+
+    def __hash__(self) -> int:
+        """
+        ========================================================================
+         Return NodeCell Hash-Value.
+        ========================================================================
+        """
+        return hash(self._cell)

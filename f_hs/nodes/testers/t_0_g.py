@@ -1,21 +1,20 @@
 import pytest
-
-from f_hs.nodes.i_0_g import HasG
-
-
-@pytest.fixture
-def ex_a() -> HasG:
-    return HasG()
+from f_hs.nodes.i_0_g import NodeG
 
 
 @pytest.fixture
-def ex_b(ex_a) -> HasG:
-    return HasG(parent=ex_a)
+def ex_a() -> NodeG:
+    return NodeG()
 
 
 @pytest.fixture
-def ex_c(ex_b) -> HasG:
-    return HasG(parent=ex_b)
+def ex_b(ex_a) -> NodeG:
+    return NodeG(parent=ex_a)
+
+
+@pytest.fixture
+def ex_c(ex_b) -> NodeG:
+    return NodeG(parent=ex_b)
 
 
 def test_g(ex_a, ex_b):
@@ -28,8 +27,8 @@ def test_is_better_parent(ex_a, ex_b, ex_c):
 
 
 def test_key_comparison(ex_a, ex_b):
-    assert ex_b < ex_a
+    assert ex_a > ex_b
 
 
 def test_repr(ex_a):
-    assert repr(ex_a) == '<HasG: None> G=0'
+    assert repr(ex_a) == '<NodeG: None> G=0'

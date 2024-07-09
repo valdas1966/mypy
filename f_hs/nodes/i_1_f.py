@@ -1,10 +1,9 @@
 from __future__ import annotations
-from f_ds.graphs.nodes.i_0_base import NodeBase
-from f_hs.nodes.mixins.has_g import NodeG
-from f_hs.nodes.mixins.has_h import NodeH
+from f_hs.nodes.i_0_g import NodeG
+from f_hs.nodes.i_0_h import NodeH
 
 
-class NodeF(NodeBase, NodeG, NodeH):
+class NodeF(NodeG, NodeH):
     """
     ============================================================================
      Informed Node with F-Value (G + H).
@@ -19,9 +18,7 @@ class NodeF(NodeBase, NodeG, NodeH):
          Init private Attributes.
         ========================================================================
         """
-        NodeBase.__init__(self, name=name, parent=parent)
-        NodeG.__init__(self, name=name, parent=parent)
-        NodeH.__init__(self, name=name, parent=parent)
+        super().__init__(name=name, parent=parent)
 
     def f(self) -> int:
         """

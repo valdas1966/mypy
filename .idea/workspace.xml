@@ -4,16 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_hs/nodes/mixins/has_h.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/nodes/mixins/testers/t_has_g.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/nodes/study/s_0_g.py" afterDir="false" />
+    <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="a">
+      <change afterPath="$PROJECT_DIR$/f_ds/graphs/nodes/i_1_path.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/nodes/i_2_f_cell.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/nodes/testers/t_0_g.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/rapid_api/study/s_tiktok_user.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_0_f.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/i_1_f.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_0_g.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/mixins/has_g.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/nodes/testers/t_1_g.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/nodes/testers/t_1_h.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/testers/t_0_h.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/nodes/testers/t_2_f.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/testers/t_1_f.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/i_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/i_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/nodes/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/nodes/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/nodes/i_1_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/nodes/i_2_cell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/nodes/testers/t_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/nodes/testers/t_1_path.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/nodes/testers/t_1_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/nodes/testers/t_2_cell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/old_i_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/old_i_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_1_f.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/i_1_f.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/mixins/has_g.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/i_0_g.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/mixins/has_h.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/i_0_h.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/mixins/testers/t_has_g.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/mixins/testers/t_has_g.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/study/s_0_g.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/testers/t_0_h.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/testers/t_0_h.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/testers/t_1_f.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/testers/t_1_f.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/testers/t_2_f_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/testers/t_2_f_cell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/rapid_api/c_tiktok.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/rapid_api/c_tiktok.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/rapid_api/inner/tiktok/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/rapid_api/inner/tiktok/user.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,12 +48,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "ddaa2239-897e-4e37-90b9-04afc5364900"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
+    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -56,7 +68,12 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Python tests.Python tests for t_0_g.test_is_better_parent.executor": "Run",
+    "Python tests.Python tests for t_0_g.test_key_comparison.executor": "Run",
+    "Python tests.Python tests for t_0_g.test_repr.executor": "Run",
     "Python tests.Python tests for t_0_h.test_repr.executor": "Run",
+    "Python tests.Python tests for t_1_f.test_repr.executor": "Run",
+    "Python tests.Python tests for t_2_f_cell.test_repr.executor": "Run",
     "Python tests.Python tests for t_int.test_dims_rel_to_abs.executor": "Run",
     "Python tests.Python tests in t_0_base.py.executor": "Run",
     "Python tests.Python tests in t_0_g.py.executor": "Run",
@@ -64,9 +81,14 @@
     "Python tests.Python tests in t_1_cell.py.executor": "Run",
     "Python tests.Python tests in t_1_f.py.executor": "Run",
     "Python tests.Python tests in t_1_g.py.executor": "Run",
+    "Python tests.Python tests in t_1_path.py.executor": "Run",
+    "Python tests.Python tests in t_2_cell.py.executor": "Run",
+    "Python tests.Python tests in t_2_f_cell.py.executor": "Run",
+    "Python tests.Python tests in t_has_g.py (1).executor": "Run",
     "Python tests.Python tests in t_has_g.py.executor": "Run",
     "Python tests.Python tests in t_int.py.executor": "Run",
     "Python.app.executor": "Run",
+    "Python.i_1_f.executor": "Run",
     "Python.layout.executor": "Run",
     "Python.q (1).executor": "Run",
     "Python.q.executor": "Run",
@@ -82,6 +104,7 @@
     "Python.s_app (3).executor": "Run",
     "Python.s_app.executor": "Run",
     "Python.s_exam.executor": "Run",
+    "Python.s_tiktok_user.executor": "Run",
     "Python.s_window (1).executor": "Run",
     "Python.s_window.executor": "Run",
     "Python.screen_resolution.executor": "Run",
@@ -94,14 +117,15 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\mypy\f_hs\nodes" />
       <recent name="D:\mypy\f_hs\nodes\mixins" />
       <recent name="D:\mypy\f_hs\nodes\mixins\testers" />
       <recent name="G:\mypy\f_gui\pyqt" />
       <recent name="G:\mypy\projects" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_has_g.py">
-    <configuration name="s_0_g" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.s_tiktok_user">
+    <configuration name="s_tiktok_user" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -110,11 +134,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/nodes/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/rapid_api/study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/nodes/study/s_0_g.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/rapid_api/study/s_tiktok_user.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -123,7 +147,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_0_h.test_repr" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_1_f.test_repr" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -134,11 +158,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_0_h.test_repr&quot;" />
+      <option name="_new_target" value="&quot;t_1_f.test_repr&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_0_h.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_2_f_cell.test_repr" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -149,8 +173,8 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_hs/nodes/testers/t_0_h.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;t_2_f_cell.test_repr&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="Python tests in t_1_f.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -165,6 +189,21 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_hs/nodes/testers/t_1_f.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in t_2_f_cell.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/nodes/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_hs/nodes/testers/t_2_f_cell.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -185,11 +224,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in t_has_g.py" />
+        <item itemvalue="Python.s_tiktok_user" />
+        <item itemvalue="Python tests.Python tests for t_2_f_cell.test_repr" />
+        <item itemvalue="Python tests.Python tests in t_2_f_cell.py" />
         <item itemvalue="Python tests.Python tests in t_1_f.py" />
-        <item itemvalue="Python tests.Python tests in t_0_h.py" />
-        <item itemvalue="Python tests.Python tests for t_0_h.test_repr" />
-        <item itemvalue="Python.s_0_g" />
+        <item itemvalue="Python tests.Python tests for t_1_f.test_repr" />
       </list>
     </recent_temporary>
   </component>
@@ -233,7 +272,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720296678641</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="a">
+      <option name="closed" value="true" />
+      <created>1720356768469</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1720356768469</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -250,6 +297,7 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="h" />
-    <option name="LAST_COMMIT_MESSAGE" value="h" />
+    <MESSAGE value="a" />
+    <option name="LAST_COMMIT_MESSAGE" value="a" />
   </component>
 </project>

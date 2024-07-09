@@ -1,5 +1,6 @@
 from __future__ import annotations
 from collections import namedtuple
+from proj.rapid_api.inner.tiktok.user import User
 from f_utils import u_http_requests
 from f_utils import u_file
 
@@ -25,6 +26,7 @@ class TikTok:
         self._host = 'tiktok-video-no-watermark2.p.rapidapi.com'
         self._headers: dict[str, str] = {'X-RapidAPI-Key': self._key,
                                          'X-RapidAPI-Host': self._host}
+        self.user = User(self._key, self._host, self._headers)
 
     def id_video_to_url(self, id_video: str) -> str:
         """
