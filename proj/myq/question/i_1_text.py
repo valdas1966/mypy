@@ -1,7 +1,8 @@
 from proj.myq.question.i_0_base import QuestionBase
+from f_abstract.mixins.printable import Printable
 
 
-class QuestionText(QuestionBase):
+class QuestionText(QuestionBase, Printable):
     """
     ============================================================================
      Concrete-Class Text-Based Question (Question and Answer are Texts).
@@ -36,7 +37,4 @@ class QuestionText(QuestionBase):
          Return STR-Repr in format: 'Question -> Right-Answer'.
         ========================================================================
         """
-        return f'{self._text} -> {self.answer}'
-
-    def __repr__(self) -> str:
-        return self.__str__()
+        return f'{self._text} -> {self.answer} {str(self.stats)}'

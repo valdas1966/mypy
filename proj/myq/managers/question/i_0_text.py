@@ -12,18 +12,18 @@ class ManagerQuestionText(Generic[Q]):
     ============================================================================
     """
 
-    def __init__(self, q: Q) -> None:
+    def __init__(self) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._q = q
-        self._prompt: str = None
-        self._input: str = None
-        self._is_correct: bool = None
+        self._q = None
+        self._prompt = None
+        self._input = None
+        self._is_correct = None
 
-    def run(self) -> None:
+    def run(self, q: Q) -> None:
         """
         ========================================================================
             1. Prompt the Question to the User.
@@ -33,6 +33,7 @@ class ManagerQuestionText(Generic[Q]):
             5. Update the Question-Stats based on Correctness.
         ========================================================================
         """
+        self._q = q
         self._reset()
         self._ask()
         self._update()
@@ -46,6 +47,7 @@ class ManagerQuestionText(Generic[Q]):
          Reset the Private-Attributes.
         ========================================================================
         """
+        self._q = None
         self._prompt = None
         self._input = None
         self._is_correct = None

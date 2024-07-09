@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from f_google.sheets.client import GSheets
-from proj.myq.question.i_1_text import QuestionText as Q
+from proj.myq.question.i_1_text import QuestionText
 
 
 class SheetEnglish(ABC):
@@ -20,3 +20,12 @@ class SheetEnglish(ABC):
         """
         self._spread = GSheets.spread(user='VALDAS',
                                       id_spread=self._ID_SPREAD)
+
+    @abstractmethod
+    def to_questions(self) -> list[QuestionText]:
+        """
+        ========================================================================
+         Convert GSheet into Questions.
+        ========================================================================
+        """
+        pass

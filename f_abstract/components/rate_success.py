@@ -1,5 +1,7 @@
+from f_abstract.mixins.printable import Printable
 
-class RateSuccess:
+
+class RateSuccess(Printable):
     """
     ============================================================================
      Mixin-Class that Manages the Success-Rate Statistics.
@@ -17,16 +19,26 @@ class RateSuccess:
 
     @property
     def total(self) -> int:
+        """
+        ========================================================================
+         Total number of Approaches.
+        ========================================================================
+        """
         return self._total
 
     @property
     def success(self) -> int:
+        """
+        ========================================================================
+         Number of Successful Approaches.
+        ========================================================================
+        """
         return self._success
 
     def rate(self) -> float:
         """
         ========================================================================
-         Return the Success-Rate.
+         Return the Success-Rate (success / total).
         ========================================================================
         """
         if not self._total:
@@ -41,3 +53,11 @@ class RateSuccess:
         """
         self._total += 1
         self._success += int(is_success)
+
+    def __str__(self) -> str:
+        """
+        ========================================================================
+         Ex: '[4/10]'
+        ========================================================================
+        """
+        return f'[{self.success}/{self.total}]'

@@ -25,6 +25,24 @@ class Window(Nameable, HasWidget):
         self._widget.setCentralWidget(self._container.widget)
         self.set_title(name if name else 'Main Window')
 
+    @property
+    def background(self) -> str:
+        """
+        ========================================================================
+         Get background color.
+        ========================================================================
+        """
+        return self._container.background
+
+    @background.setter
+    def background(self, color: str) -> None:
+        """
+        ========================================================================
+         Set background color.
+        ========================================================================
+        """
+        self._container.background = color
+
     def set_title(self, title: str) -> None:
         """
         ========================================================================
