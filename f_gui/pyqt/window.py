@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QMainWindow, QWidget
+from PyQt5.QtWidgets import QMainWindow
+from f_gui.pyqt.widget import Widget
 from f_gui.pyqt.container import Container
 from f_gui.pyqt.mixins.has_widget import HasWidget
 from f_abstract.mixins.nameable import Nameable
@@ -52,7 +53,7 @@ class Window(Nameable, HasWidget):
         self._widget.setWindowTitle(title)
 
     def add(self,
-            child: QWidget,
+            child: Widget,
             rel_x: int,
             rel_y: int,
             rel_width: int,

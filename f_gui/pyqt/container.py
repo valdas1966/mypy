@@ -18,9 +18,19 @@ class Container(Widget):
         ========================================================================
         """
         super().__init__(widget=QWidget(), name=name)
+        self._children = dict()
+
+    @property
+    def children(self) -> dict[str, Widget]:
+        """
+        ========================================================================
+         Dict of Container Children [name -> Widget].
+        ========================================================================
+        """
+        return self._children
 
     def add(self,
-            child: QWidget,
+            child: Widget,
             rel_x: int,
             rel_y: int,
             rel_width: int,
@@ -30,10 +40,11 @@ class Container(Widget):
          Add a Widget at the specified relative Position [0,100].
         ========================================================================
         """
-        child.setParent(self.widget)
+        self._children[child.name] = child
+        child.widget.setParent(self.widget)
         screen_width, screen_height = u_screen.resolution()
         screen_height = int(screen_height*0.9)
         geometry_abs = u_int.dims_rel_to_abs(rel_x, rel_y,
                                              rel_width, rel_height,
                                              screen_width, screen_height)
-        child.setGeometry(*geometry_abs)
+        child.widget.setGeometry(*geometry_abs)
