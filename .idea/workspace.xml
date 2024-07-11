@@ -5,15 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="a">
-      <change afterPath="$PROJECT_DIR$/f_gui/pyqt/study/s_key.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/myq/gui/inner/container_qa.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/container.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/container.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/handlers/key_press.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/handlers/key_press.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/old_window.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/study/s_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/study/s_app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/window.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/rapid_api/c_tiktok.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/rapid_api/c_tiktok.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/rapid_api/inner/tiktok/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/rapid_api/inner/tiktok/user.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,12 +32,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "ddaa2239-897e-4e37-90b9-04afc5364900"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
+    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -80,6 +76,7 @@
     "Python tests.Python tests in t_int.py.executor": "Run",
     "Python tests.Python tests in t_rate_success.py.executor": "Run",
     "Python.app.executor": "Run",
+    "Python.i_0_qa.executor": "Run",
     "Python.i_1_f.executor": "Run",
     "Python.layout.executor": "Run",
     "Python.q (1).executor": "Run",
@@ -97,6 +94,7 @@
     "Python.s_app.executor": "Run",
     "Python.s_exam.executor": "Run",
     "Python.s_key.executor": "Run",
+    "Python.s_tiktok_user (1).executor": "Run",
     "Python.s_tiktok_user.executor": "Run",
     "Python.s_window (1).executor": "Run",
     "Python.s_window.executor": "Run",
@@ -117,7 +115,29 @@
       <recent name="G:\mypy\projects" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_app">
+  <component name="RunManager" selected="Python.s_tiktok_user (1)">
+    <configuration name="i_0_qa" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/gui" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="s_app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -162,6 +182,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="s_tiktok_user (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/rapid_api/study" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/rapid_api/study/s_tiktok_user.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="s_tiktok_user" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -184,43 +226,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_1_text.test_text" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/question/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_1_text.test_text&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_rate_success.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/components/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_abstract/components/testers/t_rate_success.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.s_tiktok_user (1)" />
+        <item itemvalue="Python.i_0_qa" />
         <item itemvalue="Python.s_app" />
         <item itemvalue="Python.s_key" />
         <item itemvalue="Python.s_tiktok_user" />
-        <item itemvalue="Python tests.Python tests for t_1_text.test_text" />
-        <item itemvalue="Python tests.Python tests in t_rate_success.py" />
       </list>
     </recent_temporary>
   </component>
@@ -272,7 +284,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720356768469</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="a">
+      <option name="closed" value="true" />
+      <created>1720612013586</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1720612013586</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

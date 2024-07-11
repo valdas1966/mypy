@@ -1,15 +1,18 @@
 from f_gui.pyqt.app import App
-from f_gui.pyqt.widgets.label import Label
-from f_gui.pyqt.widgets.text_box import TextBox
+from proj.myq.gui.inner.container_qa import ContainerQA
 
 
 class AppQA(App):
 
     def __init__(self) -> None:
         App.__init__(self, name='Myq')
+        con_qa = ContainerQA(on_enter=AppQA._on_enter)
+        self.add(con_qa, 10, 30, 80, 40)
 
-    def _add_question(self) -> None:
-        pass
+    @staticmethod
+    def _on_enter() -> None:
+        print('ENTER')
 
-    def _add_answer(self) -> None:
-        pass
+
+app = AppQA()
+app.run()

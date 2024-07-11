@@ -94,10 +94,10 @@ class TikTok:
             results: list[dict[str, str|int]] = r['data']['challenge_list']
             Hashtag = namedtuple('Hashtag',
                                  ['id', 'name', 'users'])
-            return (Hashtag(id=d['id'],
-                            name=d['cha_name'],
-                            users=d['user_count'])
-                    for d in results)
+            return tuple(Hashtag(id=d['id'],
+                                 name=d['cha_name'],
+                                 users=d['user_count'])
+                         for d in results)
         except Exception as e:
             print(e)
 
