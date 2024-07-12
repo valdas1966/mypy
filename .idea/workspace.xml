@@ -5,11 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="a">
-      <change afterPath="$PROJECT_DIR$/proj/myq/gui/inner/container_qa.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_gui/pyqt/handlers/events.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_http/get.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/container.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/container.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/handlers/key_press.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/handlers/key_press.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/rapid_api/c_tiktok.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/rapid_api/c_tiktok.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/rapid_api/inner/tiktok/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/rapid_api/inner/tiktok/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/gui/inner/container_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gui/inner/container_qa.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +78,8 @@
     "Python tests.Python tests in t_int.py.executor": "Run",
     "Python tests.Python tests in t_rate_success.py.executor": "Run",
     "Python.app.executor": "Run",
+    "Python.get.executor": "Run",
+    "Python.i_0_qa (1).executor": "Run",
     "Python.i_0_qa.executor": "Run",
     "Python.i_1_f.executor": "Run",
     "Python.layout.executor": "Run",
@@ -115,7 +119,51 @@
       <recent name="G:\mypy\projects" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_tiktok_user (1)">
+  <component name="RunManager" selected="Python.i_0_qa (1)">
+    <configuration name="get" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_http" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_http/get.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="i_0_qa (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/gui" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="i_0_qa" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -160,51 +208,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_key" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/pyqt/study" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_gui/pyqt/study/s_key.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="s_tiktok_user (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/rapid_api/study" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/rapid_api/study/s_tiktok_user.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="s_tiktok_user" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -228,11 +232,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.i_0_qa (1)" />
+        <item itemvalue="Python.get" />
         <item itemvalue="Python.s_tiktok_user (1)" />
         <item itemvalue="Python.i_0_qa" />
         <item itemvalue="Python.s_app" />
-        <item itemvalue="Python.s_key" />
-        <item itemvalue="Python.s_tiktok_user" />
       </list>
     </recent_temporary>
   </component>
@@ -292,7 +296,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720612013586</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="a">
+      <option name="closed" value="true" />
+      <created>1720698621931</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1720698621931</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

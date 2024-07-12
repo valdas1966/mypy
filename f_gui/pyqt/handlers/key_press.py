@@ -11,7 +11,7 @@ class KeyPress(QObject, HasWidget):
     ============================================================================
     """
 
-    def __init__(self, widget: QWidget):
+    def __init__(self, widget: QWidget) -> None:
         """
         ========================================================================
          Initialize the KeyPress handler with the given widget.
@@ -30,9 +30,6 @@ class KeyPress(QObject, HasWidget):
          Event filter to capture key press events and execute callbacks.
         ========================================================================
         """
-        #from datetime import datetime
-        #if event.type() == event.KeyPress:
-        #    print(datetime.now(), event.type(), event.KeyPress, source)
         if event.type() == event.KeyPress and source is self.widget:
             key = event.key()
             if key in self._callbacks:

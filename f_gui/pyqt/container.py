@@ -18,7 +18,8 @@ class Container(Widget):
         ========================================================================
         """
         super().__init__(widget=QWidget(), name=name)
-        self._children = dict()
+        self._children: dict[str, Widget] = dict()
+        self._geometry: dict[str, tuple[int, int, int, int]] = dict()
 
     @property
     def children(self) -> dict[str, Widget]:
@@ -41,10 +42,13 @@ class Container(Widget):
         ========================================================================
         """
         self._children[child.name] = child
+        self._geometry[child.name] = (rel_x, rel_y, rel_width, rel_height)
         child.widget.setParent(self.widget)
-        screen_width, screen_height = u_screen.resolution()
-        screen_height = int(screen_height*0.9)
-        geometry_abs = u_int.dims_rel_to_abs(rel_x, rel_y,
-                                             rel_width, rel_height,
-                                             screen_width, screen_height)
-        child.widget.setGeometry(*geometry_abs)
+
+    def update(self) -> None:
+        width = self.widget.width()
+        height = self.widget.height()
+        for name, child in self._children.items():
+            geometry = self._geometry[name]
+            geometry_abs = u_int.dims_rel_to_abs(*geometry, width, height)
+            child.widget.setGeometry(*geometry_abs)

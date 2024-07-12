@@ -9,6 +9,7 @@ class ContainerQA(Container):
 
     def __init__(self, on_enter: Callable[[], None]) -> None:
         Container.__init__(self, name='QA')
+        self.background = 'green'
         q = self._create_question()
         a = self._create_answer(on_enter)
         self.add(q, 0, 0, 100, 40)
@@ -19,6 +20,7 @@ class ContainerQA(Container):
         question = Label('Question')
         ContainerQA._set_common_params(widget=question)
         question.font.size = 48
+        question.text = 'Hello'
         return question
 
     @staticmethod

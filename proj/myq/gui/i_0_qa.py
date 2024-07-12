@@ -6,6 +6,7 @@ class AppQA(App):
 
     def __init__(self) -> None:
         App.__init__(self, name='Myq')
+        self.background = 'black'
         con_qa = ContainerQA(on_enter=AppQA._on_enter)
         self.add(con_qa, 10, 30, 80, 40)
 
