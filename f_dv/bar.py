@@ -105,3 +105,9 @@ class Bar(Nameable):
         plt.ylabel(ylabel=self._name_values, fontweight='bold')
         plt.xticks(self._labels, fontweight='bold')
         plt.yticks(plt.yticks()[0], fontweight='bold')
+
+        """
+        # Increase the white area between the highest bar and the top border
+        max_height = max(self._values)
+        plt.ylim(top=max_height * 2)
+        """

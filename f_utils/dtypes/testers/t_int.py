@@ -1,6 +1,12 @@
 from f_utils.dtypes.u_int import UInt as u_int
 
 
+def test_to_str():
+    assert u_int.to_str(num=1_000_000) == '1.0M'
+    assert u_int.to_str(num=1_000) == '1.0K'
+    assert u_int.to_str(num=100) == '100'
+
+
 def test_rel_to_abs():
     rel = 50
     total = 80

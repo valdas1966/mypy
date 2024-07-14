@@ -1,9 +1,11 @@
+from f_abstract.mixins.printable import Printable
+from f_abstract.mixins.validatable import Validatable
 from requests import request, Response
 import json
 import time
 
 
-class GetRequest:
+class Get(Printable, Validatable):
     """
     ============================================================================
      Http Request Get.
@@ -19,12 +21,18 @@ class GetRequest:
          Init private Attributes.
         ========================================================================
         """
+        Validatable.__init__(self, is_valid=False)
         self._url: str = url
         self._params: dict[str, str] = params or dict()
         self._headers: dict[str, str] = headers or dict()
         self._response: Response | None = None
         self._elapsed: float | None = None
         self._request()
+        if self._response is not None and self._response.status_code == 200:
+           self.set_valid()
+        else:
+            self.set_invalid()
+
 
     @property
     def response(self) -> Response:
@@ -50,14 +58,6 @@ class GetRequest:
         ========================================================================
         """
         return self._response.status_code
-
-    def is_valid(self) -> bool:
-        """
-        ========================================================================
-         Check if the response is valid (status code 200).
-        ========================================================================
-        """
-        return self._response is not None and self._response.status_code == 200
 
     def to_text(self) -> str:
         """
@@ -103,3 +103,13 @@ class GetRequest:
             self._response = None
             self._elapsed = None
             print(f'Request failed: {e}')
+
+    def __str__(self) -> str:
+        """
+        ========================================================================
+         Ex: {'music_id': '123', 'count': '20', 'cursor': '20'} ->
+             is_valid=True, elapsed=1.08
+        ========================================================================
+        """
+        return (f'{self._params} -> is_valid={bool(self)},'
+                f' elapsed={self.elapsed()}')

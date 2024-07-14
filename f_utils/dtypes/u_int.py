@@ -6,6 +6,20 @@ class UInt:
     """
 
     @staticmethod
+    def to_str(num: int) -> str:
+        """
+        ========================================================================
+         Convert a Number into a String with Suffix (K and M).
+        ========================================================================
+        """
+        if num >= 1_000_000:
+            return f'{num / 1_000_000:.1f}M'
+        elif num >= 1_000:
+            return f'{num / 1_000:.1f}K'
+        else:
+            return str(num)
+
+    @staticmethod
     def rel_to_abs(rel: int, total: int) -> int:
         """
         ========================================================================

@@ -53,5 +53,3 @@ class User:
                             followers=followers,
                             is_exist=is_exist,
                             is_valid=is_valid)
-
-    def followers(self, id_user: str) ->:
