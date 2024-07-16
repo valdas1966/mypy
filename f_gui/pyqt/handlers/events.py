@@ -19,8 +19,8 @@ class EventHandler(QObject, HasWidget):
         ========================================================================
         """
         HasWidget.__init__(self, widget=widget)
-        self._key_callbacks: dict[int, Callable[[], None]] = dict()
-        self._resize_callback: Callable[[], None] = None
+        self._callback_key: dict[int, Callable[[], None]] = dict()
+        self._callback_resize: Callable[[], None] | None = None
         self.widget.installEventFilter(self)
 
     def eventFilter(self, source: QObject, event: QEvent) -> bool:
@@ -34,35 +34,33 @@ class EventHandler(QObject, HasWidget):
         if event.type() not in EventHandler._events_handled:
             return QObject.eventFilter(self, source, event)
 
-        if event.type() == QEvent.KeyPress and source is self.widget:
+        if event.type() == QEvent.KeyPress:
             key = event.key()
             if key in self._key_callbacks:
                 self._key_callbacks[key]()
                 return True  # Event handled
 
-        if event.type() == QEvent.Resize and source is self.widget:
+        if event.type() == QEvent.Resize:
             if self._resize_callback:
                 self._resize_callback()
                 return True  # Event handled
 
         return QObject.eventFilter(self, source, event)
 
-    def set_key_callback(self, key: str, callback: Callable[[], None]) -> None:
+    def set_callback_key(self, key: str, callback: Callable[[], None]) -> None:
         """
         ========================================================================
          Set the function to be called when the specified key is pressed.
         ========================================================================
         """
         if key == 'ENTER':
-            self._key_callbacks[Qt.Key_Enter] = callback
-            self._key_callbacks[Qt.Key_Return] = callback
-        else:
-            self._key_callbacks[getattr(Qt, f'Key_{key.upper()}')] = callback
+            self._callback_key[Qt.Key_Enter] = callback
+            self._callback_key[Qt.Key_Return] = callback
 
-    def set_resize_callback(self, callback: Callable[[], None]) -> None:
+    def set_callback_resize(self, callback: Callable[[], None]) -> None:
         """
         ========================================================================
          Set the function to be called when the widget is resized.
         ========================================================================
         """
-        self._resize_callback = callback
+        self._callback_resize = callback
