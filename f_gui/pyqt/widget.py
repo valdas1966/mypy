@@ -1,10 +1,11 @@
 from PyQt5.QtWidgets import QWidget
 from f_gui.pyqt.mixins.has_widget import HasWidget
+from f_abstract.mixins.has_position import HasPosition
 from f_abstract.mixins.parentable import Parentable
 from f_abstract.mixins.nameable import Nameable
 
 
-class Widget(Nameable, Parentable, HasWidget):
+class Widget(Nameable, Parentable, HasWidget, HasPosition):
     """
     ============================================================================
      QWidget Encapsulation.
@@ -20,6 +21,7 @@ class Widget(Nameable, Parentable, HasWidget):
         Nameable.__init__(self, name=name)
         HasWidget.__init__(self, widget=widget)
         Parentable.__init__(self)
+        HasPosition.__init__(self)
         self._styles = {}
 
     @property
@@ -49,6 +51,20 @@ class Widget(Nameable, Parentable, HasWidget):
         """
         self._styles['background-color'] = color
         self._apply_styles()
+
+    def update_shape(self,
+                     width_full: int,
+                     height_full: int) -> None:
+        """
+        ========================================================================
+         Update Shape follow to parent shape updating.
+        ========================================================================
+        """
+        print('widget.update_shape()', str(self))
+        self.position.update(width_full, height_full)
+        self.widget.setGeometry(*self.position.absolute)
+        for child in self.children:
+            child.update_shape()
 
     def _apply_styles(self) -> None:
         """

@@ -1,4 +1,4 @@
-from f_gui.pyqt.handlers.key_press import KeyPress
+from f_gui.pyqt.handlers.on_event import OnEvent
 from f_gui.pyqt.widget_text import WidgetText
 from PyQt5.QtWidgets import QTextEdit
 from typing import Callable
@@ -22,7 +22,7 @@ class TextBox(WidgetText):
         WidgetText.__init__(self, widget=QTextEdit(), name=name)
         if set_focus:
             self.widget.setFocus()
-        self._key_handler = KeyPress(widget=self.widget)
+        self._on_event = OnEvent(widget=self.widget)
 
     def set_on_enter(self, callback: Callable[[], None]) -> None:
         """
@@ -30,4 +30,4 @@ class TextBox(WidgetText):
          Set Callback-Function on Enter-Key pressed event.
         ========================================================================
         """
-        self._key_handler.set_callback(key='ENTER', callback=callback)
+        self._on_event.set_callback_key(key='ENTER', callback=callback)

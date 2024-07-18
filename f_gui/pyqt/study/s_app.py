@@ -35,5 +35,4 @@ app.add(child=create_question(),
         rel_x=10, rel_y=30, rel_width=80, rel_height=15)
 app.add(child=create_answer(),
         rel_x=10, rel_y=50, rel_width=80, rel_height=15)
-print(app._win._container.children)
 app.run()

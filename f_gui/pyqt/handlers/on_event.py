@@ -4,7 +4,7 @@ from PyQt5.QtCore import Qt, QObject, QEvent
 from f_gui.pyqt.mixins.has_widget import HasWidget
 
 
-class EventHandler(QObject, HasWidget):
+class OnEvent(QObject, HasWidget):
     """
     ============================================================================
      A Wrapper Class to handle Widget events.
@@ -18,6 +18,7 @@ class EventHandler(QObject, HasWidget):
          Initialize the EventHandler with the given widget.
         ========================================================================
         """
+        QObject.__init__(self, widget=widget)
         HasWidget.__init__(self, widget=widget)
         self._callback_key: dict[int, Callable[[], None]] = dict()
         self._callback_resize: Callable[[], None] | None = None
@@ -31,18 +32,18 @@ class EventHandler(QObject, HasWidget):
         """
         if source is not self.widget:
             return QObject.eventFilter(self, source, event)
-        if event.type() not in EventHandler._events_handled:
+        if event.type() not in OnEvent._events_handled:
             return QObject.eventFilter(self, source, event)
 
         if event.type() == QEvent.KeyPress:
             key = event.key()
-            if key in self._key_callbacks:
-                self._key_callbacks[key]()
+            if key in self._callback_key:
+                self._callback_key[key]()
                 return True  # Event handled
 
         if event.type() == QEvent.Resize:
-            if self._resize_callback:
-                self._resize_callback()
+            if self._callback_resize:
+                self._callback_resize()
                 return True  # Event handled
 
         return QObject.eventFilter(self, source, event)

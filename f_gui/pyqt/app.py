@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QApplication
+from f_abstract.components.position import Position
 from f_abstract.mixins.nameable import Nameable
 from f_gui.pyqt.window import Window
 from f_gui.pyqt.widget import Widget
@@ -41,18 +42,32 @@ class App(Nameable):
         """
         self._win.background = color
 
+    @property
+    def position(self) -> Position:
+        """
+        ========================================================================
+         Return Window position.
+        ========================================================================
+        """
+        return self._win.position
+
+    def children(self) -> list[Widget]:
+        """
+        ========================================================================
+         Return List of Window children.
+        ========================================================================
+        """
+        return self._win.children()
+
     def add(self,
             child: Widget,
-            rel_x: int,
-            rel_y: int,
-            rel_width: int,
-            rel_height: int) -> None:
+            pos_rel: tuple[int, int, int, int]) -> None:
         """
         ========================================================================
          Add Widget to the App.
         ========================================================================
         """
-        self._win.add(child, rel_x, rel_y, rel_width, rel_height)
+        self._win.add(child, pos_rel)
 
     def run(self) -> None:
         """
