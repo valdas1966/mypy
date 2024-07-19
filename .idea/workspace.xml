@@ -5,23 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="a">
-      <change afterPath="$PROJECT_DIR$/f_abstract/components/ltwh.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/components/position.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/components/study/s_position.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/components/testers/t_ltwh.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/components/testers/t_position.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/has_children.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/has_position.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/pyqt/study/s_position.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/parentable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/parentable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/container.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/container.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/handlers/events.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/handlers/on_event.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/study/s_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/study/s_app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widget.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/widget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widgets/text_box.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/widgets/text_box.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/window.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/components/ltwh.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/components/ltwh.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/components/position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/components/position.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/components/testers/t_ltwh.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/components/testers/t_ltwh.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/components/testers/t_position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/components/testers/t_position.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/u_int.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/u_int.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +36,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
+    "accountId": "ddaa2239-897e-4e37-90b9-04afc5364900"
   }
 }]]></component>
   <component name="ProjectColorInfo">{
@@ -72,6 +61,7 @@
     "Python tests.Python tests for t_1_text.test_text.executor": "Run",
     "Python tests.Python tests for t_2_f_cell.test_repr.executor": "Run",
     "Python tests.Python tests for t_int.test_dims_rel_to_abs.executor": "Run",
+    "Python tests.Python tests for t_ltwh.test_str.executor": "Run",
     "Python tests.Python tests for t_position.test_update.executor": "Run",
     "Python tests.Python tests for t_rate_success.test_empty.executor": "Run",
     "Python tests.Python tests in t_0_base.py.executor": "Run",
@@ -87,7 +77,9 @@
     "Python tests.Python tests in t_has_g.py (1).executor": "Run",
     "Python tests.Python tests in t_has_g.py.executor": "Run",
     "Python tests.Python tests in t_int.py.executor": "Run",
+    "Python tests.Python tests in t_ltwh.py (1).executor": "Run",
     "Python tests.Python tests in t_ltwh.py.executor": "Run",
+    "Python tests.Python tests in t_position.py (1).executor": "Run",
     "Python tests.Python tests in t_position.py.executor": "Run",
     "Python tests.Python tests in t_rate_success.py.executor": "Run",
     "Python.app.executor": "Run",
@@ -116,6 +108,7 @@
     "Python.s_exam.executor": "Run",
     "Python.s_key.executor": "Run",
     "Python.s_position (1).executor": "Run",
+    "Python.s_position (2).executor": "Run",
     "Python.s_position.executor": "Run",
     "Python.s_tiktok_music (1).executor": "Run",
     "Python.s_tiktok_music.executor": "Run",
@@ -141,8 +134,8 @@
       <recent name="G:\mypy\projects" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_ltwh.py">
-    <configuration name="s_position (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests in t_ltwh.py (1)">
+    <configuration name="s_position (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -164,26 +157,19 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_position" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_ltwh.test_str" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/components/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/components/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_abstract/components/study/s_position.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_ltwh.test_str&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="Python tests for t_position.test_update" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -201,7 +187,7 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_ltwh.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_ltwh.py (1)" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -216,7 +202,7 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_position.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_position.py (1)" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -233,11 +219,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in t_ltwh.py" />
-        <item itemvalue="Python.s_position (1)" />
-        <item itemvalue="Python tests.Python tests in t_position.py" />
-        <item itemvalue="Python.s_position" />
+        <item itemvalue="Python tests.Python tests in t_ltwh.py (1)" />
+        <item itemvalue="Python tests.Python tests for t_ltwh.test_str" />
         <item itemvalue="Python tests.Python tests for t_position.test_update" />
+        <item itemvalue="Python tests.Python tests in t_position.py (1)" />
+        <item itemvalue="Python.s_position (2)" />
       </list>
     </recent_temporary>
   </component>
