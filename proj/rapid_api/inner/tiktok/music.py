@@ -11,7 +11,7 @@ class Music:
     """
 
     Videos = namedtuple(typename='Videos',
-                        field_names=['cursor', 'has_more', 'videos'])
+                        field_names=['json', 'cursor', 'has_more', 'videos'])
 
     def __init__(self,
                  key: str,
@@ -38,12 +38,12 @@ class Music:
         params = {'music_id': id_music, 'count': '20', 'cursor': cursor}
         response = Get(url, params, self._headers)
         if response:
-            d = response.to_dict()
-            data = d['data']
+            json = response.to_dict()
+            data = json['data']
             cursor = data['cursor']
             has_more = data['hasMore']
             videos = data['videos']
-            return Music.Videos(cursor, has_more, videos)
+            return Music.Videos(json, cursor, has_more, videos)
 
 
 
