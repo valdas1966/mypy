@@ -13,6 +13,6 @@ def ex_full() -> LTWH:
 
 
 def test_str(ex_empty, ex_full):
-    assert str(ex_empty) == '(None,None,None,None)'
-    assert str(ex_full) == '(10,10,80,80)'
+    assert str(ex_empty) == '(None, None, None, None)'
+    assert str(ex_full) == '(10, 10, 80, 80)'
 

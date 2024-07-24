@@ -1,4 +1,5 @@
 from screeninfo import get_monitors
+from f_abstract.components.ltwh import LTWH
 
 
 class UScreen:
@@ -17,3 +18,13 @@ class UScreen:
         """
         monitor = get_monitors()[0]
         return monitor.width, monitor.height
+
+    @staticmethod
+    def full() -> LTWH:
+        """
+        ========================================================================
+         Return Full-Screen Resolution (Left-Top-Width-Height) values.
+        ========================================================================
+        """
+        width, height = UScreen.resolution()
+        return LTWH(0, 0, width, int(height*0.91))

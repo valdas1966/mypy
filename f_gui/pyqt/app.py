@@ -59,15 +59,13 @@ class App(Nameable):
         """
         return self._win.children()
 
-    def add(self,
-            child: Widget,
-            pos_rel: tuple[int, int, int, int]) -> None:
+    def add(self, child: Widget) -> None:
         """
         ========================================================================
          Add Widget to the App.
         ========================================================================
         """
-        self._win.add(child, pos_rel)
+        self._win.add(child)
 
     def run(self) -> None:
         """
@@ -76,4 +74,5 @@ class App(Nameable):
         ========================================================================
         """
         self._win.widget.showMaximized()
+        self._win.update_geometry()
         sys.exit(self._app.exec_())

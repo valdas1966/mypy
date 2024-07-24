@@ -24,3 +24,7 @@ class HasPosition:
         ========================================================================
         """
         return self._position
+
+    @position.setter
+    def position(self, val: Position) -> None:
+        self._position = val

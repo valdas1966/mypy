@@ -17,14 +17,11 @@ class Container(Widget):
         """
         super().__init__(widget=QWidget(), name=name)
 
-    def add(self,
-            child: Widget,
-            pos_rel: tuple[int, int, int, int]) -> None:
+    def add(self, child: Widget) -> None:
         """
         ========================================================================
          Add a Widget to Container with its relative position (x, y, w, h).
         ========================================================================
         """
         self.children.append(child)
-        child.position.relative = pos_rel
         child.widget.setParent(self.widget)

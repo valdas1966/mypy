@@ -15,7 +15,7 @@ class Position(Printable):
          Init private Attributes.
         ========================================================================
         """
-        self._relative = LTWH()
+        self._relative = LTWH(0.0, 0.0, 1.0, 1.0)
         self._absolute = LTWH()
         self._parent = LTWH()
 
@@ -29,7 +29,7 @@ class Position(Printable):
         return self._relative
 
     @relative.setter
-    def relative(self, val: tuple[int, int, int, int]) -> None:
+    def relative(self, val: tuple[float, float, float, float]) -> None:
         """
         ========================================================================
          Set the relative position (left, top, width, height).
@@ -58,35 +58,24 @@ class Position(Printable):
     @parent.setter
     def parent(self, val: LTWH) -> None:
         self._parent = val
-        ratio_width = int(val.width / self._relative.width)
-        ratio_height = int(val.height / self._relative.height)
-        left = val.left + ratio_width
-        top = parent.top + ratio_height
-        width = parent.width + ratio_width
-        height = parent.height + ratio_height
+        self._update_absolute()
 
-    def update_absolute(self, parent: LTWH) -> None:
+    def _update_absolute(self) -> None:
         """
         ========================================================================
          Update the absolute position based on the parent's dimensions.
         ========================================================================
         """
-        ratio_width = int(parent.width / self._relative.width)
-        ratio_height = int(parent.height / self._relative.height)
-        self._absolute = LTWH()
-
-        left = parent.left + ratio_width
-        top = parent.top + ratio_height
-        width = parent.width + ratio_width
-        height = parent.height + ratio_height
+        left = int(self._parent.width * self._relative.left)
+        top = int(self._parent.height * self._relative.top)
+        width = int(self._parent.width * self._relative.width)
+        height = int(self._parent.height * self._relative.height)
         self._absolute = LTWH(left, top, width, height)
 
     def __str__(self) -> str:
         """
         ========================================================================
-         Ex: '%(20,30,40,50) * (100x200) -> (20,60,40,100)'
+         Ex: '(0.2, 0.3, 0.4, 0.5) * (0, 0, 80, 80) -> (16, 24, 32, 40)'
         ========================================================================
         """
-        str_relative = f'%{self._relative}'
-        str_dimensions = f'({self._width_parent}x{self._height_parent})'
-        return f'{str_relative} * {str_dimensions} -> {self.absolute}'
+        return f'{self.relative} X {self.parent} -> {self.absolute}'

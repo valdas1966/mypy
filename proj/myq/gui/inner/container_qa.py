@@ -9,29 +9,27 @@ class ContainerQA(Container):
 
     def __init__(self, on_enter: Callable[[], None]) -> None:
         Container.__init__(self, name='QA')
-        self.background = 'green'
         q = self._create_question()
         a = self._create_answer(on_enter)
-        self.add(q, 0, 0, 100, 40)
-        self.add(a, 0, 60, 100, 40)
+        self.add(q)
+        self.add(a)
 
-    @staticmethod
-    def _create_question() -> Label:
+    def _create_question(self) -> Label:
         question = Label('Question')
-        ContainerQA._set_common_params(widget=question)
+        self._set_common_params(widget=question)
         question.font.size = 48
         question.text = 'Hello'
+        question.position.relative = (0.0, 0.0, 1.0, 0.4)
         return question
 
-    @staticmethod
-    def _create_answer(on_enter: Callable[[], None]) -> TextBox:
+    def _create_answer(self, on_enter: Callable[[], None]) -> TextBox:
         answer = TextBox('Answer')
-        ContainerQA._set_common_params(widget=answer)
+        self._set_common_params(widget=answer)
         answer.set_on_enter(callback=on_enter)
+        answer.position.relative = (0.0, 0.6, 1.0, 0.4)
         return answer
 
-    @staticmethod
-    def _set_common_params(widget: WidgetText) -> None:
+    def _set_common_params(self, widget: WidgetText) -> None:
         widget.background = 'white'
         widget.font.family = 'heebo'
         widget.font.is_bold = True

@@ -3,6 +3,7 @@ from f_gui.pyqt.mixins.has_widget import HasWidget
 from f_abstract.mixins.has_position import HasPosition
 from f_abstract.mixins.parentable import Parentable
 from f_abstract.mixins.nameable import Nameable
+from f_abstract.components.ltwh import LTWH
 
 
 class Widget(Nameable, Parentable, HasWidget, HasPosition):
@@ -52,19 +53,16 @@ class Widget(Nameable, Parentable, HasWidget, HasPosition):
         self._styles['background-color'] = color
         self._apply_styles()
 
-    def update_shape(self,
-                     width_full: int,
-                     height_full: int) -> None:
+    def update_geometry(self, parent: LTWH) -> None:
         """
         ========================================================================
-         Update Shape follow to parent shape updating.
+         Update absolute Location by Parent dimensions.
         ========================================================================
         """
-        print('widget.update_shape()', str(self))
-        self.position.update(width_full, height_full)
-        self.widget.setGeometry(*self.position.absolute)
+        self.position.parent = parent
+        self.widget.setGeometry(*self.position.absolute.values)
         for child in self.children:
-            child.update_shape()
+            child.update_geometry(self.position.absolute)
 
     def _apply_styles(self) -> None:
         """

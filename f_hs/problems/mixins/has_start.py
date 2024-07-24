@@ -1,26 +1,24 @@
-from f_ds.graphs.i_0_base import GraphBase
-from f_ds.nodes.i_0_base import NodeBase
+from f_ds.graphs.nodes.i_1_path import NodePath
 from typing import Generic, TypeVar
-from abc import ABC
 
-Graph = TypeVar('Graph', bound=GraphBase)
-Node = TypeVar('Node', bound=NodeBase)
+Node = TypeVar('Node', bound=NodePath)
 
-class ProblemGraph(ABC, Generic[Graph, Node]):
+
+class HasStart(Generic[Node]):
     """
     ============================================================================
-     Base-Class for Graph-Problems in Computer Science.
+     Mixin-Class for Path-Finding-Problems with a single Start-Node.
     ============================================================================
     """
 
-    def __init__(self, graph: Graph) -> None:
+    def __init__(self, start: Node) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._graph = graph
+        self._start = start
 
     @property
-    def graph(self) -> Graph:
-        return self._graph
+    def start(self) -> Node:
+        return self._start

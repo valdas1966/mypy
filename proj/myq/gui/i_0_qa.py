@@ -8,7 +8,8 @@ class AppQA(App):
         App.__init__(self, name='Myq')
         self.background = 'black'
         con_qa = ContainerQA(on_enter=AppQA._on_enter)
-        self.add(con_qa, 10, 30, 80, 40)
+        con_qa.position.relative = (0.1, 0.3, 0.8, 0.4)
+        self.add(con_qa)
 
     @staticmethod
     def _on_enter() -> None:

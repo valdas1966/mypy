@@ -23,10 +23,8 @@ class Window(Nameable, HasWidget):
         """
         Nameable.__init__(self, name=name)
         HasWidget.__init__(self, widget=QMainWindow())
-        shape = u_screen.resolution()
         self._container = Container(name='Main Container')
-        self._container.position.relative = (0, 0, 100, 100)
-        self._container.update_shape(*shape)
+        self._container.position = Position()
         self._widget.setCentralWidget(self._container.widget)
         self.set_title(name if name else 'Main Window')
 
@@ -73,12 +71,20 @@ class Window(Nameable, HasWidget):
         """
         self._widget.setWindowTitle(title)
 
-    def add(self,
-            child: Widget,
-            pos_rel: tuple[int, int, int, int]) -> None:
+    def add(self, child: Widget) -> None:
         """
         ========================================================================
          Add a widget to the container's layout at the specified position.
         ========================================================================
         """
-        self._container.add(child, pos_rel)
+        self._container.add(child)
+
+    def update_geometry(self) -> None:
+        """
+        ========================================================================
+         Update Full-Screen geometry for all Window's children.
+        ========================================================================
+        """
+        parent = u_screen.full()
+        self._container.update_geometry(parent=parent)
+

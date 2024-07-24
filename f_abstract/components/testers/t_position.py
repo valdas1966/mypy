@@ -1,18 +1,28 @@
 import pytest
+from f_abstract.components.ltwh import LTWH
 from f_abstract.components.position import Position
 
 
 @pytest.fixture
 def ex() -> Position:
     pos = Position()
-    pos.relative = (50, 50, 50, 50)
-    pos.update_absolute(200, 300)
+    pos.relative = (0.5, 0.5, 0.5, 0.5)
+    pos.parent = LTWH(0, 0, 50, 50)
     return pos
 
 
-def test_update(ex) -> None:
-    assert ex.absolute.values == (100, 150, 100, 150)
+@pytest.fixture
+def ex_2() -> Position:
+    pos = Position()
+    pos.relative = (0, 0, 1, 1)
+    pos.parent = LTWH(0, 0, 100, 100)
+    return pos
+
+
+def test_update(ex, ex_2) -> None:
+    assert ex.absolute.values == (25, 25, 25, 25)
+    assert ex_2.absolute.values == (0, 0, 100, 100)
 
 
 def test_str(ex) -> None:
-    assert str(ex) == '(50%, 50%, 50%, 50%) * (200x300) -> (100, 150, 100, 150)'
+    assert str(ex) == '(0.5, 0.5, 0.5, 0.5) X (0, 0, 50, 50) -> (25, 25, 25, 25)'
