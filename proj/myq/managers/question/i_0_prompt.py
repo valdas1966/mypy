@@ -5,7 +5,7 @@ from f_utils import u_input
 Q = TypeVar('Q', bound=QuestionText)
 
 
-class ManagerQuestionText(Generic[Q]):
+class ManagerQuestionPrompt(Generic[Q]):
     """
     ============================================================================
      Manages the Inputable Question-Text process.

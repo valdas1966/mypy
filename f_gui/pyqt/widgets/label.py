@@ -16,3 +16,5 @@ class Label(WidgetText):
         ========================================================================
         """
         WidgetText.__init__(self, widget=QLabel(), name=name)
+
+

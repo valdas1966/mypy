@@ -1,8 +1,8 @@
 from proj.myq.exam.i_0_base import ExamBase as Exam
-from proj.myq.managers.question.i_0_text import ManagerQuestionText
+from proj.myq.managers.question.i_0_prompt import ManagerQuestionPrompt
 
 
-class ManagerExamText:
+class ManagerExamPrompt:
     """
     ============================================================================
      Manage the Inputable Question-Text Exam-Process.
@@ -16,7 +16,7 @@ class ManagerExamText:
         ========================================================================
         """
         self._exam = exam
-        self._man_question = ManagerQuestionText()
+        self._man_question = ManagerQuestionPrompt()
 
     def run(self) -> None:
         """

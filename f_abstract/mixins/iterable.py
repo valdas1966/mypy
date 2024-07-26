@@ -61,3 +61,11 @@ class Iterable(Generic[Item], Printable, ABCIterable, Sized, Container):
         ========================================================================
         """
         return str(self.to_list())
+
+    def __getitem__(self, index: int | slice) -> int | list[Item]:
+        """
+        ========================================================================
+         Return the Item(s) at the given index or slice.
+        ========================================================================
+        """
+        return self.to_list()[index]

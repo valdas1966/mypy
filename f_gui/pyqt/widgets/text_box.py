@@ -24,7 +24,7 @@ class TextBox(WidgetText):
             self.widget.setFocus()
         self._on_event = OnEvent(widget=self.widget)
 
-    def set_on_enter(self, callback: Callable[[], None]) -> None:
+    def set_on_enter(self, callback: Callable[[str], None]) -> None:
         """
         ========================================================================
          Set Callback-Function on Enter-Key pressed event.

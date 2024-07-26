@@ -28,7 +28,7 @@ class WidgetText(Widget):
          Get the current text of the widget.
         ========================================================================
         """
-        return self.widget.text()
+        return self.widget.Text()
 
     @text.setter
     def text(self, value: str) -> None:
@@ -38,6 +38,7 @@ class WidgetText(Widget):
         ========================================================================
         """
         self.widget.setText(value)
+        self.alignment = Alignment(self.widget)
 
     @property
     def color(self) -> str:

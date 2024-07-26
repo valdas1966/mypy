@@ -1,18 +1,18 @@
-from abc import ABC
+from f_abstract.mixins.iterable import Iterable, Item
 from proj.myq.question.i_0_base import QuestionBase
 from typing import Generic, TypeVar
 
-Q = TypeVar('Q', bound=QuestionBase)
+Question = TypeVar('Question', bound=QuestionBase)
 
 
-class ExamBase(ABC, Generic[Q]):
+class ExamBase(Generic[Question], Iterable[Question]):
     """
     ============================================================================
      Base Exam-Class.
     ============================================================================
     """
 
-    def __init__(self, qs: list[Q]) -> None:
+    def __init__(self, qs: list[Question]) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -20,7 +20,10 @@ class ExamBase(ABC, Generic[Q]):
         """
         self._qs = qs
 
-    @property
-    # List of Exam's Questions
-    def questions(self) -> list[Q]:
+    def to_list(self) -> list[Question]:
+        """
+        ========================================================================
+         Return List of Questions.
+        ========================================================================
+        """
         return self._qs

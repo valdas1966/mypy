@@ -20,7 +20,7 @@ class OnEvent(QObject, HasWidget):
         """
         QObject.__init__(self, widget=widget)
         HasWidget.__init__(self, widget=widget)
-        self._callback_key: dict[int, Callable[[], None]] = dict()
+        self._callback_key: dict[int, Callable[[str], None]] = dict()
         self._callback_resize: Callable[[], None] | None = None
         self.widget.installEventFilter(self)
 
@@ -38,7 +38,7 @@ class OnEvent(QObject, HasWidget):
         if event.type() == QEvent.KeyPress:
             key = event.key()
             if key in self._callback_key:
-                self._callback_key[key]()
+                self._callback_key[key](self.widget.toPlainText())
                 return True  # Event handled
 
         if event.type() == QEvent.Resize:
@@ -48,7 +48,7 @@ class OnEvent(QObject, HasWidget):
 
         return QObject.eventFilter(self, source, event)
 
-    def set_callback_key(self, key: str, callback: Callable[[], None]) -> None:
+    def set_callback_key(self, key: str, callback: Callable[[str], None]) -> None:
         """
         ========================================================================
          Set the function to be called when the specified key is pressed.
