@@ -4,26 +4,41 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="a">
-      <change afterPath="$PROJECT_DIR$/proj/myq/exam/study/s_0_base.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proj/myq/exam/u_0_base.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_gui.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proj/myq/managers/question/i_0_gui.py" afterDir="false" />
+    <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_cs/problems/graph/path/mixins/has_goal.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_cs/problems/graph/path/mixins/has_start.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_cs/problems/graph/path/one_to_one.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_cs/problems/graph/path/path.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/iterable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/iterable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/handlers/on_event.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/handlers/on_event.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widget_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/widget_text.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widgets/label.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/widgets/label.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widgets/text_box.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/widgets/text_box.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/exam/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/exam/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/gui/inner/container_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gui/inner/container_qa.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/exam/i_0_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/exam/i_0_gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/exam/i_0_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/exam/i_0_prompt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_text.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/question/i_0_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/question/i_0_prompt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/question/study/s_0_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/question/study/s_0_text.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/components/stats_items.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/components/stats_items.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_computer_science/algos/graph/path_finding/shortest/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_cs/algos/graph/path_finding/shortest/base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_computer_science/algos/graph/path_finding/shortest/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_cs/algos/graph/path_finding/shortest/data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_computer_science/funcs/heuristic/distance/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_cs/funcs/heuristic/distance/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_computer_science/funcs/heuristic/distance/i_1_manhattan.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_cs/funcs/heuristic/distance/i_1_manhattan.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_computer_science/problems/graph/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_cs/problems/graph/graph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/i_2d.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/collections/old/old_i_2d.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/testers/t_2d.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/collections/testers/t_2d.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/i_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/i_1_mutable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_1_mutable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/nodes/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/nodes/i_1_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/i_1_path.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/nodes/i_2_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/i_2_cell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/nodes/testers/t_1_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/testers/t_1_path.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/nodes/testers/t_2_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/testers/t_2_cell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/old_i_1_grid.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/study/s_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/study/s_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/testers/t_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/testers/t_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/testers/t_u_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/testers/t_u_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/u_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/u_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/testers/t_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/testers/t_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_0_g.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/i_0_g.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_0_h.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/i_0_h.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_2_f_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/i_2_f_cell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/problems/i_0_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/problems/i_0_graph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/problems/mixins/has_goal.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/problems/mixins/has_goal.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/problems/mixins/has_start.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/problems/mixins/has_start.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,6 +88,10 @@
     "Python tests.Python tests for t_1_f.test_repr.executor": "Run",
     "Python tests.Python tests for t_1_text.test_text.executor": "Run",
     "Python tests.Python tests for t_2_f_cell.test_repr.executor": "Run",
+    "Python tests.Python tests for t_grid.test_cells_valid.executor": "Run",
+    "Python tests.Python tests for t_grid.test_distance.executor": "Run",
+    "Python tests.Python tests for t_grid.test_getitem.executor": "Run",
+    "Python tests.Python tests for t_grid.test_neighbors.executor": "Run",
     "Python tests.Python tests for t_int.test_dims_rel_to_abs.executor": "Run",
     "Python tests.Python tests for t_ltwh.test_str.executor": "Run",
     "Python tests.Python tests for t_position.test_str.executor": "Run",
@@ -88,6 +107,7 @@
     "Python tests.Python tests in t_2_cell.py.executor": "Run",
     "Python tests.Python tests in t_2_f_cell.py (1).executor": "Run",
     "Python tests.Python tests in t_2_f_cell.py.executor": "Run",
+    "Python tests.Python tests in t_grid.py.executor": "Run",
     "Python tests.Python tests in t_has_g.py (1).executor": "Run",
     "Python tests.Python tests in t_has_g.py.executor": "Run",
     "Python tests.Python tests in t_int.py.executor": "Run",
@@ -144,124 +164,96 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\mypy\f_ds\collections\old" />
+      <recent name="G:\mypy\f_graph" />
+      <recent name="G:\mypy\f_cs\problems\graph\path" />
       <recent name="G:\mypy\f_hs\problems" />
       <recent name="D:\mypy\f_hs\nodes" />
-      <recent name="D:\mypy\f_hs\nodes\mixins" />
-      <recent name="D:\mypy\f_hs\nodes\mixins\testers" />
-      <recent name="G:\mypy\f_gui\pyqt" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_0_gui">
-    <configuration name="i_0_qa (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/gui" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="i_0_qa" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/gui" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="s_0_base" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/exam/study" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/exam/study/s_0_base.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="s_0_gui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/managers/exam/study" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_gui.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_2_f_cell.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests for t_grid.test_cells_valid">
+    <configuration name="Python tests for t_grid.test_cells_valid" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/nodes/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_hs/nodes/testers/t_2_f_cell.py&quot;" />
+      <option name="_new_target" value="&quot;t_grid.test_cells_valid&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for t_grid.test_distance" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_grid.test_distance&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for t_grid.test_getitem" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_grid.test_getitem&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for t_grid.test_neighbors" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_grid.test_neighbors&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in t_grid.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/grids/testers/t_grid.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.s_0_gui" />
-        <item itemvalue="Python.s_0_base" />
-        <item itemvalue="Python.i_0_qa (1)" />
-        <item itemvalue="Python tests.Python tests in t_2_f_cell.py" />
-        <item itemvalue="Python.i_0_qa" />
+        <item itemvalue="Python tests.Python tests for t_grid.test_cells_valid" />
+        <item itemvalue="Python tests.Python tests in t_grid.py" />
+        <item itemvalue="Python tests.Python tests for t_grid.test_neighbors" />
+        <item itemvalue="Python tests.Python tests for t_grid.test_distance" />
+        <item itemvalue="Python tests.Python tests for t_grid.test_getitem" />
       </list>
     </recent_temporary>
   </component>
@@ -353,7 +345,15 @@
       <option name="project" value="LOCAL" />
       <updated>1721378926955</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="h">
+      <option name="closed" value="true" />
+      <created>1722022757093</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1722022757093</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -369,8 +369,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="h" />
     <MESSAGE value="a" />
-    <option name="LAST_COMMIT_MESSAGE" value="a" />
+    <MESSAGE value="h" />
+    <option name="LAST_COMMIT_MESSAGE" value="h" />
   </component>
 </project>

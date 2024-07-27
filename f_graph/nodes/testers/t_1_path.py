@@ -1,5 +1,5 @@
 import pytest
-from f_ds.graphs.nodes.i_1_path import NodePath
+from f_graph.nodes.i_1_path import NodePath
 
 
 @pytest.fixture

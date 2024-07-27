@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_ds.graphs.nodes.i_0_base import NodeBase
+from f_graph.nodes.i_0_base import NodeBase
 from f_abstract.mixins.parentable import Parentable
 
 

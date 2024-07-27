@@ -1,10 +1,10 @@
-from f_computer_science.f_ds.graphs.i_0_base import GraphBase
-from f_computer_science.f_ds.nodes.i_0_base import NodeBase
+from f_graph.graphs.i_0_base import GraphBase, NodeBase
 from typing import Generic, TypeVar
 from abc import ABC
 
 Graph = TypeVar('Graph', bound=GraphBase)
 Node = TypeVar('Node', bound=NodeBase)
+
 
 class ProblemGraph(ABC, Generic[Graph, Node]):
     """

@@ -1,5 +1,5 @@
-from f_ds.graphs.i_0_base import GraphBase
-from f_ds.graphs.nodes.i_0_base import NodeBase
+from f_graph.graphs.i_0_base import GraphBase
+from f_graph.nodes.i_0_base import NodeBase
 from typing import Generic, TypeVar
 from abc import ABC
 

@@ -1,9 +1,10 @@
 from f_abstract.components.stats_items import StatsItems
-from f_ds.collections.i_2d import Collection2D
+from f_abstract.mixins.has_rows_cols import HasRowsCols
+from f_ds.collections.i_1d import Collection1D
 from f_ds.grids.cell import Cell
 
 
-class Grid(Collection2D[Cell]):
+class Grid(Collection1D[Cell], HasRowsCols):
     """
     ============================================================================
      2D-Grid Class of Cells.
@@ -19,16 +20,25 @@ class Grid(Collection2D[Cell]):
          Init private Attributes.
         ========================================================================
         """
+        HasRowsCols.__init__(self, rows=rows, cols=cols)
         items = [
                     [Cell(row, col) for col in range(self.cols)]
                     for row in range(self.rows)
                 ]
-        Collection2D.__init__(self, name=name, items=items)
+        Collection1D.__init__(self, name=name, items=items)
         self._cells_valid = StatsItems(items=self.to_list(), predicate=bool)
 
     @property
     def cells_valid(self) -> StatsItems[Cell]:
         return self._cells_valid
+
+    def to_list(self) -> list[Cell]:
+        """
+        ========================================================================
+         Return a flattened list representation of the 2D Object.
+        ========================================================================
+        """
+        return [cell for row in self._items for cell in row]
 
     @staticmethod
     def distance(cell_a: Cell, cell_b: Cell) -> int:

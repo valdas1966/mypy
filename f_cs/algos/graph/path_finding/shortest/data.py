@@ -1,6 +1,6 @@
 from f_abstract.components.data import Data
-from f_computer_science.f_ds.nodes.i_1_path import NodePath
-from f_computer_science.f_ds.collections.i_1_queue import QueueBase
+from f_cs.f_ds.nodes.i_1_path import NodePath
+from f_cs.f_ds.collections.i_1_queue import QueueBase
 from typing import Generic, TypeVar
 
 Queue = TypeVar('Queue', bound=QueueBase)

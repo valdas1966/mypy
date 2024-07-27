@@ -7,8 +7,8 @@ Node = TypeVar('Node', bound=NodePath)
 class HasGoal(Generic[Node]):
     """
     ============================================================================
-     Mixin-Class for Path-Finding-Problems with a single Goal-Node.
-     ===========================================================================
+     Mixin-Class for Graph-Problems with single Goal-Node.
+    ============================================================================
     """
 
     def __init__(self, goal: Node) -> None:

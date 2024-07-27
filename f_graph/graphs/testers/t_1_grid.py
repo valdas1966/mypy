@@ -1,4 +1,4 @@
-from f_ds.graphs.i_1_grid import GraphGrid, Grid, NodeCell
+from f_graph.graphs.i_1_grid import GraphGrid, Grid, NodeCell
 
 
 def test_neighbors():

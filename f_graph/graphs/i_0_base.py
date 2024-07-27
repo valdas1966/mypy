@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from f_abstract.mixins.nameable import Nameable
 from f_abstract.mixins.iterable import Iterable
-from f_ds.graphs.nodes.i_0_base import NodeBase
+from f_graph.nodes.i_0_base import NodeBase
 from typing import TypeVar, Generic
 
 Node = TypeVar('Node', bound=NodeBase)

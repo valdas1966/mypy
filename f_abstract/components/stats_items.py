@@ -32,6 +32,14 @@ class StatsItems(Generic[T], Collection1D[T]):
         """
         return list(filter(self._predicate, self._items))
 
+    def cnt(self) -> int:
+        """
+        ========================================================================
+         Return the number of Specified-Items.
+        ========================================================================
+        """
+        return len(self)
+
     def pct(self) -> int:
         """
         ========================================================================

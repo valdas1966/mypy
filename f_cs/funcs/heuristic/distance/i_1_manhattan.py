@@ -1,4 +1,4 @@
-# .. = f_computer_science.funcs.heuristi.distance
+# .. = f_cs.funcs.heuristi.distance
 from ..distance.i_0_base import Heuristic
 from f_data_structure.nodes.i_2_cell import NodeCell
 

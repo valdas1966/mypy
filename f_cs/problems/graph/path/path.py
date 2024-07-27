@@ -1,24 +1,22 @@
+from f_cs.problems.graph.graph import ProblemGraph, GraphBase
 from f_graph.nodes.i_1_path import NodePath
-from typing import Generic, TypeVar
+from typing import TypeVar
 
+Graph = TypeVar('Graph', bound=GraphBase)
 Node = TypeVar('Node', bound=NodePath)
 
 
-class HasGoal(Generic[Node]):
+class ProblemPath(ProblemGraph[Graph, Node]):
     """
     ============================================================================
-     Mixin-Class for Path-Finding-Problems with a single Goal-Node.
-     ===========================================================================
+     Graph-Path Problem.
+    ============================================================================
     """
 
-    def __init__(self, goal: Node) -> None:
+    def __init__(self, graph: Graph) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._goal = goal
-
-    @property
-    def goal(self) -> Node:
-        return self._goal
+        ProblemGraph.__init__(self, graph=graph)

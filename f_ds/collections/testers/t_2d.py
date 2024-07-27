@@ -1,5 +1,5 @@
 import pytest
-from f_ds.collections.i_2d import Collection2D
+from f_ds.collections.old.old_i_2d import Collection2D
 
 
 @pytest.fixture

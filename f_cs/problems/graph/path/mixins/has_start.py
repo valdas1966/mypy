@@ -4,21 +4,21 @@ from typing import Generic, TypeVar
 Node = TypeVar('Node', bound=NodePath)
 
 
-class HasGoal(Generic[Node]):
+class HasStart(Generic[Node]):
     """
     ============================================================================
-     Mixin-Class for Path-Finding-Problems with a single Goal-Node.
-     ===========================================================================
+     Mixin-Class for Graph-Problems with single Start-Node.
+    ============================================================================
     """
 
-    def __init__(self, goal: Node) -> None:
+    def __init__(self, start: Node) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._goal = goal
+        self._start = start
 
     @property
-    def goal(self) -> Node:
-        return self._goal
+    def start(self) -> Node:
+        return self._start

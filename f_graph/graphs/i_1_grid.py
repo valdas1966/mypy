@@ -1,5 +1,5 @@
-from f_ds.graphs.i_0_base import GraphBase
-from f_ds.graphs.nodes.i_2_cell import NodeCell
+from f_graph.graphs.i_0_base import GraphBase
+from f_graph.nodes.i_2_cell import NodeCell
 from f_ds.grids.grid import Grid
 from typing import TypeVar, Type
 
@@ -26,7 +26,7 @@ class GraphGrid(GraphBase[Node]):
         self._grid = grid
         self._type_node = type_node
         self._nodes = {cell: type_node(cell=cell)
-                       for cell in grid.cells_valid}
+                       for cell in grid}
 
     @property
     def grid(self) -> Grid:
