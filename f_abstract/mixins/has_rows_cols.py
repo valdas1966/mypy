@@ -40,7 +40,7 @@ class HasRowsCols(Nameable):
          Return True if the given Row and Col are within the Shape.
         ========================================================================
         """
-        return 0 <= row < self.rows and 0 <= col <= self.cols
+        return 0 <= row < self.rows and 0 <= col < self.cols
 
     def key_comparison(self) -> list:
         """

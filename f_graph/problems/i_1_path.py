@@ -1,4 +1,4 @@
-from f_cs.problems.graph.graph import ProblemGraph, GraphBase
+from f_graph.problems.i_0_graph import ProblemGraph, GraphBase
 from f_graph.nodes.i_1_path import NodePath
 from typing import TypeVar
 

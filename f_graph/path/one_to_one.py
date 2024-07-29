@@ -1,45 +1,46 @@
-from __future__ import annotations
-from f_graph.nodes.i_2_g import NodeG
-from f_hs.nodes.i_0_h import NodeH
+from f_graph.nodes.i_1_path import NodePath
+from typing import Generic, TypeVar
+
+Node = TypeVar('Node', bound=NodePath)
 
 
-class NodeF(NodeG, NodeH):
+class PathOneToOne(Generic[Node]):
     """
     ============================================================================
-     Informed Node with F-Value (G + H).
+     Path-Class for One-to-One Problem.
     ============================================================================
     """
 
-    def __init__(self,
-                 name: str = None,
-                 parent: NodeF = None) -> None:
+    def __init__(self, goal: Node):
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        super().__init__(name=name, parent=parent)
+        self._goal = goal
+        self._is_found = False
 
-    def f(self) -> int:
+    @property
+    def is_found(self) -> bool:
         """
         ========================================================================
-         Calculate the total Estimated Cost (G + H).
+         Return True if the Path is found.
         ========================================================================
         """
-        return (self._g + self._h) if self._h is not None else None
+        return self._is_found
 
-    def key_comparison(self) -> list:
+    def set_found(self) -> None:
         """
         ========================================================================
-         If F-Values are equal, break ties on H-Value.
+         Set that the Path is found.
         ========================================================================
         """
-        return [self.f(), NodeG.key_comparison(self)]
+        self._is_found = False
 
-    def __repr__(self) -> str:
+    def get(self) -> list[Node]:
         """
         ========================================================================
-         '<NodeF: Name> G=5, H=10, F=15'
+         Return the Path (List of Nodes).
         ========================================================================
         """
-        return f'{NodeG.__repr__(self)}, H={self.h}, F={self.f()}'
+        return self._goal.path_from_root()

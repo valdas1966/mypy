@@ -1,5 +1,6 @@
 from typing import Callable
 from f_gui.pyqt.app import App
+from f_gui.pyqt.widgets.msg_box import MsgBox
 from proj.myq.gui.inner.container_qa import ContainerQA
 
 
@@ -26,4 +27,17 @@ class AppQA(App):
         self.add(self._con_qa)
 
     def update(self, question: str) -> None:
+        """
+        ========================================================================
+         Update the Q/A Container (new Question and empty Answer).
+        ========================================================================
+        """
         self._con_qa.update(question)
+
+    def msg_box(self, text: str) -> None:
+        """
+        ========================================================================
+         Show MsgBox with Title and Text.
+        ========================================================================
+        """
+        MsgBox(text=text)

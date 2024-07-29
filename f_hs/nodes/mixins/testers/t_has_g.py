@@ -1,6 +1,6 @@
 import pytest
 
-from f_hs.nodes.i_0_g import HasG
+from f_graph.nodes.i_2_g import HasG
 
 
 @pytest.fixture

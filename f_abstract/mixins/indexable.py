@@ -1,70 +1,64 @@
-from f_abstract.mixins.printable import Printable
-from typing import Generic, TypeVar, Iterator
+from f_abstract.mixins.iterable import Iterable
 from abc import abstractmethod
+from typing import TypeVar
 
 Item = TypeVar('Item')
 
 
-class Iterable(Generic[Item], Printable):
+class Indexable(Iterable[Item]):
     """
     ============================================================================
-     Mixin-Class for Iterable objects.
+     Mixin-Class for Objects with Index.
     ============================================================================
     """
+
+    def __init__(self) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
+        self._index = -1
+
+    @property
+    def index(self) -> int:
+        """
+        ========================================================================
+         Return the current Index.
+        ========================================================================
+        """
+        return self._index
 
     @abstractmethod
     def to_list(self) -> list[Item]:
         """
         ========================================================================
-         Return a list representation of the Object.
+         Return List of all Items.
         ========================================================================
         """
         pass
 
-    def __iter__(self) -> Iterator[Item]:
+    def current(self) -> Item:
         """
         ========================================================================
-         Return an Iterator to iterate over the Object.
+         Return the current Item.
         ========================================================================
         """
-        return iter(self.to_list())
+        return self[self._index]
 
-    def __len__(self) -> int:
+    def next(self) -> Item:
         """
         ========================================================================
-         Return the number of Items in the Object.
+         Promote the Index to the next Item and return it.
         ========================================================================
         """
-        return len(self.to_list())
+        self._index += 1
+        return self.current()
 
-    def __bool__(self) -> bool:
+    def has_next(self) -> bool:
         """
         ========================================================================
-         Return True if the Object is not Empty.
+         Return True if the Index is not the Last.
         ========================================================================
         """
-        return bool(len(self))
-
-    def __contains__(self, item: Item) -> bool:
-        """
-        ========================================================================
-         Return True if the given Item is in the Object.
-        ========================================================================
-        """
-        return item in self.to_list()
-
-    def __str__(self) -> str:
-        """
-        ========================================================================
-         Return string representation of the Object.
-        ========================================================================
-        """
-        return str(self.to_list())
-
-    def __getitem__(self, index: int | slice) -> int | list[Item]:
-        """
-        ========================================================================
-         Return the Item(s) at the given index or slice.
-        ========================================================================
-        """
-        return self.to_list()[index]
+        return self._index < len(self) - 1

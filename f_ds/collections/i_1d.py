@@ -1,6 +1,6 @@
 from typing import Generic, TypeVar, Iterable, Callable
 from f_abstract.mixins.nameable import Nameable
-from f_abstract.mixins.iterable import Iterable as  MyIterable
+from f_abstract.mixins.iterable import Iterable as MyIterable
 from f_utils import u_list
 
 Item = TypeVar('Item')   # Type of Items in the Collection
@@ -14,7 +14,7 @@ class Collection1D(Generic[Item], MyIterable[Item], Nameable):
     """
 
     def __init__(self,
-                 items: Iterable,
+                 items: list[Item] = None,
                  name: str = None) -> None:
         """
         ========================================================================
@@ -22,7 +22,7 @@ class Collection1D(Generic[Item], MyIterable[Item], Nameable):
         ========================================================================
         """
         Nameable.__init__(self, name=name)
-        self._items = items
+        self._items = items or list[Item]()
 
     def filter(self, predicate: Callable[[Item], True]) -> list[Item]:
         """

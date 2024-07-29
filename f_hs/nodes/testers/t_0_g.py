@@ -1,5 +1,5 @@
 import pytest
-from f_hs.nodes.i_0_g import NodeG
+from f_graph.nodes.i_2_g import NodeG
 
 
 @pytest.fixture

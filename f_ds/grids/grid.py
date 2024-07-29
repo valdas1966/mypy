@@ -57,7 +57,10 @@ class Grid(Collection1D[Cell], HasRowsCols):
          Return List of a valid Cell-Neighbors in Clockwise-Order.
         ========================================================================
         """
-        cells_within = [self._items[n.row][n.col] for n in cell.neighbors()]
+        cells_within = [self._items[n.row][n.col]
+                        for n
+                        in cell.neighbors()
+                        if self.is_within(n.row, n.col)]
         return [cell for cell in cells_within if cell]
 
     def __getitem__(self, index) -> list[Cell]:

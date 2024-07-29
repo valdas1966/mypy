@@ -6,19 +6,36 @@ Exam = TypeVar('Exam', bound=ExamBase)
 
 
 class ManagerExamGui(Generic[Exam]):
+    """
+    ============================================================================
+     Manages the Exam on GUI.
+    ============================================================================
+    """
 
     def __init__(self, exam: Exam) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
         self._exam = exam
-        question_first = self._exam[0].text
-        self._app = AppQA(question_first=question_first,
+        self._app = AppQA(question_first=self._exam.next().text,
                           on_enter=self._on_enter)
-        self._update = self._app.update
-        self._index = 1
         self._app.run()
 
     def _on_enter(self, answer: str) -> None:
-        question = self._exam[self._index].text
-        self._update(question)
-        self._index += 1
-
-
+        """
+        ========================================================================
+         CallBack on User's Answer.
+        ========================================================================
+        """
+        question = self._exam.current()
+        if answer == question.answer:
+            if self._exam.has_next():
+                question = self._exam.next()
+            else:
+                self._app.msg_box('The END')
+                exit(0)
+        else:
+            self._app.msg_box(question.answer)
+        self._app.update(question.text)

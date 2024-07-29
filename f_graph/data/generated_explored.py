@@ -1,36 +1,40 @@
-from f_ds.collections.i_1d import Collection1D, Item
-from abc import abstractmethod
+from f_ds.queues.i_0_base import QueueBase
+from f_graph.nodes.i_1_path import NodePath
+from typing import Generic, TypeVar, Type
+
+Node = TypeVar('Node', bound=NodePath)
 
 
-class QueueBase(Collection1D[Item]):
+class DataGeneratedExplored(Generic[Node]):
     """
     ============================================================================
-     Abstract-Class of Queue.
+     Data-Class for Generated and Explored lists in Graph-Algorithms.
     ============================================================================
     """
 
-    def __init__(self, name: str = None) -> None:
+    def __init__(self, type_queue: Type[QueueBase]) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        Collection1D.__init__(self, name=name)
+        self._generated = type_queue[Node]()
+        self._explored = set[Node]()
 
-    @abstractmethod
-    def push(self, item: Item) -> None:
+    @property
+    def generated(self) -> QueueBase[Node]:
         """
         ========================================================================
-         Push an Element into the Queue.
+         Return a Queue of generated nodes.
         ========================================================================
         """
-        pass
+        return self._generated
 
-    @abstractmethod
-    def pop(self) -> Item:
+    @property
+    def explored(self) -> set[Node]:
         """
         ========================================================================
-         Pop an Element from the Queue.
+         Return a Set of explored nodes.
         ========================================================================
         """
-        pass
+        return self._explored
