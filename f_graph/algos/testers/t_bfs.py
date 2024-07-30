@@ -1,6 +1,6 @@
 from f_graph.problems.i_2_one_to_one import ProblemOneToOne
 from f_graph.graphs.i_1_grid import GraphGrid, Grid, NodeCell
-from f_graph.algo.bfs import BFS
+from f_graph.algos.bfs import BFS
 
 
 def test():

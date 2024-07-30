@@ -5,41 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/indexable.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/testers/t_indexable.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/testers/t_parentable.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/algo/bfs.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/algo/study/s_bfs.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/algo/testers/t_bfs.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/data/generated_explored.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/data/testers/t_generated_explored.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_one.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/pyqt/widgets/msg_box.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proj/myq/exam/u_1_random.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/algos/ucs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/nodes/i_1_path_cell.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/nodes/i_2_g_cell.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/nodes/mixins/has_cell.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/has_rows_cols.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/has_rows_cols.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/iterable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/iterable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/parentable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/parentable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_cs/algos/graph/path_finding/shortest/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_cs/algos/graph/path_finding/shortest/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_cs/problems/graph/graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/problems/i_0_graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_cs/problems/graph/path/mixins/has_goal.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/problems/mixins/has_goal.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_cs/problems/graph/path/mixins/has_start.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/problems/mixins/has_start.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_cs/problems/graph/path/one_to_one.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/problems/i_2_one_to_one.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_cs/problems/graph/path/path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/problems/i_1_path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/collections/i_1d.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/collections/i_1d.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/auth/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/auth/auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/testers/t_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/testers/t_1_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_0_g.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/i_2_g.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_1_f.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/i_1_f.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/nodes/mixins/testers/t_has_g.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/mixins/testers/t_has_g.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/nodes/testers/t_0_g.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/testers/t_0_g.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/exam/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/exam/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/exam/i_0_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/exam/i_0_gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algo/bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algo/study/s_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/study/s_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algo/testers/t_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/testers/t_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/nodes/i_2_cell.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/nodes/testers/t_2_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/testers/t_1_path_cell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/PIL/MspImagePlugin.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/PIL/MspImagePlugin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/paramiko/auth_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/paramiko/auth_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/paramiko/transport.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/paramiko/transport.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_internal/cli/cmdoptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_internal/cli/cmdoptions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_internal/utils/hashes.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_internal/utils/hashes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_vendor/distlib/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_vendor/distlib/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_vendor/distlib/locators.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_vendor/distlib/locators.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,12 +44,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
-    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/valdas1966/mypy.git",
+    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -108,6 +90,7 @@
     "Python tests.Python tests in t_1_g.py.executor": "Run",
     "Python tests.Python tests in t_1_grid.py.executor": "Run",
     "Python tests.Python tests in t_1_path.py.executor": "Run",
+    "Python tests.Python tests in t_1_path_cell.py.executor": "Run",
     "Python tests.Python tests in t_2_cell.py.executor": "Run",
     "Python tests.Python tests in t_2_f_cell.py (1).executor": "Run",
     "Python tests.Python tests in t_2_f_cell.py.executor": "Run",
@@ -184,7 +167,7 @@
       <recent name="G:\mypy\f_cs\problems\graph\path" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_0_gui">
+  <component name="RunManager" selected="Python tests.Python tests in t_1_path_cell.py">
     <configuration name="s_0_gui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -229,33 +212,33 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_bfs.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for f_graph.algos.testers.t_bfs.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/algo/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/algos/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_bfs.test&quot;" />
+      <option name="_new_target" value="&quot;f_graph.algos.testers.t_bfs.test&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_bfs.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_1_path_cell.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/algo/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/nodes/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/algo/testers/t_bfs.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/nodes/testers/t_1_path_cell.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -276,11 +259,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests in t_1_path_cell.py" />
         <item itemvalue="Python.s_0_gui" />
-        <item itemvalue="Python tests.Python tests for t_bfs.test" />
+        <item itemvalue="Python tests.Python tests for f_graph.algos.testers.t_bfs.test" />
         <item itemvalue="Python.s_bfs" />
         <item itemvalue="Python tests.Python tests in t_parentable.py" />
-        <item itemvalue="Python tests.Python tests in t_bfs.py" />
       </list>
     </recent_temporary>
   </component>

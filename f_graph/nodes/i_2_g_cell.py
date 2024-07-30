@@ -1,56 +1,47 @@
 from __future__ import annotations
-from f_graph.nodes.i_1_path import NodePath
-from f_ds.grids.cell import Cell
-from f_utils import u_str
+from f_graph.nodes.i_2_g import NodeG
+from f_graph.nodes.mixins.has_cell import HasCell, Cell
 
 
-class NodeCell(NodePath):
+class NodeGCell(NodeG, HasCell):
     """
     ============================================================================
-     Node represents a Cell in the Grid.
+     Node-G with Cell.
     ============================================================================
     """
 
     def __init__(self,
+                 cell: Cell,
                  name: str = None,
-                 cell: Cell = Cell(),
-                 parent: NodeCell = None) -> None:
+                 parent: NodeGCell = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        NodePath.__init__(self, name=name, parent=parent)
-        self._cell = cell
+        NodeG.__init__(self, name=name, parent=parent)
+        HasCell.__init__(self, cell=cell)
 
-    @property
-    def cell(self) -> Cell:
-        return self._cell
-
-    # Override NodeBase
     def key_comparison(self) -> list:
         """
         ========================================================================
-         Compare by (Row, Col) and not by Name.
+         Compare by G (reverse) and by Cell.
         ========================================================================
         """
-        return self._cell.key_comparison()
+        return [-self.g, self.cell.key_comparison()]
 
     def __str__(self) -> str:
         """
         ========================================================================
-         Return STR-REPR.
-         Ex: 'Name(1,2)'
+         Ex: Node(1,2).
         ========================================================================
         """
-        prefix = NodePath.__str__(self)
-        text = str(self._cell)
-        return u_str.add_prefix(prefix=prefix, text=text)
+        return f'{NodeG.__str__(self)}({str(self.cell)})'
 
     def __hash__(self) -> int:
         """
         ========================================================================
-         Return NodeCell Hash-Value.
+         Hash by Cell.
         ========================================================================
         """
-        return hash(self._cell)
+        return hash(self.cell)
