@@ -19,7 +19,7 @@ class ManagerExamGui(Generic[Exam]):
         ========================================================================
         """
         self._exam = exam
-        self._app = AppQA(question_first=self._exam.next().text,
+        self._app = AppQA(question_first=self._exam.next(),
                           on_enter=self._on_enter)
         self._app.run()
 
@@ -38,4 +38,4 @@ class ManagerExamGui(Generic[Exam]):
                 exit(0)
         else:
             self._app.msg_box(question.answer)
-        self._app.update(question.text)
+        self._app.update(question)

@@ -5,23 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_graph/algos/ucs.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/nodes/i_1_path_cell.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/nodes/i_2_g_cell.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/nodes/mixins/has_cell.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/testers/t_mask.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algo/bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/bfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algo/study/s_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/study/s_bfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algo/testers/t_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/testers/t_bfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/nodes/i_2_cell.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/nodes/testers/t_2_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/testers/t_1_path_cell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/PIL/MspImagePlugin.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/PIL/MspImagePlugin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/paramiko/auth_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/paramiko/auth_handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/paramiko/transport.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/paramiko/transport.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_internal/cli/cmdoptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_internal/cli/cmdoptions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_internal/utils/hashes.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_internal/utils/hashes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_vendor/distlib/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_vendor/distlib/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_vendor/distlib/locators.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_vendor/distlib/locators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/u_str.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/u_str.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/gui/inner/container_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gui/inner/container_qa.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/managers/exam/i_0_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/exam/i_0_gui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_gui.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +38,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
+    "accountId": "ddaa2239-897e-4e37-90b9-04afc5364900"
   }
 }]]></component>
   <component name="ProjectColorInfo">{
@@ -104,6 +95,7 @@
     "Python tests.Python tests in t_iterable.py.executor": "Run",
     "Python tests.Python tests in t_ltwh.py (1).executor": "Run",
     "Python tests.Python tests in t_ltwh.py.executor": "Run",
+    "Python tests.Python tests in t_mask.py.executor": "Run",
     "Python tests.Python tests in t_parentable.py.executor": "Run",
     "Python tests.Python tests in t_position.py (1).executor": "Run",
     "Python tests.Python tests in t_position.py.executor": "Run",
@@ -125,6 +117,7 @@
     "Python.run.executor": "Run",
     "Python.s_0_base.executor": "Run",
     "Python.s_0_g.executor": "Run",
+    "Python.s_0_gui (1).executor": "Run",
     "Python.s_0_gui.executor": "Run",
     "Python.s_0_text.executor": "Run",
     "Python.s_1_phrases.executor": "Run",
@@ -167,7 +160,51 @@
       <recent name="G:\mypy\f_cs\problems\graph\path" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_1_path_cell.py">
+  <component name="RunManager" selected="Python.s_0_gui (1)">
+    <configuration name="i_0_qa" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/gui" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="s_0_gui (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/managers/exam/study" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_gui.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="s_0_gui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -190,43 +227,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_bfs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/algo/study" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/algo/study/s_bfs.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for f_graph.algos.testers.t_bfs.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/algos/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;f_graph.algos.testers.t_bfs.test&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
     <configuration name="Python tests in t_1_path_cell.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -242,28 +242,28 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_parentable.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_mask.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/mixins/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_utils/dtypes/inner/str/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_abstract/mixins/testers/t_parentable.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_utils/dtypes/inner/str/testers/t_mask.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.s_0_gui (1)" />
+        <item itemvalue="Python.i_0_qa" />
+        <item itemvalue="Python tests.Python tests in t_mask.py" />
         <item itemvalue="Python tests.Python tests in t_1_path_cell.py" />
         <item itemvalue="Python.s_0_gui" />
-        <item itemvalue="Python tests.Python tests for f_graph.algos.testers.t_bfs.test" />
-        <item itemvalue="Python.s_bfs" />
-        <item itemvalue="Python tests.Python tests in t_parentable.py" />
       </list>
     </recent_temporary>
   </component>
