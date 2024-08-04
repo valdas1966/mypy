@@ -44,7 +44,3 @@ class Music:
             has_more = data['hasMore']
             videos = data['videos']
             return Music.Videos(json, cursor, has_more, videos)
-
-
-
-

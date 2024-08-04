@@ -5,14 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/testers/t_mask.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/indexes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/u_str.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/u_str.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/gui/inner/container_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gui/inner/container_qa.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/exam/i_0_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/exam/i_0_gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_gui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/testers/t_mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/testers/t_mask.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/rapid_api/inner/tiktok/music.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/rapid_api/inner/tiktok/music.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/rapid_api/study/s_tiktok_music.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/rapid_api/study/s_tiktok_music.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,12 +33,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "ddaa2239-897e-4e37-90b9-04afc5364900"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
+    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -52,105 +50,107 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Python tests.Python tests for t_0_g.test_is_better_parent.executor": "Run",
-    "Python tests.Python tests for t_0_g.test_key_comparison.executor": "Run",
-    "Python tests.Python tests for t_0_g.test_repr.executor": "Run",
-    "Python tests.Python tests for t_0_h.test_repr.executor": "Run",
-    "Python tests.Python tests for t_1_f.test_repr.executor": "Run",
-    "Python tests.Python tests for t_1_text.test_text.executor": "Run",
-    "Python tests.Python tests for t_2_f_cell.test_repr.executor": "Run",
-    "Python tests.Python tests for t_bfs.test.executor": "Run",
-    "Python tests.Python tests for t_grid.test_cells_valid.executor": "Run",
-    "Python tests.Python tests for t_grid.test_distance.executor": "Run",
-    "Python tests.Python tests for t_grid.test_getitem.executor": "Run",
-    "Python tests.Python tests for t_grid.test_neighbors.executor": "Run",
-    "Python tests.Python tests for t_int.test_dims_rel_to_abs.executor": "Run",
-    "Python tests.Python tests for t_ltwh.test_str.executor": "Run",
-    "Python tests.Python tests for t_parentable.test_path_from_root.executor": "Run",
-    "Python tests.Python tests for t_position.test_str.executor": "Run",
-    "Python tests.Python tests for t_position.test_update.executor": "Run",
-    "Python tests.Python tests for t_rate_success.test_empty.executor": "Run",
-    "Python tests.Python tests in t_0_base.py.executor": "Run",
-    "Python tests.Python tests in t_0_g.py.executor": "Run",
-    "Python tests.Python tests in t_0_h.py.executor": "Run",
-    "Python tests.Python tests in t_1_cell.py.executor": "Run",
-    "Python tests.Python tests in t_1_f.py.executor": "Run",
-    "Python tests.Python tests in t_1_g.py.executor": "Run",
-    "Python tests.Python tests in t_1_grid.py.executor": "Run",
-    "Python tests.Python tests in t_1_path.py.executor": "Run",
-    "Python tests.Python tests in t_1_path_cell.py.executor": "Run",
-    "Python tests.Python tests in t_2_cell.py.executor": "Run",
-    "Python tests.Python tests in t_2_f_cell.py (1).executor": "Run",
-    "Python tests.Python tests in t_2_f_cell.py.executor": "Run",
-    "Python tests.Python tests in t_bfs.py.executor": "Run",
-    "Python tests.Python tests in t_generated_explored.py.executor": "Run",
-    "Python tests.Python tests in t_grid.py.executor": "Run",
-    "Python tests.Python tests in t_has_g.py (1).executor": "Run",
-    "Python tests.Python tests in t_has_g.py.executor": "Run",
-    "Python tests.Python tests in t_indexable.py.executor": "Run",
-    "Python tests.Python tests in t_int.py.executor": "Run",
-    "Python tests.Python tests in t_iterable.py.executor": "Run",
-    "Python tests.Python tests in t_ltwh.py (1).executor": "Run",
-    "Python tests.Python tests in t_ltwh.py.executor": "Run",
-    "Python tests.Python tests in t_mask.py.executor": "Run",
-    "Python tests.Python tests in t_parentable.py.executor": "Run",
-    "Python tests.Python tests in t_position.py (1).executor": "Run",
-    "Python tests.Python tests in t_position.py.executor": "Run",
-    "Python tests.Python tests in t_rate_success.py.executor": "Run",
-    "Python.app.executor": "Run",
-    "Python.container_qa.executor": "Run",
-    "Python.generated_explored.executor": "Run",
-    "Python.get.executor": "Run",
-    "Python.i_0_gui.executor": "Run",
-    "Python.i_0_qa (1).executor": "Run",
-    "Python.i_0_qa.executor": "Run",
-    "Python.i_1_f.executor": "Run",
-    "Python.layout.executor": "Run",
-    "Python.music.executor": "Run",
-    "Python.q (1).executor": "Run",
-    "Python.q.executor": "Run",
-    "Python.q2.executor": "Run",
-    "Python.run (1).executor": "Run",
-    "Python.run.executor": "Run",
-    "Python.s_0_base.executor": "Run",
-    "Python.s_0_g.executor": "Run",
-    "Python.s_0_gui (1).executor": "Run",
-    "Python.s_0_gui.executor": "Run",
-    "Python.s_0_text.executor": "Run",
-    "Python.s_1_phrases.executor": "Run",
-    "Python.s_1_words.executor": "Run",
-    "Python.s_app (1).executor": "Run",
-    "Python.s_app (2).executor": "Run",
-    "Python.s_app (3).executor": "Run",
-    "Python.s_app.executor": "Run",
-    "Python.s_bar.executor": "Run",
-    "Python.s_bfs.executor": "Run",
-    "Python.s_bucket.executor": "Run",
-    "Python.s_client.executor": "Run",
-    "Python.s_exam.executor": "Run",
-    "Python.s_key.executor": "Run",
-    "Python.s_position (1).executor": "Run",
-    "Python.s_position (2).executor": "Run",
-    "Python.s_position.executor": "Run",
-    "Python.s_tiktok_music (1).executor": "Run",
-    "Python.s_tiktok_music.executor": "Run",
-    "Python.s_tiktok_user (1).executor": "Run",
-    "Python.s_tiktok_user.executor": "Run",
-    "Python.s_window (1).executor": "Run",
-    "Python.s_window.executor": "Run",
-    "Python.screen_resolution.executor": "Run",
-    "Python.t_generated_explored.executor": "Run",
-    "Python.temp.executor": "Run",
-    "Python.u_screen.executor": "Run",
-    "Python.window.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Python tests.Python tests for t_0_g.test_is_better_parent.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_0_g.test_key_comparison.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_0_g.test_repr.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_0_h.test_repr.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_1_f.test_repr.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_1_text.test_text.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_2_f_cell.test_repr.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_bfs.test.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_grid.test_cells_valid.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_grid.test_distance.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_grid.test_getitem.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_grid.test_neighbors.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_int.test_dims_rel_to_abs.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_ltwh.test_str.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_mask.test_full.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_parentable.test_path_from_root.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_position.test_str.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_position.test_update.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_rate_success.test_empty.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_0_base.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_0_g.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_0_h.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_1_cell.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_1_f.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_1_g.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_1_grid.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_1_path.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_1_path_cell.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_2_cell.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_2_f_cell.py (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_2_f_cell.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_bfs.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_generated_explored.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_grid.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_has_g.py (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_has_g.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_indexable.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_int.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_iterable.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_ltwh.py (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_ltwh.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_mask.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_parentable.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_position.py (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_position.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in t_rate_success.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python.app.executor&quot;: &quot;Run&quot;,
+    &quot;Python.container_qa.executor&quot;: &quot;Run&quot;,
+    &quot;Python.generated_explored.executor&quot;: &quot;Run&quot;,
+    &quot;Python.get.executor&quot;: &quot;Run&quot;,
+    &quot;Python.i_0_gui.executor&quot;: &quot;Run&quot;,
+    &quot;Python.i_0_qa (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.i_0_qa.executor&quot;: &quot;Run&quot;,
+    &quot;Python.i_1_f.executor&quot;: &quot;Run&quot;,
+    &quot;Python.layout.executor&quot;: &quot;Run&quot;,
+    &quot;Python.music.executor&quot;: &quot;Run&quot;,
+    &quot;Python.q (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.q.executor&quot;: &quot;Run&quot;,
+    &quot;Python.q2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.run (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.run.executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_0_base.executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_0_g.executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_0_gui (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_0_gui (2).executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_0_gui.executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_0_text.executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_1_phrases.executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_1_words.executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_app (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_app (2).executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_app (3).executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_app.executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_bar.executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_bfs.executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_bucket.executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_client.executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_exam.executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_key.executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_position (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_position (2).executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_position.executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_tiktok_music (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_tiktok_music.executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_tiktok_user (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_tiktok_user.executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_window (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.s_window.executor&quot;: &quot;Run&quot;,
+    &quot;Python.screen_resolution.executor&quot;: &quot;Run&quot;,
+    &quot;Python.t_generated_explored.executor&quot;: &quot;Run&quot;,
+    &quot;Python.temp.executor&quot;: &quot;Run&quot;,
+    &quot;Python.u_screen.executor&quot;: &quot;Run&quot;,
+    &quot;Python.window.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\mypy\f_graph\nodes" />
@@ -160,7 +160,7 @@
       <recent name="G:\mypy\f_cs\problems\graph\path" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_0_gui (1)">
+  <component name="RunManager" selected="Python.s_tiktok_music">
     <configuration name="i_0_qa" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -205,7 +205,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_0_gui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="s_0_gui (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -227,22 +227,29 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_1_path_cell.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="s_tiktok_music" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/nodes/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/rapid_api/study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/nodes/testers/t_1_path_cell.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/rapid_api/study/s_tiktok_music.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_mask.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_mask.test_full" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -253,17 +260,17 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_utils/dtypes/inner/str/testers/t_mask.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;t_mask.test_full&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.s_tiktok_music" />
+        <item itemvalue="Python tests.Python tests for t_mask.test_full" />
+        <item itemvalue="Python.s_0_gui (2)" />
         <item itemvalue="Python.s_0_gui (1)" />
         <item itemvalue="Python.i_0_qa" />
-        <item itemvalue="Python tests.Python tests in t_mask.py" />
-        <item itemvalue="Python tests.Python tests in t_1_path_cell.py" />
-        <item itemvalue="Python.s_0_gui" />
       </list>
     </recent_temporary>
   </component>
@@ -363,7 +370,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722022757093</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="h">
+      <option name="closed" value="true" />
+      <created>1722426910563</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1722426910563</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

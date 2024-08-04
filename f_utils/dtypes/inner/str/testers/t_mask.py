@@ -6,3 +6,5 @@ def test_full():
     assert Mask.full(ex_single) == '***'
     ex_multi = 'ab c'
     assert Mask.full(ex_multi) == '** *'
+    ex_exception = '"abc"'
+    assert Mask.full(ex_exception) == '"***"'
