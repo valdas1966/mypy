@@ -6,7 +6,7 @@ from f_graph.nodes.i_2_cell import NodeCell, Cell
 class NodeFCell(NodeF, NodeCell):
     """
     ============================================================================
-     Informed NodeF represents a Cell in the Grid.
+     Informed NodeF represents list Cell in the Grid.
     ============================================================================
     """
 

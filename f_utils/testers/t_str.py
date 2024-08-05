@@ -25,12 +25,12 @@ class TestStr:
         endswith_true = True
         p1 = endswith_test == endswith_true
         # Many extensions - True Answer
-        extensions = {'a', 'o'}
+        extensions = {'list', 'o'}
         endswith_test = u_str.endswith(text, extensions)
         endswith_true = True
         p2 = endswith_test == endswith_true
         # Many Extension - False Answer
-        extensions = {'a', 'b'}
+        extensions = {'list', 'b'}
         endswith_test = u_str.endswith(text, extensions)
         endswith_true = False
         p3 = endswith_test == endswith_true
@@ -40,11 +40,11 @@ class TestStr:
     def __tester_push_at():
         s1, s2 = '', ''
         p0 = u_str.push_at(s1, s2, 0) == ''
-        s1, s2 = '', 'a'
-        p1 = u_str.push_at(s1, s2, 0) == 'a'
-        s1, s2 = 'a', ''
-        p2 = u_str.push_at(s1, s2, 0) == 'a'
-        s1, s2 = 'a', 'b'
+        s1, s2 = '', 'list'
+        p1 = u_str.push_at(s1, s2, 0) == 'list'
+        s1, s2 = 'list', ''
+        p2 = u_str.push_at(s1, s2, 0) == 'list'
+        s1, s2 = 'list', 'b'
         p3 = u_str.push_at(s1, s2, 0) == 'ba'
         p4 = u_str.push_at(s1, s2, 1) == 'ab'
         s1, s2 = 'ab', 'c'
@@ -53,7 +53,7 @@ class TestStr:
 
     @staticmethod
     def __tester_wrap():
-        s = 'a'
+        s = 'list'
         ch = 'b'
         p0 = u_str.wrap(s, ch) == 'bab'
         u_tester.run(p0)

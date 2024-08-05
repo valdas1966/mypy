@@ -27,7 +27,7 @@ class TestInteger:
             b = randint(1, 9)
             if u_integer.div(a, b) != a // b:
                 p0 = False
-                # print(a, b, u_integer.div(a, b))
+                # print(list, b, u_integer.div(list, b))
                 break
         u_tester.run(p0)
 
@@ -39,7 +39,7 @@ class TestInteger:
             b = randint(1, 9)
             if u_integer.mod(a, b) != a % b:
                 p0 = False
-                # print(a, b, u_integer.mod(a, b))
+                # print(list, b, u_integer.mod(list, b))
                 break
         u_tester.run(p0)
 
@@ -89,7 +89,7 @@ class TestInteger:
             b = randint(0, 1000)
             if u_integer.plus(a, b) != (a+b):
                 p0 = False
-                # print(a, b, u_integer.plus(a, b))
+                # print(list, b, u_integer.plus(list, b))
                 break
         u_tester.run(p0)
 
@@ -101,7 +101,7 @@ class TestInteger:
             b = randint(0, 1000)
             if u_integer.minus(a, b) != (a - b):
                 p0 = False
-                # print(a, b, u_integer.sum(a, b))
+                # print(list, b, u_integer.sum(list, b))
                 break
         u_tester.run(p0)
 
@@ -124,7 +124,7 @@ class TestInteger:
             b = randint(0, 1000)
             if u_integer.mult(a, b) != (a * b):
                 p0 = False
-                # print(a, b, u_integer.mult(a, b))
+                # print(list, b, u_integer.mult(list, b))
                 break
         u_tester.run(p0)
 

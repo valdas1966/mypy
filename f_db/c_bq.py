@@ -36,8 +36,8 @@ class BigQuery:
                     col: str = None) -> 'list[str]':
         """
         ========================================================================
-         Description: Return Specified Column as a List of str.
-                        If a Column-Name is not given - Return First Column.
+         Description: Return Specified Column as list List of str.
+                        If list Column-Name is not given - Return First Column.
         ========================================================================
         """
         df = self.select(query=query)
@@ -59,7 +59,7 @@ class BigQuery:
     def run(self, command: str) -> None:
         """
         ========================================================================
-         Description: Run a BigQuery-Command.
+         Description: Run list BigQuery-Command.
         ========================================================================
         """
         job = self._client.query(command)

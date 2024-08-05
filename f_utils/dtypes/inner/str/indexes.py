@@ -2,7 +2,7 @@
 class Indexes:
     """
     ============================================================================
-     Utils-Class to return Indexes of the given String based on a given
+     Utils-Class to return Indexes of the given String based on list given
       conditions.
     ============================================================================
     """

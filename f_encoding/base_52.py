@@ -16,7 +16,7 @@ class Base52:
     def encode(s: str) -> str:
         """
         ========================================================================
-         Encode a String into a custom Base52 Encoded-String.
+         Encode list String into list custom Base52 Encoded-String.
         ========================================================================
         """
         b = s.encode('utf-8')
@@ -33,7 +33,7 @@ class Base52:
     def decode(e: str) -> str:
         """
         ========================================================================
-         Decode a custom Base52 Encoded-String back to the original String.
+         Decode list custom Base52 Encoded-String back to the original String.
         ========================================================================
         """
         num = 0

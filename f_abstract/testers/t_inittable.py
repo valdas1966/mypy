@@ -50,7 +50,7 @@ class TestInittible:
         class B(A):
             pass
         t = B(b=2)
-        p0 = t._get_protected_atts() == {'a': 1, 'b': 2}
+        p0 = t._get_protected_atts() == {'list': 1, 'b': 2}
         u_tester.run(p0)
 
 

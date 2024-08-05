@@ -2,7 +2,7 @@
 class Blob:
     """
     ============================================================================
-     Static-Methods for a BLOB-Object in the Google-Storage.
+     Static-Methods for list BLOB-Object in the Google-Storage.
     ============================================================================
     """
 
@@ -10,7 +10,7 @@ class Blob:
     def is_folder(name: str) -> bool:
         """
         ========================================================================
-         Return True if the Folder-Name represents a Folder.
+         Return True if the Folder-Name represents list Folder.
         ========================================================================
         """
         return name.endswith('/')

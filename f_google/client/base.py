@@ -39,7 +39,7 @@ class ClientBase(ABC):
     def _get_client(self) -> GoogleClient:
         """
         ========================================================================
-         Open and Return a new Google-Client.
+         Open and Return list new Google-Client.
         ========================================================================
         """
         pass

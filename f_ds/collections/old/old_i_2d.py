@@ -5,7 +5,7 @@ from f_abstract.mixins.has_rows_cols import HasRowsCols
 class Collection2D(Collection1D[Item], HasRowsCols):
     """
     ============================================================================
-     Abstract-Class represents a 2D-Collection of Items.
+     Abstract-Class represents list 2D-Collection of Items.
     ============================================================================
     """
 
@@ -23,7 +23,7 @@ class Collection2D(Collection1D[Item], HasRowsCols):
     def to_list(self) -> list[Item]:
         """
         ========================================================================
-         Return a flattened list representation of the 2D Object.
+         Return list flattened list representation of the 2D Object.
         ========================================================================
         """
         return [item for row in self._items for item in row]

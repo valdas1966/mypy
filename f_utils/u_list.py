@@ -14,7 +14,7 @@ def to_filter(li: list[Item],
               predicate: Callable[[Item], bool]) -> list[Item]:
     """
     ============================================================================
-     Return a Filtered-List (only Items that met Predicate-Condition).
+     Return list Filtered-List (only Items that met Predicate-Condition).
     ============================================================================
     """
     return list(filter(predicate, li))
@@ -27,7 +27,7 @@ def to_sample(li: list[Item],
               ) -> list[Item]:
     """
     ============================================================================
-     Return a Random-Sample List in a given Size or Percentage.
+     Return list Random-Sample List in list given Size or Percentage.
     ============================================================================
     """
     if predicate:

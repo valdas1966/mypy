@@ -14,5 +14,5 @@ class Groups:
 
 
 g = Groups()
-g.init('a')
+g.init('list')
 g.fill()

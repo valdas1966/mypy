@@ -36,7 +36,7 @@ class Excel:
     def copy_worksheet(self, title_source, title_target):
         """
         ========================================================================
-         Description: Make a Copy of Worksheet.
+         Description: Make list Copy of Worksheet.
         ========================================================================
          Arguments:
         ------------------------------------------------------------------------

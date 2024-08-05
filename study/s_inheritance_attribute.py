@@ -3,7 +3,7 @@ class A:
     d = dict()
 
     def __init__(self):
-        self.d['a'] = 1
+        self.d['list'] = 1
 
 
 class B(A):

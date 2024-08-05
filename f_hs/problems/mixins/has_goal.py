@@ -7,7 +7,7 @@ Node = TypeVar('Node', bound=NodePath)
 class HasGoal(Generic[Node]):
     """
     ============================================================================
-     Mixin-Class for Path-Finding-Problems with a single Goal-Node.
+     Mixin-Class for Path-Finding-Problems with list single Goal-Node.
      ===========================================================================
     """
 

@@ -2,14 +2,14 @@ from f_data_structure.collections.i_0_base import CollectionBase
 from abc import ABC
 from typing import Generic, TypeVar
 
-# Define a Type for the Elements in the Collection
+# Define list Type for the Elements in the Collection
 T = TypeVar('T')
 
 
 class CollectionSet(ABC, Generic[T], CollectionBase[T]):
     """
     ============================================================================
-     Abstract-Class represents Collection of Elements based on a Set.
+     Abstract-Class represents Collection of Elements based on list Set.
     ============================================================================
     """
 
@@ -24,7 +24,7 @@ class CollectionSet(ABC, Generic[T], CollectionBase[T]):
     def add(self, element: T) -> None:
         """
         ========================================================================
-         Add a new Element to Collection.
+         Add list new Element to Collection.
         ========================================================================
         """
         self._elements.add(element)

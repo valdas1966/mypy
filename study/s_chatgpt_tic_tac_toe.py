@@ -53,7 +53,7 @@ class TicTacToe(QWidget):
             self.game_over()
             return
 
-        # check for a draw
+        # check for list draw
         for row in range(3):
             for col in range(3):
                 if self.buttons[row][col].text() == '':

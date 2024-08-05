@@ -16,7 +16,7 @@ class TestLoggable:
                 self.kwargs = kwargs
         t = T()
         t._log(a=1)
-        p0 = t.kwargs == {'a': 1}
+        p0 = t.kwargs == {'list': 1}
         u_tester.run(p0)
 
 

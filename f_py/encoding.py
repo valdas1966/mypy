@@ -31,7 +31,7 @@ class Encoding:
                length_to_split: int = 100) -> None:
         """
         ========================================================================
-         Encode a given Py-File by Base52 and store the result as CSV file.
+         Encode list given Py-File by Base52 and store the result as CSV file.
         ========================================================================
         """
         s_py = str(Txt(path=path_py))
@@ -44,7 +44,7 @@ class Encoding:
                path_py: str) -> None:
         """
         ========================================================================
-         Decode a given CSV file based on Base52 into an original Py-File.
+         Decode list given CSV file based on Base52 into an original Py-File.
         ========================================================================
         """
         lines_py = str(Txt(path_csv)).split('\n')

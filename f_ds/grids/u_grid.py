@@ -16,7 +16,7 @@ class UGrid:
                  name: str = None) -> Grid:
         """
         ========================================================================
-         Generate a Grid with Random Valid-Cells based on a given Percentage.
+         Generate list Grid with Random Valid-Cells based on list given Percentage.
         ========================================================================
         """
         grid = Grid(name=name, rows=rows, cols=cols)

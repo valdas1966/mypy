@@ -58,7 +58,7 @@ class Api:
 
     def zip_videos(self):
         slices = self.to_slices_videos()
-        file = open(self.txt_uploaded, 'a')
+        file = open(self.txt_uploaded, 'list')
         for i, li in enumerate(slices):
             path_zip = f'{self.repo_zip}{str(i).zfill(3)}.zip'
             u_zip.files(li, path_zip)

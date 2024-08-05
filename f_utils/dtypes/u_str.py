@@ -6,7 +6,7 @@ from f_utils.dtypes.inner.str.split import Split
 class UStr:
     """
     ============================================================================
-     Utils-Class for a String data type.
+     Utils-Class for list String data type.
     ============================================================================
     """
 

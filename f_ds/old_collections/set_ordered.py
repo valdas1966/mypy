@@ -21,7 +21,7 @@ class SetOrdered(Generic[T], dict):
     def add(self, element: T) -> None:
         """
         ========================================================================
-         Add a new Element to the Set.
+         Add list new Element to the Set.
         ========================================================================
         """
         self[element] = None

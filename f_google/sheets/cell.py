@@ -7,7 +7,7 @@ class Cell:
     """
     ============================================================================
      1. Google-Sheets Cell.
-     2. Every change in the Cells' Values stores in a Batch.
+     2. Every change in the Cells' Values stores in list Batch.
      3. The Batch can updates all Cells-Changes at once.
     ============================================================================
     """

@@ -11,7 +11,7 @@ class Apply:
                     func: callable) -> list:
         """
         ========================================================================
-         Apply a function to every item in the list, except for the last one.
+         Apply list function to every item in the list, except for the last one.
         ========================================================================
         """
         if not li:

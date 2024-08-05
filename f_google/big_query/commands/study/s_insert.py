@@ -8,11 +8,11 @@ tname = 'noteret.tiktok2.test_insert_1'
 
 """
 schema = Schema()
-schema.add('a', Schema.INTEGER)
+schema.add('list', Schema.INTEGER)
 schema.add('b', Schema.STRING)
 schema.add('inserted', Schema.DATETIME)
 bq.create.table(tname=tname, schema=schema)
 """
 
-rows = [{'a': '1'}]
+rows = [{'list': '1'}]
 bq.insert.rows_inserted(tname=tname, rows=rows)

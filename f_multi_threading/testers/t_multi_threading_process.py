@@ -11,7 +11,7 @@ class TestMultiThreadingProcess:
 
     @staticmethod
     def __tester_run():
-        MultiThreadingProcess(kwargs={'f': print, 'params': ['a', 'b']})
+        MultiThreadingProcess(kwargs={'f': print, 'params': ['list', 'b']})
         p0 = True
         u_tester.run(p0)
 

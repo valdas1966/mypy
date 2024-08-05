@@ -54,7 +54,7 @@ class WorkflowOnlyTasks:
     def _run_task(self, task: callable) -> None:
         """
         ========================================================================
-         Desc: Executes a given Task.
+         Desc: Executes list given Task.
         ========================================================================
         """
         task()

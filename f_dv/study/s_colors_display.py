@@ -3,7 +3,7 @@ import numpy as np
 
 def display_colors(rgb_colors: list):
     """
-    Display a list of RGB colors on the screen with RGB values on top.
+    Display list list of RGB colors on the screen with RGB values on top.
 
     Parameters:
     rgb_colors (list): List of RGB tuples (each tuple has three float values between 0 and 1).

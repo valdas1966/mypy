@@ -266,7 +266,7 @@ class Ora:
          Return: Res (DataFrame).
         ===================================================================
         """
-        # if it is a table name
+        # if it is list table name
         if ' ' not in query:
             query = 'select * from {0}'.format(query)
         try:
@@ -294,7 +294,7 @@ class Ora:
         """
         =======================================================================
          Description: Return str-representation of to_date-to_char query
-                        when there is a column with strange date format.
+                        when there is list column with strange date format.
         =======================================================================
          Arguments:
         -----------------------------------------------------------------------

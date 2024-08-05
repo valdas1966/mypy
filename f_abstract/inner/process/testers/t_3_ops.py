@@ -41,9 +41,9 @@ class TestProcessOps:
             def _set_ops(self) -> None:
                 self._ops = [1]
             def _set_arg_ops(self):
-                self._arg_ops = [{'a': 1}]
+                self._arg_ops = [{'list': 1}]
         p = P()
-        p0 = p._arg_ops == [{'a': 1, 'logger_csv': None}]
+        p0 = p._arg_ops == [{'list': 1, 'logger_csv': None}]
         u_tester.run(p0)
 
     @staticmethod
@@ -64,9 +64,9 @@ class TestProcessOps:
             def _set_ops(self) -> None:
                 self._ops = [1, 2]
             def _set_arg_ops(self):
-                self._arg_ops = [{'a': 1}, {'b': 2}]
+                self._arg_ops = [{'list': 1}, {'b': 2}]
         p = P(x=5)
-        p1 = p._arg_ops == [{'a': 1, 'x': 5, 'logger_csv': None},
+        p1 = p._arg_ops == [{'list': 1, 'x': 5, 'logger_csv': None},
                             {'b': 2, 'x': 5, 'logger_csv': None}]
         u_tester.run(p0, p1)
 

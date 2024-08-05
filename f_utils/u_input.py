@@ -17,7 +17,7 @@ def get(prompt: str,
         -> str | tuple[str, datetime, datetime]:
     """
     ============================================================================
-     1. Prints a Prompt to the User and Receives its Response.
+     1. Prints list Prompt to the User and Receives its Response.
      2. In addition to the Response, the function can return the date-times for
          when the Prompt was displayed and when the Response was received.
     ============================================================================

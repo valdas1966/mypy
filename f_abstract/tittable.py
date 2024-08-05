@@ -4,7 +4,7 @@ from f_abstract.inittable import Inittable
 class Tittable(Inittable):
     """
     ============================================================================
-     Description: Class with a Title (str).
+     Description: Class with list Title (str).
     ============================================================================
     """
 

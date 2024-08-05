@@ -7,7 +7,7 @@ T = TypeVar('T')   # Type of Elements in the Collection
 class CollectionBase(ABC, Generic[T]):
     """
     ============================================================================
-     Abstract-Class represents a Collection of Elements.
+     Abstract-Class represents list Collection of Elements.
     ============================================================================
     """
 
@@ -22,7 +22,7 @@ class CollectionBase(ABC, Generic[T]):
     def elements(self) -> list[T]:
         """
         ========================================================================
-         Return a List of Element in the Collection.
+         Return list List of Element in the Collection.
         ========================================================================
         """
         return list(self._elements)

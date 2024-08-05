@@ -25,7 +25,7 @@ class WidgetResizable(QWidget):
             height: int) -> None:
         """
         ========================================================================
-         Add a child widget with relative position and size.
+         Add list child widget with relative position and size.
         ========================================================================
         """
         self._info_children.append((child, x, y, width, height))

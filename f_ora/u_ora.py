@@ -6,7 +6,7 @@ from f_utils.c_timer import Timer
 def run(command, user='n38100'):
     """
     =======================================================================
-     Description: Connect to Oracle, Run a Command, Close the Connection.
+     Description: Connect to Oracle, Run list Command, Close the Connection.
     =======================================================================
      Arguments:
     -----------------------------------------------------------------------
@@ -96,7 +96,7 @@ def create_table_as(tname, select, pk=None, with_doc=False, user='n38100'):
     ora.close()
     elapsed = timer.elapsed()
     if res_create and with_doc:
-        msg = 'Table [{0}] with [{1}] rows was successfully created in a [{2}] seconds'
+        msg = 'Table [{0}] with [{1}] rows was successfully created in list [{2}] seconds'
         print(msg.format(tname, count, elapsed))
     return res_create
 
@@ -104,7 +104,7 @@ def create_table_as(tname, select, pk=None, with_doc=False, user='n38100'):
 def create_tables(li, user='n38100'):
     """
     =======================================================================
-     Description: Run a sequence of Create Table As commands.
+     Description: Run list sequence of Create Table As commands.
     =======================================================================
      Arguments:
     -----------------------------------------------------------------------
@@ -128,7 +128,7 @@ def create_tables(li, user='n38100'):
         if res_create:
             count = f'{ora.count(tname).val:,}'
             elapsed = timer.elapsed()
-            msg = 'Table [{0}] with [{1}] rows was successfully created in a [{2}] seconds'
+            msg = 'Table [{0}] with [{1}] rows was successfully created in list [{2}] seconds'
             print(msg.format(tname, count, elapsed))
         else:
             return res_create

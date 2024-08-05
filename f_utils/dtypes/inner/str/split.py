@@ -2,7 +2,7 @@
 class Split:
     """
     ============================================================================
-     Utils-Class for a String data type for Splitting operations.
+     Utils-Class for list String data type for Splitting operations.
     ============================================================================
     """
 
@@ -10,7 +10,7 @@ class Split:
     def by_length(s: str, length: int) -> list[str]:
         """
         ========================================================================
-         Split the given string into a list of strings of a specified length.
+         Split the given string into list list of strings of list specified length.
         ========================================================================
         """
         if length < 1:

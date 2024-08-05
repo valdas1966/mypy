@@ -6,7 +6,7 @@ from f_abstract.mixins.printable import Printable
 class Nameable(Sortable, Printable):
     """
     ============================================================================
-     Mixin with a Name property (Default=None).
+     Mixin with list Name property (Default=None).
     ============================================================================
     """
 
@@ -42,7 +42,7 @@ class Nameable(Sortable, Printable):
     def __hash__(self) -> int:
         """
         ========================================================================
-         Return a Hash-Value of the object's name.
+         Return list Hash-Value of the object's name.
         ========================================================================
         """
         return hash(self.name)

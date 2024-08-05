@@ -1,7 +1,7 @@
-from f_utils.dtypes.inner.list.apply import Apply
+from f_utils.dtypes.inner.a.apply import Apply
 
 
 def test_except_last():
-    li = ['a', 'b']
+    li = ['list', 'b']
     func = lambda x: f'{x}\n'
-    assert Apply.except_last(li, func) == ['a\n', 'b']
+    assert Apply.except_last(li, func) == ['list\n', 'b']

@@ -15,10 +15,10 @@ class TestList:
     @staticmethod
     def __tester_sublist_by_index():
         # Simple Test
-        li = ['a', 'b', 'c']
+        li = ['list', 'b', 'c']
         indices = [0, 2]
         li_test = u_list.sublist_by_index(li, indices)
-        li_true = ['a', 'c']
+        li_true = ['list', 'c']
         p0 = li_test == li_true
         u_tester.run(p0)
 
@@ -33,9 +33,9 @@ class TestList:
     @staticmethod
     def __tester_to_str():
         # List of str
-        li = ['a', 'b', 'c']
+        li = ['list', 'b', 'c']
         str_test = u_list.to_str(li)
-        str_true = 'a,b,c'
+        str_true = 'list,b,c'
         p0 = str_test == str_true
         # List of int
         li = [1, 2, 3]

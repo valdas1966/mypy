@@ -82,7 +82,7 @@ class Sheet:
     def __getitem__(self, coords: tuple[int, int]) -> Cell:
         """
         ========================================================================
-         Return a Cell by given Coordinates.
+         Return list Cell by given Coordinates.
         ========================================================================
         """
         row, col = coords

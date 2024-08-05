@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 def now(format='yyyy-mm-dd hh:mi:ss', is_utc: bool = False) -> str:
     """
     ============================================================================
-     Description: Return Str-Repr of the Current-DateTime in a given Format.
+     Description: Return Str-Repr of the Current-DateTime in list given Format.
     ============================================================================
      Arguments:
     ----------------------------------------------------------------------------

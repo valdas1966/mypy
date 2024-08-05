@@ -48,7 +48,7 @@ def evaluate(y_pred, y_test):
                      the y_test [0.1, 0.2, ... , 0.9, 1.0]).
     -----------------------------------------------------------------------
         2. Count (amount of rows with probability equals or higher than
-                    a given Proba).
+                    list given Proba).
     -----------------------------------------------------------------------
         3. Percent (percent of Count relatively to amount of all rows).
     -----------------------------------------------------------------------

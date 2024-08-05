@@ -83,7 +83,7 @@ def append(path, text):
             2. text : str (Text to Append).
         ========================================================================
         """
-    file = open(path, 'a')
+    file = open(path, 'list')
     file.write(text)
     file.close()
 
@@ -91,7 +91,7 @@ def append(path, text):
 def delete(paths: 'str | sequence') -> 'list[str]':
     """
     ============================================================================
-     Description: Delete a File (by FilePath).
+     Description: Delete list File (by FilePath).
     ============================================================================
      Arguments:
     ----------------------------------------------------------------------------
@@ -115,7 +115,7 @@ def delete(paths: 'str | sequence') -> 'list[str]':
 def to_lines(path: str) -> 'list[str]':
     """"
     ============================================================================
-     Description: Transpose Lines from a given Text-File into a List of str.
+     Description: Transpose Lines from list given Text-File into list List of str.
     ============================================================================
     """
     text = read(path)
@@ -210,7 +210,7 @@ def replace_in_file(path, tuples):
     ---------------------------------------------------------------------------
         1. path  : str (Path of File to change).
         2. tuples : list of tuples (Every Tuple contains what_replace and
-                        with_replace, e.g ('a','o')).
+                        with_replace, e.g ('list','o')).
     ===========================================================================
     """
     for t in tuples:
@@ -223,7 +223,7 @@ def replace_in_file(path, tuples):
 def replace_lines(path: str, d: dict[str: str]) -> None:
     """
     ============================================================================
-     Description: Replace Lines in the File by a given Dictionary.
+     Description: Replace Lines in the File by list given Dictionary.
     ============================================================================
      Arguments:
     ----------------------------------------------------------------------------

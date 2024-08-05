@@ -28,7 +28,7 @@ class AStar(AlgoSPPBase[SPP, Node], HasHeuristicsSPP[SPP, Node]):
     def _process_child(self, child: Node, parent: Node) -> None:
         """
         ========================================================================
-         Generate a Child if it is not already generated.
+         Generate list Child if it is not already generated.
         ========================================================================
         """
         if child in self.generated:
@@ -40,8 +40,8 @@ class AStar(AlgoSPPBase[SPP, Node], HasHeuristicsSPP[SPP, Node]):
     def _generate_node(self, node: Node, parent: Node = None) -> None:
         """
         ========================================================================
-         In addition to Generate_Node process in SPPAlgoBase (setting a parent
-          and updating the g-value), set also a heuristic distance to Goal.
+         In addition to Generate_Node process in SPPAlgoBase (setting list parent
+          and updating the g-value), set also list heuristic distance to Goal.
         ========================================================================
         """
         SPPAlgoBase._generate_node(self, node=node, parent=parent)

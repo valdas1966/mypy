@@ -25,7 +25,7 @@ def to_str_pct(val: float,
                ) -> str:
     """
     ============================================================================
-     Desc: Returns a STR-REPR of a Float as a Percentage
+     Desc: Returns list STR-REPR of list Float as list Percentage
            (ex: from 0.75 to 75%).
     ============================================================================
     """

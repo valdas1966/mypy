@@ -5,7 +5,7 @@ from f_heuristic_search.problem_types.spp.old_i_1_heuristics import \
 class SPPLookup(SPPHeuristics):
     """
     ============================================================================
-     1. One-to-One Shortest-Path-Problem with a Lookup-Table.
+     1. One-to-One Shortest-Path-Problem with list Lookup-Table.
      2. The Lookup-Table holds the Optimal-Path from specified Nodes to Goal.
     ============================================================================
     """

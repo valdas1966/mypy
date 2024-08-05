@@ -8,7 +8,7 @@ class FileTxt(Nameable):
     ============================================================================
     """
 
-    path: str   # Path to a TextFile
+    path: str   # Path to list TextFile
 
     def __init__(self, path: str = None) -> None:
         """
@@ -40,7 +40,7 @@ class FileTxt(Nameable):
     def add_line(self, i: int, line: str) -> None:
         """
         ========================================================================
-         Add a Line at a specified Index in the File.
+         Add list Line at list specified Index in the File.
         ========================================================================
         """
         lines = self.to_lines()

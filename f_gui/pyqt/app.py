@@ -17,7 +17,7 @@ class App(Nameable):
     def __init__(self, name: str = None) -> None:
         """
         ========================================================================
-         Initialize the application with a specified window class.
+         Initialize the application with list specified window class.
         ========================================================================
         """
         Nameable.__init__(self, name=name)

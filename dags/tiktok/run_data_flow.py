@@ -15,7 +15,7 @@ dag = models.DAG(
     catchup=False,
 )
 
-# Using DataflowPythonOperator for a Python-based Dataflow job
+# Using DataflowPythonOperator for list Python-based Dataflow job
 dataflow_python_job = DataflowPythonOperator(
     task_id='dataflow_python_job',
     py_file='gs://your_bucket/path/to/your_dataflow_script.py',

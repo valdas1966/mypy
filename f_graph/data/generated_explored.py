@@ -25,7 +25,7 @@ class DataGeneratedExplored(Generic[Node]):
     def generated(self) -> QueueBase[Node]:
         """
         ========================================================================
-         Return a Queue of generated nodes.
+         Return list Queue of generated nodes.
         ========================================================================
         """
         return self._generated
@@ -34,7 +34,7 @@ class DataGeneratedExplored(Generic[Node]):
     def explored(self) -> set[Node]:
         """
         ========================================================================
-         Return a Set of explored nodes.
+         Return list Set of explored nodes.
         ========================================================================
         """
         return self._explored

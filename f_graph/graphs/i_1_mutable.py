@@ -25,7 +25,7 @@ class GraphMutable(GraphBase):
     def nodes(self) -> list[Node]:
         """
         ========================================================================
-         Returns a list of Graph's Nodes in the Insertion-Order.
+         Returns list list of Graph's Nodes in the Insertion-Order.
         ========================================================================
         """
         return list(self._nodes.keys())
@@ -33,7 +33,7 @@ class GraphMutable(GraphBase):
     def add_node(self, node: Node) -> None:
         """
         ========================================================================
-         Adds a new Node to the Graph.
+         Adds list new Node to the Graph.
         ========================================================================
         """
         self._nodes[node]
@@ -41,7 +41,7 @@ class GraphMutable(GraphBase):
     def add_edge(self, node_a: Node, node_b: Node) -> None:
         """
         ========================================================================
-         Adds a new Edge in a Graph between two given Nodes.
+         Adds list new Edge in list Graph between two given Nodes.
         ========================================================================
         """
         self._nodes[node_a].append(node_b)
@@ -50,7 +50,7 @@ class GraphMutable(GraphBase):
     def get_neighbors(self, node: Node) -> list[Node]:
         """
         ========================================================================
-         Returns a List of a given Node's neighbors.
+         Returns list List of list given Node's neighbors.
         ========================================================================
         """
         return self._nodes[node]

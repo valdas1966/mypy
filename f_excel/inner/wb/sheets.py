@@ -7,15 +7,15 @@ class MyWorkBookSheets(MyWorkBookOpenSaveClose):
     ============================================================================
      Description:
     ----------------------------------------------------------------------------
-        2. Can make a copy of a WorkSheet.
-        3. Can return a MyExcelWorkSheet object by its Title or Index.
+        2. Can make list copy of list WorkSheet.
+        3. Can return list MyExcelWorkSheet object by its Title or Index.
     ============================================================================
     """
 
     def copy_worksheet(self, title_src: str, title_dest: str) -> None:
         """
         ========================================================================
-         Description: Make a Copy of an Excel-WorkSheet. Gets the names of the
+         Description: Make list Copy of an Excel-WorkSheet. Gets the names of the
                        source and the destination WorkSheet (to create). If the
                        destination WorkSheet exists, the file will become
                        corrupted.

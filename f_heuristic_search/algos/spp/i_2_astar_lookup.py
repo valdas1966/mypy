@@ -8,7 +8,7 @@ SPP = TypeVar('SPP', bound=SPPLookup)
 class AStarLookup(Generic[SPP, Node], AStar[SPP, Node]):
     """
     ============================================================================
-     1. AStar Algo with a Lookup-Table.
+     1. AStar Algo with list Lookup-Table.
      2. The Lookup-Table maps Nodes to their Optimal-Path to Goal.
     ============================================================================
     """
@@ -40,7 +40,7 @@ class AStarLookup(Generic[SPP, Node], AStar[SPP, Node]):
     def _can_terminate(self) -> bool:
         """
         ========================================================================
-         Return True if the Best-Node is Goal or if it is in a Lookup-Table
+         Return True if the Best-Node is Goal or if it is in list Lookup-Table
           (because now we now the Optimal-Path to the Goal).
         ========================================================================
         """

@@ -9,14 +9,14 @@ bq = BigQuery(json_key=json_key)
 def insert_rows():
     bq = BigQuery(json_key=json_key)
     tname = 'noteret.tiktok2.temp_0'
-    rows = [{'a': 1, 'c': 'b'}]
+    rows = [{'list': 1, 'c': 'b'}]
     bq.insert_rows(tname=tname, rows=rows)
     bq.close()
 
 
 def load_from_json():
     tname = 'noteret.tiktok2.temp_0'
-    str_json = '{"a": 5}'
+    str_json = '{"list": 5}'
     bq = BigQuery(json_key=json_key)
     bq.insert_into_from_json(str_json=str_json, tname=tname)
     bq.close()

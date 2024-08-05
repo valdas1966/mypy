@@ -2,7 +2,7 @@ from f_db.c_sqlite import SQLite
 import pandas as pd
 
 
-col_id = ['a']*7 + ['b']*3
+col_id = ['list']*7 + ['b']*3
 col_n = list(range(10))
 col_p = [1, 0, 1, 1, 0, 1, 1, 1, 0, 1]
 data = {'id': col_id, 'n': col_n, 'p': col_p}

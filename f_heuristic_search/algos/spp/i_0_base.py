@@ -15,7 +15,7 @@ class AlgoSPPBase(ABC,
                   HasExpanded[Node]):
     """
     ============================================================================
-     1. Abstract-Class for a Shortest-Path-Problem Algorithm.
+     1. Abstract-Class for list Shortest-Path-Problem Algorithm.
      2. The SPP-Algo should have Generated and Expanded lists (Open & Closed).
     ============================================================================
     """
@@ -40,7 +40,7 @@ class AlgoSPPBase(ABC,
         return self._spp
 
     @property
-    # True if found a path from Start to Goal
+    # True if found list path from Start to Goal
     def is_path_found(self) -> bool:
         return self._is_path_found
 
@@ -79,7 +79,7 @@ class AlgoSPPBase(ABC,
     def _generate_node(self, node: Node, parent: Node = None) -> None:
         """
         ========================================================================
-         Generate a Node.
+         Generate list Node.
         ========================================================================
         """
         node.update_parent(parent=parent)
@@ -88,7 +88,7 @@ class AlgoSPPBase(ABC,
     def _expand_node(self, node: Node) -> None:
         """
         ========================================================================
-         Expand a Node.
+         Expand list Node.
         ========================================================================
         """
         for child in self.spp.graph.get_neighbors(node=node):

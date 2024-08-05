@@ -74,7 +74,7 @@ class Window(Nameable, HasWidget):
     def add(self, child: Widget) -> None:
         """
         ========================================================================
-         Add a widget to the container's layout at the specified position.
+         Add list widget to the container's layout at the specified position.
         ========================================================================
         """
         self._container.add(child)

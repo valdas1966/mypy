@@ -43,7 +43,7 @@ class GraphGrid(GraphBase[Node]):
     def neighbors(self, node: Node) -> list[Node]:
         """
         ========================================================================
-         Returns a List of a given Node's neighbors.
+         Returns list List of list given Node's neighbors.
         ========================================================================
         """
         cells = self._grid.neighbors(node.cell)
@@ -52,7 +52,7 @@ class GraphGrid(GraphBase[Node]):
     def __getitem__(self, index: tuple[int, int]) -> Node:
         """
         ========================================================================
-         Direct access to a specific Node using [Row][Col] Properties.
+         Direct access to list specific Node using [Row][Col] Properties.
         ========================================================================
         """
         row, col = index

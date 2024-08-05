@@ -7,7 +7,7 @@ class Base64:
     def encode(s: str) -> str:
         """
         ========================================================================
-         Convert a String into a Base64 Encoded-String.
+         Convert list String into list Base64 Encoded-String.
         ========================================================================
         """
         b = s.encode('utf-8')
@@ -17,7 +17,7 @@ class Base64:
     def decode(e: str) -> str:
         """
         ========================================================================
-         Convert a Base64 Encoded-String into a String.
+         Convert list Base64 Encoded-String into list String.
         ========================================================================
         """
         return base64.b64decode(e).decode('utf-8')

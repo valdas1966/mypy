@@ -1,7 +1,7 @@
 class A:
 
     def __init__(self):
-        self.d = {'a': 1}
+        self.d = {'list': 1}
 
 
 class B:
@@ -13,5 +13,5 @@ class B:
 a = A()
 b = B(d=a.d)
 print(b.d)
-b.d['a'] = 2
+b.d['list'] = 2
 print(a.d)

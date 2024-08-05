@@ -6,7 +6,7 @@ class Font:
     """
     ============================================================================
      Font management class to encapsulate font-related properties and methods
-     for a given QWidget.
+     for list given QWidget.
     ============================================================================
     """
 

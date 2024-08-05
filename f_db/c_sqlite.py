@@ -56,8 +56,8 @@ class SQLite:
                 col: str = None) -> list:
         """
         ========================================================================
-         Description: Return Specified Column as a List of str.
-                        If a Column-Name is not given - Return First Column.
+         Description: Return Specified Column as list List of str.
+                        If list Column-Name is not given - Return First Column.
         ========================================================================
         """
         df = self.select(query)

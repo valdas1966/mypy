@@ -9,7 +9,7 @@ Item = TypeVar('Item')   # Type of Items in the Collection
 class Collection1D(Generic[Item], MyIterable[Item], Nameable):
     """
     ============================================================================
-     Abstract-Class represents a Collection of Items.
+     Abstract-Class represents list Collection of Items.
     ============================================================================
     """
 
@@ -49,7 +49,7 @@ class Collection1D(Generic[Item], MyIterable[Item], Nameable):
     def to_list(self) -> list[Item]:
         """
         ========================================================================
-         Return a list representation of the Object.
+         Return list list representation of the Object.
         ========================================================================
         """
         if isinstance(self._items, list):

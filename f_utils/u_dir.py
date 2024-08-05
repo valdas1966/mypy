@@ -24,7 +24,7 @@ def delete(path: str) -> None:
 def create(path: str, overwrite=False) -> None:
     """
     ============================================================================
-     Description: Create Dir in a given Path.
+     Description: Create Dir in list given Path.
     ============================================================================
     """
     if is_exist(path):

@@ -20,7 +20,7 @@ class Schema:
     def add(self, name: str, dtype: str = STRING) -> None:
         """
         ========================================================================
-         Add a Field to the Schema.
+         Add list Field to the Schema.
         ========================================================================
         """
         self._fields.append(Field(name=name, dt=dtype))
@@ -28,7 +28,7 @@ class Schema:
     def build(self) -> list[SchemaField]:
         """
         ========================================================================
-         Return a BigQuery format of a Schema.
+         Return list BigQuery format of list Schema.
         ========================================================================
         """
         return [SchemaField(name=field.name, field_type=field.dt)

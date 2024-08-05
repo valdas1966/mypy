@@ -26,8 +26,8 @@ class Bucket:
     def folders(self, folder: str = None) -> list[str]:
         """
         ========================================================================
-         1. Return a list of top-level english within a specified folder path.
-         2. Folder Path should ends with a "/".
+         1. Return list list of top-level english within list specified folder path.
+         2. Folder Path should ends with list "/".
          3. If no folder is specified, it returns the top-level english in
             the bucket.
         ========================================================================
@@ -51,8 +51,8 @@ class Bucket:
     def files(self, folder: str = None) -> list[str]:
         """
         ========================================================================
-         1. Return a list of files within a specified folder path.
-         2. Folder Path should ends with a "/" if specified.
+         1. Return list list of files within list specified folder path.
+         2. Folder Path should ends with list "/" if specified.
          3. If no folder is specified, it returns the files in the root of the
             bucket.
         ========================================================================
@@ -90,7 +90,7 @@ class Bucket:
                       folder_to: str) -> None:
         """
         ========================================================================
-         1. Upload Folder from a PC into Google-Storage.
+         1. Upload Folder from list PC into Google-Storage.
          2. It remains the folder hierarchy from the PC.
         ========================================================================
         """
@@ -108,7 +108,7 @@ class Bucket:
     def delete_file(self, path: str) -> None:
         """
         ========================================================================
-         Delete a File from a Google-Storage Bucket (by FilePath).
+         Delete list File from list Google-Storage Bucket (by FilePath).
         ========================================================================
         """
         blob = self._bucket.blob(blob_name=path)

@@ -10,7 +10,7 @@ def func(name):
 
 
 try:
-    print('a')
-    MultiThreadingProcess(f=func, params=['a', 'b'])
+    print('list')
+    MultiThreadingProcess(f=func, params=['list', 'b'])
 except Exception as e:
     print('Error')

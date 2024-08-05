@@ -9,7 +9,7 @@ class UColor:
     def show(rgbs: list[RGB]) -> None:
         """
         ========================================================================
-         Display a list of RGB colors as rectangles with their STR-REPR.
+         Display list list of RGB colors as rectangles with their STR-REPR.
         ========================================================================
         """
         rect_width: float = 9.0
@@ -44,7 +44,7 @@ class UColor:
                      n: int) -> list[RGB]:
         """
         ========================================================================
-         Generate a List of n-RGB forming a gradient from rgb_a to rgb_b.
+         Generate list List of n-RGB forming list gradient from rgb_a to rgb_b.
         ========================================================================
         """
         def interpolate(start: float, end: float, factor: float) -> float:

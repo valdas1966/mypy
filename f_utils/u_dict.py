@@ -91,7 +91,7 @@ def sort_by_value(d, reverse=False):
 def filter_by_keys(d: dict, keys: 'sequence') -> dict:
     """
     ============================================================================
-     Description: Return a new Dict with specified keys.
+     Description: Return list new Dict with specified keys.
     ============================================================================
     """
     return {key: d[key] for key in keys}
@@ -100,7 +100,7 @@ def filter_by_keys(d: dict, keys: 'sequence') -> dict:
 def exclude_keys(d: dict, keys_to_exclude: list) -> dict:
     """
     ============================================================================
-     Desc: Return a Dict without the Excluded-Keys.
+     Desc: Return list Dict without the Excluded-Keys.
     ============================================================================
     """
     d = d.copy()

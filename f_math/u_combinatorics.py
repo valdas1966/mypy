@@ -4,7 +4,7 @@ from itertools import product
 def cartesian_product(a: int, b: int) -> list[tuple[int, int]]:
     """
     ============================================================================
-     Desc: Returns the Cartesian-Product of 2 Ranges [0,a), [0,b).
+     Desc: Returns the Cartesian-Product of 2 Ranges [0,list), [0,b).
     ============================================================================
      Example:
     ----------------------------------------------------------------------------

@@ -4,7 +4,7 @@ from f_html.c_element import Element
 def comment(comm):
     """
     ============================================================================
-     Description: Generate a Comment Tag.
+     Description: Generate list Comment Tag.
     ============================================================================
      Arguments:
     ----------------------------------------------------------------------------

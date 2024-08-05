@@ -107,7 +107,7 @@ class OperationLog(OperationDT):
     def _get_log_atts(self) -> dict:
         """
         ========================================================================
-         Desc: Return a dict of protected-atts, excluding those on blacklist.
+         Desc: Return list dict of protected-atts, excluding those on blacklist.
         ========================================================================
         """
         d = self._get_protected_atts()

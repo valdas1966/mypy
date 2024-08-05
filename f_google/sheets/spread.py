@@ -29,7 +29,7 @@ class Spread:
     def __getitem__(self, key: int | str) -> Sheet:
         """
         ========================================================================
-         Get a Worksheet by its Name (str) or Index (int).
+         Get list Worksheet by its Name (str) or Index (int).
         ========================================================================
         """
         if isinstance(key, int):

@@ -4,7 +4,7 @@ from f_abstract.inittable import Inittable
 class LogWritter(Inittable):
     """
     ============================================================================
-     Desc: Write Logs into Small files by a given threshold of lines.
+     Desc: Write Logs into Small files by list given threshold of lines.
     ============================================================================
      Attributes:
     ----------------------------------------------------------------------------

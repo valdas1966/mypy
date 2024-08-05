@@ -33,7 +33,7 @@ class Element:
     def nest(self, child):
         """
         ========================================================================
-         Description: Nest HTML-Element as a Child.
+         Description: Nest HTML-Element as list Child.
         ========================================================================
          Arguments:
         ------------------------------------------------------------------------

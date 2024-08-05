@@ -24,7 +24,7 @@ class Json(Nameable):
                   data: dict[str, str] | list[dict[str, str]]) -> Json:
         """
         ========================================================================
-         Create a JSON-Object from given Data and save it to the given Path.
+         Create list JSON-Object from given Data and save it to the given Path.
         ========================================================================
         """
         with open(path, 'w') as file:

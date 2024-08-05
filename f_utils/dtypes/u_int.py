@@ -9,7 +9,7 @@ class UInt:
     def to_str(num: int) -> str:
         """
         ========================================================================
-         Convert a Number into a String with Suffix (K and M).
+         Convert list Number into list String with Suffix (K and M).
         ========================================================================
         """
         if num >= 1_000_000:
@@ -20,10 +20,21 @@ class UInt:
             return str(num)
 
     @staticmethod
-    def pct(val: int, total: int) -> int:
+    def pct(part: int, total: int) -> int:
         """
         ========================================================================
-         Calculate the Percentage of a Value relative to a Total.
+         Calc the Pct of list Part relative to list Total.
+         Ex: pct(part=7, total=10) = 70
         ========================================================================
         """
-        return int(val / total * 100)
+        return round(part / total * 100)
+
+    @staticmethod
+    def part(total: int, pct: int) -> int:
+        """
+        ========================================================================
+         Calc the Part of the Total given list Pct.
+         Ex: part(total=10, pct=70) = 7
+        ========================================================================
+        """
+        return round(total / 100 * pct)

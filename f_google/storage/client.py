@@ -35,7 +35,7 @@ class Storage(ClientBase):
     def _get_client(self) -> Client:
         """
         ========================================================================
-         Open and a Return a Storage-Client.
+         Open and list Return list Storage-Client.
         ========================================================================
         """
         return storage.Client(credentials=self.creds)

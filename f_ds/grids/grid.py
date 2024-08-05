@@ -35,7 +35,7 @@ class Grid(Collection1D[Cell], HasRowsCols):
     def to_list(self) -> list[Cell]:
         """
         ========================================================================
-         Return a flattened list representation of the 2D Object.
+         Return list flattened list representation of the 2D Object.
         ========================================================================
         """
         return [cell for row in self._items for cell in row]
@@ -44,7 +44,7 @@ class Grid(Collection1D[Cell], HasRowsCols):
     def distance(cell_a: Cell, cell_b: Cell) -> int:
         """
         ========================================================================
-         Return a Manhattan-Distance between the two given Cells.
+         Return list Manhattan-Distance between the two given Cells.
         ========================================================================
         """
         diff_row = abs(cell_a.row - cell_b.row)
@@ -54,7 +54,7 @@ class Grid(Collection1D[Cell], HasRowsCols):
     def neighbors(self, cell: Cell) -> list[Cell]:
         """
         ========================================================================
-         Return List of a valid Cell-Neighbors in Clockwise-Order.
+         Return List of list valid Cell-Neighbors in Clockwise-Order.
         ========================================================================
         """
         cells_within = [self._items[n.row][n.col]
@@ -66,7 +66,7 @@ class Grid(Collection1D[Cell], HasRowsCols):
     def __getitem__(self, index) -> list[Cell]:
         """
         ========================================================================
-         1. Direct access to a Row of Cells via the [Row] Property.
+         1. Direct access to list Row of Cells via the [Row] Property.
          2. Direct access specific Cell using [Row][Col] Properties.
         ========================================================================
         """

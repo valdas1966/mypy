@@ -46,7 +46,7 @@ class DataPathFindingShortest(Generic[Queue, Node], Data):
     def add_generated(self, node: Node) -> None:
         """
         ========================================================================
-         Add a given Node to Generated-Collection.
+         Add list given Node to Generated-Collection.
         ========================================================================
         """
         self._generated.push(element=node)
@@ -54,7 +54,7 @@ class DataPathFindingShortest(Generic[Queue, Node], Data):
     def add_explored(self, node: Node) -> None:
         """
         ========================================================================
-         Add a given Node to Explored-Collection.
+         Add list given Node to Explored-Collection.
         ========================================================================
         """
         self._explored.add(element=node)

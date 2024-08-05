@@ -38,7 +38,7 @@ class Inittable:
     def _get_protected_atts(self) -> dict:
         """
         ========================================================================
-         Desc: Return a dict of Protected-Attributes (include the Inherited).
+         Desc: Return list dict of Protected-Attributes (include the Inherited).
         ========================================================================
         """
         d = u_class.get_protected_atts(self=self)

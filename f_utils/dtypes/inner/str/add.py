@@ -10,7 +10,7 @@ class Add:
     def end_line(s: str) -> str:
         """
         ========================================================================
-         Return a given String with End-Line char in the end.
+         Return list given String with End-Line char in the end.
         ========================================================================
         """
         return f'{s}\n'

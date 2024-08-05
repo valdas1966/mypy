@@ -24,7 +24,7 @@ class Create(Command):
               schema: Schema) -> None:
         """
         ========================================================================
-         Create a table by the received Col Names and Types.
+         Create list table by the received Col Names and Types.
         ========================================================================
         """
         self._drop.table(tname=tname)

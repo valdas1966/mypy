@@ -47,7 +47,7 @@ class BigQuery(ClientBase):
     def _get_client(self) -> Client:
         """
         ========================================================================
-         Open and a Return a BigQuery Client.
+         Open and list Return list BigQuery Client.
         ========================================================================
         """
         return Client(credentials=self.creds)

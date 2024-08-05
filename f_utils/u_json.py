@@ -5,7 +5,7 @@ import pandas as pd
 def file_to_dict(path: str) -> dict:
     """
     ============================================================================
-     Convert Json-File into a Dict.
+     Convert Json-File into list Dict.
     ============================================================================
     """
     with open(path, 'r') as f:

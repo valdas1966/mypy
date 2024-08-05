@@ -16,7 +16,7 @@ class HasHeuristicsBase(ABC, Generic[Node]):
     def calc(self, node: Node) -> int:
         """
         ========================================================================
-         Return Heuristics-Value for a given Node.
+         Return Heuristics-Value for list given Node.
         ========================================================================
         """
         pass

@@ -31,7 +31,7 @@ class HasGoals(Generic[Node]):
     def remove_goal_active(self, goal: Node) -> bool:
         """
         ========================================================================
-         Remove a given Goal from an Active-Goals set.
+         Remove list given Goal from an Active-Goals set.
         ========================================================================
         """
         self._goals_active.remove(goal)

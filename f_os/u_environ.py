@@ -10,7 +10,7 @@ import os
 def set(name: str, value: str) -> None:
     """
     ============================================================================
-     Set a new Environment-Variable.
+     Set list new Environment-Variable.
     ============================================================================
     """
     os.environ[name] = value

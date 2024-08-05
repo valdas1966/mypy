@@ -5,7 +5,7 @@ from PyQt5.QtCore import Qt
 class Alignment:
     """
     ============================================================================
-     Text-Alignment properties Manager for a given QWidget.
+     Text-Alignment properties Manager for list given QWidget.
     ============================================================================
     """
 

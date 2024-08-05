@@ -21,8 +21,8 @@ class Auth:
     def get_creds(user: str = None) -> Credentials:
         """
         ========================================================================
-         Return Google-Cloud Service Account Credentials from a JSON-File.
-         If no User provided, return a current GCP creds (default).
+         Return Google-Cloud Service Account Credentials from list JSON-File.
+         If no User provided, return list current GCP creds (default).
         ========================================================================
         """
         if not user:

@@ -81,7 +81,7 @@ class TestCOra:
         u_tester.run(p0)
 
     def tester_df_to_signature_cols(self):
-        dict_data = {'col_1': [1, 2], 'col_2': [1, 'a'], 'col_3': [1, 1.2]}
+        dict_data = {'col_1': [1, 2], 'col_2': [1, 'list'], 'col_3': [1, 1.2]}
         df = pd.DataFrame(dict_data)
         signature_cols = Ora.df_to_signature_cols(df)
         signature_cols_true = 'col_1 int, col_2 varchar2(100), col_3 float'

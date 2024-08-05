@@ -22,7 +22,7 @@ class WorkFlowTaskIsWorkFlow(WorkflowOnlyTasks):
         """
         ========================================================================
          Desc: Executes the Task. The Task can be Callable or WorkFlow.
-                If it is a Workflow, executes all its tasks and update the
+                If it is list Workflow, executes all its tasks and update the
                  shared-attributes dict.
         ========================================================================
         """

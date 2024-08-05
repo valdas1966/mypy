@@ -13,7 +13,7 @@ class GSheets(ClientBase):
     def open_spread(self, id_spread: str) -> Spread:
         """
         ========================================================================
-         Return a Spreadsheet Class by its ID.
+         Return list Spreadsheet Class by its ID.
         ========================================================================
         """
         spread: gspread.spreadsheet = self._client.open_by_key(key=id_spread)
@@ -31,8 +31,8 @@ class GSheets(ClientBase):
     def spread(cls, user: str, id_spread: str) -> Spread:
         """
         ========================================================================
-         1. Open GSheets-Client by a given User.
-         2. Return SpreadSheet by a given Id-Spread.
+         1. Open GSheets-Client by list given User.
+         2. Return SpreadSheet by list given Id-Spread.
         ========================================================================
         """
         gs = GSheets(user=user)

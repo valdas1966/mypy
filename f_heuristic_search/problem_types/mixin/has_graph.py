@@ -7,7 +7,7 @@ Graph = TypeVar('Graph', bound=GraphBase)
 class HasGraph(Generic[Graph]):
     """
     ============================================================================
-     Mixin-Class for Problems that are represented by a Graph.
+     Mixin-Class for Problems that are represented by list Graph.
     ============================================================================
     """
 

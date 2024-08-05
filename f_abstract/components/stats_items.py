@@ -7,7 +7,7 @@ T = TypeVar('T')
 class StatsItems(Generic[T], Collection1D[T]):
     """
     ============================================================================
-     Component-Class for Stats about a Collection based on a spec condition.
+     Component-Class for Stats about list Collection based on list spec condition.
     ============================================================================
     """
 
@@ -27,7 +27,7 @@ class StatsItems(Generic[T], Collection1D[T]):
     def to_list(self) -> list[T]:
         """
         ========================================================================
-         Return a list of items that meet the predicate.
+         Return list list of items that meet the predicate.
         ========================================================================
         """
         return list(filter(self._predicate, self._items))

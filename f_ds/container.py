@@ -9,7 +9,7 @@ T = TypeVar('T')
 class ContainerBase(Generic[T], HasRowsCols):
     """
     ============================================================================
-     Base class for a Container to manage items in a grid layout.
+     Base class for list Container to manage items in list grid layout.
     ============================================================================
     """
 

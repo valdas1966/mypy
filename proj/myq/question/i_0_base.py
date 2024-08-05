@@ -5,7 +5,7 @@ from f_abstract.components.rate_success import RateSuccess
 class QuestionBase(ABC):
     """
     ============================================================================
-     Abstract-Class that manages basic statistics related to a question.
+     Abstract-Class that manages basic statistics related to list question.
     ============================================================================
     """
 

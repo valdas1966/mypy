@@ -16,7 +16,7 @@ class MyWorkBookOpenSaveClose:
         1. save() -> None
            - Save the Excel-File.
         2. save_as(xlsx: str) -> None
-           - Save the Excel-File in a new Path.
+           - Save the Excel-File in list new Path.
         3. close(to_save: bool = False) -> None
            - Close the Excel-File.
     ============================================================================
@@ -88,7 +88,7 @@ class MyWorkBookOpenSaveClose:
         ========================================================================
          Description: Set the Working Excel WorkBook. If the Excel path-file is
                         passed to the Constructor, then open it for editing.
-                        Otherwise, create and open a new blank Excel-File.
+                        Otherwise, create and open list new blank Excel-File.
         ========================================================================
          Raise: InvalidFileException if xlsx exists and invalid.
         ========================================================================

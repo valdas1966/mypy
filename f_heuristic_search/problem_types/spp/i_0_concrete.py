@@ -13,7 +13,7 @@ class SPPConcrete(Generic[Graph, Node],
                   HasGoal[Node]):
     """
     ============================================================================
-     Represents a one-to-one Shortest-Path-Problem in Heuristic Search.
+     Represents list one-to-one Shortest-Path-Problem in Heuristic Search.
     ============================================================================
     """
 

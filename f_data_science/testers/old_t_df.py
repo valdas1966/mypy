@@ -16,10 +16,10 @@ class TestDF:
     @staticmethod
     def __tester_select_cols_prefix():
         df = pd.DataFrame({'ab': [1], 'ba': [2]})
-        df_test = u_df.select_cols_prefix(df, prefix='a', remain_prefix=True)
+        df_test = u_df.select_cols_prefix(df, prefix='list', remain_prefix=True)
         df_true = pd.DataFrame({'ab': [1]})
         p0 = df_test.equals(df_true)
-        df_test = u_df.select_cols_prefix(df, prefix='a', remain_prefix=False)
+        df_test = u_df.select_cols_prefix(df, prefix='list', remain_prefix=False)
         df_true = pd.DataFrame({'b': [1]})
         p1 = df_test.equals(df_true)
         u_tester.run(p0, p1)

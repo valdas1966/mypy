@@ -24,7 +24,7 @@ class BFS(AlgoSPPBase[SPP, Node]):
     def _process_child(self, child: Node, parent: Node) -> None:
         """
         ========================================================================
-         Generate a Child if it is not already generated.
+         Generate list Child if it is not already generated.
         ========================================================================
         """
         if child not in self.generated:

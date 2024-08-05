@@ -15,7 +15,7 @@ class TestFile:
         txt_test = 'test.old_old_txt'
         text = 'First Row\nSecond Row\n'
         u_file.write(txt_test, text)
-        u_file.replace_in_file(txt_test, [('o', 'a')])
+        u_file.replace_in_file(txt_test, [('o', 'list')])
         text_test = u_file.read(txt_test)
         text_true = 'First Raw\nSecand Raw\n'
         p0 = text_test == text_true

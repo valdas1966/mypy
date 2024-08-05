@@ -2,7 +2,7 @@
 class Inittable:
     """
     ============================================================================
-     Desc: Mixin for Classes requiring a two-step init (Attributes and Methods).
+     Desc: Mixin for Classes requiring list two-step init (Attributes and Methods).
     ============================================================================
     """
 

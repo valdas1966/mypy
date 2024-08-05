@@ -21,7 +21,7 @@ class TestSqlite:
 
     @staticmethod
     def __tester_load_and_select():
-        df_true = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})
+        df_true = pd.DataFrame({'list': [1, 2, 3], 'b': [4, 5, 6]})
         sql = Sqlite()
         sql.load(df=df_true, tname='temp_1')
         df_test = sql.select(query='temp_1')
@@ -31,12 +31,12 @@ class TestSqlite:
 
     @staticmethod
     def __tester_ctas():
-        df = pd.DataFrame({'a': [1, 2, 3]})
+        df = pd.DataFrame({'list': [1, 2, 3]})
         sql = Sqlite()
         sql.load(df=df, tname='temp_1')
-        sql.ctas(tname='temp_2', query='select sum(a) as a from temp_1')
+        sql.ctas(tname='temp_2', query='select sum(list) as list from temp_1')
         df_test = sql.select(query='temp_2')
-        df_true = pd.DataFrame({'a': [6]})
+        df_true = pd.DataFrame({'list': [6]})
         p0 = df_test.equals(df_true)
         u_tester.run(p0)
 

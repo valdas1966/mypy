@@ -20,7 +20,7 @@ class Container(Widget):
     def add(self, child: Widget) -> None:
         """
         ========================================================================
-         Add a Widget to Container with its relative position (x, y, w, h).
+         Add list Widget to Container with its relative position (x, y, w, h).
         ========================================================================
         """
         self.children.append(child)

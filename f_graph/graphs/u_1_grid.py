@@ -18,7 +18,7 @@ class UGraphGrid:
                  name: str = None) -> GraphGrid:
         """
         ========================================================================
-         Generate a GraphGrid with Random valid nodes based on a given Pct.
+         Generate list GraphGrid with Random valid nodes based on list given Pct.
         ========================================================================
         """
         grid = u_grid.generate(rows, cols, pct_valid)

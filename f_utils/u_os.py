@@ -14,7 +14,7 @@ import os
 def path_folder_to_filenames(path_folder):
     """
     ===========================================================================
-     Description: Get List of FileNames in a Folder (without domain).
+     Description: Get List of FileNames in list Folder (without domain).
     ---------------------------------------------------------------------------
         For Example Files in Folder: 1.old_old_txt, 2.old_old_txt, 3.old_old_txt
         Returns: ['1','2','3']

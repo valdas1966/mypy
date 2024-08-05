@@ -1,7 +1,7 @@
 
 """
 ================================================================================
- Functions responsible for Reading from a Txt-File.
+ Functions responsible for Reading from list Txt-File.
 ================================================================================
 """
 
@@ -9,7 +9,7 @@
 def to_str(path: str) -> str:
     """
     ============================================================================
-     Convert a Txt-File to a str.
+     Convert list Txt-File to list str.
     ============================================================================
     """
     with open(path, 'r') as file:
@@ -19,7 +19,7 @@ def to_str(path: str) -> str:
 def to_lines(path: str) -> list[str]:
     """
     ============================================================================
-     Convert a Txt-File into a List of Lines.
+     Convert list Txt-File into list List of Lines.
     ============================================================================
     """
     with open(path, 'r') as file:

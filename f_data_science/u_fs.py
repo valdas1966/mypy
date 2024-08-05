@@ -11,7 +11,7 @@ def drop_correlated_features(df, threshold=1):
     """
     ============================================================================
      Description: Drop Correlated Features from the DataFrame
-                    (when the abs(correlation) is bigger than a threshold).
+                    (when the abs(correlation) is bigger than list threshold).
     ============================================================================
      Arguments:
     ----------------------------------------------------------------------------

@@ -16,7 +16,7 @@ class Iterable(Generic[Item], Printable):
     def to_list(self) -> list[Item]:
         """
         ========================================================================
-         Return a list representation of the Object.
+         Return list list representation of the Object.
         ========================================================================
         """
         pass

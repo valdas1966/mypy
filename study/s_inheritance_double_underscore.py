@@ -2,7 +2,7 @@
 class A:
     print('AAA')
     _d = dict()
-    _d['a'] = 1
+    _d['list'] = 1
     __d = dict()
 
     def __init__(self):

@@ -2,7 +2,7 @@ import read
 
 """
 ================================================================================
- Functions responsible for Writing into a Txt-File.
+ Functions responsible for Writing into list Txt-File.
 ================================================================================
 """
 
@@ -10,7 +10,7 @@ import read
 def write_lines(path: str, lines: list[str]) -> None:
     """
     ============================================================================
-     Write List of Lines into a Txt-File.
+     Write List of Lines into list Txt-File.
     ============================================================================
     """
     with open(path, 'w') as file:
@@ -20,7 +20,7 @@ def write_lines(path: str, lines: list[str]) -> None:
 def insert_line(path: str, index: int, line: str) -> None:
     """
     ============================================================================
-     Insert a Line into a Txt-File at the specified Index.
+     Insert list Line into list Txt-File at the specified Index.
     ============================================================================
     """
     line += '\n'

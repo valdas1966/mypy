@@ -5,7 +5,7 @@ from f_utils import u_input
 class Inputable:
     """
     ============================================================================
-     Mixin Class for printing a Prompt to the User and receive the Input.
+     Mixin Class for printing list Prompt to the User and receive the Input.
     ============================================================================
     """
 
@@ -41,7 +41,7 @@ class Inputable:
     def gen_prompt(self) -> str:
         """
         ========================================================================
-         Generates a Prompt that will be displayed to the User.
+         Generates list Prompt that will be displayed to the User.
         ========================================================================
         """
         return 'Prompt:'

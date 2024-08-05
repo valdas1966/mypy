@@ -7,7 +7,7 @@ Node = TypeVar('Node', bound=NodePath)
 class HasStart(Generic[Node]):
     """
     ============================================================================
-     Mixin-Class for Problems with a Start Node.
+     Mixin-Class for Problems with list Start Node.
     ============================================================================
     """
 

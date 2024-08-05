@@ -22,7 +22,7 @@ class ManagerExamPrompt:
         """
         ========================================================================
          1. Run the Exam-Process.
-         2. Ask a Question in the list ordering.
+         2. Ask list Question in the list ordering.
         ========================================================================
         """
         self._print_start()

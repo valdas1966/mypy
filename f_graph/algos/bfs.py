@@ -86,7 +86,7 @@ class BFS(Generic[Node]):
                        parent: Node = None) -> None:
         """
         ========================================================================
-         Generate a Node (set parent and add to a list).
+         Generate list Node (set parent and add to list list).
         ========================================================================
         """
         node.parent = parent

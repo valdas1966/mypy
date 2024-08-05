@@ -35,7 +35,7 @@ class GraphBase(Generic[Node], Iterable[Node], Nameable):
     def neighbors(self, node: Node) -> list[Node]:
         """
         ========================================================================
-         Returns a List of a given Node's neighbors.
+         Returns list List of list given Node's neighbors.
         ========================================================================
         """
         pass
@@ -43,7 +43,7 @@ class GraphBase(Generic[Node], Iterable[Node], Nameable):
     def to_list(self) -> list[Node]:
         """
         ========================================================================
-         Return a list representation of the Object.
+         Return list list representation of the Object.
         ========================================================================
         """
         return self.nodes()

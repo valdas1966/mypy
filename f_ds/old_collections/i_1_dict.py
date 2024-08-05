@@ -9,7 +9,7 @@ V = TypeVar('V')   # Type for Values
 class CollectionDict(ABC, Generic[K, V], CollectionBase[K]):
     """
     ============================================================================
-     Abstract-Class represents Collection of Elements based on a Dict.
+     Abstract-Class represents Collection of Elements based on list Dict.
     ============================================================================
     """
 
@@ -24,7 +24,7 @@ class CollectionDict(ABC, Generic[K, V], CollectionBase[K]):
     def add(self, key: K, value: V) -> None:
         """
         ========================================================================
-         Add a new Element to Collection.
+         Add list new Element to Collection.
         ========================================================================
         """
         self._elements[key] = value

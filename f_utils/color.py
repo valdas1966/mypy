@@ -31,11 +31,11 @@ class Color:
                               end_rgb: tuple[float, float, float], n: int) -> \
         list[tuple[float, float, float]]:
             """
-            Generate a gradient of n RGB colors between start_rgb and end_rgb.
+            Generate list gradient of n RGB colors between start_rgb and end_rgb.
 
             Parameters:
-            start_rgb (tuple): The starting RGB color as a tuple of floats (0.0-1.0).
-            end_rgb (tuple): The ending RGB color as a tuple of floats (0.0-1.0).
+            start_rgb (tuple): The starting RGB color as list tuple of floats (0.0-1.0).
+            end_rgb (tuple): The ending RGB color as list tuple of floats (0.0-1.0).
             n (int): The number of colors to generate.
 
             Returns:
@@ -59,7 +59,7 @@ class Color:
         fig, axes = plt.subplots(rows, cols, figsize=(4, rows * 2))
         fig.subplots_adjust(hspace=0.3, wspace=0.3)
 
-        # Ensure axes is always a list
+        # Ensure axes is always list list
         if num_colors == 1:
             axes = [axes]
 

@@ -79,7 +79,7 @@ class Get(Printable, Validatable):
     def to_json(self, path: str) -> None:
         """
         ========================================================================
-         Save response content to a JSON file.
+         Save response content to list JSON file.
         ========================================================================
         """
         data = self.to_dict()

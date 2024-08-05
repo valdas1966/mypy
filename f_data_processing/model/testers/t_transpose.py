@@ -14,9 +14,9 @@ class TestTranspose1:
 
     @staticmethod
     def __tester_base():
-        df = pd.DataFrame({'a': [1], 'b': [2], 'c': [3]})
-        t = TransposeBase(df=df, col_key='c', col_val='a')
-        p0 = list(t._df.columns) == ['c', 'a']
+        df = pd.DataFrame({'list': [1], 'b': [2], 'c': [3]})
+        t = TransposeBase(df=df, col_key='c', col_val='list')
+        p0 = list(t._df.columns) == ['c', 'list']
         u_tester.msg('[')
         u_tester.run(p0)
 

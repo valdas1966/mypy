@@ -6,7 +6,7 @@ from f_abstract.mixins.has_row_col import HasRowCol
 class Cell(HasRowCol, Validatable):
     """
     ============================================================================
-     Represents a Cell in a 2D-Grid.
+     Represents list Cell in list 2D-Grid.
     ============================================================================
     """
 

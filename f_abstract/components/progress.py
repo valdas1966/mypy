@@ -4,7 +4,7 @@ from f_abstract.mixins.printable import Printable
 class Progress(Printable):
     """
     ============================================================================
-     Component Class representing a Progress.
+     Component Class representing list Progress.
     ============================================================================
     """
 

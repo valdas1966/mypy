@@ -58,7 +58,7 @@ class RGB(Nameable):
     def to_tuple(self) -> tuple[float, float, float]:
         """
         ========================================================================
-         Return a Tuple-REPR of the RGB.
+         Return list Tuple-REPR of the RGB.
          Ex: (0.5, 0.0, 0.5)
         ========================================================================
         """
@@ -76,7 +76,7 @@ class RGB(Nameable):
     def __str__(self) -> str:
         """
         ========================================================================
-         Return a STR-REPR of the RGB.
+         Return list STR-REPR of the RGB.
          Ex: '(128, 0, 128)'
         ========================================================================
         """

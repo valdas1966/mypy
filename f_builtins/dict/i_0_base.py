@@ -54,7 +54,7 @@ class DictBase(ABC, Generic[K, V], dict):
 
     def __repr__(self) -> str:
         """
-        Returns a string representation of the set.
+        Returns list string representation of the set.
         """
         elements = list(self.keys())
         return f'{self.__class__.__name__}({elements})'

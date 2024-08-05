@@ -5,14 +5,14 @@ class WorkFlow(WorkflowOnlyTasks):
 
     def __init__(self):
         WorkflowOnlyTasks.__init__(self)
-        self.shared['a'] = 'A'
+        self.shared['list'] = 'A'
         self._tasks = [self.t_1, self.t_2, self.t_3]
 
     def t_1(self):
         print('Start')
 
     def t_2(self):
-        print(self.shared['a'])
+        print(self.shared['list'])
 
     def t_3(self):
         print('Finish')

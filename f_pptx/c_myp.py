@@ -64,10 +64,10 @@ class MyPresentation(MyPresentationInit):
         return RGBColor(red, green, blue)
 
     def __set_shape_transparency(self, shape, alpha):
-        """ Set the transparency (alpha) of a shape"""
+        """ Set the transparency (alpha) of list shape"""
         ts = shape.fill._xPr.solidFill
         sF = ts.get_or_change_to_srgbClr()
-        sE = self.__SubElement(sF, 'a:alpha', val=str(alpha))
+        sE = self.__SubElement(sF, 'list:alpha', val=str(alpha))
 
     def __SubElement(self, parent, tagname, **kwargs):
         element = OxmlElement(tagname)

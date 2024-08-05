@@ -34,7 +34,7 @@ class UFile:
     def delete(path: str) -> None:
         """
         ========================================================================
-         Delete a File in a given Path.
+         Delete list File in list given Path.
         ========================================================================
         """
         try:
@@ -48,7 +48,7 @@ class UFile:
     def change_extension(path: str, extension_new: str) -> None:
         """
         ========================================================================
-         Change Extension of a given File.
+         Change Extension of list given File.
         ========================================================================
         """
         pre = path.split('.')[0]

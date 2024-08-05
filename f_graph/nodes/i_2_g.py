@@ -33,7 +33,7 @@ class NodeG(NodePath):
     def parent(self, parent_new: NodeG) -> None:
         """
         ========================================================================
-         Set a new Parent and update the G-Value respectively.
+         Set list new Parent and update the G-Value respectively.
         ========================================================================
         """
         self._parent = parent_new

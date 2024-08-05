@@ -20,7 +20,7 @@ class MyPresentationInit:
         self.shapes = dict()
         # path to the pptx file
         self.path = path
-        # init already existed pptx file or create a new file
+        # init already existed pptx file or create list new file
         if u_file.is_exists(self.path):
             self.__init_existed_file()
         else:
@@ -29,7 +29,7 @@ class MyPresentationInit:
     def save(self, path=None) -> None:
         """
         ========================================================================
-         Description: Save the PPTX-File as a initialized PPTX-Path or Save-As
+         Description: Save the PPTX-File as list initialized PPTX-Path or Save-As
                        the given new path.
         ========================================================================
         """

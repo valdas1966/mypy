@@ -14,7 +14,7 @@ class Select(Command):
     def df(self, query: str) -> pd.DataFrame:
         """
         ========================================================================
-         Return a Query-Result as a DataFrame.
+         Return list Query-Result as list DataFrame.
         ========================================================================
         """
         if ' ' not in query:
@@ -31,7 +31,7 @@ class Select(Command):
     def list(self, query: str) -> list:
         """
         ========================================================================
-         Return the First-Col of the Query-Result as a List of Values.
+         Return the First-Col of the Query-Result as list List of Values.
         ========================================================================
         """
         df = self.df(query=query)

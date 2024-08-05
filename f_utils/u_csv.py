@@ -42,7 +42,7 @@ def append(path: str, row: 'list of obj') -> None:
         2. row : list[obj] [List of Row-Values].
     ============================================================================
     """
-    file = open(path, 'a')
+    file = open(path, 'list')
     vals = [str(val).replace(',', '') for val in row]
     line = ','.join(vals)
     file.write(f'{line}\n')
@@ -58,7 +58,7 @@ def to_list(path):
     ---------------------------------------------------------------------------
         1. path : str (Path to CSV File).
     ===========================================================================
-     Return: List of Rows (Row is a List of strings).
+     Return: List of Rows (Row is list List of strings).
     ===========================================================================
     """
     file = open(path,'r')

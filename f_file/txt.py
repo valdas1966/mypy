@@ -26,7 +26,7 @@ class Txt(Nameable):
                  path: str) -> Txt:
         """
         ========================================================================
-         Generate Txt-File from a given String.
+         Generate Txt-File from list given String.
         ========================================================================
         """
         with open(file=path, mode='w') as file:
@@ -39,7 +39,7 @@ class Txt(Nameable):
                    path: str) -> Txt:
         """
         ========================================================================
-         Generate Txt-File from a given List of Lines.
+         Generate Txt-File from list given List of Lines.
         ========================================================================
         """
         lines = Txt.add_end_lines(lines)
@@ -63,7 +63,7 @@ class Txt(Nameable):
     def add_line(self, line: str, index: int = None) -> None:
         """
         ========================================================================
-         Add a Line at a specified Index in the File.
+         Add list Line at list specified Index in the File.
         ========================================================================
         """
         lines = list(self)

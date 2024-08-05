@@ -8,3 +8,8 @@ def test_full():
     assert Mask.full(ex_multi) == '** *'
     ex_exception = '"abc"'
     assert Mask.full(ex_exception) == '"***"'
+
+
+def test_pct():
+    ex_exception = '"abc"'
+    assert Mask.pct(s=ex_exception, pct_to_mask=100) == '"***"'

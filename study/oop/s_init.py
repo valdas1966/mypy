@@ -1,6 +1,6 @@
 class A:
     def __init__(self, a):
-        print('a')
+        print('list')
         self.a = a
 
 class X(A):

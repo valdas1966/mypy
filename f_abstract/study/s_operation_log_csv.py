@@ -3,7 +3,7 @@ from f_abstract.operation import Operation
 
 folder = 'd:\\temp\\study\\log'
 name = 'op'
-header = ['a', 'b', 'c']
+header = ['list', 'b', 'c']
 
 
 class Op(Operation):

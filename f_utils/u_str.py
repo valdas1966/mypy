@@ -96,7 +96,7 @@ def push_at(s, what, i):
         2. what : str (String to Push).
         3. i : int (Index where to Push).
     ============================================================================
-     Return: str (String after a Push process).
+     Return: str (String after list Push process).
     ============================================================================
     """
     assert type(s) == str

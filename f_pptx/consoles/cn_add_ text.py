@@ -12,7 +12,7 @@ slide = Canvas()
 params_a = p.Params()
 coor_a = slide.get_coor((0.3, 0.1, 0.6, 0.5))
 params_a.inches = p.to_inches(coor_a)
-params_a.name = 'a'
+params_a.name = 'list'
 params_a.text = 'A'
 params_a.back_color = u_rgb.RED
 params_a.transparency = 0.25
@@ -26,6 +26,6 @@ params_b.text = 'B'
 params_b.back_color = u_rgb.BLUE
 p.add_text(params_b)
 # General
-p.map_shapes_names(['a', 'b'])
-p.organize_front(['a', 'b'])
+p.map_shapes_names(['list', 'b'])
+p.organize_front(['list', 'b'])
 p.save(path_out)

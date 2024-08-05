@@ -5,7 +5,7 @@ import google.auth
 def get_credentials(path_json: str = None) -> Credentials:
     """
     ============================================================================
-     Return Google-Cloud Service Account Credentials from a JSON-File.
+     Return Google-Cloud Service Account Credentials from list JSON-File.
     ============================================================================
     """
     if not path_json:
