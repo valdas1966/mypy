@@ -4,7 +4,7 @@ from f_utils.dtypes.u_list import UList as u_list
 class Mask:
     """
     ============================================================================
-     Utils-Class for masking list String.
+     Utils-Class for applying masking techniques to Strings.
     ============================================================================
     """
 
@@ -16,7 +16,10 @@ class Mask:
              exceptions: list[str] = None) -> str:
         """
         ========================================================================
-         Mask list String (except blank chars).
+         1. Return a string where all chars are masked with the mask-char.
+         2. Except those in the exceptions list.
+        ------------------------------------------------------------------------
+         Ex: 'abc' -> '***'
         ========================================================================
         """
         if exceptions is None:
@@ -25,12 +28,15 @@ class Mask:
 
     @staticmethod
     def pct(s: str,
-            pct_to_mask: int = 100,
+            pct_to_mask: int,
             ch_mask: str = '*',
             exceptions: list[str] = None) -> str:
         """
         ========================================================================
-         Return a Masked-String.
+         1. Return a string with a given percentage of chars masked.
+         2. Except those in the exceptions list.
+        ------------------------------------------------------------------------
+         Ex: 'abc' -> 'a*c'
         ========================================================================
         """
         if exceptions is None:
@@ -50,6 +56,8 @@ class Mask:
         """
         ========================================================================
          Return a Text with one random Masked-Word.
+        ------------------------------------------------------------------------
+         Ex: 'Hello World!' -> '**** World!'
         ========================================================================
         """
         words = text.split(' ')

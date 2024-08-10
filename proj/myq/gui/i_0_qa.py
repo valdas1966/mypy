@@ -24,7 +24,7 @@ class AppQA(App):
         self.background = 'black'
         self._con_qa = ContainerQA(question_first=question_first,
                                    on_enter=on_enter)
-        self._con_qa.position.relative = (0.1, 0.25, 0.8, 0.45)
+        self._con_qa.position.relative = (0.05, 0.25, 0.9, 0.45)
         self.add(self._con_qa)
 
     def update(self, question: QuestionText) -> None:

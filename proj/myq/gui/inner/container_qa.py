@@ -104,4 +104,4 @@ class ContainerQA(Container):
         widget.background = 'white'
         widget.font.family = 'heebo'
         widget.font.is_bold = True
-        widget.font.size = 36
+        widget.font.size = 32

@@ -1,6 +1,5 @@
 from proj.myq.exam.i_1_random import ExamRandom
-from proj.myq.question.i_1_text import QuestionText
-from proj.myq.gsheets.english.i_1_phrases import SheetPhrases
+from proj.myq.gsheets.english.u_english import UEnglish as u_english
 
 
 class UtilsExamRandom:
@@ -11,6 +10,6 @@ class UtilsExamRandom:
     """
 
     @staticmethod
-    def phrases() -> ExamRandom:
-        questions = SheetPhrases().to_questions()
-        return ExamRandom(qs=questions, cnt=10)
+    def english(cnt: int = 10) -> ExamRandom:
+        questions = u_english.all()
+        return ExamRandom(qs=questions, cnt=cnt)

@@ -5,185 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/list/indexes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/list/items.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/list/testers/t_indexes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/list/testers/t_items.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/study/s_mask.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/myq/exam/i_1_list.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/myq/gsheets/english/i_1_definitions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/myq/gsheets/english/u_english.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dags/tiktok/run_data_flow.py" beforeDir="false" afterPath="$PROJECT_DIR$/dags/tiktok/run_data_flow.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/components/progress.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/components/progress.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/components/stats_items.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/components/stats_items.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/inittable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/inittable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/inner/operation/a_3_log.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/inner/operation/a_3_log.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/inner/process/testers/t_3_ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/inner/process/testers/t_3_ops.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/inittable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/inittable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/inputable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/inputable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/iterable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/iterable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/nameable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/nameable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/study/s_operation_log_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/study/s_operation_log_csv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/study/s_process_tolerant_log_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/study/s_process_tolerant_log_csv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/testers/t_inittable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/testers/t_inittable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/testers/t_loggable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/testers/t_loggable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/testers/t_operation.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/testers/t_operation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/tittable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/tittable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_builtins/dict/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_builtins/dict/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_builtins/my_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_builtins/my_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_color/rgb.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_color/rgb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_color/u_color.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_color/u_color.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_cs/algos/graph/path_finding/shortest/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_cs/algos/graph/path_finding/shortest/data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_data_processing/model/testers/t_transpose.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_data_processing/model/testers/t_transpose.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_data_processing/model/transpose/group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_data_processing/model/transpose/group.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_data_science/testers/old_t_df.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_data_science/testers/old_t_df.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_data_science/testers/t_df.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_data_science/testers/t_df.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_data_science/u_fs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_data_science/u_fs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_data_science/u_rfc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_data_science/u_rfc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_db/c_bq.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_db/c_bq.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_db/c_sqlite.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_db/c_sqlite.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_db/study/s_bq.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_db/study/s_bq.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_db/study/s_grouping.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_db/study/s_grouping.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_db/testers/t_sqlite.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_db/testers/t_sqlite.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/collections/i_1d.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/collections/i_1d.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/collections/old/old_i_2d.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/collections/old/old_i_2d.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/container.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/container.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/u_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/u_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/old_collections/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_collections/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/old_collections/i_1_dict.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_collections/i_1_dict.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/old_collections/i_1_set.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_collections/i_1_set.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/old_collections/set_ordered.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_collections/set_ordered.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_dv/study/s_colors_display.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/study/s_colors_display.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_encoding/base_52.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_encoding/base_52.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_encoding/base_64.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_encoding/base_64.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_excel/inner/wb/i_1_open_save_close.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_excel/inner/wb/i_1_open_save_close.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_excel/inner/wb/sheets.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_excel/inner/wb/sheets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_excel/old_c_excel.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_excel/old_c_excel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/c_json.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/c_json.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/old_old_txt/read.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/old_old_txt/read.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/old_old_txt/write.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/old_old_txt/write.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/old_txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/old_txt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/txt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/auth/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/auth/auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/big_query/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/big_query/commands/create.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/commands/create.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/big_query/commands/select.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/commands/select.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/big_query/commands/study/s_create.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/commands/study/s_create.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/big_query/commands/study/s_insert.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/commands/study/s_insert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/big_query/structures/schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/structures/schema.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/big_query/structures/study/s_field.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/structures/study/s_field.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/big_query/structures/study/s_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/structures/study/s_schema.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/client/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/client/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/sheets/cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/sheets/cell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/sheets/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/sheets/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/sheets/sheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/sheets/sheet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/sheets/spread.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/sheets/spread.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/storage/blob.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/storage/blob.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/storage/bucket.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/storage/bucket.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/storage/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/storage/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/utils/u_auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/utils/u_auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/bfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/generated_explored.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/data/generated_explored.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_1_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_1_mutable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_1_mutable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/u_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/u_1_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/nodes/i_2_g.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/i_2_g.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/container.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/container.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/inner/widget/alignment.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/inner/widget/alignment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/inner/widget/font.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/inner/widget/font.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widget_resizable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/widget_resizable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widget_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/widget_text.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/window.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/window.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_heuristic_search/algos/mixins/has_generated.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_heuristic_search/algos/mixins/has_generated.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_heuristic_search/algos/mixins/has_heuristics/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_heuristic_search/algos/mixins/has_heuristics/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_heuristic_search/algos/spp/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_heuristic_search/algos/spp/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_heuristic_search/algos/spp/i_1_astar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_heuristic_search/algos/spp/i_1_astar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_heuristic_search/algos/spp/i_1_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_heuristic_search/algos/spp/i_1_bfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_heuristic_search/algos/spp/i_2_astar_lookup.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_heuristic_search/algos/spp/i_2_astar_lookup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_heuristic_search/problem_types/mixin/has_goal.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_heuristic_search/problem_types/mixin/has_goal.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_heuristic_search/problem_types/mixin/has_goals.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_heuristic_search/problem_types/mixin/has_goals.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_heuristic_search/problem_types/mixin/has_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_heuristic_search/problem_types/mixin/has_graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_heuristic_search/problem_types/mixin/has_start.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_heuristic_search/problem_types/mixin/has_start.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_heuristic_search/problem_types/spp/i_0_concrete.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_heuristic_search/problem_types/spp/i_0_concrete.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_heuristic_search/problem_types/spp/i_2_lookup.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_heuristic_search/problem_types/spp/i_2_lookup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_2_f_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/i_2_f_cell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/problems/mixins/has_goal.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/problems/mixins/has_goal.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/problems/mixins/has_start.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/problems/mixins/has_start.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_html/c_element.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_html/c_element.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_html/gen_tag.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_html/gen_tag.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_http/get.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_http/get.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/c_log_writter.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_logging/c_log_writter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/study/s_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_logging/study/s_csv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/study/s_loguru.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_logging/study/s_loguru.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/study/s_loguru_multi_files.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_logging/study/s_loguru_multi_files.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/study/s_stack_driver_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_logging/study/s_stack_driver_time.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/testers/t_tazak.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_logging/testers/t_tazak.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_math/number/testers/t_integer.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_math/number/testers/t_integer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_math/number/u_digit.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_math/number/u_digit.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_math/number/u_factor.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_math/number/u_factor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_math/number/u_integer.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_math/number/u_integer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_math/number/u_multiple.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_math/number/u_multiple.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_math/u_combinatorics.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_math/u_combinatorics.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_multi_threading/study/try_except.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_multi_threading/study/try_except.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_multi_threading/testers/t_multi_threading_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_multi_threading/testers/t_multi_threading_process.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ora/c_ora.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ora/c_ora.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ora/t_c_ora.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ora/t_c_ora.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ora/u_ora.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ora/u_ora.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_os/testers/t_environ.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_os/testers/t_environ.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_os/u_environ.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_os/u_environ.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_os/u_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_os/u_file.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_pptx/c_myp.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_pptx/c_myp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_pptx/consoles/cn_add_ text.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_pptx/consoles/cn_add_ text.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_pptx/consoles/cn_temp.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_pptx/consoles/cn_temp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_pptx/myp_init.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_pptx/myp_init.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_py/encoding.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_py/encoding.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_tiktok/c_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_tiktok/c_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/color.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/color.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/list/apply.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/list/apply.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/list/testers/t_apply.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/list/testers/t_apply.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/add.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/add.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/indexes.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/indexes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/split.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/split.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/testers/t_mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/testers/t_mask.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/testers/t_int.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/testers/t_int.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/u_int.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/u_int.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/u_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/u_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/u_str.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/u_str.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/old_u_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/old_u_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/study/s_dict.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/study/s_dict.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/t_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/t_file.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/testers/old_t_dict.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/testers/old_t_dict.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/testers/old_t_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/testers/old_t_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/testers/t_str.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/testers/t_str.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_csv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_datetime.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_datetime.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_dict.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_dict.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_dir.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_dir.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_file.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_float.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_float.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_input.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_input.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_json.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_json.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_os.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_os.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_regex.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_regex.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_str.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_str.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_work_flow/subs/study/s_0_only_tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_work_flow/subs/study/s_0_only_tasks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_work_flow/subs/sub_0_only_tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_work_flow/subs/sub_0_only_tasks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_work_flow/subs/sub_1_task_is_workflow.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_work_flow/subs/sub_1_task_is_workflow.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/exam/i_0_prompt.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/exam/i_0_prompt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/question/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/question/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/study/kwargs.py" beforeDir="false" afterPath="$PROJECT_DIR$/study/kwargs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/study/oop/s_init.py" beforeDir="false" afterPath="$PROJECT_DIR$/study/oop/s_init.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/study/s__dict__.py" beforeDir="false" afterPath="$PROJECT_DIR$/study/s__dict__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/study/s_chatgpt_tic_tac_toe.py" beforeDir="false" afterPath="$PROJECT_DIR$/study/s_chatgpt_tic_tac_toe.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/study/s_dict_by_ref.py" beforeDir="false" afterPath="$PROJECT_DIR$/study/s_dict_by_ref.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/study/s_inheritance_attribute.py" beforeDir="false" afterPath="$PROJECT_DIR$/study/s_inheritance_attribute.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/study/s_inheritance_double_underscore.py" beforeDir="false" afterPath="$PROJECT_DIR$/study/s_inheritance_double_underscore.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/study/s_regex.py" beforeDir="false" afterPath="$PROJECT_DIR$/study/s_regex.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/study/tiktok_crawler.py" beforeDir="false" afterPath="$PROJECT_DIR$/study/tiktok_crawler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/exam/u_1_random.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/exam/u_1_random.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/gui/inner/container_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gui/inner/container_qa.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_gui.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -206,12 +37,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
-    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/valdas1966/mypy.git",
+    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -275,6 +106,7 @@
     "Python tests.Python tests in t_iterable.py.executor": "Run",
     "Python tests.Python tests in t_ltwh.py (1).executor": "Run",
     "Python tests.Python tests in t_ltwh.py.executor": "Run",
+    "Python tests.Python tests in t_mask.py (1).executor": "Run",
     "Python tests.Python tests in t_mask.py.executor": "Run",
     "Python tests.Python tests in t_parentable.py.executor": "Run",
     "Python tests.Python tests in t_position.py (1).executor": "Run",
@@ -326,6 +158,7 @@
     "Python.screen_resolution.executor": "Run",
     "Python.t_generated_explored.executor": "Run",
     "Python.temp.executor": "Run",
+    "Python.u_1_random.executor": "Run",
     "Python.u_screen.executor": "Run",
     "Python.window.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -342,7 +175,29 @@
       <recent name="G:\mypy\f_ds\collections\old" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_mask">
+  <component name="RunManager" selected="Python.s_0_gui">
+    <configuration name="s_0_gui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/managers/exam/study" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_gui.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="s_mask" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -365,37 +220,29 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_indexes.test_filter" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="u_1_random" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_utils/dtypes/inner/list/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/exam" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_indexes.test_filter&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/exam/u_1_random.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_indexes.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_utils/dtypes/inner/list/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_utils/dtypes/inner/list/testers/t_indexes.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_items.py (1)" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_items.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -427,11 +274,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.s_0_gui" />
+        <item itemvalue="Python.u_1_random" />
+        <item itemvalue="Python tests.Python tests in t_mask.py (1)" />
+        <item itemvalue="Python tests.Python tests in t_items.py" />
         <item itemvalue="Python.s_mask" />
-        <item itemvalue="Python tests.Python tests in t_mask.py" />
-        <item itemvalue="Python tests.Python tests in t_indexes.py" />
-        <item itemvalue="Python tests.Python tests for t_indexes.test_filter" />
-        <item itemvalue="Python tests.Python tests in t_items.py (1)" />
       </list>
     </recent_temporary>
   </component>
