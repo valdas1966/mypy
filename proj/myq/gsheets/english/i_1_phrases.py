@@ -1,4 +1,4 @@
-from proj.myq.gsheets.english.i_0_english import SheetEnglish, QuestionText
+from proj.myq.gsheets.english.i_0_english import SheetEnglish, QuestionMask
 
 
 class SheetPhrases(SheetEnglish):
@@ -24,7 +24,7 @@ class SheetPhrases(SheetEnglish):
         SheetEnglish.__init__(self)
         self._sheet = self._spread[SheetPhrases._NAME_SHEET]
 
-    def to_questions(self) -> list[QuestionText]:
+    def to_questions(self) -> list[QuestionMask]:
         """
         ========================================================================
          Return List of Questions extracted from the SheetWords.
@@ -33,5 +33,5 @@ class SheetPhrases(SheetEnglish):
         tuples = self._sheet.to_tuples(col_first=SheetPhrases._COL_QUESTION,
                                        col_last=SheetPhrases._COL_ANSWER,
                                        row_first=SheetPhrases._ROW_FIRST)
-        return [QuestionText(text=text, answer=answer)
+        return [QuestionMask(text=text, answer=answer)
                 for text, answer in tuples]

@@ -3,8 +3,7 @@ from f_gui.pyqt.container import Container
 from f_gui.pyqt.widget_text import WidgetText
 from f_gui.pyqt.widgets.label import Label
 from f_gui.pyqt.widgets.text_box import TextBox
-from proj.myq.question.i_1_text import QuestionText
-from f_utils.dtypes.u_str import UStr as u_str
+from proj.myq.question.i_2_mask import QuestionMask
 
 
 class ContainerQA(Container):
@@ -22,7 +21,7 @@ class ContainerQA(Container):
     HEIGHT_DELTA = 0.1
 
     def __init__(self,
-                 question_first: QuestionText,
+                 question_first: QuestionMask,
                  on_enter: Callable[[str], None]) -> None:
         """
         ========================================================================
@@ -38,14 +37,14 @@ class ContainerQA(Container):
         self.add(self._mask)
         self.add(self._answer)
 
-    def update(self, question: QuestionText) -> None:
+    def update(self, question: QuestionMask) -> None:
         """
         ========================================================================
          Set new question (update Question-Text and clear TextBox).
         ========================================================================
         """
         self._question.text = question.text
-        self._mask.text = u_str.mask.full(question.answer)
+        self._mask.text = question.answer_mask
         self._answer.text = str()
 
     def _create_question(self) -> Label:
@@ -75,7 +74,7 @@ class ContainerQA(Container):
                                   self.COMMON_WIDTH,
                                   self.HEIGHT_MASK)
         mask.background = 'lightgray'
-        mask.font.size = 32
+        mask.font.size = 28
         return mask
 
     def _create_answer(self, on_enter: Callable[[str], None]) -> TextBox:
@@ -92,7 +91,6 @@ class ContainerQA(Container):
                                     self.HEIGHT_DELTA*2,
                                     self.COMMON_WIDTH,
                                     self.HEIGHT_ANSWER)
-        print(answer.alignment.vertical, answer.alignment.horizontal)
         return answer
 
     def _set_common_params(self, widget: WidgetText) -> None:

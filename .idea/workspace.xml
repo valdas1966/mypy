@@ -5,16 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/proj/myq/exam/i_1_list.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proj/myq/gsheets/english/i_1_definitions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proj/myq/gsheets/english/u_english.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/myq/question/i_2_mask.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/myq/question/i_3_mask_one_word.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/myq/question/testers/t_2_mask.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/myq/question/testers/t_3_mask_one_word.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/myq/scripts/run_exam.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/testers/t_mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/testers/t_mask.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/exam/u_1_random.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/exam/u_1_random.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/exam/i_1_list.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/exam/u_2_combine.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/exam/u_2_combine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/generators/exam.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/generators/exam.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/generators/inner/exam/english.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/generators/inner/exam/english.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/english/i_0_english.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/english/i_0_english.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/english/i_1_definitions.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/english/i_1_definitions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/english/i_1_phrases.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/english/i_1_phrases.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/english/u_english.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/proj/myq/gui/inner/container_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gui/inner/container_qa.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_gui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/run.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,12 +43,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
+    &quot;accountId&quot;: &quot;9193838d-ef26-4e0d-b77f-58e2bc1908f8&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -92,6 +98,8 @@
     "Python tests.Python tests in t_2_cell.py.executor": "Run",
     "Python tests.Python tests in t_2_f_cell.py (1).executor": "Run",
     "Python tests.Python tests in t_2_f_cell.py.executor": "Run",
+    "Python tests.Python tests in t_2_mask.py.executor": "Run",
+    "Python tests.Python tests in t_3_mask_one_word.py.executor": "Run",
     "Python tests.Python tests in t_apply.py.executor": "Run",
     "Python tests.Python tests in t_bfs.py.executor": "Run",
     "Python tests.Python tests in t_generated_explored.py.executor": "Run",
@@ -127,6 +135,7 @@
     "Python.q2.executor": "Run",
     "Python.run (1).executor": "Run",
     "Python.run.executor": "Run",
+    "Python.run_exam.executor": "Run",
     "Python.s_0_base.executor": "Run",
     "Python.s_0_g.executor": "Run",
     "Python.s_0_gui (1).executor": "Run",
@@ -175,7 +184,29 @@
       <recent name="G:\mypy\f_ds\collections\old" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_0_gui">
+  <component name="RunManager" selected="Python.run_exam">
+    <configuration name="run_exam" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/scripts/run_exam.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="s_0_gui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -190,28 +221,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_gui.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="s_mask" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_utils/dtypes/inner/str/study" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_utils/dtypes/inner/str/study/s_mask.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -242,43 +251,43 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_items.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_2_mask.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_utils/dtypes/inner/list/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/question/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_utils/dtypes/inner/list/testers/t_items.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/proj/myq/question/testers/t_2_mask.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_mask.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_3_mask_one_word.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_utils/dtypes/inner/str/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/question/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_utils/dtypes/inner/str/testers/t_mask.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/proj/myq/question/testers/t_3_mask_one_word.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.run_exam" />
+        <item itemvalue="Python tests.Python tests in t_3_mask_one_word.py" />
+        <item itemvalue="Python tests.Python tests in t_2_mask.py" />
         <item itemvalue="Python.s_0_gui" />
         <item itemvalue="Python.u_1_random" />
-        <item itemvalue="Python tests.Python tests in t_mask.py (1)" />
-        <item itemvalue="Python tests.Python tests in t_items.py" />
-        <item itemvalue="Python.s_mask" />
       </list>
     </recent_temporary>
   </component>
@@ -394,7 +403,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722775845568</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="h">
+      <option name="closed" value="true" />
+      <created>1723262696624</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1723262696624</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
