@@ -44,7 +44,7 @@ class ContainerQA(Container):
         ========================================================================
         """
         self._question.text = question.text
-        self._mask.text = question.answer_mask
+        self._mask.text = question.hint
         self._answer.text = str()
 
     def _create_question(self) -> Label:

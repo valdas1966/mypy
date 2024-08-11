@@ -11,7 +11,7 @@ class NodeGCell(NodeG, HasCell):
     """
 
     def __init__(self,
-                 cell: Cell,
+                 cell: Cell = Cell(),
                  name: str = None,
                  parent: NodeGCell = None) -> None:
         """

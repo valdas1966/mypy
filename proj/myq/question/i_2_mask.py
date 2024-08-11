@@ -20,7 +20,9 @@ class QuestionMask(QuestionText):
         """
         QuestionText.__init__(self, text=text, answer=answer)
         self._pct_mask = pct_mask
-        self._answer_mask = self._mask_answer()
+        self._hint = None
+        self._set_private_attributes()
+
 
     @property
     def pct_mask(self) -> int:
@@ -32,21 +34,21 @@ class QuestionMask(QuestionText):
         return self._pct_mask
 
     @property
-    def answer_mask(self) -> str:
+    def hint(self) -> str:
         """
         ========================================================================
          Return a Masked-Answer.
         ========================================================================
         """
-        return self._answer_mask
+        return self._hint
 
-    def _mask_answer(self) -> str:
+    def _set_private_attributes(self) -> None:
         """
         ========================================================================
-         Return Masked-Answer.
+         Set private Attributes.
         ========================================================================
         """
-        return u_str.mask.full(s=self.answer)
+        self._hint = u_str.mask.full(s=self.answer)
 
     def __str__(self) -> str:
         """
@@ -54,4 +56,4 @@ class QuestionMask(QuestionText):
          Return STR-Repr in format: 'Question -> Masked-Answer -> Right-Answer'.
         ========================================================================
         """
-        return f'{self._text} -> {self.answer_mask} -> {self.answer}'
+        return f'{self._text} -> {self.hint} -> {self.answer}'

@@ -9,10 +9,13 @@ class QuestionMaskOneWord(QuestionMask):
     ============================================================================
     """
 
-    def _mask_answer(self) -> str:
+    def _set_private_attributes(self) -> None:
         """
         ========================================================================
          Return Masked-Answer.
         ========================================================================
         """
-        return u_str.mask.one_word(text=self.answer, pct=self.pct_mask)
+        hint, answer = u_str.mask.one_word(text=self.answer,
+                                           pct=self.pct_mask)
+        self._hint = hint.lower()
+        self._answer = answer.lower()

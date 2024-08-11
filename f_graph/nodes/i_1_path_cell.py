@@ -11,7 +11,7 @@ class NodePathCell(NodePath, HasCell):
     """
 
     def __init__(self,
-                 cell: Cell,
+                 cell: Cell = Cell(),
                  name: str = None,
                  parent: NodePathCell = None) -> None:
         """

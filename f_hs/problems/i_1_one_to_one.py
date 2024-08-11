@@ -1,7 +1,7 @@
 from f_hs.problems.i_0_graph import ProblemGraph, GraphBase
 from f_hs.problems.mixins.has_start import HasStart, NodePath
 from f_hs.problems.mixins.has_goal import HasGoal
-from typing import Generic, TypeVar
+from typing import TypeVar
 
 G = TypeVar('G', bound=GraphBase)
 N = TypeVar('N', bound=NodePath)

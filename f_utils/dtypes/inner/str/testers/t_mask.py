@@ -26,5 +26,5 @@ def test_pct(ex_exception):
 
 
 def test_one_word(ex_single, ex_multi):
-    assert Mask.one_word(text=ex_single) == '***'
-    assert Mask.one_word(text=ex_multi) in ('** c', 'ab *')
+    assert Mask.one_word(text=ex_single) == ('***', 'abc')
+    assert Mask.one_word(text=ex_multi) in (('** c', 'ab'), ('ab *', 'c'))

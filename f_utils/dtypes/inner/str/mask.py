@@ -52,18 +52,19 @@ class Mask:
     @staticmethod
     def one_word(text: str,
                  pct: int = 100,
-                 exceptions: list[str] = None) -> str:
+                 exceptions: list[str] = None) -> tuple[str, str]:
         """
         ========================================================================
-         Return a Text with one random Masked-Word.
+         Return a Text with one random Masked-Word and un-masked word.
         ------------------------------------------------------------------------
-         Ex: 'Hello World!' -> '**** World!'
+         Ex: 'Hello World!' -> ('**** World!', 'Hello')
         ========================================================================
         """
         words = text.split(' ')
         index_word = u_list.indexes.sample(li=words, size=1)[0]
+        word_unmasked = words[index_word]
         word_masked = Mask.pct(s=words[index_word],
                                pct_to_mask=pct,
                                exceptions=exceptions)
         words[index_word] = word_masked
-        return ' '.join(words)
+        return ' '.join(words), word_unmasked

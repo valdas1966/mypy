@@ -6,6 +6,7 @@ from f_graph.nodes.i_1_path import NodePath
 def ex_root() -> NodePath:
     return NodePath()
 
+
 @pytest.fixture
 def ex_leaf(ex_root) -> NodePath:
     return NodePath(parent=ex_root)
