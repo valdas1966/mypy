@@ -1,21 +1,23 @@
 from f_graph.problems.i_2_one_to_one import ProblemOneToOne
 from f_graph.data.generated_explored import DataGeneratedExplored
 from f_graph.path.one_to_one import PathOneToOne
-from f_graph.nodes.i_2_g import NodeG
 from f_ds.queues.i_1_priority import QueuePriority
-from typing import Generic, TypeVar
+from f_hs.nodes.i_1_f import NodeF
+from typing import Generic, TypeVar, Callable
 
-Node = TypeVar('Node', bound=NodeG)
+Node = TypeVar('Node', bound=NodeF)
 
 
-class UCS(Generic[Node]):
+class AStar(Generic[Node]):
     """
     ============================================================================
-     Uniform-Cost-Search Algorithm.
+     A* Algorithm.
     ============================================================================
     """
 
-    def __init__(self, problem: ProblemOneToOne) -> None:
+    def __init__(self,
+                 problem: ProblemOneToOne,
+                 heuristics: Callable[[Node], int]) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -24,6 +26,7 @@ class UCS(Generic[Node]):
         self._problem = problem
         self._data = DataGeneratedExplored[Node](type_queue=QueuePriority)
         self._path = PathOneToOne[Node](goal=problem.goal)
+        self._heuristics = heuristics
         self._search()
 
     @property
@@ -45,7 +48,7 @@ class UCS(Generic[Node]):
         return self._data
 
     @property
-    def path(self) -> PathOneToOne[Node]:
+    def path(self) -> PathOneToOne:
         """
         ========================================================================
          Return the Path-Manager of the shortest path problem.
@@ -78,11 +81,19 @@ class UCS(Generic[Node]):
             if child in self._data.explored:
                 continue
             if child in self._data.generated:
-                if child.is_better_parent(parent_new=node):
-                    child.parent = node
+                self._try_update_node(node=child, parent=node)
             else:
                 self._generate_node(node=child, parent=node)
         self._data.explored.add(node)
+
+    def _try_update_node(self, node: Node, parent: Node) -> None:
+        """
+        ========================================================================
+         Try update generated Node with new relevant info.
+        ========================================================================
+        """
+        if node.is_better_parent(parent_new=parent):
+            node.parent = parent
 
     def _generate_node(self,
                        node: Node,
@@ -93,4 +104,5 @@ class UCS(Generic[Node]):
         ========================================================================
         """
         node.parent = parent
+        node.h = self._heuristics(node)
         self._data.generated.push(node)

@@ -77,9 +77,18 @@ class BFS(Generic[Node]):
             if child in self._data.explored:
                 continue
             if child in self._data.generated:
-                continue
-            self._generate_node(node=child, parent=node)
+                self._try_update_node(node=child, parent=node)
+            else:
+                self._generate_node(node=child, parent=node)
         self._data.explored.add(node)
+
+    def _try_update_node(self, node: Node, parent: Node) -> None:
+        """
+        ========================================================================
+         Try update generated Node with new relevant info.
+        ========================================================================
+        """
+        pass
 
     def _generate_node(self,
                        node: Node,

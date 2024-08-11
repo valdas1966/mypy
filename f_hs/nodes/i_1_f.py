@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_graph.nodes.i_2_g import NodeG
+from f_hs.nodes.i_0_g import NodeG
 from f_hs.nodes.i_0_h import NodeH
 
 
