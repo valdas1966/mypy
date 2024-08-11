@@ -1,10 +1,13 @@
-from f_data_structure.graphs.i_1_grid import GraphGrid
-from f_hs.nodes.i_3_f_cell import NodeFCell
+from f_graph.graphs.i_1_grid import GraphGrid, Grid
 
 
-g = GraphGrid.from_shape(rows=3, type_node=NodeFCell)
-print(type(g[0][0]))
-print(g)
+grid = Grid(2)
+print(grid)
 
-g = GraphGrid.generate(rows=5, pct_non_valid=40)
-print(g)
+grid[0][0].set_invalid()
+print(grid)
+
+graph = GraphGrid(grid=grid)
+print(graph)
+
+print(graph.nodes())

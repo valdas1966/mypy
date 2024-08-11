@@ -1,41 +1,25 @@
+from f_abstract.mixins.validatable import Validatable
 from f_graph.nodes.i_1_path import NodePath
 from typing import Generic, TypeVar
 
 Node = TypeVar('Node', bound=NodePath)
 
 
-class PathOneToOne(Generic[Node]):
+class PathOneToOne(Generic[Node], Validatable):
     """
     ============================================================================
      Path-Class for One-to-One Problem.
     ============================================================================
     """
 
-    def __init__(self, goal: Node):
+    def __init__(self, goal: Node) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
+        Validatable.__init__(self, is_valid=False)
         self._goal = goal
-        self._is_found = False
-
-    @property
-    def is_found(self) -> bool:
-        """
-        ========================================================================
-         Return True if the Path is found.
-        ========================================================================
-        """
-        return self._is_found
-
-    def set_found(self) -> None:
-        """
-        ========================================================================
-         Set that the Path is found.
-        ========================================================================
-        """
-        self._is_found = False
 
     def get(self) -> list[Node]:
         """

@@ -1,9 +1,9 @@
 from f_graph.graphs.i_0_base import GraphBase
-from f_graph.nodes.i_2_cell import NodeCell
+from f_graph.nodes.i_1_path_cell import NodePathCell
 from f_ds.grids.grid import Grid
 from typing import TypeVar, Type
 
-Node = TypeVar('Node', bound=NodeCell)
+Node = TypeVar('Node', bound=NodePathCell)
 
 
 class GraphGrid(GraphBase[Node]):
@@ -15,7 +15,7 @@ class GraphGrid(GraphBase[Node]):
 
     def __init__(self,
                  grid: Grid,
-                 type_node: Type[Node] = NodeCell,
+                 type_node: Type[Node] = NodePathCell,
                  name: str = None) -> None:
         """
         ========================================================================
@@ -26,7 +26,7 @@ class GraphGrid(GraphBase[Node]):
         self._grid = grid
         self._type_node = type_node
         self._nodes = {cell: type_node(cell=cell)
-                       for cell in grid}
+                       for cell in grid if cell}
 
     @property
     def grid(self) -> Grid:

@@ -1,4 +1,4 @@
-from f_graph.graphs.i_1_grid import GraphGrid, NodeCell
+from f_graph.graphs.i_1_grid import GraphGrid, NodePathCell
 from f_ds.grids.u_grid import UGrid as u_grid
 from typing import Type
 
@@ -14,7 +14,7 @@ class UGraphGrid:
     def generate(rows: int,
                  cols: int = None,
                  pct_valid: int = 100,
-                 type_node: Type[NodeCell] = NodeCell,
+                 type_node: Type[NodePathCell] = NodePathCell,
                  name: str = None) -> GraphGrid:
         """
         ========================================================================
@@ -29,7 +29,7 @@ class UGraphGrid:
                           rows: int,
                           cols: int = None,
                           pct_valid: int = 100,
-                          type_node: Type[NodeCell] = NodeCell):
+                          type_node: Type[NodePathCell] = NodePathCell):
         """
         ========================================================================
          Generate multiple random GraphGrids.

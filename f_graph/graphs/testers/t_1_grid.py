@@ -1,10 +1,11 @@
 import pytest
-from f_graph.graphs.i_1_grid import GraphGrid, Grid, NodeCell
+from f_graph.graphs.i_1_grid import GraphGrid, Grid, NodePathCell
 
 
 @pytest.fixture
 def ex() -> GraphGrid:
     grid = Grid(rows=3)
+    grid[1][1].set_invalid()
     return GraphGrid(grid=grid)
 
 
@@ -14,5 +15,9 @@ def test_getitem(ex):
 
 
 def test_neighbors(ex):
-    node = NodeCell(cell=ex.grid[0][0])
+    node = NodePathCell(cell=ex.grid[0][0])
     assert ex.neighbors(node=node) == [ex[0, 1], ex[1, 0]]
+
+
+def test_len(ex):
+    assert len(ex) == 8

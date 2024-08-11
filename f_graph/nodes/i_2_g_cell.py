@@ -36,7 +36,7 @@ class NodeGCell(NodeG, HasCell):
          Ex: Node(1,2).
         ========================================================================
         """
-        return f'{NodeG.__str__(self)}({str(self.cell)})'
+        return f'{NodeG.__str__(self)}{str(self.cell)}'
 
     def __hash__(self) -> int:
         """

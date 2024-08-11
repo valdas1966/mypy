@@ -5,23 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_graph/nodes/testers/t_2_g.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/nodes/testers/t_2_g_cell.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/data/generated_explored.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proj/myq/gsheets/english/study/s_definitions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/testers/t_one_to_one.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/nodes/i_1_path_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/i_1_path_cell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/study/s_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/study/s_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/testers/t_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/testers/t_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/testers/t_u_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/testers/t_u_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/u_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/u_1_grid.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/nodes/i_2_g_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/i_2_g_cell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/nodes/testers/t_1_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/testers/t_1_path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/nodes/testers/t_1_path_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/testers/t_1_path_cell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/data/open_closed.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_2_f_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/nodes/i_2_f_cell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/problems/i_1_one_to_one.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/problems/i_1_one_to_one.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/testers/t_mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/testers/t_mask.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/gui/inner/container_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gui/inner/container_qa.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/question/i_2_mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/question/i_2_mask.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/question/i_3_mask_one_word.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/question/i_3_mask_one_word.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/nodes/testers/t_2_g_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/testers/t_2_g_cell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +67,8 @@
     "Python tests.Python tests for t_2_f_cell.test_repr.executor": "Run",
     "Python tests.Python tests for t_2_g.test_is_better_parent.executor": "Run",
     "Python tests.Python tests for t_2_g.test_repr.executor": "Run",
+    "Python tests.Python tests for t_2_g_cell.test_key_comparison.executor": "Run",
+    "Python tests.Python tests for t_2_g_cell.test_str.executor": "Run",
     "Python tests.Python tests for t_bfs.test.executor": "Run",
     "Python tests.Python tests for t_grid.test_cells_valid.executor": "Run",
     "Python tests.Python tests for t_grid.test_distance.executor": "Run",
@@ -87,6 +82,7 @@
     "Python tests.Python tests for t_ltwh.test_str.executor": "Run",
     "Python tests.Python tests for t_mask.test_full.executor": "Run",
     "Python tests.Python tests for t_mask.test_one_word.executor": "Run",
+    "Python tests.Python tests for t_one_to_one.test_is_found.executor": "Run",
     "Python tests.Python tests for t_parentable.test_path_from_root.executor": "Run",
     "Python tests.Python tests for t_position.test_str.executor": "Run",
     "Python tests.Python tests for t_position.test_update.executor": "Run",
@@ -104,6 +100,7 @@
     "Python tests.Python tests in t_2_f_cell.py (1).executor": "Run",
     "Python tests.Python tests in t_2_f_cell.py.executor": "Run",
     "Python tests.Python tests in t_2_g.py.executor": "Run",
+    "Python tests.Python tests in t_2_g_cell.py.executor": "Run",
     "Python tests.Python tests in t_2_mask.py.executor": "Run",
     "Python tests.Python tests in t_3_mask_one_word.py.executor": "Run",
     "Python tests.Python tests in t_apply.py.executor": "Run",
@@ -122,10 +119,12 @@
     "Python tests.Python tests in t_ltwh.py.executor": "Run",
     "Python tests.Python tests in t_mask.py (1).executor": "Run",
     "Python tests.Python tests in t_mask.py.executor": "Run",
+    "Python tests.Python tests in t_one_to_one.py.executor": "Run",
     "Python tests.Python tests in t_parentable.py.executor": "Run",
     "Python tests.Python tests in t_position.py (1).executor": "Run",
     "Python tests.Python tests in t_position.py.executor": "Run",
     "Python tests.Python tests in t_rate_success.py.executor": "Run",
+    "Python tests.Python tests in t_u_1_grid.py.executor": "Run",
     "Python.app.executor": "Run",
     "Python.container_qa.executor": "Run",
     "Python.generated_explored.executor": "Run",
@@ -150,6 +149,7 @@
     "Python.s_0_gui (2).executor": "Run",
     "Python.s_0_gui.executor": "Run",
     "Python.s_0_text.executor": "Run",
+    "Python.s_1_grid.executor": "Run",
     "Python.s_1_phrases.executor": "Run",
     "Python.s_1_words.executor": "Run",
     "Python.s_app (1).executor": "Run",
@@ -193,89 +193,96 @@
       <recent name="G:\mypy\f_ds\collections\old" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_2_g.py">
-    <configuration name="Python tests for t_1_path_cell.test_key_comparison" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests in t_u_1_grid.py">
+    <configuration name="s_1_grid" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/graphs/study" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/graphs/study/s_1_grid.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for t_one_to_one.test_is_found" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/nodes/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_1_path_cell.test_key_comparison&quot;" />
+      <option name="_new_target" value="&quot;t_one_to_one.test_is_found&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_2_g.test_is_better_parent" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_1_grid.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/nodes/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/graphs/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_2_g.test_is_better_parent&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for t_2_g.test_repr" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/nodes/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_2_g.test_repr&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_1_path_cell.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/nodes/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/nodes/testers/t_1_path_cell.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/graphs/testers/t_1_grid.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_2_g.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_one_to_one.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/nodes/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/nodes/testers/t_2_g.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/testers/t_one_to_one.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in t_u_1_grid.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/graphs/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/graphs/testers/t_u_1_grid.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in t_2_g.py" />
-        <item itemvalue="Python tests.Python tests for t_2_g.test_repr" />
-        <item itemvalue="Python tests.Python tests for t_2_g.test_is_better_parent" />
-        <item itemvalue="Python tests.Python tests in t_1_path_cell.py" />
-        <item itemvalue="Python tests.Python tests for t_1_path_cell.test_key_comparison" />
+        <item itemvalue="Python tests.Python tests in t_u_1_grid.py" />
+        <item itemvalue="Python tests.Python tests in t_1_grid.py" />
+        <item itemvalue="Python.s_1_grid" />
+        <item itemvalue="Python tests.Python tests in t_one_to_one.py" />
+        <item itemvalue="Python tests.Python tests for t_one_to_one.test_is_found" />
       </list>
     </recent_temporary>
   </component>
@@ -407,7 +414,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723321302688</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="h">
+      <option name="closed" value="true" />
+      <created>1723348646664</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1723348646664</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
