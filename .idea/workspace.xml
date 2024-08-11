@@ -5,16 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_graph/path/testers/t_one_to_one.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/algos/testers/t_ucs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_1_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/study/s_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/study/s_1_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/testers/t_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/testers/t_1_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/testers/t_u_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/testers/t_u_1_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/u_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/u_1_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/nodes/i_2_g_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/i_2_g_cell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/nodes/testers/t_2_g_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/testers/t_2_g_cell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/testers/t_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/testers/t_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/ucs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/ucs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/nodes/i_2_g.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/i_2_g.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,6 +83,7 @@
     "Python tests.Python tests for t_position.test_str.executor": "Run",
     "Python tests.Python tests for t_position.test_update.executor": "Run",
     "Python tests.Python tests for t_rate_success.test_empty.executor": "Run",
+    "Python tests.Python tests for t_ucs.test.executor": "Run",
     "Python tests.Python tests in t_0_base.py.executor": "Run",
     "Python tests.Python tests in t_0_g.py.executor": "Run",
     "Python tests.Python tests in t_0_h.py.executor": "Run",
@@ -193,7 +190,7 @@
       <recent name="G:\mypy\f_ds\collections\old" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_u_1_grid.py">
+  <component name="RunManager" selected="Python tests.Python tests for t_ucs.test">
     <configuration name="s_1_grid" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -216,18 +213,33 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_one_to_one.test_is_found" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_bfs.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/algos/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_one_to_one.test_is_found&quot;" />
+      <option name="_new_target" value="&quot;t_bfs.test&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for t_ucs.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/algos/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_ucs.test&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -243,21 +255,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/graphs/testers/t_1_grid.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_one_to_one.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/testers/t_one_to_one.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -278,11 +275,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for t_ucs.test" />
+        <item itemvalue="Python tests.Python tests for t_bfs.test" />
         <item itemvalue="Python tests.Python tests in t_u_1_grid.py" />
         <item itemvalue="Python tests.Python tests in t_1_grid.py" />
         <item itemvalue="Python.s_1_grid" />
-        <item itemvalue="Python tests.Python tests in t_one_to_one.py" />
-        <item itemvalue="Python tests.Python tests for t_one_to_one.test_is_found" />
       </list>
     </recent_temporary>
   </component>
@@ -422,7 +419,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723348646664</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="h">
+      <option name="closed" value="true" />
+      <created>1723354237185</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1723354237185</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

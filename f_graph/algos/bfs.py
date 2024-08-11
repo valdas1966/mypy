@@ -21,8 +21,8 @@ class BFS(Generic[Node]):
         ========================================================================
         """
         self._problem = problem
-        self._data = DataGeneratedExplored[NodePath](type_queue=QueueFIFO)
-        self._path = PathOneToOne[NodePath](goal=problem.goal)
+        self._data = DataGeneratedExplored[Node](type_queue=QueueFIFO)
+        self._path = PathOneToOne[Node](goal=problem.goal)
         self._search()
 
     @property
@@ -35,7 +35,7 @@ class BFS(Generic[Node]):
         return self._problem
 
     @property
-    def data(self) -> DataGeneratedExplored:
+    def data(self) -> DataGeneratedExplored[Node]:
         """
         ========================================================================
          Return the Algo's Data (Generated and Explored).
@@ -62,7 +62,7 @@ class BFS(Generic[Node]):
         while self._data.generated:
             best = self._data.generated.pop()
             if best == self._problem.goal:
-                self._path.set_found()
+                self._path.set_valid()
                 break
             self._explore_node(node=best)
 

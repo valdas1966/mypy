@@ -37,7 +37,7 @@ class NodeG(NodePath):
         ========================================================================
         """
         self._parent = parent_new
-        self._g = parent_new.g + 1
+        self._g = (parent_new.g + 1) if parent_new else 0
 
     def is_better_parent(self, parent_new: NodeG) -> bool:
         """
