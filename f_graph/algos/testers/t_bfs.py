@@ -12,5 +12,6 @@ def test():
     bfs = BFS(problem)
     assert bfs.path.get() == [graph[0, 0], graph[0, 1], graph[0, 2],
                               graph[1, 2], graph[2, 2]]
+    assert len(bfs.data.explored) == 8
 
 

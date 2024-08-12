@@ -4,6 +4,8 @@ from f_hs.nodes.i_1_f import NodeF
 
 @pytest.fixture
 def ex_a() -> NodeF:
+    # node.g = 0
+    # node.f = 1
     node = NodeF()
     node.h = 1
     return node
@@ -11,6 +13,8 @@ def ex_a() -> NodeF:
 
 @pytest.fixture
 def ex_b(ex_a) -> NodeF:
+    # node.g = 1
+    # node.f = 1
     node = NodeF(parent=ex_a)
     node.h = 0
     return node

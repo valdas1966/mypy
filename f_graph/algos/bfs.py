@@ -1,5 +1,5 @@
 from f_graph.problems.i_2_one_to_one import ProblemOneToOne, NodePath
-from f_graph.data.generated_explored import DataGeneratedExplored
+from f_graph.data.i_0_one_to_one import DataGeneratedExplored
 from f_graph.path.one_to_one import PathOneToOne
 from f_ds.queues.i_1_fifo import QueueFIFO
 from typing import Generic, TypeVar

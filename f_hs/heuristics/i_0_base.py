@@ -1,31 +1,32 @@
-from __future__ import annotations
+from f_graph.problems.i_1_path import ProblemPath
 from f_hs.nodes.i_1_f import NodeF
-from f_graph.nodes.i_1_path_cell import NodePathCell, Cell
+from typing import Generic, TypeVar
+from abc import ABC, abstractmethod
+
+Node = TypeVar('Node', bound=NodeF)
+Problem = TypeVar('Problem', bound=ProblemPath)
 
 
-class NodeFCell(NodeF, NodePathCell):
+class HeuristicsBase(ABC, Generic[Node, Problem]):
     """
     ============================================================================
-     Informed NodeF represents list Cell in the Grid.
+     Base-Class for Heuristics.
     ============================================================================
     """
 
-    def __init__(self,
-                 cell: Cell = Cell(),
-                 name: str = None,
-                 parent: NodeFCell = None) -> None:
+    def __init__(self, problem: Problem) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        NodeF.__init__(self, name=name, parent=parent)
-        NodePathCell.__init__(self, name=name, cell=cell)
+        self._problem = problem
 
-    def __repr__(self) -> str:
+    @abstractmethod
+    def eval(self, node: Node) -> int:
         """
         ========================================================================
-         Ex: '<NodeFCell: A(0,0)> G=0, H=5, F=5'
+         Evaluate Heuristic to a given Node.
         ========================================================================
         """
-        return f'{NodePathCell.__repr__(self)} G={self.g}, H={self.h}, F={self.f()}'
+        pass

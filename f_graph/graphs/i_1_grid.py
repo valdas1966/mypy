@@ -49,6 +49,18 @@ class GraphGrid(GraphBase[Node]):
         cells = self._grid.neighbors(node.cell)
         return [self._nodes[cell] for cell in cells]
 
+    def distance(self,
+                 node_a: Node,
+                 node_b: Node) -> int:
+        """
+        ========================================================================
+         Return Manhattan-Distance between 2 Nodes.
+        ========================================================================
+        """
+        cell_a = node_a.cell
+        cell_b = node_b.cell
+        return self._grid.distance(cell_a, cell_b)
+
     def __getitem__(self, index: tuple[int, int]) -> Node:
         """
         ========================================================================

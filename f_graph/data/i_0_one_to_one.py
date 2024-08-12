@@ -5,7 +5,7 @@ from typing import Generic, TypeVar, Type
 Node = TypeVar('Node', bound=NodePath)
 
 
-class DataGeneratedExplored(Generic[Node]):
+class DataOneToOne(Generic[Node]):
     """
     ============================================================================
      Data-Class for Generated and Explored lists in Graph-Algorithms.
