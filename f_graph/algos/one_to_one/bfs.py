@@ -1,5 +1,5 @@
 from f_graph.problems.i_2_one_to_one import ProblemOneToOne, NodePath
-from f_graph.data.i_0_one_to_one import DataGeneratedExplored
+from f_graph.data.i_0_one_to_one import DataOneToOne
 from f_graph.path.one_to_one import PathOneToOne
 from f_ds.queues.i_1_fifo import QueueFIFO
 from typing import Generic, TypeVar
@@ -21,7 +21,7 @@ class BFS(Generic[Node]):
         ========================================================================
         """
         self._problem = problem
-        self._data = DataGeneratedExplored[Node](type_queue=QueueFIFO)
+        self._data = DataOneToOne[Node](type_queue=QueueFIFO)
         self._path = PathOneToOne[Node](goal=problem.goal)
         self._search()
 
@@ -35,7 +35,7 @@ class BFS(Generic[Node]):
         return self._problem
 
     @property
-    def data(self) -> DataGeneratedExplored[Node]:
+    def data(self) -> DataOneToOne[Node]:
         """
         ========================================================================
          Return the Algo's Data (Generated and Explored).
