@@ -1,0 +1,215 @@
+{
+    "code": 0,
+    "msg": "success",
+    "processed_time": 0.5751,
+    "data": {
+        "videos": [
+            {
+                "aweme_id": "",
+                "video_id": "7399628800331451653",
+                "region": "ID",
+                "title": "#diperselahkan berkomentar? m",
+                "cover": "https://p16-sign-va.tiktokcdn.com/tos-maliva-i-photomode-us/d7dab70ecd454646882fd9aec813bef4~tplv-photomode-image-cover:480:0:q70.webp?nonce=67194&refresh_token=b1d29b91e835f4653dce6c6445a2a199&x-expires=1724867758&x-signature=1IBqayKz8F9Lc0dLi0w5Bzj39ag%3D&biz_tag=tt_photomode&ps=10&s=MUSIC_AWEME&sc=cover&shcp=f6441914&shp=d05b14bd&t=20",
+                "ai_dynamic_cover": "https://p16-sign-va.tiktokcdn.com/tos-maliva-i-photomode-us/d7dab70ecd454646882fd9aec813bef4~tplv-photomode-image-cover:480:0:q70.webp?nonce=67194&refresh_token=b1d29b91e835f4653dce6c6445a2a199&x-expires=1724867758&x-signature=1IBqayKz8F9Lc0dLi0w5Bzj39ag%3D&biz_tag=tt_photomode&ps=10&s=MUSIC_AWEME&sc=cover&shcp=f6441914&shp=d05b14bd&t=20",
+                "origin_cover": "https://p16-sign-va.tiktokcdn.com/tos-maliva-i-photomode-us/d7dab70ecd454646882fd9aec813bef4~tplv-photomode-image-cover:480:0:q70.webp?nonce=67194&refresh_token=b1d29b91e835f4653dce6c6445a2a199&x-expires=1724867758&x-signature=1IBqayKz8F9Lc0dLi0w5Bzj39ag%3D&biz_tag=tt_photomode&ps=10&s=MUSIC_AWEME&sc=cover&shcp=f6441914&shp=d05b14bd&t=20",
+                "duration": 0,
+                "play": "https://sf16-ies-music-va.tiktokcdn.com/obj/musically-maliva-obj/7318314853790026502.mp3",
+                "wmplay": "https://sf16-ies-music-va.tiktokcdn.com/obj/musically-maliva-obj/7318314853790026502.mp3",
+                "size": null,
+                "wm_size": null,
+                "music": "https://sf16-ies-music-va.tiktokcdn.com/obj/musically-maliva-obj/7318314853790026502.mp3",
+                "play_count": 1400,
+                "digg_count": 116,
+                "comment_count": 0,
+                "share_count": 1,
+                "download_count": 2,
+                "collect_count": 8,
+                "create_time": 1722860342,
+                "anchors": [
+                    {
+                        "actions": [],
+                        "anchor_strong": null,
+                        "component_key": "anchor_poi",
+                        "description": "Location",
+                        "extra": "{\"Name\":\"Gak Bahaya Ta?\",\"poi_id\":\"21568226291774062\",\"city_name\":\"Probolinggo Regency\",\"city_code\":\"1630633\",\"region_code\":\"1643084\",\"poi_backend_type\":\"Outdoors and Traveling,Landmarks,Other Landmarks|08a0b6\",\"poi_info_source\":\"google\",\"video_count\":708343,\"collect_info\":\"{\\\"tt_type_code\\\":\\\"08a0b6\\\",\\\"is_tt_key_category\\\":1,\\\"tt_poi_type_name_level0\\\":\\\"Travel\\\",\\\"fake_mining_grade\\\":\\\"1\\\",\\\"tt_poi_type_name_level1\\\":\\\"Outdoors and Traveling\\\",\\\"is_display_distance\\\":0,\\\"poi_detail_type\\\":\\\"independent\\\",\\\"is_bad_case\\\":0,\\\"has_product\\\":0,\\\"is_product_visible\\\":0,\\\"has_service\\\":0,\\\"is_service_visible\\\":0,\\\"local_service_key_category\\\":\\\"Travel\\\",\\\"poi_class_name\\\":\\\"Store\\\",\\\"has_commodity_ref_g1\\\":\\\"0\\\"}\",\"poi_mapkit_collect\":false,\"location\":{\"lat\":\"-7.731502\",\"lng\":\"113.082538\",\"geohash\":\"qw8kj280wpef\"},\"fallback_address\":\"Pilang Kacir, Tanjungrejo, Kec. Tongas, Kabupaten Probolinggo, Jawa Timur, Indonesia\",\"type_level\":\"3\",\"fav_cnt\":15372,\"is_tt_key_category\":1,\"father_poi\":{\"id\":\"22535796481527565\",\"keyword\":\"Probolinggo Regency\",\"scheme\":\"aweme://poi/detail\"},\"category_name\":\"Landmarks\",\"formatted_address\":\"Pilang Kacir, Tanjungrejo, Kec. Tongas, Kabupaten Probolinggo, Jawa Timur, Indonesia\"}",
+                        "general_type": 1,
+                        "icon": {
+                            "height": 720,
+                            "uri": "tiktok-obj/Map_Pin.png",
+                            "url_list": [
+                                "https://p16-sg.tiktokcdn.com/obj/tiktok-obj/Map_Pin.png?biz_tag=anchor.poi&nonce=67011&refresh_token=b62fa3aed218f18a53be57456f6cf0f6&shcp=-&shp=45126217"
+                            ],
+                            "url_prefix": null,
+                            "width": 720
+                        },
+                        "id": "21568226291774062",
+                        "keyword": "Gak Bahaya Ta?",
+                        "log_extra": "{\"anchor_id\":\"21568226291774062\",\"anchor_name\":\"Gak Bahaya Ta?\",\"anchor_type\":\"poi\",\"is_ad_signal\":\"0\"}",
+                        "schema": "aweme://poi/detail",
+                        "thumbnail": {
+                            "height": 64,
+                            "uri": "tiktok-obj/poi_thumbnail_3x.png",
+                            "url_list": [
+                                "https://p16-sg.tiktokcdn.com/obj/tiktok-obj/poi_thumbnail_3x.png?nonce=3684&refresh_token=b16a059ac0c35d92c94236a78cf0fbda&shp=45126217&shcp=-"
+                            ],
+                            "url_prefix": null,
+                            "width": 64
+                        },
+                        "type": 45
+                    }
+                ],
+                "anchors_extras": "",
+                "is_ad": false,
+                "commerce_info": {
+                    "adv_promotable": false,
+                    "auction_ad_invited": false,
+                    "branded_content_type": 0,
+                    "with_comment_filter_words": false
+                },
+                "commercial_video_info": "",
+                "item_comment_settings": 0,
+                "author": {
+                    "id": "7343625654182904838",
+                    "unique_id": "vaisal186",
+                    "nickname": "DUNIA LUCU",
+                    "avatar": "https://p16-amd-va.tiktokcdn.com/tos-maliva-avt-0068/6b0c1ee58dbfaa03b33b68d754b8a8f9~tplv-tiktokx-cropcenter-q:300:300:q75.jpeg?nonce=9518&ps=124&refresh_token=0fa83e11d46cd086c8bc5bcc084d7061&s=MUSIC_AWEME&sc=avatar&shcp=f6441914&shp=45126217&t=1"
+                },
+                "images": [
+                    "https://p77-sign-va.tiktokcdn.com/tos-maliva-i-photomode-us/d7dab70ecd454646882fd9aec813bef4~tplv-photomode-image-v1:q70.jpeg?nonce=28315&refresh_token=29fce0773be273fba903dee54170fa33&x-expires=1724867758&x-signature=i7yF6%2Bpq%2BJPESve2jw5a0RGuv5k%3D&biz_tag=tt_photomode&ps=11&s=MUSIC_AWEME&sc=image&shcp=f6441914&shp=d05b14bd&t=20",
+                    "https://p77-sign-va.tiktokcdn.com/tos-maliva-i-photomode-us/bb28019be5ac40a1914cdcd232735cc9~tplv-photomode-image-v1:q70.jpeg?nonce=79113&refresh_token=44a8d91fd6f4f515afffb9cf01d51d33&x-expires=1724867758&x-signature=xjolG1cp4HCOOK%2BdTkZfqOUfYtI%3D&biz_tag=tt_photomode&ps=11&s=MUSIC_AWEME&sc=image&shcp=f6441914&shp=d05b14bd&t=20",
+                    "https://p77-sign-va.tiktokcdn.com/tos-maliva-i-photomode-us/001fcc5997564a4eba1e156d125c5f7c~tplv-photomode-image-v1:q70.jpeg?nonce=19602&refresh_token=4757c91e903c0b06b028d6728c0cf316&x-expires=1724867758&x-signature=3JrN2HXGTCqHiFpCuOJs%2B%2F%2F%2F5l4%3D&biz_tag=tt_photomode&ps=11&s=MUSIC_AWEME&sc=image&shcp=f6441914&shp=d05b14bd&t=20"
+                ],
+                "is_top": 0
+            },
+            {
+                "aweme_id": "",
+                "video_id": "7400952163083619615",
+                "region": "US",
+                "title": "@Support Palestine\ud83c\uddf5\ud83c\uddf8\u270c ",
+                "cover": "https://p16-sign-va.tiktokcdn.com/tos-maliva-i-photomode-us/591e14318bc64a15a99ecd0965795568~tplv-photomode-image-cover:480:0:q70.webp?nonce=47422&refresh_token=ada4c65b4e92b622288aa1f1166a1829&x-expires=1724867758&x-signature=Gnb2%2BzqlnSqiOA8zRVA8OQclgkE%3D&biz_tag=tt_photomode&ps=10&s=MUSIC_AWEME&sc=cover&shcp=f6441914&shp=d05b14bd&t=20",
+                "ai_dynamic_cover": "https://p16-sign-va.tiktokcdn.com/tos-maliva-i-photomode-us/591e14318bc64a15a99ecd0965795568~tplv-photomode-image-cover:480:0:q70.webp?nonce=47422&refresh_token=ada4c65b4e92b622288aa1f1166a1829&x-expires=1724867758&x-signature=Gnb2%2BzqlnSqiOA8zRVA8OQclgkE%3D&biz_tag=tt_photomode&ps=10&s=MUSIC_AWEME&sc=cover&shcp=f6441914&shp=d05b14bd&t=20",
+                "origin_cover": "https://p16-sign-va.tiktokcdn.com/tos-maliva-i-photomode-us/591e14318bc64a15a99ecd0965795568~tplv-photomode-image-cover:480:0:q70.webp?nonce=47422&refresh_token=ada4c65b4e92b622288aa1f1166a1829&x-expires=1724867758&x-signature=Gnb2%2BzqlnSqiOA8zRVA8OQclgkE%3D&biz_tag=tt_photomode&ps=10&s=MUSIC_AWEME&sc=cover&shcp=f6441914&shp=d05b14bd&t=20",
+                "duration": 0,
+                "play": "https://sf16-ies-music-va.tiktokcdn.com/obj/musically-maliva-obj/7318314853790026502.mp3",
+                "wmplay": "https://sf16-ies-music-va.tiktokcdn.com/obj/musically-maliva-obj/7318314853790026502.mp3",
+                "size": null,
+                "wm_size": null,
+                "music": "https://sf16-ies-music-va.tiktokcdn.com/obj/musically-maliva-obj/7318314853790026502.mp3",
+                "play_count": 6407,
+                "digg_count": 218,
+                "comment_count": 28,
+                "share_count": 4,
+                "download_count": 1,
+                "collect_count": 9,
+                "create_time": 1723168471,
+                "anchors": null,
+                "anchors_extras": "",
+                "is_ad": false,
+                "commerce_info": {
+                    "adv_promotable": false,
+                    "auction_ad_invited": false,
+                    "branded_content_type": 0,
+                    "with_comment_filter_words": false
+                },
+                "commercial_video_info": "",
+                "item_comment_settings": 0,
+                "author": {
+                    "id": "7396867217050338347",
+                    "unique_id": "risky.gaming86",
+                    "nickname": "RISKY GAMING",
+                    "avatar": "https://p16-amd-va.tiktokcdn.com/tos-maliva-avt-0068/a7fd5f90441a2f40bd6e8d315e03c4f0~tplv-tiktokx-cropcenter-q:300:300:q75.jpeg?nonce=76119&ps=124&refresh_token=99da9fce17f8f92c916fa2febfd31ed7&s=MUSIC_AWEME&sc=avatar&shcp=f6441914&shp=45126217&t=1"
+                },
+                "images": [
+                    "https://p77-sign-va.tiktokcdn.com/tos-maliva-i-photomode-us/591e14318bc64a15a99ecd0965795568~tplv-photomode-image-v1:q70.jpeg?nonce=58571&refresh_token=8f00d88aeedb6e92ae94015cd6085980&x-expires=1724867758&x-signature=J347lndW2ZetNQXa4nngvnaGmaE%3D&biz_tag=tt_photomode&ps=11&s=MUSIC_AWEME&sc=image&shcp=f6441914&shp=d05b14bd&t=20",
+                    "https://p77-sign-va.tiktokcdn.com/tos-maliva-i-photomode-us/c316049dc2e8476eb9080dc5663c0478~tplv-photomode-image-v1:q70.jpeg?nonce=7343&refresh_token=a4de3e3a6527d21c21e2d9d32fc49ad7&x-expires=1724867758&x-signature=lI7vOeCqV%2F1d0BxO2JNwPZFbaNY%3D&biz_tag=tt_photomode&ps=11&s=MUSIC_AWEME&sc=image&shcp=f6441914&shp=d05b14bd&t=20"
+                ],
+                "is_top": 0
+            },
+            {
+                "aweme_id": "v14044g50000cn5njtnog65laf3eu9s0",
+                "video_id": "7335091208739425543",
+                "region": "MV",
+                "title": "",
+                "cover": "https://p77-sign-sg.tiktokcdn.com/tos-alisg-p-0037/o0qCTDeI2AlpLtwoTQCPjeAGSxIlLuIXGVWveW~tplv-tiktokx-cropcenter-q:300:400:q72.jpeg?nonce=71917&refresh_token=bdc4c2206692b0126e543141677d10cf&x-expires=1723658158&x-signature=6JCmP4nVkfC66GlKdN3Jg0Ot3kY%3D&ps=30&s=MUSIC_AWEME&sc=cover&shcp=f6441914&shp=d05b14bd&t=21",
+                "ai_dynamic_cover": "https://p77-sign-sg.tiktokcdn.com/tos-alisg-p-0037/364adaf43dff4b3db0d721de356aed49_1707834016~tplv-tiktokx-origin.image?nonce=51758&refresh_token=306c7ed1307619240e59eb7fae55df73&x-expires=1723658158&x-signature=tNyA0Tgv5g6AjRcF3EgZAsyEok8%3D&ps=31&s=MUSIC_AWEME&sc=cover&shcp=f6441914&shp=d05b14bd&t=21",
+                "origin_cover": "https://p77-sign-sg.tiktokcdn.com/tos-alisg-p-0037/9b0f622ad1a243a490e3f18e210aaa76_1707834015~tplv-tiktokx-360p.webp?nonce=30298&refresh_token=3cda1fbe9437a2476b30166dddad6f66&x-expires=1723658158&x-signature=e6vS5ppQITnqfuJ5OmSSnrUmLNw%3D&ps=32&s=MUSIC_AWEME&sc=cover&shcp=f6441914&shp=d05b14bd&t=21",
+                "duration": 15,
+                "play": "https://v39-ca.tiktokcdn.com/6afc48370ba183caf361f72d4faec4f1/66bbf29d/video/tos/alisg/tos-alisg-pve-0037c001/oUDxELvCT8PIIULjVnRALLAoueAegtVW6elgqG/?a=1233&bti=NDg5QGo7dik3OjlmNC4uYCM6bTQ0MDo%3D&ch=0&cr=13&dr=0&er=0&lr=all&net=0&cd=0%7C0%7C0%7C&cv=1&br=1342&bt=671&cs=0&ds=6&ft=EYIHn11UvkjQ99.bgGiV~.CukY.DZcAxDZulWH6KJE&mime_type=video_mp4&qs=4&rc=Z2U1Ojk0OjxoZThlPGlnaUBpMzxoaW85cndxcTMzODczNEAyYzYtXy1jNi4xMzAuMzNhYSNwcjBeMmRrZzJgLS1kMTFzcw%3D%3D&vvpl=1&l=20240813175557BBE3188E9B6B991BA405&btag=e0008d000",
+                "wmplay": "https://v39-ca.tiktokcdn.com/46ad58c83237c4fcb2ea579373abff20/66bbf29d/video/tos/alisg/tos-alisg-pve-0037c001/ownDIPLIXxTGUCufAtoaveI0LIAj2glVgweTEQ/?a=1233&bti=NDg5QGo7dik3OjlmNC4uYCM6bTQ0MDo%3D&ch=0&cr=13&dr=0&er=0&lr=all&net=0&cd=0%7C0%7C0%7C&cv=1&br=2258&bt=1129&cs=0&ds=3&ft=EYIHn11UvkjQ99.bgGiV~.CukY.DZcAxDZulWH6KJE&mime_type=video_mp4&qs=0&rc=OzY1Mzw7ZDNmZzQ4N2Y1ZkBpMzxoaW85cndxcTMzODczNEA2LWNhY14tXmMxYzEyYDE1YSNwcjBeMmRrZzJgLS1kMTFzcw%3D%3D&vvpl=1&l=20240813175557BBE3188E9B6B991BA405&btag=e0008d000",
+                "size": 1290214,
+                "wm_size": 2169266,
+                "music": "https://sf16-ies-music-va.tiktokcdn.com/obj/musically-maliva-obj/7318314853790026502.mp3",
+                "play_count": 32664,
+                "digg_count": 490,
+                "comment_count": 91,
+                "share_count": 25,
+                "download_count": 47,
+                "collect_count": 48,
+                "create_time": 1707834012,
+                "anchors": null,
+                "anchors_extras": "",
+                "is_ad": false,
+                "commerce_info": {
+                    "adv_promotable": false,
+                    "auction_ad_invited": false,
+                    "branded_content_type": 0,
+                    "with_comment_filter_words": false
+                },
+                "commercial_video_info": "",
+                "item_comment_settings": 0,
+                "author": {
+                    "id": "6961715331795026945",
+                    "unique_id": "naanuaaki",
+                    "nickname": "Hussain Ad",
+                    "avatar": "https://p16-sg.tiktokcdn.com/tos-alisg-avt-0068/42488b0e25f5447660c22137eb45e997~tplv-tiktokx-cropcenter-q:300:300:q75.jpeg?nonce=79861&ps=124&refresh_token=55e348ac37d9a908aabdffcfe26bfd3a&s=MUSIC_AWEME&sc=avatar&shcp=f6441914&shp=45126217&t=1"
+                },
+                "is_top": 0
+            },
+            {
+                "aweme_id": "",
+                "video_id": "7395591191426764065",
+                "region": "LU",
+                "title": "",
+                "cover": "https://p16-sign-useast2a.tiktokcdn.com/tos-useast2a-i-photomode-euttp/68f301349819499e989b03979e8a1c84~tplv-photomode-image-cover:480:0:q70.webp?nonce=16587&refresh_token=185202f563b31b5fa517b18f03117bd1&x-expires=1724867758&x-signature=vZDf6cruo5Pn5YV4ONUOE2wtKpo%3D&biz_tag=tt_photomode&ps=10&s=MUSIC_AWEME&sc=cover&shcp=f6441914&shp=d05b14bd&t=20",
+                "ai_dynamic_cover": "https://p16-sign-useast2a.tiktokcdn.com/tos-useast2a-i-photomode-euttp/68f301349819499e989b03979e8a1c84~tplv-photomode-image-cover:480:0:q70.webp?nonce=16587&refresh_token=185202f563b31b5fa517b18f03117bd1&x-expires=1724867758&x-signature=vZDf6cruo5Pn5YV4ONUOE2wtKpo%3D&biz_tag=tt_photomode&ps=10&s=MUSIC_AWEME&sc=cover&shcp=f6441914&shp=d05b14bd&t=20",
+                "origin_cover": "https://p16-sign-useast2a.tiktokcdn.com/tos-useast2a-i-photomode-euttp/68f301349819499e989b03979e8a1c84~tplv-photomode-image-cover:480:0:q70.webp?nonce=16587&refresh_token=185202f563b31b5fa517b18f03117bd1&x-expires=1724867758&x-signature=vZDf6cruo5Pn5YV4ONUOE2wtKpo%3D&biz_tag=tt_photomode&ps=10&s=MUSIC_AWEME&sc=cover&shcp=f6441914&shp=d05b14bd&t=20",
+                "duration": 0,
+                "play": "https://sf16-ies-music-va.tiktokcdn.com/obj/musically-maliva-obj/7318314853790026502.mp3",
+                "wmplay": "https://sf16-ies-music-va.tiktokcdn.com/obj/musically-maliva-obj/7318314853790026502.mp3",
+                "size": null,
+                "wm_size": null,
+                "music": "https://sf16-ies-music-va.tiktokcdn.com/obj/musically-maliva-obj/7318314853790026502.mp3",
+                "play_count": 1486,
+                "digg_count": 116,
+                "comment_count": 17,
+                "share_count": 1,
+                "download_count": 0,
+                "collect_count": 1,
+                "create_time": 1721920263,
+                "anchors": null,
+                "anchors_extras": "",
+                "is_ad": false,
+                "commerce_info": {
+                    "adv_promotable": false,
+                    "auction_ad_invited": false,
+                    "branded_content_type": 0,
+                    "with_comment_filter_words": false
+                },
+                "commercial_video_info": "",
+                "item_comment_settings": 0,
+                "author": {
+                    "id": "7328212403816203296",
+                    "unique_id": "crnamamba888",
+                    "nickname": "Blackmamba Free Palestine\ud83c\uddf5\ud83c\uddf8",
+                    "avatar": "https://p16-useast2a.tiktokcdn.com/tos-useast2a-avt-0068-euttp/963949fdc63fc5a4195050b6daaa0c5f~tplv-tiktokx-cropcenter-q:300:300:q75.jpeg?nonce=49983&ps=124&refresh_token=22da10436f9903c3a2a60bddd18c04bc&s=MUSIC_AWEME&sc=avatar&shcp=f6441914&shp=45126217&t=1"
+                },
+                "images": [
+                    "https://p16-sign-useast2a.tiktokcdn.com/tos-useast2a-i-photomode-euttp/68f301349819499e989b03979e8a1c84~tplv-photomode-2k-shrink-v1:1200:0:q70.jpeg?nonce=5365&refresh_token=9bc2679769ab0e1420cb4c949ea30d83&x-expires=1724867758&x-signature=kMsEsuAW5NRf4WSb6iRZF1eQeVI%3D&biz_tag=tt_photomode&ps=11&s=MUSIC_AWEME&sc=image&shcp=f6441914&shp=d05b14bd&t=20"
+                ],
+                "is_top": 0
+            }
+        ],
+        "cursor": 116,
+        "hasMore": 1
+    }
+}

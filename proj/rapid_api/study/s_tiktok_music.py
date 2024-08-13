@@ -14,7 +14,7 @@ videos = t.music.get_videos(id_music)
 storage = Storage(user='RAMI')
 bucket = storage.bucket(name='json_tiktok_by_music')
 while videos and videos.has_more:
-    path = f'{os.getcwd()}\\{id_music}_{u_datetime.now(format='NUM')}.json'
+    path = f'{os.getcwd()}\\{id_music}_{u_datetime.now(format="NUM")}.json'
     f = Json.from_data(path=path, data=videos.json)
     bucket.upload_file(path_from=path)
     u_file.delete(path=path)

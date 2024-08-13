@@ -1,6 +1,6 @@
 from f_graph.problems.i_2_one_to_one import ProblemOneToOne
 from f_graph.graphs.i_1_grid import GraphGrid, Grid, NodeCell
-from f_graph.algos.one_to_one.bfs import BFS
+from f_graph.algos.one_to_one.i_1_bfs import BFS
 
 
 grid = Grid(3)
