@@ -1,4 +1,4 @@
-from f_graph.data.i_0_base import DataBase, NodePath
+from f_graph.data.i_0_path import DataBase, NodePath
 from typing import TypeVar
 
 Node = TypeVar('Node', bound=NodePath)

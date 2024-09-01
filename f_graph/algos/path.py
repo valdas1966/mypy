@@ -1,14 +1,13 @@
-from f_graph.problems.i_2_one_to_one import ProblemOneToOne, NodePath
-from f_graph.data.i_1_one_to_one import DataOneToOne
-from f_graph.path.forward import PathForward
+from f_graph.problems.i_1_path import ProblemPath, NodePath
+from f_graph.data.i_0_path import DataPath
 from f_ds.queues.i_0_base import QueueBase
 from typing import Generic, TypeVar, Type
-from abc import ABC
+from abc import ABC, abstractmethod
 
 Node = TypeVar('Node', bound=NodePath)
 
 
-class AlgoOneToOne(ABC, Generic[Node]):
+class AlgoPath(ABC, Generic[Node]):
     """
     ============================================================================
      Base-Algorithm for One-To-One path problems.
@@ -16,7 +15,7 @@ class AlgoOneToOne(ABC, Generic[Node]):
     """
 
     def __init__(self,
-                 problem: ProblemOneToOne,
+                 problem: ProblemPath,
                  type_queue: Type[QueueBase]) -> None:
         """
         ========================================================================
@@ -24,12 +23,11 @@ class AlgoOneToOne(ABC, Generic[Node]):
         ========================================================================
         """
         self._problem = problem
-        self._data = DataOneToOne[Node](type_queue=type_queue)
-        self._path = PathForward[Node](goal=problem.goal)
+        self._data = DataPath[Node](type_queue=type_queue)
         self._search()
 
     @property
-    def problem(self) -> ProblemOneToOne:
+    def problem(self) -> ProblemPath:
         """
         ========================================================================
          Return the shortest path One-to-One Problem.
@@ -38,7 +36,7 @@ class AlgoOneToOne(ABC, Generic[Node]):
         return self._problem
 
     @property
-    def data(self) -> DataOneToOne[Node]:
+    def data(self) -> DataPath[Node]:
         """
         ========================================================================
          Return the Algo's Data (Generated and Explored).
@@ -46,28 +44,14 @@ class AlgoOneToOne(ABC, Generic[Node]):
         """
         return self._data
 
-    @property
-    def path(self) -> PathForward:
-        """
-        ========================================================================
-         Return the Path-Manager of the shortest path problem.
-        ========================================================================
-        """
-        return self._path
-
+    @abstractmethod
     def _search(self) -> None:
         """
         ========================================================================
-         Search the shortest path from Start to Goal.
+         Execute the search process.
         ========================================================================
         """
-        self._generate_node(node=self._problem.start)
-        while self._data.generated:
-            best = self._data.generated.pop()
-            if best == self._problem.goal:
-                self._path.set_valid()
-                break
-            self._explore_node(node=best)
+        pass
 
     def _explore_node(self, node: Node) -> None:
         """

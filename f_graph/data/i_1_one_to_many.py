@@ -1,5 +1,5 @@
 from f_graph.problems.i_2_one_to_many import ProblemOneToMany
-from f_graph.data.i_0_base import DataBase, QueueBase, NodePath
+from f_graph.data.i_0_path import DataBase, QueueBase, NodePath
 from typing import TypeVar, Type
 
 Node = TypeVar('Node', bound=NodePath)

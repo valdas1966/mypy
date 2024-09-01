@@ -12,14 +12,13 @@ class PathForward(Generic[Node], Validatable):
     ============================================================================
     """
 
-    def __init__(self, goal: Node = None) -> None:
+    def __init__(self) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         Validatable.__init__(self, is_valid=False)
-        self._goal = goal
 
     def get(self, goal: Node = None) -> list[Node]:
         """

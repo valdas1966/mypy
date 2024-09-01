@@ -6,7 +6,7 @@ from abc import ABC
 Node = TypeVar('Node', bound=NodePath)
 
 
-class DataBase(ABC, Generic[Node]):
+class DataPath(ABC, Generic[Node]):
     """
     ============================================================================
      Base-Class of Data for Path-Algorithms (Generated and Explored lists).

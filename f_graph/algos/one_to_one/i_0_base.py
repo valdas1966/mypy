@@ -1,59 +1,18 @@
 from f_graph.problems.i_2_one_to_one import ProblemOneToOne, NodePath
 from f_graph.data.i_1_one_to_one import DataOneToOne
-from f_graph.path.forward import PathForward
+from f_graph.algos.path import AlgoPath
 from f_ds.queues.i_0_base import QueueBase
-from typing import Generic, TypeVar, Type
-from abc import ABC
+from typing import TypeVar, Type
 
 Node = TypeVar('Node', bound=NodePath)
 
 
-class AlgoOneToOne(ABC, Generic[Node]):
+class AlgoOneToOne(AlgoPath[Node]):
     """
     ============================================================================
      Base-Algorithm for One-To-One path problems.
     ============================================================================
     """
-
-    def __init__(self,
-                 problem: ProblemOneToOne,
-                 type_queue: Type[QueueBase]) -> None:
-        """
-        ========================================================================
-         Init private Attributes.
-        ========================================================================
-        """
-        self._problem = problem
-        self._data = DataOneToOne[Node](type_queue=type_queue)
-        self._path = PathForward[Node](goal=problem.goal)
-        self._search()
-
-    @property
-    def problem(self) -> ProblemOneToOne:
-        """
-        ========================================================================
-         Return the shortest path One-to-One Problem.
-        ========================================================================
-        """
-        return self._problem
-
-    @property
-    def data(self) -> DataOneToOne[Node]:
-        """
-        ========================================================================
-         Return the Algo's Data (Generated and Explored).
-        ========================================================================
-        """
-        return self._data
-
-    @property
-    def path(self) -> PathForward:
-        """
-        ========================================================================
-         Return the Path-Manager of the shortest path problem.
-        ========================================================================
-        """
-        return self._path
 
     def _search(self) -> None:
         """
