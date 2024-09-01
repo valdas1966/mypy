@@ -1,15 +1,14 @@
-from f_graph.problems.i_2_one_to_many import ProblemOneToMany, NodePath
-from f_graph.data.i_0_one_to_one import DataOneToOne
-from f_ds.queues.i_0_base import QueueBase
-from typing import Type, TypeVar
+from f_graph.problems.i_2_one_to_many import ProblemOneToMany
+from f_graph.data.i_0_base import DataBase, QueueBase, NodePath
+from typing import TypeVar, Type
 
 Node = TypeVar('Node', bound=NodePath)
 
 
-class DataOneToMany(DataOneToOne[Node]):
+class DataOneToMany(DataBase[Node]):
     """
     ============================================================================
-     Data for One-To-Many Search-Algorithm.
+     Class of Data for One-to-Many Path-Algorithms.
     ============================================================================
     """
 
@@ -22,7 +21,7 @@ class DataOneToMany(DataOneToOne[Node]):
          Init private Attributes.
         ========================================================================
         """
-        DataOneToOne.__init__(self, type_queue=type_queue)
+        DataBase.__init__(self, type_queue=type_queue)
         self._goals_active = problem.goals
 
     @property

@@ -1,5 +1,5 @@
 from f_graph.problems.i_2_one_to_one import ProblemOneToOne, NodePath
-from f_graph.data.i_0_one_to_one import DataOneToOne
+from f_graph.data.i_1_one_to_one import DataOneToOne
 from f_graph.path.forward import PathForward
 from f_ds.queues.i_0_base import QueueBase
 from typing import Generic, TypeVar, Type
