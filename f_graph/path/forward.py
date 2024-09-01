@@ -5,14 +5,14 @@ from typing import Generic, TypeVar
 Node = TypeVar('Node', bound=NodePath)
 
 
-class PathOneToOne(Generic[Node], Validatable):
+class PathForward(Generic[Node], Validatable):
     """
     ============================================================================
-     Path-Class for One-to-One Problem.
+     Class for Forward-Path in Graph-Problem.
     ============================================================================
     """
 
-    def __init__(self, goal: Node) -> None:
+    def __init__(self, goal: Node = None) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -21,10 +21,13 @@ class PathOneToOne(Generic[Node], Validatable):
         Validatable.__init__(self, is_valid=False)
         self._goal = goal
 
-    def get(self) -> list[Node]:
+    def get(self, goal: Node = None) -> list[Node]:
         """
         ========================================================================
          Return the Path (List of Nodes).
         ========================================================================
         """
-        return self._goal.path_from_root()
+        if goal:
+            return goal.path_from_root()
+        else:
+            return self._goal.path_from_root()

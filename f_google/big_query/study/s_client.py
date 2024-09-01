@@ -5,3 +5,4 @@ bq = BigQuery(user='RAMI')
 
 print(bq.user)
 print(bq.creds)
+

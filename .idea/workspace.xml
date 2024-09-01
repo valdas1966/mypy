@@ -5,14 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/proj/rapid_api/study/7318314841177508614_20240813205558.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/algos/base.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/data/i_0_base.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_1_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/big_query/study/s_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/study/s_client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/study/s_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/study/s_bfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_bfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algos/a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algos/a_star.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/forward.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proj/rapid_api/study/s_tiktok_music.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/rapid_api/study/s_tiktok_music.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/rapid_api/study/s_tiktok_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/rapid_api/study/s_tiktok_user.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,12 +35,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "ddaa2239-897e-4e37-90b9-04afc5364900"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
+    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -151,6 +151,7 @@
     "Python.run (1).executor": "Run",
     "Python.run.executor": "Run",
     "Python.run_exam (1).executor": "Run",
+    "Python.run_exam (2).executor": "Run",
     "Python.run_exam.executor": "Run",
     "Python.s_0_base.executor": "Run",
     "Python.s_0_g.executor": "Run",
@@ -203,8 +204,8 @@
       <recent name="G:\mypy\f_hs\nodes" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.run_exam">
-    <configuration name="run_exam" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests in t_bfs.py">
+    <configuration name="run_exam (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -226,7 +227,29 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_tiktok_music" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="run_exam (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/scripts/run_exam.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="s_tiktok_user" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -239,28 +262,13 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/rapid_api/study/s_tiktok_music.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/rapid_api/study/s_tiktok_user.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for t_bfs.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/algos/one_to_one/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_bfs.test&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="Python tests in t_astar.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -278,7 +286,7 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_bfs.py (1)" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_bfs.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -295,11 +303,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.run_exam" />
+        <item itemvalue="Python tests.Python tests in t_bfs.py" />
         <item itemvalue="Python tests.Python tests in t_astar.py" />
-        <item itemvalue="Python tests.Python tests in t_bfs.py (1)" />
-        <item itemvalue="Python.s_tiktok_music" />
-        <item itemvalue="Python tests.Python tests for t_bfs.test" />
+        <item itemvalue="Python.run_exam (2)" />
+        <item itemvalue="Python.run_exam (1)" />
+        <item itemvalue="Python.s_tiktok_user" />
       </list>
     </recent_temporary>
   </component>
@@ -471,7 +479,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723445114559</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="h">
+      <option name="closed" value="true" />
+      <created>1723575720086</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1723575720086</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
