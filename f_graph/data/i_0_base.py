@@ -1,11 +1,12 @@
 from f_ds.queues.i_0_base import QueueBase
 from f_graph.nodes.i_1_path import NodePath
 from typing import Generic, TypeVar, Type
+from abc import ABC
 
 Node = TypeVar('Node', bound=NodePath)
 
 
-class DataBase(Generic[Node]):
+class DataBase(ABC, Generic[Node]):
     """
     ============================================================================
      Base-Class of Data for Path-Algorithms (Generated and Explored lists).
