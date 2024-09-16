@@ -25,11 +25,19 @@ def get_tiktok_info():
 
 def get_followers(id_user: str, time: str = str()):
     d = TikTok().get_followers(id_user=id_user, time=time)
+    print(d.keys())
+    print(d['code'])
     print(d['msg'])
-    print(d)
+    print(d['data'].keys())
+    print(d['data']['followers'][0].keys())
+    print(d['data']['followers'][0]['unique_id'])
+    print(d['data']['followers'][0]['nickname'])
+    print(len(d['data']['followers']))
+
 
 
 id_user = '107955'
+# id_user = '111'
 # s_videos_by_hashtag()
 # get_tiktok_info()
 get_followers(id_user=id_user)

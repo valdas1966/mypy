@@ -6,7 +6,7 @@ from f_os.u_file import UFile as u_file
 import os
 
 
-id_music = '7401469615787199265'
+id_music = '7314259878682446594'
 
 
 t = TikTok()

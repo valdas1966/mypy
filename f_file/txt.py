@@ -5,7 +5,7 @@ from f_utils.dtypes.u_list import UList
 from f_utils.dtypes.u_str import UStr
 
 
-class Txt(Nameable):
+class FileTxt(Nameable):
     """
     ============================================================================
      Text-File Manager.

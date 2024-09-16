@@ -5,7 +5,7 @@ import json
 import time
 
 
-class Get(Printable, Validatable):
+class HttpGet(Printable, Validatable):
     """
     ============================================================================
      Http Request Get.
@@ -14,8 +14,8 @@ class Get(Printable, Validatable):
 
     def __init__(self,
                  url: str,
-                 params: dict = None,
-                 headers: dict = None) -> None:
+                 params: dict[str, str] = None,
+                 headers: dict[str, str] = None) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -29,10 +29,9 @@ class Get(Printable, Validatable):
         self._elapsed: float | None = None
         self._request()
         if self._response is not None and self._response.status_code == 200:
-           self.set_valid()
+            self.set_valid()
         else:
             self.set_invalid()
-
 
     @property
     def response(self) -> Response:
@@ -99,6 +98,8 @@ class Get(Printable, Validatable):
                                      params=self._params,
                                      headers=self._headers)
             self._elapsed = time.time() - time_start
+            if self.status() == 403:
+                print('HTTP 403 Forbidden')
         except Exception as e:
             self._response = None
             self._elapsed = None

@@ -4,19 +4,22 @@ from f_utils import u_file
 
 
 path_key = 'd:\\professor\\gcp\\tiktok no watermark.old_old_txt'
-key = u_file.read(path_key)
+#key = u_file.read(path_key)
 
 
 bq = BigQuery(user='RAMI')
-df = bq.select.to_df(query="select alias from "
+df = bq.select.df(query="select alias from "
                            "noteret.tiktok2.users_alias_to_id_input")
 li_input = df['alias'].tolist()
+print(li_input)
 li_output = list()
-tiktok = TikTok(key=key)
+tiktok = TikTok()
+print(tiktok.alias_to_id(alias=li_input[0]))
 for i, alias in enumerate(li_input):
     if i < 1200:
         continue
     id_user = tiktok.alias_to_id(alias=alias)
+    print(id_user)
     row = {'alias': alias, 'id_user': id_user}
     li_output.append(row)
     if i % 100 == 0:

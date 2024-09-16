@@ -1,9 +1,9 @@
 from __future__ import annotations
 from collections import namedtuple
-from proj.rapid_api.inner.tiktok.user import User
-from proj.rapid_api.inner.tiktok.music import Music
+from proj.rapid_api.requests.tiktok.user import User
+from proj.rapid_api.requests.tiktok.music import Music
 from f_utils import u_http_requests
-from f_utils import u_file
+from f_os import u_environ
 
 
 class TikTok:
@@ -14,19 +14,19 @@ class TikTok:
     ============================================================================
     """
 
-    _PATH_KEY = 'd:\\professor\\json\\tiktok no watermark.txt'
+    #_PATH_KEY = 'd:\\professor\\json\\tiktok no watermark.txt'
 
-    def __init__(self, path_key: str = None) -> None:
+    def __init__(self) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        path_key = path_key or u_file.to_drive(__file__) + TikTok._PATH_KEY[1:]
-        self._key = u_file.read(path_key)
         self._host = 'tiktok-video-no-watermark2.p.rapidapi.com'
-        self._headers: dict[str, str] = {'X-RapidAPI-Key': self._key,
-                                         'X-RapidAPI-Host': self._host}
+        self._key = u_environ.get('TIKTOK_1')
+        self._headers: dict[str, str] = {'X-RapidAPI-Host': self._host,
+                                         'X-RapidAPI-Key': self._key,
+                                         }
         self.user = User(self._key, self._host, self._headers)
         self.music = Music(self._key, self._host, self._headers)
 
