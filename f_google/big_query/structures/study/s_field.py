@@ -1,6 +1,6 @@
 from f_google.big_query.structures.field import Field
 
 
-field = Field(name='list', dt='b')
+field = Field(name='a', dtype='b')
 
-print(field.name, field.dt)
+print(field.name, field.dtype)

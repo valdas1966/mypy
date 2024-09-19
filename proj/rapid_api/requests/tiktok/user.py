@@ -57,7 +57,7 @@ class User(RequestBase):
         d = self.request(url, params).to_dict()
         is_valid = d['code'] == 0
         is_exist = d['msg'] == 'success'
-        li = None
+        li = None   
         if is_valid and is_exist:
             li = list()
             data = d['data']['followers']

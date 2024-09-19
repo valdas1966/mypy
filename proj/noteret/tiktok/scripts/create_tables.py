@@ -1,0 +1,1 @@
+from f_google.big_query.structures.schema import Schema

@@ -33,4 +33,7 @@ class Create(Command):
                                   retry=Retry())
         if self._verbose:
             print(f'Table [{tname}] has been created.')
+            print(f'Schema:')
+            for field in schema.build():
+                print(f'  - {field.name}: {field.field_type}')
 

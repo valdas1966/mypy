@@ -10,11 +10,17 @@ class Schema:
     """
 
     # Field-Types
-    STRING = 'STRING'
+    BOOLEAN = 'BOOLEAN'
     INTEGER = 'INTEGER'
+    STRING = 'STRING'
     DATETIME = 'DATETIME'
 
     def __init__(self) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
         self._fields = list()
 
     def add(self, name: str, dtype: str = STRING) -> None:
@@ -28,7 +34,7 @@ class Schema:
     def build(self) -> list[SchemaField]:
         """
         ========================================================================
-         Return list BigQuery format of list Schema.
+         Return BigQuery format of list Schema.
         ========================================================================
         """
         return [SchemaField(name=field.name, field_type=field.dt)

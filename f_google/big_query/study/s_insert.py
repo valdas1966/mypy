@@ -1,7 +1,5 @@
-from google.cloud.bigquery import Client
+from f_google.big_query.client import BigQuery
 
 
-class Insert:
-
-    def __init__(self, client: Client) -> None:
-        self._client = client
+bq = BigQuery()
+bq.insert.rows_inserted()
