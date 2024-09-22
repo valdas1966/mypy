@@ -1,12 +1,12 @@
-from typing import Generic, TypeVar, Iterable, Callable
+from typing import Generic, TypeVar, Callable
 from f_abstract.mixins.nameable import Nameable
-from f_abstract.mixins.iterable import Iterable as MyIterable
+from f_abstract.mixins.iterable import Iterable
 from f_utils import u_list
 
 Item = TypeVar('Item')   # Type of Items in the Collection
 
 
-class Collection1D(Generic[Item], MyIterable[Item], Nameable):
+class Collection1D(Generic[Item], Iterable[Item], Nameable):
     """
     ============================================================================
      Abstract-Class represents list Collection of Items.
@@ -49,7 +49,7 @@ class Collection1D(Generic[Item], MyIterable[Item], Nameable):
     def to_list(self) -> list[Item]:
         """
         ========================================================================
-         Return list list representation of the Object.
+         Return list representation of the Object.
         ========================================================================
         """
         if isinstance(self._items, list):
@@ -65,4 +65,4 @@ class Collection1D(Generic[Item], MyIterable[Item], Nameable):
         """
         if self._items is None:
             return f'{self.name}(None)'
-        return f'{self.name}({MyIterable.__str__(self)})'
+        return f'{self.name}({Iterable.__str__(self)})'

@@ -5,16 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/proj/noteret/tiktok/scripts/create_tables.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_google/big_query/structures/testers/t_field.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_google/big_query/structures/testers/t_schema.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/noteret/tiktok/fields.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/noteret/tiktok/schemas.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/big_query/commands/create.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/commands/create.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/big_query/commands/study/s_create.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/commands/study/s_create.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/indexable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/indexable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/iterable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/iterable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/testers/t_indexable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/testers/t_indexable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/i_1d.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/collections/i_1d.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_google/big_query/structures/field.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/structures/field.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_google/big_query/structures/schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/structures/schema.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/big_query/structures/study/s_field.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/structures/study/s_field.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/big_query/structures/study/s_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/structures/study/s_schema.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/big_query/study/s_insert.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/study/s_insert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/rapid_api/requests/tiktok/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/rapid_api/requests/tiktok/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,6 +80,7 @@
     "Python tests.Python tests for t_grid.test_distance.executor": "Run",
     "Python tests.Python tests for t_grid.test_getitem.executor": "Run",
     "Python tests.Python tests for t_grid.test_neighbors.executor": "Run",
+    "Python tests.Python tests for t_indexable.test_insert_at.executor": "Run",
     "Python tests.Python tests for t_indexes.test_filter.executor": "Run",
     "Python tests.Python tests for t_int.test_dims_rel_to_abs.executor": "Run",
     "Python tests.Python tests for t_int.test_part.executor": "Run",
@@ -92,6 +95,7 @@
     "Python tests.Python tests for t_position.test_str.executor": "Run",
     "Python tests.Python tests for t_position.test_update.executor": "Run",
     "Python tests.Python tests for t_rate_success.test_empty.executor": "Run",
+    "Python tests.Python tests for t_schema.test_add.executor": "Run",
     "Python tests.Python tests for t_ucs.test.executor": "Run",
     "Python tests.Python tests in t_0_base.py.executor": "Run",
     "Python tests.Python tests in t_0_g.py.executor": "Run",
@@ -115,6 +119,7 @@
     "Python tests.Python tests in t_bfs.py (1).executor": "Run",
     "Python tests.Python tests in t_bfs.py.executor": "Run",
     "Python tests.Python tests in t_cell.py.executor": "Run",
+    "Python tests.Python tests in t_field.py.executor": "Run",
     "Python tests.Python tests in t_generated_explored.py.executor": "Run",
     "Python tests.Python tests in t_get.py (1).executor": "Run",
     "Python tests.Python tests in t_get.py.executor": "Run",
@@ -138,6 +143,7 @@
     "Python tests.Python tests in t_position.py (1).executor": "Run",
     "Python tests.Python tests in t_position.py.executor": "Run",
     "Python tests.Python tests in t_rate_success.py.executor": "Run",
+    "Python tests.Python tests in t_schema.py.executor": "Run",
     "Python tests.Python tests in t_u_1_grid.py.executor": "Run",
     "Python.app.executor": "Run",
     "Python.container_qa.executor": "Run",
@@ -219,124 +225,89 @@
       <recent name="G:\mypy\f_hs\nodes\testers" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_field">
-    <configuration name="s_client" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests in t_indexable.py">
+    <configuration name="Python tests for t_indexable.test_insert_at" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/big_query/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/mixins/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/big_query/study/s_client.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_indexable.test_insert_at&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="s_create" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_schema.test_add" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/big_query/commands/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/big_query/structures/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/big_query/commands/study/s_create.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_schema.test_add&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="s_field" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_field.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/big_query/structures/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/big_query/structures/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/big_query/structures/study/s_field.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_google/big_query/structures/testers/t_field.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="s_insert" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_indexable.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/big_query/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/mixins/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/big_query/study/s_insert.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_abstract/mixins/testers/t_indexable.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="s_schema" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_schema.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/big_query/structures/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/big_query/structures/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/big_query/structures/study/s_schema.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_google/big_query/structures/testers/t_schema.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.s_field" />
-        <item itemvalue="Python.s_create" />
-        <item itemvalue="Python.s_schema" />
-        <item itemvalue="Python.s_client" />
-        <item itemvalue="Python.s_insert" />
+        <item itemvalue="Python tests.Python tests in t_indexable.py" />
+        <item itemvalue="Python tests.Python tests for t_indexable.test_insert_at" />
+        <item itemvalue="Python tests.Python tests for t_schema.test_add" />
+        <item itemvalue="Python tests.Python tests in t_field.py" />
+        <item itemvalue="Python tests.Python tests in t_schema.py" />
       </list>
     </recent_temporary>
   </component>
@@ -556,7 +527,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726513305107</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="h">
+      <option name="closed" value="true" />
+      <created>1726775034808</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1726775034808</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

@@ -45,14 +45,6 @@ class Iterable(Generic[Item], Printable):
         """
         return bool(len(self))
 
-    def __contains__(self, item: Item) -> bool:
-        """
-        ========================================================================
-         Return True if the given Item is in the Object.
-        ========================================================================
-        """
-        return item in self.to_list()
-
     def __str__(self) -> str:
         """
         ========================================================================
@@ -60,11 +52,3 @@ class Iterable(Generic[Item], Printable):
         ========================================================================
         """
         return str(self.to_list())
-
-    def __getitem__(self, index: int | slice) -> int | list[Item]:
-        """
-        ========================================================================
-         Return the Item(s) at the given index or slice.
-        ========================================================================
-        """
-        return self.to_list()[index]

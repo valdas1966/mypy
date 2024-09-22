@@ -1,19 +1,15 @@
+from __future__ import annotations
 from f_google.big_query.structures.field import Field
+from f_abstract.mixins.indexable import Indexable
 from google.cloud.bigquery import SchemaField
 
 
-class Schema:
+class Schema(Indexable[Field]):
     """
     ============================================================================
      Schema of the BigQuery Table (Cols names and types).
     ============================================================================
     """
-
-    # Field-Types
-    BOOLEAN = 'BOOLEAN'
-    INTEGER = 'INTEGER'
-    STRING = 'STRING'
-    DATETIME = 'DATETIME'
 
     def __init__(self) -> None:
         """
@@ -21,15 +17,20 @@ class Schema:
          Init private Attributes.
         ========================================================================
         """
-        self._fields = list()
+        Indexable.__init__(self)
 
-    def add(self, name: str, dtype: str = STRING) -> None:
+    def add(self,
+            field: Field = None,
+            name: str = None,
+            dtype: str = Field.STRING) -> None:
         """
         ========================================================================
          Add list Field to the Schema.
         ========================================================================
         """
-        self._fields.append(Field(name=name, dt=dtype))
+        if not field:
+            field = Field(name=name, dtype=dtype)
+        self._items.append(field)
 
     def build(self) -> list[SchemaField]:
         """
@@ -37,5 +38,17 @@ class Schema:
          Return BigQuery format of list Schema.
         ========================================================================
         """
-        return [SchemaField(name=field.name, field_type=field.dt)
-                for field in self._fields]
+        return [field.to_schema_field() for field in self._items]
+
+    def __add__(self, other: Schema) -> Schema:
+        """
+        ========================================================================
+         Return a new Schema resulted by addition of self + current fields.
+        ========================================================================
+        """
+        schema = Schema()
+        for field in self:
+            schema.add(field)
+        for field in other:
+            schema.add(field)
+        return schema
