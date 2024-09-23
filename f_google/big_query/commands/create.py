@@ -28,12 +28,11 @@ class Create(Command):
         ========================================================================
         """
         self._drop.table(tname=tname)
-        table = Table(table_ref=tname, schema=schema.build())
+        table = Table(table_ref=tname, schema=schema.to_schema_fields())
         self._client.create_table(table=table,
                                   retry=Retry())
         if self._verbose:
             print(f'Table [{tname}] has been created.')
             print(f'Schema:')
-            for field in schema.build():
-                print(f'  - {field.name}: {field.field_type}')
-
+            for field in schema:
+                print(f'  - {field.dtype}: {field.name}')

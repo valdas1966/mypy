@@ -46,7 +46,9 @@ class User(RequestBase):
                             is_exist=is_exist,
                             is_valid=is_valid)
 
-    def followers(self, id_user: str) -> list[ResInfo] | None:
+    def followers(self,
+                  id_user: str,
+                  verbose: bool = True) -> list[dict] | None:
         """
         ========================================================================
          Return User-Info.
@@ -62,23 +64,21 @@ class User(RequestBase):
             li = list()
             data = d['data']['followers']
             for follower in data:
-                id_follower = follower['id']
-                nick = follower['nickname']
-                region = follower['region']
-                verified = follower['verified']
-                secret = follower['secret']
-                aweme = follower['aweme_count']
-                favorited = follower['total_favorited']
-                following = follower['following_count']
-                followers = follower['follower_count']
-                res = self.ResFollower(id=id_follower,
-                                       nick=nick,
-                                       region=region,
-                                       verified=verified,
-                                       secret=secret,
-                                       aweme=aweme,
-                                       favorited=favorited,
-                                       following=following,
-                                       followers=followers)
-                li.append(res)
+                rec = dict()
+                rec['id_user'] = id_user
+                rec['id_follower'] = follower['id']
+                rec['nick'] = follower['nickname']
+                rec['region'] = follower['region']
+                rec['verified'] = follower['verified']
+                rec['secret'] = follower['secret']
+                rec['aweme'] = follower['aweme_count']
+                rec['favorited'] = follower['total_favorited']
+                rec['following'] = follower['following_count']
+                rec['followers'] = follower['follower_count']
+                li.append(rec)
+        if verbose:
+            if li is None:
+                print(f'Error in extracting followers of {id_user}')
+            else:
+                print(f'Extracted {len(li)} followers of {id_user}')
         return li

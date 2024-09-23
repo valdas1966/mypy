@@ -32,6 +32,9 @@ class Field(Nameable):
     def dtype(self) -> str:
         return self._dtype
 
+    def __str__(self) -> str:
+        return f'{self.dtype}: {self.name}'
+
     @classmethod
     def boolean(cls, name: str) -> Field:
         return Field(name=name, dtype=Field.BOOLEAN)
