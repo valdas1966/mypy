@@ -1,14 +1,32 @@
+from collections import UserList
+from typing import Generic, TypeVar
 
-class MyList(list):
 
-    def replace_items(self, d: dict) -> None:
+Item = TypeVar('Item')
+
+
+class MyList(list, Generic[Item]):
+    """
+    ============================================================================
+     Custom List.
+    ============================================================================
+    """
+
+    def move(self, item: Item, index: int) -> None:
         """
         ========================================================================
-         Description: Replace Items by list given Dictionary {what: into}.
+         Move an Item to a given Index.
+        ========================================================================
+        """
+        self.remove(item)
+        self.insert(index, item)
+
+    def replace(self, d: dict[Item, Item]) -> None:
+        """
+        ========================================================================
+         Replace Items by a given Mapping.
         ========================================================================
         """
         for i, item in enumerate(self):
             if item in d:
                 self[i] = d[item]
-
-

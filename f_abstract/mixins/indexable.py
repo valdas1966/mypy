@@ -1,66 +1,82 @@
-from f_abstract.mixins.iterable import Iterable
-from typing import TypeVar
+from collections.abc import MutableSequence
+from f_abstract.mixins.nameable import Nameable
+from typing import Generic, TypeVar
 
 Item = TypeVar('Item')
 
 
-class Indexable(Iterable[Item]):
+class Indexable(Generic[Item], Nameable, MutableSequence[Item]):
     """
     ============================================================================
-     Mixin-Class for Objects with Index.
+     Mixin-Class for Objects with Indexable Lists (without duplicate items).
     ============================================================================
     """
 
-    def __init__(self, items: list[Item] = None) -> None:
+    def __init__(self,
+                 name: str = None,
+                 items: list[Item] = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._items = items if items is not None else list[Item]()
+        Nameable.__init__(self, name=name)
+        self._items = items if items is not None else list()
 
-    def to_list(self) -> list[Item]:
+    @property
+    def items(self) -> list[Item]:
         """
         ========================================================================
-         Return List of all Items.
+         Return List of Object's Items.
         ========================================================================
         """
         return self._items
 
-    def insert_at(self, item: Item, index: int) -> None:
+    def insert(self, index: int, item: Item) -> None:
         """
         ========================================================================
-         Insert an Item into a given Index (shift other items forward).
+         Insert an Item into a specified Index.
         ========================================================================
         """
         self._items.insert(index, item)
 
-    def index_of(self, item: Item) -> int:
-        """
-        ========================================================================
-         Return an Index of a given Item.
-        ========================================================================
-        """
-        return self._items.index(item)
-
-    def remove(self, item: Item) -> None:
-        pass
-
     def move_to(self, item: Item, index: int) -> None:
-        pass
-
-    def __contains__(self, item: Item) -> bool:
         """
         ========================================================================
-         Return True if the given Item is in the Object.
+         Move an Item to a given Index.
         ========================================================================
         """
-        return item in self.to_list()
+        self.remove(value=item)
+        self.insert(item=item, index=index)
 
-    def __getitem__(self, index: int | slice) -> int | list[Item]:
+    def __getitem__(self, index: int | slice) -> Item | list[Item]:
         """
         ========================================================================
          Return the Item(s) at the given index or slice.
         ========================================================================
         """
-        return self.to_list()[index]
+        return self.items[index]
+
+    def __len__(self) -> int:
+        """
+        ========================================================================
+         Return the number of Object's Items.
+        ========================================================================
+        """
+        return len(self._items)
+
+    def __setitem__(self, index: int, value: Item) -> None:
+        """
+        ========================================================================
+         Set a given Item into a given Index.
+        ========================================================================
+        """
+        self._items[index] = value
+
+    def __delitem__(self, index: int) -> None:
+        """
+        ========================================================================
+         Delete an Item at the given Index.
+        ========================================================================
+        """
+        del self._items[index]

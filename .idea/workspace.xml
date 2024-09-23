@@ -5,18 +5,93 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_google/big_query/structures/testers/t_field.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/big_query/structures/testers/t_schema.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proj/noteret/tiktok/fields.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proj/noteret/tiktok/schemas.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/listable.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/study/s_iterable.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/noteret/tiktok/study/s_schemas.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/beautifulsoup4-4.12.3.dist-info/INSTALLER" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/beautifulsoup4-4.12.3.dist-info/METADATA" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/beautifulsoup4-4.12.3.dist-info/RECORD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/beautifulsoup4-4.12.3.dist-info/WHEEL" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/beautifulsoup4-4.12.3.dist-info/licenses/AUTHORS" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/beautifulsoup4-4.12.3.dist-info/licenses/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/builder/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/builder/_html5lib.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/builder/_htmlparser.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/builder/_lxml.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/css.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/dammit.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/diagnose.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/element.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/formatter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/fuzz/clusterfuzz-testcase-minimized-bs4_fuzzer-4670634698080256.testcase" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/fuzz/clusterfuzz-testcase-minimized-bs4_fuzzer-4818336571064320.testcase" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/fuzz/clusterfuzz-testcase-minimized-bs4_fuzzer-4999465949331456.testcase" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/fuzz/clusterfuzz-testcase-minimized-bs4_fuzzer-5000587759190016.testcase" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/fuzz/clusterfuzz-testcase-minimized-bs4_fuzzer-5167584867909632.testcase" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/fuzz/clusterfuzz-testcase-minimized-bs4_fuzzer-5270998950477824.testcase" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/fuzz/clusterfuzz-testcase-minimized-bs4_fuzzer-5375146639360000.testcase" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/fuzz/clusterfuzz-testcase-minimized-bs4_fuzzer-5492400320282624.testcase" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/fuzz/clusterfuzz-testcase-minimized-bs4_fuzzer-5703933063462912.testcase" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/fuzz/clusterfuzz-testcase-minimized-bs4_fuzzer-5843991618256896.testcase" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/fuzz/clusterfuzz-testcase-minimized-bs4_fuzzer-5984173902397440.testcase" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/fuzz/clusterfuzz-testcase-minimized-bs4_fuzzer-6124268085182464.testcase" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/fuzz/clusterfuzz-testcase-minimized-bs4_fuzzer-6241471367348224.testcase" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/fuzz/clusterfuzz-testcase-minimized-bs4_fuzzer-6306874195312640.testcase" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/fuzz/clusterfuzz-testcase-minimized-bs4_fuzzer-6450958476902400.testcase" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/fuzz/clusterfuzz-testcase-minimized-bs4_fuzzer-6600557255327744.testcase" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/fuzz/crash-0d306a50c8ed8bcd0785b67000fcd5dea1d33f08.testcase" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/fuzz/crash-ffbdfa8a2b26f13537b68d3794b0478a4090ee4a.testcase" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/test_builder.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/test_builder_registry.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/test_css.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/test_dammit.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/test_docs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/test_element.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/test_formatter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/test_fuzz.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/test_html5lib.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/test_htmlparser.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/test_lxml.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/test_navigablestring.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/test_pageelement.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/test_soup.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/test_tag.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/tests/test_tree.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/google-3.0.0.dist-info/DESCRIPTION.rst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/google-3.0.0.dist-info/INSTALLER" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/google-3.0.0.dist-info/METADATA" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/google-3.0.0.dist-info/RECORD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/google-3.0.0.dist-info/REQUESTED" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/google-3.0.0.dist-info/WHEEL" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/google-3.0.0.dist-info/metadata.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/google-3.0.0.dist-info/top_level.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/googlesearch/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/googlesearch/user_agents.txt.gz" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/soupsieve-2.6.dist-info/INSTALLER" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/soupsieve-2.6.dist-info/METADATA" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/soupsieve-2.6.dist-info/RECORD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/soupsieve-2.6.dist-info/WHEEL" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/soupsieve-2.6.dist-info/licenses/LICENSE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/soupsieve/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/soupsieve/__meta__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/soupsieve/css_match.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/soupsieve/css_parser.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/soupsieve/css_types.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/soupsieve/pretty.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/soupsieve/py.typed" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/soupsieve/util.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv_mypy/Scripts/google" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_abstract/mixins/indexable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/indexable.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_abstract/mixins/iterable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/iterable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/testers/t_indexable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/testers/t_indexable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/collections/i_1d.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/collections/i_1d.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/big_query/structures/field.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/structures/field.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/testers/t_iterable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/testers/t_iterable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_builtins/my_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_builtins/my_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_builtins/testers/t_my_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_builtins/testers/t_my_list.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_google/big_query/structures/schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/structures/schema.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/big_query/structures/testers/t_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/structures/testers/t_schema.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/noteret/tiktok/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/noteret/tiktok/schemas.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,6 +164,8 @@
     "Python tests.Python tests for t_ltwh.test_str.executor": "Run",
     "Python tests.Python tests for t_mask.test_full.executor": "Run",
     "Python tests.Python tests for t_mask.test_one_word.executor": "Run",
+    "Python tests.Python tests for t_my_list.test_move.executor": "Run",
+    "Python tests.Python tests for t_my_list.test_replace.executor": "Run",
     "Python tests.Python tests for t_one_to_many.test_goals_active.executor": "Run",
     "Python tests.Python tests for t_one_to_one.test_is_found.executor": "Run",
     "Python tests.Python tests for t_parentable.test_path_from_root.executor": "Run",
@@ -137,6 +214,7 @@
     "Python tests.Python tests in t_ltwh.py.executor": "Run",
     "Python tests.Python tests in t_mask.py (1).executor": "Run",
     "Python tests.Python tests in t_mask.py.executor": "Run",
+    "Python tests.Python tests in t_my_list.py.executor": "Run",
     "Python tests.Python tests in t_one_to_many.py.executor": "Run",
     "Python tests.Python tests in t_one_to_one.py.executor": "Run",
     "Python tests.Python tests in t_parentable.py.executor": "Run",
@@ -190,12 +268,14 @@
     "Python.s_exam.executor": "Run",
     "Python.s_field.executor": "Run",
     "Python.s_insert.executor": "Run",
+    "Python.s_iterable.executor": "Run",
     "Python.s_key.executor": "Run",
     "Python.s_mask.executor": "Run",
     "Python.s_position (1).executor": "Run",
     "Python.s_position (2).executor": "Run",
     "Python.s_position.executor": "Run",
     "Python.s_schema.executor": "Run",
+    "Python.s_schemas.executor": "Run",
     "Python.s_tiktok.executor": "Run",
     "Python.s_tiktok_followers (1).executor": "Run",
     "Python.s_tiktok_followers.executor": "Run",
@@ -225,8 +305,52 @@
       <recent name="G:\mypy\f_hs\nodes\testers" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_indexable.py">
-    <configuration name="Python tests for t_indexable.test_insert_at" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.s_iterable">
+    <configuration name="s_iterable" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/mixins/study" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_abstract/mixins/study/s_iterable.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="s_schemas" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/noteret/tiktok/study" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/noteret/tiktok/study/s_schemas.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in t_iterable.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -237,52 +361,22 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_indexable.test_insert_at&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for t_schema.test_add" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/big_query/structures/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_schema.test_add&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_field.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/big_query/structures/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_google/big_query/structures/testers/t_field.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_abstract/mixins/testers/t_iterable.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_indexable.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_my_list.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/mixins/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_builtins/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_abstract/mixins/testers/t_indexable.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_builtins/testers/t_my_list.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -303,11 +397,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in t_indexable.py" />
-        <item itemvalue="Python tests.Python tests for t_indexable.test_insert_at" />
-        <item itemvalue="Python tests.Python tests for t_schema.test_add" />
-        <item itemvalue="Python tests.Python tests in t_field.py" />
+        <item itemvalue="Python.s_iterable" />
+        <item itemvalue="Python tests.Python tests in t_iterable.py" />
+        <item itemvalue="Python.s_schemas" />
         <item itemvalue="Python tests.Python tests in t_schema.py" />
+        <item itemvalue="Python tests.Python tests in t_my_list.py" />
       </list>
     </recent_temporary>
   </component>
@@ -535,7 +629,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726775034808</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="h">
+      <option name="closed" value="true" />
+      <created>1727020810087</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1727020810087</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

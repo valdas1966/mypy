@@ -17,13 +17,21 @@ class Schemas:
         ========================================================================
         """
         schema = Schema()
-        schema.add(Fields.ID_USER)
-        schema.add(Fields.NICK)
-        schema.add(Fields.REGION)
-        schema.add(Fields.SECRET)
-        schema.add(Fields.VERIFIED)
-        schema.add(Fields.AWEME)
-        schema.add(Fields.FAVORITED)
-        schema.add(Fields.FOLLOWERS)
-        schema.add(Fields.FOLLOWING)
+        schema.append(Fields.ID_USER)
+        schema.append(Fields.NICK)
+        schema.append(Fields.REGION)
+        schema.append(Fields.SECRET)
+        schema.append(Fields.VERIFIED)
+        schema.append(Fields.AWEME)
+        schema.append(Fields.FAVORITED)
+        schema.append(Fields.FOLLOWERS)
+        schema.append(Fields.FOLLOWING)
+        schema.append(Fields.INSERTED)
         return schema
+
+    @staticmethod
+    def followers() -> Schema:
+        schema = Schemas.user()
+        schema.insert(1,Fields.ID_FOLLOWER)
+        return schema
+

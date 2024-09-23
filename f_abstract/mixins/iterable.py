@@ -16,10 +16,28 @@ class Iterable(Generic[Item], Printable):
     def to_list(self) -> list[Item]:
         """
         ========================================================================
-         Return list list representation of the Object.
+         Return list representation of the Object.
         ========================================================================
         """
         pass
+
+    def insert(self, item: Item, index: int) -> None:
+        """
+        ========================================================================
+         Insert an Item into a given Index.
+        ========================================================================
+        """
+        list(self).insert(index, item)
+        print(list(self))
+
+    def move(self, item: Item, index: int) -> None:
+        """
+        ========================================================================
+         Move an Item to a given Index.
+        ========================================================================
+        """
+        self.to_list().remove(item)
+        self.insert(item=item, index=index)
 
     def __iter__(self) -> Iterator[Item]:
         """
@@ -44,6 +62,14 @@ class Iterable(Generic[Item], Printable):
         ========================================================================
         """
         return bool(len(self))
+
+    def __contains__(self, item: Item) -> bool:
+        """
+        ========================================================================
+         Return True if the Object contains the given Item.
+        ========================================================================
+        """
+        return item in self.to_list()
 
     def __str__(self) -> str:
         """

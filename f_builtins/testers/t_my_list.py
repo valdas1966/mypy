@@ -1,17 +1,17 @@
-from f_utils import u_tester
+from f_builtins.my_list import MyList
+import pytest
 
 
-class TestMyList:
-
-    def __init__(self):
-        u_tester.print_start(__file__)
-        TestMyList.__tester_()
-        u_tester.print_finish(__file__)
-
-    @staticmethod
-    def __tester_():
-        pass
+@pytest.fixture
+def ex() -> MyList:
+    return MyList([1, 2, 3])
 
 
-if __name__ == '__main__':
-    TestMyList()
+def test_move(ex):
+    ex.move(item=3, index=1)
+    assert ex == [1, 3, 2]
+
+
+def test_replace(ex):
+    ex.replace(d={2: 5})
+    assert ex == [1, 5, 3]
