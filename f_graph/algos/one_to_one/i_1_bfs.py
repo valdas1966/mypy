@@ -1,19 +1,21 @@
 from f_graph.algos.one_to_one.i_0_base import (AlgoOneToOne, ProblemOneToOne,
-                                               NodePath)
+                                               NodePath, DataOneToOne)
 from f_ds.queues.i_1_fifo import QueueFIFO
-from typing import Generic, TypeVar
+from typing import TypeVar
 
 Node = TypeVar('Node', bound=NodePath)
+Problem = TypeVar('Problem', bound=ProblemOneToOne)
+Data = TypeVar('Data', bound=DataOneToOne)
 
 
-class BFS(Generic[Node], AlgoOneToOne[Node]):
+class BFS(AlgoOneToOne[Node, Problem, Data]):
     """
     ============================================================================
      Breadth-First-Search Algorithm.
     ============================================================================
     """
 
-    def __init__(self, problem: ProblemOneToOne) -> None:
+    def __init__(self, problem: Problem) -> None:
         """
         ========================================================================
          Init private Attributes.

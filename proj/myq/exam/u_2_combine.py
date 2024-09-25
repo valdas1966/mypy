@@ -20,5 +20,5 @@ class ExamCombine(ExamBase[Q]):
         """
         qs = list()
         for exam in exams:
-            qs.extend(list(exam))
+            qs.extend(exam.to_list())
         ExamBase.__init__(self, qs=qs)

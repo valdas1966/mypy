@@ -20,7 +20,7 @@ class DataPath(ABC, Generic[Node]):
         ========================================================================
         """
         self._generated = type_queue[Node]()
-        self._explored = set[Node]()
+        self._explored = set()
 
     @property
     def generated(self) -> QueueBase[Node]:

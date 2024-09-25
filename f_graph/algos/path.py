@@ -5,9 +5,11 @@ from typing import Generic, TypeVar, Type
 from abc import ABC, abstractmethod
 
 Node = TypeVar('Node', bound=NodePath)
+Problem = TypeVar('Problem', bound=ProblemPath)
+Data = TypeVar('Data', bound=DataPath)
 
 
-class AlgoPath(ABC, Generic[Node]):
+class AlgoPath(ABC, Generic[Node, Problem, Data]):
     """
     ============================================================================
      Base-Algorithm for One-To-One path problems.
@@ -15,7 +17,7 @@ class AlgoPath(ABC, Generic[Node]):
     """
 
     def __init__(self,
-                 problem: ProblemPath,
+                 problem: Problem,
                  type_queue: Type[QueueBase]) -> None:
         """
         ========================================================================
@@ -23,11 +25,12 @@ class AlgoPath(ABC, Generic[Node]):
         ========================================================================
         """
         self._problem = problem
-        self._data = DataPath[Node](type_queue=type_queue)
+        self._data = Data[Node](type_queue=type_queue)
+        self._is_found = False
         self._search()
 
     @property
-    def problem(self) -> ProblemPath:
+    def problem(self) -> Problem:
         """
         ========================================================================
          Return the shortest path One-to-One Problem.
@@ -36,7 +39,7 @@ class AlgoPath(ABC, Generic[Node]):
         return self._problem
 
     @property
-    def data(self) -> DataPath[Node]:
+    def data(self) -> Data[Node]:
         """
         ========================================================================
          Return the Algo's Data (Generated and Explored).

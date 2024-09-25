@@ -30,6 +30,14 @@ class Cursorable(Generic[Item], Sizable):
         """
         return self._cursor
 
+    def current(self) -> Item:
+        """
+        ========================================================================
+         Return the Current Item.
+        ========================================================================
+        """
+        return self._data[self._cursor]
+
     def has_next(self) -> bool:
         """
         ========================================================================
@@ -63,6 +71,14 @@ class Cursorable(Generic[Item], Sizable):
         """
         self._cursor = 0
 
+    def to_list(self) -> list[Item]:
+        """
+        ========================================================================
+         Return List of Object's Items.
+        ========================================================================
+        """
+        return self._data
+
     def __len__(self) -> int:
         """
         ========================================================================
@@ -71,6 +87,3 @@ class Cursorable(Generic[Item], Sizable):
         """
         return len(self._data)
 
-    def __iter__(self) -> Iterator:
-        for item in self._data:
-            yield item

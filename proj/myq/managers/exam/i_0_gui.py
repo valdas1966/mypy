@@ -30,6 +30,7 @@ class ManagerExamGui(Generic[Exam]):
         ========================================================================
         """
         question = self._exam.current()
+
         if answer == question.answer:
             if self._exam.has_next():
                 question = self._exam.next()

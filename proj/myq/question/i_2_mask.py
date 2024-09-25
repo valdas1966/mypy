@@ -23,7 +23,6 @@ class QuestionMask(QuestionText):
         self._hint = None
         self._set_private_attributes()
 
-
     @property
     def pct_mask(self) -> int:
         """
