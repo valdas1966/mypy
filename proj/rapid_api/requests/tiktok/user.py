@@ -68,6 +68,7 @@ class User(RequestBase):
                 rec['favorited'] = follower['total_favorited']
                 rec['following'] = follower['following_count']
                 rec['followers'] = follower['follower_count']
+                rec['source'] = 'FOLLOWERS'
                 li.append(rec)
         print(f'Extracted {len(li)} followers of {id_user}')
         return li, has_more, time
