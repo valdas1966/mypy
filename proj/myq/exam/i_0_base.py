@@ -1,11 +1,11 @@
-from f_abstract.mixins.indexable import Indexable
+from f_abstract.mixins.cursorable import Cursorable
 from proj.myq.question.i_0_base import QuestionBase
 from typing import Generic, TypeVar
 
 Question = TypeVar('Question', bound=QuestionBase)
 
 
-class ExamBase(Generic[Question], Indexable[Question]):
+class ExamBase(Generic[Question], Cursorable[Question]):
     """
     ============================================================================
      Base Exam-Class.
@@ -18,13 +18,4 @@ class ExamBase(Generic[Question], Indexable[Question]):
          Init private Attributes.
         ========================================================================
         """
-        Indexable.__init__(self)
-        self._qs = qs
-
-    def to_list(self) -> list[Question]:
-        """
-        ========================================================================
-         Return List of Questions.
-        ========================================================================
-        """
-        return self._qs
+        Cursorable.__init__(self, data=qs)

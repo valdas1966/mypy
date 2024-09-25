@@ -1,4 +1,4 @@
-from typing import Generic, TypeVar, Iterable
+from typing import Generic, TypeVar, Iterable, Iterator
 from f_abstract.mixins.sizable import Sizable
 
 Item = TypeVar('Item')
@@ -70,3 +70,7 @@ class Cursorable(Generic[Item], Sizable):
         ========================================================================
         """
         return len(self._data)
+
+    def __iter__(self) -> Iterator:
+        for item in self._data:
+            yield item
