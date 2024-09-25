@@ -11,13 +11,13 @@ class Schema(Listable[Field]):
     ============================================================================
     """
 
-    def __init__(self) -> None:
+    def __init__(self, data: list[Field] = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        Listable.__init__(self)
+        Listable.__init__(self, data=data)
 
     def to_schema_fields(self) -> list[SchemaField]:
         """

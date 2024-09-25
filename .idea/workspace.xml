@@ -5,17 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/testers/t_listable.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proj/noteret/tiktok/scripts/insert_into_tables.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/noteret/tiktok/scripts/followers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/listable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/listable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/big_query/commands/create.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/commands/create.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/big_query/structures/field.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/structures/field.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/testers/t_listable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/testers/t_listable.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_google/big_query/structures/schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/structures/schema.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proj/noteret/tiktok/fields.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/noteret/tiktok/fields.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/noteret/tiktok/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/noteret/tiktok/schemas.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proj/noteret/tiktok/scripts/create_tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/noteret/tiktok/scripts/create_tables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/noteret/tiktok/study/s_schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/noteret/tiktok/study/s_schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/noteret/tiktok/scripts/insert_into_tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/noteret/tiktok/scripts/insert_into_tables.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proj/rapid_api/requests/tiktok/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/rapid_api/requests/tiktok/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/rapid_api/study/s_tiktok_followers.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/rapid_api/study/s_tiktok_followers.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -150,7 +149,10 @@
     "Python tests.Python tests in t_u_1_grid.py.executor": "Run",
     "Python.app.executor": "Run",
     "Python.container_qa.executor": "Run",
+    "Python.create_tables (1).executor": "Run",
+    "Python.create_tables (2).executor": "Run",
     "Python.create_tables.executor": "Run",
+    "Python.followers.executor": "Run",
     "Python.generated_explored.executor": "Run",
     "Python.get.executor": "Run",
     "Python.i_0_gui.executor": "Run",
@@ -233,7 +235,7 @@
       <recent name="G:\mypy\f_hs\nodes\testers" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.insert_into_tables">
+  <component name="RunManager" selected="Python.followers">
     <configuration name="create_tables" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -248,6 +250,28 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/noteret/tiktok/scripts/create_tables.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="followers" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/noteret/tiktok/scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/noteret/tiktok/scripts/followers.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -278,7 +302,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_iterable" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="s_tiktok_followers" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -287,11 +311,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/mixins/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/rapid_api/study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_abstract/mixins/study/s_iterable.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/rapid_api/study/s_tiktok_followers.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -300,7 +324,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_schemas (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="s_tiktok_user (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -309,41 +333,26 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/noteret/tiktok/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/rapid_api/study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/noteret/tiktok/study/s_schemas.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/rapid_api/study/s_tiktok_user.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_listable.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/mixins/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_abstract/mixins/testers/t_listable.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.followers" />
+        <item itemvalue="Python.s_tiktok_followers" />
         <item itemvalue="Python.insert_into_tables" />
         <item itemvalue="Python.create_tables" />
-        <item itemvalue="Python.s_schemas (1)" />
-        <item itemvalue="Python tests.Python tests in t_listable.py" />
-        <item itemvalue="Python.s_iterable" />
+        <item itemvalue="Python.s_tiktok_user (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -587,7 +596,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727092948741</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="h">
+      <option name="closed" value="true" />
+      <created>1727119974368</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1727119974368</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

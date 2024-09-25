@@ -5,11 +5,24 @@ from proj.noteret.tiktok.schemas import Schemas
 pre = 'noteret.tiktok'
 
 
+def users() -> None:
+    tname = f'{pre}.users'
+    schema = Schemas.users()
+    BigQuery().create.table(tname=tname, schema=schema)
+
+
+def users_snapshots() -> None:
+    tname = f'{pre}.users_snapshots'
+    schema = Schemas.users_snapshots()
+    BigQuery().create.table(tname=tname, schema=schema)
+
+
 def followers() -> None:
     tname = f'{pre}.followers'
     schema = Schemas.followers()
-    bq = BigQuery()
-    bq.create.table(tname=tname, schema=schema)
+    BigQuery().create.table(tname=tname, schema=schema)
 
 
-followers()
+users()
+users_snapshots()
+#followers()

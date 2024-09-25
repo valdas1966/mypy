@@ -1,4 +1,3 @@
-from collections import namedtuple
 from proj.rapid_api.requests.base import RequestBase
 
 
@@ -9,16 +8,7 @@ class User(RequestBase):
     ============================================================================
     """
 
-    ResInfo = namedtuple(typename='ResInfo',
-                         field_names=['id', 'nick', 'following', 'followers',
-                                      'is_exist', 'is_valid'])
-
-    ResFollower = namedtuple(typename='ResInfo',
-                             field_names=['id', 'nick', 'region', 'verified',
-                                          'secret', 'aweme', 'favorited',
-                                          'following', 'followers'])
-
-    def info(self, id_user: str) -> ResInfo:
+    def info(self, id_user: str) -> dict:
         """
         ========================================================================
          Return User-Info.
@@ -29,39 +19,42 @@ class User(RequestBase):
         d = self.request(url, params).to_dict()
         is_valid = d['code'] == 0
         is_exist = d['msg'] == 'success'
-        id_user = None
-        nick = None
-        following = None
-        followers = None
+        rec = dict()
         if is_valid and is_exist:
+            rec['source'] = 'INFO'
             data = d['data']
-            id_user = data['user']['id']
-            nick = data['user']['nickname']
-            following = data['stats']['followingCount']
-            followers = data['stats']['followerCount']
-        return self.ResInfo(id=id_user,
-                            nick=nick,
-                            following=following,
-                            followers=followers,
-                            is_exist=is_exist,
-                            is_valid=is_valid)
+            rec['id_user'] = data['user']['id']
+            rec['nick'] = data['user']['nickname']
+            rec['is_verified'] = data['user']['verified']
+            rec['is_secret'] = data['user']['secret']
+            rec['is_private'] = data['user']['privateAccount']
+            rec['following'] = data['stats']['followingCount']
+            rec['followers'] = data['stats']['followerCount']
+            rec['videos'] = data['stats']['videoCount']
+            rec['hearts'] = data['stats']['heart']
+            rec['diggs'] = data['stats']['diggCount']
+        else:
+            print(f'Invalid Request: {id_user}')
+        return rec
 
     def followers(self,
                   id_user: str,
-                  verbose: bool = True) -> list[dict] | None:
+                  time: int = 0) -> (list[dict], bool, int):
         """
         ========================================================================
          Return User-Info.
         ========================================================================
         """
         url = f'https://{self._host}/user/followers'
-        params = {'user_id': id_user, 'count': '50'}
+        params = {'user_id': id_user, 'count': '50', 'time': str(time)}
         d = self.request(url, params).to_dict()
+        has_more = False
         is_valid = d['code'] == 0
         is_exist = d['msg'] == 'success'
-        li = None   
+        li = list()
         if is_valid and is_exist:
-            li = list()
+            has_more = d['data']['hasMore']
+            time = d['data']['time']
             data = d['data']['followers']
             for follower in data:
                 rec = dict()
@@ -69,16 +62,12 @@ class User(RequestBase):
                 rec['id_follower'] = follower['id']
                 rec['nick'] = follower['nickname']
                 rec['region'] = follower['region']
-                rec['verified'] = follower['verified']
-                rec['secret'] = follower['secret']
+                rec['is_verified'] = follower['verified']
+                rec['is_secret'] = follower['secret']
                 rec['aweme'] = follower['aweme_count']
                 rec['favorited'] = follower['total_favorited']
                 rec['following'] = follower['following_count']
                 rec['followers'] = follower['follower_count']
                 li.append(rec)
-        if verbose:
-            if li is None:
-                print(f'Error in extracting followers of {id_user}')
-            else:
-                print(f'Extracted {len(li)} followers of {id_user}')
-        return li
+        print(f'Extracted {len(li)} followers of {id_user}')
+        return li, has_more, time
