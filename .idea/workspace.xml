@@ -5,20 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_graph/path/i_0_base.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/noteret/tiktok/scripts/followers_todo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/noteret/tiktok/tables.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/cursorable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/cursorable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/testers/t_cursorable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/testers/t_cursorable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_1_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_1_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/big_query/commands/select.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/commands/select.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_bfs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/algos/path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/i_0_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/data/i_0_path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/i_1_one_to_one.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/data/i_1_one_to_one.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algos/a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algos/a_star.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/exam/u_2_combine.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/exam/u_2_combine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/exam/i_0_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/exam/i_0_gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/question/i_2_mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/question/i_2_mask.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_utils/u_datetime.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_datetime.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/noteret/tiktok/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/noteret/tiktok/schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/noteret/tiktok/scripts/create_tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/noteret/tiktok/scripts/create_tables.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/noteret/tiktok/scripts/followers.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/noteret/tiktok/scripts/followers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/noteret/tiktok/scripts/insert_into_tables.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/rapid_api/requests/tiktok/followers.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,6 +159,7 @@
     "Python.create_tables (2).executor": "Run",
     "Python.create_tables.executor": "Run",
     "Python.followers.executor": "Run",
+    "Python.followers_todo.executor": "Run",
     "Python.generated_explored.executor": "Run",
     "Python.get.executor": "Run",
     "Python.i_0_gui.executor": "Run",
@@ -243,8 +242,8 @@
       <recent name="G:\mypy\f_hs\nodes\testers" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_astar">
-    <configuration name="run_exam (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests in t_bfs.py">
+    <configuration name="create_tables" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -253,11 +252,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/scripts" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/noteret/tiktok/scripts" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/scripts/run_exam.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/noteret/tiktok/scripts/create_tables.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -266,7 +265,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="run_exam" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="followers" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -275,11 +274,33 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/scripts" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/noteret/tiktok/scripts" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/scripts/run_exam.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/noteret/tiktok/scripts/followers.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="followers_todo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/noteret/tiktok/scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/noteret/tiktok/scripts/followers_todo.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -310,43 +331,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_cursorable" type="tests" factoryName="Autodetect" temporary="true">
+    <configuration name="Python tests in t_bfs.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/mixins/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/algos/one_to_one/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_cursorable.test_to_list&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_cursorable.py (1)" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/mixins/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_abstract/mixins/testers/t_cursorable.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_bfs.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests in t_bfs.py" />
+        <item itemvalue="Python.followers" />
+        <item itemvalue="Python.followers_todo" />
+        <item itemvalue="Python.create_tables" />
         <item itemvalue="Python.s_astar" />
-        <item itemvalue="Python.run_exam (1)" />
-        <item itemvalue="Python tests.Python tests in t_cursorable.py (1)" />
-        <item itemvalue="Python tests.Python tests for t_cursorable" />
-        <item itemvalue="Python.run_exam" />
       </list>
     </recent_temporary>
   </component>
@@ -614,7 +620,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727265608488</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="h">
+      <option name="closed" value="true" />
+      <created>1727284069722</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1727284069722</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

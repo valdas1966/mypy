@@ -72,3 +72,9 @@ class Schemas:
         schema.append(Fields.ID_FOLLOWER)
         schema.append(Fields.INSERTED)
         return schema
+
+    @staticmethod
+    def followers_todo() -> Schema:
+        schema = Schema()
+        schema.append(Fields.ID_USER)
+        return schema

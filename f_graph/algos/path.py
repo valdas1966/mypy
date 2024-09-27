@@ -18,6 +18,7 @@ class AlgoPath(ABC, Generic[Node, Problem, Data]):
 
     def __init__(self,
                  problem: Problem,
+                 type_data: Type[Data],
                  type_queue: Type[QueueBase]) -> None:
         """
         ========================================================================
@@ -25,7 +26,7 @@ class AlgoPath(ABC, Generic[Node, Problem, Data]):
         ========================================================================
         """
         self._problem = problem
-        self._data = Data[Node](type_queue=type_queue)
+        self._data = type_data(type_queue=type_queue)
         self._is_found = False
         self._search()
 
@@ -39,7 +40,7 @@ class AlgoPath(ABC, Generic[Node, Problem, Data]):
         return self._problem
 
     @property
-    def data(self) -> Data[Node]:
+    def data(self) -> Data:
         """
         ========================================================================
          Return the Algo's Data (Generated and Explored).

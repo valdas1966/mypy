@@ -31,7 +31,7 @@ class Select(Command):
     def list(self, query: str) -> list:
         """
         ========================================================================
-         Return the First-Col of the Query-Result as list List of Values.
+         Return the First-Col of the Query-Result as list of Values.
         ========================================================================
         """
         df = self.df(query=query)

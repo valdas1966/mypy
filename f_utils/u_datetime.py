@@ -35,8 +35,8 @@ def to_str(dt: datetime, format: str = 'LOG') -> str:
     """
     if format in {'LOG', 'yyyy-mm-dd hh:mi:ss'}:
         return dt.strftime('%Y-%m-%d %H:%M:%S')
-    elif format in {'STD', 'dd\mm\yyyy hh:mi:ss'}:
-        return dt.strftime('%d\%m\%Y %H:%M:%S')
+    elif format in {'STD', 'dd\\mm\\yyyy hh:mi:ss'}:
+        return dt.strftime('%d\\%m\\%Y %H:%M:%S')
     elif format in {'NUM', 'yyyymmddhhmiss'}:
         return dt.strftime('%Y%m%d%H%M%S')
     elif format == 'yymmdd':

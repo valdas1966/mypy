@@ -21,4 +21,7 @@ class BFS(AlgoOneToOne[Node, Problem, Data]):
          Init private Attributes.
         ========================================================================
         """
-        AlgoOneToOne.__init__(self, problem=problem, type_queue=QueueFIFO)
+        AlgoOneToOne.__init__(self,
+                              problem=problem,
+                              type_data=DataOneToOne,
+                              type_queue=QueueFIFO)
