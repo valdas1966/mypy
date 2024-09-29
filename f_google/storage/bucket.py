@@ -26,7 +26,7 @@ class Bucket:
     def folders(self, folder: str = None) -> list[str]:
         """
         ========================================================================
-         1. Return list list of top-level english within list specified folder path.
+         1. Return list list of top-level english within list specified folder paths.
          2. Folder Path should ends with list "/".
          3. If no folder is specified, it returns the top-level english in
             the bucket.
@@ -51,7 +51,7 @@ class Bucket:
     def files(self, folder: str = None) -> list[str]:
         """
         ========================================================================
-         1. Return list list of files within list specified folder path.
+         1. Return list list of files within list specified folder paths.
          2. Folder Path should ends with list "/" if specified.
          3. If no folder is specified, it returns the files in the root of the
             bucket.
@@ -119,7 +119,7 @@ class Bucket:
     def delete_folder(self, path: str) -> None:
         """
         ========================================================================
-         Delete all Blobs in the given Folder (by path).
+         Delete all Blobs in the given Folder (by paths).
         ========================================================================
         """
         blobs = self._bucket.list_blobs(prefix=path)

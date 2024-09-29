@@ -1,25 +1,27 @@
 from f_graph.problems.i_1_path import ProblemPath, NodePath
 from f_graph.data.i_0_path import DataPath
+from f_graph.paths.i_0_base import PathBase
 from f_ds.queues.i_0_base import QueueBase
 from typing import Generic, TypeVar, Type
 from abc import ABC, abstractmethod
 
-Node = TypeVar('Node', bound=NodePath)
 Problem = TypeVar('Problem', bound=ProblemPath)
-Data = TypeVar('Data', bound=DataPath)
+Node = TypeVar('Node', bound=NodePath)
 
 
-class AlgoPath(ABC, Generic[Node, Problem, Data]):
+class AlgoPath(ABC, Generic[Problem, Node]):
     """
     ============================================================================
-     Base-Algorithm for One-To-One path problems.
+     Base-Algorithm for One-To-One paths problems.
     ============================================================================
     """
 
     def __init__(self,
                  problem: Problem,
-                 type_data: Type[Data],
-                 type_queue: Type[QueueBase]) -> None:
+                 type_queue: Type[QueueBase],
+                 type_data: Type[DataPath],
+                 type_path: Type[PathBase]
+                 ) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -27,26 +29,35 @@ class AlgoPath(ABC, Generic[Node, Problem, Data]):
         """
         self._problem = problem
         self._data = type_data(type_queue=type_queue)
-        self._is_found = False
+        self._path = type_path(problem=problem)
         self._search()
 
     @property
     def problem(self) -> Problem:
         """
         ========================================================================
-         Return the shortest path One-to-One Problem.
+         Return the shortest paths One-to-One Problem.
         ========================================================================
         """
         return self._problem
 
     @property
-    def data(self) -> Data:
+    def data(self) -> DataPath:
         """
         ========================================================================
          Return the Algo's Data (Generated and Explored).
         ========================================================================
         """
         return self._data
+
+    @property
+    def path(self) -> PathBase:
+        """
+        ========================================================================
+         Return a Path founded in the Algo.
+        ========================================================================
+        """
+        return self._path
 
     @abstractmethod
     def _search(self) -> None:

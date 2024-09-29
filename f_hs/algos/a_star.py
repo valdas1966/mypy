@@ -1,12 +1,13 @@
 from f_graph.algos.one_to_one.i_0_base import AlgoOneToOne, ProblemOneToOne
 from f_ds.queues.i_1_priority import QueuePriority
 from f_hs.nodes.i_1_f import NodeF
-from typing import Generic, TypeVar, Callable
+from typing import TypeVar, Callable
 
+Problem = TypeVar('Problem', bound=ProblemOneToOne)
 Node = TypeVar('Node', bound=NodeF)
 
 
-class AStar(Generic[Node], AlgoOneToOne[Node]):
+class AStar(AlgoOneToOne[Problem, Node]):
     """
     ============================================================================
      A* Algorithm.
@@ -14,7 +15,7 @@ class AStar(Generic[Node], AlgoOneToOne[Node]):
     """
 
     def __init__(self,
-                 problem: ProblemOneToOne,
+                 problem: Problem,
                  heuristics: Callable[[Node], int]) -> None:
         """
         ========================================================================
@@ -23,17 +24,6 @@ class AStar(Generic[Node], AlgoOneToOne[Node]):
         """
         self._heuristics = heuristics
         AlgoOneToOne.__init__(self, problem=problem, type_queue=QueuePriority)
-
-    def _try_update_node(self,
-                         node: Node,
-                         parent: Node) -> None:
-        """
-        ========================================================================
-         Try update a generated Node with new Parent.
-        ========================================================================
-        """
-        if node.is_better_parent(parent_new=parent):
-            node.parent = parent
 
     def _generate_node(self,
                        node: Node,
@@ -45,3 +35,14 @@ class AStar(Generic[Node], AlgoOneToOne[Node]):
         """
         node.h = self._heuristics(node)
         AlgoOneToOne._generate_node(self, node=node, parent=parent)
+
+    def _try_update_node(self,
+                         node: Node,
+                         parent: Node) -> None:
+        """
+        ========================================================================
+         Try update a generated Node with new Parent.
+        ========================================================================
+        """
+        if node.is_better_parent(parent_new=parent):
+            node.parent = parent

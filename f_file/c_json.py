@@ -13,7 +13,7 @@ class Json(Nameable):
     def __init__(self, path: str) -> None:
         """
         ========================================================================
-         Init the Object with the given JSON-File path.
+         Init the Object with the given JSON-File paths.
         ========================================================================
         """
         Nameable.__init__(self, name=path)

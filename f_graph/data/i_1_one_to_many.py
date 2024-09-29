@@ -28,7 +28,7 @@ class DataOneToMany(DataBase[Node]):
     def goals_active(self) -> set[Node]:
         """
         ========================================================================
-         Return current Active-Goals (not found path to them yet).
+         Return current Active-Goals (not found paths to them yet).
         ========================================================================
         """
         return self._goals_active

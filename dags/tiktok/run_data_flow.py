@@ -18,7 +18,7 @@ dag = models.DAG(
 # Using DataflowPythonOperator for list Python-based Dataflow job
 dataflow_python_job = DataflowPythonOperator(
     task_id='dataflow_python_job',
-    py_file='gs://your_bucket/path/to/your_dataflow_script.py',
+    py_file='gs://your_bucket/paths/to/your_dataflow_script.py',
     py_options=['-m'],
     dataflow_default_options={
         'project': project_id,

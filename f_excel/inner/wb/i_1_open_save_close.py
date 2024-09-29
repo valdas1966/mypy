@@ -7,8 +7,8 @@ class MyWorkBookOpenSaveClose:
     ============================================================================
      Description:
     ----------------------------------------------------------------------------
-        1. Open New or Existed Excel-File (by path).
-        2. Save or Save-As (by new path) the Excel-File.
+        1. Open New or Existed Excel-File (by paths).
+        2. Save or Save-As (by new paths) the Excel-File.
         3. Close the Excel-File.
     ============================================================================
      Methods:
@@ -86,7 +86,7 @@ class MyWorkBookOpenSaveClose:
     def __set_workbook(self) -> xl.Workbook:
         """
         ========================================================================
-         Description: Set the Working Excel WorkBook. If the Excel path-file is
+         Description: Set the Working Excel WorkBook. If the Excel paths-file is
                         passed to the Constructor, then open it for editing.
                         Otherwise, create and open list new blank Excel-File.
         ========================================================================

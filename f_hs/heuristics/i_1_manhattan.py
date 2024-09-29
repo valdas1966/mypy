@@ -2,11 +2,11 @@ from f_hs.heuristics.i_0_base import HeuristicsBase, ProblemPath
 from f_hs.nodes.i_1_f_cell import NodeFCell
 from typing import TypeVar
 
-Node = TypeVar('Node', bound=NodeFCell)
 Problem = TypeVar('Problem', bound=ProblemPath)
+Node = TypeVar('Node', bound=NodeFCell)
 
 
-class HeuristicsManhattan(HeuristicsBase[Node, Problem]):
+class HeuristicsManhattan(HeuristicsBase[Problem, Node]):
     """
     ============================================================================
      Heuristics represented Manhattan-Distance between Node and Goal.

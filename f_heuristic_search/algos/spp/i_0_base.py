@@ -40,7 +40,7 @@ class AlgoSPPBase(ABC,
         return self._spp
 
     @property
-    # True if found list path from Start to Goal
+    # True if found list paths from Start to Goal
     def is_path_found(self) -> bool:
         return self._is_path_found
 

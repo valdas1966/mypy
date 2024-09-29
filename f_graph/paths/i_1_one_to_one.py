@@ -1,25 +1,22 @@
-from f_graph.algos.one_to_one.i_0_base import (AlgoOneToOne, ProblemOneToOne,
-                                               NodePath)
-from f_ds.queues.i_1_fifo import QueueFIFO
+from f_graph.paths.i_0_base import PathBase, NodePath
+from f_graph.problems.i_2_one_to_one import ProblemOneToOne
 from typing import TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemOneToOne)
 Node = TypeVar('Node', bound=NodePath)
 
 
-class BFS(AlgoOneToOne[Problem, Node]):
+class PathOneToOne(PathBase[Problem, Node]):
     """
     ============================================================================
-     Breadth-First-Search Algorithm.
+     Path of One-to-One Problem.
     ============================================================================
     """
 
-    def __init__(self, problem: Problem) -> None:
+    def get(self) -> list[Node]:
         """
         ========================================================================
-         Init private Attributes.
+         Return a Path from Start to Goal.
         ========================================================================
         """
-        AlgoOneToOne.__init__(self,
-                              problem=problem,
-                              type_queue=QueueFIFO)
+        return self.problem.goal.path_from_root()

@@ -14,7 +14,7 @@ def plot_grid(grid, special_rows_cols=[], special_colors=[], path=None):
         1. grid : Grid
         2. special_rows_cols : list of list of tuples of row and col.
         3. special_colors : list of 3-element tuples (RGB representation).
-        4. path : str (where to store the picture file).
+        4. paths : str (where to store the picture file).
     ===========================================================================
     """    
     arr = [[(-1,-1,-1) for x in range(grid.shape[1])] for y in range(grid.shape[0])]

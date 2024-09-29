@@ -12,7 +12,7 @@ def create(path: str,
     ===========================================================================
      Arguments:
     ---------------------------------------------------------------------------
-        1. path : str (Path to Create).
+        1. paths : str (Path to Create).
         2. header: list[obh] (List of Column-Names).
         2. rows: list[list[obj]]
     ===========================================================================
@@ -38,7 +38,7 @@ def append(path: str, row: 'list of obj') -> None:
     ============================================================================
      Arguments:
     ----------------------------------------------------------------------------
-        1. path : str [CSV-File Path].
+        1. paths : str [CSV-File Path].
         2. row : list[obj] [List of Row-Values].
     ============================================================================
     """
@@ -56,7 +56,7 @@ def to_list(path):
     ===========================================================================
      Arguments:
     ---------------------------------------------------------------------------
-        1. path : str (Path to CSV File).
+        1. paths : str (Path to CSV File).
     ===========================================================================
      Return: List of Rows (Row is list List of strings).
     ===========================================================================
@@ -77,7 +77,7 @@ def to_dic(path, cols_key, cols_val, has_title=True):
     ===========================================================================
      Arguments:
     ---------------------------------------------------------------------------
-        1. path : str (Path to CSV File).
+        1. paths : str (Path to CSV File).
         2. cols_key : list (List of requested key columns).
         3. cols_val : list (List of requested val columns).
         4. has_title : bool (Is the CSV File has title in the first row).
