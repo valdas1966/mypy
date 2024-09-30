@@ -5,34 +5,57 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_graph/paths/i_0_base.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/paths/i_1_one_to_one.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/paths/testers/t_1_one_to_one.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_abstract/components/testers/t_filterd.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/study/s_listable.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/study/s_to_list.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/testers/t_to_list.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/to_list.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/queues/study/s_1_fifo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/queues/study/s_1_priority.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/graphs/study/s_1_u_grid.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algos/a_star_grid.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algos/study/s_astar_grid.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algos/testers/t_astar_grid.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/sequence/indexes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/sequence/items.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/sequence/testers/t_indexes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/sequence/testers/t_items.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/u_seq.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dags/tiktok/run_data_flow.py" beforeDir="false" afterPath="$PROJECT_DIR$/dags/tiktok/run_data_flow.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_excel/inner/wb/i_1_open_save_close.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_excel/inner/wb/i_1_open_save_close.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/c_json.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/c_json.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/storage/bucket.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/storage/bucket.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_1_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_1_bfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/i_1_one_to_many.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/data/i_1_one_to_many.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_1_mutable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_1_mutable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/forward.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/paths/forward.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/i_0_base.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/testers/t_one_to_one.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_heuristic_search/algos/spp/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_heuristic_search/algos/spp/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algos/a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algos/a_star.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/components/stats_items.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/components/filtered.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/components/testers/t_stats_items.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/has_rows_cols.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/has_rows_cols.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/listable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/listable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/testers/t_listable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/testers/t_listable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/i_1d.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/old/old_i_2d.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/testers/t_1d.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/testers/t_2d.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/testers/t_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/testers/t_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/testers/t_u_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/testers/t_u_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/old_collections/i_0_base.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/old_collections/i_1_dict.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/old_collections/i_1_set.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/old_collections/set_ordered.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/old_collections/study/s_set_ordered.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/old_collections/testers/t_queue.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/old_collections/testers/t_set_ordered.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_1_fifo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_1_fifo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_1_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_1_priority.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/testers/t_1_fifo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/testers/t_1_fifo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/testers/t_1_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/testers/t_1_priority.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_0_base.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algos/testers/t_astar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algos/testers/t_astar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/heuristics/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/heuristics/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/heuristics/i_1_manhattan.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/heuristics/i_1_manhattan.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_pptx/myp_init.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_pptx/myp_init.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_csv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_dir.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_dir.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_file.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_pickle.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_pickle.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_plot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_py.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_py.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/list/indexes.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/list/indexes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/list/items.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/list/items.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/list/testers/t_indexes.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/list/testers/t_indexes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/list/testers/t_items.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/list/testers/t_items.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/u_int.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/u_int.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/u_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/u_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/rapid_api/requests/tiktok/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/rapid_api/requests/tiktok/user.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,9 +113,11 @@
     "Python tests.Python tests for t_2_g_cell.test_key_comparison.executor": "Run",
     "Python tests.Python tests for t_2_g_cell.test_str.executor": "Run",
     "Python tests.Python tests for t_astar.test.executor": "Run",
+    "Python tests.Python tests for t_astar_grid.test_random.executor": "Run",
     "Python tests.Python tests for t_bfs.test.executor": "Run",
     "Python tests.Python tests for t_cursorable.executor": "Run",
     "Python tests.Python tests for t_cursorable.test_to_list.executor": "Run",
+    "Python tests.Python tests for t_filterd.test.executor": "Run",
     "Python tests.Python tests for t_get.test_success.executor": "Run",
     "Python tests.Python tests for t_grid.test_cells_valid.executor": "Run",
     "Python tests.Python tests for t_grid.test_distance.executor": "Run",
@@ -123,11 +148,13 @@
     "Python tests.Python tests in t_0_one_to_one.py.executor": "Run",
     "Python tests.Python tests in t_1_cell.py.executor": "Run",
     "Python tests.Python tests in t_1_f.py.executor": "Run",
+    "Python tests.Python tests in t_1_fifo.py.executor": "Run",
     "Python tests.Python tests in t_1_g.py.executor": "Run",
     "Python tests.Python tests in t_1_grid.py.executor": "Run",
     "Python tests.Python tests in t_1_one_to_one.py.executor": "Run",
     "Python tests.Python tests in t_1_path.py.executor": "Run",
     "Python tests.Python tests in t_1_path_cell.py.executor": "Run",
+    "Python tests.Python tests in t_1_priority.py.executor": "Run",
     "Python tests.Python tests in t_2_cell.py.executor": "Run",
     "Python tests.Python tests in t_2_f_cell.py (1).executor": "Run",
     "Python tests.Python tests in t_2_f_cell.py.executor": "Run",
@@ -136,6 +163,7 @@
     "Python tests.Python tests in t_2_mask.py.executor": "Run",
     "Python tests.Python tests in t_3_mask_one_word.py.executor": "Run",
     "Python tests.Python tests in t_apply.py.executor": "Run",
+    "Python tests.Python tests in t_astar.py (1).executor": "Run",
     "Python tests.Python tests in t_astar.py.executor": "Run",
     "Python tests.Python tests in t_bfs.py (1).executor": "Run",
     "Python tests.Python tests in t_bfs.py.executor": "Run",
@@ -143,6 +171,7 @@
     "Python tests.Python tests in t_cursorable.py (1).executor": "Run",
     "Python tests.Python tests in t_cursorable.py.executor": "Run",
     "Python tests.Python tests in t_field.py.executor": "Run",
+    "Python tests.Python tests in t_filterd.py.executor": "Run",
     "Python tests.Python tests in t_generated_explored.py.executor": "Run",
     "Python tests.Python tests in t_get.py (1).executor": "Run",
     "Python tests.Python tests in t_get.py.executor": "Run",
@@ -169,7 +198,9 @@
     "Python tests.Python tests in t_position.py.executor": "Run",
     "Python tests.Python tests in t_rate_success.py.executor": "Run",
     "Python tests.Python tests in t_schema.py.executor": "Run",
+    "Python tests.Python tests in t_stats_items.py.executor": "Run",
     "Python tests.Python tests in t_u_1_grid.py.executor": "Run",
+    "Python tests.Python tests in t_u_grid.py.executor": "Run",
     "Python.app.executor": "Run",
     "Python.container_qa.executor": "Run",
     "Python.create_tables (1).executor": "Run",
@@ -203,6 +234,8 @@
     "Python.s_0_text.executor": "Run",
     "Python.s_1_grid.executor": "Run",
     "Python.s_1_phrases.executor": "Run",
+    "Python.s_1_priority.executor": "Run",
+    "Python.s_1_u_grid.executor": "Run",
     "Python.s_1_words.executor": "Run",
     "Python.s_alias_to_id.executor": "Run",
     "Python.s_app (1).executor": "Run",
@@ -210,6 +243,7 @@
     "Python.s_app (3).executor": "Run",
     "Python.s_app.executor": "Run",
     "Python.s_astar.executor": "Run",
+    "Python.s_astar_grid.executor": "Run",
     "Python.s_bar.executor": "Run",
     "Python.s_bfs.executor": "Run",
     "Python.s_bucket.executor": "Run",
@@ -220,9 +254,11 @@
     "Python.s_environ.executor": "Run",
     "Python.s_exam.executor": "Run",
     "Python.s_field.executor": "Run",
+    "Python.s_fifo.executor": "Run",
     "Python.s_insert.executor": "Run",
     "Python.s_iterable.executor": "Run",
     "Python.s_key.executor": "Run",
+    "Python.s_listable.executor": "Run",
     "Python.s_mask.executor": "Run",
     "Python.s_position (1).executor": "Run",
     "Python.s_position (2).executor": "Run",
@@ -237,6 +273,7 @@
     "Python.s_tiktok_music.executor": "Run",
     "Python.s_tiktok_user (1).executor": "Run",
     "Python.s_tiktok_user.executor": "Run",
+    "Python.s_to_list.executor": "Run",
     "Python.s_window (1).executor": "Run",
     "Python.s_window.executor": "Run",
     "Python.screen_resolution.executor": "Run",
@@ -260,8 +297,8 @@
       <recent name="G:\mypy\f_hs\nodes\testers" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_1_one_to_one.py">
-    <configuration name="t_1_one_to_one" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.run_exam">
+    <configuration name="run_exam" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -270,11 +307,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/scripts" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/testers/t_1_one_to_one.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/scripts/run_exam.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -283,73 +320,73 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_astar.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_indexes.test_filter" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/algos/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_utils/dtypes/inner/sequence/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_astar.test&quot;" />
+      <option name="_new_target" value="&quot;t_indexes.test_filter&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_1_one_to_one.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_items.test_filter" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/paths/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_utils/dtypes/inner/sequence/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/paths/testers/t_1_one_to_one.py&quot;" />
+      <option name="_new_target" value="&quot;t_items.test_filter&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in t_indexes.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_utils/dtypes/inner/sequence/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_utils/dtypes/inner/sequence/testers/t_indexes.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_2_f_cell.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_items.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/nodes/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_utils/dtypes/inner/sequence/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_hs/nodes/testers/t_2_f_cell.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_astar.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/algos/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_hs/algos/testers/t_astar.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_utils/dtypes/inner/sequence/testers/t_items.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in t_1_one_to_one.py" />
-        <item itemvalue="Python.t_1_one_to_one" />
-        <item itemvalue="Python tests.Python tests in t_astar.py" />
-        <item itemvalue="Python tests.Python tests for t_astar.test" />
-        <item itemvalue="Python tests.Python tests in t_2_f_cell.py" />
+        <item itemvalue="Python.run_exam" />
+        <item itemvalue="Python tests.Python tests in t_indexes.py" />
+        <item itemvalue="Python tests.Python tests for t_indexes.test_filter" />
+        <item itemvalue="Python tests.Python tests in t_items.py" />
+        <item itemvalue="Python tests.Python tests for t_items.test_filter" />
       </list>
     </recent_temporary>
   </component>
@@ -641,7 +678,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727587960182</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="h">
+      <option name="closed" value="true" />
+      <created>1727625492957</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1727625492957</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

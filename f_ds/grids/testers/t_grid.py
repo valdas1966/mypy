@@ -29,11 +29,10 @@ def test_neighbors(ex):
 
 
 def test_cells_valid(ex):
-    assert list(ex.cells_valid.to_list()) == [ex[0][0], ex[0][1], ex[0][2],
-                                              ex[1][0], ex[1][1], ex[1][2]]
-    assert ex.cells_valid.cnt() == 6
+    assert ex.cells_valid.to_list() == [ex[0][0], ex[0][1], ex[0][2],
+                                        ex[1][0], ex[1][1], ex[1][2]]
+    assert len(ex.cells_valid) == 6
     assert ex.cells_valid.pct() == 100
     [cell.set_invalid() for cell in (ex[0][0], ex[0][1], ex[0][2])]
-    assert ex.cells_valid.cnt() == 3
+    assert len(ex.cells_valid) == 3
     assert ex.cells_valid.pct() == 50
-

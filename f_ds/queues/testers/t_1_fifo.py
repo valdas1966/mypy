@@ -9,8 +9,10 @@ def ex() -> QueueFIFO:
     q.push(item=1)
     return q
 
+
 def test_push(ex):
     assert ex.to_list() == [2, 1]
+
 
 def test_pop(ex):
     assert ex.pop() == 2

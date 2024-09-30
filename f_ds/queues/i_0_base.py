@@ -1,8 +1,12 @@
-from f_ds.collections.i_1d import Collection1D, Item
 from abc import abstractmethod
+from typing import Generic, TypeVar
+from f_abstract.mixins.nameable import Nameable
+from f_abstract.mixins.to_list import ToList, Listable
+
+Item = TypeVar('Item')
 
 
-class QueueBase(Collection1D[Item]):
+class QueueBase(Generic[Item], ToList[Item], Nameable):
     """
     ============================================================================
      Abstract-Class of Queue.
@@ -15,7 +19,7 @@ class QueueBase(Collection1D[Item]):
          Init private Attributes.
         ========================================================================
         """
-        Collection1D.__init__(self, name=name)
+        Nameable.__init__(self, name=name)
 
     @abstractmethod
     def push(self, item: Item) -> None:
@@ -33,4 +37,8 @@ class QueueBase(Collection1D[Item]):
          Pop an Element from the Queue.
         ========================================================================
         """
+        pass
+
+    @abstractmethod
+    def to_list(self) -> Listable[Item]:
         pass

@@ -1,5 +1,5 @@
 import heapq
-from f_ds.queues.i_0_base import QueueBase
+from f_ds.queues.i_0_base import QueueBase, Listable
 from f_abstract.mixins.sortable import Sortable
 from typing import TypeVar
 
@@ -37,3 +37,11 @@ class QueuePriority(QueueBase[Item]):
         ========================================================================
         """
         return heapq.heappop(self._items)
+
+    def to_list(self) -> Listable[Item]:
+        """
+        ========================================================================
+         Convert the Queue into List in Priority order.
+        ========================================================================
+        """
+        return Listable(data=self._items)

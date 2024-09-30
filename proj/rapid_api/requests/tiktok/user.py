@@ -48,9 +48,9 @@ class User(RequestBase):
         url = f'https://{self._host}/user/followers'
         params = {'user_id': id_user, 'count': '50', 'time': str(time)}
         d = self.request(url, params).to_dict()
+        is_valid = d and d['code'] == 0
+        is_exist = d and d['msg'] == 'success'
         has_more = False
-        is_valid = d['code'] == 0
-        is_exist = d['msg'] == 'success'
         li = list()
         if is_valid and is_exist:
             has_more = d['data']['hasMore']

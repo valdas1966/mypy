@@ -1,4 +1,4 @@
-from f_utils.dtypes.u_list import UList as u_list
+from f_utils.dtypes.u_seq import USeq
 
 
 class Mask:
@@ -43,10 +43,10 @@ class Mask:
             exceptions = Mask._EXCEPTIONS
         if len(s) == 1:
             return '*'
-        indexes = u_list.indexes.sample(li=list(s),
-                                        cond=lambda x: x not in exceptions,
-                                        pct=pct_to_mask)
-        return ''.join(ch_mask if i in indexes else ch
+        predicate = lambda x: x not in exceptions
+        filtered = USeq.indexes.filter(seq=s, predicate=predicate)
+        sampled = USeq.items.sample(seq=filtered, pct=pct_to_mask)
+        return ''.join(ch_mask if i in sampled else ch
                        for i, ch in enumerate(s))
 
     @staticmethod
@@ -61,7 +61,7 @@ class Mask:
         ========================================================================
         """
         words = text.split(' ')
-        index_word = u_list.indexes.sample(li=words, size=1)[0]
+        index_word = USeq.indexes.sample(seq=words, size=1)[0]
         word_unmasked = words[index_word]
         word_masked = Mask.pct(s=words[index_word],
                                pct_to_mask=pct,

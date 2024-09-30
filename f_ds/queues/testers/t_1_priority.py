@@ -9,8 +9,10 @@ def ex() -> QueuePriority:
     q.push(item=1)
     return q
 
+
 def test_push(ex):
     assert ex.to_list() == [1, 2]
+
 
 def test_pop(ex):
     assert ex.pop() == 1

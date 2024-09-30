@@ -12,7 +12,7 @@ def ex() -> list:
 
 
 def test_filter(ex):
-    assert Items.filter(li=ex, cond=is_even) == [0, 2, 4, 6, 8]
+    assert Items.filter(li=ex, predicate=is_even) == [0, 2, 4, 6, 8]
 
 
 def test_sample(ex):

@@ -1,8 +1,7 @@
 from __future__ import annotations
-from f_abstract.mixins.nameable import Nameable
 
 
-class HasRowsCols(Nameable):
+class HasRowsCols:
     """
     ============================================================================
      Mixin-Class for Objects with Rows and Cols.
@@ -11,11 +10,9 @@ class HasRowsCols(Nameable):
 
     def __init__(self,
                  rows: int,
-                 cols: int = None,
-                 name: str = None) -> None:
+                 cols: int = None) -> None:
         self._rows = rows
         self._cols = cols if cols else rows
-        Nameable.__init__(self, name=name)
 
     @property
     def rows(self) -> int:

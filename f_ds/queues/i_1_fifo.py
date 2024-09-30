@@ -1,5 +1,5 @@
 from collections import deque
-from f_ds.queues.i_0_base import QueueBase, Item
+from f_ds.queues.i_0_base import QueueBase, Listable, Item
 from typing import Deque
 
 
@@ -34,3 +34,12 @@ class QueueFIFO(QueueBase[Item]):
         ========================================================================
         """
         return self._items.popleft()
+
+    def to_list(self) -> Listable[Item]:
+        """
+        ========================================================================
+         Convert the Queue into List in FIFO order.
+        ========================================================================
+        """
+        data = list(self._items)
+        return Listable(data=data)

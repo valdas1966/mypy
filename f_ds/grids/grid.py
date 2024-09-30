@@ -1,10 +1,11 @@
-from f_abstract.components.stats_items import StatsItems
+from f_abstract.mixins.nameable import Nameable
 from f_abstract.mixins.has_rows_cols import HasRowsCols
-from f_ds.collections.i_1d import Collection1D
+from f_abstract.mixins.to_list import ToList, Listable
+from f_abstract.components.filtered import Filtered
 from f_ds.grids.cell import Cell
 
 
-class Grid(Collection1D[Cell], HasRowsCols):
+class Grid(Nameable, HasRowsCols, ToList[Cell]):
     """
     ============================================================================
      2D-Grid Class of Cells.
@@ -20,25 +21,43 @@ class Grid(Collection1D[Cell], HasRowsCols):
          Init private Attributes.
         ========================================================================
         """
+        Nameable.__init__(self, name=name)
         HasRowsCols.__init__(self, rows=rows, cols=cols)
-        items = [
-                    [Cell(row, col) for col in range(self.cols)]
-                    for row in range(self.rows)
-                ]
-        Collection1D.__init__(self, name=name, items=items)
-        self._cells_valid = StatsItems(items=self.to_list(), predicate=bool)
+        self._cells = [
+                        [Cell(row, col) for col in range(self.cols)]
+                        for row in range(self.rows)
+                      ]
+        self._cells_valid = Filtered(items=self.to_list(), predicate=bool)
 
     @property
-    def cells_valid(self) -> StatsItems[Cell]:
+    def cells_valid(self) -> Filtered[Cell]:
+        """
+        ========================================================================
+         Component-Class for Valid-Cells in the Grid.
+        ========================================================================
+        """
         return self._cells_valid
 
-    def to_list(self) -> list[Cell]:
+    def to_list(self) -> Listable[Cell]:
         """
         ========================================================================
          Return list flattened list representation of the 2D Object.
         ========================================================================
         """
-        return [cell for row in self._items for cell in row]
+        flatten = [cell for row in self._cells for cell in row]
+        return Listable(data=flatten)
+
+    def neighbors(self, cell: Cell) -> list[Cell]:
+        """
+        ========================================================================
+         Return List of list valid Cell-Neighbors in Clockwise-Order.
+        ========================================================================
+        """
+        cells_within = [self._cells[n.row][n.col]
+                        for n
+                        in cell.neighbors()
+                        if self.is_within(n.row, n.col)]
+        return [cell for cell in cells_within if cell]
 
     @staticmethod
     def distance(cell_a: Cell, cell_b: Cell) -> int:
@@ -51,18 +70,6 @@ class Grid(Collection1D[Cell], HasRowsCols):
         diff_col = abs(cell_a.col - cell_b.col)
         return diff_row + diff_col
 
-    def neighbors(self, cell: Cell) -> list[Cell]:
-        """
-        ========================================================================
-         Return List of list valid Cell-Neighbors in Clockwise-Order.
-        ========================================================================
-        """
-        cells_within = [self._items[n.row][n.col]
-                        for n
-                        in cell.neighbors()
-                        if self.is_within(n.row, n.col)]
-        return [cell for cell in cells_within if cell]
-
     def __getitem__(self, index) -> list[Cell]:
         """
         ========================================================================
@@ -70,7 +77,7 @@ class Grid(Collection1D[Cell], HasRowsCols):
          2. Direct access specific Cell using [Row][Col] Properties.
         ========================================================================
         """
-        return self._items[index]
+        return self._cells[index]
 
     def __str__(self) -> str:
         """
@@ -83,6 +90,6 @@ class Grid(Collection1D[Cell], HasRowsCols):
         for row in range(self.rows):
             res += str(row) + ' '
             for col in range(self.cols):
-                res += '1 ' if self._items[row][col] else '0 '
+                res += '1 ' if self._cells[row][col] else '0 '
             res += '\n'
         return res

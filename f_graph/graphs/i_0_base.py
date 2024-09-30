@@ -1,13 +1,13 @@
 from abc import abstractmethod
 from f_abstract.mixins.nameable import Nameable
-from f_abstract.mixins.iterable import Iterable
+from f_abstract.mixins.to_list import ToList, Listable
 from f_graph.nodes.i_0_base import NodeBase
 from typing import TypeVar, Generic
 
 Node = TypeVar('Node', bound=NodeBase)
 
 
-class GraphBase(Generic[Node], Iterable[Node], Nameable):
+class GraphBase(Generic[Node], ToList[Node], Nameable):
     """
     ============================================================================
      Graph Base-Class.
@@ -40,10 +40,10 @@ class GraphBase(Generic[Node], Iterable[Node], Nameable):
         """
         pass
 
-    def to_list(self) -> list[Node]:
+    def to_list(self) -> Listable[Node]:
         """
         ========================================================================
          Return list list representation of the Object.
         ========================================================================
         """
-        return self.nodes()
+        return Listable(data=self.nodes())

@@ -8,7 +8,7 @@ def ex() -> list[int]:
 
 
 def test_filter(ex):
-    assert Indexes.filter(li=ex, cond=bool) == [0, 2]
+    assert Indexes.filter(li=ex, predicate=bool) == [0, 2]
 
 
 def test_sample(ex):

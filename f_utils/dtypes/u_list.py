@@ -1,6 +1,4 @@
 from f_utils.dtypes.inner.list.apply import Apply
-from f_utils.dtypes.inner.list.items import Items
-from f_utils.dtypes.inner.list.indexes import Indexes
 
 
 class UList:
@@ -11,5 +9,3 @@ class UList:
     """
 
     apply = Apply
-    items = Items
-    indexes = Indexes

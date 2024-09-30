@@ -1,62 +1,58 @@
-from __future__ import annotations
-from collections import UserList
-from typing import Generic, TypeVar, Callable
-from f_utils.dtypes.u_seq import USeq
+from f_abstract.mixins.sizable import Sizable
+from f_abstract.mixins.listable import Listable
+from abc import abstractmethod
+from typing import Generic, TypeVar, Callable, Iterator
 
 Item = TypeVar('Item')
 
 
-class Listable(UserList, Generic[Item]):
+class ToList(Generic[Item], Sizable):
     """
     ============================================================================
-     Mixin-Class for objects with lists.
+     Mixin for Classes that their content can be converted into List.
     ============================================================================
     """
 
-    def __init__(self, data: list[Item] = None) -> None:
+    @abstractmethod
+    def to_list(self) -> Listable[Item]:
         """
         ========================================================================
-         Initialize the Listable object with the given items.
+         Convert class content into List.
         ========================================================================
         """
-        if not data:
-            data = list()
-        UserList.__init__(self, data)
+        pass
 
     def filter(self, predicate: Callable[[Item], bool]) -> Listable[Item]:
         """
         ========================================================================
-         Return List of Items that met the Predicate.
+         Return List of Filtered-Items that met the Predicate.
         ========================================================================
         """
-        data = USeq.items.filter(seq=self.data, predicate=predicate)
-        return self.__class__(data=data)
+        return self.to_list().filter(predicate=predicate)
 
     def sample(self,
-               pct: int = None,
-               size: int = None) -> Listable[Item]:
+               size: int = None,
+               pct: int = None) -> Listable[Item]:
         """
         ========================================================================
-         Return Sample List of Items by Pct/Size and Predicate.
+         Return Sample-List of Items by a given Size|Pct.
         ========================================================================
         """
-        data = USeq.items.sample(seq=self.data, pct=pct, size=size)
-        return self.__class__(data=data)
+        return self.to_list().sample(size=size, pct=pct)
 
-    def move(self, item: Item, index: int) -> None:
+    def __len__(self) -> int:
         """
         ========================================================================
-         Move the Item to the given Index (move others forward).
+         Return number of Items in the class content.
         ========================================================================
         """
-        self.remove(item)
-        self.insert(index, item)
+        return len(self.to_list())
 
-    def display(self) -> None:
+    def __iter__(self) -> Iterator[Item]:
         """
         ========================================================================
-         Print the List values in rows.
+         Enable traversing over the Object's Items.
         ========================================================================
         """
-        for item in self.data:
-            print(item)
+        for item in self.to_list():
+            yield item

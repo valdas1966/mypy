@@ -4,7 +4,7 @@ from f_ds.grids.u_grid import UGrid
 def test_generate():
     grid = UGrid.generate(rows=10, pct_valid=90)
     assert len(grid) == 100
-    assert grid.cells_valid.cnt() == 90
+    assert len(grid.cells_valid) == 90
 
 
 def test_generate_multiple():
