@@ -30,7 +30,7 @@ class AlgoPath(ABC, Generic[Problem, Node]):
         ========================================================================
         """
         self._problem = problem
-        self._data = type_data(type_queue=type_queue)
+        self._data = type_data(problem=problem, type_queue=type_queue)
         self._path = type_path(problem=problem)
         self._search()
 

@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_1_bfs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/algos/one_to_many/testers/t_1_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/path.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +58,7 @@
     "Python tests.Python tests for t_0_h.test_repr.executor": "Run",
     "Python tests.Python tests for t_0_one_to_one.test.executor": "Run",
     "Python tests.Python tests for t_0_one_to_one.test_fifo.executor": "Run",
+    "Python tests.Python tests for t_1_bfs.test_bfs.executor": "Run",
     "Python tests.Python tests for t_1_f.test_repr.executor": "Run",
     "Python tests.Python tests for t_1_path_cell.test_key_comparison.executor": "Run",
     "Python tests.Python tests for t_1_text.test_text.executor": "Run",
@@ -96,6 +101,7 @@
     "Python tests.Python tests in t_0_g.py.executor": "Run",
     "Python tests.Python tests in t_0_h.py.executor": "Run",
     "Python tests.Python tests in t_0_one_to_one.py.executor": "Run",
+    "Python tests.Python tests in t_1_bfs.py.executor": "Run",
     "Python tests.Python tests in t_1_cell.py.executor": "Run",
     "Python tests.Python tests in t_1_f.py.executor": "Run",
     "Python tests.Python tests in t_1_fifo.py.executor": "Run",
@@ -248,7 +254,7 @@
       <recent name="G:\mypy\f_hs\nodes\testers" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_1_one_to_many">
+  <component name="RunManager" selected="Python tests.Python tests in t_1_bfs.py">
     <configuration name="run_exam" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -293,19 +299,34 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_indexes.test_filter" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_1_bfs.test_bfs" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_utils/dtypes/inner/sequence/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/algos/one_to_many/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_indexes.test_filter&quot;" />
+      <option name="_new_target" value="&quot;t_1_bfs.test_bfs&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in t_1_bfs.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/algos/one_to_many/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/algos/one_to_many/testers/t_1_bfs.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="Python tests in t_indexes.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -323,28 +344,13 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_items.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_utils/dtypes/inner/sequence/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_utils/dtypes/inner/sequence/testers/t_items.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests in t_1_bfs.py" />
+        <item itemvalue="Python tests.Python tests for t_1_bfs.test_bfs" />
         <item itemvalue="Python.s_1_one_to_many" />
         <item itemvalue="Python.run_exam" />
         <item itemvalue="Python tests.Python tests in t_indexes.py" />
-        <item itemvalue="Python tests.Python tests for t_indexes.test_filter" />
-        <item itemvalue="Python tests.Python tests in t_items.py" />
       </list>
     </recent_temporary>
   </component>
@@ -652,7 +658,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727968675429</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="h">
+      <option name="closed" value="true" />
+      <created>1727969100043</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1727969100043</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
