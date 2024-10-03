@@ -7,6 +7,8 @@ from abc import ABC, abstractmethod
 
 Problem = TypeVar('Problem', bound=ProblemPath)
 Node = TypeVar('Node', bound=NodePath)
+Data = TypeVar('Data', bound=DataPath)
+Path = TypeVar('Path', bound=PathBase)
 
 
 class AlgoPath(ABC, Generic[Problem, Node]):
@@ -42,16 +44,16 @@ class AlgoPath(ABC, Generic[Problem, Node]):
         return self._problem
 
     @property
-    def data(self) -> DataPath:
+    def data(self) -> Data:
         """
         ========================================================================
-         Return the Algo's Data (Generated and Explored).
+         Return the Algo Data (Generated and Explored).
         ========================================================================
         """
         return self._data
 
     @property
-    def path(self) -> PathBase:
+    def path(self) -> Path:
         """
         ========================================================================
          Return a Path founded in the Algo.

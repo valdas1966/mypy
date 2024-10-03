@@ -5,57 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_abstract/components/testers/t_filterd.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/study/s_listable.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/study/s_to_list.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/testers/t_to_list.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/to_list.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/queues/study/s_1_fifo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/queues/study/s_1_priority.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/graphs/study/s_1_u_grid.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algos/a_star_grid.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algos/study/s_astar_grid.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algos/testers/t_astar_grid.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/sequence/indexes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/sequence/items.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/sequence/testers/t_indexes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/sequence/testers/t_items.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/u_seq.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/data/study/s_1_one_to_many.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/paths/i_1_one_to_many.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/components/stats_items.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/components/filtered.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/components/testers/t_stats_items.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/has_rows_cols.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/has_rows_cols.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/listable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/listable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/testers/t_listable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/testers/t_listable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/collections/i_1d.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/collections/old/old_i_2d.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/collections/testers/t_1d.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/collections/testers/t_2d.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/testers/t_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/testers/t_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/testers/t_u_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/testers/t_u_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/old_collections/i_0_base.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/old_collections/i_1_dict.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/old_collections/i_1_set.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/old_collections/set_ordered.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/old_collections/study/s_set_ordered.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/old_collections/testers/t_queue.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/old_collections/testers/t_set_ordered.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_1_fifo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_1_fifo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_1_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_1_priority.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/queues/testers/t_1_fifo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/testers/t_1_fifo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/queues/testers/t_1_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/testers/t_1_priority.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algos/testers/t_astar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algos/testers/t_astar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/list/indexes.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/list/indexes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/list/items.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/list/items.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/list/testers/t_indexes.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/list/testers/t_indexes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/list/testers/t_items.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/list/testers/t_items.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/u_int.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/u_int.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/u_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/u_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/rapid_api/requests/tiktok/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/rapid_api/requests/tiktok/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_many/k_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/path.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/data/i_1_one_to_many.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/data/i_1_one_to_many.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/paths/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/paths/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/problems/u_2_one_to_many.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/problems/u_2_one_to_many.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,12 +35,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
-    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/valdas1966/mypy.git",
+    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -233,6 +190,7 @@
     "Python.s_0_gui.executor": "Run",
     "Python.s_0_text.executor": "Run",
     "Python.s_1_grid.executor": "Run",
+    "Python.s_1_one_to_many.executor": "Run",
     "Python.s_1_phrases.executor": "Run",
     "Python.s_1_priority.executor": "Run",
     "Python.s_1_u_grid.executor": "Run",
@@ -290,14 +248,14 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\mypy\proj\rapid_api\requests" />
       <recent name="G:\mypy\f_graph\algos\one_to_many" />
+      <recent name="D:\mypy\proj\rapid_api\requests" />
       <recent name="G:\mypy\f_graph\algos\one_to_one" />
       <recent name="G:\mypy\f_hs\algos" />
       <recent name="G:\mypy\f_hs\nodes\testers" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.run_exam">
+  <component name="RunManager" selected="Python.s_1_one_to_many">
     <configuration name="run_exam" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -320,6 +278,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="s_1_one_to_many" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/data/study" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/data/study/s_1_one_to_many.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Python tests for t_indexes.test_filter" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -332,21 +312,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;t_indexes.test_filter&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for t_items.test_filter" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_utils/dtypes/inner/sequence/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_items.test_filter&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -382,11 +347,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.s_1_one_to_many" />
         <item itemvalue="Python.run_exam" />
         <item itemvalue="Python tests.Python tests in t_indexes.py" />
         <item itemvalue="Python tests.Python tests for t_indexes.test_filter" />
         <item itemvalue="Python tests.Python tests in t_items.py" />
-        <item itemvalue="Python tests.Python tests for t_items.test_filter" />
       </list>
     </recent_temporary>
   </component>
