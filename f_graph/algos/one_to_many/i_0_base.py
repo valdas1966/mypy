@@ -41,8 +41,16 @@ class AlgoOneToMany(AlgoPath[Problem, Node]):
         while self._data.generated and not self.path:
             best = self._data.generated.pop()
             if best in self.data.goals_active:
-                self.data.goals_active.remove(best)
+                self._on_goal_found(goal=best)
                 if not self.data.goals_active:
                     self.path.set_valid()
                     break
             self._explore_node(node=best)
+
+    def _on_goal_found(self, goal: Node) -> None:
+        """
+        ========================================================================
+         Do when Path to one of the Goals is found.
+        ========================================================================
+        """
+        self.data.goals_active.remove(goal)
