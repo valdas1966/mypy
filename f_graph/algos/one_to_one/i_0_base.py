@@ -1,7 +1,8 @@
 from f_graph.problems.i_2_one_to_one import ProblemOneToOne
 from f_graph.data.i_1_one_to_one import DataOneToOne
 from f_graph.paths.i_1_one_to_one import PathOneToOne
-from f_graph.algos.path import AlgoPath, NodePath, QueueBase
+from f_graph.algos.path import AlgoPath, NodePath
+from f_ds.queues.i_0_base import QueueBase
 from typing import Type, TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemOneToOne)
@@ -26,11 +27,11 @@ class AlgoOneToOne(AlgoPath[Problem, Node]):
          Init private Attributes.
         ========================================================================
         """
+        self._data = type_data(type_queue=type_queue)
         AlgoPath.__init__(self,
                           problem=problem,
-                          type_data=type_data,
-                          type_path=type_path,
-                          type_queue=type_queue)
+                          data=self._data,
+                          type_path=type_path)
 
     def _search(self) -> None:
         """

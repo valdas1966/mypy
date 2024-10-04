@@ -5,11 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_1_bfs.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/algos/one_to_many/testers/t_1_bfs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/study/s_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/study/s_bfs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/algos/path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/path.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/problems/u_2_one_to_many.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/problems/u_2_one_to_many.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algos/a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algos/one_to_one/a_star.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algos/a_star_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algos/one_to_one/a_star_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algos/study/s_astar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algos/one_to_one/study/s_astar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algos/study/s_astar_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algos/one_to_one/study/s_astar_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algos/testers/t_astar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algos/one_to_one/testers/t_astar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algos/testers/t_astar_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algos/one_to_one/testers/t_astar_grid.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,6 +128,7 @@
     "Python tests.Python tests in t_apply.py.executor": "Run",
     "Python tests.Python tests in t_astar.py (1).executor": "Run",
     "Python tests.Python tests in t_astar.py.executor": "Run",
+    "Python tests.Python tests in t_astar_grid.py.executor": "Run",
     "Python tests.Python tests in t_bfs.py (1).executor": "Run",
     "Python tests.Python tests in t_bfs.py.executor": "Run",
     "Python tests.Python tests in t_cell.py.executor": "Run",
@@ -247,14 +255,14 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\mypy\f_hs\algos\one_to_one" />
       <recent name="G:\mypy\f_graph\algos\one_to_many" />
       <recent name="D:\mypy\proj\rapid_api\requests" />
       <recent name="G:\mypy\f_graph\algos\one_to_one" />
       <recent name="G:\mypy\f_hs\algos" />
-      <recent name="G:\mypy\f_hs\nodes\testers" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_1_bfs.py">
+  <component name="RunManager" selected="Python.run_exam">
     <configuration name="run_exam" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -277,7 +285,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_1_one_to_many" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="s_bfs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -286,11 +294,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/data/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/algos/one_to_one/study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/data/study/s_1_one_to_many.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/algos/one_to_one/study/s_bfs.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -299,58 +307,58 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_1_bfs.test_bfs" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_astar_grid.test_random" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/algos/one_to_many/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/algos/one_to_one/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_1_bfs.test_bfs&quot;" />
+      <option name="_new_target" value="&quot;t_astar_grid.test_random&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_1_bfs.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_astar.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/algos/one_to_many/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/algos/one_to_one/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/algos/one_to_many/testers/t_1_bfs.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;t_astar.test&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_indexes.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_astar_grid.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_utils/dtypes/inner/sequence/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/algos/one_to_one/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_utils/dtypes/inner/sequence/testers/t_indexes.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_hs/algos/one_to_one/testers/t_astar_grid.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in t_1_bfs.py" />
-        <item itemvalue="Python tests.Python tests for t_1_bfs.test_bfs" />
-        <item itemvalue="Python.s_1_one_to_many" />
         <item itemvalue="Python.run_exam" />
-        <item itemvalue="Python tests.Python tests in t_indexes.py" />
+        <item itemvalue="Python tests.Python tests in t_astar_grid.py" />
+        <item itemvalue="Python tests.Python tests for t_astar_grid.test_random" />
+        <item itemvalue="Python.s_bfs" />
+        <item itemvalue="Python tests.Python tests for t_astar.test" />
       </list>
     </recent_temporary>
   </component>
@@ -666,7 +674,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727969100043</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="h">
+      <option name="closed" value="true" />
+      <created>1727978621586</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1727978621586</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

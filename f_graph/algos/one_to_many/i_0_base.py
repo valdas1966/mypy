@@ -25,11 +25,8 @@ class AlgoOneToMany(AlgoPath[Problem, Node]):
          Init private Attributes.
         ========================================================================
         """
-        AlgoPath.__init__(self,
-                          problem=problem,
-                          type_data=type_data,
-                          type_path=type_path,
-                          type_queue=type_queue)
+        self._data = type_data(problem=problem, type_queue=type_queue)
+        AlgoPath.__init__(self, problem=problem, type_path=type_path)
 
     def _search(self) -> None:
         """

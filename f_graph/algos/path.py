@@ -1,7 +1,6 @@
 from f_graph.problems.i_1_path import ProblemPath, NodePath
 from f_graph.data.i_0_path import DataPath
 from f_graph.paths.i_0_base import PathBase
-from f_ds.queues.i_0_base import QueueBase
 from typing import Generic, TypeVar, Type
 from abc import ABC, abstractmethod
 
@@ -20,8 +19,7 @@ class AlgoPath(ABC, Generic[Problem, Node]):
 
     def __init__(self,
                  problem: Problem,
-                 type_queue: Type[QueueBase],
-                 type_data: Type[DataPath],
+                 data: Data,
                  type_path: Type[PathBase]
                  ) -> None:
         """
@@ -30,7 +28,7 @@ class AlgoPath(ABC, Generic[Problem, Node]):
         ========================================================================
         """
         self._problem = problem
-        self._data = type_data(problem=problem, type_queue=type_queue)
+        self._data = data
         self._path = type_path(problem=problem)
         self._search()
 
