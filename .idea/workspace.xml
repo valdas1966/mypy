@@ -5,18 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_google/sheets/u_sheet.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/myq/gsheets/cs/i_0_cs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/myq/gsheets/study/s_open_spread.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/study/s_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/study/s_bfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/problems/u_2_one_to_many.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/problems/u_2_one_to_many.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algos/a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algos/one_to_one/a_star.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algos/a_star_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algos/one_to_one/a_star_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algos/study/s_astar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algos/one_to_one/study/s_astar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algos/study/s_astar_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algos/one_to_one/study/s_astar_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algos/testers/t_astar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algos/one_to_one/testers/t_astar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algos/testers/t_astar_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algos/one_to_one/testers/t_astar_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/sheets/sheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/sheets/sheet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/sheets/spread.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/sheets/spread.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/sheets/study/s_sheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/sheets/study/s_sheet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/sheets/utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/users.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -225,6 +222,7 @@
     "Python.s_key.executor": "Run",
     "Python.s_listable.executor": "Run",
     "Python.s_mask.executor": "Run",
+    "Python.s_open_spread.executor": "Run",
     "Python.s_position (1).executor": "Run",
     "Python.s_position (2).executor": "Run",
     "Python.s_position.executor": "Run",
@@ -262,7 +260,7 @@
       <recent name="G:\mypy\f_hs\algos" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.run_exam">
+  <component name="RunManager" selected="Python.s_open_spread">
     <configuration name="run_exam" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -307,6 +305,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="s_open_spread" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/gsheets/study" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/gsheets/study/s_open_spread.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Python tests for t_astar_grid.test_random" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -319,21 +339,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;t_astar_grid.test_random&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for t_astar.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/algos/one_to_one/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_astar.test&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -354,11 +359,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.s_open_spread" />
         <item itemvalue="Python.run_exam" />
         <item itemvalue="Python tests.Python tests in t_astar_grid.py" />
         <item itemvalue="Python tests.Python tests for t_astar_grid.test_random" />
         <item itemvalue="Python.s_bfs" />
-        <item itemvalue="Python tests.Python tests for t_astar.test" />
       </list>
     </recent_temporary>
   </component>
@@ -682,7 +687,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727978621586</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="h">
+      <option name="closed" value="true" />
+      <created>1728016075568</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1728016075568</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

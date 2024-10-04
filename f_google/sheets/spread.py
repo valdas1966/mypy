@@ -7,6 +7,7 @@ class Spread:
     """
     ============================================================================
      Google-Sheets SpreadSheet.
+     ID-SPREAD should be shared to client_email in GSHEET-JSON KEYS FILE.
     ============================================================================
     """
 

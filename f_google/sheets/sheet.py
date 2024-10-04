@@ -90,29 +90,3 @@ class Sheet:
         return Cell(cell=gs_cell, add_to_batch=self._batch.add)
 
     @classmethod
-    def col_index_to_letter(cls, index: int) -> str:
-        """
-        ========================================================================
-         Convert 1 to A, 2 to B, ... , 27 to AA and etc.
-        ========================================================================
-        """
-        letters = str()
-        while index > 0:
-            index, remainder = divmod(index - 1, 26)
-            letters = chr(65 + remainder) + letters
-        return letters
-
-    @classmethod
-    def to_a1_range(cls,
-                    row_first: int,
-                    row_last: int,
-                    col_first: int,
-                    col_last: int) -> str:
-        """
-        ========================================================================
-         Convert to A1-Notation Range, ex: (A1:Z5).
-        ========================================================================
-        """
-        letter_col_first = Sheet.col_index_to_letter(index=col_first)
-        letter_col_last = Sheet.col_index_to_letter(index=col_last)
-        return f'{letter_col_first}{row_first}:{letter_col_last}{row_last}'

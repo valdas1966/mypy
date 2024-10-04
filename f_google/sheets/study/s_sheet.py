@@ -1,7 +1,7 @@
 from f_google.sheets.client import GSheets
 from datetime import datetime
 
-# The Sheet must be shared to the Client-Email (Ivan)
+# The Sheet must be shared to the Client-Email
 id_spread = '1LqiT2mBYlo1i2M6tabj8s9kiEHngffg4dYY7-amPbgw'
 
 sheet = GSheets.spread(user='VALDAS', id_spread=id_spread)[0]
