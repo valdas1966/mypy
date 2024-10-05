@@ -1,8 +1,8 @@
 from proj.myq.gsheets.english.i_0_english import SheetEnglish
-from proj.myq.question.i_3_mask_one_word import QuestionMaskOneWord
+from proj.myq.questions.i_3_mask_one_word import QuestionMaskOneWord
 
 
-class SheetDefinitions(SheetEnglish):
+class SheetDefinitions(SheetEnglish[QuestionMaskOneWord]):
     """
     ============================================================================
      Sheet for English-Words in the Myq project.

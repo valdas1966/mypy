@@ -1,7 +1,7 @@
-from proj.myq.gsheets.english.i_0_english import SheetEnglish, Q
+from proj.myq.gsheets.english.i_0_english import SheetEnglish, QuestionMask
 
 
-class SheetWords(SheetEnglish):
+class SheetWords(SheetEnglish[QuestionMask]):
     """
     ============================================================================
      Sheet for English-Words in the Myq project.
@@ -24,7 +24,7 @@ class SheetWords(SheetEnglish):
         SheetEnglish.__init__(self)
         self._sheet = self._spread[SheetWords._NAME_SHEET]
 
-    def to_questions(self) -> list[Q]:
+    def to_questions(self) -> list[QuestionMask]:
         """
         ========================================================================
          Return List of Questions extracted from the SheetWords.
@@ -33,4 +33,5 @@ class SheetWords(SheetEnglish):
         tuples = self._sheet.to_tuples(col_first=SheetWords._COL_QUESTION,
                                        col_last=SheetWords._COL_ANSWER,
                                        row_first=SheetWords._ROW_FIRST)
-        return [Q(text=text, answer=answer) for text, answer in tuples]
+        return [QuestionMask(text=text, answer=answer)
+                for text, answer in tuples]

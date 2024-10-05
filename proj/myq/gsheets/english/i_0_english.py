@@ -1,15 +1,15 @@
 from abc import ABC, abstractmethod
-from f_google.sheets.client import GSheets
-from proj.myq.question.i_2_mask import QuestionMask
+from proj.myq.gsheets.i_0_base import SheetBase
+from proj.myq.questions.i_2_mask import QuestionMask
 from typing import Generic, TypeVar
 
-Q = TypeVar('Q', bound=QuestionMask)
+Question = TypeVar('Question', bound=QuestionMask)
 
 
-class SheetEnglish(ABC, Generic[Q]):
+class SheetEnglish(SheetBase[Question]):
     """
     ============================================================================
-     Abstract-Class for Sheet in Myq-English.
+     Abstract-Class for English-Sheet in Myq-English.
     ============================================================================
     """
 
@@ -21,11 +21,10 @@ class SheetEnglish(ABC, Generic[Q]):
          Init private Attributes.
         ========================================================================
         """
-        self._spread = GSheets.spread(user='VALDAS',
-                                      id_spread=self._ID_SPREAD)
+        SheetBase.__init__(self, id_spread=SheetEnglish._ID_SPREAD)
 
     @abstractmethod
-    def to_questions(self) -> list[Q]:
+    def to_questions(self) -> list[Question]:
         """
         ========================================================================
          Convert GSheet into Questions.

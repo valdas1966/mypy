@@ -33,10 +33,11 @@ class Spread:
          Get list Worksheet by its Name (str) or Index (int).
         ========================================================================
         """
+        ws: Worksheet | None = None
         if isinstance(key, int):
             # Access by index
-            ws: Worksheet = self._spread.get_worksheet(key)
+            ws = self._spread.get_worksheet(key)
         elif isinstance(key, str):
             # Access by name
-            ws: Worksheet = self._spread.worksheet(key)
+            ws = self._spread.worksheet(key)
         return Sheet(ws=ws)

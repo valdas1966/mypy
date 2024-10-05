@@ -1,7 +1,7 @@
 from typing import Callable
 from f_gui.pyqt.app import App
 from f_gui.pyqt.widgets.msg_box import MsgBox
-from proj.myq.question.i_2_mask import QuestionMask
+from proj.myq.questions.i_2_mask import QuestionMask
 from proj.myq.gui.inner.container_qa import ContainerQA
 
 

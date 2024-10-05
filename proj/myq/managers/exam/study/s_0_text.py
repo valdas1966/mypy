@@ -1,5 +1,5 @@
-from proj.myq.question.i_1_text import QuestionText as Q
-from proj.myq.exam.i_0_base import ExamBase as Exam
+from proj.myq.questions.i_1_text import QuestionText as Q
+from proj.myq.exams.i_0_base import ExamBase as Exam
 from proj.myq.managers.exam.i_0_prompt import ManagerExamText
 
 

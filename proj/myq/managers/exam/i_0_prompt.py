@@ -1,4 +1,4 @@
-from proj.myq.exam.i_0_base import ExamBase as Exam
+from proj.myq.exams.i_0_base import ExamBase as Exam
 from proj.myq.managers.question.i_0_prompt import ManagerQuestionPrompt
 
 

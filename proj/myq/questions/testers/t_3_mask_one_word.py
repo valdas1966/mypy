@@ -1,4 +1,4 @@
-from proj.myq.question.i_3_mask_one_word import QuestionMaskOneWord
+from proj.myq.questions.i_3_mask_one_word import QuestionMaskOneWord
 
 
 def test_mask():

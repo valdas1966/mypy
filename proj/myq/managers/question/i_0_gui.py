@@ -1,4 +1,4 @@
-from proj.myq.question.i_1_text import QuestionText
+from proj.myq.questions.i_1_text import QuestionText
 
 
 class ManagerQuestionGui:

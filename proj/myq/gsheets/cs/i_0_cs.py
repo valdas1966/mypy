@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from f_google.sheets.client import GSheets
-from proj.myq.question.i_2_mask import QuestionMask
+from proj.myq.questions.i_2_mask import QuestionMask
 from typing import Generic, TypeVar
 
 Q = TypeVar('Q', bound=QuestionMask)

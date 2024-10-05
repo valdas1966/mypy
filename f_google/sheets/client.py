@@ -26,14 +26,3 @@ class GSheets(ClientBase):
         ========================================================================
         """
         return gspread.authorize(credentials=self.creds)
-
-    @classmethod
-    def spread(cls, user: str, id_spread: str) -> Spread:
-        """
-        ========================================================================
-         1. Open GSheets-Client by list given User.
-         2. Return SpreadSheet by list given Id-Spread.
-        ========================================================================
-        """
-        gs = GSheets(user=user)
-        return gs.open_spread(id_spread=id_spread)

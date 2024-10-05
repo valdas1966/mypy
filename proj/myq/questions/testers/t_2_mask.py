@@ -1,4 +1,4 @@
-from proj.myq.question.i_2_mask import QuestionMask
+from proj.myq.questions.i_2_mask import QuestionMask
 
 
 def test_mask():

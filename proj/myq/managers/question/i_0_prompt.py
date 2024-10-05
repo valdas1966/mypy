@@ -1,4 +1,4 @@
-from proj.myq.question.i_1_text import QuestionText
+from proj.myq.questions.i_1_text import QuestionText
 from typing import Generic, TypeVar
 from f_utils import u_input
 

@@ -1,24 +1,24 @@
-from proj.myq.exam.i_0_base import ExamBase, QuestionBase
+from proj.myq.exams.i_0_base import ExamBase, QuestionBase
 from typing import TypeVar
-import random
 
 Q = TypeVar('Q', bound=QuestionBase)
 
 
-class ExamRandom(ExamBase[Q]):
+class ExamCombine(ExamBase[Q]):
     """
     ============================================================================
-     Exam-Class with random questions.
+     Exam-Class that combine multiple Exams.
     ============================================================================
     """
 
     def __init__(self,
-                 qs: list[Q],
-                 cnt: int) -> None:
+                 exams: list[ExamBase[Q]]) -> None:
         """
         ========================================================================
-         Init private Attributes.
+         Init private Attributes (combine questions from all exams).
         ========================================================================
         """
-        qs = list(random.sample(population=qs, k=cnt))
+        qs = list()
+        for exam in exams:
+            qs.extend(exam.to_list())
         ExamBase.__init__(self, qs=qs)

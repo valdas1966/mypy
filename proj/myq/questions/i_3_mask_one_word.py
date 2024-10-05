@@ -1,4 +1,4 @@
-from proj.myq.question.i_2_mask import QuestionMask
+from proj.myq.questions.i_2_mask import QuestionMask
 from f_utils.dtypes.u_str import UStr as u_str
 
 

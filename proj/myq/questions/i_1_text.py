@@ -1,4 +1,4 @@
-from proj.myq.question.i_0_base import QuestionBase
+from proj.myq.questions.i_0_base import QuestionBase
 from f_abstract.mixins.printable import Printable
 
 

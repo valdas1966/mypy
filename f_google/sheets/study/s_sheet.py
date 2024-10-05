@@ -61,5 +61,13 @@ def study_to_tuples():
         print(i, t[0], t[1])
 
 
-#study_get_row_last()
-study_to_tuples()
+def study_is_merge():
+    print(bool(sheet[1, 1]))
+    print(bool(sheet[3, 1]))
+    print(bool(sheet[3, 2]))
+    print(bool(sheet[4, 2]))
+
+
+# study_get_row_last()
+# study_to_tuples()
+study_is_merge()

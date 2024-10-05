@@ -1,5 +1,5 @@
 from typing import Generic, TypeVar
-from proj.myq.exam.i_0_base import ExamBase
+from proj.myq.exams.i_0_base import ExamBase
 from proj.myq.gui.i_0_qa import AppQA
 
 Exam = TypeVar('Exam', bound=ExamBase)

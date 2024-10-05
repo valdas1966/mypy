@@ -1,4 +1,4 @@
-from proj.myq.exam.i_1_random import ExamRandom
+from proj.myq.exams.i_1_random import ExamRandom
 from proj.myq.gsheets.english.u_english import UEnglish as u_english
 
 

@@ -1,19 +1,20 @@
-from abc import ABC, abstractmethod
-from proj.myq.question.i_1_text import QuestionText as Q
+from f_google.sheets.client import GSheets, Spread
 
 
-class SheetBase(ABC):
+class UGSheets:
     """
     ============================================================================
-     Abstract-Class for Questions-Sheet in Myq.
+     Google-Sheets Utils-Class.
     ============================================================================
     """
 
-    @abstractmethod
-    def to_questions(self) -> list[Q]:
+    @staticmethod
+    def spread(user: str, id_spread: str) -> Spread:
         """
         ========================================================================
-         Return List of Questions extracted from the Questions-Sheet.
+         1. Open GSheets-Client by a given User.
+         2. Return SpreadSheet by a given Id-Spread.
         ========================================================================
         """
-        pass
+        gs = GSheets(user=user)
+        return gs.open_spread(id_spread=id_spread)

@@ -3,7 +3,7 @@ from f_gui.pyqt.container import Container
 from f_gui.pyqt.widget_text import WidgetText
 from f_gui.pyqt.widgets.label import Label
 from f_gui.pyqt.widgets.text_box import TextBox
-from proj.myq.question.i_2_mask import QuestionMask
+from proj.myq.questions.i_2_mask import QuestionMask
 
 
 class ContainerQA(Container):
@@ -40,7 +40,7 @@ class ContainerQA(Container):
     def update(self, question: QuestionMask) -> None:
         """
         ========================================================================
-         Set new question (update Question-Text and clear TextBox).
+         Set new questions (update Question-Text and clear TextBox).
         ========================================================================
         """
         self._question.text = question.text

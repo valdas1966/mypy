@@ -1,21 +1,24 @@
-from f_abstract.mixins.cursorable import Cursorable
-from proj.myq.question.i_0_base import QuestionBase
-from typing import Generic, TypeVar
+from proj.myq.exams.i_0_base import ExamBase, QuestionBase
+from typing import TypeVar
+import random
 
-Question = TypeVar('Question', bound=QuestionBase)
+Q = TypeVar('Q', bound=QuestionBase)
 
 
-class ExamBase(Generic[Question], Cursorable[Question]):
+class ExamRandom(ExamBase[Q]):
     """
     ============================================================================
-     Base Exam-Class.
+     Exam-Class with random questions.
     ============================================================================
     """
 
-    def __init__(self, qs: list[Question]) -> None:
+    def __init__(self,
+                 qs: list[Q],
+                 cnt: int) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        Cursorable.__init__(self, data=qs)
+        qs = list(random.sample(population=qs, k=cnt))
+        ExamBase.__init__(self, qs=qs)

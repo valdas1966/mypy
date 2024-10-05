@@ -1,5 +1,5 @@
-from proj.myq.exam.i_1_random import ExamRandom, QuestionBase
-from proj.myq.exam.u_2_combine import ExamCombine
+from proj.myq.exams.i_1_random import ExamRandom, QuestionBase
+from proj.myq.exams.u_2_combine import ExamCombine
 from proj.myq.gsheets.english.i_1_phrases import SheetPhrases
 from proj.myq.gsheets.english.i_1_definitions import SheetDefinitions
 from typing import Generic, TypeVar

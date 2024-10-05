@@ -1,5 +1,5 @@
-from proj.myq.exam.i_0_base import ExamBase
-from proj.myq.question.i_1_text import QuestionText
+from proj.myq.exams.i_0_base import ExamBase
+from proj.myq.questions.i_1_text import QuestionText
 from proj.myq.gsheets.english.i_1_phrases import SheetPhrases
 
 

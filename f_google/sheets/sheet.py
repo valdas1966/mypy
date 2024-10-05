@@ -2,6 +2,7 @@ from gspread.worksheet import Worksheet
 from gspread.cell import Cell as GSCell
 from f_google.sheets.batch import Batch
 from f_google.sheets.cell import Cell
+from f_google.sheets.u_sheet import USheet
 
 
 class Sheet:
@@ -38,10 +39,10 @@ class Sheet:
         """
         if self[row_first, col].is_empty():
             return -1
-        a1_range = Sheet.to_a1_range(row_first=row_first,
-                                     row_last=row_first+Sheet.__ROW_MAX,
-                                     col_first=col,
-                                     col_last=col)
+        a1_range = USheet.to_a1_range(row_first=row_first,
+                                      row_last=row_first+Sheet.__ROW_MAX,
+                                      col_first=col,
+                                      col_last=col)
         cells: list[GSCell] = self._ws.range(name=a1_range)
         for i in range(1, len(cells)-1):
             if cells[i].value == str() or cells[i].value is None:
@@ -60,10 +61,10 @@ class Sheet:
         """
         if not row_last:
             row_last = self.get_row_last(col=col_first, row_first=row_first)
-        a1_range = Sheet.to_a1_range(row_first=row_first,
-                                     row_last=row_last,
-                                     col_first=col_first,
-                                     col_last=col_last)
+        a1_range = USheet.to_a1_range(row_first=row_first,
+                                      row_last=row_last,
+                                      col_first=col_first,
+                                      col_last=col_last)
         cells: list[GSCell] = self._ws.range(name=a1_range)
         num_cols = col_last - col_first + 1
         return tuple(
@@ -79,14 +80,13 @@ class Sheet:
         """
         self._batch.run()
 
-    def __getitem__(self, coords: tuple[int, int]) -> Cell:
+    def __getitem__(self, rowcol: tuple[int, int]) -> Cell:
         """
         ========================================================================
          Return list Cell by given Coordinates.
         ========================================================================
         """
-        row, col = coords
+        row, col = rowcol
         gs_cell: GSCell = self._ws.cell(row, col)
         return Cell(cell=gs_cell, add_to_batch=self._batch.add)
 
-    @classmethod
