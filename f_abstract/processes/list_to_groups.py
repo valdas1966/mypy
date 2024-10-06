@@ -9,42 +9,42 @@ Item = TypeVar('Item')
 class ABCListToGroups(Generic[Item], Nameable):
 
     def __init__(self,
-                 data: list[Sequence[str]],
+                 rows: list[Sequence[str]],
                  name: str = None) -> None:
         """
         Initialize the processor with a list of data rows.
         Each row is expected to be a sequence of strings (e.g., a list or a tuple).
         """
         Nameable.__init__(self, name=name)
-        self.data = data  # Store the full list of data
-        self.current_row: Sequence[str] | None = None
-        self.current_group: Group[Item] | None = None
+        self._rows = rows
 
     def to_groups(self) -> Group[Group[Item]]:
         """
         Run the processor, looping through the rows and creating groups of items with a title.
         """
         groups: Group[Group[Item]] = Group(name=self.name)
-        for row in self.data:
-            self._process_row(row=row, groups=groups)
+        group: Group[Item] | None = None
+        for row in self._rows:
+            self._process_row(row=row, group=group, groups=groups)
         # Append the final group
-        if self.current_group:
-            groups.append(self.current_group)
+        if group:
+            groups.append(group)
         return groups
 
     def _process_row(self,
                      row: Sequence[str],
+                     group: Group[Item],
                      groups: Group[Group[Item]]) -> None:
         if self._is_title(row=row):
             # Process the old Group before starting a new
-            if self.current_group:
-                groups.append(self.current_group)
+            if group:
+                groups.append(group)
             # Create a new Group
             name = self._get_group_name()
-            self.current_group = Group(name=name)
+            group = Group(name=name)
         else:
             item = self.create_item()
-            self.current_group.append(item)
+            group.append(item)
 
     @abstractmethod
     def _is_title(self, row: Sequence[str]) -> bool:
