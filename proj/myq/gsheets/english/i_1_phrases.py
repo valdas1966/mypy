@@ -1,7 +1,7 @@
 from proj.myq.gsheets.english.i_0_english import SheetEnglish, QuestionMask
 
 
-class SheetPhrases(SheetEnglish[QuestionMask]):
+class SheetPhrases(SheetEnglish):
     """
     ============================================================================
      Sheet for English-Words in the Myq project.

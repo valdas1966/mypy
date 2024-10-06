@@ -1,35 +1,40 @@
-from abc import ABC, abstractmethod
 from f_google.sheets.utils import UGSheets, Spread
-from proj.myq.questions.i_1_text import QuestionText
-from typing import Generic, TypeVar
-
-Question = TypeVar('Question', bound=QuestionText)
+from proj.myq.questions.i_2_mask import QuestionMask
+from typing import Type
 
 
-class SheetBase(ABC, Generic[Question]):
+class SheetBase:
     """
     ============================================================================
      Abstract-Class for Questions-Sheet in Myq.
     ============================================================================
     """
 
-    def __init__(self, id_spread: str) -> None:
+    def __init__(self,
+                 id_spread: str,
+                 type_question: Type[QuestionMask] = QuestionMask) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         self._spread = UGSheets.spread(user='VALDAS', id_spread=id_spread)
+        self._type_question = type_question
 
     @property
     def spread(self) -> Spread:
+        """
+        ========================================================================
+         Return the Spread of current Google-Sheet.
+        ========================================================================
+        """
         return self._spread
 
-    @abstractmethod
-    def to_questions(self) -> list[Question]:
+    @property
+    def type_question(self) -> Type[QuestionMask]:
         """
         ========================================================================
-         Return List of Questions extracted from the Questions-Sheet.
+         Return Type of Questions to Build.
         ========================================================================
         """
-        pass
+        return self._type_question

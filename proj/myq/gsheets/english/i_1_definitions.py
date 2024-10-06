@@ -2,7 +2,7 @@ from proj.myq.gsheets.english.i_0_english import SheetEnglish
 from proj.myq.questions.i_3_mask_one_word import QuestionMaskOneWord
 
 
-class SheetDefinitions(SheetEnglish[QuestionMaskOneWord]):
+class SheetDefinitions(SheetEnglish):
     """
     ============================================================================
      Sheet for English-Words in the Myq project.
@@ -22,7 +22,7 @@ class SheetDefinitions(SheetEnglish[QuestionMaskOneWord]):
          Init private Attributes.
         ========================================================================
         """
-        SheetEnglish.__init__(self)
+        SheetEnglish.__init__(self, type_question=QuestionMaskOneWord)
         self._sheet = self._spread[SheetDefinitions._NAME_SHEET]
 
     def to_questions(self) -> list[QuestionMaskOneWord]:

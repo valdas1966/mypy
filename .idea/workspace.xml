@@ -5,199 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_google/sheets/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proj/myq/blocks/i_0_base.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proj/myq/gsheets/i_1_block.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_abstract/processes/list_to_groups.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/sheets/cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/sheets/cell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/sheets/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/sheets/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/sheets/sheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/sheets/sheet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/sheets/spread.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/sheets/spread.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/sheets/study/s_sheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/sheets/study/s_sheet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/exam/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/exams/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/exam/i_1_random.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/exams/i_1_random.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/exam/study/s_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/exams/study/s_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/exam/u_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/exams/u_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/exam/u_1_random.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/exams/u_1_random.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/exam/u_2_combine.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/exams/u_2_combine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/generators/inner/exam/english.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/generators/inner/exam/english.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/cs/i_0_cs.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/cs/i_0_cs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/listable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/components/group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/study/s_listable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/study/s_listable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/study/s_to_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/study/s_to_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/testers/t_listable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/testers/t_listable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/to_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/to_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/big_query/structures/schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/structures/schema.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/blocks/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/blocks/i_0_base.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/english/i_0_english.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/english/i_0_english.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/english/i_1_definitions.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/english/i_1_definitions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/english/i_1_phrases.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/english/i_1_phrases.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/english/i_1_words.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/english/i_1_words.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gui/i_0_qa.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/gui/inner/container_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gui/inner/container_qa.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/exam/i_0_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/exam/i_0_gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/exam/i_0_prompt.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/exam/i_0_prompt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/exam/study/s_0_text.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/question/i_0_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/question/i_0_gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/question/i_0_prompt.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/question/i_0_prompt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/managers/question/study/s_0_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/managers/question/study/s_0_text.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/question/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/questions/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/question/i_1_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/questions/i_1_text.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/question/i_2_mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/questions/i_2_mask.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/question/i_3_mask_one_word.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/questions/i_3_mask_one_word.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/question/study/s_1_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/questions/study/s_1_text.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/question/testers/t_1_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/questions/testers/t_1_text.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/question/testers/t_2_mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/questions/testers/t_2_mask.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/question/testers/t_3_mask_one_word.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/questions/testers/t_3_mask_one_word.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/element.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/bs4/element.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/charset_normalizer/cli/__main__.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/charset_normalizer/cli/__main__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/fontTools/agl.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/fontTools/agl.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/fontTools/cffLib/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/fontTools/cffLib/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/fontTools/encodings/MacRoman.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/fontTools/encodings/MacRoman.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/fontTools/encodings/StandardEncoding.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/fontTools/encodings/StandardEncoding.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/fontTools/otlLib/optimize/gpos.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/fontTools/otlLib/optimize/gpos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/fontTools/ttLib/standardGlyphOrder.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/fontTools/ttLib/standardGlyphOrder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/fontTools/ttLib/tables/T_S_I__1.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/fontTools/ttLib/tables/T_S_I__1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/google/api_core/protobuf_helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/google/api_core/protobuf_helpers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/idna/intranges.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/idna/intranges.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/matplotlib/_afm.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/matplotlib/_afm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/matplotlib/_mathtext_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/matplotlib/_mathtext_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/matplotlib/_type1font.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/matplotlib/_type1font.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/matplotlib/backends/backend_ps.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/matplotlib/backends/backend_ps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/matplotlib/tests/test_agg_filter.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/matplotlib/tests/test_agg_filter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/numpy/_core/_add_newdocs.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/numpy/_core/_add_newdocs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/numpy/_core/tests/test_einsum.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/numpy/_core/tests/test_einsum.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/numpy/_core/tests/test_multiarray.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/numpy/_core/tests/test_multiarray.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/numpy/lib/_twodim_base_impl.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/numpy/lib/_twodim_base_impl.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/numpy/polynomial/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/numpy/polynomial/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/numpy/typing/mypy_plugin.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/numpy/typing/mypy_plugin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/core/frame.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/core/frame.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/core/series.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/core/series.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/core/strings/object_array.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/core/strings/object_array.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/tests/arithmetic/test_datetime64.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/tests/arithmetic/test_datetime64.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/tests/generic/test_generic.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/tests/generic/test_generic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/tests/indexes/multi/test_sorting.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/tests/indexes/multi/test_sorting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/tests/indexes/test_old_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/tests/indexes/test_old_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_vendor/chardet/hebrewprober.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_vendor/chardet/hebrewprober.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_vendor/idna/intranges.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_vendor/idna/intranges.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_vendor/rich/_emoji_codes.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_vendor/rich/_emoji_codes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_vendor/rich/console.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_vendor/rich/console.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_vendor/urllib3/contrib/_securetransport/low_level.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pip/_vendor/urllib3/contrib/_securetransport/low_level.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_bar.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_bar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_barpolar.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_barpolar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_box.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_box.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_candlestick.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_candlestick.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_carpet.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_carpet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_choropleth.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_choropleth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_choroplethmapbox.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_choroplethmapbox.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_cone.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_cone.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_contour.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_contour.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_contourcarpet.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_contourcarpet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_densitymapbox.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_densitymapbox.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_figure.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_figure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_figurewidget.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_figurewidget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_funnel.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_funnel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_funnelarea.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_funnelarea.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_heatmap.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_heatmap.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_heatmapgl.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_heatmapgl.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_histogram.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_histogram.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_histogram2d.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_histogram2d.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_histogram2dcontour.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_histogram2dcontour.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_icicle.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_icicle.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_image.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_image.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_indicator.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_indicator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_isosurface.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_isosurface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_layout.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_layout.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_mesh3d.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_mesh3d.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_ohlc.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_ohlc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_parcats.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_parcats.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_parcoords.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_parcoords.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_pie.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_pie.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_pointcloud.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_pointcloud.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_sankey.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_sankey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scatter.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scatter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scatter3d.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scatter3d.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scattercarpet.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scattercarpet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scattergeo.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scattergeo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scattergl.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scattergl.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scattermapbox.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scattermapbox.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scatterpolar.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scatterpolar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scatterpolargl.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scatterpolargl.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scattersmith.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scattersmith.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scatterternary.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_scatterternary.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_splom.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_splom.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_streamtube.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_streamtube.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_sunburst.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_sunburst.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_surface.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_surface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_table.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_table.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_treemap.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_treemap.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_violin.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_violin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_volume.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_volume.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_waterfall.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/_waterfall.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/carpet/_aaxis.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/carpet/_aaxis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/carpet/_baxis.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/carpet/_baxis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/layout/_polar.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/layout/_polar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/layout/_scene.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/layout/_scene.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/layout/_xaxis.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/layout/_xaxis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/layout/_yaxis.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/layout/_yaxis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/layout/polar/_radialaxis.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/layout/polar/_radialaxis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/layout/scene/_xaxis.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/layout/scene/_xaxis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/layout/scene/_yaxis.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/layout/scene/_yaxis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/layout/scene/_zaxis.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/graph_objs/layout/scene/_zaxis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_bar.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_bar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_barpolar.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_barpolar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_box.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_box.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_candlestick.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_candlestick.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_carpet.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_carpet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_choropleth.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_choropleth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_choroplethmapbox.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_choroplethmapbox.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_cone.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_cone.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_contour.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_contour.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_contourcarpet.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_contourcarpet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_densitymapbox.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_densitymapbox.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_funnel.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_funnel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_funnelarea.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_funnelarea.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_heatmap.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_heatmap.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_heatmapgl.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_heatmapgl.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_histogram.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_histogram.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_histogram2d.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_histogram2d.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_histogram2dcontour.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_histogram2dcontour.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_icicle.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_icicle.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_image.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_image.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_indicator.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_indicator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_isosurface.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_isosurface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_layout.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_layout.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_mesh3d.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_mesh3d.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_ohlc.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_ohlc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_parcats.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_parcats.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_parcoords.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_parcoords.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_pie.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_pie.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_pointcloud.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_pointcloud.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_sankey.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_sankey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scatter.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scatter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scatter3d.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scatter3d.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scattercarpet.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scattercarpet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scattergeo.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scattergeo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scattergl.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scattergl.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scattermapbox.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scattermapbox.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scatterpolar.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scatterpolar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scatterpolargl.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scatterpolargl.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scattersmith.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scattersmith.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scatterternary.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_scatterternary.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_splom.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_splom.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_streamtube.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_streamtube.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_sunburst.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_sunburst.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_surface.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_surface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_table.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_table.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_treemap.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_treemap.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_violin.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_violin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_volume.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_volume.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_waterfall.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/_waterfall.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/carpet/_aaxis.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/carpet/_aaxis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/carpet/_baxis.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/carpet/_baxis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/layout/_xaxis.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/layout/_xaxis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/layout/_yaxis.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/layout/_yaxis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/layout/polar/_radialaxis.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/layout/polar/_radialaxis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/layout/scene/_xaxis.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/layout/scene/_xaxis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/layout/scene/_yaxis.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/layout/scene/_yaxis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/layout/scene/_zaxis.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly/validators/layout/scene/_zaxis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/uritemplate/variable.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/uritemplate/variable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/win32/lib/win32pdhquery.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/win32/lib/win32pdhquery.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/i_1_block.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/i_1_block.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -362,6 +184,7 @@
     "Python.i_2_f_cell.executor": "Run",
     "Python.insert_into_tables.executor": "Run",
     "Python.layout.executor": "Run",
+    "Python.listable.executor": "Run",
     "Python.music.executor": "Run",
     "Python.q (1).executor": "Run",
     "Python.q.executor": "Run",
@@ -439,14 +262,36 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\mypy\f_abstract\components" />
       <recent name="G:\mypy\f_hs\algos\one_to_one" />
       <recent name="G:\mypy\f_graph\algos\one_to_many" />
       <recent name="D:\mypy\proj\rapid_api\requests" />
       <recent name="G:\mypy\f_graph\algos\one_to_one" />
-      <recent name="G:\mypy\f_hs\algos" />
     </key>
   </component>
   <component name="RunManager" selected="Python.run_exam">
+    <configuration name="group" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/mixins" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="G:\mypy\f_abstract\components\group.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="run_exam" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -469,7 +314,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_open_spread" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="s_listable" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -478,11 +323,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/gsheets/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/mixins/study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/gsheets/study/s_open_spread.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_abstract/mixins/study/s_listable.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -513,50 +358,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="sheet" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/sheets" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/sheets/sheet.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_astar_grid.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_listable.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/algos/one_to_one/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/mixins/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_hs/algos/one_to_one/testers/t_astar_grid.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_abstract/mixins/testers/t_listable.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.run_exam" />
+        <item itemvalue="Python.s_listable" />
+        <item itemvalue="Python.group" />
+        <item itemvalue="Python tests.Python tests in t_listable.py" />
         <item itemvalue="Python.s_sheet" />
-        <item itemvalue="Python.sheet" />
-        <item itemvalue="Python.s_open_spread" />
-        <item itemvalue="Python tests.Python tests in t_astar_grid.py" />
       </list>
     </recent_temporary>
   </component>
@@ -896,7 +719,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728064272316</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="h">
+      <option name="closed" value="true" />
+      <created>1728144501732</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1728144501732</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
