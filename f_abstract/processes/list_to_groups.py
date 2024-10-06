@@ -12,51 +12,68 @@ class ABCListToGroups(Generic[Item], Nameable):
                  rows: list[Sequence[str]],
                  name: str = None) -> None:
         """
-        Initialize the processor with a list of data rows.
-        Each row is expected to be a sequence of strings (e.g., a list or a tuple).
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
         """
         Nameable.__init__(self, name=name)
         self._rows = rows
+        self._group: Group[Item] | None = None
 
-    def to_groups(self) -> Group[Group[Item]]:
+    @staticmethod
+    def to_groups(rows: list[Sequence[str]],
+                  name: str = None) -> Group[Group[Item]]:
         """
-        Run the processor, looping through the rows and creating groups of items with a title.
+        ========================================================================
+         Convert the List of Rows into Nested-Group of Items.
+        ========================================================================
         """
-        groups: Group[Group[Item]] = Group(name=self.name)
-        group: Group[Item] | None = None
+        groups: Group[Group[Item]] = Group(name=name)
+        self._group = None
         for row in self._rows:
-            self._process_row(row=row, group=group, groups=groups)
+            self._process_row(row=row, groups=groups)
         # Append the final group
-        if group:
-            groups.append(group)
+        if self._group:
+            groups.append(self._group)
         return groups
 
     def _process_row(self,
                      row: Sequence[str],
-                     group: Group[Item],
                      groups: Group[Group[Item]]) -> None:
         if self._is_title(row=row):
             # Process the old Group before starting a new
-            if group:
-                groups.append(group)
+            if self._group:
+                groups.append(self._group)
             # Create a new Group
             name = self._get_group_name()
-            group = Group(name=name)
+            self._group = Group(name=name)
         else:
             item = self.create_item()
-            group.append(item)
+            self._group.append(item)
 
     @abstractmethod
     def _is_title(self, row: Sequence[str]) -> bool:
         """
-        Return True if the current row is a title row.
+        ========================================================================
+         Return True if the current row is a title row.
+        ========================================================================
         """
         pass
 
     @abstractmethod
-    def _get_group_name(self) -> str:
+    def _get_group_name(self, row: Sequence[str]) -> str:
+        """
+        ========================================================================
+         Extract a Group Name from the given Row.
+        ========================================================================
+        """
         pass
 
     @abstractmethod
-    def create_item(self) -> str:
+    def create_item(self, row: Sequence[str]) -> Item:
+        """
+        ========================================================================
+         Generate an Item from the given Row.
+        ========================================================================
+        """
         pass
