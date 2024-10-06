@@ -39,7 +39,7 @@ class ABCListToGroups(Generic[Item], Nameable):
 
     def _process_row(self,
                      row: Sequence[str],
-                     groups: Group[Group[Item]]) -> None:
+                     groups: Group[Group[Item]]) -> Group[Item] | None:
         if self._is_title(row=row):
             # Process the old Group before starting a new
             if self._group:
