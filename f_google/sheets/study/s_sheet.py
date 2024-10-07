@@ -1,10 +1,10 @@
-from f_google.sheets.client import GSheets
+from f_google.sheets.utils import UGSheets
 from datetime import datetime
 
 # The Sheet must be shared to the Client-Email
 id_spread = '1LqiT2mBYlo1i2M6tabj8s9kiEHngffg4dYY7-amPbgw'
 
-sheet = GSheets.spread(user='VALDAS', id_spread=id_spread)[0]
+sheet = UGSheets.spread(user='VALDAS', id_spread=id_spread)[0]
 
 
 def study_get_and_set():
@@ -68,6 +68,12 @@ def study_is_merge():
     print(bool(sheet[4, 2]))
 
 
+def study_merged_to_tuples():
+    tuples = sheet.to_tuples(row_first=1, row_last=3, col_first=1, col_last=2)
+    print(tuples)
+
+
 # study_get_row_last()
 # study_to_tuples()
-study_is_merge()
+# study_is_merge()
+study_merged_to_tuples()

@@ -1,9 +1,11 @@
 from f_google.sheets.utils import UGSheets, Spread
 from proj.myq.questions.i_2_mask import QuestionMask
-from typing import Type
+from typing import Type, TypeVar, Generic
+
+Question = TypeVar('Question', bound=QuestionMask)
 
 
-class SheetBase:
+class SheetBase(Generic[Question]):
     """
     ============================================================================
      Abstract-Class for Questions-Sheet in Myq.

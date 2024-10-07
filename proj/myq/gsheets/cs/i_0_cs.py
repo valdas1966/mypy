@@ -1,34 +1,12 @@
-from abc import ABC, abstractmethod
-from f_google.sheets.client import GSheets
-from proj.myq.questions.i_2_mask import QuestionMask
-from typing import Generic, TypeVar
-
-Q = TypeVar('Q', bound=QuestionMask)
+from proj.myq.gsheets.i_1_group import SheetGroup
+from proj.myq.questions.i_3_mask_one_word import QuestionMaskOneWord
 
 
-class SheetCS(ABC, Generic[Q]):
-    """
-    ============================================================================
-     Abstract-Class for Sheet in Myq-English.
-    ============================================================================
-    """
+class SheetCS(SheetGroup[QuestionMaskOneWord]):
 
-    _ID_SPREAD = '1haZi5T98P6kq3dnq4dO10JHDql'
+    _ID_SPREAD = '1haZi5T98P6kq3dnq4dO10JHDql-179B1oVluxQ_CW2M'
 
     def __init__(self) -> None:
-        """
-        ========================================================================
-         Init private Attributes.
-        ========================================================================
-        """
-        self._spread = GSheets.spread(user='VALDAS',
-                                      id_spread=self._ID_SPREAD)
-
-    @abstractmethod
-    def to_questions(self) -> list[Q]:
-        """
-        ========================================================================
-         Convert GSheet into Questions.
-        ========================================================================
-        """
-        pass
+        SheetGroup.__init__(self,
+                            id_spread=SheetCS._ID_SPREAD,
+                            type_question=QuestionMaskOneWord)

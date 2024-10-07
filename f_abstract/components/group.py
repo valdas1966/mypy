@@ -7,7 +7,7 @@ from typing import TypeVar, Callable
 Item = TypeVar('Item')
 
 
-class Group(UserList, Nameable):
+class Group(UserList[Item], Nameable):
     """
     ============================================================================
      Mixin-Class for objects with lists.
@@ -66,7 +66,7 @@ class Group(UserList, Nameable):
         for item in self.data:
             print(item)
 
-    def __iadd__(self, other: list[Item]) -> UserList:
+    def __iadd__(self, other: list[Item]) -> Group[Item]:
         """
         ========================================================================
          Add List of Items to the current Data.
@@ -82,3 +82,6 @@ class Group(UserList, Nameable):
         ========================================================================
         """
         return f'{Nameable.__str__(self)}{UserList.__str__(self)}'
+
+    def __eq__(self, other: Group) -> bool:
+        return str(self) == str(other)

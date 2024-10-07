@@ -5,8 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_abstract/components/nested_group.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_abstract/components/study/s_nested_group.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_abstract/processes/rows_to_groups.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_abstract/processes/study/s_rows_to_nested_group.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_abstract/processes/testers/t_rows_to_nested_group.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/myq/generators/inner/exam/cs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/myq/gsheets/inner/tuples_to_groups.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/processes/list_to_groups.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/processes/list_to_groups.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/components/group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/components/group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/processes/list_to_groups.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/sheets/study/s_sheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/sheets/study/s_sheet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/generators/exam.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/generators/exam.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/cs/i_0_cs.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/cs/i_0_cs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/i_1_block.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/i_1_group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/scripts/run_exam.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/scripts/run_exam.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,6 +165,7 @@
     "Python tests.Python tests in t_position.py (1).executor": "Run",
     "Python tests.Python tests in t_position.py.executor": "Run",
     "Python tests.Python tests in t_rate_success.py.executor": "Run",
+    "Python tests.Python tests in t_rows_to_nested_group.py.executor": "Run",
     "Python tests.Python tests in t_schema.py.executor": "Run",
     "Python tests.Python tests in t_stats_items.py.executor": "Run",
     "Python tests.Python tests in t_u_1_grid.py.executor": "Run",
@@ -164,6 +179,7 @@
     "Python.followers_todo.executor": "Run",
     "Python.generated_explored.executor": "Run",
     "Python.get.executor": "Run",
+    "Python.i_0_cs.executor": "Run",
     "Python.i_0_gui.executor": "Run",
     "Python.i_0_qa (1).executor": "Run",
     "Python.i_0_qa.executor": "Run",
@@ -217,10 +233,12 @@
     "Python.s_key.executor": "Run",
     "Python.s_listable.executor": "Run",
     "Python.s_mask.executor": "Run",
+    "Python.s_nested_group.executor": "Run",
     "Python.s_open_spread.executor": "Run",
     "Python.s_position (1).executor": "Run",
     "Python.s_position (2).executor": "Run",
     "Python.s_position.executor": "Run",
+    "Python.s_rows_to_nested_group.executor": "Run",
     "Python.s_schema.executor": "Run",
     "Python.s_schemas (1).executor": "Run",
     "Python.s_schemas.executor": "Run",
@@ -257,8 +275,8 @@
       <recent name="G:\mypy\f_graph\algos\one_to_one" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_arg">
-    <configuration name="group" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.run_exam">
+    <configuration name="i_0_cs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -267,33 +285,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/mixins" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/gsheets/cs" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="G:\mypy\f_abstract\components\group.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="run_exam (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/scripts" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/scripts/run_exam.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/gsheets/cs/i_0_cs.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -324,7 +320,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_arg" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="s_rows_to_nested_group" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -333,11 +329,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/study/funcs" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/processes/study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/study/funcs/s_arg.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_abstract/processes/study/s_rows_to_nested_group.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -346,7 +342,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_listable" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="s_sheet" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -355,26 +351,41 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/mixins/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/sheets/study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_abstract/mixins/study/s_listable.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/sheets/study/s_sheet.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in t_rows_to_nested_group.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/processes/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_abstract/processes/testers/t_rows_to_nested_group.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.s_arg" />
-        <item itemvalue="Python.run_exam (1)" />
         <item itemvalue="Python.run_exam" />
-        <item itemvalue="Python.s_listable" />
-        <item itemvalue="Python.group" />
+        <item itemvalue="Python.i_0_cs" />
+        <item itemvalue="Python.s_sheet" />
+        <item itemvalue="Python tests.Python tests in t_rows_to_nested_group.py" />
+        <item itemvalue="Python.s_rows_to_nested_group" />
       </list>
     </recent_temporary>
   </component>
@@ -738,7 +749,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728227341805</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="h">
+      <option name="closed" value="true" />
+      <created>1728229691833</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1728229691833</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

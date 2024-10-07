@@ -1,4 +1,5 @@
 from proj.myq.generators.inner.exam.english import English
+from proj.myq.generators.inner.exam.cs import CS
 
 
 class GenExam:
@@ -9,3 +10,4 @@ class GenExam:
     """
 
     english = English
+    cs = CS
