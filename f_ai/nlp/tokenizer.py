@@ -1,0 +1,47 @@
+from f_abstract.mixins.cursorable import Cursorable
+
+
+class Tokenizer:
+    """
+    ============================================================================
+     Convert a Text into a List of Tokens.
+    ============================================================================
+    """
+
+    def __init__(self, text: str) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
+        # List of Words in the text (separated by blank spaces)
+        data = text.split(' ')
+        # Cursorable object of text words
+        self._words = Cursorable(data=data)
+        # Current Index of word being processed
+        self._index: int | None = None
+        # Current word being processed
+        self._current: str | None = None
+
+    def to_tokens(self) -> list[str]:
+        """
+        ========================================================================
+         Convert the Text into a List of Tokens.
+        ------------------------------------------------------------------------
+         Iterates over each word in the text, processes it (if needed), and
+          creates a token from the current word.
+        ========================================================================
+        """
+        tokens = list()
+        for self._index, self._current in enumerate(self._words):
+            token = self._create_token()
+            tokens.append(token)
+        return tokens
+
+    def _create_token(self) -> str:
+        """
+        ========================================================================
+         Create a Token from the current word.
+        ========================================================================
+        """
+        return self._current

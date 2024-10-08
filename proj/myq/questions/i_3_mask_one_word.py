@@ -8,14 +8,15 @@ class QuestionMaskOneWord(QuestionMask):
      QuestionText with one random word Masked-Answer.
     ============================================================================
     """
-
+    _D = {' on '}
     def _set_private_attributes(self) -> None:
         """
         ========================================================================
          Return Masked-Answer.
         ========================================================================
         """
+
         hint, answer = u_str.mask.one_word(text=self.answer,
                                            pct=self.pct_mask)
-        self._hint = hint.lower()
+        self._hint = hint
         self._answer = answer.lower()

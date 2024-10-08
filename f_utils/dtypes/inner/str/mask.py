@@ -8,7 +8,7 @@ class Mask:
     ============================================================================
     """
 
-    _EXCEPTIONS = (' ', '"', "'")
+    _EXCEPTIONS = (' ', '"', "'", '(', ')')
 
     @staticmethod
     def full(s: str,
@@ -61,10 +61,14 @@ class Mask:
         ========================================================================
         """
         words = text.split(' ')
+        # Select one random index
         index_word = USeq.indexes.sample(seq=words, size=1)[0]
+        # Selected word in unmasked format
         word_unmasked = words[index_word]
+        # Selected word in masked format
         word_masked = Mask.pct(s=words[index_word],
                                pct_to_mask=pct,
                                exceptions=exceptions)
+        # Replace unmasked word with its masked format
         words[index_word] = word_masked
         return ' '.join(words), word_unmasked

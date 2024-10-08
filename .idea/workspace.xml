@@ -5,22 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_abstract/components/nested_group.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/components/study/s_nested_group.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/processes/rows_to_groups.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/processes/study/s_rows_to_nested_group.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/processes/testers/t_rows_to_nested_group.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proj/myq/generators/inner/exam/cs.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proj/myq/gsheets/inner/tuples_to_groups.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ai/nlp/tokenizer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/replace.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/study/s_replace.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/components/group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/components/group.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/processes/list_to_groups.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/sheets/study/s_sheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/sheets/study/s_sheet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/generators/exam.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/generators/exam.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/cs/i_0_cs.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/cs/i_0_cs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/i_1_block.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/i_1_group.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/scripts/run_exam.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/scripts/run_exam.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/u_str.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/u_str.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/questions/i_3_mask_one_word.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/questions/i_3_mask_one_word.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -238,6 +229,7 @@
     "Python.s_position (1).executor": "Run",
     "Python.s_position (2).executor": "Run",
     "Python.s_position.executor": "Run",
+    "Python.s_replace.executor": "Run",
     "Python.s_rows_to_nested_group.executor": "Run",
     "Python.s_schema.executor": "Run",
     "Python.s_schemas (1).executor": "Run",
@@ -275,7 +267,7 @@
       <recent name="G:\mypy\f_graph\algos\one_to_one" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.run_exam">
+  <component name="RunManager" selected="Python.s_replace">
     <configuration name="i_0_cs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -320,7 +312,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_rows_to_nested_group" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="s_replace" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -329,11 +321,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/processes/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_utils/dtypes/inner/str/study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_abstract/processes/study/s_rows_to_nested_group.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_utils/dtypes/inner/str/study/s_replace.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -381,11 +373,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.s_replace" />
         <item itemvalue="Python.run_exam" />
         <item itemvalue="Python.i_0_cs" />
         <item itemvalue="Python.s_sheet" />
         <item itemvalue="Python tests.Python tests in t_rows_to_nested_group.py" />
-        <item itemvalue="Python.s_rows_to_nested_group" />
       </list>
     </recent_temporary>
   </component>
@@ -757,7 +749,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728229691833</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="h">
+      <option name="closed" value="true" />
+      <created>1728327133319</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1728327133319</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
