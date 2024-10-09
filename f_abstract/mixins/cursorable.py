@@ -1,4 +1,4 @@
-from typing import Generic, TypeVar, Iterable, Iterator
+from typing import Generic, TypeVar, Iterable
 from f_abstract.mixins.sizable import Sizable
 
 Item = TypeVar('Item')
@@ -18,8 +18,8 @@ class Cursorable(Generic[Item], Sizable):
          Init private Attributes.
         ========================================================================
         """
-        self._data = list(data) if data is not None else list()
-        self._cursor = 0
+        self._data: list[Item] = list(data) if data is not None else list()
+        self._cursor = -1
 
     @property
     def cursor(self) -> int:
@@ -44,24 +44,65 @@ class Cursorable(Generic[Item], Sizable):
          Return True if there is a next Item.
         ========================================================================
         """
-        return self.cursor < len(self._data) - 1
+        return self._cursor < len(self._data) - 1
 
-    def next(self) -> Item:
+    def has_prev(self) -> bool:
         """
         ========================================================================
-         Return the next Item and advance the Cursor.
+         Return True if there is a previous Item.
         ========================================================================
         """
-        self.advance()
-        return self._data[self.cursor]
+        return self._cursor > 0
+
+    def peek_next(self) -> Item:
+        """
+        ========================================================================
+         Return the next Item.
+        ========================================================================
+        """
+        return self._data[self._cursor + 1]
+
+    def peek_prev(self) -> Item:
+        """
+        ========================================================================
+         Return the previous Item.
+        ========================================================================
+        """
+        return self._data[self.cursor - 1]
 
     def advance(self, times: int = 1) -> None:
         """
         ========================================================================
-         Advance the Cursor.
+         Move cursor forward.
         ========================================================================
         """
         self._cursor += times
+
+    def retreat(self, times: int = 1) -> None:
+        """
+        ========================================================================
+         Move cursor back.
+        ========================================================================
+        """
+        self._cursor -= times
+
+    def prev(self) -> Item:
+        """
+        ========================================================================
+         Mover cursor back and return the Item.
+        ========================================================================
+        """
+        self.retreat()
+        return self.current()
+
+    def next(self) -> Item:
+        """
+        ========================================================================
+         Move cursor forward and return the Item.
+        ========================================================================
+        """
+        self.advance()
+        return self.current()
 
     def reset(self) -> None:
         """

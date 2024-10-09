@@ -1,7 +1,7 @@
 from f_abstract.mixins.cursorable import Cursorable
 
 
-class Tokenizer:
+class TokenizerSingle:
     """
     ============================================================================
      Convert a Text into a List of Tokens.
@@ -18,8 +18,6 @@ class Tokenizer:
         data = text.split(' ')
         # Cursorable object of text words
         self._words = Cursorable(data=data)
-        # Current Index of word being processed
-        self._index: int | None = None
         # Current word being processed
         self._current: str | None = None
 
@@ -33,7 +31,8 @@ class Tokenizer:
         ========================================================================
         """
         tokens = list()
-        for self._index, self._current in enumerate(self._words):
+        while self._words.has_next():
+            self._words.advance()
             token = self._create_token()
             tokens.append(token)
         return tokens
@@ -44,4 +43,4 @@ class Tokenizer:
          Create a Token from the current word.
         ========================================================================
         """
-        return self._current
+        return self._words.current()

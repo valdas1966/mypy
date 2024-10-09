@@ -5,13 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_ai/nlp/tokenizer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/replace.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/study/s_replace.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ai/nlp/tokenizers/i_1_join.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ai/nlp/tokenizers/testers/t_tokenizer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/u_str.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/u_str.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/questions/i_3_mask_one_word.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/questions/i_3_mask_one_word.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/cursorable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/cursorable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ai/nlp/tokenizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/nlp/tokenizers/i_0_single.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,6 +96,7 @@
     "Python tests.Python tests for t_position.test_update.executor": "Run",
     "Python tests.Python tests for t_rate_success.test_empty.executor": "Run",
     "Python tests.Python tests for t_schema.test_add.executor": "Run",
+    "Python tests.Python tests for t_tokenizer.test.executor": "Run",
     "Python tests.Python tests for t_ucs.test.executor": "Run",
     "Python tests.Python tests in t_0_base.py.executor": "Run",
     "Python tests.Python tests in t_0_g.py.executor": "Run",
@@ -260,14 +259,14 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\mypy\f_ai\nlp\tokenizers" />
       <recent name="G:\mypy\f_abstract\components" />
       <recent name="G:\mypy\f_hs\algos\one_to_one" />
       <recent name="G:\mypy\f_graph\algos\one_to_many" />
       <recent name="D:\mypy\proj\rapid_api\requests" />
-      <recent name="G:\mypy\f_graph\algos\one_to_one" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_replace">
+  <component name="RunManager" selected="Python tests.Python tests for f_ai.nlp.tokenizers.testers.t_tokenizer.test">
     <configuration name="i_0_cs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -356,28 +355,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_rows_to_nested_group.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for f_ai.nlp.tokenizers.testers.t_tokenizer.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/processes/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ai/nlp/tokenizers/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_abstract/processes/testers/t_rows_to_nested_group.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;f_ai.nlp.tokenizers.testers.t_tokenizer.test&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for f_ai.nlp.tokenizers.testers.t_tokenizer.test" />
         <item itemvalue="Python.s_replace" />
         <item itemvalue="Python.run_exam" />
         <item itemvalue="Python.i_0_cs" />
         <item itemvalue="Python.s_sheet" />
-        <item itemvalue="Python tests.Python tests in t_rows_to_nested_group.py" />
       </list>
     </recent_temporary>
   </component>
@@ -757,7 +756,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728327133319</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="h">
+      <option name="closed" value="true" />
+      <created>1728388497148</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1728388497148</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
