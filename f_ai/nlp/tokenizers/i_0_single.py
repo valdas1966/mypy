@@ -18,8 +18,10 @@ class TokenizerSingle:
         data = text.split(' ')
         # Cursorable object of text words
         self._words = Cursorable(data=data)
-        # Current word being processed
-        self._current: str | None = None
+
+    @property
+    def words(self) -> Cursorable:
+        return self._words
 
     def to_tokens(self) -> list[str]:
         """

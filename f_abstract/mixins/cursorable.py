@@ -21,7 +21,6 @@ class Cursorable(Generic[Item], Sizable):
         self._data: list[Item] = list(data) if data is not None else list()
         self._cursor = -1
 
-    @property
     def cursor(self) -> int:
         """
         ========================================================================
@@ -36,6 +35,8 @@ class Cursorable(Generic[Item], Sizable):
          Return the Current Item.
         ========================================================================
         """
+        if self._cursor == -1:
+            return None
         return self._data[self._cursor]
 
     def has_next(self) -> bool:
@@ -52,7 +53,7 @@ class Cursorable(Generic[Item], Sizable):
          Return True if there is a previous Item.
         ========================================================================
         """
-        return self._cursor > 0
+        return self._cursor >= 0
 
     def peek_next(self) -> Item:
         """
@@ -68,7 +69,7 @@ class Cursorable(Generic[Item], Sizable):
          Return the previous Item.
         ========================================================================
         """
-        return self._data[self.cursor - 1]
+        return self._data[self._cursor - 1]
 
     def advance(self, times: int = 1) -> None:
         """
@@ -110,15 +111,7 @@ class Cursorable(Generic[Item], Sizable):
          Reset the Cursor to the beginning of the Object.
         ========================================================================
         """
-        self._cursor = 0
-
-    def to_list(self) -> list[Item]:
-        """
-        ========================================================================
-         Return List of Object's Items.
-        ========================================================================
-        """
-        return self._data
+        self._cursor = -1
 
     def __len__(self) -> int:
         """
