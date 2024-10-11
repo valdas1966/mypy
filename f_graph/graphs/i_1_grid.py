@@ -26,7 +26,7 @@ class GraphGrid(GraphBase[Node]):
         self._grid = grid
         self._type_node = type_node
         self._nodes = {cell: type_node(cell=cell)
-                       for cell in grid if cell}
+                       for cell in grid.to_group() if cell}
 
     @property
     def grid(self) -> Grid:

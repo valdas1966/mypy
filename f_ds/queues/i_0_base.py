@@ -1,12 +1,12 @@
 from abc import abstractmethod
 from typing import Generic, TypeVar
 from f_abstract.mixins.nameable import Nameable
-from f_abstract.mixins.to_list import ToList, Listable
+from f_abstract.mixins.groupable import Groupable, Group
 
 Item = TypeVar('Item')
 
 
-class QueueBase(Generic[Item], ToList[Item], Nameable):
+class QueueBase(Generic[Item], Groupable[Item], Nameable):
     """
     ============================================================================
      Abstract-Class of Queue.
@@ -40,5 +40,5 @@ class QueueBase(Generic[Item], ToList[Item], Nameable):
         pass
 
     @abstractmethod
-    def to_list(self) -> Listable[Item]:
+    def to_group(self, name: str = None) -> Group[Item]:
         pass

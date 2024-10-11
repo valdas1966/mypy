@@ -1,5 +1,5 @@
 from f_abstract.components.group import Listable
-from f_abstract.mixins.to_list import ToList, Item
+from f_abstract.mixins.groupable import ToList, Item
 
 
 class A(ToList):

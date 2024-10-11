@@ -1,11 +1,11 @@
 from f_abstract.mixins.nameable import Nameable
 from f_abstract.mixins.has_rows_cols import HasRowsCols
-from f_abstract.mixins.to_list import ToList, Listable
+from f_abstract.mixins.groupable import Groupable, Group
 from f_abstract.components.filtered import Filtered
 from f_ds.grids.cell import Cell
 
 
-class Grid(Nameable, HasRowsCols, ToList[Cell]):
+class Grid(Nameable, HasRowsCols, Groupable[Cell]):
     """
     ============================================================================
      2D-Grid Class of Cells.
@@ -38,14 +38,14 @@ class Grid(Nameable, HasRowsCols, ToList[Cell]):
         """
         return self._cells_valid
 
-    def to_list(self) -> Listable[Cell]:
+    def to_group(self, name: str = None) -> Group[Cell]:
         """
         ========================================================================
          Return list flattened list representation of the 2D Object.
         ========================================================================
         """
         flatten = [cell for row in self._cells for cell in row]
-        return Listable(data=flatten)
+        return Group(name=name, data=flatten)
 
     def neighbors(self, cell: Cell) -> list[Cell]:
         """
