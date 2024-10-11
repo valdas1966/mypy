@@ -19,8 +19,10 @@ class QuestionMask(QuestionText):
         ========================================================================
         """
         QuestionText.__init__(self, text=text, answer=answer)
-        self._pct_mask = pct_mask
-        self._hint = None
+        # Percentage of text to mask
+        self._pct_mask: int = pct_mask
+        # Hint (Masked) Text of the Question
+        self._hint: str = str()
         self._set_private_attributes()
 
     @property

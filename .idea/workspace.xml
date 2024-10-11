@@ -5,13 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/study/s_cursorable.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ai/nlp/tokenizers/testers/t_1_join.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proj/myq/questions/i_3_mask_one_token.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_abstract/mixins/cursorable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/cursorable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/testers/t_cursorable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/testers/t_cursorable.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ai/nlp/tokenizers/i_0_single.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/nlp/tokenizers/i_0_single.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ai/nlp/tokenizers/i_1_join.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/nlp/tokenizers/i_1_join.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/nlp/tokenizers/testers/t_tokenizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/nlp/tokenizers/testers/t_tokenizer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ai/nlp/tokenizers/testers/t_tokenizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/nlp/tokenizers/testers/t_0_single.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/questions/i_2_mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/questions/i_2_mask.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/questions/i_3_mask_one_word.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/questions/i_3_mask_one_word.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,12 +36,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
+    &quot;accountId&quot;: &quot;9193838d-ef26-4e0d-b77f-58e2bc1908f8&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -60,8 +62,10 @@
     "Python tests.Python tests for t_0_h.test_repr.executor": "Run",
     "Python tests.Python tests for t_0_one_to_one.test.executor": "Run",
     "Python tests.Python tests for t_0_one_to_one.test_fifo.executor": "Run",
+    "Python tests.Python tests for t_0_single.test.executor": "Run",
     "Python tests.Python tests for t_1_bfs.test_bfs.executor": "Run",
     "Python tests.Python tests for t_1_f.test_repr.executor": "Run",
+    "Python tests.Python tests for t_1_join.test.executor": "Run",
     "Python tests.Python tests for t_1_path_cell.test_key_comparison.executor": "Run",
     "Python tests.Python tests for t_1_text.test_text.executor": "Run",
     "Python tests.Python tests for t_2_f_cell.test_repr.executor": "Run",
@@ -112,6 +116,7 @@
     "Python tests.Python tests in t_1_fifo.py.executor": "Run",
     "Python tests.Python tests in t_1_g.py.executor": "Run",
     "Python tests.Python tests in t_1_grid.py.executor": "Run",
+    "Python tests.Python tests in t_1_join.py.executor": "Run",
     "Python tests.Python tests in t_1_one_to_one.py.executor": "Run",
     "Python tests.Python tests in t_1_path.py.executor": "Run",
     "Python tests.Python tests in t_1_path_cell.py.executor": "Run",
@@ -272,8 +277,8 @@
       <recent name="D:\mypy\proj\rapid_api\requests" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for t_tokenizer.test">
-    <configuration name="cursorable" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.run_exam">
+    <configuration name="run_exam" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -282,11 +287,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/mixins" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proj/myq/scripts" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_abstract/mixins/cursorable.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proj/myq/scripts/run_exam.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -295,44 +300,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_cursorable" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/mixins/study" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_abstract/mixins/study/s_cursorable.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for t_cursorable.test_peek_next" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/mixins/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_cursorable.test_peek_next&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for t_tokenizer.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for f_ai.nlp.tokenizers.testers.t_0_single.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -343,32 +311,62 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_tokenizer.test&quot;" />
+      <option name="_new_target" value="&quot;f_ai.nlp.tokenizers.testers.t_0_single.test&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_cursorable.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_0_single.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/mixins/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ai/nlp/tokenizers/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_abstract/mixins/testers/t_cursorable.py&quot;" />
+      <option name="_new_target" value="&quot;t_0_single.test&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for t_1_join.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ai/nlp/tokenizers/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_1_join.test&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in t_1_join.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ai/nlp/tokenizers/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ai/nlp/tokenizers/testers/t_1_join.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests for t_tokenizer.test" />
-        <item itemvalue="Python tests.Python tests in t_cursorable.py" />
-        <item itemvalue="Python tests.Python tests for t_cursorable.test_peek_next" />
-        <item itemvalue="Python.cursorable" />
-        <item itemvalue="Python.s_cursorable" />
+        <item itemvalue="Python.run_exam" />
+        <item itemvalue="Python tests.Python tests in t_1_join.py" />
+        <item itemvalue="Python tests.Python tests for t_0_single.test" />
+        <item itemvalue="Python tests.Python tests for t_1_join.test" />
+        <item itemvalue="Python tests.Python tests for f_ai.nlp.tokenizers.testers.t_0_single.test" />
       </list>
     </recent_temporary>
   </component>
@@ -756,7 +754,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728388497148</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="h">
+      <option name="closed" value="true" />
+      <created>1728593617270</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1728593617270</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

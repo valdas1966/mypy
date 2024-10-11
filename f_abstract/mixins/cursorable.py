@@ -1,4 +1,5 @@
-from typing import Generic, TypeVar, Iterable
+from __future__ import annotations
+from typing import Generic, TypeVar, Iterable, Callable
 from f_abstract.mixins.sizable import Sizable
 
 Item = TypeVar('Item')
@@ -113,6 +114,21 @@ class Cursorable(Generic[Item], Sizable):
         """
         self._cursor = -1
 
+    def collect(self,
+                cond_break: Callable[[], bool]) -> list[Item]:
+        """
+        ========================================================================
+         Collect items until EOF or Break-Condition.
+        ========================================================================
+        """
+        items = list()
+        while self.has_next():
+            self.next()
+            if cond_break():
+                break
+            items.append(self.current())
+        return items
+
     def __len__(self) -> int:
         """
         ========================================================================
@@ -120,4 +136,3 @@ class Cursorable(Generic[Item], Sizable):
         ========================================================================
         """
         return len(self._data)
-

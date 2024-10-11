@@ -8,7 +8,7 @@ class QuestionMaskOneWord(QuestionMask):
      QuestionText with one random word Masked-Answer.
     ============================================================================
     """
-    _D = {' on '}
+
     def _set_private_attributes(self) -> None:
         """
         ========================================================================

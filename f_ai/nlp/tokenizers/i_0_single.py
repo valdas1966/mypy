@@ -1,4 +1,5 @@
 from f_abstract.mixins.cursorable import Cursorable
+from f_abstract.components.group import Group
 
 
 class TokenizerSingle:
@@ -23,7 +24,7 @@ class TokenizerSingle:
     def words(self) -> Cursorable:
         return self._words
 
-    def to_tokens(self) -> list[str]:
+    def to_tokens(self) -> Group[str]:
         """
         ========================================================================
          Convert the Text into a List of Tokens.
@@ -32,7 +33,7 @@ class TokenizerSingle:
           creates a token from the current word.
         ========================================================================
         """
-        tokens = list()
+        tokens = Group()
         while self._words.has_next():
             self._words.advance()
             token = self._create_token()
