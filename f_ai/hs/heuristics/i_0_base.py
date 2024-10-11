@@ -1,5 +1,5 @@
 from f_graph.problems.i_1_path import ProblemPath
-from f_hs.nodes.i_1_f import NodeF
+from f_ai.hs.nodes.i_1_f import NodeF
 from typing import Generic, TypeVar
 from abc import ABC, abstractmethod
 

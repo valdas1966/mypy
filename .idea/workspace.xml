@@ -5,15 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_ai/nlp/tokenizers/testers/t_1_join.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proj/myq/questions/i_3_mask_one_token.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/u_algos_grid.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/problems/u_2_one_to_one.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/cursorable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/cursorable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/nlp/tokenizers/i_0_single.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/nlp/tokenizers/i_0_single.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/nlp/tokenizers/i_1_join.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/nlp/tokenizers/i_1_join.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/nlp/tokenizers/testers/t_tokenizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/nlp/tokenizers/testers/t_0_single.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/questions/i_2_mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/questions/i_2_mask.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj/myq/questions/i_3_mask_one_word.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/questions/i_3_mask_one_word.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/to_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/to_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algos/one_to_one/a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/a_star.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algos/one_to_one/a_star_grid.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algos/one_to_one/study/s_astar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/study/s_astar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algos/one_to_one/study/s_astar_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/study/s_astar_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algos/one_to_one/testers/t_astar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers/t_astar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algos/one_to_one/testers/t_astar_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers/t_u_astar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/heuristics/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/heuristics/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/heuristics/i_1_manhattan.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/heuristics/i_1_manhattan.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_0_g.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/nodes/i_0_g.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_0_h.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/nodes/i_0_h.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_1_f.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/nodes/i_1_f.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/i_1_f_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/nodes/i_1_f_cell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/testers/t_0_g.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/nodes/testers/t_0_g.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/testers/t_0_h.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/nodes/testers/t_0_h.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/testers/t_1_f.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/nodes/testers/t_1_f.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/nodes/testers/t_2_f_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/nodes/testers/t_2_f_cell.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,6 +179,7 @@
     "Python tests.Python tests in t_schema.py.executor": "Run",
     "Python tests.Python tests in t_stats_items.py.executor": "Run",
     "Python tests.Python tests in t_u_1_grid.py.executor": "Run",
+    "Python tests.Python tests in t_u_astar.py.executor": "Run",
     "Python tests.Python tests in t_u_grid.py.executor": "Run",
     "Python.app.executor": "Run",
     "Python.container_qa.executor": "Run",
@@ -270,14 +282,14 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\mypy\f_ai" />
       <recent name="D:\mypy\f_ai\nlp\tokenizers" />
       <recent name="G:\mypy\f_abstract\components" />
       <recent name="G:\mypy\f_hs\algos\one_to_one" />
       <recent name="G:\mypy\f_graph\algos\one_to_many" />
-      <recent name="D:\mypy\proj\rapid_api\requests" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.run_exam">
+  <component name="RunManager" selected="Python tests.Python tests in t_u_astar.py">
     <configuration name="run_exam" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -298,21 +310,6 @@
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for f_ai.nlp.tokenizers.testers.t_0_single.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ai/nlp/tokenizers/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;f_ai.nlp.tokenizers.testers.t_0_single.test&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="Python tests for t_0_single.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -360,13 +357,28 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Python tests in t_u_astar.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers/t_u_astar.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests in t_u_astar.py" />
         <item itemvalue="Python.run_exam" />
         <item itemvalue="Python tests.Python tests in t_1_join.py" />
         <item itemvalue="Python tests.Python tests for t_0_single.test" />
         <item itemvalue="Python tests.Python tests for t_1_join.test" />
-        <item itemvalue="Python tests.Python tests for f_ai.nlp.tokenizers.testers.t_0_single.test" />
       </list>
     </recent_temporary>
   </component>
@@ -762,7 +774,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728593617270</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="h">
+      <option name="closed" value="true" />
+      <created>1728660103027</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1728660103027</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -781,5 +801,15 @@
     <MESSAGE value="a" />
     <MESSAGE value="h" />
     <option name="LAST_COMMIT_MESSAGE" value="h" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/f_abstract/components/filtered.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -1,6 +1,6 @@
 from f_graph.algos.one_to_one.i_0_base import AlgoOneToOne, ProblemOneToOne
 from f_ds.queues.i_1_priority import QueuePriority
-from f_hs.nodes.i_1_f import NodeF
+from f_ai.hs.nodes.i_1_f import NodeF
 from typing import TypeVar, Callable
 
 Problem = TypeVar('Problem', bound=ProblemOneToOne)

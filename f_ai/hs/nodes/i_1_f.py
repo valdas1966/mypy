@@ -1,6 +1,6 @@
 from __future__ import annotations
-from f_hs.nodes.i_0_g import NodeG
-from f_hs.nodes.i_0_h import NodeH
+from f_ai.hs.nodes.i_0_g import NodeG
+from f_ai.hs.nodes.i_0_h import NodeH
 
 
 class NodeF(NodeG, NodeH):

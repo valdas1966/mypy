@@ -1,5 +1,5 @@
-from f_hs.heuristics.i_0_base import HeuristicsBase, ProblemPath
-from f_hs.nodes.i_1_f_cell import NodeFCell
+from f_ai.hs.heuristics.i_0_base import HeuristicsBase, ProblemPath
+from f_ai.hs.nodes.i_1_f_cell import NodeFCell
 from typing import TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemPath)

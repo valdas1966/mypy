@@ -1,5 +1,5 @@
 from f_abstract.mixins.sizable import Sizable
-from f_abstract.components.group import Listable
+from f_abstract.components.group import Group
 from abc import abstractmethod
 from typing import Generic, TypeVar, Callable, Iterator
 

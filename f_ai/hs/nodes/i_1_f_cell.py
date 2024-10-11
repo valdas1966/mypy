@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_hs.nodes.i_1_f import NodeF
+from f_ai.hs.nodes.i_1_f import NodeF
 from f_graph.nodes.i_1_path_cell import NodePathCell, Cell
 
 
