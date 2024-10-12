@@ -27,7 +27,7 @@ def upload_file():
     print(f'folders: {folders}')
     files = bucket.files()
     print(f'files: {files}')
-    path = 'd:\\mypy\\proj\\rapid_api\\study\\7314259878682446594_20240715081606.json'
+    path = 'd:\\mypy\\f_proj\\rapid_api\\study\\7314259878682446594_20240715081606.json'
     bucket.upload_file(path_from=path)
     folders = bucket.folders()
     print(f'folders: {folders}')
