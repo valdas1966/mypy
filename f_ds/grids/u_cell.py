@@ -1,4 +1,5 @@
 from f_ds.grids.cell import Cell
+from typing import Sequence
 
 
 class UCell:
@@ -9,7 +10,7 @@ class UCell:
     """
 
     @staticmethod
-    def invalidate(*cells: Cell | list[Cell]) -> None:
+    def invalidate(*cells: Cell | Sequence[Cell]) -> None:
         """
         ========================================================================
          Invalidate multiple cells.

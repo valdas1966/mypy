@@ -4,7 +4,7 @@ from f_abstract.mixins.groupable import Groupable, Group
 from f_abstract.components.groups.view import View
 from f_ds.grids.cell import Cell
 from collections.abc import Iterable
-from typing import Iterator
+from typing import Iterator, Callable
 
 
 class Grid(Nameable, HasRowsCols, Groupable[Cell], Iterable):
@@ -61,6 +61,28 @@ class Grid(Nameable, HasRowsCols, Groupable[Cell], Iterable):
         ========================================================================
         """
         return Group(name=name, data=list(self))
+
+    def filter(self,
+               predicate: Callable[[Cell], bool],
+               name: str = None) -> Group[Cell]:
+        """
+        ========================================================================
+         Return a Group of filtered Cells by a given Predicate.
+        ========================================================================
+        """
+        return self.to_group().filter(predicate=predicate, name=name)
+
+    def sample(self,
+               size: int = None,
+               pct: int = None,
+               name: str = None) -> Group[Cell]:
+        """
+        ========================================================================
+         Return a Group of random cells by a given Size/Percentage.
+        ========================================================================
+        """
+        return self.to_group().sample(size=size, pct=pct, name=name)
+
 
     @staticmethod
     def distance(cell_a: Cell, cell_b: Cell) -> int:

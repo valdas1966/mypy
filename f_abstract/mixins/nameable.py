@@ -1,9 +1,9 @@
 from __future__ import annotations
-from f_abstract.mixins.sortable import Sortable
+from f_abstract.mixins.comparable import Comparable
 from f_abstract.mixins.printable import Printable
 
 
-class Nameable(Sortable, Printable):
+class Nameable(Comparable, Printable):
     """
     ============================================================================
      Mixin with list Name property (Default=None).

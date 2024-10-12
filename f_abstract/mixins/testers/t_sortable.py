@@ -1,7 +1,7 @@
-from f_abstract.mixins.sortable import Sortable
+from f_abstract.mixins.comparable import Comparable
 
 
-class C(Sortable):
+class C(Comparable):
 
     def __init__(self, a: int, b: int):
         self.a = a

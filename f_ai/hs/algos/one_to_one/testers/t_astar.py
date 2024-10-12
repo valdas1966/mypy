@@ -1,8 +1,8 @@
 from f_graph.problems.i_2_one_to_one import ProblemOneToOne
 from f_graph.graphs.i_1_grid import GraphGrid, Grid
-from f_hs.heuristics.i_1_manhattan import HeuristicsManhattan
-from f_hs.nodes.i_1_f_cell import NodeFCell
-from f_ai.f_hs.algos.one_to_one.a_star import AStar
+from f_ai.hs.heuristics.i_1_manhattan import HeuristicsManhattan
+from f_ai.hs.nodes.i_1_f_cell import NodeFCell
+from f_ai.hs.algos.one_to_one.a_star import AStar
 
 
 def test():
