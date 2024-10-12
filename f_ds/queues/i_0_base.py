@@ -1,12 +1,12 @@
 from abc import abstractmethod
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, Iterator
+from collections.abc import Iterable
 from f_abstract.mixins.nameable import Nameable
-from f_abstract.mixins.groupable import Groupable, Group
 
 Item = TypeVar('Item')
 
 
-class QueueBase(Generic[Item], Groupable[Item], Nameable):
+class QueueBase(Generic[Item], Nameable, Iterable):
     """
     ============================================================================
      Abstract-Class of Queue.
@@ -40,5 +40,10 @@ class QueueBase(Generic[Item], Groupable[Item], Nameable):
         pass
 
     @abstractmethod
-    def to_group(self, name: str = None) -> Group[Item]:
+    def __iter__(self) -> Iterator[Item]:
+        """
+        ========================================================================
+         Allow iterate over the Queue-Objects.
+        ========================================================================
+        """
         pass

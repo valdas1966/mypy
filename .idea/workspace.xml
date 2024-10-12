@@ -5,14 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_abstract/components/groups/study/s_view.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_abstract/components/groups/view.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_abstract/protocols/comparable.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/components/filtered.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/components/filtered.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/components/filtered.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/components/group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/components/groups/group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/components/nested_group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/components/groups/nested.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/components/study/s_nested_group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/components/study/s_nested_group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/groupable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/groupable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/study/s_listable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/study/s_listable.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_abstract/mixins/study/s_to_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/study/s_to_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/to_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/groupable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/testers/t_listable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/testers/t_listable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/processes/rows_to_groups.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/processes/rows_to_groups.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ai/nlp/tokenizers/i_0_single.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/nlp/tokenizers/i_0_single.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/grids/grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/study/s_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/study/s_grid.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/queues/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_1_fifo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_1_fifo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_1_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_1_priority.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/testers/t_1_fifo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/testers/t_1_fifo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/testers/t_1_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/testers/t_1_priority.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/big_query/structures/schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/structures/schema.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/blocks/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/blocks/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/i_1_group.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/i_1_group.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,6 +245,7 @@
     "Python.s_exam.executor": "Run",
     "Python.s_field.executor": "Run",
     "Python.s_fifo.executor": "Run",
+    "Python.s_grid.executor": "Run",
     "Python.s_insert.executor": "Run",
     "Python.s_iterable.executor": "Run",
     "Python.s_key.executor": "Run",
@@ -253,6 +270,7 @@
     "Python.s_tiktok_user (1).executor": "Run",
     "Python.s_tiktok_user.executor": "Run",
     "Python.s_to_list.executor": "Run",
+    "Python.s_view.executor": "Run",
     "Python.s_window (1).executor": "Run",
     "Python.s_window.executor": "Run",
     "Python.screen_resolution.executor": "Run",
@@ -270,14 +288,14 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\mypy\f_abstract\components\groups" />
       <recent name="G:\mypy\f_ai" />
       <recent name="D:\mypy\f_ai\nlp\tokenizers" />
       <recent name="G:\mypy\f_abstract\components" />
       <recent name="G:\mypy\f_hs\algos\one_to_one" />
-      <recent name="G:\mypy\f_graph\algos\one_to_many" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_u_astar.py">
+  <component name="RunManager" selected="Python tests.Python tests in t_1_fifo.py">
     <configuration name="run_exam" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -300,48 +318,62 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_0_single.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="s_grid" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ai/nlp/tokenizers/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_0_single.test&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_ds/grids/study/s_grid.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_1_join.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="s_view" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ai/nlp/tokenizers/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_abstract/components/groups/study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_1_join.test&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_abstract/components/groups/study/s_view.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_1_join.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_1_fifo.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ai/nlp/tokenizers/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/queues/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ai/nlp/tokenizers/testers/t_1_join.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/queues/testers/t_1_fifo.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -362,11 +394,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests in t_1_fifo.py" />
+        <item itemvalue="Python.s_grid" />
+        <item itemvalue="Python.s_view" />
         <item itemvalue="Python tests.Python tests in t_u_astar.py" />
         <item itemvalue="Python.run_exam" />
-        <item itemvalue="Python tests.Python tests in t_1_join.py" />
-        <item itemvalue="Python tests.Python tests for t_0_single.test" />
-        <item itemvalue="Python tests.Python tests for t_1_join.test" />
       </list>
     </recent_temporary>
   </component>
@@ -385,14 +417,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00001" summary="h">
-      <option name="closed" value="true" />
-      <created>1720296010531</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1720296010531</updated>
     </task>
     <task id="LOCAL-00002" summary="h">
       <option name="closed" value="true" />
@@ -778,7 +802,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728676543389</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="h">
+      <option name="closed" value="true" />
+      <created>1728679315450</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1728679315450</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

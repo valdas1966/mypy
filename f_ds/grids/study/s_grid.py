@@ -11,12 +11,18 @@ def print_neighbors():
 
 def print_cells_valid():
     print(list(grid.cells_valid))
-    print(grid.cells_valid.cnt())
+    print(len(grid.cells_valid))
+    print(grid.cells_valid.pct())
+    print(5/6)
 
 
 grid = Grid(2, 3)
 grid[1][1].set_invalid()
 
-# print_grid()
-# print_neighbors()
+print('Grid:')
+print_grid()
+print('Neighbors:')
+print_neighbors()
+print()
+print('Cells Valid:')
 print_cells_valid()

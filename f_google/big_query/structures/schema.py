@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_abstract.components.group import Listable
+from f_abstract.components.groups.group import Listable
 from f_google.big_query.structures.field import Field
 from google.cloud.bigquery import SchemaField
 

@@ -1,11 +1,13 @@
 from f_abstract.mixins.nameable import Nameable
 from f_abstract.mixins.has_rows_cols import HasRowsCols
 from f_abstract.mixins.groupable import Groupable, Group
-from f_abstract.components.filtered import Filtered
+from f_abstract.components.groups.view import View
 from f_ds.grids.cell import Cell
+from collections.abc import Iterable
+from typing import Iterator
 
 
-class Grid(Nameable, HasRowsCols, Groupable[Cell]):
+class Grid(Nameable, HasRowsCols, Groupable[Cell], Iterable):
     """
     ============================================================================
      2D-Grid Class of Cells.
@@ -27,25 +29,18 @@ class Grid(Nameable, HasRowsCols, Groupable[Cell]):
                         [Cell(row, col) for col in range(self.cols)]
                         for row in range(self.rows)
                       ]
-        self._cells_valid = Filtered(items=self.to_list(), predicate=bool)
+        self._cells_valid = View(name='Valid Cells',
+                                 group=self.to_group(),
+                                 predicate=bool)
 
     @property
-    def cells_valid(self) -> Filtered[Cell]:
+    def cells_valid(self) -> View[Cell]:
         """
         ========================================================================
          Component-Class for Valid-Cells in the Grid.
         ========================================================================
         """
         return self._cells_valid
-
-    def to_group(self, name: str = None) -> Group[Cell]:
-        """
-        ========================================================================
-         Return list flattened list representation of the 2D Object.
-        ========================================================================
-        """
-        flatten = [cell for row in self._cells for cell in row]
-        return Group(name=name, data=flatten)
 
     def neighbors(self, cell: Cell) -> list[Cell]:
         """
@@ -58,6 +53,14 @@ class Grid(Nameable, HasRowsCols, Groupable[Cell]):
                         in cell.neighbors()
                         if self.is_within(n.row, n.col)]
         return [cell for cell in cells_within if cell]
+
+    def to_group(self, name: str = None) -> Group[Cell]:
+        """
+        ========================================================================
+         Return list flattened list representation of the 2D Object.
+        ========================================================================
+        """
+        return Group(name=name, data=list(self))
 
     @staticmethod
     def distance(cell_a: Cell, cell_b: Cell) -> int:
@@ -93,3 +96,11 @@ class Grid(Nameable, HasRowsCols, Groupable[Cell]):
                 res += '1 ' if self._cells[row][col] else '0 '
             res += '\n'
         return res
+
+    def __iter__(self) -> Iterator[Cell]:
+        """
+        ========================================================================
+         Allow iteration over Cells in the Grid (flattened mode).
+        ========================================================================
+        """
+        return (cell for row in self._cells for cell in row)

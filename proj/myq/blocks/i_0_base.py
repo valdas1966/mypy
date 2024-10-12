@@ -1,5 +1,5 @@
 from f_abstract.mixins.nameable import Nameable
-from f_abstract.components.group import Listable
+from f_abstract.components.groups.group import Listable
 from proj.myq.questions.i_0_base import QuestionBase
 from typing import TypeVar
 

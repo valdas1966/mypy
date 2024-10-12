@@ -1,4 +1,4 @@
-from f_abstract.components.nested_group import NestedGroup, Group
+from f_abstract.components.groups.nested import NestedGroup, Group
 
 
 b = Group(name='B')

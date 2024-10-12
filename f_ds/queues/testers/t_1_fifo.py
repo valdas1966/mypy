@@ -11,7 +11,7 @@ def ex() -> QueueFIFO:
 
 
 def test_push(ex):
-    assert ex.to_list() == [2, 1]
+    assert list(ex) == [2, 1]
 
 
 def test_pop(ex):

@@ -1,4 +1,4 @@
-from f_abstract.components.group import Listable
+from f_abstract.components.groups.group import Listable
 from f_abstract.mixins.groupable import ToList, Item
 
 
