@@ -20,7 +20,7 @@ class UGrid:
         ========================================================================
         """
         grid = Grid(name=name, rows=rows, cols=cols)
-        cells_to_invalidate = grid.to_group().sample(pct=100-pct_valid)
+        cells_to_invalidate = grid.sample(pct=100-pct_valid)
         UCell.invalidate(cells_to_invalidate)
         return grid
 

@@ -1,4 +1,4 @@
-from f_abstract.components.groups.nested import NestedGroup, Group, Item
+from f_ds.groups.nested import NestedGroup, Group, Item
 from abc import ABC, abstractmethod
 from typing import Generic, Sequence
 

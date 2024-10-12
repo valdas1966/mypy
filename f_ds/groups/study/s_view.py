@@ -1,4 +1,4 @@
-from f_abstract.components.groups.view import View, Group
+from f_ds.groups.view import View, Group
 
 
 def is_even(n: int) -> bool:

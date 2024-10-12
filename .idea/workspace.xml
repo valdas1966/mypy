@@ -6,14 +6,23 @@
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/nameable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/nameable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/sortable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/comparable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/testers/t_sortable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/testers/t_sortable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers/t_astar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers/t_astar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/components/groups/group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/groups/group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/components/groups/nested.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/groups/nested.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/components/groups/study/s_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/groups/study/s_view.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/components/groups/view.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/groups/view.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/components/study/s_nested_group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/components/study/s_nested_group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/groupable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/groupable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/study/s_listable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/study/s_listable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/study/s_to_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/study/s_to_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/testers/t_listable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/testers/t_listable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/processes/rows_to_groups.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/processes/rows_to_groups.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ai/nlp/tokenizers/i_0_single.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/nlp/tokenizers/i_0_single.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/grids/grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/u_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/u_cell.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/grids/u_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/u_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_1_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_1_priority.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/big_query/structures/schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/structures/schema.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/blocks/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/blocks/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj/myq/gsheets/i_1_group.py" beforeDir="false" afterPath="$PROJECT_DIR$/proj/myq/gsheets/i_1_group.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -273,11 +282,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\mypy\f_ds" />
       <recent name="G:\mypy\f_abstract\components\groups" />
       <recent name="G:\mypy\f_ai" />
       <recent name="D:\mypy\f_ai\nlp\tokenizers" />
       <recent name="G:\mypy\f_abstract\components" />
-      <recent name="G:\mypy\f_hs\algos\one_to_one" />
     </key>
   </component>
   <component name="RunManager" selected="Python tests.Python tests in t_u_astar.py">
@@ -388,14 +397,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00003" summary="h">
-      <option name="closed" value="true" />
-      <created>1720296678641</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1720296678641</updated>
     </task>
     <task id="LOCAL-00004" summary="a">
       <option name="closed" value="true" />
@@ -781,7 +782,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728723577334</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="h">
+      <option name="closed" value="true" />
+      <created>1728731151572</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1728731151573</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

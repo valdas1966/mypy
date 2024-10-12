@@ -1,5 +1,5 @@
 from f_abstract.mixins.cursorable import Cursorable
-from f_abstract.components.groups.group import Group
+from f_ds.groups.group import Group
 
 
 class TokenizerSingle:

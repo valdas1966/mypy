@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_abstract.components.groups.group import Group, Item
+from f_ds.groups.group import Group, Item
 from f_abstract.mixins.nameable import Nameable
 from f_abstract.mixins.sizable import Sizable
 from f_utils.dtypes.u_seq import USeq

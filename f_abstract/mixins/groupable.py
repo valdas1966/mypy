@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from typing import Generic, TypeVar
-from f_abstract.components.groups.group import Group
+from f_ds.groups.group import Group
 
 Item = TypeVar('Item')
 
