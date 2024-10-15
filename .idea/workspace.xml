@@ -5,11 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_graph/termination/abc.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/termination/one_to_one/i_0_goal.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/termination/one_to_one/i_1_cache.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/termination/abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/termination/base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/termination/one_to_one/i_0_goal.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/termination/one_to_one/i_0_goal.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/termination/one_to_one/i_1_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/termination/one_to_one/i_1_cache.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,12 +31,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "ddaa2239-897e-4e37-90b9-04afc5364900"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
+    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -277,7 +276,7 @@
       <recent name="G:\mypy\f_abstract\components" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_group">
+  <component name="RunManager" selected="Python tests.Python tests for t_bfs.test">
     <configuration name="s_group" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -300,19 +299,19 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_1_fifo.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_bfs.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/queues/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/algos/one_to_one/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/queues/testers/t_1_fifo.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;t_bfs.test&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="Python tests in t_1_priority.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -362,11 +361,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for t_bfs.test" />
         <item itemvalue="Python.s_group" />
         <item itemvalue="Python tests.Python tests in t_u_astar.py" />
         <item itemvalue="Python tests.Python tests in t_astar.py" />
         <item itemvalue="Python tests.Python tests in t_1_priority.py" />
-        <item itemvalue="Python tests.Python tests in t_1_fifo.py" />
       </list>
     </recent_temporary>
   </component>
@@ -385,14 +384,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00005" summary="a">
-      <option name="closed" value="true" />
-      <created>1720612013586</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1720612013586</updated>
     </task>
     <task id="LOCAL-00006" summary="a">
       <option name="closed" value="true" />
@@ -778,7 +769,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728734845931</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="h">
+      <option name="closed" value="true" />
+      <created>1728906664502</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1728906664502</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
