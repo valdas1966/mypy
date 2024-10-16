@@ -1,4 +1,4 @@
-from f_graph.data.i_1_one_to_many import DataOneToMany, NodePath
+from f_graph.data.i_2_one_to_many import DataOneToMany, NodePath
 from f_graph.problems.u_2_one_to_many import ProblemOneToMany, UProblemOneToMany
 from f_ds.queues.i_1_fifo import QueueFIFO
 

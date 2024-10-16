@@ -24,3 +24,12 @@ class UProblemOTO:
                                     type_node=type_node)
         start, goal = graph.sample(size=2)
         return ProblemOTO(graph=graph, start=start, goal=goal)
+
+    @staticmethod
+    def gen_3x3(type_node: Type[NodePathCell] = NodePathCell) -> ProblemOTO:
+        graph = UGraphGrid.generate(rows=3,
+                                    pct_valid=100,
+                                    type_node=type_node)
+        start = graph[0, 0]
+        goal = graph[2, 2]
+        return ProblemOTO(graph=graph, start=start, goal=goal)

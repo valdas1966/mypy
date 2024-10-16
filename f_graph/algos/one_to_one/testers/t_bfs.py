@@ -1,15 +1,27 @@
-from f_graph.problems.i_2_one_to_one import ProblemOneToOne
-from f_graph.graphs.i_1_grid import GraphGrid, Grid, NodePathCell
+from f_graph.problems.u_2_one_to_one import UProblemOTO
 from f_graph.algos.one_to_one.i_1_bfs import BFS
+from f_graph.termination.one_to_one.i_1_cache import TerminationCache
 
 
 def test():
-    grid = Grid(3)
-    graph = GraphGrid(grid=grid, type_node=NodePathCell)
-    start = graph[0, 0]
-    goal = graph[2, 2]
-    problem = ProblemOneToOne(graph=graph, start=start, goal=goal)
+    problem = UProblemOTO.gen_3x3()
+    graph = problem.graph
     bfs = BFS(problem)
-    assert goal.path_from_root() == [graph[0, 0], graph[0, 1], graph[0, 2],
-                                     graph[1, 2], graph[2, 2]]
+    assert problem.goal.path_from_root() == [graph[0, 0], graph[0, 1],
+                                             graph[0, 2], graph[1, 2],
+                                             graph[2, 2]]
     assert len(bfs.data.explored) == 8
+
+
+def test_cached():
+    problem = UProblemOTO.gen_3x3()
+    graph = problem.graph
+    bfs = BFS(problem=problem, type_termination=TerminationCache)
+    assert problem.goal.path_from_root() == [graph[0, 0], graph[0, 1],
+                                             graph[0, 2], graph[1, 2],
+                                             graph[2, 2]]
+    assert len(bfs.data.explored) == 8
+
+def test_with_cache():
+    problem = UProblemOTO.gen_3x3()
+    bfs = BFS(problem=problem, type_termination=TerminationCache)

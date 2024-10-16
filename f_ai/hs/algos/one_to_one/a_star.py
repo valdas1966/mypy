@@ -1,13 +1,20 @@
-from f_graph.algos.one_to_one.i_0_base import AlgoOneToOne, ProblemOneToOne
+from f_graph.algos.one_to_one.i_0_base import (AlgoOneToOne, ProblemOneToOne,
+                                               TerminationGoal, DataOneToOne,
+                                               PathOneToOne)
 from f_ds.queues.i_1_priority import QueuePriority
+from f_ai.hs.heuristics.i_0_base import HeuristicsBase
 from f_ai.hs.nodes.i_1_f import NodeF
-from typing import TypeVar, Callable
+from typing import TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemOneToOne)
+Termination = TypeVar('Termination', bound=TerminationGoal)
+Data = TypeVar('Data', bound=DataOneToOne)
+Path = TypeVar('Path', bound=PathOneToOne)
 Node = TypeVar('Node', bound=NodeF)
+Heuristics = TypeVar('Heuristics', bound=HeuristicsBase)
 
 
-class AStar(AlgoOneToOne[Problem, Node]):
+class AStar(AlgoOneToOne[Problem, Termination, Data, Path, Node]):
     """
     ============================================================================
      A* Algorithm.
@@ -16,7 +23,7 @@ class AStar(AlgoOneToOne[Problem, Node]):
 
     def __init__(self,
                  problem: Problem,
-                 heuristics: Callable[[Node], int]) -> None:
+                 heuristics: Heuristics) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -33,7 +40,7 @@ class AStar(AlgoOneToOne[Problem, Node]):
          Generate a Node (set parent, heuristics and add to generated list).
         ========================================================================
         """
-        node.h = self._heuristics(node)
+        node.h = self._heuristics.eval(node=node)
         AlgoOneToOne._generate_node(self, node=node, parent=parent)
 
     def _try_update_node(self,

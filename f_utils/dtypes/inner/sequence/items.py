@@ -33,7 +33,7 @@ class Items(Generic[Item]):
         """
         if pct:
             size = int(len(seq) * (pct / 100))
-        sampled = random.sample(seq, k=size)
+        sampled = random.sample(seq, k=size) if size else list()
         return Items._return(seq=seq, li=sampled)
 
     @staticmethod

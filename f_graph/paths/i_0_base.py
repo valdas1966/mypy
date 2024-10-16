@@ -1,33 +1,22 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import Generic, TypeVar
 from f_abstract.mixins.validatable import Validatable
-from f_graph.problems.i_1_path import ProblemPath, NodePath
+from f_graph.nodes.i_1_path import NodePath
 
-Problem = TypeVar('Problem', bound=ProblemPath)
 Node = TypeVar('Node', bound=NodePath)
 
 
-class PathBase(ABC, Generic[Problem, Node], Validatable):
+class PathBase(ABC, Generic[Node], Validatable):
     """
     ============================================================================
      Base-Class of Path for Path-Algorithms.
     ============================================================================
     """
 
-    def __init__(self, problem: Problem):
+    def __init__(self):
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         Validatable.__init__(self, is_valid=False)
-        self._problem = problem
-
-    @property
-    def problem(self) -> Problem:
-        """
-        ========================================================================
-         Return Path-Problem.
-        ========================================================================
-        """
-        return self._problem

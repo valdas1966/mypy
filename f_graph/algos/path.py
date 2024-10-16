@@ -1,10 +1,12 @@
 from f_graph.problems.i_1_path import ProblemPath, NodePath
+from f_graph.termination.base import TerminationBase
 from f_graph.data.i_0_path import DataPath
 from f_graph.paths.i_0_base import PathBase
-from typing import Generic, TypeVar, Type
+from typing import Generic, TypeVar
 from abc import ABC, abstractmethod
 
 Problem = TypeVar('Problem', bound=ProblemPath)
+Termination = TypeVar('Termination', bound=TerminationBase)
 Node = TypeVar('Node', bound=NodePath)
 Data = TypeVar('Data', bound=DataPath)
 Path = TypeVar('Path', bound=PathBase)
@@ -17,19 +19,16 @@ class AlgoPath(ABC, Generic[Problem, Node]):
     ============================================================================
     """
 
-    def __init__(self,
-                 problem: Problem,
-                 data: Data,
-                 type_path: Type[PathBase]
-                 ) -> None:
+    def __init__(self, problem: Problem) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         self._problem = problem
-        self._data = data
-        self._path = type_path(problem=problem)
+        self._data = self._create_data()
+        self._path = self._create_path()
+        self._termination = self._create_termination()
         self._search()
 
     @property
@@ -40,6 +39,15 @@ class AlgoPath(ABC, Generic[Problem, Node]):
         ========================================================================
         """
         return self._problem
+
+    @property
+    def termination(self) -> Termination:
+        """
+        ========================================================================
+         Return the Termination checker of the Search process.
+        ========================================================================
+        """
+        return self._termination
 
     @property
     def data(self) -> Data:
@@ -58,6 +66,18 @@ class AlgoPath(ABC, Generic[Problem, Node]):
         ========================================================================
         """
         return self._path
+
+    @abstractmethod
+    def _create_termination(self) -> Termination:
+        pass
+
+    @abstractmethod
+    def _create_data(self) -> Data:
+        pass
+
+    @abstractmethod
+    def _create_path(self) -> Path:
+        pass
 
     @abstractmethod
     def _search(self) -> None:
