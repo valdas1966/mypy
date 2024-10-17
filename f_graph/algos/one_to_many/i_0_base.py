@@ -1,6 +1,6 @@
 from f_graph.data.i_2_one_to_many import DataOneToMany, ProblemOneToMany
 from f_graph.paths.i_1_one_to_many import PathOneToMany, NodePath
-from f_graph.algos.path import AlgoPath, QueueBase
+from f_graph.algos.i_0_path import AlgoPath, QueueBase
 from typing import Type, TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemOneToMany)

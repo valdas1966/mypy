@@ -1,10 +1,10 @@
-from f_graph.data.i_1_cache import DataCache, NodePath
+from f_graph.data.i_0_path import DataPath, NodePath
 from typing import TypeVar
 
 Node = TypeVar('Node', bound=NodePath)
 
 
-class DataOneToOne(DataCache[Node]):
+class DataOneToOne(DataPath[Node]):
     """
     ============================================================================
      Class of Data for One-to-One Path-Algorithm.

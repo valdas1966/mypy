@@ -16,12 +16,14 @@ def test():
 def test_cached():
     problem = UProblemOTO.gen_3x3()
     graph = problem.graph
-    bfs = BFS(problem=problem, type_termination=TerminationCache)
+    bfs = BFS(problem=problem)
     assert problem.goal.path_from_root() == [graph[0, 0], graph[0, 1],
                                              graph[0, 2], graph[1, 2],
                                              graph[2, 2]]
     assert len(bfs.data.explored) == 8
 
+
 def test_with_cache():
     problem = UProblemOTO.gen_3x3()
-    bfs = BFS(problem=problem, type_termination=TerminationCache)
+    bfs = BFS(problem=problem, cache={problem.graph[0, 1]})
+    assert bfs.data.explored == {problem.start}

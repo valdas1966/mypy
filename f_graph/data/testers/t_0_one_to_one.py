@@ -1,6 +1,6 @@
 from f_ds.queues.i_1_fifo import QueueFIFO
 from f_ds.queues.i_1_priority import QueuePriority
-from f_graph.data.i_2_one_to_one import DataOneToOne
+from f_graph.data.i_1_one_to_one import DataOneToOne
 
 
 def test_fifo():

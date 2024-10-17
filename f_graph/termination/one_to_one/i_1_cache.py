@@ -1,4 +1,7 @@
-from f_graph.termination.one_to_one.i_0_goal import TerminationGoal, Node
+from f_graph.termination.one_to_one.i_0_goal import TerminationGoal, NodePath
+from typing import TypeVar
+
+Node = TypeVar('Node', bound=NodePath)
 
 
 class TerminationCache(TerminationGoal):
