@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_graph/algos/mixins/has_path.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/i_0_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/i_0_path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/mixins/has_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/mixins/has_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/mixins/has_termination.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/mixins/has_termination.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/i_0_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/data/i_0_path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/paths/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/paths/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_base.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -390,14 +385,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00010" summary="h">
-      <option name="closed" value="true" />
-      <created>1722022757093</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1722022757093</updated>
     </task>
     <task id="LOCAL-00011" summary="h">
       <option name="closed" value="true" />
@@ -783,7 +770,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729423498839</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="h">
+      <option name="closed" value="true" />
+      <created>1729504777608</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1729504777608</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
