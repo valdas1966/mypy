@@ -20,3 +20,11 @@ class PathBase(ABC, Generic[Node], Validatable):
         ========================================================================
         """
         Validatable.__init__(self, is_valid=False)
+
+    def get(self, goal: Node) -> list[Node]:
+        """
+        ========================================================================
+         Return an Optimal Path founded from Start to the received Goal.
+        ========================================================================
+        """
+        return goal.path_from_root()
