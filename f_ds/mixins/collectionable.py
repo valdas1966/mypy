@@ -1,50 +1,47 @@
+from collections.abc import Collection
+from f_abstract.mixins.sizable import Sizable
+from typing import TypeVar, Generic, Iterator, Iterable, Sized
 from abc import abstractmethod
-from typing import Generic, TypeVar
-from f_abstract.mixins.nameable import Nameable
-from f_ds.mixins.collectionable import Collectionable
 
 Item = TypeVar('Item')
 
 
-class QueueBase(Generic[Item], Collectionable[Item], Nameable):
+class Collectionable(Generic[Item], Collection[Item], Sizable):
     """
     ============================================================================
-     Abstract-Class of Queue.
+     Mixin-Class for Objects with Collection functionality.
     ============================================================================
     """
-
-    def __init__(self, name: str = None) -> None:
-        """
-        ========================================================================
-         Init private Attributes.
-        ========================================================================
-        """
-        Nameable.__init__(self, name=name)
 
     @abstractmethod
-    def push(self, item: Item) -> None:
+    def to_iterable(self) -> Iterable[Item] & Sized:
         """
         ========================================================================
-         Push an Element into the Queue.
+         Convert the Object's Items into a List.
         ========================================================================
         """
         pass
 
-    @abstractmethod
-    def pop(self) -> Item:
+    def __len__(self) -> int:
         """
         ========================================================================
-         Pop an Element from the Queue.
+         Return the Length of the Object's Items.
         ========================================================================
         """
-        pass
+        return len(self.to_iterable())
 
-    def __str__(self) -> str:
+    def __contains__(self, item: Item) -> bool:
         """
         ========================================================================
-         Return STR-REPR of the Queue.
-        ------------------------------------------------------------------------
-         Ex: Name[1, 2]
+         Return True if the Object contains a received Item.
         ========================================================================
         """
-        return f'{Nameable.__str__(self)}{self.to_list()}'
+        return item in self.to_iterable()
+
+    def __iter__(self) -> Iterator[Item]:
+        """
+        ========================================================================
+         Enable iteration over the Object's Items.
+        ========================================================================
+        """
+        return iter(self.to_iterable())

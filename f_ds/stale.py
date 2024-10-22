@@ -1,44 +1,43 @@
-import heapq
-from f_ds.queues.i_0_base import QueueBase
+from typing import Generic, TypeVar, Iterable
+from f_ds.entry_priority import EntryPriority
 from f_abstract.mixins.comparable import Comparable
-from f_ds.mixins.has_stale import HasStale
-from typing import TypeVar
+from f_ds.mixins.collectionable import Collectionable
+
 
 Item = TypeVar('Item', bound=Comparable)
 
 
-class QueuePriority(QueueBase[Item], HasStale[Item]):
+class Stale(Generic[Item], Collectionable[EntryPriority]):
     """
     ============================================================================
-     Priority-Queue for unique Items.
+     Stale objects in Data Structures (not-updated and costly to remove).
     ============================================================================
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        QueueBase.__init__(self)
-        HasStale.__init__(self)
-        self._heap: list[Item] = list()
+        self._stale: set[EntryPriority[Item]] = set()
 
-    def push(self, item: Item):
+    def add(self, item: Item) -> None:
         """
         ========================================================================
-         Push an item into the Priority-Queue.
+         Create an EntryPriority by a received Item and Add it into a Stale.
         ========================================================================
         """
-        heapq.heappush(self._heap, item)
+        entry = EntryPriority(item=item)
+        self._stale.add(entry)
 
-    def pop(self) -> Item:
+    def to_iterable(self) -> Iterable[EntryPriority[Item]]:
         """
         ========================================================================
-         Pop and return the smallest item from the heap.
+         Return Stale-Items as Iterable of EntryPriority.
         ========================================================================
         """
-        while self._heap:
-            item = heapq.heappop(self._heap)
-            if item not in self.stale:
-                return item
+        return self._stale
+
+    def __contains__(self, item: Item) -> bool:
+        return EntryPriority(item=item) in self._stale

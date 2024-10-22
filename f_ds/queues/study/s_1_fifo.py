@@ -5,4 +5,4 @@ fifo = QueueFIFO()
 fifo.push(2)
 fifo.push(1)
 
-fifo.to_list().display()
+print(fifo)

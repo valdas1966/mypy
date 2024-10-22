@@ -1,5 +1,5 @@
 from collections import deque
-from f_ds.queues.i_0_base import QueueBase, Iterator, Item
+from f_ds.queues.i_0_base import QueueBase, Item
 from typing import Deque
 
 
@@ -35,10 +35,10 @@ class QueueFIFO(QueueBase[Item]):
         """
         return self._items.popleft()
 
-    def __iter__(self) -> Iterator[Item]:
+    def to_list(self) -> list[Item]:
         """
         ========================================================================
-         Allow iterate over the Queue-Object in FIFO order.
+         Convert Queue's Items into an ordered List of Items.
         ========================================================================
         """
-        return (item for item in self._items)
+        return list(self._items)
