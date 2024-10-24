@@ -1,7 +1,8 @@
 from f_graph.algos.mixins.has_problem import HasProblem, ProblemPath
 from f_graph.algos.mixins.has_data import HasData, TypeData, TypeQueue
-from f_graph.algos.mixins.has_path import HasPath, TypePath
+from f_graph.algos.mixins.has_path import HasPath
 from f_graph.nodes.i_1_path import NodePath
+from f_abstract.mixins.nameable import Nameable
 from typing import Generic, TypeVar
 from abc import abstractmethod
 
@@ -10,6 +11,7 @@ Node = TypeVar('Node', bound=NodePath)
 
 
 class AlgoPath(Generic[Problem, Node],
+               Nameable,
                HasProblem,
                HasData[Node],
                HasPath[Node]):
@@ -23,15 +25,16 @@ class AlgoPath(Generic[Problem, Node],
                  problem: Problem,
                  type_data: TypeData,
                  type_queue: TypeQueue,
-                 type_path: TypePath) -> None:
+                 name: str = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
+        Nameable.__init__(self, name=name)
         HasProblem.__init__(self, problem=problem)
         HasData.__init__(self, type_data=type_data, type_queue=type_queue)
-        HasPath.__init__(self, type_path=type_path)
+        HasPath.__init__(self)
 
     @abstractmethod
     def _search(self) -> None:

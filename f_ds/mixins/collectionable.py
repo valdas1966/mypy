@@ -1,9 +1,13 @@
 from collections.abc import Collection
 from f_abstract.mixins.sizable import Sizable
-from typing import TypeVar, Generic, Iterator, Iterable, Sized
+from typing import TypeVar, Generic, Iterator, Iterable, Sized, Protocol
 from abc import abstractmethod
 
 Item = TypeVar('Item')
+
+
+class IterableSized(Protocol, Iterable, Sized):
+    pass
 
 
 class Collectionable(Generic[Item], Collection[Item], Sizable):
@@ -14,7 +18,7 @@ class Collectionable(Generic[Item], Collection[Item], Sizable):
     """
 
     @abstractmethod
-    def to_iterable(self) -> Iterable[Item] & Sized:
+    def to_iterable(self) -> IterableSized:
         """
         ========================================================================
          Convert the Object's Items into a List.
@@ -45,3 +49,11 @@ class Collectionable(Generic[Item], Collection[Item], Sizable):
         ========================================================================
         """
         return iter(self.to_iterable())
+
+    def __str__(self) -> str:
+        """
+        ========================================================================
+         Return STR-REPR as List.
+        ========================================================================
+        """
+        return str(list(self.to_iterable()))

@@ -5,18 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/equable.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/entry_priority.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/mixins/collectionable.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/mixins/has_stale.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/stale.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/comparable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/comparable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/listable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/entry_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/entry_priority.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/mixins/collectionable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/collectionable.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/queues/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_0_base.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/queues/i_1_fifo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_1_fifo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/queues/i_1_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_1_priority.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/queues/study/s_1_fifo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/study/s_1_fifo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/study/s_1_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/study/s_1_priority.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/i_0_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/i_0_path.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/mixins/has_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/mixins/has_path.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_1_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_1_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_bfs.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +42,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "ddaa2239-897e-4e37-90b9-04afc5364900"
+    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
   }
 }]]></component>
   <component name="ProjectColorInfo">{
@@ -177,6 +177,7 @@
     "Python tests.Python tests in t_u_astar.py.executor": "Run",
     "Python tests.Python tests in t_u_grid.py.executor": "Run",
     "Python.app.executor": "Run",
+    "Python.collectionable.executor": "Run",
     "Python.container_qa.executor": "Run",
     "Python.create_tables (1).executor": "Run",
     "Python.create_tables (2).executor": "Run",
@@ -215,6 +216,7 @@
     "Python.s_1_grid.executor": "Run",
     "Python.s_1_one_to_many.executor": "Run",
     "Python.s_1_phrases.executor": "Run",
+    "Python.s_1_priority (1).executor": "Run",
     "Python.s_1_priority.executor": "Run",
     "Python.s_1_u_grid.executor": "Run",
     "Python.s_1_words.executor": "Run",
@@ -289,8 +291,8 @@
       <recent name="G:\mypy\f_abstract\components\groups" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_1_fifo">
-    <configuration name="i_0_base" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests in t_bfs.py">
+    <configuration name="collectionable" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -299,11 +301,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/queues" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/mixins" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_ds/queues/i_0_base.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_ds/mixins/collectionable.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -334,7 +336,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_1_priority" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="s_1_priority (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -356,43 +358,43 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_astar.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_bfs.test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/algos/one_to_one/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_astar.test&quot;" />
+      <option name="_new_target" value="&quot;t_bfs.test&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_u_astar.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_bfs.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/algos/one_to_one/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers/t_u_astar.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_bfs.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests in t_bfs.py" />
+        <item itemvalue="Python tests.Python tests for t_bfs.test" />
+        <item itemvalue="Python.s_1_priority (1)" />
+        <item itemvalue="Python.collectionable" />
         <item itemvalue="Python.s_1_fifo" />
-        <item itemvalue="Python.i_0_base" />
-        <item itemvalue="Python.s_1_priority" />
-        <item itemvalue="Python tests.Python tests in t_u_astar.py" />
-        <item itemvalue="Python tests.Python tests for t_astar.test" />
       </list>
     </recent_temporary>
   </component>
@@ -823,5 +825,15 @@
     <MESSAGE value="a" />
     <MESSAGE value="h" />
     <option name="LAST_COMMIT_MESSAGE" value="h" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/f_ds/queues/i_0_base.py</url>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -47,4 +47,4 @@ class QueueBase(Generic[Item], Collectionable[Item], Nameable):
          Ex: Name[1, 2]
         ========================================================================
         """
-        return f'{Nameable.__str__(self)}{self.to_list()}'
+        return f'{Nameable.__str__(self)}{Collectionable.__str__(self)}'

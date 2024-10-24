@@ -27,3 +27,11 @@ class EntryPriority(Generic[Item], Equable):
         ========================================================================
         """
         return [str(self._item)] + self._item.key_comparison()
+
+    def __hash__(self) -> int:
+        """
+        ========================================================================
+         Hash by Object's Name + Key_Comparison.
+        ========================================================================
+        """
+        return hash(tuple(self.key_comparison()))

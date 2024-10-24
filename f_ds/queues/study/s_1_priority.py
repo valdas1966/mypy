@@ -1,24 +1,27 @@
-from f_ds.queues.i_1_priority import QueuePriority, Comparable
+from f_ds.queues.i_1_priority import QueuePriority
+from f_graph.nodes.i_0_base import NodeBase
 
 
-class C(Comparable):
+class Node(NodeBase):
 
-    def __init__(self, val: int) -> None:
+    def __init__(self, name: str, val: int) -> None:
+        NodeBase.__init__(self, name=name)
         self.val = val
 
     def key_comparison(self) -> list:
         return [self.val]
 
-    def __str__(self) -> str:
-        return str(self.val)
+    def __repr__(self) -> str:
+        return f'{str(self)}({self.val})'
 
 
-a = C(val=2)
-b = C(val=1)
+a = Node('A', 1)
+b = Node('B', 2)
 
-q = QueuePriority[C]()
-q.push(item=a)
-q.push(item=b)
-b.val = 3
-print(q.pop())
-print(q.pop())
+q = QueuePriority[Node](name='PriorityQueue')
+q.push(a)
+q.push(b)
+print(q)
+b.val = 0
+q.update()
+print(q)

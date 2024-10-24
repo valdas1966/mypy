@@ -1,30 +1,28 @@
 import heapq
 from f_ds.queues.i_0_base import QueueBase
 from f_abstract.mixins.comparable import Comparable
-from f_ds.mixins.has_stale import HasStale
-from typing import TypeVar
+from typing import TypeVar, Iterable
 
 Item = TypeVar('Item', bound=Comparable)
 
 
-class QueuePriority(QueueBase[Item], HasStale[Item]):
+class QueuePriority(QueueBase[Item]):
     """
     ============================================================================
      Priority-Queue for unique Items.
     ============================================================================
     """
 
-    def __init__(self):
+    def __init__(self, name: str = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        QueueBase.__init__(self)
-        HasStale.__init__(self)
+        QueueBase.__init__(self, name=name)
         self._heap: list[Item] = list()
 
-    def push(self, item: Item):
+    def push(self, item: Item) -> None:
         """
         ========================================================================
          Push an item into the Priority-Queue.
@@ -38,7 +36,21 @@ class QueuePriority(QueueBase[Item], HasStale[Item]):
          Pop and return the smallest item from the heap.
         ========================================================================
         """
-        while self._heap:
-            item = heapq.heappop(self._heap)
-            if item not in self.stale:
-                return item
+        return heapq.heappop(self._heap)
+
+    def update(self) -> None:
+        """
+        ========================================================================
+         Updates the Priority-Queue (Heapify).
+        ========================================================================
+        """
+        heapq.heapify(self._heap)
+
+    def to_iterable(self) -> Iterable[Item]:
+        """
+        ========================================================================
+         Return the List of Items (Heap).
+        ========================================================================
+        """
+        return self._heap
+

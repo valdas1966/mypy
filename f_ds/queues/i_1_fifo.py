@@ -1,4 +1,6 @@
 from collections import deque
+
+from f_ds.mixins.collectionable import IterableSized
 from f_ds.queues.i_0_base import QueueBase, Item
 from typing import Deque
 
@@ -42,3 +44,6 @@ class QueueFIFO(QueueBase[Item]):
         ========================================================================
         """
         return list(self._items)
+
+    def to_iterable(self) -> IterableSized:
+        return self._items
