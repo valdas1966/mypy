@@ -66,7 +66,7 @@ class AlgoSPPBase(ABC,
         """
         if not self.is_path_found:
             return list()
-        return self.spp.goal.path_from_root()
+        return self.spp.goal.path_from_start()
 
     def _can_terminate(self) -> bool:
         """

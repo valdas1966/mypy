@@ -9,6 +9,8 @@ class QuestionMask(QuestionText):
     ============================================================================
     """
 
+    _EXCEPTIONS = {' ', '"', "'", '(', ')', ','}
+
     def __init__(self,
                  text: str,
                  answer: str,
@@ -49,7 +51,9 @@ class QuestionMask(QuestionText):
          Set private Attributes.
         ========================================================================
         """
-        self._hint = u_str.mask.full(s=self.answer)
+        exc = QuestionMask._EXCEPTIONS
+        self._hint = u_str.mask.full(s=self.answer, exceptions=exc)
+        self._answer = u_str.filter.specific_chars(s=self._answer, chars=exc)
 
     def __str__(self) -> str:
         """

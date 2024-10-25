@@ -32,7 +32,7 @@ class AStarLookup(Generic[SPP, Node], AStar[SPP, Node]):
         if self._best == self.spp.goal:
             return AStar.path_optimal(self)
         # From Start to Best
-        path = self._best.path_from_root()
+        path = self._best.path_from_start()
         # From Best to Goal
         path.extend(self.spp.lookup[self._best])
         return path

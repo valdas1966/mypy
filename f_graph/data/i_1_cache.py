@@ -1,34 +1,34 @@
-from f_graph.problems.i_2_one_to_many import ProblemOneToMany
-from f_graph.data.i_0_abc import DataABC, NodePath, QueueBase
-from typing import TypeVar, Type
-
-Node = TypeVar('Node', bound=NodePath)
+from f_graph.data.i_0_abc import DataABC, Node, QueueBase
+from typing import Type
 
 
-class DataOneToMany(DataABC[Node]):
+class DataCache(DataABC[Node]):
     """
     ============================================================================
-     Class of Data for One-to-Many Path-Algorithms.
+     Data-Object with Cache for Path-Algorithms.
     ============================================================================
     """
 
     def __init__(self,
-                 problem: ProblemOneToMany,
                  type_queue: Type[QueueBase],
-                 ) -> None:
+                 cache: set[Node] = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         DataABC.__init__(self, type_queue=type_queue)
-        self._goals_active = problem.goals
+        self._cache = cache or set()
 
-    @property
-    def goals_active(self) -> set[Node]:
+    def is_cached(self, node: Node) -> bool:
         """
         ========================================================================
-         Return current Active-Goals (not found paths to them yet).
+         Return True if the received Node is cached.
         ========================================================================
         """
-        return self._goals_active
+        return node in self._cache
+
+    def cache_path(self, node: Node) -> list[Node]:
+        path = node.path_from_root()[:-1]
+        return reversed(path)
+    

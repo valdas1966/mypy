@@ -1,12 +1,12 @@
 from abc import ABC
 from typing import Generic, TypeVar
-from f_abstract.mixins.validatable import Validatable
+from f_abstract.mixins.validatable_public import ValidatablePublic
 from f_graph.nodes.i_1_path import NodePath
 
 Node = TypeVar('Node', bound=NodePath)
 
 
-class PathBase(ABC, Generic[Node], Validatable):
+class PathBase(ABC, Generic[Node], ValidatablePublic):
     """
     ============================================================================
      Base-Class of Path for Path-Algorithms.
@@ -19,7 +19,7 @@ class PathBase(ABC, Generic[Node], Validatable):
          Init private Attributes.
         ========================================================================
         """
-        Validatable.__init__(self, is_valid=False)
+        ValidatablePublic.__init__(self, is_valid=False)
 
     def get(self, goal: Node) -> list[Node]:
         """

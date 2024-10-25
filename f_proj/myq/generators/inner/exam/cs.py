@@ -18,4 +18,6 @@ class CS:
         ========================================================================
         """
         groups = SheetCS().to_nested_group()
+        groups_random = groups.sample(size=5)
+        qs = [q for group in groups_random for q in group]
         return ExamBase(qs=qs)

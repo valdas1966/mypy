@@ -1,13 +1,13 @@
 from f_graph.data.i_2_one_to_many import DataOneToMany, ProblemOneToMany
 from f_graph.paths.i_1_one_to_many import PathOneToMany, NodePath
-from f_graph.algos.i_0_path import AlgoPath, QueueBase
+from f_graph.algos.i_0_abc import AlgoPathABC, QueueBase
 from typing import Type, TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemOneToMany)
 Node = TypeVar('Node', bound=NodePath)
 
 
-class AlgoOneToMany(AlgoPath[Problem, Node]):
+class AlgoOneToMany(AlgoPathABC[Problem, Node]):
     """
     ============================================================================
      Base-Algorithm for One-To-One paths problems.
@@ -26,7 +26,7 @@ class AlgoOneToMany(AlgoPath[Problem, Node]):
         ========================================================================
         """
         self._data = type_data(problem=problem, type_queue=type_queue)
-        AlgoPath.__init__(self, problem=problem, type_path=type_path)
+        AlgoPathABC.__init__(self, problem=problem, type_path=type_path)
 
     def _search(self) -> None:
         """

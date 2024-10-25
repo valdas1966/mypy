@@ -1,14 +1,14 @@
 import pytest
-from f_abstract.mixins.validatable import Validatable
+from f_abstract.mixins.validatable_public import ValidatablePublic
 
 
 @pytest.fixture
-def ex_valid() -> Validatable:
-    return Validatable()
+def ex_valid() -> ValidatablePublic:
+    return ValidatablePublic()
 
 @pytest.fixture
-def ex_invalid() -> Validatable:
-    return Validatable(is_valid=False)
+def ex_invalid() -> ValidatablePublic:
+    return ValidatablePublic(is_valid=False)
 
 
 def test_init(ex_valid, ex_invalid):

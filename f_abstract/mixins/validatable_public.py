@@ -1,29 +1,25 @@
-from f_graph.problems.i_1_path import ProblemPath
-from typing import TypeVar
-
-Problem = TypeVar('Problem', bound=ProblemPath)
+from f_abstract.mixins.validatable import Validatable
 
 
-class HasProblem:
+class ValidatablePublic(Validatable):
     """
     ============================================================================
-     Mixin-Classes for Algorithms with Path-Problems.
+     Mixin-Class for Validatable Objects with public access to modify.
     ============================================================================
     """
 
-    def __init__(self, problem: Problem) -> None:
+    def set_valid(self) -> None:
         """
         ========================================================================
-         Init private Attributes.
+         Set the Object to be Valid.
         ========================================================================
         """
-        self._problem = problem
+        self._is_valid = True
 
-    @property
-    def problem(self) -> Problem:
+    def set_invalid(self) -> None:
         """
         ========================================================================
-         Return Algorithm's Path-Problem.
+         Set the Object to be InValid.
         ========================================================================
         """
-        return self._problem
+        self._is_valid = False

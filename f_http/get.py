@@ -1,11 +1,11 @@
 from f_abstract.mixins.printable import Printable
-from f_abstract.mixins.validatable import Validatable
+from f_abstract.mixins.validatable_public import ValidatablePublic
 from requests import request, Response
 import json
 import time
 
 
-class HttpGet(Printable, Validatable):
+class HttpGet(Printable, ValidatablePublic):
     """
     ============================================================================
      Http Request Get.
@@ -21,7 +21,7 @@ class HttpGet(Printable, Validatable):
          Init private Attributes.
         ========================================================================
         """
-        Validatable.__init__(self, is_valid=False)
+        ValidatablePublic.__init__(self, is_valid=False)
         self._url: str = url
         self._params: dict[str, str] = params or dict()
         self._headers: dict[str, str] = headers or dict()

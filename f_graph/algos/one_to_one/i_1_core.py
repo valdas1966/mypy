@@ -1,23 +1,25 @@
+from f_graph.algos.one_to_one.i_0_abc import AlgoOneToOneABC, Problem, Node
 
-class Validatable:
+
+class AlgoOneToOneCore(AlgoOneToOneABC[Problem, Node]):
     """
     ============================================================================
-     Mixin-Class for Validatable Objects.
+     Base-Algorithm for One-To-One paths problems.
     ============================================================================
     """
 
-    def __init__(self, is_valid: bool = True) -> None:
+    def _can_terminate(self, best: Node) -> bool:
         """
         ========================================================================
-         Init private Attributes.
+         Terminate the Search if the Best-Generated-Node is a Goal.
         ========================================================================
         """
-        self._is_valid = is_valid
+        return best == self._problem.goal
 
-    def __bool__(self) -> bool:
+    def _construct_path(self, best: Node) -> None:
         """
         ========================================================================
-         Return True if the Object is Valid.
+         Construct an Optimal-Path from Start to the Best-Node (the Goal).
         ========================================================================
         """
-        return self._is_valid
+        self._path = best.path_from_start()

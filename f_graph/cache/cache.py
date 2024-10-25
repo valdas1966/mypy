@@ -1,5 +1,5 @@
 from f_graph.nodes.i_1_path import NodePath
-from typing import TypeVar, Generic
+from typing import TypeVar, Generic, Callable
 
 Node = TypeVar('Node', bound=NodePath)
 
@@ -11,27 +11,38 @@ class Cache(Generic[Node]):
     ============================================================================
     """
 
-    def __init__(self,
-                 paths_optimal: dict[Node, list[Node]] = None) -> None:
+    def __init__(self, cache: set[Node]) -> None:
         """
         ========================================================================
          Init private Attributes.
+        ------------------------------------------------------------------------
+         Cache is stored as a Dict for retrieval.
         ========================================================================
         """
-        self._paths_optimal = paths_optimal if paths_optimal else dict()
+        self._cache: dict[Node, Node] = {node: node for node in cache}
 
-    def path_optimal(self, node: Node) -> list[Node] | None:
+    def __contains__(self, item: Node) -> bool:
         """
         ========================================================================
-         Return an Optimal Path from a Node to Goal (None on not exists).
+         Return True if the received Node is in the Cache.
         ========================================================================
         """
-        return self._paths_optimal.get(node, None)
+        return item in self._cache
 
-    def distance_to_goal(self, node: Node) -> int | None:
+    def path_to_goal(self, node: Node) -> list[Node]:
         """
         ========================================================================
-         Return an accurate distance from a Node to a Goal.
+         Return the Optimal-Path from the received cached Node to Goal.
         ========================================================================
         """
-        return len(self._paths_optimal.get(node, []))
+        path = self._cache[node].path_from_start()
+        path.reverse()
+        return path
+
+    def accurate_distance_to_goal(self, node: Node) -> int:
+        """
+        ========================================================================
+         Return an accurate distance to Goal from the received cached Node.
+        ========================================================================
+        """
+        return self._cache[node].g

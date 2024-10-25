@@ -18,6 +18,15 @@ class NestedGroup(Group[Group[Item]]):
         """
         super().__init__(name=name, data=data)
 
+    def flatten(self, name: str = None) -> Group[Item]:
+        """
+        ========================================================================
+         Return a flattened group of all Nested-Group items.
+        ========================================================================
+        """
+        data = [item for group in self.data for item in group]
+        return Group(name=name, data=data)
+
     def __str__(self) -> str:
         """
         ========================================================================

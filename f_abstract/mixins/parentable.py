@@ -28,7 +28,7 @@ class Parentable(Generic[T], HasChildren[T]):
     def parent(self, val: T) -> None:
         self._parent = val
 
-    def path_from_root(self) -> list[T]:
+    def path_from_start(self) -> list[T]:
         """
         ========================================================================
          Return the Path from the Start to the Current Node.

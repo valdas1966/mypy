@@ -1,30 +1,42 @@
-from f_graph.algos.one_to_one.i_1_core import AlgoOneToOneCore, Problem
+from f_graph.algos.one_to_one.i_1_cache import AlgoOneToOneCache, Problem, Cache
 from f_ds.queues.i_1_priority import QueuePriority
 from f_ai.hs.ops.node import OpsNodeHS, Node
 from typing import Callable
 
 
-class AStar(AlgoOneToOneCore[Problem, Node]):
+class AStarCache(AlgoOneToOneCache[Problem, Node]):
     """
     ============================================================================
-     A* Algorithm.
+     AStar-Algorithm with Cache.
     ============================================================================
     """
 
     def __init__(self,
                  problem: Problem,
                  heuristics: Callable[[Node], int],
-                 name: str = 'AStar') -> None:
+                 cache: set[Node],
+                 name: str = 'AStar-Cache') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         self._heuristics = heuristics
-        AlgoOneToOneCore.__init__(self,
-                                  problem=problem,
-                                  type_queue=QueuePriority,
-                                  name=name)
+        AlgoOneToOneCache.__init__(self,
+                                   problem=problem,
+                                   type_queue=QueuePriority,
+                                   cache=cache,
+                                   name=name)
+
+    def _can_terminate(self, best: Node) -> bool:
+        """
+        ========================================================================
+         Return True if Best is Cached or is the Goal.
+        ========================================================================
+        """
+        return (AlgoOneToOneCache._can_terminate(self, best=best)
+                or
+                best in self._cache)
 
     def _create_ops_node(self) -> OpsNodeHS[Problem, Node]:
         """

@@ -1,11 +1,11 @@
-from f_abstract.mixins.validatable import Validatable
+from f_abstract.mixins.validatable_public import ValidatablePublic
 from f_graph.nodes.i_1_path import NodePath
 from typing import Generic, TypeVar
 
 Node = TypeVar('Node', bound=NodePath)
 
 
-class PathForward(Generic[Node], Validatable):
+class PathForward(Generic[Node], ValidatablePublic):
     """
     ============================================================================
      Class for Forward-Path in Graph-Problem.
@@ -18,7 +18,7 @@ class PathForward(Generic[Node], Validatable):
          Init private Attributes.
         ========================================================================
         """
-        Validatable.__init__(self, is_valid=False)
+        ValidatablePublic.__init__(self, is_valid=False)
 
     def get(self, goal: Node = None) -> list[Node]:
         """
@@ -29,4 +29,4 @@ class PathForward(Generic[Node], Validatable):
         if goal:
             return goal.path_from_root()
         else:
-            return self._goal.path_from_root()
+            return self._goal.path_from_start()
