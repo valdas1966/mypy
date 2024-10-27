@@ -1,33 +1,35 @@
+from f_abstract.processes.i_0_abc import ProcessABC, Result
 from f_ds.groups.nested import NestedGroup, Group, Item
-from abc import ABC, abstractmethod
-from typing import Generic, Sequence
+from abc import abstractmethod
+from typing import Sequence
 
 
-class RowsToGroups(ABC, Generic[Item]):
+class ProcRowsToNestedGroup(ProcessABC[Result], NestedGroup[Item]):
     """
     ============================================================================
      Abstract process of converting rows into NestedGroup.
     ============================================================================
     """
 
-    def __init__(self) -> None:
+    def __init__(self, name: str = 'Process Rows to Nested Group') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
+        ProcessABC.__init__(self, name=name)
         self._groups: NestedGroup[Item] | None = None
         self._group: Group[Item] | None = None
 
     def run(self,
             rows: Sequence[Sequence[str]],
-            name: str = None) -> NestedGroup[Item]:
+            name_nested: str = None) -> NestedGroup[Item]:
         """
         ========================================================================
          Run the Process.
         ========================================================================
         """
-        self._groups = NestedGroup(name=name)
+        self._groups = NestedGroup(name=name_nested)
         for row in rows:
             self._process_row(row=row)
         self._finalize_group()

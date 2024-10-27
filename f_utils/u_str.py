@@ -9,6 +9,7 @@ def is_empty(s: str) -> bool:
     """
     return s == str() or s is None
 
+
 def to_dict(s: str) -> dict:
     """
     ============================================================================

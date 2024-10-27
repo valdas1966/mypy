@@ -1,5 +1,5 @@
 from f_ds.groups.nested import NestedGroup
-from f_proj.myq.gsheets.inner.tuples_to_groups import TuplesToGroups
+from f_proj.myq.gsheets.processes.nest_tuples_to_questions import ProcNestTuplesToQuestions
 from f_proj.myq.questions.i_2_mask import QuestionMask
 from f_proj.myq.gsheets.i_0_base import SheetBase, Question
 from typing import Type
@@ -43,5 +43,5 @@ class SheetGroup(SheetBase[Question]):
                                        col_first=SheetGroup._COL_LABEL,
                                        col_last=SheetGroup._COL_VALUE)
         # Convert Tuples into Nested-Group and return the Result
-        process = TuplesToGroups(type_question=self.type_question)
-        return process.run(name=self._sheet.title, rows=tuples)
+        process = ProcNestTuplesToQuestions(type_question=self.type_question)
+        return process.run(name_nested=self._sheet.title, rows=tuples)

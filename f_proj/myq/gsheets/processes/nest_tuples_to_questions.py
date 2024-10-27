@@ -1,9 +1,9 @@
-from f_abstract.processes.rows_to_groups import RowsToGroups
+from f_abstract.processes.i_1_rows_to_groups import ProcRowsToNestedGroup
 from f_proj.myq.questions.i_2_mask import QuestionMask
 from typing import Type, Sequence
 
 
-class TuplesToGroups(RowsToGroups):
+class ProcNestTuplesToQuestions(ProcRowsToNestedGroup):
     """
     ============================================================================
      Implementation of Abstract-Process RowsToGroups in context of GSheets.
@@ -20,7 +20,7 @@ class TuplesToGroups(RowsToGroups):
          Init private Attributes.
         ========================================================================
         """
-        RowsToGroups.__init__(self)
+        ProcRowsToNestedGroup.__init__(self)
         self._type_question = type_question
 
     def _is_group_start(self, row: Sequence[str]) -> bool:

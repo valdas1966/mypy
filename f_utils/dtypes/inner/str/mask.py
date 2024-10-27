@@ -1,5 +1,6 @@
 from f_utils.dtypes.u_seq import USeq
 from f_utils.dtypes.inner.str.filter import Filter
+from f_ai.nlp.u_filter import UFilter
 
 
 class Mask:
@@ -9,7 +10,7 @@ class Mask:
     ============================================================================
     """
 
-    _EXCEPTIONS = {' ', '"', "'", '(', ')'}
+    _EXCEPTIONS = {' ', '"', "'", '(', ')', '-'}
 
     @staticmethod
     def full(s: str,
@@ -37,7 +38,7 @@ class Mask:
          1. Return a string with a given percentage of chars masked.
          2. Except those in the exceptions list.
         ------------------------------------------------------------------------
-         Ex: 'abc' -> 'a*c'
+         Ex: '(abc)' -> '(a*c)'
         ========================================================================
         """
         if exceptions is None:
@@ -61,10 +62,13 @@ class Mask:
          Ex: 'Hello World!' -> ('**** World!', 'Hello')
         ========================================================================
         """
+        # Split words in the text into a list of words
         words = text.split(' ')
+        indexes_content_words = USeq.indexes.filter(seq=words,
+                                                    predicate=UFilter.is_content_word)
         # Select one random index
-        index_word = USeq.indexes.sample(seq=words, size=1)[0]
-        # Selected word in unmasked format
+        index_word = USeq.items.sample(seq=indexes_content_words, size=1)[0]
+        # Select word at that index in unmasked format
         word_unmasked = Filter.specific_chars(s=words[index_word],
                                               chars=Mask._EXCEPTIONS)
         # Selected word in masked format
