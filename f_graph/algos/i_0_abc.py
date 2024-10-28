@@ -1,9 +1,9 @@
 from f_graph.problems.i_1_path import ProblemPath
-from f_graph.data.data import Data, QueueBase
 from f_graph.ops.node import OpsNode, NodePath
+from f_graph.data.i_0_abc import DataABC
 from f_abstract.mixins.nameable import Nameable
 from f_abstract.mixins.validatable import Validatable
-from typing import Generic, TypeVar, Type
+from typing import Generic, TypeVar
 from abc import abstractmethod
 
 Problem = TypeVar('Problem', bound=ProblemPath)
@@ -19,7 +19,6 @@ class AlgoPathABC(Generic[Problem, Node], Nameable, Validatable):
 
     def __init__(self,
                  problem: Problem,
-                 type_queue: Type[QueueBase],
                  name: str = None) -> None:
         """
         ========================================================================
@@ -29,9 +28,12 @@ class AlgoPathABC(Generic[Problem, Node], Nameable, Validatable):
         Nameable.__init__(self, name=name)
         Validatable.__init__(self)
         self._problem = problem
-        self._data = Data(type_queue=type_queue)
+        self._data = self._create_data()
         self._ops_node = self._create_ops_node()
         self._search()
+
+    def _create_data(self) -> DataABC[Node]:
+        pass
 
     def _create_ops_node(self) -> OpsNode[Problem, Node]:
         """

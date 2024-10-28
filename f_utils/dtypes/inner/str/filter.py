@@ -1,3 +1,6 @@
+import string
+
+
 class Filter:
     """
     ============================================================================
@@ -13,3 +16,12 @@ class Filter:
         ========================================================================
         """
         return ''.join(ch for ch in s if ch not in chars)
+
+    @staticmethod
+    def punctuations(s: str) -> str:
+        """
+        ========================================================================
+         Return the String without punctuations.
+        ========================================================================
+        """
+        return Filter.specific_chars(s=s, chars=set(string.punctuation))

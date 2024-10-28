@@ -1,40 +1,35 @@
-from f_google.sheets.utils import UGSheets, Spread
-from f_proj.myq.questions.i_2_mask import QuestionMask
-from typing import Type
+from typing import Generic, TypeVar, Sequence
+
+Item = TypeVar('Item')
 
 
-class SheetBase:
+class Excludable(Generic[Item]):
     """
     ============================================================================
-     Abstract-Class for Questions-Sheet in Myq.
+     Mixin provided Exclude-Set functionality for Items.
     ============================================================================
     """
 
-    def __init__(self,
-                 id_spread: str,
-                 type_question: Type[QuestionMask] = QuestionMask) -> None:
+    def __init__(self, exclude: Sequence[Item] = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._spread = UGSheets.spread(user='VALDAS', id_spread=id_spread)
-        self._type_question = type_question
+        self._exclude = set(exclude) if exclude else set()
 
-    @property
-    def spread(self) -> Spread:
+    def should_exclude(self, item: Item) -> bool:
         """
         ========================================================================
-         Return the Spread of current Google-Sheet.
+         Return True if the given Item in the Exclude-Set.
         ========================================================================
         """
-        return self._spread
+        return item in self._exclude
 
-    @property
-    def type_question(self) -> Type[QuestionMask]:
+    def should_remain(self, item: Item) -> bool:
         """
         ========================================================================
-         Return Type of Questions to Build.
+         Return True if the given Item is not in the Exclude-Set.
         ========================================================================
         """
-        return self._type_question
+        return not self.should_exclude(item=item)

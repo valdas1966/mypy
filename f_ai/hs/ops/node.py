@@ -1,4 +1,4 @@
-from f_graph.ops.node import OpsNode, Problem, Data
+from f_graph.ops.node import OpsNode, Problem, DataOneToOne
 from f_ai.hs.nodes.i_1_f import NodeF
 from typing import TypeVar, Callable
 
@@ -14,7 +14,7 @@ class OpsNodeHS(OpsNode[Problem, Node]):
 
     def __init__(self,
                  problem: Problem,
-                 data: Data,
+                 data: DataOneToOne,
                  heuristics: Callable[[Node], int]) -> None:
         """
         ========================================================================

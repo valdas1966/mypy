@@ -1,8 +1,9 @@
 from f_proj.myq.gsheets.i_1_group import SheetGroup
-from f_proj.myq.questions.i_3_mask_one_word import QuestionMaskOneWord
+from f_proj.myq.questions.i_3_mask_one_word import (QuestionMaskOneWord as
+                                                    Question)
 
 
-class SheetCS(SheetGroup[QuestionMaskOneWord]):
+class SheetCS(SheetGroup):
     """
     ============================================================================
      Computer-Science Sheet in the Myq-Project.
@@ -10,6 +11,7 @@ class SheetCS(SheetGroup[QuestionMaskOneWord]):
     """
 
     _ID_SPREAD = '1haZi5T98P6kq3dnq4dO10JHDql-179B1oVluxQ_CW2M'
+    _EXCLUDE = {'Latin', 'Greek'}
 
     def __init__(self) -> None:
         """
@@ -19,4 +21,5 @@ class SheetCS(SheetGroup[QuestionMaskOneWord]):
         """
         SheetGroup.__init__(self,
                             id_spread=SheetCS._ID_SPREAD,
-                            type_question=QuestionMaskOneWord)
+                            type_question=Question,
+                            exclude=SheetCS._EXCLUDE)

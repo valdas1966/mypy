@@ -28,16 +28,6 @@ class AStarCache(AlgoOneToOneCache[Problem, Node]):
                                    cache=cache,
                                    name=name)
 
-    def _can_terminate(self, best: Node) -> bool:
-        """
-        ========================================================================
-         Return True if Best is Cached or is the Goal.
-        ========================================================================
-        """
-        return (AlgoOneToOneCache._can_terminate(self, best=best)
-                or
-                best in self._cache)
-
     def _create_ops_node(self) -> OpsNodeHS[Problem, Node]:
         """
         ========================================================================

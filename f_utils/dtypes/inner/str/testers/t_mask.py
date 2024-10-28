@@ -22,7 +22,7 @@ def test_full(ex_single, ex_multi, ex_exception):
 
 
 def test_pct(ex_exception):
-    assert Mask.pct(s=ex_exception, pct_to_mask=100) == '"***"'
+    assert Mask.pct(s=ex_exception, pct_mask=100) == '"***"'
 
 
 def test_one_word(ex_single, ex_multi):

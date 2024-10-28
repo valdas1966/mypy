@@ -1,6 +1,5 @@
 from f_proj.myq.exams.i_0_base import ExamBase
-from f_proj.myq.gsheets.cs.i_0_cs import SheetCS, QuestionMaskOneWord
-from f_ds.groups.nested import NestedGroup
+from f_proj.myq.gsheets.cs.i_0_cs import SheetCS, Question
 
 
 class CS:
@@ -11,7 +10,7 @@ class CS:
     """
 
     @staticmethod
-    def base() -> ExamBase[QuestionMaskOneWord]:
+    def base() -> ExamBase[Question]:
         """
         ========================================================================
          Generate Base CS-Exam (all questions).

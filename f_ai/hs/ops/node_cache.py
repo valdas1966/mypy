@@ -1,4 +1,4 @@
-from f_ai.hs.ops.node import OpsNodeHS, Problem, Data, Node
+from f_ai.hs.ops.node import OpsNodeHS, Problem, DataOneToOne, Node
 from f_graph.cache.cache import Cache
 from typing import Callable
 
@@ -7,7 +7,7 @@ class OpsNodeHSCache(OpsNodeHS[Problem, Node]):
 
     def __init__(self,
                  problem: Problem,
-                 data: Data,
+                 data: DataOneToOne,
                  heuristics: Callable[[Node], int],
                  cache: Cache) -> None:
         OpsNodeHS.__init__(self,

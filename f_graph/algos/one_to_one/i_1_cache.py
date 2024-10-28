@@ -1,7 +1,7 @@
 from f_graph.algos.one_to_one.i_0_abc import (AlgoOneToOneABC, Problem, Node,
                                               QueueBase)
 from f_graph.cache.cache import Cache
-from typing import Type, Callable
+from typing import Type
 
 
 class AlgoOneToOneCache(AlgoOneToOneABC[Problem, Node]):

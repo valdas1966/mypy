@@ -1,5 +1,5 @@
 from f_graph.nodes.i_1_path import NodePath
-from typing import TypeVar, Generic, Callable
+from typing import TypeVar, Generic
 
 Node = TypeVar('Node', bound=NodePath)
 

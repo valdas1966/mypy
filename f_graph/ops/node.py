@@ -1,9 +1,8 @@
-from f_graph.problems.i_1_path import ProblemPath, NodePath
-from f_graph.data.data import Data
+from f_graph.problems.i_1_path import ProblemPath
+from f_graph.data.i_0_abc import DataABC, Node
 from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemPath)
-Node = TypeVar('Node', bound=NodePath)
 
 
 class OpsNode(Generic[Problem, Node]):
@@ -13,7 +12,7 @@ class OpsNode(Generic[Problem, Node]):
     ============================================================================
     """
 
-    def __init__(self, problem: Problem, data: Data) -> None:
+    def __init__(self, problem: Problem, data: DataABC) -> None:
         """
         ========================================================================
          Init private Attributes.

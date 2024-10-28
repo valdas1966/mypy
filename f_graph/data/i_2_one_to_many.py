@@ -1,11 +1,9 @@
 from f_graph.problems.i_2_one_to_many import ProblemOneToMany
-from f_graph.data.i_0_abc import DataABC, NodePath, QueueBase
-from typing import TypeVar, Type
-
-Node = TypeVar('Node', bound=NodePath)
+from f_graph.data.i_1_one_to_one import DataOneToOne, Node, Queue
+from typing import Type
 
 
-class DataOneToMany(DataABC[Node]):
+class DataOneToMany(DataOneToOne[Node]):
     """
     ============================================================================
      Class of Data for One-to-Many Path-Algorithms.
@@ -14,14 +12,14 @@ class DataOneToMany(DataABC[Node]):
 
     def __init__(self,
                  problem: ProblemOneToMany,
-                 type_queue: Type[QueueBase],
+                 type_queue: Type[Queue],
                  ) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        DataABC.__init__(self, type_queue=type_queue)
+        DataOneToOne.__init__(self, type_queue=type_queue)
         self._goals_active = problem.goals
 
     @property
