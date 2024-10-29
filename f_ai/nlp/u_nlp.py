@@ -8,7 +8,8 @@ class UNLP:
     ============================================================================
     """
 
-    _STOP_WORDS = {'a', 'the', 'and', 'or', 'in', 'into', 'on', 'of', 'to'}
+    _STOP_WORDS = {'a', 'the', 'and', 'or', 'in', 'into', 'on', 'of', 'to',
+                   'by'}
 
     @staticmethod
     def stop_words(words: Iterable[str],
@@ -28,7 +29,7 @@ class UNLP:
          Return True if the received Word is a Stop-Word.
         ========================================================================
         """
-        return word in UNLP._STOP_WORDS
+        return word.lower() in UNLP._STOP_WORDS
 
     @staticmethod
     def is_content_word(word: str) -> bool:

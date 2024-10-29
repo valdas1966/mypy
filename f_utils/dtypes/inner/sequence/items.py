@@ -37,6 +37,17 @@ class Items(Generic[Item]):
         return Items._return(seq=seq, li=sampled)
 
     @staticmethod
+    def from_indexes(items: Sequence[Item],
+                     indexes: Sequence[int]) -> Sequence[Item]:
+        """
+        ========================================================================
+         Return Sequence of Items at the given Indexes.
+        ========================================================================
+        """
+        li = [items[i] for i in indexes]
+        return Items._return(seq=items, li=li)
+
+    @staticmethod
     def _return(seq: Sequence[Item],
                 li: list[Item]) -> Sequence[Item]:
         """

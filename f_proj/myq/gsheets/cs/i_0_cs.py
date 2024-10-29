@@ -11,7 +11,7 @@ class SheetCS(SheetGroup):
     """
 
     _ID_SPREAD = '1haZi5T98P6kq3dnq4dO10JHDql-179B1oVluxQ_CW2M'
-    _EXCLUDE = {'Latin', 'Greek'}
+    _EXCLUDE = {'latin', 'greek', '1960s', '1970s'}
 
     def __init__(self) -> None:
         """

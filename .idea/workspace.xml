@@ -5,51 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/excludable.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_proj/myq/gsheets/cs/study/s_0_cs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/predicates.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/a_star_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/a_star_cache.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers/t_astar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers/t_astar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers/t_u_astar.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/hs/algos/u_algos_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/algos/u_algos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/hs/ops/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/ops/node.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/hs/ops/node_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/ops/node_cache.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/nlp/u_filter.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/nlp/u_nlp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_0_abc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_1_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_1_bfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_1_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_1_cache.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/cache/cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/cache/cache.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/data.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/data/i_0_abc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/i_1_cache.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/i_1_core.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/i_1_one_to_one.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/data/i_1_one_to_one.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/i_2_one_to_many.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/data/i_2_one_to_many.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/study/s_1_one_to_many.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/data/study/s_1_one_to_many.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/testers/t_one_to_many.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/data/testers/t_one_to_many.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/u_factory.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/ops/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/ops/node.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/paths/forward.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/paths/i_0_base.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/paths/i_1_one_to_many.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/paths/i_1_one_to_one.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/paths/testers/t_1_one_to_one.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/termination/base.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/termination/one_to_one/i_0_goal.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/termination/one_to_one/i_1_cache.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/termination/one_to_one/testers/t_0_goal.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/termination/one_to_one/testers/t_1_cache.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/generators/inner/exam/cs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/myq/generators/inner/exam/cs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/excludable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/excludable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ai/nlp/u_nlp.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/nlp/u_nlp.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/cs/i_0_cs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/myq/gsheets/cs/i_0_cs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/myq/gsheets/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/i_1_group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/myq/gsheets/i_1_group.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/processes/nest_tuples_to_questions.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/myq/gsheets/processes/nest_tuples_to_questions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/questions/i_2_mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/myq/questions/i_2_mask.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_proj/myq/questions/i_3_mask_one_word.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/myq/questions/i_3_mask_one_word.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/filter.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/filter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/mask.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/study/s_mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/study/s_mask.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/str/testers/t_mask.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/str/testers/t_mask.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/inner/sequence/items.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/inner/sequence/items.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/u_str.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/u_str.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -251,6 +215,7 @@
     "Python.run_exam (2).executor": "Run",
     "Python.run_exam.executor": "Run",
     "Python.s_0_base.executor": "Run",
+    "Python.s_0_cs.executor": "Run",
     "Python.s_0_g.executor": "Run",
     "Python.s_0_gui (1).executor": "Run",
     "Python.s_0_gui (2).executor": "Run",
@@ -323,6 +288,7 @@
     "Python.t_generated_explored.executor": "Run",
     "Python.temp.executor": "Run",
     "Python.u_1_random.executor": "Run",
+    "Python.u_nlp.executor": "Run",
     "Python.u_screen.executor": "Run",
     "Python.window.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -339,8 +305,30 @@
       <recent name="G:\mypy\f_abstract\components\groups" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_2_bfs_cache.py">
-    <configuration name="run_exam (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.s_0_cs">
+    <configuration name="i_0_cs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/myq/gsheets/cs" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/myq/gsheets/cs/i_0_cs.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="run_exam (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -362,7 +350,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="run_exam" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="s_0_cs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -371,11 +359,33 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/myq/scripts" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/myq/gsheets/cs/study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/myq/scripts/run_exam.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/myq/gsheets/cs/study/s_0_cs.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="u_nlp" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ai/nlp" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_ai/nlp/u_nlp.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -399,43 +409,13 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_2_bfs.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/algos/one_to_one/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_2_bfs.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_astar.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers/t_astar.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.s_0_cs" />
+        <item itemvalue="Python.i_0_cs" />
+        <item itemvalue="Python.u_nlp" />
+        <item itemvalue="Python.run_exam (2)" />
         <item itemvalue="Python tests.Python tests in t_2_bfs_cache.py" />
-        <item itemvalue="Python tests.Python tests in t_2_bfs.py" />
-        <item itemvalue="Python tests.Python tests in t_astar.py" />
-        <item itemvalue="Python.run_exam" />
-        <item itemvalue="Python.run_exam (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -454,14 +434,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00013" summary="h">
-      <option name="closed" value="true" />
-      <created>1723262696624</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1723262696624</updated>
     </task>
     <task id="LOCAL-00014" summary="h">
       <option name="closed" value="true" />
@@ -847,7 +819,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730032936362</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="h">
+      <option name="closed" value="true" />
+      <created>1730147426283</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1730147426283</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

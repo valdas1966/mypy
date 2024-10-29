@@ -1,5 +1,4 @@
 import string
-
 from f_proj.myq.questions.i_2_mask import QuestionMask
 from f_abstract.mixins.excludable import Excludable
 from f_utils.dtypes.u_str import UStr
@@ -38,12 +37,18 @@ class QuestionMaskOneWord(QuestionMask, Excludable):
          Return Masked-Answer.
         ========================================================================
         """
+        def predicate(word: str) -> bool:
+            return (not UNLP.is_stop_word(word=word) and
+                    not self.should_exclude(item=word) and
+                    not UStr.predicates.is_wrapped(s=word, wrap="'"))
+        print(self._exclude)
         words = self.answer.split()
-        indexes_content = USeq.indexes.filter(seq=words,
-                                              predicate=UNLP.is_content_word)
-        indexes_filtered = USeq.items.filter(seq=indexes_content,
-                                             predicate=self.should_remain)
+        print(words)
+        indexes_filtered = USeq.indexes.filter(seq=words,
+                                               predicate=predicate)
+        print(indexes_filtered)
         index_mask = USeq.items.sample(seq=indexes_filtered, size=1)[0]
+        print(index_mask)
         word_unmasked = words[index_mask]
         word_masked = UStr.mask.pct(s=word_unmasked,
                                     pct_mask=self.pct_mask,

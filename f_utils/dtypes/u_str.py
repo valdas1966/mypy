@@ -3,7 +3,7 @@ from f_utils.dtypes.inner.str.mask import Mask
 from f_utils.dtypes.inner.str.split import Split
 from f_utils.dtypes.inner.str.filter import Filter
 from f_utils.dtypes.inner.str.replace import Replace
-
+from f_utils.dtypes.inner.str.predicates import Predicates
 
 
 class UStr:
@@ -18,3 +18,4 @@ class UStr:
     split = Split
     replace = Replace
     filter = Filter
+    predicates = Predicates
