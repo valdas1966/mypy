@@ -1,16 +1,11 @@
-from f_graph.problems.i_1_path import ProblemPath
-from f_graph.ops.node import OpsNode, NodePath
-from f_graph.data.i_0_abc import DataABC
+from f_graph.ops.node import OpsNode, Problem, Data, Node
 from f_abstract.mixins.nameable import Nameable
 from f_abstract.mixins.validatable import Validatable
-from typing import Generic, TypeVar
+from typing import Generic
 from abc import abstractmethod
 
-Problem = TypeVar('Problem', bound=ProblemPath)
-Node = TypeVar('Node', bound=NodePath)
 
-
-class AlgoPathABC(Generic[Problem, Node], Nameable, Validatable):
+class AlgoPathABC(Generic[Problem, Data, Node], Nameable, Validatable):
     """
     ============================================================================
      Base-Class for Path-Algorithms.
@@ -32,10 +27,10 @@ class AlgoPathABC(Generic[Problem, Node], Nameable, Validatable):
         self._ops_node = self._create_ops_node()
         self._search()
 
-    def _create_data(self) -> DataABC[Node]:
+    def _create_data(self) -> Data[Node]:
         pass
 
-    def _create_ops_node(self) -> OpsNode[Problem, Node]:
+    def _create_ops_node(self) -> OpsNode[Problem, Data, Node]:
         """
         ========================================================================
          Dependency Injection - Create an Operations-on-Nodes class.

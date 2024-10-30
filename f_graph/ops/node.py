@@ -3,16 +3,17 @@ from f_graph.data.i_0_abc import DataABC, Node
 from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemPath)
+Data = TypeVar('Data', bound=DataABC)
 
 
-class OpsNode(Generic[Problem, Node]):
+class OpsNode(Generic[Problem, Data, Node]):
     """
     ============================================================================
      Class for Node's Operations in PathFinding-Algorithms.
     ============================================================================
     """
 
-    def __init__(self, problem: Problem, data: DataABC) -> None:
+    def __init__(self, problem: Problem, data: Data) -> None:
         """
         ========================================================================
          Init private Attributes.
