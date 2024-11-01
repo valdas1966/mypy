@@ -32,3 +32,26 @@ class Fields:
 
     # Other User
     ID_FOLLOWER = Field.string(name='id_follower')
+
+    @staticmethod
+    def user_info() -> list[Field]:
+        fields: list[Field] = list()
+        fields.append(Fields.ID_USER)
+        fields.append(Fields.NICK)
+        fields.append(Fields.REGION)
+        fields.append(Fields.IS_VERIFIED)
+        fields.append(Fields.IS_SECRET)
+        fields.append(Fields.IS_PRIVATE)
+        return fields
+
+    @staticmethod
+    def user_stats() -> list[Field]:
+        fields: list[Field] = list()
+        fields.append(Fields.FOLLOWING)
+        fields.append(Fields.FOLLOWERS)
+        fields.append(Fields.AWEME)
+        fields.append(Fields.FAVORITED)
+        fields.append(Fields.VIDEOS)
+        fields.append(Fields.HEARTS)
+        fields.append(Fields.DIGGS)
+        return fields

@@ -5,15 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_ds/groups/u_group.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_google/big_query/structures/schema_partial.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_0_abc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/data/i_0_abc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/i_1_one_to_one.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/data/i_1_one_to_one.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/i_2_one_to_many.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/data/i_1_one_to_many.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/study/s_1_one_to_many.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/data/study/s_1_one_to_many.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/testers/t_one_to_many.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/data/testers/t_one_to_many.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/ops/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/ops/node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/groups/group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/groups/group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/big_query/structures/schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/structures/schema.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/fields.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/fields.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/tables.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -305,7 +305,29 @@
       <recent name="G:\mypy\f_abstract\components\groups" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_astar.py">
+  <component name="RunManager" selected="Python.create_tables">
+    <configuration name="create_tables" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="i_0_cs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -372,28 +394,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="u_nlp" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ai/nlp" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_ai/nlp/u_nlp.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="Python tests in t_astar.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -411,11 +411,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.create_tables" />
         <item itemvalue="Python tests.Python tests in t_astar.py" />
         <item itemvalue="Python.run_exam" />
         <item itemvalue="Python.s_0_cs" />
         <item itemvalue="Python.i_0_cs" />
-        <item itemvalue="Python.u_nlp" />
       </list>
     </recent_temporary>
   </component>
@@ -434,14 +434,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00015" summary="h">
-      <option name="closed" value="true" />
-      <created>1723348646664</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1723348646664</updated>
     </task>
     <task id="LOCAL-00016" summary="h">
       <option name="closed" value="true" />
@@ -827,7 +819,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730205221748</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="h">
+      <option name="closed" value="true" />
+      <created>1730292389105</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1730292389105</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

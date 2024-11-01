@@ -2,7 +2,7 @@ from __future__ import annotations
 from collections import UserList
 from f_abstract.mixins.nameable import Nameable
 from f_utils.dtypes.u_seq import USeq
-from typing import TypeVar, Callable
+from typing import TypeVar, Callable, Sequence
 
 Item = TypeVar('Item')
 
@@ -10,7 +10,7 @@ Item = TypeVar('Item')
 class Group(Nameable, UserList[Item]):
     """
     ============================================================================
-     Mixin-Class for objects with lists.
+     Group Data-Structure (Lists with Names and other utils).
     ============================================================================
     """
 
@@ -19,7 +19,7 @@ class Group(Nameable, UserList[Item]):
                  data: list[Item] = None) -> None:
         """
         ========================================================================
-         Initialize the Listable object with the given items.
+         Init private Attributes.
         ========================================================================
         """
         Nameable.__init__(self, name=name)
@@ -64,7 +64,9 @@ class Group(Nameable, UserList[Item]):
                               key=lambda item: self.data.index(item))
         return self.__class__(name=name, data=items_sorted)
 
-    def move(self, item: Item, index: int) -> None:
+    def move(self,
+             item: Item,
+             index: int) -> None:
         """
         ========================================================================
          Move the Item to the given Index (move others forward).
@@ -88,7 +90,7 @@ class Group(Nameable, UserList[Item]):
          Compare by the Name of the Group.
         ========================================================================
         """
-        return Nameable.key_comparison(self)
+        return [Nameable.key_comparison(self), self.data]
 
     def __iadd__(self, other: list[Item]) -> Group[Item]:
         """
@@ -96,7 +98,7 @@ class Group(Nameable, UserList[Item]):
          Add List of Items to the current Data.
         ========================================================================
         """
-        self.data += other
+        self.data.extend(other)
         return self
 
     def __str__(self) -> str:
@@ -107,5 +109,16 @@ class Group(Nameable, UserList[Item]):
         """
         return f'{Nameable.__str__(self)}{UserList.__str__(self)}'
 
-    def __eq__(self, other: Group) -> bool:
-        return str(self) == str(other)
+    @classmethod
+    def union(cls,
+              name: str,
+              groups: Sequence[Group[Item]]) -> Group[Item]:
+        """
+        ========================================================================
+         Generate a Group by union sequence of groups.
+        ========================================================================
+        """
+        group = Group(name=name)
+        for g in groups:
+            group += g.data
+        return group

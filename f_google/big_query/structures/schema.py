@@ -1,23 +1,25 @@
 from __future__ import annotations
-from f_ds.groups.group import Listable
+from f_ds.groups.group import Group
 from f_google.big_query.structures.field import Field
 from google.cloud.bigquery import SchemaField
 
 
-class Schema(Listable[Field]):
+class Schema(Group[Field]):
     """
     ============================================================================
      Schema of the BigQuery Table (Cols names and types).
     ============================================================================
     """
 
-    def __init__(self, data: list[Field] = None) -> None:
+    def __init__(self,
+                 name: str,
+                 data: list[Field] = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        Listable.__init__(self, data=data)
+        Group.__init__(self, name=name, data=data)
 
     def to_schema_fields(self) -> list[SchemaField]:
         """

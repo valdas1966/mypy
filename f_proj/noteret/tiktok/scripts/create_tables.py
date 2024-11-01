@@ -30,7 +30,14 @@ def followers_todo() -> None:
     BigQuery().create.table(tname=tname, schema=schema)
 
 
+def following_todo() -> None:
+    tname = Tables.FOLLOWING_TODO
+    schema = Schemas.following_todo()
+    BigQuery().create.table(tname=tname, schema=schema)
+
+
 # users()
 # users_snapshots()
-#followers()
-followers_todo()
+# followers()
+# followers_todo()
+following_todo()

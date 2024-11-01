@@ -7,3 +7,4 @@ class Tables:
     USERS_SNAPSHOTS = f'{_pre}.users_snapshots'
     FOLLOWERS = f'{_pre}.followers'
     FOLLOWERS_TODO = f'{_pre}.followers_todo'
+    FOLLOWING_TODO = f'{_pre}.following_todo'
