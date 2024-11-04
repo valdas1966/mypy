@@ -1,33 +1,20 @@
-class NodeA:
-    def __init__(self, x):
-        self._x = x
-    @property
-    def x(self):
-        return self._x
-
-
-class NodeB(NodeA):
-    @property
-    def x(self):
-        return self._x * self._x
+from typing import Type
 
 
 class A:
-    def __init__(self, node: NodeA):
-        self._node = node
-
-    def x(self):
-        return self._node.x
+    def __init__(self):
+        print('A')
 
 
 class B(A):
-    def x(self):
-        return self._node.x * self._node.x
+    def __init__(self):
+        A.__init__(self)
+        print('B')
 
 
-n_a = NodeA(x=2)
-n_b = NodeB(x=2)
+class C:
+    def __init__(self, tp: type[A]):
+        tp()
 
-c = A[NodeA](node=n_a)
-d = B[NodeB](node=n_b)
 
+c = C(tp=B)

@@ -1,5 +1,5 @@
 from f_graph.nodes.i_1_path import NodePath
-from f_ds.queues.i_0_base import QueueBase as Queue
+from f_ds.queues.factory import Queue
 from typing import Generic, TypeVar, Type
 from abc import ABC
 

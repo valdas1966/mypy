@@ -1,11 +1,14 @@
-from f_graph.ops.node import OpsNode, Problem, Data, Node
+from f_graph.ops.i_0_node_abc import OpsNodeABC, Problem, Data, Node
+from f_ds.queues.i_0_base import QueueBase as Queue
 from f_abstract.mixins.nameable import Nameable
 from f_abstract.mixins.validatable import Validatable
-from typing import Generic
+from typing import Generic, TypeVar, Type
 from abc import abstractmethod
 
+OpsNode = TypeVar('OpsNode', bound=OpsNodeABC)
 
-class AlgoPathABC(Generic[Problem, Data, Node], Nameable, Validatable):
+
+class AlgoPathABC(Generic[Problem, OpsNode, Data, Node], Nameable, Validatable):
     """
     ============================================================================
      Base-Class for Path-Algorithms.
@@ -14,6 +17,7 @@ class AlgoPathABC(Generic[Problem, Data, Node], Nameable, Validatable):
 
     def __init__(self,
                  problem: Problem,
+                 type_queue: Type[Queue],
                  name: str = None) -> None:
         """
         ========================================================================
@@ -22,6 +26,7 @@ class AlgoPathABC(Generic[Problem, Data, Node], Nameable, Validatable):
         """
         Nameable.__init__(self, name=name)
         Validatable.__init__(self)
+        self._type_queue = type_queue
         self._problem = problem
         self._data = self._create_data()
         self._ops_node = self._create_ops_node()
@@ -30,13 +35,13 @@ class AlgoPathABC(Generic[Problem, Data, Node], Nameable, Validatable):
     def _create_data(self) -> Data[Node]:
         pass
 
-    def _create_ops_node(self) -> OpsNode[Problem, Data, Node]:
+    def _create_ops_node(self) -> OpsNodeABC[Problem, Data, Node]:
         """
         ========================================================================
          Dependency Injection - Create an Operations-on-Nodes class.
         ========================================================================
         """
-        return OpsNode(problem=self._problem, data=self._data)
+        pass
 
     @abstractmethod
     def _search(self) -> None:

@@ -1,11 +1,11 @@
-from f_graph.ops.node import OpsNode, Problem, DataOneToOne
+from f_graph.ops.i_0_node_abc import OpsNodeABC, Problem, DataOneToOne
 from f_ai.hs.nodes.i_1_f import NodeF
 from typing import TypeVar, Callable
 
 Node = TypeVar('Node', bound=NodeF)
 
 
-class OpsNodeHS(OpsNode[Problem, Node]):
+class OpsNodeHS(OpsNodeABC[Problem, Node]):
     """
     ============================================================================
      Class for Node's Operations in PathFinding-Heuristic-Algorithms.
@@ -21,7 +21,7 @@ class OpsNodeHS(OpsNode[Problem, Node]):
          Init private Attributes.
         ========================================================================
         """
-        OpsNode.__init__(self, problem=problem, data=data)
+        OpsNodeABC.__init__(self, problem=problem, data=data)
         self._heuristics = heuristics
 
     def generate(self,
@@ -33,7 +33,7 @@ class OpsNodeHS(OpsNode[Problem, Node]):
         ========================================================================
         """
         node.h = self._heuristics(node)
-        OpsNode.generate(self, node=node, parent=parent)
+        OpsNodeABC.generate(self, node=node, parent=parent)
 
     def try_update(self,
                    child: Node,

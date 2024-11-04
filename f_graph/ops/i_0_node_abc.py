@@ -1,12 +1,13 @@
 from f_graph.problems.i_1_path import ProblemPath
 from f_graph.data.i_0_abc import DataABC, Node
 from typing import Generic, TypeVar
+from abc import ABC
 
 Problem = TypeVar('Problem', bound=ProblemPath)
 Data = TypeVar('Data', bound=DataABC)
 
 
-class OpsNode(Generic[Problem, Data, Node]):
+class OpsNodeABC(ABC, Generic[Problem, Data, Node]):
     """
     ============================================================================
      Class for Node's Operations in PathFinding-Algorithms.

@@ -1,12 +1,16 @@
-from f_graph.algos.i_0_abc import AlgoPathABC, Node, QueueBase
+from f_graph.algos.i_0_abc import AlgoPathABC, Queue, Node
 from f_graph.problems.i_2_one_to_one import ProblemOneToOne
+from f_graph.ops.i_1_node_one_to_one import OpsNodeOneToOne
+from f_graph.data.i_1_one_to_one import DataOneToOne
 from abc import abstractmethod
 from typing import TypeVar, Type
 
 Problem = TypeVar('Problem', bound=ProblemOneToOne)
+OpsNode = TypeVar('OpsNode', bound=OpsNodeOneToOne)
+Data = TypeVar('Data', bound=DataOneToOne)
 
 
-class AlgoOneToOneABC(AlgoPathABC[Problem, Node]):
+class AlgoOneToOneABC(AlgoPathABC[Problem, OpsNode, Data, Node]):
     """
     ============================================================================
      ABC for One-to-One Path Algorithm.
@@ -15,7 +19,7 @@ class AlgoOneToOneABC(AlgoPathABC[Problem, Node]):
 
     def __init__(self,
                  problem: Problem,
-                 type_queue: Type[QueueBase],
+                 type_queue: Type[Queue],
                  name: str = None) -> None:
         """
         ========================================================================
@@ -38,6 +42,9 @@ class AlgoOneToOneABC(AlgoPathABC[Problem, Node]):
     @abstractmethod
     def _construct_path(self, best: Node) -> bool:
         pass
+
+    def _create_data(self) -> Data[Node]:
+        self._data = Data()
 
     def _search(self) -> None:
         """
