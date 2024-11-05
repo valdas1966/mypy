@@ -30,6 +30,8 @@ class AlgoOneToOneABC(AlgoPathABC[Problem, OpsNode, Data, Node]):
         AlgoPathABC.__init__(self,
                              problem=problem,
                              type_queue=type_queue,
+                             type_data=DataOneToOne,
+                             type_ops_node=OpsNodeOneToOne,
                              name=name)
 
     def get_path(self) -> list[Node]:
@@ -42,9 +44,6 @@ class AlgoOneToOneABC(AlgoPathABC[Problem, OpsNode, Data, Node]):
     @abstractmethod
     def _construct_path(self, best: Node) -> bool:
         pass
-
-    def _create_data(self) -> Data[Node]:
-        self._data = Data()
 
     def _search(self) -> None:
         """

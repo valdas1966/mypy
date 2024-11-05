@@ -18,6 +18,8 @@ class AlgoPathABC(Generic[Problem, OpsNode, Data, Node], Nameable, Validatable):
     def __init__(self,
                  problem: Problem,
                  type_queue: Type[Queue],
+                 type_data: Type[Data],
+                 type_ops_node: Type[OpsNode],
                  name: str = None) -> None:
         """
         ========================================================================
@@ -26,22 +28,10 @@ class AlgoPathABC(Generic[Problem, OpsNode, Data, Node], Nameable, Validatable):
         """
         Nameable.__init__(self, name=name)
         Validatable.__init__(self)
-        self._type_queue = type_queue
         self._problem = problem
-        self._data = self._create_data()
-        self._ops_node = self._create_ops_node()
+        self._data = type_data(type_queue=type_queue)
+        self._ops_node = type_ops_node(problem=problem, data=self._data)
         self._search()
-
-    def _create_data(self) -> Data[Node]:
-        pass
-
-    def _create_ops_node(self) -> OpsNodeABC[Problem, Data, Node]:
-        """
-        ========================================================================
-         Dependency Injection - Create an Operations-on-Nodes class.
-        ========================================================================
-        """
-        pass
 
     @abstractmethod
     def _search(self) -> None:

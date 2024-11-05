@@ -1,9 +1,9 @@
-from f_graph.algos.one_to_one.i_1_cache import AlgoOneToOneCache, Problem, Node
+from f_graph.algos.one_to_one.i_1_cache import (AlgoOneToOneCache, Problem,
+                                                Data, OpsNode, Node)
 from f_ds.queues.i_1_fifo import QueueFIFO
-from typing import Callable
 
 
-class BFS_CACHE(AlgoOneToOneCache):
+class BFS_CACHE(AlgoOneToOneCache[Problem, Data, OpsNode, Node]):
     """
     ============================================================================
      Breadth-First-Search Algorithm with Cache object.

@@ -1,7 +1,8 @@
-from f_graph.algos.one_to_one.i_0_abc import AlgoOneToOneABC, Problem, Node
+from f_graph.algos.one_to_one.i_0_abc import (AlgoOneToOneABC, Problem,
+                                              Data, OpsNode, Node)
 
 
-class AlgoOneToOneCore(AlgoOneToOneABC[Problem, Node]):
+class AlgoOneToOneCore(AlgoOneToOneABC[Problem, Data, OpsNode, Node]):
     """
     ============================================================================
      Base-Algorithm for One-To-One paths problems.

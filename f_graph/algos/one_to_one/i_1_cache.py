@@ -1,10 +1,10 @@
-from f_graph.algos.one_to_one.i_0_abc import (AlgoOneToOneABC, Problem, Node,
-                                              QueueBase)
+from f_graph.algos.one_to_one.i_0_abc import (AlgoOneToOneABC, Problem, Data,
+                                              OpsNode, Node, Queue)
 from f_graph.cache.cache import Cache
 from typing import Type
 
 
-class AlgoOneToOneCache(AlgoOneToOneABC[Problem, Node]):
+class AlgoOneToOneCache(AlgoOneToOneABC[Problem, Data, OpsNode, Node]):
     """
     ============================================================================
      Base-Algorithm for One-To-One paths problems.
@@ -12,7 +12,7 @@ class AlgoOneToOneCache(AlgoOneToOneABC[Problem, Node]):
     """
     def __init__(self,
                  problem: Problem,
-                 type_queue: Type[QueueBase],
+                 type_queue: Type[Queue],
                  cache: set[Node],
                  name: str = None) -> None:
         """
