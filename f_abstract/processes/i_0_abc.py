@@ -1,30 +1,25 @@
 from abc import abstractmethod
 from f_abstract.mixins.nameable import Nameable
-from typing import Generic, TypeVar
-
-Result = TypeVar('Result')
+from f_abstract.mixins.validatable import Validatable
 
 
-class ProcessABC(Generic[Result], Nameable):
+class ProcessABC(Nameable, Validatable):
     """
     ============================================================================
      ABC of Process-Classes.
     ============================================================================
     """
 
-    def __init__(self, name: str = 'Process') -> None:
+    def __init__(self,
+                 name: str = 'Process') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         Nameable.__init__(self, name=name)
+        Validatable.__init__(self)
 
     @abstractmethod
-    def run(self, **kwargs) -> Result:
-        """
-        ========================================================================
-         ABC-Method that executes the Process and returns its Result.
-        ========================================================================
-        """
+    def run(self, **kwargs) -> None:
         pass

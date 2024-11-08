@@ -11,7 +11,7 @@ class ProcRowsToNestedGroup(ProcessABC[Result], NestedGroup[Item]):
     ============================================================================
     """
 
-    def __init__(self, name: str = 'Process Rows to Nested Group') -> None:
+    def __init__(self, name: str = 'Process: Rows to Nested Group') -> None:
         """
         ========================================================================
          Init private Attributes.

@@ -1,23 +1,28 @@
+from typing import Generic, TypeVar
 
-class Validatable:
+Output = TypeVar('Output')
+
+
+class HasOutput(Generic[Output]):
     """
     ============================================================================
-     Mixin-Class for Validatable Objects.
+     Mixin-Class for Processes with Output.
     ============================================================================
     """
 
-    def __init__(self, is_valid: bool = None) -> None:
+    def __init__(self) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._is_valid = is_valid
+        self._output: Output | None = None
 
-    def __bool__(self) -> bool:
+    @property
+    def output(self) -> Output:
         """
         ========================================================================
-         Return True if the Object is Valid.
+         Return the Process' Output.
         ========================================================================
         """
-        return self._is_valid
+        return self._output

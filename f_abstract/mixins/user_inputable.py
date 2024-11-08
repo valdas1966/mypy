@@ -2,7 +2,7 @@ from datetime import datetime
 from f_utils import u_input
 
 
-class Inputable:
+class UserInputable:
     """
     ============================================================================
      Mixin Class for printing list Prompt to the User and receive the Input.

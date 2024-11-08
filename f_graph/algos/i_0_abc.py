@@ -1,14 +1,18 @@
-from f_graph.ops.i_0_node_abc import OpsNodeABC, Problem, Data, Node
-from f_ds.queues.i_0_base import QueueBase as Queue
-from f_abstract.mixins.nameable import Nameable
-from f_abstract.mixins.validatable import Validatable
-from typing import Generic, TypeVar, Type
-from abc import abstractmethod
+from f_abstract.processes.i_1_output import ProcessOutput
+from f_abstract.mixins.has_input import HasInput
+from f_abstract.mixins.has_data import HasData
+from f_graph.problems.i_1_path import ProblemPath
+from typing import Generic, TypeVar
 
-OpsNode = TypeVar('OpsNode', bound=OpsNodeABC)
+Problem = TypeVar('Problem', bound=ProblemPath)
+Path = TypeVar('Path')
+Data = TypeVar('Data')
 
 
-class AlgoPathABC(Generic[Problem, OpsNode, Data, Node], Nameable, Validatable):
+class AlgoPathABC(Generic[Problem, Path, Data],
+                  ProcessOutput[Path],
+                  HasInput[Problem],
+                  HasData[Data]):
     """
     ============================================================================
      Base-Class for Path-Algorithms.
@@ -16,28 +20,14 @@ class AlgoPathABC(Generic[Problem, OpsNode, Data, Node], Nameable, Validatable):
     """
 
     def __init__(self,
-                 problem: Problem,
-                 type_queue: Type[Queue],
-                 type_data: Type[Data],
-                 type_ops_node: Type[OpsNode],
-                 name: str = None) -> None:
+                 input: Problem,
+                 data: Data,
+                 name: str = 'Path-Algorithm') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        Nameable.__init__(self, name=name)
-        Validatable.__init__(self)
-        self._problem = problem
-        self._data = type_data(type_queue=type_queue)
-        self._ops_node = type_ops_node(problem=problem, data=self._data)
-        self._search()
-
-    @abstractmethod
-    def _search(self) -> None:
-        """
-        ========================================================================
-         Execute the search process.
-        ========================================================================
-        """
-        pass
+        ProcessOutput.__init__(self, name=name)
+        HasInput.__init__(self, input=input)
+        HasData.__init__(self, data=data)
