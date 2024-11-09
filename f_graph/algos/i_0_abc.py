@@ -1,6 +1,4 @@
-from f_abstract.processes.i_1_output import ProcessOutput
-from f_abstract.mixins.has_input import HasInput
-from f_abstract.mixins.has_data import HasData
+from f_abstract.processes.i_2_algo import Algorithm
 from f_graph.problems.i_1_path import ProblemPath
 from typing import Generic, TypeVar
 
@@ -10,9 +8,7 @@ Data = TypeVar('Data')
 
 
 class AlgoPathABC(Generic[Problem, Path, Data],
-                  ProcessOutput[Path],
-                  HasInput[Problem],
-                  HasData[Data]):
+                  Algorithm[Problem, Path, Data]):
     """
     ============================================================================
      Base-Class for Path-Algorithms.
@@ -28,6 +24,7 @@ class AlgoPathABC(Generic[Problem, Path, Data],
          Init private Attributes.
         ========================================================================
         """
-        ProcessOutput.__init__(self, name=name)
-        HasInput.__init__(self, input=input)
-        HasData.__init__(self, data=data)
+        Algorithm.__init__(self,
+                           input=input,
+                           data=data,
+                           name=name)

@@ -5,21 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/has_data.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/mixins/has_input.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/processes/i_1_output.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_abstract/processes/mixins/has_output.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_abstract/processes/i_2_algo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/inputable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/user_inputable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/shared.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/study/s_inputable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/study/s_inputable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/validatable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/validatable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/processes/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/processes/i_0_abc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/processes/i_1_rows_to_groups.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/processes/i_3_rows_to_groups.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/processes/study/s_rows_to_nested_group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/processes/study/s_rows_to_nested_group.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_abstract/processes/testers/t_rows_to_nested_group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/processes/testers/t_rows_to_nested_group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/has.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_abstract/mixins/has_row_col.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_abstract/mixins/has_row_col.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/processes/nest_tuples_to_questions.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/myq/gsheets/processes/nest_tuples_to_questions.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,12 +33,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
-    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/valdas1966/mypy.git",
+    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>

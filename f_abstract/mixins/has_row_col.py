@@ -61,7 +61,6 @@ class HasRowCol(Nameable):
         return f'({self._row},{self._col})'
 
     def __hash__(self) -> int:
-        #0506892032 - Mati
         """
         ========================================================================
          Return Hash-Value by (Row, Col).
