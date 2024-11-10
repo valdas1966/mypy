@@ -1,19 +1,22 @@
 from f_graph.nodes.i_1_path import NodePath
-from f_ds.queues.factory import Queue
+from f_graph.problems.i_1_path import ProblemPath
+from f_ds.queues.i_0_base import QueueBase as Queue
 from typing import Generic, TypeVar, Type
-from abc import ABC
 
+Problem = TypeVar('Problem', bound=ProblemPath)
 Node = TypeVar('Node', bound=NodePath)
 
 
-class DataABC(ABC, Generic[Node]):
+class DataPath(Generic[Problem, Node]):
     """
     ============================================================================
      ABC of Data objects for Path-Algorithms (Generated and Explored sets).
     ============================================================================
     """
 
-    def __init__(self, type_queue: Type[Queue]) -> None:
+    def __init__(self,
+                 problem: Problem,
+                 type_queue: Type[Queue]) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -21,24 +24,7 @@ class DataABC(ABC, Generic[Node]):
         """
         self._generated: Queue[Node] = type_queue()
         self._explored: set[Node] = set()
-
-    @property
-    def generated(self) -> Queue:
-        """
-        ========================================================================
-         Return list Queue of generated nodes.
-        ========================================================================
-        """
-        return self._generated
-
-    @property
-    def explored(self) -> set[Node]:
-        """
-        ========================================================================
-         Return list Set of explored nodes.
-        ========================================================================
-        """
-        return self._explored
+        self._goals_active: set[Node] = problem.goals
 
     def mark_generated(self, node: Node) -> None:
         """
@@ -71,3 +57,11 @@ class DataABC(ABC, Generic[Node]):
         ========================================================================
         """
         return node in self._explored
+
+    def remove_goal_active(self, goal: Node) -> None:
+        """
+        ========================================================================
+         Remove a Goal from an Active-Goals set.
+        ========================================================================
+        """
+        self._goals_active.remove(goal)

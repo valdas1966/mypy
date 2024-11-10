@@ -1,20 +1,22 @@
-from f_graph.problems.i_1_path import ProblemPath
-from f_graph.data.i_0_abc import DataABC, Node
+from f_graph.problems.i_1_path import ProblemPath, NodePath
+from f_graph.data.i_0_path import DataPath
 from typing import Generic, TypeVar
-from abc import ABC
 
 Problem = TypeVar('Problem', bound=ProblemPath)
-Data = TypeVar('Data', bound=DataABC)
+Data = TypeVar('Data', bound=DataPath)
+Node = TypeVar('Node', bound=NodePath)
 
 
-class OpsNodeABC(ABC, Generic[Problem, Data, Node]):
+class OpsNodeABC(Generic[Problem, Data, Node]):
     """
     ============================================================================
      Class for Node's Operations in PathFinding-Algorithms.
     ============================================================================
     """
 
-    def __init__(self, problem: Problem, data: Data) -> None:
+    def __init__(self,
+                 problem: Problem,
+                 data: Data) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -45,16 +47,6 @@ class OpsNodeABC(ABC, Generic[Problem, Data, Node]):
             self._process_child(child=child, parent=node)
         self._data.mark_explored(node=node)
 
-    def try_update(self,
-                   child: Node,
-                   parent: Node) -> None:
-        """
-        ========================================================================
-         No Update on Default.
-        ========================================================================
-        """
-        pass
-
     def _process_child(self,
                        child: Node,
                        parent: Node) -> None:
@@ -66,6 +58,5 @@ class OpsNodeABC(ABC, Generic[Problem, Data, Node]):
         if self._data.is_explored(node=child):
             return
         if self._data.is_generated(node=child):
-            self.try_update(child=child, parent=parent)
-        else:
-            self.generate(node=child, parent=parent)
+            return
+        self.generate(node=child, parent=parent)
