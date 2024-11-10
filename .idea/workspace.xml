@@ -5,19 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_graph/paths/path.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/hs/ops/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/ops/node.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/factory.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/data/i_0_path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/i_1_one_to_many.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/i_1_one_to_one.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/study/s_1_one_to_many.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/testers/t_0_one_to_one.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/data/testers/t_one_to_many.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/ops/i_0_node_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/ops/i_0_path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/ops/i_1_node_one_to_many.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/ops/i_1_node_one_to_one.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/problems/i_0_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/problems/i_0_graph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/study/s_astar_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/study/s_astar_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_0_abc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_abc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_2_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/i_1_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/study/s_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/study/s_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_2_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_2_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/ops/i_0_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/ops/i_0_path.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,12 +38,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "ddaa2239-897e-4e37-90b9-04afc5364900"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
+    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -308,11 +305,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\mypy\f_graph\algos" />
+      <recent name="D:\mypy\f_graph\paths" />
+      <recent name="D:\mypy\f_graph" />
       <recent name="D:\mypy\f_abstract\mixins" />
       <recent name="D:\mypy\f_abstract\processes\mixins" />
-      <recent name="D:\mypy\f_ds\mixins" />
-      <recent name="D:\mypy\f_ds" />
-      <recent name="D:\mypy\f_ai\hs\algos" />
     </key>
   </component>
   <component name="RunManager" selected="Python.s_group">
@@ -451,14 +448,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00023" summary="h">
-      <option name="closed" value="true" />
-      <created>1725194485111</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1725194485111</updated>
     </task>
     <task id="LOCAL-00024" summary="h">
       <option name="closed" value="true" />
@@ -844,7 +833,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731130700440</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="h">
+      <option name="closed" value="true" />
+      <created>1731246555194</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1731246555194</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

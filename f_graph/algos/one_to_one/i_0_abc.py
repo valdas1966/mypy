@@ -1,4 +1,4 @@
-from f_graph.algos.i_0_abc import AlgoPathABC, Queue, Node
+from f_graph.algos.i_0_abc import AlgoPath, Queue, Node
 from f_graph.problems.i_2_one_to_one import ProblemOneToOne
 from f_graph.ops.i_1_node_one_to_one import OpsNodeOneToOne
 from f_graph.data.i_1_one_to_one import DataOneToOne
@@ -10,7 +10,7 @@ OpsNode = TypeVar('OpsNode', bound=OpsNodeOneToOne)
 Data = TypeVar('Data', bound=DataOneToOne)
 
 
-class AlgoOneToOneABC(AlgoPathABC[Problem, OpsNode, Data, Node]):
+class AlgoOneToOneABC(AlgoPath[Problem, OpsNode, Data, Node]):
     """
     ============================================================================
      ABC for One-to-One Path Algorithm.
@@ -27,12 +27,12 @@ class AlgoOneToOneABC(AlgoPathABC[Problem, OpsNode, Data, Node]):
         ========================================================================
         """
         self._path: list[Node] = list()
-        AlgoPathABC.__init__(self,
-                             problem=problem,
-                             type_queue=type_queue,
-                             type_data=DataOneToOne,
-                             type_ops_node=OpsNodeOneToOne,
-                             name=name)
+        AlgoPath.__init__(self,
+                          problem=problem,
+                          type_queue=type_queue,
+                          type_data=DataOneToOne,
+                          type_ops_node=OpsNodeOneToOne,
+                          name=name)
 
     def get_path(self) -> list[Node]:
         return self._path

@@ -7,7 +7,7 @@ Data = TypeVar('Data', bound=DataPath)
 Node = TypeVar('Node', bound=NodePath)
 
 
-class OpsNodeABC(Generic[Problem, Data, Node]):
+class OpsPath(Generic[Problem, Data, Node]):
     """
     ============================================================================
      Class for Node's Operations in PathFinding-Algorithms.
