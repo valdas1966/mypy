@@ -10,12 +10,12 @@ Item = TypeVar('Item')
 class Group(Nameable, UserList[Item]):
     """
     ============================================================================
-     Group Data-Structure (Lists with Names and other utils).
+     Group Data-Structure (A named list with utility functions).
     ============================================================================
     """
 
     def __init__(self,
-                 name: str = None,
+                 name: str = 'Group',
                  data: list[Item] = None) -> None:
         """
         ========================================================================
@@ -24,52 +24,40 @@ class Group(Nameable, UserList[Item]):
         """
         Nameable.__init__(self, name=name)
         UserList.__init__(self, data or list())
+        self._data = data
 
     def filter(self,
                predicate: Callable[[Item], bool],
                name: str = None) -> Group[Item]:
         """
         ========================================================================
-         Return List of Items that met the Predicate.
+         Return a filtered Group of items that meet the predicate.
         ========================================================================
         """
         data = USeq.items.filter(seq=self.data, predicate=predicate)
         return self.__class__(name=name, data=data)
 
     def sample(self,
-               pct: int = None,
                size: int = None,
-               name: str = None) -> Group[Item]:
+               pct: int = None,
+               name: str = None,
+               preserve_order: bool = False) -> Group[Item]:
         """
         ========================================================================
-         Return Sample List of Items by Pct/Size and Predicate.
+         Return a sampled Group of items by size or percentage.
         ========================================================================
         """
-        data = USeq.items.sample(seq=self.data, pct=pct, size=size)
+        data = USeq.items.sample(seq=self.data, size=size, pct=pct)
+        if preserve_order:
+            data = sorted(data, key=lambda item: self.data.index(item))
         return self.__class__(name=name, data=data)
-
-    def sample_sorted(self,
-                      size: int = None,
-                      pct: int = None,
-                      name: str = None) -> Group[Item]:
-        """
-        ========================================================================
-         Return Sample List of Items by Pct/Size and Predicate in Ascending Order.
-         If items are not Comparable, sort by their index in the Group.
-        ========================================================================
-        """
-        # Get a random sample
-        items = USeq.items.sample(seq=self.data, size=size, pct=pct)
-        items_sorted = sorted(items,
-                              key=lambda item: self.data.index(item))
-        return self.__class__(name=name, data=items_sorted)
 
     def move(self,
              item: Item,
              index: int) -> None:
         """
         ========================================================================
-         Move the Item to the given Index (move others forward).
+         Move the item to the given index (move others forward).
         ========================================================================
         """
         self.remove(item)
@@ -78,7 +66,7 @@ class Group(Nameable, UserList[Item]):
     def display(self) -> None:
         """
         ========================================================================
-         Print the List values in rows.
+         Print the list values in rows.
         ========================================================================
         """
         for item in self.data:
@@ -87,7 +75,7 @@ class Group(Nameable, UserList[Item]):
     def key_comparison(self) -> list:
         """
         ========================================================================
-         Compare by the Name of the Group.
+         Compare first by the name of the Group, and second by its Data.
         ========================================================================
         """
         return [Nameable.key_comparison(self), self.data]
@@ -95,7 +83,7 @@ class Group(Nameable, UserList[Item]):
     def __iadd__(self, other: list[Item]) -> Group[Item]:
         """
         ========================================================================
-         Add List of Items to the current Data.
+         Add a list of items to the current data.
         ========================================================================
         """
         self.data.extend(other)
@@ -104,10 +92,10 @@ class Group(Nameable, UserList[Item]):
     def __str__(self) -> str:
         """
         ========================================================================
-         Return Object's STR-REPR.
+         Return the string representation of the Group.
         ========================================================================
         """
-        return f'{Nameable.__str__(self)}{UserList.__str__(self)}'
+        return f'{Nameable.__str__(self)}{self.data}'
 
     @classmethod
     def union(cls,
@@ -115,7 +103,7 @@ class Group(Nameable, UserList[Item]):
               groups: Sequence[Group[Item]]) -> Group[Item]:
         """
         ========================================================================
-         Generate a Group by union sequence of groups.
+         Generate a Group by union of a sequence of Groups.
         ========================================================================
         """
         group = Group(name=name)

@@ -1,9 +1,8 @@
 from abc import abstractmethod
-from typing import TypeVar, Generic, Callable
+from typing import TypeVar, Generic
 from f_abstract.mixins.nameable import Nameable
 from f_abstract.mixins.groupable import Groupable, Group
 from f_graph.nodes.i_0_base import NodeBase
-
 
 Node = TypeVar('Node', bound=NodeBase)
 
@@ -48,24 +47,3 @@ class GraphBase(Generic[Node], Groupable[Node], Nameable):
         ========================================================================
         """
         return Group(name=name, data=self.nodes())
-
-    def filter(self,
-               predicate: Callable[[Node], bool],
-               name: str = None) -> Group[Node]:
-        """
-        ========================================================================
-         Return a Group of Nodes that meet the given Predicate.
-        ========================================================================
-        """
-        return self.to_group().filter(predicate=predicate, name=name)
-
-    def sample(self,
-               size: int = None,
-               pct: int = None,
-               name: str = None) -> Group[Node]:
-        """
-        ========================================================================
-         Return a random Group of Nodes by the received Siz/Percentage.
-        ========================================================================
-        """
-        return self.to_group().sample(size=size, pct=pct, name=name)

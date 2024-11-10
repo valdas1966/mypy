@@ -13,7 +13,7 @@ class ProblemGraph(ABC, Generic[Graph, Node]):
     ============================================================================
     """
 
-    def __init__(self, graph: Graph) -> None:
+    def __init__(self, graph: Graph[Node]) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -22,5 +22,5 @@ class ProblemGraph(ABC, Generic[Graph, Node]):
         self._graph = graph
 
     @property
-    def graph(self) -> Graph:
+    def graph(self) -> Graph[Node]:
         return self._graph
