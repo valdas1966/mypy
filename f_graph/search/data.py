@@ -1,0 +1,40 @@
+from f_ds.queues.i_0_base import QueueBase as Queue
+from f_graph.nodes.i_1_path import NodePath
+from collections.abc import Collection
+from typing import Generic, TypeVar, Type
+
+Node = TypeVar('Node', bound=NodePath)
+
+
+class Data(Generic[Node]):
+
+    def __init__(self,
+                 type_queue: Type[Queue],
+                 goals: Collection[Node]) -> None:
+        self._generated: Queue[Node] = type_queue()
+        self._explored: set[Node] = set()
+        self._goals_active: set[Node] = set(goals)
+
+    def mark_generated(self, node: Node) -> None:
+        self._generated.push(item=node)
+
+    def mark_explored(self, node: Node) -> None:
+        self._explored.add(node)
+
+    def is_generated(self, node: Node) -> bool:
+        return node in self._generated
+
+    def is_explored(self, node: Node) -> bool:
+        return node in self._explored
+
+    def is_active_goal(self, node: Node) -> bool:
+        return node in self._goals_active
+
+    def remove_active_goal(self, goal: Node) -> None:
+        self._goals_active.remove(goal)
+
+    def has_generated(self) -> bool:
+        return bool(self._generated)
+
+    def has_active_goals(self) -> bool:
+        return bool(self._goals_active)

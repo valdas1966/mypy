@@ -1,4 +1,4 @@
-from f_graph.problems.i_1_path import ProblemPath
+from f_graph.search.problem import Problem
 from f_graph.graphs.u_1_grid import UGraphGrid, NodePathCell as Node
 from typing import Type
 
@@ -14,7 +14,7 @@ class GenProblemPath:
     def random(rows: int = 100,
                pct_valid: int = 75,
                goals: int = 1,
-               type_node: Type[Node] = Node) -> ProblemPath:
+               type_node: Type[Node] = Node) -> Problem:
         """
         ========================================================================
          Generate a random Path-Problem.
@@ -24,10 +24,10 @@ class GenProblemPath:
                                     pct_valid=pct_valid,
                                     type_node=type_node)
         start, *goals = graph.sample(size=goals+1)
-        return ProblemPath(graph=graph, start=start, goals=goals)
+        return Problem(graph=graph, start=start, goals=goals)
 
     @staticmethod
-    def one_goal_3x3(type_node: Type[Node] = Node) -> ProblemPath:
+    def one_goal_3x3(type_node: Type[Node] = Node) -> Problem:
         """
         ========================================================================
          Generate a classic One-to-One problem on small grid (3x3) without
@@ -39,10 +39,10 @@ class GenProblemPath:
                                     type_node=type_node)
         start = graph[0, 0]
         goals = {graph[2, 2]}
-        return ProblemPath(graph=graph, start=start, goals=goals)
+        return Problem(graph=graph, start=start, goals=goals)
 
     @staticmethod
-    def multi_goals_3x3(type_node: Type[Node] = Node) -> ProblemPath:
+    def multi_goals_3x3(type_node: Type[Node] = Node) -> Problem:
         """
         ========================================================================
          Generate a classic One-to-Many problem on small grid (3x3) without
@@ -54,4 +54,4 @@ class GenProblemPath:
                                     type_node=type_node)
         start = graph[0, 0]
         goals = {graph[0, 2], graph[2, 2]}
-        return ProblemPath(graph=graph, start=start, goals=goals)
+        return Problem(graph=graph, start=start, goals=goals)

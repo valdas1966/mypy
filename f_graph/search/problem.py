@@ -7,8 +7,8 @@ Graph = TypeVar('Graph', bound=GraphBase)
 Node = TypeVar('Node', bound=NodePath)
 
 
-class ProblemPath(Generic[Graph, Node],
-                  ProblemGraph[Graph, Node]):
+class Problem(Generic[Graph, Node],
+              ProblemGraph[Graph, Node]):
     """
     ============================================================================
      Graph-Path Problem.

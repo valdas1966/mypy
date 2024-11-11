@@ -1,12 +1,12 @@
 from f_abstract.processes.i_3_algo import Algorithm
-from f_graph.problems.i_1_path import ProblemPath
-from f_graph.data.i_0_path import DataPath
-from f_graph.ops.i_0_path import OpsPath
+from f_graph.search.problem import Problem
+from f_graph.search.data import DataPath
+from f_graph.search.ops import OpsPath
 from f_graph.nodes.i_1_path import NodePath
-from f_graph.paths.path import PathBasic
+from f_graph.search.path import PathBasic
 from typing import Generic, TypeVar
 
-Problem = TypeVar('Problem', bound=ProblemPath)
+Problem = TypeVar('Problem', bound=Problem)
 Node = TypeVar('Node', bound=NodePath)
 Path = TypeVar('Path', bound=PathBasic)
 Data = TypeVar('Data', bound=DataPath)
@@ -22,7 +22,7 @@ class AlgoPath(Generic[Problem, Path, Data, Ops],
     """
 
     def __init__(self,
-                 input: Problem,
+                 problem: Problem,
                  data: Data,
                  ops: Ops,
                  name: str = 'Path-Algorithm') -> None:
@@ -32,7 +32,18 @@ class AlgoPath(Generic[Problem, Path, Data, Ops],
         ========================================================================
         """
         Algorithm.__init__(self,
-                           input=input,
+                           input=problem,
                            data=data,
                            ops=ops,
                            name=name)
+
+    def run(self) -> Path:
+        self._ops.generate(node=self._input.start)
+        while not self._data.has_generated():
+            best = self._data.pop_best_generated()
+            if self._data.is_active_goal(node=best):
+                self._data.remove_goal_active(goal=best)
+                if not self._data.has_active_goals():
+                    self._is_valid = True
+                    return PathBasic()
+                self._ops.explore(node=best)

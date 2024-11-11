@@ -4,7 +4,8 @@ from f_graph.search.data import DataPath
 from f_graph.search.ops import OpsPath
 from f_graph.search.path import PathBasic
 from f_graph.nodes.i_1_path import NodePath
-from typing import Generic, TypeVar
+from f_ds.queues.i_1_fifo import QueueFIFO
+from typing import TypeVar
 
 Problem = TypeVar('Problem', bound=Problem)
 Path = TypeVar('Path', bound=PathBasic)
@@ -13,22 +14,16 @@ Ops = TypeVar('Ops', bound=OpsPath)
 Node = TypeVar('Node', bound=NodePath)
 
 
-class BFS(Generic[Problem, Path, Data, Ops],
-          AlgoPath[Problem, Path, Data, Ops]):
+class UAlgos:
     """
     ============================================================================
-     Breadth-First-Search Algorithm.
+     Path-Algorithms Generator.
     ============================================================================
     """
 
-    def __init__(self,
-                 input: Problem,
-                 data: Data,
-                 ops: Ops,
-                 name: str = 'BFS') -> None:
-        """
-        ========================================================================
-         Init private Attributes.
-        ========================================================================
-        """
-        AlgoPath.__init__(self, input=input, data=data, ops=ops, name=name)
+    @staticmethod
+    def bfs(problem: Problem, name: str = 'BFS') -> AlgoPath:
+        path = PathBasic()
+        data = DataPath(problem=problem, type_queue=QueueFIFO)
+        ops = OpsPath(problem=problem, data=data)
+        return AlgoPath(problem=problem, data=data, ops=ops, name=name)

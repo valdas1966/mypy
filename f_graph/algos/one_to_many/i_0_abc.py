@@ -1,4 +1,4 @@
-from f_graph.data.i_1_one_to_many import DataOneToMany, ProblemOneToMany
+from f_graph.search.data import ProblemOneToMany
 from f_graph.algos.i_0_abc import AlgoPath, QueueBase, NodePath
 from typing import Type, TypeVar
 
