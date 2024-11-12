@@ -1,8 +1,8 @@
 from f_graph.algos.i_0_abc import AlgoPath
-from f_graph.search.problem import Problem
-from f_graph.search.data import DataPath
-from f_graph.search.ops import OpsPath
-from f_graph.search.path import PathBasic
+from f_graph.path_finding.problem import Problem
+from f_graph.path_finding.data import DataPath
+from f_graph.path_finding.ops import OpsPath
+from f_graph.path_finding.path import PathBasic
 from f_graph.nodes.i_1_path import NodePath
 from typing import Generic, TypeVar
 

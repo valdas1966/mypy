@@ -1,5 +1,5 @@
-from f_graph.search.protocols.data import ProtocolData
-from f_graph.search.problem import Problem
+from f_graph.path_finding.protocols.data import ProtocolData
+from f_graph.path_finding.problem import Problem
 from f_graph.nodes.i_1_path import NodePath
 from typing import Generic, TypeVar
 

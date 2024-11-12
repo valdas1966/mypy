@@ -1,6 +1,6 @@
 from f_graph.algos.one_to_one.i_0_abc import (AlgoOneToOneABC, Problem, Data,
                                               OpsNode, Node, Queue)
-from f_graph.search.cache.cache import Cache
+from f_graph.path_finding.cache.cache import Cache
 from typing import Type
 
 

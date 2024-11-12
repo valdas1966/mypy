@@ -1,26 +1,25 @@
-from f_graph.search.protocols.problem_graph import ProtocolProblemGraph, Graph, Node
-from typing import Protocol
+from typing import Protocol, TypeVar
+
+Item = TypeVar('Item')
 
 
-class ProtocolProblemPath(Protocol, ProtocolProblemGraph[Graph, Node]):
+class ProtocolQueue(Protocol[Item]):
     """
     ============================================================================
-     Protocol for Path-Problems in Computer-Science.
+     Protocol for a basic Queue.
     ============================================================================
     """
 
-    @property
-    def start(self) -> Node:
+    def pop(self) -> Item:
         """
         ========================================================================
-         Return the Start-Node of the Problem.
+         Pop an Item from the Queue.
         ========================================================================
         """
 
-    @property
-    def goals(self) -> set[Node]:
+    def push(self, item: Item) -> None:
         """
         ========================================================================
-         Return the Goal-Nodes of the Problem.
+         Push an Item to the Queue.
         ========================================================================
         """
