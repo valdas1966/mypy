@@ -2,7 +2,8 @@ from f_graph.path_finding.protocols.problem_graph import ProtocolProblemGraph, G
 from typing import Protocol
 
 
-class ProtocolProblemPath(Protocol, ProtocolProblemGraph[Graph, Node]):
+class ProtocolProblemPath(Protocol[Graph, Node],
+                          ProtocolProblemGraph[Graph, Node]):
     """
     ============================================================================
      Protocol for Path-Problems in Computer-Science.

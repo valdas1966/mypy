@@ -5,33 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_ds/queues/protocols/queue.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/protocols/collectionable.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path_finding/algo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path_finding/protocols/path.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers/t_astar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers/t_astar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/hs/ops/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/ops/node.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/hs/ops/node_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/ops/node_cache.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/i_1_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/i_1_bfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_many/i_0_abc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_abc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_1_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_1_cache.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/study/s_2_bfs_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/study/s_2_bfs_cache.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/study/s_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/study/s_bfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_2_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_2_bfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_2_bfs_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_2_bfs_cache.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/u_algos.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/u_algos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/search/cache/cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/cache/cache.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/search/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/search/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/ops.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/search/path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/search/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/problem.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/search/protocols/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/protocols/data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/search/protocols/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/protocols/ops.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/search/protocols/problem_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/protocols/problem_graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/search/protocols/problem_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/protocols/problem_path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/search/u_problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/u_problem.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_dir.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_dir.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_file.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/protocols/queue.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/protocols/queue.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/protocols/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/protocols/ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/protocols/problem_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/protocols/problem_path.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -322,11 +304,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\mypy\f_ds" />
       <recent name="D:\mypy\f_graph\search" />
       <recent name="D:\mypy\f_graph\algos" />
       <recent name="D:\mypy\f_graph\paths" />
       <recent name="D:\mypy\f_graph" />
-      <recent name="D:\mypy\f_abstract\mixins" />
     </key>
   </component>
   <component name="RunManager" selected="Python.s_group">
@@ -465,14 +447,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00026" summary="h">
-      <option name="closed" value="true" />
-      <created>1726775034808</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1726775034808</updated>
     </task>
     <task id="LOCAL-00027" summary="h">
       <option name="closed" value="true" />
@@ -858,7 +832,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731358620418</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="h">
+      <option name="closed" value="true" />
+      <created>1731416070781</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1731416070781</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

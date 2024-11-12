@@ -1,7 +1,7 @@
-from f_ds.queues.protocols.queue import ProtocolQueue
+from f_ds.protocols.queue import ProtocolQueue
 from f_graph.nodes.i_1_path import NodePath
 from collections.abc import Collection
-from typing import Generic, TypeVar, Type
+from typing import Generic, TypeVar
 
 Node = TypeVar('Node', bound=NodePath)
 

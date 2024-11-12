@@ -1,9 +1,10 @@
+from f_ds.protocols.collectionable import ProtocolCollectionable
 from typing import Protocol, TypeVar
 
 Item = TypeVar('Item')
 
 
-class ProtocolQueue(Protocol[Item]):
+class ProtocolQueue(Protocol[Item], ProtocolCollectionable[Item]):
     """
     ============================================================================
      Protocol for a basic Queue.

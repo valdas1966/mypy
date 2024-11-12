@@ -4,23 +4,16 @@ from typing import Protocol, TypeVar
 Node = TypeVar('Node', bound=NodePath)
 
 
-class ProtocolOps(Protocol[Node]):
+class ProtocolPath(Protocol[Node]):
     """
     ============================================================================
-     Protocol of Operations object if Path-Finding Algorithms.
+     Protocol for solutions of Path-Finding Algorithms (an optimal-path).
     ============================================================================
     """
 
-    def generate(self, node: Node, parent: Node = None) -> None:
+    def get(self, node: Node) -> list[Node]:
         """
         ========================================================================
-         Generate a Node.
-        ========================================================================
-        """
-
-    def explore(self, node: Node) -> None:
-        """
-        ========================================================================
-         Explore a Node.
+         Return an Optimal-Path from a Start-Node to a given Node.
         ========================================================================
         """
