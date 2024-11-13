@@ -5,15 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_ds/protocols/collectionable.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path_finding/algo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path_finding/protocols/path.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_cs/algo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/queues/protocols/queue.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/protocols/queue.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/ops.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/protocols/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/protocols/ops.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/protocols/problem_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/protocols/problem_path.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -304,11 +297,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\mypy\cs" />
       <recent name="D:\mypy\f_ds" />
       <recent name="D:\mypy\f_graph\search" />
       <recent name="D:\mypy\f_graph\algos" />
       <recent name="D:\mypy\f_graph\paths" />
-      <recent name="D:\mypy\f_graph" />
     </key>
   </component>
   <component name="RunManager" selected="Python.s_group">
@@ -447,14 +440,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00027" summary="h">
-      <option name="closed" value="true" />
-      <created>1727020810087</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1727020810087</updated>
     </task>
     <task id="LOCAL-00028" summary="h">
       <option name="closed" value="true" />
@@ -840,7 +825,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731416070781</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="h">
+      <option name="closed" value="true" />
+      <created>1731429518983</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1731429518983</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
