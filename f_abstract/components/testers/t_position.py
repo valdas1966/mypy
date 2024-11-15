@@ -1,6 +1,6 @@
 import pytest
-from f_abstract.components.ltwh import LTWH
-from f_abstract.components.position import Position
+from f_gui.components.ltwh import LTWH
+from f_gui.components.position import Position
 
 
 @pytest.fixture

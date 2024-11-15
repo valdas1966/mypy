@@ -48,5 +48,6 @@ class SheetGroup(SheetBase, Excludable):
                                        col_last=SheetGroup._COL_VALUE)
         # Convert Tuples into Nested-Group and return the Result
         process = ProcNestTuplesToQuestions(type_question=self.type_question,
-                                            exclude=self._exclude)
-        return process.run(name_nested=self._sheet.title, rows=tuples)
+                                            exclude=self._exclude,
+                                            rows=tuples)
+        return process.run()

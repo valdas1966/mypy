@@ -1,6 +1,6 @@
 from typing import Sequence
-from f_abstract.processes.i_3_rows_to_groups import (RowsToNestedGroup,
-                                                     NestedGroup, Group)
+from f_ds.groups.processes.nested.from_rows import (RowsToNestedGroup,
+                                                    NestedGroup, Group)
 
 
 class C(RowsToNestedGroup):

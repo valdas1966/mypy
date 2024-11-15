@@ -4,7 +4,7 @@ from typing import Protocol, TypeVar
 Node = TypeVar('Node', bound=NodePath)
 
 
-class ProtocolOps(Protocol[Node]):
+class Ops(Protocol[Node]):
     """
     ============================================================================
      Protocol of Operations object if Path-Finding Algorithms.

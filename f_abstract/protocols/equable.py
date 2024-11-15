@@ -1,28 +1,24 @@
-from f_graph.graphs.i_0_base import GraphBase, NodeBase
-from typing import Protocol, TypeVar
-
-Graph = TypeVar('Graph', bound=GraphBase)
-Node = TypeVar('Node', bound=NodeBase)
+from __future__ import annotations
+from typing import Protocol
 
 
-class ProtocolProblemGraph(Protocol[Graph, Node]):
+class Equable(Protocol):
     """
     ============================================================================
-     Protocol of Graph-Problems in Computer Science.
+     Protocol that supports equality checks.
     ============================================================================
     """
 
-    @property
-    def graph(self) -> Graph:
+    def __eq__(self, other: Equable) -> bool:
         """
         ========================================================================
-         Return a Graph of the Problem.
+         Return True if the Object is equals to the other Object.
         ========================================================================
         """
 
-    def get_neighbors(self, node: Node) -> list[Node]:
+    def __ne__(self, other: Equable) -> bool:
         """
         ========================================================================
-         Return a List of Node's Neighbors in the Graph.
+         Return False if the Object is equals to the other Object.
         ========================================================================
         """

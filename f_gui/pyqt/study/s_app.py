@@ -1,38 +1,30 @@
 from f_gui.pyqt.app import App
-from f_gui.pyqt.window import Window
+from f_gui.pyqt.container import Container
 from f_gui.pyqt.widgets.label import Label
-from f_gui.pyqt.widgets.text_box import TextBox
-from PyQt5.QtWidgets import QWidget
 
 
-def on_enter() -> None:
-    print('Enter key was pressed!')
+def get_container(name: str, color: str) -> Container:
+    con = Container(name=name)
+    con.background = color
+    return con
 
 
-def create_question() -> Label:
-    question = Label('Question')
-    question.background = 'white'
-    question.text = 'Hello'
-    question.font.family = 'heebo'
-    question.font.is_bold = True
-    question.font.size = 48
-    return question
+def get_red_container() -> Container:
+    con = get_container(name='Red', color='Red')
+    con.position.relative = (0.5, 0.5, 0.5, 0.5)
+    label = Label()
+    label.text = 'Label'
+    label.position.relative = (0.25, 0.25, 0.5, 0.5)
+    con.add(child=label)
+    return con
 
 
-def create_answer() -> TextBox:
-    answer = TextBox('Answer')
-    answer.background = 'white'
-    answer.font.family = 'heebo'
-    answer.font.is_bold = True
-    answer.font.size = 48
-    answer.set_on_enter(callback=on_enter)
-    return answer
-
-
-app = App('Myq')
-app.background = 'black'
-app.add(child=create_question(),
-        rel_x=10, rel_y=30, rel_width=80, rel_height=15)
-app.add(child=create_answer(),
-        rel_x=10, rel_y=50, rel_width=80, rel_height=15)
+app = App(name='Test')
+con_blue = get_container('Blue', 'Blue')
+con_blue.position.relative = (0, 0, 0.5, 0.5)
+app.add(con_blue)
+con_red = get_red_container()
+app.add(con_red)
 app.run()
+
+

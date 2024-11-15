@@ -4,7 +4,10 @@ from typing import Generic, TypeVar
 Node = TypeVar('Node', bound=NodePath)
 
 
-class PathBasic(Generic[Node]):
+class Path(Generic[Node]):
+
+    def __init__(self, goals: set[Node]) -> None:
+        self._goals = goals
 
     def get(self, goal: Node) -> list[Node]:
-        return goal.path_from_start()
+        return self._goals[goal].path_from_start()

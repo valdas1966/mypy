@@ -1,10 +1,11 @@
 from typing import Generic, TypeVar
 from f_abstract.mixins.printable import Printable
+from f_abstract.mixins.comparable import Comparable
 
-T = TypeVar('T')
+T = TypeVar('T', int, float)
 
 
-class LTWH(Generic[T], Printable):
+class LTWH(Generic[T], Printable, Comparable):
     """
     ============================================================================
     Component Class to store LTWH values (Left, Top, Width, Height).
@@ -21,10 +22,10 @@ class LTWH(Generic[T], Printable):
          Init private Attributes.
         ========================================================================
         """
-        self._left = left
-        self._top = top
-        self._width = width
-        self._height = height
+        self._left: T = left
+        self._top: T = top
+        self._width: T = width
+        self._height: T = height
 
     @property
     def left(self) -> T:
@@ -42,14 +43,21 @@ class LTWH(Generic[T], Printable):
     def height(self) -> T:
         return self._height
 
-    @property
-    def values(self) -> tuple[T, T, T, T]:
+    def to_tuple(self) -> tuple[T, T, T, T]:
         """
         ========================================================================
          Return the Top, Left, Width, Height values.
         ========================================================================
         """
         return self.left, self.top, self.width, self.height
+
+    def key_comparison(self) -> list:
+        """
+        ========================================================================
+         Compare by the object Left-Top-Width-Height values.
+        ========================================================================
+        """
+        return list(self.to_tuple())
 
     def __str__(self) -> str:
         """

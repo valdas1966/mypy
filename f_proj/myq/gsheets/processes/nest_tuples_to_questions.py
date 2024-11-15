@@ -1,10 +1,10 @@
-from f_abstract.processes.i_3_rows_to_groups import ProcRowsToNestedGroup
+from f_ds.groups.processes.nested.from_rows import ProcRowsToNested, Input
 from f_abstract.mixins.excludable import Excludable
 from f_proj.myq.questions.i_3_mask_one_word import QuestionMaskOneWord as Question
 from typing import Type, Sequence
 
 
-class ProcNestTuplesToQuestions(ProcRowsToNestedGroup):
+class ProcNestTuplesToQuestions(ProcRowsToNested[Question]):
     """
     ============================================================================
      Implementation of Abstract-Process RowsToGroups in context of GSheets.
@@ -15,6 +15,7 @@ class ProcNestTuplesToQuestions(ProcRowsToNestedGroup):
     """
 
     def __init__(self,
+                 rows: Sequence[Sequence[str]],
                  type_question: Type[Question] = Question,
                  exclude: set[str] = None) -> None:
         """
@@ -24,7 +25,8 @@ class ProcNestTuplesToQuestions(ProcRowsToNestedGroup):
         """
         self._type_question = type_question
         Excludable.__init__(self, exclude=exclude)
-        ProcRowsToNestedGroup.__init__(self)
+        _input = Input(rows=rows)
+        ProcRowsToNested.__init__(self, _input=_input)
 
     def _is_group_start(self, row: Sequence[str]) -> bool:
         """

@@ -1,9 +1,9 @@
 from PyQt5.QtWidgets import QWidget
 from f_gui.pyqt.mixins.has_widget import HasWidget
-from f_abstract.mixins.has_position import HasPosition
+from f_gui.mixins.has_position import HasPosition
 from f_abstract.mixins.parentable import Parentable
 from f_abstract.mixins.nameable import Nameable
-from f_abstract.components.ltwh import LTWH
+from f_gui.components.ltwh import LTWH
 
 
 class Widget(Nameable, Parentable, HasWidget, HasPosition):
@@ -13,7 +13,9 @@ class Widget(Nameable, Parentable, HasWidget, HasPosition):
     ============================================================================
     """
 
-    def __init__(self, widget: QWidget, name: str = None) -> None:
+    def __init__(self,
+                 widget: QWidget,
+                 name: str = 'Widget') -> None:
         """
         ========================================================================
          Initialize the Widget class.
@@ -23,7 +25,8 @@ class Widget(Nameable, Parentable, HasWidget, HasPosition):
         HasWidget.__init__(self, widget=widget)
         Parentable.__init__(self)
         HasPosition.__init__(self)
-        self._styles = {}
+        self._styles = {'background-color': 'White'}
+        self._apply_styles()
 
     @property
     def styles(self) -> dict[str, str]:
@@ -60,7 +63,7 @@ class Widget(Nameable, Parentable, HasWidget, HasPosition):
         ========================================================================
         """
         self.position.parent = parent
-        self.widget.setGeometry(*self.position.absolute.values)
+        self.widget.setGeometry(*self.position.absolute.to_tuple())
         for child in self.children:
             child.update_geometry(self.position.absolute)
 

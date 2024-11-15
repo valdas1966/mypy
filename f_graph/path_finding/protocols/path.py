@@ -4,7 +4,7 @@ from typing import Protocol, TypeVar
 Node = TypeVar('Node', bound=NodePath)
 
 
-class ProtocolPath(Protocol[Node]):
+class Path(Protocol[Node]):
     """
     ============================================================================
      Protocol for solutions of Path-Finding Algorithms (an optimal-path).

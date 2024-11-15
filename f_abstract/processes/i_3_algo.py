@@ -1,4 +1,4 @@
-from f_abstract.processes.i_2_input_output import ProcessIO
+from f_abstract.processes.i_2_io import ProcessIO
 from typing import Generic, TypeVar
 
 Input = TypeVar('Input')

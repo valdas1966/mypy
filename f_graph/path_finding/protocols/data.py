@@ -4,7 +4,7 @@ from typing import TypeVar, Protocol
 Node = TypeVar('Node', bound=NodePath)
 
 
-class ProtocolData(Protocol[Node]):
+class Data(Protocol[Node]):
     """
     ============================================================================
      Protocol of Data objects in the Path-Finding Algorithms.
@@ -39,6 +39,13 @@ class ProtocolData(Protocol[Node]):
         ========================================================================
         """
         ...
+
+    def pop_generated(self) -> Node:
+        """
+        ========================================================================
+         Pop best generated node.
+        ========================================================================
+        """
 
     def is_active_goal(self, node: Node) -> bool:
         """

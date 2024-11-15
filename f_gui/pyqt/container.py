@@ -9,13 +9,14 @@ class Container(Widget):
     ============================================================================
     """
 
-    def __init__(self, name: str = None) -> None:
+    def __init__(self, name: str = 'Container') -> None:
         """
         ========================================================================
          Initialize the Container with its own Layout.
         ========================================================================
         """
-        super().__init__(widget=QWidget(), name=name)
+        super().__init__(widget=QWidget(),
+                         name=name)
 
     def add(self, child: Widget) -> None:
         """

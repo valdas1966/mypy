@@ -1,27 +1,30 @@
-from f_graph.path_finding.protocols.problem_graph import ProtocolProblemGraph, Graph, Node
-from typing import Protocol
+from f_gui.components.position import Position
 
 
-class ProtocolProblemPath(Protocol[Graph, Node],
-                          ProtocolProblemGraph[Graph, Node]):
+class HasPosition:
     """
     ============================================================================
-     Protocol for Path-Problems in Computer-Science.
+     Mixin-Class for Object's with Position.
     ============================================================================
     """
 
-    @property
-    def start(self) -> Node:
+    def __init__(self) -> None:
         """
         ========================================================================
-         Return the Start-Node of the Problem.
+         Init private Attributes.
         ========================================================================
         """
+        self._position = Position()
 
     @property
-    def goals(self) -> set[Node]:
+    def position(self) -> Position:
         """
         ========================================================================
-         Return the Goal-Nodes of the Problem.
+         Return object's Position.
         ========================================================================
         """
+        return self._position
+
+    @position.setter
+    def position(self, val: Position) -> None:
+        self._position = val

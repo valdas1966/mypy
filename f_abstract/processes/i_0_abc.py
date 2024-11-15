@@ -21,5 +21,10 @@ class ProcessABC(Nameable, Validatable):
         Validatable.__init__(self)
 
     @abstractmethod
-    def run(self, **kwargs) -> None:
+    def run(self) -> None:
+        """
+        ========================================================================
+         Run the Process.
+        ========================================================================
+        """
         pass

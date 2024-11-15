@@ -1,36 +1,44 @@
-from f_abstract.processes.i_0_abc import ProcessABC, Result
+from f_abstract.processes.i_2_io import ProcessIO
 from f_ds.groups.nested import NestedGroup, Group, Item
 from abc import abstractmethod
-from typing import Sequence
+from typing import Generic, Sequence
+from dataclasses import dataclass
 
 
-class ProcRowsToNestedGroup(ProcessABC[Result], NestedGroup[Item]):
+@dataclass
+class Input:
+    rows: Sequence[Sequence[str]] = None
+    name: str = None
+
+
+class ProcRowsToNested(Generic[Item],
+                       ProcessIO[Input, NestedGroup[Item]]):
     """
     ============================================================================
      Abstract process of converting rows into NestedGroup.
     ============================================================================
     """
 
-    def __init__(self, name: str = 'Process: Rows to Nested Group') -> None:
+    def __init__(self,
+                 _input: Input,
+                 name: str = 'Process: Rows to Nested Group') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        ProcessABC.__init__(self, name=name)
+        ProcessIO.__init__(self, name=name, _input=_input)
         self._groups: NestedGroup[Item] | None = None
         self._group: Group[Item] | None = None
 
-    def run(self,
-            rows: Sequence[Sequence[str]],
-            name_nested: str = None) -> NestedGroup[Item]:
+    def run(self) -> NestedGroup[Item]:
         """
         ========================================================================
          Run the Process.
         ========================================================================
         """
-        self._groups = NestedGroup(name=name_nested)
-        for row in rows:
+        self._groups = NestedGroup(name=self._input.name)
+        for row in self._input.rows:
             self._process_row(row=row)
         self._finalize_group()
         return self._groups

@@ -1,4 +1,4 @@
-from f_graph.path_finding.protocols.data import ProtocolData
+from f_graph.path_finding.protocols.data import Data
 from f_graph.path_finding.protocols.problem_path import ProtocolProblemPath
 from f_graph.nodes.i_1_path import NodePath
 from typing import Generic, TypeVar
@@ -15,7 +15,7 @@ class Ops(Generic[Node]):
 
     def __init__(self,
                  problem: ProtocolProblemPath,
-                 data: ProtocolData) -> None:
+                 data: Data) -> None:
         """
         ========================================================================
          Init private Attributes.

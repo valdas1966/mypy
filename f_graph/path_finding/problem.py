@@ -24,9 +24,15 @@ class Problem(Generic[Graph, Node],
          Init private Attributes.
         ========================================================================
         """
-        ProblemGraph.__init__(self, graph=graph)
+        self._graph = graph
         self._start = start
         self._goals = set(goals)
+
+    def get_children(self, node: Node) -> list[Node]:
+        return [child for child in self._graph.]
+    @property
+    def graph(self) -> Graph[Node]:
+        return self._graph
 
     @property
     def start(self) -> Node:

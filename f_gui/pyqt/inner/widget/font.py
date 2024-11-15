@@ -18,6 +18,9 @@ class Font:
         """
         self._widget = widget
         self._font = widget.font()
+        self.family = 'Heebo'
+        self.is_bold = True
+
 
     @property
     def family(self) -> str:

@@ -1,4 +1,4 @@
-from f_abstract.components.position import Position
+from f_gui.components.position import Position
 
 
 pos = Position()

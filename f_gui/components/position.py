@@ -1,5 +1,5 @@
 from f_abstract.mixins.printable import Printable
-from f_abstract.components.ltwh import LTWH
+from f_gui.components.ltwh import LTWH
 
 
 class Position(Printable):

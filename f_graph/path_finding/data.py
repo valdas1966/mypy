@@ -57,6 +57,14 @@ class Data(Generic[Node]):
         """
         return node in self._explored
 
+    def pop_generated(self) -> Node:
+        """
+        ========================================================================
+         Pop best generated node.
+        ========================================================================
+        """
+        return self._generated.pop()
+
     def is_active_goal(self, node: Node) -> bool:
         """
         ========================================================================

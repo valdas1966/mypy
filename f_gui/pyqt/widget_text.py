@@ -11,7 +11,9 @@ class WidgetText(Widget):
     ============================================================================
     """
 
-    def __init__(self, widget: QWidget, name: str = None) -> None:
+    def __init__(self,
+                 widget: QWidget,
+                 name: str = 'Widget-Text') -> None:
         """
         ========================================================================
          Initialize the TextWidget with list text-capable QWidget.

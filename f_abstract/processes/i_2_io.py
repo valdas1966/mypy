@@ -1,30 +1,26 @@
-from f_abstract.processes.i_2_io import ProcessIO
+from f_abstract.processes.i_1_input import ProcessInput
+from f_abstract.processes.i_1_output import ProcessOutput
 from typing import Generic, TypeVar
 
 Input = TypeVar('Input')
 Output = TypeVar('Output')
-Data = TypeVar('Data')
-Ops = TypeVar('Ops')
 
 
-class Algorithm(Generic[Input, Output, Data, Ops],
-                ProcessIO[Input, Output]):
+class ProcessIO(Generic[Input, Output],
+                ProcessInput[Input],
+                ProcessOutput[Output]):
     """
     ============================================================================
-     Abstract-Class for Algorithms in Computer-Science.
+     ABC for Processes with Input and Output.
     ============================================================================
     """
 
     def __init__(self,
                  _input: Input,
-                 data: Data,
-                 ops: Ops,
-                 name: str = 'Algorithm') -> None:
+                 name: str = 'Process IO') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        ProcessIO.__init__(self, _input=_input, name=name)
-        self._data = data
-        self._ops = ops
+        ProcessInput.__init__(self, _input=_input, name=name)

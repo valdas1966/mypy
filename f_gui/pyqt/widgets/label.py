@@ -9,7 +9,7 @@ class Label(WidgetText):
     ============================================================================
     """
 
-    def __init__(self, name: str = None) -> None:
+    def __init__(self, name: str = 'Label') -> None:
         """
         ========================================================================
          Initialize the Label with its own QLabel.

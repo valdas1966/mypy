@@ -1,39 +1,44 @@
-from __future__ import annotations
-from f_abstract.protocols.equable import Equable
-from typing import Protocol
+from f_graph.graphs.i_0_base import GraphBase, NodeBase
+from typing import Protocol, TypeVar
+
+Graph = TypeVar('Graph', bound=GraphBase)
+Node = TypeVar('Node', bound=NodeBase)
 
 
-class Comparable(Protocol, Equable):
+class Problem(Protocol[Graph, Node]):
     """
     ============================================================================
-     Protocol that supports comparable-methods.
+     Protocol of Path-Problems in Graphs.
     ============================================================================
     """
 
-    def __lt__(self, other: Comparable) -> bool:
+    @property
+    def graph(self) -> Graph:
         """
         ========================================================================
-         Return True if the Object is less than the other Object.
-        ========================================================================
-        """
-
-    def __le__(self, other: Comparable) -> bool:
-        """
-        ========================================================================
-         Return True if the Object is less or equal to the other Object.
+         Return a Graph of the Problem.
         ========================================================================
         """
 
-    def __gt__(self, other: object) -> bool:
+    @property
+    def start(self) -> Node:
         """
         ========================================================================
-         Return True if the Object is greater than the other Object.
+         Return the Start-Node of the Problem.
         ========================================================================
         """
 
-    def __ge__(self, other: object) -> bool:
+    @property
+    def goals(self) -> set[Node]:
         """
         ========================================================================
-         Return True if the Object is greater or equal to the other Object.
+         Return the Goal-Nodes of the Problem.
+        ========================================================================
+        """
+
+    def get_children(self, node: Node) -> list[Node]:
+        """
+        ========================================================================
+         Return a List of Node's Neighbors in the Graph.
         ========================================================================
         """

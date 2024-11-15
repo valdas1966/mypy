@@ -1,5 +1,5 @@
 import pytest
-from f_abstract.components.ltwh import LTWH
+from f_gui.components.ltwh import LTWH
 
 
 @pytest.fixture

@@ -1,5 +1,6 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
+from typing import Sequence
 
 
 class Equable(ABC):
@@ -10,7 +11,7 @@ class Equable(ABC):
     """
 
     @abstractmethod
-    def key_comparison(self) -> list:
+    def key_comparison(self) -> Sequence:
         """
         ========================================================================
          Return a List that represents Key for Object-Comparison.
