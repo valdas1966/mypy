@@ -40,6 +40,17 @@ class GraphBase(Generic[Node], Groupable[Node], Nameable):
         """
         pass
 
+    def children(self, node: Node) -> list[Node]:
+        """
+        ========================================================================
+         Return List of Node's Neighbors that are not parents of the Node.
+        ========================================================================
+        """
+        return [child
+                for child
+                in self.neighbors(node=node)
+                if child.parent != node]
+
     def to_group(self, name: str = None) -> Group[Node]:
         """
         ========================================================================

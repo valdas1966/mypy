@@ -40,10 +40,21 @@ class GraphGrid(GraphBase[Node]):
         """
         return list(self._nodes.values())
 
+    def children(self, node: Node) -> list[Node]:
+        """
+        ========================================================================
+         Return List of Node's neighbors that are not its parents.
+        ========================================================================
+        """
+        return [child
+                for child
+                in self.neighbors(node=node)
+                if child.parent != node]
+
     def neighbors(self, node: Node) -> list[Node]:
         """
         ========================================================================
-         Returns list List of list given Node's neighbors.
+         Returns List of Node's neighbors.
         ========================================================================
         """
         cells = self._grid.neighbors(node.cell)

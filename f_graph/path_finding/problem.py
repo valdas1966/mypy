@@ -1,4 +1,4 @@
-from f_graph.problems.i_0_graph import ProblemGraph, GraphBase
+from f_graph.graphs.i_1_grid import GraphBase
 from f_graph.nodes.i_1_path import NodePath
 from collections.abc import Collection
 from typing import Generic, TypeVar
@@ -7,8 +7,7 @@ Graph = TypeVar('Graph', bound=GraphBase)
 Node = TypeVar('Node', bound=NodePath)
 
 
-class Problem(Generic[Graph, Node],
-              ProblemGraph[Graph, Node]):
+class Problem(Generic[Graph, Node]):
     """
     ============================================================================
      Graph-Path Problem.
@@ -28,10 +27,13 @@ class Problem(Generic[Graph, Node],
         self._start = start
         self._goals = set(goals)
 
-    def get_children(self, node: Node) -> list[Node]:
-        return [child for child in self._graph.]
     @property
     def graph(self) -> Graph[Node]:
+        """
+        ========================================================================
+         Return the Graph of the Problem.
+        ========================================================================
+        """
         return self._graph
 
     @property
@@ -51,3 +53,11 @@ class Problem(Generic[Graph, Node],
         ========================================================================
         """
         return self._goals.copy()
+
+    def get_children(self, node: Node) -> list[Node]:
+        """
+        ========================================================================
+         Return List of Node's Children.
+        ========================================================================
+        """
+        return self._graph.children(node=node)
