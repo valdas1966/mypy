@@ -1,3 +1,4 @@
+from __future__ import annotations
 from f_abstract.processes.i_2_io import ProcessIO
 from typing import Generic, TypeVar
 
@@ -7,8 +8,8 @@ Data = TypeVar('Data')
 Ops = TypeVar('Ops')
 
 
-class Algorithm(Generic[Input, Output, Data, Ops],
-                ProcessIO[Input, Output]):
+class Algo(Generic[Input, Output, Data, Ops],
+           ProcessIO[Input, Output]):
     """
     ============================================================================
      Abstract-Class for Algorithms in Computer-Science.

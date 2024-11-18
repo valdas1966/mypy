@@ -1,5 +1,5 @@
 from f_graph.algos.one_to_one.i_2_bfs_cache import BFS_CACHE
-from f_graph.path_finding.u_problem import UProblemOTO
+from f_graph.path_finding.generators.gen_problem import UProblemOTO
 
 
 def test():

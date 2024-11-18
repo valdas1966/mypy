@@ -1,7 +1,7 @@
-from f_ds.protocols.queue import ProtocolQueue
+from f_graph.path_finding.protocols.problem import Problem
 from f_graph.nodes.i_1_path import NodePath
-from collections.abc import Collection
-from typing import Generic, TypeVar
+from f_ds.queues.i_0_base import QueueBase as Queue
+from typing import Generic, TypeVar, Type
 
 Node = TypeVar('Node', bound=NodePath)
 
@@ -14,16 +14,16 @@ class Data(Generic[Node]):
     """
 
     def __init__(self,
-                 generated: ProtocolQueue[Node],
-                 goals: Collection[Node]) -> None:
+                 problem: Problem,
+                 type_queue: Type[Queue]) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._generated: ProtocolQueue[Node] = generated
+        self._generated: Queue[Node] = type_queue()
         self._explored: set[Node] = set()
-        self._goals_active: set[Node] = set(goals)
+        self._goals_active: set[Node] = set(problem.goals)
 
     def mark_generated(self, node: Node) -> None:
         """

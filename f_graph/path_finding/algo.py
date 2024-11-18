@@ -1,11 +1,8 @@
-from f_cs.algo import Algorithm
-from f_graph.path_finding.protocols.problem import Problem
-from f_graph.path_finding.protocols.data import Data
-from f_graph.path_finding.protocols.ops import Ops
-from f_graph.path_finding.protocols.path import Path
+from f_cs.algo import Algo as AlgoABC
+from f_graph.path_finding.config import Problem, Path, Data, Ops
 
 
-class AlgoPath(Algorithm[Problem, Path, Data, Ops]):
+class Algo(AlgoABC[Problem, Path, Data, Ops]):
     """
     ============================================================================
      Base-Class for Path-Algorithms.
@@ -23,11 +20,11 @@ class AlgoPath(Algorithm[Problem, Path, Data, Ops]):
          Init private Attributes.
         ========================================================================
         """
-        Algorithm.__init__(self,
-                           _input=problem,
-                           data=data,
-                           ops=ops,
-                           name=name)
+        AlgoABC.__init__(self,
+                         _input=problem,
+                         data=data,
+                         ops=ops,
+                         name=name)
         self._path = path
         self._best = None
 
@@ -63,7 +60,7 @@ class AlgoPath(Algorithm[Problem, Path, Data, Ops]):
           (optimal path to goal were found).
         ========================================================================
         """
-        return self._data.has_active_goals()
+        return not self._data.has_active_goals()
 
     def _generate_start(self) -> None:
         """

@@ -1,5 +1,5 @@
 from f_graph.path_finding.protocols.data import Data
-from f_graph.path_finding.protocols.problem_path import ProtocolProblemPath
+from f_graph.path_finding.protocols.problem import Problem
 from f_graph.nodes.i_1_path import NodePath
 from typing import Generic, TypeVar
 
@@ -14,7 +14,7 @@ class Ops(Generic[Node]):
     """
 
     def __init__(self,
-                 problem: ProtocolProblemPath,
+                 problem: Problem,
                  data: Data) -> None:
         """
         ========================================================================
