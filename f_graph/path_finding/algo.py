@@ -37,10 +37,9 @@ class Algo(AlgoABC[Problem, Path, Data, Ops]):
         self._generate_start()
         while self._should_continue():
             self._select_best()
-            if self._best_is_goal():
-                self._handle_goal()
-                if self._should_terminate():
-                    return self._path
+            self._process_best()
+            if self._should_terminate():
+                return self._path
             self._explore_best()
 
     def _should_continue(self) -> bool:
@@ -77,6 +76,15 @@ class Algo(AlgoABC[Problem, Path, Data, Ops]):
         ========================================================================
         """
         self._best = self._data.pop_generated()
+
+    def _process_best(self) -> None:
+        """
+        ========================================================================
+         Remove Best
+        :return:
+        """
+        if self._best_is_goal():
+            self._data.remove_active_goal(goal=self._best)
 
     def _best_is_goal(self) -> bool:
         """

@@ -11,3 +11,6 @@ class Algo(AlgoPath[Problem, Path, Data, Ops]):
                  cache: set[Node],
                  name: str = 'Algorithm-Path-Cache'):
         AlgoPath.__init__(self, problem=problem, data=data, ops=ops, name=name)
+        self._cache = cache
+
+
