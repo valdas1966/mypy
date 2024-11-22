@@ -80,8 +80,8 @@ class Algo(AlgoABC[Problem, Path, Data, Ops]):
     def _process_best(self) -> None:
         """
         ========================================================================
-         Remove Best
-        :return:
+         If best is goal, remove it from the active-goals.
+        ========================================================================
         """
         if self._best_is_goal():
             self._data.remove_active_goal(goal=self._best)
@@ -93,14 +93,6 @@ class Algo(AlgoABC[Problem, Path, Data, Ops]):
         ========================================================================
         """
         return self._data.is_active_goal(node=self._best)
-
-    def _handle_goal(self) -> None:
-        """
-        ========================================================================
-         Remove a Goal from an Active-Goals (optimal path was found).
-        ========================================================================
-        """
-        self._data.remove_active_goal(goal=self._best)
 
     def _explore_best(self) -> None:
         """

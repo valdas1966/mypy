@@ -3,14 +3,37 @@ from f_graph.path_finding.cache.config import Problem, Path, Ops, Data, Node
 
 
 class Algo(AlgoPath[Problem, Path, Data, Ops]):
+    """
+    ============================================================================
+     Path-Finding Algorithm with Cache object.
+    ============================================================================
+    """
 
     def __init__(self,
                  problem: Problem,
                  data: Data,
                  ops: Ops,
-                 cache: set[Node],
                  name: str = 'Algorithm-Path-Cache'):
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
         AlgoPath.__init__(self, problem=problem, data=data, ops=ops, name=name)
-        self._cache = cache
 
+    def _process_best(self) -> None:
+        """
+        ========================================================================
+         Process best generated node.
+        ========================================================================
+        """
+        if self._best_is_goal() or self._best_is_cached():
+            self._data.remove_active_goal(goal=self._best)
 
+    def _best_is_cached(self) -> bool:
+        """
+        ========================================================================
+         Return True if the Best-Node is cached.
+        ========================================================================
+        """
+        return self._data.is_cached(self._best)
