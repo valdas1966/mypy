@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_graph/path_finding/cache/components/path.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/algo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path_finding/cache/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/cache/algo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/config.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -429,14 +428,6 @@
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
     </task>
-    <task id="LOCAL-00034" summary="h">
-      <option name="closed" value="true" />
-      <created>1727587960182</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1727587960182</updated>
-    </task>
     <task id="LOCAL-00035" summary="h">
       <option name="closed" value="true" />
       <created>1727625492957</created>
@@ -821,7 +812,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732118989856</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="h">
+      <option name="closed" value="true" />
+      <created>1732268410324</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1732268410324</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

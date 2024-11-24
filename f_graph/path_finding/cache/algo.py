@@ -13,13 +13,19 @@ class Algo(AlgoPath[Problem, Path, Data, Ops]):
                  problem: Problem,
                  data: Data,
                  ops: Ops,
+                 path: Path,
                  name: str = 'Algorithm-Path-Cache'):
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        AlgoPath.__init__(self, problem=problem, data=data, ops=ops, name=name)
+        AlgoPath.__init__(self,
+                          problem=problem,
+                          data=data,
+                          ops=ops,
+                          path=path,
+                          name=name)
 
     def _process_best(self) -> None:
         """
