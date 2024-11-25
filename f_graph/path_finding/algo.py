@@ -1,8 +1,11 @@
 from f_cs.algo import Algo as AlgoABC
-from f_graph.path_finding.config import Problem, Path, Data, Ops
+from f_graph.path_finding.config import (Problem, Path, Data, Ops, Queue,
+                                         TProblem, TPath, TData, TOps, TNode)
+from typing import Generic, Type
 
 
-class Algo(AlgoABC[Problem, Path, Data, Ops]):
+class Algo(Generic[TProblem, TPath, TData, TOps, TNode],
+           AlgoABC[TProblem, TPath]):
     """
     ============================================================================
      Base-Class for Path-Algorithms.
@@ -11,9 +14,7 @@ class Algo(AlgoABC[Problem, Path, Data, Ops]):
 
     def __init__(self,
                  problem: Problem,
-                 data: Data,
-                 ops: Ops,
-                 path: Path,
+                 type_queue: Type[Queue],
                  name: str = 'Path-Algorithm') -> None:
         """
         ========================================================================
@@ -22,10 +23,11 @@ class Algo(AlgoABC[Problem, Path, Data, Ops]):
         """
         AlgoABC.__init__(self,
                          _input=problem,
-                         data=data,
-                         ops=ops,
                          name=name)
-        self._path = path
+        self._type_queue = type_queue
+        self._data = self._create_data()
+        self._ops = self._create_ops()
+        self._path = Path()
         self._best = None
 
     def run(self) -> Path:
@@ -41,6 +43,22 @@ class Algo(AlgoABC[Problem, Path, Data, Ops]):
             if self._should_terminate():
                 return self._path
             self._explore_best()
+
+    def _create_data(self) -> Data:
+        """
+        ========================================================================
+         Create a Data object.
+        ========================================================================
+        """
+        return Data(problem=self._input, type_queue=self._type_queue)
+
+    def _create_ops(self) -> Ops:
+        """
+        ========================================================================
+         Create an Ops object.
+        ========================================================================
+        """
+        return Ops(problem=self._input, data=self._data)
 
     def _should_continue(self) -> bool:
         """

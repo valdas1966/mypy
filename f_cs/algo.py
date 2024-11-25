@@ -1,5 +1,6 @@
 from __future__ import annotations
 from f_abstract.processes.i_2_io import ProcessIO
+from abc import abstractmethod
 from typing import Generic, TypeVar
 
 Input = TypeVar('Input')
@@ -8,8 +9,7 @@ Data = TypeVar('Data')
 Ops = TypeVar('Ops')
 
 
-class Algo(Generic[Input, Output, Data, Ops],
-           ProcessIO[Input, Output]):
+class Algo(Generic[Input, Output], ProcessIO[Input, Output]):
     """
     ============================================================================
      Abstract-Class for Algorithms in Computer-Science.
@@ -18,8 +18,6 @@ class Algo(Generic[Input, Output, Data, Ops],
 
     def __init__(self,
                  _input: Input,
-                 data: Data,
-                 ops: Ops,
                  name: str = 'Algorithm') -> None:
         """
         ========================================================================
@@ -27,5 +25,19 @@ class Algo(Generic[Input, Output, Data, Ops],
         ========================================================================
         """
         ProcessIO.__init__(self, _input=_input, name=name)
-        self._data = data
-        self._ops = ops
+
+    @abstractmethod
+    def _create_data(self) -> Data:
+        """
+        ========================================================================
+         Create a Data object.
+        ========================================================================
+        """
+
+    @abstractmethod
+    def _create_ops(self) -> Ops:
+        """
+        ========================================================================
+         Create an Ops object.
+        ========================================================================
+        """

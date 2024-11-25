@@ -1,8 +1,12 @@
 from f_graph.path_finding.algo import Algo as AlgoPath
-from f_graph.path_finding.cache.config import Problem, Path, Ops, Data, Node
+from f_graph.path_finding.cache.config import (Problem, Path, Data, Ops,
+                                               Queue, TProblem, TPath, TData,
+                                               TOps, TNode)
+from typing import Generic, Type
 
 
-class Algo(AlgoPath[Problem, Path, Data, Ops]):
+class Algo(Generic[TProblem, TPath, TOps, TData, TNode],
+           AlgoPath[TProblem, TPath, TData, TOps, TNode]):
     """
     ============================================================================
      Path-Finding Algorithm with Cache object.
@@ -10,22 +14,25 @@ class Algo(AlgoPath[Problem, Path, Data, Ops]):
     """
 
     def __init__(self,
-                 problem: Problem,
-                 data: Data,
-                 ops: Ops,
-                 path: Path,
+                 problem: TProblem,
+                 type_queue: Type[Queue],
+                 cache: set[TNode],
                  name: str = 'Algorithm-Path-Cache'):
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
+        self._cache = cache
         AlgoPath.__init__(self,
                           problem=problem,
-                          data=data,
-                          ops=ops,
-                          path=path,
+                          type_queue=type_queue,
                           name=name)
+
+    def _create_data(self) -> TData:
+        return Data(problem=self._input,
+                    cache=self._cache,
+                    type_queue=self._type_queue)
 
     def _process_best(self) -> None:
         """

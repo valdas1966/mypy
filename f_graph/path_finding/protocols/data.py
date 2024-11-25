@@ -1,5 +1,7 @@
 from f_graph.nodes.i_1_path import NodePath
-from typing import TypeVar, Protocol
+from f_graph.path_finding.protocols.problem import Problem
+from f_ds.queues.i_0_base import QueueBase as Queue
+from typing import TypeVar, Type, Protocol
 
 Node = TypeVar('Node', bound=NodePath)
 
