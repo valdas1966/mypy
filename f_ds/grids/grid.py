@@ -1,6 +1,6 @@
 from f_abstract.mixins.nameable import Nameable
 from f_abstract.mixins.has_rows_cols import HasRowsCols
-from f_abstract.mixins.groupable import Groupable, Group
+from f_ds.mixins.groupable import Groupable, Group
 from f_ds.groups.view import View
 from f_ds.grids.cell import Cell
 from collections.abc import Iterable

@@ -30,6 +30,11 @@ class Algo(Generic[TProblem, TPath, TOps, TData, TNode],
                           name=name)
 
     def _create_data(self) -> TData:
+        """
+        ========================================================================
+         Create a Data object.
+        ========================================================================
+        """
         return Data(problem=self._input,
                     cache=self._cache,
                     type_queue=self._type_queue)

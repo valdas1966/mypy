@@ -19,12 +19,8 @@ class BFS(Algo[TProblem, TPath, TData, TOps, TNode]):
          Init private Attributes.
         ========================================================================
         """
-        data = TData(problem=problem, cache=cache, type_queue=QueueFIFO)
-        ops = Ops(problem=problem, data=data)
-        path = Path(cache=cache)
         Algo.__init__(self,
                       problem=problem,
-                      data=data,
-                      ops=ops,
-                      path=path,
+                      cache=cache,
+                      type_queue=QueueFIFO,
                       name=name)

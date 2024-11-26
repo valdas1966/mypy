@@ -1,8 +1,8 @@
-from f_graph.path_finding.config import Problem, Queue, Node, Data as DataPath
+from f_graph.path_finding.config import Problem, Queue, TNode, Data as DataPath
 from typing import Type
 
 
-class Data(DataPath[Node]):
+class Data(DataPath[TNode]):
     """
     ============================================================================
      Data objects for Path-Algorithms with Cache.
@@ -11,7 +11,7 @@ class Data(DataPath[Node]):
 
     def __init__(self,
                  problem: Problem,
-                 cache: set[Node],
+                 cache: set[TNode],
                  type_queue: Type[Queue]):
         """
         ========================================================================
@@ -21,7 +21,7 @@ class Data(DataPath[Node]):
         DataPath.__init__(self, problem=problem, type_queue=type_queue)
         self._cache = cache
 
-    def is_cached(self, node: Node) -> bool:
+    def is_cached(self, node: TNode) -> bool:
         """
         ========================================================================
          Return True if the Node is Cached.
