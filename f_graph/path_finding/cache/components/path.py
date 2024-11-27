@@ -6,5 +6,8 @@ Node = TypeVar('Node', bound=NodePath)
 
 class Path(Generic[Node], PathFinding[Node]):
 
+    def __init__(self, cache: set[Node]) -> None:
+        self._cache = {node: node for node in cache}
+
     def get(self, goal: Node) -> list[Node]:
         pass

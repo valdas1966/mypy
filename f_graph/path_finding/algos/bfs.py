@@ -1,8 +1,8 @@
-from f_graph.path_finding.algo import Algo, Problem, Path, Data, Ops
+from f_graph.path_finding.algo import Algo, Problem, Path, Data, Ops, TNode
 from f_ds.queues.i_1_fifo import QueueFIFO
 
 
-class BFS(Algo[Problem, Path, Data, Ops]):
+class BFS(Algo[Problem, Path, Data, Ops, TNode]):
     """
     ============================================================================
      BFS (Breadth-First-Search) Algorithm.
