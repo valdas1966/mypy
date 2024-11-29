@@ -1,4 +1,4 @@
-from f_abstract.process_io import Process
+from f_core.process_io import Process
 import concurrent.futures as pool
 
 

@@ -1,4 +1,4 @@
-from f_http.get import HttpGet
+from f_http.old import HttpGet
 
 
 def test_success():

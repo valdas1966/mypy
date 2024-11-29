@@ -21,3 +21,10 @@ def test_neighbors(ex):
 
 def test_len(ex):
     assert len(ex) == 8
+
+
+def test_copy(ex):
+    ex[0, 0].parent = ex[0, 1]
+    copied = ex.copy()
+    assert ex[0, 0].parent == ex[0, 1]
+    assert not copied[0, 0].parent

@@ -1,6 +1,6 @@
 from typing import Generic, TypeVar
 from abc import ABC, abstractmethod
-from f_abstract.mixins.has_rows_cols import HasRowsCols
+from f_core.mixins.has_rows_cols import HasRowsCols
 
 
 T = TypeVar('T')

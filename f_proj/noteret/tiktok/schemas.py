@@ -55,6 +55,13 @@ class Schemas:
         return schema
 
     @staticmethod
+    def users_valid_todo() -> Schema:
+        tname = 'users_valid_todo'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.ID_USER)
+        return schema
+
+    @staticmethod
     def _create_schema(tname: str) -> Schema:
         name = Schemas._to_name(tname=tname)
         return Schema(name=name)

@@ -1,6 +1,6 @@
 import heapq
 from f_ds.queues.i_0_base import QueueBase
-from f_abstract.mixins.comparable import Comparable
+from f_core.mixins.comparable import Comparable
 from typing import TypeVar, Iterable
 
 Item = TypeVar('Item', bound=Comparable)

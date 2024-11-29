@@ -1,7 +1,7 @@
 from __future__ import annotations
 from f_ds.groups.group import Group, Item
-from f_abstract.mixins.nameable import Nameable
-from f_abstract.mixins.sizable import Sizable
+from f_core.mixins.nameable import Nameable
+from f_core.mixins.sizable import Sizable
 from f_utils.dtypes.u_seq import USeq
 from collections.abc import Iterable
 from typing import Generic, Callable, Iterator

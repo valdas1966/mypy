@@ -1,6 +1,7 @@
+from __future__ import annotations
 from f_graph.graphs.i_0_base import GraphBase
 from f_graph.nodes.i_1_path_cell import NodePathCell
-from f_ds.grids.grid import Grid
+from f_ds.grids.grid import Grid, Cell
 from typing import TypeVar, Type
 
 Node = TypeVar('Node', bound=NodePathCell)
@@ -25,8 +26,7 @@ class GraphGrid(GraphBase[Node]):
         GraphBase.__init__(self, name)
         self._grid = grid
         self._type_node = type_node
-        self._nodes = {cell: type_node(cell=cell)
-                       for cell in grid.to_group() if cell}
+        self._nodes: dict[Cell, Node] = self._map_cells_to_nodes()
 
     @property
     def grid(self) -> Grid:
@@ -71,6 +71,27 @@ class GraphGrid(GraphBase[Node]):
         cell_a = node_a.cell
         cell_b = node_b.cell
         return self._grid.distance(cell_a, cell_b)
+
+    def copy(self) -> GraphGrid:
+        """
+        ========================================================================
+         Return a new instance of Graph with reset Nodes.
+        ========================================================================
+        """
+        return GraphGrid[Node](grid=self._grid,
+                               type_node=self._type_node,
+                               name=self._name)
+
+    def _map_cells_to_nodes(self) -> dict[Cell, Node]:
+        """
+        ========================================================================
+         Return a Dict that maps Cells to their represented Nodes.
+        ========================================================================
+        """
+        return {cell: self._type_node(cell=cell)
+                for cell
+                in self._grid.to_group()
+                if cell}
 
     def __getitem__(self, index: tuple[int, int]) -> Node:
         """

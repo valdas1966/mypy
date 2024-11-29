@@ -1,5 +1,5 @@
 from f_ds.stale import Stale
-from f_abstract.mixins.comparable import Comparable
+from f_core.mixins.comparable import Comparable
 from typing import TypeVar
 
 Item = TypeVar('Item', bound=Comparable)

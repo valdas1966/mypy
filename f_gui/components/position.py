@@ -1,4 +1,4 @@
-from f_abstract.mixins.printable import Printable
+from f_core.mixins.printable import Printable
 from f_gui.components.ltwh import LTWH
 
 

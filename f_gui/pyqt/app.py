@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QApplication
 from f_gui.components.position import Position
-from f_abstract.mixins.nameable import Nameable
+from f_core.mixins.nameable import Nameable
 from f_gui.pyqt.window import Window
 from f_gui.pyqt.widget import Widget
 

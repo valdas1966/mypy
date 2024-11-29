@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_abstract.processes.i_2_io import ProcessIO
+from f_core.processes.i_2_io import ProcessIO
 from abc import abstractmethod
 from typing import Generic, TypeVar
 

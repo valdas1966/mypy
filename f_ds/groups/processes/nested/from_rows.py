@@ -1,4 +1,4 @@
-from f_abstract.processes.i_2_io import ProcessIO
+from f_core.processes.i_2_io import ProcessIO
 from f_ds.groups.nested import NestedGroup, Group, Item
 from abc import abstractmethod
 from typing import Generic, Sequence

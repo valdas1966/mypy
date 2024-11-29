@@ -1,5 +1,5 @@
 from f_graph.algos.i_0_abc import AlgoPath
-from f_graph.path_finding.components.problem import Problem
+from f_graph.path_finding.problem import Problem
 from f_graph.path_finding.components.data import DataPath
 from f_graph.path_finding.components.ops import OpsPath
 from f_graph.path_finding.components.path import PathBasic

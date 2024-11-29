@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QMainWindow
 from f_gui.pyqt.widget import Widget
 from f_gui.pyqt.container import Container
 from f_gui.pyqt.mixins.has_widget import HasWidget
-from f_abstract.mixins.nameable import Nameable
+from f_core.mixins.nameable import Nameable
 from f_gui.components.position import Position
 from f_gui.u_screen import UScreen as u_screen
 

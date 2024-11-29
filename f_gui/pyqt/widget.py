@@ -1,8 +1,8 @@
 from PyQt5.QtWidgets import QWidget
 from f_gui.pyqt.mixins.has_widget import HasWidget
 from f_gui.mixins.has_position import HasPosition
-from f_abstract.mixins.parentable import Parentable
-from f_abstract.mixins.nameable import Nameable
+from f_core.mixins.parentable import Parentable
+from f_core.mixins.nameable import Nameable
 from f_gui.components.ltwh import LTWH
 
 

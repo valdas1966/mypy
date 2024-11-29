@@ -1,4 +1,4 @@
-from f_abstract.mixins.cursorable import Cursorable
+from f_core.mixins.cursorable import Cursorable
 from f_proj.myq.questions.i_0_base import QuestionBase
 from typing import Generic, TypeVar
 

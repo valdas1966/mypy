@@ -1,5 +1,5 @@
 from f_cs.algo import Algo as AlgoABC
-from f_graph.path_finding.config import (Problem, Path, Data, Ops, Queue,
+from f_graph.path_finding.config import (Problem, Path, Data, Ops,
                                          TProblem, TPath, TData, TOps, TNode)
 from typing import Generic, Type
 
@@ -22,7 +22,7 @@ class Algo(Generic[TProblem, TPath, TData, TOps, TNode],
         ========================================================================
         """
         AlgoABC.__init__(self,
-                         _input=problem,
+                         _input=problem.copy(),
                          name=name)
         self._type_queue = type_queue
         self._data = self._create_data()

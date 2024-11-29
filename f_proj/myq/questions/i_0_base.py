@@ -1,5 +1,5 @@
 from abc import ABC
-from f_abstract.components.rate_success import RateSuccess
+from f_core.components.rate_success import RateSuccess
 
 
 class QuestionBase(ABC):

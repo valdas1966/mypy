@@ -1,6 +1,6 @@
 from __future__ import annotations
 from google.cloud.bigquery import SchemaField
-from f_abstract.mixins.nameable import Nameable
+from f_core.mixins.nameable import Nameable
 
 
 class Field(Nameable):

@@ -1,4 +1,4 @@
-from f_abstract.operation import Operation
+from f_core.operation import Operation
 from tenacity import retry, stop_after_attempt, wait_random_exponential
 from datetime import datetime
 from f_utils import u_datetime as u_dt

@@ -1,3 +1,4 @@
+from f_core.mixins.sizable import Sizable
 from f_ds.groups.group import Group
 from abc import abstractmethod
 from typing import Generic, TypeVar, Callable
@@ -45,3 +46,11 @@ class Groupable(Generic[Item]):
                                       pct=pct,
                                       name=name,
                                       preserve_order=preserve_order)
+
+    def __len__(self) -> int:
+        """
+        ========================================================================
+         Return the number of Items in the Object.
+        ========================================================================
+        """
+        return len(self.to_group())

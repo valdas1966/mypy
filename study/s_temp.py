@@ -1,9 +1,9 @@
-from f_abstract.inner.operation.a_2_dt import OperationDT
+from f_core.inner.operation.a_2_dt import OperationDT
 from f_utils import u_datetime as u_dt
 import inspect
 
-from f_abstract.inner.operation.a_1_init import OperationInit
-from f_abstract.inittable import Inittable
+from f_core.inner.operation.a_1_init import OperationInit
+from f_core.inittable import Inittable
 from datetime import datetime
 
 

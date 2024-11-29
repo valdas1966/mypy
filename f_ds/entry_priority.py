@@ -1,5 +1,5 @@
-from f_abstract.mixins.comparable import Comparable
-from f_abstract.mixins.equable import Equable
+from f_core.mixins.comparable import Comparable
+from f_core.mixins.equable import Equable
 from typing import Generic, TypeVar
 
 Item = TypeVar('Item', bound=Comparable)

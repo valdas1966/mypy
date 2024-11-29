@@ -1,6 +1,6 @@
 from __future__ import annotations
 from f_graph.nodes.i_0_base import NodeBase
-from f_abstract.mixins.parentable import Parentable
+from f_core.mixins.parentable import Parentable
 
 
 class NodePath(NodeBase, Parentable):

@@ -1,6 +1,6 @@
 from __future__ import annotations
-from f_abstract.mixins.validatable_public import ValidatablePublic
-from f_abstract.mixins.has_row_col import HasRowCol
+from f_core.mixins.validatable_public import ValidatablePublic
+from f_core.mixins.has_row_col import HasRowCol
 
 
 class Cell(HasRowCol, ValidatablePublic):

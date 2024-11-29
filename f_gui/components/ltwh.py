@@ -1,6 +1,6 @@
 from typing import Generic, TypeVar
-from f_abstract.mixins.printable import Printable
-from f_abstract.mixins.comparable import Comparable
+from f_core.mixins.printable import Printable
+from f_core.mixins.comparable import Comparable
 
 T = TypeVar('T', int, float)
 

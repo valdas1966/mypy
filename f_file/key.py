@@ -1,4 +1,4 @@
-from f_abstract.mixins.nameable import Nameable
+from f_core.mixins.nameable import Nameable
 
 
 class FileKey(Nameable):

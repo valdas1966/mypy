@@ -1,6 +1,6 @@
 from __future__ import annotations
 from collections import UserList
-from f_abstract.mixins.nameable import Nameable
+from f_core.mixins.nameable import Nameable
 from f_utils.dtypes.u_seq import USeq
 from typing import TypeVar, Callable, Sequence
 

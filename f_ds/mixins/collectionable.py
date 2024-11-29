@@ -1,5 +1,5 @@
 from collections.abc import Collection
-from f_abstract.mixins.sizable import Sizable
+from f_core.mixins.sizable import Sizable
 from typing import TypeVar, Generic, Iterator, Iterable, Sized, Protocol
 from abc import abstractmethod
 

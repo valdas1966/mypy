@@ -1,4 +1,4 @@
-from f_abstract.mixins.nameable import Nameable
+from f_core.mixins.nameable import Nameable
 from f_ds.groups.group import Listable
 from f_proj.myq.questions.i_0_base import QuestionBase
 from typing import TypeVar

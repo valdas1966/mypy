@@ -1,4 +1,4 @@
-from f_abstract.inittable import Inittable
+from f_core.inittable import Inittable
 
 
 class LogWritter(Inittable):

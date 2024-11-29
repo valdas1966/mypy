@@ -36,8 +36,14 @@ def following_todo() -> None:
     BigQuery().create.table(tname=tname, schema=schema)
 
 
+def users_valid_todo() -> None:
+    tname = Tables.USERS_VALID_TODO
+    schema = Schemas.users_valid_todo()
+    BigQuery().create.table(tname=tname, schema=schema)
+
 # users()
 # users_snapshots()
 # followers()
 # followers_todo()
-following_todo()
+# following_todo()
+users_valid_todo()

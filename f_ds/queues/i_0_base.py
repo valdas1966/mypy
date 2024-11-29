@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from typing import Generic, TypeVar
-from f_abstract.mixins.nameable import Nameable
+from f_core.mixins.nameable import Nameable
 from f_ds.mixins.collectionable import Collectionable
 
 Item = TypeVar('Item')

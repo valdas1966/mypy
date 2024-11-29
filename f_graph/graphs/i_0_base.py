@@ -1,13 +1,14 @@
 from abc import abstractmethod
 from typing import TypeVar, Generic
-from f_abstract.mixins.nameable import Nameable
+from f_core.mixins.nameable import Nameable
+from f_core.abstracts.copyable import Copyable
 from f_ds.mixins.groupable import Groupable, Group
 from f_graph.nodes.i_0_base import NodeBase
 
 Node = TypeVar('Node', bound=NodeBase)
 
 
-class GraphBase(Generic[Node], Groupable[Node], Nameable):
+class GraphBase(Generic[Node], Groupable[Node], Nameable, Copyable):
     """
     ============================================================================
      Graph Base-Class.

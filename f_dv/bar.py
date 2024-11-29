@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from f_abstract.mixins.nameable import Nameable
+from f_core.mixins.nameable import Nameable
 from f_color.u_color import RGB, UColor
 
 

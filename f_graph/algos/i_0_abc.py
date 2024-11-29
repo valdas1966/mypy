@@ -1,5 +1,5 @@
-from f_abstract.processes.i_3_algo import Algorithm
-from f_graph.path_finding.components.problem import Problem
+from f_core.processes.i_3_algo import Algorithm
+from f_graph.path_finding.problem import Problem
 from f_graph.path_finding.components.data import DataPath
 from f_graph.path_finding.components.ops import OpsPath
 from f_graph.nodes.i_1_path import NodePath

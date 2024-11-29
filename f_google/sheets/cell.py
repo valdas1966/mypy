@@ -1,5 +1,5 @@
 from gspread.cell import Cell as GSCell
-from f_abstract.mixins.validatable_public import ValidatablePublic
+from f_core.mixins.validatable_public import ValidatablePublic
 from f_utils import u_str
 from typing import Callable
 
