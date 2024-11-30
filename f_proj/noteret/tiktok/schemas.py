@@ -1,6 +1,5 @@
 from f_google.big_query.structures.schema import Schema
 from f_proj.noteret.tiktok.fields import Fields
-from typing import Sequence
 
 
 class Schemas:
@@ -28,6 +27,8 @@ class Schemas:
         schema.extend(Fields.user_info())
         schema.extend(Fields.user_stats())
         schema.append(Fields.SOURCE)
+        schema.append(Fields.IS_FOUND)
+        schema.append(Fields.IS_OK)
         schema.append(Fields.INSERTED)
         return schema
 

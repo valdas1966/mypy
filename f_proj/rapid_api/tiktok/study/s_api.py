@@ -1,7 +1,11 @@
 from f_proj.rapid_api.tiktok.api import TiktokAPI
 
-t = TiktokAPI.user_info(id_user='107955')
+data = TiktokAPI.user_snapshot(id_user='107955')
+print(data.is_ok)
+print(data.is_found)
+print(data.nick)
 
-print(t.is_succeed)
-print(t.is_found)
-print(t.data.nick)
+data = TiktokAPI.user_snapshot(id_user='12345')
+print(data.is_ok)
+print(data.is_found)
+print(data.nick)

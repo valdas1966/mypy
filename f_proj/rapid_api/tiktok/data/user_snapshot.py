@@ -2,12 +2,14 @@ from dataclasses import dataclass
 
 
 @dataclass
-class DataUserInfo:
+class DataUserSnapshot:
     """
     ============================================================================
-     DataClass for UserInfo.
+     DataClass for User-Snapshot.
     ============================================================================
     """
+    is_ok = bool
+    is_found = bool
     source = str
     id_user = str
     nick = str

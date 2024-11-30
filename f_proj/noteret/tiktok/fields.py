@@ -11,6 +11,8 @@ class Fields:
     # Audit
     ID_SESSION = Field.string(name='id_session')
     SOURCE = Field.string(name='source')
+    IS_FOUND = Field.boolean(name='is_found')
+    IS_OK = Field.boolean(name='is_ok')
     INSERTED = Field.datetime(name='inserted')
 
     # User Info

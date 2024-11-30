@@ -1,7 +1,6 @@
 from f_os import u_environ
-from f_proj.rapid_api.tiktok.data.user_info import DataUserInfo
-from f_proj.rapid_api.tiktok.data.response import DataResponse
-from f_http.get.request import RequestGet, Input, Output, Reasons
+from f_proj.rapid_api.tiktok.data.user_snapshot import DataUserSnapshot
+from f_http.get.request import RequestGet, Input, Reasons
 
 
 class TiktokAPI:
@@ -17,35 +16,36 @@ class TiktokAPI:
                                 'X-RapidAPI-Key': _KEY}
 
     @staticmethod
-    def user_info(id_user: str) -> DataResponse[DataUserInfo]:
+    def user_snapshot(id_user: str) -> DataUserSnapshot:
         url = f'https://{TiktokAPI._HOST}/user/info'
         params = {'user_id': id_user}
         _input = Input(url=url, params=params, headers=TiktokAPI._HEADERS)
         request = RequestGet(_input=_input)
         output = request.run()
-        data_response = DataResponse[DataUserInfo]()
+        data = DataUserSnapshot()
         if request:
-            data_user_info = DataUserInfo()
-            d = output.to_dict()['data']
+            data.is_ok = True
+            try:
+                d = output.to_dict()['data']
+            except KeyError:
+                data.is_found = False
+                return data
+            data.is_found = True
             d_user = d['user']
-            data_user_info.id_user = d_user['id']
-            data_user_info.nick = d_user['nickname']
-            data_user_info.is_verified = d_user['verified']
-            data_user_info.is_secret = d_user['secret']
-            data_user_info.is_private = d_user['privateAccount']
+            data.id_user = d_user['id']
+            data.nick = d_user['nickname']
+            data.is_verified = d_user['verified']
+            data.is_secret = d_user['secret']
+            data.is_private = d_user['privateAccount']
             d_stats = d['stats']
-            data_user_info.following = d_stats['followingCount']
-            data_user_info.followers = d_stats['followerCount']
-            data_user_info.videos = d_stats['videoCount']
-            data_user_info.hearts = d_stats['heart']
-            data_user_info.diggs = d_stats['diggCount']
-            data_response.is_succeed = True
-            data_response.is_found = True
-            data_response.data = data_user_info
+            data.following = d_stats['followingCount']
+            data.followers = d_stats['followerCount']
+            data.videos = d_stats['videoCount']
+            data.hearts = d_stats['heart']
+            data.diggs = d_stats['diggCount']
         elif request.reason == Reasons.NOT_FOUND:
-            data_response.is_succeed = True
-            data_response.is_found = False
+            data.is_ok = True
+            data.is_found = False
         else:
-            print(request.reason)
-            data_response.is_succeed = False
-        return data_response
+            data.is_ok = False
+        return data

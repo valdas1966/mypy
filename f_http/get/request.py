@@ -55,7 +55,7 @@ class RequestGet(ProcessIO[Input, Output], Printable):
                                url=self._input.url,
                                params=self._input.params,
                                headers=self._input.headers)
-            if response.status_code == 200:
+            if response.ok:
                 self._is_valid = True
             else:
                 self._set_reason(status_code=response.status_code)
