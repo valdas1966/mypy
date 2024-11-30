@@ -1,8 +1,9 @@
-from dataclasses import dataclass
+from f_core.abstracts.dictable import Dictable
+from dataclasses import dataclass, asdict
 
 
 @dataclass
-class DataUserSnapshot:
+class DataUserSnapshot(Dictable):
     """
     ============================================================================
      DataClass for User-Snapshot.
@@ -21,3 +22,11 @@ class DataUserSnapshot:
     videos = int
     hearts = int
     diggs = int
+
+    def to_dict(self) -> dict:
+        """
+        ========================================================================
+         Convert the DataClass into a Dict.
+        ========================================================================
+        """
+        return asdict(self)
