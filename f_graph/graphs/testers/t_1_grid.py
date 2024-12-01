@@ -1,5 +1,5 @@
 import pytest
-from f_graph.graphs.i_1_grid import GraphGrid, Grid, NodePathCell
+from f_graph.graphs.i_1_grid import GraphGrid, Grid, NodeCell
 
 
 @pytest.fixture
@@ -15,7 +15,7 @@ def test_getitem(ex):
 
 
 def test_neighbors(ex):
-    node = NodePathCell(cell=ex.grid[0][0])
+    node = NodeCell(cell=ex.grid[0][0])
     assert ex.neighbors(node=node) == [ex[0, 1], ex[1, 0]]
 
 

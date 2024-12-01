@@ -1,9 +1,9 @@
 from __future__ import annotations
-from f_graph.nodes.i_1_path import NodePath
+from f_graph.path_finding.nodes.i_1_path import NodePath
 from f_graph.nodes.mixins.has_cell import HasCell, Cell
 
 
-class NodePathCell(NodePath, HasCell):
+class NodeCell(NodePath, HasCell):
     """
     ============================================================================
      NodePath with Cell property.
@@ -13,7 +13,7 @@ class NodePathCell(NodePath, HasCell):
     def __init__(self,
                  cell: Cell = Cell(),
                  name: str = None,
-                 parent: NodePathCell = None) -> None:
+                 parent: NodeCell = None) -> None:
         """
         ========================================================================
          Init private Attributes.

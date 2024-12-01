@@ -1,5 +1,5 @@
 import pytest
-from f_graph.nodes.i_1_path import NodePath
+from f_graph.path_finding.nodes.i_1_path import NodePath
 
 
 @pytest.fixture
@@ -16,6 +16,7 @@ def test_parent(ex_root, ex_leaf):
     assert not ex_root.parent
     assert ex_leaf.parent == ex_root
 
-def test_path_from_root(ex_root, ex_leaf):
-    assert ex_root.path_from_root() == [ex_root]
-    assert ex_leaf.path_from_root() == [ex_root, ex_leaf]
+
+def test_path_from_start(ex_root, ex_leaf):
+    assert ex_root.path_from_start() == [ex_root]
+    assert ex_leaf.path_from_start() == [ex_root, ex_leaf]

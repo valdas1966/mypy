@@ -5,7 +5,7 @@ from f_core.mixins.nameable import Nameable
 class NodeBase(Nameable):
     """
     ============================================================================
-     Node Base-Class.
+     ABC of Node classes.
     ============================================================================
     """
 

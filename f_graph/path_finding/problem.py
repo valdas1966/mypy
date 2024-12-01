@@ -2,12 +2,12 @@ from __future__ import annotations
 from f_core.mixins.nameable import Nameable
 from f_core.abstracts.copyable import Copyable
 from f_graph.graphs.i_1_grid import GraphGrid
-from f_graph.nodes.i_1_path_cell import NodePathCell
+from f_graph.path_finding.nodes.i_2_cell import NodeCell
 from collections.abc import Collection
 from typing import Generic, TypeVar
 
 Graph = TypeVar('Graph', bound=GraphGrid)
-Node = TypeVar('Node', bound=NodePathCell)
+Node = TypeVar('Node', bound=NodeCell)
 
 
 class Problem(Generic[Graph, Node], Nameable, Copyable):

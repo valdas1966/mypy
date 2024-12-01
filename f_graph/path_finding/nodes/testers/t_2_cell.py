@@ -1,20 +1,20 @@
 import pytest
-from f_graph.nodes.i_1_path_cell import NodePathCell, Cell
+from f_graph.path_finding.nodes.i_2_cell import NodeCell, Cell
 
 
 @pytest.fixture
-def ex_00() -> NodePathCell:
-    return NodePathCell(name='Zero')
+def ex_00() -> NodeCell:
+    return NodeCell(name='Zero')
 
 
 @pytest.fixture
-def ex_11() -> NodePathCell:
-    return NodePathCell(name='One', cell=Cell(1))
+def ex_11() -> NodeCell:
+    return NodeCell(name='One', cell=Cell(1))
 
 
 @pytest.fixture
-def ex_00_other() -> NodePathCell:
-    return NodePathCell()
+def ex_00_other() -> NodeCell:
+    return NodeCell()
 
 
 def test_key_comparison(ex_00, ex_11):
@@ -32,8 +32,8 @@ def test_eq(ex_00, ex_00_other):
 
 def test_hash():
     # Test the Hash by Cell (not by Name)
-    a = NodePathCell(name='Node', cell=Cell(0))
-    b = NodePathCell(name='Node', cell=Cell(1))
-    c = NodePathCell(cell=Cell(1))
+    a = NodeCell(name='Node', cell=Cell(0))
+    b = NodeCell(name='Node', cell=Cell(1))
+    c = NodeCell(cell=Cell(1))
     assert {a, b} == {a, b}
     assert {b, c} == {b}

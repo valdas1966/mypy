@@ -1,10 +1,10 @@
 from f_graph.path_finding.generators.gen_problem import GenProblem
-from f_graph.nodes.i_1_path_cell import NodePathCell
+from f_graph.path_finding.nodes.i_2_cell import NodeCell
 from f_graph.path_finding.algos.bfs import BFS
 
 
 def test_bfs():
-    problem = GenProblem.one_goal_3x3(type_node=NodePathCell)
+    problem = GenProblem.one_goal_3x3(type_node=NodeCell)
     graph = problem.graph
     goal = graph[2, 2]
     bfs = BFS(problem=problem)

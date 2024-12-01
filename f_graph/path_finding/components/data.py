@@ -1,5 +1,5 @@
 from f_graph.path_finding.protocols.problem import Problem
-from f_graph.nodes.i_1_path import NodePath
+from f_graph.path_finding.nodes.i_1_path import NodePath
 from f_ds.queues.i_0_base import QueueBase as Queue
 from typing import Generic, TypeVar, Type
 

@@ -1,9 +1,9 @@
 from __future__ import annotations
 from f_ai.hs.nodes.i_1_f import NodeF
-from f_graph.nodes.i_1_path_cell import NodePathCell, Cell
+from f_graph.path_finding.nodes.i_2_cell import NodeCell, Cell
 
 
-class NodeFCell(NodeF, NodePathCell):
+class NodeFCell(NodeF, NodeCell):
     """
     ============================================================================
      Informed NodeF represents list Cell in the Grid.
@@ -20,7 +20,7 @@ class NodeFCell(NodeF, NodePathCell):
         ========================================================================
         """
         NodeF.__init__(self, name=name, parent=parent)
-        NodePathCell.__init__(self, name=name, cell=cell)
+        NodeCell.__init__(self, name=name, cell=cell)
 
     def __eq__(self, other: NodeFCell) -> bool:
         """
@@ -44,7 +44,7 @@ class NodeFCell(NodeF, NodePathCell):
          Ex: '<NodeFCell: A(0,0)> G=0, H=5, F=5'
         ========================================================================
         """
-        return f'{NodePathCell.__repr__(self)} G={self.g}, H={self.h}, F={self.f()}'
+        return f'{NodeCell.__repr__(self)} G={self.g}, H={self.h}, F={self.f()}'
 
     def __hash__(self) -> int:
         """
@@ -52,4 +52,4 @@ class NodeFCell(NodeF, NodePathCell):
          Hash by Cell.
         ========================================================================
         """
-        return NodePathCell.__hash__(self)
+        return NodeCell.__hash__(self)

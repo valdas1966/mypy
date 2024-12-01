@@ -1,10 +1,10 @@
-from f_graph.graphs.u_1_grid import UGraphGrid as u_graph, NodePathCell
+from f_graph.graphs.u_1_grid import UGraphGrid as u_graph, NodeCell
 
 
 def test_generate():
-    graph = u_graph.generate(rows=5, pct_valid=80, type_node=NodePathCell)
+    graph = u_graph.generate(rows=5, pct_valid=80, type_node=NodeCell)
     assert len(graph) == 20
-    assert type(graph[0, 0]) == NodePathCell
+    assert type(graph[0, 0]) == NodeCell
 
 
 def test_generate_multiple():

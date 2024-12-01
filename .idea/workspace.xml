@@ -5,12 +5,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_graph/nodes/i_1_cell.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/user_snapshots.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/user_snapshots.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/tables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/data/response.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/data/user_snapshot.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/data/user_snapshot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ai/hs/nodes/i_0_g.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/nodes/i_0_g.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ai/hs/nodes/i_0_h.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/nodes/i_0_h.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ai/hs/nodes/i_1_f_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/nodes/i_1_f_cell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/study/s_1_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/study/s_1_priority.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/i_1_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/i_1_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/u_algos.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/u_algos.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/testers/t_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/testers/t_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/testers/t_u_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/testers/t_u_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/u_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/u_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/nodes/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/nodes/i_1_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/nodes/i_1_path.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/nodes/i_1_path_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/nodes/i_2_cell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/nodes/mixins/has_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/nodes/mixins/has_cell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/nodes/study/s_copy.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/nodes/testers/t_1_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/nodes/testers/t_1_path.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/nodes/testers/t_1_path_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/nodes/testers/t_2_cell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/algos/testers/t_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/algos/testers/t_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/components/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/components/data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/components/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/components/ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/components/path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/components/path.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/generators/gen_problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/generators/gen_problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/protocols/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/protocols/data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/protocols/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/protocols/ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path_finding/protocols/path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path_finding/protocols/path.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,6 +92,7 @@
     "Python tests.Python tests for t_1_bfs.test_bfs.executor": "Run",
     "Python tests.Python tests for t_1_f.test_repr.executor": "Run",
     "Python tests.Python tests for t_1_join.test.executor": "Run",
+    "Python tests.Python tests for t_1_path.test_path_from_root.executor": "Run",
     "Python tests.Python tests for t_1_path_cell.test_key_comparison.executor": "Run",
     "Python tests.Python tests for t_1_text.test_text.executor": "Run",
     "Python tests.Python tests for t_2_bfs_cache.test.executor": "Run",
@@ -316,15 +343,15 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\mypy\f_graph\nodes" />
+      <recent name="D:\mypy\f_graph\path_finding\nodes" />
       <recent name="D:\mypy\f_proj\rapid_api\tiktok" />
       <recent name="D:\mypy\f_http\get\components" />
       <recent name="D:\mypy\f_graph\path_finding" />
-      <recent name="D:\mypy\f_ds\mixins" />
-      <recent name="D:\mypy\f_graph\path_finding\components" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.user_snapshots">
-    <configuration name="create_tables" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.s_bfs">
+    <configuration name="s_bfs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -333,11 +360,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path_finding/algos/study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path_finding/algos/study/s_bfs.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -346,101 +373,73 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_api (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_1_path.test_path_from_root" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/rapid_api/tiktok/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path_finding/nodes/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/rapid_api/tiktok/study/s_api.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_1_path.test_path_from_root&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="s_api" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_bfs.test_bfs" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/rapid_api/tiktok/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path_finding/algos/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/rapid_api/tiktok/study/s_api.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_bfs.test_bfs&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="s_tiktok_user" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_1_path.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/rapid_api/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path_finding/nodes/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/rapid_api/study/s_tiktok_user.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path_finding/nodes/testers/t_1_path.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="user_snapshots" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_bfs.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path_finding/algos/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/user_snapshots.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path_finding/algos/testers/t_bfs.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.user_snapshots" />
-        <item itemvalue="Python.s_api (1)" />
-        <item itemvalue="Python.create_tables" />
-        <item itemvalue="Python.s_api" />
-        <item itemvalue="Python.s_tiktok_user" />
+        <item itemvalue="Python.s_bfs" />
+        <item itemvalue="Python tests.Python tests for t_bfs.test_bfs" />
+        <item itemvalue="Python tests.Python tests for t_1_path.test_path_from_root" />
+        <item itemvalue="Python tests.Python tests in t_1_path.py" />
+        <item itemvalue="Python tests.Python tests in t_bfs.py" />
       </list>
     </recent_temporary>
   </component>
@@ -459,14 +458,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00041" summary="h">
-      <option name="closed" value="true" />
-      <created>1728144501732</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1728144501732</updated>
     </task>
     <task id="LOCAL-00042" summary="h">
       <option name="closed" value="true" />
@@ -852,7 +843,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732961946591</updated>
     </task>
-    <option name="localTasksCounter" value="90" />
+    <task id="LOCAL-00090" summary="h">
+      <option name="closed" value="true" />
+      <created>1732962939826</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1732962939826</updated>
+    </task>
+    <option name="localTasksCounter" value="91" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

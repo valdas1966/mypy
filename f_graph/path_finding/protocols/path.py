@@ -1,4 +1,4 @@
-from f_graph.nodes.i_1_path import NodePath
+from f_graph.path_finding.nodes.i_1_path import NodePath
 from typing import Protocol, TypeVar
 
 Node = TypeVar('Node', bound=NodePath)

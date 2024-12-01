@@ -1,6 +1,6 @@
 from f_graph.path_finding.protocols.data import Data
 from f_graph.path_finding.protocols.problem import Problem
-from f_graph.nodes.i_1_path import NodePath
+from f_graph.path_finding.nodes.i_1_path import NodePath
 from typing import Generic, TypeVar
 
 Node = TypeVar('Node', bound=NodePath)
@@ -31,6 +31,7 @@ class Ops(Generic[Node]):
         ========================================================================
         """
         node.parent = parent
+        print(f'{parent} is parent of {node}')
         self._data.mark_generated(node=node)
 
     def explore(self, node: Node) -> None:

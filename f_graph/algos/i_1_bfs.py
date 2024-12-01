@@ -3,7 +3,7 @@ from f_graph.path_finding.problem import Problem
 from f_graph.path_finding.components.data import DataPath
 from f_graph.path_finding.components.ops import OpsPath
 from f_graph.path_finding.components.path import PathBasic
-from f_graph.nodes.i_1_path import NodePath
+from f_graph.path_finding.nodes.i_1_path import NodePath
 from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=Problem)

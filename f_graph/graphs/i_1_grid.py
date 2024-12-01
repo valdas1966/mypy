@@ -1,10 +1,10 @@
 from __future__ import annotations
 from f_graph.graphs.i_0_base import GraphBase
-from f_graph.nodes.i_1_path_cell import NodePathCell
+from f_graph.path_finding.nodes.i_2_cell import NodeCell
 from f_ds.grids.grid import Grid, Cell
 from typing import TypeVar, Type
 
-Node = TypeVar('Node', bound=NodePathCell)
+Node = TypeVar('Node', bound=NodeCell)
 
 
 class GraphGrid(GraphBase[Node]):
@@ -16,7 +16,7 @@ class GraphGrid(GraphBase[Node]):
 
     def __init__(self,
                  grid: Grid,
-                 type_node: Type[Node] = NodePathCell,
+                 type_node: Type[Node] = NodeCell,
                  name: str = None) -> None:
         """
         ========================================================================
@@ -93,6 +93,7 @@ class GraphGrid(GraphBase[Node]):
                 in self._grid.to_group()
                 if cell}
 
+    def
     def __getitem__(self, index: tuple[int, int]) -> Node:
         """
         ========================================================================

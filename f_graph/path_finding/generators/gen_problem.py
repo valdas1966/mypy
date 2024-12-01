@@ -1,5 +1,5 @@
 from f_graph.path_finding.problem import Problem
-from f_graph.graphs.u_1_grid import UGraphGrid, NodePathCell as Node
+from f_graph.graphs.u_1_grid import UGraphGrid, NodeCell as Node
 from typing import Type
 
 
