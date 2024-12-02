@@ -1,0 +1,58 @@
+from __future__ import annotations
+from f_core.mixins.has_uid import HasUID
+from f_core.mixins.nameable import Nameable
+from typing import Generic, TypeVar
+
+UID = TypeVar('UID')
+
+
+class NodeGraph(Generic[UID], HasUID[UID], Nameable):
+    """
+    ============================================================================
+     ABC of Node classes.
+    ============================================================================
+    """
+
+    def __init__(self,
+                 uid: UID,
+                 name: str = None) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
+        HasUID.__init__(self, uid=uid)
+        Nameable.__init__(self, name=name)
+
+    def key_comparison(self) -> list:
+        """
+        ========================================================================
+         Compare by Cell.
+        ========================================================================
+        """
+        return HasUID.key_comparison(self)
+
+    def __str__(self) -> str:
+        """
+        ========================================================================
+         Return a STR-Repr of the Node.
+        ========================================================================
+        """
+        return f'{Nameable.__str__(self)}({self._uid})'
+
+    def __eq__(self, other: NodeGraph) -> bool:
+        """
+        ========================================================================
+         Return True if Node's Uid is equals to other Node's Uid.
+        ========================================================================
+        """
+        return self.uid == other.uid
+
+    def __ne__(self, other: NodeGraph) -> bool:
+        """
+        ========================================================================
+         Return True if Node's Uid is not equals to other Node's Uid.
+        ========================================================================
+        """
+        return not self == other
+    

@@ -1,7 +1,7 @@
-from f_graph.graphs.i_0_base import GraphBase, NodeBase
+from f_graph.graphs.i_0_base import GraphBase, NodeGraph
 from typing import TypeVar
 
-Node = TypeVar('Node', bound=NodeBase)
+Node = TypeVar('Node', bound=NodeGraph)
 
 
 class GraphMutable(GraphBase[Node]):

@@ -1,4 +1,4 @@
-from f_graph.path_finding.generators.gen_problem import UProblemOTO
+from f_graph.path.generators.gen_problem import UProblemOTO
 from f_ai.hs.algos.u_algos import UAlgos, Node
 
 

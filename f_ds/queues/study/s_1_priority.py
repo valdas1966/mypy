@@ -1,11 +1,11 @@
 from f_ds.queues.i_1_priority import QueuePriority
-from f_graph.nodes.i_0_base import NodeBase
+from f_graph.node import NodeGraph
 
 
-class Node(NodeBase):
+class Node(NodeGraph):
 
     def __init__(self, name: str, val: int) -> None:
-        NodeBase.__init__(self, name=name)
+        NodeGraph.__init__(self, name=name)
         self.val = val
 
     def key_comparison(self) -> list:

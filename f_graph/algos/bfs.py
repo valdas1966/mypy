@@ -1,8 +1,8 @@
-from f_graph.path_finding.algo import AlgoPath
-from f_graph.path_finding.problem import Problem
-from f_graph.path_finding.components.path import Path
-from f_graph.path_finding.components.data import Data
-from f_graph.path_finding.components.ops import Ops
+from f_graph.path.algo import AlgoPath
+from f_graph.path.problem import Problem
+from f_graph.path.components.path import Path
+from f_graph.path.components.data import Data
+from f_graph.path.components.ops import Ops
 
 
 class BFS(AlgoPath[Problem, Path, Data, Ops]):

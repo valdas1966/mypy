@@ -1,14 +1,14 @@
 from abc import abstractmethod
 from typing import TypeVar, Generic
 from f_core.mixins.nameable import Nameable
-from f_core.abstracts.copyable import Copyable
+from f_core.abstracts.clonable import Clonable
 from f_ds.mixins.groupable import Groupable, Group
-from f_graph.nodes.i_0_base import NodeBase
+from f_graph.node import NodeGraph
 
-Node = TypeVar('Node', bound=NodeBase)
+Node = TypeVar('Node', bound=NodeGraph)
 
 
-class GraphBase(Generic[Node], Groupable[Node], Nameable, Copyable):
+class GraphBase(Generic[Node], Groupable[Node], Nameable, Clonable):
     """
     ============================================================================
      Graph Base-Class.
@@ -40,17 +40,6 @@ class GraphBase(Generic[Node], Groupable[Node], Nameable, Copyable):
         ========================================================================
         """
         pass
-
-    def children(self, node: Node) -> list[Node]:
-        """
-        ========================================================================
-         Return List of Node's Neighbors that are not parents of the Node.
-        ========================================================================
-        """
-        return [child
-                for child
-                in self.neighbors(node=node)
-                if child.parent != node]
 
     def to_group(self, name: str = None) -> Group[Node]:
         """

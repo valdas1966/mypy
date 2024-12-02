@@ -1,6 +1,6 @@
 from __future__ import annotations
 from f_ai.hs.nodes.i_1_f import NodeF
-from f_graph.path_finding.nodes.i_2_cell import NodeCell, Cell
+from f_graph.path.nodes.i_1_cell import NodeCell, Cell
 
 
 class NodeFCell(NodeF, NodeCell):
@@ -28,7 +28,7 @@ class NodeFCell(NodeF, NodeCell):
          Set Equality by Cell and not by Node (because Node.h can be None).
         ========================================================================
         """
-        return self.cell == other.cell
+        return self.uid == other.uid
 
     def __nq__(self, other: NodeFCell) -> bool:
         """
@@ -45,11 +45,3 @@ class NodeFCell(NodeF, NodeCell):
         ========================================================================
         """
         return f'{NodeCell.__repr__(self)} G={self.g}, H={self.h}, F={self.f()}'
-
-    def __hash__(self) -> int:
-        """
-        ========================================================================
-         Hash by Cell.
-        ========================================================================
-        """
-        return NodeCell.__hash__(self)

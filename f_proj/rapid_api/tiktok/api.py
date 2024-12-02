@@ -24,6 +24,7 @@ class TiktokAPI:
         output = request.run()
         data = DataUserSnapshot()
         if request:
+            data.id_user = id_user
             data.is_ok = True
             try:
                 d = output.to_dict()['data']
@@ -32,7 +33,6 @@ class TiktokAPI:
                 return data
             data.is_found = True
             d_user = d['user']
-            data.id_user = d_user['id']
             data.nick = d_user['nickname']
             data.is_verified = d_user['verified']
             data.is_secret = d_user['secret']

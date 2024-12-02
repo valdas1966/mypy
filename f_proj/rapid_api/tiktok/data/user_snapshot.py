@@ -1,32 +1,23 @@
-from f_core.abstracts.dictable import Dictable
-from dataclasses import dataclass, asdict
+from f_core.components.data import Data, dataclass, field
 
 
 @dataclass
-class DataUserSnapshot(Dictable):
+class DataUserSnapshot(Data):
     """
     ============================================================================
      DataClass for User-Snapshot.
     ============================================================================
     """
-    is_ok = bool
-    is_found = bool
-    source = str
-    id_user = str
-    nick = str
-    is_verified = bool
-    is_secret = bool
-    is_private = bool
-    following = int
-    followers = int
-    videos = int
-    hearts = int
-    diggs = int
-
-    def to_dict(self) -> dict:
-        """
-        ========================================================================
-         Convert the DataClass into a Dict.
-        ========================================================================
-        """
-        return asdict(self)
+    is_ok: bool = field(default=None)
+    is_found: bool = field(default=None)
+    source: str = field(default=None)
+    id_user: str = field(default=None)
+    nick: str = field(default=None)
+    is_verified: bool = field(default=None)
+    is_secret: bool = field(default=None)
+    is_private: bool = field(default=None)
+    following: int = field(default=None)
+    followers: int = field(default=None)
+    videos: int = field(default=None)
+    hearts: int = field(default=None)
+    diggs: int = field(default=None)
