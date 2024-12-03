@@ -1,6 +1,6 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Sequence
+from f_core.protocols.comparable import Comparable as ProtocolComparable
 
 
 class Equable(ABC):
@@ -11,7 +11,7 @@ class Equable(ABC):
     """
 
     @abstractmethod
-    def key_comparison(self) -> Sequence:
+    def key_comparison(self) -> ProtocolComparable:
         """
         ========================================================================
          Return a List that represents Key for Object-Comparison.

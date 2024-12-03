@@ -1,7 +1,6 @@
 from f_graph.path.algo import AlgoPath as AlgoPath
-from f_graph.path.cache.config import (Problem, Path, Data, Ops,
-                                       Queue, TProblem, TPath, TData,
-                                       TOps, TNode)
+from f_graph.path.cache.config import (Data, Queue,
+                                       TProblem, TPath, TData, TOps, TNode)
 from typing import Generic, Type
 
 

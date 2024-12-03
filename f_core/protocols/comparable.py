@@ -1,14 +1,27 @@
 from __future__ import annotations
-from f_core.protocols.equable import Equable
 from typing import Protocol
 
 
-class Comparable(Protocol, Equable):
+class Comparable(Protocol):
     """
     ============================================================================
      Protocol that supports comparable-methods.
     ============================================================================
     """
+
+    def __eq__(self, other: Comparable) -> bool:
+        """
+        ========================================================================
+         Return True if the Object is equals to the other Object.
+        ========================================================================
+        """
+
+    def __ne__(self, other: Comparable) -> bool:
+        """
+        ========================================================================
+         Return False if the Object is equals to the other Object.
+        ========================================================================
+        """
 
     def __lt__(self, other: Comparable) -> bool:
         """

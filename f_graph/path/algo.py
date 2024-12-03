@@ -21,9 +21,9 @@ class AlgoPath(Generic[TProblem, TPath, TData, TOps, TNode],
          Init private Attributes.
         ========================================================================
         """
-        AlgoABC.__init__(self,
-                         _input=problem.clone(),
-                         name=name)
+        Algo.__init__(self,
+                      _input=problem.clone(),
+                      name=name)
         self._type_queue = type_queue
         self._data = self._create_data()
         self._ops = self._create_ops()
