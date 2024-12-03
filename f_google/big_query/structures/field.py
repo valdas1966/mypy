@@ -1,9 +1,9 @@
 from __future__ import annotations
 from google.cloud.bigquery import SchemaField
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 
 
-class Field(Nameable):
+class Field(HasName):
     """
     ============================================================================
      Field (Column) in BigQuery Table.
@@ -22,7 +22,7 @@ class Field(Nameable):
          Init private Attributes.
         ========================================================================
         """
-        Nameable.__init__(self, name=name)
+        HasName.__init__(self, name=name)
         self._dtype = dtype
 
     def to_schema_field(self) -> SchemaField:

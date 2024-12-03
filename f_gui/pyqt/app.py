@@ -1,13 +1,13 @@
 from PyQt5.QtWidgets import QApplication
 from f_gui.components.position import Position
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 from f_gui.pyqt.window import Window
 from f_gui.pyqt.widget import Widget
 
 import sys
 
 
-class App(Nameable):
+class App(HasName):
     """
     ============================================================================
      Application Class to encapsulate the QApplication and main event loop.
@@ -20,7 +20,7 @@ class App(Nameable):
          Initialize the application with list specified window class.
         ========================================================================
         """
-        Nameable.__init__(self, name=name)
+        HasName.__init__(self, name=name)
         self._app = QApplication(sys.argv)
         self._win = Window(name=name)
 

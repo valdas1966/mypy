@@ -1,9 +1,9 @@
 from __future__ import annotations
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 import json
 
 
-class Json(Nameable):
+class Json(HasName):
     """
     ============================================================================
      JSON-File Manager.
@@ -16,7 +16,7 @@ class Json(Nameable):
          Init the Object with the given JSON-File paths.
         ========================================================================
         """
-        Nameable.__init__(self, name=path)
+        HasName.__init__(self, name=path)
 
     @classmethod
     def from_data(cls,

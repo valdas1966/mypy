@@ -1,13 +1,13 @@
 from __future__ import annotations
 from f_ds.groups.group import Group, Item
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 from f_core.mixins.sizable import Sizable
 from f_utils.dtypes.u_seq import USeq
 from collections.abc import Iterable
 from typing import Generic, Callable, Iterator
 
 
-class View(Generic[Item], Nameable, Sizable, Iterable):
+class View(Generic[Item], HasName, Sizable, Iterable):
     """
     ============================================================================
      Dynamic and Filtered view of a Group based on a Predicate.
@@ -23,7 +23,7 @@ class View(Generic[Item], Nameable, Sizable, Iterable):
          Init private Attributes.
         ========================================================================
         """
-        Nameable.__init__(self, name=name)
+        HasName.__init__(self, name=name)
         self._group = group
         self._predicate = predicate
 
@@ -83,4 +83,4 @@ class View(Generic[Item], Nameable, Sizable, Iterable):
          Return Object's STR-REPR.
         ========================================================================
         """
-        return f'{Nameable.__str__(self)}{list(self)}'
+        return f'{HasName.__str__(self)}{list(self)}'

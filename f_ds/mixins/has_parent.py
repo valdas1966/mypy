@@ -1,10 +1,10 @@
 from f_core.mixins.has_children import HasChildren
 from typing import Generic, TypeVar
 
-T = TypeVar('T', bound='Parentable')
+T = TypeVar('T', bound='HasParent')
 
 
-class Parentable(Generic[T], HasChildren[T]):
+class HasParent(Generic[T], HasChildren[T]):
     """
     ============================================================================
      Mixin-Class for Objects with single Parent.

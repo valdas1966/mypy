@@ -1,4 +1,4 @@
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 from f_core.mixins.has_rows_cols import HasRowsCols
 from f_ds.mixins.groupable import Groupable, Group
 from f_ds.groups.view import View
@@ -7,7 +7,7 @@ from collections.abc import Iterable
 from typing import Iterator, Callable
 
 
-class Grid(Nameable, HasRowsCols, Groupable[Cell], Iterable):
+class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
     """
     ============================================================================
      2D-Grid Class of Cells.
@@ -23,7 +23,7 @@ class Grid(Nameable, HasRowsCols, Groupable[Cell], Iterable):
          Init private Attributes.
         ========================================================================
         """
-        Nameable.__init__(self, name=name)
+        HasName.__init__(self, name=name)
         HasRowsCols.__init__(self, rows=rows, cols=cols)
         self._cells = [
                         [Cell(row, col) for col in range(self.cols)]

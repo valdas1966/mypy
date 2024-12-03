@@ -1,12 +1,12 @@
 from abc import abstractmethod
 from typing import Generic, TypeVar
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 from f_ds.mixins.collectionable import Collectionable
 
 Item = TypeVar('Item')
 
 
-class QueueBase(Generic[Item], Collectionable[Item], Nameable):
+class QueueBase(Generic[Item], Collectionable[Item], HasName):
     """
     ============================================================================
      Abstract-Class of Queue.
@@ -19,7 +19,7 @@ class QueueBase(Generic[Item], Collectionable[Item], Nameable):
          Init private Attributes.
         ========================================================================
         """
-        Nameable.__init__(self, name=name)
+        HasName.__init__(self, name=name)
 
     @abstractmethod
     def push(self, item: Item) -> None:
@@ -47,4 +47,4 @@ class QueueBase(Generic[Item], Collectionable[Item], Nameable):
          Ex: Name[1, 2]
         ========================================================================
         """
-        return f'{Nameable.__str__(self)}{Collectionable.__str__(self)}'
+        return f'{HasName.__str__(self)}{Collectionable.__str__(self)}'

@@ -1,10 +1,10 @@
 from abc import abstractmethod
 from time import time
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 from f_core.mixins.validatable import Validatable
 
 
-class ProcessABC(Nameable, Validatable):
+class ProcessABC(HasName, Validatable):
     """
     ============================================================================
      ABC of Process-Classes.
@@ -18,7 +18,7 @@ class ProcessABC(Nameable, Validatable):
          Init private Attributes.
         ========================================================================
         """
-        Nameable.__init__(self, name=name)
+        HasName.__init__(self, name=name)
         Validatable.__init__(self)
         self._elapsed: float | None = None
         self._time_start = None

@@ -1,13 +1,13 @@
 from __future__ import annotations
 from collections import UserList
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 from f_utils.dtypes.u_seq import USeq
 from typing import TypeVar, Callable, Sequence
 
 Item = TypeVar('Item')
 
 
-class Group(Nameable, UserList[Item]):
+class Group(HasName, UserList[Item]):
     """
     ============================================================================
      Group Data-Structure (A named list with utility functions).
@@ -22,7 +22,7 @@ class Group(Nameable, UserList[Item]):
          Init private Attributes.
         ========================================================================
         """
-        Nameable.__init__(self, name=name)
+        HasName.__init__(self, name=name)
         UserList.__init__(self, data or list())
         self._data = data
 
@@ -78,7 +78,7 @@ class Group(Nameable, UserList[Item]):
          Compare first by the name of the Group, and second by its Data.
         ========================================================================
         """
-        return [Nameable.key_comparison(self), self.data]
+        return [HasName.key_comparison(self), self.data]
 
     def __iadd__(self, other: list[Item]) -> Group[Item]:
         """
@@ -95,7 +95,7 @@ class Group(Nameable, UserList[Item]):
          Return the string representation of the Group.
         ========================================================================
         """
-        return f'{Nameable.__str__(self)}{self.data}'
+        return f'{HasName.__str__(self)}{self.data}'
 
     @classmethod
     def union(cls,

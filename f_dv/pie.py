@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 
 
-class Pie(Nameable):
+class Pie(HasName):
     """
     ============================================================================
      Pie-Chart Class.
@@ -23,7 +23,7 @@ class Pie(Nameable):
          Init private Attributes.
         ========================================================================
         """
-        Nameable.__init__(self, name=name)
+        HasName.__init__(self, name=name)
         self._labels = labels
         self._pcts = pcts
         self._set_params()

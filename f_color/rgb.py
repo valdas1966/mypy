@@ -1,9 +1,9 @@
 from __future__ import annotations
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 import matplotlib.colors as mcolors
 
 
-class RGB(Nameable):
+class RGB(HasName):
     """
     ============================================================================
      RGB Color.
@@ -23,7 +23,7 @@ class RGB(Nameable):
          Init private Attributes.
         ========================================================================
         """
-        Nameable.__init__(self, name=name)
+        HasName.__init__(self, name=name)
         if name:
             if name in RGB._CUSTOM:
                 (r, g, b) = (x/255 for x in RGB._CUSTOM[name])

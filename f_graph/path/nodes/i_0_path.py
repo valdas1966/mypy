@@ -1,9 +1,9 @@
 from __future__ import annotations
 from f_graph.node import NodeGraph, UID
-from f_core.mixins.parentable import Parentable
+from f_ds.mixins.has_parent import HasParent
 
 
-class NodePath(NodeGraph[UID], Parentable):
+class NodePath(NodeGraph[UID], HasParent):
     """
     ============================================================================
      Node with Path functionality.
@@ -20,4 +20,4 @@ class NodePath(NodeGraph[UID], Parentable):
         ========================================================================
         """
         NodeGraph.__init__(self, uid=uid, name=name)
-        Parentable.__init__(self, parent=parent)
+        HasParent.__init__(self, parent=parent)

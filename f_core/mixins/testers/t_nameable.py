@@ -1,14 +1,14 @@
 import pytest
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 
 
 @pytest.fixture
 def ex_none():
-    return Nameable()
+    return HasName()
 
 @pytest.fixture
 def ex_test():
-    return Nameable(name='Test')
+    return HasName(name='Test')
 
 
 def test_init_default(ex_none, ex_test):

@@ -1,8 +1,8 @@
 from __future__ import annotations
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 
 
-class HasRowCol(Nameable):
+class HasRowCol(HasName):
     """
     ============================================================================
      Mixin for classes with Row and Col properties.
@@ -21,7 +21,7 @@ class HasRowCol(Nameable):
         """
         self._row = row if row is not None else 0
         self._col = col if col is not None else self._row
-        Nameable.__init__(self, name=name)
+        HasName.__init__(self, name=name)
 
     @property
     # Object's Row

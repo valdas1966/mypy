@@ -1,11 +1,11 @@
 from collections.abc import MutableSequence
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 from typing import Generic, TypeVar
 
 Item = TypeVar('Item')
 
 
-class Indexable(Generic[Item], Nameable, MutableSequence[Item]):
+class Indexable(Generic[Item], HasName, MutableSequence[Item]):
     """
     ============================================================================
      Mixin-Class for Objects with Indexable Lists (without duplicate items).
@@ -20,7 +20,7 @@ class Indexable(Generic[Item], Nameable, MutableSequence[Item]):
          Init private Attributes.
         ========================================================================
         """
-        Nameable.__init__(self, name=name)
+        HasName.__init__(self, name=name)
         self._items = items if items is not None else list()
 
     @property

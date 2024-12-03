@@ -1,12 +1,12 @@
 from __future__ import annotations
 from f_core.mixins.has_uid import HasUID
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 from typing import Generic, TypeVar
 
 UID = TypeVar('UID')
 
 
-class NodeGraph(Generic[UID], HasUID[UID], Nameable):
+class NodeGraph(Generic[UID], HasUID[UID], HasName):
     """
     ============================================================================
      ABC of Node classes.
@@ -22,7 +22,7 @@ class NodeGraph(Generic[UID], HasUID[UID], Nameable):
         ========================================================================
         """
         HasUID.__init__(self, uid=uid)
-        Nameable.__init__(self, name=name)
+        HasName.__init__(self, name=name)
 
     def key_comparison(self) -> list:
         """
@@ -38,7 +38,7 @@ class NodeGraph(Generic[UID], HasUID[UID], Nameable):
          Return a STR-Repr of the Node.
         ========================================================================
         """
-        return f'{Nameable.__str__(self)}({self._uid})'
+        return f'{HasName.__str__(self)}({self._uid})'
 
     def __eq__(self, other: NodeGraph) -> bool:
         """

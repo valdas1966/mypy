@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 from f_color.u_color import RGB, UColor
 
 
-class Bar(Nameable):
+class Bar(HasName):
     """
     ============================================================================
      Bar Chart Class.
@@ -27,7 +27,7 @@ class Bar(Nameable):
          Init private Attributes.
         ========================================================================
         """
-        Nameable.__init__(self, name=name)
+        HasName.__init__(self, name=name)
         self._labels = labels
         self._values = values
         self._name_labels = name_labels

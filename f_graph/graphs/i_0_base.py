@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from typing import TypeVar, Generic
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 from f_core.abstracts.clonable import Clonable
 from f_ds.mixins.groupable import Groupable, Group
 from f_graph.node import NodeGraph
@@ -8,7 +8,7 @@ from f_graph.node import NodeGraph
 Node = TypeVar('Node', bound=NodeGraph)
 
 
-class GraphBase(Generic[Node], Groupable[Node], Nameable, Clonable):
+class GraphBase(Generic[Node], Groupable[Node], HasName, Clonable):
     """
     ============================================================================
      Graph Base-Class.
@@ -21,7 +21,7 @@ class GraphBase(Generic[Node], Groupable[Node], Nameable, Clonable):
          Init private Attributes.
         ========================================================================
         """
-        Nameable.__init__(self, name)
+        HasName.__init__(self, name)
 
     @abstractmethod
     def nodes(self) -> list[Node]:

@@ -1,12 +1,12 @@
 from PyQt5.QtWidgets import QWidget
 from f_gui.pyqt.mixins.has_widget import HasWidget
 from f_gui.mixins.has_position import HasPosition
-from f_core.mixins.parentable import Parentable
-from f_core.mixins.nameable import Nameable
+from f_ds.mixins.has_parent import HasParent
+from f_core.mixins.has_name import HasName
 from f_gui.components.ltwh import LTWH
 
 
-class Widget(Nameable, Parentable, HasWidget, HasPosition):
+class Widget(HasName, HasParent, HasWidget, HasPosition):
     """
     ============================================================================
      QWidget Encapsulation.
@@ -21,9 +21,9 @@ class Widget(Nameable, Parentable, HasWidget, HasPosition):
          Initialize the Widget class.
         ========================================================================
         """
-        Nameable.__init__(self, name=name)
+        HasName.__init__(self, name=name)
         HasWidget.__init__(self, widget=widget)
-        Parentable.__init__(self)
+        HasParent.__init__(self)
         HasPosition.__init__(self)
         self._styles = {'background-color': 'White'}
         self._apply_styles()

@@ -1,7 +1,7 @@
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 
 
-class FileKey(Nameable):
+class FileKey(HasName):
     """
     ============================================================================
      Class for Keys stored in Files.
@@ -17,7 +17,7 @@ class FileKey(Nameable):
          Init private Attributes.
         ========================================================================
         """
-        Nameable.__init__(self, name)
+        HasName.__init__(self, name)
 
     def to_str(self) -> str:
         """

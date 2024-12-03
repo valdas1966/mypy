@@ -1,4 +1,4 @@
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 from f_ds.groups.group import Listable
 from f_proj.myq.questions.i_0_base import QuestionBase
 from typing import TypeVar
@@ -6,7 +6,7 @@ from typing import TypeVar
 Question = TypeVar('Question', bound=QuestionBase)
 
 
-class BlockBase(Listable[Question], Nameable):
+class BlockBase(Listable[Question], HasName):
     """
     ============================================================================
      Base-Class for Block of Questions.
@@ -19,4 +19,4 @@ class BlockBase(Listable[Question], Nameable):
          Init private Attributes.
         ========================================================================
         """
-        Nameable.__init__(self, name=name)
+        HasName.__init__(self, name=name)

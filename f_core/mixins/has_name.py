@@ -3,7 +3,7 @@ from f_core.mixins.comparable import Comparable
 from f_core.mixins.printable import Printable
 
 
-class Nameable(Comparable, Printable):
+class HasName(Comparable, Printable):
     """
     ============================================================================
      Mixin with list Name property (Default=None).

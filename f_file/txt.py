@@ -1,11 +1,11 @@
 from __future__ import annotations
 from typing import Iterator
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 from f_utils.dtypes.u_list import UList
 from f_utils.dtypes.u_str import UStr
 
 
-class FileTxt(Nameable):
+class FileTxt(HasName):
     """
     ============================================================================
      Text-File Manager.
@@ -18,7 +18,7 @@ class FileTxt(Nameable):
          Init private Attributes.
         ========================================================================
         """
-        Nameable.__init__(self, name=path)
+        HasName.__init__(self, name=path)
 
     @classmethod
     def from_str(cls,

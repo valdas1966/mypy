@@ -1,7 +1,7 @@
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 
 
-class FileTxt(Nameable):
+class FileTxt(HasName):
     """
     ============================================================================
      TextFile Manager.
@@ -16,7 +16,7 @@ class FileTxt(Nameable):
          Inits the Attributes.
         ========================================================================
         """
-        Nameable.__init__(self, name=path)
+        HasName.__init__(self, name=path)
         self._path = path
 
     def to_str(self) -> str:

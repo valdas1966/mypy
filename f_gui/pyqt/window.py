@@ -2,12 +2,12 @@ from PyQt5.QtWidgets import QMainWindow
 from f_gui.pyqt.widget import Widget
 from f_gui.pyqt.container import Container
 from f_gui.pyqt.mixins.has_widget import HasWidget
-from f_core.mixins.nameable import Nameable
+from f_core.mixins.has_name import HasName
 from f_gui.components.position import Position
 from f_gui.u_screen import UScreen as u_screen
 
 
-class Window(Nameable, HasWidget):
+class Window(HasName, HasWidget):
     """
     ============================================================================
      Main Window Class.
@@ -21,7 +21,7 @@ class Window(Nameable, HasWidget):
          Initialize the Window.
         ========================================================================
         """
-        Nameable.__init__(self, name=name)
+        HasName.__init__(self, name=name)
         HasWidget.__init__(self, widget=QMainWindow())
         self._container = Container(name='Main Container')
         self._container.position = Position()
