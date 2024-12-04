@@ -28,7 +28,7 @@ class AlgoCache(Generic[TProblem, TPath, TOps, TData, TNode],
                           type_queue=type_queue,
                           name=name)
 
-    def _create_data(self) -> TData:
+    def _create_state(self) -> TData:
         """
         ========================================================================
          Create a Data object.

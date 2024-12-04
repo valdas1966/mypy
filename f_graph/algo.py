@@ -5,20 +5,20 @@ from typing import Generic, TypeVar
 
 Input = TypeVar('Input')
 Output = TypeVar('Output')
-Data = TypeVar('Data')
+State = TypeVar('State')
 Ops = TypeVar('Ops')
 
 
-class Algo(Generic[Input, Output], ProcessIO[Input, Output]):
+class AlgoGraph(Generic[Input, Output], ProcessIO[Input, Output]):
     """
     ============================================================================
-     Abstract-Class for Algorithms in Computer-Science.
+     Abstract-Class for Graph-Algorithms in Computer-Science.
     ============================================================================
     """
 
     def __init__(self,
                  _input: Input,
-                 name: str = 'Algorithm') -> None:
+                 name: str = 'Graph-Algorithm') -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -27,10 +27,10 @@ class Algo(Generic[Input, Output], ProcessIO[Input, Output]):
         ProcessIO.__init__(self, _input=_input, name=name)
 
     @abstractmethod
-    def _create_data(self) -> Data:
+    def _create_state(self) -> State:
         """
         ========================================================================
-         Create a Data object.
+         Create a State object of the Graph-Algorithm.
         ========================================================================
         """
 
@@ -38,6 +38,6 @@ class Algo(Generic[Input, Output], ProcessIO[Input, Output]):
     def _create_ops(self) -> Ops:
         """
         ========================================================================
-         Create an Ops object.
+         Create an Ops object of the Graph-Algorithm.
         ========================================================================
         """

@@ -1,11 +1,11 @@
-from f_graph.path.problem import ProblemGrid as Problem, NodeCell
+from f_graph.path.problem import ProblemPath as Problem, NodePath
 from f_ds.queues.i_0_base import QueueBase as Queue
 from typing import Generic, TypeVar, Type
 
-Node = TypeVar('Node', bound=NodeCell)
+Node = TypeVar('Node', bound=NodePath)
 
 
-class Data(Generic[Node]):
+class State(Generic[Node]):
     """
     ============================================================================
      Data object of Path-Finding Algorithms.

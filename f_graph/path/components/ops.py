@@ -1,5 +1,5 @@
-from f_graph.path.components.data import Data
-from f_graph.path.problem import ProblemGrid as Problem, NodeCell
+from f_graph.path.components.state import State
+from f_graph.path.problem import ProblemPath as Problem, NodeCell
 from typing import Generic, TypeVar
 
 Node = TypeVar('Node', bound=NodeCell)
@@ -14,7 +14,7 @@ class Ops(Generic[Node]):
 
     def __init__(self,
                  problem: Problem,
-                 data: Data) -> None:
+                 data: State) -> None:
         """
         ========================================================================
          Init private Attributes.

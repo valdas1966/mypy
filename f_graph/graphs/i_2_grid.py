@@ -1,13 +1,13 @@
 from __future__ import annotations
-from f_graph.path.graph import GraphPath
-from f_graph.path.nodes.i_1_cell import NodeCell
+from f_graph.graphs.i_1_dict import GraphDict
+from f_graph.node import NodeGraph
 from f_ds.grids.grid import Grid, Cell
 from typing import Generic, TypeVar, Type
 
-Node = TypeVar('Node', bound=NodeCell)
+Node = TypeVar('Node', bound=NodeGraph)
 
 
-class GraphGrid(Generic[Node], GraphPath[Node, Cell]):
+class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
     """
     ============================================================================
      Dict-Based {Cell: Node} Graph on 2D-Grids.
@@ -24,7 +24,7 @@ class GraphGrid(Generic[Node], GraphPath[Node, Cell]):
         ========================================================================
         """
         uids = grid.to_group().filter(predicate=bool)
-        GraphPath.__init__(self, uids=uids, type_node=type_node, name=name)
+        GraphDict.__init__(self, uids=uids, type_node=type_node, name=name)
         self._grid = grid
         self._type_node = type_node
 

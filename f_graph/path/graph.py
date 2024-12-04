@@ -1,11 +1,11 @@
-from f_graph.graphs.i_1_dict import GraphDict, UID
+from f_graph.graphs.i_2_grid import GraphGrid
 from f_graph.path.node import NodePath
 from typing import TypeVar
 
 Node = TypeVar('Node', bound=NodePath)
 
 
-class GraphPath(GraphDict[Node, UID]):
+class GraphPath(GraphGrid[Node]):
     """
     ============================================================================
      Graph for Path-Finding problems.

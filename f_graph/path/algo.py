@@ -1,11 +1,11 @@
-from f_cs.algo import Algo
-from f_graph.path.config import (Path, Data, Ops, TQueue,
+from f_graph.algo import AlgoGraph
+from f_graph.path.config import (Path, State, Ops, TQueue,
                                  TProblem, TPath, TData, TOps, TNode)
 from typing import Generic, Type
 
 
 class AlgoPath(Generic[TProblem, TPath, TData, TOps, TNode],
-               Algo[TProblem, TPath]):
+               AlgoGraph[TProblem, TPath]):
     """
     ============================================================================
      Base-Class for Path-Algorithms.
@@ -21,11 +21,11 @@ class AlgoPath(Generic[TProblem, TPath, TData, TOps, TNode],
          Init private Attributes.
         ========================================================================
         """
-        Algo.__init__(self,
-                      _input=problem.clone(),
-                      name=name)
+        AlgoGraph.__init__(self,
+                           _input=problem.clone(),
+                           name=name)
         self._type_queue = type_queue
-        self._data = self._create_data()
+        self._data = self._create_state()
         self._ops = self._create_ops()
         self._path = self._create_path()
         self._best = None
@@ -45,13 +45,13 @@ class AlgoPath(Generic[TProblem, TPath, TData, TOps, TNode],
                     return self._path
             self._explore_best()
 
-    def _create_data(self) -> Data:
+    def _create_state(self) -> State:
         """
         ========================================================================
          Create a Data object.
         ========================================================================
         """
-        return Data[TNode](problem=self._input, type_queue=self._type_queue)
+        return State[TNode](problem=self._input, type_queue=self._type_queue)
 
     def _create_ops(self) -> Ops:
         """

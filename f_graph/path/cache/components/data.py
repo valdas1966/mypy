@@ -1,4 +1,4 @@
-from f_graph.path.config import Problem, Queue, TNode, Data as DataPath
+from f_graph.path.config import Problem, Queue, TNode, State as DataPath
 from typing import Type
 
 
