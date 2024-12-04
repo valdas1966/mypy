@@ -1,6 +1,6 @@
 from __future__ import annotations
 from f_graph.problem import ProblemGraph, dataclass
-from f_graph.path.graphs.i_1_grid import GraphGrid, NodeCell
+from f_graph.path.graphs.i_1_grid import GraphGrid
 from typing import TypeVar
 
 Graph = TypeVar('Graph', bound=GraphGrid)

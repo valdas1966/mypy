@@ -1,11 +1,29 @@
-from __future__ import annotations
-from f_graph.path.graph import GraphPath
-from f_graph.path.nodes.i_1_cell import NodeCell
+from f_graph.node import NodeGraph
 from f_ds.grids.grid import Grid, Cell
 from typing import Generic, TypeVar, Type
 
-Node = TypeVar('Node', bound=NodeCell)
+Node = TypeVar('Node', bound=NodeGraph[Cell])
 
+
+class HasGrid(Generic[Node]):
+
+    def __init__(self, grid: Grid) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
+        self._grid = grid
+
+    def neighbors(self, node: Node) -> list[Node]:
+        """
+        ========================================================================
+         Return the Neighbors of the given Node.
+        ========================================================================
+        """
+        return [self.node_from_uid(uid=cell)
+                for cell
+                in self._grid.neighbors(cell=node.uid)]
 
 class GraphGrid(Generic[Node], GraphPath[Node, Cell]):
     """
@@ -28,15 +46,7 @@ class GraphGrid(Generic[Node], GraphPath[Node, Cell]):
         self._grid = grid
         self._type_node = type_node
 
-    def neighbors(self, node: Node) -> list[Node]:
-        """
-        ========================================================================
-         Return the Neighbors of the given Node.
-        ========================================================================
-        """
-        return [self.node_from_uid(uid=cell)
-                for cell
-                in self._grid.neighbors(cell=node.uid)]
+
 
     def clone(self) -> GraphGrid:
         """

@@ -3,7 +3,7 @@ from f_graph.path.problem import Problem
 from f_graph.path.components.data import DataPath
 from f_graph.path.components.ops import OpsPath
 from f_graph.path.components.path import PathBasic
-from f_graph.path.nodes.i_0_path import NodePath
+from f_graph.path.node import NodePath
 from f_ds.queues.i_1_fifo import QueueFIFO
 from typing import TypeVar
 

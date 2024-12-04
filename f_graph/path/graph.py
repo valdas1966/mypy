@@ -1,5 +1,5 @@
 from f_graph.graphs.i_1_dict import GraphDict, UID
-from f_graph.path.nodes.i_1_cell import NodePath
+from f_graph.path.node import NodePath
 from typing import TypeVar
 
 Node = TypeVar('Node', bound=NodePath)

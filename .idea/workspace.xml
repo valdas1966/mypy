@@ -5,33 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_graph/graphs/mixins/has_grid.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_color/rgb.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_color/rgb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/has_row_col.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/has_row_col.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/indexable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/indexable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/nameable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/has_name.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/parentable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/has_parent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_nameable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/testers/t_nameable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_parentable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/testers/t_parentable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/processes/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/processes/i_0_abc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/groups/group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/groups/group.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/groups/view.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/groups/view.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_dv/bar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/bar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_dv/pie.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/pie.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/c_json.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/c_json.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/key.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/key.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/old_txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/old_txt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/txt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/big_query/structures/field.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/big_query/structures/field.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/node.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/nodes/i_0_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/nodes/i_0_path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widget.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/widget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/window.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/window.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/blocks/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/myq/blocks/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ai/hs/nodes/i_0_g.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/nodes/i_0_g.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ai/hs/nodes/i_0_h.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/nodes/i_0_h.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/i_1_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/i_1_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/u_algos.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/u_algos.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/generators/gen_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/generators/gen_graph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/graphs/i_0_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/graph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/graphs/i_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/graphs/i_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/nodes/i_0_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/nodes/i_1_cell.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/nodes/testers/t_1_path.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/nodes/testers/t_2_cell.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/protocols/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/protocols/data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/protocols/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/protocols/ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/protocols/path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/protocols/path.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -351,11 +343,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\mypy\f_graph\path" />
       <recent name="D:\mypy\f_ds\mixins" />
       <recent name="D:\mypy\f_graph" />
       <recent name="D:\mypy\f_graph\nodes" />
       <recent name="D:\mypy\f_graph\path_finding\nodes" />
-      <recent name="D:\mypy\f_proj\rapid_api\tiktok" />
     </key>
   </component>
   <component name="RunManager" selected="Python.equable">
@@ -494,14 +486,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00045" summary="h">
-      <option name="closed" value="true" />
-      <created>1728327133319</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1728327133319</updated>
     </task>
     <task id="LOCAL-00046" summary="h">
       <option name="closed" value="true" />
@@ -887,7 +871,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733230134591</updated>
     </task>
-    <option name="localTasksCounter" value="94" />
+    <task id="LOCAL-00094" summary="h">
+      <option name="closed" value="true" />
+      <created>1733243766635</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1733243766635</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
