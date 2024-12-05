@@ -1,21 +1,31 @@
 import json
 from requests import Response
+from f_core.mixins.validatable import Validatable
+from f_http.get.components.reasons import Reasons
 
 
-class Output:
+class Output(Validatable):
     """
     ============================================================================
      Output of the Http Get-Request process.
     ============================================================================
     """
 
-    def __init__(self, response: Response) -> None:
+    def __init__(self,
+                 response: Response,
+                 reason: Reasons) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         self._response = response
+        self._reason = reason
+        Validatable.__init__(self, is_valid=bool(response))
+
+    @property
+    def reason(self) -> Reasons:
+        return self._reason
 
     def to_text(self) -> str:
         """

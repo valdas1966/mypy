@@ -1,15 +1,13 @@
-from f_core.components.data import Data, dataclass, field
+from f_proj.rapid_api.tiktok.data.i_0_abc import DataABC, dataclass, field
 
 
 @dataclass
-class DataUserSnapshot(Data):
+class DataUserSnapshot(DataABC):
     """
     ============================================================================
      DataClass for User-Snapshot.
     ============================================================================
     """
-    is_ok: bool = field(default=None)
-    is_found: bool = field(default=None)
     source: str = field(default=None)
     id_user: str = field(default=None)
     nick: str = field(default=None)

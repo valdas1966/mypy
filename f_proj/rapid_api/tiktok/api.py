@@ -1,5 +1,6 @@
 from f_os import u_environ
-from f_proj.rapid_api.tiktok.data.user_snapshot import DataUserSnapshot
+from f_proj.rapid_api.tiktok.data.i_1_user_snapshot import DataUserSnapshot
+from f_proj.rapid_api.tiktok.data.i_1_videos_from_music import DataVideosFromMusic
 from f_http.get.request import RequestGet, Input, Reasons
 
 
@@ -20,10 +21,9 @@ class TiktokAPI:
         url = f'https://{TiktokAPI._HOST}/user/info'
         params = {'user_id': id_user}
         _input = Input(url=url, params=params, headers=TiktokAPI._HEADERS)
-        request = RequestGet(_input=_input)
-        output = request.run()
+        output = RequestGet(_input=_input).run()
         data = DataUserSnapshot()
-        if request:
+        if output:
             data.id_user = id_user
             data.is_ok = True
             try:
@@ -43,9 +43,47 @@ class TiktokAPI:
             data.videos = d_stats['videoCount']
             data.hearts = d_stats['heart']
             data.diggs = d_stats['diggCount']
-        elif request.reason == Reasons.NOT_FOUND:
+        elif output.reason == Reasons.NOT_FOUND:
             data.is_ok = True
             data.is_found = False
         else:
             data.is_ok = False
         return data
+
+    @staticmethod
+    def videos_from_music(id_music: str) -> list[dict]:
+        rows: list[dict] = list()
+        has_more = True
+        cursor = 0
+        url = f'https://{TiktokAPI._HOST}/music/posts'
+        while has_more:
+            params = {'music_id': id_music, 'count': 35, cursor: cursor}
+            _input = Input(url=url, params=params, headers=TiktokAPI._HEADERS)
+            output = RequestGet(_input=_input).run()
+            if output:
+                try:
+                    d = output.to_dict()['data']
+                except KeyError:
+                    return DataVideosFromMusic(id_music=id_music,
+                                               is_ok=True,
+                                               is_found=False)
+                has_more = bool(d['has_more'])
+                cursor = d['cursor']
+                for d_video in d['videos']:
+                    data = DataVideosFromMusic()
+                    data.id_music = id_music
+                    data.is_ok = True
+                    data.is_found = True
+                    data.id_video = d_video['video_id']
+                    data.is_user = d_video['author']['id']
+                    rows.append(data.to_dict())
+            elif output.reason == Reasons.NOT_FOUND:
+                return DataVideosFromMusic(id_music=id_music,
+                                           is_ok=True,
+                                           is_found=False)
+            else:
+                return DataVideosFromMusic(id_music=id_music,
+                                           is_ok=False,
+                                           is_found=False)
+        return rows
+
