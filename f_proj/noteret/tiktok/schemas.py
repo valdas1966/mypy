@@ -69,6 +69,9 @@ class Schemas:
         schema.append(Fields.ID_MUSIC)
         schema.append(Fields.ID_USER)
         schema.append(Fields.ID_VIDEO)
+        schema.append(Fields.IS_OK)
+        schema.append(Fields.IS_FOUND)
+        schema.append(Fields.INSERTED)
         return schema
 
     @staticmethod

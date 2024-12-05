@@ -67,7 +67,7 @@ class TiktokAPI:
                     return [DataVideosFromMusic(id_music=id_music,
                                                 is_ok=True,
                                                 is_found=False).to_dict()]
-                has_more = bool(d['has_more'])
+                has_more = bool(d['hasMore'])
                 cursor = d['cursor']
                 for d_video in d['videos']:
                     data = DataVideosFromMusic()
@@ -75,15 +75,17 @@ class TiktokAPI:
                     data.is_ok = True
                     data.is_found = True
                     data.id_video = d_video['video_id']
-                    data.is_user = d_video['author']['id']
+                    data.id_user = d_video['author']['id']
                     rows.append(data.to_dict())
+                    if len(rows) >= 1000:
+                        return rows
             elif output.reason == Reasons.NOT_FOUND:
                 return [DataVideosFromMusic(id_music=id_music,
-                                           is_ok=True,
-                                           is_found=False).to_dict()]
+                                            is_ok=True,
+                                            is_found=False).to_dict()]
             else:
                 return [DataVideosFromMusic(id_music=id_music,
-                                           is_ok=False,
-                                           is_found=False).to_dict()]
+                                            is_ok=False,
+                                            is_found=False).to_dict()]
         return rows
 
