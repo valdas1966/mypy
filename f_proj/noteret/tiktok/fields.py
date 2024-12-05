@@ -35,6 +35,12 @@ class Fields:
     # Other User
     ID_FOLLOWER = Field.string(name='id_follower')
 
+    # Music
+    ID_MUSIC = Field.string(name='id_music')
+
+    # Video
+    ID_VIDEO = Field.string(name='id_video')
+
     @staticmethod
     def user_info() -> list[Field]:
         fields: list[Field] = list()

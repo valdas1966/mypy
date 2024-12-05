@@ -64,9 +64,9 @@ class TiktokAPI:
                 try:
                     d = output.to_dict()['data']
                 except KeyError:
-                    return DataVideosFromMusic(id_music=id_music,
-                                               is_ok=True,
-                                               is_found=False)
+                    return [DataVideosFromMusic(id_music=id_music,
+                                                is_ok=True,
+                                                is_found=False).to_dict()]
                 has_more = bool(d['has_more'])
                 cursor = d['cursor']
                 for d_video in d['videos']:
@@ -78,12 +78,12 @@ class TiktokAPI:
                     data.is_user = d_video['author']['id']
                     rows.append(data.to_dict())
             elif output.reason == Reasons.NOT_FOUND:
-                return DataVideosFromMusic(id_music=id_music,
+                return [DataVideosFromMusic(id_music=id_music,
                                            is_ok=True,
-                                           is_found=False)
+                                           is_found=False).to_dict()]
             else:
-                return DataVideosFromMusic(id_music=id_music,
+                return [DataVideosFromMusic(id_music=id_music,
                                            is_ok=False,
-                                           is_found=False)
+                                           is_found=False).to_dict()]
         return rows
 

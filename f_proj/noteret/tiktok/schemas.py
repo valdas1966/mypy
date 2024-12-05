@@ -63,6 +63,15 @@ class Schemas:
         return schema
 
     @staticmethod
+    def videos_by_music() -> Schema:
+        tname = 'videos_by_music'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.ID_MUSIC)
+        schema.append(Fields.ID_USER)
+        schema.append(Fields.ID_VIDEO)
+        return schema
+
+    @staticmethod
     def _create_schema(tname: str) -> Schema:
         name = Schemas._to_name(tname=tname)
         return Schema(name=name)

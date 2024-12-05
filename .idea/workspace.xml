@@ -5,16 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/data/i_0_abc.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/data/i_1_videos_from_music.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_by_music.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_http/get/components/output.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_http/get/components/output.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_http/get/request.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_http/get/request.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/fields.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/fields.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/tables.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/data/user_snapshot.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/data/i_1_user_snapshot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/tests/arithmetic/test_datetime64.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/tests/arithmetic/test_datetime64.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/tests/generic/test_generic.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/tests/generic/test_generic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/tests/indexes/multi/test_sorting.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/tests/indexes/multi/test_sorting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/tests/indexes/test_old_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/pandas/tests/indexes/test_old_base.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +39,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
+    "accountId": "ddaa2239-897e-4e37-90b9-04afc5364900"
   }
 }]]></component>
   <component name="ProjectColorInfo">{
@@ -327,6 +325,7 @@
     "Python.u_nlp.executor": "Run",
     "Python.u_screen.executor": "Run",
     "Python.user_snapshots.executor": "Run",
+    "Python.videos_by_music.executor": "Run",
     "Python.window.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
@@ -342,8 +341,8 @@
       <recent name="D:\mypy\f_graph\path_finding\nodes" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.i_1_user_snapshot">
-    <configuration name="equable (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.videos_by_music">
+    <configuration name="create_tables" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -352,11 +351,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_core/protocols" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_core/protocols/equable.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -431,7 +430,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_equable" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="videos_by_music" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -440,11 +439,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_core/protocols/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_core/protocols/study/s_equable.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_by_music.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -455,11 +454,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.videos_by_music" />
+        <item itemvalue="Python.create_tables" />
         <item itemvalue="Python.i_1_user_snapshot" />
         <item itemvalue="Python.equable" />
         <item itemvalue="Python.s_comparable" />
-        <item itemvalue="Python.s_equable" />
-        <item itemvalue="Python.equable (1)" />
       </list>
     </recent_temporary>
   </component>

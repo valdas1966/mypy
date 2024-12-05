@@ -40,7 +40,7 @@ class RequestGet(ProcessIO[Input, Output], Printable):
         self.run_pre()
         response = self._request()
         self.run_post()
-        return Output(response=response)
+        return Output(response=response, reason=self.reason)
 
     def _request(self) -> Response:
         """

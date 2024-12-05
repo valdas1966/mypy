@@ -41,9 +41,17 @@ def users_valid_todo() -> None:
     schema = Schemas.users_valid_todo()
     BigQuery().create.table(tname=tname, schema=schema)
 
+
+def videos_by_music() -> None:
+    tname = Tables.VIDEOS_BY_MUSIC
+    schema = Schemas.videos_by_music()
+    BigQuery().create.table(tname=tname, schema=schema)
+
+
 # users()
 # users_snapshots()
 # followers()
 # followers_todo()
 # following_todo()
-users_valid_todo()
+# users_valid_todo()
+videos_by_music()
