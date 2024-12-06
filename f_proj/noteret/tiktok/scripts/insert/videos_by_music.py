@@ -10,11 +10,14 @@ def prod():
     for i, id_music in enumerate(musics):
         tname = Tables.VIDEOS_BY_MUSIC
         rows = TiktokAPI.videos_from_music(id_music=id_music)
-        try:
-            bq.insert.rows_inserted(tname=tname, rows=rows)
-            print(u_datetime.now(), len(rows), f'[{i+1} / {len(musics)}]')
-        except Exception as e:
-            print(str(e))
+        if rows:
+            try:
+                bq.insert.rows_inserted(tname=tname, rows=rows)
+                print(u_datetime.now(), len(rows), f'[{i+1} / {len(musics)}]')
+            except Exception as e:
+                print(str(e))
+        else:
+            print(u_datetime.now(), len(rows), f'[{i + 1} / {len(musics)}]')
 
 
 # t()
