@@ -1,5 +1,4 @@
 from f_ds.grids.u_grid import UGrid
-from f_graph.path.graph import GraphPath as Graph
 from typing import Type
 
 

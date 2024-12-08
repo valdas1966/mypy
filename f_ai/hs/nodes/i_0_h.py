@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_graph.path.node import NodePath
+from f_graph.path.components.node import NodePath
 
 
 class NodeH(NodePath):

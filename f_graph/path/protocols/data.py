@@ -1,4 +1,4 @@
-from f_graph.path.node import NodePath
+from f_graph.path.components.node import NodePath
 from typing import TypeVar, Protocol
 
 Node = TypeVar('Node', bound=NodePath)

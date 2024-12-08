@@ -1,5 +1,5 @@
 from f_graph.path.algo import AlgoPath
-from f_graph.path.problem import Problem
+from f_graph.path.components.problem import Problem
 from f_graph.path.components.path import Path
 from f_graph.path.components.state import State
 from f_graph.path.components.ops import Ops

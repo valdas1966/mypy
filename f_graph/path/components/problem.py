@@ -1,6 +1,6 @@
 from __future__ import annotations
 from f_graph.problem import ProblemGraph, dataclass
-from f_graph.path.graph import GraphPath, NodePath
+from f_graph.path.components.graph import GraphPath, NodePath
 from typing import TypeVar
 
 Graph = TypeVar('Graph', bound=GraphPath)

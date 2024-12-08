@@ -1,8 +1,8 @@
 from f_core.processes.i_3_algo import Algorithm
-from f_graph.path.problem import Problem
+from f_graph.path.components.problem import Problem
 from f_graph.path.components.state import DataPath
 from f_graph.path.components.ops import OpsPath
-from f_graph.path.node import NodePath
+from f_graph.path.components.node import NodePath
 from f_graph.path.components.path import PathBasic
 from typing import Generic, TypeVar
 

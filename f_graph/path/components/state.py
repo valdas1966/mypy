@@ -1,4 +1,4 @@
-from f_graph.path.problem import ProblemPath as Problem, NodePath
+from f_graph.path.components.problem import ProblemPath as Problem, NodePath
 from f_ds.queues.i_0_base import QueueBase as Queue
 from typing import Generic, TypeVar, Type
 
@@ -23,6 +23,15 @@ class State(Generic[Node]):
         self._generated: Queue[Node] = type_queue()
         self._explored: set[Node] = set()
         self._goals_active: set[Node] = set(problem.goals)
+        self._best: Node | None = None
+
+    def set_best(self) -> None:
+        """
+        ========================================================================
+         Set the Best-Generated Node.
+        ========================================================================
+        """
+        self._best = self._generated.pop()
 
     def mark_generated(self, node: Node) -> None:
         """

@@ -1,7 +1,17 @@
 from f_graph.algo import AlgoGraph
-from f_graph.path.config import (Path, State, Ops, TQueue,
-                                 TProblem, TPath, TData, TOps, TNode)
-from typing import Generic, Type
+from f_graph.path.components.problem import ProblemPath
+from f_graph.path.components.path import Path
+from f_graph.path.components.state import State, Queue
+from f_graph.path.components.ops import Ops
+from f_graph.path.components.node import NodePath
+from typing import Generic, TypeVar, Type
+
+TProblem = TypeVar('TProblem', bound=ProblemPath)
+TPath = TypeVar('TPath', bound=Path)
+TData = TypeVar('TData', bound=State)
+TOps = TypeVar('TOps', bound=Ops)
+TQueue = TypeVar('TQueue', bound=Queue)
+TNode = TypeVar('TNode', bound=NodePath)
 
 
 class AlgoPath(Generic[TProblem, TPath, TData, TOps, TNode],
@@ -15,6 +25,7 @@ class AlgoPath(Generic[TProblem, TPath, TData, TOps, TNode],
     def __init__(self,
                  problem: TProblem,
                  type_queue: Type[TQueue],
+                 cache: set[TNode] = None,
                  name: str = 'Path-Algorithm') -> None:
         """
         ========================================================================
@@ -24,11 +35,11 @@ class AlgoPath(Generic[TProblem, TPath, TData, TOps, TNode],
         AlgoGraph.__init__(self,
                            _input=problem.clone(),
                            name=name)
+        self._cache = cache or set()
         self._type_queue = type_queue
-        self._data = self._create_state()
+        self._state = self._create_state()
         self._ops = self._create_ops()
         self._path = self._create_path()
-        self._best = None
 
     def run(self) -> Path:
         """
@@ -59,7 +70,7 @@ class AlgoPath(Generic[TProblem, TPath, TData, TOps, TNode],
          Create an Ops object.
         ========================================================================
         """
-        return Ops[TNode](problem=self._input, data=self._data)
+        return Ops[TNode](problem=self._input, data=self._state)
 
     def _create_path(self) -> Path:
         """
@@ -77,7 +88,7 @@ class AlgoPath(Generic[TProblem, TPath, TData, TOps, TNode],
           and not explored nodes).
         ========================================================================
         """
-        return self._data.has_generated()
+        return self._state.has_generated()
 
     def _should_terminate(self) -> bool:
         """
@@ -86,7 +97,7 @@ class AlgoPath(Generic[TProblem, TPath, TData, TOps, TNode],
           (optimal path to goal were found).
         ========================================================================
         """
-        return not self._data.has_active_goals()
+        return not self._state.has_active_goals()
 
     def _generate_start(self) -> None:
         """
@@ -102,7 +113,7 @@ class AlgoPath(Generic[TProblem, TPath, TData, TOps, TNode],
          Select a best node from the generated queue.
         ========================================================================
         """
-        self._best = self._data.pop_generated()
+        self._state.set_best()
 
     def _is_path_found(self) -> bool:
         """
@@ -110,10 +121,15 @@ class AlgoPath(Generic[TProblem, TPath, TData, TOps, TNode],
          Return True if the Best-Generated Node is a Goal.
         ========================================================================
         """
-        return self._best_is_goal()
+        return self._best_is_goal() or self._best in self._cache
 
     def _on_path_found(self) -> None:
-        self._data.remove_active_goal(goal=self._best)
+        """
+        ========================================================================
+         Remove Active-Goal and construct an Optimal-Path to it.
+        ========================================================================
+        """
+        self._state.remove_active_goal(goal=self._best)
         self._path.construct(goal=self._best)
 
     def _best_is_goal(self) -> bool:
@@ -122,7 +138,7 @@ class AlgoPath(Generic[TProblem, TPath, TData, TOps, TNode],
          Return True if the best generated node is an Active-Goal.
         ========================================================================
         """
-        return self._data.is_active_goal(node=self._best)
+        return self._state.is_active_goal(node=self._best)
 
     def _explore_best(self) -> None:
         """
