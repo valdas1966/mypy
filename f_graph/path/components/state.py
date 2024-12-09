@@ -65,6 +65,7 @@ class State(Generic[Node]):
         """
         return node in self._explored
 
+    def is_best_
     def pop_generated(self) -> Node:
         """
         ========================================================================

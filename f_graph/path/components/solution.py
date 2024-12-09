@@ -1,10 +1,11 @@
-from f_graph.path.components.problem import ProblemPath as Problem, NodeCell
+from f_graph.path.components.problem import ProblemPath as Problem
+from f_graph.path.components.node import NodePath
 from typing import Generic, TypeVar
 
-Node = TypeVar('Node', bound=NodeCell)
+Node = TypeVar('Node', bound=NodePath)
 
 
-class Path(Generic[Node]):
+class Solution(Generic[Node]):
     """
     ============================================================================
      Path object (the output) of Path-Algorithms.

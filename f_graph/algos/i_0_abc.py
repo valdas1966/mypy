@@ -3,7 +3,7 @@ from f_graph.path.components.problem import Problem
 from f_graph.path.components.state import DataPath
 from f_graph.path.components.ops import OpsPath
 from f_graph.path.components.node import NodePath
-from f_graph.path.components.path import PathBasic
+from f_graph.path.components.solution import PathBasic
 from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=Problem)

@@ -1,4 +1,4 @@
-from f_graph.path.components.path import Path
+from f_graph.path.components.solution import Path
 from typing import Generic, TypeVar
 
 Graph = TypeVar('Graph', bound=GraphGrid)

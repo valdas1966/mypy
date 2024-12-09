@@ -1,21 +1,13 @@
 from f_graph.algo import AlgoGraph
-from f_graph.path.components.problem import ProblemPath
-from f_graph.path.components.path import Path
+from f_graph.path.components.problem import ProblemPath as Problem
+from f_graph.path.components.solution import Solution
 from f_graph.path.components.state import State, Queue
 from f_graph.path.components.ops import Ops
-from f_graph.path.components.node import NodePath
-from typing import Generic, TypeVar, Type
-
-TProblem = TypeVar('TProblem', bound=ProblemPath)
-TPath = TypeVar('TPath', bound=Path)
-TData = TypeVar('TData', bound=State)
-TOps = TypeVar('TOps', bound=Ops)
-TQueue = TypeVar('TQueue', bound=Queue)
-TNode = TypeVar('TNode', bound=NodePath)
+from f_graph.path.components.node import NodePath as Node
+from typing import Type
 
 
-class AlgoPath(Generic[TProblem, TPath, TData, TOps, TNode],
-               AlgoGraph[TProblem, TPath]):
+class AlgoPath(AlgoGraph[Problem, Solution]):
     """
     ============================================================================
      Base-Class for Path-Algorithms.
@@ -23,9 +15,9 @@ class AlgoPath(Generic[TProblem, TPath, TData, TOps, TNode],
     """
 
     def __init__(self,
-                 problem: TProblem,
-                 type_queue: Type[TQueue],
-                 cache: set[TNode] = None,
+                 problem: Problem,
+                 type_queue: Type[Queue],
+                 cache: set[Node] = None,
                  name: str = 'Path-Algorithm') -> None:
         """
         ========================================================================
@@ -39,9 +31,9 @@ class AlgoPath(Generic[TProblem, TPath, TData, TOps, TNode],
         self._type_queue = type_queue
         self._state = self._create_state()
         self._ops = self._create_ops()
-        self._path = self._create_path()
+        self._solution = self._create_solution()
 
-    def run(self) -> Path:
+    def run(self) -> Solution:
         """
         ========================================================================
          Run the Algorithm to find the Optimal-Paths from Start to Goals.
@@ -53,32 +45,32 @@ class AlgoPath(Generic[TProblem, TPath, TData, TOps, TNode],
             if self._is_path_found():
                 self._on_path_found()
                 if self._should_terminate():
-                    return self._path
+                    return self._solution
             self._explore_best()
 
-    def _create_state(self) -> State:
+    def _create_state(self) -> State[Node]:
         """
         ========================================================================
          Create a Data object.
         ========================================================================
         """
-        return State[TNode](problem=self._input, type_queue=self._type_queue)
+        return State[Node](problem=self._input, type_queue=self._type_queue)
 
-    def _create_ops(self) -> Ops:
+    def _create_ops(self) -> Ops[Node]:
         """
         ========================================================================
          Create an Ops object.
         ========================================================================
         """
-        return Ops[TNode](problem=self._input, data=self._state)
+        return Ops[Node](problem=self._input, data=self._state)
 
-    def _create_path(self) -> Path:
+    def _create_solution(self) -> Solution[Node]:
         """
         ========================================================================
          Create a Path object.
         ========================================================================
         """
-        return Path[TNode](problem=self._input)
+        return Solution[Node](problem=self._input)
 
     def _should_continue(self) -> bool:
         """
@@ -130,7 +122,7 @@ class AlgoPath(Generic[TProblem, TPath, TData, TOps, TNode],
         ========================================================================
         """
         self._state.remove_active_goal(goal=self._best)
-        self._path.construct(goal=self._best)
+        self._solution.construct(goal=self._best)
 
     def _best_is_goal(self) -> bool:
         """
