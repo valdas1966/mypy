@@ -1,4 +1,4 @@
-from f_graph.path.algo import AlgoPath, TProblem, TPath, TData, TOps, TNode
+from f_graph.path.single.algo import AlgoPath, TProblem, TPath, TData, TOps, TNode
 from f_ds.queues.i_1_fifo import QueueFIFO
 
 

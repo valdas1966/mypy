@@ -1,9 +1,9 @@
 from f_graph.algo import AlgoGraph
-from f_graph.path.components.problem import ProblemPath as Problem
-from f_graph.path.components.solution import Solution
-from f_graph.path.components.state import State, Queue
-from f_graph.path.components.ops import Ops
-from f_graph.path.components.node import NodePath as Node
+from f_graph.path.single.components.problem import ProblemPath as Problem
+from f_graph.path.single.components.solution import Solution
+from f_graph.path.single.components.state import State, Queue
+from f_graph.path.single.components.ops import Ops
+from f_graph.path.node import NodePath as Node
 from typing import Type
 
 

@@ -1,5 +1,5 @@
 from f_graph.graphs.i_2_grid import GraphGrid
-from f_graph.path.components.node import NodePath
+from f_graph.path.node import NodePath
 from typing import TypeVar
 
 Node = TypeVar('Node', bound=NodePath)

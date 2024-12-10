@@ -6,7 +6,7 @@ from f_ds.mixins.has_parent import HasParent
 class NodePath(NodeGraph[UID], HasParent):
     """
     ============================================================================
-     Node with Path functionality.
+     NodeGraph with Path functionality.
     ============================================================================
     """
 

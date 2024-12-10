@@ -1,4 +1,4 @@
-from f_graph.path.components.state import ProblemOneToMany
+from f_graph.path.single.components.state import ProblemOneToMany
 from f_graph.algos.i_0_abc import AlgoPath, QueueBase, NodePath
 from typing import Type, TypeVar
 

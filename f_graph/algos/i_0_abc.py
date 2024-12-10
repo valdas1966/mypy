@@ -1,9 +1,9 @@
 from f_core.processes.i_3_algo import Algorithm
-from f_graph.path.components.problem import Problem
-from f_graph.path.components.state import DataPath
-from f_graph.path.components.ops import OpsPath
-from f_graph.path.components.node import NodePath
-from f_graph.path.components.solution import PathBasic
+from f_graph.path.single.components.problem import Problem
+from f_graph.path.single.components.state import DataPath
+from f_graph.path.single.components.ops import OpsPath
+from f_graph.path.node import NodePath
+from f_graph.path.single.components.solution import PathBasic
 from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=Problem)

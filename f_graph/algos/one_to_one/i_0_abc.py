@@ -1,7 +1,7 @@
 from f_graph.algos.i_0_abc import AlgoPath, Queue, Node
 from f_graph.problems.i_2_one_to_one import ProblemOneToOne
-from f_graph.path.components.ops import OpsNodeOneToOne
-from f_graph.path.components.state import DataOneToOne
+from f_graph.path.single.components.ops import OpsNodeOneToOne
+from f_graph.path.single.components.state import DataOneToOne
 from abc import abstractmethod
 from typing import TypeVar, Type
 
