@@ -1,5 +1,5 @@
 from f_graph.algo import AlgoGraph
-from f_graph.path.single.components.problem import ProblemPath as Problem
+from f_graph.path.single.problem import ProblemPath as Problem
 from f_graph.path.single.components.solution import Solution
 from f_graph.path.single.components.state import State, Queue
 from f_graph.path.single.components.ops import Ops
@@ -27,7 +27,7 @@ class AlgoPath(AlgoGraph[Problem, Solution]):
         AlgoGraph.__init__(self,
                            _input=problem.clone(),
                            name=name)
-        self._cache = cache or set()
+        self._cache: dict[Node, Node] = {node: node for node in cache} or dict()
         self._type_queue = type_queue
         self._state = self._create_state()
         self._ops = self._create_ops()

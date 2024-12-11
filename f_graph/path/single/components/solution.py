@@ -1,4 +1,4 @@
-from f_graph.path.single.components.problem import ProblemPath as Problem
+from f_graph.path.single.problem import ProblemPath as Problem
 from f_graph.path.node import NodePath
 from typing import Generic, TypeVar
 

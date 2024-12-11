@@ -1,4 +1,4 @@
-from f_graph.path.single.components.problem import ProblemPath as Problem, NodePath
+from f_graph.path.single.problem import ProblemPath as Problem, NodePath
 from f_ds.queues.i_0_base import QueueBase as Queue
 from typing import Generic, TypeVar, Type
 

@@ -1,5 +1,5 @@
 from f_core.processes.i_3_algo import Algorithm
-from f_graph.path.single.components.problem import Problem
+from f_graph.path.single.problem import Problem
 from f_graph.path.single.components.state import DataPath
 from f_graph.path.single.components.ops import OpsPath
 from f_graph.path.node import NodePath

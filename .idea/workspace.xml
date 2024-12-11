@@ -5,7 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_graph/path/single/heuristics.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/i_1_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/i_1_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/u_algos.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/u_algos.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/generators/gen_problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/generators/gen_problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/components/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/components/ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/components/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/components/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/components/solution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/components/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/components/state.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -328,8 +339,8 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\mypy\f_graph\path" />
       <recent name="D:\mypy\f_graph\path\single" />
+      <recent name="D:\mypy\f_graph\path" />
       <recent name="D:\mypy\f_graph\path\components" />
       <recent name="D:\mypy\f_graph" />
       <recent name="D:\mypy\f_ds\mixins" />
@@ -471,14 +482,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00053" summary="h">
-      <option name="closed" value="true" />
-      <created>1728734845931</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1728734845931</updated>
     </task>
     <task id="LOCAL-00054" summary="h">
       <option name="closed" value="true" />
@@ -864,7 +867,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733834718541</updated>
     </task>
-    <option name="localTasksCounter" value="102" />
+    <task id="LOCAL-00102" summary="h">
+      <option name="closed" value="true" />
+      <created>1733920890273</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1733920890273</updated>
+    </task>
+    <option name="localTasksCounter" value="103" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
