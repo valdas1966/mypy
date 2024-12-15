@@ -1,7 +1,7 @@
 from f_proj.rapid_api.c_tiktok import TikTok
 from f_utils import u_datetime
 from f_file.c_json import Json
-from f_google.storage.client import Storage
+from f_google.services.storage.client import Storage
 from f_os.u_file import UFile as u_file
 import os
 

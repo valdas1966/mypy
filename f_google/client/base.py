@@ -2,7 +2,7 @@ from typing import Union
 from abc import ABC, abstractmethod
 from google.cloud import bigquery, storage
 from google.oauth2.service_account import Credentials
-from f_google.auth.auth import Auth
+from f_google.utils.u_authentication import UAuthentication
 import gspread
 
 
@@ -24,7 +24,7 @@ class ClientBase(ABC):
         ========================================================================
         """
         self._user = user
-        self._creds = Auth.get_creds(user=user)
+        self._creds = UAuthentication.get(user=user)
         self._client = self._get_client()
 
     @property

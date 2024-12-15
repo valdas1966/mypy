@@ -2,8 +2,8 @@ from f_graph.algos.i_0_abc import AlgoPath
 from f_graph.path.single.problem import Problem
 from f_graph.path.single.components.state import DataPath
 from f_graph.path.single.components.ops import OpsPath
-from f_graph.path.single.components.solution import PathBasic
-from f_graph.path.node import NodePath
+from f_graph.path.single.old_solution import PathBasic
+from f_graph.path.elements.node import NodePath
 from f_ds.queues.i_1_fifo import QueueFIFO
 from typing import TypeVar
 

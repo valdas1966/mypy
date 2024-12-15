@@ -1,9 +1,9 @@
 from f_graph.algo import AlgoGraph
-from f_graph.path.single.problem import ProblemPath as Problem
-from f_graph.path.single.components.solution import Solution
+from f_graph.path.single.problem import ProblemSingle as Problem
+from f_graph.path.single.solution import SolutionSingle as Solution
 from f_graph.path.single.components.state import State, Queue
 from f_graph.path.single.components.ops import Ops
-from f_graph.path.node import NodePath as Node
+from f_graph.path.elements.node import NodePath as Node
 from typing import Type
 
 
@@ -18,7 +18,7 @@ class AlgoPath(AlgoGraph[Problem, Solution]):
                  problem: Problem,
                  type_queue: Type[Queue],
                  cache: set[Node] = None,
-                 name: str = 'Path-Algorithm') -> None:
+                 name: str = 'Path-Algorithm-Single-Goal') -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -80,7 +80,7 @@ class AlgoPath(AlgoGraph[Problem, Solution]):
           and not explored nodes).
         ========================================================================
         """
-        return self._state.has_generated()
+        return self._state.has_pending_generated()
 
     def _should_terminate(self) -> bool:
         """

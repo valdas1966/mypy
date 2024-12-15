@@ -1,6 +1,10 @@
-from f_google.utils import u_auth
+from f_google.utils.u_authentication import UAuthentication
 
 
-path = 'd:\\temp\\2023\\12\\gsheet.json'
-creds = u_auth.get_credentials(path_json=path)
+creds = UAuthentication.get(user='VALDAS')
+print(type(creds))
 
+"""
+creds = UAuthentication.get_creds(user='RAMI')
+print(creds.project_id)
+"""

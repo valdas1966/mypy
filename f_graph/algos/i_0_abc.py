@@ -2,8 +2,8 @@ from f_core.processes.i_3_algo import Algorithm
 from f_graph.path.single.problem import Problem
 from f_graph.path.single.components.state import DataPath
 from f_graph.path.single.components.ops import OpsPath
-from f_graph.path.node import NodePath
-from f_graph.path.single.components.solution import PathBasic
+from f_graph.path.elements.node import NodePath
+from f_graph.path.single.old_solution import PathBasic
 from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=Problem)
@@ -39,7 +39,7 @@ class AlgoPath(Generic[Problem, Path, Data, Ops],
 
     def run(self) -> Path:
         self._ops.generate(node=self._input.start)
-        while not self._data.has_generated():
+        while not self._data.has_pending_generated():
             best = self._data.pop_best_generated()
             if self._data.is_active_goal(node=best):
                 self._data.remove_goal_active(goal=best)

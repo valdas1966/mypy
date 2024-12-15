@@ -1,7 +1,7 @@
 from __future__ import annotations
-from f_graph.path.problem import ProblemPath, dataclass
-from f_graph.path.graph import GraphPath
-from f_graph.path.node import NodePath
+from f_graph.path.data.problem import ProblemPath, dataclass
+from f_graph.path.elements.graph import GraphPath
+from f_graph.path.elements.node import NodePath
 from typing import TypeVar
 
 Graph = TypeVar('Graph', bound=GraphPath)
@@ -12,7 +12,7 @@ Node = TypeVar('Node', bound=NodePath)
 class ProblemSingle(ProblemPath[Graph, Node]):
     """
     ============================================================================
-     Graph Path-Finding Problem class in Grid-Domain.
+     Path-Finding Problem with Single-Goal.
     ============================================================================
     """
     goal: Node

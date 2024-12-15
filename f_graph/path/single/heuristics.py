@@ -1,1 +1,4 @@
-from f_graph.
+class Heuristics:
+
+    @staticmethod
+    def calc

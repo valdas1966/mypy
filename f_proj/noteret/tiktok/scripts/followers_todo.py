@@ -1,5 +1,4 @@
-from f_proj.noteret.tiktok.tables import Tables
-from f_google.big_query.client import BigQuery
+from f_google.services.big_query.client import BigQuery
 
 
 query = """

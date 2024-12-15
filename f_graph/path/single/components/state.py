@@ -1,107 +1,23 @@
-from f_graph.path.single.problem import ProblemPath as Problem, NodePath
+from f_core.components.data import Data, dataclass, field
 from f_ds.queues.i_0_base import QueueBase as Queue
+from f_graph.path.elements.node import NodePath
 from typing import Generic, TypeVar, Type
 
 Node = TypeVar('Node', bound=NodePath)
 
 
-class State(Generic[Node]):
+@dataclass
+class State(Generic[Node], Data):
     """
     ============================================================================
-     Data object of Path-Finding Algorithms.
+     State object of Path-Finding Algorithms.
     ============================================================================
     """
+    type_queue: Type[Queue]
+    generated: Queue[Node] = field(init=False)
+    explored: set[Node] = field(default_factory=set)
+    best: Node = field(default=None)
 
-    def __init__(self,
-                 problem: Problem,
-                 type_queue: Type[Queue]) -> None:
-        """
-        ========================================================================
-         Init private Attributes.
-        ========================================================================
-        """
-        self._generated: Queue[Node] = type_queue()
-        self._explored: set[Node] = set()
-        self._goals_active: set[Node] = set(problem.goals)
-        self._best: Node | None = None
+    def __post_init__(self) -> None:
+        self.generated = self.type_queue()
 
-    def set_best(self) -> None:
-        """
-        ========================================================================
-         Set the Best-Generated Node.
-        ========================================================================
-        """
-        self._best = self._generated.pop()
-
-    def mark_generated(self, node: Node) -> None:
-        """
-        ========================================================================
-         Mark a Node as Generated.
-        ========================================================================
-        """
-        self._generated.push(item=node)
-
-    def mark_explored(self, node: Node) -> None:
-        """
-        ========================================================================
-         Mark a Node as Explored.
-        ========================================================================
-        """
-        self._explored.add(node)
-
-    def is_generated(self, node: Node) -> bool:
-        """
-        ========================================================================
-         Return True if a Node was already Generated.
-        ========================================================================
-        """
-        return node in self._generated
-
-    def is_explored(self, node: Node) -> bool:
-        """
-        ========================================================================
-         Return True if a Node was already Explored.
-        ========================================================================
-        """
-        return node in self._explored
-
-    def is_best_
-    def pop_generated(self) -> Node:
-        """
-        ========================================================================
-         Pop best generated node.
-        ========================================================================
-        """
-        return self._generated.pop()
-
-    def is_active_goal(self, node: Node) -> bool:
-        """
-        ========================================================================
-         Return True if a Node is an Active-Goal.
-        ========================================================================
-        """
-        return node in self._goals_active
-
-    def remove_active_goal(self, goal: Node) -> None:
-        """
-        ========================================================================
-         Remove a Goal from the Active-Goals set.
-        ========================================================================
-        """
-        self._goals_active.remove(goal)
-
-    def has_generated(self) -> bool:
-        """
-        ========================================================================
-         Return True if the Generated list has more Nodes.
-        ========================================================================
-        """
-        return bool(self._generated)
-
-    def has_active_goals(self) -> bool:
-        """
-        ========================================================================
-         Return True if the Active-Goals set has more Goals.
-        ========================================================================
-        """
-        return bool(self._goals_active)

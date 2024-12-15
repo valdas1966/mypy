@@ -1,5 +1,5 @@
 from f_ds.queues.i_1_priority import QueuePriority
-from f_graph.node import NodeGraph
+from f_graph.elements.node import NodeGraph
 
 
 class Node(NodeGraph):
