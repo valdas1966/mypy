@@ -1,4 +1,4 @@
-from f_graph.path.generators.gen_problem import GenProblem
+from f_graph.path.single.generators.gen_problem import GenProblem
 from f_graph.path.nodes.i_1_cell import NodeCell
 from f_graph.path.algos.bfs import BFS
 

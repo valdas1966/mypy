@@ -1,5 +1,5 @@
 from f_graph.path.single.data.problem import ProblemPath as Problem
-from f_graph.path.generators.gen_graph import GenGraph, NodeCell as Node
+from f_graph.path.single.generators.gen_graph import GenGraph, NodeCell as Node
 from typing import Type
 
 

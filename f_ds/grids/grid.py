@@ -72,18 +72,6 @@ class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
         """
         return self.to_group().filter(predicate=predicate, name=name)
 
-    def sample(self,
-               size: int = None,
-               pct: int = None,
-               name: str = None) -> Group[Cell]:
-        """
-        ========================================================================
-         Return a Group of random cells by a given Size/Percentage.
-        ========================================================================
-        """
-        return self.to_group().sample(size=size, pct=pct, name=name)
-
-
     @staticmethod
     def distance(cell_a: Cell, cell_b: Cell) -> int:
         """

@@ -48,6 +48,14 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
                          type_node=self._type_node,
                          name=self._name)
 
+    @classmethod
+    def from_grid(cls,
+                  rows: int,
+                  pct_valid: int,
+                  type_node: Type[Node]) -> GraphGrid:
+        grid = Grid(rows=rows, pct_valid=pct_valid)
+        return GraphGrid(grid=grid, type_node=type_node)
+
     def __getitem__(self, index: tuple[int, int]) -> Node:
         """
         ========================================================================

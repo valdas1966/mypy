@@ -5,23 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_graph/elements/graphs/generators/g_2_grid.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/single/algos/bfs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/single/algos/testers/t_bfs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/processes/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/processes/i_0_abc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/big_query/structures/schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/big_query/structures/schema.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/big_query/study/s_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/big_query/study/s_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/utils/u_authentication.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/utils/u_authentication.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/bfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/i_1_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/i_1_bfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/u_algos.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/u_algos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/algo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/generators/gen_problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/generators/gen_problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers/t_astar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers/t_astar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/study/s_2_bfs_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/study/s_2_bfs_cache.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/study/s_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/study/s_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_2_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_2_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_2_bfs_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/testers/t_2_bfs_cache.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/i_2_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/elements/graphs/i_2_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/algos/study/s_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/algos/study/s_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/algos/testers/t_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/algos/testers/t_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/generators/gen_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/generators/gen_graph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/generators/gen_problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/generators/gen_problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/generators/study/s_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/generators/study/s_graph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/generators/study/s_problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/generators/study/s_problem.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/single/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/algo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/components/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/components/ops.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/components/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/components/state.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/heuristics.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/data/problem.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/data/solution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/data/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/data/solution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/testers/t_problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/testers/t_problem.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -347,11 +350,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\mypy\f_graph\path\single" />
+      <recent name="D:\mypy\f_graph\path\single\data" />
       <recent name="G:\mypy\f_graph\path\elements" />
       <recent name="G:\mypy\f_graph\path\data" />
       <recent name="G:\mypy\f_graph\data" />
-      <recent name="G:\mypy\f_graph\elements" />
-      <recent name="G:\mypy\f_graph\path\single" />
     </key>
   </component>
   <component name="RunManager" selected="Python.user_snapshots">
@@ -512,14 +515,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00054" summary="h">
-      <option name="closed" value="true" />
-      <created>1728906664502</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1728906664502</updated>
     </task>
     <task id="LOCAL-00055" summary="h">
       <option name="closed" value="true" />
@@ -905,7 +900,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733920890273</updated>
     </task>
-    <option name="localTasksCounter" value="103" />
+    <task id="LOCAL-00103" summary="h">
+      <option name="closed" value="true" />
+      <created>1734368568659</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1734368568659</updated>
+    </task>
+    <option name="localTasksCounter" value="104" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

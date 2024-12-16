@@ -1,13 +1,13 @@
-from f_graph.algo import AlgoGraph
+from f_graph.path.algo import AlgoPath
 from f_graph.path.single.data.problem import ProblemSingle as Problem
 from f_graph.path.single.data.solution import SolutionSingle as Solution
 from f_graph.path.single.components.state import State, Queue
 from f_graph.path.single.components.ops import Ops
 from f_graph.path.elements.node import NodePath as Node
-from typing import Type
+from typing import Type, Callable
 
 
-class AlgoPath(AlgoGraph[Problem, Solution]):
+class AlgoSingle(AlgoPath[Problem, Solution]):
     """
     ============================================================================
      Base-Class for Path-Algorithms.
@@ -18,17 +18,19 @@ class AlgoPath(AlgoGraph[Problem, Solution]):
                  problem: Problem,
                  type_queue: Type[Queue],
                  cache: set[Node] = None,
+                 heuristic: Callable[[Node], int] = None,
                  name: str = 'Path-Algorithm-Single-Goal') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        AlgoGraph.__init__(self,
-                           problem=problem.clone(),
-                           name=name)
-        self._cache: dict[Node, Node] = {node: node for node in cache} or dict()
+        AlgoPath.__init__(self,
+                          problem=problem.clone(),
+                          name=name)
+        self._cache: dict[Node, Node] = {node: node for node in cache or set()}
         self._type_queue = type_queue
+        self._heuristic = heuristic if heuristic else lambda _: 0
         self._state = self._create_state()
         self._ops = self._create_ops()
 
@@ -68,26 +70,16 @@ class AlgoPath(AlgoGraph[Problem, Solution]):
                          cache=self._cache,
                          heuristic=self._heuristic)
 
-    def _create_solution(self, is_path_found: bool) -> Solution[Node]:
+    def _create_solution(self, is_path_found: bool) -> Solution:
         """
         ========================================================================
-         Return a Solution created by the Algo-Path.
+         Create a Solution object.
         ========================================================================
         """
-        path: list[Node] = list()
-        if is_path_found:
-            path_from_best: list[Node] = list()
-            if self._state.best in self._cache:
-                path_from_best = self._cache[self._state.best].path_from_start()
-                path_from_best = list(reversed(path_from_best[:-1]))
-            path = self._state.best.path_from_start() + path_from_best
-        nodes_generated = len(self._state.generated)
-        nodes_explored = len(self._state.explored)
-        elapsed = int(self.elapsed)
-        return Solution(path=path,
-                        nodes_generated=nodes_generated,
-                        nodes_explored=nodes_explored,
-                        elapsed=elapsed)
+        return Solution(state=self._state,
+                        cache=self._cache,
+                        elapsed=self.elapsed,
+                        is_path_found=is_path_found)
 
     def _should_continue(self) -> bool:
         """
@@ -131,12 +123,3 @@ class AlgoPath(AlgoGraph[Problem, Solution]):
         ========================================================================
         """
         self._ops.explore(node=self._state.best)
-
-    def _heuristic(self, node: Node) -> int:
-        """
-        ========================================================================
-         Return a Heuristic-Distance from a given Node to the Goal.
-        ========================================================================
-        """
-        return self._problem.graph.distance(node_a=node,
-                                            node_b=self._problem.goal)
