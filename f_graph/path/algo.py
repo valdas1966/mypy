@@ -23,5 +23,3 @@ class AlgoPath(Generic[Problem, Solution], AlgoGraph[Problem, Solution]):
         ========================================================================
         """
         AlgoGraph.__init__(self, problem=problem, name=name)
-
-

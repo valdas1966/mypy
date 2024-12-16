@@ -29,7 +29,7 @@ class UAuthentication:
         if not user:
             return google.auth.default()[0]
         scopes = ['https://www.googleapis.com/auth/cloud-platform',
-                  'https://www.googleapis.com/auth/drive'
+                  'https://www.googleapis.com/auth/drive',
                   'https://www.googleapis.com/auth/spreadsheets']
         filename = UAuthentication._JSONS[user]
         # filename = u_file.to_drive(__file__) + filename[1:]

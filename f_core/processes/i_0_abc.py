@@ -33,7 +33,7 @@ class ProcessABC(HasName, Validatable):
         """
         return self._elapsed
 
-    def run_pre(self) -> None:
+    def _run_pre(self) -> None:
         """
         ========================================================================
          Run necessary operations before the start of the Process.
@@ -51,7 +51,7 @@ class ProcessABC(HasName, Validatable):
         """
         pass
 
-    def run_post(self) -> None:
+    def _run_post(self) -> None:
         """
         ========================================================================
          Run necessary operations after the Process finishes.

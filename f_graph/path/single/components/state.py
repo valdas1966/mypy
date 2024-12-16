@@ -20,4 +20,3 @@ class State(Generic[Node], Data):
 
     def __post_init__(self) -> None:
         self.generated = self.type_queue()
-
