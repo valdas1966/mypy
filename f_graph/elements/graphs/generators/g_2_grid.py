@@ -3,7 +3,7 @@ from f_ds.grids.u_grid import UGrid
 from typing import Type
 
 
-class GenGraph:
+class GenGraphGrid:
     """
     ============================================================================
      Utils-Class for generating Graph of Grid.
