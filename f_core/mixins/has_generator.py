@@ -5,11 +5,25 @@ Class = TypeVar('Class')
 
 
 class HasGenerator(Generic[Class]):
+    """
+    ============================================================================
+     Mixin for Classes with Class-Generator.
+    ============================================================================
+    """
 
     def __init__(self) -> None:
-        self._generator = Generator[Class]()
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
+        self._gen: Generator[Class] = None
 
     @property
-    def generator(self) -> Generator:
-        return self._generator
+    def gen(self) -> Generator:
+        return self._gen
+
+    @gen.setter
+    def gen(self, gen: Generator) -> None:
+        self._gen = gen
 
