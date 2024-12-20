@@ -16,7 +16,7 @@ class SolutionSingle(SolutionPath):
                  cache: dict[Node, Node],
                  elapsed: int,
                  is_path_found: bool):
-        self.path = list()
+        path: list[Node] = list()
 
         if is_path_found:
             path_from_best: list[Node] = list()
@@ -27,6 +27,9 @@ class SolutionSingle(SolutionPath):
 
         # Set values directly using `object.__setattr__()` since `frozen=True`
         object.__setattr__(self, 'path', path)
-        object.__setattr__(self, 'nodes_generated', len(state.generated))
-        object.__setattr__(self, 'nodes_explored', len(state.explored))
+        object.__setattr__(self, 'state', state)
+        object.__setattr__(self, 'is_path_found', is_path_found)
         object.__setattr__(self, 'elapsed', elapsed)
+
+    def __post_init__(self):
+        pass
