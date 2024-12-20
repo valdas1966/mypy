@@ -48,6 +48,52 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
                          type_node=self._type_node,
                          name=self._name)
 
+    @staticmethod
+    def distance(node_a: Node, node_b: Node) -> int:
+        """
+        ========================================================================
+         Return a Manhattan-Distance between two Nodes within the Grid.
+        ========================================================================
+        """
+        cell_a = node_a.uid
+        cell_b = node_b.uid
+        return Grid.distance(cell_a=cell_a, cell_b=cell_b)
+
+    @classmethod
+    def generate(cls,
+                 rows: int,
+                 cols: int = None,
+                 pct_valid: int = 100,
+                 type_node: Type[NodeGraph] = NodeGraph,
+                 name: str = None) -> GraphGrid:
+        """
+        ========================================================================
+         Return a generated GraphGrid with custom Params.
+        ========================================================================
+        """
+        grid = Grid.generate(rows=rows, cols=cols, pct_valid=pct_valid)
+        return cls(grid=grid, type_node=type_node, name=name)
+
+    @classmethod
+    def generate_3x3(cls,
+                     type_node: Type[NodeGraph] = NodeGraph,
+                     name: str = None) -> GraphGrid:
+        """
+        ========================================================================
+         Generate a 3x3 Full-GraphGrid.
+        ========================================================================
+        """
+        grid = Grid.generate(rows=3)
+        return cls(grid=grid, type_node=type_node, name=name)
+
+    @classmethod
+    def generate_4x4(cls,
+                     type_node: Type[NodeGraph] = NodeGraph,
+                     name: str = None) -> GraphGrid:
+        grid = Grid.generate(rows=4)
+        Cell.invalidate([grid[2][0], grid[2][1], grid[2][2]])
+        return cls(grid=grid, type_node=type_node, name=name)
+
     def __getitem__(self, index: tuple[int, int]) -> Node:
         """
         ========================================================================

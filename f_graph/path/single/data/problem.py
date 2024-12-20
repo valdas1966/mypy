@@ -1,16 +1,12 @@
 from __future__ import annotations
 from f_graph.path.data.problem import ProblemPath, dataclass
-from f_graph.path.elements.graph import GraphPath
-from f_graph.path.elements.node import NodePath
-from f_graph.elements.graphs.u_2_grid import UGraphGrid
-from typing import Generic, TypeVar, Type
-
-Graph = TypeVar('Graph', bound=GraphPath)
-Node = TypeVar('Node', bound=NodePath)
+from f_graph.path.elements.graph import GraphPath as Graph
+from f_graph.path.elements.node import NodePath as Node
+from typing import Type
 
 
 @dataclass(frozen=True)
-class ProblemSingle(Generic[Graph, Node], ProblemPath[Graph, Node]):
+class ProblemSingle(ProblemPath):
     """
     ============================================================================
      Path-Finding Problem with Single-Goal.
@@ -30,15 +26,27 @@ class ProblemSingle(Generic[Graph, Node], ProblemPath[Graph, Node]):
         return ProblemSingle(graph=graph, start=start, goal=goal)
 
     @classmethod
-    def gen_3x3(cls, type_node: Type[Node] = NodePath) -> ProblemSingle:
+    def gen_3x3(cls, type_node: Type[Node] = Node) -> ProblemSingle:
         """
         ========================================================================
          Return a generated ProblemSingle with Graph of 3x3 dimension.
         ========================================================================
         """
-        graph = UGraphGrid.gen_3x3(type_node=type_node)
+        graph = Graph.gen_3x3(type_node=type_node)
         start = graph[0, 0]
         goal = graph[2, 2]
+        return ProblemSingle(graph=graph, start=start, goal=goal)
+
+    @classmethod
+    def gen_4x4(cls, type_node: Type[Node] = Node) -> ProblemSingle:
+        """
+        ========================================================================
+         Return a generated ProblemSingle with Graph of 4x4 dimension.
+        ========================================================================
+        """
+        graph = Graph.gen_4x4(type_node=type_node)
+        start = graph[0, 0]
+        goal = graph[0, 3]
         return ProblemSingle(graph=graph, start=start, goal=goal)
 
     def __str__(self) -> str:

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from f_core.mixins.has_name import HasName
 from f_core.mixins.has_rows_cols import HasRowsCols
 from f_ds.mixins.groupable import Groupable, Group
@@ -82,6 +83,22 @@ class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
         diff_row = abs(cell_a.row - cell_b.row)
         diff_col = abs(cell_a.col - cell_b.col)
         return diff_row + diff_col
+
+    @classmethod
+    def generate(cls,
+                 rows: int,
+                 cols: int = None,
+                 pct_valid: int = 100,
+                 name: str = None) -> Grid:
+        """
+        ========================================================================
+         Generate Grid with Random Valid-Cells based on list given Percentage.
+        ========================================================================
+        """
+        grid = Grid(name=name, rows=rows, cols=cols)
+        cells_to_invalidate = grid.sample(pct=100-pct_valid)
+        Cell.invalidate(cells_to_invalidate)
+        return grid
 
     def __getitem__(self, index) -> list[Cell]:
         """
