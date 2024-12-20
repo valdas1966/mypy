@@ -5,17 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_graph/path/single/algos/a_star.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/single/algos/testers/t_a_star.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/u_cell.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/u_grid.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/study/s_u_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/study/s_u_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/testers/t_u_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/testers/t_u_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/generators/g_2_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/elements/graphs/generators/g_2_grid.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/i_2_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/elements/graphs/i_2_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/data/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/data/problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/u_2_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/elements/graphs/u_2_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algos/testers/t_a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/algos/testers/t_a_star.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/single/algos/testers/t_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/algos/testers/t_bfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/data/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/data/problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/generators/gen_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/generators/gen_graph.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,6 +79,7 @@
     "Python tests.Python tests for t_2_g.test_repr.executor": "Run",
     "Python tests.Python tests for t_2_g_cell.test_key_comparison.executor": "Run",
     "Python tests.Python tests for t_2_g_cell.test_str.executor": "Run",
+    "Python tests.Python tests for t_a_star.test_a_star.executor": "Run",
     "Python tests.Python tests for t_astar.test.executor": "Run",
     "Python tests.Python tests for t_astar_grid.test_random.executor": "Run",
     "Python tests.Python tests for t_bfs.test.executor": "Run",
@@ -144,6 +143,7 @@
     "Python tests.Python tests in t_2_g_cell.py.executor": "Run",
     "Python tests.Python tests in t_2_mask.py.executor": "Run",
     "Python tests.Python tests in t_3_mask_one_word.py.executor": "Run",
+    "Python tests.Python tests in t_a_star.py.executor": "Run",
     "Python tests.Python tests in t_apply.py.executor": "Run",
     "Python tests.Python tests in t_astar.py (1).executor": "Run",
     "Python tests.Python tests in t_astar.py.executor": "Run",
@@ -352,7 +352,7 @@
       <recent name="G:\mypy\f_graph\data" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.problem">
+  <component name="RunManager" selected="Python tests.Python tests in t_a_star.py">
     <configuration name="a_star" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -397,7 +397,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_bfs.test_bfs" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_a_star.test_a_star" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -408,11 +408,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_bfs.test_bfs&quot;" />
+      <option name="_new_target" value="&quot;t_a_star.test_a_star&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_bfs.test_bfs_cache" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_a_star.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -423,8 +423,8 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_bfs.test_bfs_cache&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/single/algos/testers/t_a_star.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="Python tests in t_bfs.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -444,11 +444,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests in t_a_star.py" />
+        <item itemvalue="Python tests.Python tests for t_a_star.test_a_star" />
+        <item itemvalue="Python tests.Python tests in t_bfs.py (1)" />
         <item itemvalue="Python.problem" />
         <item itemvalue="Python.a_star" />
-        <item itemvalue="Python tests.Python tests in t_bfs.py" />
-        <item itemvalue="Python tests.Python tests for t_bfs.test_bfs_cache" />
-        <item itemvalue="Python tests.Python tests for t_bfs.test_bfs" />
       </list>
     </recent_temporary>
   </component>
@@ -467,14 +467,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00062" summary="h">
-      <option name="closed" value="true" />
-      <created>1730147426283</created>
-      <option name="number" value="00062" />
-      <option name="presentableId" value="LOCAL-00062" />
-      <option name="project" value="LOCAL" />
-      <updated>1730147426283</updated>
     </task>
     <task id="LOCAL-00063" summary="h">
       <option name="closed" value="true" />
@@ -860,7 +852,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734674730786</updated>
     </task>
-    <option name="localTasksCounter" value="111" />
+    <task id="LOCAL-00111" summary="h">
+      <option name="closed" value="true" />
+      <created>1734689279051</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1734689279051</updated>
+    </task>
+    <option name="localTasksCounter" value="112" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

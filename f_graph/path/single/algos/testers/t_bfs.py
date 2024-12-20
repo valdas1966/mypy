@@ -1,11 +1,11 @@
 from f_graph.path.single.algos.bfs import BFS
-from f_graph.path.single.data.problem import ProblemSingle, NodePath
+from f_graph.path.single.data.problem import ProblemSingle
 import pytest
 
 
 @pytest.fixture
 def problem() -> ProblemSingle:
-    return ProblemSingle.gen_3x3(type_node=NodePath)
+    return ProblemSingle.gen_3x3()
 
 
 def test_bfs(problem):

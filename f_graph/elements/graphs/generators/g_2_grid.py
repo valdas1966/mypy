@@ -19,5 +19,5 @@ class GenGraphGrid:
          Generate Graph of Grid.
         ========================================================================
         """
-        grid = UGrid.generate(rows=rows, pct_valid=pct_valid)
+        grid = UGrid.gen(rows=rows, pct_valid=pct_valid)
         return GraphGrid(grid=grid, type_node=type_node)
