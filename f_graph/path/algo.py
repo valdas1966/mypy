@@ -1,13 +1,15 @@
 from f_graph.algo import AlgoGraph
 from f_graph.path.data.problem import ProblemPath
 from f_graph.path.data.solution import SolutionPath
+from f_graph.path.elements.node import NodePath as Node
 from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemPath)
 Solution = TypeVar('Solution', bound=SolutionPath)
 
 
-class AlgoPath(Generic[Problem, Solution], AlgoGraph[Problem, Solution]):
+class AlgoPath(Generic[Problem, Solution],
+               AlgoGraph[Problem, Solution, Node]):
     """
     ============================================================================
      ABC for Path-Finding Algorithms.

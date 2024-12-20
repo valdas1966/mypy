@@ -1,9 +1,8 @@
-from f_graph.path.algo import AlgoPath
+from f_graph.path.algo import AlgoPath, Node
 from f_graph.path.single.data.problem import ProblemSingle as Problem
 from f_graph.path.single.data.solution import SolutionSingle as Solution
 from f_graph.path.single.components.state import State, Queue
 from f_graph.path.single.components.ops import Ops
-from f_graph.path.elements.node import NodePath as Node
 from typing import Type, Callable
 
 
@@ -113,7 +112,7 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
          Return True if the Best-Generated Node is a Goal or in the Cache.
         ========================================================================
         """
-        return (self._state.best == self._problem.goal or
+        return (self._state.best == self._input.goal or
                 self._state.best in self._cache)
 
     def _explore_best(self) -> None:

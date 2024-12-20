@@ -1,12 +1,9 @@
-from f_graph.path.data.solution import SolutionPath, NodePath, dataclass
+from f_graph.path.data.solution import SolutionPath, Node, dataclass
 from f_graph.path.single.components.state import State
-from typing import Generic, TypeVar
-
-Node = TypeVar('Node', bound=NodePath)
 
 
 @dataclass(frozen=True)
-class SolutionSingle(Generic[Node], SolutionPath):
+class SolutionSingle(SolutionPath):
     """
     ============================================================================
      Solution of Path-Algorithm with Single-Goal.
@@ -19,7 +16,7 @@ class SolutionSingle(Generic[Node], SolutionPath):
                  cache: dict[Node, Node],
                  elapsed: int,
                  is_path_found: bool):
-        path: list[Node] = list()
+        self.path = list()
 
         if is_path_found:
             path_from_best: list[Node] = list()

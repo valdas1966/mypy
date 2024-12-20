@@ -6,14 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/study/s_astar_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/study/s_astar_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/hs/ops/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/ops/node.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/i_0_abc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algos/one_to_one/i_0_abc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/study/s_1_u_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/elements/graphs/study/s_1_u_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/testers/t_u_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/elements/graphs/testers/t_u_1_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/u_2_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/elements/graphs/u_2_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/data/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/data/problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/elements/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/elements/node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/data/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/data/solution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algos/bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/algos/bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algos/testers/t_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/algos/testers/t_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/data/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/data/solution.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -347,8 +347,8 @@
       <recent name="G:\mypy\f_graph\data" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_has_generator">
-    <configuration name="s_auth (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests in t_bfs.py">
+    <configuration name="bfs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -357,11 +357,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/utils/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/single/algos" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/utils/study/s_auth.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/single/algos/bfs.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -414,28 +414,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_service" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/utils/study" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/utils/study/s_service.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="user_snapshots" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -458,13 +436,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Python tests in t_bfs.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/single/algos/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/single/algos/testers/t_bfs.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests in t_bfs.py" />
+        <item itemvalue="Python.bfs" />
         <item itemvalue="Python.s_has_generator" />
         <item itemvalue="Python.user_snapshots" />
         <item itemvalue="Python.s_client" />
-        <item itemvalue="Python.s_service" />
-        <item itemvalue="Python.s_auth (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -483,14 +476,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00059" summary="h">
-      <option name="closed" value="true" />
-      <created>1729504777608</created>
-      <option name="number" value="00059" />
-      <option name="presentableId" value="LOCAL-00059" />
-      <option name="project" value="LOCAL" />
-      <updated>1729504777608</updated>
     </task>
     <task id="LOCAL-00060" summary="h">
       <option name="closed" value="true" />
@@ -876,7 +861,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734639758065</updated>
     </task>
-    <option name="localTasksCounter" value="108" />
+    <task id="LOCAL-00108" summary="h">
+      <option name="closed" value="true" />
+      <created>1734668535695</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1734668535696</updated>
+    </task>
+    <option name="localTasksCounter" value="109" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

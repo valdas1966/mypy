@@ -1,16 +1,11 @@
 from f_graph.data.solution import SolutionGraph, dataclass
-from f_graph.path.elements.node import NodePath
-from typing import Generic, TypeVar
-
-Node = TypeVar('Node', bound=NodePath)
+from f_graph.path.elements.node import NodePath as Node
 
 
 @dataclass(frozen=True)
-class SolutionPath(Generic[Node], SolutionGraph):
+class SolutionPath(SolutionGraph[Node]):
     """
     ============================================================================
      ABC for Solution of Path-Problem.
     ============================================================================
     """
-    nodes_generated: int
-    nodes_explored: int

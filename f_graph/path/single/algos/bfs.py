@@ -1,9 +1,8 @@
-from f_graph.path.single.algo import AlgoSingle, Node
-from f_graph.path.single.data.problem import ProblemSingle as Problem
+from f_graph.path.single.algo import AlgoSingle, Problem, Node
 from f_ds.queues.i_1_fifo import QueueFIFO
 
 
-class BFS(AlgoSingle[Node]):
+class BFS(AlgoSingle):
     """
     ============================================================================
      Breadth-First-Search Algorithm with Single-Goal.
@@ -12,7 +11,7 @@ class BFS(AlgoSingle[Node]):
 
     def __init__(self,
                  problem: Problem,
-                 cache: set[Node]):
+                 cache: set[Node] = None):
         """
         ========================================================================
          Init private Attributes.
