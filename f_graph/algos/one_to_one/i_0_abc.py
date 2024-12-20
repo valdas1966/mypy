@@ -51,7 +51,7 @@ class AlgoOneToOneABC(AlgoPath[Problem, OpsNode, Data, Node]):
          Search the shortest paths from Start to Goal.
         ========================================================================
         """
-        self._ops_node.generate(node=self._problem.start)
+        self._ops_node.gen(node=self._problem.start)
         while self._data.generated:
             best = self._data.generated.pop()
             if self._can_terminate(best=best):

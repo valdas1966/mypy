@@ -1,8 +1,11 @@
-from f_graph.elements.graphs.i_2_grid import GraphGrid
+from f_graph.elements.graphs.i_2_grid import GraphGrid, NodeGraph
 from f_ds.grids.u_grid import UGrid
+from typing import Generic, TypeVar, Type
+
+Node = TypeVar('Node', bound=NodeGraph)
 
 
-class UGraphGrid:
+class UGraphGrid(Generic[Node]):
     """
     ============================================================================
      Utils-Class of Graph-Grid.
@@ -10,14 +13,26 @@ class UGraphGrid:
     """
 
     @staticmethod
-    def generate(rows: int,
-                 cols: int = None,
-                 pct_valid: int = 100,
-                 name: str = None) -> GraphGrid:
+    def gen(rows: int,
+            cols: int = None,
+            pct_valid: int = 100,
+            type_node: Type[Node] = NodeGraph,
+            name: str = None) -> GraphGrid:
         """
         ========================================================================
          Return a generated GraphGrid by received parameters.
         ========================================================================
         """
         grid = UGrid.generate(rows=rows, cols=cols, pct_valid=pct_valid)
-        return GraphGrid(grid=grid, name=name)
+        return GraphGrid(grid=grid, name=name, type_node=type_node)
+
+    @staticmethod
+    def gen_3x3(type_node: Type[Node] = NodeGraph,
+                name: str = None) -> GraphGrid:
+        """
+        ========================================================================
+         Return a Full-Valid GraphGrid of 3x3 dimension.
+        ========================================================================
+        """
+        return UGraphGrid.gen(rows=3, type_node=type_node, name=name)
+

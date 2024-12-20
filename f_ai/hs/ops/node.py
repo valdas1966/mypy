@@ -33,7 +33,7 @@ class OpsNodeHS(OpsNodeABC[Problem, Node]):
         ========================================================================
         """
         node.h = self._heuristics(node)
-        OpsNodeABC.generate(self, node=node, parent=parent)
+        OpsNodeABC.gen(self, node=node, parent=parent)
 
     def try_update(self,
                    child: Node,

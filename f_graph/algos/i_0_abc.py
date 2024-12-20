@@ -38,7 +38,7 @@ class AlgoPath(Generic[Problem, Path, Data, Ops],
                            name=name)
 
     def run(self) -> Path:
-        self._ops.generate(node=self._input.start)
+        self._ops.gen(node=self._input.start)
         while not self._data.has_pending_generated():
             best = self._data.pop_best_generated()
             if self._data.is_active_goal(node=best):
