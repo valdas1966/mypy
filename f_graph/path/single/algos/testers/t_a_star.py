@@ -1,4 +1,5 @@
 from f_graph.path.single.algos.a_star import AStar, Problem
+from f_graph.path.elements.graph import GraphPath, NodePath
 
 
 def test_a_star():
@@ -14,8 +15,21 @@ def test_a_star():
     assert solution.state.best == problem.goal
 
 
-def test_a_star_cache(problem):
-    graph = problem.graph.clone()
-    assert True
+def test_a_star_cache():
+    graph = GraphPath.gen_3x3(type_node=NodePath)
+    problem_a = Problem(graph=graph, start=graph[2, 2], goal=graph[0, 2])
+    astar_a = AStar(problem=problem_a, name='Backward')
+    solution_a = astar_a.run()
+    problem_b = Problem.gen_3x3()
+    cache_b = solution_a.state.explored
+    astar_b = AStar(problem=problem_b, cache=cache_b, name='Forward')
+    solution_b = astar_b.run()
+    assert solution_b.path == [graph[0, 0], graph[0, 1], graph[0, 2],
+                               graph[1, 2], graph[2, 2]]
+    assert solution_b.state.explored == {graph[0, 0], graph[0, 1], graph[0, 2]}
+    assert solution_b.state.best == graph[1, 2]
+
+
+
 
 

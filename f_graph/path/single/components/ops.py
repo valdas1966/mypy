@@ -37,6 +37,7 @@ class Ops(Generic[Node]):
         node.parent = parent
         if node in self._cache:
             node.h = self._cache[node].g
+            node.set_cached()
         else:
             node.h = self._heuristic(node)
         self._state.generated.push(item=node)

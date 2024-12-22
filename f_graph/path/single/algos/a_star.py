@@ -11,7 +11,8 @@ class AStar(AlgoSingle):
 
     def __init__(self,
                  problem: Problem,
-                 cache: set[Node] = None):
+                 cache: set[Node] = None,
+                 name: str = 'AStar'):
         """
         ========================================================================
          Init private Attributes.
@@ -23,4 +24,4 @@ class AStar(AlgoSingle):
                             cache=cache,
                             heuristic=heuristic,
                             type_queue=QueuePriority,
-                            name='AStar')
+                            name=name)

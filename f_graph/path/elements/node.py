@@ -24,6 +24,15 @@ class NodePath(NodeGraph[UID], HasG, HasH):
         NodeGraph.__init__(self, uid=uid, name=name)
         HasG.__init__(self, parent=parent)
         HasH.__init__(self, h=h)
+        self._is_cached: bool = False
+
+    def set_cached(self) -> None:
+        """
+        ========================================================================
+         Mark a Node as Cached (known the accurate path to the Goal).
+        ========================================================================
+        """
+        self._is_cached = True
 
     def f(self) -> int:
         """

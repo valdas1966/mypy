@@ -5,13 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_core/mixins/testers/t_has_uid.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/elements/testers/t_node.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/elements/testers/t_node.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/i_1_dict.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/elements/graphs/i_1_dict.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/elements/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/elements/node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algos/a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/algos/a_star.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/single/algos/testers/t_a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/algos/testers/t_a_star.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/components/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/components/ops.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,6 +76,7 @@
     "Python tests.Python tests for t_2_g_cell.test_key_comparison.executor": "Run",
     "Python tests.Python tests for t_2_g_cell.test_str.executor": "Run",
     "Python tests.Python tests for t_a_star.test_a_star.executor": "Run",
+    "Python tests.Python tests for t_a_star.test_a_star_cache.executor": "Run",
     "Python tests.Python tests for t_astar.test.executor": "Run",
     "Python tests.Python tests for t_astar_grid.test_random.executor": "Run",
     "Python tests.Python tests for t_bfs.test.executor": "Run",
@@ -355,7 +354,7 @@
       <recent name="G:\mypy\f_graph\data" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for t_a_star.test_a_star">
+  <component name="RunManager" selected="Python tests.Python tests for t_a_star.test_a_star_cache">
     <configuration name="Python tests for t_a_star.test_a_star" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -368,6 +367,21 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;t_a_star.test_a_star&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for t_a_star.test_a_star_cache" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/single/algos/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_a_star.test_a_star_cache&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -386,18 +400,18 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_has_uid.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_a_star.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_core/mixins/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/single/algos/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_core/mixins/testers/t_has_uid.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/single/algos/testers/t_a_star.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -416,28 +430,13 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_node.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/elements/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/elements/testers/t_node.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for t_a_star.test_a_star_cache" />
+        <item itemvalue="Python tests.Python tests in t_a_star.py" />
         <item itemvalue="Python tests.Python tests for t_a_star.test_a_star" />
         <item itemvalue="Python tests.Python tests for t_node.test_key_comparison" />
         <item itemvalue="Python tests.Python tests in t_node.py (1)" />
-        <item itemvalue="Python tests.Python tests in t_node.py" />
-        <item itemvalue="Python tests.Python tests in t_has_uid.py" />
       </list>
     </recent_temporary>
   </component>
@@ -456,14 +455,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00065" summary="h">
-      <option name="closed" value="true" />
-      <created>1730453894265</created>
-      <option name="number" value="00065" />
-      <option name="presentableId" value="LOCAL-00065" />
-      <option name="project" value="LOCAL" />
-      <updated>1730453894265</updated>
     </task>
     <task id="LOCAL-00066" summary="h">
       <option name="closed" value="true" />
@@ -849,7 +840,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734766034714</updated>
     </task>
-    <option name="localTasksCounter" value="114" />
+    <task id="LOCAL-00114" summary="h">
+      <option name="closed" value="true" />
+      <created>1734862766723</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1734862766724</updated>
+    </task>
+    <option name="localTasksCounter" value="115" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
