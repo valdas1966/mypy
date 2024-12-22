@@ -24,3 +24,29 @@ class NodePath(NodeGraph[UID], HasG, HasH):
         NodeGraph.__init__(self, uid=uid, name=name)
         HasG.__init__(self, parent=parent)
         HasH.__init__(self, h=h)
+
+    def f(self) -> int:
+        """
+        ========================================================================
+         Return a Heuristic-Distance from Node to the Goal.
+        ========================================================================
+        """
+        return self.g + self.h
+
+    def key_comparison(self) -> list:
+        """
+        ========================================================================
+         Compare between Nodes by: F, H, UID.
+        ========================================================================
+        """
+        return [self.f(), self.h, self.uid]
+
+    def __str__(self) -> str:
+        """
+        ========================================================================
+         Return a STR-Representation of the Node.
+        ------------------------------------------------------------------------
+         Ex: '<NodePath: (0,0), g=2, h=3, f=5>'
+        ========================================================================
+        """
+        return f'<NodePath: {self.uid}, g={self.g}, h={self.h}, f={self.f()}>'

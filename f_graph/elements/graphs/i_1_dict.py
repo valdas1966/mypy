@@ -20,7 +20,7 @@ class GraphDict(Generic[Node, UID], GraphBase[Node], HasUID[UID]):
         ========================================================================
         """
         GraphBase.__init__(self, name=name)
-        self._nodes: dict[UID, Node] = {uid: type_node(uid=uid)
+        self._nodes: dict[UID, Node] = {uid: type_node[UID](uid=uid)
                                         for uid
                                         in uids}
 
