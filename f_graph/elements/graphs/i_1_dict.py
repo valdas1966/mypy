@@ -1,9 +1,10 @@
 from f_graph.elements.graphs.i_0_base import GraphBase, Node
 from f_core.mixins.has_uid import HasUID, UID
+from f_core.mixins.equable import Equable
 from typing import Generic, Type, Iterable
 
 
-class GraphDict(Generic[Node, UID], GraphBase[Node], HasUID[UID]):
+class GraphDict(Generic[Node, UID], GraphBase[Node], Equable):
     """
     ============================================================================
      Dict-Based Graph.
@@ -32,10 +33,18 @@ class GraphDict(Generic[Node, UID], GraphBase[Node], HasUID[UID]):
         """
         return list(self._nodes.values())
 
-    def node_from_uid(self, uid: UID) -> Node:
+    def node(self, uid: UID) -> Node:
         """
         ========================================================================
          Return a Node by a given UID.
         ========================================================================
         """
         return self._nodes[uid]
+
+    def key_comparison(self) -> dict:
+        """
+        ========================================================================
+         Compare by a Dict of Nodes.
+        ========================================================================
+        """
+        return self._nodes

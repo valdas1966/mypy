@@ -1,8 +1,8 @@
 from f_graph.path.single.algo import AlgoPath
 from f_graph.path.single.problem import Problem
 from f_graph.path.single.old_solution import Path
-from f_graph.path.single.components.state import State
-from f_graph.path.single.components.ops import Ops
+from f_graph.path.single.state import State
+from f_graph.path.single.ops import Ops
 
 
 class BFS(AlgoPath[Problem, Path, State, Ops]):

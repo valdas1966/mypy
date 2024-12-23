@@ -1,18 +1,15 @@
 from __future__ import annotations
-from f_graph.path.problem import ProblemPath, Graph, Node, dataclass
+from f_graph.path.problem import ProblemPath, Graph, Node
 from f_graph.path.single.problem import ProblemSingle
 from typing import Iterable
 
 
-@dataclass(frozen=True)
 class ProblemMulti(ProblemPath):
     """
     ============================================================================
      Path-Problem with Multiple-Goals.
     ============================================================================
     """
-
-    goals: set[Node]
 
     def __init__(self,
                  graph: Graph,
@@ -24,7 +21,16 @@ class ProblemMulti(ProblemPath):
         ========================================================================
         """
         ProblemPath.__init__(self, graph=graph, start=start)
-        object.__setattr__(self, 'goals', set(goals))
+        self._goals = set(goals)
+
+    @property
+    def goals(self) -> set[Node]:
+        """
+        ========================================================================
+         Return the Goals of the Problem.
+        ========================================================================
+        """
+        return self._goals
 
     def to_singles(self) -> tuple[ProblemSingle, ...]:
         """
@@ -45,8 +51,8 @@ class ProblemMulti(ProblemPath):
         ========================================================================
         """
         graph = self.graph.clone()
-        start = graph.node_from_uid(uid=self.start.uid)
-        goals = {graph.node_from_uid(uid=goal.uid) for goal in self.goals}
+        start = graph.node(uid=self.start.uid)
+        goals = {graph.node(uid=goal.uid) for goal in self.goals}
         return ProblemMulti(graph=graph, start=start, goals=goals)
 
     def __str__(self) -> str:

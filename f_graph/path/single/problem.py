@@ -2,10 +2,11 @@ from __future__ import annotations
 from f_graph.path.problem import ProblemPath
 from f_graph.path.elements.graph import GraphPath as Graph
 from f_graph.path.elements.node import NodePath as Node
+from f_core.mixins.equable import Equable
 from typing import Type
 
 
-class ProblemSingle(ProblemPath):
+class ProblemSingle(ProblemPath, Equable):
     """
     ============================================================================
      Path-Finding Problem with Single-Goal.
@@ -37,9 +38,17 @@ class ProblemSingle(ProblemPath):
         ========================================================================
         """
         graph = self.graph.clone()
-        start = graph.node_from_uid(uid=self.start.uid)
-        goal = graph.node_from_uid(uid=self.goal.uid)
+        start = graph.node(uid=self.start.uid)
+        goal = graph.node(uid=self.goal.uid)
         return ProblemSingle(graph=graph, start=start, goal=goal)
+
+    def key_comparison(self) -> tuple[Graph, Node, Node]:
+        """
+        ========================================================================
+         Compare by a Tuple of (Graph, Start, Goal).
+        ========================================================================
+        """
+        return self.graph, self.start, self.goal
 
     @classmethod
     def gen_3x3(cls, type_node: Type[Node] = Node) -> ProblemSingle:

@@ -1,5 +1,6 @@
 from __future__ import annotations
-from f_core.mixins.equable import Equable
+from abc import abstractmethod
+from f_core.mixins.equable import Equable, ProtocolEquable
 
 
 class Comparable(Equable):
@@ -8,6 +9,10 @@ class Comparable(Equable):
      Mixin class for objects that support comparison operations.
     ============================================================================
     """
+
+    @abstractmethod
+    def key_comparison(self) -> ProtocolEquable:
+        pass
 
     def __lt__(self, other: Comparable) -> bool:
         """

@@ -1,8 +1,8 @@
 from f_graph.path.algo import AlgoPath, Node
 from f_graph.path.single.problem import ProblemSingle as Problem
 from f_graph.path.single.solution import SolutionSingle as Solution
-from f_graph.path.single.components.state import State, Queue
-from f_graph.path.single.components.ops import Ops
+from f_graph.path.single.state import StateSingle, Queue
+from f_graph.path.single.ops import Ops
 from typing import Type, Callable
 
 
@@ -15,7 +15,7 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
 
     def __init__(self,
                  problem: Problem,
-                 type_queue: Type[Queue],
+                 type_queue: Type[Queue] = Queue,
                  cache: set[Node] = None,
                  heuristic: Callable[[Node], int] = None,
                  name: str = 'Path-Algorithm-Single-Goal') -> None:
@@ -32,6 +32,7 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
         self._heuristic = heuristic if heuristic else lambda _: 0
         self._state = self._create_state()
         self._ops = self._create_ops()
+        self._solution = Solution()
 
     def run(self) -> Solution:
         """
@@ -45,18 +46,18 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
             self._select_best()
             if self._is_path_found():
                 self._run_post()
-                return self._create_solution(is_path_found=True)
+                return self._create_solution(is_found=True)
             self._explore_best()
         self._run_post()
-        return self._create_solution(is_path_found=False)
+        return self._create_solution(is_found=False)
 
-    def _create_state(self) -> State[Node]:
+    def _create_state(self) -> StateSingle:
         """
         ========================================================================
          Create a Data object.
         ========================================================================
         """
-        return State[Node](type_queue=self._type_queue)
+        return StateSingle(type_queue=self._type_queue)
 
     def _create_ops(self) -> Ops[Node]:
         """
@@ -69,16 +70,17 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
                          cache=self._cache,
                          heuristic=self._heuristic)
 
-    def _create_solution(self, is_path_found: bool) -> Solution:
+    def _create_solution(self, is_found: bool) -> Solution:
         """
         ========================================================================
          Create a Solution object.
         ========================================================================
         """
+        self._run_post()
         return Solution(state=self._state,
                         cache=self._cache,
                         elapsed=self.elapsed,
-                        is_path_found=is_path_found)
+                        is_found=is_path_found)
 
     def _should_continue(self) -> bool:
         """
@@ -122,3 +124,18 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
         ========================================================================
         """
         self._ops.explore(node=self._state.best)
+
+    def _construct_path(self) -> list[Node]:
+        """
+        ========================================================================
+         Return a constructed path.
+        ========================================================================
+        """
+        if not self.is_found:
+            return list()
+        path = self.state.best.path_from_start()
+        if self.state.best in self._cache:
+            best = self.state.best
+            path_from_best = self._cache[best].path_from_start()
+            path_from_best = list(reversed(path_from_best[:-1]))
+            return path + path_from_best

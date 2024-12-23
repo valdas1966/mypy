@@ -1,5 +1,5 @@
 from f_graph.path.problem import ProblemPath as Problem
-from f_graph.path.single.components.state import State
+from f_graph.path.single.state import State
 from f_graph.path.elements.node import NodePath
 from typing import Generic, TypeVar, Callable
 

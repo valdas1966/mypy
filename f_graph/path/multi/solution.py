@@ -1,45 +1,38 @@
-from f_core.mixins.comparable import Comparable
-from typing import Generic, TypeVar
-
-UID = TypeVar('UID')
+from f_graph.path.solution import SolutionPath, Node
+from f_graph.path.multi.statemulti import StateMulti
 
 
-class HasUID(Generic[UID], Comparable):
+class SolutionMulti(SolutionPath):
     """
     ============================================================================
-     Mixin for Classes with UID (Unique Identifier) property.
+     Solution for Path-Problems with Multiple-Goals.
     ============================================================================
     """
 
-    def __init__(self, uid: UID) -> None:
+    def __init__(self) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._uid = uid
+        SolutionPath.__init__(self, is_valid=is_valid, elapsed=elapsed)
+        self._state = state
+        self._paths = paths
 
     @property
-    def uid(self) -> UID:
+    def state(self) -> StateMulti:
         """
         ========================================================================
-         Return an ID property.
+         Return the State of the Multiple-Goals Path-Algorithm.
         ========================================================================
         """
-        return self._uid
+        return self._state
 
-    def key_comparison(self) -> UID:
+    @property
+    def paths(self) -> dict[Node, list[Node]]:
         """
         ========================================================================
-         Compare by the UID.
+         Return the Optimal-Paths from Start to Goals.
         ========================================================================
         """
-        return self._uid
-
-    def __hash__(self) -> int:
-        """
-        ========================================================================
-         Hash the object by an UID.
-        ========================================================================
-        """
-        return hash(self._uid)
+        return self._paths

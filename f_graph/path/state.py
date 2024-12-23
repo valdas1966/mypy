@@ -1,14 +1,11 @@
-from f_core.mixins.validatable_public import ValidatablePublic
-from f_graph.elements.node import NodeGraph
-from typing import Generic, TypeVar
-
-Node = TypeVar('Node', bound=NodeGraph)
+from collections.abc import Collection
+from f_graph.path.elements.node import NodePath as Node
 
 
-class SolutionGraph(Generic[Node], ValidatablePublic):
+class StatePath:
     """
     ============================================================================
-     ABC for Solution of Graph-Problem.
+     State object of the Path-Algorithm.
     ============================================================================
     """
 
@@ -18,5 +15,5 @@ class SolutionGraph(Generic[Node], ValidatablePublic):
          Init private Attributes.
         ========================================================================
         """
-        ValidatablePublic.__init__(self)
-        self.elapsed: int = 0
+        self._generated: Collection[Node] | None = None
+        self._explored: Collection[Node] | None = None
