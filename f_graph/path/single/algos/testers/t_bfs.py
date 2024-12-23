@@ -1,5 +1,5 @@
 from f_graph.path.single.algos.bfs import BFS
-from f_graph.path.single.data.problem import ProblemSingle
+from f_graph.path.single.problem import ProblemSingle
 import pytest
 
 

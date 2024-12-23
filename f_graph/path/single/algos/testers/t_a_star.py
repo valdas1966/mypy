@@ -28,8 +28,3 @@ def test_a_star_cache():
                                graph[1, 2], graph[2, 2]]
     assert solution_b.state.explored == {graph[0, 0], graph[0, 1], graph[0, 2]}
     assert solution_b.state.best == graph[1, 2]
-
-
-
-
-

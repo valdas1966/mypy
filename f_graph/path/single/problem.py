@@ -1,18 +1,34 @@
 from __future__ import annotations
-from f_graph.path.data.problem import ProblemPath, dataclass
+from f_graph.path.problem import ProblemPath
 from f_graph.path.elements.graph import GraphPath as Graph
 from f_graph.path.elements.node import NodePath as Node
 from typing import Type
 
 
-@dataclass(frozen=True)
 class ProblemSingle(ProblemPath):
     """
     ============================================================================
      Path-Finding Problem with Single-Goal.
     ============================================================================
     """
-    goal: Node
+
+    def __init__(self, graph: Graph, start: Node, goal: Node) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
+        ProblemPath.__init__(self, graph=graph, start=start)
+        self._goal = goal
+
+    @property
+    def goal(self) -> Node:
+        """
+        ========================================================================
+         Return the Goal of the Problem.
+        ========================================================================
+        """
+        return self._goal
 
     def clone(self) -> ProblemSingle:
         """

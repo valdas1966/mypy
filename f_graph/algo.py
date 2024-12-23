@@ -1,5 +1,5 @@
-from f_graph.data.problem import ProblemGraph, NodeGraph
-from f_graph.data.solution import SolutionGraph
+from f_graph.problem import ProblemGraph, NodeGraph
+from f_graph.solution import SolutionGraph
 from f_core.processes.i_2_io import ProcessIO
 from typing import Generic, TypeVar
 

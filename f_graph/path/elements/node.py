@@ -40,7 +40,7 @@ class NodePath(NodeGraph[UID], HasG, HasH):
          Return a Heuristic-Distance from Node to the Goal.
         ========================================================================
         """
-        return self.g + self.h
+        return (self.g + self.h) if self.h else self.g
 
     def key_comparison(self) -> list:
         """

@@ -1,6 +1,6 @@
 from f_graph.algo import AlgoGraph
-from f_graph.path.data.problem import ProblemPath
-from f_graph.path.data.solution import SolutionPath
+from f_graph.path.problem import ProblemPath
+from f_graph.path.solution import SolutionPath
 from f_graph.path.elements.node import NodePath as Node
 from typing import Generic, TypeVar
 

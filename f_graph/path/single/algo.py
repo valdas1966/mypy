@@ -1,6 +1,6 @@
 from f_graph.path.algo import AlgoPath, Node
-from f_graph.path.single.data.problem import ProblemSingle as Problem
-from f_graph.path.single.data.solution import SolutionSingle as Solution
+from f_graph.path.single.problem import ProblemSingle as Problem
+from f_graph.path.single.solution import SolutionSingle as Solution
 from f_graph.path.single.components.state import State, Queue
 from f_graph.path.single.components.ops import Ops
 from typing import Type, Callable
