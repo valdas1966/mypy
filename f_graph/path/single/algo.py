@@ -68,7 +68,7 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
         return Solution(state=self._state,
                         cache=self._cache,
                         elapsed=self.elapsed,
-                        is_found=is_found)
+                        is_valid=is_found)
 
     def _should_continue(self) -> bool:
         """

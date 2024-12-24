@@ -1,8 +1,11 @@
 from f_graph.solution import SolutionGraph
-from f_graph.path.state import StatePath as State, Node
+from f_graph.path.state import StatePath, Node
+from typing import Generic, TypeVar
+
+State = TypeVar('State', bound=StatePath)
 
 
-class SolutionPath(SolutionGraph[Node]):
+class SolutionPath(Generic[State], SolutionGraph[Node]):
     """
     ============================================================================
      ABC for Solution of Path-Problem.

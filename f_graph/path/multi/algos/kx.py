@@ -1,7 +1,6 @@
 from f_graph.path.multi.algo import AlgoMulti, ProblemMulti, SolutionMulti
-from f_graph.path.multi.state import StateMulti
-from f_graph.path.single.algo import (AlgoSingle, Solution as SolutionSingle,
-                                      Node)
+from f_graph.path.multi.state import StateMulti, Node
+from f_graph.path.single.algo import AlgoSingle, Solution as SolutionSingle
 from typing import Type
 
 
@@ -29,7 +28,6 @@ class KX(AlgoMulti):
             sol_single = algo_single.run()
             if not sol_single:
                 return self._create_solution(is_valid=False)
-
         return SolutionMulti(is_valid=True,
                              elapsed=elapsed,
                              state=state,
