@@ -15,5 +15,5 @@ class StatePath:
          Init private Attributes.
         ========================================================================
         """
-        self._generated: Collection[Node] | None = None
-        self._explored: Collection[Node] | None = None
+        self.generated: Collection[Node] | None = None
+        self.explored: Collection[Node] | None = None

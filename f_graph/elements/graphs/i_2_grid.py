@@ -34,7 +34,7 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
          Return the Neighbors of the given Node.
         ========================================================================
         """
-        return [self.node_from_uid(uid=cell)
+        return [self.node(uid=cell)
                 for cell
                 in self._grid.neighbors(cell=node.uid)]
 

@@ -1,7 +1,7 @@
 from f_graph.path.algo import AlgoPath, Node
 from f_graph.path.single.problem import ProblemSingle as Problem
 from f_graph.path.single.solution import SolutionSingle as Solution
-from f_graph.path.single.state import StateSingle, Queue
+from f_graph.path.single.state import StateSingle as State, Queue
 from f_graph.path.single.ops import Ops
 from typing import Type, Callable
 
@@ -28,11 +28,9 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
                           problem=problem.clone(),
                           name=name)
         self._cache: dict[Node, Node] = {node: node for node in cache or set()}
-        self._type_queue = type_queue
         self._heuristic = heuristic if heuristic else lambda _: 0
-        self._state = self._create_state()
+        self._state = State(type_queue=type_queue)
         self._ops = self._create_ops()
-        self._solution = Solution()
 
     def run(self) -> Solution:
         """
@@ -45,19 +43,9 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
         while self._should_continue():
             self._select_best()
             if self._is_path_found():
-                self._run_post()
                 return self._create_solution(is_found=True)
             self._explore_best()
-        self._run_post()
         return self._create_solution(is_found=False)
-
-    def _create_state(self) -> StateSingle:
-        """
-        ========================================================================
-         Create a Data object.
-        ========================================================================
-        """
-        return StateSingle(type_queue=self._type_queue)
 
     def _create_ops(self) -> Ops[Node]:
         """
@@ -80,7 +68,7 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
         return Solution(state=self._state,
                         cache=self._cache,
                         elapsed=self.elapsed,
-                        is_found=is_path_found)
+                        is_found=is_found)
 
     def _should_continue(self) -> bool:
         """
@@ -125,17 +113,3 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
         """
         self._ops.explore(node=self._state.best)
 
-    def _construct_path(self) -> list[Node]:
-        """
-        ========================================================================
-         Return a constructed path.
-        ========================================================================
-        """
-        if not self.is_found:
-            return list()
-        path = self.state.best.path_from_start()
-        if self.state.best in self._cache:
-            best = self.state.best
-            path_from_best = self._cache[best].path_from_start()
-            path_from_best = list(reversed(path_from_best[:-1]))
-            return path + path_from_best

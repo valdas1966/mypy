@@ -1,5 +1,5 @@
 from f_graph.path.multi.algo import AlgoMulti, ProblemMulti, SolutionMulti
-from f_graph.path.multi.statemulti import StateMulti
+from f_graph.path.multi.state import StateMulti
 from f_graph.path.single.algo import (AlgoSingle, Solution as SolutionSingle,
                                       Node)
 from typing import Type

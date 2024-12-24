@@ -1,5 +1,5 @@
 from f_graph.path.solution import SolutionPath, Node
-from f_graph.path.single.state import State
+from f_graph.path.single.state import StateSingle as State
 
 
 class SolutionSingle(SolutionPath):
@@ -9,7 +9,11 @@ class SolutionSingle(SolutionPath):
     ============================================================================
     """
 
-    def __init__(self) -> None:
+    def __init__(self,
+                 is_found: bool,
+                 state: State,
+                 cache: dict[Node, Node],
+                 elapsed: int) -> None:
         """
         ========================================================================
          Init Attributes.
@@ -17,14 +21,23 @@ class SolutionSingle(SolutionPath):
         """
         SolutionPath.__init__(self)
         self._cache = cache
+        self.is_found = is_found
+        self.elapsed = elapsed
         self.state = state
-        self._path = self._construct_path()
+        self.path = self._construct_path()
 
-    @property
-    def path(self) -> list[Node]:
+    def _construct_path(self) -> list[Node]:
         """
         ========================================================================
-         Return the Optimal-Path from Start to Goal.
+         Return a constructed path.
         ========================================================================
         """
-        return self._path
+        if not self.is_found:
+            return list()
+        path = self.state.best.path_from_start()
+        if self.state.best in self._cache:
+            best = self.state.best
+            path_from_best = self._cache[best].path_from_start()
+            path_from_best = list(reversed(path_from_best[:-1]))
+            return path + path_from_best
+        return path

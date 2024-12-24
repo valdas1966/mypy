@@ -1,14 +1,12 @@
-from f_core.mixins.validatable_public import ValidatablePublic
-from f_graph.elements.node import NodeGraph
-from typing import Generic, TypeVar
-
-Node = TypeVar('Node', bound=NodeGraph)
+from f_graph.path.state import StatePath, Node
+from f_graph.path.single.state import StateSingle
+from collections import Counter
 
 
-class SolutionGraph(Generic[Node], ValidatablePublic):
+class StateMulti(StatePath):
     """
     ============================================================================
-     ABC for Solution of Graph-Problem.
+     State of Multiple-Goal Path-Algorithms.
     ============================================================================
     """
 
@@ -18,15 +16,15 @@ class SolutionGraph(Generic[Node], ValidatablePublic):
          Init private Attributes.
         ========================================================================
         """
-        ValidatablePublic.__init__(self)
-        self._elapsed: int = 0
+        StatePath.__init__(self)
+        self.generated: Counter[Node] = Counter()
+        self.explored: Counter[Node] = Counter()
 
-    @property
-    def elapsed(self) -> int:
+    def update(self, state: StateSingle) -> None:
         """
         ========================================================================
-         Return the Elapsed seconds to reach the Solution.
+         Update the State from StateSingle.
         ========================================================================
         """
-        return self._elapsed
-
+        self.generated.update(state.generated)
+        self.explored.update(state.explored)
