@@ -26,5 +26,6 @@ class StateMulti(StatePath):
          Update the State from StateSingle.
         ========================================================================
         """
+        print('state.update before', len(self.))
         self.generated.update(state.generated)
         self.explored.update(state.explored)

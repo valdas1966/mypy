@@ -6,3 +6,4 @@ graph = problem.graph
 astar = AStar(problem=problem)
 solution = astar.run()
 print(solution.path)
+print(solution.elapsed)

@@ -1,4 +1,4 @@
-from f_graph.path.single.algo import AlgoSingle, Problem, Node
+from f_graph.path.single.algo import AlgoSingle, Problem, State, Node
 from f_ds.queues.i_1_fifo import QueueFIFO
 
 
@@ -9,9 +9,13 @@ class BFS(AlgoSingle):
     ============================================================================
     """
 
+    type_queue = QueueFIFO
+
     def __init__(self,
                  problem: Problem,
-                 cache: set[Node] = None):
+                 state: State = None,
+                 cache: set[Node] = None,
+                 ):
         """
         ========================================================================
          Init private Attributes.
@@ -19,6 +23,7 @@ class BFS(AlgoSingle):
         """
         AlgoSingle.__init__(self,
                             problem=problem,
+                            state=state,
                             cache=cache,
-                            type_queue=QueueFIFO,
+                            type_queue=BFS.type_queue,
                             name='BFS')

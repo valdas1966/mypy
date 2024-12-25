@@ -1,5 +1,5 @@
-from collections.abc import Collection
 from f_graph.path.elements.node import NodePath as Node
+from collections.abc import Collection
 
 
 class StatePath:
@@ -15,5 +15,13 @@ class StatePath:
          Init private Attributes.
         ========================================================================
         """
-        self.generated: Collection[Node] | None = None
-        self.explored: Collection[Node] | None = None
+        self._generated: Collection[Node] | None = None
+        self._explored: Collection[Node] | None = None
+
+    @property
+    def generated(self) -> Collection[Node]:
+        return self._generated
+
+    @property
+    def explored(self) -> Collection[Node]:
+        return self._explored

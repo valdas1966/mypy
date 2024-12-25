@@ -13,9 +13,12 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
     ============================================================================
     """
 
+    type_queue: Type[Queue] = Queue
+
     def __init__(self,
                  problem: Problem,
                  type_queue: Type[Queue] = Queue,
+                 state: State = None,
                  cache: set[Node] = None,
                  heuristic: Callable[[Node], int] = None,
                  name: str = 'Path-Algorithm-Single-Goal') -> None:
@@ -29,7 +32,7 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
                           name=name)
         self._cache: dict[Node, Node] = {node: node for node in cache or set()}
         self._heuristic = heuristic if heuristic else lambda _: 0
-        self._state = State(type_queue=type_queue)
+        self._state = state if state else State(type_queue=type_queue)
         self._ops = self._create_ops()
 
     def run(self) -> Solution:

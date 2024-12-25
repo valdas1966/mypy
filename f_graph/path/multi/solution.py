@@ -17,14 +17,31 @@ class SolutionMulti(SolutionPath[State]):
         ========================================================================
         """
         SolutionPath.__init__(self)
-        self.state = State()
+        self._state = State()
+        self._paths: dict[Node, list[Node]] = dict()
 
-    def update(self, sol_single: SolutionSingle) -> None:
+    @property
+    def paths(self) -> dict[Node, list[Node]]:
+        """
+        ========================================================================
+         Return Optimal-Paths from Start to Goals.
+        ========================================================================
+        """
+        return self._paths
+
+    def update(self,
+               goal: Node,
+               sol_single: SolutionSingle,
+               is_shared: bool) -> None:
         """
         ========================================================================
          Update SolutionMulti with SolutionSingle.
         ========================================================================
         """
-        self.state.update(state=sol_single.state)
-        self.elapsed += sol_single.elapsed
-        self.set_valid(sol_single.is_found)
+        if not is_shared:
+            print(f'update before, {len(self._state.explored)}')
+            self._state.update(state=sol_single.state)
+            print(f'update after, {len(self._state.explored)}')
+        self._elapsed += sol_single.elapsed
+        self._paths[goal] = sol_single.path
+        self.set_valid() if sol_single else self.set_invalid()

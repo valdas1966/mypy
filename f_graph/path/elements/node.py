@@ -48,7 +48,7 @@ class NodePath(NodeGraph[UID], HasG, HasH):
          Compare between Nodes by: F, H, UID.
         ========================================================================
         """
-        return [self.f(), self.h, self.uid]
+        return [self.f(), not self._is_cached, self.h, self.uid]
 
     def __str__(self) -> str:
         """
