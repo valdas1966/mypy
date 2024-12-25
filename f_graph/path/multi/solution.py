@@ -1,47 +1,30 @@
-from f_graph.path.solution import SolutionPath, Node
-from f_graph.path.single.solution import SolutionSingle
-from f_graph.path.multi.state import StateMulti as State
+from f_graph.path.single.solution import SolutionSingle, Node
+from f_ds.mixins.collectionable import Collectionable
+from f_core.mixins.validatable import Validatable
 
 
-class SolutionMulti(SolutionPath[State]):
-    """
-    ============================================================================
-     Solution for Path-Problems with Multiple-Goals.
-    ============================================================================
-    """
+class SolutionMulti(Collectionable):
 
-    def __init__(self) -> None:
-        """
-        ========================================================================
-         Init private Attributes.
-        ========================================================================
-        """
-        SolutionPath.__init__(self)
-        self._state = State()
-        self._paths: dict[Node, list[Node]] = dict()
+    def __init__(self, solutions: dict[Node, SolutionSingle]) -> None:
+        Validatable.__init__(self, is_valid=all(solutions))
+        self._solutions = solutions
 
     @property
-    def paths(self) -> dict[Node, list[Node]]:
-        """
-        ========================================================================
-         Return Optimal-Paths from Start to Goals.
-        ========================================================================
-        """
-        return self._paths
+    def elapsed(self) -> int:
+        return sum(solution.elapsed for solution in self._solutions)
 
-    def update(self,
-               goal: Node,
-               sol_single: SolutionSingle,
-               is_shared: bool) -> None:
-        """
-        ========================================================================
-         Update SolutionMulti with SolutionSingle.
-        ========================================================================
-        """
-        if not is_shared:
-            print(f'update before, {len(self._state.explored)}')
-            self._state.update(state=sol_single.state)
-            print(f'update after, {len(self._state.explored)}')
-        self._elapsed += sol_single.elapsed
-        self._paths[goal] = sol_single.path
-        self.set_valid() if sol_single else self.set_invalid()
+    @property
+    def generated(self) -> int:
+        return sum(len(solution.state.generated) for solution
+                   in self._solutions)
+
+    @property
+    def explored(self) -> int:
+        return sum(len(solution.state.explored) for solution in self._solutions)
+
+    def to_iterable(self) -> tuple[Node, SolutionSingle]:
+        return self._solutions.items()
+
+    def __getitem__(self, item: Node) -> SolutionSingle:
+        return self._solutions[item]
+

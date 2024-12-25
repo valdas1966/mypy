@@ -5,24 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_graph/path/multi/algos/iterative.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/multi/algos/study/s_iterative.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/multi/algos/testers/t_iterative.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/study/s_inheritance.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/elements/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/elements/node.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/kx.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/kx_bfs.py" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/multi/algos/backward.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/multi/algos/testers/t_backward.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/multi/old_solution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/iterative.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/multi/algos/forward.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/study/s_iterative.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/multi/algos/study/s_forward.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/testers/t_iterative.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/multi/algos/testers/t_forward.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/multi/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/multi/solution.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/multi/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/multi/state.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/algo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algos/a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/algos/a_star.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algos/bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/algos/bfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algos/study/s_a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/algos/study/s_a_star.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/generators/gen_graph.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/generators/gen_problem.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/generators/study/s_graph.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/generators/study/s_problem.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/state.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/state.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/matplotlib/tri/_triinterpolate.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/matplotlib/tri/_triinterpolate.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly-5.22.0.dist-info/RECORD" beforeDir="false" afterPath="$PROJECT_DIR$/venv_mypy/Lib/site-packages/plotly-5.22.0.dist-info/RECORD" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -102,6 +96,8 @@
     "Python tests.Python tests for t_cursorable.test_peek_next.executor": "Run",
     "Python tests.Python tests for t_cursorable.test_to_list.executor": "Run",
     "Python tests.Python tests for t_filterd.test.executor": "Run",
+    "Python tests.Python tests for t_forward.test_kx_bfs.executor": "Run",
+    "Python tests.Python tests for t_forward.test_kx_bfs_shared.executor": "Run",
     "Python tests.Python tests for t_get.test_success.executor": "Run",
     "Python tests.Python tests for t_grid.test_cells_valid.executor": "Run",
     "Python tests.Python tests for t_grid.test_distance.executor": "Run",
@@ -311,6 +307,7 @@
     "Python.s_field.executor": "Run",
     "Python.s_fifo.executor": "Run",
     "Python.s_filter.executor": "Run",
+    "Python.s_forward (1).executor": "Run",
     "Python.s_generic.executor": "Run",
     "Python.s_graph.executor": "Run",
     "Python.s_grid.executor": "Run",
@@ -382,30 +379,8 @@
       <recent name="D:\mypy\f_graph\path\single\data" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_inheritance">
-    <configuration name="s_inheritance" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/study" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/study/s_inheritance.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="s_iterative" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests for t_forward.test_kx_bfs">
+    <configuration name="s_forward (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -418,7 +393,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/multi/algos/study/s_iterative.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/multi/algos/study/s_forward.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -427,7 +402,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_iterative.test_kx_bfs" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for f_graph.path.multi.algos.testers.t_forward.test_kx_bfs" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -438,47 +413,62 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_iterative.test_kx_bfs&quot;" />
+      <option name="_new_target" value="&quot;f_graph.path.multi.algos.testers.t_forward.test_kx_bfs&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_a_star.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_forward.test_kx_bfs" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/single/algos/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/multi/algos/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/single/algos/testers/t_a_star.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;t_forward.test_kx_bfs&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_bfs.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_forward.test_kx_bfs_shared" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/single/algos/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/multi/algos/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/single/algos/testers/t_bfs.py&quot;" />
+      <option name="_new_target" value="&quot;t_forward.test_kx_bfs_shared&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in t_forward.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/multi/algos/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/multi/algos/testers/t_forward.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.s_inheritance" />
-        <item itemvalue="Python.s_iterative" />
-        <item itemvalue="Python tests.Python tests in t_a_star.py" />
-        <item itemvalue="Python tests.Python tests in t_bfs.py" />
-        <item itemvalue="Python tests.Python tests for t_iterative.test_kx_bfs" />
+        <item itemvalue="Python tests.Python tests for t_forward.test_kx_bfs" />
+        <item itemvalue="Python.s_forward (1)" />
+        <item itemvalue="Python tests.Python tests for t_forward.test_kx_bfs_shared" />
+        <item itemvalue="Python tests.Python tests in t_forward.py" />
+        <item itemvalue="Python tests.Python tests for f_graph.path.multi.algos.testers.t_forward.test_kx_bfs" />
       </list>
     </recent_temporary>
   </component>
@@ -497,14 +487,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00069" summary="h">
-      <option name="closed" value="true" />
-      <created>1730897498459</created>
-      <option name="number" value="00069" />
-      <option name="presentableId" value="LOCAL-00069" />
-      <option name="project" value="LOCAL" />
-      <updated>1730897498459</updated>
     </task>
     <task id="LOCAL-00070" summary="h">
       <option name="closed" value="true" />
@@ -890,7 +872,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735045011310</updated>
     </task>
-    <option name="localTasksCounter" value="118" />
+    <task id="LOCAL-00118" summary="h">
+      <option name="closed" value="true" />
+      <created>1735121426118</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1735121426118</updated>
+    </task>
+    <option name="localTasksCounter" value="119" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

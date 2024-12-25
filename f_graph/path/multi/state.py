@@ -17,8 +17,8 @@ class StateMulti(StatePath):
         ========================================================================
         """
         StatePath.__init__(self)
-        self.generated: Counter[Node] = Counter()
-        self.explored: Counter[Node] = Counter()
+        self._generated: Counter[Node] = Counter()
+        self._explored: Counter[Node] = Counter()
 
     def update(self, state: StateSingle) -> None:
         """
@@ -26,6 +26,10 @@ class StateMulti(StatePath):
          Update the State from StateSingle.
         ========================================================================
         """
-        print('state.update before', len(self.))
-        self.generated.update(state.generated)
-        self.explored.update(state.explored)
+        print()
+        print('state.update before', self._explored.total())
+        print('state.single', len(state.explored))
+        self._generated.update(state.generated)
+        self._explored.update(state.explored)
+        print('state.update after', self._explored.total())
+        print()

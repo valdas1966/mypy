@@ -17,6 +17,6 @@ class StateSingle(StatePath):
         ========================================================================
         """
         StatePath.__init__(self)
-        self.generated: type_queue[Node] = type_queue()
-        self.explored: set[Node] = set()
+        self._generated: type_queue[Node] = type_queue()
+        self._explored: set[Node] = set()
         self.best: Node | None = None

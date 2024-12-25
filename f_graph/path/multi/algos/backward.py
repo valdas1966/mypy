@@ -1,14 +1,14 @@
 from f_graph.path.multi.algo import (AlgoMulti,
                                      ProblemMulti as Problem,
                                      SolutionMulti as Solution)
-from f_graph.path.single.algo import AlgoSingle, State as StateSingle
+from f_graph.path.single.algo import AlgoSingle, State as StateSingle, Node
 from typing import Type
 
 
-class Iterative(AlgoMulti):
+class Backward(AlgoMulti):
     """
     ============================================================================
-     k-Iterative Path-Algorithm for Problems with k-Goals.
+     k-Backward Path-Algorithm for Problems with k-Goals.
     ============================================================================
     """
 
@@ -16,7 +16,7 @@ class Iterative(AlgoMulti):
                  problem: Problem,
                  type_algo: Type[AlgoSingle],
                  is_shared: bool,
-                 name: str = 'Iterative Algo') -> None:
+                 name: str = 'Backward Algo') -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -29,16 +29,20 @@ class Iterative(AlgoMulti):
     def run(self) -> Solution:
         """
         ========================================================================
-         Run the Iterative Path-Algorithm (k-Times Single-Algorithm).
+         Run the Forward Path-Algorithm (k-Times Single-Algorithm).
         ========================================================================
         """
         solution = Solution()
         state: StateSingle | None = None
+        cache: set[Node] = set()
         problems = self._input.to_singles()
         for i, problem in enumerate(problems):
+            problem = problem.reverse()
             if not (i and self._is_shared):
                 state = StateSingle(type_queue=self._type_algo.type_queue)
-            sol_single = self._type_algo(problem=problem, state=state).run()
+            sol_single = self._type_algo(problem=problem,
+                                         state=state,
+                                         cache=cache).run()
             solution.update(goal=problem.goal,
                             sol_single=sol_single,
                             is_shared=self._is_shared)
@@ -46,5 +50,5 @@ class Iterative(AlgoMulti):
                 return solution
             if self._is_shared:
                 state = sol_single.state
-            print(f'{self._is_shared}, Explored={len(state.explored)}, {len(solution.state.explored)}')
+            cache.update(sol_single.path)
         return solution

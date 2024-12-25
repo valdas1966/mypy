@@ -42,6 +42,17 @@ class ProblemSingle(ProblemPath, Equable):
         goal = graph.node(uid=self.goal.uid)
         return ProblemSingle(graph=graph, start=start, goal=goal)
 
+    def reverse(self) -> ProblemSingle:
+        """
+        ========================================================================
+         Return a Reversed version of the Problem.
+        ========================================================================
+        """
+        problem = self.clone()
+        return ProblemSingle(graph=problem.graph,
+                             start=problem.goal,
+                             goal=problem.start)
+
     def key_comparison(self) -> tuple[Graph, Node, Node]:
         """
         ========================================================================
