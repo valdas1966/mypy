@@ -7,10 +7,11 @@ from collections import Counter
 def test_kx_bfs():
     problem = ProblemMulti.gen_3x3()
     problems = problem.to_singles()
-    sols_single = {problem.goal: BFS(problem=problem).run() for problem in problems}
+    sols_single = {problem.goal: BFS(problem=problem).run()
+                   for problem in problems}
     paths_true = {goal: sols_single[goal].path for goal in sols_single.keys()}
-    generated_true = sum(len(sol.state.generated) for goal, sol in sols_single)
-    explored_true = sum(len(sol.state.explored) for goal, sol in sols_single)
+    generated_true = sum(len(sol.state.generated) for sol in sols_single.values())
+    explored_true = sum(len(sol.state.explored) for sol in sols_single.values())
     sol_multi = Forward(problem=problem,
                         type_algo=BFS,
                         is_shared=False).run()
