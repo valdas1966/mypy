@@ -50,6 +50,15 @@ class NodePath(NodeGraph[UID], HasG, HasH):
         """
         return [self.f(), not self._is_cached, self.h, self.uid]
 
+    @classmethod
+    def generate_zero(cls) -> NodePath:
+        """
+        ========================================================================
+         Generate a Node with UID=0, H=0.
+        ========================================================================
+        """
+        return cls[int](uid=0, h=0)
+
     def __str__(self) -> str:
         """
         ========================================================================

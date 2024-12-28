@@ -1,5 +1,6 @@
 from f_graph.path.single.algos.bfs import BFS
 from f_graph.path.single.problem import ProblemSingle
+from f_graph.path.cache.i_1_explored import CacheExplored
 import pytest
 
 
@@ -24,7 +25,8 @@ def test_bfs(problem):
 def test_bfs_cache(problem):
     graph = problem.graph.clone()
     graph[1, 2].parent = graph[2, 2]
-    cache = {graph[1, 2], graph[2, 2]}
+    explored = {graph[1, 2], graph[2, 2]}
+    cache = CacheExplored(explored=explored)
     bfs = BFS(problem=problem, cache=cache)
     solution = bfs.run()
     assert solution.path == [graph[0, 0], graph[0, 1], graph[0, 2],

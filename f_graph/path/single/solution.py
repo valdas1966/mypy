@@ -1,6 +1,6 @@
 from f_graph.path.solution import SolutionPath, Node
 from f_graph.path.single.state import StateSingle as State
-
+from f_graph.path.cache.i_0_base import Cache
 
 class SolutionSingle(SolutionPath[State]):
     """
@@ -12,7 +12,7 @@ class SolutionSingle(SolutionPath[State]):
     def __init__(self,
                  is_valid: bool,
                  state: State,
-                 cache: dict[Node, Node],
+                 cache: Cache,
                  elapsed: int) -> None:
         """
         ========================================================================
@@ -34,10 +34,9 @@ class SolutionSingle(SolutionPath[State]):
         """
         if not bool(self):
             return list()
-        path = self.state.best.path_from_start()
+        path = self.state.best.path_from()
         if self.state.best in self._cache:
             best = self.state.best
-            path_from_best = self._cache[best].path_from_start()
-            path_from_best = list(reversed(path_from_best[:-1]))
+            path_from_best = self._cache[best].path()[1:]
             return path + path_from_best
         return path

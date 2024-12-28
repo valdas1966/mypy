@@ -1,10 +1,10 @@
-from f_core.mixins.has_children import HasChildren
 from typing import Generic, TypeVar
 
 T = TypeVar('T', bound='HasParent')
 
 
-class HasParent(Generic[T], HasChildren[T]):
+
+class HasParent(Generic[T]):
     """
     ============================================================================
      Mixin-Class for Objects with single Parent.
@@ -17,7 +17,6 @@ class HasParent(Generic[T], HasChildren[T]):
          Init private Attributes.
         ========================================================================
         """
-        HasChildren.__init__(self)
         self._parent = parent
 
     @property
@@ -28,16 +27,20 @@ class HasParent(Generic[T], HasChildren[T]):
     def parent(self, val: T) -> None:
         self._parent = val
 
-    def path_from_start(self) -> list[T]:
+    def path_from(self, node: T = None) -> list[T]:
         """
         ========================================================================
-         Return the Path from the Start to the Current Node.
+         Return the Path from the given Node to the Current Node.
+         If no node is provided, returns the path from root (node without parent).
         ========================================================================
         """
-        path = list()
+        if node and node == self:
+            return [self]  # Special case: path is just the current node
+        path = []
         current = self
-        while current.parent:
+        while current:
             path.append(current)
+            if node and current == node:
+                break
             current = current.parent
-        path.append(current)
-        return path[::-1]
+        return path[::-1] if node is None or current == node else []

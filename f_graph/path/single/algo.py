@@ -2,6 +2,7 @@ from f_graph.path.algo import AlgoPath, Node
 from f_graph.path.single.problem import ProblemSingle as Problem
 from f_graph.path.single.solution import SolutionSingle as Solution
 from f_graph.path.single.state import StateSingle as State, Queue
+from f_graph.path.cache.i_0_base import Cache
 from f_graph.path.single.ops import Ops
 from typing import Type, Callable
 
@@ -19,7 +20,7 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
                  problem: Problem,
                  type_queue: Type[Queue] = Queue,
                  state: State = None,
-                 cache: set[Node] = None,
+                 cache: Cache = None,
                  heuristic: Callable[[Node], int] = None,
                  name: str = 'Path-Algorithm-Single-Goal') -> None:
         """
@@ -30,9 +31,9 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
         AlgoPath.__init__(self,
                           problem=problem.clone(),
                           name=name)
-        self._cache: dict[Node, Node] = {node: node for node in cache or set()}
-        self._heuristic = heuristic if heuristic else lambda _: 0
         self._state = state if state else State(type_queue=type_queue)
+        self._cache = cache if cache else Cache()
+        self._heuristic = heuristic
         self._ops = self._create_ops()
 
     def run(self) -> Solution:
