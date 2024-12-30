@@ -7,10 +7,17 @@ problem = ProblemSingle.gen_3x3()
 graph = problem.graph.clone()
 graph[1, 2].parent = graph[2, 2]
 explored = {graph[1, 2], graph[2, 2]}
+print('Explored:')
+print(explored)
 cache = CacheExplored(explored=explored)
+print('\nCache:')
+for node in cache._data:
+    print(node)
+    print(cache[node].path())
+exit(1)
 bfs = BFS(problem=problem, cache=cache)
 solution = bfs.run()
-print(explored)
+print('\nPath:')
 print(solution.path)
 #assert solution.path == [graph[0, 0], graph[0, 1], graph[0, 2],
 #                         graph[1, 2], graph[2, 2]]

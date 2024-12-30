@@ -58,6 +58,22 @@ class NodePath(NodeGraph[UID], HasG, HasH):
         ========================================================================
         """
         return cls[int](uid=0, h=0)
+    
+    @classmethod
+    def generate_branch(cls, depth: int) -> list[NodePath]:
+        """
+        ========================================================================
+         Generate a Branch of Nodes.
+        ========================================================================
+        """
+        branch: list[NodePath] = []
+        for i in range(depth):
+            node = NodePath[int](uid=i)
+            if i > 0:
+                node.parent = branch[i - 1]
+            branch.append(node)
+        return branch
+
 
     def __str__(self) -> str:
         """
@@ -67,4 +83,4 @@ class NodePath(NodeGraph[UID], HasG, HasH):
          Ex: '<NodePath: (0,0), g=2, h=3, f=5>'
         ========================================================================
         """
-        return f'<NodePath: {self.uid}, g={self.g}, h={self.h}, f={self.f()}>'
+        return f'uid={self.uid}, g={self.g}, h={self.h}, f={self.f()}'

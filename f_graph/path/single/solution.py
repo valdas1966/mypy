@@ -2,6 +2,7 @@ from f_graph.path.solution import SolutionPath, Node
 from f_graph.path.single.state import StateSingle as State
 from f_graph.path.cache.i_0_base import Cache
 
+
 class SolutionSingle(SolutionPath[State]):
     """
     ============================================================================
@@ -35,8 +36,13 @@ class SolutionSingle(SolutionPath[State]):
         if not bool(self):
             return list()
         path = self.state.best.path_from()
+        print('\nStart to Best:')
+        print(path)
         if self.state.best in self._cache:
+            print('\nBest in Cache')
             best = self.state.best
             path_from_best = self._cache[best].path()[1:]
+            print('\nBest to Goal:')
+            print(path_from_best)
             return path + path_from_best
         return path
