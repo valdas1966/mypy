@@ -15,7 +15,17 @@ class CacheExplored(Cache):
         ========================================================================
         """
         Cache.__init__(self)
+        self.update(explored=explored)
+
+    def update(self, explored: set[Node]) -> None:
+        """
+        ========================================================================
+         Update the Cache.
+        ========================================================================
+        """
         for node in explored:
+            if node in self._data:
+                continue
             path = lambda n=node: list(reversed(n.path_from()))
             distance = lambda n=node: n.g
             self._data[node] = DataCache(path=path, distance=distance)
