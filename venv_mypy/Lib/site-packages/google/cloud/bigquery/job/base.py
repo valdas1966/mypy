@@ -49,7 +49,7 @@ _ERROR_REASON_TO_EXCEPTION = {
     "notImplemented": http.client.NOT_IMPLEMENTED,
     "policyViolation": http.client.FORBIDDEN,
     "quotaExceeded": http.client.FORBIDDEN,
-    "rateLimitExceeded": http.client.FORBIDDEN,
+    "rateLimitExceeded": http.client.TOO_MANY_REQUESTS,
     "resourceInUse": http.client.BAD_REQUEST,
     "resourcesExceeded": http.client.BAD_REQUEST,
     "responseTooLarge": http.client.FORBIDDEN,
@@ -218,8 +218,11 @@ class _JobConfig(object):
                 err.__traceback__
             )
 
-        """ Docs indicate a string is expected by the API """
-        self._properties["jobTimeoutMs"] = str(value)
+        if value is not None:
+            # docs indicate a string is expected by the API
+            self._properties["jobTimeoutMs"] = str(value)
+        else:
+            self._properties.pop("jobTimeoutMs", None)
 
     @property
     def labels(self):

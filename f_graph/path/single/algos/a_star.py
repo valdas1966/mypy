@@ -1,4 +1,4 @@
-from f_graph.path.single.algo import AlgoSingle, Problem, State, Node
+from f_graph.path.single.algo import AlgoSingle, Problem, State, Cache, Node
 from f_ds.queues.i_1_priority import QueuePriority
 
 
@@ -14,7 +14,7 @@ class AStar(AlgoSingle):
     def __init__(self,
                  problem: Problem,
                  state: State = None,
-                 cache: set[Node] = None,
+                 cache: Cache = None,
                  name: str = 'AStar'):
         """
         ========================================================================

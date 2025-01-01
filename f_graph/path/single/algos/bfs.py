@@ -1,4 +1,4 @@
-from f_graph.path.single.algo import AlgoSingle, Problem, State, Cache, Node
+from f_graph.path.single.algo import AlgoSingle, Problem, State, Cache
 from f_ds.queues.i_1_fifo import QueueFIFO
 
 

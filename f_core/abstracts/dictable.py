@@ -1,8 +1,9 @@
 from f_core.mixins.printable import Printable
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, Iterator
 
 K = TypeVar("K")  # Key type
 V = TypeVar("V")  # Value type
+
 
 class Dictable(Printable,  Generic[K, V]):
     """
@@ -34,6 +35,14 @@ class Dictable(Printable,  Generic[K, V]):
         ========================================================================
         """
         return key in self._data
+
+    def __iter__(self) -> Iterator[K]:
+        """
+        ========================================================================
+         Make the class iterable by returning an iterator over keys.
+        ========================================================================
+        """
+        return iter(self._data)
 
     def __str__(self) -> str:
         """

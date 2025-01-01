@@ -1,5 +1,6 @@
 from f_graph.path.single.algos.a_star import AStar, Problem
 from f_graph.path.elements.graph import GraphPath, NodePath
+from f_graph.path.cache.i_1_explored import CacheExplored
 
 
 def test_a_star():
@@ -21,7 +22,7 @@ def test_a_star_cache():
     astar_a = AStar(problem=problem_a, name='Backward')
     solution_a = astar_a.run()
     problem_b = Problem.gen_3x3()
-    cache_b = solution_a.state.explored
+    cache_b = CacheExplored(explored=solution_a.state.explored)
     astar_b = AStar(problem=problem_b, cache=cache_b, name='Forward')
     solution_b = astar_b.run()
     assert solution_b.path == [graph[0, 0], graph[0, 1], graph[0, 2],
