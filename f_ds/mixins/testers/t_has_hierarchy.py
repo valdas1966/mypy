@@ -1,8 +1,8 @@
 import pytest
-from f_ds.mixins.has_parent import HasParent
+from f_ds.mixins.has_hierarchy import HasHierarchy
 
 
-class Node(HasParent['Node']):
+class Node(HasHierarchy['Node']):
     """
     ============================================================================
      Node Class.
@@ -21,7 +21,7 @@ def root() -> Node:
     return Node()
 
 
-@pytest.fixture 
+@pytest.fixture
 def middle(root: Node) -> Node:
     """
     ========================================================================
@@ -43,62 +43,44 @@ def leaf(middle: Node) -> Node:
     return node
 
 
-def test_parent_getter(root: Node, middle: Node, leaf: Node) -> None:
+def test_add_child_updates_parent(root: Node) -> None:
     """
     ========================================================================
-     Test the parent getter.
+     Test that adding a child updates its parent.
     ========================================================================
     """
-    assert root.parent is None
-    assert middle.parent == root
-    assert leaf.parent == middle
+    child = Node()
+    root.add_child(child)
+    assert child.parent == root
 
 
-def test_parent_setter(root: Node, middle: Node) -> None:
+def test_remove_child_updates_parent(root: Node, middle: Node) -> None:
     """
     ========================================================================
-     Test the parent setter.
+     Test that removing a child updates its parent.
     ========================================================================
     """
-    middle.parent = None
+    root.remove_child(middle)
     assert middle.parent is None
-    middle.parent = root
-    assert middle.parent == root
 
 
-def test_path_from_root(root: Node, middle: Node, leaf: Node) -> None:
+def test_set_parent_updates_children(root: Node) -> None:
     """
     ========================================================================
-     Test the path from root.
+     Test that setting a parent updates children list.
     ========================================================================
     """
-    path = leaf.path_from_root()
-    assert path == [root, middle, leaf]
-    
-    path = middle.path_from_root() 
-    assert path == [root, middle]
-    
-    path = root.path_from_root()
-    assert path == [root]
+    child = Node()
+    child.parent = root
+    assert child in root.children()
 
 
-def test_path_from_node(root: Node, middle: Node, leaf: Node) -> None:
+def test_prevent_duplicate_child(root: Node, middle: Node) -> None:
     """
     ========================================================================
-     Test the path from node.
+     Test that a child cannot be added twice.
     ========================================================================
     """
-    path = leaf.path_from_node(node=middle)
-    assert path == [middle, leaf]
-    
-    path = leaf.path_from_node(node=root)
-    assert path == [root, middle, leaf]
-    
-    path = middle.path_from_node(node=root)
-    assert path == [root, middle]
-
-    path = root.path_from_node(node=root)
-    assert path == [root]
-
-    path = root.path_from_node(node=leaf)
-    assert path == []
+    root.add_child(middle)  # middle is already a child from fixture
+    assert len(root.children()) == 1
+    assert middle in root.children()

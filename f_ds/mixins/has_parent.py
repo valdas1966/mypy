@@ -1,46 +1,79 @@
+from f_core.mixins.has_name import HasName
 from typing import Generic, TypeVar
 
 T = TypeVar('T', bound='HasParent')
 
 
 
-class HasParent(Generic[T]):
+class HasParent(Generic[T], HasName):
     """
     ============================================================================
      Mixin-Class for Objects with single Parent.
     ============================================================================
     """
 
-    def __init__(self, parent: T = None) -> None:
+    def __init__(self, parent: T = None, name: str = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._parent = parent
+        HasName.__init__(self, name=name)
+        self.parent = parent
 
     @property
     def parent(self) -> T:
+        """
+        ========================================================================
+         Return the parent of the object.
+        ========================================================================
+        """
         return self._parent
 
     @parent.setter
     def parent(self, val: T) -> None:
+        """
+        ========================================================================
+         Set the parent of the object.
+        ========================================================================
+        """
         self._parent = val
+        self._update_parent()
 
-    def path_from(self, node: T = None) -> list[T]:
+    def path_from_root(self) -> list[T]:
         """
         ========================================================================
-         Return the Path from the given Node to the Current Node.
-         If no node is provided, returns the path from root (node without parent).
+         Return the path from the root to the current node.
         ========================================================================
         """
-        if node and node == self:
-            return [self]  # Special case: path is just the current node
-        path = []
+        path: list[T] = []
         current = self
         while current:
             path.append(current)
-            if node and current == node:
+            current = current.parent
+        return path[::-1]
+    
+    def path_from_node(self, node: T) -> list[T]:
+        """
+        ========================================================================
+         Return the path from the given node to the current node.
+        ========================================================================
+        """
+        path: list[T] = []
+        current = self
+        while current:
+            path.append(current)
+            if current == node:
                 break
             current = current.parent
-        return path[::-1] if node is None or current == node else []
+        if current == node:
+            return path[::-1]
+        return [] # node not found
+
+    def _update_parent(self) -> None:
+        """
+        ========================================================================
+         Additional updates when the parent is set.
+        ========================================================================
+        """
+        pass
