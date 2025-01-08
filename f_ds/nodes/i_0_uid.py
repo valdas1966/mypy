@@ -6,7 +6,7 @@ from typing import Generic, TypeVar
 UID = TypeVar('UID')
 
 
-class NodeGraph(Generic[UID], HasUID[UID], HasName):
+class NodeUid(Generic[UID], HasUID[UID], HasName):
     """
     ============================================================================
      ABC of Node classes.
@@ -40,7 +40,7 @@ class NodeGraph(Generic[UID], HasUID[UID], HasName):
         """
         return f'{HasName.__str__(self)}({self._uid})'
 
-    def __eq__(self, other: NodeGraph) -> bool:
+    def __eq__(self, other: NodeUid) -> bool:
         """
         ========================================================================
          Return True if Node's Uid is equals to other Node's Uid.
@@ -48,7 +48,7 @@ class NodeGraph(Generic[UID], HasUID[UID], HasName):
         """
         return self.uid == other.uid
 
-    def __ne__(self, other: NodeGraph) -> bool:
+    def __ne__(self, other: NodeUid) -> bool:
         """
         ========================================================================
          Return True if Node's Uid is not equals to other Node's Uid.

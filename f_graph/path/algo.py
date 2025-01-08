@@ -1,7 +1,7 @@
 from f_graph.algo import AlgoGraph
 from f_graph.path.problem import ProblemPath
 from f_graph.path.solution import SolutionPath
-from f_graph.path.elements.node import NodePath as Node
+from f_ds.nodes.i_1_heuristic import NodeHeuristic as Node
 from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemPath)

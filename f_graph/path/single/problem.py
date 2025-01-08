@@ -1,7 +1,7 @@
 from __future__ import annotations
 from f_graph.path.problem import ProblemPath
-from f_graph.path.elements.graph import GraphPath as Graph
-from f_graph.path.elements.node import NodePath as Node
+from f_graph.path.graph import GraphPath as Graph
+from f_ds.nodes.i_1_heuristic import NodeHeuristic as Node
 from f_core.mixins.equable import Equable
 from typing import Type
 

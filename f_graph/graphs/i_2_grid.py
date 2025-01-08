@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_graph.elements.graphs.i_1_dict import GraphDict
+from f_graph.graphs.i_1_dict import GraphDict
 from f_graph.elements.node import NodeGraph
 from f_ds.grids.grid import Grid, Cell
 from typing import Generic, TypeVar, Type

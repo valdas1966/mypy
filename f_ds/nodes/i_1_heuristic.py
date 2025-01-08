@@ -1,10 +1,10 @@
 from __future__ import annotations
-from f_graph.elements.node import NodeGraph, UID
-from f_graph.path.elements.mixins.has_g import HasG
-from f_graph.path.elements.mixins.has_h import HasH
+from f_ds.nodes.i_0_uid import NodeUid, UID
+from f_ds.nodes.mixins.has_g import HasG
+from f_ds.nodes.mixins.has_h import HasH
 
 
-class NodePath(NodeGraph[UID], HasG, HasH):
+class NodeHeuristic(NodeUid[UID], HasG, HasH):
     """
     ============================================================================
      NodeGraph with Path functionality.
@@ -13,7 +13,7 @@ class NodePath(NodeGraph[UID], HasG, HasH):
 
     def __init__(self,
                  uid: UID,
-                 parent: NodePath = None,
+                 parent: NodeHeuristic = None,
                  h: int = None,
                  name: str = None) -> None:
         """
@@ -21,7 +21,7 @@ class NodePath(NodeGraph[UID], HasG, HasH):
          Init private Attributes.
         ========================================================================
         """
-        NodeGraph.__init__(self, uid=uid, name=name)
+        NodeUid.__init__(self, uid=uid, name=name)
         HasG.__init__(self, parent=parent)
         HasH.__init__(self, h=h)
         self._is_cached: bool = False
@@ -51,7 +51,7 @@ class NodePath(NodeGraph[UID], HasG, HasH):
         return [self.f(), not self._is_cached, self.h, self.uid]
 
     @classmethod
-    def generate_zero(cls) -> NodePath:
+    def generate_zero(cls) -> NodeHeuristic:
         """
         ========================================================================
          Generate a Node with UID=0, H=0.
@@ -60,20 +60,19 @@ class NodePath(NodeGraph[UID], HasG, HasH):
         return cls[int](uid=0, h=0)
     
     @classmethod
-    def generate_branch(cls, depth: int) -> list[NodePath]:
+    def generate_branch(cls, depth: int) -> list[NodeHeuristic]:
         """
         ========================================================================
          Generate a Branch of Nodes.
         ========================================================================
         """
-        branch: list[NodePath] = []
+        branch: list[NodeHeuristic] = []
         for i in range(depth):
-            node = NodePath[int](uid=i)
+            node = NodeHeuristic[int](uid=i)
             if i > 0:
                 node.parent = branch[i - 1]
             branch.append(node)
         return branch
-
 
     def __str__(self) -> str:
         """

@@ -1,8 +1,8 @@
-from f_graph.elements.graphs.i_2_grid import GraphGrid
-from f_graph.path.elements.node import NodePath
+from f_graph.graphs.i_2_grid import GraphGrid
+from f_ds.nodes.i_1_heuristic import NodeHeuristic
 from typing import TypeVar
 
-Node = TypeVar('Node', bound=NodePath)
+Node = TypeVar('Node', bound=NodeHeuristic)
 
 
 class GraphPath(GraphGrid[Node]):

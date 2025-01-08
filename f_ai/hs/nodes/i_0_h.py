@@ -1,8 +1,8 @@
 from __future__ import annotations
-from f_graph.path.elements.node import NodePath
+from f_ds.nodes.i_1_heuristic import NodeHeuristic
 
 
-class NodeH(NodePath):
+class NodeH(NodeHeuristic):
     """
     ============================================================================
      Node with H-Value (Heuristic Cost from current Node to Goal).
@@ -15,7 +15,7 @@ class NodeH(NodePath):
          Init private Attributes.
         ========================================================================
         """
-        NodePath.__init__(self, name=name)
+        NodeHeuristic.__init__(self, name=name)
         self._h = None
 
     @property
@@ -50,4 +50,4 @@ class NodeH(NodePath):
          Ex: '<NodeH: A> H=1'
         ========================================================================
         """
-        return f'{NodePath.__repr__(self)} H={self.h}'
+        return f'{NodeHeuristic.__repr__(self)} H={self.h}'

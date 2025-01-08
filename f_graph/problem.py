@@ -1,4 +1,4 @@
-from f_graph.elements.graphs.i_0_base import GraphBase, NodeGraph
+from f_graph.graphs.i_0_base import GraphBase, NodeGraph
 from f_core.abstracts.clonable import Clonable
 from abc import abstractmethod
 from typing import Generic, TypeVar

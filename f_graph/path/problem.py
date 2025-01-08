@@ -1,8 +1,8 @@
 from __future__ import annotations
 from f_core.abstracts.clonable import Clonable
 from f_graph.problem import ProblemGraph
-from f_graph.path.elements.graph import GraphPath as Graph
-from f_graph.path.elements.node import NodePath as Node
+from f_graph.path.graph import GraphPath as Graph
+from f_ds.nodes.i_1_heuristic import NodeHeuristic as Node
 from abc import abstractmethod
 
 

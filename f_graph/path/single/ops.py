@@ -1,10 +1,10 @@
 from f_graph.path.problem import ProblemPath as Problem
 from f_graph.path.single.state import StateSingle as State
-from f_graph.path.elements.node import NodePath
+from f_ds.nodes.i_1_heuristic import NodeHeuristic
 from f_graph.path.cache.i_0_base import Cache
 from typing import Generic, TypeVar, Callable
 
-Node = TypeVar('Node', bound=NodePath)
+Node = TypeVar('Node', bound=NodeHeuristic)
 
 
 class Ops(Generic[Node]):
