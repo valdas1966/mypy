@@ -26,7 +26,7 @@ class CacheExplored(Cache):
         for node in explored:
             if node in self._data:
                 continue
-            path = lambda n=node: list(reversed(n.path_from()))
+            path = lambda n=node: list(reversed(n.path_from_root()))
             distance = lambda n=node: n.g
             self._data[node] = DataCache(path=path, distance=distance)
 

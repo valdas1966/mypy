@@ -1,11 +1,11 @@
-from f_graph.problem import ProblemGraph, NodeGraph
+from f_graph.problem import ProblemGraph, NodeUid
 from f_graph.solution import SolutionGraph
 from f_core.processes.i_2_io import ProcessIO
 from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemGraph)
 Solution = TypeVar('Solution', bound=SolutionGraph)
-Node = TypeVar('Node', bound=NodeGraph)
+Node = TypeVar('Node', bound=NodeUid)
 
 
 class AlgoGraph(Generic[Problem, Solution, Node],

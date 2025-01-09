@@ -1,5 +1,5 @@
 from f_graph.path.single.algos.a_star import AStar, Problem
-from f_graph.path.graph import GraphPath, NodeHeuristic
+from f_graph.path.graph import GraphPath, NodePath
 from f_graph.path.cache.i_1_explored import CacheExplored
 
 
@@ -17,7 +17,7 @@ def test_a_star():
 
 
 def test_a_star_cache():
-    graph = GraphPath.gen_3x3(type_node=NodeHeuristic)
+    graph = GraphPath.gen_3x3(type_node=NodePath)
     problem_a = Problem(graph=graph, start=graph[2, 2], goal=graph[0, 2])
     astar_a = AStar(problem=problem_a, name='Backward')
     solution_a = astar_a.run()

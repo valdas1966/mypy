@@ -1,23 +1,21 @@
-from f_core.mixins.has_name import HasName
 from typing import Generic, TypeVar
 
 T = TypeVar('T')
 
 
-class HasChildren(Generic[T], HasName):
+class HasChildren(Generic[T]):
     """
     ============================================================================
      Mixin-Class for Objects with Children.
     ============================================================================
     """
 
-    def __init__(self, name: str = None) -> None:
+    def __init__(self) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        HasName.__init__(self, name=name)
         self._children: list[T] = []
 
     def children(self) -> list[T]:

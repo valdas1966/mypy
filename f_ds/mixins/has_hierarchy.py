@@ -13,19 +13,19 @@ class HasHierarchy(Generic[T], HasParent[T], HasChildren[T]):
     ============================================================================
     """
     
-    def __init__(self, parent: HasHierarchy = None, name: str = None) -> None:
+    def __init__(self, parent: HasHierarchy = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        HasParent.__init__(self, parent=parent, name=name)
-        HasChildren.__init__(self, name=name)
+        HasParent.__init__(self, parent=parent)
+        HasChildren.__init__(self)
 
     def add_child(self, child: T) -> None:
         """
         ========================================================================
-         Add a child to the object.
+         Add a child to the object and set the child's parent to self.
         ========================================================================
         """
         if child not in self.children():
@@ -35,7 +35,7 @@ class HasHierarchy(Generic[T], HasParent[T], HasChildren[T]):
     def remove_child(self, child: T) -> None:
         """
         ========================================================================
-         Remove a child from the object.
+         Remove a child from the object and set the child's parent to None.
         ========================================================================
         """
         HasChildren.remove_child(self, child=child)
@@ -44,7 +44,7 @@ class HasHierarchy(Generic[T], HasParent[T], HasChildren[T]):
     def _update_parent(self) -> None:
         """
         ========================================================================
-         Additional updates when the parent is set.
+         Add self to the parent's children if self is not already a child.
         ========================================================================
         """
         if self.parent and self not in self.parent.children():

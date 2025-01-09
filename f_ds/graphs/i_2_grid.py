@@ -1,10 +1,10 @@
 from __future__ import annotations
-from f_graph.graphs.i_1_dict import GraphDict
-from f_graph.elements.node import NodeGraph
+from f_ds.graphs.i_1_dict import GraphDict
+from f_ds.nodes.i_0_uid import NodeUid
 from f_ds.grids.grid import Grid, Cell
 from typing import Generic, TypeVar, Type
 
-Node = TypeVar('Node', bound=NodeGraph)
+Node = TypeVar('Node', bound=NodeUid)
 
 
 class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
@@ -64,7 +64,7 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
             rows: int,
             cols: int = None,
             pct_valid: int = 100,
-            type_node: Type[NodeGraph] = NodeGraph,
+            type_node: Type[NodeUid] = NodeUid,
             name: str = None) -> GraphGrid:
         """
         ========================================================================
@@ -76,7 +76,7 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
 
     @classmethod
     def gen_3x3(cls,
-                type_node: Type[NodeGraph] = NodeGraph,
+                type_node: Type[NodeUid] = NodeUid  ,
                 name: str = None) -> GraphGrid:
         """
         ========================================================================
@@ -88,7 +88,7 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
 
     @classmethod
     def gen_4x4(cls,
-                type_node: Type[NodeGraph] = NodeGraph,
+                type_node: Type[NodeUid] = NodeUid,
                 name: str = None) -> GraphGrid:
         grid = Grid.generate(rows=4)
         Cell.invalidate([grid[0][2], grid[1][2]])

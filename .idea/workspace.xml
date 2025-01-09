@@ -5,36 +5,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_ds/mixins/cacheable.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ai/hs/nodes/i_0_g.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/nodes/i_0_g.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ai/hs/nodes/i_0_h.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/nodes/i_0_h.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/generators/g_2_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/generators/g_2_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/i_1_dict.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_1_dict.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/i_1_mutable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_1_mutable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/i_2_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/i_2_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/mixins/has_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/mixins/has_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/study/s_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/study/s_1_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/study/s_1_u_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/study/s_1_u_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/testers/t_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/testers/t_1_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/testers/t_u_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/testers/t_u_1_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/elements/graphs/u_2_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/graphs/u_2_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/elements/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/i_0_uid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/elements/testers/t_node.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/mixins/has_children.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/has_children.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/mixins/has_hierarchy.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/has_hierarchy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/mixins/has_parent.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/has_parent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/mixins/study/s_has_hierarchy.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/study/s_has_hierarchy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/nodes/i_1_heuristic.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/nodes/mixins/has_g.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/nodes/mixins/has_h.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/generators/g_2_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/generators/g_2_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_1_dict.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/i_1_dict.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_1_mutable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/i_1_mutable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_2_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/i_2_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/mixins/has_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/mixins/has_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/study/s_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/study/s_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/study/s_1_u_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/study/s_1_u_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/testers/t_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/testers/t_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/testers/t_u_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/testers/t_u_1_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/graphs/u_2_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/u_2_grid.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/algo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/cache/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/cache/data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/elements/graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/elements/mixins/has_g.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/has_g.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/elements/mixins/has_h.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/has_h.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/elements/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/i_1_heuristic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/elements/study/s_node.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/elements/testers/t_node.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/cache/i_1_explored.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/cache/i_1_explored.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/graph.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/problem.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/single/algos/testers/t_a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/algos/testers/t_a_star.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/single/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/ops.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/single/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/solution.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/state.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/solution.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,12 +63,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
-    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/valdas1966/mypy.git",
+    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -211,6 +216,7 @@
     "Python tests.Python tests in t_has_dimensions.py.executor": "Run",
     "Python tests.Python tests in t_has_g.py (1).executor": "Run",
     "Python tests.Python tests in t_has_g.py.executor": "Run",
+    "Python tests.Python tests in t_has_hierarchy.py (1).executor": "Run",
     "Python tests.Python tests in t_has_hierarchy.py.executor": "Run",
     "Python tests.Python tests in t_has_parent.py.executor": "Run",
     "Python tests.Python tests in t_has_row_col.py.executor": "Run",
@@ -350,6 +356,7 @@
     "Python.s_grid.executor": "Run",
     "Python.s_group.executor": "Run",
     "Python.s_has_generator.executor": "Run",
+    "Python.s_has_hierarchy (1).executor": "Run",
     "Python.s_has_hierarchy.executor": "Run",
     "Python.s_inheritance.executor": "Run",
     "Python.s_insert.executor": "Run",
@@ -406,7 +413,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "last_opened_file_path": "D:/mypy/f_ds",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -414,37 +421,15 @@
       <recent name="D:\mypy\f_ds" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\mypy\f_graph\path" />
+      <recent name="G:\mypy\f_ds" />
       <recent name="D:\mypy\f_ds\nodes" />
       <recent name="D:\mypy\f_graph\path" />
       <recent name="D:\mypy\f_graph" />
-      <recent name="G:\mypy\f_ds\mixins" />
-      <recent name="D:\mypy\f_graph\path\single" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_has_hierarchy.py">
-    <configuration name="s_has_hierarchy" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/mixins/study" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_ds/mixins/study/s_has_hierarchy.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for t_has_hierarchy.test_prevent_duplicate_child" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests in t_bfs.py">
+    <configuration name="Python tests for t_has_parent.test_path_from_root" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -455,11 +440,26 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_has_hierarchy.test_prevent_duplicate_child&quot;" />
+      <option name="_new_target" value="&quot;t_has_parent.test_path_from_root&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_has_hierarchy.test_set_parent_updates_children" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_bfs.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/single/algos/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/single/algos/testers/t_bfs.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in t_has_children.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -470,8 +470,8 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_has_hierarchy.test_set_parent_updates_children&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/mixins/testers/t_has_children.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="Python tests in t_has_hierarchy.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -506,11 +506,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in t_has_hierarchy.py" />
-        <item itemvalue="Python tests.Python tests for t_has_hierarchy.test_prevent_duplicate_child" />
-        <item itemvalue="Python tests.Python tests for t_has_hierarchy.test_set_parent_updates_children" />
-        <item itemvalue="Python.s_has_hierarchy" />
+        <item itemvalue="Python tests.Python tests in t_bfs.py" />
+        <item itemvalue="Python tests.Python tests in t_has_hierarchy.py (1)" />
+        <item itemvalue="Python tests.Python tests in t_has_children.py" />
         <item itemvalue="Python tests.Python tests in t_has_parent.py" />
+        <item itemvalue="Python tests.Python tests for t_has_parent.test_path_from_root" />
       </list>
     </recent_temporary>
   </component>

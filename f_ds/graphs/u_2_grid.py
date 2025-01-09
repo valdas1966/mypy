@@ -1,4 +1,4 @@
-from f_graph.graphs.i_2_grid import GraphGrid, NodeGraph
+from f_ds.graphs.i_2_grid import GraphGrid, NodeGraph
 from f_ds.grids.u_grid import UGrid
 from typing import Generic, TypeVar, Type
 

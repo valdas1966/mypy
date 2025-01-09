@@ -1,8 +1,8 @@
 from __future__ import annotations
-from f_ds.nodes.i_1_heuristic import NodeHeuristic
+from f_graph.path.node import NodePath
 
 
-class NodeG(NodeHeuristic):
+class NodeG(NodePath):
     """
     ============================================================================
      Mixin-Class for Nodes with G-Value (Cost from Start to current Node).
@@ -17,7 +17,7 @@ class NodeG(NodeHeuristic):
          Init private Attributes.
         ========================================================================
         """
-        NodeHeuristic.__init__(self, name=name, parent=parent)
+        NodePath.__init__(self, name=name, parent=parent)
         self._g = (parent.g + 1) if parent else 0
 
     @property
@@ -29,7 +29,7 @@ class NodeG(NodeHeuristic):
         """
         return self._g
 
-    @NodeHeuristic.parent.setter
+    @NodePath.parent.setter
     def parent(self, parent_new: NodeG) -> None:
         """
         ========================================================================
@@ -53,7 +53,7 @@ class NodeG(NodeHeuristic):
          If F-Values are equal, break ties on H-Value.
         ========================================================================
         """
-        return [-self.g, NodeHeuristic.key_comparison(self)]
+        return [-self.g, NodePath.key_comparison(self)]
 
     def __repr__(self) -> str:
         """
@@ -61,4 +61,4 @@ class NodeG(NodeHeuristic):
          '<NodeG: None> G=1'
         ========================================================================
         """
-        return f'{NodeHeuristic.__repr__(self)} G={self.g}'
+        return f'{NodePath.__repr__(self)} G={self.g}'

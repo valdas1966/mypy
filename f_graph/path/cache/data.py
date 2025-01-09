@@ -1,4 +1,4 @@
-from f_ds.nodes.i_1_heuristic import NodeHeuristic as Node
+from f_graph.path.node import NodePath as Node
 from dataclasses import dataclass
 from typing import Callable
 

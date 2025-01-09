@@ -1,32 +1,29 @@
-from f_core.mixins.validatable_public import ValidatablePublic
-from f_ds.nodes.i_0_uid import NodeUid
-from typing import Generic, TypeVar
 
-Node = TypeVar('Node', bound=NodeUid)
-
-
-class SolutionGraph(Generic[Node], ValidatablePublic):
+class Cacheable:
     """
     ============================================================================
-     ABC for Solution of Graph-Problem.
+     Mixin-Class for Objects that can be cached.
     ============================================================================
     """
-
-    def __init__(self) -> None:
-        """
-        ========================================================================
-         Init private Attributes.
-        ========================================================================
-        """
-        ValidatablePublic.__init__(self)
-        self._elapsed: int = 0
+    
+    def __init__(self, is_cached: bool = None) -> None:
+        self._is_cached = is_cached
 
     @property
-    def elapsed(self) -> int:
+    def is_cached(self) -> bool:
         """
         ========================================================================
-         Return the Elapsed seconds to reach the Solution.
+         Return True if the object is cached.
         ========================================================================
         """
-        return self._elapsed
+        return self._is_cached
+
+    @is_cached.setter
+    def is_cached(self, val: bool) -> None:
+        """
+        ========================================================================
+         Set the cache status of the object.
+        ========================================================================
+        """
+        self._is_cached = val
 

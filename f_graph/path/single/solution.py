@@ -35,14 +35,10 @@ class SolutionSingle(SolutionPath[State]):
         """
         if not bool(self):
             return list()
-        path = self.state.best.path_from()
-        print('\nStart to Best:')
-        print(path)
+        path = self.state.best.path_from_root()
         if self.state.best in self._cache:
-            print('\nBest in Cache')
             best = self.state.best
             path_from_best = self._cache[best].path()[1:]
-            print('\nBest to Goal:')
-            print(path_from_best)
+            path_from_best[0].parent = path[-1]
             return path + path_from_best
         return path

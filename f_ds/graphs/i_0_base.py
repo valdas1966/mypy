@@ -3,9 +3,9 @@ from typing import TypeVar, Generic
 from f_core.mixins.has_name import HasName
 from f_core.abstracts.clonable import Clonable
 from f_ds.mixins.groupable import Groupable, Group
-from f_graph.elements.node import NodeGraph
+from f_ds.nodes.i_0_uid import NodeUid
 
-Node = TypeVar('Node', bound=NodeGraph)
+Node = TypeVar('Node', bound=NodeUid)
 
 
 class GraphBase(Generic[Node], Groupable[Node], HasName, Clonable):

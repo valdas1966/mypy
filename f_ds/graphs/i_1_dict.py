@@ -1,4 +1,4 @@
-from f_graph.graphs.i_0_base import GraphBase, Node
+from f_ds.graphs.i_0_base import GraphBase, Node
 from f_core.mixins.has_uid import UID
 from f_core.mixins.equable import Equable
 from typing import Generic, Type, Iterable

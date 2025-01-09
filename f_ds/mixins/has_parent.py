@@ -1,24 +1,22 @@
-from f_core.mixins.has_name import HasName
 from typing import Generic, TypeVar
 
 T = TypeVar('T', bound='HasParent')
 
 
 
-class HasParent(Generic[T], HasName):
+class HasParent(Generic[T]):
     """
     ============================================================================
      Mixin-Class for Objects with single Parent.
     ============================================================================
     """
 
-    def __init__(self, parent: T = None, name: str = None) -> None:
+    def __init__(self, parent: T = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        HasName.__init__(self, name=name)
         self.parent = parent
 
     @property

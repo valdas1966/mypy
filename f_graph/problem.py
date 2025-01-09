@@ -1,10 +1,10 @@
-from f_graph.graphs.i_0_base import GraphBase, NodeGraph
+from f_ds.graphs.i_0_base import GraphBase, NodeUid
 from f_core.abstracts.clonable import Clonable
 from abc import abstractmethod
 from typing import Generic, TypeVar
 
 Graph = TypeVar('Graph', bound=GraphBase)
-Node = TypeVar('Node', bound=NodeGraph)
+Node = TypeVar('Node', bound=NodeUid)
 
 
 class ProblemGraph(Generic[Graph, Node], Clonable):

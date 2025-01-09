@@ -1,10 +1,10 @@
 from f_graph.path.problem import ProblemPath as Problem
 from f_graph.path.single.state import StateSingle as State
-from f_ds.nodes.i_1_heuristic import NodeHeuristic
+from f_graph.path.node import NodePath
 from f_graph.path.cache.i_0_base import Cache
 from typing import Generic, TypeVar, Callable
 
-Node = TypeVar('Node', bound=NodeHeuristic)
+Node = TypeVar('Node', bound=NodePath)
 
 
 class Ops(Generic[Node]):
@@ -38,7 +38,7 @@ class Ops(Generic[Node]):
         node.parent = parent
         if node in self._cache:
             node.h = self._cache[node].distance()           
-            node.set_cached()
+            node.is_cached = True
         else:
             node.h = self._heuristic(node) if self._heuristic else None
         self._state.generated.push(item=node)
