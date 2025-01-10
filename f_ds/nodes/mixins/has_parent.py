@@ -3,7 +3,6 @@ from typing import Generic, TypeVar
 T = TypeVar('T', bound='HasParent')
 
 
-
 class HasParent(Generic[T]):
     """
     ============================================================================

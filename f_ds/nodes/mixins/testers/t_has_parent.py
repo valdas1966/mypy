@@ -1,5 +1,5 @@
 import pytest
-from f_ds.mixins.has_parent import HasParent
+from f_ds.nodes.mixins.has_parent import HasParent
 
 
 class Node(HasParent['Node']):

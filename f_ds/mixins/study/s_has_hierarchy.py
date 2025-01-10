@@ -1,4 +1,4 @@
-from f_ds.mixins.has_hierarchy import HasHierarchy
+from f_ds.nodes.mixins.has_hierarchy import HasHierarchy
 from f_core.mixins.has_name import HasName
 
 

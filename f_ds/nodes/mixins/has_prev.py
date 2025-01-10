@@ -1,12 +1,12 @@
 from typing import Generic, TypeVar
 
-T = TypeVar('T')
+T = TypeVar('T', bound='HasPrev')
 
 
-class HasChildren(Generic[T]):
+class HasPrev(Generic[T]):
     """
     ============================================================================
-     Mixin-Class for Objects with Children.
+     Mixin for objects that have a previous object.
     ============================================================================
     """
 
@@ -16,28 +16,32 @@ class HasChildren(Generic[T]):
          Init private Attributes.
         ========================================================================
         """
-        self._children: list[T] = []
+        self._prev: T = None
 
-    def children(self) -> list[T]:
+    @property
+    def prev(self) -> T:
         """
         ========================================================================
-         Return object's children.
+         Return the previous object.
         ========================================================================
         """
-        return self._children
+        return self._prev   
     
-    def add_child(self, child: T) -> None:
+    @prev.setter
+    def prev(self, val: T) -> None:
         """
         ========================================================================
-         Add a child to the object.
+         Set the previous object.
         ========================================================================
         """
-        self._children.append(child)
+        self._prev = val
+        self._update_prev()
 
-    def remove_child(self, child: T) -> None:
+
+    def _update_prev(self) -> None:
         """
         ========================================================================
-         Remove a child from the object.
+         Make additional updates to the previous object.
         ========================================================================
         """
-        self._children.remove(child)
+        pass

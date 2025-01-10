@@ -5,41 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_ds/mixins/cacheable.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/linked_list.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/mixins/has_head_tail.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/mixins/testers/t_has_head_tail.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/nodes/i_1_hierarchy.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/nodes/i_1_prev_next.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/has_next.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/has_prev.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/has_prev_next.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/testers/t_has_next.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/testers/t_has_prev.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/testers/t_has_prev_next.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/testers/t_linked_list.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/hs/nodes/i_0_g.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/nodes/i_0_g.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ai/hs/nodes/i_0_h.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/nodes/i_0_h.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/mixins/has_children.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/has_children.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/mixins/has_hierarchy.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/has_hierarchy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/mixins/has_parent.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/has_parent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_parentable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/testers/t_parentable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/mixins/has_children.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/has_children.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/mixins/has_hierarchy.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/has_hierarchy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/mixins/has_parent.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/has_parent.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/mixins/study/s_has_hierarchy.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/study/s_has_hierarchy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/nodes/i_1_heuristic.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/node.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/nodes/mixins/has_g.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/nodes/mixins/has_h.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/generators/g_2_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/generators/g_2_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_1_dict.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/i_1_dict.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_1_mutable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/i_1_mutable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/i_2_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/i_2_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/mixins/has_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/mixins/has_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/study/s_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/study/s_1_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/study/s_1_u_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/study/s_1_u_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/testers/t_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/testers/t_1_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/testers/t_u_1_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/testers/t_u_1_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/graphs/u_2_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/u_2_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/algo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/cache/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/cache/data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/cache/i_1_explored.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/cache/i_1_explored.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/problem.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algos/testers/t_a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/algos/testers/t_a_star.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/ops.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/problem.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/solution.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/state.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/problem.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/solution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/mixins/testers/t_has_children.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/testers/t_has_children.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/mixins/testers/t_has_hierarchy.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/testers/t_has_hierarchy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/mixins/testers/t_has_parent.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/testers/t_has_parent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widget.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/widget.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,12 +51,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
+    &quot;accountId&quot;: &quot;9193838d-ef26-4e0d-b77f-58e2bc1908f8&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -218,7 +206,10 @@
     "Python tests.Python tests in t_has_g.py.executor": "Run",
     "Python tests.Python tests in t_has_hierarchy.py (1).executor": "Run",
     "Python tests.Python tests in t_has_hierarchy.py.executor": "Run",
+    "Python tests.Python tests in t_has_next.py.executor": "Run",
     "Python tests.Python tests in t_has_parent.py.executor": "Run",
+    "Python tests.Python tests in t_has_prev.py.executor": "Run",
+    "Python tests.Python tests in t_has_prev_next.py.executor": "Run",
     "Python tests.Python tests in t_has_row_col.py.executor": "Run",
     "Python tests.Python tests in t_has_uid.py.executor": "Run",
     "Python tests.Python tests in t_indexable.py.executor": "Run",
@@ -230,6 +221,7 @@
     "Python tests.Python tests in t_iterative.py.executor": "Run",
     "Python tests.Python tests in t_kx.py.executor": "Run",
     "Python tests.Python tests in t_kx_bfs.py.executor": "Run",
+    "Python tests.Python tests in t_linked_list.py.executor": "Run",
     "Python tests.Python tests in t_listable.py.executor": "Run",
     "Python tests.Python tests in t_ltwh.py (1).executor": "Run",
     "Python tests.Python tests in t_ltwh.py.executor": "Run",
@@ -421,27 +413,27 @@
       <recent name="D:\mypy\f_ds" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\mypy\f_ds\mixins" />
+      <recent name="G:\mypy\f_ds\nodes\mixins" />
       <recent name="G:\mypy\f_graph\path" />
       <recent name="G:\mypy\f_ds" />
       <recent name="D:\mypy\f_ds\nodes" />
-      <recent name="D:\mypy\f_graph\path" />
-      <recent name="D:\mypy\f_graph" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_bfs.py">
-    <configuration name="Python tests for t_has_parent.test_path_from_root" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests in t_linked_list.py">
+    <configuration name="Python tests in t_a_star.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/mixins/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/single/algos/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_has_parent.test_path_from_root&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/single/algos/testers/t_a_star.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="Python tests in t_bfs.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -459,58 +451,58 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_has_children.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_has_prev_next.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/mixins/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/nodes/mixins/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/mixins/testers/t_has_children.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/nodes/mixins/testers/t_has_prev_next.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_has_hierarchy.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_has_prev.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/mixins/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/nodes/mixins/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/mixins/testers/t_has_hierarchy.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/nodes/mixins/testers/t_has_prev.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_has_parent.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_linked_list.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/mixins/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/mixins/testers/t_has_parent.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/testers/t_linked_list.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests in t_linked_list.py" />
+        <item itemvalue="Python tests.Python tests in t_has_prev_next.py" />
+        <item itemvalue="Python tests.Python tests in t_has_prev.py" />
+        <item itemvalue="Python tests.Python tests in t_a_star.py" />
         <item itemvalue="Python tests.Python tests in t_bfs.py" />
-        <item itemvalue="Python tests.Python tests in t_has_hierarchy.py (1)" />
-        <item itemvalue="Python tests.Python tests in t_has_children.py" />
-        <item itemvalue="Python tests.Python tests in t_has_parent.py" />
-        <item itemvalue="Python tests.Python tests for t_has_parent.test_path_from_root" />
       </list>
     </recent_temporary>
   </component>
@@ -529,14 +521,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00074" summary="h">
-      <option name="closed" value="true" />
-      <created>1731358620417</created>
-      <option name="number" value="00074" />
-      <option name="presentableId" value="LOCAL-00074" />
-      <option name="project" value="LOCAL" />
-      <updated>1731358620418</updated>
     </task>
     <task id="LOCAL-00075" summary="h">
       <option name="closed" value="true" />
@@ -922,7 +906,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736253419864</updated>
     </task>
-    <option name="localTasksCounter" value="123" />
+    <task id="LOCAL-00123" summary="h">
+      <option name="closed" value="true" />
+      <created>1736452689152</created>
+      <option name="number" value="00123" />
+      <option name="presentableId" value="LOCAL-00123" />
+      <option name="project" value="LOCAL" />
+      <updated>1736452689153</updated>
+    </task>
+    <option name="localTasksCounter" value="124" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

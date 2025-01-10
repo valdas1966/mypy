@@ -1,10 +1,9 @@
 from __future__ import annotations
-from f_ds.nodes.i_0_uid import NodeUid, UID
-from f_ds.mixins.has_parent import HasParent
+from f_ds.nodes.i_1_hierarchy import NodeHierarchy, UID
 from f_ds.mixins.cacheable import Cacheable
 
 
-class NodePath(NodeUid[UID], HasParent, Cacheable):
+class NodePath(NodeHierarchy[UID], Cacheable):
     """
     ============================================================================
      Node with a Path functionality.
@@ -22,8 +21,7 @@ class NodePath(NodeUid[UID], HasParent, Cacheable):
          Init private Attributes.
         ========================================================================
         """
-        NodeUid.__init__(self, uid=uid, name=name)
-        HasParent.__init__(self, parent=parent)
+        NodeHierarchy.__init__(self, uid=uid, parent=parent)
         Cacheable.__init__(self, is_cached=is_cached)
         self._g = 0 if not parent else parent.g + 1
         self._h = h
@@ -105,20 +103,4 @@ class NodePath(NodeUid[UID], HasParent, Cacheable):
         ========================================================================
         """
         return cls[int](uid=0, h=0)
-    
-    @classmethod
-    def generate_branch(cls, depth: int) -> list[NodePath]:
-        """
-        ========================================================================
-         Generate a Branch of Nodes.
-        ========================================================================
-        """
-        branch: list[NodePath] = []
-        for i in range(depth):
-            node = NodePath[int](uid=i)
-            if i > 0:
-                node.parent = branch[i - 1]
-            branch.append(node)
-        return branch
-
     
