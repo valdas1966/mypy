@@ -9,7 +9,9 @@ class NodePrevNext(NodeUid[UID], HasPrevNext['NodePrevNext']):
     ============================================================================
     """
 
-    def __init__(self, uid: UID, name: str = None) -> None:
+    def __init__(self,
+                 uid: UID,
+                 name: str = 'NodePrevNext') -> None:
         """
         ========================================================================
          Initialize the node.

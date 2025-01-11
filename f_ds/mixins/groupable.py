@@ -1,12 +1,12 @@
 from f_core.mixins.sizable import Sizable
 from f_ds.groups.group import Group
 from abc import abstractmethod
-from typing import Generic, TypeVar, Callable
+from typing import Generic, TypeVar, Callable, Iterator
 
 Item = TypeVar('Item')
 
 
-class Groupable(Generic[Item]):
+class Groupable(Generic[Item], Sizable):
     """
     ============================================================================
      Mixin for classes whose content can be converted into a Group.
@@ -54,3 +54,11 @@ class Groupable(Generic[Item]):
         ========================================================================
         """
         return len(self.to_group())
+    
+    def __iter__(self) -> Iterator[Item]:
+        """
+        ========================================================================
+         Return an iterator over the items in the Object.
+        ========================================================================
+        """
+        return iter(self.to_group())

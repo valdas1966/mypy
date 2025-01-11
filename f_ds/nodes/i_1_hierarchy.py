@@ -11,12 +11,13 @@ class NodeHierarchy(NodeUid[UID], HasHierarchy):
     """
 
     def __init__(self,
-                  uid: UID = None,
-                  parent: NodeHierarchy = None) -> None:
+                 uid: UID = None,
+                 parent: NodeHierarchy = None,
+                 name: str = 'NodeHierarchy') -> None:
         """
         ========================================================================
          Initialize the NodeHierarchy.
         ========================================================================
         """
-        NodeUid.__init__(self, uid=uid)
+        NodeUid.__init__(self, uid=uid, name=name)
         HasHierarchy.__init__(self, parent=parent)

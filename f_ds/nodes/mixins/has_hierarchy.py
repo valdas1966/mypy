@@ -12,7 +12,7 @@ class HasHierarchy(Generic[T], HasParent[T], HasChildren[T]):
     ============================================================================
     """
     
-    def __init__(self, parent: HasHierarchy = None) -> None:
+    def __init__(self, parent: T = None) -> None:
         """
         ========================================================================
          Init private Attributes.

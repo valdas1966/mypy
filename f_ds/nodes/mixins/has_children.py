@@ -34,6 +34,14 @@ class HasChildren(Generic[T]):
         """
         self._children.append(child)
 
+    def set_children(self, children: list[T]) -> None:
+        """
+        ========================================================================
+         Set the children of the object.
+        ========================================================================
+        """
+        self._children = children
+
     def remove_child(self, child: T) -> None:
         """
         ========================================================================
@@ -41,3 +49,11 @@ class HasChildren(Generic[T]):
         ========================================================================
         """
         self._children.remove(child)
+
+    def clear_children(self) -> None:
+        """
+        ========================================================================
+         Clear the children of the object.
+        ========================================================================
+        """
+        self._children.clear()

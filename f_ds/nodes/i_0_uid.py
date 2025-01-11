@@ -1,12 +1,13 @@
 from __future__ import annotations
 from f_core.mixins.has_uid import HasUID
 from f_core.mixins.has_name import HasName
+from f_core.abstracts.clonable import Clonable
 from typing import Generic, TypeVar
 
 UID = TypeVar('UID')
 
 
-class NodeUid(Generic[UID], HasUID[UID], HasName):
+class NodeUid(Generic[UID], HasUID[UID], HasName, Clonable):
     """
     ============================================================================
      ABC of Node classes.
@@ -15,7 +16,7 @@ class NodeUid(Generic[UID], HasUID[UID], HasName):
 
     def __init__(self,
                  uid: UID,
-                 name: str = None) -> None:
+                 name: str = 'Node') -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -23,6 +24,7 @@ class NodeUid(Generic[UID], HasUID[UID], HasName):
         """
         HasUID.__init__(self, uid=uid)
         HasName.__init__(self, name=name)
+        Clonable.__init__(self)
 
     def key_comparison(self) -> list:
         """
@@ -31,6 +33,15 @@ class NodeUid(Generic[UID], HasUID[UID], HasName):
         ========================================================================
         """
         return HasUID.key_comparison(self)
+    
+    def clone(self) -> NodeUid:
+        """
+        ========================================================================
+         Clone the Node.
+        ========================================================================
+        """
+        uid = self.uid.clone() if isinstance(self.uid, Clonable) else self.uid
+        return NodeUid(uid=uid, name=self.name)
 
     def __str__(self) -> str:
         """
