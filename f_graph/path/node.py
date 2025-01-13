@@ -1,9 +1,9 @@
 from __future__ import annotations
-from f_ds.nodes.i_1_hierarchy import NodeHierarchy, UID
+from f_ds.nodes.i_1_parent import NodeParent, UID
 from f_ds.mixins.cacheable import Cacheable
 
 
-class NodePath(NodeHierarchy[UID], Cacheable):
+class NodePath(NodeParent[UID], Cacheable):
     """
     ============================================================================
      Node with a Path functionality.
@@ -21,7 +21,7 @@ class NodePath(NodeHierarchy[UID], Cacheable):
          Init private Attributes.
         ========================================================================
         """
-        NodeHierarchy.__init__(self, uid=uid, parent=parent)
+        NodeParent.__init__(self, uid=uid, parent=parent, name=name)
         Cacheable.__init__(self, is_cached=is_cached)
         self._g = 0 if not parent else parent.g + 1
         self._h = h
@@ -59,7 +59,7 @@ class NodePath(NodeHierarchy[UID], Cacheable):
          Return a Heuristic-Distance from Node to the Goal.
         ========================================================================
         """
-        return (self.g + self.h) if self.h else -self.g
+        return (self.g + self.h) if self.h is not None else -self.g
 
     def key_comparison(self) -> list:
         """

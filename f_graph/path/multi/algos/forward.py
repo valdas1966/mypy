@@ -1,10 +1,10 @@
 from f_graph.path.multi.algo import (AlgoMulti, ProblemMulti, SolutionMulti)
 from f_graph.path.single.algo import (AlgoSingle, Solution as SolutionSingle,
-                                      State, Node)
+                                      State as StateSingle, Node)
 from typing import Type
 
 
-class Forward(AlgoMulti):
+class ForwardMulti(AlgoMulti):
     """
     ============================================================================
      k-Forward Path-Algorithm for Problems with k-Goals.
@@ -32,15 +32,19 @@ class Forward(AlgoMulti):
         ========================================================================
         """
         solutions: dict[Node, SolutionSingle] = dict()
-        state: State | None = None
+        state: StateSingle | None = None
         problems = self._input.to_singles()
         for i, problem in enumerate(problems):
             if not (i and self._is_shared):
-                state = State(type_queue=self._type_algo.type_queue)
+                state = StateSingle(type_queue=self._type_algo.type_queue)
             solution = self._type_algo(problem=problem, state=state).run()
+            print(problem.goal, solution.path)
             solutions[problem.goal] = solution
             if not solution:
                 return SolutionMulti(solutions=solutions)
             if self._is_shared:
                 state = solution.state
+                state.best = None
+        for goal, sol in solutions.items():
+            print(goal, sol.path)
         return SolutionMulti(solutions=solutions)

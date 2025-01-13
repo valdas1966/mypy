@@ -5,7 +5,7 @@ from f_graph.path.single.algo import AlgoSingle, State as StateSingle, Node
 from typing import Type
 
 
-class Backward(AlgoMulti):
+class BackwardMulti(AlgoMulti):
     """
     ============================================================================
      k-Backward Path-Algorithm for Problems with k-Goals.

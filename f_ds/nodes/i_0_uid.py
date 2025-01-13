@@ -1,10 +1,10 @@
-from __future__ import annotations
 from f_core.mixins.has_uid import HasUID
 from f_core.mixins.has_name import HasName
 from f_core.abstracts.clonable import Clonable
 from typing import Generic, TypeVar
 
 UID = TypeVar('UID')
+Node = TypeVar('Node', bound='NodeUid')
 
 
 class NodeUid(Generic[UID], HasUID[UID], HasName, Clonable):
@@ -34,14 +34,14 @@ class NodeUid(Generic[UID], HasUID[UID], HasName, Clonable):
         """
         return HasUID.key_comparison(self)
     
-    def clone(self) -> NodeUid:
+    def clone(self) -> Node:
         """
         ========================================================================
          Clone the Node.
         ========================================================================
         """
         uid = self.uid.clone() if isinstance(self.uid, Clonable) else self.uid
-        return NodeUid(uid=uid, name=self.name)
+        return self.__class__(uid=uid, name=self.name)
 
     def __str__(self) -> str:
         """
@@ -51,7 +51,7 @@ class NodeUid(Generic[UID], HasUID[UID], HasName, Clonable):
         """
         return f'{HasName.__str__(self)}({self._uid})'
 
-    def __eq__(self, other: NodeUid) -> bool:
+    def __eq__(self, other: Node) -> bool:
         """
         ========================================================================
          Return True if Node's Uid is equals to other Node's Uid.
@@ -59,7 +59,7 @@ class NodeUid(Generic[UID], HasUID[UID], HasName, Clonable):
         """
         return self.uid == other.uid
 
-    def __ne__(self, other: NodeUid) -> bool:
+    def __ne__(self, other: Node) -> bool:
         """
         ========================================================================
          Return True if Node's Uid is not equals to other Node's Uid.

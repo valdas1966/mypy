@@ -37,9 +37,9 @@ class RequestGet(ProcessIO[Input, Output], Printable):
          Run the Http Get-Request process.
         ========================================================================
         """
-        self.run_pre()
+        self._run_pre()
         response = self._request()
-        self.run_post()
+        self._run_post()
         return Output(response=response, reason=self.reason)
 
     def _request(self) -> Response:

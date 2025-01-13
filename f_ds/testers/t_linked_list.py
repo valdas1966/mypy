@@ -139,6 +139,16 @@ def test_from_list(node_a: Node, node_b: Node):
     assert node_b.next is None
 
 
+def test_reverse(linked_1: LinkedList):
+    """
+    ========================================================================
+     Test reverse() method
+    ========================================================================
+    """
+    linked_reverse = linked_1.reverse()
+    assert [node.uid for node in linked_reverse] == ['B', 'A']
+
+
 def test_clone(linked_1: LinkedList):
     """
     ========================================================================
@@ -146,6 +156,6 @@ def test_clone(linked_1: LinkedList):
     ========================================================================
     """
     cloned = linked_1.clone()
-    #cloned.clear()
-    #assert cloned.head is None
-    #assert linked_1.head is not None
+    cloned.remove_all()
+    assert cloned.head is None
+    assert linked_1.head is not None

@@ -29,7 +29,7 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
         ========================================================================
         """
         AlgoPath.__init__(self,
-                          problem=problem.clone(),
+                          problem=problem if state else problem.clone(),
                           name=name)
         self._state = state if state else State(type_queue=type_queue)
         self._cache = cache if cache else Cache()
