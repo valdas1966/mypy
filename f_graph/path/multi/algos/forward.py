@@ -38,13 +38,10 @@ class ForwardMulti(AlgoMulti):
             if not (i and self._is_shared):
                 state = StateSingle(type_queue=self._type_algo.type_queue)
             solution = self._type_algo(problem=problem, state=state).run()
-            print(problem.goal, solution.path)
             solutions[problem.goal] = solution
             if not solution:
                 return SolutionMulti(solutions=solutions)
             if self._is_shared:
                 state = solution.state
-                state.best = None
-        for goal, sol in solutions.items():
-            print(goal, sol.path)
+                state.unpop_best()
         return SolutionMulti(solutions=solutions)

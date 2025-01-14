@@ -1,9 +1,10 @@
-from f_graph.path.single.solution import SolutionSingle, Node
+from f_graph.path.solution import SolutionPath, Node
+from f_graph.path.single.solution import SolutionSingle
 from f_ds.mixins.collectionable import Collectionable
 from f_core.mixins.validatable import Validatable
 
 
-class SolutionMulti(Collectionable, Validatable):
+class SolutionMulti(SolutionPath, Collectionable, Validatable):
     """
     ============================================================================
      Solution of Path-Algorithm with Multiple-Goals.
@@ -16,6 +17,8 @@ class SolutionMulti(Collectionable, Validatable):
          Init Attributes.
         ========================================================================
         """
+        SolutionPath.__init__(self)
+        Collectionable.__init__(self)
         Validatable.__init__(self, is_valid=all(solutions))
         self._solutions = solutions
 

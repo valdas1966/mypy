@@ -46,6 +46,22 @@ class QueuePriority(QueueBase[Item]):
         """
         heapq.heapify(self._heap)
 
+    def peek(self) -> Item:
+        """
+        ========================================================================
+         Return the first Item from the Queue without removing it. [O(1)]
+        ========================================================================
+        """
+        return self._heap[0]
+    
+    def undo_pop(self, item: Item) -> None:
+        """
+        ========================================================================
+         Undo the last Pop-Operation.
+        ========================================================================
+        """
+        self.push(item=item)
+
     def to_iterable(self) -> Iterable[Item]:
         """
         ========================================================================

@@ -24,10 +24,19 @@ class SolutionSingle(SolutionPath[State]):
         self._cache = cache
         self._is_valid = is_valid
         self._elapsed = elapsed
-        self._state: State = state
+        self._state = state
+        self._path = self._create_path()
 
     @property
     def path(self) -> list[Node]:
+        """
+        ========================================================================
+         Return the path of the solution.
+        ========================================================================
+        """
+        return self._path
+
+    def _create_path(self) -> list[Node]:
         """
         ========================================================================
          Return a constructed path.
@@ -42,3 +51,4 @@ class SolutionSingle(SolutionPath[State]):
             path_from_best[0].parent = path[-1]
             return path + path_from_best
         return path
+    

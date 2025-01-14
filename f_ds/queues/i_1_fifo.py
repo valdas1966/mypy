@@ -11,13 +11,13 @@ class QueueFIFO(QueueBase[Item]):
     ============================================================================
     """
 
-    def __init__(self) -> None:
+    def __init__(self, name: str = 'QueueFifo') -> None:
         """
         ========================================================================
          Init with an empty Queue.
         ========================================================================
         """
-        QueueBase.__init__(self)
+        QueueBase.__init__(self, name=name)
         self._items: Deque[Item] = deque()
 
     def push(self, item: Item) -> None:
@@ -35,6 +35,22 @@ class QueueFIFO(QueueBase[Item]):
         ========================================================================
         """
         return self._items.popleft()
+
+    def peek(self) -> Item:
+        """
+        ========================================================================
+         Return the first Item from the Queue without removing it. [O(1)]
+        ========================================================================
+        """
+        return self._items[0]
+    
+    def undo_pop(self, item: Item) -> None:
+        """
+        ========================================================================
+         Undo the last Pop-Operation.
+        ========================================================================
+        """
+        self._items.appendleft(item)
 
     def to_list(self) -> list[Item]:
         """

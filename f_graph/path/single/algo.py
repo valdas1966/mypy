@@ -35,6 +35,8 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
         self._cache = cache if cache else Cache()
         self._heuristic = heuristic
         self._ops = self._create_ops()
+        if self._state.generated:
+            self._ops.update_generated()
 
     def run(self) -> Solution:
         """

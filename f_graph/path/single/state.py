@@ -20,3 +20,11 @@ class StateSingle(StatePath):
         self._generated: type_queue[Node] = type_queue()
         self._explored: set[Node] = set()
         self.best: Node | None = None
+
+    def unpop_best(self) -> None:
+        """
+        ========================================================================
+         Unpop the best node.
+        ========================================================================
+        """
+        self._generated.undo_pop(item=self.best)

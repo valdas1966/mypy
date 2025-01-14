@@ -34,7 +34,7 @@ def test_kx_bfs_shared():
                                   type_algo=BFS,
                                   is_shared=True).run()
     assert solution_multi.paths == paths_true
-    #assert solution.state.generated == generated_true
+    assert solution_multi.generated == generated_true
     #assert solution.state.explored == explored_true
 
 

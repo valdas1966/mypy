@@ -40,7 +40,7 @@ class Ops(Generic[Node]):
             node.h = self._cache[node].distance()           
             node.is_cached = True
         else:
-            node.h = self._heuristic(node) if self._heuristic else None
+            self._set_heuristic(node)
         self._state.generated.push(item=node)
 
     def explore(self, node: Node) -> None:
@@ -53,6 +53,16 @@ class Ops(Generic[Node]):
         for child in children:
             self._process_child(child=child, parent=node)
         self._state.explored.add(node)
+
+    def update_generated(self) -> None:
+        """
+        ========================================================================
+         Update the generated nodes with heuristic to a new goal.
+        ========================================================================
+        """
+        
+        for node in self._state.generated:
+            self._set_heuristic(node)
 
     def _process_child(self, child: Node, parent: Node) -> None:
         """
@@ -67,3 +77,12 @@ class Ops(Generic[Node]):
                 child.parent = parent
         else:
             self.generate(node=child, parent=parent)
+
+    def _set_heuristic(self, node: Node) -> None:
+        """
+        ========================================================================
+         Set the heuristic of the node.
+        ========================================================================
+        """
+        node.h = self._heuristic(node) if self._heuristic else None
+

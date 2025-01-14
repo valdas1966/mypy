@@ -39,6 +39,24 @@ class QueueBase(Generic[Item], Collectionable[Item], HasName):
         """
         pass
 
+    @abstractmethod
+    def peek(self) -> Item:
+        """
+        ========================================================================
+         Return the next Element in the Queue without removing it.
+        ========================================================================
+        """
+        pass
+
+    @abstractmethod
+    def undo_pop(self, item: Item) -> None:
+        """
+        ========================================================================
+         Undo the last Pop-Operation.
+        ========================================================================
+        """
+        pass
+
     def __str__(self) -> str:
         """
         ========================================================================

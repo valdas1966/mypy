@@ -1,5 +1,7 @@
 from f_ds.grids.cell import Cell
 
 
-cell = Cell()
-print(cell.name)
+a = Cell(0, 2)
+b = Cell(1, 1)
+
+print(a < b)
