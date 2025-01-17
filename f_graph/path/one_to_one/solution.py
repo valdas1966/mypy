@@ -1,5 +1,5 @@
 from f_graph.path.solution import SolutionPath, Node
-from f_graph.path.single.state import StateSingle as State
+from f_graph.path.one_to_one.state import StateSingle as State
 from f_graph.path.cache.i_0_base import Cache
 
 

@@ -1,5 +1,5 @@
 from f_graph.path.solution import SolutionPath, Node
-from f_graph.path.single.solution import SolutionSingle
+from f_graph.path.one_to_one.solution import SolutionSingle
 from f_graph.path.multi.state import StateMulti as State
 
 

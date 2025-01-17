@@ -5,23 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_graph/path/study/s_node.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_problem.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/study/s_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/study/s_cell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/study/s_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/study/s_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_1_fifo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_1_fifo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_1_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_1_priority.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/queues/study/s_1_fifo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/study/s_1_fifo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers/t_astar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/testers/t_astar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ai/hs/ops/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/ops/node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/groups/processes/nested/from_rows.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/groups/processes/nested/from_rows.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/nodes/mixins/has_parent.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/has_parent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/cache/i_1_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/cache/i_1_path.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/backward.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/multi/algos/backward.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/forward.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/multi/algos/forward.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/study/s_forward.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/multi/algos/study/s_forward.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/testers/t_forward.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/multi/algos/testers/t_forward.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/old_solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/multi/old_solution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/multi/problem.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/multi/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/multi/solution.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/multi/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/multi/state.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/multi/study/s_solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/multi/study/s_solution.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/algo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/ops.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/solution.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/single/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/single/state.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/testers/t_problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/multi/testers/t_problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/problem.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algos/a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/a_star.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algos/bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algos/study/s_a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/study/s_a_star.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algos/study/s_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/study/s_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algos/testers/t_a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/testers/t_a_star.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/algos/testers/t_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/testers/t_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/solution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/single/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/state.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/testers/t_problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/testers/t_problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ora/t_query.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ora/t_query.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get-pip.py" beforeDir="false" afterPath="$PROJECT_DIR$/get-pip.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,6 +118,8 @@
     "Python tests.Python tests for t_cursorable.test_peek_next.executor": "Run",
     "Python tests.Python tests for t_cursorable.test_to_list.executor": "Run",
     "Python tests.Python tests for t_filterd.test.executor": "Run",
+    "Python tests.Python tests for t_forward.test_kx_astar.executor": "Run",
+    "Python tests.Python tests for t_forward.test_kx_astar_shared.executor": "Run",
     "Python tests.Python tests for t_forward.test_kx_bfs.executor": "Run",
     "Python tests.Python tests for t_forward.test_kx_bfs_shared.executor": "Run",
     "Python tests.Python tests for t_get.test_success.executor": "Run",
@@ -157,6 +175,7 @@
     "Python tests.Python tests for t_parentable.test_path_from_root.executor": "Run",
     "Python tests.Python tests for t_position.test_str.executor": "Run",
     "Python tests.Python tests for t_position.test_update.executor": "Run",
+    "Python tests.Python tests for t_problem.test_gen_4x4.executor": "Run",
     "Python tests.Python tests for t_rate_success.test_empty.executor": "Run",
     "Python tests.Python tests for t_schema.test_add.executor": "Run",
     "Python tests.Python tests for t_tokenizer.test.executor": "Run",
@@ -209,6 +228,7 @@
     "Python tests.Python tests in t_field.py.executor": "Run",
     "Python tests.Python tests in t_filter.py.executor": "Run",
     "Python tests.Python tests in t_filterd.py.executor": "Run",
+    "Python tests.Python tests in t_forward.py.executor": "Run",
     "Python tests.Python tests in t_generated_explored.py.executor": "Run",
     "Python tests.Python tests in t_get.py (1).executor": "Run",
     "Python tests.Python tests in t_get.py.executor": "Run",
@@ -361,6 +381,7 @@
     "Python.s_fifo.executor": "Run",
     "Python.s_filter.executor": "Run",
     "Python.s_forward (1).executor": "Run",
+    "Python.s_forward.executor": "Run",
     "Python.s_generic.executor": "Run",
     "Python.s_graph.executor": "Run",
     "Python.s_grid.executor": "Run",
@@ -443,96 +464,53 @@
       <recent name="G:\mypy\f_graph\path" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_solution (1)">
-    <configuration name="s_1_fifo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests for t_problem.test_gen_4x4">
+    <configuration name="Python tests for t_1_explored.test_cache_explored" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/queues/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/cache/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_ds/queues/study/s_1_fifo.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_1_explored.test_cache_explored&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="s_cell" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_problem.test_gen_4x4" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_one/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_ds/grids/study/s_cell.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_problem.test_gen_4x4&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="s_grid" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_1_explored.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/study" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/cache/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_ds/grids/study/s_grid.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/cache/testers/t_1_explored.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="s_solution (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/multi/study" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/multi/study/s_solution.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for t_forward.test_kx_bfs_shared" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_forward.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -543,17 +521,32 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_forward.test_kx_bfs_shared&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/multi/algos/testers/t_forward.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in t_problem.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_one/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_problem.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.s_solution (1)" />
-        <item itemvalue="Python tests.Python tests for t_forward.test_kx_bfs_shared" />
-        <item itemvalue="Python.s_grid" />
-        <item itemvalue="Python.s_1_fifo" />
-        <item itemvalue="Python.s_cell" />
+        <item itemvalue="Python tests.Python tests for t_problem.test_gen_4x4" />
+        <item itemvalue="Python tests.Python tests in t_problem.py" />
+        <item itemvalue="Python tests.Python tests in t_1_explored.py" />
+        <item itemvalue="Python tests.Python tests for t_1_explored.test_cache_explored" />
+        <item itemvalue="Python tests.Python tests in t_forward.py" />
       </list>
     </recent_temporary>
   </component>
@@ -572,14 +565,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00077" summary="h">
-      <option name="closed" value="true" />
-      <created>1731663627221</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1731663627221</updated>
     </task>
     <task id="LOCAL-00078" summary="h">
       <option name="closed" value="true" />
@@ -965,7 +950,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736800863275</updated>
     </task>
-    <option name="localTasksCounter" value="126" />
+    <task id="LOCAL-00126" summary="h">
+      <option name="closed" value="true" />
+      <created>1736858860606</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1736858860606</updated>
+    </task>
+    <option name="localTasksCounter" value="127" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

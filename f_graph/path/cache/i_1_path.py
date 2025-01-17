@@ -1,5 +1,6 @@
 from f_graph.path.cache.i_0_base import Cache, DataCache, Node
 
+
 class CachePath(Cache):
     """
     ========================================================================
@@ -14,5 +15,8 @@ class CachePath(Cache):
         ========================================================================
         """
         Cache.__init__(self)
+        start = path[-1]
         for node in reversed(path):
+            path_optimal = start.path_from_node(node)
+            
             

@@ -1,12 +1,12 @@
 from __future__ import annotations
-from f_graph.path.problem import ProblemPath
+from f_graph.problem import ProblemGraph
 from f_graph.path.graph import GraphPath as Graph
 from f_graph.path.node import NodePath as Node
 from f_core.mixins.equable import Equable
 from typing import Type
 
 
-class ProblemSingle(ProblemPath, Equable):
+class ProblemOneToOne(ProblemGraph, Equable):
     """
     ============================================================================
      Path-Finding Problem with Single-Goal.
@@ -19,8 +19,19 @@ class ProblemSingle(ProblemPath, Equable):
          Init private Attributes.
         ========================================================================
         """
-        ProblemPath.__init__(self, graph=graph, start=start)
+        Equable.__init__(self)
+        ProblemGraph.__init__(self, graph=graph)
+        self._start = start
         self._goal = goal
+
+    @property
+    def start(self) -> Node:
+        """
+        ========================================================================
+         Return the Start of the Problem.
+        ========================================================================
+        """
+        return self._start
 
     @property
     def goal(self) -> Node:
@@ -31,7 +42,7 @@ class ProblemSingle(ProblemPath, Equable):
         """
         return self._goal
 
-    def clone(self) -> ProblemSingle:
+    def clone(self) -> ProblemOneToOne:
         """
         ========================================================================
          Return a Cloned problem.
@@ -40,18 +51,18 @@ class ProblemSingle(ProblemPath, Equable):
         graph = self.graph.clone()
         start = graph.node(uid=self.start.uid)
         goal = graph.node(uid=self.goal.uid)
-        return ProblemSingle(graph=graph, start=start, goal=goal)
+        return ProblemOneToOne(graph=graph, start=start, goal=goal)
 
-    def reverse(self) -> ProblemSingle:
+    def reverse(self) -> ProblemOneToOne:
         """
         ========================================================================
          Return a Reversed version of the Problem.
         ========================================================================
         """
         problem = self.clone()
-        return ProblemSingle(graph=problem.graph,
-                             start=problem.goal,
-                             goal=problem.start)
+        return ProblemOneToOne(graph=problem.graph,
+                               start=problem.goal,
+                               goal=problem.start)
 
     def key_comparison(self) -> tuple[Graph, Node, Node]:
         """
@@ -62,7 +73,7 @@ class ProblemSingle(ProblemPath, Equable):
         return self.graph, self.start, self.goal
 
     @classmethod
-    def gen_3x3(cls, type_node: Type[Node] = Node) -> ProblemSingle:
+    def gen_3x3(cls, type_node: Type[Node] = Node) -> ProblemOneToOne:
         """
         ========================================================================
          Return a generated ProblemSingle with Graph of 3x3 dimension.
@@ -71,10 +82,10 @@ class ProblemSingle(ProblemPath, Equable):
         graph = Graph.gen_3x3(type_node=type_node)
         start = graph[0, 0]
         goal = graph[2, 2]
-        return ProblemSingle(graph=graph, start=start, goal=goal)
+        return ProblemOneToOne(graph=graph, start=start, goal=goal)
 
     @classmethod
-    def gen_4x4(cls, type_node: Type[Node] = Node) -> ProblemSingle:
+    def gen_4x4(cls, type_node: Type[Node] = Node) -> ProblemOneToOne:
         """
         ========================================================================
          Return a generated ProblemSingle with Graph of 4x4 dimension.
@@ -83,7 +94,7 @@ class ProblemSingle(ProblemPath, Equable):
         graph = Graph.gen_4x4(type_node=type_node)
         start = graph[0, 0]
         goal = graph[0, 3]
-        return ProblemSingle(graph=graph, start=start, goal=goal)
+        return ProblemOneToOne(graph=graph, start=start, goal=goal)
 
     def __str__(self) -> str:
         """

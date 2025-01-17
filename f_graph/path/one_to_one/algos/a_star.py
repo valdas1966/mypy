@@ -1,29 +1,31 @@
-from f_graph.path.single.algo import AlgoSingle, Problem, State, Cache
-from f_ds.queues.i_1_fifo import QueueFIFO
+from f_graph.path.one_to_one.algo import AlgoSingle, Problem, State, Cache, Node
+from f_ds.queues.i_1_priority import QueuePriority
 
 
-class BFS(AlgoSingle):
+class AStar(AlgoSingle):
     """
     ============================================================================
-     Breadth-First-Search Algorithm with Single-Goal.
+     A* Algorithm.
     ============================================================================
     """
 
-    type_queue = QueueFIFO
+    type_queue = QueuePriority
 
     def __init__(self,
                  problem: Problem,
                  state: State = None,
                  cache: Cache = None,
-                 ):
+                 name: str = 'AStar'):
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
+        heuristic = lambda node: problem.graph.distance(node, problem.goal)
         AlgoSingle.__init__(self,
                             problem=problem,
                             state=state,
                             cache=cache,
-                            type_queue=BFS.type_queue,
-                            name='BFS')
+                            heuristic=heuristic,
+                            type_queue=AStar.type_queue,
+                            name=name)

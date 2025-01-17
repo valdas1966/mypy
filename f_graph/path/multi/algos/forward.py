@@ -1,6 +1,6 @@
 from f_graph.path.multi.algo import (AlgoMulti, ProblemMulti, SolutionMulti)
-from f_graph.path.single.algo import (AlgoSingle, Solution as SolutionSingle,
-                                      State as StateSingle, Node)
+from f_graph.path.one_to_one.algo import (AlgoSingle, Solution as SolutionSingle,
+                                          State as StateSingle, Node)
 from typing import Type
 
 
@@ -40,8 +40,10 @@ class ForwardMulti(AlgoMulti):
             solution = self._type_algo(problem=problem, state=state).run()
             solutions[problem.goal] = solution
             if not solution:
-                return SolutionMulti(solutions=solutions)
+                return SolutionMulti(solutions=solutions,
+                                     is_shared=self._is_shared)
             if self._is_shared:
                 state = solution.state
                 state.unpop_best()
-        return SolutionMulti(solutions=solutions)
+        return SolutionMulti(solutions=solutions,
+                             is_shared=self._is_shared)

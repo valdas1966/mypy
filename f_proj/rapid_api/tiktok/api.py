@@ -56,7 +56,9 @@ class TiktokAPI:
         has_more = True
         cursor = 0
         url = f'https://{TiktokAPI._HOST}/music/posts'
-        while has_more:
+        rows_added = 1
+        while has_more and rows_added:
+            rows_added = 0
             params = {'music_id': id_music, 'count': 35, cursor: cursor}
             _input = Input(url=url, params=params, headers=TiktokAPI._HEADERS)
             output = RequestGet(_input=_input).run()
@@ -77,7 +79,7 @@ class TiktokAPI:
                     data.id_video = d_video['video_id']
                     data.id_user = d_video['author']['id']
                     rows.append(data.to_dict())
-                    if len(rows) >= 1000:
+                    if len(rows) >= 10000:
                         return rows
             elif output.reason == Reasons.NOT_FOUND:
                 return [DataVideosFromMusic(id_music=id_music,

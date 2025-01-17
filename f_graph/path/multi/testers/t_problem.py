@@ -1,4 +1,4 @@
-from f_graph.path.multi.problem import ProblemMulti, ProblemSingle, Graph
+from f_graph.path.multi.problem import ProblemMulti, ProblemOneToOne, Graph
 
 
 def test_goals():
@@ -14,6 +14,6 @@ def test_to_single():
     start = graph[0, 0]
     goals = [graph[1, 1], graph[2, 2]]
     problem = ProblemMulti(graph=graph, start=start, goals=goals)
-    p_1 = ProblemSingle(graph=graph, start=start, goal=goals[0])
-    p_2 = ProblemSingle(graph=graph, start=start, goal=goals[1])
+    p_1 = ProblemOneToOne(graph=graph, start=start, goal=goals[0])
+    p_2 = ProblemOneToOne(graph=graph, start=start, goal=goals[1])
     assert set(problem.to_singles()) == {p_1, p_2}

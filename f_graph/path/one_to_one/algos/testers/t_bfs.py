@@ -1,12 +1,12 @@
-from f_graph.path.single.algos.bfs import BFS
-from f_graph.path.single.problem import ProblemSingle
+from f_graph.path.one_to_one.algos.bfs import BFS
+from f_graph.path.one_to_one.problem import ProblemOneToOne
 from f_graph.path.cache.i_1_explored import CacheExplored
 import pytest
 
 
 @pytest.fixture
-def problem() -> ProblemSingle:
-    return ProblemSingle.gen_3x3()
+def problem() -> ProblemOneToOne:
+    return ProblemOneToOne.gen_3x3()
 
 
 def test_bfs(problem):

@@ -1,4 +1,4 @@
-from f_graph.path.single.algos.a_star import AStar, Problem
+from f_graph.path.one_to_one.algos.a_star import AStar, Problem
 
 
 problem = Problem.gen_3x3()

@@ -1,5 +1,5 @@
 from f_graph.path.problem import ProblemPath as Problem
-from f_graph.path.single.state import StateSingle as State
+from f_graph.path.one_to_one.state import StateSingle as State
 from f_graph.path.node import NodePath
 from f_graph.path.cache.i_0_base import Cache
 from typing import Generic, TypeVar, Callable

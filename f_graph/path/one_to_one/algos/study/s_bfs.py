@@ -1,9 +1,9 @@
-from f_graph.path.single.algos.bfs import BFS
-from f_graph.path.single.problem import ProblemSingle
+from f_graph.path.one_to_one.algos.bfs import BFS
+from f_graph.path.one_to_one.problem import ProblemOneToOne
 from f_graph.path.cache.i_1_explored import CacheExplored
 
 
-problem = ProblemSingle.gen_3x3()
+problem = ProblemOneToOne.gen_3x3()
 graph = problem.graph.clone()
 graph[1, 2].parent = graph[2, 2]
 explored = {graph[1, 2], graph[2, 2]}

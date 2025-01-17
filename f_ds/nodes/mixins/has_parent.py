@@ -6,7 +6,7 @@ T = TypeVar('T', bound='HasParent')
 class HasParent(Generic[T]):
     """
     ============================================================================
-     Mixin-Class for Objects with single Parent.
+     Mixin-Class for Objects with one_to_one Parent.
     ============================================================================
     """
 

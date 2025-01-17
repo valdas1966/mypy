@@ -1,4 +1,4 @@
-from f_graph.path.single.generators.gen_problem import GenProblem
+from f_graph.path.one_to_one.generators.gen_problem import GenProblem
 
 
 def test_copy():

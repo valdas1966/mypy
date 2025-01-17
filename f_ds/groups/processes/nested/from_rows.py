@@ -46,7 +46,7 @@ class ProcRowsToNested(Generic[Item],
     def _process_row(self, row: Sequence[str]) -> None:
         """
         ========================================================================
-         Process a single Row.
+         Process a one_to_one Row.
         ========================================================================
         """
         if self._is_group_start(row=row):

@@ -1,6 +1,6 @@
 from __future__ import annotations
 from f_graph.path.problem import ProblemPath, Graph, Node
-from f_graph.path.single.problem import ProblemSingle
+from f_graph.path.one_to_one.problem import ProblemOneToOne
 from typing import Iterable
 
 
@@ -32,15 +32,15 @@ class ProblemMulti(ProblemPath):
         """
         return self._goals
 
-    def to_singles(self) -> tuple[ProblemSingle, ...]:
+    def to_singles(self) -> tuple[ProblemOneToOne, ...]:
         """
         ========================================================================
          Convert a ProblemMulti into a Tuple of ProblemSingle.
         ========================================================================
         """
-        return tuple(ProblemSingle(graph=self.graph,
-                                   start=self.start,
-                                   goal=goal)
+        return tuple(ProblemOneToOne(graph=self.graph,
+                                     start=self.start,
+                                     goal=goal)
                      for goal
                      in self.goals)
 

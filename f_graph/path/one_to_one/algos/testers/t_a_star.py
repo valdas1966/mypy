@@ -1,4 +1,4 @@
-from f_graph.path.single.algos.a_star import AStar, Problem
+from f_graph.path.one_to_one.algos.a_star import AStar, Problem
 from f_graph.path.graph import GraphPath, NodePath
 from f_graph.path.cache.i_1_explored import CacheExplored
 
