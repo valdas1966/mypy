@@ -16,14 +16,6 @@ class State:
          Init private Attributes.
         ========================================================================
         """
-        self._generated: type_queue[Node] = type_queue()
-        self._explored: set[Node] = set()
+        self.generated: type_queue[Node] = type_queue()
+        self.explored: set[Node] = set()
         self.best: Node | None = None
-
-    def unpop_best(self) -> None:
-        """
-        ========================================================================
-         Unpop the best node.
-        ========================================================================
-        """
-        self._generated.undo_pop(item=self.best)

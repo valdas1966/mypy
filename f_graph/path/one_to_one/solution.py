@@ -1,9 +1,9 @@
-from f_graph.path.solution import SolutionPath, Node
-from f_graph.path.one_to_one.state import StateSingle as State
-from f_graph.path.cache.i_0_base import Cache
+from f_graph.path.solution import SolutionPath, StatsPath
+from f_graph.path.one_to_one.state import State, Node
+from typing import Callable
 
 
-class SolutionSingle(SolutionPath[State]):
+class Solution(SolutionPath[StatsPath]):
     """
     ============================================================================
      Solution of Path-Algorithm with Single-Goal.
@@ -13,7 +13,7 @@ class SolutionSingle(SolutionPath[State]):
     def __init__(self,
                  is_valid: bool,
                  state: State,
-                 cache: Cache,
+                 cache: dict[Node, Callable[[], list[Node]]],
                  elapsed: int) -> None:
         """
         ========================================================================
@@ -47,7 +47,7 @@ class SolutionSingle(SolutionPath[State]):
         path = self.state.best.path_from_root()
         if self.state.best in self._cache:
             best = self.state.best
-            path_from_best = self._cache[best].path()[1:]
+            path_from_best = self._cache[best]()[1:]
             path_from_best[0].parent = path[-1]
             return path + path_from_best
         return path

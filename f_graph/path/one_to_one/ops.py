@@ -1,6 +1,5 @@
 from f_graph.path.one_to_one.problem import ProblemOneToOne as Problem, Node
-from f_graph.path.one_to_one.state import State as State
-from f_graph.path.cache.i_0_base import Cache
+from f_graph.path.one_to_one.state import State
 from typing import Callable
 
 
@@ -14,7 +13,7 @@ class Ops:
     def __init__(self,
                  problem: Problem,
                  state: State,
-                 cache: Cache,
+                 cache: dict[Node, Callable[[], list[Node]]],
                  heuristic: Callable[[Node], int]) -> None:
         """
         ========================================================================
@@ -34,7 +33,7 @@ class Ops:
         """
         node.parent = parent
         if node in self._cache:
-            node.h = self._cache[node].distance()           
+            node.h = len(self._cache[node]())
             node.is_cached = True
         else:
             self._set_heuristic(node)
@@ -50,15 +49,6 @@ class Ops:
         for child in children:
             self._process_child(child=child, parent=node)
         self._state.explored.add(node)
-
-    def update_generated(self) -> None:
-        """
-        ========================================================================
-         Update the generated nodes with heuristic to a new goal.
-        ========================================================================
-        """        
-        for node in self._state.generated:
-            self._set_heuristic(node)
 
     def _process_child(self, child: Node, parent: Node) -> None:
         """
@@ -81,4 +71,3 @@ class Ops:
         ========================================================================
         """
         node.h = self._heuristic(node) if self._heuristic else None
-
