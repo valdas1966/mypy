@@ -1,29 +1,32 @@
-from f_ds.queues.i_0_base import QueueBase as Queue
-from f_graph.path.node import NodePath as Node
-from typing import Type
+from f_cs.stats import StatsAlgo    
+from f_core.mixins.validatable_public import ValidatablePublic
+from typing import Generic, TypeVar
+
+Stats = TypeVar('Stats', bound=StatsAlgo)
 
 
-class State:
+class SolutionAlgo(Generic[Stats], ValidatablePublic):
     """
     ============================================================================
-     State object for One-to-One Path-Algorithms.
+     ABC for Algorithm's Solution.
     ============================================================================
     """
-
-    def __init__(self, type_queue: Type[Queue]) -> None:
+    def __init__(self,
+                  is_valid: bool,
+                    stats: Stats) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._generated: type_queue[Node] = type_queue()
-        self._explored: set[Node] = set()
-        self.best: Node | None = None
+        ValidatablePublic.__init__(self, is_valid=is_valid)
+        self._stats: Stats = stats
 
-    def unpop_best(self) -> None:
+    @property
+    def stats(self) -> Stats:
         """
         ========================================================================
-         Unpop the best node.
+         Return the Algorithm's Stats.
         ========================================================================
         """
-        self._generated.undo_pop(item=self.best)
+        return self._stats

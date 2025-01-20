@@ -1,32 +1,22 @@
-from f_core.mixins.validatable_public import ValidatablePublic
-from f_ds.nodes.i_0_uid import NodeUid
-from typing import Generic, TypeVar
+from f_cs.solution import SolutionAlgo, StatsAlgo
+from typing import TypeVar, Generic
 
-Node = TypeVar('Node', bound=NodeUid)
+Stats = TypeVar('Stats', bound=StatsAlgo)
 
 
-class SolutionGraph(Generic[Node], ValidatablePublic):
+class SolutionGraph(Generic[Stats], SolutionAlgo[Stats]):
     """
     ============================================================================
      ABC for Solution of Graph-Problem.
     ============================================================================
     """
 
-    def __init__(self) -> None:
+    def __init__(self,
+                 is_valid: bool,
+                 stats: Stats) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        ValidatablePublic.__init__(self)
-        self._elapsed: int = 0
-
-    @property
-    def elapsed(self) -> int:
-        """
-        ========================================================================
-         Return the Elapsed seconds to reach the Solution.
-        ========================================================================
-        """
-        return self._elapsed
-
+        SolutionAlgo.__init__(self, is_valid=is_valid, stats=stats)

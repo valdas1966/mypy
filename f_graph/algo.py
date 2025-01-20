@@ -1,15 +1,16 @@
 from f_graph.problem import ProblemGraph, NodeUid
-from f_graph.solution import SolutionGraph
-from f_core.processes.i_2_io import ProcessIO
+from f_graph.solution import SolutionGraph, StatsAlgo
+from f_cs.algo import Algo
 from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemGraph)
 Solution = TypeVar('Solution', bound=SolutionGraph)
+Stats = TypeVar('Stats', bound=StatsAlgo)
 Node = TypeVar('Node', bound=NodeUid)
 
 
-class AlgoGraph(Generic[Problem, Solution, Node],
-                ProcessIO[Problem, Solution]):
+class AlgoGraph(Generic[Problem, Solution, Stats, Node],
+                Algo[Problem, Solution[Stats]]):
     """
     ============================================================================
      ABC for Graph-Algorithms in Computer-Science.
@@ -24,4 +25,4 @@ class AlgoGraph(Generic[Problem, Solution, Node],
          Init private Attributes.
         ========================================================================
         """
-        ProcessIO.__init__(self, _input=problem, name=name)
+        Algo.__init__(self, _input=problem, name=name)  

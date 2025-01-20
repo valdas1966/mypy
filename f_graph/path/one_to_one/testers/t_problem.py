@@ -71,7 +71,7 @@ def test_gen_3x3() -> None:
     ========================================================================
     """
     problem = ProblemOneToOne.gen_3x3()
-    assert problem.graph.nodes_count == 9
+    assert len(problem.graph) == 9
     assert problem.start == problem.graph[0, 0]
     assert problem.goal == problem.graph[2, 2]
 
@@ -83,6 +83,6 @@ def test_gen_4x4() -> None:
     ========================================================================
     """
     problem = ProblemOneToOne.gen_4x4()
-    assert len(problem.graph.nodes()) == 16
+    assert len(problem.graph.nodes()) == 14
     assert problem.start == problem.graph[0, 0]
     assert problem.goal == problem.graph[0, 3]

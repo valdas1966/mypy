@@ -1,29 +1,27 @@
-from f_ds.queues.i_0_base import QueueBase as Queue
-from f_graph.path.node import NodePath as Node
-from typing import Type
+from f_cs.stats import StatsAlgo
 
 
-class State:
+class StatsPath(StatsAlgo):
     """
     ============================================================================
-     State object for One-to-One Path-Algorithms.
+     Stats for Path-Graphs.
     ============================================================================
     """
 
-    def __init__(self, type_queue: Type[Queue]) -> None:
+    def __init__(self) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._generated: type_queue[Node] = type_queue()
-        self._explored: set[Node] = set()
-        self.best: Node | None = None
+        StatsAlgo.__init__(self)
+        self._explored: int = None
 
-    def unpop_best(self) -> None:
+    @property
+    def explored(self) -> int:
         """
         ========================================================================
-         Unpop the best node.
+         Return the Number of Explored-Nodes.
         ========================================================================
         """
-        self._generated.undo_pop(item=self.best)
+        return self._explored

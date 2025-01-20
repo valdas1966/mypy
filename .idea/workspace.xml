@@ -5,10 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_math/shapes/geometry/study/s_1_rect.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_math/shapes/i_0_shape.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_math/shapes/i_1_rect.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_cs/algo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_cs/problem.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_cs/solution.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_cs/stats.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/cache.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_ops.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/problem.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/stats.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/state.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/solution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/state.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/testers/t_problem.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/solution.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +49,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
-    &quot;accountId&quot;: &quot;9193838d-ef26-4e0d-b77f-58e2bc1908f8&quot;
+    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -147,7 +161,12 @@
     &quot;Python tests.Python tests for t_parentable.test_path_from_root.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for t_position.test_str.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for t_position.test_update.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_problem.test_clone.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_problem.test_gen_3x3.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for t_problem.test_gen_4x4.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_problem.test_goal.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_problem.test_reverse.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for t_problem.test_start.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for t_rate_success.test_empty.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for t_schema.test_add.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for t_tokenizer.test.executor&quot;: &quot;Run&quot;,
@@ -440,96 +459,89 @@
       <recent name="G:\mypy\f_graph\path" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_1_rect.py (2)">
-    <configuration name="s_1_rect" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_math/shapes/geometry/study" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_math/shapes/geometry/study/s_1_rect.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for t_1_rect.test_geo_rect_update" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests in t_problem.py">
+    <configuration name="Python tests for t_problem.test_clone" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_math/shapes/geometry/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_one/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_1_rect.test_geo_rect_update&quot;" />
+      <option name="_new_target" value="&quot;t_problem.test_clone&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_1_rect.py (1)" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_problem.test_gen_3x3" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_math/shapes/geometry/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_one/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_math/shapes/geometry/testers/t_1_rect.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;t_problem.test_gen_3x3&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_1_rect.py (2)" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_problem.test_gen_4x4" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_math/shapes/geometry/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_one/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_math/shapes/geometry/testers/t_1_rect.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;t_problem.test_gen_4x4&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_1_rect.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_problem.test_reverse" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_math/shapes/geometry/data/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_one/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_math/shapes/geometry/data/testers/t_1_rect.py&quot;" />
+      <option name="_new_target" value="&quot;t_problem.test_reverse&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in t_problem.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_one/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_problem.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in t_1_rect.py (2)" />
-        <item itemvalue="Python tests.Python tests for t_1_rect.test_geo_rect_update" />
-        <item itemvalue="Python.s_1_rect" />
-        <item itemvalue="Python tests.Python tests in t_1_rect.py (1)" />
-        <item itemvalue="Python tests.Python tests in t_1_rect.py" />
+        <item itemvalue="Python tests.Python tests in t_problem.py" />
+        <item itemvalue="Python tests.Python tests for t_problem.test_gen_4x4" />
+        <item itemvalue="Python tests.Python tests for t_problem.test_gen_3x3" />
+        <item itemvalue="Python tests.Python tests for t_problem.test_reverse" />
+        <item itemvalue="Python tests.Python tests for t_problem.test_clone" />
       </list>
     </recent_temporary>
   </component>

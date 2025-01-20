@@ -1,13 +1,10 @@
-from f_graph.path.problem import ProblemPath as Problem
-from f_graph.path.one_to_one.state import StateSingle as State
-from f_graph.path.node import NodePath
+from f_graph.path.one_to_one.problem import ProblemOneToOne as Problem, Node
+from f_graph.path.one_to_one.state import State as State
 from f_graph.path.cache.i_0_base import Cache
-from typing import Generic, TypeVar, Callable
-
-Node = TypeVar('Node', bound=NodePath)
+from typing import Callable
 
 
-class Ops(Generic[Node]):
+class Ops:
     """
     ============================================================================
      Operations object of Path-Finding Algorithms.
@@ -59,8 +56,7 @@ class Ops(Generic[Node]):
         ========================================================================
          Update the generated nodes with heuristic to a new goal.
         ========================================================================
-        """
-        
+        """        
         for node in self._state.generated:
             self._set_heuristic(node)
 

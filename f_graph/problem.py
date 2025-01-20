@@ -1,13 +1,11 @@
 from f_ds.graphs.i_0_base import GraphBase, NodeUid
-from f_core.abstracts.clonable import Clonable
-from abc import abstractmethod
 from typing import Generic, TypeVar
 
 Graph = TypeVar('Graph', bound=GraphBase)
 Node = TypeVar('Node', bound=NodeUid)
 
 
-class ProblemGraph(Generic[Graph, Node], Clonable):
+class ProblemGraph(Generic[Graph, Node]):
     """
     ============================================================================
      Base-Class for Graph-Problems in Computer Science.
@@ -24,8 +22,9 @@ class ProblemGraph(Generic[Graph, Node], Clonable):
 
     @property
     def graph(self) -> Graph:
+        """
+        ========================================================================
+         Return the Problem's Graph.
+        ========================================================================
+        """
         return self._graph
-
-    @abstractmethod
-    def clone(self) -> Clonable:
-        pass

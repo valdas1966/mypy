@@ -1,27 +1,25 @@
-from f_graph.path.node import NodePath as Node
-from collections.abc import Collection
+from abc import ABC
 
 
-class StatePath:
+class StatsAlgo(ABC):
     """
     ============================================================================
-     State object of the Path-Algorithm.
+     ABC for Algorithm's Stats.
     ============================================================================
     """
-
     def __init__(self) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._generated: Collection[Node] | None = None
-        self._explored: Collection[Node] | None = None
+        self._elapsed: int = None
 
     @property
-    def generated(self) -> Collection[Node]:
-        return self._generated
-
-    @property
-    def explored(self) -> Collection[Node]:
-        return self._explored
+    def elapsed(self) -> int:
+        """
+        ========================================================================
+         Return the Elapsed seconds for Algorithm to reach the Solution.
+        ========================================================================
+        """
+        return self._elapsed

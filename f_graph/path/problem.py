@@ -1,22 +1,18 @@
-from f_graph.solution import SolutionGraph
-from f_graph.path.stats import StatsPath
-from typing import Generic, TypeVar
-
-Stats = TypeVar('Stats', bound=StatsPath)
+from f_graph.problem import ProblemGraph
+from f_graph.path.graph import GraphPath as Graph, NodePath as Node
 
 
-class SolutionPath(Generic[Stats], SolutionGraph[Stats]):
+class ProblemPath(ProblemGraph[Graph[Node], Node]):
     """
     ============================================================================
-     ABC for Solution of Path-Problem.
+     Problem for Path-Graphs.
     ============================================================================
     """
 
-    def __init__(self, is_valid: bool, stats: Stats) -> None:
+    def __init__(self, graph: Graph[Node]) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        SolutionGraph.__init__(self, is_valid=is_valid, stats=stats)
-    
+        ProblemGraph.__init__(self, graph=graph)
