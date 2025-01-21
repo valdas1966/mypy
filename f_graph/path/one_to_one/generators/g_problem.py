@@ -19,7 +19,9 @@ class GenProblemOneToOne:
         graph = Graph.gen_3x3(type_node=type_node)
         start = graph[0, 0]
         goal = graph[2, 2]
-        return Problem(graph=graph, start=start, goal=goal)
+        problem = Problem(graph=graph, start=start, goal=goal)
+        problem.pre_goal = graph[1, 2]
+        return problem
 
     @staticmethod
     def gen_4x4(type_node: Type[Node] = Node) -> Problem:

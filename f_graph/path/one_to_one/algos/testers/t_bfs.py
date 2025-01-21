@@ -1,15 +1,10 @@
 from f_graph.path.one_to_one.algos.bfs import BFS
-from f_graph.path.one_to_one.problem import ProblemOneToOne
-from f_graph.path.cache.i_1_explored import CacheExplored
+from f_graph.path.one_to_one.generators.g_problem import GenProblemOneToOne
 import pytest
 
 
-@pytest.fixture
-def problem() -> ProblemOneToOne:
-    return ProblemOneToOne.gen_3x3()
-
-
-def test_bfs(problem):
+def test_bfs():
+    problem = GenProblemOneToOne.gen_3x3()
     graph = problem.graph
     bfs = BFS(problem=problem)
     solution = bfs.run()
@@ -22,7 +17,8 @@ def test_bfs(problem):
     assert solution.state.best == problem.goal
 
 
-def test_bfs_cache(problem):
+def test_bfs_cache():
+    problem = GenProblemOneToOne.gen_3x3()
     graph = problem.graph.clone()
     graph[1, 2].parent = graph[2, 2]
     explored = {graph[1, 2], graph[2, 2]}

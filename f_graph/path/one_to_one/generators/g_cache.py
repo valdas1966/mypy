@@ -16,10 +16,9 @@ class GenCache:
          Generate a cache for a 3x3 problem.
         ========================================================================
         """
-        problem = GenProblemOneToOne.gen_3x3()
         cache: dict[Node, Callable[[], list[Node]]] = dict()
-        goal = problem.graph[0, 2]
-        best = problem.graph[0, 1]
+        problem = GenProblemOneToOne.gen_3x3()
+        goal, pre_goal = problem.goal, problem.pre_goal
         cache[goal] = lambda: []
-        cache[best] = lambda: [goal]
+        cache[pre_goal] = lambda: [goal]
         return cache

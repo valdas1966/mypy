@@ -7,13 +7,13 @@ class StatsAlgo(ABC):
      ABC for Algorithm's Stats.
     ============================================================================
     """
-    def __init__(self) -> None:
+    def __init__(self, elapsed: int) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._elapsed: int = None
+        self._elapsed: int = elapsed
 
     @property
     def elapsed(self) -> int:

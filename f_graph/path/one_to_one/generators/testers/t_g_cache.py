@@ -10,7 +10,6 @@ def test_gen_3x3() -> None:
     """
     cache = GenCache.gen_3x3()
     problem = GenProblemOneToOne.gen_3x3()
-    goal = problem.graph[0, 2]
-    best = problem.graph[0, 1]
+    goal, pre_goal = problem.goal, problem.pre_goal
     assert cache[goal]() == []
-    assert cache[best]() == [goal]
+    assert cache[pre_goal]() == [goal]

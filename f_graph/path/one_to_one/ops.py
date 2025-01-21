@@ -1,9 +1,9 @@
 from f_graph.path.one_to_one.problem import ProblemOneToOne as Problem, Node
-from f_graph.path.one_to_one.state import State
+from f_graph.path.one_to_one.state import StateOneToOne as State
 from typing import Callable
 
 
-class Ops:
+class OpsOneToOne:
     """
     ============================================================================
      Operations object of Path-Finding Algorithms.

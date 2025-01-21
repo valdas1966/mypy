@@ -12,6 +12,7 @@ def test_gen_3x3() -> None:
     assert len(problem.graph) == 9
     assert problem.start == problem.graph[0, 0]
     assert problem.goal == problem.graph[2, 2]
+    assert problem.pre_goal == problem.graph[1, 2]
 
 
 def test_gen_4x4() -> None:
