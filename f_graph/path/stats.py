@@ -8,14 +8,14 @@ class StatsPath(StatsAlgo):
     ============================================================================
     """
 
-    def __init__(self) -> None:
+    def __init__(self, elapsed: int, explored: int) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        StatsAlgo.__init__(self)
-        self._explored: int = None
+        StatsAlgo.__init__(self, elapsed=elapsed)
+        self._explored: int = explored
 
     @property
     def explored(self) -> int:

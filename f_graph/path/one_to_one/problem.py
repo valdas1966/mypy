@@ -1,9 +1,7 @@
-from __future__ import annotations
 from f_graph.problem import ProblemGraph
 from f_graph.path.graph import GraphPath as Graph
 from f_graph.path.node import NodePath as Node
 from f_core.mixins.equable import Equable
-from typing import Type
 
 
 class ProblemOneToOne(ProblemGraph, Equable):
@@ -42,7 +40,7 @@ class ProblemOneToOne(ProblemGraph, Equable):
         """
         return self._goal
 
-    def clone(self) -> ProblemOneToOne:
+    def clone(self) -> 'ProblemOneToOne':
         """
         ========================================================================
          Return a Cloned problem.
@@ -53,7 +51,7 @@ class ProblemOneToOne(ProblemGraph, Equable):
         goal = graph.node(uid=self.goal.uid)
         return ProblemOneToOne(graph=graph, start=start, goal=goal)
 
-    def reverse(self) -> ProblemOneToOne:
+    def reverse(self) -> 'ProblemOneToOne':
         """
         ========================================================================
          Return a Reversed version of the Problem.
@@ -72,30 +70,6 @@ class ProblemOneToOne(ProblemGraph, Equable):
         """
         return self.graph, self.start, self.goal
 
-    @classmethod
-    def gen_3x3(cls, type_node: Type[Node] = Node) -> ProblemOneToOne:
-        """
-        ========================================================================
-         Return a generated ProblemSingle with Graph of 3x3 dimension.
-        ========================================================================
-        """
-        graph = Graph.gen_3x3(type_node=type_node)
-        start = graph[0, 0]
-        goal = graph[2, 2]
-        return ProblemOneToOne(graph=graph, start=start, goal=goal)
-
-    @classmethod
-    def gen_4x4(cls, type_node: Type[Node] = Node) -> ProblemOneToOne:
-        """
-        ========================================================================
-         Return a generated ProblemSingle with Graph of 4x4 dimension.
-        ========================================================================
-        """
-        graph = Graph.gen_4x4(type_node=type_node)
-        start = graph[0, 0]
-        goal = graph[0, 3]
-        return ProblemOneToOne(graph=graph, start=start, goal=goal)
-
     def __str__(self) -> str:
         """
         ========================================================================
@@ -103,3 +77,4 @@ class ProblemOneToOne(ProblemGraph, Equable):
         ========================================================================
         """
         return f'{self.graph._grid.shape()}, {self.start} -> {self.goal}'
+    

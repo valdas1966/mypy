@@ -5,19 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_state.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/g_cache.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/g_problem.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/g_state.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/testers/t_g_cache.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/testers/t_g_problem.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/testers/t_g_state.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_solution.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/cache/data.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/cache/i_0_base.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/cache/i_1_explored.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/cache/i_1_path.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/cache/study/s_1_explored.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/cache/testers/t_1_explored.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/cache.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/problem.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/solution.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/state.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/stats.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +44,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
+    "accountId": "ddaa2239-897e-4e37-90b9-04afc5364900"
   }
 }]]></component>
   <component name="ProjectColorInfo">{
@@ -103,6 +103,8 @@
     "Python tests.Python tests for t_forward.test_kx_astar_shared.executor": "Run",
     "Python tests.Python tests for t_forward.test_kx_bfs.executor": "Run",
     "Python tests.Python tests for t_forward.test_kx_bfs_shared.executor": "Run",
+    "Python tests.Python tests for t_g_cache.test_gen_3x3.executor": "Run",
+    "Python tests.Python tests for t_g_state.test_gen_3x3.executor": "Run",
     "Python tests.Python tests for t_get.test_success.executor": "Run",
     "Python tests.Python tests for t_grid.test_cells_valid.executor": "Run",
     "Python tests.Python tests for t_grid.test_distance.executor": "Run",
@@ -224,6 +226,7 @@
     "Python tests.Python tests in t_filter.py.executor": "Run",
     "Python tests.Python tests in t_filterd.py.executor": "Run",
     "Python tests.Python tests in t_forward.py.executor": "Run",
+    "Python tests.Python tests in t_g_problem.py.executor": "Run",
     "Python tests.Python tests in t_generated_explored.py.executor": "Run",
     "Python tests.Python tests in t_get.py (1).executor": "Run",
     "Python tests.Python tests in t_get.py.executor": "Run",
@@ -261,6 +264,7 @@
     "Python tests.Python tests in t_node.py.executor": "Run",
     "Python tests.Python tests in t_one_to_many.py.executor": "Run",
     "Python tests.Python tests in t_one_to_one.py.executor": "Run",
+    "Python tests.Python tests in t_ops.py (1).executor": "Run",
     "Python tests.Python tests in t_ops.py.executor": "Run",
     "Python tests.Python tests in t_parentable.py.executor": "Run",
     "Python tests.Python tests in t_position.py (1).executor": "Run",
@@ -269,6 +273,7 @@
     "Python tests.Python tests in t_rate_success.py.executor": "Run",
     "Python tests.Python tests in t_rows_to_nested_group.py.executor": "Run",
     "Python tests.Python tests in t_schema.py.executor": "Run",
+    "Python tests.Python tests in t_state.py.executor": "Run",
     "Python tests.Python tests in t_stats_items.py.executor": "Run",
     "Python tests.Python tests in t_u_1_grid.py.executor": "Run",
     "Python tests.Python tests in t_u_astar.py.executor": "Run",
@@ -461,53 +466,53 @@
       <recent name="G:\mypy\f_graph\path" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for t_ops.test_explore">
-    <configuration name="Python tests for t_ops.test_explore" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests for t_g_state.test_gen_3x3">
+    <configuration name="Python tests for t_g_cache.test_gen_3x3" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_one/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_one/generators/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_ops.test_explore&quot;" />
+      <option name="_new_target" value="&quot;t_g_cache.test_gen_3x3&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_ops.test_generate" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_g_state.test_gen_3x3" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_one/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_one/generators/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_ops.test_generate&quot;" />
+      <option name="_new_target" value="&quot;t_g_state.test_gen_3x3&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_ops.test_init" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_g_problem.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_one/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_one/generators/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_ops.test_init&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/one_to_one/generators/testers/t_g_problem.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_solution.test_init" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_problem.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -518,11 +523,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_solution.test_init&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_problem.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_ops.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_state.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -533,17 +538,17 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_ops.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_state.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests for t_ops.test_explore" />
-        <item itemvalue="Python tests.Python tests for t_ops.test_generate" />
-        <item itemvalue="Python tests.Python tests for t_ops.test_init" />
-        <item itemvalue="Python tests.Python tests in t_ops.py" />
-        <item itemvalue="Python tests.Python tests for t_solution.test_init" />
+        <item itemvalue="Python tests.Python tests for t_g_state.test_gen_3x3" />
+        <item itemvalue="Python tests.Python tests in t_state.py" />
+        <item itemvalue="Python tests.Python tests for t_g_cache.test_gen_3x3" />
+        <item itemvalue="Python tests.Python tests in t_g_problem.py" />
+        <item itemvalue="Python tests.Python tests in t_problem.py" />
       </list>
     </recent_temporary>
   </component>

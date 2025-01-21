@@ -3,7 +3,7 @@ from f_graph.path.node import NodePath as Node
 from typing import Type
 
 
-class State:
+class StateOneToOne:
     """
     ============================================================================
      State object for One-to-One Path-Algorithms.

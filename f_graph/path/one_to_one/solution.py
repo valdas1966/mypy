@@ -3,10 +3,10 @@ from f_graph.path.one_to_one.state import State, Node
 from typing import Callable
 
 
-class Solution(SolutionPath[StatsPath]):
+class SolutionOneToOne(SolutionPath[StatsPath]):
     """
     ============================================================================
-     Solution of Path-Algorithm with Single-Goal.
+     Solution of Path-Algorithm for One-To-One Problem.
     ============================================================================
     """
 
@@ -14,17 +14,15 @@ class Solution(SolutionPath[StatsPath]):
                  is_valid: bool,
                  state: State,
                  cache: dict[Node, Callable[[], list[Node]]],
-                 elapsed: int) -> None:
+                 stats: StatsPath) -> None:
         """
         ========================================================================
          Init Attributes.
         ========================================================================
         """
-        SolutionPath.__init__(self)
-        self._cache = cache
-        self._is_valid = is_valid
-        self._elapsed = elapsed
+        SolutionPath.__init__(self, is_valid=is_valid, stats=stats)
         self._state = state
+        self._cache = cache
         self._path = self._create_path()
 
     @property
@@ -44,11 +42,12 @@ class Solution(SolutionPath[StatsPath]):
         """
         if not bool(self):
             return list()
-        path = self.state.best.path_from_root()
-        if self.state.best in self._cache:
-            best = self.state.best
-            path_from_best = self._cache[best]()[1:]
-            path_from_best[0].parent = path[-1]
-            return path + path_from_best
+        best = self.state.best
+        start_to_best = self.best.path_from_root()
+        best_to_goal = list() # Best is Goal
+        if best in self._cache:
+            best_to_goal = self._cache[best]() # Best is Cached
+        path = start_to_best.extend(best_to_goal)
         return path
+
     
