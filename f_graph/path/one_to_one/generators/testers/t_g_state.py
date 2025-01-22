@@ -11,4 +11,4 @@ def test_gen_3x3() -> None:
     assert not state.generated
     assert not state.explored
     problem = GenProblemOneToOne.gen_3x3()
-    assert state.best == problem.graph[0, 1]
+    assert state.best == problem.graph[1, 2]

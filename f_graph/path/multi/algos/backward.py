@@ -1,5 +1,5 @@
 from f_graph.path.multi.algo import AlgoMulti, ProblemMulti, SolutionMulti
-from f_graph.path.one_to_one.algo import AlgoSingle, SolutionSingle, Node
+from f_graph.path.one_to_one.algo import AlgoOneToOne, SolutionSingle, Node
 from typing import Type
 
 
@@ -12,7 +12,7 @@ class BackwardMulti(AlgoMulti):
 
     def __init__(self,
                  problem: ProblemMulti,
-                 type_algo: Type[AlgoSingle],
+                 type_algo: Type[AlgoOneToOne],
                  is_shared: bool,
                  name: str = 'Backward Algo') -> None:
         """

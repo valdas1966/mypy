@@ -19,8 +19,12 @@ class GenStateOneToOne:
         """
         problem = GenProblemOneToOne.gen_3x3()
         start = problem.graph[0, 0]
-        best = problem.graph[0, 1]
-        best.parent = start
+        node_0_1 = problem.graph[0, 1]
+        node_0_1.parent = start
+        node_0_2 = problem.graph[0, 2]
+        node_0_2.parent = node_0_1
+        best = problem.graph[1, 2]
+        best.parent = node_0_2
         state = StateOneToOne(type_queue=QueuePriority)
         state.best = best
         return state

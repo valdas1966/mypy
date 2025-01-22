@@ -1,9 +1,9 @@
 from f_core.mixins.printable import Printable
 from f_core.abstracts.clonable import Clonable
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
 
-class ProblemAlgo(ABC, Printable, Clonable):
+class ProblemAlgo(Printable, Clonable):
     """
     ============================================================================
      ABC for Algorithm's Problem.

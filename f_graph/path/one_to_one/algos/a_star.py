@@ -1,8 +1,8 @@
-from f_graph.path.one_to_one.algo import AlgoSingle, Problem, State, Cache, Node
+from f_graph.path.one_to_one.algo import AlgoOneToOne, Problem, State, Cache, Node
 from f_ds.queues.i_1_priority import QueuePriority
 
 
-class AStar(AlgoSingle):
+class AStar(AlgoOneToOne):
     """
     ============================================================================
      A* Algorithm.
@@ -22,10 +22,10 @@ class AStar(AlgoSingle):
         ========================================================================
         """
         heuristic = lambda node: problem.graph.distance(node, problem.goal)
-        AlgoSingle.__init__(self,
-                            problem=problem,
-                            state=state,
-                            cache=cache,
-                            heuristic=heuristic,
-                            type_queue=AStar.type_queue,
-                            name=name)
+        AlgoOneToOne.__init__(self,
+                              problem=problem,
+                              state=state,
+                              cache=cache,
+                              heuristic=heuristic,
+                              type_queue=AStar.type_queue,
+                              name=name)

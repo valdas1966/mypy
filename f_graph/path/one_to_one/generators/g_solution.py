@@ -1,5 +1,4 @@
-from f_graph.path.one_to_one.solution import SolutionOneToOne as Solution, StatsPath as Stats
-from f_graph.path.one_to_one.generators.g_problem import GenProblemOneToOne
+from f_graph.path.one_to_one.solution import SolutionOneToOne as Solution
 from f_graph.path.one_to_one.generators.g_state import GenStateOneToOne
 from f_graph.path.one_to_one.generators.g_cache import GenCache
 from f_graph.path.generators.g_stats import GenStatsPath

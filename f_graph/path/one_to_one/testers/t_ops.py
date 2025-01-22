@@ -1,7 +1,7 @@
-from f_graph.path.one_to_one.ops import OpsOneToOne, Callable
+from f_graph.path.one_to_one.ops import OpsOneToOne, Callable, Node
 from f_graph.path.one_to_one.generators.g_cache import GenCache
-from f_graph.path.one_to_one.generators.g_state import GenStateOneToOne, QueuePriority as Queue
-from f_graph.path.one_to_one.generators.g_problem import GenProblemOneToOne, Node
+from f_graph.path.one_to_one.generators.g_state import GenStateOneToOne
+from f_graph.path.one_to_one.generators.g_problem import GenProblemOneToOne
 import pytest
 
 
@@ -16,7 +16,6 @@ def ops() -> OpsOneToOne:
     state = GenStateOneToOne.gen_3x3()
     cache = GenCache.gen_3x3()
     heuristic: Callable[[Node], int] = lambda x: 0
-    
     return OpsOneToOne(problem=problem,
                        state=state,
                        cache=cache,
@@ -38,7 +37,7 @@ def test_generate(ops: OpsOneToOne) -> None:
     assert not node.is_cached
     
     # Cached Node
-    cached = ops._problem.graph[0, 1]
+    cached = ops._problem.graph[1, 2]
     ops.generate(node=cached, parent=node)
     assert cached in ops._state.generated 
     assert cached.parent == node

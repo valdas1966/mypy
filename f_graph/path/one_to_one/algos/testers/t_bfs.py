@@ -1,13 +1,12 @@
 from f_graph.path.one_to_one.algos.bfs import BFS
 from f_graph.path.one_to_one.generators.g_problem import GenProblemOneToOne
-import pytest
 
 
 def test_bfs():
     problem = GenProblemOneToOne.gen_3x3()
-    graph = problem.graph
     bfs = BFS(problem=problem)
     solution = bfs.run()
+    graph = problem.graph
     assert solution.path == [graph[0, 0], graph[0, 1], graph[0, 2],
                              graph[1, 2], graph[2, 2]]
     assert solution.state.explored == {graph[0, 0], graph[0, 1], graph[0, 2],

@@ -1,16 +1,15 @@
 from f_graph.problem import ProblemGraph, NodeUid
-from f_graph.solution import SolutionGraph, StatsAlgo
+from f_graph.solution import SolutionGraph
 from f_cs.algo import Algo
 from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemGraph)
 Solution = TypeVar('Solution', bound=SolutionGraph)
-Stats = TypeVar('Stats', bound=StatsAlgo)
 Node = TypeVar('Node', bound=NodeUid)
 
 
-class AlgoGraph(Generic[Problem, Solution, Stats, Node],
-                Algo[Problem, Solution[Stats]]):
+class AlgoGraph(Generic[Problem, Solution, Node],
+                Algo[Problem, Solution]):
     """
     ============================================================================
      ABC for Graph-Algorithms in Computer-Science.

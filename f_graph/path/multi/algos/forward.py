@@ -1,5 +1,5 @@
 from f_graph.path.multi.algo import (AlgoMulti, ProblemMulti, SolutionMulti)
-from f_graph.path.one_to_one.algo import (AlgoSingle, Solution as SolutionSingle,
+from f_graph.path.one_to_one.algo import (AlgoOneToOne, Solution as SolutionSingle,
                                           State as StateSingle, Node)
 from typing import Type
 
@@ -13,7 +13,7 @@ class ForwardMulti(AlgoMulti):
 
     def __init__(self,
                  problem: ProblemMulti,
-                 type_algo: Type[AlgoSingle],
+                 type_algo: Type[AlgoOneToOne],
                  is_shared: bool,
                  name: str = 'Forward Algo') -> None:
         """

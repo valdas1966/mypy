@@ -11,5 +11,6 @@ def test_solution_3x3() -> None:
     solution = GenSolutionOneToOne.gen_3x3()
     problem = GenProblemOneToOne.gen_3x3()
     graph = problem.graph
-    path_true = [graph[0, 0], graph[0, 1], graph[0, 2]]
+    path_true = [graph[0, 0], graph[0, 1], graph[0, 2],
+                 graph[1, 2], graph[2, 2]]
     assert solution.path == path_true

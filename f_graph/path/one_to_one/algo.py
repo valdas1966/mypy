@@ -1,12 +1,12 @@
 from f_graph.path.algo import AlgoPath, Node
 from f_graph.path.one_to_one.problem import ProblemOneToOne as Problem
 from f_graph.path.one_to_one.solution import SolutionOneToOne as Solution
-from f_graph.path.one_to_one.state import StateOneToOne as State, QueuePriority as Queue
+from f_graph.path.one_to_one.state import StateOneToOne as State, Queue
 from f_graph.path.one_to_one.ops import OpsOneToOne as Ops
 from typing import Type, Callable
 
 
-class AlgoSingle(AlgoPath[Problem, Solution]):
+class AlgoOneToOne(AlgoPath[Problem, Solution]):
     """
     ============================================================================
      Base-Class for Path-Algorithms.
@@ -18,24 +18,21 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
     def __init__(self,
                  problem: Problem,
                  type_queue: Type[Queue] = Queue,
-                 state: State = None,
-                 cache: Cache = None,
+                 cache: dict[Node, Callable[[], list[Node]]] = None,
                  heuristic: Callable[[Node], int] = None,
-                 name: str = 'Path-Algorithm-Single-Goal') -> None:
+                 name: str = 'Path-Algorithm One-to-One') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        AlgoPath.__init__(self,
-                          problem=problem if state else problem.clone(),
-                          name=name)
-        self._state = state if state else State(type_queue=type_queue)
-        self._cache = cache if cache else Cache()
+        AlgoPath[Problem, Solution].__init__(self,
+                                             problem=problem.clone(),
+                                             name=name)
+        self._cache = cache if cache else dict()
+        self._state = State(type_queue=type_queue)
         self._heuristic = heuristic
         self._ops = self._create_ops()
-        if self._state.generated:
-            self._ops.update_generated()
 
     def run(self) -> Solution:
         """
@@ -70,10 +67,9 @@ class AlgoSingle(AlgoPath[Problem, Solution]):
         ========================================================================
         """
         self._run_post()
-        return Solution(state=self._state,
-                        cache=self._cache,
-                        elapsed=self.elapsed,
-                        is_valid=is_found)
+        return Solution(is_valid=is_found,
+                        state=self._state,
+                        cache=self._cach)
 
     def _should_continue(self) -> bool:
         """
