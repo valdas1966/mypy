@@ -8,15 +8,15 @@ Solution = TypeVar('Solution', bound=SolutionAlgo[StatsAlgo])
 
 
 class Algo(Generic[Problem, Solution],
-            ProcessIO[Problem, Solution]):
+           ProcessIO[Problem, Solution]):
     """
     ============================================================================
      ABC for Algorithm.
     ============================================================================
     """
     def __init__(self,
-                  problem: ProblemAlgo,
-                    name: str = 'Algorithm') -> None:
+                 problem: ProblemAlgo,
+                 name: str = 'Algorithm') -> None:
         """
         ========================================================================
          Init private Attributes.

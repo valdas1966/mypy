@@ -26,6 +26,15 @@ class SolutionOneToOne(SolutionPath[StatsPath]):
         self._path = self._create_path()
 
     @property
+    def state(self) -> StateOneToOne:
+        """
+        ========================================================================
+         Return the state in the end of the search.
+        ========================================================================
+        """
+        return self._state
+
+    @property
     def path(self) -> list[Node]:
         """
         ========================================================================

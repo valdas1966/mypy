@@ -1,10 +1,8 @@
-from f_graph.problem import ProblemGraph
-from f_graph.path.graph import GraphPath as Graph
-from f_graph.path.node import NodePath as Node
+from f_graph.path.problem import ProblemPath, Graph, Node
 from f_core.mixins.equable import Equable
 
 
-class ProblemOneToOne(ProblemGraph, Equable):
+class ProblemOneToOne(ProblemPath, Equable):
     """
     ============================================================================
      Path-Finding Problem with Single-Goal.
@@ -18,7 +16,7 @@ class ProblemOneToOne(ProblemGraph, Equable):
         ========================================================================
         """
         Equable.__init__(self)
-        ProblemGraph.__init__(self, graph=graph)
+        ProblemPath.__init__(self, graph=graph)
         self._start = start
         self._goal = goal
 

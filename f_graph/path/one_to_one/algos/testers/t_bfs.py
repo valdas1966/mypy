@@ -1,5 +1,6 @@
 from f_graph.path.one_to_one.algos.bfs import BFS
 from f_graph.path.one_to_one.generators.g_problem import GenProblemOneToOne
+from f_graph.path.one_to_one.generators.g_cache import GenCache
 
 
 def test_bfs():
@@ -19,9 +20,7 @@ def test_bfs():
 def test_bfs_cache():
     problem = GenProblemOneToOne.gen_3x3()
     graph = problem.graph.clone()
-    graph[1, 2].parent = graph[2, 2]
-    explored = {graph[1, 2], graph[2, 2]}
-    cache = CacheExplored(explored=explored)
+    cache = GenCache.gen_3x3()
     bfs = BFS(problem=problem, cache=cache)
     solution = bfs.run()
     assert solution.path == [graph[0, 0], graph[0, 1], graph[0, 2],

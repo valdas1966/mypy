@@ -1,3 +1,4 @@
+from f_graph.path.stats import StatsPath
 from f_graph.path.algo import AlgoPath, Node
 from f_graph.path.one_to_one.problem import ProblemOneToOne as Problem
 from f_graph.path.one_to_one.solution import SolutionOneToOne as Solution
@@ -26,9 +27,7 @@ class AlgoOneToOne(AlgoPath[Problem, Solution]):
          Init private Attributes.
         ========================================================================
         """
-        AlgoPath[Problem, Solution].__init__(self,
-                                             problem=problem.clone(),
-                                             name=name)
+        AlgoPath.__init__(self, problem=problem.clone(), name=name)
         self._cache = cache if cache else dict()
         self._state = State(type_queue=type_queue)
         self._heuristic = heuristic
@@ -49,16 +48,16 @@ class AlgoOneToOne(AlgoPath[Problem, Solution]):
             self._explore_best()
         return self._create_solution(is_found=False)
 
-    def _create_ops(self) -> Ops[Node]:
+    def _create_ops(self) -> Ops:
         """
         ========================================================================
          Create an Ops object.
         ========================================================================
         """
-        return Ops[Node](problem=self._input,
-                         state=self._state,
-                         cache=self._cache,
-                         heuristic=self._heuristic)
+        return Ops(problem=self._input,
+                   state=self._state,
+                   cache=self._cache,
+                   heuristic=self._heuristic)
 
     def _create_solution(self, is_found: bool) -> Solution:
         """
@@ -67,9 +66,12 @@ class AlgoOneToOne(AlgoPath[Problem, Solution]):
         ========================================================================
         """
         self._run_post()
+        stats = StatsPath(elapsed=self._elapsed,
+                          explored=len(self._state.explored))
         return Solution(is_valid=is_found,
                         state=self._state,
-                        cache=self._cach)
+                        cache=self._cache,
+                        stats=stats)
 
     def _should_continue(self) -> bool:
         """

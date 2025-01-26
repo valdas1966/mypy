@@ -1,4 +1,5 @@
-from f_graph.path.one_to_one.algo import AlgoOneToOne, Problem, State, Cache
+from f_graph.path.one_to_one.algo import (AlgoOneToOne, Problem, Node,
+                                          Callable)
 from f_ds.queues.i_1_fifo import QueueFIFO
 
 
@@ -13,9 +14,7 @@ class BFS(AlgoOneToOne):
 
     def __init__(self,
                  problem: Problem,
-                 state: State = None,
-                 cache: Cache = None,
-                 ):
+                 cache: dict[Node, Callable[[], list[Node]]] = None) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -23,7 +22,6 @@ class BFS(AlgoOneToOne):
         """
         AlgoOneToOne.__init__(self,
                               problem=problem,
-                              state=state,
                               cache=cache,
                               type_queue=BFS.type_queue,
                               name='BFS')

@@ -24,4 +24,4 @@ class AlgoGraph(Generic[Problem, Solution, Node],
          Init private Attributes.
         ========================================================================
         """
-        Algo.__init__(self, _input=problem, name=name)  
+        Algo.__init__(self, problem=problem, name=name)
