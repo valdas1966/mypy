@@ -1,5 +1,6 @@
-from f_graph.path.one_to_one.algo import (AlgoOneToOne, Problem, State, Node,
-                                          Callable)
+from f_graph.path.one_to_one.algo import AlgoOneToOne, Problem
+from f_graph.path.one_to_one.cache import Cache
+from f_graph.path.one_to_one.generators.g_heuristic import GenHeuristic
 from f_ds.queues.i_1_priority import QueuePriority
 
 
@@ -14,15 +15,14 @@ class AStar(AlgoOneToOne):
 
     def __init__(self,
                  problem: Problem,
-                 state: State = None,
-                 cache: dict[Node, Callable[[], list[Node]]] = None,
+                 cache: Cache = None,
                  name: str = 'AStar'):
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        heuristic = lambda node: problem.graph.distance(node, problem.goal)
+        heuristic = GenHeuristic.gen_manhattan(problem=problem)
         AlgoOneToOne.__init__(self,
                               problem=problem,
                               cache=cache,

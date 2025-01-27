@@ -4,6 +4,7 @@ from f_graph.path.one_to_one.problem import ProblemOneToOne as Problem
 from f_graph.path.one_to_one.solution import SolutionOneToOne as Solution
 from f_graph.path.one_to_one.state import StateOneToOne as State, Queue
 from f_graph.path.one_to_one.ops import OpsOneToOne as Ops
+from f_graph.path.one_to_one.cache import Cache
 from typing import Type, Callable
 
 
@@ -19,7 +20,7 @@ class AlgoOneToOne(AlgoPath[Problem, Solution]):
     def __init__(self,
                  problem: Problem,
                  type_queue: Type[Queue] = Queue,
-                 cache: dict[Node, Callable[[], list[Node]]] = None,
+                 cache: Cache = None,
                  heuristic: Callable[[Node], int] = None,
                  name: str = 'Path-Algorithm One-to-One') -> None:
         """
@@ -28,7 +29,7 @@ class AlgoOneToOne(AlgoPath[Problem, Solution]):
         ========================================================================
         """
         AlgoPath.__init__(self, problem=problem.clone(), name=name)
-        self._cache = cache if cache else dict()
+        self._cache = cache if cache else Cache()
         self._state = State(type_queue=type_queue)
         self._heuristic = heuristic
         self._ops = self._create_ops()

@@ -38,14 +38,6 @@ class QueuePriority(QueueBase[Item]):
         """
         return heapq.heappop(self._heap)
 
-    def update(self) -> None:
-        """
-        ========================================================================
-         Updates the Priority-Queue (Heapify).
-        ========================================================================
-        """
-        heapq.heapify(self._heap)
-
     def peek(self) -> Item:
         """
         ========================================================================
@@ -61,6 +53,14 @@ class QueuePriority(QueueBase[Item]):
         ========================================================================
         """
         self.push(item=item)
+
+    def update(self) -> None:
+        """
+        ========================================================================
+         Updates the Priority-Queue (Heapify).
+        ========================================================================
+        """
+        heapq.heapify(self._heap)
 
     def to_iterable(self) -> Iterable[Item]:
         """

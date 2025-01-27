@@ -27,6 +27,14 @@ class Dictable(Printable,  Generic[K, V]):
         ========================================================================
         """
         return self._data[key]
+    
+    def __setitem__(self, key: K, value: V) -> None:
+        """
+        ========================================================================
+         Set an item by key.
+        ========================================================================
+        """
+        self._data[key] = value
 
     def __contains__(self, key: K) -> bool:
         """

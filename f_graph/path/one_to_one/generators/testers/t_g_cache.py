@@ -11,5 +11,5 @@ def test_gen_3x3() -> None:
     cache = GenCache.gen_3x3()
     problem = GenProblemOneToOne.gen_3x3()
     goal, pre_goal = problem.goal, problem.pre_goal
-    assert cache[goal]() == []
-    assert cache[pre_goal]() == [goal]
+    assert cache[goal].path() == []
+    assert cache[pre_goal].path() == [goal]

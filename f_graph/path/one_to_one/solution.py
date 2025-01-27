@@ -1,5 +1,6 @@
-from f_graph.path.solution import SolutionPath, StatsPath
 from f_graph.path.one_to_one.state import StateOneToOne, Node
+from f_graph.path.solution import SolutionPath, StatsPath
+from f_graph.path.one_to_one.cache import Cache
 from typing import Callable
 
 
@@ -13,7 +14,7 @@ class SolutionOneToOne(SolutionPath[StatsPath]):
     def __init__(self,
                  is_valid: bool,
                  state: StateOneToOne,
-                 cache: dict[Node, Callable[[], list[Node]]],
+                 cache: Cache,
                  stats: StatsPath) -> None:
         """
         ========================================================================
@@ -55,6 +56,6 @@ class SolutionOneToOne(SolutionPath[StatsPath]):
         path = best.path_from_root()
         path_cached = list()  # Best is Goal
         if best in self._cache:
-            path_cached = self._cache[best]()  # Best is Cached
+            path_cached = self._cache[best].path()  # Best is Cached
         path.extend(path_cached)
         return path

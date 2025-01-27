@@ -1,5 +1,6 @@
 from f_graph.path.one_to_one.problem import ProblemOneToOne as Problem, Node
 from f_graph.path.one_to_one.state import StateOneToOne as State
+from f_graph.path.one_to_one.cache import Cache
 from typing import Callable
 
 
@@ -13,7 +14,7 @@ class OpsOneToOne:
     def __init__(self,
                  problem: Problem,
                  state: State,
-                 cache: dict[Node, Callable[[], list[Node]]],
+                 cache: Cache,
                  heuristic: Callable[[Node], int]) -> None:
         """
         ========================================================================
@@ -33,7 +34,7 @@ class OpsOneToOne:
         """
         node.parent = parent
         if node in self._cache:
-            node.h = len(self._cache[node]())
+            node.h = self._cache[node].distance()
             node.is_cached = True
         else:
             self._set_heuristic(node)

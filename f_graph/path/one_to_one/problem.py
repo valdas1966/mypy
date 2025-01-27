@@ -15,7 +15,6 @@ class ProblemOneToOne(ProblemPath, Equable):
          Init private Attributes.
         ========================================================================
         """
-        Equable.__init__(self)
         ProblemPath.__init__(self, graph=graph)
         self._start = start
         self._goal = goal
