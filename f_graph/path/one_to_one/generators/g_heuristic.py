@@ -18,4 +18,4 @@ class GenHeuristic:
         """
         distance = problem.graph.distance
         goal = problem.goal
-        return Heuristic(lambda node: distance(node, goal), goal=goal)
+        return Heuristic(lambda node, goal: distance(node, goal), goal=goal)

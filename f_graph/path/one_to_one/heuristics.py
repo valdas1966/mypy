@@ -2,7 +2,7 @@ from f_graph.path.node import NodePath as Node
 from typing import Callable
 
 
-class Heuristic(Callable[[Node], int]):
+class Heuristic(Callable[[Node, Node], int]):
     """
     ============================================================================
      Func of Heuristic-Distance from a given Node to a Goal.
@@ -10,8 +10,8 @@ class Heuristic(Callable[[Node], int]):
     """
 
     def __init__(self,
-                  heuristic: Callable[[Node], int],
-                  goal: Node) -> None:
+                 heuristic: Callable[[Node, Node], int],
+                 goal: Node) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -26,4 +26,4 @@ class Heuristic(Callable[[Node], int]):
          Return the Heuristic-Distance from a given Node to a Goal.
         ========================================================================
         """
-        return self._heuristic(node_a=node, node_b=self._goal)
+        return self._heuristic(node, self._goal)
