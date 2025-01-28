@@ -9,13 +9,16 @@ class Heuristic(Callable[[Node], int]):
     ============================================================================
     """
 
-    def __init__(self, heuristic: Callable[[Node], int]) -> None:
+    def __init__(self,
+                  heuristic: Callable[[Node], int],
+                  goal: Node) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         self._heuristic = heuristic
+        self._goal = goal
 
     def __call__(self, node: Node) -> int:
         """
@@ -23,4 +26,4 @@ class Heuristic(Callable[[Node], int]):
          Return the Heuristic-Distance from a given Node to a Goal.
         ========================================================================
         """
-        return self._heuristic(node)
+        return self._heuristic(node_a=node, node_b=self._goal)

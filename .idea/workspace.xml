@@ -5,33 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_core/mixins/generators/g_comparable.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_core/mixins/testers/t_comparable.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/queues/generators/g_1_priority.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_many/algo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_many/generators/g_problem.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_many/state.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_many/testers/t_problem.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/g_heuristic.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/heuristics.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_heuristic.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_many/solution.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/abstracts/dictable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/abstracts/dictable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_1_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_1_priority.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/queues/study/s_1_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/study/s_1_priority.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/queues/testers/t_1_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/testers/t_1_priority.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_many/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_many/problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_many/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_many/algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_many/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_many/state.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/algo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/a_star.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/bfs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/testers/t_a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/testers/t_a_star.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/cache.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/g_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/g_cache.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/g_problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/g_problem.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/testers/t_g_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/testers/t_g_cache.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/testers/t_g_problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/testers/t_g_problem.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/g_heuristic.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/g_heuristic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/heuristics.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/heuristics.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/solution.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,6 +75,8 @@
     "Python tests.Python tests for t_1_priority.test_peek.executor": "Run",
     "Python tests.Python tests for t_1_priority.test_pop.executor": "Run",
     "Python tests.Python tests for t_1_priority.test_push.executor": "Run",
+    "Python tests.Python tests for t_1_priority.test_undo_pop.executor": "Run",
+    "Python tests.Python tests for t_1_priority.test_update.executor": "Run",
     "Python tests.Python tests for t_1_rect.test_geo_rect_update.executor": "Run",
     "Python tests.Python tests for t_1_text.test_text.executor": "Run",
     "Python tests.Python tests for t_2_bfs_cache.test.executor": "Run",
@@ -112,6 +94,7 @@
     "Python tests.Python tests for t_bfs.test_bfs.executor": "Run",
     "Python tests.Python tests for t_bfs.test_bfs_cache.executor": "Run",
     "Python tests.Python tests for t_bfs.test_cached.executor": "Run",
+    "Python tests.Python tests for t_comparable.test_equal.executor": "Run",
     "Python tests.Python tests for t_cursorable.executor": "Run",
     "Python tests.Python tests for t_cursorable.test_current.executor": "Run",
     "Python tests.Python tests for t_cursorable.test_peek_next.executor": "Run",
@@ -216,6 +199,7 @@
     "Python tests.Python tests in t_1_one_to_one.py.executor": "Run",
     "Python tests.Python tests in t_1_path.py.executor": "Run",
     "Python tests.Python tests in t_1_path_cell.py.executor": "Run",
+    "Python tests.Python tests in t_1_priority.py (1).executor": "Run",
     "Python tests.Python tests in t_1_priority.py.executor": "Run",
     "Python tests.Python tests in t_1_rect.py (1).executor": "Run",
     "Python tests.Python tests in t_1_rect.py (2).executor": "Run",
@@ -499,37 +483,7 @@
       <recent name="G:\mypy\f_graph\path" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_1_priority.py">
-    <configuration name="Python tests for t_1_priority.test_peek" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/queues/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_1_priority.test_peek&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for t_1_priority.test_undo_pop" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/queues/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_1_priority.test_undo_pop&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python tests.Python tests in t_heuristic.py">
     <configuration name="Python tests for t_1_priority.test_update" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -543,6 +497,21 @@
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;t_1_priority.test_update&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in t_1_priority.py (1)" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/queues/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/queues/testers/t_1_priority.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="Python tests in t_1_priority.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -560,28 +529,43 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_comparable.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_heuristic.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_core/mixins/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_one/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_core/mixins/testers/t_comparable.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_heuristic.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in t_problem.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_many/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/one_to_many/testers/t_problem.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests in t_heuristic.py" />
+        <item itemvalue="Python tests.Python tests in t_problem.py" />
+        <item itemvalue="Python tests.Python tests in t_1_priority.py (1)" />
         <item itemvalue="Python tests.Python tests in t_1_priority.py" />
         <item itemvalue="Python tests.Python tests for t_1_priority.test_update" />
-        <item itemvalue="Python tests.Python tests for t_1_priority.test_undo_pop" />
-        <item itemvalue="Python tests.Python tests for t_1_priority.test_peek" />
-        <item itemvalue="Python tests.Python tests in t_comparable.py" />
       </list>
     </recent_temporary>
   </component>
@@ -600,14 +584,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00082" summary="h">
-      <option name="closed" value="true" />
-      <created>1732118989856</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1732118989856</updated>
     </task>
     <task id="LOCAL-00083" summary="h">
       <option name="closed" value="true" />
@@ -993,7 +969,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737895733704</updated>
     </task>
-    <option name="localTasksCounter" value="131" />
+    <task id="LOCAL-00131" summary="h">
+      <option name="closed" value="true" />
+      <created>1738007101291</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1738007101291</updated>
+    </task>
+    <option name="localTasksCounter" value="132" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

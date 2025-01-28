@@ -45,8 +45,10 @@ class AlgoOneToOne(AlgoPath[Problem, Solution]):
         while self._should_continue():
             self._select_best()
             if self._is_path_found():
+                self._run_post()
                 return self._create_solution(is_found=True)
             self._explore_best()
+        self._run_post()
         return self._create_solution(is_found=False)
 
     def _create_ops(self) -> Ops:
@@ -66,7 +68,6 @@ class AlgoOneToOne(AlgoPath[Problem, Solution]):
          Create a Solution object.
         ========================================================================
         """
-        self._run_post()
         stats = StatsPath(elapsed=self._elapsed,
                           explored=len(self._state.explored))
         return Solution(is_valid=is_found,

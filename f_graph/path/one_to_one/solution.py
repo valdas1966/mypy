@@ -1,7 +1,6 @@
 from f_graph.path.one_to_one.state import StateOneToOne, Node
 from f_graph.path.solution import SolutionPath, StatsPath
 from f_graph.path.one_to_one.cache import Cache
-from typing import Callable
 
 
 class SolutionOneToOne(SolutionPath[StatsPath]):

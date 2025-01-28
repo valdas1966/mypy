@@ -21,5 +21,11 @@ class StateOneToMany(StateOneToOne):
         self.best: Node | None = None
 
     def update(self, heuristic: Heuristic) -> None:
+        """
+        ========================================================================
+         Update the Heuristic of all Nodes in the Generated Queue.
+        ========================================================================
+        """
         for node in self.generated:
             node.h = heuristic(node)
+        self.generated.update()
