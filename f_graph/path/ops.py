@@ -1,10 +1,10 @@
 from f_graph.path.one_to_one.problem import ProblemOneToOne as Problem, Node
-from f_graph.path.one_to_one.state import StateOneToOne as State
-from f_graph.path.one_to_one.cache import Cache
+from f_graph.path.state import State as State
+from f_graph.path.cache import Cache
 from typing import Callable
 
 
-class OpsOneToOne:
+class Ops:
     """
     ============================================================================
      Operations object of Path-Finding Algorithms.

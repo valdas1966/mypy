@@ -1,5 +1,5 @@
 from f_graph.path.state import StatePath, Node
-from f_graph.path.one_to_one.state import StateSingle
+from f_graph.path.state import StateSingle
 from collections import Counter
 
 

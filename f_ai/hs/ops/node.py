@@ -1,4 +1,4 @@
-from f_graph.path.one_to_one.ops import OpsNodeABC, Problem, DataOneToOne
+from f_graph.path.ops import OpsNodeABC, Problem, DataOneToOne
 from f_ai.hs.nodes.i_1_f import NodeF
 from typing import TypeVar, Callable
 

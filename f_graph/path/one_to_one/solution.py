@@ -1,6 +1,6 @@
-from f_graph.path.one_to_one.state import StateOneToOne, Node
+from f_graph.path.state import State, Node
 from f_graph.path.solution import SolutionPath, StatsPath
-from f_graph.path.one_to_one.cache import Cache
+from f_graph.path.cache import Cache
 
 
 class SolutionOneToOne(SolutionPath[StatsPath]):
@@ -12,7 +12,7 @@ class SolutionOneToOne(SolutionPath[StatsPath]):
 
     def __init__(self,
                  is_valid: bool,
-                 state: StateOneToOne,
+                 state: State,
                  cache: Cache,
                  stats: StatsPath) -> None:
         """
@@ -26,7 +26,7 @@ class SolutionOneToOne(SolutionPath[StatsPath]):
         self._path = self._create_path()
 
     @property
-    def state(self) -> StateOneToOne:
+    def state(self) -> State:
         """
         ========================================================================
          Return the state in the end of the search.

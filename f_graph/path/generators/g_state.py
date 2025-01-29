@@ -1,9 +1,9 @@
-from f_graph.path.one_to_one.state import StateOneToOne
+from f_graph.path.state import State
 from f_graph.path.one_to_one.generators.g_problem import GenProblemOneToOne
 from f_ds.queues.i_1_priority import QueuePriority
 
 
-class GenStateOneToOne:
+class GenState:
     """
     ============================================================================
      State-Generator for One-To-One Path-Finding Problems.
@@ -11,7 +11,7 @@ class GenStateOneToOne:
     """
 
     @staticmethod
-    def gen_3x3() -> StateOneToOne:
+    def gen_3x3() -> State:
         """
         ========================================================================
          Generate a state for a 3x3 problem.
@@ -25,6 +25,6 @@ class GenStateOneToOne:
         node_0_2.parent = node_0_1
         best = problem.graph[1, 2]
         best.parent = node_0_2
-        state = StateOneToOne(type_queue=QueuePriority)
+        state = State(type_queue=QueuePriority)
         state.best = best
         return state

@@ -1,28 +1,28 @@
-from f_graph.path.one_to_one.ops import OpsOneToOne, Callable, Node
-from f_graph.path.one_to_one.generators.g_cache import GenCache
-from f_graph.path.one_to_one.generators.g_state import GenStateOneToOne
+from f_graph.path.ops import Ops, Callable, Node
+from f_graph.path.generators.g_cache import GenCache
+from f_graph.path.generators.g_state import GenState
 from f_graph.path.one_to_one.generators.g_problem import GenProblemOneToOne
 import pytest
 
 
 @pytest.fixture
-def ops() -> OpsOneToOne:
+def ops() -> Ops:
     """
     ========================================================================
      Create a test Ops instance.
     ========================================================================
     """
     problem = GenProblemOneToOne.gen_3x3()
-    state = GenStateOneToOne.gen_3x3()
+    state = GenState.gen_3x3()
     cache = GenCache.gen_3x3()
     heuristic: Callable[[Node], int] = lambda x: 0
-    return OpsOneToOne(problem=problem,
-                       state=state,
-                       cache=cache,
-                       heuristic=heuristic)
+    return Ops(problem=problem,
+               state=state,
+               cache=cache,
+               heuristic=heuristic)
 
 
-def test_generate(ops: OpsOneToOne) -> None:
+def test_generate(ops: Ops) -> None:
     """
     ========================================================================
      Test generate method.
@@ -45,7 +45,7 @@ def test_generate(ops: OpsOneToOne) -> None:
     assert cached.is_cached
 
 
-def test_explore(ops: OpsOneToOne) -> None:
+def test_explore(ops: Ops) -> None:
     """
     ========================================================================
      Test explore method.

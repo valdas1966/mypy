@@ -1,6 +1,6 @@
 from f_graph.path.one_to_one.algos.bfs import BFS
 from f_graph.path.one_to_one.generators.g_problem import GenProblemOneToOne
-from f_graph.path.one_to_one.generators.g_cache import GenCache
+from f_graph.path.generators.g_cache import GenCache
 
 
 def test_bfs():
