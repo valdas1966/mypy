@@ -1,5 +1,5 @@
 from f_graph.path.heuristics import Heuristic
-from f_graph.path.one_to_one.problem import ProblemOneToOne
+from f_graph.path.graph import GraphPath as Graph, Node
 
 
 class GenHeuristic:
@@ -10,12 +10,20 @@ class GenHeuristic:
     """
 
     @staticmethod
-    def gen_manhattan(problem: ProblemOneToOne) -> Heuristic:
+    def gen_manhattan(graph: Graph, goal: Node) -> Heuristic:
         """
         ========================================================================
          Generate a Manhattan-Distance Heuristic from a Node to a Goal.
         =======================================================================
         """
-        distance = problem.graph.distance
-        goal = problem.goal
+        distance = graph.distance
         return Heuristic(lambda node, goal: distance(node, goal), goal=goal)
+
+    @staticmethod
+    def gen_none() -> Heuristic:
+        """
+        ========================================================================
+         Generate a None-Heuristic.
+        ========================================================================
+        """
+        return Heuristic(lambda node, goal: None, None)

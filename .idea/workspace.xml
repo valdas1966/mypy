@@ -5,10 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_graph/path/testers/t_node.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/testers/t_state.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/testers/t_stats.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/grids/generators/g_grid.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/generators/g_graph.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/generators/g_ops.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/generators/g_problem.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/testers/t_graph.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/generators/g_heuristic.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/generators/g_heuristic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/graph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/testers/t_heuristic.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/testers/t_heuristic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/testers/t_node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/testers/t_node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/testers/t_ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/testers/t_ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/testers/t_stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/testers/t_stats.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,12 +41,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
+    &quot;accountId&quot;: &quot;9193838d-ef26-4e0d-b77f-58e2bc1908f8&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -103,6 +112,7 @@
     "Python tests.Python tests for t_g_cache.test_gen_3x3.executor": "Run",
     "Python tests.Python tests for t_g_state.test_gen_3x3.executor": "Run",
     "Python tests.Python tests for t_get.test_success.executor": "Run",
+    "Python tests.Python tests for t_graph.test_children.executor": "Run",
     "Python tests.Python tests for t_grid.test_cells_valid.executor": "Run",
     "Python tests.Python tests for t_grid.test_distance.executor": "Run",
     "Python tests.Python tests for t_grid.test_getitem.executor": "Run",
@@ -238,6 +248,7 @@
     "Python tests.Python tests in t_generated_explored.py.executor": "Run",
     "Python tests.Python tests in t_get.py (1).executor": "Run",
     "Python tests.Python tests in t_get.py.executor": "Run",
+    "Python tests.Python tests in t_graph.py.executor": "Run",
     "Python tests.Python tests in t_grid.py.executor": "Run",
     "Python tests.Python tests in t_groupable.py.executor": "Run",
     "Python tests.Python tests in t_has_children.py.executor": "Run",
@@ -310,6 +321,7 @@
     "Python.followers.executor": "Run",
     "Python.followers_todo.executor": "Run",
     "Python.forward.executor": "Run",
+    "Python.g_graph.executor": "Run",
     "Python.gen_graph.executor": "Run",
     "Python.generated_explored.executor": "Run",
     "Python.get.executor": "Run",
@@ -482,7 +494,44 @@
       <recent name="G:\mypy\f_core\mixins" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_node.py">
+  <component name="RunManager" selected="Python tests.Python tests in t_heuristic.py">
+    <configuration name="g_graph" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/generators" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/generators/g_graph.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for t_graph.test_children" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_graph.test_children&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <configuration name="Python tests in t_heuristic.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -543,21 +592,6 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_node.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/testers/t_node.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <configuration name="Python tests in t_ops.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -573,7 +607,7 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_state.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_problem.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -584,32 +618,17 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/testers/t_state.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_stats.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/testers/t_stats.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/testers/t_problem.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in t_node.py" />
-        <item itemvalue="Python tests.Python tests in t_stats.py" />
-        <item itemvalue="Python tests.Python tests in t_state.py" />
-        <item itemvalue="Python tests.Python tests in t_ops.py (1)" />
-        <item itemvalue="Python tests.Python tests in t_heuristic.py (1)" />
+        <item itemvalue="Python tests.Python tests in t_heuristic.py" />
+        <item itemvalue="Python tests.Python tests in t_problem.py" />
+        <item itemvalue="Python tests.Python tests in t_ops.py" />
+        <item itemvalue="Python tests.Python tests for t_graph.test_children" />
+        <item itemvalue="Python.g_graph" />
       </list>
     </recent_temporary>
   </component>
@@ -628,14 +647,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00085" summary="h">
-      <option name="closed" value="true" />
-      <created>1732569743809</created>
-      <option name="number" value="00085" />
-      <option name="presentableId" value="LOCAL-00085" />
-      <option name="project" value="LOCAL" />
-      <updated>1732569743809</updated>
     </task>
     <task id="LOCAL-00086" summary="h">
       <option name="closed" value="true" />
@@ -1021,7 +1032,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738082096252</updated>
     </task>
-    <option name="localTasksCounter" value="134" />
+    <task id="LOCAL-00134" summary="h">
+      <option name="closed" value="true" />
+      <created>1738306483690</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1738306483691</updated>
+    </task>
+    <option name="localTasksCounter" value="135" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

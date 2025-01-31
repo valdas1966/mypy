@@ -1,7 +1,7 @@
-from f_graph.path.one_to_one.problem import ProblemOneToOne as Problem, Node
-from f_graph.path.state import State as State
+from f_graph.path.problem import ProblemPath as Problem
+from f_graph.path.heuristics import Heuristic, Node
+from f_graph.path.state import State
 from f_graph.path.cache import Cache
-from typing import Callable
 
 
 class Ops:
@@ -15,7 +15,7 @@ class Ops:
                  problem: Problem,
                  state: State,
                  cache: Cache,
-                 heuristic: Callable[[Node], int]) -> None:
+                 heuristic: Heuristic) -> None:
         """
         ========================================================================
          Init private Attributes.
