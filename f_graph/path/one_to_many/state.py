@@ -1,5 +1,5 @@
-from f_graph.path.state import State, Queue, Node
-from f_graph.path.heuristics import Heuristic
+from f_graph.path.one_to_one.state import State, Queue, Node
+from f_graph.path.one_to_one.heuristics import Heuristic
 from typing import Type
 
 

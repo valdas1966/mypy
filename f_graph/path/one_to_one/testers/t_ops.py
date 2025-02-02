@@ -1,4 +1,4 @@
-from f_graph.path.generators.g_ops import GenOps
+from f_graph.path.one_to_one.generators.g_ops import GenOps
 
 
 def test_generate() -> None:

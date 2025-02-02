@@ -1,6 +1,6 @@
-from f_graph.path.state import State, Node
+from f_graph.path.one_to_one.state import State, Node
 from f_graph.path.solution import SolutionPath, StatsPath
-from f_graph.path.cache import Cache
+from f_graph.path.one_to_one.cache import Cache
 
 
 class SolutionOneToOne(SolutionPath[StatsPath]):

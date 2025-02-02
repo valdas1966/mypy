@@ -1,6 +1,6 @@
 from f_graph.path.one_to_one.solution import SolutionOneToOne as Solution
-from f_graph.path.generators.g_state import GenState
-from f_graph.path.generators.g_cache import GenCache
+from f_graph.path.one_to_one.generators.g_state import GenState
+from f_graph.path.one_to_one.generators.g_cache import GenCache
 from f_graph.path.generators.g_stats import GenStatsPath
 
 

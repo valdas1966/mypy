@@ -1,57 +1,61 @@
-from f_graph.path.node import NodePath as Node
+from f_graph.path.generators.g_node import GenNode
 
 
-def test_node_init() -> None:
+def test_name() -> None:
     """
     ============================================================================
-     Test that Node initializes with correct attributes.
+     Test name attribute.
     ============================================================================
     """
-    node = Node[int](uid=1, h=10, name="test")
-    assert node.uid == 1
-    assert node.h == 10
-    assert node.name == "test"
-    assert node.parent is None
-    assert node.g == 0
+    start, pre_goal, goal = GenNode.gen_3x3()
+    assert start.uid.row == 0 and start.uid.col == 0
+    assert pre_goal.uid.row == 1 and pre_goal.uid.col == 2
+    assert goal.uid.row == 2 and goal.uid.col == 2
 
 
-def test_node_parent() -> None:
+def test_g() -> None:
     """
     ============================================================================
-     Test parent-child relationship between nodes.
+     Test g attribute.
     ============================================================================
     """
-    parent = Node(uid=1)
-    child = Node(uid=2, parent=parent)
-    assert child.parent == parent
-    assert child.g == parent.g + 1
+    start, pre_goal, goal = GenNode.gen_3x3()
+    assert start.g == 0
+    assert pre_goal.g == 0
+    assert goal.g == 1
 
 
-def test_node_properties() -> None:
+def test_h() -> None:
     """
     ============================================================================
-     Test node properties return correct values.
+     Test h attribute.
     ============================================================================
     """
-    node = Node(uid=1, h=5)
-    
-    # Test g property
-    assert isinstance(node.g, int)
-    assert node.g == 0
-    
-    # Test h property
-    assert isinstance(node.h, int) 
-    assert node.h == 5
+    start, pre_goal, goal = GenNode.gen_3x3()
+    assert start.h == 4
+    assert pre_goal.h == 1
+    assert goal.h == 0
 
 
-def test_node_caching() -> None:
+def test_f() -> None:
     """
     ============================================================================
-     Test node caching functionality.
+     Test f attribute.
     ============================================================================
     """
-    node = Node(uid=1, is_cached=True)
-    assert node.is_cached is True
-    
-    node = Node(uid=2, is_cached=False)
-    assert node.is_cached is False
+    start, pre_goal, goal = GenNode.gen_3x3()
+    assert start.f() == 4
+    assert pre_goal.f() == 1
+    assert goal.f() == 1
+
+
+def test_parent() -> None:
+    """
+    ============================================================================
+     Test parent attribute.
+    ============================================================================
+    """
+    start, pre_goal, goal = GenNode.gen_3x3()
+    assert start.parent is None
+    assert pre_goal.parent is None
+    assert goal.parent == pre_goal

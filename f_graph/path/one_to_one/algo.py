@@ -2,9 +2,9 @@ from f_graph.path.stats import StatsPath
 from f_graph.path.algo import AlgoPath, Node
 from f_graph.path.one_to_one.problem import ProblemOneToOne as Problem
 from f_graph.path.one_to_one.solution import SolutionOneToOne as Solution
-from f_graph.path.state import State as State, Queue
-from f_graph.path.ops import Ops as Ops
-from f_graph.path.cache import Cache
+from f_graph.path.one_to_one.state import State as State, Queue
+from f_graph.path.one_to_one.ops import Ops as Ops
+from f_graph.path.one_to_one.cache import Cache
 from typing import Type, Callable
 
 

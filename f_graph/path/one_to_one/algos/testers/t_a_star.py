@@ -1,6 +1,6 @@
 from f_graph.path.one_to_one.algos.a_star import AStar
 from f_graph.path.one_to_one.generators.g_problem import GenProblemOneToOne
-from f_graph.path.generators.g_cache import GenCache
+from f_graph.path.one_to_one.generators.g_cache import GenCache
 
 
 def test_a_star():

@@ -1,7 +1,7 @@
 from f_graph.path.problem import ProblemPath as Problem
-from f_graph.path.heuristics import Heuristic, Node
-from f_graph.path.state import State
-from f_graph.path.cache import Cache
+from f_graph.path.one_to_one.heuristics import Heuristic, Node
+from f_graph.path.one_to_one.state import State
+from f_graph.path.one_to_one.cache import Cache
 
 
 class Ops:

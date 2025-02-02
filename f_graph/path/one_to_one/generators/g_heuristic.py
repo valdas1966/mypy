@@ -1,4 +1,4 @@
-from f_graph.path.heuristics import Heuristic
+from f_graph.path.one_to_one.heuristics import Heuristic
 from f_graph.path.graph import GraphPath as Graph, Node
 
 

@@ -1,5 +1,5 @@
 from f_graph.path.one_to_one.generators.g_problem import GenProblemOneToOne
-from f_graph.path.cache import Cache, DataCache
+from f_graph.path.one_to_one.cache import Cache, DataCache
 
 
 class GenCache:

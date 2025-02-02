@@ -1,8 +1,8 @@
 from f_graph.path.generators.g_problem import GenProblemPath
-from f_graph.path.generators.g_state import GenState
-from f_graph.path.generators.g_cache import GenCache
-from f_graph.path.generators.g_heuristic import GenHeuristic    
-from f_graph.path.ops import Ops
+from f_graph.path.one_to_one.generators.g_state import GenState
+from f_graph.path.one_to_one.generators.g_cache import GenCache
+from f_graph.path.one_to_one.generators.g_heuristic import GenHeuristic
+from f_graph.path.one_to_one.ops import Ops
 
 
 class GenOps:
