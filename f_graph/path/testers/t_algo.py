@@ -11,5 +11,5 @@ def test() -> None:
     """
     algo = GenAlgoPath.gen_3x3()
     assert isinstance(algo, AlgoPath)
-    assert isinstance(algo.problem, ProblemPath)
+    assert isinstance(algo.input, ProblemPath)
     assert isinstance(algo.run(), SolutionPath) 

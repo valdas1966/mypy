@@ -73,5 +73,5 @@ class ProblemOneToOne(ProblemPath, Equable):
          Return STR-Repr of the Grid Path-Finding Problem.
         ========================================================================
         """
-        return f'{self.graph._grid.shape()}, {self.start} -> {self.goal}'
+        return f'{self.graph.shape()}, {self.start} -> {self.goal}'
     

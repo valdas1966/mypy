@@ -16,6 +16,6 @@ class GenSolutionPath:
          Generate a solution for a 3x3 problem.
         ========================================================================
         """
-        stats = GenStatsPath.gen_10x20()
+        stats = GenStatsPath.gen_10x20x30()
         return SolutionPath(is_valid=True, stats=stats)
     

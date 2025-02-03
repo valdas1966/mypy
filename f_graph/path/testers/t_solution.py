@@ -19,4 +19,5 @@ def test_stats() -> None:
     """
     solution = GenSolutionPath.gen_3x3()
     assert solution.stats.elapsed == 10
-    assert solution.stats.explored == 20
+    assert solution.stats.generated == 20
+    assert solution.stats.explored == 30

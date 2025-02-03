@@ -4,12 +4,7 @@ import pytest
 
 
 @pytest.fixture
-def problem() -> Problem:   
-    """
-    ========================================================================
-     Return a test problem with 3x3 graph.
-    ========================================================================
-    """
+def problem() -> Problem:
     return GenProblemOneToOne.gen_3x3()
 
 

@@ -2,9 +2,10 @@ from __future__ import annotations
 from f_ds.graphs.i_1_dict import GraphDict
 from f_ds.nodes.i_0_uid import NodeUid
 from f_ds.grids.grid import Grid, Cell
-from typing import Generic, TypeVar, Type
+from typing import Generic, TypeVar, Type, Self
 
 Node = TypeVar('Node', bound=NodeUid)
+Graph = TypeVar('Graph', bound='GraphGrid')
 
 
 class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
@@ -28,6 +29,14 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
         self._grid = grid
         self._type_node = type_node
 
+    def shape(self) -> tuple[int, int]:
+        """
+        ========================================================================
+         Return the Shape of the Grid.
+        ========================================================================
+        """
+        return self._grid.rows, self._grid.cols
+
     def neighbors(self, node: Node) -> list[Node]:
         """
         ========================================================================
@@ -38,15 +47,15 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
                 for cell
                 in self._grid.neighbors(cell=node.uid)]
 
-    def clone(self) -> GraphGrid:
+    def clone(self) -> Graph:
         """
         ========================================================================
          Return a Cloned object.
         ========================================================================
         """
-        return GraphGrid(grid=self._grid,
-                         type_node=self._type_node,
-                         name=self._name)
+        return type(self)(grid=self._grid,
+                          type_node=self._type_node,
+                          name=self._name)
 
     @staticmethod
     def distance(node_a: Node, node_b: Node) -> int:
@@ -58,41 +67,6 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
         cell_a = node_a.uid
         cell_b = node_b.uid
         return Grid.distance(cell_a=cell_a, cell_b=cell_b)
-
-    @classmethod
-    def gen(cls,
-            rows: int,
-            cols: int = None,
-            pct_valid: int = 100,
-            type_node: Type[NodeUid] = NodeUid,
-            name: str = None) -> GraphGrid:
-        """
-        ========================================================================
-         Return a generated GraphGrid with custom Params.
-        ========================================================================
-        """
-        grid = Grid.generate(rows=rows, cols=cols, pct_valid=pct_valid)
-        return cls(grid=grid, type_node=type_node, name=name)
-
-    @classmethod
-    def gen_3x3(cls,
-                type_node: Type[NodeUid] = NodeUid  ,
-                name: str = None) -> GraphGrid:
-        """
-        ========================================================================
-         Generate a 3x3 Full-GraphGrid.
-        ========================================================================
-        """
-        grid = Grid.generate(rows=3)
-        return cls(grid=grid, type_node=type_node, name=name)
-
-    @classmethod
-    def gen_4x4(cls,
-                type_node: Type[NodeUid] = NodeUid,
-                name: str = None) -> GraphGrid:
-        grid = Grid.generate(rows=4)
-        Cell.invalidate([grid[0][2], grid[1][2]])
-        return cls(grid=grid, type_node=type_node, name=name)
 
     def __getitem__(self, index: tuple[int, int]) -> Node:
         """

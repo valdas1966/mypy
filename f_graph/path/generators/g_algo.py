@@ -10,10 +10,6 @@ class GenAlgoPath:
     ============================================================================
     """
 
-    class AlgoDemo(AlgoPath):
-        def run(self) -> SolutionPath:
-            return GenSolutionPath.gen_3x3()
-
     @staticmethod
     def gen_3x3() -> AlgoPath:
         """
@@ -21,5 +17,9 @@ class GenAlgoPath:
          Generate an A* algorithm.
         ========================================================================
         """
+        class AlgoDemo(AlgoPath):
+            def run(self) -> SolutionPath:
+                return GenSolutionPath.gen_3x3()
+
         problem = GenProblemPath.gen_3x3()
         return AlgoDemo(problem=problem)

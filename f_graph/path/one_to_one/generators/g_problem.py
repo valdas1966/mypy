@@ -1,5 +1,5 @@
-from f_graph.path.one_to_one.problem import ProblemOneToOne as Problem, Graph, Node
-from typing import Type
+from f_graph.path.one_to_one.problem import ProblemOneToOne as Problem
+from f_graph.path.generators.g_graph import GenGraphPath
 
 
 class GenProblemOneToOne:
@@ -10,15 +10,14 @@ class GenProblemOneToOne:
     """
 
     @staticmethod
-    def gen_3x3(type_node: Type[Node] = Node) -> Problem:
+    def gen_3x3() -> Problem:
         """
         ========================================================================
          Return a generated ProblemSingle with Graph of 3x3 dimension.
         ========================================================================
         """
-        graph = Graph.gen_3x3(type_node=type_node)
+        graph = GenGraphPath.gen_3x3()
         start = graph[0, 0]
         goal = graph[2, 2]
         problem = Problem(graph=graph, start=start, goal=goal)
-        problem.pre_goal = graph[1, 2]
         return problem

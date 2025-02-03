@@ -1,29 +1,14 @@
-from f_graph.path.stats import StatsPath
+from f_graph.path.generators.g_stats import GenStatsPath
 
 
-def test_stats_path_init() -> None:
+def test_10x20x30() -> None:
     """
-    ============================================================================
-     Test that StatsPath initializes with correct elapsed time and explored count.
-    ============================================================================
+    ========================================================================
+     Test that StatsPath initializes with correct elapsed time and correct
+       number of generated and explored nodes.
+    ========================================================================
     """
-    stats = StatsPath(elapsed=10, explored=5)
+    stats = GenStatsPath.gen_10x20x30()
     assert stats.elapsed == 10
-    assert stats.explored == 5
-
-
-def test_stats_path_properties() -> None:
-    """
-    ============================================================================
-     Test that StatsPath properties return correct values.
-    ============================================================================
-    """
-    stats = StatsPath(elapsed=20, explored=15)
-    
-    # Test elapsed property
-    assert isinstance(stats.elapsed, int)
-    assert stats.elapsed == 20
-    
-    # Test explored property 
-    assert isinstance(stats.explored, int)
-    assert stats.explored == 15
+    assert stats.generated == 20
+    assert stats.explored == 30

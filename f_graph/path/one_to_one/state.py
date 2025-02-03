@@ -1,21 +1,33 @@
-from f_ds.queues.i_0_base import QueueBase as Queue
+from f_core.components.enum_callable import EnumCallable
+from f_ds.queues.i_0_base import QueueBase
+from f_ds.queues.i_1_fifo import QueueFIFO
+from f_ds.queues.i_1_priority import QueuePriority
 from f_graph.path.node import NodePath as Node
-from typing import Type
 
 
-class State:
+class TypeQueue(EnumCallable):
+    """
+    ============================================================================
+     Enum of Type-Queues.
+    ============================================================================
+    """
+    FIFO = QueueFIFO
+    PRIORITY = QueuePriority
+
+
+class StateOneToOne:
     """
     ============================================================================
      State object for One-to-One Path-Algorithms.
     ============================================================================
     """
 
-    def __init__(self, type_queue: Type[Queue]) -> None:
+    def __init__(self, type_queue: TypeQueue) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self.generated: type_queue[Node] = type_queue()
+        self.generated: QueueBase[Node] = type_queue()
         self.explored: set[Node] = set()
         self.best: Node | None = None

@@ -23,3 +23,4 @@ class Algo(Generic[Problem, Solution],
         ========================================================================
         """
         ProcessIO.__init__(self, _input=problem, name=name)
+        self._problem = problem

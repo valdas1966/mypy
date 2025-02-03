@@ -1,8 +1,8 @@
-from f_graph.path.generators.g_problem import GenProblemPath
-from f_graph.path.one_to_one.generators.g_state import GenState
-from f_graph.path.one_to_one.generators.g_cache import GenCache
-from f_graph.path.one_to_one.generators.g_heuristic import GenHeuristic
-from f_graph.path.one_to_one.ops import Ops
+from f_graph.path.generators.g_cache import GenCache
+from f_graph.path.generators.g_heuristic import GenHeuristic
+from f_graph.path.one_to_one.generators.g_problem import GenProblemOneToOne
+from f_graph.path.one_to_one.generators.g_state import GenStateOneToOne
+from f_graph.path.one_to_one.ops import OpsOneToOne
 
 
 class GenOps:
@@ -13,17 +13,18 @@ class GenOps:
     """
 
     @staticmethod
-    def gen_3x3() -> Ops:
+    def gen_3x3() -> OpsOneToOne:
         """
         ========================================================================
          Generate a 3x3 Ops.
         ========================================================================
         """
-        problem = GenProblemPath.gen_3x3()
-        state = GenState.gen_3x3()
+        problem = GenProblemOneToOne.gen_3x3()
+        state = GenStateOneToOne.gen_priority()
         cache = GenCache.gen_3x3()
-        heuristic = GenHeuristic.gen_none()
-        return Ops(problem=problem,
-                   state=state,
-                   cache=cache,
-                   heuristic=heuristic)
+        heuristic = GenHeuristic.gen_zero(graph=problem.graph,
+                                          goal=problem.goal)
+        return OpsOneToOne(problem=problem,
+                           state=state,
+                           cache=cache,
+                           heuristic=heuristic)

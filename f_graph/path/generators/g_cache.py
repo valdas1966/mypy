@@ -1,5 +1,5 @@
 from f_graph.path.one_to_one.generators.g_problem import GenProblemOneToOne
-from f_graph.path.one_to_one.cache import Cache, DataCache
+from f_graph.path.cache import Cache, DataCache
 
 
 class GenCache:
@@ -18,9 +18,9 @@ class GenCache:
         """
         cache = Cache()
         problem = GenProblemOneToOne.gen_3x3()
-        goal, pre_goal = problem.goal, problem.pre_goal
-        data_goal = DataCache(path=lambda: [], distance=lambda: 0)
-        cache[goal] = data_goal
-        data_pre_goal = DataCache(path=lambda: [goal], distance=lambda: 1)
-        cache[pre_goal] = data_pre_goal
+        graph = problem.graph
+        node = graph[0, 1]
+        path_from_node = [graph[0, 2], graph[1, 2], graph[2, 2]]
+        data = DataCache(path=lambda: path_from_node, distance=lambda: 3)
+        cache[node] = data
         return cache

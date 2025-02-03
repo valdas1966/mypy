@@ -8,14 +8,24 @@ class StatsPath(StatsAlgo):
     ============================================================================
     """
 
-    def __init__(self, elapsed: int, explored: int) -> None:
+    def __init__(self, elapsed: int, generated: int, explored: int) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         StatsAlgo.__init__(self, elapsed=elapsed)
+        self._generated: int = generated
         self._explored: int = explored
+
+    @property
+    def generated(self) -> int:
+        """
+        ========================================================================
+         Return the Number of Generated-Nodes.
+        ========================================================================
+        """
+        return self._generated
 
     @property
     def explored(self) -> int:

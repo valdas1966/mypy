@@ -1,16 +1,28 @@
+from f_graph.path.one_to_one.state import StateOneToOne as State
 from f_graph.path.problem import ProblemPath as Problem
-from f_graph.path.one_to_one.heuristics import Heuristic, Node
-from f_graph.path.one_to_one.state import State
-from f_graph.path.one_to_one.cache import Cache
+from f_graph.path.heuristic import Heuristic, Node
+from f_graph.path.cache import Cache
+from collections import Counter
+from enum import Enum, auto
 
 
-class Ops:
+class TypeCounter(Enum):
+    """
+    ============================================================================
+     Type of Counter (for logging).
+    ============================================================================
+    """
+    GENERATED = auto()
+    EXPLORED = auto()
+
+
+class OpsOneToOne:
     """
     ============================================================================
      Operations object of Path-Finding Algorithms.
     ============================================================================
     """
-
+    
     def __init__(self,
                  problem: Problem,
                  state: State,
@@ -25,6 +37,17 @@ class Ops:
         self._state = state
         self._cache = cache
         self._heuristic = heuristic
+        self._counter = Counter({TypeCounter.GENERATED: 0,
+                                 TypeCounter.EXPLORED: 0})
+
+    @property
+    def counter(self) -> Counter:
+        """
+        ========================================================================
+         Return the counter for logging.
+        ========================================================================
+        """
+        return self._counter
 
     def generate(self, node: Node, parent: Node = None) -> None:
         """
@@ -37,8 +60,9 @@ class Ops:
             node.h = self._cache[node].distance()
             node.is_cached = True
         else:
-            self._set_heuristic(node)
+            node.h = self._heuristic(node=node)
         self._state.generated.push(item=node)
+        self._counter[TypeCounter.GENERATED] += 1
 
     def explore(self, node: Node) -> None:
         """
@@ -46,10 +70,11 @@ class Ops:
          Explore a Node (process its children).
         ========================================================================
         """
-        children = self._problem.graph.neighbors(node)
+        children = self._problem.graph.children(node)
         for child in children:
             self._process_child(child=child, parent=node)
         self._state.explored.add(node)
+        self._counter[TypeCounter.EXPLORED] += 1
 
     def _process_child(self, child: Node, parent: Node) -> None:
         """
@@ -64,11 +89,3 @@ class Ops:
                 child.parent = parent
         else:
             self.generate(node=child, parent=parent)
-
-    def _set_heuristic(self, node: Node) -> None:
-        """
-        ========================================================================
-         Set the heuristic of the node.
-        ========================================================================
-        """
-        node.h = self._heuristic(node) if self._heuristic else None
