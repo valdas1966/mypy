@@ -12,6 +12,7 @@ def test_problem_one_to_many():
     assert problem.start == graph[0, 0]
     assert problem.goals == {graph[0, 2], graph[2, 0]}
 
+
 def test_to_singles():
     """
     ========================================================================
@@ -27,7 +28,8 @@ def test_to_singles():
     assert singles[1].graph == problem.graph
     assert singles[1].start == problem.start
     assert singles[1].goal == list(problem.goals)[1]
-    
+
+
 def test_clone():
     """
     ========================================================================

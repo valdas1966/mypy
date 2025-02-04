@@ -1,4 +1,5 @@
 from f_graph.path.solution import SolutionPath, StatsPath
+from f_graph.path.one_to_one.solution import SolutionOneToOne
 from f_graph.path.node import Node
 
 
@@ -11,18 +12,21 @@ class SolutionOneToMany(SolutionPath):
 
     def __init__(self,
                  is_valid: bool,
-                 stats: StatsPath,
-                 paths: list[Node]) -> None:
+                 sols: dict[Node, SolutionOneToOne]) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        SolutionPath.__init__(self, is_valid=is_valid, stats=stats)
-        self._paths = paths
+        self._paths: dict[Node, list[Node]] = dict()
+        self._stats: dict[Node, StatsPath] = dict()
+        for goal, sol in sols.items():
+            self._paths[goal] = sol.path
+            self._stats[goal] = sol.stats
+        SolutionPath.__init__(self, is_valid=is_valid, stats=self._stats)
 
     @property
-    def paths(self) -> list[Node]:
+    def paths(self) -> dict[Node, list[Node]]:
         """
         ========================================================================
          Return the Optimal-Paths from Start to Goals.

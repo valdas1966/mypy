@@ -8,7 +8,10 @@ class StatsPath(StatsAlgo):
     ============================================================================
     """
 
-    def __init__(self, elapsed: int, generated: int, explored: int) -> None:
+    def __init__(self,
+                  elapsed: int = 0,
+                    generated: int = 0,
+                      explored: int = 0) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -35,3 +38,13 @@ class StatsPath(StatsAlgo):
         ========================================================================
         """
         return self._explored
+
+    def update(self, stats: 'StatsPath') -> None:
+        """
+        ========================================================================
+         Update the Stats.
+        ========================================================================
+        """
+        self._elapsed += stats.elapsed
+        self._generated += stats.generated
+        self._explored += stats.explored

@@ -12,13 +12,13 @@ class Dictable(Printable,  Generic[K, V]):
     ========================================================================
     """
 
-    def __init__(self) -> None:
+    def __init__(self, data: dict[K, V] = None) -> None:
         """
         ========================================================================
          Initialize the internal dictionary.
         ========================================================================
         """
-        self._data: dict[K, V] = {}
+        self._data: dict[K, V] = data or dict()
 
     def __getitem__(self, key: K) -> V:
         """

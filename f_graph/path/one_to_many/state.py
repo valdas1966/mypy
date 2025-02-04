@@ -1,4 +1,4 @@
-from f_graph.path.one_to_one.state import StateOneToOne
+from f_graph.path.one_to_one.state import StateOneToOne, TypeQueue
 from f_graph.path.heuristic import Heuristic
 
 
