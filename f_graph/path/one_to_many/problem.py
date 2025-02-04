@@ -1,4 +1,5 @@
 from f_graph.path.problem import ProblemPath, Graph, Node
+from f_graph.path.one_to_one.problem import ProblemOneToOne
 from f_core.mixins.equable import Equable
 from typing import Iterable
 
@@ -37,6 +38,19 @@ class ProblemOneToMany(ProblemPath, Equable):
         ========================================================================
         """
         return self._goals
+
+    def to_singles(self) -> list[ProblemOneToOne]:
+        """
+        ========================================================================
+         Convert the Problem to a List of One-To-One Problems.
+        ========================================================================
+        """
+        graph = self.graph
+        start = self.start
+        return [ProblemOneToOne(graph=graph,
+                                start=start,
+                                goal=goal) for goal in self.goals]
+    
 
     def clone(self) -> 'ProblemOneToMany':
         """
