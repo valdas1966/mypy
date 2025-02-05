@@ -1,9 +1,9 @@
-from f_graph.path.solution import SolutionPath, StatsPath
+from f_graph.path.solutions import SolutionsPath, StatsPath
 from f_graph.path.one_to_one.solution import SolutionOneToOne
-from f_graph.path.node import Node
+from f_graph.path.node import NodePath as Node
 
 
-class SolutionOneToMany(SolutionPath):
+class SolutionOneToMany(SolutionsPath[SolutionOneToOne]):
     """
     ========================================================================
      Solution of One-To-Many Path-Problem.
@@ -23,7 +23,7 @@ class SolutionOneToMany(SolutionPath):
         for goal, sol in sols.items():
             self._paths[goal] = sol.path
             self._stats[goal] = sol.stats
-        SolutionPath.__init__(self, is_valid=is_valid, stats=self._stats)
+        SolutionsPath.__init__(self, is_valid=is_valid, sols=sols)
 
     @property
     def paths(self) -> dict[Node, list[Node]]:
@@ -33,3 +33,12 @@ class SolutionOneToMany(SolutionPath):
         ========================================================================
         """
         return self._paths
+
+    @property
+    def stats(self) -> dict[Node, StatsPath]:
+        """
+        ========================================================================
+         Return the Stats of the Solutions.
+        ========================================================================
+        """
+        return self._stats

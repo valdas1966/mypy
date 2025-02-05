@@ -1,25 +1,27 @@
-from f_core.abstracts.dictable import Dictable
-from f_graph.path.solution import SolutionPath
+from f_graph.path.solution import SolutionPath, StatsPath
 from f_graph.path.node import NodePath as Node
+from f_core.abstracts.dictable import Dictable
+from f_core.mixins.validatable import Validatable
 from typing import Generic, TypeVar
 
 Solution = TypeVar('Solution', bound=SolutionPath)
 
 
-class SolutionsPath(Generic[Solution], Dictable[Node, Solution]):
+class SolutionsPath(Generic[Solution], Dictable[Node, Solution], Validatable):
     """
     ========================================================================
      Solutions of Path-Problems.
     ========================================================================
     """
 
-    def __init__(self, sols: dict[Node, Solution]) -> None:
+    def __init__(self, is_valid: bool, sols: dict[Node, Solution]) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        Dictable.__init__(self, sols)
+        Dictable.__init__(self, data=sols)
+        Validatable.__init__(self, is_valid=is_valid)
         self._elapsed: int = sum(sol.stats.elapsed for sol in sols.values())
         self._generated: int = sum(sol.stats.generated for sol in sols.values())
         self._explored: int = sum(sol.stats.explored for sol in sols.values())
@@ -50,11 +52,3 @@ class SolutionsPath(Generic[Solution], Dictable[Node, Solution]):
         ========================================================================
         """
         return self._explored
-
-    def __bool__(self) -> bool:
-        """
-        ========================================================================
-         Return True if all solutions are valid.
-        ========================================================================
-        """
-        return all(self.values())

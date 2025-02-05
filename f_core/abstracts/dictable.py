@@ -1,11 +1,12 @@
 from f_core.mixins.printable import Printable
+from f_core.mixins.sizable import Sizable
 from typing import Generic, TypeVar, Iterator
 
 K = TypeVar("K")  # Key type
 V = TypeVar("V")  # Value type
 
 
-class Dictable(Printable,  Generic[K, V]):
+class Dictable(Generic[K, V], Printable, Sizable):
     """
     ========================================================================
      Abstract Base Class for dictionary-like objects.
@@ -43,6 +44,14 @@ class Dictable(Printable,  Generic[K, V]):
         ========================================================================
         """
         return key in self._data
+
+    def __len__(self) -> int:
+        """
+        ========================================================================
+         Return the length of the dictionary.
+        ========================================================================
+        """
+        return len(self._data)
 
     def __iter__(self) -> Iterator[K]:
         """
