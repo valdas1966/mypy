@@ -57,6 +57,9 @@ class QueueBase(Generic[Item], Collectionable[Item], HasName):
         """
         pass
 
+    def update(self) -> None:
+        pass
+
     def __str__(self) -> str:
         """
         ========================================================================

@@ -43,7 +43,7 @@ class AlgoOneToMany(AlgoPath[Problem, Solution]):
         self._type_heuristic = TypeHeuristic.MANHATTAN
         if type_algo == TypeAlgo.BFS:
             self._type_queue = TypeQueue.FIFO
-            self._type_heuristic = TypeHeuristic.NONE
+            self._type_heuristic = TypeHeuristic.ZERO
         self._state = state if state else State(type_queue=self._type_queue)
         self._is_shared = is_shared
 
