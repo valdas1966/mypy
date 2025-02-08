@@ -64,7 +64,8 @@ class AlgoOneToMany(AlgoPath[Problem, Solution]):
             if not self._is_shared:
                 self._state = State(type_queue=self._type_queue)
             algo = self._type_algo(problem=p,
-                                   state=self._state)
+                                   state=self._state,
+                                   is_shared=self._is_shared)
             sols[p.goal] = algo.run()
             if not sols[p.goal]:
                 return Solution(is_valid=False, sols=sols)

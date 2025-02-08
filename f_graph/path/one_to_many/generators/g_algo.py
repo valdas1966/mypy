@@ -56,7 +56,3 @@ class GenAlgoOneToMany:
         return AlgoOneToMany(problem=problem,
                              type_algo=TypeAlgo.A_STAR,
                              is_shared=False)
-
-
-astar = GenAlgoOneToMany.gen_astar_shared()
-astar.run()

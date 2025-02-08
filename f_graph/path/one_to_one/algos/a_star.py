@@ -12,6 +12,7 @@ class AStar(AlgoOneToOne):
                  problem: Problem,
                  cache: Cache = None,
                  state: State = None,
+                 is_shared: bool = False,
                  name: str = 'AStar'):
         """
         ========================================================================
@@ -22,4 +23,5 @@ class AStar(AlgoOneToOne):
                               problem=problem,
                               cache=cache,
                               state=state,
+                              is_shared=is_shared,
                               name=name)

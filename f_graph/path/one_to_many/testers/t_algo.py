@@ -73,6 +73,3 @@ def test_a_star_not_shared(paths_true) -> None:
     assert solution.paths == paths_true
     assert solution.generated == 10
     assert solution.explored == 4
-
-
-
