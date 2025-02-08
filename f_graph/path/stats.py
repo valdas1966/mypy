@@ -1,7 +1,8 @@
+from f_core.mixins.printable import Printable
 from f_cs.stats import StatsAlgo
 
 
-class StatsPath(StatsAlgo):
+class StatsPath(StatsAlgo, Printable):
     """
     ============================================================================
      Stats for Path-Graphs.
@@ -39,12 +40,10 @@ class StatsPath(StatsAlgo):
         """
         return self._explored
 
-    def update(self, stats: 'StatsPath') -> None:
+    def __str__(self) -> str:
         """
         ========================================================================
-         Update the Stats.
+         Return the String Representation of the Stats.
         ========================================================================
         """
-        self._elapsed += stats.elapsed
-        self._generated += stats.generated
-        self._explored += stats.explored
+        return f'Elapsed={self._elapsed}, Generated={self._generated}, Explored={self._explored}'

@@ -22,13 +22,14 @@ class AlgoOneToOne(AlgoPath[Problem, Solution]):
                  state: State = None,
                  type_queue: TypeQueue = TypeQueue.PRIORITY,
                  type_heuristic: TypeHeuristic = TypeHeuristic.MANHATTAN,
+                 is_shared: bool = False,
                  name: str = 'Path-Algorithm One-to-One') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        problem = problem.clone()
+        problem = problem if is_shared else problem.clone()
         AlgoPath.__init__(self, problem=problem, name=name)
         self._cache = cache if cache else Cache()
         self._state = state if state else State(type_queue=type_queue)
@@ -45,7 +46,8 @@ class AlgoOneToOne(AlgoPath[Problem, Solution]):
         """
         self._run_pre()
         flow = self._create_flow()
-        flow.generate_start()
+        if not self._state.generated:
+            flow.generate_start()
         while flow.should_continue():
             flow.select_best()
             if flow.is_path_found():

@@ -10,6 +10,7 @@ class GenSolutionOneToMany:
     ========================================================================
     """
 
+    @staticmethod
     def gen_3x3() -> SolutionOneToMany:
         """
         ========================================================================
@@ -19,3 +20,10 @@ class GenSolutionOneToMany:
         nodes = GenNode.gen_3x3()
         sols = {node: GenSolutionOneToOne.gen_3x3() for node in nodes}
         return SolutionOneToMany(is_valid=True, sols=sols)
+
+
+sol = GenSolutionOneToMany.gen_3x3()
+for node, stats in sol.stats.items():
+    print(node)
+    print(stats)
+print(sol.explored)

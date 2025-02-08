@@ -82,6 +82,7 @@ class OpsOneToOne:
          Process a Child-Node.
         ========================================================================
         """
+        print(f'Child={child.uid}, Child.Parent={child.parent.uid},Parent={parent.uid}')
         if child in self._state.explored:
             return
         if child in self._state.generated:

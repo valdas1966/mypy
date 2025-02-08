@@ -68,4 +68,5 @@ class AlgoOneToMany(AlgoPath[Problem, Solution]):
             sols[p.goal] = algo.run()
             if not sols[p.goal]:
                 return Solution(is_valid=False, sols=sols)
+            self._state.generated.undo_pop(item=p.goal)
         return Solution(is_valid=True, sols=sols)

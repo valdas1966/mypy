@@ -12,16 +12,3 @@ def test_10x20x30() -> None:
     assert stats.elapsed == 10
     assert stats.generated == 20
     assert stats.explored == 30
-
-def test_update() -> None:
-    """
-    ========================================================================
-     Test that StatsPath updates correctly.
-    ========================================================================
-    """
-    stats1 = GenStatsPath.gen_10x20x30()
-    stats2 = GenStatsPath.gen_10x20x30()
-    stats1.update(stats2)
-    assert stats1.elapsed == 20
-    assert stats1.generated == 40
-    assert stats1.explored == 60

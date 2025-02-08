@@ -30,8 +30,8 @@ class GenAlgoOneToMany:
         """
         problem = GenProblemOneToMany.gen_3x3()
         return AlgoOneToMany(problem=problem,
-                            type_algo=TypeAlgo.BFS,
-                            is_shared=False)
+                             type_algo=TypeAlgo.BFS,
+                             is_shared=False)
 
     @staticmethod
     def gen_astar_shared() -> AlgoOneToMany:
@@ -42,8 +42,8 @@ class GenAlgoOneToMany:
         """
         problem = GenProblemOneToMany.gen_3x3()
         return AlgoOneToMany(problem=problem,
-                            type_algo=TypeAlgo.ASTAR,
-                            is_shared=True)
+                             type_algo=TypeAlgo.A_STAR,
+                             is_shared=True)
     
     @staticmethod
     def gen_astar_not_shared() -> AlgoOneToMany:
@@ -54,5 +54,9 @@ class GenAlgoOneToMany:
         """
         problem = GenProblemOneToMany.gen_3x3()
         return AlgoOneToMany(problem=problem,
-                            type_algo=TypeAlgo.ASTAR,
-                            is_shared=False)
+                             type_algo=TypeAlgo.A_STAR,
+                             is_shared=False)
+
+
+astar = GenAlgoOneToMany.gen_astar_shared()
+astar.run()
