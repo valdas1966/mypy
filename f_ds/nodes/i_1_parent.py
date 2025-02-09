@@ -68,7 +68,7 @@ class NodeParent(NodeUid[UID]):
             current = current.parent
         if current == node:
             return path[::-1]
-        return [] # node not found
+        return []  # node not found
 
     def _update_parent(self) -> None:
         """

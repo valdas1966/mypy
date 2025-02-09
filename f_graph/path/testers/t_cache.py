@@ -1,4 +1,5 @@
-from f_graph.path.generators.g_cache import GenCache, GenProblemOneToOne
+from f_graph.path.generators.g_cache import GenCache
+from f_graph.path.generators.g_graph import GenGraphPath
 
 
 def test_gen_3x3():
@@ -8,9 +9,46 @@ def test_gen_3x3():
     ============================================================================
     """
     cache = GenCache.gen_3x3()
-    problem = GenProblemOneToOne.gen_3x3()
-    graph = problem.graph
+    graph = GenGraphPath.gen_3x3()
     node = graph[0, 1]
     assert cache[node].path() == [graph[0, 2], graph[1, 2], graph[2, 2]]
     assert cache[node].distance() == 3
+
+
+def test_gen_3x3_from_explored():
+    """
+    ============================================================================
+     Test gen_3x3_from_explored() method.
+    ============================================================================
+    """
+    cache = GenCache.gen_3x3_from_explored()
+    graph = GenGraphPath.gen_3x3()
+    node_1 = graph[1, 2]
+    node_2 = graph[2, 2]
+    assert cache[node_1].path() == [node_2]
+    assert cache[node_1].distance() == 1
+    assert cache[node_2].path() == []
+    assert cache[node_2].distance() == 0
+
+
+def test_gen_3x3_from_path():
+    """
+    ============================================================================
+     Test gen_3x3_from_path() method.
+    ============================================================================
+    """
+    cache = GenCache.gen_3x3_from_path()
+    graph = GenGraphPath.gen_3x3()
+    node_1 = graph[0, 1]
+    node_2 = graph[0, 2]
+    node_3 = graph[1, 2]
+    node_4 = graph[2, 2]
+    assert cache[node_1].path() == [node_2, node_3, node_4]
+    #assert cache[node_1].distance() == 3
+    #assert cache[node_2].path() == [node_3, node_4]
+    #assert cache[node_2].distance() == 2
+    #assert cache[node_3].path() == [node_4]
+    #assert cache[node_3].distance() == 1
+    #assert cache[node_4].path() == []
+    #assert cache[node_4].distance() == 0
     

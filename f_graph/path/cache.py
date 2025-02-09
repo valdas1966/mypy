@@ -25,3 +25,34 @@ class Cache(Dictable[Node, DataCache]):
     ===========================================================================
     """
     pass
+
+    @classmethod
+    def from_explored(cls, explored: set[Node]) -> 'Cache':
+        """
+        =======================================================================
+         Create Cache from Explored-Set of Nodes.
+        =======================================================================
+        """
+        cache = Cache()
+        for node in explored:
+            path = lambda n=node: list(reversed(n.path_from_root()[:-1]))
+            distance = lambda n=node: n.g
+            data = DataCache(path=path, distance=distance)
+            cache[node] = data
+        return cache
+
+    @classmethod
+    def from_path(cls, path: list[Node]) -> 'Cache':
+        """
+        =======================================================================
+         Create Cache from Path.
+        =======================================================================
+        """
+        cache = Cache()
+        goal = path[-1]
+        for node in path:
+            path_from_node = lambda n=node, g=goal: g.path_from_node(node=n)[1:]
+            distance = lambda n=node: len(path_from_node(n))
+            data = DataCache(path=path_from_node, distance=distance)
+            cache[node] = data
+        return cache
