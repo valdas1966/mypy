@@ -84,3 +84,14 @@ def test_str() -> None:
     """
     d = GenDictable.gen_arg()
     assert str(d) == "{'a': 1, 'b': 2}"
+
+
+def test_update() -> None:
+    """
+    ========================================================================
+     Test the update method.
+    ========================================================================
+    """
+    d = GenDictable.gen_arg()
+    d.update({'c': 3})
+    assert d._data == {'a': 1, 'b': 2, 'c': 3}

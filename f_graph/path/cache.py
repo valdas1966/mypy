@@ -26,6 +26,14 @@ class Cache(Dictable[Node, DataCache]):
     """
     pass
 
+    def update(self, cache: 'Cache') -> None:
+        """
+        =======================================================================
+         Update the cache with the given cache.
+        =======================================================================
+        """
+        Dictable.update(self, data=cache)
+        
     @classmethod
     def from_explored(cls, explored: set[Node]) -> 'Cache':
         """

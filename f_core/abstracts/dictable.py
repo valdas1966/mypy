@@ -1,6 +1,6 @@
 from f_core.mixins.printable import Printable
 from f_core.mixins.sizable import Sizable
-from typing import Generic, TypeVar, Iterator
+from typing import Generic, TypeVar, Iterator, Union
 
 K = TypeVar("K")  # Key type
 V = TypeVar("V")  # Value type
@@ -20,6 +20,17 @@ class Dictable(Generic[K, V], Printable, Sizable):
         ========================================================================
         """
         self._data: dict[K, V] = data or dict()
+
+    def update(self, data: Union[dict[K, V], 'Dictable[K, V]']) -> None:
+        """
+        ========================================================================
+         Update the internal dictionary with the given data.
+        ========================================================================
+        """
+        if isinstance(data, dict):
+            self._data.update(data)
+        else:
+            self._data.update(data._data)
 
     def __getitem__(self, key: K) -> V:
         """

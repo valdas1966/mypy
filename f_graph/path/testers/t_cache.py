@@ -44,11 +44,22 @@ def test_gen_3x3_from_path():
     node_3 = graph[1, 2]
     node_4 = graph[2, 2]
     assert cache[node_1].path() == [node_2, node_3, node_4]
-    #assert cache[node_1].distance() == 3
-    #assert cache[node_2].path() == [node_3, node_4]
-    #assert cache[node_2].distance() == 2
-    #assert cache[node_3].path() == [node_4]
-    #assert cache[node_3].distance() == 1
-    #assert cache[node_4].path() == []
-    #assert cache[node_4].distance() == 0
+    assert cache[node_1].distance() == 3
+    assert cache[node_2].path() == [node_3, node_4]
+    assert cache[node_2].distance() == 2
+    assert cache[node_3].path() == [node_4]
+    assert cache[node_3].distance() == 1
+    assert cache[node_4].path() == []
+    assert cache[node_4].distance() == 0
     
+
+def test_update():
+    """
+    ============================================================================
+     Test update() method.
+    ============================================================================
+    """
+    cache_explored = GenCache.gen_3x3_from_explored()
+    cache_path = GenCache.gen_3x3_from_path()
+    cache_explored.update(cache_path)
+    assert cache_explored == cache_path

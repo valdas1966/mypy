@@ -38,7 +38,6 @@ class GenCache:
         explored = {graph[2, 2], graph[1, 2]}
         return Cache.from_explored(explored=explored)
 
-
     @staticmethod
     def gen_3x3_from_path() -> Cache:
         """

@@ -1,13 +1,11 @@
-from f_graph.path.solution import SolutionPath, StatsPath
+from f_graph.path.stats import StatsPath
 from f_graph.path.node import NodePath as Node
 from f_core.abstracts.dictable import Dictable
 from f_core.mixins.validatable import Validatable
-from typing import Generic, TypeVar
-
-Solution = TypeVar('Solution', bound=SolutionPath)
+from f_graph.path.one_to_one.solution import SolutionOneToOne as Solution
 
 
-class SolutionsPath(Generic[Solution], Dictable[Node, Solution], Validatable):
+class SolutionsPath(Dictable[Node, Solution], Validatable):
     """
     ========================================================================
      Solutions of Path-Problems.
@@ -25,6 +23,11 @@ class SolutionsPath(Generic[Solution], Dictable[Node, Solution], Validatable):
         self._elapsed: int = sum(sol.stats.elapsed for sol in sols.values())
         self._generated: int = sum(sol.stats.generated for sol in sols.values())
         self._explored: int = sum(sol.stats.explored for sol in sols.values())
+        self._stats: dict[Node, StatsPath] = dict()
+        self._paths: dict[Node, list[Node]] = dict()
+        for node, sol in sols.items():
+            self._stats[node] = sol.stats
+            self._paths[node] = sol.path
 
     @property
     def elapsed(self) -> int:
@@ -52,3 +55,21 @@ class SolutionsPath(Generic[Solution], Dictable[Node, Solution], Validatable):
         ========================================================================
         """
         return self._explored
+
+    @property
+    def stats(self) -> dict[Node, StatsPath]:
+        """
+        ========================================================================
+         Return the stats of all solutions.
+        ========================================================================
+        """
+        return self._stats
+
+    @property
+    def paths(self) -> dict[Node, list[Node]]:
+        """
+        ========================================================================
+         Return the paths of all solutions.
+        ========================================================================
+        """
+        return self._paths

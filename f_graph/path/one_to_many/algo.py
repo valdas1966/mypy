@@ -5,8 +5,8 @@ from f_graph.path.one_to_one.algos.bfs import BFS
 from f_graph.path.one_to_one.algos.a_star import AStar
 from f_graph.path.one_to_many.state import StateOneToMany as State, TypeQueue
 from f_graph.path.one_to_many.problem import ProblemOneToMany as Problem
-from f_graph.path.one_to_many.solution import SolutionOneToMany as Solution
 from f_graph.path.one_to_one.solution import SolutionOneToOne, Node
+from f_graph.path.solutions import SolutionsPath as Solutions
 
 
 class TypeAlgo(EnumCallable):
@@ -19,7 +19,7 @@ class TypeAlgo(EnumCallable):
     A_STAR = AStar
 
 
-class AlgoOneToMany(AlgoPath[Problem, Solution]):
+class AlgoOneToMany(AlgoPath[Problem, Solutions]):
     """
     ============================================================================
      One-To-Many Path-Finding Algorithm.
@@ -47,7 +47,7 @@ class AlgoOneToMany(AlgoPath[Problem, Solution]):
         self._state = state if state else State(type_queue=self._type_queue)
         self._is_shared = is_shared
 
-    def run(self) -> Solution:
+    def run(self) -> Solutions:
         """
         ========================================================================
          Run the One-To-Many Path-Finding Algorithm.
@@ -68,6 +68,6 @@ class AlgoOneToMany(AlgoPath[Problem, Solution]):
                                    is_shared=self._is_shared)
             sols[p.goal] = algo.run()
             if not sols[p.goal]:
-                return Solution(is_valid=False, sols=sols)
+                return Solutions(is_valid=False, sols=sols)
             self._state.generated.undo_pop(item=p.goal)
-        return Solution(is_valid=True, sols=sols)
+        return Solutions(is_valid=True, sols=sols)

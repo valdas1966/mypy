@@ -1,6 +1,6 @@
 from f_graph.path.solutions import SolutionsPath
-from f_graph.path.generators.g_solution import GenSolutionPath
 from f_graph.path.generators.g_node import GenNode
+from f_graph.path.one_to_one.generators.g_solution import GenSolutionOneToOne
 
 
 class GenSolutionsPath:
@@ -10,6 +10,7 @@ class GenSolutionsPath:
     ========================================================================
     """
 
+    @staticmethod
     def gen_30_60_90() -> SolutionsPath:
         """
         ========================================================================
@@ -17,5 +18,5 @@ class GenSolutionsPath:
         ========================================================================
         """
         nodes = GenNode.gen_3x3()
-        sols = {node: GenSolutionPath.gen_3x3() for node in nodes}
-        return SolutionsPath(sols)
+        sols = {node: GenSolutionOneToOne.gen_3x3() for node in nodes}
+        return SolutionsPath(is_valid=True, sols=sols)
