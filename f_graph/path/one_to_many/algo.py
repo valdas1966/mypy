@@ -1,22 +1,9 @@
-from f_core.components.enum_callable import EnumCallable
 from f_graph.path.algo import AlgoPath
 from f_graph.path.heuristic import Heuristic, TypeHeuristic
-from f_graph.path.one_to_one.algos.bfs import BFS
-from f_graph.path.one_to_one.algos.a_star import AStar
 from f_graph.path.one_to_many.state import StateOneToMany as State, TypeQueue
 from f_graph.path.one_to_many.problem import ProblemOneToMany as Problem
 from f_graph.path.one_to_one.solution import SolutionOneToOne, Node
 from f_graph.path.solutions import SolutionsPath as Solutions
-
-
-class TypeAlgo(EnumCallable):
-    """
-    ============================================================================
-     Enum of Type-Algorithms.
-    ============================================================================
-    """
-    BFS = BFS
-    A_STAR = AStar
 
 
 class AlgoOneToMany(AlgoPath[Problem, Solutions]):

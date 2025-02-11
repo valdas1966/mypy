@@ -29,6 +29,14 @@ class Dictable(Generic[K, V], Printable, Sizable):
         """
         return list(self._data.keys())
 
+    def values(self) -> list[V]:
+        """
+        ========================================================================
+         Get the values of the dictionary.
+        ========================================================================
+        """
+        return list(self._data.values())
+    
     def update(self, data: Union[dict[K, V], 'Dictable[K, V]']) -> None:
         """
         ========================================================================
@@ -87,3 +95,11 @@ class Dictable(Generic[K, V], Printable, Sizable):
         ========================================================================
         """
         return str(self._data)
+
+    def __eq__(self, other: 'Dictable[K, V]') -> bool:
+        """
+        ========================================================================
+         Check if the two dictionaries are equal.
+        ========================================================================
+        """
+        return self._data == other._data

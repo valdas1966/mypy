@@ -12,7 +12,6 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
      Many-To-One Path-Finding Algorithm.
     ============================================================================
     """
-    
 
     def __init__(self,
                  problem: ProblemManyToOne,
@@ -20,7 +19,6 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
                  type_algo: TypeAlgo = TypeAlgo.A_STAR,
                  is_shared: bool = True,
                  name: str = 'Path-Algo Many-To-One') -> None:
-
         """
         ========================================================================
          Init private attributes.
@@ -28,10 +26,10 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
         """
         AlgoPath.__init__(self,
                           problem=problem,
-                          cache=cache,
-                          type_algo=type_algo,
-                          is_shared=is_shared,
                           name=name)
+        self._cache = cache if cache else Cache()
+        self._type_algo = type_algo
+        self._is_shared = is_shared
 
     def run(self) -> Solutions:
         """

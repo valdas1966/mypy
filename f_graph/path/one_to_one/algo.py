@@ -7,6 +7,16 @@ from f_graph.path.heuristic import Heuristic, TypeHeuristic
 from f_graph.path.stats import StatsPath
 from f_graph.path.algo import AlgoPath
 from f_graph.path.cache import Cache
+from enum import Enum, auto
+
+class TypeAlgo(Enum):
+    """
+    ============================================================================
+     Enum of Type-Algorithms.
+    ============================================================================
+    """
+    BFS = auto()
+    A_STAR = auto()
 
 
 class AlgoOneToOne(AlgoPath[Problem, Solution]):
@@ -20,8 +30,7 @@ class AlgoOneToOne(AlgoPath[Problem, Solution]):
                  problem: Problem,
                  cache: Cache = None,
                  state: State = None,
-                 type_queue: TypeQueue = TypeQueue.PRIORITY,
-                 type_heuristic: TypeHeuristic = TypeHeuristic.MANHATTAN,
+                 type_algo: TypeAlgo = TypeAlgo.A_STAR,
                  is_shared: bool = False,
                  name: str = 'Path-Algorithm One-to-One') -> None:
         """
@@ -29,6 +38,9 @@ class AlgoOneToOne(AlgoPath[Problem, Solution]):
          Init private Attributes.
         ========================================================================
         """
+        if type_algo == TypeAlgo.BFS:
+            type_queue = TypeQueue.FIFO
+            type_heuristic = TypeHeuristic.ZERO
         problem = problem if is_shared else problem.clone()
         AlgoPath.__init__(self, problem=problem, name=name)
         self._cache = cache if cache else Cache()

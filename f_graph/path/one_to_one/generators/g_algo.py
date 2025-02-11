@@ -1,32 +1,33 @@
-from f_graph.path.one_to_one.algos.bfs import BFS
+from f_graph.path.one_to_one.algo import AlgoOneToOne, TypeAlgo
 from f_graph.path.one_to_one.generators.g_problem import GenProblemOneToOne
-from f_graph.path.generators.g_cache import GenCache
 
 
-class GenBFS:
+class GeneratorAlgo:
     """
     ============================================================================
-     Generator for BFS-Algorithms.
+     Generator for Path-Algorithms.
     ============================================================================
     """
-
-    @staticmethod
-    def gen_3x3() -> BFS:
-        """
-        ========================================================================
-         Generate a BFS-Algorithm for a 3x3-Grid.
-        ========================================================================
-        """
-        problem = GenProblemOneToOne.gen_3x3()
-        return BFS(problem=problem)
     
     @staticmethod
-    def gen_3x3_cache() -> BFS:
+    def gen_3x3_bfs() -> AlgoOneToOne:
         """
         ========================================================================
-         Generate a BFS-Algorithm for a 3x3-Grid with cache.
+         Generate a 3x3 BFS-Algorithm.
         ========================================================================
         """
         problem = GenProblemOneToOne.gen_3x3()
-        cache = GenCache.gen_3x3()
-        return BFS(problem=problem, cache=cache)
+        algo = AlgoOneToOne(problem=problem, type_algo=TypeAlgo.BFS)
+        return algo
+    
+    @staticmethod
+    def gen_3x3_astar() -> AlgoOneToOne:
+        """
+        ========================================================================
+         Generate a 3x3 A*-Algorithm.
+        ========================================================================
+        """ 
+        problem = GenProblemOneToOne.gen_3x3()
+        algo = AlgoOneToOne(problem=problem, type_algo=TypeAlgo.A_STAR)
+        return algo
+

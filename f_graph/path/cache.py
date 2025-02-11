@@ -17,6 +17,15 @@ class DataCache:
     path: Callable[[], list[Node]]
     distance: Callable[[], int]
 
+    def __eq__(self, other: 'DataCache') -> bool:
+        """
+        =======================================================================
+         Check if the two DataCache objects are equal.
+        =======================================================================
+        """
+        p_1 = self.path() == other.path()
+        p_2 = self.distance() == other.distance()
+        return p_1 and p_2
 
 class Cache(Dictable[Node, DataCache]):
     """

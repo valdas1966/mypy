@@ -5,12 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/g_algo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_algo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_core/abstracts/dictable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/abstracts/dictable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/abstracts/testers/t_dictable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/abstracts/testers/t_dictable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/has_row_col.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/has_row_col.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_has_row_col.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/testers/t_has_row_col.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/cache.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/generators/g_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/generators/g_cache.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_many/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_many/algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/a_star.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/bfs.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/generators/g_a_star.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/generators/g_bfs.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/study/s_a_star.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/study/s_bfs.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/testers/t_a_star.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/algos/testers/t_bfs.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/testers/t_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/testers/t_cache.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,7 +49,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
+    "accountId": "ddaa2239-897e-4e37-90b9-04afc5364900"
   }
 }]]></component>
   <component name="ProjectColorInfo">{
@@ -355,6 +366,7 @@
     "Python.forward.executor": "Run",
     "Python.g_algo.executor": "Run",
     "Python.g_bfs.executor": "Run",
+    "Python.g_cache (1).executor": "Run",
     "Python.g_cache.executor": "Run",
     "Python.g_graph.executor": "Run",
     "Python.g_ops.executor": "Run",
@@ -532,7 +544,29 @@
       <recent name="D:\mypy\f_graph\path\one_to_one\generators" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for t_cache.test_data_cache">
+  <component name="RunManager" selected="Python tests.Python tests for t_cache.test_update">
+    <configuration name="g_cache (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/generators" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/generators/g_cache.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="g_cache" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -585,21 +619,6 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_cache.py (1)" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/testers/t_cache.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <configuration name="Python tests in t_has_row_col.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -617,11 +636,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for t_cache.test_update" />
         <item itemvalue="Python tests.Python tests for t_cache.test_data_cache" />
+        <item itemvalue="Python.g_cache (1)" />
         <item itemvalue="Python.g_cache" />
         <item itemvalue="Python tests.Python tests in t_has_row_col.py" />
-        <item itemvalue="Python tests.Python tests in t_cache.py (1)" />
-        <item itemvalue="Python tests.Python tests for t_cache.test_update" />
       </list>
     </recent_temporary>
   </component>
