@@ -36,3 +36,8 @@ def test_comparison():
             HasRowCol(1, 0) <
             HasRowCol(1, 1))
     assert HasRowCol() == HasRowCol()
+
+
+def test_to_tuple():
+    assert HasRowCol(0, 0).to_tuple() == (0, 0)
+    assert HasRowCol(1, 2).to_tuple() == (1, 2)

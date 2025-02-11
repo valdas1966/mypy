@@ -95,3 +95,13 @@ def test_update() -> None:
     d = GenDictable.gen_arg()
     d.update({'c': 3})
     assert d._data == {'a': 1, 'b': 2, 'c': 3}
+
+
+def test_keys() -> None:
+    """
+    ========================================================================
+     Test the keys method.
+    ========================================================================
+    """
+    d = GenDictable.gen_arg()
+    assert d.keys() == ['a', 'b']   

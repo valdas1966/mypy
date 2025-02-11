@@ -51,3 +51,21 @@ class GenCache:
         graph[0, 2].parent = graph[0, 1]
         path = [graph[0, 1], graph[0, 2], graph[1, 2], graph[2, 2]]
         return Cache.from_path(path=path)
+    
+    @staticmethod
+    def gen_data_cache() -> DataCache:
+        """
+        ========================================================================
+         Generate a data cache.
+        ========================================================================
+        """
+        graph = GenGraphPath.gen_3x3()
+        path = [graph[0, 0], graph[0, 1]]
+        return DataCache(path=lambda: path, distance=lambda: 2)
+
+
+cache_path = GenCache.gen_3x3_from_path()
+print({node.uid.to_tuple() for node in cache_path.keys()})
+
+cache_explored = GenCache.gen_3x3_from_explored()
+print({node.uid.to_tuple() for node in cache_explored.keys()})

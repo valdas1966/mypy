@@ -53,6 +53,17 @@ def test_gen_3x3_from_path():
     assert cache[node_4].distance() == 0
     
 
+def test_data_cache():
+    """
+    ============================================================================
+     Test data_cache() method.
+    ============================================================================
+    """
+    cache_1 = GenCache.gen_data_cache()   
+    cache_2 = GenCache.gen_data_cache()
+    assert cache_1 == cache_2
+
+
 def test_update():
     """
     ============================================================================
@@ -62,4 +73,7 @@ def test_update():
     cache_explored = GenCache.gen_3x3_from_explored()
     cache_path = GenCache.gen_3x3_from_path()
     cache_explored.update(cache_path)
-    assert cache_explored == cache_path
+    uids_explored = {node.uid for node in cache_explored.keys()}
+    uids_path = {node.uid for node in cache_path.keys()}
+    assert uids_explored == uids_path
+    

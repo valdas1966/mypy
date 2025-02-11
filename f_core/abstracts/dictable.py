@@ -21,6 +21,14 @@ class Dictable(Generic[K, V], Printable, Sizable):
         """
         self._data: dict[K, V] = data or dict()
 
+    def keys(self) -> list[K]:
+        """
+        ========================================================================
+         Get the keys of the dictionary.
+        ========================================================================
+        """
+        return list(self._data.keys())
+
     def update(self, data: Union[dict[K, V], 'Dictable[K, V]']) -> None:
         """
         ========================================================================
