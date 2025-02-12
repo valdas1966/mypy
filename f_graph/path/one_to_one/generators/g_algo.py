@@ -2,7 +2,7 @@ from f_graph.path.one_to_one.algo import AlgoOneToOne, TypeAlgo
 from f_graph.path.one_to_one.generators.g_problem import GenProblemOneToOne
 
 
-class GeneratorAlgo:
+class GenAlgoOneToOne:
     """
     ============================================================================
      Generator for Path-Algorithms.

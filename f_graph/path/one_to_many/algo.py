@@ -1,4 +1,5 @@
 from f_graph.path.algo import AlgoPath
+from f_graph.path.one_to_one.algo import AlgoOneToOne, TypeAlgo
 from f_graph.path.heuristic import Heuristic, TypeHeuristic
 from f_graph.path.one_to_many.state import StateOneToMany as State, TypeQueue
 from f_graph.path.one_to_many.problem import ProblemOneToMany as Problem
@@ -50,9 +51,10 @@ class AlgoOneToMany(AlgoPath[Problem, Solutions]):
                 self._state.update(heuristic=heuristic)
             if not self._is_shared:
                 self._state = State(type_queue=self._type_queue)
-            algo = self._type_algo(problem=p,
-                                   state=self._state,
-                                   is_shared=self._is_shared)
+            algo = AlgoOneToOne(problem=p,
+                                state=self._state,
+                                type_algo=self._type_algo,
+                                is_shared=self._is_shared)
             sols[p.goal] = algo.run()
             if not sols[p.goal]:
                 return Solutions(is_valid=False, sols=sols)

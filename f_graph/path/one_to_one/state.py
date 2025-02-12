@@ -22,7 +22,7 @@ class StateOneToOne:
     ============================================================================
     """
 
-    def __init__(self, type_queue: TypeQueue=TypeQueue.PRIORITY) -> None:
+    def __init__(self, type_queue: TypeQueue = TypeQueue.PRIORITY) -> None:
         """
         ========================================================================
          Init private Attributes.

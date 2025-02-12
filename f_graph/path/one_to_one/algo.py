@@ -38,6 +38,8 @@ class AlgoOneToOne(AlgoPath[Problem, Solution]):
          Init private Attributes.
         ========================================================================
         """
+        type_queue = TypeQueue.PRIORITY
+        type_heuristic = TypeHeuristic.MANHATTAN
         if type_algo == TypeAlgo.BFS:
             type_queue = TypeQueue.FIFO
             type_heuristic = TypeHeuristic.ZERO
