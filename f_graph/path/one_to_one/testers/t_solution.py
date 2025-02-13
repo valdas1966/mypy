@@ -14,4 +14,3 @@ def test_path_3x3() -> None:
     path_true = [graph[0, 0], graph[0, 1], graph[0, 2],
                  graph[1, 2], graph[2, 2]]
     assert solution.path == path_true
-

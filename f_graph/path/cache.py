@@ -1,5 +1,7 @@
+from __future__ import annotations  
 from f_core.abstracts.dictable import Dictable
 from f_graph.path.node import NodePath as Node
+from f_graph.path.path import Path
 from dataclasses import dataclass
 from typing import Callable
 
@@ -14,10 +16,10 @@ class DataCache:
         2. True-Distance from Node to Goal.
     ===========================================================================
     """
-    path: Callable[[], list[Node]]
+    path: Callable[[], Path]
     distance: Callable[[], int]
 
-    def __eq__(self, other: 'DataCache') -> bool:
+    def __eq__(self, other: DataCache) -> bool:
         """
         =======================================================================
          Check if the two DataCache objects are equal.
@@ -27,6 +29,7 @@ class DataCache:
         p_2 = self.distance() == other.distance()
         return p_1 and p_2
 
+
 class Cache(Dictable[Node, DataCache]):
     """
     ===========================================================================
@@ -35,7 +38,7 @@ class Cache(Dictable[Node, DataCache]):
     """
     pass
 
-    def update(self, cache: 'Cache') -> None:
+    def update(self, cache: Cache) -> None:
         """
         =======================================================================
          Update the cache with the given cache.
@@ -44,7 +47,7 @@ class Cache(Dictable[Node, DataCache]):
         Dictable.update(self, data=cache)
         
     @classmethod
-    def from_explored(cls, explored: set[Node]) -> 'Cache':
+    def from_explored(cls, explored: set[Node]) -> Cache:
         """
         =======================================================================
          Create Cache from Explored-Set of Nodes.
@@ -52,24 +55,23 @@ class Cache(Dictable[Node, DataCache]):
         """
         cache = Cache()
         for node in explored:
-            path = lambda n=node: list(reversed(n.path_from_root()[:-1]))
+            path = lambda n=node: reversed(n.path_from_root())
             distance = lambda n=node: n.g
             data = DataCache(path=path, distance=distance)
             cache[node] = data
         return cache
 
     @classmethod
-    def from_path(cls, path: list[Node]) -> 'Cache':
+    def from_path(cls, path: Path) -> Cache:
         """
         =======================================================================
          Create Cache from Path.
         =======================================================================
         """
         cache = Cache()
-        goal = path[-1]
         for node in path:
-            path_from_node = lambda n=node, g=goal: g.path_from_node(node=n)[1:]
-            distance = lambda n=node: len(path_from_node(n))
+            path_from_node = lambda n=node, g=path.goal: g.path_from_node(node=n)
+            distance = lambda n=node: len(path_from_node(n)) - 1
             data = DataCache(path=path_from_node, distance=distance)
             cache[node] = data
         return cache

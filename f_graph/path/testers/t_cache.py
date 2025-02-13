@@ -25,9 +25,9 @@ def test_gen_3x3_from_explored():
     graph = GenGraphPath.gen_3x3()
     node_1 = graph[1, 2]
     node_2 = graph[2, 2]
-    assert cache[node_1].path() == [node_2]
+    assert cache[node_1].path() == [node_1, node_2]
     assert cache[node_1].distance() == 1
-    assert cache[node_2].path() == []
+    assert cache[node_2].path() == [node_2]
     assert cache[node_2].distance() == 0
 
 
@@ -43,13 +43,13 @@ def test_gen_3x3_from_path():
     node_2 = graph[0, 2]
     node_3 = graph[1, 2]
     node_4 = graph[2, 2]
-    assert cache[node_1].path() == [node_2, node_3, node_4]
+    assert cache[node_1].path() == [node_1, node_2, node_3, node_4]
     assert cache[node_1].distance() == 3
-    assert cache[node_2].path() == [node_3, node_4]
+    assert cache[node_2].path() == [node_2, node_3, node_4]
     assert cache[node_2].distance() == 2
-    assert cache[node_3].path() == [node_4]
+    assert cache[node_3].path() == [node_3, node_4]
     assert cache[node_3].distance() == 1
-    assert cache[node_4].path() == []
+    assert cache[node_4].path() == [node_4]
     assert cache[node_4].distance() == 0
     
 

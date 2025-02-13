@@ -24,3 +24,24 @@ class GenNode:
         goal.h = 0
         goal.parent = pre_goal
         return start, pre_goal, goal
+
+    @staticmethod
+    def gen_diagonal(size: int = 3) -> tuple[Node, ...]:
+        """
+        ========================================================================
+         Generate a tuple of nodes for a diagonal problem.
+        ========================================================================
+        """
+        graph = GenGraphPath.gen_3x3()
+        return tuple(graph[i, j] for i in range(size) for j in range(size) if i == j)
+    
+    @staticmethod
+    def gen_first_row_3x3() -> tuple[Node, ...]:
+        """
+        ========================================================================
+         Generate a tuple of nodes for a 3x3 problem.
+        ========================================================================
+        """
+        graph = GenGraphPath.gen_3x3()
+        return tuple(graph[0, j] for j in range(3))
+

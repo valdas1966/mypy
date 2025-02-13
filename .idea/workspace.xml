@@ -5,22 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_ds/mixins/has_cache.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/boundary_lazy.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/generators/g_boundary.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/generators/g_path.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/testers/t_boundary.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_graph/path/testers/t_path.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/generators/g_problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/generators/g_problem.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/testers/t_algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/testers/t_algo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algo.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/backward.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/forward.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/study/s_forward.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/testers/t_backward.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/testers/t_forward.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/old_solution.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/problem.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/solution.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/state.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/study/s_solution.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/testers/t_problem.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/boundary.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/boundary.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/cache.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/generators/g_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/generators/g_cache.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/generators/g_node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/generators/g_node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/node.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/solution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_solution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/path.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/solutions.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/solutions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/testers/t_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/testers/t_cache.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/testers/t_solutions.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/testers/t_solutions.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,6 +118,7 @@
     "Python tests.Python tests for t_bfs.test_bfs.executor": "Run",
     "Python tests.Python tests for t_bfs.test_bfs_cache.executor": "Run",
     "Python tests.Python tests for t_bfs.test_cached.executor": "Run",
+    "Python tests.Python tests for t_boundary.test_3x3.executor": "Run",
     "Python tests.Python tests for t_cache.test_data_cache.executor": "Run",
     "Python tests.Python tests for t_cache.test_gen_3x3.executor": "Run",
     "Python tests.Python tests for t_cache.test_gen_3x3_from_explored.executor": "Run",
@@ -198,6 +202,10 @@
     "Python tests.Python tests for t_ops.test_generate.executor": "Run",
     "Python tests.Python tests for t_ops.test_init.executor": "Run",
     "Python tests.Python tests for t_parentable.test_path_from_root.executor": "Run",
+    "Python tests.Python tests for t_path.test_extend.executor": "Run",
+    "Python tests.Python tests for t_path.test_getitem.executor": "Run",
+    "Python tests.Python tests for t_path.test_reversed.executor": "Run",
+    "Python tests.Python tests for t_path.test_str.executor": "Run",
     "Python tests.Python tests for t_position.test_str.executor": "Run",
     "Python tests.Python tests for t_position.test_update.executor": "Run",
     "Python tests.Python tests for t_problem.test_clone (1).executor": "Run",
@@ -269,6 +277,7 @@
     "Python tests.Python tests in t_bfs.py (1).executor": "Run",
     "Python tests.Python tests in t_bfs.py (2).executor": "Run",
     "Python tests.Python tests in t_bfs.py.executor": "Run",
+    "Python tests.Python tests in t_boundary.py.executor": "Run",
     "Python tests.Python tests in t_cache.py (1).executor": "Run",
     "Python tests.Python tests in t_cache.py.executor": "Run",
     "Python tests.Python tests in t_cell.py.executor": "Run",
@@ -332,6 +341,7 @@
     "Python tests.Python tests in t_ops.py (1).executor": "Run",
     "Python tests.Python tests in t_ops.py.executor": "Run",
     "Python tests.Python tests in t_parentable.py.executor": "Run",
+    "Python tests.Python tests in t_path.py.executor": "Run",
     "Python tests.Python tests in t_position.py (1).executor": "Run",
     "Python tests.Python tests in t_position.py.executor": "Run",
     "Python tests.Python tests in t_problem.py (1).executor": "Run",
@@ -369,10 +379,12 @@
     "Python.forward.executor": "Run",
     "Python.g_algo.executor": "Run",
     "Python.g_bfs.executor": "Run",
+    "Python.g_boundary.executor": "Run",
     "Python.g_cache (1).executor": "Run",
     "Python.g_cache.executor": "Run",
     "Python.g_graph.executor": "Run",
     "Python.g_ops.executor": "Run",
+    "Python.g_path.executor": "Run",
     "Python.g_solution.executor": "Run",
     "Python.gen_graph.executor": "Run",
     "Python.generated_explored.executor": "Run",
@@ -547,68 +559,45 @@
       <recent name="D:\mypy\f_graph\path\one_to_one\generators" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_algo.py">
-    <configuration name="Python tests for t_algo.test_astar_non_shared" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests in t_boundary.py">
+    <configuration name="g_boundary" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/generators" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/generators/g_boundary.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for t_boundary.test_3x3" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_algo.test_astar_non_shared&quot;" />
+      <option name="_new_target" value="&quot;t_boundary.test_3x3&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_algo.test_astar_shared" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_algo.test_astar_shared&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for t_algo.test_bfs_non_shared" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_algo.test_bfs_non_shared&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for t_algo.test_bfs_shared" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_algo.test_bfs_shared&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_algo.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_algo.py (2)" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -623,13 +612,43 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Python tests in t_boundary.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/testers/t_boundary.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in t_path.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/testers/t_path.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in t_algo.py" />
-        <item itemvalue="Python tests.Python tests for t_algo.test_bfs_non_shared" />
-        <item itemvalue="Python tests.Python tests for t_algo.test_bfs_shared" />
-        <item itemvalue="Python tests.Python tests for t_algo.test_astar_non_shared" />
-        <item itemvalue="Python tests.Python tests for t_algo.test_astar_shared" />
+        <item itemvalue="Python tests.Python tests in t_boundary.py" />
+        <item itemvalue="Python.g_boundary" />
+        <item itemvalue="Python tests.Python tests for t_boundary.test_3x3" />
+        <item itemvalue="Python tests.Python tests in t_path.py" />
+        <item itemvalue="Python tests.Python tests in t_algo.py (2)" />
       </list>
     </recent_temporary>
   </component>
@@ -648,14 +667,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00096" summary="h">
-      <option name="closed" value="true" />
-      <created>1733407971238</created>
-      <option name="number" value="00096" />
-      <option name="presentableId" value="LOCAL-00096" />
-      <option name="project" value="LOCAL" />
-      <updated>1733407971238</updated>
     </task>
     <task id="LOCAL-00097" summary="h">
       <option name="closed" value="true" />
@@ -1041,7 +1052,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739339912801</updated>
     </task>
-    <option name="localTasksCounter" value="145" />
+    <task id="LOCAL-00145" summary="h">
+      <option name="closed" value="true" />
+      <created>1739469704974</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1739469704974</updated>
+    </task>
+    <option name="localTasksCounter" value="146" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

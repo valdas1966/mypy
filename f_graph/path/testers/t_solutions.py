@@ -12,4 +12,3 @@ def test_solutions() -> None:
     assert sols.elapsed == 30
     assert sols.generated == 60
     assert sols.explored == 90
-

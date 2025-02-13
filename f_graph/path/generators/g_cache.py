@@ -1,5 +1,6 @@
 from f_graph.path.generators.g_graph import GenGraphPath
 from f_graph.path.cache import Cache, DataCache
+from f_graph.path.path import Path
 
 
 class GenCache:
@@ -19,7 +20,7 @@ class GenCache:
         cache = Cache()
         graph = GenGraphPath.gen_3x3()
         node = graph[0, 1]
-        path_from_node = [graph[0, 2], graph[1, 2], graph[2, 2]]
+        path_from_node = Path(data=[graph[0, 2], graph[1, 2], graph[2, 2]])
         data = DataCache(path=lambda: path_from_node, distance=lambda: 3)
         cache[node] = data
 
@@ -49,7 +50,8 @@ class GenCache:
         graph[2, 2].parent = graph[1, 2]
         graph[1, 2].parent = graph[0, 2]
         graph[0, 2].parent = graph[0, 1]
-        path = [graph[0, 1], graph[0, 2], graph[1, 2], graph[2, 2]]
+        nodes = [graph[0, 1], graph[0, 2], graph[1, 2], graph[2, 2]]
+        path = Path(nodes)
         return Cache.from_path(path=path)
     
     @staticmethod

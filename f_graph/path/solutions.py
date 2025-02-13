@@ -1,3 +1,4 @@
+from f_graph.path.path import Path
 from f_graph.path.stats import StatsPath
 from f_graph.path.node import NodePath as Node
 from f_core.abstracts.dictable import Dictable
@@ -24,7 +25,7 @@ class SolutionsPath(Dictable[Node, Solution], Validatable):
         self._generated: int = sum(sol.stats.generated for sol in sols.values())
         self._explored: int = sum(sol.stats.explored for sol in sols.values())
         self._stats: dict[Node, StatsPath] = dict()
-        self._paths: dict[Node, list[Node]] = dict()
+        self._paths: dict[Node, Path] = dict()
         for node, sol in sols.items():
             self._stats[node] = sol.stats
             self._paths[node] = sol.path
@@ -66,7 +67,7 @@ class SolutionsPath(Dictable[Node, Solution], Validatable):
         return self._stats
 
     @property
-    def paths(self) -> dict[Node, list[Node]]:
+    def paths(self) -> dict[Node, Path]:
         """
         ========================================================================
          Return the paths of all solutions.

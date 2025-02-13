@@ -63,7 +63,6 @@ class OpsOneToOne:
             node.h = self._heuristic(node=node)
         self._state.generated.push(item=node)
         self._counter[TypeCounter.GENERATED] += 1
-        print(node.uid.to_tuple())
 
     def explore(self, node: Node) -> None:
         """

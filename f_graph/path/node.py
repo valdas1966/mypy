@@ -1,9 +1,12 @@
 from __future__ import annotations
 from f_ds.nodes.i_1_parent import NodeParent, UID
-from f_ds.mixins.cacheable import Cacheable
+from f_ds.mixins.has_cache import HasCache
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from f_graph.path.path import Path
 
 
-class NodePath(NodeParent[UID], Cacheable):
+class NodePath(NodeParent[UID], HasCache):
     """
     ============================================================================
      Node with a Path functionality.
@@ -22,7 +25,7 @@ class NodePath(NodeParent[UID], Cacheable):
         ========================================================================
         """
         NodeParent.__init__(self, uid=uid, parent=parent, name=name)
-        Cacheable.__init__(self, is_cached=is_cached)
+        HasCache.__init__(self, is_cached=is_cached)
         self._g = 0 if not parent else parent.g + 1
         self._h = h
 
@@ -60,6 +63,26 @@ class NodePath(NodeParent[UID], Cacheable):
         ========================================================================
         """
         return (self.g + self.h) if self.h is not None else -self.g
+    
+    def path_from_root(self) -> Path:
+        """
+        ========================================================================
+         Get the Path from the Root to this Node.
+        ========================================================================
+        """
+        from f_graph.path.path import Path 
+        nodes = NodeParent.path_from_root(self)
+        return Path(data=nodes)
+    
+    def path_from_node(self, node: NodePath) -> Path:
+        """
+        ========================================================================
+         Get the Path from the given Node to this Node.
+        ========================================================================
+        """
+        from f_graph.path.path import Path 
+        nodes = NodeParent.path_from_node(self, node=node)
+        return Path(data=nodes)
 
     def key_comparison(self) -> list:
         """
