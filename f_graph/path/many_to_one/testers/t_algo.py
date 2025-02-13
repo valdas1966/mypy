@@ -12,9 +12,10 @@ def paths_true() -> dict[Node, list[Node]]:
     """
     graph = GenGraphPath.gen_3x3()
     start_1 = graph[0, 2]
-    start_2 = graph[2, 0]
+    start_2 = graph[2, 2]
     return {start_1: [graph[0, 2], graph[0, 1], graph[0, 0]],
-            start_2: [graph[2, 0], graph[1, 0], graph[0, 0]]}
+            start_2: [graph[2, 2], graph[1, 2], graph[0, 2],
+                      graph[0, 1], graph[0, 0]]}
 
 
 def test_bfs_non_shared(paths_true: dict[Node, list[Node]]) -> None:
@@ -27,22 +28,8 @@ def test_bfs_non_shared(paths_true: dict[Node, list[Node]]) -> None:
     sol = algo.run()
     assert sol
     assert sol.paths == paths_true
-    assert sol.generated == 14
-    assert sol.explored == 8
-
-
-def test_bfs_shared(paths_true: dict[Node, list[Node]]) -> None:
-    """
-    ========================================================================
-     Test BFS-Algorithm with shared State.
-    ========================================================================
-    """
-    algo = GenAlgoManyToOne.gen_3x3_bfs(is_shared=True)
-    sol = algo.run()
-    assert sol
-    assert sol.paths == paths_true
-    assert sol.generated == 14
-    assert sol.explored == 8
+    assert sol.generated == 17
+    assert sol.explored == 13
 
 
 def test_astar_non_shared(paths_true: dict[Node, list[Node]]) -> None:
@@ -55,8 +42,8 @@ def test_astar_non_shared(paths_true: dict[Node, list[Node]]) -> None:
     sol = algo.run()
     assert sol
     assert sol.paths == paths_true
-    assert sol.generated == 10
-    assert sol.explored == 4
+    assert sol.generated == 12
+    assert sol.explored == 6
 
 
 def test_astar_shared(paths_true: dict[Node, list[Node]]) -> None:

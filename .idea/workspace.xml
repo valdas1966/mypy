@@ -5,10 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/generators/g_algo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/testers/t_algo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/generators/g_problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/generators/g_problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/testers/t_algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/testers/t_algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algo.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/backward.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/forward.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/study/s_forward.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/testers/t_backward.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/algos/testers/t_forward.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/old_solution.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/problem.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/solution.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/state.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/study/s_solution.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/multi/testers/t_problem.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,12 +44,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
-    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/valdas1966/mypy.git",
+    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -89,6 +101,8 @@
     "Python tests.Python tests for t_algo.test.executor": "Run",
     "Python tests.Python tests for t_algo.test_a_star_not_shared.executor": "Run",
     "Python tests.Python tests for t_algo.test_a_star_shared.executor": "Run",
+    "Python tests.Python tests for t_algo.test_astar_non_shared.executor": "Run",
+    "Python tests.Python tests for t_algo.test_astar_shared.executor": "Run",
     "Python tests.Python tests for t_algo.test_bfs.executor": "Run",
     "Python tests.Python tests for t_algo.test_bfs_non_shared.executor": "Run",
     "Python tests.Python tests for t_algo.test_bfs_not_shared.executor": "Run",
@@ -533,27 +547,35 @@
       <recent name="D:\mypy\f_graph\path\one_to_one\generators" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_algo.py (2)">
-    <configuration name="g_algo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests in t_algo.py">
+    <configuration name="Python tests for t_algo.test_astar_non_shared" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/generators" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/many_to_one/generators/g_algo.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_algo.test_astar_non_shared&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for t_algo.test_astar_shared" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_algo.test_astar_shared&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="Python tests for t_algo.test_bfs_non_shared" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -586,7 +608,7 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_algo.py (2)" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_algo.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -601,28 +623,13 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_problem.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/many_to_one/testers/t_problem.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in t_algo.py (2)" />
-        <item itemvalue="Python tests.Python tests for t_algo.test_bfs_shared" />
+        <item itemvalue="Python tests.Python tests in t_algo.py" />
         <item itemvalue="Python tests.Python tests for t_algo.test_bfs_non_shared" />
-        <item itemvalue="Python.g_algo" />
-        <item itemvalue="Python tests.Python tests in t_problem.py" />
+        <item itemvalue="Python tests.Python tests for t_algo.test_bfs_shared" />
+        <item itemvalue="Python tests.Python tests for t_algo.test_astar_non_shared" />
+        <item itemvalue="Python tests.Python tests for t_algo.test_astar_shared" />
       </list>
     </recent_temporary>
   </component>

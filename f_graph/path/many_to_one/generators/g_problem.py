@@ -18,6 +18,6 @@ class GenProblemManyToOne:
         ========================================================================
         """
         graph = GenGraphPath.gen_3x3()
-        starts = [graph[2, 0], graph[0, 2]]
+        starts = [graph[0, 2], graph[2, 2]]
         goal = graph[0, 0]
         return ProblemManyToOne(graph=graph, starts=starts, goal=goal)
