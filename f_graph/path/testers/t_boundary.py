@@ -9,5 +9,6 @@ def test_3x3() -> None:
     """
     boundary = GenBoundary.gen_3x3()
     graph = GenGraphPath.gen_3x3()
-    assert boundary[graph[1, 0]] == 1
-    assert boundary[graph[1, 1]] == 0
+    assert boundary[graph[1, 0]]() == 1
+    assert boundary[graph[1, 1]]() == 0
+    assert boundary[graph[1, 2]]() == -1

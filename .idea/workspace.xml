@@ -5,25 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_ds/mixins/has_cache.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/boundary_lazy.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/generators/g_boundary.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/generators/g_path.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/testers/t_boundary.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/testers/t_path.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_cs/mixins/has_eager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/boundary.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/boundary.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/cache.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/generators/g_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/generators/g_cache.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/generators/g_node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/generators/g_node.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/node.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/solution.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_solution.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/solutions.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/solutions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/testers/t_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/testers/t_cache.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/testers/t_solutions.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/testers/t_solutions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/boundary_lazy.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/testers/t_boundary.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/testers/t_boundary.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,12 +33,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
+    &quot;accountId&quot;: &quot;9193838d-ef26-4e0d-b77f-58e2bc1908f8&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -277,6 +263,7 @@
     "Python tests.Python tests in t_bfs.py (1).executor": "Run",
     "Python tests.Python tests in t_bfs.py (2).executor": "Run",
     "Python tests.Python tests in t_bfs.py.executor": "Run",
+    "Python tests.Python tests in t_boundary.py (1).executor": "Run",
     "Python tests.Python tests in t_boundary.py.executor": "Run",
     "Python tests.Python tests in t_cache.py (1).executor": "Run",
     "Python tests.Python tests in t_cache.py.executor": "Run",
@@ -559,7 +546,7 @@
       <recent name="D:\mypy\f_graph\path\one_to_one\generators" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_boundary.py">
+  <component name="RunManager" selected="Python tests.Python tests in t_boundary.py (1)">
     <configuration name="g_boundary" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -597,18 +584,18 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_algo.py (2)" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_boundary.py (1)" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/many_to_one/testers/t_algo.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/testers/t_boundary.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -644,11 +631,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests in t_boundary.py (1)" />
+        <item itemvalue="Python tests.Python tests for t_boundary.test_3x3" />
         <item itemvalue="Python tests.Python tests in t_boundary.py" />
         <item itemvalue="Python.g_boundary" />
-        <item itemvalue="Python tests.Python tests for t_boundary.test_3x3" />
         <item itemvalue="Python tests.Python tests in t_path.py" />
-        <item itemvalue="Python tests.Python tests in t_algo.py (2)" />
       </list>
     </recent_temporary>
   </component>
@@ -667,14 +654,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00097" summary="h">
-      <option name="closed" value="true" />
-      <created>1733417025411</created>
-      <option name="number" value="00097" />
-      <option name="presentableId" value="LOCAL-00097" />
-      <option name="project" value="LOCAL" />
-      <updated>1733417025411</updated>
     </task>
     <task id="LOCAL-00098" summary="h">
       <option name="closed" value="true" />
@@ -1060,7 +1039,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739469704974</updated>
     </task>
-    <option name="localTasksCounter" value="146" />
+    <task id="LOCAL-00146" summary="h">
+      <option name="closed" value="true" />
+      <created>1739478893502</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1739478893502</updated>
+    </task>
+    <option name="localTasksCounter" value="147" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
