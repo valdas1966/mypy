@@ -24,3 +24,8 @@ class GenBoundary:
         graph = GenGraphPath.gen_3x3()
         path = GenPath.gen_first_row_3x3()
         return Boundary(graph=graph, cache=cache, path=path)
+
+
+boundary = GenBoundary.gen_3x3()
+for node in boundary:
+    print(node)
