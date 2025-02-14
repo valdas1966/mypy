@@ -23,4 +23,14 @@ class GenProblemOneToOne:
         return problem
     
     @staticmethod
-    
+    def gen_4x4() -> Problem:
+        """
+        ========================================================================
+         Return a generated ProblemSingle with Graph of 4x4 dimension.
+        ========================================================================
+        """
+        graph = GenGraphPath.gen_4x4()
+        start = graph[0, 0]
+        goal = graph[3, 3]
+        problem = Problem(graph=graph, start=start, goal=goal)
+        return problem

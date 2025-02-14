@@ -26,6 +26,6 @@ class GenGraphPath:
          Generate a 4x4 grid graph.
         ============================================================================
         """
-        grid = GenGrid.gen_4x4()    
+        grid = GenGrid.gen_4x4()
         return Graph(grid=grid, type_node=NodePath)
     
