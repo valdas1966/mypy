@@ -12,3 +12,4 @@ def test_3x3() -> None:
     assert boundary[graph[1, 0]]() == 1
     assert boundary[graph[1, 1]]() == 0
     assert boundary[graph[1, 2]]() == -1
+    assert boundary[graph[2, 0]]() == 0

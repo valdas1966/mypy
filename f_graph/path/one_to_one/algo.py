@@ -4,6 +4,7 @@ from f_graph.path.one_to_one.state import StateOneToOne as State, TypeQueue
 from f_graph.path.one_to_one.flow import FlowOneToOne as Flow
 from f_graph.path.one_to_one.ops import OpsOneToOne as Ops, TypeCounter
 from f_graph.path.heuristic import Heuristic, TypeHeuristic
+from f_graph.path.boundary import Boundary
 from f_graph.path.stats import StatsPath
 from f_graph.path.algo import AlgoPath
 from f_graph.path.cache import Cache
@@ -28,9 +29,10 @@ class AlgoOneToOne(AlgoPath[Problem, Solution]):
 
     def __init__(self,
                  problem: Problem,
+                 type_algo: TypeAlgo = TypeAlgo.A_STAR,
                  cache: Cache = None,
                  state: State = None,
-                 type_algo: TypeAlgo = TypeAlgo.A_STAR,
+                 boundary: Boundary = None,
                  is_shared: bool = False,
                  name: str = 'Path-Algorithm One-to-One') -> None:
         """
@@ -47,6 +49,7 @@ class AlgoOneToOne(AlgoPath[Problem, Solution]):
         AlgoPath.__init__(self, problem=problem, name=name)
         self._cache = cache if cache else Cache()
         self._state = state if state else State(type_queue=type_queue)
+        self._boundary = boundary if boundary else Boundary()
         self._heuristic = Heuristic(graph=problem.graph, goal=problem.goal,
                                     type_heuristic=type_heuristic)
         self._ops = Ops(problem=problem, cache=self._cache, state=self._state,

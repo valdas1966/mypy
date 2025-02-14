@@ -21,3 +21,6 @@ class GenProblemOneToOne:
         goal = graph[2, 2]
         problem = Problem(graph=graph, start=start, goal=goal)
         return problem
+    
+    @staticmethod
+    

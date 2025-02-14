@@ -1,6 +1,7 @@
 from f_graph.path.one_to_one.state import StateOneToOne as State
 from f_graph.path.problem import ProblemPath as Problem
 from f_graph.path.heuristic import Heuristic, Node
+from f_graph.path.boundary import Boundary
 from f_graph.path.cache import Cache
 from collections import Counter
 from enum import Enum, auto
@@ -27,6 +28,7 @@ class OpsOneToOne:
                  problem: Problem,
                  state: State,
                  cache: Cache,
+                 boundary: Boundary,
                  heuristic: Heuristic) -> None:
         """
         ========================================================================
@@ -36,6 +38,7 @@ class OpsOneToOne:
         self._problem = problem
         self._state = state
         self._cache = cache
+        self._boundary = boundary
         self._heuristic = heuristic
         self._counter = Counter({TypeCounter.GENERATED: 0,
                                  TypeCounter.EXPLORED: 0})
@@ -60,7 +63,8 @@ class OpsOneToOne:
             node.h = self._cache[node].distance()
             node.is_cached = True
         else:
-            node.h = self._heuristic(node=node)
+            node.h = max(self._heuristic(node=node),
+                         self._boundary[node]())
         self._state.generated.push(item=node)
         self._counter[TypeCounter.GENERATED] += 1
 

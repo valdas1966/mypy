@@ -18,3 +18,14 @@ class GenGraphPath:
         """
         grid = GenGrid.gen_3x3()
         return Graph(grid=grid, type_node=NodePath)
+    
+    @staticmethod
+    def gen_4x4() -> Graph:
+        """
+        ============================================================================
+         Generate a 4x4 grid graph.
+        ============================================================================
+        """
+        grid = GenGrid.gen_4x4()    
+        return Graph(grid=grid, type_node=NodePath)
+    

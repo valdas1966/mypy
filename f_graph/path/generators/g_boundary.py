@@ -19,13 +19,20 @@ class GenBoundary:
          Generate the Boundary for a 3x3 Grid.
         ====================================================================
         """
-        nodes = {node: None for node in GenNode.gen_first_row_3x3()}
-        cache = Cache(data=nodes)
         graph = GenGraphPath.gen_3x3()
         path = GenPath.gen_first_row_3x3()
-        return Boundary(graph=graph, cache=cache, path=path)
+        cache = Cache(data=path)
+        return Boundary.from_path(path=path, graph=graph, cache=cache)
+    
+    @staticmethod
+    def gen_02_22() -> Boundary:
+        """
+        ====================================================================
+         Generate the Boundary for a 02-22 Grid.
+        ====================================================================
+        """
+        graph = GenGraphPath.gen_3x3()
+        path = GenPath.gen_02_22()
+        cache = Cache(data=path)
+        return Boundary.from_path(path=path, graph=graph, cache=cache)
 
-
-boundary = GenBoundary.gen_3x3()
-for node in boundary:
-    print(node)

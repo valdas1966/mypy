@@ -2,6 +2,7 @@ from f_graph.path.one_to_one.solution import SolutionOneToOne as Solution
 from f_graph.path.one_to_one.algo import AlgoOneToOne, TypeAlgo
 from f_graph.path.many_to_one.problem import ProblemManyToOne, Node
 from f_graph.path.solutions import SolutionsPath as Solutions
+from f_graph.path.boundary import Boundary
 from f_graph.path.algo import AlgoPath
 from f_graph.path.cache import Cache
 
@@ -17,6 +18,8 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
                  problem: ProblemManyToOne,
                  cache: Cache = None,
                  type_algo: TypeAlgo = TypeAlgo.A_STAR,
+                 boundary: Boundary = None,
+                 is_eager: bool = False,
                  is_shared: bool = True,
                  name: str = 'Path-Algo Many-To-One') -> None:
         """
