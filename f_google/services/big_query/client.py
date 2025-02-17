@@ -1,5 +1,6 @@
 from google.cloud.bigquery import Client
 from f_google.client.base import ClientBase
+from f_google.user import User
 from f_google.services.big_query.commands.drop import Drop
 from f_google.services.big_query.commands.create import Create
 from f_google.services.big_query.commands.insert import Insert
@@ -14,7 +15,7 @@ class BigQuery(ClientBase):
     """
 
     def __init__(self,
-                 user: str = 'RAMI',
+                 user: str = User.RAMI,
                  verbose: bool = True) -> None:
         ClientBase.__init__(self, user=user)
         self._drop = Drop(client=self._client,

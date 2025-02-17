@@ -1,4 +1,4 @@
-from f_google.big_query.structures.field import Field
+from f_google.services.big_query.structures.field import Field
 
 
 class Fields:
@@ -17,6 +17,7 @@ class Fields:
 
     # User Info
     ID_USER = Field.string(name='id_user')
+    ID_USER_UNIQUE = Field.string(name='id_user_unique')
     NICK = Field.string(name='nick')
     REGION = Field.string(name='region')
     IS_VERIFIED = Field.boolean(name='is_verified')
@@ -38,8 +39,19 @@ class Fields:
     # Music
     ID_MUSIC = Field.string(name='id_music')
 
+    # Hashtag
+    ID_HASHTAG = Field.string(name='id_hashtag')
+
     # Video
     ID_VIDEO = Field.string(name='id_video')
+    TITLE = Field.string(name='title')
+    CREATED = Field.integer(name='created')
+    DURATION = Field.integer(name='duration')
+    PLAYS = Field.integer(name='plays')
+    SHARES = Field.integer(name='shares')
+    DIGGS = Field.integer(name='diggs')
+    DOWNLOADS = Field.integer(name='downloads')
+    COMMENTS = Field.integer(name='comments')
 
     @staticmethod
     def user_info() -> list[Field]:

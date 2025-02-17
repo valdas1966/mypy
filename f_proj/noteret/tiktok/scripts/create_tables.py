@@ -48,10 +48,24 @@ def videos_by_music() -> None:
     BigQuery().create.table(tname=tname, schema=schema)
 
 
+def videos_by_hashtag() -> None:
+    tname = Tables.VIDEOS_BY_HASHTAG
+    schema = Schemas.videos_by_hashtag()
+    BigQuery().create.table(tname=tname, schema=schema)
+
+
+def videos_by_hashtag_todo() -> None:
+    tname = Tables.VIDEOS_BY_HASHTAG_TODO
+    schema = Schemas.videos_by_hashtag_todo()
+    BigQuery().create.table(tname=tname, schema=schema)
+
+
 # users()
 # users_snapshots()
 # followers()
 # followers_todo()
 # following_todo()
 # users_valid_todo()
-videos_by_music()
+# videos_by_music()
+# videos_by_hashtag()
+videos_by_hashtag_todo()

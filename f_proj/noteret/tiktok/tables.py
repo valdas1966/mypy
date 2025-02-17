@@ -11,3 +11,5 @@ class Tables:
     FOLLOWING_TODO = f'{_pre}.following_todo'
     VIDEOS_BY_MUSIC = f'{_pre}.videos_by_music'
     VIDEOS_BY_MUSIC_TODO = f'{VIDEOS_BY_MUSIC}_todo'
+    VIDEOS_BY_HASHTAG = f'{_pre}.videos_by_hashtag'
+    VIDEOS_BY_HASHTAG_TODO = f'{VIDEOS_BY_HASHTAG}_todo'

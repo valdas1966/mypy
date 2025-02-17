@@ -73,7 +73,38 @@ class Schemas:
         schema.append(Fields.IS_FOUND)
         schema.append(Fields.INSERTED)
         return schema
+    
+    @staticmethod
+    def videos_by_hashtag() -> Schema:
+        tname = 'videos_by_hashtag'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.ID_HASHTAG)
+        schema.append(Fields.ID_USER)
+        schema.append(Fields.ID_USER_UNIQUE)
+        schema.append(Fields.NICK)
+        schema.append(Fields.REGION)
+        schema.append(Fields.ID_VIDEO)
+        schema.append(Fields.TITLE)
+        schema.append(Fields.CREATED)
+        schema.append(Fields.DURATION)
+        schema.append(Fields.PLAYS)
+        schema.append(Fields.SHARES)
+        schema.append(Fields.DIGGS)
+        schema.append(Fields.DOWNLOADS)
+        schema.append(Fields.COMMENTS)
+        schema.append(Fields.IS_AD)
+        schema.append(Fields.IS_OK)
+        schema.append(Fields.IS_FOUND)
+        schema.append(Fields.INSERTED)
+        return schema
 
+    @staticmethod
+    def videos_by_hashtag_todo() -> Schema:
+        tname = 'videos_by_hashtag_todo'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.ID_HASHTAG)
+        return schema
+    
     @staticmethod
     def _create_schema(tname: str) -> Schema:
         name = Schemas._to_name(tname=tname)

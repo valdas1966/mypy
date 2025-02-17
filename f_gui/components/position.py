@@ -29,13 +29,16 @@ class Position(Printable):
         return self._relative
 
     @relative.setter
-    def relative(self, val: tuple[float, float, float, float]) -> None:
+    def relative(self, val: tuple[float, float, float, float] | LTWH) -> None:
         """
         ========================================================================
          Set the relative position (left, top, width, height).
         ========================================================================
         """
-        self._relative = LTWH(*val)
+        if isinstance(val, LTWH):
+            self._relative = val
+        else:
+            self._relative = LTWH(*val)
 
     @property
     def absolute(self) -> LTWH:
@@ -57,6 +60,11 @@ class Position(Printable):
 
     @parent.setter
     def parent(self, val: LTWH) -> None:
+        """
+        ========================================================================
+         Set the parent's position.
+        ========================================================================
+        """
         self._parent = val
         self._update_absolute()
 
