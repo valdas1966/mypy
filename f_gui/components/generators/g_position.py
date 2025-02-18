@@ -16,9 +16,8 @@ class GenPosition:
          Generate a half position.
         ========================================================================
         """
-        position = Position()
-        position.relative = GenLTWH.gen_ltwh_half()
-        return position
+        relative = GenLTWH.gen_ltwh_half()
+        return Position(relative=relative)
     
     @staticmethod
     def gen_position_quarter() -> Position:
@@ -31,3 +30,7 @@ class GenPosition:
         position.relative = GenLTWH.gen_ltwh_quarter()
         position.parent = GenLTWH.gen_ltwh_half()
         return position
+
+
+pos = GenPosition.gen_position_half()
+print(pos)

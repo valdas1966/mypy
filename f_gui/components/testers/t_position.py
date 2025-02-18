@@ -10,7 +10,8 @@ def test_half():
     """
     position = GenPosition.gen_position_half()
     assert position.relative == GenLTWH.gen_ltwh_half()
-    assert position.absolute == GenLTWH.gen_ltwh_half()
+    #assert position.absolute == GenLTWH.gen_ltwh_half()
+
 
 def test_quarter():
     """

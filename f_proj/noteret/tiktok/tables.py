@@ -13,3 +13,6 @@ class Tables:
     VIDEOS_BY_MUSIC_TODO = f'{VIDEOS_BY_MUSIC}_todo'
     VIDEOS_BY_HASHTAG = f'{_pre}.videos_by_hashtag'
     VIDEOS_BY_HASHTAG_TODO = f'{VIDEOS_BY_HASHTAG}_todo'
+    COMMENTS_BY_VIDEO = f'{_pre}.comments_by_video'
+    COMMENTS_BY_VIDEO_TODO = f'{COMMENTS_BY_VIDEO}_todo'
+

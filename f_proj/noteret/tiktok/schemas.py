@@ -106,6 +106,36 @@ class Schemas:
         return schema
     
     @staticmethod
+    def comments_by_video() -> Schema:
+        tname = 'comments_by_video'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.ID_COMMENT)
+        schema.append(Fields.TEXT)
+        schema.append(Fields.ID_VIDEO)
+        schema.append(Fields.DIGGS)
+        schema.append(Fields.REPLIES)
+        schema.append(Fields.CREATED)
+        schema.append(Fields.ID_USER)
+        schema.append(Fields.ID_USER_UNIQUE)
+        schema.append(Fields.NICK)
+        schema.append(Fields.REGION)
+        schema.append(Fields.AWEME)
+        schema.append(Fields.FAVORITED)
+        schema.append(Fields.FOLLOWERS) 
+        schema.append(Fields.FOLLOWING)
+        schema.append(Fields.IS_OK)
+        schema.append(Fields.IS_FOUND)
+        schema.append(Fields.INSERTED)
+        return schema
+    
+    @staticmethod
+    def comments_by_video_todo() -> Schema:
+        tname = 'comments_by_video_todo'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.ID_VIDEO)
+        return schema
+    
+    @staticmethod
     def _create_schema(tname: str) -> Schema:
         name = Schemas._to_name(tname=tname)
         return Schema(name=name)

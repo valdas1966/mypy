@@ -42,6 +42,11 @@ class Fields:
     # Hashtag
     ID_HASHTAG = Field.string(name='id_hashtag')
 
+    # Comment
+    ID_COMMENT = Field.string(name='id_comment')
+    TEXT = Field.string(name='text')
+    REPLIES = Field.integer(name='replies')
+
     # Video
     ID_VIDEO = Field.string(name='id_video')
     TITLE = Field.string(name='title')

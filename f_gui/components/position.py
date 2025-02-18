@@ -9,13 +9,18 @@ class Position(Printable):
     ============================================================================
     """
 
-    def __init__(self) -> None:
+    def __init__(self,
+                 relative: tuple[float, float, float, float] | LTWH = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._relative = LTWH(0.0, 0.0, 1.0, 1.0)
+        if relative is None:
+            relative = LTWH(top=0, left=0, width=100, height=100)
+        elif type(relative) == tuple:
+            relative = LTWH(*relative)
+        self._relative = relative
         self._absolute = LTWH()
         self._parent = LTWH()
 
