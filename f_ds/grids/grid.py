@@ -72,7 +72,7 @@ class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
         ========================================================================
         """
         return self.to_group().filter(predicate=predicate, name=name)
-
+            
     @staticmethod
     def distance(cell_a: Cell, cell_b: Cell) -> int:
         """

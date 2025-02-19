@@ -61,6 +61,14 @@ class View(Generic[Item], HasName, Sizable, Iterable):
         data = USeq.items.sample(seq=list(self), pct=pct, size=size)
         return Group(name=name, data=data)
 
+    def to_list(self) -> list[Item]:
+        """
+        ========================================================================
+         Return a List of Items that meet the Predicate.
+        ========================================================================
+        """
+        return list(self)
+    
     def __iter__(self) -> Iterator[Item]:
         """
         ========================================================================

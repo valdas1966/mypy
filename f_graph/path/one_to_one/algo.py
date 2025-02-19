@@ -10,6 +10,7 @@ from f_graph.path.algo import AlgoPath
 from f_graph.path.cache import Cache
 from enum import Enum, auto
 
+
 class TypeAlgo(Enum):
     """
     ============================================================================
@@ -52,7 +53,8 @@ class AlgoOneToOne(AlgoPath[Problem, Solution]):
         self._boundary = boundary if boundary else Boundary()
         self._heuristic = Heuristic(graph=problem.graph, goal=problem.goal,
                                     type_heuristic=type_heuristic)
-        self._ops = Ops(problem=problem, cache=self._cache, state=self._state,
+        self._ops = Ops(problem=problem, cache=self._cache,
+                        boundary=self._boundary, state=self._state,
                         heuristic=self._heuristic)
 
     def run(self) -> Solution:

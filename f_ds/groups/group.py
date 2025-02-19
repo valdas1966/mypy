@@ -15,16 +15,17 @@ class Group(HasName, UserList[Item]):
     """
 
     def __init__(self,
-                 name: str = 'Group',
-                 data: list[Item] = None) -> None:
+                 data: Sequence[Item] = None,
+                 name: str = 'Group'
+                 ) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
+        self._data = list(data) if data else list()
         HasName.__init__(self, name=name)
-        UserList.__init__(self, data or list())
-        self._data = data
+        UserList.__init__(self, self._data)
 
     def filter(self,
                predicate: Callable[[Item], bool],

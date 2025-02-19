@@ -18,3 +18,17 @@ def test_gen_3x3():
     assert problem_2.start == start_2
     assert problem_1.goal == goal
     assert problem_2.goal == goal
+
+
+def test_random() -> None:
+    """
+    ========================================================================
+     Test the generation of a random Many-to-One problem.
+    ========================================================================
+    """
+    problem = GenProblemManyToOne.gen_random(num_rows=4,
+                                             pct_invalid=50,
+                                             num_starts=2)
+    assert len(problem.graph) == 8
+    assert len(problem.starts) == 2
+    assert len(problem.goal) == 1

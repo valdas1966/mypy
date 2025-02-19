@@ -43,7 +43,7 @@ class Boundary(Dictable[Node, Callable[[], int]]):
                   graph: Graph,
                   cache: Cache = None,
                   is_eager: bool = False,
-                 ) -> Boundary:
+                  ) -> Boundary:
         """
         ====================================================================
          Build the Boundary from the Path.

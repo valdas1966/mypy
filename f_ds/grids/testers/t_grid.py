@@ -1,5 +1,6 @@
 import pytest
 from f_ds.grids.grid import Grid
+from f_ds.grids.generators.g_grid import GenGrid
 
 
 @pytest.fixture
@@ -36,3 +37,14 @@ def test_cells_valid(ex):
     [cell.set_invalid() for cell in (ex[0][0], ex[0][1], ex[0][2])]
     assert len(ex.cells_valid) == 3
     assert ex.cells_valid.pct() == 50
+
+
+def test_random() -> None:
+    """
+    ============================================================================
+     Test the random method.
+    ============================================================================
+    """
+    grid = GenGrid.gen_random(rows=10, pct_invalid=20)
+    assert len(grid) == 100
+    assert len(grid.cells_valid) == 80

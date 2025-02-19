@@ -21,6 +21,7 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
                  boundary: Boundary = None,
                  is_eager: bool = False,
                  is_shared: bool = True,
+                 with_boundary: bool = False,
                  name: str = 'Path-Algo Many-To-One') -> None:
         """
         ========================================================================
@@ -33,6 +34,9 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
         self._cache = cache if cache else Cache()
         self._type_algo = type_algo
         self._is_shared = is_shared
+        self._boundary = boundary if boundary else Boundary()
+        self._is_eager = is_eager
+        self._with_boundary = with_boundary
 
     def run(self) -> Solutions:
         """
@@ -47,7 +51,8 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
             algo = AlgoOneToOne(problem=problem,
                                 cache=self._cache,
                                 type_algo=self._type_algo,
-                                is_shared=self._is_shared)
+                                boundary=self._boundary,
+                                is_shared=False)
             sols[problem.start] = algo.run()
             # If path is not found, return invalid MTO Solution
             if not sols[problem.start]:
@@ -58,5 +63,11 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
                 path_sol = sols[problem.start].path
                 cache_sol = Cache.from_path(path=path_sol)
                 self._cache.update(cache_sol)
+                if self._with_boundary:
+                    boundary_sol = Boundary.from_path(path=path_sol,
+                                                      graph=problem.graph,
+                                                      cache=self._cache,
+                                                      is_eager=self._is_eager)
+                    self._boundary.update(boundary_sol)
         # Return valid MTO Solution.
         return Solutions(is_valid=True, sols=sols)

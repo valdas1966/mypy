@@ -28,4 +28,13 @@ class GenGraphPath:
         """
         grid = GenGrid.gen_4x4()
         return Graph(grid=grid, type_node=NodePath)
-    
+
+    @staticmethod
+    def gen_random(rows: int, pct_invalid: int) -> Graph:
+        """
+        ============================================================================
+         Generate a random grid graph.
+        ============================================================================
+        """
+        grid = GenGrid.gen_random(rows=rows, pct_invalid=pct_invalid)
+        return Graph(grid=grid, type_node=NodePath)
