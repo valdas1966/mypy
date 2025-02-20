@@ -80,7 +80,7 @@ class NodePath(NodeParent[UID], HasCache):
          Get the Path from the given Node to this Node.
         ========================================================================
         """
-        from f_graph.path.path import Path 
+        from f_graph.path.path import Path
         nodes = NodeParent.path_from_node(self, node=node)
         return Path(data=nodes)
 

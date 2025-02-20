@@ -1,4 +1,6 @@
+from f_graph.path.many_to_one.generators.g_problem import GenProblemManyToOne
 from f_graph.path.many_to_one.generators.g_algo import GenAlgoManyToOne
+from f_graph.path.many_to_one.algo import AlgoManyToOne, TypeAlgo
 from f_graph.path.generators.g_graph import GenGraphPath, NodePath as Node
 import pytest
 
@@ -58,3 +60,19 @@ def test_astar_shared(paths_true: dict[Node, list[Node]]) -> None:
     assert sol.paths == paths_true
     assert sol.generated == 10
     assert sol.explored == 4
+
+
+def test_3_starts() -> None:
+    """
+    ========================================================================
+     Test the 3-starts problem.
+    ========================================================================
+    """
+    problem = GenProblemManyToOne.gen_3x3x3()
+    algo = AlgoManyToOne(problem=problem,
+                         type_algo=TypeAlgo.A_STAR,
+                         is_shared=True,
+                         is_eager=True,
+                         with_boundary=True)
+    solution = algo.run()
+    assert solution

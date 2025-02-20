@@ -60,9 +60,18 @@ class OpsOneToOne:
         """
         node.parent = parent
         if node in self._cache:
+            print('before cache[node].distance()')
+            print(node)
             node.h = self._cache[node].distance()
+            print('after cache[node].distance()')
             node.is_cached = True
         else:
+            """
+            h = self._heuristic(node=node)
+            b = self._boundary[node]()
+            if b > h:
+               print(f"node: {node.uid.to_tuple()}, h: {h}, b: {b}")
+            """
             node.h = max(self._heuristic(node=node),
                          self._boundary[node]())
         self._state.generated.push(item=node)

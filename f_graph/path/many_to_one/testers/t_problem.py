@@ -19,7 +19,6 @@ def test_gen_3x3():
     assert problem_1.goal == goal
     assert problem_2.goal == goal
 
-
 def test_random() -> None:
     """
     ========================================================================

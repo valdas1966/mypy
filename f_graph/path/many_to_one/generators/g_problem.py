@@ -21,6 +21,18 @@ class GenProblemManyToOne:
         starts = [graph[0, 2], graph[2, 2]]
         goal = graph[0, 0]
         return ProblemManyToOne(graph=graph, starts=starts, goal=goal)
+    
+    @staticmethod
+    def gen_3x3x3() -> ProblemManyToOne:
+        """
+        ========================================================================
+         Generate a 3x3 Many-to-One problem with 3 starts.
+        ========================================================================
+        """
+        graph = GenGraphPath.gen_3x3()
+        starts = [graph[0, 2], graph[2, 2], graph[2, 0]]
+        goal = graph[0, 0]
+        return ProblemManyToOne(graph=graph, starts=starts, goal=goal)
 
     @staticmethod
     def gen_random(rows: int,

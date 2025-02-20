@@ -71,3 +71,4 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
                     self._boundary.update(boundary_sol)
         # Return valid MTO Solution.
         return Solutions(is_valid=True, sols=sols)
+
