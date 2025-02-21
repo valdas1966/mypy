@@ -59,3 +59,13 @@ def test_parent() -> None:
     assert start.parent is None
     assert pre_goal.parent is None
     assert goal.parent == pre_goal
+
+
+def test_path_from_node() -> None:
+    """
+    ============================================================================
+     Test path_from_node() Function.
+    ============================================================================
+    """
+    start, pre_goal, goal = GenNode.gen_3x3()
+    assert start.path_from_node(node=start) == [start]

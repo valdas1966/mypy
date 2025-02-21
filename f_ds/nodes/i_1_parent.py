@@ -66,7 +66,7 @@ class NodeParent(NodeUid[UID]):
             if current == node:
                 break
             current = current.parent
-        if current == node:
+        if current:
             return path[::-1]
         return []  # node not found
 

@@ -60,10 +60,7 @@ class OpsOneToOne:
         """
         node.parent = parent
         if node in self._cache:
-            print('before cache[node].distance()')
-            print(node)
             node.h = self._cache[node].distance()
-            print('after cache[node].distance()')
             node.is_cached = True
         else:
             """

@@ -53,16 +53,25 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
                                 type_algo=self._type_algo,
                                 boundary=self._boundary,
                                 is_shared=False)
-            sols[problem.start] = algo.run()
+            print(f'Start Algo: {problem.start} to {problem.goal}')
+            solution = algo.run()
+            print(f'Finish Algo: {problem.start} to {problem.goal}')
+            print(f'Explored: {[node.uid.to_tuple() for node in solution.state.explored]}')
+            sols[problem.start] = solution
             # If path is not found, return invalid MTO Solution
-            if not sols[problem.start]:
+            if not solution:
                 return Solutions(is_valid=False, sols=sols)
             # If path is found and is shared:
             #  update the cache with nodes on the optimal path.
             if self._is_shared:
                 path_sol = sols[problem.start].path
+                print(f'Path: {solution.path}')
                 cache_sol = Cache.from_path(path=path_sol)
+                cache = {node.uid.to_tuple(): cache_sol[node].distance()
+                         for node in cache_sol}
+                print(f'Cache: {cache}')
                 self._cache.update(cache_sol)
+
                 if self._with_boundary:
                     boundary_sol = Boundary.from_path(path=path_sol,
                                                       graph=problem.graph,

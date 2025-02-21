@@ -12,8 +12,8 @@ def run(rows: int, num_starts: int, epochs: int) -> None:
                                                  pct_invalid=pct_invalid,
                                                  num_starts=num_starts)
         print(problem.graph)
-        print('starts: ', [node.uid.to_tuple() for node in problem.starts])
-        print('goal: ', problem.goal.uid.to_tuple())
+        print([node.uid.to_tuple() for node in problem.starts])
+        print(problem.goal.uid.to_tuple())
         algo_with_boundary = AlgoManyToOne(problem=problem,
                                            type_algo=TypeAlgo.A_STAR,
                                            is_eager=True,

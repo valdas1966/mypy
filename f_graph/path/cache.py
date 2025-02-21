@@ -28,6 +28,14 @@ class DataCache:
         p_1 = self.path() == other.path()
         p_2 = self.distance() == other.distance()
         return p_1 and p_2
+    
+    def __str__(self) -> str:
+        """
+        =======================================================================
+         Return a string representation of the DataCache object.
+        =======================================================================
+        """
+        return f'[{self.distance()}]: {self.path()}'
 
 
 class Cache(Dictable[Node, DataCache]):
@@ -67,11 +75,13 @@ class Cache(Dictable[Node, DataCache]):
         =======================================================================
          Create Cache from Path.
         =======================================================================
-        """
+        """    
         cache = Cache()
+        print('Cache from Path:')
         for node in path:
             path_from_node = lambda n=node, g=path.goal: g.path_from_node(node=n)
-            distance = lambda n=node: len(path_from_node(n)) - 1
+            distance = lambda p=path_from_node: len(p()) - 1
             data = DataCache(path=path_from_node, distance=distance)
             cache[node] = data
+            print(f'Node={node}, Parent={node.parent}, Path={path.goal.path_from_node(node=node)}')
         return cache

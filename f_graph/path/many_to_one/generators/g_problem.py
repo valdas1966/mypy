@@ -49,3 +49,15 @@ class GenProblemManyToOne:
         starts = nodes[:num_starts]
         goal = nodes[-1]
         return ProblemManyToOne(graph=graph, starts=starts, goal=goal)
+
+    @staticmethod
+    def spec_4x4() -> ProblemManyToOne:
+        """
+        ========================================================================
+         Generate a 4x4 Many-to-One problem.
+        ========================================================================
+        """
+        graph = GenGraphPath.gen_4x4()
+        starts = [graph[1, 2], graph[3, 3], graph[0, 3]]
+        goal = graph[0, 2]
+        return ProblemManyToOne(graph=graph, starts=starts, goal=goal)

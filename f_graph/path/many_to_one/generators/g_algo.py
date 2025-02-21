@@ -34,3 +34,26 @@ class GenAlgoManyToOne:
                              type_algo=TypeAlgo.A_STAR,
                              is_shared=is_shared)
         return algo
+
+    @staticmethod
+    def spec_4x4() -> AlgoManyToOne:
+        """
+        ========================================================================
+         Generate an A*-Algorithm for a 4x4-Grid Many-To-One Problem.
+        ========================================================================
+        """
+        problem = GenProblemManyToOne.spec_4x4()
+        algo = AlgoManyToOne(problem=problem,
+                             type_algo=TypeAlgo.A_STAR,
+                             is_shared=True,
+                             is_eager=True,
+                             with_boundary=True)
+        return algo
+
+
+algo = GenAlgoManyToOne.spec_4x4()
+problem = algo.input
+solution = algo.run()
+starts = list(problem.starts)
+path_1 = solution.paths[starts[0]]
+print([node.uid.to_tuple() for node in path_1])

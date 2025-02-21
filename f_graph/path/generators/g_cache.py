@@ -62,5 +62,5 @@ class GenCache:
         ========================================================================
         """
         graph = GenGraphPath.gen_3x3()
-        path = [graph[0, 0], graph[0, 1]]
+        path = Path(data=[graph[0, 0], graph[0, 1]])
         return DataCache(path=lambda: path, distance=lambda: 2)

@@ -62,6 +62,7 @@ def test_data_cache():
     cache_1 = GenCache.gen_data_cache()   
     cache_2 = GenCache.gen_data_cache()
     assert cache_1 == cache_2
+    assert str(cache_1) == '[2]: (0, 0) -> (0, 1)'
 
 
 def test_update():
@@ -74,3 +75,19 @@ def test_update():
     cache_path = GenCache.gen_3x3_from_path()
     cache_explored.update(cache_path)
     assert cache_explored == cache_path
+
+def test_update_diff():
+    graph_1 = GenGraphPath.gen_3x3()
+    node_1 = graph_1[0, 0]
+    node_2 = graph_1[0, 1]
+    node_2.parent = node_1
+    path_1 = Path(data=[node_1, node_2])
+    cache_1 = Cache.from_path(path=path_1)
+    graph_2 = GenGraphPath.gen_3x3()
+    node_3 = graph_2[0, 1]
+    node_4 = graph_2[0, 2]
+    node_4.parent = node_3
+    path_2 = Path(data=[node_3, node_4])
+    cache_2 = Cache.from_path(path=path_2)
+    cache_1.update(cache_2)
+    assert cache_1 == cache_2
