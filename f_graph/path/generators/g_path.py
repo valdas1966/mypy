@@ -23,14 +23,23 @@ class GenPath:
         return Path(data=nodes)
     
     @staticmethod
-    def gen_02_22() -> Path:
+    def boundary_4x4() -> Path:
         """
         ====================================================================
-         Generate a 02-22 path.
+         Generate a boundary path.
         ====================================================================
         """
-        graph = GenGraphPath.gen_3x3()
-        nodes = [graph[0, 2], graph[1, 2], graph[2, 2]]
-        nodes[1].parent = nodes[0]
-        nodes[2].parent = nodes[1]
+        graph = GenGraphPath.gen_4x4()
+        graph[3, 3].parent = None
+        graph[2, 3].parent = graph[3, 3]
+        graph[1, 3].parent = graph[2, 3]
+        graph[0, 3].parent = graph[1, 3]
+        graph[0, 2].parent = graph[0, 3]
+        graph[0, 1].parent = graph[0, 2]
+        graph[0, 0].parent = graph[0, 1]
+        graph[1, 0].parent = graph[0, 0]
+        graph[2, 0].parent = graph[1, 0]
+        nodes = [graph[3, 3], graph[2, 3], graph[1, 3], graph[0, 3],
+                 graph[0, 2], graph[0, 1], graph[0, 0],
+                 graph[1, 0], graph[2, 0]]
         return Path(data=nodes)

@@ -3,55 +3,44 @@ from f_graph.path.one_to_one.ops import OpsOneToOne, TypeCounter
 import pytest
 
 
-@pytest.fixture         
-def ops() -> OpsOneToOne:
-    return GenOps.gen_3x3()
-
-
-def test_generate(ops: OpsOneToOne) -> None:
+def test_generate_from_explored() -> None:
     """
     ========================================================================
-     Test generate method.
+     Test generate method with Explored-Cache.
     ========================================================================
     """
-    # Non-Cached Node
-    node = ops._problem.graph[0, 0]
-    ops.generate(node=node, parent=None)
-    assert node in ops._state.generated
-    assert node.parent is None
-    assert node.h == 0
-    assert not node.is_cached
-    
-    # Cached Node
-    cached = ops._problem.graph[0, 1]
-    ops.generate(node=cached, parent=node)
-    assert cached in ops._state.generated 
-    assert cached.parent == node
-    assert cached.h == 3
-    assert cached.is_cached
-
-    # Check Counter
-    assert ops._counter[TypeCounter.GENERATED] == 2
-    assert ops._counter[TypeCounter.EXPLORED] == 0
+    ops = GenOps.first_row_branch_3x3_explored()
+    start = ops._problem.start
+    ops.generate(node=start, parent=None)
+    assert start in ops._state.generated
+    assert start.is_cached
+    assert start.h == 0
 
 
-def test_explore(ops: OpsOneToOne) -> None:
+def test_generate_from_path() -> None:
+    """
+    =========================================================================
+     Test Generate-Node method with Path-Cache.
+    =========================================================================
+    """
+    ops = GenOps.first_row_branch_3x3_path()
+    start = ops._problem.start
+    ops.generate(node=start, parent=None)
+    assert start in ops._state.generated
+    assert start.is_cached
+    assert start.h == 2
+
+
+def test_generate_boundary_4x4() -> None:
     """
     ========================================================================
-     Test explore method.
+     Test generate method with Boundary-Cache.
     ========================================================================
     """
-    # Explore
-    node = ops._problem.graph[2, 2]
-    child_1 = ops._problem.graph[1, 2]
-    child_2 = ops._problem.graph[2, 1]
-    child_1.parent = node
-    child_2.parent = node
-    ops.explore(node=node)
-    assert node in ops._state.explored
-    assert child_1 in ops._state.generated
-    assert child_2 in ops._state.generated
-
-    # Check Counter
-    assert ops._counter[TypeCounter.EXPLORED] == 1
-    assert ops._counter[TypeCounter.GENERATED] == 2
+    ops = GenOps.boundary_4x4()
+    graph = ops._problem.graph
+    start = graph[2, 2]
+    ops.generate(node=start, parent=None)
+    assert start in ops._state.generated
+    assert not start.is_cached
+    assert start.h == 6

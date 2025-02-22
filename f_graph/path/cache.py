@@ -18,6 +18,18 @@ class Cache(Dictable[Node, Path]):
         """
         Dictable.update(self, data=cache)
         
+    def __str__(self) -> str:
+        """
+        =======================================================================
+         Return the string representation of the cache.
+        =======================================================================
+        """
+        s = 'Cache:\n'
+        for node in reversed(sorted(self._data.keys())):
+            path = self._data[node]
+            s += f'{node.uid.to_tuple()}: {[n.uid.to_tuple() for n in path]}\n'
+        return s
+    
     @classmethod
     def from_explored(cls, explored: set[Node]) -> Cache:
         """

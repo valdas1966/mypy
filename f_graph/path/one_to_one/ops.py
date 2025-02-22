@@ -60,11 +60,11 @@ class OpsOneToOne:
         """
         node.parent = parent
         if node in self._cache:
-            node.h = len(self._cache[node])
+            node.h = len(self._cache[node]) - 1
             node.is_cached = True
         else:
             node.h = max(self._heuristic(node=node),
-                         self._boundary[node]())
+                         self._boundary.get(node, 0))
         self._state.generated.push(item=node)
         self._counter[TypeCounter.GENERATED] += 1
 

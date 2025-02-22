@@ -34,3 +34,16 @@ class GenProblemOneToOne:
         goal = graph[3, 3]
         problem = Problem(graph=graph, start=start, goal=goal)
         return problem
+
+    @staticmethod
+    def boundary_4x4() -> Problem:
+        """
+        ========================================================================
+         Return a generated ProblemSingle with Graph of 4x4 dimension.
+        ========================================================================
+        """
+        graph = GenGraphPath.gen_4x4()
+        start = graph[2, 2]
+        goal = graph[2, 0]
+        return Problem(graph=graph, start=start, goal=goal)
+        
