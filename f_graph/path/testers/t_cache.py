@@ -1,93 +1,29 @@
 from f_graph.path.generators.g_cache import GenCache
-from f_graph.path.generators.g_graph import GenGraphPath
+from f_graph.path.generators.g_node import GenNode
 
 
-def test_gen_3x3():
+def test_from_explored():
     """
     ============================================================================
-     Test gen_3x3() method.
+     Test from_explored() method.
     ============================================================================
     """
-    cache = GenCache.gen_3x3()
-    graph = GenGraphPath.gen_3x3()
-    node = graph[0, 1]
-    assert cache[node].path() == [graph[0, 2], graph[1, 2], graph[2, 2]]
-    assert cache[node].distance() == 3
+    cache = GenCache.from_explored()
+    node_1, node_2, node_3 = GenNode.first_row_branch_3x3()
+    assert cache[node_1] == [node_1]
+    assert cache[node_2] == [node_2, node_1]
+    assert cache[node_3] == [node_3, node_2, node_1]
 
 
-def test_gen_3x3_from_explored():
+def test_from_path():
     """
     ============================================================================
-     Test gen_3x3_from_explored() method.
+     Test from_path() method.
     ============================================================================
     """
-    cache = GenCache.gen_3x3_from_explored()
-    graph = GenGraphPath.gen_3x3()
-    node_1 = graph[1, 2]
-    node_2 = graph[2, 2]
-    assert cache[node_1].path() == [node_1, node_2]
-    assert cache[node_1].distance() == 1
-    assert cache[node_2].path() == [node_2]
-    assert cache[node_2].distance() == 0
-
-
-def test_gen_3x3_from_path():
-    """
-    ============================================================================
-     Test gen_3x3_from_path() method.
-    ============================================================================
-    """
-    cache = GenCache.gen_3x3_from_path()
-    graph = GenGraphPath.gen_3x3()
-    node_1 = graph[0, 1]
-    node_2 = graph[0, 2]
-    node_3 = graph[1, 2]
-    node_4 = graph[2, 2]
-    assert cache[node_1].path() == [node_1, node_2, node_3, node_4]
-    assert cache[node_1].distance() == 3
-    assert cache[node_2].path() == [node_2, node_3, node_4]
-    assert cache[node_2].distance() == 2
-    assert cache[node_3].path() == [node_3, node_4]
-    assert cache[node_3].distance() == 1
-    assert cache[node_4].path() == [node_4]
-    assert cache[node_4].distance() == 0
+    cache = GenCache.from_path()
+    node_1, node_2, node_3 = GenNode.first_row_branch_3x3()
+    assert cache[node_1] == [node_1, node_2, node_3]
+    assert cache[node_2] == [node_2, node_3]
+    assert cache[node_3] == [node_3]
     
-
-def test_data_cache():
-    """
-    ============================================================================
-     Test data_cache() method.
-    ============================================================================
-    """
-    cache_1 = GenCache.gen_data_cache()   
-    cache_2 = GenCache.gen_data_cache()
-    assert cache_1 == cache_2
-    assert str(cache_1) == '[2]: (0, 0) -> (0, 1)'
-
-
-def test_update():
-    """
-    ============================================================================
-     Test update() method.
-    ============================================================================
-    """
-    cache_explored = GenCache.gen_3x3_from_explored()
-    cache_path = GenCache.gen_3x3_from_path()
-    cache_explored.update(cache_path)
-    assert cache_explored == cache_path
-
-def test_update_diff():
-    graph_1 = GenGraphPath.gen_3x3()
-    node_1 = graph_1[0, 0]
-    node_2 = graph_1[0, 1]
-    node_2.parent = node_1
-    path_1 = Path(data=[node_1, node_2])
-    cache_1 = Cache.from_path(path=path_1)
-    graph_2 = GenGraphPath.gen_3x3()
-    node_3 = graph_2[0, 1]
-    node_4 = graph_2[0, 2]
-    node_4.parent = node_3
-    path_2 = Path(data=[node_3, node_4])
-    cache_2 = Cache.from_path(path=path_2)
-    cache_1.update(cache_2)
-    assert cache_1 == cache_2

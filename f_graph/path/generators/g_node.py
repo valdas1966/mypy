@@ -45,3 +45,14 @@ class GenNode:
         graph = GenGraphPath.gen_3x3()
         return tuple(graph[0, j] for j in range(3))
 
+    @staticmethod
+    def first_row_branch_3x3() -> tuple[Node, Node, Node]:
+        """
+        ========================================================================
+         Generate a tuple of nodes for a 3x3 problem.
+        ========================================================================
+        """
+        graph = GenGraphPath.gen_3x3()
+        graph[0, 1].parent = graph[0, 0]
+        graph[0, 2].parent = graph[0, 1]
+        return (graph[0, 0], graph[0, 1], graph[0, 2])

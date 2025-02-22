@@ -1,50 +1,14 @@
 from __future__ import annotations  
 from f_core.abstracts.dictable import Dictable
-from f_graph.path.node import NodePath as Node
-from f_graph.path.path import Path
-from dataclasses import dataclass
-from typing import Callable
+from f_graph.path.path import Path, Node
 
 
-@dataclass
-class DataCache:
-    """
-    ===========================================================================
-     Cache Data that stores for each node:
-    ---------------------------------------------------------------------------
-        1. Optimal-Path from Node to Goal.
-        2. True-Distance from Node to Goal.
-    ===========================================================================
-    """
-    path: Callable[[], Path]
-    distance: Callable[[], int]
-
-    def __eq__(self, other: DataCache) -> bool:
-        """
-        =======================================================================
-         Check if the two DataCache objects are equal.
-        =======================================================================
-        """
-        p_1 = self.path() == other.path()
-        p_2 = self.distance() == other.distance()
-        return p_1 and p_2
-    
-    def __str__(self) -> str:
-        """
-        =======================================================================
-         Return a string representation of the DataCache object.
-        =======================================================================
-        """
-        return f'[{self.distance()}]: {self.path()}'
-
-
-class Cache(Dictable[Node, DataCache]):
+class Cache(Dictable[Node, Path]):
     """
     ===========================================================================
      Cache for storing the data for each cached node.
     ===========================================================================
     """
-    pass
 
     def update(self, cache: Cache) -> None:
         """
@@ -63,10 +27,7 @@ class Cache(Dictable[Node, DataCache]):
         """
         cache = Cache()
         for node in explored:
-            path = lambda n=node: reversed(n.path_from_root())
-            distance = lambda n=node: n.g
-            data = DataCache(path=path, distance=distance)
-            cache[node] = data
+            cache[node] = reversed(node.path_from_root())
         return cache
 
     @classmethod
@@ -77,11 +38,6 @@ class Cache(Dictable[Node, DataCache]):
         =======================================================================
         """    
         cache = Cache()
-        print('Cache from Path:')
         for node in path:
-            path_from_node = lambda n=node, g=path.goal: g.path_from_node(node=n)
-            distance = lambda p=path_from_node: len(p()) - 1
-            data = DataCache(path=path_from_node, distance=distance)
-            cache[node] = data
-            print(f'Node={node}, Parent={node.parent}, Path={path.goal.path_from_node(node=node)}')
+            cache[node] = path.goal.path_from_node(node=node)
         return cache

@@ -14,20 +14,10 @@ class GenOps:
     """
 
     @staticmethod
-    def gen_3x3() -> OpsOneToOne:
+    def first_row_branch_3x3_explored() -> OpsOneToOne:
         """
         ========================================================================
-         Generate a 3x3 Ops.
+         Generate a 3x3 Ops with Explored Cache.
         ========================================================================
         """
         problem = GenProblemOneToOne.gen_3x3()
-        state = GenStateOneToOne.gen_priority()
-        cache = GenCache.gen_3x3()
-        boundary = GenBoundary.gen_02_22()
-        heuristic = GenHeuristic.gen_zero(graph=problem.graph,
-                                          goal=problem.goal)
-        return OpsOneToOne(problem=problem,
-                           state=state,
-                           cache=cache,
-                           boundary=boundary,
-                           heuristic=heuristic)
