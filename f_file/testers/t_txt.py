@@ -1,34 +1,25 @@
-import pytest
-from f_file.txt import Txt
-
-s = 'Hello\nWorld!'
-path = 'd:\\test.txt'
+from f_file.generators.g_txt import GenTxt, Txt
 
 
-@pytest.fixture
-def ex() -> Txt:
-    return Txt.from_str(s=s, path=path)
+def test_hello_world() -> None:
+    """
+    ========================================================================
+     Test the hello_world Txt object.
+    ========================================================================
+    """
+    txt_1 = GenTxt.hello_world()
+    txt_2 = Txt(path=txt_1.path)
+    txt_1.delete()
+    assert txt_1.lines == txt_2.lines
 
 
-def test_from_str(ex):
-    assert str(ex) == s
-
-
-def test_from_lines():
-    txt = Txt.from_lines(lines=['Hello', 'World!'], path=path)
-    assert str(txt) == s
-
-
-def test_repr(ex):
-    assert repr(ex) == '<Txt: d:\\test.txt>'
-
-
-def test_iter(ex):
-    assert list(ex) == ['Hello', 'World!']
-
-
-def test_add_line(ex):
-    ex.add_line(line='A', index=0)
-    assert list(ex) == ['A', 'Hello', 'World!']
-    ex.add_line(line='B')
-    assert list(ex) == ['A', 'Hello', 'World!', 'B']
+def test_length_line_max() -> None:
+    """
+    ========================================================================
+     Test the length_line_max method.
+    ========================================================================
+    """ 
+    txt = GenTxt.hello_world()
+    length_line_max = txt.length_line_max()
+    txt.delete()
+    assert length_line_max == 5

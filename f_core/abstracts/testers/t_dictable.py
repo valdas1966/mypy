@@ -86,6 +86,19 @@ def test_str() -> None:
     assert str(d) == "{'a': 1, 'b': 2}"
 
 
+def test_get() -> None:
+    """
+    ========================================================================
+     Test the get method.
+    ========================================================================
+    """ 
+    d = GenDictable.gen_arg()
+    assert d.get('a') == 1
+    assert d.get('b') == 2
+    assert d.get('c') is None
+    assert d.get('c', 3) == 3
+
+
 def test_update() -> None:
     """
     ========================================================================

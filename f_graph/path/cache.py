@@ -50,6 +50,6 @@ class Cache(Dictable[Node, Path]):
         =======================================================================
         """    
         cache = Cache()
-        for node in path:
-            cache[node] = path.goal.path_from_node(node=node)
+        for i, node in enumerate(path):
+            cache[node] = path[i:]
         return cache

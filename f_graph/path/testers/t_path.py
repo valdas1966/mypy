@@ -63,6 +63,17 @@ def test_extend(path: Path, nodes: list[Node]) -> None:
     assert path == [path[0]]
 
 
+def test_add() -> None:
+    """
+    ========================================================================
+     Test the add method.
+    ========================================================================
+    """
+    path_1 = GenPath.gen_first_row_3x3()
+    path_2 = GenPath.last_col_3x3()
+    assert len(path_1 + path_2) == 5
+
+
 def test_getitem(path: Path) -> None:
     """
     ========================================================================
@@ -89,4 +100,4 @@ def test_str(path: Path) -> None:
      Test the string representation of the path.
     ========================================================================
     """
-    assert str(path) == '(0, 0) -> (0, 1) -> (0, 2)'
+    assert str(path) == '[(0, 0) -> (0, 1) -> (0, 2)]'

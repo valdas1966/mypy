@@ -1,103 +1,106 @@
 from __future__ import annotations
-from typing import Iterator
-from f_core.mixins.has_name import HasName
-from f_utils.dtypes.u_list import UList
-from f_utils.dtypes.u_str import UStr
+from collections import UserList
+import os
 
 
-class FileTxt(HasName):
+class Txt(UserList[str]):
     """
-    ============================================================================
-     Text-File Manager.
-    ============================================================================
+    ========================================================================
+     Text-File as List of Strings (Lines).
+    ========================================================================
     """
 
     def __init__(self, path: str) -> None:
         """
-        ========================================================================
-         Init private Attributes.
-        ========================================================================
+        ====================================================================
+         Initialize the Txt object (create the file if it does not exist).  
+        ====================================================================
         """
-        HasName.__init__(self, name=path)
-
-    @classmethod
-    def from_str(cls,
-                 s: str,
-                 path: str) -> Txt:
-        """
-        ========================================================================
-         Generate Txt-File from list given String.
-        ========================================================================
-        """
-        with open(file=path, mode='w') as file:
-            file.write(s)
-        return Txt(path=path)
-
-    @classmethod
-    def from_lines(cls,
-                   lines: list[str],
-                   path: str) -> Txt:
-        """
-        ========================================================================
-         Generate Txt-File from list given List of Lines.
-        ========================================================================
-        """
-        lines = Txt.add_end_lines(lines)
-        with open(file=path, mode='w') as file:
-            file.writelines(lines)
-        return Txt(path=path)
-
-    @classmethod
-    def add_end_lines(cls, li: list[str]) -> list[str]:
-        """
-        ========================================================================
-         Add End-Line char to every Line (except the Last).
-        ========================================================================
-        """
-        return UList.apply.except_last(li, func=UStr.add.end_line)
+        UserList.__init__(self)
+        self._path = path
+        if not os.path.exists(path):
+            open(path, 'w').close()
+        lines = open(path, 'r').read().splitlines()
+        UserList.__init__(self, lines)
 
     @property
     def path(self) -> str:
-        return self._name
+        """
+        ====================================================================
+         Get the path of the Txt object.
+        ====================================================================
+        """
+        return self._path
+    
+    @property
+    def lines(self) -> list[str]:
+        """
+        ====================================================================
+         Get the lines of the Txt object.
+        ====================================================================
+        """
+        return list(self)
+    
+    def insert(self, line: str = None, lines: list[str] = None) -> None:
+        """
+        ====================================================================
+         Insert a line or lines into the Txt object.
+        ====================================================================
+        """
+        if line is not None:
+            self.append(line)
+        elif lines is not None:
+            self.extend(lines)
+        
+    def save(self) -> None:
+        """
+        ====================================================================
+         Save the Txt object to a file with Line-Breaking between Lines.
+        ====================================================================
+        """
+        with open(self._path, 'w') as f:
+            for line in self:
+                f.write(line + '\n')
 
-    def add_line(self, line: str, index: int = None) -> None:
+    def delete(self) -> None:
         """
-        ========================================================================
-         Add list Line at list specified Index in the File.
-        ========================================================================
+        ====================================================================
+         Delete the Txt object.
+        ====================================================================
         """
-        lines = list(self)
-        if index is None:
-            lines.append(line)
-        else:
-            lines.insert(index, line)
-        lines = UList.apply.except_last(lines, func=lambda x: f'{x}\n')
-        with open(self._name, 'w') as file:
-            file.writelines(lines)
+        os.remove(self._path)
 
-    def __str__(self) -> str:
+    def length_line_max(self) -> int:
         """
-        ========================================================================
-         Return Text-File as String.
-        ========================================================================
+        ====================================================================
+         Return the maximum number of line's length.
+        ====================================================================
         """
-        with open(self._name, 'r') as file:
-            return file.read()
+        return max(len(line) for line in self)
 
-    def __repr__(self) -> str:
+    def __getitem__(self, i: int | slice) -> str | list[str]:
         """
-        ========================================================================
-         Return an informative Object Representation.
-         Ex: <Txt: Path>
-        ========================================================================
+        ====================================================================
+         Get an item or a slice from the Txt object.
+        ====================================================================
         """
-        return f'<{type(self).__name__}: {self.path}>'
+        result = self.data[i]
+        # If slicing, return a plain list rather than a new Txt instance.
+        if isinstance(i, slice):
+            return result
+        return result
 
-    def __iter__(self) -> Iterator:
+    @classmethod
+    def create(cls, path: str, lines: list[str] = None) -> Txt:
         """
-        ========================================================================
-         Return Text-File as List of Lines (without End-Line chars).
-        ========================================================================
+        ====================================================================
+         Create a Txt object.
+        ====================================================================
         """
-        with open(self._name, 'r') as file:
-            return iter([line.rstrip('\n') for line in file])
+        if os.path.exists(path):
+            os.remove(path)
+        txt = cls(path=path)
+        txt.insert(lines=lines if lines else list())
+        txt.save()
+        return txt
+    

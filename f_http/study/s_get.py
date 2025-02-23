@@ -1,5 +1,5 @@
 from f_http.old import HttpGet
-from f_file.txt import FileTxt
+from f_file.old_old_txt import FileTxt
 
 
 host = 'tiktok-video-no-watermark2.p.rapidapi.com'

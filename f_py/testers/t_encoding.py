@@ -1,6 +1,6 @@
 from f_py.encoding import Encoding
 from f_os.u_file import UFile as u_file
-from f_file.txt import Txt
+from f_file.old_old_txt import Txt
 
 
 path_py_in = 'g:\\mypy\\f_py\\encoding.py'

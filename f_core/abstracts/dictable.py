@@ -37,6 +37,14 @@ class Dictable(Generic[K, V], Printable, Sizable):
         """
         return list(self._data.values())
     
+    def get(self, key: K, default: V = None) -> V:
+        """
+        ========================================================================
+         Get an item by key.
+        ========================================================================
+        """
+        return self._data.get(key, default)
+    
     def update(self, data: Union[dict[K, V], 'Dictable[K, V]']) -> None:
         """
         ========================================================================

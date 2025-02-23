@@ -1,9 +1,12 @@
 from __future__ import annotations
+
+import numpy as np
 from f_core.mixins.has_name import HasName
 from f_core.mixins.has_rows_cols import HasRowsCols
 from f_ds.mixins.groupable import Groupable, Group
 from f_ds.groups.view import View
 from f_ds.grids.cell import Cell
+from f_file.txt import Txt
 from collections.abc import Iterable
 from typing import Iterator, Callable
 
@@ -84,22 +87,6 @@ class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
         diff_col = abs(cell_a.col - cell_b.col)
         return diff_row + diff_col
 
-    @classmethod
-    def generate(cls,
-                 rows: int,
-                 cols: int = None,
-                 pct_valid: int = 100,
-                 name: str = None) -> Grid:
-        """
-        ========================================================================
-         Generate Grid with Random Valid-Cells based on list given Percentage.
-        ========================================================================
-        """
-        grid = Grid(name=name, rows=rows, cols=cols)
-        cells_to_invalidate = grid.sample(pct=100-pct_valid)
-        Cell.invalidate(cells_to_invalidate)
-        return grid
-
     def __getitem__(self, index) -> list[Cell]:
         """
         ========================================================================
@@ -131,3 +118,37 @@ class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
         ========================================================================
         """
         return (cell for row in self._cells for cell in row)
+
+    @classmethod
+    def generate(cls,
+                 rows: int,
+                 cols: int = None,
+                 pct_valid: int = 100,
+                 name: str = None) -> Grid:
+        """
+        ========================================================================
+         Generate Grid with Random Valid-Cells based on list given Percentage.
+        ========================================================================
+        """
+        grid = Grid(name=name, rows=rows, cols=cols)
+        cells_to_invalidate = grid.sample(pct=100-pct_valid)
+        Cell.invalidate(cells_to_invalidate)
+        return grid
+    
+    @classmethod
+    def from_array(cls, array: np.ndarray, name: str = None) -> Grid:
+        """
+        ========================================================================
+         Create a Grid from a numpy boolean array.
+        ========================================================================
+        """
+        rows = array.shape[0]
+        cols = array.shape[1]
+        grid = Grid(name=name, rows=rows, cols=cols)
+        for row in range(rows):
+            for col in range(cols):
+                if not array[row][col]:
+                    grid[row][col].invalidate()
+        return grid
+
+

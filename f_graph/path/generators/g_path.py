@@ -23,6 +23,18 @@ class GenPath:
         return Path(data=nodes)
     
     @staticmethod
+    def last_col_3x3() -> Path:
+        """
+        ====================================================================
+         Generate a last column path.
+        ====================================================================
+        """
+        nodes = GenNode.last_col_3x3()
+        nodes[1].parent = nodes[0]
+        nodes[2].parent = nodes[1]
+        return Path(data=nodes)
+
+    @staticmethod
     def boundary_4x4() -> Path:
         """
         ====================================================================

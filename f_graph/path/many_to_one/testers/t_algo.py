@@ -1,6 +1,7 @@
 from f_graph.path.many_to_one.generators.g_problem import GenProblemManyToOne
 from f_graph.path.many_to_one.generators.g_algo import GenAlgoManyToOne
 from f_graph.path.many_to_one.algo import AlgoManyToOne, TypeAlgo
+from f_graph.path.one_to_one.algo import AlgoOneToOne
 from f_graph.path.generators.g_graph import GenGraphPath, NodePath as Node
 import pytest
 
@@ -72,7 +73,11 @@ def test_3_starts() -> None:
     algo = AlgoManyToOne(problem=problem,
                          type_algo=TypeAlgo.A_STAR,
                          is_shared=True,
-                         is_eager=True,
                          with_boundary=True)
     solution = algo.run()
     assert solution
+    for p in problem.to_singles():
+        algo_oto = AlgoOneToOne(problem=p, type_algo=TypeAlgo.A_STAR)
+        solution_oto = algo_oto.run()
+        assert solution_oto.path == solution.paths[p.start]
+    

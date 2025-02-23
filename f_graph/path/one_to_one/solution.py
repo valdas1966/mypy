@@ -58,6 +58,6 @@ class SolutionOneToOne(SolutionPath[StatsPath]):
         if best not in self._cache:
             return path
         # Best is Cached
-        path_cached = self._cache[best].path()
+        path_cached = self._cache[best]
         path.extend(path_cached)
         return path

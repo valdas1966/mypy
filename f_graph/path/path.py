@@ -1,5 +1,6 @@
 from __future__ import annotations
 from collections import UserList
+from typing import Iterable
 from f_graph.path.node import NodePath as Node
 
 
@@ -47,14 +48,34 @@ class Path(UserList[Node]):
             other.pop(0)
         UserList.extend(self, other)
 
+    def from_node(self, node: Node) -> Path:
+        """
+        ====================================================================
+         Get the path from the given node to the goal.
+        ====================================================================
+        """
+        return Path(data=self._data[self._data.index(node):])
+
+    def __add__(self, other: Path) -> Path:
+        """
+        ====================================================================
+         Add two paths.
+        ====================================================================
+        """
+        path = self.copy()
+        path.extend(other)
+        return path
+
     def __getitem__(self, index: int | slice) -> Node | Path:
         """
         ====================================================================
          Get the item at the index or slice (new Path object).
         ====================================================================
         """
-        result = UserList.__getitem__(self, index)
-        return result if isinstance(result, Node) else Path(result)    
+        if isinstance(index, int):
+            return self.data[index]
+        elif isinstance(index, slice):
+            return Path(data=self.data[index])
     
     def __reversed__(self) -> Path:
         """
@@ -71,4 +92,4 @@ class Path(UserList[Node]):
         ====================================================================
         """
         nodes = [str(node.uid.to_tuple()) for node in self]
-        return ' -> '.join(nodes)
+        return '[' + ' -> '.join(nodes) + ']'
