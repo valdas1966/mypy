@@ -25,6 +25,7 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
         ========================================================================
         """
         uids = grid.to_group().filter(predicate=bool)
+        name = name if name else grid.name
         GraphDict.__init__(self, uids=uids, type_node=type_node, name=name)
         self._grid = grid
         self._type_node = type_node
@@ -46,6 +47,15 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
         return [self.node(uid=cell)
                 for cell
                 in self._grid.neighbors(cell=node.uid)]
+    
+    def nodes_within_distance(self, node: Node, distance: int) -> list[Node]:
+        """
+        ========================================================================
+         Return the Nodes within a given Distance.
+        ========================================================================
+        """
+        cells = self._grid.cells_within_distance(cell=node.uid, distance=distance)
+        return self.nodes_by_uids(uids=cells)
 
     def clone(self) -> Graph:
         """

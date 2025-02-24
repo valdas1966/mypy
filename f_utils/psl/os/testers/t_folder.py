@@ -1,4 +1,7 @@
-from f_os.generators.g_folder import GenFolder, Folder
+from f_utils.psl.os.generators.g_folder import GenFolder, Folder
+
+
+drive = 'd'
 
 
 def test_create_test() -> None:
@@ -7,9 +10,9 @@ def test_create_test() -> None:
      Test the create_test() method.
     ========================================================================
     """
-    folder = GenFolder.create_test()
+    folder = GenFolder.create_test(drive=drive)
     path = folder.path
-    files = folder.files()
+    files = folder.filepaths()
     Folder.delete(path=folder.path)
-    assert path == 'g:\\temp\\test'
-    assert files == ['test_1.txt', 'test_2.txt']
+    assert path == f'{drive}:\\temp\\test'
+    assert files == [f'{path}\\test_1.txt', f'{path}\\test_2.txt']

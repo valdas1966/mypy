@@ -38,3 +38,4 @@ class GenGraphPath:
         """
         grid = GenGrid.gen_random(rows=rows, pct_invalid=pct_invalid)
         return Graph(grid=grid, type_node=NodePath)
+

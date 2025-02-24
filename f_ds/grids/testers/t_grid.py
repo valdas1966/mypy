@@ -1,7 +1,7 @@
 import pytest
 from f_ds.grids.grid import Grid
 from f_ds.grids.generators.g_grid import GenGrid
-
+from f_file.generators.g_map_grid import GenMapGrid
 
 @pytest.fixture
 def ex() -> Grid:
@@ -48,3 +48,30 @@ def test_random() -> None:
     grid = GenGrid.gen_random(rows=10, pct_invalid=20)
     assert len(grid) == 100
     assert len(grid.cells_valid) == 80
+
+
+def test_from_array() -> None:
+    """
+    ============================================================================
+     Test the from_array method.
+    ============================================================================
+    """
+    grid = GenGrid.gen_random(rows=10, pct_invalid=20)
+    array = grid.to_array()
+    grid_from_array = Grid.from_array(array=array)
+    assert grid == grid_from_array
+
+
+def test_from_map_grid() -> None:
+    """
+    ============================================================================
+     Test the from_map_grid method.
+    ============================================================================
+    """
+    path = 'd:\\temp\\map_grid.txt'
+    GenMapGrid.map_grid(path=path)
+    grid = Grid.from_map_grid(path=path)
+    assert grid.name == 'map_grid'
+    assert grid.rows == 3
+    assert grid.cols == 3
+    assert len(grid.cells_valid) == 8

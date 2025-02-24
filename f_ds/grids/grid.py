@@ -1,14 +1,14 @@
 from __future__ import annotations
-
-import numpy as np
 from f_core.mixins.has_name import HasName
 from f_core.mixins.has_rows_cols import HasRowsCols
 from f_ds.mixins.groupable import Groupable, Group
 from f_ds.groups.view import View
 from f_ds.grids.cell import Cell
-from f_file.txt import Txt
+from f_file.map_grid import MapGrid
 from collections.abc import Iterable
 from typing import Iterator, Callable
+import numpy as np
+import os
 
 
 class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
@@ -65,16 +65,37 @@ class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
         ========================================================================
         """
         return Group(name=name, data=list(self))
+    
+    def to_array(self) -> np.ndarray:
+        """
+        ========================================================================
+         Return numpy boolean array representation of the Grid.
+        ========================================================================
+        """
+        return np.array([[bool(cell) for cell in row]
+                        for row in self._cells])
 
-    def filter(self,
-               predicate: Callable[[Cell], bool],
-               name: str = None) -> Group[Cell]:
+    def cells_within_distance(self, cell: Cell, distance: int) -> list[Cell]:
         """
         ========================================================================
-         Return a Group of filtered Cells by a given Predicate.
+         Return list of valid Cells within a given Distance.
         ========================================================================
         """
-        return self.to_group().filter(predicate=predicate, name=name)
+        cells_within = []
+        # Iteratte only over relevant Rows
+        for row in range(cell.row - distance, cell.row + distance + 1):
+            # Iterate only over relevant Cols
+            for col in range(cell.col - distance, cell.col + distance + 1):
+                # If Row and Col are within the Grid
+                if self.is_within(row, col):
+                    cell_within = self._cells[row][col]
+                    # If Cell is Valid
+                    if cell_within:
+                        # if Distance is within the given Distance
+                        if self.distance(cell, cell_within) <= distance:
+                            # Add to List of Valid-Cells within Distance
+                            cells_within.append(cell_within)
+        return cells_within
             
     @staticmethod
     def distance(cell_a: Cell, cell_b: Cell) -> int:
@@ -132,7 +153,7 @@ class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
         """
         grid = Grid(name=name, rows=rows, cols=cols)
         cells_to_invalidate = grid.sample(pct=100-pct_valid)
-        Cell.invalidate(cells_to_invalidate)
+        Cell.invalidate(cells=cells_to_invalidate)
         return grid
     
     @classmethod
@@ -148,7 +169,17 @@ class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
         for row in range(rows):
             for col in range(cols):
                 if not array[row][col]:
-                    grid[row][col].invalidate()
+                    grid[row][col].set_invalid()
         return grid
 
-
+    @classmethod
+    def from_map_grid(cls, path: str) -> Grid:
+        """
+        ========================================================================
+         Create a Grid from a Map-Grid-File.
+        ========================================================================
+        """
+        map_grid = MapGrid(path=path)
+        name = os.path.splitext(os.path.basename(path))[0]
+        array = map_grid.to_array()
+        return cls.from_array(array=array, name=name)

@@ -9,7 +9,7 @@ class GenMapGrid:
     """
 
     @staticmethod
-    def map_grid() -> MapGrid:
+    def map_grid(path: str = 'd:\\temp\\map_grid.txt') -> MapGrid:
         """
         ====================================================================
          Create a MapGrid object.
@@ -24,9 +24,4 @@ class GenMapGrid:
         lines.append('@.@.')
         lines.append('@...')
         lines.append('@@@@')
-        path = 'g:\\temp\\map_grid.txt'
         return MapGrid.create(path=path, lines=lines)
-
-
-map_grid = GenMapGrid.map_grid()
-print(map_grid.to_array())

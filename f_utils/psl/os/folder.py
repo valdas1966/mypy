@@ -1,4 +1,5 @@
 from __future__ import annotations
+from f_utils.psl.os.u_folder import UFolder
 import shutil
 import os
 
@@ -27,16 +28,16 @@ class Folder:
         """
         return self._path
 
-    def files(self) -> list[str]:
+    def filepaths(self, recursive: bool = False) -> list[str]:
         """
         ====================================================================
          Get the files of the Folder object.
         ====================================================================
         """
-        return os.listdir(self._path)
+        return UFolder.filepaths(path=self._path, recursive=recursive)
 
-    @classmethod
-    def create(cls, path: str) -> Folder:
+    @staticmethod
+    def create(path: str) -> Folder:
         """
         ====================================================================
          Create a Folder object (overwrite if it exists).
@@ -45,10 +46,10 @@ class Folder:
         if os.path.exists(path):
             Folder.delete(path=path)
         os.makedirs(path)
-        return cls(path=path)
+        return Folder(path=path)
     
-    @classmethod
-    def delete(cls, path: str) -> None:
+    @staticmethod
+    def delete(path: str) -> None:
         """
         ====================================================================
          Delete a Folder object even if it is not empty.

@@ -1,18 +1,15 @@
-import pytest
-from f_ds.grids.cell import Cell
+from f_ds.grids.generators.g_cell import GenCell, Cell
 
 
-@pytest.fixture
-def ex_00() -> Cell:
-    return Cell(is_valid=False)
-
-
-@pytest.fixture
-def ex_23() -> Cell:
-    return Cell(2, 3)
-
-
-def test_init(ex_00, ex_23):
-    assert not ex_00
-    assert ex_23
-
+def test_zero() -> None:
+    """
+    ============================================================================
+     Test the zero method.
+    ============================================================================
+    """
+    cell = GenCell.zero()
+    assert cell.row == 0
+    assert cell.col == 0
+    assert cell
+    cell.set_invalid()
+    assert not cell

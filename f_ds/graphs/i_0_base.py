@@ -40,7 +40,7 @@ class GraphBase(Generic[Node], Groupable[Node], HasName, Clonable):
         ========================================================================
         """
         pass
-
+    
     def to_group(self, name: str = None) -> Group[Node]:
         """
         ========================================================================

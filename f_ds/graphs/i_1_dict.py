@@ -33,14 +33,19 @@ class GraphDict(Generic[Node, UID], GraphBase[Node], Equable):
         """
         return list(self._nodes.values())
 
-    def node(self, uid: UID) -> Node:
+    def nodes_by_uids(self,
+                      uid: UID = None,
+                      uids: Iterable[UID] = None) -> Node | list[Node]:
         """
         ========================================================================
          Return a Node by a given UID.
         ========================================================================
         """
-        return self._nodes[uid]
-
+        if uid:
+            return self._nodes[uid]
+        elif uids:
+            return [self._nodes[uid] for uid in uids]
+        
     def key_comparison(self) -> dict:
         """
         ========================================================================

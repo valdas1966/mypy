@@ -24,14 +24,13 @@ class Cell(HasRowCol, ValidatablePublic):
         HasRowCol.__init__(self, row, col)
         ValidatablePublic.__init__(self, is_valid)
 
-    @classmethod
-    def invalidate(cls, *cells: Cell | Sequence[Cell]) -> None:
+    @staticmethod
+    def invalidate(cells: Sequence[Cell]) -> None:
         """
         ========================================================================
          Invalidate multiple cells.
         ========================================================================
         """
-        if len(cells) == 1:
-            cells = cells[0]
         for cell in cells:
             cell.set_invalid()
+            
