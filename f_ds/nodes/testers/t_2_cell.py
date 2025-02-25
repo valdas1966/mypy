@@ -1,0 +1,12 @@
+from f_ds.nodes.generators.g_2_cell import GenNodeCell
+
+
+def test_by_row_col():
+    """
+    ========================================================================
+     Test the by_row_col() method.
+    ========================================================================
+    """
+    node = GenNodeCell.by_row_col(row=1, col=2)
+    assert node.cell.row == 1   
+    assert node.cell.col == 2
