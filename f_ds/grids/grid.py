@@ -86,15 +86,21 @@ class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
         for row in range(cell.row - distance, cell.row + distance + 1):
             # Iterate only over relevant Cols
             for col in range(cell.col - distance, cell.col + distance + 1):
-                # If Row and Col are within the Grid
-                if self.is_within(row, col):
-                    cell_within = self._cells[row][col]
-                    # If Cell is Valid
-                    if cell_within:
-                        # if Distance is within the given Distance
-                        if self.distance(cell, cell_within) <= distance:
-                            # Add to List of Valid-Cells within Distance
-                            cells_within.append(cell_within)
+                # 1. Skip the Cell itself
+                if row == cell.row and col == cell.col:
+                    continue
+                # 2. Skip if Cell is not within the Grid
+                if not self.is_within(row, col):
+                    continue
+                cell_within = self._cells[row][col]
+                # 3. Skip if Cell is not valid
+                if not cell_within:
+                    continue
+                # 4. Skip if Distance is greater than the given Distance
+                if self.distance(cell, cell_within) > distance:
+                    continue
+                # Add to List of Valid-Cells within Distance
+                cells_within.append(cell_within)
         return cells_within
             
     @staticmethod

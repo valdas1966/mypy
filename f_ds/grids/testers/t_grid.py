@@ -3,6 +3,7 @@ from f_ds.grids.grid import Grid
 from f_ds.grids.generators.g_grid import GenGrid
 from f_file.generators.g_map_grid import GenMapGrid
 
+
 @pytest.fixture
 def ex() -> Grid:
     return Grid(2, 3)
@@ -50,6 +51,18 @@ def test_random() -> None:
     assert len(grid.cells_valid) == 80
 
 
+def test_cells_within_distance():
+    """
+    ============================================================================
+     Test the cells_within_distance() method.
+    ============================================================================
+    """
+    grid = GenGrid.gen_3x3()
+    cell_00 = grid[0][0]
+    cells_within_distance = grid.cells_within_distance(cell_00, 1)
+    assert cells_within_distance == [grid[0][1], grid[1][0]]
+
+
 def test_from_array() -> None:
     """
     ============================================================================
@@ -68,7 +81,7 @@ def test_from_map_grid() -> None:
      Test the from_map_grid method.
     ============================================================================
     """
-    path = 'd:\\temp\\map_grid.txt'
+    path = 'g:\\temp\\map_grid.txt'
     GenMapGrid.map_grid(path=path)
     grid = Grid.from_map_grid(path=path)
     assert grid.name == 'map_grid'

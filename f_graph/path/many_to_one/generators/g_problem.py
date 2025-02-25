@@ -1,5 +1,5 @@
 from f_graph.path.many_to_one.problem import ProblemManyToOne
-from f_graph.path.generators.g_graph import GenGraphPath
+from f_graph.path.generators.g_graph import GenGraphPath, GraphPath
 
 
 class GenProblemManyToOne:
@@ -60,4 +60,21 @@ class GenProblemManyToOne:
         graph = GenGraphPath.gen_4x4()
         starts = [graph[1, 2], graph[3, 3], graph[0, 3]]
         goal = graph[0, 2]
+        return ProblemManyToOne(graph=graph, starts=starts, goal=goal)
+
+    @staticmethod
+    def for_experiments(graph: GraphPath, n_starts: int) -> ProblemManyToOne:
+        """
+        ========================================================================
+         Generate a Many-to-One problem for experiments.
+        ========================================================================
+        """
+        while True:
+            start_1, goal = graph.sample(size=2)
+            candidates = graph.nodes_within_distance(node=start_1, distance=10)
+            candidates.remove(goal)
+            if len(candidates) >= n_starts - 1:
+                break
+        starts = candidates.sample(size=n_starts-1)
+        starts.append(start_1)
         return ProblemManyToOne(graph=graph, starts=starts, goal=goal)

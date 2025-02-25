@@ -1,10 +1,10 @@
 from __future__ import annotations
 from f_ds.graphs.i_1_dict import GraphDict
-from f_ds.nodes.i_0_uid import NodeUid
-from f_ds.grids.grid import Grid, Cell
-from typing import Generic, TypeVar, Type, Self
+from f_ds.grids.grid import Grid, Cell, Group
+from f_ds.nodes.i_2_cell import NodeCell
+from typing import Generic, TypeVar, Type
 
-Node = TypeVar('Node', bound=NodeUid)
+Node = TypeVar('Node', bound=NodeCell)
 Graph = TypeVar('Graph', bound='GraphGrid')
 
 
@@ -17,7 +17,7 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
 
     def __init__(self,
                  grid: Grid,
-                 type_node: Type[Node],
+                 type_node: Type[Node] = NodeCell,
                  name: str = None) -> None:
         """
         ========================================================================
@@ -30,6 +30,15 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
         self._grid = grid
         self._type_node = type_node
 
+    @property
+    def grid(self) -> Grid:
+        """
+        ========================================================================
+         Get the Grid.
+        ========================================================================
+        """
+        return self._grid
+    
     def shape(self) -> tuple[int, int]:
         """
         ========================================================================
@@ -44,18 +53,19 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
          Return the Neighbors of the given Node.
         ========================================================================
         """
-        return [self.node(uid=cell)
+        return [self.nodes_by_uids(uid=cell)
                 for cell
                 in self._grid.neighbors(cell=node.uid)]
     
-    def nodes_within_distance(self, node: Node, distance: int) -> list[Node]:
+    def nodes_within_distance(self, node: Node, distance: int) -> Group[Node]:
         """
         ========================================================================
          Return the Nodes within a given Distance.
         ========================================================================
         """
         cells = self._grid.cells_within_distance(cell=node.uid, distance=distance)
-        return self.nodes_by_uids(uids=cells)
+        nodes = self.nodes_by_uids(uids=cells)
+        return Group(data=nodes)
 
     def clone(self) -> Graph:
         """

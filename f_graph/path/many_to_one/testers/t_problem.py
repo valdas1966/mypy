@@ -1,4 +1,5 @@
 from f_graph.path.many_to_one.generators.g_problem import GenProblemManyToOne
+from f_graph.path.generators.g_graph import GenGraphPath
 
 
 def test_gen_3x3():
@@ -29,5 +30,18 @@ def test_random() -> None:
                                              pct_invalid=50,
                                              num_starts=2)
     assert len(problem.graph) == 8
+    assert len(problem.starts) == 2
+    assert len(problem.goal) == 1
+
+
+def test_for_experiments():
+    """
+    ========================================================================
+     Test the generation of a Many-to-One problem for experiments.
+    ========================================================================
+    """
+    graph = GenGraphPath.gen_4x4()
+    problem = GenProblemManyToOne.for_experiments(graph=graph, n_starts=2)
+    assert len(problem.graph) == 16
     assert len(problem.starts) == 2
     assert len(problem.goal) == 1
