@@ -21,7 +21,7 @@ class ProblemManyToOne(ProblemPath):
         self._goal = goal
 
     @property
-    def starts(self):
+    def starts(self) -> set[Node]:
         """
         ========================================================================
          Getter for the start-Nodes.
@@ -30,7 +30,7 @@ class ProblemManyToOne(ProblemPath):
         return self._starts
     
     @property
-    def goal(self):
+    def goal(self) -> Node:
         """
         ========================================================================
          Getter for the goal-Node.
