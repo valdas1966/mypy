@@ -42,7 +42,23 @@ class ProblemManyToOne(ProblemPath):
         """
         ========================================================================
          Convert the Many-to-One problem to a list of One-to-One problems.
+         Order the list by the distance to the goal (the farthest first).
         ========================================================================
         """
-        return [ProblemOneToOne(graph=self.graph, start=start, goal=self.goal)
-                for start in self.starts]
+        # Create a dict that maps each Start to its Distance to the Goal
+        distances: dict[Node, int] = dict()
+        for start in self._starts:
+            distances[start] = self.graph.distance(node_a=start,
+                                                   node_b=self._goal)
+        # Create a sorted list (reversed) of the starts by their distances
+        starts_sorted: list[Node] = sorted(distances.items(),
+                                           key=lambda item: item[1],
+                                           reverse=True)
+        # Create a list of One-to-One problems
+        problems: list[ProblemOneToOne] = list()
+        for start, _ in starts_sorted:
+            problems.append(ProblemOneToOne(graph=self.graph,
+                                            start=start,
+                                            goal=self._goal))
+        return problems
+

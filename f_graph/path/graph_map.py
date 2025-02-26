@@ -1,3 +1,4 @@
+from __future__ import annotations
 from f_graph.path.graph import GraphPath, Grid
 from f_utils.psl.os.u_path import UPath
 
@@ -17,7 +18,16 @@ class GraphMap(GraphPath):
         """
         grid = Grid.from_map_grid(path=path)
         GraphPath.__init__(self, grid=grid)
+        self._path = path
         self._domain = UPath.last_folder(path)
+
+    def clone(self) -> GraphMap:
+        """
+        ========================================================================
+         Clone the GraphMap.
+        ========================================================================
+        """
+        return GraphMap(path=self._path)
 
     @property
     def domain(self) -> str:

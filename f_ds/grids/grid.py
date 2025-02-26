@@ -58,23 +58,20 @@ class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
                         if self.is_within(n.row, n.col)]
         return [cell for cell in cells_within if cell]
 
-    def to_group(self, name: str = None) -> Group[Cell]:
+    def distance_avg(self, cells: Iterable[Cell]) -> int:
         """
         ========================================================================
-         Return list flattened list representation of the 2D Object.
+         Return the average distance between all the cells in the iterable.
         ========================================================================
         """
-        return Group(name=name, data=list(self))
+        sum_dist = 0
+        for cell in cells:
+            for other in cells:
+                if cell >= other:
+                    continue
+                sum_dist += self.distance(cell, other)
+        return round(sum_dist / len(cells))
     
-    def to_array(self) -> np.ndarray:
-        """
-        ========================================================================
-         Return numpy boolean array representation of the Grid.
-        ========================================================================
-        """
-        return np.array([[bool(cell) for cell in row]
-                        for row in self._cells])
-
     def cells_within_distance(self, cell: Cell, distance: int) -> list[Cell]:
         """
         ========================================================================
@@ -102,6 +99,23 @@ class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
                 # Add to List of Valid-Cells within Distance
                 cells_within.append(cell_within)
         return cells_within
+    
+    def to_group(self, name: str = None) -> Group[Cell]:
+        """
+        ========================================================================
+         Return list flattened list representation of the 2D Object.
+        ========================================================================
+        """
+        return Group(name=name, data=list(self))
+    
+    def to_array(self) -> np.ndarray:
+        """
+        ========================================================================
+         Return numpy boolean array representation of the Grid.
+        ========================================================================
+        """
+        return np.array([[bool(cell) for cell in row]
+                        for row in self._cells])
             
     @staticmethod
     def distance(cell_a: Cell, cell_b: Cell) -> int:

@@ -63,6 +63,17 @@ def test_cells_within_distance():
     assert cells_within_distance == [grid[0][1], grid[1][0]]
 
 
+def test_distance_avg():
+    """
+    ============================================================================
+     Test the distance_avg() method.
+    ============================================================================
+    """
+    grid = GenGrid.gen_3x3()    
+    cells = [grid[0][0], grid[0][2], grid[2][0]]
+    assert grid.distance_avg(cells) == 3
+
+
 def test_from_array() -> None:
     """
     ============================================================================

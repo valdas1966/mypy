@@ -38,4 +38,14 @@ def test_nodes_within_distance(ex):
     """
     node = ex[0, 0]
     nodes_within_distance = ex.nodes_within_distance(node=node, distance=1)
-    assert nodes_within_distance == [ex[0, 1], ex[1, 0]]
+    assert list(nodes_within_distance) == [ex[0, 1], ex[1, 0]]
+
+
+def test_distance_avg(ex):
+    """
+    ========================================================================
+     Test the distance_avg() method.
+    ========================================================================
+    """
+    nodes = [ex[0, 0], ex[0, 2], ex[2, 0]]
+    assert ex.distance_avg(nodes=nodes) == 3

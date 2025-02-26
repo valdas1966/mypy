@@ -45,8 +45,11 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
         ========================================================================
         """
         sols: dict[Node, Solution] = dict()
+        order: list[Node] = list()
         # Divide the MTO-Problem into OTO-Problems.
         for problem in self._problem.to_singles():
+            # Store the order of the start nodes.
+            order.append(problem.start)
             # For each OTO-Problem, run the OTO-Algorithm.
             algo = AlgoOneToOne(problem=problem,
                                 cache=self._cache,
@@ -57,7 +60,7 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
             sols[problem.start] = solution
             # If path is not found, return invalid MTO Solution
             if not solution:
-                return Solutions(is_valid=False, sols=sols)
+                return Solutions(is_valid=False, sols=sols, order=order)
             # If path is found and is shared:
             #  update the cache with nodes on the optimal path.
             if self._is_shared:
@@ -69,5 +72,5 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
                                                       cache=self._cache)
                     self._boundary.update(boundary_sol)
         # Return valid MTO Solution.
-        return Solutions(is_valid=True, sols=sols)
+        return Solutions(is_valid=True, sols=sols, order=order)
 

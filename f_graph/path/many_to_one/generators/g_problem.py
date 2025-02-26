@@ -75,7 +75,8 @@ class GenProblemManyToOne:
             start_1, goal = graph.sample(size=2)
             candidates = graph.nodes_within_distance(node=start_1,
                                                      distance=distance)
-            candidates.remove(goal)
+            if goal in candidates:
+                candidates.remove(goal)
             if len(candidates) >= n_starts - 1:
                 break
         starts = candidates.sample(size=n_starts-1)

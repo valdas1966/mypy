@@ -1,8 +1,9 @@
 from __future__ import annotations
+from f_core.mixins.iterable import Iterable
 from f_ds.graphs.i_1_dict import GraphDict
 from f_ds.grids.grid import Grid, Cell, Group
 from f_ds.nodes.i_2_cell import NodeCell
-from typing import Generic, TypeVar, Type
+from typing import Generic, TypeVar, Type, Iterable
 
 Node = TypeVar('Node', bound=NodeCell)
 Graph = TypeVar('Graph', bound='GraphGrid')
@@ -57,13 +58,23 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
                 for cell
                 in self._grid.neighbors(cell=node.uid)]
     
+    def distance_avg(self, nodes: Iterable[Node]) -> int:
+        """
+        ========================================================================
+         Return the average distance between all the nodes in the iterable.
+        ========================================================================
+        """
+        cells = [node.uid for node in nodes]    
+        return self._grid.distance_avg(cells=cells)
+    
     def nodes_within_distance(self, node: Node, distance: int) -> Group[Node]:
         """
         ========================================================================
          Return the Nodes within a given Distance.
         ========================================================================
         """
-        cells = self._grid.cells_within_distance(cell=node.uid, distance=distance)
+        cells = self._grid.cells_within_distance(cell=node.uid,
+                                                 distance=distance)
         nodes = self.nodes_by_uids(uids=cells)
         return Group(data=nodes)
 

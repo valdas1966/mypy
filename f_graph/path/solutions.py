@@ -4,7 +4,7 @@ from f_graph.path.node import NodePath as Node
 from f_core.abstracts.dictable import Dictable
 from f_core.mixins.validatable import Validatable
 from f_graph.path.one_to_one.solution import SolutionOneToOne as Solution
-
+from f_graph.path.one_to_one.state import StateOneToOne as State
 
 class SolutionsPath(Dictable[Node, Solution], Validatable):
     """
@@ -13,7 +13,10 @@ class SolutionsPath(Dictable[Node, Solution], Validatable):
     ========================================================================
     """
 
-    def __init__(self, is_valid: bool, sols: dict[Node, Solution]) -> None:
+    def __init__(self,
+                 is_valid: bool,
+                 sols: dict[Node, Solution],
+                 order: list[Node]) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -26,10 +29,12 @@ class SolutionsPath(Dictable[Node, Solution], Validatable):
         self._explored: int = sum(sol.stats.explored for sol in sols.values())
         self._stats: dict[Node, StatsPath] = dict()
         self._paths: dict[Node, Path] = dict()
+        self._states: dict[Node, State] = dict()
+        self._order: list[Node] = order
         for node, sol in sols.items():
             self._stats[node] = sol.stats
             self._paths[node] = sol.path
-
+            self._states[node] = sol.state
     @property
     def elapsed(self) -> int:
         """
@@ -74,3 +79,22 @@ class SolutionsPath(Dictable[Node, Solution], Validatable):
         ========================================================================
         """
         return self._paths
+    
+    @property
+    def states(self) -> dict[Node, State]:
+        """
+        ========================================================================
+         Return the states of all solutions.
+        ========================================================================
+        """
+        return self._states
+    
+    @property
+    def order(self) -> list[Node]:
+        """
+        ========================================================================
+         Return the order of the solutions.
+        ========================================================================
+        """
+        return self._order
+
