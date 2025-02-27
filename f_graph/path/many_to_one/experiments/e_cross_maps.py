@@ -4,13 +4,8 @@ from f_graph.path.many_to_one.algo import AlgoManyToOne, TypeAlgo
 import pandas as pd
 
 
-import pandas as pd
-
 folder = 'g:\\temp\\boundary\\maps'
 graphs = GenGraphMap.maps_in_folder(path=folder, verbose=True)
-
-# Collect data as a list of dictionaries
-data = []
 
 for graph in graphs:
     for n_starts in [2, 4, 6, 8, 10]:
