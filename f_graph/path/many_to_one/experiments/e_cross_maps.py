@@ -17,19 +17,27 @@ for graph in graphs:
         row = {'domain': graph.domain, 'map': graph.name, 'n_starts': n_starts}
 
         # Generate the problem
-        problem = GenProblemManyToOne.for_experiments(graph=graph, n_starts=n_starts)
+        problem = GenProblemManyToOne.for_experiments(graph=graph,
+                                                      n_starts=n_starts)
         row["density_start"] = graph.distance_avg(nodes=problem.starts)
 
-        algo_with = AlgoManyToOne(problem=problem, type_algo=TypeAlgo.A_STAR, is_shared=True, with_boundary=True)
+        algo_with = AlgoManyToOne(problem=problem,
+                                  type_algo=TypeAlgo.A_STAR,
+                                  is_shared=True,
+                                  with_boundary=True)
         solution_with = algo_with.run()
         row["elapsed_with"] = round(solution_with.elapsed, 2)
         row["explored_with"] = solution_with.explored
 
         start_first = solution_with.order[0]
-        row["h_start_goal"] = problem.graph.distance(node_a=start_first, node_b=problem.goal)
+        row["h_start_goal"] = problem.graph.distance(node_a=start_first,
+                                                     node_b=problem.goal)
         row["d_start_goal"] = len(solution_with.paths[start_first])
 
-        algo_without = AlgoManyToOne(problem=problem, type_algo=TypeAlgo.A_STAR, is_shared=True, with_boundary=False)
+        algo_without = AlgoManyToOne(problem=problem,
+                                     type_algo=TypeAlgo.A_STAR,
+                                     is_shared=True,
+                                     with_boundary=False)
         solution_without = algo_without.run()
         row["elapsed_without"] = round(solution_without.elapsed, 2)
         row["explored_without"] = solution_without.explored
