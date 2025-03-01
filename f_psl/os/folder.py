@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_utils.psl.os.u_folder import UFolder
+from f_psl.os.u_folder import UFolder
 import shutil
 import os
 

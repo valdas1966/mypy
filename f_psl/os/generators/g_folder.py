@@ -1,4 +1,4 @@
-from f_utils.psl.os.folder import Folder
+from f_psl.os.folder import Folder
 from f_file.txt import Txt
 
 

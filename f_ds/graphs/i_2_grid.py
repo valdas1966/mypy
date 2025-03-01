@@ -67,14 +67,34 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
         cells = [node.uid for node in nodes]    
         return self._grid.distance_avg(cells=cells)
     
-    def nodes_within_distance(self, node: Node, distance: int) -> Group[Node]:
+    def nodes_within_distance(self,
+                              node: Node,
+                              distance_max: int,
+                              distance_min: int = 0) -> Group[Node]:
         """
         ========================================================================
-         Return the Nodes within a given Distance.
+         Return the Nodes within a given Distance-Range or
+          Percentile-Range due to the number of nodes in the Graph.
         ========================================================================
         """
         cells = self._grid.cells_within_distance(cell=node.uid,
-                                                 distance=distance)
+                                                 distance_min=distance_min,
+                                                 distance_max=distance_max)
+        nodes = self.nodes_by_uids(uids=cells)
+        return Group(data=nodes)
+    
+    def nodes_within_percentile(self,
+                                node: Node,
+                                percentile_min: int = 0,
+                                percentile_max: int = 100) -> Group[Node]:
+        """
+        ========================================================================
+         Return the Nodes within a given Percentile-Range.
+        ========================================================================
+        """
+        cells = self._grid.cells_within_percentile(cell=node.uid,
+                                                   percentile_min=percentile_min,
+                                                   percentile_max=percentile_max)
         nodes = self.nodes_by_uids(uids=cells)
         return Group(data=nodes)
 

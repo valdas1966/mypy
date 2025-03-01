@@ -59,7 +59,8 @@ def test_cells_within_distance():
     """
     grid = GenGrid.gen_3x3()
     cell_00 = grid[0][0]
-    cells_within_distance = grid.cells_within_distance(cell_00, 1)
+    cells_within_distance = grid.cells_within_distance(cell=cell_00,
+                                                       distance_max=1)
     assert cells_within_distance == [grid[0][1], grid[1][0]]
 
 

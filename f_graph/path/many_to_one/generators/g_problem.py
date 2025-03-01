@@ -1,4 +1,4 @@
-from f_graph.path.many_to_one.problem import ProblemManyToOne
+from f_graph.path.many_to_one.problem import ProblemManyToOne, Node
 from f_graph.path.generators.g_graph import GenGraphPath, Graph
 
 
@@ -65,20 +65,34 @@ class GenProblemManyToOne:
     @staticmethod
     def for_experiments(graph: Graph,
                         n_starts: int,
-                        distance: int = 10) -> ProblemManyToOne:
+                        percentile_min: int,
+                        percentile_max: int,
+                        distance_starts: int = 10,
+                        ) -> ProblemManyToOne:
         """
         ========================================================================
          Generate a Many-to-One problem for experiments.
         ========================================================================
         """
+        starts: list[Node] = None
+        goal: Node = None
         while True:
-            start_1, goal = graph.sample(size=2)
-            candidates = graph.nodes_within_distance(node=start_1,
-                                                     distance=distance)
-            if goal in candidates:
-                candidates.remove(goal)
-            if len(candidates) >= n_starts - 1:
-                break
-        starts = candidates.sample(size=n_starts-1)
-        starts.append(start_1)
+            start_1 = graph.sample(size=1)[0]
+            candidate_goals = graph.nodes_within_percentile(node=start_1,
+                                                            percentile_min=percentile_min,
+                                                            percentile_max=percentile_max)
+            # print(f'Candidate Goals: {len(candidate_goals)}')
+            if not candidate_goals:
+                continue
+            goal = candidate_goals.sample(size=1)[0]
+            candidates_starts = graph.nodes_within_distance(node=start_1,
+                                                            distance_max=distance_starts)
+            if goal in candidates_starts:
+                candidates_starts.remove(goal)
+            # print(f'Candidate Starts: {len(candidates_starts)}')
+            if len(candidates_starts) < n_starts - 1:
+                continue
+            starts = candidates_starts.sample(size=n_starts-1)
+            starts.append(start_1)
+            break
         return ProblemManyToOne(graph=graph, starts=starts, goal=goal)

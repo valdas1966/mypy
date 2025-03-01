@@ -1,6 +1,6 @@
 from __future__ import annotations
 from f_graph.path.graph import GraphPath, Grid
-from f_utils.psl.os.u_path import UPath
+from f_psl.os.u_path import UPath
 
 
 class GraphMap(GraphPath):

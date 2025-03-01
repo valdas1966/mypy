@@ -1,5 +1,5 @@
-from f_utils.psl.os.generators.g_path import GenPath
-from f_utils.psl.os.u_path import UPath
+from f_psl.os.generators.g_path import GenPath
+from f_psl.os.u_path import UPath
 
 
 def test_last_folder() -> None:

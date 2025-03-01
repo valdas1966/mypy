@@ -1,6 +1,6 @@
 from f_graph.path.graph_map import GraphMap
 from f_file.generators.g_map_grid import GenMapGrid
-from f_utils.psl.os.folder import Folder
+from f_psl.os.folder import Folder
 from f_utils import u_datetime, u_pickle
 
 
@@ -23,7 +23,7 @@ class GenGraphMap:
         return GraphMap(path=path)
     
     @staticmethod
-    def maps_in_folder(path: str, verbose: bool = False) -> list[GraphMap]:
+    def maps_in_folder(path: str, verbose: bool = False) -> dict[str, GraphMap]:
         """
         ========================================================================
          Generate a map grid GraphMap.
@@ -31,7 +31,7 @@ class GenGraphMap:
         """
         folder = Folder(path=path)
         filepaths = folder.filepaths(recursive=True)
-        maps = list()
+        maps = dict()
         for i, filepath in enumerate(filepaths):
             graph = GraphMap(path=filepath)
             if verbose:
@@ -40,7 +40,7 @@ class GenGraphMap:
                       graph.domain,
                       graph.name,
                       len(graph.nodes()))
-            maps.append(graph)
+            maps[graph.name] = graph
         return maps
 
     @staticmethod

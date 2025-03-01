@@ -72,33 +72,104 @@ class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
                 sum_dist += self.distance(cell, other)
         return round(sum_dist / len(cells))
     
-    def cells_within_distance(self, cell: Cell, distance: int) -> list[Cell]:
+    def cells_within_distance(self,
+                              cell: Cell,
+                              distance_max: int,
+                              distance_min: int = 0) -> list[Cell]:
         """
         ========================================================================
-         Return list of valid Cells within a given Distance.
+         Return list of valid Cells within a given Distance-Range. 
         ========================================================================
         """
-        cells_within = []
-        # Iteratte only over relevant Rows
-        for row in range(cell.row - distance, cell.row + distance + 1):
+        cells_within: list[Cell] = list()
+        # Iterate only over relevant Rows
+        row_min = max(0, cell.row - distance_max)
+        row_max = min(self.rows, cell.row + distance_max + 1)
+        for row in range(row_min, row_max):
             # Iterate only over relevant Cols
-            for col in range(cell.col - distance, cell.col + distance + 1):
+            col_min = max(0, cell.col - distance_max)
+            col_max = min(self.cols, cell.col + distance_max + 1)
+            for col in range(col_min, col_max):
                 # 1. Skip the Cell itself
                 if row == cell.row and col == cell.col:
                     continue
-                # 2. Skip if Cell is not within the Grid
-                if not self.is_within(row, col):
-                    continue
                 cell_within = self._cells[row][col]
-                # 3. Skip if Cell is not valid
+                # 2. Skip if Cell is not valid
                 if not cell_within:
                     continue
-                # 4. Skip if Distance is greater than the given Distance
-                if self.distance(cell, cell_within) > distance:
+                # 3. Skip if Distance is not within the given Range
+                d = self.distance(cell, cell_within)
+                print(cell.to_tuple(), cell_within.to_tuple(), distance_min, distance_max, d)
+                if d < distance_min or d > distance_max:
                     continue
                 # Add to List of Valid-Cells within Distance
                 cells_within.append(cell_within)
         return cells_within
+    
+    def stam(self,
+             cell: Cell,
+             distance_max: int,
+             distance_min: int = 0) -> list[Cell]:
+        """
+        ========================================================================
+         Return list of valid Cells within a given Manhattan Distance-Range
+         [distance_min, distance_max] from the given cell using an optimized
+         diamond iteration.
+        ========================================================================
+        """
+        cells_within: list[Cell] = []
+        
+        # Set the row bounds using distance_max and grid limits.
+        row_start = max(0, cell.row - distance_max)
+        row_end = min(self.rows - 1, cell.row + distance_max)
+        
+        for r in range(row_start, row_end + 1):
+            dr = abs(r - cell.row)
+            # Compute allowed column offset range for this row.
+            lower_offset = max(0, distance_min - dr)
+            upper_offset = distance_max - dr
+            
+            # If lower_offset > upper_offset, no valid column exists for this row.
+            if lower_offset > upper_offset:
+                continue
+            
+            for offset in range(lower_offset, upper_offset + 1):
+                # When offset is 0, there's only one column candidate.
+                if offset == 0:
+                    # Skip the center cell.
+                    if r == cell.row:
+                        continue
+                    c = cell.col
+                    if 0 <= c < self.cols:
+                        candidate = self._cells[r][c]
+                        if candidate:
+                            cells_within.append(candidate)
+                else:
+                    # Consider both the positive and negative offsets.
+                    for c in (cell.col + offset, cell.col - offset):
+                        if 0 <= c < self.cols:
+                            candidate = self._cells[r][c]
+                            if candidate:
+                                cells_within.append(candidate)
+        return cells_within
+
+    
+    def cells_within_percentile(self,
+                                cell: Cell,
+                                percentile_min: int = 0,
+                                percentile_max: int = 100) -> list[Cell]:
+        """
+        ========================================================================
+         Return list of valid Cells within a given Percentile.
+        ========================================================================
+        """
+        n_cells_valid = len(self.cells_valid)
+        distance_min = round(n_cells_valid * percentile_min / 100)
+        distance_max = round(n_cells_valid * percentile_max / 100)
+        print(len(self), n_cells_valid, distance_min, distance_max)
+        return self.stam(cell=cell,
+                         distance_min=distance_min,
+                         distance_max=distance_max)
     
     def to_group(self, name: str = None) -> Group[Cell]:
         """

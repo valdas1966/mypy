@@ -1,4 +1,4 @@
-from f_utils.psl.os.generators.g_folder import GenFolder, Folder
+from f_psl.os.generators.g_folder import GenFolder, Folder
 
 
 drive = 'd'
