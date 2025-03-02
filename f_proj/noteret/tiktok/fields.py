@@ -64,6 +64,7 @@ class Fields:
     def user_info() -> list[Field]:
         fields: list[Field] = list()
         fields.append(Fields.ID_USER)
+        fields.append(Fields.ID_USER_UNIQUE)
         fields.append(Fields.NICK)
         fields.append(Fields.REGION)
         fields.append(Fields.IS_VERIFIED)
