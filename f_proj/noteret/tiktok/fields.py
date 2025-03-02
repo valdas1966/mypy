@@ -58,6 +58,7 @@ class Fields:
     DIGGS = Field.integer(name='diggs')
     DOWNLOADS = Field.integer(name='downloads')
     COMMENTS = Field.integer(name='comments')
+    IS_AD = Field.boolean(name='is_ad')
 
     @staticmethod
     def user_info() -> list[Field]:

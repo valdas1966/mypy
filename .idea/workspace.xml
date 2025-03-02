@@ -5,38 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_http/generators/g_request.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_http/request.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_http/response.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_http/testers/old_t_request.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_http/testers/t_request.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/users_by_id.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/generators/g_api_new.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/json/generators/g_json.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/json/testers/t_json.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/json/u_json.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/has_input.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/has_input.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/user_inputable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/user_inputable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/operation_io.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/operation_io.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/process_io.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/process_io.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/processes/i_1_input.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/processes/i_1_input.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/processes/i_1_output.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/processes/i_1_output.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/processes/i_2_io.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/processes/i_2_io.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/processes/i_3_algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/processes/i_3_algo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/processes/mixins/has_output.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/processes/mixins/has_output.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_data_exploration/table.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_data_exploration/table.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_http/get/components/input.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_http/get/components/input.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_http/get/components/output.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_http/get/components/output.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_http/get/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_http/get/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_http/get/request.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_http/get/request.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/fields.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/fields.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/tables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_input.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_input.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -778,14 +747,6 @@
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
     </task>
-    <task id="LOCAL-00106" summary="h">
-      <option name="closed" value="true" />
-      <created>1734627481739</created>
-      <option name="number" value="00106" />
-      <option name="presentableId" value="LOCAL-00106" />
-      <option name="project" value="LOCAL" />
-      <updated>1734627481740</updated>
-    </task>
     <task id="LOCAL-00107" summary="h">
       <option name="closed" value="true" />
       <created>1734639758065</created>
@@ -1170,7 +1131,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740858472371</updated>
     </task>
-    <option name="localTasksCounter" value="155" />
+    <task id="LOCAL-00155" summary="h">
+      <option name="closed" value="true" />
+      <created>1740915797103</created>
+      <option name="number" value="00155" />
+      <option name="presentableId" value="LOCAL-00155" />
+      <option name="project" value="LOCAL" />
+      <updated>1740915797104</updated>
+    </task>
+    <option name="localTasksCounter" value="156" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
