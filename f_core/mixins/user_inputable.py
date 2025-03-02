@@ -5,13 +5,13 @@ from f_utils import u_input
 class UserInputable:
     """
     ============================================================================
-     Mixin Class for printing list Prompt to the User and receive the Input.
+     Mixin Class for printing list Prompt to the User and receive the InputRequest.
     ============================================================================
     """
 
-    input:     str        # User's Input
+    input:     str        # User's InputRequest
     dt_prompt: datetime   # Prompt DateTime
-    dt_input:  datetime   # Input DateTime
+    dt_input:  datetime   # InputRequest DateTime
 
     def __init__(self) -> None:
         """
@@ -24,7 +24,7 @@ class UserInputable:
         self._dt_input = None
 
     @property
-    # User's Input
+    # User's InputRequest
     def input(self) -> str:
         return self._input
 
@@ -34,7 +34,7 @@ class UserInputable:
         return self._dt_prompt
 
     @property
-    # Input's DateTime
+    # InputRequest's DateTime
     def dt_input(self) -> datetime:
         return self._dt_input
 
@@ -49,7 +49,7 @@ class UserInputable:
     def get_input(self) -> None:
         """
         ========================================================================
-         Captures the User's Input.
+         Captures the User's InputRequest.
         ========================================================================
         """
         t = u_input.get(self.gen_prompt(), with_dt=True)

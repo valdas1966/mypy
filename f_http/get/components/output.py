@@ -4,10 +4,10 @@ from f_core.mixins.validatable import Validatable
 from f_http.get.components.reasons import Reasons
 
 
-class Output(Validatable):
+class OutputRequest(Validatable):
     """
     ============================================================================
-     Output of the Http Get-Request process.
+     OutputRequest of the Http Get-Request process.
     ============================================================================
     """
 
@@ -38,12 +38,11 @@ class Output(Validatable):
     def to_dict(self) -> dict:
         """
         ========================================================================
-         Convert response content to dictionary.
+         Convert json-response content to flattened dict with '_' as separator.
         ========================================================================
         """
-        text = self.to_text()
-        return json.loads(s=text) if text else None
-
+        
+        
     def to_json(self, path: str) -> None:
         """
         ========================================================================

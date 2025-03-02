@@ -14,13 +14,13 @@ class ProcessIO(ProcessOps, ProcessInitIO):
         for i in range(len(self._ops)):
             args = self._arg_ops[i]
             # On First Operation:
-            #   1. Set the Input as the Process-Input.
-            #   2. Otherwise, Set as the Previous-Operation-Output
+            #   1. Set the InputRequest as the Process-InputRequest.
+            #   2. Otherwise, Set as the Previous-Operation-OutputRequest
             args['input'] = self._output if i else self._input
             # Run the Operation
             op = self._ops[i](**args)
             if not op.is_valid:
                 self._output = None
                 raise Exception(op.e_msg)
-            # Set the Process-Output, to the Last-Operation-Output
+            # Set the Process-OutputRequest, to the Last-Operation-OutputRequest
             self._output = op.output

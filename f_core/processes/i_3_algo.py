@@ -1,8 +1,8 @@
 from f_core.processes.i_2_io import ProcessIO
 from typing import Generic, TypeVar
 
-Input = TypeVar('Input')
-Output = TypeVar('Output')
+Input = TypeVar('InputRequest')
+Output = TypeVar('OutputRequest')
 Data = TypeVar('Data')
 Ops = TypeVar('Ops')
 

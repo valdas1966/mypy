@@ -72,6 +72,50 @@ def comments_by_video_todo() -> None:
     BigQuery().create.table(tname=tname, schema=schema)
 
 
+def users_by_id() -> None:
+    """
+    ========================================================================
+     Create table 'Users_by_Id'.
+    ========================================================================
+    """
+    tname = Tables.USERS_BY_ID
+    schema = Schemas.users_by_id()
+    BigQuery().create.table(tname=tname, schema=schema)
+
+
+def users_by_id_todo() -> None:
+    """
+    ========================================================================
+     Create table 'Users_by_Id_Todo'.
+    ========================================================================
+    """
+    tname = Tables.USERS_BY_ID_TODO
+    schema = Schemas.users_by_id_todo()
+    BigQuery().create.table(tname=tname, schema=schema)
+
+
+def videos_by_user() -> None:
+    """
+    ========================================================================
+     Create table 'Videos_by_User'.
+    ========================================================================
+    """
+    tname = Tables.VIDEOS_BY_USER
+    schema = Schemas.videos_by_user()
+    BigQuery().create.table(tname=tname, schema=schema)
+
+
+def videos_by_user_todo() -> None:
+    """
+    ========================================================================
+     Create table 'Videos_by_User_Todo'.
+    ========================================================================
+    """
+    tname = Tables.VIDEOS_BY_USER_TODO
+    schema = Schemas.videos_by_user_todo()
+    BigQuery().create.table(tname=tname, schema=schema)
+
+
 # users()
 # users_snapshots()
 # followers()
@@ -82,4 +126,8 @@ def comments_by_video_todo() -> None:
 # videos_by_hashtag()
 # videos_by_hashtag_todo()
 # comments_by_video()
-comments_by_video_todo()
+# comments_by_video_todo()
+users_by_id()
+users_by_id_todo()
+videos_by_user()
+videos_by_user_todo()

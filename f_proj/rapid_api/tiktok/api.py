@@ -3,7 +3,7 @@ from f_proj.rapid_api.tiktok.data.i_1_user_snapshot import DataUserSnapshot
 from f_proj.rapid_api.tiktok.data.i_1_videos_from_music import DataVideosFromMusic
 from f_proj.rapid_api.tiktok.data.i_1_videos_from_hashtag import DataVideosFromHashtag
 from f_proj.rapid_api.tiktok.data.i_1_comments_from_videos import DataCommentsFromVideos
-from f_http.get.request import RequestGet, Input, Reasons
+from f_http.get.request import RequestGet, InputRequest, Reasons
 
 
 class TiktokAPI:
@@ -22,7 +22,7 @@ class TiktokAPI:
     def user_snapshot(id_user: str) -> DataUserSnapshot:
         url = f'https://{TiktokAPI._HOST}/user/info'
         params = {'user_id': id_user}
-        _input = Input(url=url, params=params, headers=TiktokAPI._HEADERS)
+        _input = InputRequest(url=url, params=params, headers=TiktokAPI._HEADERS)
         output = RequestGet(_input=_input).run()
         data = DataUserSnapshot()
         if output:
@@ -62,7 +62,7 @@ class TiktokAPI:
         while has_more and rows_added:
             rows_added = 0
             params = {'music_id': id_music, 'count': 35, 'cursor': cursor}
-            _input = Input(url=url, params=params, headers=TiktokAPI._HEADERS)
+            _input = InputRequest(url=url, params=params, headers=TiktokAPI._HEADERS)
             output = RequestGet(_input=_input).run()
             if output:
                 try:
@@ -110,7 +110,7 @@ class TiktokAPI:
             params = {'challenge_id': id_hashtag,
                       'count': 20,
                       'cursor': cursor}
-            _input = Input(url=url, params=params, headers=TiktokAPI._HEADERS)
+            _input = InputRequest(url=url, params=params, headers=TiktokAPI._HEADERS)
             output = RequestGet(_input=_input).run()
             if output:
                 try:
@@ -174,7 +174,7 @@ class TiktokAPI:
             params = {'url': f'https://www.tiktok.com/@tiktok/video/{id_video}',
                       'count': 50,
                       'cursor': cursor}
-            _input = Input(url=url, params=params, headers=TiktokAPI._HEADERS)
+            _input = InputRequest(url=url, params=params, headers=TiktokAPI._HEADERS)
             output = RequestGet(_input=_input).run()
             if output:
                 try:

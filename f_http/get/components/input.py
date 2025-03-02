@@ -2,10 +2,10 @@ from dataclasses import dataclass, field
 
 
 @dataclass
-class Input:
+class InputRequest:
     """
     ============================================================================
-     Input of Http Get-Request.
+     InputRequest of Http Get-Request.
     ============================================================================
     """
     url: str

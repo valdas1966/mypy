@@ -38,11 +38,11 @@ class Table:
     def to_excel(self, xlsx):
         """
         ========================================================================
-         Description: Output the Table-Statistics into Excel-File.
+         Description: OutputRequest the Table-Statistics into Excel-File.
         ========================================================================
          Arguments:
         ------------------------------------------------------------------------
-            1. xlsx : str (Path to Output Excel-File).
+            1. xlsx : str (Path to OutputRequest Excel-File).
         ========================================================================
         """
         excel = Excel(self.template)

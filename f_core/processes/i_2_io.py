@@ -2,8 +2,8 @@ from f_core.processes.i_1_input import ProcessInput
 from f_core.processes.i_1_output import ProcessOutput
 from typing import Generic, TypeVar
 
-Input = TypeVar('Input')
-Output = TypeVar('Output')
+Input = TypeVar('InputRequest')
+Output = TypeVar('OutputRequest')
 
 
 class ProcessIO(Generic[Input, Output],
@@ -11,7 +11,7 @@ class ProcessIO(Generic[Input, Output],
                 ProcessOutput[Output]):
     """
     ============================================================================
-     ABC for Processes with Input and Output.
+     ABC for Processes with InputRequest and OutputRequest.
     ============================================================================
     """
 

@@ -1,12 +1,12 @@
 from typing import Generic, TypeVar
 
-Output = TypeVar('Output')
+Output = TypeVar('OutputRequest')
 
 
 class HasOutput(Generic[Output]):
     """
     ============================================================================
-     Mixin-Class for Processes with Output.
+     Mixin-Class for Processes with OutputRequest.
     ============================================================================
     """
 
@@ -22,7 +22,7 @@ class HasOutput(Generic[Output]):
     def output(self) -> Output:
         """
         ========================================================================
-         Return the Process' Output.
+         Return the Process' OutputRequest.
         ========================================================================
         """
         return self._output

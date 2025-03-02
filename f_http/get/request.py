@@ -1,10 +1,10 @@
 from f_core.mixins.printable import Printable
 from f_core.processes.i_2_io import ProcessIO
-from f_http.get.config import Input, Output, Reasons
+from f_http.get.config import InputRequest, OutputRequest, Reasons
 from requests import request, exceptions, Response
 
 
-class RequestGet(ProcessIO[Input, Output], Printable):
+class RequestGet(ProcessIO[InputRequest, OutputRequest], Printable):
     """
     ============================================================================
      Http Request Get.
@@ -12,7 +12,7 @@ class RequestGet(ProcessIO[Input, Output], Printable):
     """
 
     def __init__(self,
-                 _input: Input,
+                 _input: InputRequest,
                  name: str = None) -> None:
         """
         ========================================================================
@@ -31,7 +31,7 @@ class RequestGet(ProcessIO[Input, Output], Printable):
         """
         return self._reason
 
-    def run(self) -> Output:
+    def run(self) -> OutputRequest:
         """
         ========================================================================
          Run the Http Get-Request process.
@@ -40,7 +40,7 @@ class RequestGet(ProcessIO[Input, Output], Printable):
         self._run_pre()
         response = self._request()
         self._run_post()
-        return Output(response=response, reason=self.reason)
+        return OutputRequest(response=response, reason=self.reason)
 
     def _request(self) -> Response:
         """

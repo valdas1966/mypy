@@ -12,6 +12,7 @@ class Fields:
     ID_SESSION = Field.string(name='id_session')
     SOURCE = Field.string(name='source')
     IS_FOUND = Field.boolean(name='is_found')
+    IS_BROKEN = Field.boolean(name='is_broken')
     IS_OK = Field.boolean(name='is_ok')
     INSERTED = Field.datetime(name='inserted')
 
@@ -19,7 +20,6 @@ class Fields:
     ID_USER = Field.string(name='id_user')
     ID_USER_UNIQUE = Field.string(name='id_user_unique')
     NICK = Field.string(name='nick')
-    REGION = Field.string(name='region')
     IS_VERIFIED = Field.boolean(name='is_verified')
     IS_SECRET = Field.boolean(name='is_secret')
     IS_PRIVATE = Field.boolean(name='is_private')
@@ -49,6 +49,7 @@ class Fields:
 
     # Video
     ID_VIDEO = Field.string(name='id_video')
+    REGION = Field.string(name='region')
     TITLE = Field.string(name='title')
     CREATED = Field.integer(name='created')
     DURATION = Field.integer(name='duration')
@@ -79,4 +80,18 @@ class Fields:
         fields.append(Fields.VIDEOS)
         fields.append(Fields.HEARTS)
         fields.append(Fields.DIGGS)
+        return fields
+
+    @staticmethod
+    def audit_post() -> list[Field]:
+        """
+        ========================================================================
+         Return a list of Audit-Fields in the end of the table.
+        ========================================================================
+        """
+        fields: list[Field] = list()
+        fields.append(Fields.IS_FOUND)
+        fields.append(Fields.IS_BROKEN)
+        fields.append(Fields.IS_OK)
+        fields.append(Fields.INSERTED)
         return fields

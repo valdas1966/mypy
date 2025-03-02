@@ -4,7 +4,7 @@ from f_core.inner.operation.a_3_log import OperationLog
 class OperationIO(OperationLog):
     """
     ============================================================================
-     Description: Operation Input & Output properties.
+     Description: Operation InputRequest & OutputRequest properties.
     ============================================================================
      Attributes:
     ----------------------------------------------------------------------------
@@ -21,7 +21,7 @@ class OperationIO(OperationLog):
         super()._init_add_atts()
         if not hasattr(self, '_input'):
             self._input = None
-        # obj (Operation-Output Property)
+        # obj (Operation-OutputRequest Property)
         self._output = None
 
     @property

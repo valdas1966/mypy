@@ -1,28 +1,32 @@
-from typing import Generic, TypeVar
 
-Input = TypeVar('InputRequest')
-
-
-class HasInput(Generic[Input]):
+class GenJson:
     """
     ============================================================================
-     Mixin-Class for Processes with InputRequest.
+     Class for JSON-related utilities.
     ============================================================================
     """
 
-    def __init__(self, input: Input = None) -> None:
+    @staticmethod
+    def simple() -> str:
         """
         ========================================================================
-         Init private Attributes.
+         Generate a simple JSON-String.
         ========================================================================
         """
-        self._input = input
+        return '{"is_ok": true, "id_user": 123, "name": "John"}'
 
-    @property
-    def input(self) -> Input:
+    @staticmethod
+    def nested() -> str:
         """
         ========================================================================
-         Return the Process' InputRequest.
+         Generate a nested JSON-String.
         ========================================================================
         """
-        return self._input
+        return ('{"id_user": 123,'
+                ' "data": [{"id_video": 456}, {"id_video": 789}]}')
+
+
+from f_psl.json.u_json import UJson
+str_json = GenJson.nested()
+df_json = UJson.to_df(str_json=str_json)
+print(df_json)
