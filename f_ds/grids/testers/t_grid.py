@@ -51,19 +51,6 @@ def test_random() -> None:
     assert len(grid.cells_valid) == 80
 
 
-def test_cells_within_distance():
-    """
-    ============================================================================
-     Test the cells_within_distance() method.
-    ============================================================================
-    """
-    grid = GenGrid.gen_3x3()
-    cell_00 = grid[0][0]
-    cells_within_distance = grid.cells_within_distance(cell=cell_00,
-                                                       distance_max=1)
-    assert cells_within_distance == [grid[0][1], grid[1][0]]
-
-
 def test_distance_avg():
     """
     ============================================================================
@@ -73,6 +60,45 @@ def test_distance_avg():
     grid = GenGrid.gen_3x3()    
     cells = [grid[0][0], grid[0][2], grid[2][0]]
     assert grid.distance_avg(cells) == 3
+
+
+def test_random_cells_within_distance() -> None:
+    """
+    ============================================================================
+     Test the random_cells_within_distance() method.
+    ============================================================================
+    """
+    grid = Grid.generate(rows=10)
+    cell = grid[2][2]
+    grid[4][2].set_invalid()
+    grid[3][1].set_invalid()
+    cells_random = grid.random_cells_within_distance(cell=cell,
+                                                     distance_min=2,
+                                                     distance_max=2,
+                                                     epochs=1000,
+                                                     n=6)
+    assert cells_random == {grid[0][2], grid[1][1], grid[1][3],
+                            grid[2][0], grid[2][4], grid[3][3]}
+
+
+def test_random_cells_within_percentile() -> None:
+    """
+    ============================================================================
+     Test the random_cells_within_percentile() method.
+    ============================================================================
+    """
+    grid = Grid.generate(rows=10)
+    cell = grid[2][2]
+    grid[4][2].set_invalid()
+    grid[3][1].set_invalid()
+    cells_random = set()
+    cells_random = grid.random_cells_within_percentile(cell=cell,
+                                                      percentile_min=2,
+                                                      percentile_max=2,
+                                                      epochs=1000,
+                                                      n=6)
+    assert cells_random == {grid[0][2], grid[1][1], grid[1][3],
+                            grid[2][0], grid[2][4], grid[3][3]}
 
 
 def test_from_array() -> None:
@@ -93,7 +119,7 @@ def test_from_map_grid() -> None:
      Test the from_map_grid method.
     ============================================================================
     """
-    path = 'g:\\temp\\map_grid.txt'
+    path = 'd:\\temp\\map_grid.txt'
     GenMapGrid.map_grid(path=path)
     grid = Grid.from_map_grid(path=path)
     assert grid.name == 'map_grid'

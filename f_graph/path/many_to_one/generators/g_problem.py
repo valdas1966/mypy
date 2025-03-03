@@ -78,9 +78,12 @@ class GenProblemManyToOne:
         goal: Node = None
         while True:
             start_1 = graph.sample(size=1)[0]
-            candidate_goals = graph.nodes_within_percentile(node=start_1,
-                                                            percentile_min=percentile_min,
-                                                            percentile_max=percentile_max)
+            get_goal = graph.random_nodes_within_percentile
+            goal = get_goal(node=start_1,
+                            percentile_min=percentile_min,
+                            percentile_max=percentile_max,
+                            epochs=100,
+                            n=1)[0]
             # print(f'Candidate Goals: {len(candidate_goals)}')
             if not candidate_goals:
                 continue

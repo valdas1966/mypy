@@ -168,17 +168,8 @@ class Schemas:
         tname = 'videos_by_user'
         schema = Schemas._create_schema(tname=tname)
         schema.append(Fields.ID_USER)
-        schema.append(Fields.REGION)
-        schema.append(Fields.ID_VIDEO)
-        schema.append(Fields.TITLE)
-        schema.append(Fields.CREATED)
-        schema.append(Fields.DURATION)
-        schema.append(Fields.PLAYS)
-        schema.append(Fields.SHARES)
-        schema.append(Fields.DIGGS)
-        schema.append(Fields.DOWNLOADS)
-        schema.append(Fields.COMMENTS)
-        schema.append(Fields.IS_AD)
+        schema.append(Fields.ID_MUSIC)
+        schema.extend(Fields.video_info())
         schema.extend(Fields.audit_post())
         return schema   
     

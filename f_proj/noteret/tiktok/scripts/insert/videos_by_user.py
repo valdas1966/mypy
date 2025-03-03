@@ -10,17 +10,18 @@ _BATCH_SIZE = 1000
 def prod() -> None:
     """
     ========================================================================
-     Insert into BigQuery [users by id].
+     Insert into BigQuery [videos by user].
     ========================================================================
     """
-    tname = Tables.USERS_BY_ID
+    tname = Tables.VIDEOS_BY_USER
     bq = BigQuery()
     rows: list[dict[str, Any]] = list()
-    ids_users: list[str] = bq.select.list(Tables.USERS_BY_ID_TODO)
+    ids_users: list[str] = bq.select.list(Tables.VIDEOS_BY_USER_TODO)
     for id_user in ids_users:
-        row = TiktokAPI.users_by_id(id_user=id_user)
-        rows.append(row)
-        if len(rows) == _BATCH_SIZE:
+        rows_new = TiktokAPI.videos_by_user(id_user=id_user)
+        print(id_user, len(rows_new))
+        rows.extend(rows_new)
+        if len(rows) >= _BATCH_SIZE:
             bq.insert.rows_inserted(tname=tname, rows=rows)
             rows = list()
     if rows:

@@ -6,8 +6,9 @@ from f_ds.groups.view import View
 from f_ds.grids.cell import Cell
 from f_file.map_grid import MapGrid
 from collections.abc import Iterable
-from typing import Iterator, Callable
+from typing import Iterator
 import numpy as np
+import random
 import os
 
 
@@ -71,105 +72,48 @@ class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
                     continue
                 sum_dist += self.distance(cell, other)
         return round(sum_dist / len(cells))
-    
-    def cells_within_distance(self,
-                              cell: Cell,
-                              distance_max: int,
-                              distance_min: int = 0) -> list[Cell]:
-        """
-        ========================================================================
-         Return list of valid Cells within a given Distance-Range. 
-        ========================================================================
-        """
-        cells_within: list[Cell] = list()
-        # Iterate only over relevant Rows
-        row_min = max(0, cell.row - distance_max)
-        row_max = min(self.rows, cell.row + distance_max + 1)
-        for row in range(row_min, row_max):
-            # Iterate only over relevant Cols
-            col_min = max(0, cell.col - distance_max)
-            col_max = min(self.cols, cell.col + distance_max + 1)
-            for col in range(col_min, col_max):
-                # 1. Skip the Cell itself
-                if row == cell.row and col == cell.col:
-                    continue
-                cell_within = self._cells[row][col]
-                # 2. Skip if Cell is not valid
-                if not cell_within:
-                    continue
-                # 3. Skip if Distance is not within the given Range
-                d = self.distance(cell, cell_within)
-                print(cell.to_tuple(), cell_within.to_tuple(), distance_min, distance_max, d)
-                if d < distance_min or d > distance_max:
-                    continue
-                # Add to List of Valid-Cells within Distance
-                cells_within.append(cell_within)
-        return cells_within
-    
-    def stam(self,
-             cell: Cell,
-             distance_max: int,
-             distance_min: int = 0) -> list[Cell]:
-        """
-        ========================================================================
-         Return list of valid Cells within a given Manhattan Distance-Range
-         [distance_min, distance_max] from the given cell using an optimized
-         diamond iteration.
-        ========================================================================
-        """
-        cells_within: list[Cell] = []
-        
-        # Set the row bounds using distance_max and grid limits.
-        row_start = max(0, cell.row - distance_max)
-        row_end = min(self.rows - 1, cell.row + distance_max)
-        
-        for r in range(row_start, row_end + 1):
-            dr = abs(r - cell.row)
-            # Compute allowed column offset range for this row.
-            lower_offset = max(0, distance_min - dr)
-            upper_offset = distance_max - dr
-            
-            # If lower_offset > upper_offset, no valid column exists for this row.
-            if lower_offset > upper_offset:
-                continue
-            
-            for offset in range(lower_offset, upper_offset + 1):
-                # When offset is 0, there's only one column candidate.
-                if offset == 0:
-                    # Skip the center cell.
-                    if r == cell.row:
-                        continue
-                    c = cell.col
-                    if 0 <= c < self.cols:
-                        candidate = self._cells[r][c]
-                        if candidate:
-                            cells_within.append(candidate)
-                else:
-                    # Consider both the positive and negative offsets.
-                    for c in (cell.col + offset, cell.col - offset):
-                        if 0 <= c < self.cols:
-                            candidate = self._cells[r][c]
-                            if candidate:
-                                cells_within.append(candidate)
-        return cells_within
 
-    
-    def cells_within_percentile(self,
-                                cell: Cell,
-                                percentile_min: int = 0,
-                                percentile_max: int = 100) -> list[Cell]:
+    def random_cells_within_distance(self,
+                                     cell: Cell,
+                                     distance_max: int,
+                                     distance_min: int = 1,
+                                     epochs: int = 1,
+                                     n: int = 1) -> set[Cell]:
         """
         ========================================================================
-         Return list of valid Cells within a given Percentile.
+         Return a list of random valid cells within a given Distance-Range.
+        ========================================================================
+        """
+        cells: set[Cell] = set()
+        for _ in range(n*epochs):
+            cell_random = self._random_cell_distance(cell=cell,
+                                                     distance_min=distance_min,
+                                                     distance_max=distance_max,
+                                                     epochs=epochs)
+            cells.add(cell_random)
+            if len(cells) >= n:
+                break
+        return cells
+    
+    def random_cells_within_percentile(self,
+                                       cell: Cell,
+                                       percentile_max: int,
+                                       percentile_min: int = 0,
+                                       epochs: int = 1,
+                                       n: int = 1) -> set[Cell]:
+        """
+        ========================================================================
+         Return a list of random valid cells within a given Percentile-Range.
         ========================================================================
         """
         n_cells_valid = len(self.cells_valid)
-        distance_min = round(n_cells_valid * percentile_min / 100)
+        distance_min = max(1, round(n_cells_valid * percentile_min / 100))
         distance_max = round(n_cells_valid * percentile_max / 100)
-        print(len(self), n_cells_valid, distance_min, distance_max)
-        return self.stam(cell=cell,
-                         distance_min=distance_min,
-                         distance_max=distance_max)
+        return self.random_cells_within_distance(cell=cell,
+                                                 distance_min=distance_min,
+                                                 distance_max=distance_max,
+                                                 epochs=epochs,
+                                                 n=n)
     
     def to_group(self, name: str = None) -> Group[Cell]:
         """
@@ -274,3 +218,59 @@ class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
         name = os.path.splitext(os.path.basename(path))[0]
         array = map_grid.to_array()
         return cls.from_array(array=array, name=name)
+
+    def _random_cell_distance(self,
+                              cell: Cell,
+                              distance_max: int,
+                              distance_min: int = 1,
+                              epochs: int = 1) -> Cell | None:
+        """
+        ========================================================================
+         Return a random valid cell whose distance from the given cell is
+           within [distance_min, distance_max].
+        ========================================================================
+        """
+        row, col = cell.row, cell.col
+        for _ in range(epochs):
+            total_candidates = 0
+            candidates_info = []
+            
+            # Determine feasible dc range, taking grid boundaries into account.
+            dc_min = max(-distance_max, -col)
+            dc_max = min(distance_max, self.cols - col - 1)
+            
+            for dc in range(dc_min, dc_max + 1):
+                # For a given dc, allowed |dr| values are in [max(0, distance_min - |dc|), distance_max - |dc|]
+                min_dr_abs = max(0, distance_min - abs(dc))
+                max_dr_abs = distance_max - abs(dc)
+                
+                # Determine the range for dr given grid boundaries.
+                dr_lower_bound = max(-max_dr_abs, -row)
+                dr_upper_bound = min(max_dr_abs, self.rows - row - 1)
+                
+                valid_dr_values = []
+                for dr in range(dr_lower_bound, dr_upper_bound + 1):
+                    if abs(dr) >= min_dr_abs:
+                        candidate_row = row + dr
+                        candidate_col = col + dc
+                        candidate_cell = self._cells[candidate_row][candidate_col]
+                        # Only add candidate if the cell is valid (non-obstacle)
+                        if candidate_cell:
+                            valid_dr_values.append(dr)
+                count = len(valid_dr_values)
+                if count > 0:
+                    candidates_info.append((dc, valid_dr_values, count))
+                    total_candidates += count
+            
+            if total_candidates > 0:
+                # Choose a random candidate uniformly among all possibilities.
+                rand_index = random.randrange(total_candidates)
+                for dc, valid_dr_values, count in candidates_info:
+                    if rand_index < count:
+                        chosen_dr = valid_dr_values[rand_index]
+                        target_row = row + chosen_dr
+                        target_col = col + dc
+                        return self._cells[target_row][target_col]
+                    else:
+                        rand_index -= count
+        return None

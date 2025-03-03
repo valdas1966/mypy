@@ -14,6 +14,8 @@ class Fields:
     IS_FOUND = Field.boolean(name='is_found')
     IS_BROKEN = Field.boolean(name='is_broken')
     IS_OK = Field.boolean(name='is_ok')
+    STATUS_CODE = Field.integer(name='status_code')
+    MSG = Field.string(name='msg')
     INSERTED = Field.datetime(name='inserted')
 
     # User Info
@@ -59,7 +61,7 @@ class Fields:
     DOWNLOADS = Field.integer(name='downloads')
     COMMENTS = Field.integer(name='comments')
     IS_AD = Field.boolean(name='is_ad')
-
+    PLAY = Field.integer(name='play')
     @staticmethod
     def user_info() -> list[Field]:
         fields: list[Field] = list()
@@ -95,5 +97,28 @@ class Fields:
         fields.append(Fields.IS_FOUND)
         fields.append(Fields.IS_BROKEN)
         fields.append(Fields.IS_OK)
+        fields.append(Fields.STATUS_CODE)
         fields.append(Fields.INSERTED)
         return fields
+
+    @staticmethod
+    def video_info() -> list[Field]:
+        """
+        ========================================================================
+         Return a list of Video-Fields in the end of the table.
+        ========================================================================
+        """
+        fields: list[Field] = list()
+        fields.append(Fields.ID_VIDEO)
+        fields.append(Fields.REGION)
+        fields.append(Fields.TITLE)
+        fields.append(Fields.CREATED)
+        fields.append(Fields.DURATION)
+        fields.append(Fields.PLAYS)
+        fields.append(Fields.SHARES)
+        fields.append(Fields.DIGGS)
+        fields.append(Fields.DOWNLOADS)
+        fields.append(Fields.COMMENTS)
+        fields.append(Fields.IS_AD)
+        return fields
+
