@@ -62,45 +62,6 @@ def test_distance_avg():
     assert grid.distance_avg(cells) == 3
 
 
-def test_random_cells_within_distance() -> None:
-    """
-    ============================================================================
-     Test the random_cells_within_distance() method.
-    ============================================================================
-    """
-    grid = Grid.generate(rows=10)
-    cell = grid[2][2]
-    grid[4][2].set_invalid()
-    grid[3][1].set_invalid()
-    cells_random = grid.random_cells_within_distance(cell=cell,
-                                                     distance_min=2,
-                                                     distance_max=2,
-                                                     epochs=1000,
-                                                     n=6)
-    assert cells_random == {grid[0][2], grid[1][1], grid[1][3],
-                            grid[2][0], grid[2][4], grid[3][3]}
-
-
-def test_random_cells_within_percentile() -> None:
-    """
-    ============================================================================
-     Test the random_cells_within_percentile() method.
-    ============================================================================
-    """
-    grid = Grid.generate(rows=10)
-    cell = grid[2][2]
-    grid[4][2].set_invalid()
-    grid[3][1].set_invalid()
-    cells_random = set()
-    cells_random = grid.random_cells_within_percentile(cell=cell,
-                                                      percentile_min=2,
-                                                      percentile_max=2,
-                                                      epochs=1000,
-                                                      n=6)
-    assert cells_random == {grid[0][2], grid[1][1], grid[1][3],
-                            grid[2][0], grid[2][4], grid[3][3]}
-
-
 def test_from_array() -> None:
     """
     ============================================================================
@@ -126,3 +87,39 @@ def test_from_map_grid() -> None:
     assert grid.rows == 3
     assert grid.cols == 3
     assert len(grid.cells_valid) == 8
+
+
+def test_offsets_cell_col():
+    """
+    ============================================================================
+     Test the offsets_cell_col() method.
+    ============================================================================
+    """
+    grid = Grid.generate(rows=10)
+    cell = grid[1][2]
+    offsets = grid._offsets_cell_col(cell=cell, dist=20)
+    assert offsets == (-2, 7)
+
+
+def test_offsets_cell_row():
+    """
+    ============================================================================
+     Test the offsets_cell_row() method.
+    ============================================================================
+    """
+    grid = Grid.generate(rows=10)
+    cell = grid[1][2]
+    offsets = grid._offsets_cell_row(cell=cell, dist=20)
+    assert offsets == (-1, 8)
+
+
+def test_cells_within_distance():
+    """
+    ============================================================================
+     Test the cells_within_distance() method.
+    ============================================================================
+    """ 
+    grid = Grid.generate(rows=10)
+    cell = grid[0][0]
+    cells_within = grid.cells_within_distance(cell=cell, dist_max=2)
+    assert len(cells_within) == 5

@@ -8,10 +8,11 @@ from datetime import datetime
 import pandas as pd
 
 
-folder_maps = 'g:\\temp\\boundary\\maps'
-folder_graphs = 'g:\\temp\\boundary\\graphs'
-pickle_graphs = 'g:\\temp\\boundary\\maps.pkl'
-pickle_problems = 'g:\\temp\\boundary\\problems.pkl'
+cd = 'd'
+folder_maps = f'{cd}:\\temp\\boundary\\maps'
+folder_graphs = f'{cd}:\\temp\\boundary\\graphs'
+pickle_graphs = f'{cd}:\\temp\\boundary\\maps.pkl'
+pickle_problems = f'{cd}:\\temp\\boundary\\problems.pkl'
 
 
 def graphs_to_pickle() -> None:
@@ -39,18 +40,12 @@ def problems_to_pickle() -> None:
     for i, path in enumerate(paths_graphs):
         graph = u_pickle.load(path=path)
         for n_starts in [2, 4, 6, 8, 10]:
-            for percentile in range(20, 101, 20):
-                percentile_min = percentile - 19
-                percentile_max = percentile
-                print(percentile_min, percentile_max)
-                problem = GenProblemManyToOne.for_experiments(graph=graph,
-                                                              n_starts=n_starts,
-                                                              percentile_min=percentile_min,
-                                                              percentile_max=percentile_max)
-                t = (graph.name, problem.starts, problem.goal)
-                problems.append(t)
-                print(datetime.now().strftime("%H:%M:%S"),
-                      f"[{i}/{len(paths_graphs)}] {graph.name} {n_starts} {percentile}")
+            problem = GenProblemManyToOne.for_experiments(graph=graph,
+                                                          n_starts=n_starts)
+            t = (graph.name, problem.starts, problem.goal)
+            problems.append(t)
+            print(datetime.now().strftime("%H:%M:%S"),
+                  f"[{i}/{len(paths_graphs)}] {graph.name} {n_starts}")
     u_pickle.dump(obj=problems, path=pickle_problems)
 
 
@@ -99,5 +94,4 @@ df.to_csv('g:\\temp\\boundary\\maps\\cross_maps.csv', index=False)
 """
 
 # graphs_to_pickle()
-
 problems_to_pickle()

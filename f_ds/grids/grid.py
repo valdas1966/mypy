@@ -72,49 +72,32 @@ class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
                     continue
                 sum_dist += self.distance(cell, other)
         return round(sum_dist / len(cells))
+    
+    def cells_within_distance(self,
+                             cell: Cell,
+                             dist_max: int,
+                             dist_min: int = 1) -> Group[Cell]:
+        """
+        ========================================================================
+         Return List of Cells within a given Distance.
+        ========================================================================
+        """
+        offset_row = self._offsets_cell_row(cell=cell,
+                                            dist=dist_max)
+        offset_col = self._offsets_cell_col(cell=cell,
+                                            dist=dist_max)
+        cells_within: list[Cell] = list()
+        for d_col in range(offset_col[0], offset_col[1] + 1):
+            for d_row in range(offset_row[0], offset_row[1] + 1):
+                cell_within = self._cells[cell.row+d_row][cell.col+d_col]
+                if not cell_within:
+                    continue
+                dist = self.distance(cell_a=cell, cell_b=cell_within)
+                if dist_min <= dist <= dist_max:
+                    cells_within.append(cell_within)
+        return Group(name='Cells within Distance',
+                     data=cells_within)
 
-    def random_cells_within_distance(self,
-                                     cell: Cell,
-                                     distance_max: int,
-                                     distance_min: int = 1,
-                                     epochs: int = 1,
-                                     n: int = 1) -> set[Cell]:
-        """
-        ========================================================================
-         Return a list of random valid cells within a given Distance-Range.
-        ========================================================================
-        """
-        cells: set[Cell] = set()
-        for _ in range(n*epochs):
-            cell_random = self._random_cell_distance(cell=cell,
-                                                     distance_min=distance_min,
-                                                     distance_max=distance_max,
-                                                     epochs=epochs)
-            cells.add(cell_random)
-            if len(cells) >= n:
-                break
-        return cells
-    
-    def random_cells_within_percentile(self,
-                                       cell: Cell,
-                                       percentile_max: int,
-                                       percentile_min: int = 0,
-                                       epochs: int = 1,
-                                       n: int = 1) -> set[Cell]:
-        """
-        ========================================================================
-         Return a list of random valid cells within a given Percentile-Range.
-        ========================================================================
-        """
-        n_cells_valid = len(self.cells_valid)
-        distance_min = max(1, round(n_cells_valid * percentile_min / 100))
-        distance_max = round(n_cells_valid * percentile_max / 100)
-        return self.random_cells_within_distance(cell=cell,
-                                                 distance_min=distance_min,
-                                                 distance_max=distance_max,
-                                                 epochs=epochs,
-                                                 n=n)
-    
     def to_group(self, name: str = None) -> Group[Cell]:
         """
         ========================================================================
@@ -218,59 +201,29 @@ class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
         name = os.path.splitext(os.path.basename(path))[0]
         array = map_grid.to_array()
         return cls.from_array(array=array, name=name)
-
-    def _random_cell_distance(self,
-                              cell: Cell,
-                              distance_max: int,
-                              distance_min: int = 1,
-                              epochs: int = 1) -> Cell | None:
+ 
+    def _offsets_cell_col(self,
+                          cell: Cell,
+                          dist: int) -> tuple[int, int]:
         """
         ========================================================================
-         Return a random valid cell whose distance from the given cell is
-           within [distance_min, distance_max].
+         Return a tuple of the minimum and maximum offsets for the cell column
+          based on a given distance range and a grid boundaries.
         ========================================================================
         """
-        row, col = cell.row, cell.col
-        for _ in range(epochs):
-            total_candidates = 0
-            candidates_info = []
-            
-            # Determine feasible dc range, taking grid boundaries into account.
-            dc_min = max(-distance_max, -col)
-            dc_max = min(distance_max, self.cols - col - 1)
-            
-            for dc in range(dc_min, dc_max + 1):
-                # For a given dc, allowed |dr| values are in [max(0, distance_min - |dc|), distance_max - |dc|]
-                min_dr_abs = max(0, distance_min - abs(dc))
-                max_dr_abs = distance_max - abs(dc)
-                
-                # Determine the range for dr given grid boundaries.
-                dr_lower_bound = max(-max_dr_abs, -row)
-                dr_upper_bound = min(max_dr_abs, self.rows - row - 1)
-                
-                valid_dr_values = []
-                for dr in range(dr_lower_bound, dr_upper_bound + 1):
-                    if abs(dr) >= min_dr_abs:
-                        candidate_row = row + dr
-                        candidate_col = col + dc
-                        candidate_cell = self._cells[candidate_row][candidate_col]
-                        # Only add candidate if the cell is valid (non-obstacle)
-                        if candidate_cell:
-                            valid_dr_values.append(dr)
-                count = len(valid_dr_values)
-                if count > 0:
-                    candidates_info.append((dc, valid_dr_values, count))
-                    total_candidates += count
-            
-            if total_candidates > 0:
-                # Choose a random candidate uniformly among all possibilities.
-                rand_index = random.randrange(total_candidates)
-                for dc, valid_dr_values, count in candidates_info:
-                    if rand_index < count:
-                        chosen_dr = valid_dr_values[rand_index]
-                        target_row = row + chosen_dr
-                        target_col = col + dc
-                        return self._cells[target_row][target_col]
-                    else:
-                        rand_index -= count
-        return None
+        offset_min = max(-dist, -cell.col)
+        offset_max = min(dist, self.cols - cell.col - 1)
+        return offset_min, offset_max
+    
+    def _offsets_cell_row(self,
+                          cell: Cell,
+                          dist: int) -> tuple[int, int]:
+        """ 
+        ========================================================================
+         Return a tuple of the minimum and maximum offsets for the cell row
+          based on a given distance range and a grid boundaries.
+        ========================================================================
+        """
+        offset_min = max(-dist, -cell.row)
+        offset_max = min(dist, self.rows - cell.row - 1)
+        return offset_min, offset_max

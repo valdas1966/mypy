@@ -67,44 +67,22 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
         cells = [node.uid for node in nodes]    
         return self._grid.distance_avg(cells=cells)
     
-    def random_nodes_within_distance(self,      
-                                     node: Node,
-                                     distance_max: int,
-                                     distance_min: int = 0,
-                                     epochs: int = 1,
-                                     n: int = 1) -> set[Node]:
+    def nodes_within_distance(self,
+                              node: Node,
+                              dist_max: int,
+                              dist_min: int = 1) -> Group[Node]:
         """
         ========================================================================
-         Return a random Node within a given Distance-Range.
+         Return the Nodes within a given Distance-Range.
         ========================================================================
         """
-        func = self._grid.random_cells_within_distance
-        cells = func(cell=node.uid,
-                     distance_max=distance_max,
-                     distance_min=distance_min,
-                     epochs=epochs,
-                     n=n)
-        return set(self.nodes_by_uids(uids=cells))
-    
-    def random_nodes_within_percentile(self,
-                                       node: Node,
-                                       percentile_max: int,
-                                       percentile_min: int = 0,
-                                       epochs: int = 1,
-                                       n: int = 1) -> set[Node]:
-        """
-        ========================================================================
-         Return a random Node within a given Percentile-Range.
-        ========================================================================
-        """
-        func = self._grid.random_cells_within_percentile
-        cells = func(cell=node.uid,
-                     percentile_max=percentile_max,
-                     percentile_min=percentile_min,
-                     epochs=epochs,
-                     n=n)
-        return set(self.nodes_by_uids(uids=cells))
-    
+        cells = self._grid.cells_within_distance(cell=node.uid,
+                                                 dist_max=dist_max,
+                                                 dist_min=dist_min)
+        nodes = [self.nodes_by_uids(uid=cell) for cell in cells]
+        return Group(name='Nodes within Distance',
+                     data=nodes)
+
     def clone(self) -> Graph:
         """
         ========================================================================

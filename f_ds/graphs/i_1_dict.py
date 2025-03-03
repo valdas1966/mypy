@@ -45,6 +45,7 @@ class GraphDict(Generic[Node, UID], GraphBase[Node], Equable):
             return self._nodes[uid]
         elif uids:
             return [self._nodes[uid] for uid in uids]
+        return list()
         
     def key_comparison(self) -> dict:
         """
