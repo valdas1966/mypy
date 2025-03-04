@@ -1,24 +1,31 @@
 from f_google.services.big_query.client import BigQuery
-from f_proj.rapid_api.tiktok.api import TiktokAPI
+from f_proj.rapid_api.tiktok.api_new import TiktokAPI
 from f_proj.noteret.tiktok.tables import Tables
-from f_utils import u_datetime
+from typing import Any
 
 
-def prod():
+_BATCH_SIZE = 10
+
+
+def prod() -> None:
+    """
+    ========================================================================
+     Insert into BigQuery [videos by user].
+    ========================================================================
+    """
+    tname = Tables.VIDEOS_BY_MUSIC
     bq = BigQuery()
-    musics = bq.select.list(Tables.VIDEOS_BY_MUSIC_TODO)
-    for i, id_music in enumerate(musics):
-        tname = Tables.VIDEOS_BY_MUSIC
-        rows = TiktokAPI.videos_from_music(id_music=id_music)
-        if rows:
-            try:
-                bq.insert.rows_inserted(tname=tname, rows=rows)
-                print(u_datetime.now(), len(rows), f'[{i+1} / {len(musics)}]')
-            except Exception as e:
-                print(str(e))
-        else:
-            print(u_datetime.now(), len(rows), f'[{i + 1} / {len(musics)}]')
+    rows: list[dict[str, Any]] = list()
+    ids_musics: list[str] = bq.select.list(Tables.VIDEOS_BY_MUSIC_TODO)
+    for id_music in ids_musics:
+        rows_new = TiktokAPI.videos_by_music(id_music=id_music)
+        print(id_music, len(rows_new))
+        rows.extend(rows_new)
+        if len(rows) >= _BATCH_SIZE:
+            bq.insert.rows_inserted(tname=tname, rows=rows)
+            rows = list()
+    if rows:
+        bq.insert.rows_inserted(tname=tname, rows=rows)
 
 
-# t()
 prod()

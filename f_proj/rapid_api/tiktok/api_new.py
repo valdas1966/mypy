@@ -123,3 +123,63 @@ class TiktokAPI:
                        'is_ok': False}
                 rows.append(row)
         return rows 
+
+
+    @staticmethod
+    def videos_by_music(id_music: str) -> list[dict[str, Any]]:
+        """
+        ========================================================================
+         Fetch videos by music id.
+        ========================================================================
+        """
+        url = f'https://{TiktokAPI._HOST}/music/posts'
+        has_more = True
+        cursor = 0
+        rows_added = 1
+        rows: list[dict[str, Any]] = list()
+        while has_more and rows_added:
+            rows_added = 0
+            params = {'music_id': id_music, 'count': 50, 'cursor': cursor}
+            response: ResponseAPI = RequestGet.get(url=url,
+                                                   params=params,
+                                                   headers=TiktokAPI._HEADERS)
+            if response:
+                if response.is_found:
+                    try:
+                        code = response.data['code']
+                        msg = response.data['msg']
+                        cursor = response.data['data']['cursor']
+                        has_more = response.data['data']['hasMore']
+                        for d in response.data['data']['videos']:
+                            row: dict[str, Any] = {'id_music': id_music,
+                                                   'status_code': code,
+                                                   'msg': msg,
+                                                   'is_ok': True,
+                                                   'is_found': True}
+                            row['id_video'] = d['video_id']
+                            row['id_user'] = d['author']['id']
+                            row['is_broken'] = False
+                            rows.append(row)
+                            rows_added += 1
+                    except Exception:
+                        row = {'id_music': id_music,
+                               'status_code': code,
+                               'msg': msg,
+                               'is_ok': True,
+                               'is_found': True,
+                               'is_broken': True}
+                        rows.append(row)
+                else:
+                    row = {'id_music': id_music,
+                           'status_code': response.status,
+                           'is_ok': True,
+                           'is_found': False}
+                    rows.append(row)
+            else:
+                row = {'id_music': id_music,
+                       'status_code': response.status,
+                       'is_ok': False}
+                rows.append(row)
+            if len(rows) > 1000000:
+                return rows
+        return rows
