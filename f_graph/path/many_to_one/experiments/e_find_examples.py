@@ -5,7 +5,7 @@ from datetime import datetime
 from random import randint
 
 
-rows = 5
+rows = 6
 epochs = 100000
 n_starts = 2
 
@@ -38,8 +38,10 @@ def run(rows: int, epochs: int) -> list[tuple[Problem, int, list[Node]]]:
         sol_without = algo_without.run()
         delta = sol_with.explored - sol_without.explored
         if delta != 0:
-            example = (problem, delta, sol_with.order)
-            examples.append(example)
+            start_1, start_2 =  problem.starts
+            if problem.graph.distance(start_1, start_2) > 1:
+                example = (problem, delta, sol_with.order)
+                examples.append(example)
         if i % 1000 == 0:
             print(f'[{datetime.now()}] [{i} / {epochs}] [{len(examples)} examples found]')
     return examples

@@ -1,7 +1,8 @@
 from f_ds.graphs.i_2_grid import Graph
 from f_graph.path.generators.g_graph_map import GenGraphMap, GraphMap
 from f_graph.path.many_to_one.generators.g_problem import GenProblemManyToOne
-from f_graph.path.many_to_one.algo import AlgoManyToOne, TypeAlgo, Node
+from f_graph.path.many_to_one.problem import ProblemManyToOne as Problem
+from f_graph.path.many_to_one.algo import AlgoManyToOne, TypeAlgo
 from f_psl.os.u_folder import UFolder
 from f_utils import u_pickle
 from datetime import datetime
@@ -13,6 +14,7 @@ folder_maps = f'{cd}:\\temp\\boundary\\maps'
 folder_graphs = f'{cd}:\\temp\\boundary\\graphs'
 pickle_graphs = f'{cd}:\\temp\\boundary\\maps.pkl'
 pickle_problems = f'{cd}:\\temp\\boundary\\problems.pkl'
+csv_results = f'{cd}:\\temp\\boundary\\results.csv'
 
 
 def graphs_to_pickle() -> None:
@@ -39,59 +41,63 @@ def problems_to_pickle() -> None:
     paths_graphs = UFolder.filepaths(path=folder_graphs)
     for i, path in enumerate(paths_graphs):
         graph = u_pickle.load(path=path)
-        for n_starts in [2, 4, 6, 8, 10]:
-            problem = GenProblemManyToOne.for_experiments(graph=graph,
-                                                          n_starts=n_starts)
-            t = (graph.name, problem.starts, problem.goal)
-            problems.append(t)
+        for n_starts in [2]: # [2, 4, 6, 8, 10]:
+            for _ in range(1):
+                problem = GenProblemManyToOne.for_experiments(graph=graph,
+                                                              n_starts=n_starts)
+                t = (graph.name, problem.starts, problem.goal)
+                problems.append(t)
             print(datetime.now().strftime("%H:%M:%S"),
                   f"[{i}/{len(paths_graphs)}] {graph.name} {n_starts}")
     u_pickle.dump(obj=problems, path=pickle_problems)
 
 
-"""
-data: list[dict] = dict()
-
-for graph in graphs:
-    for n_starts in [2, 4, 6, 8, 10]:
-        row = {'domain': graph.domain, 'map': graph.name, 'n_starts': n_starts}
-
-        # Generate the problem
-        problem = GenProblemManyToOne.for_experiments(graph=graph,
-                                                      n_starts=n_starts)
-        row["density_start"] = graph.distance_avg(nodes=problem.starts)
-
-        algo_with = AlgoManyToOne(problem=problem,
-                                  type_algo=TypeAlgo.A_STAR,
-                                  is_shared=True,
-                                  with_boundary=True)
-        solution_with = algo_with.run()
-        row["elapsed_with"] = round(solution_with.elapsed, 2)
-        row["explored_with"] = solution_with.explored
-
-        start_first = solution_with.order[0]
-        row["h_start_goal"] = problem.graph.distance(node_a=start_first,
-                                                     node_b=problem.goal)
-        row["d_start_goal"] = len(solution_with.paths[start_first])
-
+def experiments_to_csv() -> None:
+    """
+    ========================================================================
+     Run the experiments and save the results to a csv file.
+    ========================================================================
+    """
+    problems = u_pickle.load(path=pickle_problems)
+    df = pd.DataFrame(columns=['domain', 'map', 'n_starts', 'density_start',
+                               'elapsed_with', 'explored_with',
+                               'h_start_goal', 'd_start_goal',
+                               'elapsed_without', 'explored_without'])
+    for i, problem in enumerate(problems):
+        if i == 10:
+            break
+        graph_name, starts, goal = problem
+        pickle_graph = f'{folder_graphs}\\{graph_name}.pkl'
+        graph = u_pickle.load(path=pickle_graph)
+        problem = Problem(graph=graph, starts=starts, goal=goal)
+        row = {'domain': problem.graph.domain,
+               'map': problem.graph.name,
+               'n_starts': len(problem.starts)}
+        row['density_start'] = problem.graph.distance_avg(nodes=problem.starts)
         algo_without = AlgoManyToOne(problem=problem,
                                      type_algo=TypeAlgo.A_STAR,
                                      is_shared=True,
                                      with_boundary=False)
-        solution_without = algo_without.run()
-        row["elapsed_without"] = round(solution_without.elapsed, 2)
-        row["explored_without"] = solution_without.explored
+        sol_without = algo_without.run()
+        row['elapsed_without'] = round(sol_without.elapsed, 2)
+        row['explored_without'] = sol_without.explored
+        algo_with = AlgoManyToOne(problem=problem,
+                                  type_algo=TypeAlgo.A_STAR,
+                                  is_shared=True,
+                                  with_boundary=True)
+        sol_with = algo_with.run()
+        row['elapsed_with'] = round(sol_with.elapsed, 2)
+        row['explored_with'] = sol_with.explored
+        start_first = sol_with.order[0]
+        row['h_start_goal'] = problem.graph.distance(node_a=start_first,
+                                                     node_b=problem.goal)
+        row['d_start_goal'] = len(sol_with.paths[start_first])
+        df = df._append(row, ignore_index=True)
+        print(datetime.now().strftime("%H:%M:%S"),
+              f'[{i}/{len(problems)}]')
+    df.to_csv(csv_results, index=False)
 
-        print(row)
-        data.append(row)  # Append dictionary to list
-
-# Convert list of dictionaries to DataFrame **in one step**
-df = pd.DataFrame(data)
-
-
-# save the DataFrame
-df.to_csv('g:\\temp\\boundary\\maps\\cross_maps.csv', index=False)
-"""
 
 # graphs_to_pickle()
-problems_to_pickle()
+# problems_to_pickle()
+experiments_to_csv()
