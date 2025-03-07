@@ -180,6 +180,78 @@ class TiktokAPI:
                        'status_code': response.status,
                        'is_ok': False}
                 rows.append(row)
-            if len(rows) > 1000000:
+            if len(rows) > 100000:
+                return rows
+        return rows
+
+    @staticmethod
+    def comments_by_video(id_video: str) -> list[dict[str, Any]]:
+        """
+        ========================================================================
+         Fetch comments by video id.
+        ========================================================================
+        """
+        url = f'https://{TiktokAPI._HOST}/comment/list'
+        has_more = True
+        cursor = 0
+        rows_added = 1
+        rows: list[dict[str, Any]] = list()
+        while has_more and rows_added:
+            rows_added = 0
+            params = {'url': f'https://www.tiktok.com/@tiktok/video/{id_video}',
+                      'count': 50,
+                      'cursor': cursor}
+            response: ResponseAPI = RequestGet.get(url=url,
+                                                   params=params,
+                                                   headers=TiktokAPI._HEADERS)
+            if response:
+                if response.is_found:
+                    try:
+                        code = response.data['code']
+                        msg = response.data['msg']
+                        cursor = response.data['data']['cursor']
+                        has_more = response.data['data']['hasMore']
+                        for d in response.data['data']['comments']:
+                            row: dict[str, Any] = {'id_video': id_video,
+                                                   'status_code': code,
+                                                   'msg': msg,
+                                                   'is_ok': True,
+                                                   'is_found': True}
+                            row['id_comment'] = d['id']
+                            row['text'] = d['text']
+                            row['replies'] = d['reply_total']
+                            row['diggs'] = d['digg_count']
+                            row['created'] = d['create_time']
+                            row['id_user'] = d['user']['id']
+                            row['id_user_unique'] = d['user']['unique_id']
+                            row['nick'] = d['user']['nickname']
+                            row['region'] = d['user']['region']
+                            row['aweme'] = d['user']['aweme_count']
+                            row['favorited'] = d['user']['total_favorited']
+                            row['followers'] = d['user']['follower_count']
+                            row['following'] = d['user']['following_count']
+                            row['is_broken'] = False
+                            rows.append(row)
+                            rows_added += 1
+                    except Exception:
+                        row = {'id_video': id_video,
+                               'status_code': code,
+                               'msg': msg,
+                               'is_ok': True,
+                               'is_found': True,
+                               'is_broken': True}
+                        rows.append(row)
+                else:
+                    row = {'id_video': id_video,
+                           'status_code': response.status,
+                           'is_ok': True,
+                           'is_found': False}
+                    rows.append(row)
+            else:
+                row = {'id_video': id_video,
+                       'status_code': response.status,
+                       'is_ok': False}
+                rows.append(row)
+            if len(rows) > 100000:
                 return rows
         return rows

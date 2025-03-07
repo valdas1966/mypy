@@ -9,7 +9,7 @@ from datetime import datetime
 import pandas as pd
 
 
-cd = 'd'
+cd = 'g'
 folder_maps = f'{cd}:\\temp\\boundary\\maps'
 folder_graphs = f'{cd}:\\temp\\boundary\\graphs'
 pickle_graphs = f'{cd}:\\temp\\boundary\\maps.pkl'
@@ -41,7 +41,7 @@ def problems_to_pickle() -> None:
     paths_graphs = UFolder.filepaths(path=folder_graphs)
     for i, path in enumerate(paths_graphs):
         graph = u_pickle.load(path=path)
-        for n_starts in [2]: # [2, 4, 6, 8, 10]:
+        for n_starts in [2, 4, 6, 8, 10]:
             for _ in range(1):
                 problem = GenProblemManyToOne.for_experiments(graph=graph,
                                                               n_starts=n_starts)
@@ -64,8 +64,6 @@ def experiments_to_csv() -> None:
                                'h_start_goal', 'd_start_goal',
                                'elapsed_without', 'explored_without'])
     for i, problem in enumerate(problems):
-        if i == 10:
-            break
         graph_name, starts, goal = problem
         pickle_graph = f'{folder_graphs}\\{graph_name}.pkl'
         graph = u_pickle.load(path=pickle_graph)
@@ -99,5 +97,5 @@ def experiments_to_csv() -> None:
 
 
 # graphs_to_pickle()
-# problems_to_pickle()
+problems_to_pickle()
 experiments_to_csv()
