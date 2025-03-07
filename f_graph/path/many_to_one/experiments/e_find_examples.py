@@ -1,11 +1,12 @@
 from f_graph.path.many_to_one.algo import AlgoManyToOne as Algo, TypeAlgo
 from f_graph.path.many_to_one.generators.g_problem import GenProblemManyToOne as GenProblem
 from f_graph.path.many_to_one.problem import ProblemManyToOne as Problem, Node
+from f_graph.path.generators.g_graph import GenGraphPath
 from datetime import datetime
 from random import randint
 
 
-rows = 6
+rows = 10
 epochs = 100000
 n_starts = 2
 
@@ -29,17 +30,16 @@ def run(rows: int, epochs: int) -> list[tuple[Problem, int, list[Node]]]:
     examples: list[tuple[Problem, int]] = list()
     for i in range(epochs):
         pct_invalid = randint(0, 50)
-        problem = GenProblem.gen_random(rows=rows,
-                                        pct_invalid=pct_invalid,
-                                        num_starts=n_starts)
+        graph = GenGraphPath.gen_random(rows=rows, pct_invalid=pct_invalid)
+        problem = GenProblem.for_experiments(graph=graph, n_starts=n_starts)
         algo_with = _gen_algo(problem=problem, with_boundary=True)
         sol_with = algo_with.run()
         algo_without = _gen_algo(problem=problem, with_boundary=False)
         sol_without = algo_without.run()
         delta = sol_with.explored - sol_without.explored
         if delta != 0:
-            start_1, start_2 =  problem.starts
-            if problem.graph.distance(start_1, start_2) > 1:
+            start_1, start_2 = problem.starts
+            if problem.graph.distance(start_1, start_2) > 2:
                 example = (problem, delta, sol_with.order)
                 examples.append(example)
         if i % 1000 == 0:

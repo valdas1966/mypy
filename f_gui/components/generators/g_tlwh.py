@@ -1,7 +1,7 @@
-from f_gui.components.ltwh import LTWH
+from f_gui.components.tlwh import TLWH
 
 
-class GenLTWH:
+class GenTLWH:
     """
     ========================================================================
      Generator for LTWH objects.
@@ -9,28 +9,28 @@ class GenLTWH:
     """
 
     @staticmethod
-    def gen_ltwh_full() -> LTWH:
+    def full() -> TLWH:
         """
         ========================================================================
          Generate a full-size LTWH.
         ========================================================================
         """
-        return LTWH(left=0, top=0, width=100, height=100)
+        return TLWH(top=0, left=0, width=100, height=100)
     
     @staticmethod
-    def gen_ltwh_half() -> LTWH:
+    def half() -> TLWH:
         """
         ========================================================================
          Generate a half-size LTWH.
         ========================================================================
         """
-        return LTWH(left=25, top=25, width=50, height=50)
+        return TLWH(top=25, left=25, width=50, height=50)
     
     @staticmethod
-    def gen_ltwh_quarter() -> LTWH:
+    def quarter() -> TLWH:
         """
         ========================================================================
          Generate a quarter-size LTWH.
         ========================================================================
         """ 
-        return LTWH(left=37.5, top=37.5, width=25, height=25)
+        return TLWH(top=37.5, left=37.5, width=25, height=25)

@@ -1,5 +1,5 @@
 import pytest
-from f_ds.nodes.mixins.has_hierarchy import HasHierarchy
+from f_ds.mixins.has_hierarchy import HasHierarchy
 
 
 class Node(HasHierarchy['Node']):

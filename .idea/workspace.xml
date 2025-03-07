@@ -5,9 +5,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_gui/components/testers/t_tlwh.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_gui/components/tlwh.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_gui/shapes/generators/g_1_rect.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_gui/shapes/generators/g_2_container.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_gui/shapes/i_0_base.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_gui/shapes/i_1_rect.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_gui/shapes/i_2_container.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_gui/shapes/testers/t_2_container.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_gui/shapes/testers/t_rect.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_cross_maps.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_cross_maps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/equable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/equable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_parentable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/testers/t_parentable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/nodes/mixins/has_children.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/has_children.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/nodes/mixins/has_hierarchy.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/has_hierarchy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/nodes/mixins/has_parent.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/has_parent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/nodes/mixins/study/s_has_hierarchy.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/study/s_has_hierarchy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/nodes/mixins/testers/t_has_children.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/testers/t_has_children.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/nodes/mixins/testers/t_has_hierarchy.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/testers/t_has_hierarchy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/nodes/mixins/testers/t_has_parent.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/mixins/testers/t_has_parent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_find_examples.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_find_examples.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/components/generators/g_ltwh.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/generators/g_tlwh.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/components/generators/g_position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/generators/g_position.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/components/ltwh.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/components/position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/position.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/components/testers/t_ltwh.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/components/testers/t_position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/testers/t_position.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/mixins/has_position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/mixins/has_position.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widget.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/widget.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/u_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/u_screen.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -203,6 +229,7 @@
     "Python tests.Python tests for t_linked_list.test_reverse.executor": "Run",
     "Python tests.Python tests for t_linked_list.test_str.executor": "Run",
     "Python tests.Python tests for t_linked_list.test_to_group.executor": "Run",
+    "Python tests.Python tests for t_ltwh.test_full.executor": "Run",
     "Python tests.Python tests for t_ltwh.test_str.executor": "Run",
     "Python tests.Python tests for t_mask.test_full.executor": "Run",
     "Python tests.Python tests for t_mask.test_one_word.executor": "Run",
@@ -227,6 +254,7 @@
     "Python tests.Python tests for t_path.test_reversed.executor": "Run",
     "Python tests.Python tests for t_path.test_str.executor": "Run",
     "Python tests.Python tests for t_position.test_half.executor": "Run",
+    "Python tests.Python tests for t_position.test_quarter.executor": "Run",
     "Python tests.Python tests for t_position.test_str.executor": "Run",
     "Python tests.Python tests for t_position.test_update.executor": "Run",
     "Python tests.Python tests for t_problem.test_clone (1).executor": "Run",
@@ -382,6 +410,7 @@
     "Python tests.Python tests in t_problem.py (2).executor": "Run",
     "Python tests.Python tests in t_problem.py.executor": "Run",
     "Python tests.Python tests in t_rate_success.py.executor": "Run",
+    "Python tests.Python tests in t_rect.py.executor": "Run",
     "Python tests.Python tests in t_request.py.executor": "Run",
     "Python tests.Python tests in t_rows_to_nested_group.py.executor": "Run",
     "Python tests.Python tests in t_schema.py.executor": "Run",
@@ -391,6 +420,7 @@
     "Python tests.Python tests in t_state.py.executor": "Run",
     "Python tests.Python tests in t_stats.py.executor": "Run",
     "Python tests.Python tests in t_stats_items.py.executor": "Run",
+    "Python tests.Python tests in t_tlwh.py.executor": "Run",
     "Python tests.Python tests in t_txt.py.executor": "Run",
     "Python tests.Python tests in t_u_1_grid.py.executor": "Run",
     "Python tests.Python tests in t_u_astar.py.executor": "Run",
@@ -430,6 +460,7 @@
     "Python.followers_todo.executor": "Run",
     "Python.forward.executor": "Run",
     "Python.g_2_cell.executor": "Run",
+    "Python.g_2_container.executor": "Run",
     "Python.g_2_grid.executor": "Run",
     "Python.g_algo.executor": "Run",
     "Python.g_api_new.executor": "Run",
@@ -478,6 +509,7 @@
     "Python.layout.executor": "Run",
     "Python.listable.executor": "Run",
     "Python.music.executor": "Run",
+    "Python.position.executor": "Run",
     "Python.problem.executor": "Run",
     "Python.q (1).executor": "Run",
     "Python.q.executor": "Run",
@@ -630,15 +662,15 @@
       <recent name="D:\mypy\f_ds" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\mypy\f_ds\mixins" />
       <recent name="G:\mypy\" />
       <recent name="D:\mypy\f_utils\psl\os\testers" />
       <recent name="D:\mypy\f_utils\psl\os\generators" />
       <recent name="D:\mypy\f_utils\psl\os" />
-      <recent name="D:\mypy\f_google\" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.e_cross_maps (2)">
-    <configuration name="algo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.g_2_container">
+    <configuration name="g_2_container" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -647,11 +679,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/shapes/generators" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/many_to_one/algo.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_gui/shapes/generators/g_2_container.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -660,101 +692,73 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="e_cross_maps (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_position.test_quarter" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/components/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_cross_maps.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_position.test_quarter&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="e_cross_maps (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_position.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/components/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_cross_maps.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_gui/components/testers/t_position.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="e_cross_maps" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_rect.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/shapes/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_cross_maps.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_gui/shapes/testers/t_rect.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="e_find_examples (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_tlwh.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/components/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_find_examples.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_gui/components/testers/t_tlwh.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.e_cross_maps (2)" />
-        <item itemvalue="Python.e_cross_maps (1)" />
-        <item itemvalue="Python.e_cross_maps" />
-        <item itemvalue="Python.e_find_examples (2)" />
-        <item itemvalue="Python.algo" />
+        <item itemvalue="Python.g_2_container" />
+        <item itemvalue="Python tests.Python tests in t_tlwh.py" />
+        <item itemvalue="Python tests.Python tests in t_rect.py" />
+        <item itemvalue="Python tests.Python tests in t_position.py" />
+        <item itemvalue="Python tests.Python tests for t_position.test_quarter" />
       </list>
     </recent_temporary>
   </component>
@@ -773,22 +777,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00111" summary="h">
-      <option name="closed" value="true" />
-      <created>1734689279051</created>
-      <option name="number" value="00111" />
-      <option name="presentableId" value="LOCAL-00111" />
-      <option name="project" value="LOCAL" />
-      <updated>1734689279051</updated>
-    </task>
-    <task id="LOCAL-00112" summary="h">
-      <option name="closed" value="true" />
-      <created>1734704399625</created>
-      <option name="number" value="00112" />
-      <option name="presentableId" value="LOCAL-00112" />
-      <option name="project" value="LOCAL" />
-      <updated>1734704399626</updated>
     </task>
     <task id="LOCAL-00113" summary="h">
       <option name="closed" value="true" />
@@ -1166,7 +1154,23 @@
       <option name="project" value="LOCAL" />
       <updated>1741090763313</updated>
     </task>
-    <option name="localTasksCounter" value="160" />
+    <task id="LOCAL-00160" summary="h">
+      <option name="closed" value="true" />
+      <created>1741319732963</created>
+      <option name="number" value="00160" />
+      <option name="presentableId" value="LOCAL-00160" />
+      <option name="project" value="LOCAL" />
+      <updated>1741319732963</updated>
+    </task>
+    <task id="LOCAL-00161" summary="h">
+      <option name="closed" value="true" />
+      <created>1741319863726</created>
+      <option name="number" value="00161" />
+      <option name="presentableId" value="LOCAL-00161" />
+      <option name="project" value="LOCAL" />
+      <updated>1741319863726</updated>
+    </task>
+    <option name="localTasksCounter" value="162" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

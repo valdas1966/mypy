@@ -1,5 +1,5 @@
 from f_gui.components.generators.g_position import GenPosition
-from f_gui.components.generators.g_ltwh import GenLTWH
+from f_gui.components.generators.g_tlwh import GenLTWH
 
 
 def test_half():
@@ -9,8 +9,9 @@ def test_half():
     ========================================================================
     """
     position = GenPosition.gen_position_half()
-    assert position.relative == GenLTWH.gen_ltwh_half()
-    #assert position.absolute == GenLTWH.gen_ltwh_half()
+    assert position.parent == GenLTWH.full()
+    assert position.relative == GenLTWH.half()
+    assert position.absolute == GenLTWH.half()
 
 
 def test_quarter():
@@ -20,5 +21,6 @@ def test_quarter():
     ========================================================================
     """
     position = GenPosition.gen_position_quarter()
-    assert position.relative == GenLTWH.gen_ltwh_quarter()
-    assert position.absolute == GenLTWH.gen_ltwh_quarter()
+    assert position.parent == GenLTWH.half()
+    assert position.relative == GenLTWH.half()
+    assert position.absolute == GenLTWH.quarter()

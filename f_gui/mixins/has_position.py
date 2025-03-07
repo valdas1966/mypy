@@ -8,13 +8,13 @@ class HasPosition:
     ============================================================================
     """
 
-    def __init__(self) -> None:
+    def __init__(self, position: Position = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._position = Position()
+        self._position = position if position else Position()
 
     @property
     def position(self) -> Position:
@@ -27,4 +27,9 @@ class HasPosition:
 
     @position.setter
     def position(self, val: Position) -> None:
+        """
+        ========================================================================
+         Set object's Position.
+        ========================================================================
+        """
         self._position = val

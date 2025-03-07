@@ -1,5 +1,5 @@
-from f_ds.nodes.mixins.has_parent import HasParent
-from f_ds.nodes.mixins.has_children import HasChildren
+from f_ds.mixins.has_parent import HasParent
+from f_ds.mixins.has_children import HasChildren
 from typing import Generic, TypeVar
 
 T = TypeVar('T', bound='HasHierarchy')

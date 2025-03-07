@@ -5,16 +5,16 @@ from f_core.mixins.comparable import Comparable
 T = TypeVar('T', int, float)
 
 
-class LTWH(Generic[T], Printable, Comparable):
+class TLWH(Generic[T], Printable, Comparable):
     """
     ============================================================================
-    Component Class to store LTWH values (Left, Top, Width, Height).
+    Component Class to store TLWH values (Left, Top, Width, Height).
     ============================================================================
     """
 
     def __init__(self,
-                 left: T = None,
                  top: T = None,
+                 left: T = None,
                  width: T = None,
                  height: T = None) -> None:
         """
@@ -22,18 +22,18 @@ class LTWH(Generic[T], Printable, Comparable):
          Init private Attributes.
         ========================================================================
         """
-        self._left: T = left
         self._top: T = top
+        self._left: T = left
         self._width: T = width
         self._height: T = height
 
     @property
-    def left(self) -> T:
-        return self._left
-
-    @property
     def top(self) -> T:
         return self._top
+    
+    @property
+    def left(self) -> T:
+        return self._left
 
     @property
     def width(self) -> T:
@@ -51,13 +51,13 @@ class LTWH(Generic[T], Printable, Comparable):
         """
         return self.left, self.top, self.width, self.height
 
-    def key_comparison(self) -> list:
+    def key_comparison(self) -> tuple[T, T, T, T]:
         """
         ========================================================================
-         Compare by the object Left-Top-Width-Height values.
+         Compare by the object  Top-Width-Height values.
         ========================================================================
         """
-        return list(self.to_tuple())
+        return self.to_tuple()
 
     def __str__(self) -> str:
         """
@@ -65,4 +65,5 @@ class LTWH(Generic[T], Printable, Comparable):
          Ex: '(10,20,30,40)'
         ========================================================================
         """
-        return f'({self.left}, {self.top}, {self.width}, {self.height})'
+        return f'({self.top}, {self.left}, {self.width}, {self.height})'
+

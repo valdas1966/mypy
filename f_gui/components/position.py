@@ -1,8 +1,9 @@
 from f_core.mixins.printable import Printable
-from f_gui.components.ltwh import LTWH
+from f_core.mixins.comparable import Comparable
+from f_gui.components.generators.g_tlwh import GenTLWH, TLWH
 
 
-class Position(Printable):
+class Position(Printable, Comparable):
     """
     ============================================================================
      Component-Class to manage relative and absolute positions.
@@ -10,22 +11,29 @@ class Position(Printable):
     """
 
     def __init__(self,
-                 relative: tuple[float, float, float, float] | LTWH = None) -> None:
+                 relative: tuple[float, float, float, float] | TLWH = GenTLWH.full(),
+                 parent: tuple[float, float, float, float] | TLWH = GenTLWH.full(),
+                 ) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        if relative is None:
-            relative = LTWH(top=0, left=0, width=100, height=100)
-        elif type(relative) == tuple:
-            relative = LTWH(*relative)
-        self._relative = relative
-        self._absolute = LTWH()
-        self._parent = LTWH()
+        # Inits Absolute later by _update_absolute()
+        self._absolute: TLWH = None
+        # Inits Relative
+        if isinstance(relative, tuple):
+            self._relative = TLWH(*relative)
+        else:
+            self._relative = relative
+        # Inits Parent
+        if isinstance(parent, tuple):
+            self.parent = TLWH(*parent)
+        else:
+            self.parent = parent
 
     @property
-    def relative(self) -> LTWH:
+    def relative(self) -> TLWH:
         """
         ========================================================================
          Get the object's relative position (top, left, width, height).
@@ -34,19 +42,19 @@ class Position(Printable):
         return self._relative
 
     @relative.setter
-    def relative(self, val: tuple[float, float, float, float] | LTWH) -> None:
+    def relative(self, val: tuple[float, float, float, float] | TLWH) -> None:
         """
         ========================================================================
          Set the relative position (left, top, width, height).
         ========================================================================
         """
-        if isinstance(val, LTWH):
+        if isinstance(val, TLWH):
             self._relative = val
         else:
-            self._relative = LTWH(*val)
+            self._relative = TLWH(*val)
 
     @property
-    def absolute(self) -> LTWH:
+    def absolute(self) -> TLWH:
         """
         ========================================================================
          Get the absolute position (left, top, width, height).
@@ -55,7 +63,7 @@ class Position(Printable):
         return self._absolute
 
     @property
-    def parent(self) -> LTWH:
+    def parent(self) -> TLWH:
         """
         ========================================================================
          Get the absolute position of the Parent.
@@ -64,7 +72,7 @@ class Position(Printable):
         return self._parent
 
     @parent.setter
-    def parent(self, val: LTWH) -> None:
+    def parent(self, val: TLWH) -> None:
         """
         ========================================================================
          Set the parent's position.
@@ -73,17 +81,25 @@ class Position(Printable):
         self._parent = val
         self._update_absolute()
 
+    def key_comparison(self) -> tuple[float, float, float, float]:
+        """
+        ========================================================================
+         Return the key-comparison of the object.
+        ========================================================================
+        """
+        return self.absolute.to_tuple()
+
     def _update_absolute(self) -> None:
         """
         ========================================================================
          Update the absolute position based on the parent's dimensions.
         ========================================================================
         """
-        left = int(self._parent.width * self._relative.left)
-        top = int(self._parent.height * self._relative.top)
-        width = int(self._parent.width * self._relative.width)
-        height = int(self._parent.height * self._relative.height)
-        self._absolute = LTWH(left, top, width, height)
+        top = (self._parent.height * self._relative.top / 100) + self._parent.top
+        left = (self._parent.width * self._relative.left / 100) + self._parent.left
+        width = (self._parent.width * self._relative.width / 100)
+        height = (self._parent.height * self._relative.height / 100)
+        self._absolute = TLWH(top, left, width, height)
 
     def __str__(self) -> str:
         """

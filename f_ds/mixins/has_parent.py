@@ -35,7 +35,8 @@ class HasParent(Generic[T]):
         ========================================================================
         """
         self._parent = val
-        self._update_parent()
+        if self._parent:
+            self._update_parent()
 
     def path_from_root(self) -> list[T]:
         """

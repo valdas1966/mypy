@@ -1,9 +1,9 @@
 from PyQt5.QtWidgets import QWidget
 from f_gui.pyqt.mixins.has_widget import HasWidget
 from f_gui.mixins.has_position import HasPosition
-from f_ds.nodes.mixins.has_parent import HasParent
+from f_ds.mixins.has_parent import HasParent
 from f_core.mixins.has_name import HasName
-from f_gui.components.ltwh import LTWH
+from f_gui.components.tlwh import LTWH
 
 
 class Widget(HasName, HasParent, HasWidget, HasPosition):
