@@ -122,8 +122,7 @@ class TiktokAPI:
                        'status_code': response.status,
                        'is_ok': False}
                 rows.append(row)
-        return rows 
-
+        return rows
 
     @staticmethod
     def videos_by_music(id_music: str) -> list[dict[str, Any]]:
