@@ -1,10 +1,8 @@
 from __future__ import annotations
 from f_ds.nodes.i_0_key import NodeKey, Key
-from f_ds.nodes.mixins.has_parent import HasParent
-from typing import Generic
 
 
-class NodeParent(Generic[Key], NodeKey[Key], HasParent[Key]):
+class NodeParent(NodeKey[Key]):
     """
     ============================================================================
      A node with a parent.

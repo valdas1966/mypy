@@ -20,4 +20,3 @@ def test_str():
     """
     node = GenNodeCell.by_row_col(row=1, col=2)
     assert str(node) == '(1,2)'
-
