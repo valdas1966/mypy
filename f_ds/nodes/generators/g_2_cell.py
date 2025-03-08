@@ -16,4 +16,4 @@ class GenNodeCell:
         ========================================================================
         """
         cell = Cell(row=row, col=col)
-        return NodeCell(uid=cell)
+        return NodeCell(key=cell)

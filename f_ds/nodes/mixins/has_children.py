@@ -1,64 +1,52 @@
-from f_core.mixins.has_key import HasKey
-from f_core.mixins.has_name import HasName
-from f_core.abstracts.clonable import Clonable
+from f_ds.nodes.i_0_key import NodeKey, Key
 from typing import Generic, TypeVar
 
-K = TypeVar('K')
-Node = TypeVar('Node', bound='NodeUid')
+Node = TypeVar('Node', bound=NodeKey)
 
 
-class NodeUid(Generic[K], HasKey[K], HasName, Clonable):
+class HasChildren(Generic[Key, Node]):
     """
     ============================================================================
-     ABC of Node classes.
+     Mixin-Class for Objects with Children.
     ============================================================================
     """
 
-    def __init__(self,
-                 key: K,
-                 name: str = 'Node') -> None:
+    def __init__(self) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        HasKey.__init__(self, key=key)
-        HasName.__init__(self, name=name)
-        Clonable.__init__(self)
+        self._children: dict[Key, Node] = {}
 
-    def key_comparison(self) -> K:
+    def children(self) -> dict[K, T]:
         """
         ========================================================================
-         Compare by Cell.
+         Return object's children.
         ========================================================================
         """
-        return HasKey.key_comparison(self)
+        return self._children
     
-    def clone(self) -> Node:
+    def add_child(self, key: K, child: T) -> None:
         """
         ========================================================================
-         Clone the Node.
+         Add a child to the object.
         ========================================================================
         """
-        # Clone the key if it is Clonable.
-        key = self.key.clone() if isinstance(self.key, Clonable) else self.key
-        # Return a new Node with the cloned key and name
-        return self.__class__(key=key, name=self.name)
+        self._children[key] = child
 
-    def __str__(self) -> str:
+    def remove_child(self, key: K) -> T:
         """
         ========================================================================
-         Return a STR-Repr of the Node.
+         Remove a child from the object.
         ========================================================================
         """
-        return f'{HasName.__str__(self)}({self._uid})'
+        return self._children.pop(key)
 
-
-    def __hash__(self) -> int:
+    def clear_children(self) -> None:
         """
         ========================================================================
-         Hash by UID.
+         Clear the children of the object.
         ========================================================================
         """
-        return HasUID.__hash__(self)
-    
+        self._children.clear()

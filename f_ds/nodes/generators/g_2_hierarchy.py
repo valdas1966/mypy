@@ -1,20 +1,20 @@
-from f_ds.nodes.i_1_parent import NodeParent as Node
+from f_ds.nodes.i_2_hierarchy import NodeHierarchy
 
 
-class GenNodeParent:
+class GenNodeHierarchy:
     """
     ========================================================================
-     Generate NodeParent objects.
+     Generate NodeHierarchy objects.
     ========================================================================
     """
 
     @staticmethod
-    def parent_child() -> tuple[Node, Node]:
+    def parent_child() -> tuple[NodeHierarchy, NodeHierarchy]:
         """
         ========================================================================
-         Generate a tuple of parent and child nodes.
+         Generate a parent and child NodeHierarchy.
         ========================================================================
         """
-        parent = Node(key='parent')
-        child = Node(key='child', parent=parent)
+        parent = NodeHierarchy(key='parent')
+        child = NodeHierarchy(key='child', parent=parent)
         return parent, child

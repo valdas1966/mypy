@@ -1,9 +1,9 @@
-from f_ds.nodes.i_0_uid import NodeUid
+from f_ds.nodes.i_0_key import NodeKey
 
 
 def study_1():
-    node_a = NodeUid(uid=1, name='A')
+    node_a = NodeKey(uid=1, name='A')
     print(node_a)
 
-    node_b = NodeUid(uid='B')
+    node_b = NodeKey(uid='B')
     print(node_b)

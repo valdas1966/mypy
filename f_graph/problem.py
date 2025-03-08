@@ -1,8 +1,8 @@
-from f_ds.graphs.i_0_base import GraphBase, NodeUid
+from f_ds.graphs.i_0_base import GraphBase, NodeKey
 from typing import Generic, TypeVar
 
 Graph = TypeVar('Graph', bound=GraphBase)
-Node = TypeVar('Node', bound=NodeUid)
+Node = TypeVar('Node', bound=NodeKey)
 
 
 class ProblemGraph(Generic[Graph, Node]):

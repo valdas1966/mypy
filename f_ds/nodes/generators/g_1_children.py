@@ -1,12 +1,12 @@
-from f_ds.nodes.i_1_parent import NodeParent as Node
+from f_ds.nodes.i_1_children import NodeChildren as Node
 
 
-class GenNodeParent:
+class GenNodeChildren:
     """
     ========================================================================
-     Generate NodeParent objects.
+     Generate NodeChildren objects.
     ========================================================================
-    """
+    """ 
 
     @staticmethod
     def parent_child() -> tuple[Node, Node]:
@@ -16,5 +16,6 @@ class GenNodeParent:
         ========================================================================
         """
         parent = Node(key='parent')
-        child = Node(key='child', parent=parent)
+        child = Node(key='child')
+        parent.add_child(child=child)
         return parent, child

@@ -1,5 +1,5 @@
-from f_ds.mixins.has_parent import HasParent
-from f_ds.mixins.has_children import HasChildren
+from f_ds.nodes.mixins.has_parent import HasParent
+from f_ds.nodes.mixins.has_children import HasChildren
 from typing import Generic, TypeVar
 
 K = TypeVar('K')
@@ -47,4 +47,4 @@ class HasHierarchy(Generic[K, T], HasParent[T], HasChildren[K, T]):
         ========================================================================
         """
         if self.parent and self not in self.parent.children():
-            self.parent.add_child(self)
+            self.parent.add_child(key=self.key, child=self)

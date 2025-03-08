@@ -10,7 +10,7 @@ class NodeCell(NodeParent[Cell]):
     """
 
     def __init__(self,
-                 uid: Cell,
+                 key: Cell,
                  parent: Cell = None,
                  name: str = None) -> None:
         """
@@ -18,8 +18,8 @@ class NodeCell(NodeParent[Cell]):
          Initialize the Node.
         ========================================================================
         """
-        NodeParent.__init__(self, uid=uid, parent=parent, name=name)    
-        self._cell = uid
+        NodeParent.__init__(self, key=key, parent=parent, name=name)    
+        self._cell = key
 
     @property
     def cell(self) -> Cell:
@@ -29,3 +29,11 @@ class NodeCell(NodeParent[Cell]):
         ========================================================================
         """
         return self._cell
+
+    def __str__(self) -> str:
+        """
+        ========================================================================
+         Return a string representation of the Node.
+        ========================================================================
+        """
+        return str(self.cell)

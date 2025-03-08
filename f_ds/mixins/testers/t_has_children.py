@@ -1,4 +1,3 @@
-from f_ds.mixins import has_children
 from f_ds.mixins.generators.g_has_children import GenHasChildren
 
 

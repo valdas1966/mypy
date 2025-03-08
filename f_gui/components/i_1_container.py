@@ -1,6 +1,6 @@
 from __future__ import annotations
 from f_gui.shapes.i_1_rect import Rect, Shape, Position
-from f_ds.mixins.has_hierarchy import HasHierarchy
+from f_ds.nodes.mixins.has_hierarchy import HasHierarchy
 
 
 class Container(Rect, HasHierarchy[Shape]):

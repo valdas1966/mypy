@@ -1,8 +1,10 @@
 from __future__ import annotations
-from f_ds.nodes.i_0_uid import NodeUid, UID
+from f_ds.nodes.i_0_key import NodeKey, Key
+from f_ds.nodes.mixins.has_parent import HasParent
+from typing import Generic
 
 
-class NodeParent(NodeUid[UID]):
+class NodeParent(Generic[Key], NodeKey[Key], HasParent[Key]):
     """
     ============================================================================
      A node with a parent.
@@ -10,19 +12,19 @@ class NodeParent(NodeUid[UID]):
     """
 
     def __init__(self,
-                 uid: UID,
+                 key: Key,
                  name: str = 'NodeParent',
-                 parent: NodeParent[UID] = None) -> None:
+                 parent: NodeParent[Key] = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        NodeUid.__init__(self, uid=uid, name=name)
-        self._parent = parent
+        NodeKey.__init__(self, key=key, name=name)
+        self.parent = parent
 
     @property
-    def parent(self) -> NodeParent[UID]:   
+    def parent(self) -> NodeParent[Key]:
         """
         ========================================================================
          Return the parent of the object.
@@ -31,44 +33,45 @@ class NodeParent(NodeUid[UID]):
         return self._parent
 
     @parent.setter
-    def parent(self, val: NodeParent[UID]) -> None:
+    def parent(self, val: NodeParent[Key]) -> None:
         """
         ========================================================================
          Set the parent of the object.
         ========================================================================
         """
         self._parent = val
-        self._update_parent()
+        if self._parent:
+            self._update_parent()
 
-    def path_from_root(self) -> list[NodeParent[UID]]:
+    def path_from_root(self) -> list[NodeParent[Key]]:
         """
         ========================================================================
          Return the path from the root to the current node.
         ========================================================================
         """
-        path: list[NodeParent[UID]] = []
+        path: list[NodeParent[Key]] = []
         current = self
         while current:
             path.append(current)
             current = current.parent
         return path[::-1]
     
-    def path_from_node(self, node: NodeParent[UID]) -> list[NodeParent[UID]]:
+    def path_from_node(self, node: NodeParent[Key]) -> list[NodeParent[Key]]:
         """
         ========================================================================
          Return the path from the given node to the current node.
         ========================================================================
         """
-        path: list[NodeParent[UID]] = []
+        path: list[NodeParent[Key]] = []
         current = self
         while current:
             path.append(current)
             if current == node:
                 break
             current = current.parent
-        if current:
+        if current == node:
             return path[::-1]
-        return []  # node not found
+        return [] # node not found
 
     def _update_parent(self) -> None:
         """
