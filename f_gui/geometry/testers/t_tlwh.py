@@ -1,4 +1,4 @@
-from f_gui.components.generators.g_tlwh import GenTLWH
+from f_gui.geometry.generators.g_tlwh import GenTLWH
 
 
 def test_full():

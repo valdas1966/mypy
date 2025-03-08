@@ -1,4 +1,4 @@
-from f_gui.components.tlwh import TLWH
+from f_gui.geometry.tlwh import TLWH
 
 
 class GenTLWH:

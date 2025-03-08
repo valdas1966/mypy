@@ -6,7 +6,7 @@ from datetime import datetime
 from random import randint
 
 
-rows = 10
+rows = 7
 epochs = 100000
 n_starts = 2
 
@@ -37,7 +37,7 @@ def run(rows: int, epochs: int) -> list[tuple[Problem, int, list[Node]]]:
         algo_without = _gen_algo(problem=problem, with_boundary=False)
         sol_without = algo_without.run()
         delta = sol_with.explored - sol_without.explored
-        if delta != 0:
+        if delta > 0:
             start_1, start_2 = problem.starts
             if problem.graph.distance(start_1, start_2) > 2:
                 example = (problem, delta, sol_with.order)
@@ -53,6 +53,19 @@ example_top: tuple[Problem, int] = sorted(examples, key=lambda x: x[1], reverse=
 # return example with the lowest difference in explored nodes
 example_bottom: tuple[Problem, int] = sorted(examples, key=lambda x: x[1])[0]
 
+
+examples: tuple[Problem, int, list[Node]] = sorted(examples, key=lambda x: x[1],
+                                                   reverse=True)
+for i, ex in enumerate(examples):
+    problem, delta, order = ex
+    print(f'Example #{i+1} with Delta: {delta}')
+    print(f'Starts: {[node.uid.to_tuple() for node in order]}')
+    print(f'Goal: {problem.goal}')
+    print(problem.graph)
+    print()
+
+
+"""
 print('Example Top:')
 problem_top, delta_top, order_top = example_top
 print(f'Graph:')
@@ -68,5 +81,4 @@ print(problem_bottom.graph)
 print(f'Starts: {order_bottom}')
 print(f'Goal: {problem_bottom.goal}')
 print(f'Delta: {delta_bottom}')
-
-
+"""

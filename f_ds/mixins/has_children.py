@@ -1,9 +1,10 @@
 from typing import Generic, TypeVar
 
+K = TypeVar('K')
 T = TypeVar('T', bound='HasChildren')
 
 
-class HasChildren(Generic[T]):
+class HasChildren(Generic[K, T]):
     """
     ============================================================================
      Mixin-Class for Objects with Children.
@@ -16,9 +17,9 @@ class HasChildren(Generic[T]):
          Init private Attributes.
         ========================================================================
         """
-        self._children: list[T] = []
+        self._children: dict[K, T] = {}
 
-    def children(self) -> list[T]:
+    def children(self) -> dict[K, T]:
         """
         ========================================================================
          Return object's children.
@@ -26,29 +27,21 @@ class HasChildren(Generic[T]):
         """
         return self._children
     
-    def add_child(self, child: T) -> None:
+    def add_child(self, key: K, child: T) -> None:
         """
         ========================================================================
          Add a child to the object.
         ========================================================================
         """
-        self._children.append(child)
+        self._children[key] = child
 
-    def set_children(self, children: list[T]) -> None:
-        """
-        ========================================================================
-         Set the children of the object.
-        ========================================================================
-        """
-        self._children = children
-
-    def remove_child(self, child: T) -> None:
+    def remove_child(self, key: K) -> T:
         """
         ========================================================================
          Remove a child from the object.
         ========================================================================
         """
-        self._children.remove(child)
+        return self._children.pop(key)
 
     def clear_children(self) -> None:
         """

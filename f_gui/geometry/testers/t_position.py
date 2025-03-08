@@ -1,5 +1,5 @@
-from f_gui.components.generators.g_position import GenPosition
-from f_gui.components.generators.g_tlwh import GenLTWH
+from f_gui.geometry.generators.g_position import GenPosition
+from f_gui.geometry.generators.g_tlwh import GenLTWH
 
 
 def test_half():

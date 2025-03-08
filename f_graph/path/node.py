@@ -28,6 +28,7 @@ class NodePath(NodeParent[UID], HasCache):
         HasCache.__init__(self, is_cached=is_cached)
         self._g = 0 if not parent else parent.g + 1
         self._h = h
+        self._is_bounded = False
 
     @property
     def g(self) -> int:
@@ -90,7 +91,10 @@ class NodePath(NodeParent[UID], HasCache):
          Compare between Nodes by: F, H, UID.
         ========================================================================
         """
-        return [self.f(), not self._is_cached, -self.g, self.uid]
+        return [self.f(),
+                not self._is_cached,
+                not self._is_bounded,
+                -self.g, self.uid]
     
     def is_better_parent(self, parent: NodePath) -> bool:
         """

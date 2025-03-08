@@ -1,5 +1,5 @@
-from f_gui.components.generators.g_tlwh import GenLTWH
-from f_gui.components.position import Position
+from f_gui.geometry.generators.g_tlwh import GenLTWH
+from f_gui.geometry.position import Position
 
 
 class GenPosition:

@@ -1,6 +1,6 @@
 from f_core.mixins.printable import Printable
 from f_core.mixins.comparable import Comparable
-from f_gui.components.generators.g_tlwh import GenTLWH, TLWH
+from f_gui.geometry.generators.g_tlwh import GenTLWH, TLWH
 
 
 class Position(Printable, Comparable):

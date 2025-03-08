@@ -2,10 +2,11 @@ from f_ds.mixins.has_parent import HasParent
 from f_ds.mixins.has_children import HasChildren
 from typing import Generic, TypeVar
 
+K = TypeVar('K')
 T = TypeVar('T', bound='HasHierarchy')
 
 
-class HasHierarchy(Generic[T], HasParent[T], HasChildren[T]):
+class HasHierarchy(Generic[K, T], HasParent[T], HasChildren[K, T]):
     """
     ============================================================================
      Mixin for objects that have a hierarchy (parent and children).
@@ -21,23 +22,22 @@ class HasHierarchy(Generic[T], HasParent[T], HasChildren[T]):
         HasParent.__init__(self, parent=parent)
         HasChildren.__init__(self)
 
-    def add_child(self, child: T) -> None:
+    def add_child(self, key: K, child: T) -> None:
         """
         ========================================================================
          Add a child to the object and set the child's parent to self.
         ========================================================================
         """
-        if child not in self.children():
-            HasChildren.add_child(self, child=child)
-            child.parent = self
+        HasChildren.add_child(self, key=key, child=child)
+        child.parent = self
 
-    def remove_child(self, child: T) -> None:
+    def remove_child(self, key: K) -> None:
         """
         ========================================================================
          Remove a child from the object and set the child's parent to None.
         ========================================================================
         """
-        HasChildren.remove_child(self, child=child)
+        child = HasChildren.remove_child(self, key=key)
         child.parent = None
 
     def _update_parent(self) -> None:

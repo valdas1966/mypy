@@ -1,4 +1,4 @@
-from f_gui.shapes.i_2_container import Container, Position
+from f_gui.components.i_1_container import Container, Position
 
 
 class GenContainer:
@@ -23,9 +23,3 @@ class GenContainer:
         right = Container(name='Right', position=pos_right)
         container.add_child(right)
         return container
-
-
-con = GenContainer.two_childs()
-print(con, con.position.absolute)
-for child in con.children():
-    print(child, child.position.absolute)

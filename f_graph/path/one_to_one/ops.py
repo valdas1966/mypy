@@ -62,9 +62,12 @@ class OpsOneToOne:
         if node in self._cache:
             node.h = len(self._cache[node]) - 1
             node.is_cached = True
-        else:
+        elif node in self._boundary:
             node.h = max(self._heuristic(node=node),
                          self._boundary.get(node, 0))
+            node.is_bounded = True
+        else:
+            node.h = self._heuristic(node=node)
         self._state.generated.push(item=node)
         self._counter[TypeCounter.GENERATED] += 1
 
