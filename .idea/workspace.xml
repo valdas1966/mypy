@@ -5,30 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/components/study/s_position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/components/study/s_position.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/mixins/has_children.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/has_children.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/mixins/has_hierarchy.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/has_hierarchy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/nodes/i_0_uid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/i_0_uid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/boundary.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/boundary.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_find_examples.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_find_examples.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/node.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/components/generators/g_position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/geometry/generators/g_position.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/components/generators/g_tlwh.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/geometry/generators/g_tlwh.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/components/position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/geometry/position.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/components/testers/t_position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/geometry/testers/t_position.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/components/testers/t_tlwh.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/geometry/testers/t_tlwh.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/components/tlwh.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/geometry/tlwh.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/mixins/has_position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/mixins/has_position.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widget.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/widget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/window.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/pyqt/window.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/shapes/generators/g_2_container.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/generators/g_1_container.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/shapes/i_2_container.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/i_1_container.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/shapes/testers/t_2_container.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/testers/t_1_container.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/shapes/testers/t_rect.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/shapes/testers/t_1_rect.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/u_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/u_screen.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/mixins/generators/g_has_key.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/mixins/has_key.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/mixins/testers/t_has_key.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/mixins/generators/g_has_children.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/mixins/testers/t_has_children.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -784,14 +765,6 @@
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
     </task>
-    <task id="LOCAL-00115" summary="h">
-      <option name="closed" value="true" />
-      <created>1734966705906</created>
-      <option name="number" value="00115" />
-      <option name="presentableId" value="LOCAL-00115" />
-      <option name="project" value="LOCAL" />
-      <updated>1734966705921</updated>
-    </task>
     <task id="LOCAL-00116" summary="h">
       <option name="closed" value="true" />
       <created>1734982906368</created>
@@ -1176,7 +1149,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741350997026</updated>
     </task>
-    <option name="localTasksCounter" value="164" />
+    <task id="LOCAL-00164" summary="h">
+      <option name="closed" value="true" />
+      <created>1741411432681</created>
+      <option name="number" value="00164" />
+      <option name="presentableId" value="LOCAL-00164" />
+      <option name="project" value="LOCAL" />
+      <updated>1741411432681</updated>
+    </task>
+    <option name="localTasksCounter" value="165" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
