@@ -1,17 +1,16 @@
-from pydantic import BaseModel, Field
+from pydantic import Field
+from f_psl.pydantic.mixins.flattenable import Flattenable
 
 
-class DataUserStats(BaseModel):
+class DataUserStats(Flattenable):
     """
     ============================================================================
      Data-Class for User's Stats.
     ============================================================================
     """
-    videos: int = Field(default=None, alias='video_count')
-    hearts: int = Field(default=None, alias='heart_count')
-    diggs: int = Field(default=None, alias='digg_count')
-    followers: int = Field(default=None, alias='follower_count')
-    following: int = Field(default=None, alias='following_count')
-    
-    
+    videos: int = Field(default=None, alias='videoCount')
+    hearts: int = Field(default=None, alias='heartCount')
+    diggs: int = Field(default=None, alias='diggCount')
+    followers: int = Field(default=None, alias='followerCount')
+    following: int = Field(default=None, alias='followingCount')
     

@@ -16,9 +16,9 @@ def prod() -> None:
     tname = Tables.USERS_BY_ID
     bq = BigQuery()
     rows: list[dict[str, Any]] = list()
-    ids_users: list[str] = bq.select.list(Tables.USERS_BY_ID_TODO)
+    ids_users: list[str] = bq.select.list(Tables.USERS_BY_ID_UNIQUE_TODO)
     for id_user in ids_users:
-        row = TiktokAPI.users_by_id(id_user=id_user)
+        row = TiktokAPI.users_by_id_unique(id_user_unique=id_user)
         rows.append(row)
         if len(rows) == _BATCH_SIZE:
             bq.insert.rows_inserted(tname=tname, rows=rows)
@@ -33,9 +33,9 @@ def study() -> None:
      Study the data.
     ========================================================================
     """
-    ids_users: list[str] = ['107955']
+    ids_users: list[str] = ['tiktok']
     for id_user in ids_users:
-        row = TiktokAPI.users_by_id(id_user=id_user)
+        row = TiktokAPI.users_by_id_unique(id_user_unique=id_user)
         print(id_user, row)
 
 

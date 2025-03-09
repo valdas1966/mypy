@@ -159,6 +159,18 @@ class Schemas:
         return schema
     
     @staticmethod
+    def users_by_id_unique_todo() -> Schema:
+        """
+        ========================================================================
+         Return schema for table 'Users_by_Id_Unique_Todo'.
+        ========================================================================
+        """
+        tname = 'users_by_id_unique_todo'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.ID_USER_UNIQUE)
+        return schema
+    
+    @staticmethod
     def videos_by_user() -> Schema:
         """
         ========================================================================

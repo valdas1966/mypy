@@ -94,6 +94,17 @@ def users_by_id_todo() -> None:
     BigQuery().create.table(tname=tname, schema=schema)
 
 
+def users_by_id_unique_todo() -> None:
+    """
+    ========================================================================
+     Create table 'Users_by_Id_Unique_Todo'.
+    ========================================================================
+    """
+    tname = Tables.USERS_BY_ID_UNIQUE_TODO
+    schema = Schemas.users_by_id_unique_todo()
+    BigQuery().create.table(tname=tname, schema=schema)
+
+
 def videos_by_user() -> None:
     """
     ========================================================================
@@ -110,10 +121,10 @@ def videos_by_user_todo() -> None:
     ========================================================================
      Create table 'Videos_by_User_Todo'.
     ========================================================================
-    """
+    """ 
     tname = Tables.VIDEOS_BY_USER_TODO
     schema = Schemas.videos_by_user_todo()
-    BigQuery().create.table(tname=tname, schema=schema)
+    BigQuery().create.table(tname=tname, schema=schema) 
 
 
 # users()
@@ -131,3 +142,4 @@ def videos_by_user_todo() -> None:
 # users_by_id_todo()
 # videos_by_user()
 # videos_by_user_todo()
+users_by_id_unique_todo()

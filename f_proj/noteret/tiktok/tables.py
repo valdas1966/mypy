@@ -17,6 +17,6 @@ class Tables:
     COMMENTS_BY_VIDEO_TODO = f'{COMMENTS_BY_VIDEO}_todo'
     USERS_BY_ID = f'{_pre}.users_by_id'
     USERS_BY_ID_TODO = f'{USERS_BY_ID}_todo'
+    USERS_BY_ID_UNIQUE_TODO = f'{_pre}.users_by_id_unique_todo'
     VIDEOS_BY_USER = f'{_pre}.videos_by_user'
     VIDEOS_BY_USER_TODO = f'{VIDEOS_BY_USER}_todo'
-

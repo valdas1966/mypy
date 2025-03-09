@@ -1,6 +1,7 @@
 from typing import Any
 from f_os import u_environ
 from f_http.request import RequestGet, ResponseAPI
+from f_proj.rapid_api.data.i_2_users_by_id import DataUsersById
 
 
 class TiktokAPI:
@@ -18,6 +19,74 @@ class TiktokAPI:
 
     @staticmethod
     def users_by_id(id_user: str) -> dict[str, Any]:
+        """
+        ========================================================================
+         Fetch users by their ids.
+        ========================================================================
+        """
+        url = f'https://{TiktokAPI._HOST}/user/info'
+        params = {'user_id': id_user}
+        response: ResponseAPI = RequestGet.get(url=url,
+                                               params=params,
+                                               headers=TiktokAPI._HEADERS)
+        data = DataUsersById()
+        data.id_user = id_user
+        # Check if the response is ok.
+        if not response:
+            data.is_ok = False
+            return data.to_flat_dict()
+        # Check if the user is found.
+        data.is_ok = True
+        if not response.is_found:
+            data.is_found = False
+            return data.to_flat_dict()
+        # Try fill the data.
+        data.is_found = True
+        try:
+            data.fill(**response.data)
+            data.is_broken = False
+        except Exception as e:
+            print(e)
+            data.is_broken = True     
+        finally:
+            return data.to_flat_dict()
+    
+    @staticmethod
+    def users_by_id_unique(id_user_unique: str) -> dict[str, Any]:
+        """
+        ========================================================================
+         Fetch users by their unique ids.
+        ========================================================================
+        """
+        url = f'https://{TiktokAPI._HOST}/user/info'
+        params = {'unique_id': f'@{id_user_unique}'}
+        response: ResponseAPI = RequestGet.get(url=url,
+                                               params=params,
+                                               headers=TiktokAPI._HEADERS)
+        data = DataUsersById()
+        data.id_user_unique = id_user_unique
+        # Check if the response is ok.
+        if not response:
+            data.is_ok = False
+            return data.to_flat_dict()
+        # Check if the user is found.
+        data.is_found = True
+        if not response.is_found:
+            data.is_found = False
+            return data.to_flat_dict()
+        # Try fill the data.
+        data.is_found = True
+        try:
+            data.fill(**response.data)
+            data.is_broken = False
+        except Exception as e:
+            print(e)
+            data.is_broken = True     
+        finally:
+            return data.to_flat_dict()
+
+    @staticmethod
+    def old_users_by_id(id_user: str) -> dict[str, Any]:
         """
         ========================================================================
          Fetch users by their ids.

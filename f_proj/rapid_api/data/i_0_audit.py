@@ -1,7 +1,8 @@
-from pydantic import BaseModel, Field
+from pydantic import Field
+from f_psl.pydantic.mixins.flattenable import Flattenable
 
 
-class DataAudit(BaseModel):
+class DataAudit(Flattenable):
     """
     ============================================================================
      Data-Class for Audit-Data.
