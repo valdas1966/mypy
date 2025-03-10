@@ -20,5 +20,9 @@ class GenSolutionOneToOne:
         """
         state = GenStateOneToOne.gen_priority()
         stats = GenStatsPath.gen_10x20x30()
-        cache = GenCache.gen_3x3()
+        cache = GenCache.from_explored()
         return Solution(is_valid=True, cache=cache, state=state, stats=stats)
+
+
+solution = GenSolutionOneToOne.gen_3x3()
+print(solution.path)

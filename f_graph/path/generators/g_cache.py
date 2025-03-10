@@ -1,4 +1,5 @@
 from f_graph.path.generators.g_path import GenPath, GenNode
+from f_graph.path.generators.g_graph import GenGraphPath
 from f_graph.path.cache import Cache
 from f_graph.path.path import Path
 
@@ -29,6 +30,20 @@ class GenCache:
         """
         nodes = GenNode.first_row_branch_3x3()
         path = Path(data=nodes)
+        return Cache.from_path(path=path)
+
+    @staticmethod
+    def best_0_1() -> Cache:
+        """
+        ========================================================================
+         Generate a cache for a 3x3 problem from a boundary path.
+        ========================================================================
+        """
+        graph = GenGraphPath.gen_3x3()
+        nodes = [graph[0, 1], graph[0, 2], graph[1, 2], graph[2, 2]]
+        path = Path.from_list(nodes=nodes)
+        for node in path:
+            node.h = 0
         return Cache.from_path(path=path)
 
     @staticmethod

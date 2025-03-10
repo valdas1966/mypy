@@ -49,11 +49,3 @@ class GenAlgoManyToOne:
                              is_eager=True,
                              with_boundary=True)
         return algo
-
-
-algo = GenAlgoManyToOne.spec_4x4()
-problem = algo.input
-solution = algo.run()
-starts = list(problem.starts)
-path_1 = solution.paths[starts[0]]
-print([node.uid.to_tuple() for node in path_1])

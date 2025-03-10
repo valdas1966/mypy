@@ -1,5 +1,5 @@
 import pytest
-from f_ds.graphs.i_2_grid import GraphGrid, NodeCell, Grid, Cell
+from f_ds.graphs.i_2_grid import GraphGrid, NodeCell, Grid
 
 
 @pytest.fixture
@@ -15,7 +15,7 @@ def test_getitem(ex):
 
 
 def test_neighbors(ex):
-    node = NodeCell(uid=ex.grid[0][0])
+    node = NodeCell(key=ex.grid[0][0])
     assert ex.neighbors(node=node) == [ex[0, 1], ex[1, 0]]
 
 
@@ -37,8 +37,8 @@ def test_nodes_within_distance(ex):
     ========================================================================
     """
     node = ex[0, 0]
-    nodes_within_distance = ex.nodes_within_distance(node=node, distance=1)
-    assert list(nodes_within_distance) == [ex[0, 1], ex[1, 0]]
+    nodes_within_distance = ex.nodes_within_distance(node=node, dist_max=1)
+    assert set(nodes_within_distance) == {ex[0, 1], ex[1, 0]}
 
 
 def test_distance_avg(ex):

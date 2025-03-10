@@ -19,4 +19,4 @@ class GenSolutionsPath:
         """
         nodes = GenNode.gen_3x3()
         sols = {node: GenSolutionOneToOne.gen_3x3() for node in nodes}
-        return SolutionsPath(is_valid=True, sols=sols)
+        return SolutionsPath(is_valid=True, sols=sols, order=list(nodes))

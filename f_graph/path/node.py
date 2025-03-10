@@ -1,12 +1,12 @@
 from __future__ import annotations
-from f_ds.nodes.i_1_parent import NodeParent, UID
+from f_ds.nodes.i_2_cell import NodeCell, Cell
 from f_ds.mixins.has_cache import HasCache
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from f_graph.path.path import Path
 
 
-class NodePath(NodeParent[UID], HasCache):
+class NodePath(NodeCell, HasCache):
     """
     ============================================================================
      Node with a Path functionality.
@@ -14,9 +14,8 @@ class NodePath(NodeParent[UID], HasCache):
     """
 
     def __init__(self,
-                 uid: UID,
+                 key: Cell,
                  parent: NodePath = None,
-                 is_cached: bool = None,
                  h: int = None,
                  name: str = None) -> None:
         """
@@ -24,11 +23,11 @@ class NodePath(NodeParent[UID], HasCache):
          Init private Attributes.
         ========================================================================
         """
-        NodeParent.__init__(self, uid=uid, parent=parent, name=name)
-        HasCache.__init__(self, is_cached=is_cached)
+        NodeCell.__init__(self, key=key, parent=parent, name=name)
         self._g = 0 if not parent else parent.g + 1
         self._h = h
-        self._is_bounded = False
+        self.is_cached = False
+        self.is_bounded = False
 
     @property
     def g(self) -> int:
@@ -63,7 +62,7 @@ class NodePath(NodeParent[UID], HasCache):
          Return a Heuristic-Distance from Node to the Goal.
         ========================================================================
         """
-        return (self.g + self.h) if self.h is not None else -self.g
+        return (self.g + self.h) if self.h is not None else None
     
     def path_from_root(self) -> Path:
         """
@@ -72,7 +71,7 @@ class NodePath(NodeParent[UID], HasCache):
         ========================================================================
         """
         from f_graph.path.path import Path 
-        nodes = NodeParent.path_from_root(self)
+        nodes = NodeCell.path_from_root(self)
         return Path(data=nodes)
     
     def path_from_node(self, node: NodePath) -> Path:
@@ -82,19 +81,23 @@ class NodePath(NodeParent[UID], HasCache):
         ========================================================================
         """
         from f_graph.path.path import Path
-        nodes = NodeParent.path_from_node(self, node=node)
+        nodes = NodeCell.path_from_node(self, node=node)
         return Path(data=nodes)
 
-    def key_comparison(self) -> list:
+    def key_comparison(self) -> list | Cell:
         """
         ========================================================================
          Compare between Nodes by: F, H, UID.
         ========================================================================
         """
-        return [self.f(),
-                not self._is_cached,
-                not self._is_bounded,
-                -self.g, self.uid]
+        if self.f() is None:
+            return NodeCell.key_comparison(self)
+        else:
+            return [self.f(),
+                    not self.is_cached,
+                    not self.is_bounded,
+                    -self.g,
+                    self.key]
     
     def is_better_parent(self, parent: NodePath) -> bool:
         """
@@ -104,6 +107,17 @@ class NodePath(NodeParent[UID], HasCache):
         """
         return self.parent.g > parent.g
     
+    def print_details(self) -> None:
+        """
+        ========================================================================
+         Print the Details of the Node.
+        ------------------------------------------------------------------------
+         Ex: '<cell=(0,0), g=2, h=3, f=5>'
+        ========================================================================
+        """
+        print(f'<cell={self.cell}, g={self.g}, h={self.h}, f={self.f()}, '
+              f'is_cached={self.is_cached}, is_bounded={self.is_bounded}>')
+    
     def _update_parent(self) -> None:
         """
         ========================================================================
@@ -112,22 +126,34 @@ class NodePath(NodeParent[UID], HasCache):
         """
         self._g = self.parent.g + 1 if self.parent else 0
 
+    def __eq__(self, other: NodePath) -> bool:
+        """
+        ========================================================================
+         Compare two nodes.
+        ========================================================================
+        """
+        return self.key == other.key
+    
+    def __ne__(self, other: NodePath) -> bool:
+        """
+        ========================================================================
+         Compare two nodes.
+        ========================================================================
+        """
+        return self.key != other.key
+    
     def __str__(self) -> str:
         """
         ========================================================================
          Return a STR-Representation of the Node.
-        ------------------------------------------------------------------------
-         Ex: '<NodePath: (0,0), g=2, h=3, f=5>'
         ========================================================================
         """
-        return f'uid={self.uid}, g={self.g}, h={self.h}, f={self.f()}'
+        return NodeCell.__str__(self)
 
-    @classmethod
-    def generate_zero(cls) -> NodePath:
+    def __hash__(self) -> int:
         """
         ========================================================================
-         Generate a Node with UID=0, H=0.
+         Hash the Node.
         ========================================================================
         """
-        return cls[int](uid=0, h=0)
-    
+        return hash(self.key)

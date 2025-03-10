@@ -6,6 +6,7 @@ from f_core.mixins.validatable import Validatable
 from f_graph.path.one_to_one.solution import SolutionOneToOne as Solution
 from f_graph.path.one_to_one.state import StateOneToOne as State
 
+
 class SolutionsPath(Dictable[Node, Solution], Validatable):
     """
     ========================================================================
@@ -15,8 +16,7 @@ class SolutionsPath(Dictable[Node, Solution], Validatable):
 
     def __init__(self,
                  is_valid: bool,
-                 sols: dict[Node, Solution],
-                 order: list[Node]) -> None:
+                 sols: dict[Node, Solution]) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -30,7 +30,6 @@ class SolutionsPath(Dictable[Node, Solution], Validatable):
         self._stats: dict[Node, StatsPath] = dict()
         self._paths: dict[Node, Path] = dict()
         self._states: dict[Node, State] = dict()
-        self._order: list[Node] = order
         for node, sol in sols.items():
             self._stats[node] = sol.stats
             self._paths[node] = sol.path
@@ -88,13 +87,3 @@ class SolutionsPath(Dictable[Node, Solution], Validatable):
         ========================================================================
         """
         return self._states
-    
-    @property
-    def order(self) -> list[Node]:
-        """
-        ========================================================================
-         Return the order of the solutions.
-        ========================================================================
-        """
-        return self._order
-

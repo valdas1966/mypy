@@ -37,6 +37,14 @@ class Dictable(Generic[K, V], Printable, Sizable):
         """
         return list(self._data.values())
     
+    def items(self) -> list[tuple[K, V]]:
+        """
+        ========================================================================
+         Get the items of the dictionary.
+        ========================================================================
+        """
+        return list(self._data.items())
+    
     def get(self, key: K, default: V = None) -> V:
         """
         ========================================================================

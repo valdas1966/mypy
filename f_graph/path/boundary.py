@@ -12,6 +12,15 @@ class Boundary(Dictable[Node, int]):
     ========================================================================
     """
 
+    def __str__(self) -> str:
+        """
+        ====================================================================
+         String representation of the Boundary.
+        ====================================================================
+        """
+        d = {node.cell.to_tuple(): self[node] for node in self}
+        return str(d)
+
     @classmethod    
     def from_path(cls,
                   path: Path,

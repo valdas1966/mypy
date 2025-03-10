@@ -8,9 +8,9 @@ def test_name() -> None:
     ============================================================================
     """
     start, pre_goal, goal = GenNode.gen_3x3()
-    assert start.uid.row == 0 and start.uid.col == 0
-    assert pre_goal.uid.row == 1 and pre_goal.uid.col == 2
-    assert goal.uid.row == 2 and goal.uid.col == 2
+    assert start.cell.row == 0 and start.cell.col == 0
+    assert pre_goal.cell.row == 1 and pre_goal.cell.col == 2
+    assert goal.cell.row == 2 and goal.cell.col == 2
 
 
 def test_g() -> None:
@@ -69,3 +69,14 @@ def test_path_from_node() -> None:
     """
     start, pre_goal, goal = GenNode.gen_3x3()
     assert start.path_from_node(node=start) == [start]
+
+
+def test_str() -> None:
+    """
+    ============================================================================
+     Test __str__() Function.
+    ============================================================================
+    """
+    start, _, goal = GenNode.gen_3x3()
+    assert str(start) == '(0,0)'
+    assert str(goal) == '(2,2)'

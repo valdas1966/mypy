@@ -1,3 +1,4 @@
+from __future__ import annotations
 from abc import abstractmethod
 from typing import TypeVar, Generic
 from f_core.mixins.has_name import HasName
@@ -36,7 +37,16 @@ class GraphBase(Generic[Node], Groupable[Node], HasName, Clonable):
     def neighbors(self, node: Node) -> list[Node]:
         """
         ========================================================================
-         Returns list List of list given Node's neighbors.
+         Returns List of given Node's neighbors.
+        ========================================================================
+        """
+        pass
+
+    @abstractmethod
+    def clone(self) -> GraphBase:
+        """
+        ========================================================================
+         Return a Cloned object.
         ========================================================================
         """
         pass

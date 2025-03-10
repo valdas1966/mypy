@@ -52,7 +52,7 @@ class OpsOneToOne:
         """
         return self._counter
 
-    def generate(self, node: Node, parent: Node = None) -> None:
+    def generate_node(self, node: Node, parent: Node = None) -> None:
         """
         ========================================================================
          Generate a Node.
@@ -64,14 +64,14 @@ class OpsOneToOne:
             node.is_cached = True
         elif node in self._boundary:
             node.h = max(self._heuristic(node=node),
-                         self._boundary.get(node, 0))
+                         self._boundary[node])
             node.is_bounded = True
         else:
             node.h = self._heuristic(node=node)
         self._state.generated.push(item=node)
         self._counter[TypeCounter.GENERATED] += 1
 
-    def explore(self, node: Node) -> None:
+    def explore_node(self, node: Node) -> None:
         """
         ========================================================================
          Explore a Node (process its children).
@@ -89,11 +89,10 @@ class OpsOneToOne:
          Process a Child-Node.
         ========================================================================
         """
-
         if child in self._state.explored:
             return
         if child in self._state.generated:
             if child.is_better_parent(parent=parent):
                 child.parent = parent
         else:
-            self.generate(node=child, parent=parent)
+            self.generate_node(node=child, parent=parent)

@@ -12,8 +12,8 @@ def test_priority() -> None:
     assert isinstance(state.generated, QueuePriority)
     assert len(state.generated) == 1
     assert len(state.explored) == 1
-    assert state.best.uid.row == 0
-    assert state.best.uid.col == 1
+    assert state.best.cell.row == 0
+    assert state.best.cell.col == 1
 
 
 def test_fifo() -> None:

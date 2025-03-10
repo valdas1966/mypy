@@ -101,3 +101,14 @@ def test_str(path: Path) -> None:
     ========================================================================
     """
     assert str(path) == '[(0, 0) -> (0, 1) -> (0, 2)]'
+
+
+def test_key_comparison() -> None:
+    """
+    ========================================================================
+     Test the key comparison of the path.
+    ========================================================================
+    """
+    path_1 = GenPath.gen_first_row_3x3()
+    path_2 = GenPath.gen_first_row_3x3()
+    assert path_1 == path_2

@@ -27,7 +27,7 @@ class Cache(Dictable[Node, Path]):
         s = 'Cache:\n'
         for node in reversed(sorted(self._data.keys())):
             path = self._data[node]
-            s += f'{node.uid.to_tuple()}: {[n.uid.to_tuple() for n in path]}\n'
+            s += f'{node.cell.to_tuple()}: {[n.cell.to_tuple() for n in path]}\n'
         return s
     
     @classmethod

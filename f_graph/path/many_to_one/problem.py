@@ -1,27 +1,28 @@
+from __future__ import annotations
 from f_graph.path.problem import ProblemPath, Graph, Node
 from f_graph.path.one_to_one.problem import ProblemOneToOne
-from typing import Iterable
+from f_core.abstracts.clonable import Clonable
 
 
-class ProblemManyToOne(ProblemPath):
+class ProblemManyToOne(ProblemPath, Clonable):
     """
     ============================================================================
      Problem-Class for Many-to-One Path-Finding Problems.
     ============================================================================
     """
 
-    def __init__(self, graph: Graph, starts: Iterable[Node], goal: Node):
+    def __init__(self, graph: Graph, starts: list[Node], goal: Node):
         """
         ========================================================================
          Constructor.
         ========================================================================
         """
         ProblemPath.__init__(self, graph=graph)
-        self._starts = set(starts)
         self._goal = goal
+        self._starts = self._get_sorted_starts(starts=starts)
 
     @property
-    def starts(self) -> set[Node]:
+    def starts(self) -> list[Node]:
         """
         ========================================================================
          Getter for the start-Nodes.
@@ -42,23 +43,38 @@ class ProblemManyToOne(ProblemPath):
         """
         ========================================================================
          Convert the Many-to-One problem to a list of One-to-One problems.
-         Order the list by the distance to the goal (the farthest first).
         ========================================================================
         """
-        # Create a dict that maps each Start to its Distance to the Goal
-        distances: dict[Node, int] = dict()
-        for start in self._starts:
-            distances[start] = self.graph.distance(node_a=start,
-                                                   node_b=self._goal)
-        # Create a sorted list (reversed) of the starts by their distances
-        starts_sorted: list[Node] = sorted(distances.items(),
-                                           key=lambda item: item[1],
-                                           reverse=True)
-        # Create a list of One-to-One problems
         problems: list[ProblemOneToOne] = list()
-        for start, _ in starts_sorted:
+        for start in self._starts:
             problems.append(ProblemOneToOne(graph=self.graph,
                                             start=start,
                                             goal=self._goal))
         return problems
 
+    def clone(self) -> ProblemManyToOne:
+        """
+        ========================================================================
+         Clone the Problem.
+        ========================================================================
+        """
+        graph = self.graph.clone()
+        starts = [start.clone() for start in self.starts]
+        goal = self.goal.clone()
+        return ProblemManyToOne(graph=graph, starts=starts, goal=goal)
+
+    def _get_sorted_starts(self, starts: list[Node]) -> list[Node]:
+        """
+        ========================================================================
+         Get the sorted starts by their distances to the goal (decreasing).
+         Returns a list of Start-Nodes.
+        ========================================================================
+        """
+        distances: dict[Node, int] = dict()
+        for start in starts:
+            distances[start] = self.graph.distance(node_a=start,
+                                                   node_b=self._goal)
+        tuples = sorted(distances.items(),
+                        key=lambda item: item[1],
+                        reverse=True)
+        return [node for node, _ in tuples]

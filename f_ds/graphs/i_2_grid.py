@@ -1,15 +1,13 @@
 from __future__ import annotations
-from f_core.mixins.iterable import Iterable
 from f_ds.graphs.i_1_dict import GraphDict
-from f_ds.grids.grid import Grid, Cell, Group
+from f_ds.grids.grid import Grid, Group
 from f_ds.nodes.i_2_cell import NodeCell
 from typing import Generic, TypeVar, Type, Iterable
 
 Node = TypeVar('Node', bound=NodeCell)
-Graph = TypeVar('Graph', bound='GraphGrid')
 
 
-class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
+class GraphGrid(Generic[Node], GraphDict[Node]):
     """
     ============================================================================
      Dict-Based {Cell: Node} Graph on 2D-Grids.
@@ -25,9 +23,9 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
          Init private Attributes.
         ========================================================================
         """
-        uids = grid.to_group().filter(predicate=bool)
+        keys = grid.to_group().filter(predicate=bool)
         name = name if name else grid.name
-        GraphDict.__init__(self, uids=uids, type_node=type_node, name=name)
+        GraphDict.__init__(self, keys=keys, type_node=type_node, name=name)
         self._grid = grid
         self._type_node = type_node
 
@@ -54,9 +52,9 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
          Return the Neighbors of the given Node.
         ========================================================================
         """
-        return [self.nodes_by_uids(uid=cell)
+        return [self.nodes_by_keys(key=cell)
                 for cell
-                in self._grid.neighbors(cell=node.uid)]
+                in self._grid.neighbors(cell=node.cell)]
     
     def distance_avg(self, nodes: Iterable[Node]) -> int:
         """
@@ -64,7 +62,7 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
          Return the average distance between all the nodes in the iterable.
         ========================================================================
         """
-        cells = [node.uid for node in nodes]    
+        cells = [node.cell for node in nodes]    
         return self._grid.distance_avg(cells=cells)
     
     def nodes_within_distance(self,
@@ -76,14 +74,14 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
          Return the Nodes within a given Distance-Range.
         ========================================================================
         """
-        cells = self._grid.cells_within_distance(cell=node.uid,
+        cells = self._grid.cells_within_distance(cell=node.cell,
                                                  dist_max=dist_max,
                                                  dist_min=dist_min)
-        nodes = [self.nodes_by_uids(uid=cell) for cell in cells]
+        nodes = [self.nodes_by_keys(key=cell) for cell in cells]
         return Group(name='Nodes within Distance',
                      data=nodes)
 
-    def clone(self) -> Graph:
+    def clone(self) -> GraphGrid:
         """
         ========================================================================
          Return a Cloned object.
@@ -100,8 +98,8 @@ class GraphGrid(Generic[Node], GraphDict[Node, Cell]):
          Return a Manhattan-Distance between two Nodes within the Grid.
         ========================================================================
         """
-        cell_a = node_a.uid
-        cell_b = node_b.uid
+        cell_a = node_a.cell
+        cell_b = node_b.cell
         return Grid.distance(cell_a=cell_a, cell_b=cell_b)
 
     def __getitem__(self, index: tuple[int, int]) -> Node:

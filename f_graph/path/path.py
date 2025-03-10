@@ -1,10 +1,10 @@
 from __future__ import annotations
 from collections import UserList
-from typing import Iterable
-from f_graph.path.node import NodePath as Node
+from f_graph.path.node import NodePath as Node, Cell
+from f_core.mixins.comparable import Comparable
 
 
-class Path(UserList[Node]):
+class Path(UserList[Node], Comparable):
     """
     ========================================================================
      List of Nodes from Start to Goal.
@@ -55,6 +55,14 @@ class Path(UserList[Node]):
         ====================================================================
         """
         return Path(data=self._data[self._data.index(node):])
+    
+    def key_comparison(self) -> list[Cell]:
+        """
+        ====================================================================
+         Get the key comparison of the path.
+        ====================================================================
+        """
+        return [node.cell for node in self]
 
     def __add__(self, other: Path) -> Path:
         """
@@ -91,5 +99,26 @@ class Path(UserList[Node]):
          Get the string representation of the path.
         ====================================================================
         """
-        nodes = [str(node.uid.to_tuple()) for node in self]
+        nodes = [str(node.cell.to_tuple()) for node in self]
         return '[' + ' -> '.join(nodes) + ']'
+
+    def __eq__(self, other: Path) -> bool:
+        """
+        ====================================================================
+         Compare two paths.
+        ====================================================================
+        """
+        return self.key_comparison() == other.key_comparison()
+
+    @classmethod
+    def from_list(cls, nodes: list[Node]) -> Path:
+        """
+        ====================================================================
+         Create a Path from a list of Nodes.
+        ====================================================================
+        """
+        for i in range(len(nodes)):
+            if i == 0:
+                continue
+            nodes[i].parent = nodes[i - 1]
+        return cls(data=nodes)

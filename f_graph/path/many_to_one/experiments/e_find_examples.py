@@ -6,7 +6,7 @@ from datetime import datetime
 from random import randint
 
 
-rows = 7
+rows = 4
 epochs = 100000
 n_starts = 2
 
@@ -37,10 +37,10 @@ def run(rows: int, epochs: int) -> list[tuple[Problem, int, list[Node]]]:
         algo_without = _gen_algo(problem=problem, with_boundary=False)
         sol_without = algo_without.run()
         delta = sol_with.explored - sol_without.explored
-        if delta > 0:
+        if delta != 0:
             start_1, start_2 = problem.starts
-            if problem.graph.distance(start_1, start_2) > 2:
-                example = (problem, delta, sol_with.order)
+            if problem.graph.distance(start_1, start_2) > 1:
+                example = (problem, delta, problem.starts)
                 examples.append(example)
         if i % 1000 == 0:
             print(f'[{datetime.now()}] [{i} / {epochs}] [{len(examples)} examples found]')
@@ -49,21 +49,29 @@ def run(rows: int, epochs: int) -> list[tuple[Problem, int, list[Node]]]:
 
 examples = run(rows=rows, epochs=epochs)
 # return example with the highest difference in explored nodes
-example_top: tuple[Problem, int] = sorted(examples, key=lambda x: x[1], reverse=True)[0]
+examples_top: tuple[Problem, int] = sorted(examples, key=lambda x: x[1],
+                                           reverse=True)[0]
 # return example with the lowest difference in explored nodes
-example_bottom: tuple[Problem, int] = sorted(examples, key=lambda x: x[1])[0]
+examples_bottom: tuple[Problem, int] = sorted(examples, key=lambda x: x[1])[0]
 
 
-examples: tuple[Problem, int, list[Node]] = sorted(examples, key=lambda x: x[1],
-                                                   reverse=True)
-for i, ex in enumerate(examples):
-    problem, delta, order = ex
+for i, ex in enumerate(examples_top):
+    problem, delta, starts = ex
     print(f'Example #{i+1} with Delta: {delta}')
-    print(f'Starts: {[node.uid.to_tuple() for node in order]}')
+    print(f'Starts: {starts}')
     print(f'Goal: {problem.goal}')
     print(problem.graph)
     print()
 
+
+
+for i, ex in enumerate(examples_bottom):
+    problem, delta, order = ex
+    print(f'Example #{i+1} with Delta: {delta}')
+    print(f'Starts: {[node.cell for node in order]}')
+    print(f'Goal: {problem.goal}')
+    print(problem.graph)
+    print()
 
 """
 print('Example Top:')

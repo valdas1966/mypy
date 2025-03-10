@@ -29,7 +29,7 @@ class FlowOneToOne:
          Generate the Start-Node.
         ========================================================================
         """
-        self._ops.generate(node=self._problem.start)
+        self._ops.generate_node(node=self._problem.start)
 
     def should_continue(self) -> bool:
         """
@@ -65,4 +65,4 @@ class FlowOneToOne:
          Explore the best node.
         ========================================================================
         """
-        self._ops.explore(node=self._state.best)    
+        self._ops.explore_node(node=self._state.best)

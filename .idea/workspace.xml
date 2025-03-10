@@ -5,25 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/users_by_id_unique.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/data/generators/g_2_user_by_id.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/data/generators/i_1_" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/data/i_0_music_info.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/data/i_1_user.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/data/i_2_users_by_id.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/pydantic/mixins/flattenable.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/graphs/generators/g_1_dict.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/graphs/testers/t_1_dict.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/users_by_id.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/users_by_id.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/tables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_0_audit.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/data/i_0_audit.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_0_user.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_0_user_info.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/data/i_0_user_info.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_0_user_stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/data/i_0_user_stats.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_1_users_by_id.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/abstracts/dictable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/abstracts/dictable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/i_1_dict.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/i_1_dict.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/i_2_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/i_2_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/graphs/testers/t_2_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/graphs/testers/t_2_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/nodes/i_2_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/i_2_cell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/boundary.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/boundary.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/cache.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/generators/g_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/generators/g_cache.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/generators/g_solutions.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/generators/g_solutions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_find_examples.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_find_examples.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/generators/g_algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/generators/g_algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/testers/t_algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/testers/t_algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/testers/t_problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/testers/t_problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/flow.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/flow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/g_solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/generators/g_solution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_state.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_state.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/path.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/solutions.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/solutions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/testers/t_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/testers/t_cache.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/testers/t_node.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/testers/t_node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/testers/t_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/testers/t_path.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj.zip" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,12 +62,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "ddaa2239-897e-4e37-90b9-04afc5364900"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
+    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -83,6 +98,9 @@
     "Python tests.Python tests for t_1_bfs.test_bfs.executor": "Run",
     "Python tests.Python tests for t_1_children.test_init.executor": "Run",
     "Python tests.Python tests for t_1_children.test_remove_child.executor": "Run",
+    "Python tests.Python tests for t_1_dict.test_key_comparison.executor": "Run",
+    "Python tests.Python tests for t_1_dict.test_nodes.executor": "Run",
+    "Python tests.Python tests for t_1_dict.test_nodes_by_keys.executor": "Run",
     "Python tests.Python tests for t_1_explored.test_cache_explored.executor": "Run",
     "Python tests.Python tests for t_1_f.test_repr.executor": "Run",
     "Python tests.Python tests for t_1_hierarchy.test_clone.executor": "Run",
@@ -242,20 +260,27 @@
     "Python tests.Python tests for t_node.test_f.executor": "Run",
     "Python tests.Python tests for t_node.test_h.executor": "Run",
     "Python tests.Python tests for t_node.test_key_comparison.executor": "Run",
+    "Python tests.Python tests for t_node.test_name.executor": "Run",
     "Python tests.Python tests for t_node.test_path_from_node.executor": "Run",
+    "Python tests.Python tests for t_node.test_str.executor": "Run",
     "Python tests.Python tests for t_one_to_many.test_goals_active.executor": "Run",
     "Python tests.Python tests for t_one_to_one.test_is_found.executor": "Run",
     "Python tests.Python tests for t_ops.test_explore.executor": "Run",
     "Python tests.Python tests for t_ops.test_generate.executor": "Run",
     "Python tests.Python tests for t_ops.test_generate_boundary_4x4.executor": "Run",
     "Python tests.Python tests for t_ops.test_generate_explored.executor": "Run",
+    "Python tests.Python tests for t_ops.test_generate_from_explored.executor": "Run",
     "Python tests.Python tests for t_ops.test_generate_from_path.executor": "Run",
     "Python tests.Python tests for t_ops.test_init.executor": "Run",
     "Python tests.Python tests for t_parentable.test_path_from_root.executor": "Run",
     "Python tests.Python tests for t_path.test_add.executor": "Run",
     "Python tests.Python tests for t_path.test_extend.executor": "Run",
     "Python tests.Python tests for t_path.test_getitem.executor": "Run",
+    "Python tests.Python tests for t_path.test_goal.executor": "Run",
+    "Python tests.Python tests for t_path.test_key_comparison.executor": "Run",
+    "Python tests.Python tests for t_path.test_nodes.executor": "Run",
     "Python tests.Python tests for t_path.test_reversed.executor": "Run",
+    "Python tests.Python tests for t_path.test_start.executor": "Run",
     "Python tests.Python tests for t_path.test_str.executor": "Run",
     "Python tests.Python tests for t_position.test_half.executor": "Run",
     "Python tests.Python tests for t_position.test_quarter.executor": "Run",
@@ -271,15 +296,20 @@
     "Python tests.Python tests for t_problem.test_problem_one_to_many.executor": "Run",
     "Python tests.Python tests for t_problem.test_random.executor": "Run",
     "Python tests.Python tests for t_problem.test_reverse.executor": "Run",
+    "Python tests.Python tests for t_problem.test_sorted_starts.executor": "Run",
     "Python tests.Python tests for t_problem.test_start.executor": "Run",
     "Python tests.Python tests for t_problem.test_str.executor": "Run",
     "Python tests.Python tests for t_rate_success.test_empty.executor": "Run",
     "Python tests.Python tests for t_schema.test_add.executor": "Run",
     "Python tests.Python tests for t_solution.test_init.executor": "Run",
+    "Python tests.Python tests for t_solution.test_is_valid.executor": "Run",
     "Python tests.Python tests for t_solution.test_path_3x3.executor": "Run",
     "Python tests.Python tests for t_solution.test_solution_3x3.executor": "Run",
     "Python tests.Python tests for t_solution.test_solution_one_to_many.executor": "Run",
+    "Python tests.Python tests for t_solution.test_stats.executor": "Run",
+    "Python tests.Python tests for t_solutions.test_solutions.executor": "Run",
     "Python tests.Python tests for t_state.test_init.executor": "Run",
+    "Python tests.Python tests for t_state.test_priority.executor": "Run",
     "Python tests.Python tests for t_state.test_unpop_best.executor": "Run",
     "Python tests.Python tests for t_state.test_update.executor": "Run",
     "Python tests.Python tests for t_stats.test_10x20x30.executor": "Run",
@@ -298,6 +328,7 @@
     "Python tests.Python tests in t_1_cell.py.executor": "Run",
     "Python tests.Python tests in t_1_children.py.executor": "Run",
     "Python tests.Python tests in t_1_container.py.executor": "Run",
+    "Python tests.Python tests in t_1_dict.py.executor": "Run",
     "Python tests.Python tests in t_1_explored.py (1).executor": "Run",
     "Python tests.Python tests in t_1_explored.py.executor": "Run",
     "Python tests.Python tests in t_1_f.py.executor": "Run",
@@ -469,6 +500,7 @@
     "Python.followers_todo.executor": "Run",
     "Python.forward.executor": "Run",
     "Python.g_1_container (1).executor": "Run",
+    "Python.g_1_dict.executor": "Run",
     "Python.g_2_cell.executor": "Run",
     "Python.g_2_container.executor": "Run",
     "Python.g_2_grid.executor": "Run",
@@ -490,12 +522,14 @@
     "Python.g_json.executor": "Run",
     "Python.g_map_grid (1).executor": "Run",
     "Python.g_map_grid.executor": "Run",
+    "Python.g_node.executor": "Run",
     "Python.g_ops.executor": "Run",
     "Python.g_path.executor": "Run",
     "Python.g_position.executor": "Run",
     "Python.g_problem.executor": "Run",
     "Python.g_request.executor": "Run",
     "Python.g_solution.executor": "Run",
+    "Python.g_stats.executor": "Run",
     "Python.g_txt.executor": "Run",
     "Python.g_user (1).executor": "Run",
     "Python.g_user.executor": "Run",
@@ -515,11 +549,13 @@
     "Python.i_1_f.executor": "Run",
     "Python.i_1_input.executor": "Run",
     "Python.i_1_user_snapshot.executor": "Run",
+    "Python.i_2_cell.executor": "Run",
     "Python.i_2_f_cell.executor": "Run",
     "Python.insert_into_tables.executor": "Run",
     "Python.layout.executor": "Run",
     "Python.listable.executor": "Run",
     "Python.music.executor": "Run",
+    "Python.node.executor": "Run",
     "Python.position.executor": "Run",
     "Python.problem.executor": "Run",
     "Python.q (1).executor": "Run",
@@ -681,8 +717,8 @@
       <recent name="G:\mypy\f_ds\mixins" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.users_by_id_unique">
-    <configuration name="create_tables" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.e_find_examples">
+    <configuration name="e_find_examples" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -691,11 +727,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_find_examples.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -704,7 +740,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="g_2_user_by_id" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="e_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -713,11 +749,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/rapid_api/data/generators" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/rapid_api/data/generators/g_2_user_by_id.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -726,7 +762,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="users_by_id" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="node" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -735,11 +771,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/users_by_id.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/node.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -748,50 +784,43 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="users_by_id_unique" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/users_by_id_unique.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_2_cell.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_algo.test_astar" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/nodes/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_one/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/nodes/testers/t_2_cell.py&quot;" />
+      <option name="_new_target" value="&quot;t_algo.test_astar&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in t_algo.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_one/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/one_to_one/testers/t_algo.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.users_by_id_unique" />
-        <item itemvalue="Python.create_tables" />
-        <item itemvalue="Python.users_by_id" />
-        <item itemvalue="Python.g_2_user_by_id" />
-        <item itemvalue="Python tests.Python tests in t_2_cell.py" />
+        <item itemvalue="Python.e_find_examples" />
+        <item itemvalue="Python.e_test" />
+        <item itemvalue="Python.node" />
+        <item itemvalue="Python tests.Python tests in t_algo.py" />
+        <item itemvalue="Python tests.Python tests for t_algo.test_astar" />
       </list>
     </recent_temporary>
   </component>
@@ -810,14 +839,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00119" summary="h">
-      <option name="closed" value="true" />
-      <created>1735132464897</created>
-      <option name="number" value="00119" />
-      <option name="presentableId" value="LOCAL-00119" />
-      <option name="project" value="LOCAL" />
-      <updated>1735132464897</updated>
     </task>
     <task id="LOCAL-00120" summary="h">
       <option name="closed" value="true" />
@@ -1203,7 +1224,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741512687652</updated>
     </task>
-    <option name="localTasksCounter" value="168" />
+    <task id="LOCAL-00168" summary="h">
+      <option name="closed" value="true" />
+      <created>1741523703729</created>
+      <option name="number" value="00168" />
+      <option name="presentableId" value="LOCAL-00168" />
+      <option name="project" value="LOCAL" />
+      <updated>1741523703729</updated>
+    </task>
+    <option name="localTasksCounter" value="169" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -1222,5 +1251,16 @@
     <MESSAGE value="a" />
     <MESSAGE value="h" />
     <option name="LAST_COMMIT_MESSAGE" value="h" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/f_graph/path/cache.py</url>
+          <line>27</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

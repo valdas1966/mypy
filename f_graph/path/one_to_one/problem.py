@@ -44,8 +44,8 @@ class ProblemOneToOne(ProblemPath, Equable):
         ========================================================================
         """
         graph = self.graph.clone()
-        start = graph.nodes_by_uids(uid=self.start.uid)
-        goal = graph.nodes_by_uids(uid=self.goal.uid)
+        start = graph.nodes_by_keys(key=self.start.key)
+        goal = graph.nodes_by_keys(key=self.goal.key)
         return ProblemOneToOne(graph=graph, start=start, goal=goal)
 
     def reverse(self) -> 'ProblemOneToOne':

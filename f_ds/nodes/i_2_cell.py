@@ -18,7 +18,7 @@ class NodeCell(NodeParent[Cell]):
          Initialize the Node.
         ========================================================================
         """
-        NodeParent.__init__(self, key=key, parent=parent, name=name)    
+        NodeParent.__init__(self, key=key, parent=parent, name=name)
         self._cell = key
 
     @property

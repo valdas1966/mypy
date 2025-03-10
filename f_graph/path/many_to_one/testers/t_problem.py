@@ -45,3 +45,13 @@ def test_for_experiments():
     assert len(problem.graph) == 16
     assert len(problem.starts) == 2
     assert problem.goal not in set(problem.starts)
+
+
+def test_sorted_starts() -> None:
+    """
+    ========================================================================
+     Test the sorting of the starts.
+    ========================================================================
+    """
+    problem = GenProblemManyToOne.gen_3x3()
+    assert problem.starts == [problem.graph[2, 2], problem.graph[0, 2]]
