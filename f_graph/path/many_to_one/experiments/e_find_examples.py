@@ -7,7 +7,7 @@ from random import randint
 
 
 rows = 4
-epochs = 100000
+epochs = 10000
 n_starts = 2
 
 
@@ -40,7 +40,7 @@ def run(rows: int, epochs: int) -> list[tuple[Problem, int, list[Node]]]:
         if delta != 0:
             start_1, start_2 = problem.starts
             if problem.graph.distance(start_1, start_2) > 1:
-                example = (problem, delta, problem.starts)
+                example = (problem, delta)
                 examples.append(example)
         if i % 1000 == 0:
             print(f'[{datetime.now()}] [{i} / {epochs}] [{len(examples)} examples found]')
@@ -50,25 +50,23 @@ def run(rows: int, epochs: int) -> list[tuple[Problem, int, list[Node]]]:
 examples = run(rows=rows, epochs=epochs)
 # return example with the highest difference in explored nodes
 examples_top: tuple[Problem, int] = sorted(examples, key=lambda x: x[1],
-                                           reverse=True)[0]
+                                           reverse=True)[:5]
 # return example with the lowest difference in explored nodes
-examples_bottom: tuple[Problem, int] = sorted(examples, key=lambda x: x[1])[0]
+examples_bottom: tuple[Problem, int] = sorted(examples, key=lambda x: x[1])[:5]
 
 
 for i, ex in enumerate(examples_top):
-    problem, delta, starts = ex
+    problem, delta = ex
     print(f'Example #{i+1} with Delta: {delta}')
-    print(f'Starts: {starts}')
+    print(f'Starts: {problem.starts}')
     print(f'Goal: {problem.goal}')
     print(problem.graph)
     print()
 
-
-
 for i, ex in enumerate(examples_bottom):
-    problem, delta, order = ex
+    problem, delta = ex
     print(f'Example #{i+1} with Delta: {delta}')
-    print(f'Starts: {[node.cell for node in order]}')
+    print(f'Starts: {problem.starts}')
     print(f'Goal: {problem.goal}')
     print(problem.graph)
     print()
