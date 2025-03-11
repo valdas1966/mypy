@@ -1,4 +1,4 @@
-from f_proj.rapid_api.data.i_2_users_by_id import DataUsersById
+from f_proj.rapid_api.data.i_3_users_by_id import DataUsersById
 
 
 class GenUsersById:

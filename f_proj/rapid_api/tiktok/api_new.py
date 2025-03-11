@@ -1,8 +1,8 @@
 from typing import Any
 from f_os import u_environ
 from f_http.request import RequestGet, ResponseAPI
-from f_proj.rapid_api.data.i_2_users_by_id import DataUsersById
-
+from f_proj.rapid_api.data.i_3_users_by_id import DataUsersById
+from f_proj.rapid_api.data.i_0_audit import DataAudit
 
 class TiktokAPI:
     """
@@ -18,19 +18,17 @@ class TiktokAPI:
                                 'X-RapidAPI-Key': _KEY}
 
     @staticmethod
-    def users_by_id(id_user: str) -> dict[str, Any]:
+    def _fetch_single(url: str,
+                      params: dict[str, Any],
+                      data: DataAudit) -> dict[str, Any]:
         """
         ========================================================================
-         Fetch users by their ids.
+         Fetch a single item from the API.
         ========================================================================
         """
-        url = f'https://{TiktokAPI._HOST}/user/info'
-        params = {'user_id': id_user}
         response: ResponseAPI = RequestGet.get(url=url,
                                                params=params,
                                                headers=TiktokAPI._HEADERS)
-        data = DataUsersById()
-        data.id_user = id_user
         # Check if the response is ok.
         if not response:
             data.is_ok = False
@@ -50,6 +48,21 @@ class TiktokAPI:
             data.is_broken = True     
         finally:
             return data.to_flat_dict()
+        
+    @staticmethod
+    def users_by_id(id_user: str) -> dict[str, Any]:
+        """
+        ========================================================================
+         Fetch users by their ids.
+        ========================================================================
+        """
+        url = f'https://{TiktokAPI._HOST}/user/info'
+        params = {'user_id': id_user}
+        data = DataUsersById()
+        data.id_user = id_user
+        return TiktokAPI._fetch_single(url=url,
+                                       params=params,
+                                       data=data)
     
     @staticmethod
     def users_by_id_unique(id_user_unique: str) -> dict[str, Any]:
