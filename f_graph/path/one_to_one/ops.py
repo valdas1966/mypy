@@ -65,7 +65,7 @@ class OpsOneToOne:
         elif node in self._boundary:
             node.h = max(self._heuristic(node=node),
                          self._boundary[node])
-            node.is_bounded = True
+            node.is_bounded = self._boundary[node] > self._heuristic(node=node)
         else:
             node.h = self._heuristic(node=node)
         self._state.generated.push(item=node)

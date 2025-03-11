@@ -1,7 +1,7 @@
 from typing import Any
 from f_os import u_environ
 from f_http.request import RequestGet, ResponseAPI
-from f_proj.rapid_api.data.i_3_users_by_id import DataUsersById
+from f_proj.rapid_api.data.i_2_users_by_id import DataUsersById
 from f_proj.rapid_api.data.i_0_audit import DataAudit
 
 class TiktokAPI:
@@ -50,6 +50,54 @@ class TiktokAPI:
             return data.to_flat_dict()
         
     @staticmethod
+    def _fetch_multi(url: str,
+                     params: dict[str, Any],
+                     data: DataAudit) -> list[dict[str, Any]]:
+        """
+        ========================================================================
+         Fetch multiple items from the API.
+        ========================================================================
+        """
+        has_more = True
+        cursor = 0
+        rows_added = 1
+        rows: list[dict[str, Any]] = list()
+        while has_more and rows_added:
+            d = data.model_copy()
+            rows_added = 0
+            params['cursor'] = cursor
+            response: ResponseAPI = RequestGet.get(url=url,
+                                                   params=params,
+                                                   headers=TiktokAPI._HEADERS)
+            # Check if the response is ok.
+            if not response:
+                d.is_ok = False
+                row = d.to_flat_dict()
+                rows.append(row)
+                return rows
+            # Check if the user is found.
+            d.is_ok = True
+            if not response.is_found:
+                d.is_found = False
+                row = d.to_flat_dict()
+                rows.append(row)
+                return rows
+            # Try fill the data.
+            d.is_found = True
+            try:
+                d.fill(**response.data)
+                d.is_broken = False
+            except Exception as e:
+                print(e)
+                d.is_broken = True     
+            finally:
+                row = d.to_flat_dict()
+                rows.append(row)
+                rows_added += 1
+        return rows
+        
+
+    @staticmethod
     def users_by_id(id_user: str) -> dict[str, Any]:
         """
         ========================================================================
@@ -63,7 +111,7 @@ class TiktokAPI:
         return TiktokAPI._fetch_single(url=url,
                                        params=params,
                                        data=data)
-    
+
     @staticmethod
     def users_by_id_unique(id_user_unique: str) -> dict[str, Any]:
         """
@@ -73,70 +121,14 @@ class TiktokAPI:
         """
         url = f'https://{TiktokAPI._HOST}/user/info'
         params = {'unique_id': f'@{id_user_unique}'}
-        response: ResponseAPI = RequestGet.get(url=url,
-                                               params=params,
-                                               headers=TiktokAPI._HEADERS)
         data = DataUsersById()
         data.id_user_unique = id_user_unique
-        # Check if the response is ok.
-        if not response:
-            data.is_ok = False
-            return data.to_flat_dict()
-        # Check if the user is found.
-        data.is_found = True
-        if not response.is_found:
-            data.is_found = False
-            return data.to_flat_dict()
-        # Try fill the data.
-        data.is_found = True
-        try:
-            data.fill(**response.data)
-            data.is_broken = False
-        except Exception as e:
-            print(e)
-            data.is_broken = True     
-        finally:
-            return data.to_flat_dict()
+        return TiktokAPI._fetch_single(url=url,
+                                       params=params,
+                                       data=data)
 
-    @staticmethod
-    def old_users_by_id(id_user: str) -> dict[str, Any]:
-        """
-        ========================================================================
-         Fetch users by their ids.
-        ========================================================================
-        """
-        url = 'https://tiktok-video-no-watermark2.p.rapidapi.com/user/info'
-        params = {'user_id': id_user}
-        response: ResponseAPI = RequestGet.get(url=url,
-                                               params=params,
-                                               headers=TiktokAPI._HEADERS)
-        row: dict[str, Any] = {'id_user': id_user}
-        if response:
-            row['is_ok'] = True
-            if response.is_found:
-                row['is_found'] = True
-                try:
-                    d_user = response.data['data']['user']
-                    row['id_user_unique'] = d_user['uniqueId']
-                    row['nick'] = d_user['nickname']
-                    row['is_verified'] = d_user['verified']
-                    row['is_secret'] = d_user['secret']
-                    row['is_private'] = d_user['privateAccount']
-                    d_stats = response.data['data']['stats']
-                    row['following'] = d_stats['followingCount']
-                    row['followers'] = d_stats['followerCount']
-                    row['videos'] = d_stats['videoCount']
-                    row['hearts'] = d_stats['heartCount']
-                    row['diggs'] = d_stats['diggCount']
-                    row['is_broken'] = False                            
-                except Exception as e:
-                    print(e)
-                    row['is_broken'] = True
-            else:
-                row['is_found'] = False
-        else:
-            row['is_ok'] = False                                            
-        return row
+    
+
 
     @staticmethod
     def videos_by_user(id_user: str) -> list[dict[str, Any]]:
