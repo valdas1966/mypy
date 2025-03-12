@@ -1,8 +1,11 @@
 from typing import Any
 from f_os import u_environ
 from f_http.request import RequestGet, ResponseAPI
-from f_proj.rapid_api.data.i_2_users_by_id import DataUsersById
+from f_proj.rapid_api.data.i_3_users_by_id import DataUsersById
 from f_proj.rapid_api.data.i_0_audit import DataAudit
+from f_proj.rapid_api.data.i_0_list import DataList
+from f_proj.rapid_api.data.i_1_hashtag import DataHashtag
+
 
 class TiktokAPI:
     """

@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/data/generators/g_0_list.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/data/i_1_hashtag.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_cross_maps.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_cross_maps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_find_examples.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_find_examples.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_0_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/data/i_0_list.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_psl/pydantic/mixins/flattenable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/pydantic/mixins/flattenable.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -471,6 +471,7 @@
     "Python.followers.executor": "Run",
     "Python.followers_todo.executor": "Run",
     "Python.forward.executor": "Run",
+    "Python.g_0_list.executor": "Run",
     "Python.g_1_container (1).executor": "Run",
     "Python.g_1_dict.executor": "Run",
     "Python.g_2_cell.executor": "Run",
@@ -665,6 +666,7 @@
     "Python.u_screen.executor": "Run",
     "Python.user.executor": "Run",
     "Python.user_snapshots.executor": "Run",
+    "Python.users_by_id (1).executor": "Run",
     "Python.users_by_id.executor": "Run",
     "Python.users_by_id_unique.executor": "Run",
     "Python.videos_by_hashtag.executor": "Run",
@@ -690,7 +692,7 @@
       <recent name="G:\mypy\f_ds\mixins" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.e_find_examples (1)">
+  <component name="RunManager" selected="Python.g_0_list">
     <configuration name="e_cross_maps" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -735,6 +737,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="g_0_list" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/rapid_api/data/generators" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/rapid_api/data/generators/g_0_list.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="i_2_grid" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -757,7 +781,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="users_by_id" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="users_by_id (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -779,35 +803,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="users_by_id_unique" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/users_by_id_unique.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.g_0_list" />
+        <item itemvalue="Python.users_by_id (1)" />
         <item itemvalue="Python.e_find_examples (1)" />
         <item itemvalue="Python.e_cross_maps" />
         <item itemvalue="Python.i_2_grid" />
-        <item itemvalue="Python.users_by_id" />
-        <item itemvalue="Python.users_by_id_unique" />
       </list>
     </recent_temporary>
   </component>
@@ -826,14 +828,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00123" summary="h">
-      <option name="closed" value="true" />
-      <created>1736452689152</created>
-      <option name="number" value="00123" />
-      <option name="presentableId" value="LOCAL-00123" />
-      <option name="project" value="LOCAL" />
-      <updated>1736452689153</updated>
     </task>
     <task id="LOCAL-00124" summary="h">
       <option name="closed" value="true" />
@@ -1219,7 +1213,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741693744288</updated>
     </task>
-    <option name="localTasksCounter" value="172" />
+    <task id="LOCAL-00172" summary="h">
+      <option name="closed" value="true" />
+      <created>1741710785632</created>
+      <option name="number" value="00172" />
+      <option name="presentableId" value="LOCAL-00172" />
+      <option name="project" value="LOCAL" />
+      <updated>1741710785632</updated>
+    </task>
+    <option name="localTasksCounter" value="173" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
