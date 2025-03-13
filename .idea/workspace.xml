@@ -5,19 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/data/generators/g_0_audit.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/c_whatsapp.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/old/c_whatsapp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_0_audit.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/data/i_0_audit.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_0_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/data/i_0_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/study/7318314841177508614_20240813205558.json" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/old/study/7318314841177508614_20240813205558.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/study/s_alias_to_id.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/old/study/s_alias_to_id.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/study/s_keyword_to_hashtags.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/old/study/s_keyword_to_hashtags.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/study/s_tiktok.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/old/study/s_tiktok.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/study/s_tiktok_followers.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/old/study/s_tiktok_followers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/study/s_tiktok_music.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/old/study/s_tiktok_music.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/study/s_tiktok_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/old/study/s_tiktok_user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/study/s_whatsapp.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/old/study/s_whatsapp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -837,14 +826,6 @@
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
     </task>
-    <task id="LOCAL-00124" summary="h">
-      <option name="closed" value="true" />
-      <created>1736539694891</created>
-      <option name="number" value="00124" />
-      <option name="presentableId" value="LOCAL-00124" />
-      <option name="project" value="LOCAL" />
-      <updated>1736539694891</updated>
-    </task>
     <task id="LOCAL-00125" summary="h">
       <option name="closed" value="true" />
       <created>1736800863275</created>
@@ -1229,7 +1210,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741710785632</updated>
     </task>
-    <option name="localTasksCounter" value="173" />
+    <task id="LOCAL-00173" summary="h">
+      <option name="closed" value="true" />
+      <created>1741843086722</created>
+      <option name="number" value="00173" />
+      <option name="presentableId" value="LOCAL-00173" />
+      <option name="project" value="LOCAL" />
+      <updated>1741843086722</updated>
+    </task>
+    <option name="localTasksCounter" value="174" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

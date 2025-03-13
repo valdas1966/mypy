@@ -17,17 +17,56 @@ class DataAudit(Flattenable):
     msg: str = Field(default=None, alias='msg')
 
     @classmethod
-    def is_not_ok(cls,
-                  status_code: int = None,
-                  msg: str = None,
-                  params: dict[str, Any] = None) -> dict[str, Any]:
+    def gen_is_not_ok(cls,
+                      status_code: int,
+                      params: dict[str, Any]) -> dict[str, Any]:
         """
         ========================================================================
-         Check if the data is not ok.
+         Generate a DataAudit with is_ok=False.
         ========================================================================
         """
-        init_args = {"is_ok": False, "code": status_code, "msg": msg}
-        if params:
-            init_args.update(params)
+        init_args = {"is_ok": False, "code": status_code}
+        init_args.update(params)
         data = cls(**init_args)
         return data.model_dump()
+    
+    @classmethod
+    def gen_is_not_found(cls,
+                         params: dict[str, Any] = None) -> dict[str, Any]:
+        """
+        ========================================================================
+         Generate a DataAudit with is_found=False.
+        ========================================================================
+        """
+        init_args = {'is_ok': True, 'is_found': False}
+        init_args.update(params)
+        data = cls(**init_args)
+        return data.model_dump()
+    
+    @classmethod
+    def gen_is_broken(cls,
+                      msg: str,
+                      params: dict[str, Any]) -> dict[str, Any]:
+        """
+        ========================================================================
+         Generate a DataAudit with is_broken=True.
+        ========================================================================
+        """
+        init_args = {'is_ok': True, 'is_found': True,
+                     'is_broken': True, 'msg': msg}
+        init_args.update(params)
+        data = cls(**init_args)
+        return data.model_dump()
+
+    @classmethod
+    def _to_dict(cls,
+                 args: dict[str, Any],
+                 params: dict[str, Any]) -> dict[str, Any]:
+        """
+        ========================================================================
+         Convert a DataAudit to a dict without None-values.
+        ========================================================================
+        """
+        args.update(params)
+        data = cls(**args)
+        return data.model_dump(exclude_none=True)
