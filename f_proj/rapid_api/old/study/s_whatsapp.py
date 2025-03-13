@@ -1,4 +1,4 @@
-from f_proj.rapid_api.c_whatsapp import WhatsApp
+from f_proj.rapid_api.old.c_whatsapp import WhatsApp
 from f_utils import u_file
 
 

@@ -1,10 +1,12 @@
 from typing import Any
+from f_core.components import data
 from f_os import u_environ
 from f_http.request import RequestGet, ResponseAPI
 from f_proj.rapid_api.data.i_3_users_by_id import DataUsersById
 from f_proj.rapid_api.data.i_0_audit import DataAudit
 from f_proj.rapid_api.data.i_0_list import DataList
 from f_proj.rapid_api.data.i_1_hashtag import DataHashtag
+from typing import Type
 
 
 class TiktokAPI:
@@ -16,14 +18,14 @@ class TiktokAPI:
 
     _HOST = 'tiktok-video-no-watermark2.p.rapidapi.com'
     _KEY = u_environ.get('TIKTOK_1')
-    # _KEY = '78e3c6307bmsh3e0d2026acb75dep1446a5jsn20b3e7f2a363'
+    _KEY = '78e3c6307bmsh3e0d2026acb75dep1446a5jsn20b3e7f2a363'
     _HEADERS: dict[str, str] = {'X-RapidAPI-Host': _HOST,
                                 'X-RapidAPI-Key': _KEY}
 
     @staticmethod
     def _fetch_single(url: str,
                       params: dict[str, Any],
-                      data: DataAudit) -> dict[str, Any]:
+                      type_data: Type[DataAudit]) -> dict[str, Any]:
         """
         ========================================================================
          Fetch a single item from the API.
@@ -34,8 +36,8 @@ class TiktokAPI:
                                                headers=TiktokAPI._HEADERS)
         # Check if the response is ok.
         if not response:
-            data.is_ok = False
-            return data.to_flat_dict()
+            return type_data.is_not_ok(status_code=response.status,
+                                       params=params)
         # Check if the user is found.
         data.is_ok = True
         if not response.is_found:
@@ -55,7 +57,8 @@ class TiktokAPI:
     @staticmethod
     def _fetch_multi(url: str,
                      params: dict[str, Any],
-                     data: DataAudit) -> list[dict[str, Any]]:
+                     type_data: Type[DataAudit],
+                     type_list: Type[DataList]) -> list[dict[str, Any]]:
         """
         ========================================================================
          Fetch multiple items from the API.
@@ -64,31 +67,31 @@ class TiktokAPI:
         has_more = True
         cursor = 0
         rows_added = 1
-        rows: list[dict[str, Any]] = list()
         while has_more and rows_added:
-            d = data.model_copy()
             rows_added = 0
+            is_ok = False
+            is_found = False
+            is_broken = False
+            data = type_data()
             params['cursor'] = cursor
             response: ResponseAPI = RequestGet.get(url=url,
                                                    params=params,
                                                    headers=TiktokAPI._HEADERS)
             # Check if the response is ok.
             if not response:
-                d.is_ok = False
-                row = d.to_flat_dict()
-                rows.append(row)
-                return rows
+                data.is_ok = False
+                row = data.to_flat_dict()
+                return [row]
             # Check if the user is found.
-            d.is_ok = True
+            data.is_ok = True
             if not response.is_found:
-                d.is_found = False
-                row = d.to_flat_dict()
-                rows.append(row)
-                return rows
+                data.is_found = False
+                row = data.to_flat_dict()
+                return [row]
             # Try fill the data.
-            d.is_found = True
+            data.is_found = True
             try:
-                d.fill(**response.data)
+                rows = type_list.model_validate(response.data)
                 d.is_broken = False
             except Exception as e:
                 print(e)
