@@ -11,15 +11,6 @@ class DataUsersById(DataAudit):
     """
     user: DataUser = Field(default=None, alias='data')
 
-    def fill(self, **kwargs) -> None:
-        """
-        ============================================================================
-         Fill the data-class with the given kwargs.
-        ============================================================================
-        """
-        filled = self.model_validate(kwargs)
-        self.__dict__.update(filled.__dict__)
-
     class Config:
         """
         ============================================================================

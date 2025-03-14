@@ -23,6 +23,19 @@ class TiktokAPI:
                                 'X-RapidAPI-Key': _KEY}
 
     @staticmethod
+    def users_by_id(id_user: str) -> dict[str, Any]:
+        """
+        ========================================================================
+         Fetch users by their ids.
+        ========================================================================
+        """
+        url = f'https://{TiktokAPI._HOST}/user/info'
+        params = {'user_id': id_user}
+        return TiktokAPI._fetch_single(url=url,
+                                       params=params,
+                                       type_data=DataUsersById)
+
+    @staticmethod
     def _fetch_single(url: str,
                       params: dict[str, Any],
                       type_data: Type[DataAudit]) -> dict[str, Any]:
@@ -31,24 +44,23 @@ class TiktokAPI:
          Fetch a single item from the API.
         ========================================================================
         """
+        gen = type_data.Gen
         response: ResponseAPI = RequestGet.get(url=url,
                                                params=params,
                                                headers=TiktokAPI._HEADERS)
         # Check if the response is ok.
         if not response:
-            return type_data.Gen.not_ok(status_code=response.status,
-                                        params=params)
+            return gen.not_ok(status_code=response.status,
+                              params=params)
         # Check if the user is found.
         if not response.is_found:
-            return type_data.Gen.not_found(params=params)
-        # Try fill the data.
+            return gen.not_found(params=params)
+        # Try to fill the data.
         try:
-            data = type_data()
-            data.fill(**response.data)
-            return data.to_flat_dict()
+            return gen.valid(params=response.data)
         except Exception as e:
             print(e)
-            return type_data.Gen.broken(msg=str(e), params=params)
+            return gen.broken(msg=str(e), params=params)
         
     @staticmethod
     def _fetch_multi(url: str,
@@ -99,21 +111,7 @@ class TiktokAPI:
         return rows
         
 
-    @staticmethod
-    def users_by_id(id_user: str) -> dict[str, Any]:
-        """
-        ========================================================================
-         Fetch users by their ids.
-        ========================================================================
-        """
-        url = f'https://{TiktokAPI._HOST}/user/info'
-        params = {'user_id': id_user}
-        data = DataUsersById()
-        data.id_user = id_user
-        return TiktokAPI._fetch_single(url=url,
-                                       params=params,
-                                       data=data)
-
+    
     @staticmethod
     def users_by_id_unique(id_user_unique: str) -> dict[str, Any]:
         """

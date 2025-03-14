@@ -31,7 +31,4 @@ class GenTiktokAPI:
         return TiktokAPI.videos_by_user(id_user)
 
 
-"""
-rows = GenTiktokAPI.videos_by_user()
-print(len(rows))
-"""
+print(GenTiktokAPI.user_by_id())
