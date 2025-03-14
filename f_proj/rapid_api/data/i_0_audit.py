@@ -1,7 +1,7 @@
 from __future__ import annotations
 from f_psl.pydantic.mixins.flattenable import Flattenable
 from pydantic import Field
-from typing import Any
+from typing import Any, Type
 
 
 class DataAudit(Flattenable):
@@ -24,17 +24,16 @@ class DataAudit(Flattenable):
         """
         @classmethod
         def valid(cls,
-                  params: dict[str, Any]) -> dict[str, Any]:
+                  params: dict[str, Any],
+                  type_data: Type[DataAudit]) -> dict[str, Any]:
             """
             ========================================================================
              Generate a valid DataAudit.
             ========================================================================
             """
-            data = DataAudit.model_validate(params)
-            data.is_ok = True
-            data.is_found = True
-            data.is_broken = False
-            return data.to_flat_dict()
+            args = {'is_ok': True, 'is_found': True, 'is_broken': False}
+            print(params)
+            return cls._to_dict(args=args, params=params, type_data=type_data)
 
         @classmethod
         def not_ok(cls,
@@ -45,8 +44,8 @@ class DataAudit(Flattenable):
              Generate a non-ok DataAudit.
             ========================================================================
             """
-            args = {"is_ok": False, "code": status_code}
-            return cls._to_dict(args, params)
+            args = {'is_ok': False, 'code': status_code}
+            return cls._to_dict(args=args, params=params)
         
         @classmethod
         def not_found(cls,
@@ -57,30 +56,33 @@ class DataAudit(Flattenable):
             ========================================================================
             """
             args = {'is_ok': True, 'is_found': False}
-            return cls._to_dict(args, params)
+            return cls._to_dict(args=args, params=params)
         
         @classmethod    
         def broken(cls,
                    msg: str,
-                   params: dict[str, Any]) -> dict[str, Any]:
+                   params: dict[str, Any],
+                   type_data: Type[DataAudit]) -> dict[str, Any]:
             """
             ========================================================================
              Generate a broken DataAudit.
             ========================================================================
             """
             args = {'is_ok': True, 'is_found': True, 'is_broken': True, 'msg': msg}
-            return cls._to_dict(args, params)
-
+            return cls._to_dict(args=args, params=params, type_data=type_data)
+        
         @classmethod
         def _to_dict(cls,
                      args: dict[str, Any],
-                     params: dict[str, Any]) -> dict[str, Any]:
+                     params: dict[str, Any],
+                     type_data: Type[DataAudit]) -> dict[str, Any]:
             """
             ========================================================================
              Convert a DataAudit to a dict without None-values.
             ========================================================================
             """
             args.update(params)
-            data = DataAudit(**args)
-            return data.model_dump(exclude_none=True)
+            data = type_data(**args)
+            #return data.model_dump(exclude_none=True)
+            return data.to_flat_dict()
     
