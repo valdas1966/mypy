@@ -36,23 +36,19 @@ class TiktokAPI:
                                                headers=TiktokAPI._HEADERS)
         # Check if the response is ok.
         if not response:
-            return type_data.is_not_ok(status_code=response.status,
-                                       params=params)
+            return type_data.Gen.not_ok(status_code=response.status,
+                                        params=params)
         # Check if the user is found.
-        data.is_ok = True
         if not response.is_found:
-            data.is_found = False
-            return data.to_flat_dict()
+            return type_data.Gen.not_found(params=params)
         # Try fill the data.
-        data.is_found = True
         try:
+            data = type_data()
             data.fill(**response.data)
-            data.is_broken = False
+            return data.to_flat_dict()
         except Exception as e:
             print(e)
-            data.is_broken = True     
-        finally:
-            return data.to_flat_dict()
+            return type_data.Gen.broken(msg=str(e), params=params)
         
     @staticmethod
     def _fetch_multi(url: str,
