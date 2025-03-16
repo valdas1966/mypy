@@ -112,7 +112,6 @@ class TiktokAPI:
                 rows_added += 1
         return rows
         
-
     
     @staticmethod
     def users_by_id_unique(id_user_unique: str) -> dict[str, Any]:

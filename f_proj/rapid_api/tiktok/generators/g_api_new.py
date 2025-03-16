@@ -17,7 +17,7 @@ class GenTiktokAPI:
         ========================================================================
         """ 
         id_user = '107955'
-        return TiktokAPI.users_by_id(id_user)
+        return TiktokAPI.users_by_id(id_user=id_user)
     
     @staticmethod   
     def videos_by_user() -> list[dict[str, Any]]:
