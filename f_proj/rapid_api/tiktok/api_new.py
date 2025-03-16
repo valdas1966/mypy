@@ -2,6 +2,7 @@ from typing import Any
 from f_core.components import data
 from f_os import u_environ
 from f_http.request import RequestGet, ResponseAPI
+from f_proj.rapid_api.data.i_1_user_info import DataUserInfo
 from f_proj.rapid_api.data.i_3_users_by_id import DataUsersById
 from f_proj.rapid_api.data.i_0_audit import DataAudit
 from f_proj.rapid_api.data.i_0_list import DataList
@@ -30,7 +31,21 @@ class TiktokAPI:
         ========================================================================
         """
         url = f'https://{TiktokAPI._HOST}/user/info'
-        params = {'user_id': id_user}
+        params = {'user_id': id_user, 'id_user': id_user}
+        return TiktokAPI._fetch_single(url=url,
+                                       params=params,
+                                       type_data=DataUsersById)
+
+    @staticmethod
+    def users_by_id_unique(id_user_unique: str) -> dict[str, Any]:
+        """
+        ========================================================================
+         Fetch users by their unique ids.
+        ========================================================================
+        """
+        url = f'https://{TiktokAPI._HOST}/user/info'    
+        params = {'unique_id': f'@{id_user_unique}',
+                  'id_user_unique': id_user_unique}
         return TiktokAPI._fetch_single(url=url,
                                        params=params,
                                        type_data=DataUsersById)
@@ -51,15 +66,14 @@ class TiktokAPI:
         # Check if the response is ok.
         if not response:
             return gen.not_ok(status_code=response.status,
-                              params=params,
-                              type_data=type_data)
+                              params=params)
         # Check if the user is found.
         if not response.is_found:
-            return gen.not_found(params=params,
-                                 type_data=type_data)
+            return gen.not_found(params=params)
         # Try to fill the data.
         try:
-            return gen.valid(params=response.data, type_data=type_data)
+            params.update(response.data)
+            return gen.valid(params=params, type_data=type_data)
         except Exception as e:
             print(e)
             return gen.broken(msg=str(e), params=params, type_data=type_data)
@@ -77,32 +91,23 @@ class TiktokAPI:
         has_more = True
         cursor = 0
         rows_added = 1
+        gen = type_data.Gen
         while has_more and rows_added:
             rows_added = 0
-            is_ok = False
-            is_found = False
-            is_broken = False
-            data = type_data()
             params['cursor'] = cursor
             response: ResponseAPI = RequestGet.get(url=url,
                                                    params=params,
                                                    headers=TiktokAPI._HEADERS)
             # Check if the response is ok.
             if not response:
-                data.is_ok = False
-                row = data.to_flat_dict()
-                return [row]
+                return [gen.not_ok(status_code=response.status,
+                                   params=params)]
             # Check if the user is found.
-            data.is_ok = True
             if not response.is_found:
-                data.is_found = False
-                row = data.to_flat_dict()
-                return [row]
+                return [gen.not_found(params=params)]
             # Try fill the data.
-            data.is_found = True
             try:
                 rows = type_list.model_validate(response.data)
-                d.is_broken = False
             except Exception as e:
                 print(e)
                 d.is_broken = True     
@@ -111,25 +116,6 @@ class TiktokAPI:
                 rows.append(row)
                 rows_added += 1
         return rows
-        
-    
-    @staticmethod
-    def users_by_id_unique(id_user_unique: str) -> dict[str, Any]:
-        """
-        ========================================================================
-         Fetch users by their unique ids.
-        ========================================================================
-        """
-        url = f'https://{TiktokAPI._HOST}/user/info'
-        params = {'unique_id': f'@{id_user_unique}'}
-        data = DataUsersById()
-        data.id_user_unique = id_user_unique
-        return TiktokAPI._fetch_single(url=url,
-                                       params=params,
-                                       data=data)
-
-    
-
 
     @staticmethod
     def videos_by_user(id_user: str) -> list[dict[str, Any]]:

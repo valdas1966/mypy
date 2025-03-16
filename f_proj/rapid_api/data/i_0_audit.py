@@ -32,7 +32,6 @@ class DataAudit(Flattenable):
             ========================================================================
             """
             args = {'is_ok': True, 'is_found': True, 'is_broken': False}
-            print(params)
             return cls._to_dict(args=args, params=params, type_data=type_data)
 
         @classmethod
@@ -83,6 +82,4 @@ class DataAudit(Flattenable):
             """
             args.update(params)
             data = type_data(**args)
-            #return data.model_dump(exclude_none=True)
             return data.to_flat_dict()
-    
