@@ -198,6 +198,32 @@ class Schemas:
         return schema
     
     @staticmethod
+    def hashtags_by_keyword_todo() -> Schema:
+        """
+        ========================================================================
+         Return schema for table 'Hashtags_by_Keyword_Todo'.
+        ========================================================================
+        """ 
+        tname = 'hashtags_by_keyword_todo'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.KEYWORD)
+        return schema
+    
+    @staticmethod
+    def hashtags_by_keyword() -> Schema:
+        """
+        ========================================================================
+         Return schema for table 'Hashtags_by_Keyword'.
+        ========================================================================
+        """
+        tname = 'hashtags_by_keyword'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.KEYWORD)
+        schema.extend(Fields.hashtag())
+        schema.extend(Fields.audit())
+        return schema
+    
+    @staticmethod
     def _create_schema(tname: str) -> Schema:
         """
         ========================================================================

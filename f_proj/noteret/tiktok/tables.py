@@ -20,3 +20,5 @@ class Tables:
     USERS_BY_ID_UNIQUE_TODO = f'{_pre}.users_by_id_unique_todo'
     VIDEOS_BY_USER = f'{_pre}.videos_by_user'
     VIDEOS_BY_USER_TODO = f'{VIDEOS_BY_USER}_todo'
+    HASHTAGS_BY_KEYWORD = f'{_pre}.hashtags_by_keyword'
+    HASHTAGS_BY_KEYWORD_TODO = f'{HASHTAGS_BY_KEYWORD}_todo'

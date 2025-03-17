@@ -41,8 +41,14 @@ class Fields:
     # Music
     ID_MUSIC = Field.string(name='id_music')
 
+    # KeyWord
+    KEYWORD = Field.string(name='keyword')
+    
     # Hashtag
     ID_HASHTAG = Field.string(name='id_hashtag')
+    HASHTAG = Field.string(name='hashtag')
+    USERS = Field.integer(name='users')
+    VIEWS = Field.integer(name='views')
 
     # Comment
     ID_COMMENT = Field.string(name='id_comment')
@@ -87,7 +93,7 @@ class Fields:
         return fields
 
     @staticmethod
-    def audit_post() -> list[Field]:
+    def audit() -> list[Field]:
         """
         ========================================================================
          Return a list of Audit-Fields in the end of the table.
@@ -98,11 +104,12 @@ class Fields:
         fields.append(Fields.IS_BROKEN)
         fields.append(Fields.IS_OK)
         fields.append(Fields.STATUS_CODE)
+        fields.append(Fields.MSG)
         fields.append(Fields.INSERTED)
         return fields
 
     @staticmethod
-    def video_info() -> list[Field]:
+    def video() -> list[Field]:
         """
         ========================================================================
          Return a list of Video-Fields in the end of the table.
@@ -122,3 +129,17 @@ class Fields:
         fields.append(Fields.IS_AD)
         return fields
 
+    @staticmethod
+    def hashtag() -> list[Field]:
+        """
+        ========================================================================
+         Return a list of Hashtag-Fields in the end of the table.
+        ========================================================================
+        """ 
+        fields: list[Field] = list()
+        fields.append(Fields.ID_HASHTAG)
+        fields.append(Fields.HASHTAG)
+        fields.append(Fields.USERS)
+        fields.append(Fields.VIEWS)
+        return fields   
+        

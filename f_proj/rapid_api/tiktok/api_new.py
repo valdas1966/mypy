@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Callable
 from f_core.components import data
 from f_os import u_environ
 from f_http.request import RequestGet, ResponseAPI
@@ -7,6 +7,7 @@ from f_proj.rapid_api.data.i_3_users_by_id import DataUsersById
 from f_proj.rapid_api.data.i_0_audit import DataAudit
 from f_proj.rapid_api.data.i_0_list import DataList
 from f_proj.rapid_api.data.i_1_hashtag import DataHashtag
+from f_proj.rapid_api.data.i_3_videos_by_user import DataVideosByUser
 from typing import Type
 
 
@@ -51,6 +52,21 @@ class TiktokAPI:
                                        type_data=DataUsersById)
 
     @staticmethod
+    def videos_by_user(id_user: str) -> list[dict[str, Any]]:
+        """
+        ========================================================================
+         Fetch videos by user id.
+        ========================================================================
+        """
+        url = 'https://tiktok-video-no-watermark2.p.rapidapi.com/user/posts'
+        params = {'user_id': id_user, 'count': 50,
+                  'cursor': 0, 'id_user': id_user}
+        return TiktokAPI._fetch_multi(url=url,
+                                      params=params,
+                                      type_data=DataAudit,
+                                      type_list=DataVideosByUser)
+
+    @staticmethod
     def _fetch_single(url: str,
                       params: dict[str, Any],
                       type_data: Type[DataAudit]) -> dict[str, Any]:
@@ -77,20 +93,129 @@ class TiktokAPI:
         except Exception as e:
             print(e)
             return gen.broken(msg=str(e), params=params, type_data=type_data)
-        
+
     @staticmethod
     def _fetch_multi(url: str,
                      params: dict[str, Any],
-                     type_data: Type[DataAudit],
-                     type_list: Type[DataList]) -> list[dict[str, Any]]:
+                     anchor: tuple[str, str],
+                     name_list: str,
+                     func: Callable[[None], None],
+                     limit: int = 100000) -> list[dict[str, Any]]:
         """
         ========================================================================
          Fetch multiple items from the API.
         ========================================================================
         """
+        # Shorthand
+        cur = TiktokAPI
+        # Has More data to fetch
+        has_more = True
+        # Cursor to start fetching from
+        cursor = 0
+        # Number of rows added (to avoid infinite loop)
+        rows_added = 1
+        # List of rows to return
+        rows: list[dict[str, Any]] = list()
+        # Fetch data while there is more data to fetch and rows were added
+        while has_more and rows_added:
+            # Reset the number of rows added
+            rows_added = 0
+            # Update the cursor in the params that will be sent to the API
+            params['cursor'] = cursor
+            # Fetch the data
+            response: ResponseAPI = RequestGet.get(url=url,
+                                                   params=params,
+                                                   headers=TiktokAPI._HEADERS)
+            # If there is a problem with the response, return a not ok response
+            if not response:
+                return [cur._gen_not_ok(status_code=response.status,
+                                        anchor=anchor)]
+            # If the data is not found, return a not found response
+            if not response.is_found:
+                return [cur._gen_not_found(anchor=anchor)]
+            # Try to extract the data
+            try:
+                data_list, has_more, cursor = cur._get_info(response=response,
+                                                            name_list=name_list)
+                # Convert the data to the desired format (list of dicts)
+                rows_new = func(data=data_list)
+                # Add the new rows to the list
+                rows.extend(rows_new)
+                # If the limit is reached, return the list
+                if len(rows) >= limit:
+                    return rows
+                # Update the number of rows added
+                rows_added += len(rows_new)
+            # If there is an error in fetching data, return a broken response
+            except Exception as e:
+                return [cur._gen_broken(msg=str(e),
+                                        anchor=anchor)]
+        # Return the list of rows
+        return rows
+        
+    @staticmethod
+    def _get_info(response: ResponseAPI,
+                  name_list: str) -> tuple[list[dict[str, Any]], bool, int]:
+        """
+        ========================================================================
+         Get the info from the data.
+        ========================================================================
+        """
+        data = response.data['data']
+        has_more = data['hasMore']
+        cursor = data['cursor']
+        return data[name_list], has_more, cursor
+
+    @staticmethod
+    def _gen_not_ok(status_code: int,
+                    anchor: tuple[str, str]) -> dict[str, Any]:
+        """
+        ========================================================================
+         Generate a not ok response.
+        ========================================================================
+        """
+        return {'status_code': status_code,
+                'is_ok': False,
+                anchor[0]: anchor[1]}
+    
+    @staticmethod
+    def _gen_not_found(anchor: tuple[str, str]) -> dict[str, Any]:
+        """
+        ========================================================================
+         Generate a not found response.
+        ========================================================================
+        """ 
+        return {'status_code': 404,
+                'is_ok': True,
+                'is_found': False,
+                anchor[0]: anchor[1]}
+    
+    @staticmethod
+    def _gen_broken(msg: str,
+                    anchor: tuple[str, str]) -> dict[str, Any]:
+        """
+        ========================================================================
+         Generate a broken response.
+        ========================================================================
+        """
+        return {'is_ok': True,
+                'is_found': True,
+                'is_broken': True,
+                'msg': msg,
+                anchor[0]: anchor[1]}
+
+
+
+    """
+    @staticmethod
+    def _fetch_multi(url: str,
+                     params: dict[str, Any],
+                     type_data: Type[DataAudit],
+                     type_list: Type[DataList]) -> list[dict[str, Any]]:
         has_more = True
         cursor = 0
         rows_added = 1
+        rows: list[dict[str, Any]] = list()
         gen = type_data.Gen
         while has_more and rows_added:
             rows_added = 0
@@ -107,18 +232,24 @@ class TiktokAPI:
                 return [gen.not_found(params=params)]
             # Try fill the data.
             try:
-                rows = type_list.model_validate(response.data)
+                print('try')
+                print(type(type_list))
+                model = type_list()
+                print('model')
+                model = model.model_validate(response.data)
+                rows_new = model.to_list()
+                rows.extend(rows_new)
+                rows_added += len(rows_new)
+                has_more = model.has_more
+                cursor = model.cursor
             except Exception as e:
                 print(e)
-                d.is_broken = True     
-            finally:
-                row = d.to_flat_dict()
-                rows.append(row)
-                rows_added += 1
+                return [gen.broken(msg=str(e), params=params)]
         return rows
+    """
 
     @staticmethod
-    def videos_by_user(id_user: str) -> list[dict[str, Any]]:
+    def old_videos_by_user(id_user: str) -> list[dict[str, Any]]:
         """
         ========================================================================
          Fetch videos by user id.

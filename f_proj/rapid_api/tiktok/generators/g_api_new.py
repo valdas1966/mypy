@@ -42,4 +42,5 @@ class GenTiktokAPI:
 
 
 # print(GenTiktokAPI.user_by_id())
-print(GenTiktokAPI.user_by_id_unique())
+# print(GenTiktokAPI.user_by_id_unique())
+print(GenTiktokAPI.videos_by_user())
