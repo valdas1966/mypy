@@ -149,6 +149,28 @@ def hashtags_by_keyword_todo() -> None:
     BigQuery().create.table(tname=tname, schema=schema)
 
 
+def videos_by_hashtag_todo() -> None:
+    """
+    ========================================================================
+     Create table 'Videos_by_Hashtag_Todo'.
+    ========================================================================
+    """
+    tname = Tables.VIDEOS_BY_HASHTAG_TODO
+    schema = Schemas.videos_by_hashtag_todo()
+    BigQuery().create.table(tname=tname, schema=schema)
+
+
+def videos_by_hashtag() -> None:
+    """
+    ========================================================================
+     Create table 'Videos_by_Hashtag'.
+    ========================================================================
+    """
+    tname = Tables.VIDEOS_BY_HASHTAG
+    schema = Schemas.videos_by_hashtag()
+    BigQuery().create.table(tname=tname, schema=schema)
+
+
 # users()
 # users_snapshots()
 # followers()
@@ -164,5 +186,7 @@ def hashtags_by_keyword_todo() -> None:
 # videos_by_user()
 # videos_by_user_todo()
 # users_by_id_unique_todo()
-hashtags_by_keyword()
-hashtags_by_keyword_todo()
+# hashtags_by_keyword()
+# hashtags_by_keyword_todo()
+videos_by_hashtag()
+videos_by_hashtag_todo()

@@ -39,8 +39,19 @@ class GenTiktokAPI:
         # id_user = '7164667879018021914'
         id_user = '7125301884189426693'
         return TiktokAPI.videos_by_user(id_user)
+    
+    @staticmethod
+    def hashtags_by_keyword() -> list[dict[str, Any]]:
+        """
+        ========================================================================
+         Generate hashtags by keyword.
+        ========================================================================
+        """
+        return TiktokAPI.hashtags_by_keyword(keyword='hamas')
 
 
 # print(GenTiktokAPI.user_by_id())
 # print(GenTiktokAPI.user_by_id_unique())
-print(GenTiktokAPI.videos_by_user())
+# print(GenTiktokAPI.videos_by_user())
+for d in GenTiktokAPI.hashtags_by_keyword():
+    print(d)

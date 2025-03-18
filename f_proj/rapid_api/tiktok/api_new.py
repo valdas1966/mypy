@@ -20,7 +20,7 @@ class TiktokAPI:
 
     _HOST = 'tiktok-video-no-watermark2.p.rapidapi.com'
     _KEY = u_environ.get('TIKTOK_1')
-    _KEY = '78e3c6307bmsh3e0d2026acb75dep1446a5jsn20b3e7f2a363'
+    # _KEY = '78e3c6307bmsh3e0d2026acb75dep1446a5jsn20b3e7f2a363'
     _HEADERS: dict[str, str] = {'X-RapidAPI-Host': _HOST,
                                 'X-RapidAPI-Key': _KEY}
 
@@ -67,6 +67,71 @@ class TiktokAPI:
                                       type_list=DataVideosByUser)
 
     @staticmethod
+    def hashtags_by_keyword(keyword: str) -> list[dict[str, Any]]:
+        """
+        ========================================================================
+         Fetch hashtags by keyword.
+        ========================================================================
+        """
+        url = f'https://{TiktokAPI._HOST}/challenge/search'
+        params = {'keywords': keyword, 'count': 50, 'cursor': 0}
+        def to_rows(data: list[dict[str, Any]]) -> list[dict[str, Any]]:
+            rows: list[dict[str, Any]] = list()
+            for d in data:
+                row: dict[str, Any] = dict()
+                row['keyword'] = keyword
+                row['id_hashtag'] = d['id']
+                row['hashtag'] = d['cha_name']
+                row['users'] = d['user_count']
+                row['views'] = d['view_count']
+                row['is_ok'] = True
+                row['is_found'] = True
+                row['is_broken'] = False
+                rows.append(row)
+            return rows
+        return TiktokAPI._fetch_multi(url=url,
+                                      params=params,
+                                      anchor=('keyword', keyword),
+                                      name_list='challenge_list',
+                                      to_rows=to_rows)
+
+    @staticmethod
+    def videos_by_hashtag(id_hashtag: str) -> list[dict[str, Any]]:
+        """
+        ========================================================================
+         Fetch videos by hashtag id.
+        ========================================================================
+        """ 
+        url = f'https://{TiktokAPI._HOST}/challenge/posts'
+        params = {'challenge_id': id_hashtag, 'count': 50, 'cursor': 0}
+        def to_rows(data: list[dict[str, Any]]) -> list[dict[str, Any]]:
+            rows: list[dict[str, Any]] = list()
+            for d in data:
+                row: dict[str, Any] = dict()
+                row['id_hashtag'] = id_hashtag
+                row['id_video'] = d['video_id']
+                row['title'] = d['title']
+                row['created'] = d['create_time']
+                row['duration'] = d['duration']
+                row['plays'] = d['play_count']
+                row['shares'] = d['share_count']
+                row['diggs'] = d['digg_count']
+                row['comments'] = d['comment_count']
+                row['downloads'] = d['download_count']
+                row['is_ad'] = d['is_ad']
+                row['play'] = d['play']
+                row['is_ok'] = True
+                row['is_found'] = True
+                row['is_broken'] = False
+                rows.append(row)
+            return rows
+        return TiktokAPI._fetch_multi(url=url,
+                                      params=params,
+                                      anchor=('id_hashtag', id_hashtag),
+                                      name_list='videos',
+                                      to_rows=to_rows)
+
+    @staticmethod
     def _fetch_single(url: str,
                       params: dict[str, Any],
                       type_data: Type[DataAudit]) -> dict[str, Any]:
@@ -99,7 +164,7 @@ class TiktokAPI:
                      params: dict[str, Any],
                      anchor: tuple[str, str],
                      name_list: str,
-                     func: Callable[[None], None],
+                     to_rows: Callable[[dict[str, Any]], list[dict[str, Any]]],
                      limit: int = 100000) -> list[dict[str, Any]]:
         """
         ========================================================================
@@ -123,7 +188,7 @@ class TiktokAPI:
             # Update the cursor in the params that will be sent to the API
             params['cursor'] = cursor
             # Fetch the data
-            response: ResponseAPI = RequestGet.get(url=url,
+            response: ResponseAPI = RequestGet.get(url=url, 
                                                    params=params,
                                                    headers=TiktokAPI._HEADERS)
             # If there is a problem with the response, return a not ok response
@@ -138,7 +203,7 @@ class TiktokAPI:
                 data_list, has_more, cursor = cur._get_info(response=response,
                                                             name_list=name_list)
                 # Convert the data to the desired format (list of dicts)
-                rows_new = func(data=data_list)
+                rows_new = to_rows(data=data_list)
                 # Add the new rows to the list
                 rows.extend(rows_new)
                 # If the limit is reached, return the list

@@ -224,6 +224,32 @@ class Schemas:
         return schema
     
     @staticmethod
+    def videos_by_hashtag_todo() -> Schema:
+        """
+        ========================================================================
+         Return schema for table 'Videos_by_Hashtag_Todo'.
+        ========================================================================
+        """
+        tname = 'videos_by_hashtag_todo'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.ID_HASHTAG)
+        return schema
+    
+    @staticmethod
+    def videos_by_hashtag() -> Schema:
+        """
+        ========================================================================
+         Return schema for table 'Videos_by_Hashtag'.
+        ========================================================================
+        """ 
+        tname = 'videos_by_hashtag'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.ID_HASHTAG)
+        schema.extend(Fields.video())
+        schema.extend(Fields.audit())
+        return schema   
+    
+    @staticmethod
     def _create_schema(tname: str) -> Schema:
         """
         ========================================================================

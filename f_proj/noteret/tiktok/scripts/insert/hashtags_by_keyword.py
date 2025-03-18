@@ -13,13 +13,13 @@ def prod() -> None:
      Insert into BigQuery [ ].
     ========================================================================
     """
-    tname = Tables.VIDEOS_BY_HASHTAG    
+    tname = Tables.HASHTAGS_BY_KEYWORD    
     bq = BigQuery()
     rows: list[dict[str, Any]] = list()
-    ids_hashtags: list[str] = bq.select.list(Tables.VIDEOS_BY_HASHTAG_TODO)
-    for id_hashtag in ids_hashtags:
-        rows_new = TiktokAPI.videos_by_hashtag(id_hashtag=id_hashtag)
-        print(id_hashtag, len(rows_new))
+    keywords: list[str] = bq.select.list(Tables.HASHTAGS_BY_KEYWORD_TODO)
+    for keyword in keywords:
+        rows_new = TiktokAPI.hashtags_by_keyword(keyword=keyword)
+        print(keyword, len(rows_new))
         rows.extend(rows_new)
         if len(rows) >= _BATCH_SIZE:
             bq.insert.rows_inserted(tname=tname, rows=rows)

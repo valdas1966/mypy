@@ -68,6 +68,7 @@ class Fields:
     COMMENTS = Field.integer(name='comments')
     IS_AD = Field.boolean(name='is_ad')
     PLAY = Field.integer(name='play')
+    
     @staticmethod
     def user_info() -> list[Field]:
         fields: list[Field] = list()
