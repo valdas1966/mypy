@@ -6,8 +6,8 @@ from datetime import datetime
 from random import randint
 
 
-rows = 5
-epochs = 100000
+rows = 4
+epochs = 1000000
 n_starts = 2
 
 

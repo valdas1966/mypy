@@ -121,6 +121,7 @@ class Fields:
         fields.append(Fields.REGION)
         fields.append(Fields.TITLE)
         fields.append(Fields.CREATED)
+        fields.append(Fields.PLAY)
         fields.append(Fields.DURATION)
         fields.append(Fields.PLAYS)
         fields.append(Fields.SHARES)

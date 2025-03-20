@@ -38,7 +38,7 @@ class Boundary(Dictable[Node, int]):
             for child in children:
                 if child in cache:
                     continue
-                bound = path.goal.g - node.g - 1
+                bound = path.goal.g - node.g
                 if child in boundary:
                     boundary[child] = min(boundary[child], bound)
                 else:
