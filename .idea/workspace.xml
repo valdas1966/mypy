@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/users_by_id.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/users_by_id.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_by_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_by_user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj.zip" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_psl.zip" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -840,14 +839,6 @@
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
     </task>
-    <task id="LOCAL-00134" summary="h">
-      <option name="closed" value="true" />
-      <created>1738306483690</created>
-      <option name="number" value="00134" />
-      <option name="presentableId" value="LOCAL-00134" />
-      <option name="project" value="LOCAL" />
-      <updated>1738306483691</updated>
-    </task>
     <task id="LOCAL-00135" summary="h">
       <option name="closed" value="true" />
       <created>1738499755303</created>
@@ -1232,7 +1223,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742473568122</updated>
     </task>
-    <option name="localTasksCounter" value="183" />
+    <task id="LOCAL-00183" summary="h">
+      <option name="closed" value="true" />
+      <created>1742495284178</created>
+      <option name="number" value="00183" />
+      <option name="presentableId" value="LOCAL-00183" />
+      <option name="project" value="LOCAL" />
+      <updated>1742495284178</updated>
+    </task>
+    <option name="localTasksCounter" value="184" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
