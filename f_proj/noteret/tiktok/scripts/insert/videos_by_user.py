@@ -4,7 +4,7 @@ from f_proj.noteret.tiktok.tables import Tables
 from typing import Any
 
 
-_BATCH_SIZE = 1000
+_BATCH_SIZE = 10
 
 
 def prod() -> None:

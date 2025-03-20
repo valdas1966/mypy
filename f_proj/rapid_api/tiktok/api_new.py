@@ -1,7 +1,6 @@
 from typing import Any, Callable
 from f_os import u_environ
 from f_http.request import RequestGet, ResponseAPI
-from typing import Type
 
 
 class TiktokAPI:
@@ -28,17 +27,17 @@ class TiktokAPI:
         params = {'user_id': id_user}
         def to_row(data: dict[str, Any]) -> dict[str, Any]:
             row: dict[str, Any] = dict()
-            row['id_user_unique'] = data['unique_id']
-            row['id_user'] = data['user_id']
-            row['nick'] = data['nickname']
-            row['is_verified'] = data['verified']
-            row['is_secret'] = data['secret']
-            row['is_private'] = data['private']
-            row['videos'] = data['video_count']
-            row['hearts'] = data['heart_count']
-            row['diggs'] = data['digg_count']
-            row['followers'] = data['follower_count']
-            row['following'] = data['following_count']
+            row['id_user_unique'] = data['user']['uniqueId']
+            row['id_user'] = data['user']['id']
+            row['nick'] = data['user']['nickname']
+            row['is_verified'] = data['user']['verified']
+            row['is_secret'] = data['user']['secret']
+            row['is_private'] = data['user']['privateAccount']
+            row['videos'] = data['stats']['videoCount']
+            row['hearts'] = data['stats']['heartCount']
+            row['diggs'] = data['stats']['diggCount']
+            row['followers'] = data['stats']['followerCount']
+            row['following'] = data['stats']['followingCount']
             row['is_ok'] = True
             row['is_found'] = True
             row['is_broken'] = False
@@ -61,16 +60,16 @@ class TiktokAPI:
         def to_row(data: dict[str, Any]) -> dict[str, Any]:
             row: dict[str, Any] = dict()
             row['id_user_unique'] = id_user_unique
-            row['id_user'] = data['user_id']
-            row['nick'] = data['nickname']
-            row['is_verified'] = data['verified']
-            row['is_secret'] = data['secret']
-            row['is_private'] = data['private']
-            row['videos'] = data['video_count']
-            row['hearts'] = data['heart_count']
-            row['diggs'] = data['digg_count']
-            row['followers'] = data['follower_count']
-            row['following'] = data['following_count']
+            row['id_user'] = data['user']['id']
+            row['nick'] = data['user']['nickname']
+            row['is_verified'] = data['user']['verified']
+            row['is_secret'] = data['user']['secret']
+            row['is_private'] = data['user']['privateAccount']
+            row['videos'] = data['stats']['videoCount']
+            row['hearts'] = data['stats']['heartCount']
+            row['diggs'] = data['stats']['diggCount']
+            row['followers'] = data['stats']['followerCount']
+            row['following'] = data['stats']['followingCount']
             row['is_ok'] = True
             row['is_found'] = True
             row['is_broken'] = False
@@ -90,10 +89,33 @@ class TiktokAPI:
         url = 'https://tiktok-video-no-watermark2.p.rapidapi.com/user/posts'
         params = {'user_id': id_user, 'count': 50,
                   'cursor': 0, 'id_user': id_user}
+        def to_rows(data: list[dict[str, Any]]) -> list[dict[str, Any]]:
+            rows: list[dict[str, Any]] = list()
+            for d in data:
+                row: dict[str, Any] = dict()
+                row['id_user'] = id_user
+                row['id_music'] = d['music_info']['id']
+                row['id_video'] = d['video_id']
+                row['title'] = d['title']
+                row['created'] = d['create_time']
+                row['duration'] = d['duration']
+                row['plays'] = d['play_count']
+                row['shares'] = d['share_count']
+                row['diggs'] = d['digg_count']
+                row['comments'] = d['comment_count']    
+                row['downloads'] = d['download_count']
+                row['is_ad'] = d['is_ad']
+                row['play'] = d['play']
+                row['is_ok'] = True 
+                row['is_found'] = True 
+                row['is_broken'] = False
+                rows.append(row)
+            return rows
         return TiktokAPI._fetch_multi(url=url,
                                       params=params,
-                                      type_data=DataAudit,
-                                      type_list=DataVideosByUser)
+                                      anchor=('id_user', id_user),
+                                      name_list='videos',
+                                      to_rows=to_rows)
 
     @staticmethod
     def hashtags_by_keyword(keyword: str) -> list[dict[str, Any]]:
