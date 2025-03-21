@@ -45,6 +45,9 @@ class FlowOneToOne:
          Select the best node to be the best generated node
         ========================================================================
         """
+        # print('Select Best')
+        # for node in sorted(self._state.generated):
+        #     node.print_details()
         self._state.best = self._state.generated.pop()
 
     def is_path_found(self) -> bool:

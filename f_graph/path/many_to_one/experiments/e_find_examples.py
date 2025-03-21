@@ -6,7 +6,7 @@ from datetime import datetime
 from random import randint
 
 
-rows = 4
+rows = 5
 epochs = 1000000
 n_starts = 2
 

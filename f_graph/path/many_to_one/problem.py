@@ -47,9 +47,9 @@ class ProblemManyToOne(ProblemPath, Clonable):
         """
         problems: list[ProblemOneToOne] = list()
         for start in self._starts:
-            problems.append(ProblemOneToOne(graph=self.graph,
-                                            start=start,
-                                            goal=self._goal))
+            problems.append(ProblemOneToOne(graph=self.graph.clone(),
+                                            start=start.clone(),
+                                            goal=self._goal.clone()))
         return problems
 
     def clone(self) -> ProblemManyToOne:

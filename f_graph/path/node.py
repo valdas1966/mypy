@@ -116,7 +116,7 @@ class NodePath(NodeCell, HasCache):
         ========================================================================
         """
         print(f'<cell={self.cell}, g={self.g}, h={self.h}, f={self.f()}, '
-              f'is_cached={self.is_cached}, is_bounded={self.is_bounded}>')
+              f'is_cached={self.is_cached}, is_bounded={self.is_bounded}> {self.key_comparison()}')
     
     def _update_parent(self) -> None:
         """
@@ -157,3 +157,5 @@ class NodePath(NodeCell, HasCache):
         ========================================================================
         """
         return hash(self.key)
+
+

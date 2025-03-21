@@ -34,6 +34,7 @@ class SolutionsPath(Dictable[Node, Solution], Validatable):
             self._stats[node] = sol.stats
             self._paths[node] = sol.path
             self._states[node] = sol.state
+
     @property
     def elapsed(self) -> int:
         """
