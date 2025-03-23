@@ -164,7 +164,7 @@ class TiktokAPI:
                 row['id_user_unique'] = d['author']['unique_id']
                 row['nick'] = d['author']['nickname']
                 row['id_video'] = d['video_id']
-                row['region'] = d['author']['region']
+                # row['region'] = d['region']
                 row['title'] = d['title']
                 row['created'] = d['create_time']
                 row['duration'] = d['duration']
@@ -329,117 +329,6 @@ class TiktokAPI:
                 'msg': msg,
                 anchor[0]: anchor[1]}
 
-
-
-    """
-    @staticmethod
-    def _fetch_multi(url: str,
-                     params: dict[str, Any],
-                     type_data: Type[DataAudit],
-                     type_list: Type[DataList]) -> list[dict[str, Any]]:
-        has_more = True
-        cursor = 0
-        rows_added = 1
-        rows: list[dict[str, Any]] = list()
-        gen = type_data.Gen
-        while has_more and rows_added:
-            rows_added = 0
-            params['cursor'] = cursor
-            response: ResponseAPI = RequestGet.get(url=url,
-                                                   params=params,
-                                                   headers=TiktokAPI._HEADERS)
-            # Check if the response is ok.
-            if not response:
-                return [gen.not_ok(status_code=response.status,
-                                   params=params)]
-            # Check if the user is found.
-            if not response.is_found:
-                return [gen.not_found(params=params)]
-            # Try fill the data.
-            try:
-                print('try')
-                print(type(type_list))
-                model = type_list()
-                print('model')
-                model = model.model_validate(response.data)
-                rows_new = model.to_list()
-                rows.extend(rows_new)
-                rows_added += len(rows_new)
-                has_more = model.has_more
-                cursor = model.cursor
-            except Exception as e:
-                print(e)
-                return [gen.broken(msg=str(e), params=params)]
-        return rows
-    """
-
-    @staticmethod
-    def old_videos_by_user(id_user: str) -> list[dict[str, Any]]:
-        """
-        ========================================================================
-         Fetch videos by user id.
-        ========================================================================
-        """
-        url = 'https://tiktok-video-no-watermark2.p.rapidapi.com/user/posts'
-        has_more = True
-        cursor = 0
-        rows_added = 1
-        rows: list[dict[str, Any]] = list()
-        while has_more and rows_added:
-            rows_added = 0
-            params = {'user_id': id_user, 'count': 50, 'cursor': cursor}
-            response: ResponseAPI = RequestGet.get(url=url,
-                                                   params=params,
-                                                   headers=TiktokAPI._HEADERS)
-            if response:
-                if response.is_found:
-                    try:
-                        code = response.data['code']
-                        msg = response.data['msg']
-                        cursor = response.data['data']['cursor']
-                        has_more = response.data['data']['hasMore']
-                        for d in response.data['data']['videos']:
-                            row: dict[str, Any] = {'id_user': id_user,
-                                                   'status_code': code,
-                                                   'msg': msg,
-                                                   'is_ok': True,
-                                                   'is_found': True}
-                            row['id_music'] = d['music_info']['id']
-                            row['id_video'] = d['video_id']
-                            row['created'] = d['create_time']
-                            row['region'] = d['region']
-                            row['title'] = d['title']
-                            row['duration'] = d['duration']
-                            row['plays'] = d['play_count']
-                            row['shares'] = d['share_count']
-                            row['diggs'] = d['digg_count']
-                            row['comments'] = d['comment_count']
-                            row['downloads'] = d['download_count']
-                            row['is_ad'] = d['is_ad']
-                            row['play'] = d['play']
-                            row['is_broken'] = False
-                            rows.append(row)
-                            rows_added += 1
-                    except Exception:
-                        row = {'id_user': id_user,
-                               'status_code': code,
-                               'msg': msg,
-                               'is_ok': True,
-                               'is_found': True,
-                               'is_broken': True}
-                        rows.append(row)
-                else:
-                    row = {'id_user': id_user,
-                           'status_code': response.status,
-                           'is_ok': True,
-                           'is_found': False}
-                    rows.append(row)
-            else:
-                row = {'id_user': id_user,
-                       'status_code': response.status,
-                       'is_ok': False}
-                rows.append(row)
-        return rows
 
     @staticmethod
     def videos_by_music(id_music: str) -> list[dict[str, Any]]:
