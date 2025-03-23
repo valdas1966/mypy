@@ -6,7 +6,7 @@ from datetime import datetime
 from random import randint
 
 
-rows = 5
+rows = 6
 epochs = 1000000
 n_starts = 2
 
@@ -37,7 +37,7 @@ def run(rows: int, epochs: int) -> list[tuple[Problem, int, list[Node]]]:
         algo_without = _gen_algo(problem=problem, with_boundary=False)
         sol_without = algo_without.run()
         delta = sol_with.explored - sol_without.explored
-        if delta != 0:
+        if delta > 0:
             start_1, start_2 = problem.starts
             if problem.graph.distance(start_1, start_2) > 0:
                 example = (problem, delta)

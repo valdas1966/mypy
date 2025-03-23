@@ -160,7 +160,11 @@ class TiktokAPI:
             for d in data:
                 row: dict[str, Any] = dict()
                 row['id_hashtag'] = id_hashtag
+                row['id_user'] = d['author']['id']
+                row['id_user_unique'] = d['author']['unique_id']
+                row['nick'] = d['author']['nickname']
                 row['id_video'] = d['video_id']
+                row['region'] = d['author']['region']
                 row['title'] = d['title']
                 row['created'] = d['create_time']
                 row['duration'] = d['duration']

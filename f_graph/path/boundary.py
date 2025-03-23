@@ -31,17 +31,43 @@ class Boundary(Dictable[Node, int]):
          Build the Boundary from the Path.
         ====================================================================
         """        
+        # If the cache is not provided, create a new one
         cache = cache if cache else Cache()
+        # Initialize the boundary
         boundary = cls()
+        # Iterate over the path nodes
         for node in path:
+            # Get the children of the node
             children = graph.children(node=node)
+            # Iterate over the children
             for child in children:
+                # If the child is in the cache, skip it
                 if child in cache:
                     continue
+                # Get the lower bound of the child
                 bound = path.goal.g - node.g - 1
+                # If the child is in the boundary, update the bound
                 if child in boundary:
                     boundary[child] = min(boundary[child], bound)
+                # Otherwise, add the child to the boundary
                 else:
                     boundary[child] = bound
+                """
+                # Get the grandchildren of the child
+                grandchildren = graph.children(node=child)
+                # Iterate over the grandchildren
+                for grandchild in grandchildren:
+                    # If the grandchild is in the cache, skip it
+                    if grandchild in cache:
+                        continue
+                    # Get the lower bound of the grandchild
+                    grandbound = bound - 1
+                    # If the grandchild is in the boundary, update the bound
+                    if grandchild in boundary:
+                        boundary[grandchild] = min(boundary[grandchild], grandbound)
+                    # Otherwise, add the grandchild to the boundary
+                    else:
+                        boundary[grandchild] = grandbound
+                """
         return boundary
         

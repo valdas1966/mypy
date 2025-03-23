@@ -8,7 +8,7 @@ from datetime import datetime
 import pandas as pd
 
 
-cd = 'd'
+cd = 'g'
 folder_maps = f'{cd}:\\temp\\boundary\\maps'
 folder_graphs = f'{cd}:\\temp\\boundary\\graphs'
 pickle_graphs = f'{cd}:\\temp\\boundary\\maps.pkl'
@@ -85,7 +85,7 @@ def experiments_to_csv() -> None:
         sol_with = algo_with.run()
         row['elapsed_with'] = round(sol_with.elapsed, 2)
         row['explored_with'] = sol_with.explored
-        start_first = sol_with.order[0]
+        start_first = problem.starts[0]
         row['h_start_goal'] = problem.graph.distance(node_a=start_first,
                                                      node_b=problem.goal)
         row['d_start_goal'] = len(sol_with.paths[start_first])
@@ -95,6 +95,6 @@ def experiments_to_csv() -> None:
     df.to_csv(csv_results, index=False)
 
 
-graphs_to_pickle()
-problems_to_pickle()
+# graphs_to_pickle()
+# problems_to_pickle()
 experiments_to_csv()
