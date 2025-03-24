@@ -5,14 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_ds/queues/generators/g_1_list.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/queues/i_1_list.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/queues/testers/t_1_list.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/processes/generators/g_2_multi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/processes/generators/g_2_sequence.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/processes/i_2_multi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/processes/i_2_sequence.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/processes/mixins/has_verbose.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/processes/u_multi_threading.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/groups/testers/t_group.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_proj.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/processes/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/processes/i_0_abc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/processes/i_1_input.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/processes/i_1_input.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/groups/generators/g_group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/groups/generators/g_group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/groups/group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/groups/group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_cross_maps.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_cross_maps.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_find_examples.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_find_examples.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/state.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/flow.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/flow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_one/ops.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -189,6 +199,7 @@
     "Python tests.Python tests for t_grid.test_random_cell_percentile.executor": "Run",
     "Python tests.Python tests for t_grid.test_random_cells_within_distance.executor": "Run",
     "Python tests.Python tests for t_grid.test_random_cells_within_percentile.executor": "Run",
+    "Python tests.Python tests for t_group.test_group_distribute.executor": "Run",
     "Python tests.Python tests for t_groupable.test_groupable.executor": "Run",
     "Python tests.Python tests for t_has_children.test_add_child.executor": "Run",
     "Python tests.Python tests for t_has_children.test_children_getter.executor": "Run",
@@ -493,6 +504,8 @@
     "Python.g_2_cell.executor": "Run",
     "Python.g_2_container.executor": "Run",
     "Python.g_2_grid.executor": "Run",
+    "Python.g_2_multi.executor": "Run",
+    "Python.g_2_sequence.executor": "Run",
     "Python.g_2_user_by_id.executor": "Run",
     "Python.g_algo.executor": "Run",
     "Python.g_api_new (1).executor": "Run",
@@ -547,6 +560,7 @@
     "Python.i_2_cell.executor": "Run",
     "Python.i_2_f_cell.executor": "Run",
     "Python.i_2_grid.executor": "Run",
+    "Python.i_2_multi.executor": "Run",
     "Python.insert_into_tables.executor": "Run",
     "Python.layout.executor": "Run",
     "Python.listable.executor": "Run",
@@ -714,8 +728,8 @@
       <recent name="G:\mypy\f_gui\components" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.videos_by_hashtag">
-    <configuration name="e_find_examples" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.g_2_sequence">
+    <configuration name="e_cross_maps" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -728,7 +742,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_find_examples.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_cross_maps.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -737,7 +751,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="videos_by_hashtag" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="e_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -746,11 +760,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_by_hashtag.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -759,58 +773,86 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_1_list.test_update" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="g_2_multi" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/queues/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_core/processes/generators" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_1_list.test_update&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_core/processes/generators/g_2_multi.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_1_list.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="g_2_sequence" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/queues/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_core/processes/generators" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/queues/testers/t_1_list.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_core/processes/generators/g_2_sequence.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_algo.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="i_2_multi" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_core/processes" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/testers/t_algo.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_core/processes/i_2_multi.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.g_2_multi" />
+      <item itemvalue="Python.g_2_sequence" />
+      <item itemvalue="Python.i_2_multi" />
+      <item itemvalue="Python.e_cross_maps" />
+      <item itemvalue="Python.e_test" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.videos_by_hashtag" />
-        <item itemvalue="Python.e_find_examples" />
-        <item itemvalue="Python tests.Python tests in t_algo.py" />
-        <item itemvalue="Python tests.Python tests in t_1_list.py" />
-        <item itemvalue="Python tests.Python tests for t_1_list.test_update" />
+        <item itemvalue="Python.g_2_sequence" />
+        <item itemvalue="Python.g_2_multi" />
+        <item itemvalue="Python.i_2_multi" />
+        <item itemvalue="Python.e_cross_maps" />
+        <item itemvalue="Python.e_test" />
       </list>
     </recent_temporary>
   </component>
@@ -829,14 +871,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00137" summary="h">
-      <option name="closed" value="true" />
-      <created>1738672936873</created>
-      <option name="number" value="00137" />
-      <option name="presentableId" value="LOCAL-00137" />
-      <option name="project" value="LOCAL" />
-      <updated>1738672936873</updated>
     </task>
     <task id="LOCAL-00138" summary="h">
       <option name="closed" value="true" />
@@ -1222,7 +1256,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742704204322</updated>
     </task>
-    <option name="localTasksCounter" value="186" />
+    <task id="LOCAL-00186" summary="h">
+      <option name="closed" value="true" />
+      <created>1742820762554</created>
+      <option name="number" value="00186" />
+      <option name="presentableId" value="LOCAL-00186" />
+      <option name="project" value="LOCAL" />
+      <updated>1742820762554</updated>
+    </task>
+    <option name="localTasksCounter" value="187" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

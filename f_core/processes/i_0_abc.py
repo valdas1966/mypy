@@ -2,9 +2,11 @@ from abc import abstractmethod
 from time import time
 from f_core.mixins.has_name import HasName
 from f_core.mixins.validatable import Validatable
+from f_core.processes.mixins.has_verbose import HasVerbose
+from f_utils import u_datetime
 
 
-class ProcessABC(HasName, Validatable):
+class ProcessABC(HasName, HasVerbose, Validatable):
     """
     ============================================================================
      ABC of Process-Classes.
@@ -12,6 +14,7 @@ class ProcessABC(HasName, Validatable):
     """
 
     def __init__(self,
+                 verbose: bool = True,
                  name: str = 'Process') -> None:
         """
         ========================================================================
@@ -19,6 +22,7 @@ class ProcessABC(HasName, Validatable):
         ========================================================================
         """
         HasName.__init__(self, name=name)
+        HasVerbose.__init__(self, verbose=verbose)
         Validatable.__init__(self)
         self._elapsed: float | None = None
         self._time_start = None
@@ -40,7 +44,10 @@ class ProcessABC(HasName, Validatable):
         ========================================================================
         """
         self._elapsed = None
-        self._time_start = time()
+        self._time_start: float = time()
+        if self.verbose:
+            print(f'[{u_datetime.now()}] Start Process: {self.name}')
+
 
     @abstractmethod
     def run(self) -> None:
@@ -59,3 +66,6 @@ class ProcessABC(HasName, Validatable):
         """
         self._time_finish = time()
         self._elapsed = self._time_finish - self._time_start
+        if self.verbose:
+            print(f'[{u_datetime.now()}] Finish Process: {self.name}')
+

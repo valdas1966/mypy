@@ -1,32 +1,24 @@
-from f_core.processes.i_0_abc import ProcessABC
-from typing import Generic, TypeVar
 
-Input = TypeVar('Input')
-
-
-class ProcessInput(Generic[Input], ProcessABC):
+class HasVerbose:
     """
     ============================================================================
-     ABC for Processes with Input.
+     Mixin for Processes with Verbose-Attribute.
     ============================================================================
     """
 
-    def __init__(self,
-                 _input: Input,
-                 name: str = 'Process Input') -> None:
+    def __init__(self, verbose: bool = True) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        ProcessABC.__init__(self, name=name)
-        self._input = _input
+        self._verbose = verbose
 
     @property
-    def input(self) -> Input:
+    def verbose(self) -> bool:
         """
         ========================================================================
-         Return the Input of the Process.
+         Get the Verbose-Attribute.
         ========================================================================
         """
-        return self._input
+        return self._verbose

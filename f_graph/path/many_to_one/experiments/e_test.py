@@ -9,17 +9,17 @@ from f_graph.path.boundary import Boundary
 # Create a grid
 grid = GenGrid.gen_random(rows=6, pct_invalid=0)
 # Add obstacles
-obstacles = [grid[1][0], grid[1][1], grid[2][4], grid[3][1],
-             grid[4][2], grid[5][1], grid[5][5]]
+obstacles = [grid[0][3], grid[0][5], grid[1][4], grid[3][3],
+             grid[4][3], grid[4][4], grid[5][2]]
 Cell.invalidate(obstacles)
 # Create a graph
 graph = GraphPath(grid=grid)
 # Create starts
-start_1 = graph[0, 4]
-start_2 = graph[1, 5]
+start_1 = graph[1, 1]
+start_2 = graph[2, 0]
 starts = [start_1, start_2]
 # Create a goal
-goal = graph[4, 1]
+goal = graph[5, 3]
 # Create problems
 problem = ProblemManyToOne(graph=graph, starts=starts, goal=goal)
 problem_with = problem.clone()
@@ -43,8 +43,6 @@ for node in sorted(sol_without.states[start_2].generated):
 print('Best Without:')
 print(sol_without.states[start_2].best.print_details())
 
-exit(1)
-
 # Run the algorithm with boundary
 print('With:')
 algo_with = AlgoManyToOne(problem=problem_with, with_boundary=True)
@@ -52,7 +50,6 @@ sol_with = algo_with.run()
 print(f'{len(sol_with.states[start_1].explored)}'
       f' + {len(sol_with.states[start_2].explored)} = {sol_with.explored}')
 
-"""
 print('Explored With:')
 for node in sorted(sol_with.states[start_2].explored):
       node.print_details()
@@ -61,4 +58,3 @@ for node in sorted(sol_with.states[start_2].generated):
       node.print_details()
 print('Best With:')
 print(sol_with.states[start_2].best.print_details())
-"""

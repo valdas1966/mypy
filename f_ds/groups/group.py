@@ -3,6 +3,7 @@ from collections import UserList
 from f_core.mixins.has_name import HasName
 from f_utils.dtypes.u_seq import USeq
 from typing import TypeVar, Callable, Sequence
+from math import ceil
 
 Item = TypeVar('Item')
 
@@ -64,6 +65,29 @@ class Group(HasName, UserList[Item]):
         self.remove(item)
         self.insert(index, item)
 
+    def distribute(self, n: int) -> list[Group[Item]]:
+        """
+        ========================================================================
+         Distribute the items into n groups.
+        ========================================================================
+        """
+        size: int = ceil(len(self.data) / n)
+        groups: list[Group[Item]] = list()
+        for i in range(n):
+            # Name of the group
+            name = f'{self.name}[{i+1}]' if self.name else self.name
+            # First index of the group
+            first = i * size
+            # Last index of the group
+            last = first + size
+            # Data of the group
+            data = self.data[first:last]
+            # Create the group
+            group = Group(name=name, data=data)
+            # Append the group to the list
+            groups.append(group)
+        return groups
+
     def display(self) -> None:
         """
         ========================================================================
@@ -111,3 +135,16 @@ class Group(HasName, UserList[Item]):
         for g in groups:
             group += g.data
         return group
+    
+    @classmethod
+    def to_groups(cls,
+                  data: Sequence[Item],
+                  n: int,
+                  name: str = None) -> list[Group[Item]]:
+        """
+        ========================================================================
+         Convert a sequence of items into a list of groups.
+        ========================================================================
+        """
+        group = Group(name=name, data=data)
+        return group.distribute(n=n)

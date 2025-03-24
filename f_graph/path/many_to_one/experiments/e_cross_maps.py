@@ -8,12 +8,12 @@ from datetime import datetime
 import pandas as pd
 
 
-cd = 'g'
+cd = 'd'
 folder_maps = f'{cd}:\\temp\\boundary\\maps'
 folder_graphs = f'{cd}:\\temp\\boundary\\graphs'
 pickle_graphs = f'{cd}:\\temp\\boundary\\maps.pkl'
 pickle_problems = f'{cd}:\\temp\\boundary\\problems.pkl'
-csv_results = f'{cd}:\\temp\\boundary\\results.csv'
+csv_results = f'{cd}:\\temp\\boundary\\results_always.csv'
 
 
 def graphs_to_pickle() -> None:
@@ -58,10 +58,13 @@ def experiments_to_csv() -> None:
     ========================================================================
     """
     problems = u_pickle.load(path=pickle_problems)
-    df = pd.DataFrame(columns=['domain', 'map', 'n_starts', 'density_start',
-                               'elapsed_with', 'explored_with',
-                               'h_start_goal', 'd_start_goal',
-                               'elapsed_without', 'explored_without'])
+    df = pd.DataFrame(columns=['domain', 'map', 'rows', 'cols',
+                               'total', 'nodes', 'pct_nodes', 'n_starts',
+                               'density_start',
+                               'h_start_goal', 'd_start_goal', 'pct_start_goal',
+                               'explored_with', 'explored_without',
+                               'pct_explored', 'elapsed with',
+                               'elapsed_without', 'pct_elapsed'])
     for i, problem in enumerate(problems):
         graph_name, starts, goal = problem
         pickle_graph = f'{folder_graphs}\\{graph_name}.pkl'
@@ -69,7 +72,13 @@ def experiments_to_csv() -> None:
         problem = Problem(graph=graph, starts=starts, goal=goal)
         row = {'domain': problem.graph.domain,
                'map': problem.graph.name,
-               'n_starts': len(problem.starts)}
+               'n_starts': len(problem.starts),
+               'rows': problem.graph.grid.rows,
+               'cols': problem.graph.grid.cols,
+               'total': problem.graph.grid.rows * problem.graph.grid.cols,
+               'nodes': len(problem.graph),
+               'pct_nodes': round(len(problem.graph) / (
+                       problem.graph.grid.rows * problem.graph.grid.cols), 2),}
         row['density_start'] = problem.graph.distance_avg(nodes=problem.starts)
         algo_without = AlgoManyToOne(problem=problem,
                                      type_algo=TypeAlgo.A_STAR,
@@ -89,6 +98,9 @@ def experiments_to_csv() -> None:
         row['h_start_goal'] = problem.graph.distance(node_a=start_first,
                                                      node_b=problem.goal)
         row['d_start_goal'] = len(sol_with.paths[start_first])
+        row['pct_start_goal'] = round(row['h_start_goal'] / row['d_start_goal'], 2)
+        row['pct_explored'] = round(row['explored_with'] / row['explored_without'], 2)
+        row['pct_elapsed'] = round(row['elapsed_with'] / row['elapsed_without'], 2)
         df = df._append(row, ignore_index=True)
         print(datetime.now().strftime("%H:%M:%S"),
               f'[{i}/{len(problems)}]')

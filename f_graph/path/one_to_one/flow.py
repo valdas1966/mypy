@@ -48,18 +48,7 @@ class FlowOneToOne:
         # print('Select Best')
         # for node in sorted(self._state.generated):
         #     node.print_details()
-        nodes = list(sorted(self._state.generated))
-        node_first = nodes[0]
-        if node_first.cell.to_tuple() == (4, 4):
-            if self._problem.start.cell.to_tuple() == (1, 5):
-                from f_utils import u_pickle
-                u_pickle.dump(obj=self._state.generated, path='g:\\temp\\generated.pkl')
-                exit(1)
         self._state.best = self._state.generated.pop()
-        #self._state.generated.push(self._state.best)
-        #self._state.best = self._state.generated.pop()
-        #self._state.generated.push(self._state.best)
-        #self._state.best = self._state.generated.pop()
 
     def is_path_found(self) -> bool:
         """
