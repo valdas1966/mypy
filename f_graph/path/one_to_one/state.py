@@ -1,7 +1,7 @@
 from f_core.components.enum_callable import EnumCallable
 from f_ds.queues.i_0_base import QueueBase
 from f_ds.queues.i_1_fifo import QueueFIFO
-from f_ds.queues.i_1_priority import QueuePriority
+from f_ds.queues.i_1_list import QueueList
 from f_graph.path.node import NodePath as Node
 
 
@@ -12,7 +12,7 @@ class TypeQueue(EnumCallable):
     ============================================================================
     """
     FIFO = QueueFIFO
-    PRIORITY = QueuePriority
+    PRIORITY = QueueList
 
 
 class StateOneToOne:

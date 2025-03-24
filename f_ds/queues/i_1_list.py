@@ -1,69 +1,79 @@
-from abc import abstractmethod
-from typing import Generic, TypeVar
-from f_core.mixins.has_name import HasName
-from f_ds.mixins.collectionable import Collectionable
+from f_ds.queues.i_0_base import QueueBase
+from enum import Enum, auto
+from typing import TypeVar, Iterable
 
 Item = TypeVar('Item')
 
 
-class QueueBase(Generic[Item], Collectionable[Item], HasName):
+class TypePriority(Enum):
+        """
+        ========================================================================
+         Type of Priority.
+        ========================================================================
+        """
+        MIN = auto()
+        MAX = auto()
+
+class QueueList(QueueBase[Item]):
     """
     ============================================================================
-     Abstract-Class of Queue.
+     Queue-Class based on List.
     ============================================================================
     """
 
-    def __init__(self, name: str = None) -> None:
+    def __init__(self,
+                 name: str = None,
+                 priority: TypePriority = TypePriority.MIN) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        HasName.__init__(self, name=name)
+        QueueBase.__init__(self, name=name)
+        self._items: list[Item] = list()
+        self._priority: TypePriority = priority
 
-    @abstractmethod
     def push(self, item: Item) -> None:
         """
         ========================================================================
          Push an Element into the Queue.
         ========================================================================
         """
-        pass
+        self._items.append(item)    
 
-    @abstractmethod
     def pop(self) -> Item:
         """
         ========================================================================
          Pop an Element from the Queue.
         ========================================================================
         """
-        pass
+        self.update()
+        return self._items.pop(0)
 
-    @abstractmethod
     def peek(self) -> Item:
         """
         ========================================================================
          Return the next Element in the Queue without removing it.
         ========================================================================
         """
-        pass
-
+        self.update()
+        return self._items[0]
+    
     def update(self) -> None:
         """
         ========================================================================
          Update the Queue.
         ========================================================================
         """
-        pass
+        if self._priority == TypePriority.MIN:
+            self._items.sort()
+        else:
+            self._items.sort(reverse=True)
 
-    def __str__(self) -> str:
+    def to_iterable(self) -> Iterable[Item]:
         """
         ========================================================================
-         Return STR-REPR of the Queue.
-        ------------------------------------------------------------------------
-         Ex: Name[1, 2]
+         Return the Items of the Queue as an Iterable.
         ========================================================================
         """
-        return f'{HasName.__str__(self)}{Collectionable.__str__(self)}'
-
-
+        return self._items  
