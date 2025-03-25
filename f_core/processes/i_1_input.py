@@ -13,13 +13,14 @@ class ProcessInput(Generic[Input], ProcessABC):
 
     def __init__(self,
                  _input: Input,
+                 verbose: bool = True,
                  name: str = 'Process Input') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        ProcessABC.__init__(self, name=name)
+        ProcessABC.__init__(self, verbose=verbose, name=name)
         self._input = _input
 
     @property

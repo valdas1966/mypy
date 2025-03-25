@@ -17,10 +17,11 @@ class ProcessIO(Generic[Input, Output],
 
     def __init__(self,
                  _input: Input,
+                 verbose: bool = True,
                  name: str = 'Process IO') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        ProcessInput.__init__(self, _input=_input, name=name)
+        ProcessInput.__init__(self, _input=_input, verbose=verbose, name=name)

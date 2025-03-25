@@ -22,6 +22,7 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
                  is_eager: bool = False,
                  is_shared: bool = True,
                  with_boundary: bool = False,
+                 verbose: bool = True,
                  name: str = 'Path-Algo Many-To-One') -> None:
         """
         ========================================================================
@@ -30,6 +31,7 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
         """
         AlgoPath.__init__(self,
                           problem=problem,
+                          verbose=verbose,
                           name=name)
         self._cache = cache if cache else Cache()
         self._type_algo = type_algo
@@ -53,7 +55,8 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
                                 cache=self._cache,
                                 type_algo=self._type_algo,
                                 boundary=self._boundary,
-                                is_shared=False)
+                                is_shared=False,
+                                verbose=self.verbose)
             solution = algo.run()
             sols[problem.start] = solution
             # If path is not found, return invalid MTO Solution

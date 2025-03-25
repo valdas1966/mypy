@@ -8,12 +8,12 @@ from datetime import datetime
 import pandas as pd
 
 
-cd = 'd'
+cd = 'g'
 folder_maps = f'{cd}:\\temp\\boundary\\maps'
 folder_graphs = f'{cd}:\\temp\\boundary\\graphs'
 pickle_graphs = f'{cd}:\\temp\\boundary\\maps.pkl'
 pickle_problems = f'{cd}:\\temp\\boundary\\problems.pkl'
-csv_results = f'{cd}:\\temp\\boundary\\results_always.csv'
+csv_results = f'{cd}:\\temp\\boundary\\results_only.csv'
 
 
 def graphs_to_pickle() -> None:
@@ -64,7 +64,7 @@ def experiments_to_csv() -> None:
                                'h_start_goal', 'd_start_goal', 'pct_start_goal',
                                'explored_with', 'explored_without',
                                'pct_explored', 'elapsed with',
-                               'elapsed_without', 'pct_elapsed'])
+                               'elapsed_without', 'pct_elapsed', 'all_found'])
     for i, problem in enumerate(problems):
         graph_name, starts, goal = problem
         pickle_graph = f'{folder_graphs}\\{graph_name}.pkl'
@@ -83,22 +83,25 @@ def experiments_to_csv() -> None:
         algo_without = AlgoManyToOne(problem=problem,
                                      type_algo=TypeAlgo.A_STAR,
                                      is_shared=True,
-                                     with_boundary=False)
+                                     with_boundary=False,
+                                     verbose=False)
         sol_without = algo_without.run()
         row['elapsed_without'] = round(sol_without.elapsed, 2)
         row['explored_without'] = sol_without.explored
         algo_with = AlgoManyToOne(problem=problem,
                                   type_algo=TypeAlgo.A_STAR,
                                   is_shared=True,
-                                  with_boundary=True)
+                                  with_boundary=True,
+                                  verbose=False)
         sol_with = algo_with.run()
+        row['all_found'] = bool(sol_with)
         row['elapsed_with'] = round(sol_with.elapsed, 2)
         row['explored_with'] = sol_with.explored
         start_first = problem.starts[0]
         row['h_start_goal'] = problem.graph.distance(node_a=start_first,
                                                      node_b=problem.goal)
         row['d_start_goal'] = len(sol_with.paths[start_first])
-        row['pct_start_goal'] = round(row['h_start_goal'] / row['d_start_goal'], 2)
+        row['pct_start_goal'] = round(row['h_start_goal'] / row['d_start_goal'], 2) if row['d_start_goal'] else 0
         row['pct_explored'] = round(row['explored_with'] / row['explored_without'], 2)
         row['pct_elapsed'] = round(row['elapsed_with'] / row['elapsed_without'], 2)
         df = df._append(row, ignore_index=True)

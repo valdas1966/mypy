@@ -16,11 +16,12 @@ class Algo(Generic[Problem, Solution],
     """
     def __init__(self,
                  problem: ProblemAlgo,
+                 verbose: bool = True,
                  name: str = 'Algorithm') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        ProcessIO.__init__(self, _input=problem, name=name)
+        ProcessIO.__init__(self, _input=problem, verbose=verbose, name=name)
         self._problem = problem

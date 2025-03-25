@@ -35,6 +35,7 @@ class AlgoOneToOne(AlgoPath[Problem, Solution]):
                  state: State = None,
                  boundary: Boundary = None,
                  is_shared: bool = False,
+                 verbose: bool = True,
                  name: str = 'Path-Algorithm One-to-One') -> None:
         """
         ========================================================================
@@ -47,7 +48,7 @@ class AlgoOneToOne(AlgoPath[Problem, Solution]):
             type_queue = TypeQueue.FIFO
             type_heuristic = TypeHeuristic.ZERO
         problem = problem if is_shared else problem.clone()
-        AlgoPath.__init__(self, problem=problem, name=name)
+        AlgoPath.__init__(self, problem=problem, verbose=verbose, name=name)
         self._cache = cache if cache else Cache()
         self._state = state if state else State(type_queue=type_queue)
         self._boundary = boundary if boundary else Boundary()

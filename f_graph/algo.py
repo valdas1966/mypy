@@ -18,10 +18,11 @@ class AlgoGraph(Generic[Problem, Solution, Node],
 
     def __init__(self,
                  problem: Problem,
+                 verbose: bool = True,
                  name: str = 'Graph-Algorithm') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        Algo.__init__(self, problem=problem, name=name)
+        Algo.__init__(self, problem=problem, verbose=verbose, name=name)

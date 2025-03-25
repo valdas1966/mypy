@@ -21,6 +21,7 @@ class AlgoPath(Generic[Problem, Solution],
     def __init__(self,
                  problem: Problem,
                  is_eager: bool = False,
+                 verbose: bool = True,
                  name: str = 'Path-Algorithm') -> None:
         """
         ========================================================================
@@ -28,4 +29,4 @@ class AlgoPath(Generic[Problem, Solution],
         ========================================================================
         """
         HasEager.__init__(self, is_eager=is_eager)
-        AlgoGraph.__init__(self, problem=problem, name=name)
+        AlgoGraph.__init__(self, problem=problem, verbose=verbose, name=name)
