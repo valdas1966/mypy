@@ -46,8 +46,7 @@ class ProcessABC(HasName, HasVerbose, Validatable):
         self._elapsed = None
         self._time_start: float = time()
         if self.verbose:
-            print(f'[{u_datetime.now()}] Start Process: {self.name}')
-
+            print(f'[{u_datetime.now()}] Start: {self.name}')
 
     @abstractmethod
     def run(self) -> None:
@@ -67,5 +66,5 @@ class ProcessABC(HasName, HasVerbose, Validatable):
         self._time_finish = time()
         self._elapsed = self._time_finish - self._time_start
         if self.verbose:
-            print(f'[{u_datetime.now()}] Finish Process: {self.name}')
+            print(f'[{u_datetime.now()}] Finish: {self.name}')
 
