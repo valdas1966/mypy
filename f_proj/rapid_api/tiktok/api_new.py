@@ -96,6 +96,7 @@ class TiktokAPI:
                 row['id_user'] = id_user
                 row['id_music'] = d['music_info']['id']
                 row['id_video'] = d['video_id']
+                row['region'] = str(d['region'])    
                 row['title'] = d['title']
                 row['created'] = d['create_time']
                 row['duration'] = d['duration']
