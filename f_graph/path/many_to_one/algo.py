@@ -1,5 +1,6 @@
 from f_graph.path.one_to_one.solution import SolutionOneToOne as Solution
 from f_graph.path.one_to_one.algo import AlgoOneToOne, TypeAlgo
+from f_graph.path.heuristic import Heuristic, TypeHeuristic
 from f_graph.path.many_to_one.problem import ProblemManyToOne, Node
 from f_graph.path.solutions import SolutionsPath as Solutions
 from f_graph.path.boundary import Boundary
@@ -21,7 +22,7 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
                  boundary: Boundary = None,
                  is_eager: bool = False,
                  is_shared: bool = True,
-                 with_boundary: bool = False,
+                 depth_boundary: int = 0,
                  verbose: bool = True,
                  name: str = 'Path-Algo Many-To-One') -> None:
         """
@@ -38,7 +39,7 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
         self._is_shared = is_shared
         self._boundary = boundary if boundary else Boundary()
         self._is_eager = is_eager
-        self._with_boundary = with_boundary
+        self._depth_boundary = depth_boundary
 
     def run(self) -> Solutions:
         """
@@ -56,7 +57,7 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
                                 type_algo=self._type_algo,
                                 boundary=self._boundary,
                                 is_shared=False,
-                                verbose=self.verbose)
+                                verbose=False)
             solution = algo.run()
             sols[problem.start] = solution
             # If path is not found, return invalid MTO Solution
@@ -67,10 +68,15 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
             if self._is_shared and i < len(problems) - 1:
                 cache_sol = Cache.from_path(path=solution.path)
                 self._cache.update(cache_sol)
-                if self._with_boundary:
+                if self._depth_boundary:
+                    heuristic = Heuristic(graph=problem.graph,
+                                          goal=problem.goal,
+                                          type_heuristic=TypeHeuristic.MANHATTAN)
                     boundary_sol = Boundary.from_path(path=solution.path,
                                                       graph=problem.graph,
-                                                      cache=self._cache)
+                                                      heuristic=heuristic,
+                                                      cache=self._cache,
+                                                      depth=self._depth_boundary)
                     self._boundary.update(boundary_sol)
         # Return valid MTO Solution.
         return Solutions(is_valid=True, sols=sols)
