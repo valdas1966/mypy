@@ -2,7 +2,7 @@ from f_graph.path.one_to_one.solution import SolutionOneToOne as Solution
 from f_graph.path.one_to_one.algo import AlgoOneToOne, TypeAlgo
 from f_graph.path.heuristic import Heuristic, TypeHeuristic
 from f_graph.path.many_to_one.problem import ProblemManyToOne, Node
-from f_graph.path.solutions import SolutionsPath as Solutions
+from f_graph.path.many_to_one.solutions import SolutionsManyToOne as Solutions
 from f_graph.path.boundary import Boundary
 from f_graph.path.algo import AlgoPath
 from f_graph.path.cache import Cache
@@ -48,6 +48,7 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
         ========================================================================
         """
         sols: dict[Node, Solution] = dict()
+        exploited: set[Node] = set()
         # Divide the MTO-Problem into OTO-Problems.
         problems = self._problem.to_singles()
         for i, problem in enumerate(problems):
@@ -76,7 +77,14 @@ class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):
                                                       graph=problem.graph,
                                                       heuristic=heuristic,
                                                       cache=self._cache,
+                                                      exploited=exploited,
                                                       depth=self._depth_boundary)
+                    exploited.update(set(solution.path))
                     self._boundary.update(boundary_sol)
+                    for key, value in boundary_sol.stats_changed.items():
+                        self._boundary.stats_changed[key] += value
+
         # Return valid MTO Solution.
-        return Solutions(is_valid=True, sols=sols)
+        return Solutions(is_valid=True,
+                         sols=sols,
+                         changed=self._boundary.stats_changed)

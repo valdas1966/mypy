@@ -10,9 +10,10 @@ class StatsPath(StatsAlgo, Printable):
     """
 
     def __init__(self,
-                  elapsed: int = 0,
-                    generated: int = 0,
-                      explored: int = 0) -> None:
+                 elapsed: int = 0,
+                 generated: int = 0,
+                 explored: int = 0,
+                 changed: dict[int, int] = None) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -39,7 +40,7 @@ class StatsPath(StatsAlgo, Printable):
         ========================================================================
         """
         return self._explored
-
+    
     def __str__(self) -> str:
         """
         ========================================================================

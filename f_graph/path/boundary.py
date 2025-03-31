@@ -25,14 +25,6 @@ class Boundary(Dictable[Node, int]):
         self._stats_changed: dict[int, int] = defaultdict(int)
 
     @property
-    def stats_changed(self) -> dict[int, int]:
-        """
-        ====================================================================
-         Get the stats of the changed nodes.
-        ====================================================================
-        """
-        return self._stats_changed
-
     def changed(self) -> set[Node]:
         """
         ====================================================================
@@ -40,6 +32,15 @@ class Boundary(Dictable[Node, int]):
         ====================================================================
         """
         return self._changed
+    
+    @property
+    def stats_changed(self) -> dict[int, int]:
+        """
+        ====================================================================
+         Get the stats of the changed nodes.
+        ====================================================================
+        """
+        return self._stats_changed
     
     def add_changed(self, node: Node, depth: int) -> None:
         """
@@ -73,6 +74,7 @@ class Boundary(Dictable[Node, int]):
                   graph: Graph,
                   heuristic: Heuristic,
                   cache: Cache = None,
+                  exploited: set[Node] = None,    
                   depth: int = 1) -> Boundary:
         """
         ====================================================================
@@ -81,10 +83,14 @@ class Boundary(Dictable[Node, int]):
         """        
         # If the cache is not provided, create a new one
         cache = cache if cache else Cache()
+        # If the exploited set is not provided, create a new one
+        exploited = exploited if exploited else set()
         # Initialize the boundary
         boundary = cls()
         # Iterate over the path nodes
         for node in path:
+            if node in exploited:
+                continue
             # Get the children of the node
             children = graph.children(node=node)
             # Iterate over the children
@@ -96,23 +102,23 @@ class Boundary(Dictable[Node, int]):
                 bound = path.goal.g - node.g - 1
                 # If the child is not in the boundary, or the bound is lower than the
                 #  current bound, update the bound and add the child to the changed set
-                if child not in boundary or bound < boundary[child]:
+                if child not in boundary or bound > boundary[child]:
                     boundary[child] = bound
                     # If the bound is more reliable than the heuristic,
                     #  add the child to the changed set
                     if bound > heuristic(child):
                         boundary.add_changed(node=child, depth=1)
             for d in range(2, depth+1):
-                for node in list(boundary.changed()):
-                    children = graph.children(node=node)
+                for n in list(boundary.changed):
+                    bound = boundary[n] - 1
+                    children = graph.children(node=n)
                     for child in children:
                         if child in cache:
                             continue
-                        bound = boundary[node] - 1
-                        if child not in boundary or bound < boundary[child]:
+                        if child not in boundary or bound > boundary[child]:
                             boundary[child] = bound
                             if bound > heuristic(child):
                                 boundary.add_changed(node=child, depth=d)
-                    boundary.remove_changed(node=node)
+                    boundary.remove_changed(node=n)
         return boundary
         

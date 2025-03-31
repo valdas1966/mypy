@@ -330,7 +330,6 @@ class TiktokAPI:
                 'msg': msg,
                 anchor[0]: anchor[1]}
 
-
     @staticmethod
     def videos_by_music(id_music: str) -> list[dict[str, Any]]:
         """

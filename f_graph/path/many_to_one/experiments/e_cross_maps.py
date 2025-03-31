@@ -111,5 +111,5 @@ def experiments_to_csv() -> None:
 
 
 # graphs_to_pickle()
-# problems_to_pickle()
-experiments_to_csv()
+problems_to_pickle()
+# experiments_to_csv()
