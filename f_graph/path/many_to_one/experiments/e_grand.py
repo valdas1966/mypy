@@ -97,7 +97,9 @@ def cross_maps_to_csv() -> None:
         row: dict[str, int|float] = {'rows': graph.grid.rows,
                                      'cols': graph.grid.cols,
                                      'nodes': len(problem.graph),
-                                     'pct_nodes': round(len(problem.graph) / graph.grid.rows*graph.grid.cols, 2),
+                                     'pct_nodes': round(len(problem.graph) /
+                                                        (
+                                                                graph.grid.rows*graph.grid.cols), 2),
                                      'h_start_goal': problem.graph.distance(problem.starts[0], problem.goal)}
         for depth in range(6):
             algo = AlgoManyToOne(problem=problem,

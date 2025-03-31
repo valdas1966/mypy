@@ -186,6 +186,43 @@ class TiktokAPI:
                                       anchor=('id_hashtag', id_hashtag),
                                       name_list='videos',
                                       to_rows=to_rows)
+    
+    @staticmethod   
+    def followers_by_user(id_user: str) -> list[dict[str, Any]]:
+        """
+        ========================================================================
+         Fetch followers by user id.
+        ========================================================================
+        """
+        url = f'https://{TiktokAPI._HOST}/user/followers'
+        params = {'user_id': id_user, 'count': 50, 'time': 0}
+        def to_rows(data: list[dict[str, Any]]) -> list[dict[str, Any]]:
+            rows: list[dict[str, Any]] = list()
+            for d in data:
+                row: dict[str, Any] = dict()    
+                row['id_user'] = id_user
+                row['id_follower'] = d['id']
+                row['id_user_unique'] = d['unique_id']
+                row['nick'] = d['nickname']
+                row['region'] = d['region']
+                row['is_verified'] = d['verified']
+                row['is_secret'] = d['secret']
+                row['followers'] = d['follower_count']
+                row['following'] = d['following_count']
+                row['aweme'] = d['aweme_count']
+                row['favorited'] = d['total_favorited']
+                row['is_ok'] = True
+                row['is_found'] = True
+                row['is_broken'] = False
+                rows.append(row)
+            return rows 
+        return TiktokAPI._fetch_multi(url=url,
+                                      params=params,
+                                      anchor=('id_user', id_user),
+                                      name_list='followers',
+                                      name_cursor='time',
+                                      to_rows=to_rows)
+
 
     @staticmethod
     def _fetch_single(url: str,
@@ -226,6 +263,7 @@ class TiktokAPI:
                      anchor: tuple[str, str],
                      name_list: str,
                      to_rows: Callable[[dict[str, Any]], list[dict[str, Any]]],
+                     name_cursor: str = 'cursor',
                      limit: int = 100000) -> list[dict[str, Any]]:
         """
         ========================================================================
@@ -247,7 +285,7 @@ class TiktokAPI:
             # Reset the number of rows added
             rows_added = 0
             # Update the cursor in the params that will be sent to the API
-            params['cursor'] = cursor
+            params[name_cursor] = cursor
             # Fetch the data
             response: ResponseAPI = RequestGet.get(url=url, 
                                                    params=params,
@@ -262,7 +300,8 @@ class TiktokAPI:
             # Try to extract the data
             try:
                 data_list, has_more, cursor = cur._get_info(response=response,
-                                                            name_list=name_list)
+                                                            name_list=name_list,
+                                                            name_cursor=name_cursor)
                 # Convert the data to the desired format (list of dicts)
                 rows_new = to_rows(data=data_list)
                 # Add the new rows to the list
@@ -281,7 +320,8 @@ class TiktokAPI:
         
     @staticmethod
     def _get_info(response: ResponseAPI,
-                  name_list: str) -> tuple[list[dict[str, Any]], bool, int]:
+                  name_list: str,
+                  name_cursor: str = 'cursor') -> tuple[list[dict[str, Any]], bool, int]:
         """
         ========================================================================
          Get the info from the data.
@@ -289,7 +329,7 @@ class TiktokAPI:
         """
         data = response.data['data']
         has_more = data['hasMore']
-        cursor = data['cursor']
+        cursor = data[name_cursor]
         return data[name_list], has_more, cursor
 
     @staticmethod

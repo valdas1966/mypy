@@ -48,3 +48,27 @@ class UInt:
         ========================================================================
         """
         return n % 2 == 0
+
+    @staticmethod
+    def round_to_nearest_multiple(n: int, multiple: int) -> int:
+        """
+        ========================================================================
+         Round the integer `n` to the nearest multiple of `multiple`.
+        ========================================================================
+        """
+        if multiple == 0:
+            raise ValueError('Multiple must be non-zero')
+
+        # Remainder of the division
+        remainder = n % multiple
+        # Half of the multiple
+        half = multiple / 2
+
+        # Round down
+        if remainder < half:
+            return (n // multiple) * multiple
+        # Round up
+        else:
+            return ((n // multiple) + 1) * multiple
+
+

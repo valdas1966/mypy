@@ -31,16 +31,7 @@ class Schemas:
         schema.append(Fields.IS_OK)
         schema.append(Fields.INSERTED)
         return schema
-
-    @staticmethod
-    def followers() -> Schema:
-        tname = 'followers'
-        schema = Schemas._create_schema(tname=tname)
-        schema.append(Fields.ID_USER)
-        schema.append(Fields.ID_FOLLOWER)
-        schema.append(Fields.INSERTED)
-        return schema
-
+   
     @staticmethod
     def followers_todo() -> Schema:
         tname = 'followers_todo'
@@ -62,6 +53,43 @@ class Schemas:
         schema.append(Fields.ID_USER)
         return schema
 
+    @staticmethod
+    def followers() -> Schema:
+        tname = 'followers'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.ID_USER)
+        schema.append(Fields.ID_FOLLOWER)
+        schema.append(Fields.INSERTED)
+        return schema
+
+    @staticmethod
+    def followers_by_user() -> Schema:
+        """
+        ========================================================================
+         Return schema for table 'Followers_by_User'.
+        ========================================================================
+        """
+        tname = 'followers_by_user'
+        schema = Schemas._create_schema(tname=tname)
+        schema.extend(Fields.user_info())
+        schema.extend(Fields.user_stats())
+        schema.append(Fields.ID_FOLLOWER)
+        schema.append(Fields.REGION)
+        schema.extend(Fields.audit())
+        return schema
+    
+    @staticmethod   
+    def followers_by_user_todo() -> Schema:
+        """
+        ========================================================================
+         Return schema for table 'Followers_by_User_Todo'.
+        ========================================================================
+        """
+        tname = 'followers_by_user_todo'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.ID_USER)
+        return schema
+        
     @staticmethod
     def videos_by_music() -> Schema:
         tname = 'videos_by_music'
