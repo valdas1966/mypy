@@ -10,10 +10,10 @@ class GenDF:
     """
 
     @staticmethod
-    def format_col() -> pd.DataFrame:
+    def two_hands() -> pd.DataFrame:
         """
         ========================================================================
-         Format the column `col` to the nearest multiple.
+         Generate a DataFrame of 'two hands'.
         ========================================================================
         """
         x = [1, 2, 3, 4, 5]

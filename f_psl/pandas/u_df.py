@@ -18,6 +18,5 @@ class UDF:
         Format the column `col` to the nearest multiple.
         ========================================================================
         """
-        df[col] = UInt.round_to_nearest_multiple(n=df[col],
-                                                 multiple=multiple)
+        df[col] = (round(df[col] / multiple) * multiple).astype(int)
         return df
