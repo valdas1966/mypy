@@ -5,21 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_dv/generators/g_heat_map.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_dv/heat_map.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_dv_grand.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/followers_by_user.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/pandas/generators/g_pivot_table.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/pandas/testers/t_pivot_table.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/pandas/u_df.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/pandas/u_pivot_table.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_psl/pandas/generators/g_df.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/tables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/dtypes/testers/t_int.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/testers/t_int.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_utils/dtypes/u_int.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/dtypes/u_int.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -47,7 +35,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "ddaa2239-897e-4e37-90b9-04afc5364900"
+    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
   }
 }]]></component>
   <component name="ProjectColorInfo">{
@@ -379,6 +367,7 @@
     "Python tests.Python tests in t_cursorable.py.executor": "Run",
     "Python tests.Python tests in t_data.py (1).executor": "Run",
     "Python tests.Python tests in t_data.py.executor": "Run",
+    "Python tests.Python tests in t_df.py.executor": "Run",
     "Python tests.Python tests in t_dictable.py.executor": "Run",
     "Python tests.Python tests in t_enum_callable.py.executor": "Run",
     "Python tests.Python tests in t_field.py.executor": "Run",
@@ -741,30 +730,8 @@
       <recent name="G:\mypy\f_gui\components" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for t_int.test_round_to_nearest_multiple">
-    <configuration name="create_tables" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="e_cross_maps" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests in t_df.py">
+    <configuration name="e_cross_maps (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -786,7 +753,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="followers_by_user" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="e_grand" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -795,33 +762,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/followers_by_user.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="g_heat_map" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_dv/generators" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_dv/generators/g_heat_map.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -867,20 +812,35 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Python tests in t_df.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_psl/pandas/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_psl/pandas/testers/t_df.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <list>
-      <item itemvalue="Python.create_tables" />
-      <item itemvalue="Python.followers_by_user" />
-      <item itemvalue="Python.g_heat_map" />
+      <item itemvalue="Python.e_cross_maps (1)" />
+      <item itemvalue="Python.e_grand" />
       <item itemvalue="Python.u_int" />
+      <item itemvalue="Python tests.Python tests in t_df.py" />
       <item itemvalue="Python tests.Python tests for t_int.test_round_to_nearest_multiple" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests in t_df.py" />
+        <item itemvalue="Python.e_grand" />
+        <item itemvalue="Python.e_cross_maps (1)" />
         <item itemvalue="Python tests.Python tests for t_int.test_round_to_nearest_multiple" />
         <item itemvalue="Python.u_int" />
-        <item itemvalue="Python.g_heat_map" />
-        <item itemvalue="Python.followers_by_user" />
-        <item itemvalue="Python.create_tables" />
       </list>
     </recent_temporary>
   </component>

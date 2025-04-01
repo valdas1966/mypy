@@ -56,19 +56,6 @@ class UInt:
          Round the integer `n` to the nearest multiple of `multiple`.
         ========================================================================
         """
-        if multiple == 0:
-            raise ValueError('Multiple must be non-zero')
-
-        # Remainder of the division
-        remainder = n % multiple
-        # Half of the multiple
-        half = multiple / 2
-
-        # Round down
-        if remainder < half:
-            return (n // multiple) * multiple
-        # Round up
-        else:
-            return ((n // multiple) + 1) * multiple
+        return round(n / multiple) * multiple
 
 

@@ -11,8 +11,8 @@ from datetime import datetime
 
 cd = 'g'
 folder = f'{cd}:\\temp\\boundary\\grands'
-pickle_problems = f'{folder}\\problems_2.pkl'
-csv_results = f'{folder}\\results_2.csv'
+pickle_problems = f'{folder}\\problems_4.pkl'
+csv_results = f'{folder}\\results_4.csv'
 folder_graphs = f'{cd}:\\temp\\boundary\\graphs'
 
 
@@ -110,10 +110,10 @@ def cross_maps_to_csv() -> None:
             row[f'explored_{depth}'] = sol.explored
             row[f'elapsed_{depth}'] = sol.elapsed
             row[f'pct_explored_{depth}'] = round(row[f'explored_{depth}'] /
-                                                 row[f'explored_{depth-1}'],
+                                                 row[f'explored_0'],
                                                  2) if depth and row[f'explored_{depth-1}'] else 0
             row[f'pct_elapsed_{depth}'] = round(row[f'elapsed_{depth}'] /
-                                                row[f'elapsed_{depth-1}'],
+                                                row[f'elapsed_0'],
                                                 2) if depth and row[f'elapsed_{depth-1}'] else 0
             row[f'changed_{depth}'] = sol.changed.get(depth, 0)
         if row['d_start_goal']:
