@@ -12,16 +12,3 @@ class CSV:
         """
         self._path = path
         self._delimiter = delimiter
-
-    @staticmethod
-    def from_df(df: pd.DataFrame,
-                path: str,
-                delimiter: str = ',') -> CSV:
-        """
-        ========================================================================
-         Initialize the CSV object from a pandas DataFrame.
-        ========================================================================
-        """
-        
-
-  
