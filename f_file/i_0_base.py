@@ -1,11 +1,9 @@
-from collections.abc import UserList
 from typing import Generic, TypeVar
-import os
 
 T = TypeVar('T')
 
 
-class FileBase(Generic[T], UserList[T]):
+class FileBase(Generic[T]):
     """
     ============================================================================
      Base-Class for Files.
@@ -19,36 +17,27 @@ class FileBase(Generic[T], UserList[T]):
         ========================================================================
         """
         self._path = path
-        self._lines: list[T] = list()
-        # if the file exists, read the lines
-        if os.path.exists(path):
-            self._read_lines()
-        # if the file does not exist, create an empty file
-        else:
-            open(self._path, 'w').close()
 
-    def write_line(self, line: T) -> None:
+    def write_lines(self,
+                    lines: list[T],
+                    append: bool = False) -> None:
         """
         ========================================================================
-         Write a line to the file.
+         Write a list of lines to the file.
         ========================================================================
         """
-        self._lines.append(line)
+        lines = [f'{line}\n' for line in lines]
+        mode = 'a' if append else 'w'
+        with open(self._path, mode) as file:
+            file.writelines(lines)
 
-    def save(self) -> None:
-        """
-        ========================================================================
-         Save the lines to the file.
-        ========================================================================
-        """
-        with open(self._path, 'w') as file:
-            file.writelines(self._lines)
-
-    def _read_lines(self) -> None:
+    def read_lines(self) -> list[T]:  
         """
         ========================================================================
          Read the lines from the file.
         ========================================================================
         """
         with open(self._path, 'r') as file:
-            self._lines = file.readlines()
+            lines = file.readlines()
+            return [line.strip() for line in lines]
+        
