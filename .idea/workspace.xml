@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_file/generators/g_1_csv.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_file/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/i_0_base.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_file/i_1_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/i_1_csv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/map_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/map_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/testers/t_1_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/testers/t_1_csv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_cross_maps.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_cross_maps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +76,7 @@
     "Python tests.Python tests for t_1_bfs.test_bfs.executor": "Run",
     "Python tests.Python tests for t_1_children.test_init.executor": "Run",
     "Python tests.Python tests for t_1_children.test_remove_child.executor": "Run",
+    "Python tests.Python tests for t_1_csv.test_csv.executor": "Run",
     "Python tests.Python tests for t_1_dict.test_key_comparison.executor": "Run",
     "Python tests.Python tests for t_1_dict.test_nodes.executor": "Run",
     "Python tests.Python tests for t_1_dict.test_nodes_by_keys.executor": "Run",
@@ -311,6 +316,7 @@
     "Python tests.Python tests in t_1_cell.py.executor": "Run",
     "Python tests.Python tests in t_1_children.py.executor": "Run",
     "Python tests.Python tests in t_1_container.py.executor": "Run",
+    "Python tests.Python tests in t_1_csv.py (1).executor": "Run",
     "Python tests.Python tests in t_1_csv.py.executor": "Run",
     "Python tests.Python tests in t_1_dict.py.executor": "Run",
     "Python tests.Python tests in t_1_explored.py (1).executor": "Run",
@@ -331,6 +337,7 @@
     "Python tests.Python tests in t_1_rect.py (1).executor": "Run",
     "Python tests.Python tests in t_1_rect.py (2).executor": "Run",
     "Python tests.Python tests in t_1_rect.py.executor": "Run",
+    "Python tests.Python tests in t_1_txt.py (1).executor": "Run",
     "Python tests.Python tests in t_1_txt.py.executor": "Run",
     "Python tests.Python tests in t_2_bfs.py.executor": "Run",
     "Python tests.Python tests in t_2_bfs_cache.py.executor": "Run",
@@ -500,6 +507,7 @@
     "Python.g_0_audit.executor": "Run",
     "Python.g_0_list.executor": "Run",
     "Python.g_1_container (1).executor": "Run",
+    "Python.g_1_csv.executor": "Run",
     "Python.g_1_dict.executor": "Run",
     "Python.g_2_cell.executor": "Run",
     "Python.g_2_container.executor": "Run",
@@ -568,6 +576,7 @@
     "Python.insert_into_tables.executor": "Run",
     "Python.layout.executor": "Run",
     "Python.listable.executor": "Run",
+    "Python.map_grid.executor": "Run",
     "Python.music.executor": "Run",
     "Python.node.executor": "Run",
     "Python.position.executor": "Run",
@@ -733,8 +742,30 @@
       <recent name="G:\mypy\f_gui\components" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_1_csv.py">
-    <configuration name="e_grand" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.e_grand">
+    <configuration name="e_cross_maps" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_cross_maps.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="e_grand" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -756,7 +787,44 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_1_csv.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="map_grid" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_file" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_file/map_grid.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for t_1_csv.test_csv" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_file/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_1_csv.test_csv&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in t_1_csv.py (1)" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -771,65 +839,20 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_1_txt.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_file/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_file/testers/t_1_txt.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_df.py (1)" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_psl/pandas/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_psl/pandas/testers/t_df.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_df.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_psl/pandas/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_psl/pandas/testers/t_df.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <list>
+      <item itemvalue="Python.e_cross_maps" />
+      <item itemvalue="Python.map_grid" />
       <item itemvalue="Python.e_grand" />
-      <item itemvalue="Python tests.Python tests in t_1_csv.py" />
-      <item itemvalue="Python tests.Python tests in t_1_txt.py" />
-      <item itemvalue="Python tests.Python tests in t_df.py (1)" />
-      <item itemvalue="Python tests.Python tests in t_df.py" />
+      <item itemvalue="Python tests.Python tests for t_1_csv.test_csv" />
+      <item itemvalue="Python tests.Python tests in t_1_csv.py (1)" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in t_1_csv.py" />
-        <item itemvalue="Python tests.Python tests in t_1_txt.py" />
-        <item itemvalue="Python tests.Python tests in t_df.py (1)" />
-        <item itemvalue="Python tests.Python tests in t_df.py" />
         <item itemvalue="Python.e_grand" />
+        <item itemvalue="Python.map_grid" />
+        <item itemvalue="Python.e_cross_maps" />
+        <item itemvalue="Python tests.Python tests in t_1_csv.py (1)" />
+        <item itemvalue="Python tests.Python tests for t_1_csv.test_csv" />
       </list>
     </recent_temporary>
   </component>
@@ -848,22 +871,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00142" summary="h">
-      <option name="closed" value="true" />
-      <created>1739104759273</created>
-      <option name="number" value="00142" />
-      <option name="presentableId" value="LOCAL-00142" />
-      <option name="project" value="LOCAL" />
-      <updated>1739104759273</updated>
-    </task>
-    <task id="LOCAL-00143" summary="h">
-      <option name="closed" value="true" />
-      <created>1739291516958</created>
-      <option name="number" value="00143" />
-      <option name="presentableId" value="LOCAL-00143" />
-      <option name="project" value="LOCAL" />
-      <updated>1739291516958</updated>
     </task>
     <task id="LOCAL-00144" summary="h">
       <option name="closed" value="true" />
@@ -1241,7 +1248,23 @@
       <option name="project" value="LOCAL" />
       <updated>1743592499923</updated>
     </task>
-    <option name="localTasksCounter" value="191" />
+    <task id="LOCAL-00191" summary="h">
+      <option name="closed" value="true" />
+      <created>1743619732291</created>
+      <option name="number" value="00191" />
+      <option name="presentableId" value="LOCAL-00191" />
+      <option name="project" value="LOCAL" />
+      <updated>1743619732307</updated>
+    </task>
+    <task id="LOCAL-00192" summary="h">
+      <option name="closed" value="true" />
+      <created>1743619998294</created>
+      <option name="number" value="00192" />
+      <option name="presentableId" value="LOCAL-00192" />
+      <option name="project" value="LOCAL" />
+      <updated>1743619998294</updated>
+    </task>
+    <option name="localTasksCounter" value="193" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

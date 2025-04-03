@@ -8,7 +8,7 @@ from datetime import datetime
 import pandas as pd
 
 
-cd = 'g'
+cd = 'd'
 folder_maps = f'{cd}:\\temp\\boundary\\maps'
 folder_graphs = f'{cd}:\\temp\\boundary\\graphs'
 pickle_graphs = f'{cd}:\\temp\\boundary\\maps.pkl'

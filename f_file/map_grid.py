@@ -39,4 +39,3 @@ class MapGrid(Txt):
         # remove empty columns
         array = array[:, array.any(axis=0)] 
         return array
-

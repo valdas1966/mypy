@@ -8,7 +8,6 @@ from f_file.map_grid import MapGrid
 from collections.abc import Iterable
 from typing import Iterator
 import numpy as np
-import random
 import os
 
 

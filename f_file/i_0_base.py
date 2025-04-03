@@ -31,13 +31,16 @@ class FileBase(Generic[T]):
         with open(self._path, mode) as file:
             file.writelines(lines)
 
-    def read_lines(self) -> list[T]:  
+    def read_lines(self, n: int = None) -> list[T]:  
         """
         ========================================================================
          Read the lines from the file.
         ========================================================================
         """
         with open(self._path, 'r') as file:
-            lines = file.readlines()
+            if n:   
+                lines = [file.readline() for _ in range(n)]
+            else:
+                lines = file.readlines()
             return [line.strip() for line in lines]
         
