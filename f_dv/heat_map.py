@@ -1,8 +1,7 @@
+from f_core.mixins.has_name import HasName
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-from f_core.mixins.has_name import HasName
-
 
 
 class HeatMap(HasName):
@@ -18,7 +17,7 @@ class HeatMap(HasName):
     _SIZE_TITLE: int = 16
 
     def __init__(self,
-                 df: pd.DataFrame,
+                 pivot: pd.DataFrame,
                  name: str = None) -> None:
         """
         ========================================================================
@@ -26,12 +25,7 @@ class HeatMap(HasName):
         ========================================================================
         """
         HasName.__init__(self, name=name)
-        self._df = df
-        self._pivot_table = pd.pivot_table(df,
-                                           values='volume',
-                                           index='y',
-                                           columns='x',
-                                           aggfunc=np.sum)
+        self._pivot = pivot
         self._fill_missing_columns()
         self._set_params()
 
@@ -50,17 +44,17 @@ class HeatMap(HasName):
         Fill missing x columns with zeros to ensure continuous range.
         ========================================================================
         """
-        x_min = self._df['x'].min()
-        x_max = self._df['x'].max()
+        x_min = self._pivot.columns.min()
+        x_max = self._pivot.columns.max()
         all_x = range(x_min, x_max + 1)
         
         # Add missing columns with NaN values
         for x in all_x:
-            if x not in self._pivot_table.columns:
-                self._pivot_table[x] = np.nan
+            if x not in self._pivot.columns:
+                self._pivot[x] = np.nan
                 
         # Sort columns numerically
-        self._pivot_table = self._pivot_table.reindex(sorted(self._pivot_table.columns), axis=1)
+        self._pivot = self._pivot.reindex(sorted(self._pivot.columns), axis=1)
 
     def _set_params(self) -> None:
         """
@@ -107,7 +101,7 @@ class HeatMap(HasName):
         ========================================================================
         """
         # Create heatmap using imshow
-        heatmap = plt.imshow(self._pivot_table, 
+        heatmap = plt.imshow(self._pivot,
                              cmap='RdYlGn_r',  # Red to Green colormap (reversed)
                              aspect='auto')
         
@@ -119,17 +113,17 @@ class HeatMap(HasName):
         plt.ylabel('Y', fontweight='bold')
 
         # Set ticks
-        plt.xticks(range(len(self._pivot_table.columns)), 
-                   self._pivot_table.columns, 
+        plt.xticks(range(len(self._pivot.columns)), 
+                   self._pivot.columns, 
                    fontweight='bold')
-        plt.yticks(range(len(self._pivot_table.index)), 
-                   self._pivot_table.index, 
+        plt.yticks(range(len(self._pivot.index)), 
+                   self._pivot.index, 
                    fontweight='bold')
 
         # Add volume labels to each cell
-        for i in range(len(self._pivot_table.index)):
-            for j in range(len(self._pivot_table.columns)):
-                value = self._pivot_table.iloc[i, j]
+        for i in range(len(self._pivot.index)):
+            for j in range(len(self._pivot.columns)):
+                value = self._pivot.iloc[i, j]
                 plt.text(j, i, f'{value:.0f}', 
-                        ha='center', va='center',
-                        color='black', fontweight='bold')
+                         ha='center', va='center',
+                         color='black', fontweight='bold')

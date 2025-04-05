@@ -1,4 +1,7 @@
 
+import math
+
+
 class UInt:
     """
     ============================================================================
@@ -50,12 +53,12 @@ class UInt:
         return n % 2 == 0
 
     @staticmethod
-    def round_to_nearest_multiple(n: int, multiple: int) -> int:
+    def nearest_mult(n: int, mult: int) -> int:
         """
         ========================================================================
-         Round the integer `n` to the nearest multiple of `multiple`.
+         Round the integer `n` to the nearest multiple of `mult`.
         ========================================================================
         """
-        return round(n / multiple) * multiple
+        return int(math.floor(n / mult + 0.5) * mult)
 
 

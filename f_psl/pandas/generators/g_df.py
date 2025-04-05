@@ -20,3 +20,16 @@ class GenDF:
         y = [1, 2, 3, 4, 5]
         data = {'x': x, 'y': y}
         return pd.DataFrame(data)
+    
+    @staticmethod
+    def three_hands() -> pd.DataFrame:
+        """
+        ========================================================================
+         Generate a DataFrame of 'three hands'.
+        ========================================================================
+        """
+        a = [1, 2, 3, 4, 5]
+        b = [1, 2, 3, 4, 5]
+        c = [1, 2, 3, 4, 5]
+        data = {'a': a, 'b': b, 'c': c}
+        return pd.DataFrame(data)

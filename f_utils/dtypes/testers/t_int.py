@@ -15,12 +15,12 @@ def test_part():
     assert u_int.part(total=10, pct=70) == 7
 
 
-def test_round_to_nearest_multiple() -> None:
+def test_nearest_multiple() -> None:
     """
     ========================================================================
     Test the round_to_nearest_multiple() function.
     ========================================================================
     """
-    assert u_int.round_to_nearest_multiple(n=4, multiple=10) == 0
-    assert u_int.round_to_nearest_multiple(n=5, multiple=10) == 10
-    assert u_int.round_to_nearest_multiple(n=11, multiple=10) == 10
+    assert u_int.nearest_multiple(n=4, multiple=10) == 0
+    assert u_int.nearest_multiple(n=5, multiple=10) == 0
+    assert u_int.nearest_multiple(n=11, multiple=10) == 10
