@@ -1,15 +1,57 @@
-import pandas as pd
 from f_dv.heat_map import HeatMap
-from f_psl.pandas.u_pivot import UPivot
+from f_psl.pandas.generators.g_pivot import GenPivot
 
 
-x = [1, 1, 1, 2, 2, 5, 5]
-y = [1, 1, 2, 1, 2, 1, 2]
-val = [10, 10, 20, 30, 40, 50, 60]
+class GenHeatMap:
+    """
+    ============================================================================
+     HeatMap Generator Class.
+    ============================================================================
+    """
 
-df = pd.DataFrame({'x': x, 'y': y, 'val': val})
-pivot = UPivot.from_df(df=df, col_x='x', col_y='y', col_val='val')
+    @staticmethod
+    def window_full() -> HeatMap:
+        """
+        ========================================================================
+         Generate a heat map for a window full.
+        ========================================================================
+        """
+        pivot = GenPivot.window_full()
+        return HeatMap(pivot=pivot, name='HeatMap Window-Full')
+    
+    @staticmethod
+    def window_full_sum() -> HeatMap:
+        """
+        ========================================================================
+         Generate a heat map for a window full sum.
+        ========================================================================
+        """
+        pivot = GenPivot.window_full_sum()
+        return HeatMap(pivot=pivot, name='HeatMap Window-Full-Sum')
+    
+    @staticmethod
+    def window_full_mean() -> HeatMap:
+        """
+        ========================================================================
+         Generate a heat map for a window full mean.
+        ========================================================================
+        """
+        pivot = GenPivot.window_full_mean()
+        return HeatMap(pivot=pivot, name='HeatMap Window-Full-Mean')   
 
-heat_map = HeatMap(pivot=pivot, name='Heat Map')
-heat_map.show()
+    @staticmethod
+    def window_broken() -> HeatMap:
+        """
+        ========================================================================
+         Generate a heat map for a window broken.
+        ========================================================================
+        """
+        pivot = GenPivot.window_broken()
+        return HeatMap(pivot=pivot, name='HeatMap Window-Broken')
+
+
+# HeatMap(pivot=GenPivot.window_full()).show()
+# HeatMap(pivot=GenPivot.window_full_sum()).show()
+# HeatMap(pivot=GenPivot.window_full_mean()).show()
+HeatMap(pivot=GenPivot.window_broken()).show()
 

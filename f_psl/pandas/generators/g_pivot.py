@@ -69,4 +69,3 @@ class GenPivot:
         return UPivot.from_df(df, col_x='x',
                               col_y='y',
                               col_val='val')
-

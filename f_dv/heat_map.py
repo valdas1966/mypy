@@ -91,8 +91,8 @@ class HeatMap(HasName):
         """
         if self.name:
             plt.title(label=self.name,
-                     fontweight='bold',
-                     fontsize=self._SIZE_TITLE)
+                      fontweight='bold',
+                      fontsize=self._SIZE_TITLE)
 
     def _set_heatmap(self) -> None:
         """
