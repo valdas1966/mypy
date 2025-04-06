@@ -12,8 +12,8 @@ from datetime import datetime
 
 cd = 'g'
 folder = f'{cd}:\\temp\\boundary\\grands'
-pickle_problems = f'{folder}\\problems_8.pkl'
-csv_results = f'{folder}\\results_8.csv'
+pickle_problems = f'{folder}\\problems_10.pkl'
+csv_results = f'{folder}\\results_10.csv'
 folder_graphs = f'{cd}:\\temp\\boundary\\graphs'
 
 

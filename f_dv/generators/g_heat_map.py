@@ -48,10 +48,17 @@ class GenHeatMap:
         """
         pivot = GenPivot.window_broken()
         return HeatMap(pivot=pivot, name='HeatMap Window-Broken')
+    
+    @staticmethod
+    def random_10x10() -> HeatMap:
+        """
+        ========================================================================
+         Generate a heat map for a random 10x10 window.
+        ========================================================================
+        """
+        pivot = GenPivot.random_10x10()
+        return HeatMap(pivot=pivot, name='HeatMap Random-10x10')
 
 
-# HeatMap(pivot=GenPivot.window_full()).show()
-# HeatMap(pivot=GenPivot.window_full_sum()).show()
-# HeatMap(pivot=GenPivot.window_full_mean()).show()
-HeatMap(pivot=GenPivot.window_broken()).show()
-
+# GenHeatMap.window_broken().show()
+GenHeatMap.random_10x10().show()

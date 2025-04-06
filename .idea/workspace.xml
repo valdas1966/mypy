@@ -7,11 +7,8 @@
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_dv/generators/g_heat_map.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/generators/g_heat_map.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_dv/heat_map.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/heat_map.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_psl/pandas/generators/g_df.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/pandas/generators/g_df.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_psl/pandas/generators/g_pivot.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/pandas/generators/g_pivot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_psl/pandas/testers/t_df.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/pandas/testers/t_df.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_psl/pandas/u_df.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/pandas/u_df.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_psl/pandas/u_pivot.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/pandas/u_pivot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -550,6 +547,7 @@
     "Python.g_node.executor": "Run",
     "Python.g_ops.executor": "Run",
     "Python.g_path.executor": "Run",
+    "Python.g_pivot.executor": "Run",
     "Python.g_position.executor": "Run",
     "Python.g_problem.executor": "Run",
     "Python.g_request.executor": "Run",
@@ -723,6 +721,7 @@
     "Python.u_1_random.executor": "Run",
     "Python.u_int.executor": "Run",
     "Python.u_nlp.executor": "Run",
+    "Python.u_pivot.executor": "Run",
     "Python.u_screen.executor": "Run",
     "Python.user.executor": "Run",
     "Python.user_snapshots.executor": "Run",
@@ -752,8 +751,8 @@
       <recent name="G:\mypy\f_gui\components" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_df.py">
-    <configuration name="g_df" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.g_heat_map">
+    <configuration name="e_cross_maps" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -762,11 +761,33 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_psl/pandas/generators" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_psl/pandas/generators/g_df.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_cross_maps.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="e_grand" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -797,65 +818,64 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_df.test_fill_missing_multiples" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="g_pivot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_psl/pandas/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_psl/pandas/generators" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_df.test_fill_missing_multiples&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_psl/pandas/generators/g_pivot.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_df.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="u_pivot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_psl/pandas/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_psl/pandas" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_psl/pandas/testers/t_df.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_pivot.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_psl/pandas/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_psl/pandas/testers/t_pivot.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_psl/pandas/u_pivot.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.g_df" />
       <item itemvalue="Python.g_heat_map" />
-      <item itemvalue="Python tests.Python tests for t_df.test_fill_missing_multiples" />
-      <item itemvalue="Python tests.Python tests in t_pivot.py" />
-      <item itemvalue="Python tests.Python tests in t_df.py" />
+      <item itemvalue="Python.g_pivot" />
+      <item itemvalue="Python.u_pivot" />
+      <item itemvalue="Python.e_cross_maps" />
+      <item itemvalue="Python.e_grand" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in t_df.py" />
-        <item itemvalue="Python tests.Python tests for t_df.test_fill_missing_multiples" />
-        <item itemvalue="Python.g_df" />
         <item itemvalue="Python.g_heat_map" />
-        <item itemvalue="Python tests.Python tests in t_pivot.py" />
+        <item itemvalue="Python.u_pivot" />
+        <item itemvalue="Python.g_pivot" />
+        <item itemvalue="Python.e_grand" />
+        <item itemvalue="Python.e_cross_maps" />
       </list>
     </recent_temporary>
   </component>
@@ -874,14 +894,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00146" summary="h">
-      <option name="closed" value="true" />
-      <created>1739478893502</created>
-      <option name="number" value="00146" />
-      <option name="presentableId" value="LOCAL-00146" />
-      <option name="project" value="LOCAL" />
-      <updated>1739478893502</updated>
     </task>
     <task id="LOCAL-00147" summary="h">
       <option name="closed" value="true" />
@@ -1267,7 +1279,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743873355145</updated>
     </task>
-    <option name="localTasksCounter" value="195" />
+    <task id="LOCAL-00195" summary="h">
+      <option name="closed" value="true" />
+      <created>1743878131954</created>
+      <option name="number" value="00195" />
+      <option name="presentableId" value="LOCAL-00195" />
+      <option name="project" value="LOCAL" />
+      <updated>1743878131955</updated>
+    </task>
+    <option name="localTasksCounter" value="196" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

@@ -69,3 +69,18 @@ class GenPivot:
         return UPivot.from_df(df, col_x='x',
                               col_y='y',
                               col_val='val')
+
+    @staticmethod
+    def random_10x10() -> pd.DataFrame:
+        """
+        ========================================================================
+         Generate a pivot table for a random window.
+        ========================================================================
+        """
+        x = np.random.randint(0, 10, size=100)
+        y = np.random.randint(0, 10, size=100)
+        val = np.random.randint(0, 10, size=100)
+        df = pd.DataFrame({'x': x, 'y': y, 'val': val})
+        return UPivot.from_df(df, col_x='x',
+                              col_y='y',
+                              col_val='val')

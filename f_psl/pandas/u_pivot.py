@@ -1,7 +1,6 @@
-from f_psl.pandas.u_df import UDF
-from f_psl.pandas.u_series import USeries
-import pandas as pd
 import numpy as np
+from f_psl.pandas.u_df import UDF
+import pandas as pd
 
 
 class UPivot:
@@ -11,6 +10,10 @@ class UPivot:
     ============================================================================
     """
 
+    class TypeAgg:
+        SUM = 'sum'
+        MEAN = 'mean'
+    
     @staticmethod
     def from_df(df: pd.DataFrame,
                 col_x: str,
@@ -18,7 +21,7 @@ class UPivot:
                 col_val: str,
                 mult_x: int = 1,
                 mult_y: int = 1,
-                func_agg: np.ufunc = np.sum) -> pd.DataFrame:
+                type_agg: TypeAgg = TypeAgg.SUM) -> pd.DataFrame:
         """
         ========================================================================
          Create a pivot table from a dataframe.
@@ -35,9 +38,15 @@ class UPivot:
                                              col_y=col_y,
                                              mult_x=mult_x,
                                              mult_y=mult_y)
+        # Define the aggregation function (None should be ignored)
+        if type_agg == UPivot.TypeAgg.SUM:
+            agg = lambda x: x.sum() if x.notna().any() else np.nan
+        elif type_agg == UPivot.TypeAgg.MEAN:
+            agg = lambda x: x.mean() if x.notna().any() else np.nan
         # Pivot the df
         return pd.pivot_table(df_full,
                               index=col_y,
                               columns=col_x,
                               values=col_val,
-                              aggfunc=func_agg)
+                              aggfunc=agg,
+                              fill_value=None)
