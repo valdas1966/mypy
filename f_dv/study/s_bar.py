@@ -1,4 +1,4 @@
-from f_dv.bar import Bar
+from f_dv.i_1_bar import Bar
 from f_color.u_color import UColor, RGB
 
 

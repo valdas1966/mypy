@@ -1,3 +1,4 @@
+from __future__ import annotations
 from f_file.i_0_base import FileBase
 
 
@@ -85,6 +86,27 @@ class CSV(FileBase[list[str]]):
          Read the titles from the file.
         ========================================================================
         """
-        titles = super().read_lines(num_lines=1)[0]
+        titles = super().read_lines(n=1)[0]
         return titles.split(self._delimiter)
         
+    @classmethod
+    def union(cls,
+              paths_from: list[str],
+              path_to: str,
+              delimiter: str = ',') -> CSV:
+        """
+        ========================================================================
+         Union multiple CSV files into one.
+        ========================================================================
+        """
+        titles: list[str] = list()
+        lines: list[list[str]] = list()
+        for i, path in enumerate(paths_from):
+            file = cls(path=path, delimiter=delimiter)
+            if i == 0:
+                titles = file.titles
+            lines.extend(file.read_lines())
+        csv = cls(path=path_to, delimiter=delimiter, titles=titles)
+        csv.write_lines(lines=lines)
+        return csv
+

@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from f_dv.bar import Bar
+from f_dv.i_1_bar import Bar
 import math
 
 

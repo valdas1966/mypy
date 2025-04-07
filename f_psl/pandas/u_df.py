@@ -3,6 +3,19 @@ from itertools import product
 import pandas as pd
 
 
+class TypeAgg:
+    """
+    ============================================================================
+        Type of Aggregation.
+    ============================================================================
+    """
+    MEAN = 'mean'
+    MEDIAN = 'median'
+    SUM = 'sum'
+    MIN = 'min'
+    MAX = 'max'
+
+
 class UDF:
     """
     ============================================================================
@@ -62,3 +75,26 @@ class UDF:
         df_merged = pd.merge(all_pairs, df, on=[col_x, col_y], how='left')
 
         return df_merged
+
+    @staticmethod
+    def agg_cols(df: pd.DataFrame,
+                 cols: list[str],
+                 type_agg: TypeAgg = TypeAgg.MEAN) -> list[float]:
+        """
+        ========================================================================
+         Aggregate the values of the columns in the list.
+        ========================================================================
+        """
+        agg: pd.Series = None
+        match type_agg:
+            case TypeAgg.MEAN:
+                agg = df[cols].mean()
+            case TypeAgg.MEDIAN:
+                agg = df[cols].median()
+            case TypeAgg.MIN:
+                agg = df[cols].min()
+            case TypeAgg.MAX:
+                agg = df[cols].max()
+            case TypeAgg.SUM:
+                agg = df[cols].sum()
+        return agg.tolist()

@@ -4,17 +4,20 @@ from f_graph.path.many_to_one.problem import ProblemManyToOne as Problem
 from f_graph.path.many_to_one.algo import AlgoManyToOne
 from f_ds.grids.grid import Grid, Cell
 from f_file.i_1_csv import CSV
+from f_psl.os.u_folder import UFolder
 from f_utils import u_pickle
 import pandas as pd
 import random
 from datetime import datetime
 
 
-cd = 'g'
+cd = 'd'
 folder = f'{cd}:\\temp\\boundary\\grands'
 pickle_problems = f'{folder}\\problems_10.pkl'
 csv_results = f'{folder}\\results_10.csv'
 folder_graphs = f'{cd}:\\temp\\boundary\\graphs'
+folder_results = f'{folder}\\results'
+csv_results_union = f'{folder}\\results_union.csv'
 
 
 def problems_to_pickle(n_problems: int, n_rows: int) -> None:
@@ -165,7 +168,18 @@ def positive_example_to_pickle() -> None:
     u_pickle.dump(obj=[problem], path=pickle_problems)
 
 
+def union_csv() -> None:
+    """
+    ========================================================================
+     Union the csv files.
+    ========================================================================
+    """
+    paths_from = UFolder.filepaths(path=folder_results)
+    CSV.union(paths_from=paths_from, path_to=csv_results_union)
+
+
 # problems_to_pickle(n_rows=100, n_problems=100)
 # positive_example_to_pickle()
 # experiments_to_csv()
-cross_maps_to_csv()
+# cross_maps_to_csv()
+union_csv()

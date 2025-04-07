@@ -1,5 +1,5 @@
 from f_psl.pandas.generators.g_df import GenDF, pd
-from f_psl.pandas.u_df import UDF
+from f_psl.pandas.u_df import UDF, TypeAgg
 
 
 def test_nearest_multiple() -> None:
@@ -54,3 +54,23 @@ def test_fill_missing_multiples() -> None:
                      'val': val_expected}
     df_expected = pd.DataFrame(data_expected)
     assert df_actual.equals(df_expected)
+
+
+def test_agg_cols() -> None:
+    """
+    ========================================================================
+     Test the agg_cols() function.
+    ========================================================================
+    """
+    df = GenDF.two_hands()
+    agg_min = UDF.agg_cols(df=df, cols=['a'], type_agg=TypeAgg.MIN)
+    assert agg_min == [1]
+    agg_max = UDF.agg_cols(df=df, cols=['a'], type_agg=TypeAgg.MAX)
+    assert agg_max == [5]
+    agg_mean = UDF.agg_cols(df=df, cols=['a'], type_agg=TypeAgg.MEAN)
+    assert agg_mean == [3]
+    agg_median = UDF.agg_cols(df=df, cols=['a'], type_agg=TypeAgg.MEDIAN)
+    assert agg_median == [3]
+    agg_sum = UDF.agg_cols(df=df, cols=['a'], type_agg=TypeAgg.SUM)
+    assert agg_sum == [15]
+    
