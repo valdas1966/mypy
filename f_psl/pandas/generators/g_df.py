@@ -45,3 +45,17 @@ class GenDF:
         val = [1, 2]
         data = {'x': x, 'y': y, 'val': val}
         return pd.DataFrame(data)
+
+    @staticmethod
+    def wide_to_long() -> pd.DataFrame:
+        """
+        ========================================================================
+         Generate a DataFrame of wide to long.
+        ========================================================================
+        """
+        x = [1, 2]
+        y_1 = [10, 20]
+        y_2 = [30, 40]
+        y_3 = [50, 60]
+        data = {'x': x, 'y_1': y_1, 'y_2': y_2, 'y_3': y_3}
+        return pd.DataFrame(data)

@@ -1,9 +1,11 @@
 from f_file.i_1_csv import CSV
 from f_psl.os.u_folder import UFolder
 from f_psl.pandas.u_df import UDF, TypeAgg
+from f_psl.pandas.u_pivot import UPivot
 from f_dv.i_1_bar import Bar
 from f_dv.i_1_scatter import Scatter
 from f_dv.i_1_scatter_regression import ScatterRegression
+from f_dv.i_1_heat_map import HeatMap
 import pandas as pd
 
 
@@ -114,16 +116,34 @@ def show_pct_explored_nodes() -> None:
     ========================================================================
     """
     df = pd.read_csv(csv_results)
-
+    df['pct_explored_1'] = round(100-(df['pct_explored_1']*100))
+    df['pct_explored_2'] = round(100-(df['pct_explored_2']*100))
+    df['pct_explored_3'] = round(100-(df['pct_explored_3']*100))
+    df['pct_explored_4'] = round(100-(df['pct_explored_4']*100))
+    df['pct_explored_5'] = round(100-(df['pct_explored_5']*100))
+    df = UDF.wide_to_long(df=df,
+                          col_x='nodes',
+                          col_y='depth',
+                          cols_y=['pct_explored_1', 'pct_explored_2',
+                                  'pct_explored_3', 'pct_explored_4',
+                                  'pct_explored_5'],
+                          col_val='pct_explored')
+    pivot = UPivot.from_df(df=df,
+                           col_x='nodes',
+                           col_y='depth',
+                           col_val='pct_explored',
+                           mult_x=100000,
+                           mult_y=10,
+                           type_agg=UPivot.TypeAgg.MEAN)
     name = 'Percentage of explored nodes relatively to all nodes'
     heat_map = HeatMap(pivot=pivot, name=name)
     heat_map.show()
-
 
 
 # union_csv()
 # show_pct_explored()
 # show_pct_elapsed()
 # show_correlation_explored_elapsed()
-show_changed()
+# show_changed()
+show_pct_explored_nodes()
  

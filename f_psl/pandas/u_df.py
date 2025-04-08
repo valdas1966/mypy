@@ -98,3 +98,26 @@ class UDF:
             case TypeAgg.SUM:
                 agg = df[cols].sum()
         return agg.tolist()
+
+    @staticmethod
+    def wide_to_long(df: pd.DataFrame,
+                     col_x: str,
+                     col_y: str,
+                     cols_y: list[str],
+                     col_val: str) -> pd.DataFrame:
+        """
+        ========================================================================
+         Converts a wide-format DataFrame to a long format, using the index of
+           each value column as the value for a new index column.
+        ========================================================================
+        """
+        df_long = df.melt(id_vars=col_x, value_vars=cols_y,
+                          var_name='temp_col', value_name=col_val)
+
+        # Map column names to their position index (1-based)
+        col_index_map = {col: idx + 1 for idx, col in enumerate(cols_y)}
+        df_long[col_y] = df_long['temp_col'].map(col_index_map)
+
+        df_long = df_long.drop(columns='temp_col')
+
+        return df_long[[col_x, col_y, col_val]]

@@ -74,3 +74,24 @@ def test_agg_cols() -> None:
     agg_sum = UDF.agg_cols(df=df, cols=['a'], type_agg=TypeAgg.SUM)
     assert agg_sum == [15]
     
+
+def test_wide_to_long() -> None:
+    """
+    ========================================================================
+     Test the wide_to_long() function.
+    ========================================================================
+    """
+    df = GenDF.wide_to_long()
+    actual = UDF.wide_to_long(df=df,
+                              col_x='x',
+                              col_y='y',
+                              cols_y=['y_1', 'y_2'],
+                              col_val='val')
+    x_expected = [1, 2, 1, 2]
+    y_expected = [1, 1, 2, 2]
+    val_expected = [10, 20, 30, 40]
+    data_expected = {'x': x_expected,
+                     'y': y_expected,
+                     'val': val_expected}
+    expected = pd.DataFrame(data_expected)
+    assert actual.equals(expected)
