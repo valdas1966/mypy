@@ -1,4 +1,4 @@
-from f_dv.heat_map import HeatMap
+from f_dv.i_1_heat_map import HeatMap
 from f_psl.pandas.generators.g_pivot import GenPivot
 
 
