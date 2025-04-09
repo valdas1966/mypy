@@ -13,6 +13,7 @@ cd = 'd'
 folder = f'{cd}:\\temp\\boundary\\grands'
 folder_results = f'{folder}\\results'
 csv_results = f'{folder}\\results.csv'
+csv_results_temp = f'{folder}\\results_temp.csv'
 
 
 def union_csv() -> None:
@@ -23,6 +24,26 @@ def union_csv() -> None:
     """
     paths_from = UFolder.filepaths(path=folder_results)
     CSV.union(paths_from=paths_from, path_to=csv_results)
+
+
+def format_csv() -> None:
+    """
+    ========================================================================
+     Format the csv file.
+    ========================================================================
+    """
+    df = pd.read_csv(csv_results)
+    df['pct_explored_1'] = round((1-df['pct_explored_1']) * 100)
+    df['pct_explored_2'] = round((1-df['pct_explored_2']) * 100)
+    df['pct_explored_3'] = round((1-df['pct_explored_3']) * 100)
+    df['pct_explored_4'] = round((1-df['pct_explored_4']) * 100)
+    df['pct_explored_5'] = round((1-df['pct_explored_5']) * 100)
+    df['pct_elapsed_1'] = round((1-df['pct_elapsed_1']) * 100)
+    df['pct_elapsed_2'] = round((1-df['pct_elapsed_2']) * 100)
+    df['pct_elapsed_3'] = round((1-df['pct_elapsed_3']) * 100)
+    df['pct_elapsed_4'] = round((1-df['pct_elapsed_4']) * 100)
+    df['pct_elapsed_5'] = round((1-df['pct_elapsed_5']) * 100)
+    df.to_csv(csv_results, index=False)
 
 
 def show_pct_explored() -> None:
@@ -115,12 +136,7 @@ def show_pct_explored_nodes() -> None:
        nodes in the graph.
     ========================================================================
     """
-    df = pd.read_csv(csv_results)
-    df['pct_explored_1'] = round(100-(df['pct_explored_1']*100))
-    df['pct_explored_2'] = round(100-(df['pct_explored_2']*100))
-    df['pct_explored_3'] = round(100-(df['pct_explored_3']*100))
-    df['pct_explored_4'] = round(100-(df['pct_explored_4']*100))
-    df['pct_explored_5'] = round(100-(df['pct_explored_5']*100))
+    df = pd.read_csv(csv_results_temp)
     df = UDF.wide_to_long(df=df,
                           col_x='nodes',
                           col_y='depth',
@@ -133,7 +149,7 @@ def show_pct_explored_nodes() -> None:
                            col_y='depth',
                            col_val='pct_explored',
                            mult_x=100000,
-                           mult_y=10,
+                           mult_y=1,
                            type_agg=UPivot.TypeAgg.MEAN)
     name = 'Percentage of explored nodes relatively to all nodes'
     heat_map = HeatMap(pivot=pivot, name=name)
@@ -141,6 +157,7 @@ def show_pct_explored_nodes() -> None:
 
 
 # union_csv()
+# format_csv()
 # show_pct_explored()
 # show_pct_elapsed()
 # show_correlation_explored_elapsed()
