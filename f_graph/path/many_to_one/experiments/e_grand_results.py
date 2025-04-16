@@ -46,6 +46,15 @@ def format_csv() -> None:
     df.to_csv(csv_results, index=False)
 
 
+def show_pct_greater() -> None:
+    """
+    ========================================================================
+     Show the percentage of greater.
+    ========================================================================
+    """
+    df = pd.read_csv(csv_results)
+    
+
 def show_pct_explored() -> None:
     """
     ========================================================================

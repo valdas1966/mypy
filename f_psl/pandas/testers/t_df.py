@@ -1,5 +1,5 @@
 from f_psl.pandas.generators.g_df import GenDF, pd
-from f_psl.pandas.u_df import UDF, TypeAgg
+from f_psl.pandas.u_df import UDF, TypeAgg, TypeComparison
 
 
 def test_nearest_multiple() -> None:
@@ -54,6 +54,45 @@ def test_fill_missing_multiples() -> None:
                      'val': val_expected}
     df_expected = pd.DataFrame(data_expected)
     assert df_actual.equals(df_expected)
+
+
+def test_count_comparison() -> None:
+    """
+    ========================================================================
+     Test the count_comparison() function.
+    ========================================================================
+    """ 
+    df = GenDF.two_hands_reversed()
+    greater = UDF.count_comparison(df=df,
+                                   col_a='a',
+                                   col_b='b',
+                                   type_cmp=TypeComparison.GREATER)
+    assert greater == 2
+    greater_equal = UDF.count_comparison(df=df,
+                                         col_a='a',
+                                         col_b='b',
+                                         type_cmp=TypeComparison.GREATER_EQUAL)
+    assert greater_equal == 3
+    equal = UDF.count_comparison(df=df,
+                                 col_a='a',
+                                 col_b='b',
+                                 type_cmp=TypeComparison.EQUAL)
+    assert equal == 1
+    less = UDF.count_comparison(df=df,
+                                col_a='a',
+                                col_b='b',
+                                type_cmp=TypeComparison.LESS)
+    assert less == 2
+    less_equal = UDF.count_comparison(df=df,
+                                      col_a='a',
+                                      col_b='b',
+                                      type_cmp=TypeComparison.LESS_EQUAL)
+    assert less_equal == 3  
+    not_equal = UDF.count_comparison(df=df,
+                                     col_a='a',
+                                     col_b='b',
+                                     type_cmp=TypeComparison.NOT_EQUAL)
+    assert not_equal == 4
 
 
 def test_agg_cols() -> None:

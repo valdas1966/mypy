@@ -59,3 +59,4 @@ class UColor:
             gradient.append(RGB(r=r, g=g, b=b))
 
         return gradient
+

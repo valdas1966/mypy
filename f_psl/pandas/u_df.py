@@ -1,3 +1,4 @@
+from f_const.enums.types import TypeComparison
 from f_psl.pandas.u_series import USeries
 from itertools import product
 import pandas as pd
@@ -83,6 +84,11 @@ class UDF:
         """
         ========================================================================
          Aggregate the values of the columns in the list.
+        ------------------------------------------------------------------------
+         Example:
+         df = pd.DataFrame({'a': [1, 2, 3, 4, 5], 'b': [6, 7, 8, 9, 10]})
+         UDF.agg_cols(df=df, cols=['a', 'b'], type_agg=TypeAgg.MEAN)
+         Output: [3.0, 8.0]
         ========================================================================
         """
         agg: pd.Series = None
@@ -98,6 +104,41 @@ class UDF:
             case TypeAgg.SUM:
                 agg = df[cols].sum()
         return agg.tolist()
+    
+    @staticmethod
+    def count_comparison(df: pd.DataFrame,
+                         col_a: str,
+                         col_b: str,
+                         type_cmp: TypeComparison) -> int:
+        """
+        ========================================================================
+         Count the number of rows where A [comparison] B.
+        ========================================================================
+         Example:
+        ------------------------------------------------------------------------
+         df = pd.DataFrame({'a': [1, 2, 3], 'b': [1, 1, 1]})
+         UDF.count_comparison(df, 'a', 'b', TypeComparison.GREATER)
+        ------------------------------------------------------------------------
+         Output: 2
+        ========================================================================
+        """
+        match type_cmp:
+            case TypeComparison.GREATER:
+                mask = df[col_a] > df[col_b]
+            case TypeComparison.EQUAL:
+                mask = df[col_a] == df[col_b]
+            case TypeComparison.LESS:
+                mask = df[col_a] < df[col_b]
+            case TypeComparison.GREATER_EQUAL:
+                mask = df[col_a] >= df[col_b]
+            case TypeComparison.LESS_EQUAL:
+                mask = df[col_a] <= df[col_b]
+            case TypeComparison.NOT_EQUAL:
+                mask = df[col_a] != df[col_b]
+            case _:
+                raise ValueError(f"Unsupported comparison: {type_cmp}")
+        return mask.sum()
+
 
     @staticmethod
     def wide_to_long(df: pd.DataFrame,

@@ -21,6 +21,19 @@ class GenDF:
         return pd.DataFrame(data)
     
     @staticmethod
+    def two_hands_reversed() -> pd.DataFrame:
+        """
+        ========================================================================
+         Generate a DataFrame of 'two hands' reversed.
+        ========================================================================
+        """
+        a = [1, 2, 3, 4, 5] 
+        b = [5, 4, 3, 2, 1]
+        data = {'a': a, 'b': b}
+        return pd.DataFrame(data)
+    
+
+    @staticmethod
     def three_hands() -> pd.DataFrame:
         """
         ========================================================================
