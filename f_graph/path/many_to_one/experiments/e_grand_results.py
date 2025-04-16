@@ -9,7 +9,7 @@ from f_dv.i_1_heat_map import HeatMap
 import pandas as pd
 
 
-cd = 'd'
+cd = 'g'
 folder = f'{cd}:\\temp\\boundary\\grands'
 folder_results = f'{folder}\\results'
 csv_results = f'{folder}\\results.csv'
@@ -57,7 +57,6 @@ def show_pct_explored() -> None:
     cols = ['pct_explored_1', 'pct_explored_2',
             'pct_explored_3', 'pct_explored_4', 'pct_explored_5']
     values = UDF.agg_cols(df=df, cols=cols, type_agg=TypeAgg.MEDIAN)
-    values = [(1 - value)*100 for value in values]
     name_labels = 'Depth'
     name_values = 'Percentage of Exploration Reduction'
     bar = Bar(labels=labels, values=values,
@@ -158,9 +157,9 @@ def show_pct_explored_nodes() -> None:
 
 # union_csv()
 # format_csv()
-# show_pct_explored()
+show_pct_explored()
 # show_pct_elapsed()
 # show_correlation_explored_elapsed()
 # show_changed()
-show_pct_explored_nodes()
+# show_pct_explored_nodes()
  
