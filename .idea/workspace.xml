@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_math/testers/t_percent.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_math/u_percent.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_color/rgb.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_color/rgb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_dv/generators/g_1_bar_stacked.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/generators/g_1_bar_stacked.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_dv/i_1_bar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/i_1_bar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_dv/i_1_bar_stacked.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/i_1_bar_stacked.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand_results.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -891,14 +888,6 @@
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
     </task>
-    <task id="LOCAL-00152" summary="h">
-      <option name="closed" value="true" />
-      <created>1740577553775</created>
-      <option name="number" value="00152" />
-      <option name="presentableId" value="LOCAL-00152" />
-      <option name="project" value="LOCAL" />
-      <updated>1740577553775</updated>
-    </task>
     <task id="LOCAL-00153" summary="h">
       <option name="closed" value="true" />
       <created>1740683474652</created>
@@ -1283,7 +1272,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744830704719</updated>
     </task>
-    <option name="localTasksCounter" value="201" />
+    <task id="LOCAL-00201" summary="h">
+      <option name="closed" value="true" />
+      <created>1744967732985</created>
+      <option name="number" value="00201" />
+      <option name="presentableId" value="LOCAL-00201" />
+      <option name="project" value="LOCAL" />
+      <updated>1744967732985</updated>
+    </task>
+    <option name="localTasksCounter" value="202" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
