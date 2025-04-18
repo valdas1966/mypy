@@ -10,7 +10,11 @@ class RGB(HasName):
     ============================================================================
     """
 
-    _CUSTOM = {'my_cyan': (0, 55, 110)}
+    _LIGHT_INDEX = 135
+    _CUSTOM = {'MY_CYAN': (0, 55, 110),
+               'LIGHT_RED': (200, 110, 110),
+               'LIGHT_YELLOW': (220, 200, 110),
+               'LIGHT_GREEN': (120, 190, 120)}
 
     def __init__(self,
                  name: str = None,

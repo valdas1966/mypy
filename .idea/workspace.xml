@@ -5,17 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_const/enums/types.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_dv/generators/g_1_bar_grouped.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_dv/generators/g_1_bar_stacked.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_dv/i_1_bar_grouped.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_dv/i_1_bar_stacked.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_color/u_color.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_color/u_color.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_color/rgb.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_color/rgb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_dv/generators/g_1_bar_stacked.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/generators/g_1_bar_stacked.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_dv/i_1_bar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/i_1_bar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_dv/i_1_bar_stacked.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/i_1_bar_stacked.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand_results.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_psl/pandas/generators/g_df.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/pandas/generators/g_df.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_psl/pandas/testers/t_df.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/pandas/testers/t_df.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_psl/pandas/u_df.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/pandas/u_df.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -276,6 +271,8 @@
     "Python tests.Python tests for t_path.test_reversed.executor": "Run",
     "Python tests.Python tests for t_path.test_start.executor": "Run",
     "Python tests.Python tests for t_path.test_str.executor": "Run",
+    "Python tests.Python tests for t_percent.test_pct_of.executor": "Run",
+    "Python tests.Python tests for t_percent.test_to_pct.executor": "Run",
     "Python tests.Python tests for t_pivot.test_window_full.executor": "Run",
     "Python tests.Python tests for t_pivot_table.test_window_broken.executor": "Run",
     "Python tests.Python tests for t_position.test_half.executor": "Run",
@@ -451,6 +448,7 @@
     "Python tests.Python tests in t_ops.py.executor": "Run",
     "Python tests.Python tests in t_parentable.py.executor": "Run",
     "Python tests.Python tests in t_path.py.executor": "Run",
+    "Python tests.Python tests in t_percent.py.executor": "Run",
     "Python tests.Python tests in t_pivot.py.executor": "Run",
     "Python tests.Python tests in t_pivot_table.py.executor": "Run",
     "Python tests.Python tests in t_position.py (1).executor": "Run",
@@ -524,6 +522,7 @@
     "Python.g_0_audit.executor": "Run",
     "Python.g_0_list.executor": "Run",
     "Python.g_1_bar_grouped.executor": "Run",
+    "Python.g_1_bar_stacked (1).executor": "Run",
     "Python.g_1_bar_stacked.executor": "Run",
     "Python.g_1_container (1).executor": "Run",
     "Python.g_1_csv.executor": "Run",
@@ -769,8 +768,8 @@
       <recent name="G:\mypy\f_gui\components" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.g_1_bar_stacked">
-    <configuration name="g_1_bar_grouped" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.e_grand_results">
+    <configuration name="e_grand_results" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -779,11 +778,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_dv/generators" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_dv/generators/g_1_bar_grouped.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand_results.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -792,7 +791,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="g_1_bar_stacked" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="g_1_bar_stacked (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -814,72 +813,65 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="i_1_bar_stacked" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_dv" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_dv/i_1_bar_stacked.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for t_df.test_count_comparison" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_percent.test_pct_of" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_psl/pandas/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_math/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_df.test_count_comparison&quot;" />
+      <option name="_new_target" value="&quot;t_percent.test_pct_of&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_df.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_percent.test_to_pct" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_psl/pandas/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_math/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_psl/pandas/testers/t_df.py&quot;" />
+      <option name="_new_target" value="&quot;t_percent.test_to_pct&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in t_percent.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_math/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_math/testers/t_percent.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.g_1_bar_grouped" />
-      <item itemvalue="Python.g_1_bar_stacked" />
-      <item itemvalue="Python.i_1_bar_stacked" />
-      <item itemvalue="Python tests.Python tests for t_df.test_count_comparison" />
-      <item itemvalue="Python tests.Python tests in t_df.py" />
+      <item itemvalue="Python.e_grand_results" />
+      <item itemvalue="Python.g_1_bar_stacked (1)" />
+      <item itemvalue="Python tests.Python tests for t_percent.test_pct_of" />
+      <item itemvalue="Python tests.Python tests for t_percent.test_to_pct" />
+      <item itemvalue="Python tests.Python tests in t_percent.py" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.g_1_bar_stacked" />
-        <item itemvalue="Python.g_1_bar_grouped" />
-        <item itemvalue="Python.i_1_bar_stacked" />
-        <item itemvalue="Python tests.Python tests in t_df.py" />
-        <item itemvalue="Python tests.Python tests for t_df.test_count_comparison" />
+        <item itemvalue="Python.e_grand_results" />
+        <item itemvalue="Python tests.Python tests in t_percent.py" />
+        <item itemvalue="Python tests.Python tests for t_percent.test_to_pct" />
+        <item itemvalue="Python tests.Python tests for t_percent.test_pct_of" />
+        <item itemvalue="Python.g_1_bar_stacked (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -898,14 +890,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00151" summary="h">
-      <option name="closed" value="true" />
-      <created>1740239140549</created>
-      <option name="number" value="00151" />
-      <option name="presentableId" value="LOCAL-00151" />
-      <option name="project" value="LOCAL" />
-      <updated>1740239140550</updated>
     </task>
     <task id="LOCAL-00152" summary="h">
       <option name="closed" value="true" />
@@ -1291,7 +1275,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744777341953</updated>
     </task>
-    <option name="localTasksCounter" value="200" />
+    <task id="LOCAL-00200" summary="h">
+      <option name="closed" value="true" />
+      <created>1744830704719</created>
+      <option name="number" value="00200" />
+      <option name="presentableId" value="LOCAL-00200" />
+      <option name="project" value="LOCAL" />
+      <updated>1744830704719</updated>
+    </task>
+    <option name="localTasksCounter" value="201" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

@@ -1,11 +1,14 @@
 from f_file.i_1_csv import CSV
+from f_math.u_percent import UPercent
 from f_psl.os.u_folder import UFolder
-from f_psl.pandas.u_df import UDF, TypeAgg
+from f_psl.pandas.u_df import UDF, TypeAgg, TypeComparison
 from f_psl.pandas.u_pivot import UPivot
 from f_dv.i_1_bar import Bar
+from f_dv.i_1_bar_stacked import BarStacked
 from f_dv.i_1_scatter import Scatter
 from f_dv.i_1_scatter_regression import ScatterRegression
 from f_dv.i_1_heat_map import HeatMap
+from f_color.rgb import RGB
 import pandas as pd
 
 
@@ -46,14 +49,183 @@ def format_csv() -> None:
     df.to_csv(csv_results, index=False)
 
 
-def show_pct_greater() -> None:
+def show_pct_comparison() -> None:
     """
     ========================================================================
-     Show the percentage of greater.
+     Show the percentage of comparison.
     ========================================================================
     """
     df = pd.read_csv(csv_results)
-    
+    better_1 = UDF.count_comparison(df=df,
+                                    col_a='explored_0',
+                                    col_b='explored_1',
+                                    type_cmp=TypeComparison.GREATER)
+    equal_1 = UDF.count_comparison(df=df,
+                                   col_a='explored_0',
+                                   col_b='explored_1',
+                                   type_cmp=TypeComparison.EQUAL)
+    worse_1 = UDF.count_comparison(df=df,
+                                   col_a='explored_0',
+                                   col_b='explored_1',
+                                   type_cmp=TypeComparison.LESS)
+    better_2 = UDF.count_comparison(df=df,
+                                    col_a='explored_1',
+                                    col_b='explored_2',
+                                    type_cmp=TypeComparison.GREATER)
+    equal_2 = UDF.count_comparison(df=df,
+                                   col_a='explored_1',
+                                   col_b='explored_2',
+                                   type_cmp=TypeComparison.EQUAL)
+    worse_2 = UDF.count_comparison(df=df,
+                                   col_a='explored_1',
+                                   col_b='explored_2',
+                                   type_cmp=TypeComparison.LESS)
+    better_3 = UDF.count_comparison(df=df,
+                                    col_a='explored_2',
+                                    col_b='explored_3',
+                                    type_cmp=TypeComparison.GREATER)
+    equal_3 = UDF.count_comparison(df=df,
+                                   col_a='explored_2',
+                                   col_b='explored_3',
+                                   type_cmp=TypeComparison.EQUAL)   
+    worse_3 = UDF.count_comparison(df=df,
+                                   col_a='explored_2',
+                                   col_b='explored_3',
+                                   type_cmp=TypeComparison.LESS)    
+    better_4 = UDF.count_comparison(df=df,
+                                    col_a='explored_3',
+                                    col_b='explored_4',
+                                    type_cmp=TypeComparison.GREATER)
+    equal_4 = UDF.count_comparison(df=df,
+                                   col_a='explored_3',
+                                   col_b='explored_4',
+                                   type_cmp=TypeComparison.EQUAL)
+    worse_4 = UDF.count_comparison(df=df,
+                                   col_a='explored_3',
+                                   col_b='explored_4',
+                                   type_cmp=TypeComparison.LESS)        
+    better_5 = UDF.count_comparison(df=df,
+                                    col_a='explored_4',
+                                    col_b='explored_5',
+                                    type_cmp=TypeComparison.GREATER)
+    equal_5 = UDF.count_comparison(df=df,
+                                   col_a='explored_4',
+                                   col_b='explored_5',
+                                   type_cmp=TypeComparison.EQUAL)
+    worse_5 = UDF.count_comparison(df=df,
+                                   col_a='explored_4',
+                                   col_b='explored_5',
+                                   type_cmp=TypeComparison.LESS)
+    name_labels = 'Depths'
+    name_values = 'Percentage of Cases'
+    x = ['1', '2', '3', '4', '5']
+    pcts_1 = UPercent.to_pct([better_1, equal_1, worse_1])
+    pcts_2 = UPercent.to_pct([better_2, equal_2, worse_2])
+    pcts_3 = UPercent.to_pct([better_3, equal_3, worse_3])
+    pcts_4 = UPercent.to_pct([better_4, equal_4, worse_4])
+    pcts_5 = UPercent.to_pct([better_5, equal_5, worse_5])
+    y = [pcts_1, pcts_2, pcts_3, pcts_4, pcts_5]
+    d_stack = {'Better': RGB('LIGHT_GREEN'),
+               'Equal': RGB('LIGHT_YELLOW'),
+               'Worse': RGB('LIGHT_RED')}
+    name = 'Performance Comparison at Varying Depths'
+    chart = BarStacked(x=x,
+                       y=y,
+                       d_stack=d_stack,
+                       name_labels=name_labels,
+                       name_values=name_values,
+                       is_pct=True,
+                       name=name)
+    chart.show()
+
+def show_pct_comparison_to_zero() -> None:
+    """
+    ========================================================================
+     Show the percentage of comparison.
+    ========================================================================
+    """
+    df = pd.read_csv(csv_results)
+    better_1 = UDF.count_comparison(df=df,
+                                    col_a='explored_0',
+                                    col_b='explored_1',
+                                    type_cmp=TypeComparison.GREATER)
+    equal_1 = UDF.count_comparison(df=df,
+                                   col_a='explored_0',
+                                   col_b='explored_1',
+                                   type_cmp=TypeComparison.EQUAL)
+    worse_1 = UDF.count_comparison(df=df,
+                                   col_a='explored_0',
+                                   col_b='explored_1',
+                                   type_cmp=TypeComparison.LESS)
+    better_2 = UDF.count_comparison(df=df,
+                                    col_a='explored_0',
+                                    col_b='explored_2',
+                                    type_cmp=TypeComparison.GREATER)
+    equal_2 = UDF.count_comparison(df=df,
+                                   col_a='explored_0',
+                                   col_b='explored_2',
+                                   type_cmp=TypeComparison.EQUAL)
+    worse_2 = UDF.count_comparison(df=df,
+                                   col_a='explored_0',
+                                   col_b='explored_2',
+                                   type_cmp=TypeComparison.LESS)
+    better_3 = UDF.count_comparison(df=df,
+                                    col_a='explored_0',
+                                    col_b='explored_3',
+                                    type_cmp=TypeComparison.GREATER)
+    equal_3 = UDF.count_comparison(df=df,
+                                   col_a='explored_0',
+                                   col_b='explored_3',
+                                   type_cmp=TypeComparison.EQUAL)   
+    worse_3 = UDF.count_comparison(df=df,
+                                   col_a='explored_0',
+                                   col_b='explored_3',
+                                   type_cmp=TypeComparison.LESS)    
+    better_4 = UDF.count_comparison(df=df,
+                                    col_a='explored_0',
+                                    col_b='explored_4',
+                                    type_cmp=TypeComparison.GREATER)
+    equal_4 = UDF.count_comparison(df=df,
+                                   col_a='explored_0',
+                                   col_b='explored_4',
+                                   type_cmp=TypeComparison.EQUAL)
+    worse_4 = UDF.count_comparison(df=df,
+                                   col_a='explored_0',
+                                   col_b='explored_4',
+                                   type_cmp=TypeComparison.LESS)        
+    better_5 = UDF.count_comparison(df=df,
+                                    col_a='explored_0',
+                                    col_b='explored_5',
+                                    type_cmp=TypeComparison.GREATER)
+    equal_5 = UDF.count_comparison(df=df,
+                                   col_a='explored_0',
+                                   col_b='explored_5',
+                                   type_cmp=TypeComparison.EQUAL)
+    worse_5 = UDF.count_comparison(df=df,
+                                   col_a='explored_0',
+                                   col_b='explored_5',
+                                   type_cmp=TypeComparison.LESS)
+    name_labels = 'Depths'
+    name_values = 'Percentage of Cases'
+    x = ['1', '2', '3', '4', '5']
+    pcts_1 = UPercent.to_pct([better_1, equal_1, worse_1])
+    pcts_2 = UPercent.to_pct([better_2, equal_2, worse_2])
+    pcts_3 = UPercent.to_pct([better_3, equal_3, worse_3])
+    pcts_4 = UPercent.to_pct([better_4, equal_4, worse_4])
+    pcts_5 = UPercent.to_pct([better_5, equal_5, worse_5])
+    y = [pcts_1, pcts_2, pcts_3, pcts_4, pcts_5]
+    d_stack = {'Better': RGB('LIGHT_GREEN'),
+               'Equal': RGB('LIGHT_YELLOW'),
+               'Worse': RGB('LIGHT_RED')}
+    name = 'Performance Comparison at Varying Depths'
+    chart = BarStacked(x=x,
+                       y=y,
+                       d_stack=d_stack,
+                       name_labels=name_labels,
+                       name_values=name_values,
+                       is_pct=True,
+                       name=name)
+    chart.show()
 
 def show_pct_explored() -> None:
     """
@@ -70,6 +242,27 @@ def show_pct_explored() -> None:
     name_values = 'Percentage of Exploration Reduction'
     bar = Bar(labels=labels, values=values,
               name_labels=name_labels, name_values=name_values, is_pct=True)
+    bar.show()
+
+
+def show_pct_explored_only_better() -> None:
+    """
+    ========================================================================
+     Show the percentage of explored cells.
+    ========================================================================
+    """
+    df = pd.read_csv(csv_results)
+    df = df[df['explored_1'] < df['explored_0']]
+    labels = ['1', '2', '3', '4', '5']
+    cols = ['pct_explored_1', 'pct_explored_2',
+            'pct_explored_3', 'pct_explored_4', 'pct_explored_5']
+    values = UDF.agg_cols(df=df, cols=cols, type_agg=TypeAgg.MEDIAN)
+    name_labels = 'Depth'
+    name_values = 'Percentage of Exploration Reduction'
+    name = 'Exploration Reduction at Varying Depths'
+    bar = Bar(labels=labels, values=values,
+              name_labels=name_labels, name_values=name_values,
+              is_pct=True, name=name)
     bar.show()
 
 
@@ -166,7 +359,10 @@ def show_pct_explored_nodes() -> None:
 
 # union_csv()
 # format_csv()
+# show_pct_comparison()
+# show_pct_comparison_to_zero()
 show_pct_explored()
+# show_pct_explored_only_better()
 # show_pct_elapsed()
 # show_correlation_explored_elapsed()
 # show_changed()

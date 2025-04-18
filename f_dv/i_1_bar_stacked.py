@@ -87,4 +87,11 @@ class BarStacked(Chart):
             plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda y, _: f'{int(y)}%'))
             plt.ylim(top=100)
 
-        plt.legend(fontsize=10, loc='best')
+        plt.legend(
+            fontsize=10,
+            loc='best',
+            facecolor='white',  # white background
+            framealpha=1.0  # fully opaque (no transparency)
+        )
+
+        plt.gca().set_facecolor('#202020')

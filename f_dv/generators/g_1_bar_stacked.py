@@ -17,10 +17,10 @@ class GBarStacked:
         """
         x = ['Group 1', 'Group 2', 'Group 3']
         y = [[10, 20, 70], [30, 25, 45], [20, 30, 50]]
-        z = 140
-        d_stack = {'Red': RGB.from_int(r=255, g=z, b=z),
-                   'Yellow': RGB.from_int(r=255, g=255, b=z),
-                   'Green': RGB.from_int(r=z, g=255, b=z)}
+        z = 135
+        d_stack = {'Red': RGB('LIGHT_RED'),
+                   'Yellow': RGB('LIGHT_YELLOW'),
+                   'Green': RGB('LIGHT_GREEN')}
         chart = BarStacked(x=x,
                            y=y,
                            d_stack=d_stack,

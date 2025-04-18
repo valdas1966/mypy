@@ -30,7 +30,7 @@ class Bar(Chart):
         self._name_values = name_values
         self._is_pct = is_pct
         if not rgbs:
-            rgbs = UColor.to_gradients(RGB('my_cyan'), RGB('black'), len(labels))
+            rgbs = UColor.to_gradients(RGB('MY_CYAN'), RGB('black'), len(labels))
         self._rgbs = rgbs
         Chart.__init__(self, name=name)
 
@@ -69,6 +69,8 @@ class Bar(Chart):
             def to_percent(y, _):
                 return f'{int(y)}%'
             plt.gca().yaxis.set_major_formatter(FuncFormatter(to_percent))
+
+        plt.gca().set_facecolor('#F2F2F2')
 
         """
         # Increase the white area between the highest bar and the top border
