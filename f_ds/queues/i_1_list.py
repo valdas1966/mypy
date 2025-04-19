@@ -59,6 +59,14 @@ class QueueList(QueueBase[Item]):
         self.update()
         return self._items[0]
     
+    def undo_pop(self, item: Item) -> None:
+        """
+        ========================================================================
+         Undo the last Pop.
+        ========================================================================
+        """
+        self._items.insert(0, item)
+    
     def update(self) -> None:
         """
         ========================================================================
