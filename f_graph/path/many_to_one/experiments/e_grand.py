@@ -3,6 +3,7 @@ from f_graph.path.many_to_one.generators.g_problem import GenProblemManyToOne as
 from f_graph.path.many_to_one.problem import ProblemManyToOne as Problem
 from f_graph.path.many_to_one.algo import AlgoManyToOne
 from f_graph.path.one_to_many.algo import AlgoOneToMany, AlgoOneToOne
+from f_graph.path.one_to_many.problem import ProblemOneToMany, ProblemOneToOne
 from f_graph.path.cache import Cache
 from f_ds.grids.grid import Grid, Cell
 from f_file.i_1_csv import CSV
@@ -16,7 +17,7 @@ from datetime import datetime
 cd = 'g'
 folder = f'{cd}:\\temp\\boundary\\grands'
 pickle_problems = f'{folder}\\problems_10.pkl'
-csv_results = f'{folder}\\results_10_algo.csv'
+csv_results = f'{folder}\\results_10.csv'
 folder_graphs = f'{cd}:\\temp\\boundary\\graphs'
 folder_results = f'{folder}\\results'
 csv_results_union = f'{folder}\\results_union.csv'
@@ -87,7 +88,7 @@ def cross_maps_to_csv() -> None:
      Convert the problems to a csv.
     ========================================================================
     """
-    titles = ['map', 'rows', 'cols', 'nodes', 'pct_nodes',
+    titles = ['map', 'rows', 'cols', 'nodes', 'pct_nodes', 'goals',
               'd_start_goal', 'h_start_goal', 'pct_start_goal',
               'explored_0', 'explored_1', 'explored_2', 'explored_3',
               'explored_4', 'explored_5',
@@ -101,8 +102,8 @@ def cross_maps_to_csv() -> None:
               'changed_4', 'changed_5']
     csv = CSV(path=csv_results, titles=titles)
     problems: list[Problem] = u_pickle.load(path=pickle_problems)
-    for i, problem in enumerate(problems):
-        graph_name, starts, goal = problem
+    for i, p in enumerate(problems):
+        graph_name, starts, goal = p
         pickle_graph = f'{folder_graphs}\\{graph_name}.pkl'
         graph = u_pickle.load(path=pickle_graph)
         problem = Problem(graph=graph, starts=starts, goal=goal)
@@ -111,6 +112,7 @@ def cross_maps_to_csv() -> None:
         row['rows'] = graph.grid.rows
         row['cols'] = graph.grid.cols
         row['nodes'] = len(problem.graph)
+        row['goals'] = len(problem.starts)
         total = graph.grid.rows * graph.grid.cols
         row['pct_nodes'] = round(row['nodes'] / total, 2)
         h_start_goal = problem.graph.distance(problem.starts[0], problem.goal)
@@ -141,13 +143,13 @@ def all_algo_to_csv() -> None:
      Convert the problems to a csv.
     ========================================================================
     """
-    titles = ['map', 'rows', 'cols', 'nodes', 'pct_nodes',
+    titles = ['map', 'rows', 'cols', 'nodes', 'pct_nodes', 'goals',
               'd_start_goal', 'h_start_goal', 'pct_start_goal',
               'backward_0', 'backward_1', 'forward', 'bi', 'iterative']
     csv = CSV(path=csv_results, titles=titles)
     problems: list[Problem] = u_pickle.load(path=pickle_problems)
-    for i, problem in enumerate(problems):
-        graph_name, starts, goal = problem
+    for i, p in enumerate(problems):
+        graph_name, starts, goal = p
         pickle_graph = f'{folder_graphs}\\{graph_name}.pkl'
         graph = u_pickle.load(path=pickle_graph)
         problem = Problem(graph=graph, starts=starts, goal=goal)
@@ -156,32 +158,45 @@ def all_algo_to_csv() -> None:
         row['rows'] = graph.grid.rows
         row['cols'] = graph.grid.cols
         row['nodes'] = len(problem.graph)
+        row['goals'] = len(problem.starts)
         total = graph.grid.rows * graph.grid.cols
         row['pct_nodes'] = round(row['nodes'] / total, 2)
         h_start_goal = problem.graph.distance(problem.starts[0], problem.goal)
         row['h_start_goal'] = h_start_goal
         for depth in range(2):
             algo = AlgoManyToOne(problem=problem,
-                                 depth_boundary=depth)
+                                 depth_boundary=depth,
+                                 verbose=False)
             sol = algo.run()
             d_start_goal = len(sol.paths[problem.starts[0]])
             row['d_start_goal'] = d_start_goal
             if d_start_goal:
                 row['pct_start_goal'] = round(h_start_goal / d_start_goal, 2)
             row[f'backward_{depth}'] = sol.explored
-        algo_forward = AlgoOneToMany(problem=problem)
+        problem_cloned = problem.clone()
+        problem_forward = ProblemOneToMany(graph=problem_cloned.graph,
+                                           start=problem_cloned.goal,
+                                           goals=problem_cloned.starts)
+        algo_forward = AlgoOneToMany(problem=problem_forward, verbose=False)
         sol_forward = algo_forward.run()
         row['forward'] = sol_forward.explored
-        algo_iterative = AlgoManyToOne(problem=problem, is_shared=False)
+        algo_iterative = AlgoOneToMany(problem=problem_forward.clone(),
+                                       is_shared=False,
+                                       verbose=False)
         sol_iterative = algo_iterative.run()
         row['iterative'] = sol_iterative.explored
-        problems = problem.to_singles()
-        problem_first, *problems_rest = problems
-        algo_first = AlgoOneToOne(problem=problem_first)
+        goal_first = list(problem_forward.goals)[0].clone()
+        problem_first = ProblemOneToOne(graph=problem_forward.graph,
+                                        start=problem_forward.start,
+                                        goal=goal_first)
+        algo_first = AlgoOneToOne(problem=problem_first.clone(), verbose=False)
         sol_first = algo_first.run()
         cache_rest = Cache.from_explored(explored=sol_first.state.explored)
-        problem.starts.remove(problem_first.start)
-        algo_rest = AlgoManyToOne(problem=problem, cache=cache_rest)
+        problem_rest = problem_forward.clone()
+        problem_rest.goals.remove(goal_first)
+        algo_rest = AlgoManyToOne(problem=problem_rest,
+                                  cache=cache_rest,
+                                  verbose=False)
         sol_rest = algo_rest.run()
         row['bi'] = sol_first.stats.explored + sol_rest.explored
         if row['d_start_goal']:
@@ -237,6 +252,6 @@ def union_csv() -> None:
 # problems_to_pickle(n_rows=100, n_problems=100)
 # positive_example_to_pickle()
 # experiments_to_csv()
-# cross_maps_to_csv()
-all_algo_to_csv()
+cross_maps_to_csv()
+# all_algo_to_csv()
 # # union_csv()

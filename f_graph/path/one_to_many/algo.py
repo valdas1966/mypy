@@ -19,13 +19,14 @@ class AlgoOneToMany(AlgoPath[Problem, Solutions]):
                  state: State = None,
                  type_algo: TypeAlgo = TypeAlgo.A_STAR,
                  is_shared: bool = True,
+                 verbose: bool = True,
                  name: str = 'Algo One-To-Many') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        AlgoPath.__init__(self, problem=problem, name=name)
+        AlgoPath.__init__(self, problem=problem, name=name, verbose=verbose)
         self._type_algo = type_algo
         self._type_queue = TypeQueue.PRIORITY
         self._type_heuristic = TypeHeuristic.MANHATTAN

@@ -50,7 +50,6 @@ class ProblemOneToMany(ProblemPath, Equable):
         return [ProblemOneToOne(graph=graph,
                                 start=start,
                                 goal=goal) for goal in self.goals]
-    
 
     def clone(self) -> 'ProblemOneToMany':
         """
@@ -59,8 +58,8 @@ class ProblemOneToMany(ProblemPath, Equable):
         ========================================================================
         """
         graph = self.graph.clone()
-        start = graph.node(uid=self.start.uid)
-        goals = set(graph.node(uid=goal.uid) for goal in self.goals)
+        start = graph.nodes_by_keys(key=self.start.key)
+        goals = set(graph.nodes_by_keys(key=goal.key) for goal in self.goals)
         return ProblemOneToMany(graph=graph, start=start, goals=goals)  
     
     def key_comparison(self) -> tuple[Graph, Node, set[Node]]:
