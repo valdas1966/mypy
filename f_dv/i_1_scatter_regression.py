@@ -15,6 +15,8 @@ class ScatterRegression(Chart):
                  df: pd.DataFrame,
                  col_x: str,
                  col_y: str,
+                 label_x: str = None,
+                 label_y: str = None,
                  color_point: str = 'blue',
                  color_line: str = 'red',
                  name: str = None) -> None:
@@ -26,6 +28,8 @@ class ScatterRegression(Chart):
         self._df = df
         self._col_x = col_x
         self._col_y = col_y
+        self._label_x = label_x
+        self._label_y = label_y
         self._color_point = color_point
         self._color_line = color_line
         Chart.__init__(self, name=name)
@@ -40,7 +44,7 @@ class ScatterRegression(Chart):
         y = self._df[self._col_y].values
 
         # Scatter plot of the data
-        plt.scatter(x, y, color=self._color_point, label='Data Points')
+        plt.scatter(x, y, color=self._color_point, label='Data Points', s=2)
 
         # Fit linear regression line
         coef = np.polyfit(x, y, 1)
@@ -52,10 +56,10 @@ class ScatterRegression(Chart):
                  linewidth=2.5, label=f'Regression Line (y = {coef[0]:.2f}x + {coef[1]:.2f})')
 
         # Labels and ticks
-        plt.xlabel(self._col_x, fontweight='bold', color=self._color_point)
-        plt.ylabel(self._col_y, fontweight='bold', color=self._color_point)
+        plt.xlabel(self._label_x, fontweight='bold')
+        plt.ylabel(self._label_y, fontweight='bold')
         plt.xticks(fontweight='bold')
         plt.yticks(fontweight='bold')
 
         # Legend
-        plt.legend(loc='upper left', fontsize='large', frameon=False)
+        plt.legend(loc='upper left', fontsize=6, frameon=False)

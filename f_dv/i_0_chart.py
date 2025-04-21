@@ -22,7 +22,6 @@ class Chart(HasName):
         ========================================================================
         """
         HasName.__init__(self, name=name)
-        self._set_params()
 
     def show(self) -> None:
         """
@@ -30,7 +29,19 @@ class Chart(HasName):
          Show the Bar Chart on the Screen.
         ========================================================================
         """
+        self._set_params()
         plt.show()
+
+    def save(self, path: str) -> None:
+        """
+        ========================================================================
+         Save the Bar Chart.
+        ========================================================================
+        """
+        plt.clf()
+        self._set_params()
+        plt.savefig(path, dpi=self._DPI, bbox_inches='tight')
+        plt.close()
 
     def _set_params(self) -> None:
         """

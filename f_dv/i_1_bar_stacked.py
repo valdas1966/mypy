@@ -88,7 +88,7 @@ class BarStacked(Chart):
             plt.ylim(top=100)
 
         plt.legend(
-            fontsize=10,
+            fontsize=5,
             loc='best',
             facecolor='white',  # white background
             framealpha=1.0  # fully opaque (no transparency)
