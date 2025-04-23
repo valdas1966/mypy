@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_dv/i_0_chart.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/i_0_chart.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_dv/i_1_bar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/i_1_bar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_dv/i_1_bar_stacked.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/i_1_bar_stacked.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_dv/i_1_scatter_regression.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/i_1_scatter_regression.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand_results.py" afterDir="false" />
-    </list>
+    <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
