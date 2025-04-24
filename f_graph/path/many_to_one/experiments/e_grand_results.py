@@ -228,31 +228,8 @@ def changed_nodes_by_depth() -> None:
     bar.save(path=png_changed_nodes_by_depth)
 
 
-def show_pct_explored_nodes() -> None:
-    """
-    ========================================================================
-     Show the percentage of explored nodes in distribution of number of
-       nodes in the graph.
-    ========================================================================
-    """
-    df = pd.read_csv(csv_results_temp)
-    df = UDF.wide_to_long(df=df,
-                          col_x='nodes',
-                          col_y='depth',
-                          cols_y=['pct_explored_1', 'pct_explored_2',
-                                  'pct_explored_3', 'pct_explored_4',
-                                  'pct_explored_5'],
-                          col_val='pct_explored')
-    pivot = UPivot.from_df(df=df,
-                           col_x='nodes',
-                           col_y='depth',
-                           col_val='pct_explored',
-                           mult_x=100000,
-                           mult_y=1,
-                           type_agg=UPivot.TypeAgg.MEAN)
-    name = 'Percentage of explored nodes relatively to all nodes'
-    heat_map = HeatMap(pivot=pivot, name=name)
-    heat_map.show()
+def explored_by_nodes() -> None:
+    
 
 
 # union_csv()
