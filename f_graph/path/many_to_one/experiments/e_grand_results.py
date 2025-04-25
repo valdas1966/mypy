@@ -22,6 +22,9 @@ png_exploration_reduction_by_depth = f'{folder_results}\\exploration_reduction_b
 png_changed_nodes_by_depth = f'{folder_results}\\changed_nodes_by_depth.png'
 png_time_reduction_by_depth = f'{folder_results}\\time_reduction_by_depth.png'
 png_correlation_explored_elapsed = f'{folder_results}\\correlation_explored_elapsed.png'
+png_explored_by_nodes_cnt = f'{folder_results}\\explored_by_nodes_cnt.png'
+png_explored_by_nodes_pct = f'{folder_results}\\explored_by_nodes_pct.png'
+png_explored_by_pct_nodes_cnt = f'{folder_results}\\explored_by_pct_nodes_cnt.png'
 
 
 def union_csv() -> None:
@@ -51,6 +54,7 @@ def format_csv() -> None:
     df['pct_elapsed_3'] = round((1-df['pct_elapsed_3']) * 100)
     df['pct_elapsed_4'] = round((1-df['pct_elapsed_4']) * 100)
     df['pct_elapsed_5'] = round((1-df['pct_elapsed_5']) * 100)
+    df['pct_nodes'] = round(df['pct_nodes'] * 100)
     df.to_csv(csv_results, index=False)
 
 
@@ -219,6 +223,8 @@ def changed_nodes_by_depth() -> None:
     cols = ['pct_changed_1', 'pct_changed_2', 'pct_changed_3',
             'pct_changed_4', 'pct_changed_5']
     values = UDF.agg_cols(df=df, cols=cols, type_agg=TypeAgg.MEDIAN)
+    print(labels)
+    print(values)
     name_labels = 'Depth'
     # name_values = 'Percentage of Changed Nodes from all Nodes'
     # name = 'Changed Nodes by Depth'
@@ -228,8 +234,75 @@ def changed_nodes_by_depth() -> None:
     bar.save(path=png_changed_nodes_by_depth)
 
 
-def explored_by_nodes() -> None:
-    
+def explored_by_nodes_cnt() -> None:
+    """
+    ========================================================================
+     Show the explored by nodes.
+    ========================================================================
+    """
+    df = pd.read_csv(csv_results)
+    df = UDF.group_and_agg(df=df,
+                           col_group='nodes',
+                           multiple_group=100000)
+    df = df.sort_values(by='nodes') 
+    labels = [str(val//1000) for val in df['nodes'].tolist()]
+    values = df['pct'].tolist()
+    name_labels = 'Nodes in Thousands'
+    name = '%Experiments'
+    bar = Bar(labels=labels,
+              values=values,
+              name_labels=name_labels,
+              name=name,
+              is_pct=True)
+    bar.save(path=png_explored_by_nodes_cnt)
+
+
+def explored_by_nodes_pct() -> None:
+    """
+    ========================================================================
+     Show the explored by nodes.
+    ========================================================================
+    """
+    df = pd.read_csv(csv_results)
+    df = UDF.group_and_agg(df=df,
+                           col_group='nodes',
+                           col_agg='pct_explored_2',
+                           multiple_group=100000,
+                           type_agg=TypeAgg.MEAN)
+    labels = [str(val//1000) for val in df['nodes'].tolist()]
+    values = df['pct_explored_2'].tolist()
+    name_labels = 'Nodes in Thousands'
+    name = '%Reduced Exploration'
+    bar = Bar(labels=labels,
+              values=values,
+              name_labels=name_labels,
+              name=name,
+              is_pct=True)
+    bar.save(path=png_explored_by_nodes_pct)
+
+
+def explored_by_pct_nodes_cnt() -> None:
+    """
+    ========================================================================
+     Show the explored by nodes.
+    ========================================================================
+    """
+    df = pd.read_csv(csv_results)
+    df['pct_nodes'] = round(df['pct_nodes'] * 100)
+    df = UDF.group_and_agg(df=df,
+                           col_group='pct_nodes',
+                           multiple_group=10)
+    df = df.sort_values(by='pct_nodes') 
+    labels = df['pct_nodes'].tolist()
+    values = df['pct'].tolist()
+    name_labels = 'Heuristic Quality'
+    name = '%Experiments'
+    bar = Bar(labels=labels,
+              values=values,
+              name_labels=name_labels,
+              name=name,
+              is_pct=True)
+    bar.save(path=png_explored_by_pct_nodes_cnt)
 
 
 # union_csv()
@@ -237,6 +310,8 @@ def explored_by_nodes() -> None:
 # performance_comparison_by_depth()
 # exploration_reduction_by_depth()
 # time_reduction_by_depth()
-correlation_explored_elapsed()
+# correlation_explored_elapsed()
 # changed_nodes_by_depth()
- 
+# explored_by_nodes_cnt()
+# explored_by_nodes_pct()
+explored_by_pct_nodes_cnt()

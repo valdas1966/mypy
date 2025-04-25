@@ -63,6 +63,8 @@ class Bar(Chart):
         # Add labels and values on top of the bars, in bold
         for bar in bars:
             height = bar.get_height()
+            if height != height:
+                height = 0
             label = f'{int(height)}%' if self._is_pct else f'{height}'
             # Decide label position and alignment
             y = height if height >= 0 else height - 0.05 * abs(max(self._values))
@@ -70,7 +72,6 @@ class Bar(Chart):
             plt.text(bar.get_x() + bar.get_width() / 2, y,
                      label, ha='center', va=va, fontweight='bold', fontsize=16)
 
-        
         plt.xlabel(xlabel=self._name_labels, fontweight='bold', fontsize=16)
         plt.ylabel(ylabel=self._name_values, fontweight='bold', fontsize=16)
         plt.xticks(self._labels, fontweight='bold', fontsize=16)
@@ -86,4 +87,3 @@ class Bar(Chart):
 
         max_height = max(self._values)
         plt.ylim(top=max_height * 1.15)  # adds 15% extra headroom
-

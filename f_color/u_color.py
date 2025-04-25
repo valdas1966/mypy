@@ -49,6 +49,9 @@ class UColor:
         """
         def interpolate(start: float, end: float, factor: float) -> float:
             return start + (end - start) * factor
+        # Ensure n is at least 2 to create a gradient
+        if n == 1:
+            return [rgb_a]
 
         gradient = []
         for i in range(n):

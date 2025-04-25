@@ -134,3 +134,22 @@ def test_wide_to_long() -> None:
                      'val': val_expected}
     expected = pd.DataFrame(data_expected)
     assert actual.equals(expected)
+
+
+def test_group_and_agg() -> None:
+    """
+    ========================================================================
+     Test the group_and_agg() function.
+    ========================================================================    
+    """
+    df = GenDF.two_hands()
+    actual = UDF.group_and_agg(df=df,
+                               col_group='a',
+                               col_agg='b',
+                               multiple_group=3,
+                               type_agg=TypeAgg.MEAN)
+    a_expected = [0, 3, 6]
+    b_expected = [1.0, 3.0, 5.0]
+    data_expected = {'a': a_expected, 'b': b_expected}
+    expected = pd.DataFrame(data_expected)
+    assert actual.equals(expected)

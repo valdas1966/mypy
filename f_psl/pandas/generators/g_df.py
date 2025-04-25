@@ -72,3 +72,16 @@ class GenDF:
         y_3 = [50, 60]
         data = {'x': x, 'y_1': y_1, 'y_2': y_2, 'y_3': y_3}
         return pd.DataFrame(data)
+    
+    @staticmethod
+    def group_by_col() -> pd.DataFrame:
+        """
+        ========================================================================
+         Generate a DataFrame of group by col.
+        ========================================================================    
+        """
+        a = [1, 1, 2, 2]
+        b = [1, 2, 3, 4]
+        data = {'a': a, 'b': b}
+        return pd.DataFrame(data)
+
