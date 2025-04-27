@@ -305,6 +305,30 @@ def explored_by_pct_nodes_cnt() -> None:
     bar.save(path=png_explored_by_pct_nodes_cnt)
 
 
+def explored_by_pct_nodes_pct() -> None:
+    """
+    ========================================================================
+     Show the explored by nodes.
+    ========================================================================
+    """
+    df = pd.read_csv(csv_results)
+    df['pct_nodes'] = round(df['pct_nodes'] * 100)
+    df = UDF.group_and_agg(df=df,
+                           col_group='pct_nodes',
+                           col_agg='pct_explored_2',
+                           multiple_group=10,
+                           type_agg=TypeAgg.MEAN)
+    labels = df['pct_nodes'].tolist()
+    values = df['pct_explored_2'].tolist()
+    name_labels = 'Nodes in Thousands'
+    name = '%Reduced Exploration'
+    bar = Bar(labels=labels,
+              values=values,
+              name_labels=name_labels,
+              name=name,
+              is_pct=True)
+    bar.save(path=png_explored_by_nodes_pct)
+
 # union_csv()
 # format_csv()
 # performance_comparison_by_depth()
