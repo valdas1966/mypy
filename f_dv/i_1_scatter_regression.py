@@ -2,6 +2,7 @@ from f_dv.i_0_chart import Chart
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.ticker import FuncFormatter
 
 
 class ScatterRegression(Chart):
@@ -19,6 +20,7 @@ class ScatterRegression(Chart):
                  label_y: str = None,
                  color_point: str = 'blue',
                  color_line: str = 'red',
+                 is_pct: bool = False,
                  name: str = None) -> None:
         """
         ========================================================================
@@ -32,6 +34,7 @@ class ScatterRegression(Chart):
         self._label_y = label_y
         self._color_point = color_point
         self._color_line = color_line
+        self._is_pct = is_pct
         Chart.__init__(self, name=name)
 
     def _set_chart(self) -> None:
@@ -55,9 +58,17 @@ class ScatterRegression(Chart):
         plt.plot(x_sorted, poly1d_fn(x_sorted), color=self._color_line,
                  linewidth=2.5, label=f'Regression Line (y = {coef[0]:.2f}x + {coef[1]:.2f})')
 
-        # Labels and ticks
+        # Labels
         plt.xlabel(self._label_x, fontweight='bold')
         plt.ylabel(self._label_y, fontweight='bold')
+
+        # Ticks
+        if self._is_pct:
+            def to_percent(val, _):
+                return f'{int(val)}%'
+            plt.gca().xaxis.set_major_formatter(FuncFormatter(to_percent))
+            plt.gca().yaxis.set_major_formatter(FuncFormatter(to_percent))
+
         plt.xticks(fontweight='bold')
         plt.yticks(fontweight='bold')
 

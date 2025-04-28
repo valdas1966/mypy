@@ -6,9 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_dv/i_1_bar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/i_1_bar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_dv/i_1_scatter_regression.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/i_1_scatter_regression.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/P.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/P.pptx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand_results.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/one_to_many/testers/t_algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/one_to_many/testers/t_algo.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -841,33 +842,33 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_series.test_pct" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_algo.test_a_star_shared" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_psl/pandas/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_many/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_series.test_pct&quot;" />
+      <option name="_new_target" value="&quot;t_algo.test_a_star_shared&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_series.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in t_algo.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_psl/pandas/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/one_to_many/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_psl/pandas/testers/t_series.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_graph/path/one_to_many/testers/t_algo.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -875,16 +876,16 @@
       <item itemvalue="Python.e_grand_results" />
       <item itemvalue="Python.i_1_bar" />
       <item itemvalue="Python.e_grand_results (3)" />
-      <item itemvalue="Python tests.Python tests for t_series.test_pct" />
-      <item itemvalue="Python tests.Python tests in t_series.py" />
+      <item itemvalue="Python tests.Python tests for t_algo.test_a_star_shared" />
+      <item itemvalue="Python tests.Python tests in t_algo.py" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.e_grand_results" />
+        <item itemvalue="Python tests.Python tests in t_algo.py" />
+        <item itemvalue="Python tests.Python tests for t_algo.test_a_star_shared" />
         <item itemvalue="Python.i_1_bar" />
         <item itemvalue="Python.e_grand_results (3)" />
-        <item itemvalue="Python tests.Python tests in t_series.py" />
-        <item itemvalue="Python tests.Python tests for t_series.test_pct" />
       </list>
     </recent_temporary>
   </component>
@@ -903,14 +904,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00157" summary="h">
-      <option name="closed" value="true" />
-      <created>1741004204584</created>
-      <option name="number" value="00157" />
-      <option name="presentableId" value="LOCAL-00157" />
-      <option name="project" value="LOCAL" />
-      <updated>1741004204584</updated>
     </task>
     <task id="LOCAL-00158" summary="h">
       <option name="closed" value="true" />
@@ -1296,7 +1289,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745570176882</updated>
     </task>
-    <option name="localTasksCounter" value="206" />
+    <task id="LOCAL-00206" summary="h">
+      <option name="closed" value="true" />
+      <created>1745815182854</created>
+      <option name="number" value="00206" />
+      <option name="presentableId" value="LOCAL-00206" />
+      <option name="project" value="LOCAL" />
+      <updated>1745815182855</updated>
+    </task>
+    <option name="localTasksCounter" value="207" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

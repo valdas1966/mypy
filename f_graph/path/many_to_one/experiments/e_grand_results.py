@@ -16,6 +16,7 @@ cd = 'g'
 folder = f'{cd}:\\temp\\boundary\\grands'
 folder_results = f'{folder}\\results'
 csv_results = f'{folder}\\results.csv'
+csv_results_10 = f'{folder}\\results_10.csv'
 csv_results_temp = f'{folder}\\results_temp.csv'
 png_performance_comparison_by_depth = f'{folder_results}\\performance_comparison_by_depth.png'
 png_exploration_reduction_by_depth = f'{folder_results}\\exploration_reduction_by_depth.png'
@@ -26,6 +27,11 @@ png_explored_by_nodes_cnt = f'{folder_results}\\explored_by_nodes_cnt.png'
 png_explored_by_nodes_pct = f'{folder_results}\\explored_by_nodes_pct.png'
 png_explored_by_pct_nodes_cnt = f'{folder_results}\\explored_by_pct_nodes_cnt.png'
 png_explored_by_pct_nodes_pct = f'{folder_results}\\explored_by_pct_nodes_pct.png'
+png_explored_by_manhattan_distance_cnt = f'{folder_results}\\explored_by_manhattan_distance_cnt.png'
+png_explored_by_manhattan_distance_pct = f'{folder_results}\\explored_by_manhattan_distance_pct.png'
+png_explored_by_pct_start_goal_cnt = f'{folder_results}\\explored_by_pct_start_goal_cnt.png'
+png_explored_by_pct_start_goal_pct = f'{folder_results}\\explored_by_pct_start_goal_pct.png'    
+png_explored_by_goals = f'{folder_results}\\explored_by_goals.png'
 
 
 def union_csv() -> None:
@@ -179,10 +185,10 @@ def time_reduction_by_depth() -> None:
             'pct_elapsed_4', 'pct_elapsed_5']
     values = UDF.agg_cols(df=df, cols=cols, type_agg=TypeAgg.MEDIAN)
     name_labels = 'Depth'
-    # name_values = 'Percentage of Elapsed Time Reduction'
-    # name = 'Elapsed Time Reduction at Varying Depths'
+    #name_values = 'Time Reduction'
+    name = '%Time Reduction'
     bar = Bar(labels=labels, values=values,
-              name_labels=name_labels, is_pct=True)
+              name_labels=name_labels, name=name,is_pct=True)
     bar.save(path=png_time_reduction_by_depth)
 
 
@@ -202,7 +208,8 @@ def correlation_explored_elapsed() -> None:
                                 col_y='pct_elapsed_1',
                                 label_x='Explored',
                                 label_y='Elapsed',
-                                name='Explored vs Elapsed')
+                                name='Correlation of Explored vs Elapsed',
+                                is_pct=True)
     scatter.save(path=png_correlation_explored_elapsed)
 
 
@@ -246,7 +253,7 @@ def explored_by_nodes_cnt() -> None:
                            col_group='nodes',
                            multiple_group=100000)
     df = df.sort_values(by='nodes') 
-    labels = [str(val//1000) for val in df['nodes'].tolist()]
+    labels = [str(int(val//1000)+100) for val in df['nodes'].tolist()]
     values = df['pct'].tolist()
     name_labels = 'Nodes in Thousands'
     name = '%Experiments'
@@ -270,7 +277,7 @@ def explored_by_nodes_pct() -> None:
                            col_agg='pct_explored_2',
                            multiple_group=100000,
                            type_agg=TypeAgg.MEAN)
-    labels = [str(val//1000) for val in df['nodes'].tolist()]
+    labels = [str(int(val//1000)+100) for val in df['nodes'].tolist()]
     values = df['pct_explored_2'].tolist()
     name_labels = 'Nodes in Thousands'
     name = '%Reduced Exploration'
@@ -331,6 +338,138 @@ def explored_by_pct_nodes_pct() -> None:
     bar.save(path=png_explored_by_pct_nodes_pct)
 
 
+def explored_by_manhattan_distance_cnt() -> None:
+    """
+    ========================================================================
+     Show the explored by nodes.
+    ========================================================================
+    """
+    df = pd.read_csv(csv_results)
+    df['pct_nodes'] = round((1-df['pct_nodes']) * 100)
+    df = UDF.group_and_agg(df=df,
+                           col_group='h_start_goal',
+                           multiple_group=400)
+    df = df.sort_values(by='h_start_goal') 
+    print(df)
+    labels = [int(val)+400 for val in df['h_start_goal'].tolist()]
+    values = df['pct'].tolist()
+    name_labels = 'Manhattan Distance'
+    name = '%Experiments'
+    bar = Bar(labels=labels,
+              values=values,
+              name_labels=name_labels,
+              name=name,
+              is_pct=True)
+    bar.save(path=png_explored_by_manhattan_distance_cnt)
+
+
+def explored_by_manhattan_distance_pct() -> None:
+    """
+    ========================================================================
+     Show the explored by nodes.
+    ========================================================================
+    """
+    df = pd.read_csv(csv_results)
+    df['pct_nodes'] = round((1-df['pct_nodes']) * 100)
+    df = UDF.group_and_agg(df=df,
+                           col_group='h_start_goal',
+                           col_agg='pct_explored_2',
+                           multiple_group=400,
+                           type_agg=TypeAgg.MEAN)
+    print(df)
+    labels = [str(int(val)+400) for val in df['h_start_goal'].tolist()]
+    values = df['pct_explored_2'].tolist()
+    name_labels = 'Manhattan Distance'
+    name = '%Reduced Exploration'
+    bar = Bar(labels=labels,
+              values=values,
+              name_labels=name_labels,
+              name=name,
+              is_pct=True)
+    bar.save(path=png_explored_by_manhattan_distance_pct)
+
+
+def explored_by_pct_start_goal_cnt() -> None:
+    """
+    ========================================================================
+     Show the explored by nodes.
+    ========================================================================
+    """
+    df = pd.read_csv(csv_results)
+    df = UDF.group_and_agg(df=df,
+                           col_group='pct_start_goal',
+                           multiple_group=10)
+    df['pct_start_goal'] = df['pct_start_goal'].astype(int)
+    df = df.sort_values(by='pct_start_goal') 
+    print(df)
+    labels = df['pct_start_goal'].tolist()
+    values = df['pct'].tolist()
+    name_labels = 'Start-Goal Distance relative to Graph Size'
+    name = '%Experiments'
+    bar = Bar(labels=labels,
+              values=values,
+              name_labels=name_labels,
+              name=name,
+              is_pct=True)
+    bar.save(path=png_explored_by_pct_start_goal_cnt)
+
+
+def explored_by_pct_start_goal_pct() -> None:
+    """
+    ========================================================================
+     Show the explored by nodes.
+    ========================================================================
+    """
+    df = pd.read_csv(csv_results)
+    df = UDF.group_and_agg(df=df,
+                           col_group='pct_start_goal',
+                           col_agg='pct_explored_2',
+                           multiple_group=10,
+                           type_agg=TypeAgg.MEAN)
+    df['pct_start_goal'] = df['pct_start_goal'].astype(int)
+    print(df)
+    labels = df['pct_start_goal'].tolist()
+    values = df['pct_explored_2'].tolist()
+    name_labels = 'Start-Goal Distance relative to Graph Size'
+    name = '%Reduced Exploration'
+    bar = Bar(labels=labels,
+              values=values,
+              name_labels=name_labels,
+              name=name,
+              is_pct=True)
+    bar.save(path=png_explored_by_pct_start_goal_pct)
+
+
+def explored_by_goals() -> None:
+    """
+    ========================================================================
+     Show the explored by nodes.
+    ========================================================================
+    """
+    df = pd.read_csv(csv_results_10)
+    df['pct_explored_2'] = round((1-df['pct_explored_2']) * 100)
+    df = UDF.group_and_agg(df=df,
+                           col_group='goals',
+                           col_agg='pct_explored_2',
+                           multiple_group=1,
+                           type_agg=TypeAgg.MEAN)
+    print(df)
+    labels = df['goals'].tolist()
+    labels = labels[::2]
+    print(labels)
+    values = df['pct_explored_2'].tolist()
+    values = values[::2]
+    print(values)
+    name_labels = 'Number of Goals'
+    name = '%Reduced Exploration'
+    bar = Bar(labels=labels,
+              values=values,
+              name_labels=name_labels,
+              name=name,
+              is_pct=True)
+    bar.save(path=png_explored_by_goals)
+
+
 # union_csv()
 # format_csv()
 # performance_comparison_by_depth()
@@ -340,5 +479,12 @@ def explored_by_pct_nodes_pct() -> None:
 # changed_nodes_by_depth()
 # explored_by_nodes_cnt()
 # explored_by_nodes_pct()
-explored_by_pct_nodes_cnt()
-explored_by_pct_nodes_pct()
+# explored_by_pct_nodes_cnt()
+# explored_by_pct_nodes_pct()
+# explored_by_distance_cnt()
+# explored_by_distance_pct()
+# explored_by_manhattan_distance_cnt()
+# explored_by_manhattan_distance_pct()
+# explored_by_pct_start_goal_cnt()
+# explored_by_pct_start_goal_pct()
+explored_by_goals()

@@ -1,6 +1,7 @@
 from f_graph.path.one_to_many.generators.g_algo import GenAlgoOneToMany
 from f_graph.path.one_to_many.generators.g_problem import GenProblemOneToMany
 from f_graph.path.node import NodePath as Node
+from f_graph.path.path import Path
 import pytest
 
 
@@ -14,8 +15,8 @@ def paths_true() -> dict[Node, list[Node]]:
     problem = GenProblemOneToMany.gen_3x3()
     graph = problem.graph
     paths = dict()
-    paths[graph[0, 2]] = [graph[0, 0], graph[0, 1], graph[0, 2]]
-    paths[graph[2, 0]] = [graph[0, 0], graph[1, 0], graph[2, 0]]
+    paths[graph[0, 2]] = Path([graph[0, 0], graph[0, 1], graph[0, 2]])
+    paths[graph[2, 0]] = Path([graph[0, 0], graph[1, 0], graph[2, 0]])
     return paths
 
 
