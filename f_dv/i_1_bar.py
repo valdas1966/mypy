@@ -24,7 +24,7 @@ class Bar(Chart):
          Init private Attributes.
         ========================================================================
         """
-        self._labels = labels
+        self._labels = [str(label) for label in labels]
         self._values = values
         self._name_labels = name_labels
         self._name_values = name_values
@@ -87,3 +87,4 @@ class Bar(Chart):
 
         max_height = max(self._values)
         plt.ylim(top=max_height * 1.15)  # adds 15% extra headroom
+

@@ -12,7 +12,7 @@ from f_color.rgb import RGB
 import pandas as pd
 
 
-cd = 'd'
+cd = 'g'
 folder = f'{cd}:\\temp\\boundary\\grands'
 folder_results = f'{folder}\\results'
 csv_results = f'{folder}\\results.csv'
@@ -25,6 +25,7 @@ png_correlation_explored_elapsed = f'{folder_results}\\correlation_explored_elap
 png_explored_by_nodes_cnt = f'{folder_results}\\explored_by_nodes_cnt.png'
 png_explored_by_nodes_pct = f'{folder_results}\\explored_by_nodes_pct.png'
 png_explored_by_pct_nodes_cnt = f'{folder_results}\\explored_by_pct_nodes_cnt.png'
+png_explored_by_pct_nodes_pct = f'{folder_results}\\explored_by_pct_nodes_pct.png'
 
 
 def union_csv() -> None:
@@ -288,14 +289,14 @@ def explored_by_pct_nodes_cnt() -> None:
     ========================================================================
     """
     df = pd.read_csv(csv_results)
-    df['pct_nodes'] = round(df['pct_nodes'] * 100)
+    df['pct_nodes'] = round((1-df['pct_nodes']) * 100)
     df = UDF.group_and_agg(df=df,
                            col_group='pct_nodes',
                            multiple_group=10)
     df = df.sort_values(by='pct_nodes') 
     labels = df['pct_nodes'].tolist()
     values = df['pct'].tolist()
-    name_labels = 'Heuristic Quality'
+    name_labels = 'Percentage of Obstacle-Density'
     name = '%Experiments'
     bar = Bar(labels=labels,
               values=values,
@@ -312,7 +313,7 @@ def explored_by_pct_nodes_pct() -> None:
     ========================================================================
     """
     df = pd.read_csv(csv_results)
-    df['pct_nodes'] = round(df['pct_nodes'] * 100)
+    df['pct_nodes'] = round((1-df['pct_nodes']) * 100)
     df = UDF.group_and_agg(df=df,
                            col_group='pct_nodes',
                            col_agg='pct_explored_2',
@@ -320,14 +321,15 @@ def explored_by_pct_nodes_pct() -> None:
                            type_agg=TypeAgg.MEAN)
     labels = df['pct_nodes'].tolist()
     values = df['pct_explored_2'].tolist()
-    name_labels = 'Nodes in Thousands'
+    name_labels = 'Percentage of Obstacle-Density'
     name = '%Reduced Exploration'
     bar = Bar(labels=labels,
               values=values,
               name_labels=name_labels,
               name=name,
               is_pct=True)
-    bar.save(path=png_explored_by_nodes_pct)
+    bar.save(path=png_explored_by_pct_nodes_pct)
+
 
 # union_csv()
 # format_csv()
@@ -339,3 +341,4 @@ def explored_by_pct_nodes_pct() -> None:
 # explored_by_nodes_cnt()
 # explored_by_nodes_pct()
 explored_by_pct_nodes_cnt()
+explored_by_pct_nodes_pct()

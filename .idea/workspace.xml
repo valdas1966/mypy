@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_dv/i_1_bar.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/i_1_bar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/P.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/P.pptx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand_results.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -30,12 +32,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
-    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/valdas1966/mypy.git",
+    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -772,7 +774,7 @@
       <recent name="G:\mypy\f_gui\components" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.e_grand_results (3)">
+  <component name="RunManager" selected="Python.e_grand_results">
     <configuration name="e_grand_results (3)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -795,19 +797,48 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for t_series.test_cnt" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="e_grand_results" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_psl/pandas/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_series.test_cnt&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand_results.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="i_1_bar" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_dv" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_dv/i_1_bar.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
     <configuration name="Python tests for t_series.test_pct" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -822,21 +853,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;t_series.test_pct&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for t_series.test_to_df" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_psl/pandas/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_series.test_to_df&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -856,19 +872,19 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.e_grand_results" />
+      <item itemvalue="Python.i_1_bar" />
       <item itemvalue="Python.e_grand_results (3)" />
-      <item itemvalue="Python tests.Python tests for t_series.test_cnt" />
       <item itemvalue="Python tests.Python tests for t_series.test_pct" />
-      <item itemvalue="Python tests.Python tests for t_series.test_to_df" />
       <item itemvalue="Python tests.Python tests in t_series.py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.e_grand_results" />
+        <item itemvalue="Python.i_1_bar" />
         <item itemvalue="Python.e_grand_results (3)" />
         <item itemvalue="Python tests.Python tests in t_series.py" />
         <item itemvalue="Python tests.Python tests for t_series.test_pct" />
-        <item itemvalue="Python tests.Python tests for t_series.test_cnt" />
-        <item itemvalue="Python tests.Python tests for t_series.test_to_df" />
       </list>
     </recent_temporary>
   </component>
