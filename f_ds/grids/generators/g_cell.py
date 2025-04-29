@@ -15,4 +15,13 @@ class GenCell:
          Return a Cell with value 0.
         ========================================================================
         """
-        return Cell(row=0, col=0, is_valid=True)
+        return Cell(row=0)
+    
+    @staticmethod
+    def one() -> Cell:
+        """
+        ========================================================================
+         Return a Cell with value 1.
+        ========================================================================
+        """
+        return Cell(row=1)

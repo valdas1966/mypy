@@ -1,6 +1,7 @@
+from f_graph.path.algo import Problem
 from f_graph.path.generators.g_graph import GenGraphPath as GenGraph, Graph
 from f_graph.path.many_to_one.generators.g_problem import GenProblemManyToOne as GenProblem
-from f_graph.path.many_to_one.problem import ProblemManyToOne as Problem
+from f_graph.path.many_to_one.problem import ProblemManyToOne
 from f_graph.path.many_to_one.algo import AlgoManyToOne
 from f_graph.path.one_to_many.algo import AlgoOneToMany, AlgoOneToOne
 from f_graph.path.one_to_many.problem import ProblemOneToMany, ProblemOneToOne
@@ -21,6 +22,7 @@ csv_results = f'{folder}\\results_10.csv'
 folder_graphs = f'{cd}:\\temp\\boundary\\graphs'
 folder_results = f'{folder}\\results'
 csv_results_union = f'{folder}\\results_union.csv'
+csv_forward = f'{folder}\\forward.csv'
 
 
 def problems_to_pickle(n_problems: int, n_rows: int) -> None:
@@ -204,6 +206,29 @@ def all_algo_to_csv() -> None:
         print(f'[{datetime.now()}] {i}/{len(problems)}')
 
 
+def algo_forward() -> None:
+    """
+    ========================================================================
+     Run the algo forward.
+    ========================================================================
+    """
+    titles = ['forward']
+    csv = CSV(path=csv_forward, titles=titles)
+    problems: list[Problem] = u_pickle.load(path=pickle_problems)
+    for i, p in enumerate(problems):
+        graph_name, starts, goal = p
+        pickle_graph = f'{folder_graphs}\\{graph_name}.pkl'
+        graph = u_pickle.load(path=pickle_graph)
+        problem = ProblemOneToMany(graph=graph, start=goal, goals=starts)
+        algo = AlgoOneToMany(problem=problem)
+        sol = algo.run()
+        if sol:
+            row: dict[str, str] = dict()
+            row['forward'] = sol.explored
+            csv.write_dicts(dicts=[row])
+        print(f'[{datetime.now()}] {i}/{len(problems)}')
+    
+
 def negative_example_to_pickle() -> None:
     """
     ========================================================================
@@ -252,6 +277,7 @@ def union_csv() -> None:
 # problems_to_pickle(n_rows=100, n_problems=100)
 # positive_example_to_pickle()
 # experiments_to_csv()
-cross_maps_to_csv()
+# cross_maps_to_csv()
 # all_algo_to_csv()
 # # union_csv()
+algo_forward()

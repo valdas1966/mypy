@@ -1,4 +1,4 @@
-from f_graph.path.one_to_many.generators.g_algo import GenAlgoOneToMany
+from f_graph.path.one_to_many.generators.g_algo import GenAlgoOneToMany, AlgoOneToMany
 from f_graph.path.one_to_many.generators.g_problem import GenProblemOneToMany
 from f_graph.path.node import NodePath as Node
 from f_graph.path.path import Path
@@ -74,3 +74,33 @@ def test_a_star_not_shared(paths_true) -> None:
     assert solution.paths == paths_true
     assert solution.generated == 10
     assert solution.explored == 4
+
+
+def test_a_star_corner_3_goals() -> None:
+    """
+    ========================================================================
+     Test the A* Algorithm with Corner 3 Goals.
+    ========================================================================
+    """
+    problem = GenProblemOneToMany.corner_3_goals()
+    algo = AlgoOneToMany(problem=problem)
+    solution = algo.run()
+    graph = problem.graph
+    goal_1 = graph[0, 3]
+    goal_2 = graph[0, 2]
+    goal_3 = graph[1, 3]
+    path_1 = Path([graph[0, 0], graph[1, 0], graph[2, 0], graph[3, 0],
+                   graph[3, 1], graph[3, 2], graph[2, 2], graph[1, 2],
+                   graph[0, 2], graph[0, 3]])
+    path_2 = Path([graph[0, 0], graph[1, 0], graph[2, 0], graph[3, 0],
+                   graph[3, 1], graph[3, 2], graph[2, 2], graph[1, 2],
+                   graph[0, 2]])
+    path_3 = Path([graph[0, 0], graph[1, 0], graph[2, 0], graph[3, 0],
+                   graph[3, 1], graph[3, 2], graph[2, 2], graph[1, 2],
+                   graph[1, 3]])
+    paths = {goal_1: path_1, goal_2: path_2, goal_3: path_3}
+    assert solution
+    assert solution.paths == paths
+    assert solution.generated == 14
+    assert solution.explored == 9
+

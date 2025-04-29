@@ -1,5 +1,7 @@
+from __future__ import annotations
 from f_ds.nodes.i_1_parent import NodeParent
 from f_ds.grids.grid import Cell
+from typing import Iterable
 
 
 class NodeCell(NodeParent[Cell]):
@@ -20,6 +22,23 @@ class NodeCell(NodeParent[Cell]):
         """
         NodeParent.__init__(self, key=key, parent=parent, name=name)
         self._cell = key
+
+    def distance(self, other: NodeCell) -> int:
+        """
+        ========================================================================
+         Return the distance between the two Nodes based on their Cells.
+        ========================================================================
+        """
+        return self.cell.distance(other.cell)
+
+    def farthest(self, nodes: Iterable[NodeCell]) -> NodeCell:
+        """
+        ========================================================================
+         Return the farthest Node from the current Node based on their Cells.
+        ========================================================================
+        """
+        cells = [other.cell for other in nodes]
+        return self.cell.farthest(cells=cells)
 
     @property
     def cell(self) -> Cell:

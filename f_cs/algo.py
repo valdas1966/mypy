@@ -23,5 +23,7 @@ class Algo(Generic[Problem, Solution],
          Init private Attributes.
         ========================================================================
         """
-        ProcessIO.__init__(self, _input=problem, verbose=verbose, name=name)
-        self._problem = problem
+        self._problem = problem.clone()
+        ProcessIO.__init__(self,
+                           _input=self._problem,
+                           verbose=verbose, name=name)

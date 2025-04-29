@@ -26,7 +26,6 @@ class AlgoOneToMany(AlgoPath[Problem, Solutions]):
          Init private Attributes.
         ========================================================================
         """
-        problem = problem.clone()
         AlgoPath.__init__(self, problem=problem, name=name, verbose=verbose)
         self._type_algo = type_algo
         self._type_queue = TypeQueue.PRIORITY
@@ -61,13 +60,13 @@ class AlgoOneToMany(AlgoPath[Problem, Solutions]):
                                 is_shared=self._is_shared)
             sols[p.goal] = algo.run()
             for goal in self._problem.goals:
-                if goal in sols.state.explored:
+                if goal in self._state.explored:
                     if goal not in sols:
                         sols[goal] = SolutionOneToOne(goal=goal)
             if not sols[p.goal]:
                 return Solutions(is_valid=False, sols=sols)
             # If the problem is shared, undo the pop of the goal node.
-            # Because the goal was not explored and he is relevant 
+            # Because the goal was not explored, and he is relevant
             #  to be generated in the next search.
             if self._is_shared:
                 self._state.generated.undo_pop(item=p.goal)
