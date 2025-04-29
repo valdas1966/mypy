@@ -18,7 +18,7 @@ class AlgoGraph(Generic[Problem, Solution, Node],
 
     def __init__(self,
                  problem: Problem,
-                 verbose: bool = True,
+                 verbose: bool = False,
                  name: str = 'Graph-Algorithm') -> None:
         """
         ========================================================================

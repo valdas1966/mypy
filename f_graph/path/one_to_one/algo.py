@@ -35,7 +35,7 @@ class AlgoOneToOne(AlgoPath[Problem, Solution]):
                  state: State = None,
                  boundary: Boundary = None,
                  is_shared: bool = False,
-                 verbose: bool = True,
+                 verbose: bool = False,
                  name: str = 'Path-Algorithm One-to-One') -> None:
         """
         ========================================================================

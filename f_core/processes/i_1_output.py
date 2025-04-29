@@ -12,13 +12,15 @@ class ProcessOutput(Generic[Output], ProcessABC):
     ============================================================================
     """
 
-    def __init__(self, name: str = 'ProcessOutput') -> None:
+    def __init__(self,
+                 name: str = 'ProcessOutput',
+                 verbose: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        ProcessABC.__init__(self, name=name)
+        ProcessABC.__init__(self, name=name, verbose=verbose)
 
     @abstractmethod
     def run(self) -> Output:

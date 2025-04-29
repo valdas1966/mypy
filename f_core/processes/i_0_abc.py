@@ -14,7 +14,7 @@ class ProcessABC(HasName, HasVerbose, Validatable):
     """
 
     def __init__(self,
-                 verbose: bool = True,
+                 verbose: bool = False,
                  name: str = 'Process') -> None:
         """
         ========================================================================

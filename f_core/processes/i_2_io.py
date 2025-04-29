@@ -17,7 +17,7 @@ class ProcessIO(Generic[Input, Output],
 
     def __init__(self,
                  _input: Input,
-                 verbose: bool = True,
+                 verbose: bool = False,
                  name: str = 'Process IO') -> None:
         """
         ========================================================================

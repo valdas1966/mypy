@@ -19,13 +19,14 @@ class AlgoOneToMany(AlgoPath[Problem, Solutions]):
                  state: State = None,
                  type_algo: TypeAlgo = TypeAlgo.A_STAR,
                  is_shared: bool = True,
-                 verbose: bool = True,
+                 verbose: bool = False,
                  name: str = 'Algo One-To-Many') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
+        problem = problem.clone()
         AlgoPath.__init__(self, problem=problem, name=name, verbose=verbose)
         self._type_algo = type_algo
         self._type_queue = TypeQueue.PRIORITY
@@ -45,6 +46,8 @@ class AlgoOneToMany(AlgoPath[Problem, Solutions]):
         sols: dict[Node, SolutionOneToOne] = dict()
         singles = self._problem.to_singles()
         for p in singles:
+            if p.goal in sols:
+                continue
             if self._is_shared:
                 heuristic = Heuristic(graph=p.graph,
                                       goal=p.goal,
@@ -57,7 +60,15 @@ class AlgoOneToMany(AlgoPath[Problem, Solutions]):
                                 type_algo=self._type_algo,
                                 is_shared=self._is_shared)
             sols[p.goal] = algo.run()
+            for goal in self._problem.goals:
+                if goal in sols.state.explored:
+                    if goal not in sols:
+                        sols[goal] = SolutionOneToOne(goal=goal)
             if not sols[p.goal]:
                 return Solutions(is_valid=False, sols=sols)
-            self._state.generated.undo_pop(item=p.goal)
+            # If the problem is shared, undo the pop of the goal node.
+            # Because the goal was not explored and he is relevant 
+            #  to be generated in the next search.
+            if self._is_shared:
+                self._state.generated.undo_pop(item=p.goal)
         return Solutions(is_valid=True, sols=sols)

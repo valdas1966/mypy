@@ -16,7 +16,7 @@ class Algo(Generic[Problem, Solution],
     """
     def __init__(self,
                  problem: ProblemAlgo,
-                 verbose: bool = True,
+                 verbose: bool = False,
                  name: str = 'Algorithm') -> None:
         """
         ========================================================================

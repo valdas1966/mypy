@@ -21,7 +21,7 @@ class AlgoPath(Generic[Problem, Solution],
     def __init__(self,
                  problem: Problem,
                  is_eager: bool = False,
-                 verbose: bool = True,
+                 verbose: bool = False,
                  name: str = 'Path-Algorithm') -> None:
         """
         ========================================================================

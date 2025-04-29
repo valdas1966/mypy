@@ -13,7 +13,7 @@ class ProcessInput(Generic[Input], ProcessABC):
 
     def __init__(self,
                 _input: Input,
-                verbose: bool = True,
+                verbose: bool = False,
                 name: str = 'Process Input') -> None:
         """
         ========================================================================

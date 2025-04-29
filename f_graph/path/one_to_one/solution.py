@@ -12,19 +12,23 @@ class SolutionOneToOne(SolutionPath[StatsPath]):
     """
 
     def __init__(self,
-                 is_valid: bool,
-                 state: State,
-                 cache: Cache,
-                 stats: StatsPath) -> None:
+                 is_valid: bool = True,
+                 state: State = None,
+                 cache: Cache = None,
+                 stats: StatsPath = None,
+                 goal: Node = None) -> None:
         """
         ========================================================================
          Init Attributes.
         ========================================================================
         """
-        SolutionPath.__init__(self, is_valid=is_valid, stats=stats)
-        self._state = state
         self._cache = cache
-        self._path = self._create_path()
+        self._state = state
+        if goal:
+            stats = StatsPath()
+        SolutionPath.__init__(self, is_valid=is_valid, stats=stats)
+        self._path = goal.path_from_root() if goal else self._create_path()
+        
 
     @property
     def state(self) -> State:
@@ -51,9 +55,9 @@ class SolutionOneToOne(SolutionPath[StatsPath]):
         ========================================================================
         """
         if not bool(self):
-            return list()
+            return Path(data=list())
         best = self._state.best
-        path = Path(data=best.path_from_root())
+        path = best.path_from_root()
         # Best is Goal
         if best not in self._cache:
             return path
