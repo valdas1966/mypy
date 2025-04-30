@@ -48,6 +48,14 @@ class Path(UserList[Node], Comparable):
             other.pop(0)
         UserList.extend(self, other)
 
+    def reverse(self) -> Path:
+        """
+        ====================================================================
+         Reverse the path.
+        ====================================================================
+        """
+        return Path(data=list(reversed(self.data))) 
+
     def from_node(self, node: Node) -> Path:
         """
         ====================================================================

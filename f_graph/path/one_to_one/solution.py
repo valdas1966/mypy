@@ -24,6 +24,7 @@ class SolutionOneToOne(SolutionPath[StatsPath]):
         """
         self._cache = cache
         self._state = state
+        # The path was founded by the way
         if goal:
             stats = StatsPath()
         SolutionPath.__init__(self, is_valid=is_valid, stats=stats)

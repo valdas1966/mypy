@@ -38,7 +38,10 @@ class NodeCell(NodeParent[Cell]):
         ========================================================================
         """
         cells = [other.cell for other in nodes]
-        return self.cell.farthest(cells=cells)
+        cells_farthest = self.cell.farthest(cells=cells)
+        for node in nodes:
+            if node.cell == cells_farthest:
+                return node
 
     @property
     def cell(self) -> Cell:

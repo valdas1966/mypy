@@ -5,6 +5,7 @@ from f_graph.path.many_to_one.problem import ProblemManyToOne
 from f_graph.path.many_to_one.algo import AlgoManyToOne
 from f_graph.path.one_to_many.algo import AlgoOneToMany, AlgoOneToOne
 from f_graph.path.one_to_many.problem import ProblemOneToMany, ProblemOneToOne
+from f_graph.path.fore_and_back.algo import AlgoForeAndBack
 from f_graph.path.cache import Cache
 from f_ds.grids.grid import Grid, Cell
 from f_file.i_1_csv import CSV
@@ -23,6 +24,7 @@ folder_graphs = f'{cd}:\\temp\\boundary\\graphs'
 folder_results = f'{folder}\\results'
 csv_results_union = f'{folder}\\results_union.csv'
 csv_forward = f'{folder}\\forward.csv'
+csv_fore_and_back = f'{folder}\\fore_and_back.csv'
 
 
 def problems_to_pickle(n_problems: int, n_rows: int) -> None:
@@ -227,6 +229,30 @@ def algo_forward() -> None:
             row['forward'] = sol.explored
             csv.write_dicts(dicts=[row])
         print(f'[{datetime.now()}] {i}/{len(problems)}')
+
+
+def algo_fore_and_back() -> None:
+    """
+    ========================================================================
+     Run the algo forward.
+    ========================================================================
+    """
+    titles = ['bi_0', 'bi_1', 'bi_2']
+    csv = CSV(path=csv_fore_and_back, titles=titles)
+    problems: list[Problem] = u_pickle.load(path=pickle_problems)
+    for i, p in enumerate(problems):
+        graph_name, starts, goal = p
+        pickle_graph = f'{folder_graphs}\\{graph_name}.pkl'
+        graph = u_pickle.load(path=pickle_graph)
+        problem = ProblemOneToMany(graph=graph, start=goal, goals=starts)
+        row: dict[str, str] = dict()
+        for depth in range(3):
+            algo = AlgoForeAndBack(problem=problem, depth_boundary=depth)
+            sol = algo.run()
+            if sol:
+                row[f'bi_{depth}'] = sol.explored
+        csv.write_dicts(dicts=[row])
+        print(f'[{datetime.now()}] {i}/{len(problems)}')
     
 
 def negative_example_to_pickle() -> None:
@@ -280,4 +306,5 @@ def union_csv() -> None:
 # cross_maps_to_csv()
 # all_algo_to_csv()
 # # union_csv()
-algo_forward()
+# algo_forward()
+algo_fore_and_back()

@@ -1,13 +1,14 @@
+from __future__ import annotations
 from f_graph.path.path import Path
 from f_graph.path.stats import StatsPath
 from f_graph.path.node import NodePath as Node
 from f_core.abstracts.dictable import Dictable
 from f_core.mixins.validatable import Validatable
-from f_graph.path.one_to_one.solution import SolutionOneToOne as Solution
+from f_graph.path.one_to_one.solution import SolutionOneToOne
 from f_graph.path.one_to_one.state import StateOneToOne as State
 
 
-class SolutionsPath(Dictable[Node, Solution], Validatable):
+class SolutionsPath(Dictable[Node, SolutionOneToOne], Validatable):
     """
     ========================================================================
      Solutions of Path-Problems.
@@ -16,7 +17,7 @@ class SolutionsPath(Dictable[Node, Solution], Validatable):
 
     def __init__(self,
                  is_valid: bool,
-                 sols: dict[Node, Solution]) -> None:
+                 sols: dict[Node, SolutionOneToOne]) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -24,6 +25,7 @@ class SolutionsPath(Dictable[Node, Solution], Validatable):
         """
         Dictable.__init__(self, data=sols)
         Validatable.__init__(self, is_valid=is_valid)
+        self._sols = sols
         self._elapsed: int = sum(sol.stats.elapsed for sol in sols.values())
         self._generated: int = sum(sol.stats.generated for sol in sols.values())
         self._explored: int = sum(sol.stats.explored for sol in sols.values())
@@ -88,3 +90,29 @@ class SolutionsPath(Dictable[Node, Solution], Validatable):
         ========================================================================
         """
         return self._states
+    
+    @property
+    def sols(self) -> dict[Node, SolutionOneToOne]:
+        """
+        ========================================================================
+         Return the solutions of all solutions.
+        ========================================================================
+        """
+        return self._sols
+
+    def update(self, other: SolutionsPath) -> None:
+        """
+        ========================================================================
+         Update the solutions.
+         [NOT PERFECT]
+        ========================================================================
+        """
+        self._elapsed += other.elapsed
+        self._generated += other.generated
+        self._explored += other.explored
+        for node, sol in other.sols.items():
+            self._sols[node] = sol
+            self._stats[node] = sol.stats
+            self._paths[node] = sol.path
+            self._states[node] = sol.state  
+

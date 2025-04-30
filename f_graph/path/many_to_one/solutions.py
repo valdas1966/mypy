@@ -1,4 +1,4 @@
-from f_graph.path.solutions import SolutionsPath, Solution, Node
+from f_graph.path.solutions import SolutionsPath, SolutionOneToOne, Node
 
 
 class SolutionsManyToOne(SolutionsPath):
@@ -10,7 +10,7 @@ class SolutionsManyToOne(SolutionsPath):
 
     def __init__(self,
                  is_valid: bool,
-                 sols: dict[Node, Solution],
+                 sols: dict[Node, SolutionOneToOne],
                  changed: dict[int, int] = None) -> None:
         """
         ========================================================================
@@ -28,3 +28,4 @@ class SolutionsManyToOne(SolutionsPath):
         ========================================================================
         """
         return self._changed
+    
