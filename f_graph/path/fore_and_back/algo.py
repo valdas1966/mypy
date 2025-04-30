@@ -46,6 +46,7 @@ class AlgoForeAndBack(AlgoPath[ProblemOneToMany, SolutionsPath]):
         goals = self._problem.goals
         # Get the farthest goal from the start
         goal_farthest = start.farthest(goals)
+        print(f'Goal Farthest: {goal_farthest}')
         # Init the forward problem
         problem_forward = ProblemOneToOne(graph=graph,
                                           start=start,
@@ -59,6 +60,7 @@ class AlgoForeAndBack(AlgoPath[ProblemOneToMany, SolutionsPath]):
             return SolutionsPath(is_valid=False, sols=sols)
         # Create a Cache from the forward explored
         explored = sol_forward.state.explored
+        print(f'Forward Explored: {explored}')
         cache = Cache.from_explored(explored=explored)
         # Get the backward goals (except the farthest goal)
         goals_backward = goals - {goal_farthest}

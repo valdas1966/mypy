@@ -34,4 +34,3 @@ class GraphPath(GraphGrid[Node]):
                 for child
                 in self.neighbors(node=node)
                 if (not node.parent or node.parent != child)]
-

@@ -12,7 +12,7 @@ from f_color.rgb import RGB
 import pandas as pd
 
 
-cd = 'g'
+cd = 'd'
 folder = f'{cd}:\\temp\\boundary\\grands'
 folder_results = f'{folder}\\results'
 csv_results = f'{folder}\\results.csv'
@@ -32,6 +32,8 @@ png_explored_by_manhattan_distance_pct = f'{folder_results}\\explored_by_manhatt
 png_explored_by_pct_start_goal_cnt = f'{folder_results}\\explored_by_pct_start_goal_cnt.png'
 png_explored_by_pct_start_goal_pct = f'{folder_results}\\explored_by_pct_start_goal_pct.png'    
 png_explored_by_goals = f'{folder_results}\\explored_by_goals.png'
+png_explored_by_heuristic_quality_cnt = f'{folder_results}\\explored_by_heuristic_quality_cnt.png'
+png_explored_by_heuristic_quality_pct = f'{folder_results}\\explored_by_heuristic_quality_pct.png'
 
 
 def union_csv() -> None:
@@ -389,57 +391,6 @@ def explored_by_manhattan_distance_pct() -> None:
     bar.save(path=png_explored_by_manhattan_distance_pct)
 
 
-def explored_by_pct_start_goal_cnt() -> None:
-    """
-    ========================================================================
-     Show the explored by nodes.
-    ========================================================================
-    """
-    df = pd.read_csv(csv_results)
-    df = UDF.group_and_agg(df=df,
-                           col_group='pct_start_goal',
-                           multiple_group=10)
-    df['pct_start_goal'] = df['pct_start_goal'].astype(int)
-    df = df.sort_values(by='pct_start_goal') 
-    print(df)
-    labels = df['pct_start_goal'].tolist()
-    values = df['pct'].tolist()
-    name_labels = 'Start-Goal Distance relative to Graph Size'
-    name = '%Experiments'
-    bar = Bar(labels=labels,
-              values=values,
-              name_labels=name_labels,
-              name=name,
-              is_pct=True)
-    bar.save(path=png_explored_by_pct_start_goal_cnt)
-
-
-def explored_by_pct_start_goal_pct() -> None:
-    """
-    ========================================================================
-     Show the explored by nodes.
-    ========================================================================
-    """
-    df = pd.read_csv(csv_results)
-    df = UDF.group_and_agg(df=df,
-                           col_group='pct_start_goal',
-                           col_agg='pct_explored_2',
-                           multiple_group=10,
-                           type_agg=TypeAgg.MEAN)
-    df['pct_start_goal'] = df['pct_start_goal'].astype(int)
-    print(df)
-    labels = df['pct_start_goal'].tolist()
-    values = df['pct_explored_2'].tolist()
-    name_labels = 'Start-Goal Distance relative to Graph Size'
-    name = '%Reduced Exploration'
-    bar = Bar(labels=labels,
-              values=values,
-              name_labels=name_labels,
-              name=name,
-              is_pct=True)
-    bar.save(path=png_explored_by_pct_start_goal_pct)
-
-
 def explored_by_goals() -> None:
     """
     ========================================================================
@@ -470,6 +421,60 @@ def explored_by_goals() -> None:
     bar.save(path=png_explored_by_goals)
 
 
+def explored_by_heuristic_quality_cnt() -> None:
+    """
+    ========================================================================
+     Show the explored by nodes.
+    ========================================================================
+    """
+    df = pd.read_csv(csv_results)
+    df['pct_start_goal'] = round(df['pct_start_goal'] * 100)
+    df = UDF.group_and_agg(df=df,
+                           col_group='pct_start_goal',
+                           multiple_group=10)
+    df['pct_start_goal'] = df['pct_start_goal'].astype(int)
+    df = df.sort_values(by='pct_start_goal') 
+    print(df)
+    labels = df['pct_start_goal'].tolist()
+    values = df['pct'].tolist()
+    name_labels = 'Heuristic Quality'
+    name = '%Experiments'
+    bar = Bar(labels=labels,
+              values=values,
+              name_labels=name_labels,
+              name=name,
+              is_pct=True)
+    bar.save(path=png_explored_by_heuristic_quality_cnt)
+
+
+def explored_by_heuristic_quality_pct() -> None:
+    """
+    ========================================================================
+     Show the explored by nodes.
+    ========================================================================
+    """
+    df = pd.read_csv(csv_results)
+    df['pct_start_goal'] = round(df['pct_start_goal'] * 100)
+    df = UDF.group_and_agg(df=df,
+                           col_group='pct_start_goal',
+                           col_agg='pct_explored_2',
+                           multiple_group=10,
+                           type_agg=TypeAgg.MEAN)
+    df['pct_start_goal'] = df['pct_start_goal'].astype(int)
+    df = df.sort_values(by='pct_start_goal') 
+    print(df)
+    labels = df['pct_start_goal'].tolist()
+    values = df['pct_explored_2'].tolist()
+    name_labels = 'Heuristic Quality'
+    name = '%Reduced Exploration'
+    bar = Bar(labels=labels,
+              values=values,
+              name_labels=name_labels,
+              name=name,
+              is_pct=True)
+    bar.save(path=png_explored_by_heuristic_quality_pct)
+
+
 # union_csv()
 # format_csv()
 # performance_comparison_by_depth()
@@ -487,4 +492,6 @@ def explored_by_goals() -> None:
 # explored_by_manhattan_distance_pct()
 # explored_by_pct_start_goal_cnt()
 # explored_by_pct_start_goal_pct()
-explored_by_goals()
+# explored_by_goals()
+explored_by_heuristic_quality_cnt()
+explored_by_heuristic_quality_pct()

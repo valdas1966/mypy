@@ -1,6 +1,7 @@
 from f_graph.path.one_to_many.problem import ProblemOneToMany
 from f_graph.path.generators.g_graph import GenGraphPath, Graph
 from f_ds.grids.grid import Grid, Cell
+import random
 
 
 class GenProblemOneToMany:
@@ -36,3 +37,19 @@ class GenProblemOneToMany:
         goals = [graph[0, 3], graph[0, 2], graph[1, 3]]
         return ProblemOneToMany(graph=graph, start=start, goals=goals)
 
+
+    @staticmethod
+    def gen_random(rows: int,
+                   n_goals: int,
+                   pct_invalid: int = None) -> ProblemOneToMany:
+        """
+        ========================================================================
+         Generate a random Path-Finding Problem.
+        ========================================================================
+        """
+        if pct_invalid is None:
+            pct_invalid = random.randint(0, 70)
+        graph = GenGraphPath.gen_random(rows=rows,
+                                        pct_invalid=pct_invalid)
+        start, *goals = graph.sample(size=n_goals + 1)
+        return ProblemOneToMany(graph=graph, start=start, goals=goals)

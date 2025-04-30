@@ -16,7 +16,7 @@ import random
 from datetime import datetime
 
 
-cd = 'g'
+cd = 'd'
 folder = f'{cd}:\\temp\\boundary\\grands'
 pickle_problems = f'{folder}\\problems_10.pkl'
 csv_results = f'{folder}\\results_10.csv'
