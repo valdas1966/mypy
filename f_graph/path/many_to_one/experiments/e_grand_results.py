@@ -402,22 +402,18 @@ def explored_by_goals() -> None:
     df = UDF.group_and_agg(df=df,
                            col_group='goals',
                            col_agg='pct_explored_2',
-                           multiple_group=1,
+                           multiple_group=2,
                            type_agg=TypeAgg.MEAN)
     print(df)
-    labels = df['goals'].tolist()
-    labels = labels[::2]
-    print(labels)
-    values = df['pct_explored_2'].tolist()
-    values = values[::2]
-    print(values)
-    name_labels = 'Number of Goals'
+    x = df['goals'].tolist()
+    y = df['pct_explored_2'].tolist()
+    name_x = 'Number of Goals'
     name = '%Reduced Exploration'
-    bar = Bar(labels=labels,
-              values=values,
-              name_labels=name_labels,
+    bar = Bar(x=x,
+              y=y,
+              name_x=name_x,
               name=name,
-              is_pct=True)
+              is_y_pct=True)
     bar.save(path=png_explored_by_goals)
 
 
@@ -492,6 +488,6 @@ def explored_by_heuristic_quality_pct() -> None:
 # explored_by_manhattan_distance_pct()
 # explored_by_pct_start_goal_cnt()
 # explored_by_pct_start_goal_pct()
-# explored_by_goals()
-explored_by_heuristic_quality_cnt()
-explored_by_heuristic_quality_pct()
+explored_by_goals()
+# explored_by_heuristic_quality_cnt()
+# explored_by_heuristic_quality_pct()

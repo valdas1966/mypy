@@ -1,18 +1,17 @@
-from f_dv.i_1_bar import Bar
-from f_color.u_color import UColor, RGB
+from f_dv.i_1_bar import Bar, RGB
 
 
-labels = ['A', 'B', 'C', 'D']
-values = [3, 5, 8, 10]
-labels = ['A', 'B']
-values = [8, 10]
-rgbs = UColor.to_gradients(rgb_a=RGB('my_cyan'), rgb_b=RGB('black'), n=10)[:2]
+def study_1() -> None:
+    """
+    ========================================================================
+     Study Bar Chart.
+    ========================================================================
+    """
+    vals = [1, 2, 3, 4, 5, 4, 3, 2, 1]
+    x = [str(x) for x in range(len(vals))]
+    y = vals
+    bar = Bar(x=x, y=y)
+    bar.show()
 
 
-bar = Bar(labels,
-          values,
-          name_labels='Words',
-          name_values='Numbers',
-          name="My Bar Chart",
-          rgbs=rgbs)
-bar.show()
+study_1()

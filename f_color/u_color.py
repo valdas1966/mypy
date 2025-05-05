@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
+from f_math.u_interpolation import UInterpolation
 from f_color.rgb import RGB
 
 
@@ -44,21 +45,20 @@ class UColor:
                      n: int) -> list[RGB]:
         """
         ========================================================================
-         Generate list List of n-RGB forming list gradient from rgb_a to rgb_b.
+         Generate a list of n-RGB forming a gradient from RGB-A to RGB-B.
         ========================================================================
         """
-        def interpolate(start: float, end: float, factor: float) -> float:
-            return start + (end - start) * factor
+
         # Ensure n is at least 2 to create a gradient
         if n == 1:
             return [rgb_a]
 
-        gradient = []
+        gradient: list[RGB] = list()
         for i in range(n):
-            factor = i / (n - 1)  # Calculate the interpolation factor
-            r = interpolate(rgb_a.r, rgb_b.r, factor)
-            g = interpolate(rgb_a.g, rgb_b.g, factor)
-            b = interpolate(rgb_a.b, rgb_b.b, factor)
+            t = i / (n - 1)  # Calculate the interpolation factor
+            r = UInterpolation.linear(a=rgb_a.r, b=rgb_b.r, t=t)
+            g = UInterpolation.linear(a=rgb_a.g, b=rgb_b.g, t=t)
+            b = UInterpolation.linear(a=rgb_a.b, b=rgb_b.b, t=t)
             gradient.append(RGB(r=r, g=g, b=b))
 
         return gradient
