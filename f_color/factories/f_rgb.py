@@ -97,25 +97,25 @@ class FactoryRGB:
         if n <= 1 or len(stops) < 2:
             return stops[:1]
 
-        # Initialize the list of RGBs to return.
-        rgbs: list[RGB] = list()
-        # Get the number of segments.
+        rgbs: list[RGB] = []
         n_segments = len(stops) - 1
-        # Get the number of steps per segment.
         steps_per_segment = n // n_segments
-        # Get the remainder.
         remainder = n % n_segments
 
         for i in range(n_segments):
-            # Distribute remainder evenly
             seg_n = steps_per_segment + (1 if i < remainder else 0)
-            # Get the start and end colors.
             start, end = stops[i], stops[i + 1]
-            # Avoid duplicate stops
-            segment_colors = FactoryRGB.gradient(start, end, seg_n + 1)
-            if i != n_segments - 1:
-                segment_colors = segment_colors[:-1]  # Avoid overlap
+            segment_colors = FactoryRGB.gradient(start, end, seg_n)
+            if i != 0:
+                segment_colors = segment_colors[1:]  # Skip overlapping color
             rgbs.extend(segment_colors)
 
-        # Return the list of RGBs.
         return rgbs
+
+
+
+stops = [RGB(name='WHITE'), RGB(name='BLACK')]
+n = 5
+gradient = FactoryRGB.gradient_multi(stops=stops, n=n)
+for rgb in gradient:
+    print(rgb)

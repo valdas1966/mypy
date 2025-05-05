@@ -79,15 +79,19 @@ class Bar(Chart):
         # Get the min and max values of the y-axis
         y_min, y_max = min(self._y), max(self._y)
         # Set the range of the y-axis (by avoiding divide-by-zero)
-        range_y = y_max - y_min if y_max != y_min else 1.0
+        y_range = y_max - y_min
+        if not y_range:
+            y_range = 1
 
-        # Matte traffic-light colors
-        green = FactoryRGB.from_ints(80, 160, 80)
-        yellow = FactoryRGB.from_ints(200, 200, 100)
-        red = FactoryRGB.from_ints(180, 80, 80)
+        # Gradient Stops' RGBs
+        stops = [RGB(name='MATTE_GREEN'),
+                 RGB(name='MATTE_YELLOW'),
+                 RGB(name='MATTE_RED')]
+        # Gradient size
+        n = 20
 
-        palette_size = 20
-        gradient = FactoryRGB.gradient_multi([green, yellow, red], n=palette_size)
+        # Create the gradient
+        gradient = FactoryRGB.gradient_multi(stops=stops, n=n)
 
         # Initialize the list of RGBs to return
         rgbs: list[RGB] = list()
@@ -98,11 +102,9 @@ class Bar(Chart):
                 # Placeholder color, will be skipped in rendering
                 rgbs.append(RGB(r=0, g=0, b=0))  
                 continue
-            # Normalize the Y-Value to [0,1] based on Range-Y 
-            normalized = (val - y_min) / range_y
             # Get the index of the color in the gradient
-            normalized_pct = (val - y_min) / range_y * 100
-            index = min(int(normalized_pct // (100 / palette_size)), palette_size - 1)
+            normalized_pct = (val - y_min) / y_range * 100
+            index = min(int(normalized_pct // (100 / n)), n - 1)
             # Get the color from the gradient
             rgb = gradient[index]
             # Add the color to the list
