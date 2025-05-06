@@ -34,6 +34,8 @@ png_explored_by_pct_start_goal_pct = f'{folder_results}\\explored_by_pct_start_g
 png_explored_by_goals = f'{folder_results}\\explored_by_goals.png'
 png_explored_by_heuristic_quality_cnt = f'{folder_results}\\explored_by_heuristic_quality_cnt.png'
 png_explored_by_heuristic_quality_pct = f'{folder_results}\\explored_by_heuristic_quality_pct.png'
+png_normalized_manhattan_cnt = f'{folder_results}\\normalized_manhattan_cnt.png'
+png_normalized_manhattan_pct = f'{folder_results}\\normalized_manhattan_pct.png'
 
 
 def union_csv() -> None:
@@ -163,15 +165,14 @@ def exploration_reduction_by_depth() -> None:
     ========================================================================
     """
     df = pd.read_csv(csv_results)
-    labels = ['1', '2', '3', '4', '5']
+    x = ['1', '2', '3', '4', '5']
     cols = ['pct_explored_1', 'pct_explored_2',
             'pct_explored_3', 'pct_explored_4', 'pct_explored_5']
-    values = UDF.agg_cols(df=df, cols=cols, type_agg=TypeAgg.MEDIAN)
-    name_labels = 'Depth'
-    # name_values = 'Percentage of Exploration Reduction'
-    # name = 'Exploration Reduction at Varying Depths'
-    bar = Bar(labels=labels, values=values,
-              name_labels=name_labels, is_pct=True)
+    y = UDF.agg_cols(df=df, cols=cols, type_agg=TypeAgg.MEDIAN)
+    name_x = 'Depth'
+    name = '%Exploration Reduction'
+    bar = Bar(x=x, y=y,
+              name_x=name_x, name=name, is_y_pct=True)
     bar.save(path=png_exploration_reduction_by_depth)
 
 
@@ -182,15 +183,14 @@ def time_reduction_by_depth() -> None:
     ========================================================================
     """
     df = pd.read_csv(csv_results)
-    labels = ['1', '2', '3', '4', '5']
+    x = ['1', '2', '3', '4', '5']
     cols = ['pct_elapsed_1', 'pct_elapsed_2', 'pct_elapsed_3',
             'pct_elapsed_4', 'pct_elapsed_5']
-    values = UDF.agg_cols(df=df, cols=cols, type_agg=TypeAgg.MEDIAN)
-    name_labels = 'Depth'
-    #name_values = 'Time Reduction'
+    y = UDF.agg_cols(df=df, cols=cols, type_agg=TypeAgg.MEDIAN)
+    name_x = 'Depth'
     name = '%Time Reduction'
-    bar = Bar(labels=labels, values=values,
-              name_labels=name_labels, name=name,is_pct=True)
+    bar = Bar(x=x, y=y,
+              name_x=name_x, name=name, is_y_pct=True)
     bar.save(path=png_time_reduction_by_depth)
 
 
@@ -229,18 +229,14 @@ def changed_nodes_by_depth() -> None:
     df['pct_changed_5'] = round(df['changed_5'] / df['nodes'] * 100, 2)
     df = df[['pct_changed_1', 'pct_changed_2', 'pct_changed_3',
              'pct_changed_4', 'pct_changed_5']]
-    labels = ['1', '2', '3', '4', '5']
+    x = ['1', '2', '3', '4', '5']
     cols = ['pct_changed_1', 'pct_changed_2', 'pct_changed_3',
             'pct_changed_4', 'pct_changed_5']
-    values = UDF.agg_cols(df=df, cols=cols, type_agg=TypeAgg.MEDIAN)
-    print(labels)
-    print(values)
-    name_labels = 'Depth'
-    # name_values = 'Percentage of Changed Nodes from all Nodes'
-    # name = 'Changed Nodes by Depth'
-    bar = Bar(labels=labels, values=values,
-              name_labels=name_labels, is_pct=True)
-    # bar.show()
+    y = UDF.agg_cols(df=df, cols=cols, type_agg=TypeAgg.MEDIAN)
+    name_x = 'Depth'
+    name = '%Changed Nodes'
+    bar = Bar(x=x, y=y,
+              name_x=name_x, name=name, is_y_pct=True)
     bar.save(path=png_changed_nodes_by_depth)
 
 
@@ -255,15 +251,12 @@ def explored_by_nodes_cnt() -> None:
                            col_group='nodes',
                            multiple_group=100000)
     df = df.sort_values(by='nodes') 
-    labels = [str(int(val//1000)+100) for val in df['nodes'].tolist()]
-    values = df['pct'].tolist()
-    name_labels = 'Nodes in Thousands'
+    x = [str(int(val//1000)+100) for val in df['nodes'].tolist()]
+    y = df['pct'].tolist()
+    name_x = 'Nodes in Thousands'
     name = '%Experiments'
-    bar = Bar(labels=labels,
-              values=values,
-              name_labels=name_labels,
-              name=name,
-              is_pct=True)
+    bar = Bar(x=x, y=y,
+              name_x=name_x, name=name, is_y_pct=True)
     bar.save(path=png_explored_by_nodes_cnt)
 
 
@@ -279,15 +272,12 @@ def explored_by_nodes_pct() -> None:
                            col_agg='pct_explored_2',
                            multiple_group=100000,
                            type_agg=TypeAgg.MEAN)
-    labels = [str(int(val//1000)+100) for val in df['nodes'].tolist()]
-    values = df['pct_explored_2'].tolist()
-    name_labels = 'Nodes in Thousands'
+    x = [str(int(val//1000)+100) for val in df['nodes'].tolist()]
+    y = df['pct_explored_2'].tolist()
+    name_x = 'Nodes in Thousands'
     name = '%Reduced Exploration'
-    bar = Bar(labels=labels,
-              values=values,
-              name_labels=name_labels,
-              name=name,
-              is_pct=True)
+    bar = Bar(x=x, y=y,
+              name_x=name_x, name=name, is_y_pct=True)
     bar.save(path=png_explored_by_nodes_pct)
 
 
@@ -303,15 +293,12 @@ def explored_by_pct_nodes_cnt() -> None:
                            col_group='pct_nodes',
                            multiple_group=10)
     df = df.sort_values(by='pct_nodes') 
-    labels = df['pct_nodes'].tolist()
-    values = df['pct'].tolist()
-    name_labels = 'Percentage of Obstacle-Density'
+    x = df['pct_nodes'].tolist()
+    y = df['pct'].tolist()
+    name_x = 'Percentage of Obstacle-Density'
     name = '%Experiments'
-    bar = Bar(labels=labels,
-              values=values,
-              name_labels=name_labels,
-              name=name,
-              is_pct=True)
+    bar = Bar(x=x, y=y,
+              name_x=name_x, name=name, is_y_pct=True)
     bar.save(path=png_explored_by_pct_nodes_cnt)
 
 
@@ -328,15 +315,12 @@ def explored_by_pct_nodes_pct() -> None:
                            col_agg='pct_explored_2',
                            multiple_group=10,
                            type_agg=TypeAgg.MEAN)
-    labels = df['pct_nodes'].tolist()
-    values = df['pct_explored_2'].tolist()
-    name_labels = 'Percentage of Obstacle-Density'
+    x = df['pct_nodes'].tolist()
+    y = df['pct_explored_2'].tolist()
+    name_x = 'Percentage of Obstacle-Density'
     name = '%Reduced Exploration'
-    bar = Bar(labels=labels,
-              values=values,
-              name_labels=name_labels,
-              name=name,
-              is_pct=True)
+    bar = Bar(x=x, y=y,
+              name_x=name_x, name=name, is_y_pct=True)
     bar.save(path=png_explored_by_pct_nodes_pct)
 
 
@@ -352,16 +336,12 @@ def explored_by_manhattan_distance_cnt() -> None:
                            col_group='h_start_goal',
                            multiple_group=400)
     df = df.sort_values(by='h_start_goal') 
-    print(df)
-    labels = [int(val)+400 for val in df['h_start_goal'].tolist()]
-    values = df['pct'].tolist()
-    name_labels = 'Manhattan Distance'
+    x = [str(int(val)+400) for val in df['h_start_goal'].tolist()]
+    y = df['pct'].tolist()
+    name_x = 'Manhattan Distance'
     name = '%Experiments'
-    bar = Bar(labels=labels,
-              values=values,
-              name_labels=name_labels,
-              name=name,
-              is_pct=True)
+    bar = Bar(x=x, y=y,
+              name_x=name_x, name=name, is_y_pct=True)
     bar.save(path=png_explored_by_manhattan_distance_cnt)
 
 
@@ -379,16 +359,64 @@ def explored_by_manhattan_distance_pct() -> None:
                            multiple_group=400,
                            type_agg=TypeAgg.MEAN)
     print(df)
-    labels = [str(int(val)+400) for val in df['h_start_goal'].tolist()]
-    values = df['pct_explored_2'].tolist()
-    name_labels = 'Manhattan Distance'
+    x = [str(int(val)+400) for val in df['h_start_goal'].tolist()]
+    y = df['pct_explored_2'].tolist()
+    name_x = 'Manhattan Distance'
     name = '%Reduced Exploration'
-    bar = Bar(labels=labels,
-              values=values,
-              name_labels=name_labels,
-              name=name,
-              is_pct=True)
+    bar = Bar(x=x, y=y,
+              name_x=name_x, name=name, is_y_pct=True)
     bar.save(path=png_explored_by_manhattan_distance_pct)
+
+
+def normalized_manhattan_cnt() -> None:
+    """
+    ========================================================================
+     Show the normalized manhattan distance.
+    ========================================================================
+    """
+    df = pd.read_csv(csv_results_10)
+    df['normalized_manhattan'] = round((df['h_start_goal'] / (df['rows'] + df['cols'] - 2)) * 100)
+    df = UDF.group_and_agg(df=df,
+                           col_group='normalized_manhattan',
+                           multiple_group=10)
+    x = df['normalized_manhattan'].tolist()
+    x = [str(int(val)) for val in x]
+    y = df['pct'].tolist()
+    name_x = 'Normalized Manhattan-Distance'
+    name = '%Experiments'
+    bar = Bar(x=x,
+              y=y,
+              name_x=name_x,
+              name=name,
+              is_y_pct=True)
+    bar.save(path=png_normalized_manhattan_cnt)
+
+
+def normalized_manhattan_pct() -> None:
+    """
+    ========================================================================
+     Show the normalized manhattan distance.
+    ========================================================================
+    """
+    df = pd.read_csv(csv_results_10)
+    df['normalized_manhattan'] = round((df['h_start_goal'] / (df['rows'] + df['cols'] - 2)) * 100)
+    df = UDF.group_and_agg(df=df,
+                           col_group='normalized_manhattan',
+                           col_agg='pct_explored_2',
+                           multiple_group=10,
+                           type_agg=TypeAgg.MEAN)
+    print(df)
+    x = df['normalized_manhattan'].tolist()
+    x = [str(int(val)) for val in x]
+    y = df['pct_explored_2'].tolist()
+    name_x = 'Normalized Manhattan-Distance'
+    name = '%Reduced Exploration'
+    bar = Bar(x=x,
+              y=y,
+              name_x=name_x,
+              name=name,
+              is_y_pct=True)
+    bar.save(path=png_normalized_manhattan_pct)
 
 
 def explored_by_goals() -> None:
@@ -404,7 +432,6 @@ def explored_by_goals() -> None:
                            col_agg='pct_explored_2',
                            multiple_group=2,
                            type_agg=TypeAgg.MEAN)
-    print(df)
     x = df['goals'].tolist()
     y = df['pct_explored_2'].tolist()
     name_x = 'Number of Goals'
@@ -430,16 +457,12 @@ def explored_by_heuristic_quality_cnt() -> None:
                            multiple_group=10)
     df['pct_start_goal'] = df['pct_start_goal'].astype(int)
     df = df.sort_values(by='pct_start_goal') 
-    print(df)
-    labels = df['pct_start_goal'].tolist()
-    values = df['pct'].tolist()
-    name_labels = 'Heuristic Quality'
+    x = df['pct_start_goal'].tolist()
+    y = df['pct'].tolist()
+    name_x = 'Heuristic Quality'
     name = '%Experiments'
-    bar = Bar(labels=labels,
-              values=values,
-              name_labels=name_labels,
-              name=name,
-              is_pct=True)
+    bar = Bar(x=x, y=y,
+              name_x=name_x, name=name, is_y_pct=True)
     bar.save(path=png_explored_by_heuristic_quality_cnt)
 
 
@@ -458,16 +481,12 @@ def explored_by_heuristic_quality_pct() -> None:
                            type_agg=TypeAgg.MEAN)
     df['pct_start_goal'] = df['pct_start_goal'].astype(int)
     df = df.sort_values(by='pct_start_goal') 
-    print(df)
-    labels = df['pct_start_goal'].tolist()
-    values = df['pct_explored_2'].tolist()
-    name_labels = 'Heuristic Quality'
+    x = df['pct_start_goal'].tolist()
+    y = df['pct_explored_2'].tolist()
+    name_x = 'Heuristic Quality'
     name = '%Reduced Exploration'
-    bar = Bar(labels=labels,
-              values=values,
-              name_labels=name_labels,
-              name=name,
-              is_pct=True)
+    bar = Bar(x=x, y=y,
+              name_x=name_x, name=name, is_y_pct=True)
     bar.save(path=png_explored_by_heuristic_quality_pct)
 
 
@@ -482,12 +501,11 @@ def explored_by_heuristic_quality_pct() -> None:
 # explored_by_nodes_pct()
 # explored_by_pct_nodes_cnt()
 # explored_by_pct_nodes_pct()
-# explored_by_distance_cnt()
-# explored_by_distance_pct()
 # explored_by_manhattan_distance_cnt()
 # explored_by_manhattan_distance_pct()
-# explored_by_pct_start_goal_cnt()
-# explored_by_pct_start_goal_pct()
-explored_by_goals()
+# explored_by_goals()
 # explored_by_heuristic_quality_cnt()
 # explored_by_heuristic_quality_pct()
+normalized_manhattan_cnt()
+normalized_manhattan_pct()
+

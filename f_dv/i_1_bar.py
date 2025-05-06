@@ -88,10 +88,10 @@ class Bar(Chart):
                  RGB(name='MATTE_YELLOW'),
                  RGB(name='MATTE_RED')]
         # Gradient size
-        n = 20
+        n = 3
 
         # Create the gradient
-        gradient = FactoryRGB.gradient_multi(stops=stops, n=n)
+        gradient = FactoryRGB.gradient_multi(stops=stops, n=n)        
 
         # Initialize the list of RGBs to return
         rgbs: list[RGB] = list()
@@ -103,8 +103,8 @@ class Bar(Chart):
                 rgbs.append(RGB(r=0, g=0, b=0))  
                 continue
             # Get the index of the color in the gradient
-            normalized_pct = (val - y_min) / y_range * 100
-            index = min(int(normalized_pct // (100 / n)), n - 1)
+            normalized = (val - y_min) / y_range
+            index = round(normalized * (n - 1))
             # Get the color from the gradient
             rgb = gradient[index]
             # Add the color to the list
@@ -135,6 +135,9 @@ class Bar(Chart):
          Set Bar Chart Parameters.
         ========================================================================
         """
+        # Set the figure background (outside the plot area) to matte light gray
+        plt.gcf().set_facecolor('#F0F0F0')  # light gray like an old school board
+
         # Set the chart parameters tightly (relatively to the bars)
         # Without this line -> the chart will be unnecessarily wide
         plt.tight_layout()

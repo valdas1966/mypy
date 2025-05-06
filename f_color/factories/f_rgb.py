@@ -90,32 +90,36 @@ class FactoryRGB:
     @staticmethod
     def gradient_multi(stops: list[RGB], n: int) -> list[RGB]:
         """
-        ========================================================================
-         Create gradient over multiple RGB stops (e.g., Green → Yellow → Red).
-        ========================================================================
+        ============================================================================
+         Create a smooth gradient over multiple RGB stops (e.g., Green → Yellow → Red),
+         ensuring exactly `n` total colors, without duplicate overlaps.
+        ============================================================================
         """
         if n <= 1 or len(stops) < 2:
             return stops[:1]
 
-        rgbs: list[RGB] = []
         n_segments = len(stops) - 1
-        steps_per_segment = n // n_segments
-        remainder = n % n_segments
+
+        # Total colors needed = n
+        # Each segment will generate seg_n colors (inclusive), and we remove 1 color
+        # from each segment after the first to avoid overlap.
+        # So we initially plan for (n + (segments - 1)) colors, then subtract overlaps
+        base_steps = n + (n_segments - 1)
+        steps_per_segment = base_steps // n_segments
+        remainder = base_steps % n_segments
+
+        rgbs: list[RGB] = []
 
         for i in range(n_segments):
+            # Add remainder to the first few segments
             seg_n = steps_per_segment + (1 if i < remainder else 0)
             start, end = stops[i], stops[i + 1]
             segment_colors = FactoryRGB.gradient(start, end, seg_n)
+
+            # Skip first color of every segment after the first to avoid duplicates
             if i != 0:
-                segment_colors = segment_colors[1:]  # Skip overlapping color
+                segment_colors = segment_colors[1:]
+
             rgbs.extend(segment_colors)
 
-        return rgbs
-
-
-
-stops = [RGB(name='WHITE'), RGB(name='BLACK')]
-n = 5
-gradient = FactoryRGB.gradient_multi(stops=stops, n=n)
-for rgb in gradient:
-    print(rgb)
+        return rgbs[:n]  # Trim in case of any rounding issues
