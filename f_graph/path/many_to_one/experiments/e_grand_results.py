@@ -2,12 +2,9 @@ from f_file.i_1_csv import CSV
 from f_math.u_percent import UPercent
 from f_psl.os.u_folder import UFolder
 from f_psl.pandas.u_df import UDF, TypeAgg, TypeComparison
-from f_psl.pandas.u_pivot import UPivot
 from f_dv.i_1_bar import Bar
 from f_dv.i_1_bar_stacked import BarStacked
-from f_dv.i_1_scatter import Scatter
 from f_dv.i_1_scatter_regression import ScatterRegression
-from f_dv.i_1_heat_map import HeatMap
 from f_color.rgb import RGB
 import pandas as pd
 
@@ -16,6 +13,8 @@ cd = 'd'
 folder = f'{cd}:\\temp\\boundary\\grands'
 folder_results = f'{folder}\\results'
 csv_results = f'{folder}\\results.csv'
+csv_results = 'd:\\mypy\\f_graph\\path\\many_to_one\\experiments\\results.csv'
+csv_results_formatted = 'd:\\mypy\\f_graph\\path\\many_to_one\\experiments\\results_formatted.csv'
 csv_results_10 = f'{folder}\\results_10.csv'
 csv_results_temp = f'{folder}\\results_temp.csv'
 png_performance_comparison_by_depth = f'{folder_results}\\performance_comparison_by_depth.png'
@@ -27,8 +26,6 @@ png_explored_by_nodes_cnt = f'{folder_results}\\explored_by_nodes_cnt.png'
 png_explored_by_nodes_pct = f'{folder_results}\\explored_by_nodes_pct.png'
 png_explored_by_pct_nodes_cnt = f'{folder_results}\\explored_by_pct_nodes_cnt.png'
 png_explored_by_pct_nodes_pct = f'{folder_results}\\explored_by_pct_nodes_pct.png'
-png_explored_by_manhattan_distance_cnt = f'{folder_results}\\explored_by_manhattan_distance_cnt.png'
-png_explored_by_manhattan_distance_pct = f'{folder_results}\\explored_by_manhattan_distance_pct.png'
 png_explored_by_pct_start_goal_cnt = f'{folder_results}\\explored_by_pct_start_goal_cnt.png'
 png_explored_by_pct_start_goal_pct = f'{folder_results}\\explored_by_pct_start_goal_pct.png'    
 png_explored_by_goals = f'{folder_results}\\explored_by_goals.png'
@@ -36,6 +33,12 @@ png_explored_by_heuristic_quality_cnt = f'{folder_results}\\explored_by_heuristi
 png_explored_by_heuristic_quality_pct = f'{folder_results}\\explored_by_heuristic_quality_pct.png'
 png_normalized_manhattan_cnt = f'{folder_results}\\normalized_manhattan_cnt.png'
 png_normalized_manhattan_pct = f'{folder_results}\\normalized_manhattan_pct.png'
+png_obstacle_density_cnt = f'{folder_results}\\obstacle_density_cnt.png'
+png_obstacle_density_pct = f'{folder_results}\\obstacle_density_pct.png'
+png_manhattan_distance_cnt = f'{folder_results}\\manhattan_distance_cnt.png'
+png_manhattan_distance_pct = f'{folder_results}\\manhattan_distance_pct.png'
+png_heuristic_quality_cnt = f'{folder_results}\\heuristic_quality_cnt.png'
+png_heuristic_quality_pct = f'{folder_results}\\heuristic_quality_pct.png'
 
 
 def union_csv() -> None:
@@ -55,18 +58,20 @@ def format_csv() -> None:
     ========================================================================
     """
     df = pd.read_csv(csv_results)
-    df['pct_explored_1'] = round((1-df['pct_explored_1']) * 100)
-    df['pct_explored_2'] = round((1-df['pct_explored_2']) * 100)
-    df['pct_explored_3'] = round((1-df['pct_explored_3']) * 100)
-    df['pct_explored_4'] = round((1-df['pct_explored_4']) * 100)
-    df['pct_explored_5'] = round((1-df['pct_explored_5']) * 100)
-    df['pct_elapsed_1'] = round((1-df['pct_elapsed_1']) * 100)
-    df['pct_elapsed_2'] = round((1-df['pct_elapsed_2']) * 100)
-    df['pct_elapsed_3'] = round((1-df['pct_elapsed_3']) * 100)
-    df['pct_elapsed_4'] = round((1-df['pct_elapsed_4']) * 100)
-    df['pct_elapsed_5'] = round((1-df['pct_elapsed_5']) * 100)
-    df['pct_nodes'] = round(df['pct_nodes'] * 100)
-    df.to_csv(csv_results, index=False)
+    # df['pct_explored_1'] = round((1-df['pct_explored_1']) * 100)
+    # df['pct_explored_2'] = round((1-df['pct_explored_2']) * 100)
+    # df['pct_explored_3'] = round((1-df['pct_explored_3']) * 100)
+    # df['pct_explored_4'] = round((1-df['pct_explored_4']) * 100)
+    # df['pct_explored_5'] = round((1-df['pct_explored_5']) * 100)
+    # df['pct_elapsed_1'] = round((1-df['pct_elapsed_1']) * 100)
+    # df['pct_elapsed_2'] = round((1-df['pct_elapsed_2']) * 100)
+    # df['pct_elapsed_3'] = round((1-df['pct_elapsed_3']) * 100)
+    # df['pct_elapsed_4'] = round((1-df['pct_elapsed_4']) * 100)
+    # df['pct_elapsed_5'] = round((1-df['pct_elapsed_5']) * 100)
+    df['obstacle_density'] = round((1-df['pct_nodes']) * 100)
+    df['normalized_manhattan'] = round(df['h_start_goal'] / (df['rows'] + df['cols'] - 2) * 100)
+    df['heuristic_quality'] = round(df['h_start_goal'] / df['d_start_goal']* 100)
+    df.to_csv(csv_results_formatted, index=False)
 
 
 def performance_comparison_by_depth() -> None:
@@ -75,7 +80,7 @@ def performance_comparison_by_depth() -> None:
      Show the percentage of comparison.
     ========================================================================
     """
-    df = pd.read_csv(csv_results)
+    df = pd.read_csv(csv_results_formatted)
     better_1 = UDF.count_comparison(df=df,
                                     col_a='explored_0',
                                     col_b='explored_1',
@@ -164,7 +169,7 @@ def exploration_reduction_by_depth() -> None:
      Show the percentage of explored cells.
     ========================================================================
     """
-    df = pd.read_csv(csv_results)
+    df = pd.read_csv(csv_results_formatted)
     x = ['1', '2', '3', '4', '5']
     cols = ['pct_explored_1', 'pct_explored_2',
             'pct_explored_3', 'pct_explored_4', 'pct_explored_5']
@@ -182,7 +187,7 @@ def time_reduction_by_depth() -> None:
      Show the percentage of elapsed time.
     ========================================================================
     """
-    df = pd.read_csv(csv_results)
+    df = pd.read_csv(csv_results_formatted)
     x = ['1', '2', '3', '4', '5']
     cols = ['pct_elapsed_1', 'pct_elapsed_2', 'pct_elapsed_3',
             'pct_elapsed_4', 'pct_elapsed_5']
@@ -200,7 +205,7 @@ def correlation_explored_elapsed() -> None:
      Show the correlation between explored and elapsed.
     ========================================================================
     """
-    df = pd.read_csv(csv_results)
+    df = pd.read_csv(csv_results_formatted)
     df = df[df['pct_explored_1'] >= -100]
     df = df[df['pct_explored_1'] <= 100]
     df = df[df['pct_elapsed_1'] >= -100]
@@ -221,7 +226,7 @@ def changed_nodes_by_depth() -> None:
      Show the changed.
     ========================================================================
     """
-    df = pd.read_csv(csv_results)
+    df = pd.read_csv(csv_results_formatted)
     df['pct_changed_1'] = round(df['changed_1'] / df['nodes'] * 100, 2)
     df['pct_changed_2'] = round(df['changed_2'] / df['nodes'] * 100, 2)
     df['pct_changed_3'] = round(df['changed_3'] / df['nodes'] * 100, 2)
@@ -266,7 +271,7 @@ def explored_by_nodes_pct() -> None:
      Show the explored by nodes.
     ========================================================================
     """
-    df = pd.read_csv(csv_results)
+    df = pd.read_csv(csv_results_formatted)
     df = UDF.group_and_agg(df=df,
                            col_group='nodes',
                            col_agg='pct_explored_2',
@@ -281,57 +286,56 @@ def explored_by_nodes_pct() -> None:
     bar.save(path=png_explored_by_nodes_pct)
 
 
-def explored_by_pct_nodes_cnt() -> None:
+def obstacle_density_cnt() -> None:
     """
     ========================================================================
      Show the explored by nodes.
     ========================================================================
     """
-    df = pd.read_csv(csv_results)
-    df['pct_nodes'] = round((1-df['pct_nodes']) * 100)
+    df = pd.read_csv(csv_results_formatted)
     df = UDF.group_and_agg(df=df,
-                           col_group='pct_nodes',
+                           col_group='obstacle_density',
                            multiple_group=10)
-    df = df.sort_values(by='pct_nodes') 
-    x = df['pct_nodes'].tolist()
+    df = df.sort_values(by='obstacle_density') 
+    x = df['obstacle_density'].tolist()
+    x = [str(int(val)) for val in x]
     y = df['pct'].tolist()
-    name_x = 'Percentage of Obstacle-Density'
+    name_x = '%Obstacles'
     name = '%Experiments'
     bar = Bar(x=x, y=y,
               name_x=name_x, name=name, is_y_pct=True)
-    bar.save(path=png_explored_by_pct_nodes_cnt)
+    bar.save(path=png_obstacle_density_cnt)
 
 
-def explored_by_pct_nodes_pct() -> None:
+def obstacle_density_pct() -> None:
     """
     ========================================================================
      Show the explored by nodes.
     ========================================================================
     """
-    df = pd.read_csv(csv_results)
-    df['pct_nodes'] = round((1-df['pct_nodes']) * 100)
+    df = pd.read_csv(csv_results_formatted)
     df = UDF.group_and_agg(df=df,
-                           col_group='pct_nodes',
+                           col_group='obstacle_density',
                            col_agg='pct_explored_2',
                            multiple_group=10,
                            type_agg=TypeAgg.MEAN)
-    x = df['pct_nodes'].tolist()
+    x = df['obstacle_density'].tolist()
+    x = [str(int(val)) for val in x]
     y = df['pct_explored_2'].tolist()
-    name_x = 'Percentage of Obstacle-Density'
+    name_x = '%Obstacles'
     name = '%Reduced Exploration'
     bar = Bar(x=x, y=y,
               name_x=name_x, name=name, is_y_pct=True)
-    bar.save(path=png_explored_by_pct_nodes_pct)
+    bar.save(path=png_obstacle_density_pct)
 
 
-def explored_by_manhattan_distance_cnt() -> None:
+def manhattan_distance_cnt() -> None:
     """
     ========================================================================
      Show the explored by nodes.
     ========================================================================
     """
-    df = pd.read_csv(csv_results)
-    df['pct_nodes'] = round((1-df['pct_nodes']) * 100)
+    df = pd.read_csv(csv_results_formatted)
     df = UDF.group_and_agg(df=df,
                            col_group='h_start_goal',
                            multiple_group=400)
@@ -342,30 +346,28 @@ def explored_by_manhattan_distance_cnt() -> None:
     name = '%Experiments'
     bar = Bar(x=x, y=y,
               name_x=name_x, name=name, is_y_pct=True)
-    bar.save(path=png_explored_by_manhattan_distance_cnt)
+    bar.save(path=png_manhattan_distance_cnt)
 
 
-def explored_by_manhattan_distance_pct() -> None:
+def manhattan_distance_pct() -> None:
     """
     ========================================================================
      Show the explored by nodes.
     ========================================================================
     """
-    df = pd.read_csv(csv_results)
-    df['pct_nodes'] = round((1-df['pct_nodes']) * 100)
+    df = pd.read_csv(csv_results_formatted)
     df = UDF.group_and_agg(df=df,
                            col_group='h_start_goal',
                            col_agg='pct_explored_2',
                            multiple_group=400,
                            type_agg=TypeAgg.MEAN)
-    print(df)
     x = [str(int(val)+400) for val in df['h_start_goal'].tolist()]
     y = df['pct_explored_2'].tolist()
     name_x = 'Manhattan Distance'
     name = '%Reduced Exploration'
     bar = Bar(x=x, y=y,
               name_x=name_x, name=name, is_y_pct=True)
-    bar.save(path=png_explored_by_manhattan_distance_pct)
+    bar.save(path=png_manhattan_distance_pct)
 
 
 def normalized_manhattan_cnt() -> None:
@@ -374,15 +376,15 @@ def normalized_manhattan_cnt() -> None:
      Show the normalized manhattan distance.
     ========================================================================
     """
-    df = pd.read_csv(csv_results_10)
-    df['normalized_manhattan'] = round((df['h_start_goal'] / (df['rows'] + df['cols'] - 2)) * 100)
+    df = pd.read_csv(csv_results_formatted)
     df = UDF.group_and_agg(df=df,
                            col_group='normalized_manhattan',
                            multiple_group=10)
+    df = df.sort_values(by='normalized_manhattan')
     x = df['normalized_manhattan'].tolist()
-    x = [str(int(val)) for val in x]
+    x = [str(int(val))+'%' for val in x]
     y = df['pct'].tolist()
-    name_x = 'Normalized Manhattan-Distance'
+    name_x = '%Normalized Manhattan-Distance'
     name = '%Experiments'
     bar = Bar(x=x,
               y=y,
@@ -398,18 +400,17 @@ def normalized_manhattan_pct() -> None:
      Show the normalized manhattan distance.
     ========================================================================
     """
-    df = pd.read_csv(csv_results_10)
-    df['normalized_manhattan'] = round((df['h_start_goal'] / (df['rows'] + df['cols'] - 2)) * 100)
+    df = pd.read_csv(csv_results_formatted)
     df = UDF.group_and_agg(df=df,
                            col_group='normalized_manhattan',
                            col_agg='pct_explored_2',
                            multiple_group=10,
                            type_agg=TypeAgg.MEAN)
-    print(df)
+    df = df.sort_values(by='normalized_manhattan')
     x = df['normalized_manhattan'].tolist()
-    x = [str(int(val)) for val in x]
+    x = [str(int(val))+'%' for val in x]
     y = df['pct_explored_2'].tolist()
-    name_x = 'Normalized Manhattan-Distance'
+    name_x = '%Normalized Manhattan-Distance'
     name = '%Reduced Exploration'
     bar = Bar(x=x,
               y=y,
@@ -426,7 +427,6 @@ def explored_by_goals() -> None:
     ========================================================================
     """
     df = pd.read_csv(csv_results_10)
-    df['pct_explored_2'] = round((1-df['pct_explored_2']) * 100)
     df = UDF.group_and_agg(df=df,
                            col_group='goals',
                            col_agg='pct_explored_2',
@@ -434,7 +434,7 @@ def explored_by_goals() -> None:
                            type_agg=TypeAgg.MEAN)
     x = df['goals'].tolist()
     y = df['pct_explored_2'].tolist()
-    name_x = 'Number of Goals'
+    name_x = '#Goals'
     name = '%Reduced Exploration'
     bar = Bar(x=x,
               y=y,
@@ -444,50 +444,50 @@ def explored_by_goals() -> None:
     bar.save(path=png_explored_by_goals)
 
 
-def explored_by_heuristic_quality_cnt() -> None:
+def heuristic_quality_cnt() -> None:
     """
     ========================================================================
      Show the explored by nodes.
     ========================================================================
     """
-    df = pd.read_csv(csv_results)
-    df['pct_start_goal'] = round(df['pct_start_goal'] * 100)
+    df = pd.read_csv(csv_results_formatted)
     df = UDF.group_and_agg(df=df,
-                           col_group='pct_start_goal',
+                           col_group='heuristic_quality',
                            multiple_group=10)
-    df['pct_start_goal'] = df['pct_start_goal'].astype(int)
-    df = df.sort_values(by='pct_start_goal') 
-    x = df['pct_start_goal'].tolist()
+    df['heuristic_quality'] = df['heuristic_quality'].astype(int)
+    df = df.sort_values(by='heuristic_quality') 
+    x = df['heuristic_quality'].tolist()
+    x = [str(int(val))+'%' for val in x]
     y = df['pct'].tolist()
-    name_x = 'Heuristic Quality'
+    name_x = '%Heuristic Quality'
     name = '%Experiments'
     bar = Bar(x=x, y=y,
               name_x=name_x, name=name, is_y_pct=True)
-    bar.save(path=png_explored_by_heuristic_quality_cnt)
+    bar.save(path=png_heuristic_quality_cnt)
 
 
-def explored_by_heuristic_quality_pct() -> None:
+def heuristic_quality_pct() -> None:
     """
     ========================================================================
      Show the explored by nodes.
     ========================================================================
     """
-    df = pd.read_csv(csv_results)
-    df['pct_start_goal'] = round(df['pct_start_goal'] * 100)
+    df = pd.read_csv(csv_results_formatted)
     df = UDF.group_and_agg(df=df,
-                           col_group='pct_start_goal',
+                           col_group='heuristic_quality',
                            col_agg='pct_explored_2',
                            multiple_group=10,
                            type_agg=TypeAgg.MEAN)
-    df['pct_start_goal'] = df['pct_start_goal'].astype(int)
-    df = df.sort_values(by='pct_start_goal') 
-    x = df['pct_start_goal'].tolist()
+    df['heuristic_quality'] = df['heuristic_quality'].astype(int)
+    df = df.sort_values(by='heuristic_quality') 
+    x = df['heuristic_quality'].tolist()
+    x = [str(int(val))+'%' for val in x]
     y = df['pct_explored_2'].tolist()
-    name_x = 'Heuristic Quality'
+    name_x = '%Heuristic Quality'
     name = '%Reduced Exploration'
     bar = Bar(x=x, y=y,
               name_x=name_x, name=name, is_y_pct=True)
-    bar.save(path=png_explored_by_heuristic_quality_pct)
+    bar.save(path=png_heuristic_quality_pct)
 
 
 # union_csv()
@@ -499,13 +499,12 @@ def explored_by_heuristic_quality_pct() -> None:
 # changed_nodes_by_depth()
 # explored_by_nodes_cnt()
 # explored_by_nodes_pct()
-# explored_by_pct_nodes_cnt()
-# explored_by_pct_nodes_pct()
-# explored_by_manhattan_distance_cnt()
-# explored_by_manhattan_distance_pct()
-# explored_by_goals()
-# explored_by_heuristic_quality_cnt()
-# explored_by_heuristic_quality_pct()
-normalized_manhattan_cnt()
-normalized_manhattan_pct()
-
+# obstacle_density_cnt()
+# obstacle_density_pct()
+# manhattan_distance_cnt()
+# manhattan_distance_pct()
+# normalized_manhattan_cnt()
+# normalized_manhattan_pct()
+explored_by_goals()
+heuristic_quality_cnt()
+heuristic_quality_pct()
