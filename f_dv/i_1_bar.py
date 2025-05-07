@@ -163,7 +163,7 @@ class Bar(Chart):
 
         plt.xlabel(xlabel=self._name_x, fontweight='bold', fontsize=16)
         plt.ylabel(ylabel=self._name_y, fontweight='bold', fontsize=16)
-        plt.xticks(self._x, fontweight='bold', fontsize=16)
+        plt.xticks(self._x, fontweight='bold', fontsize=10)
         plt.yticks(plt.yticks()[0], fontweight='bold', fontsize=16)
         
         # If is_y_pct is True, format the y-axis labels as percentages

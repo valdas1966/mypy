@@ -9,14 +9,15 @@ from f_color.rgb import RGB
 import pandas as pd
 
 
-cd = 'd'
+cd = 'g'
 folder = f'{cd}:\\temp\\boundary\\grands'
 folder_results = f'{folder}\\results'
 csv_results = f'{folder}\\results.csv'
-csv_results = 'd:\\mypy\\f_graph\\path\\many_to_one\\experiments\\results.csv'
-csv_results_formatted = 'd:\\mypy\\f_graph\\path\\many_to_one\\experiments\\results_formatted.csv'
+csv_results = 'g:\\mypy\\f_graph\\path\\many_to_one\\experiments\\results.csv'
+csv_results_formatted = 'g:\\mypy\\f_graph\\path\\many_to_one\\experiments\\results_formatted.csv'
 csv_results_10 = f'{folder}\\results_10.csv'
 csv_results_temp = f'{folder}\\results_temp.csv'
+csv_results_algo = f'{folder}\\results_10_algo.csv'
 png_performance_comparison_by_depth = f'{folder_results}\\performance_comparison_by_depth.png'
 png_exploration_reduction_by_depth = f'{folder_results}\\exploration_reduction_by_depth.png'
 png_changed_nodes_by_depth = f'{folder_results}\\changed_nodes_by_depth.png'
@@ -39,6 +40,8 @@ png_manhattan_distance_cnt = f'{folder_results}\\manhattan_distance_cnt.png'
 png_manhattan_distance_pct = f'{folder_results}\\manhattan_distance_pct.png'
 png_heuristic_quality_cnt = f'{folder_results}\\heuristic_quality_cnt.png'
 png_heuristic_quality_pct = f'{folder_results}\\heuristic_quality_pct.png'
+png_domain = f'{folder_results}\\domain.png'
+png_algo = f'{folder_results}\\algo.png'
 
 
 def union_csv() -> None:
@@ -427,6 +430,7 @@ def explored_by_goals() -> None:
     ========================================================================
     """
     df = pd.read_csv(csv_results_10)
+    df['pct_explored_2'] = round((1-df['pct_explored_2']) * 100)
     df = UDF.group_and_agg(df=df,
                            col_group='goals',
                            col_agg='pct_explored_2',
@@ -490,6 +494,39 @@ def heuristic_quality_pct() -> None:
     bar.save(path=png_heuristic_quality_pct)
 
 
+def domain() -> None:
+    df = pd.read_csv(csv_results_formatted)
+    df = UDF.group_and_agg(df=df,
+                           col_group='domain',
+                           col_agg='pct_explored_2',
+                           type_agg=TypeAgg.MEAN)
+    df = df.sort_values(by='pct_explored_2', ascending=True)
+    x = df['domain'].tolist()
+    y = df['pct_explored_2'].tolist()
+    name = '%Reduced Exploration'
+    bar = Bar(x=x, y=y, name=name, is_y_pct=True)
+    bar.save(path=png_domain)
+
+
+def algo() -> None:
+    """
+    ========================================================================
+     Show the changed.
+    ========================================================================
+    """
+    df = pd.read_csv(csv_results_algo)
+    df = df[['pct_oracle', 'pct_forward', 'pct_back_2', 'pct_back_1', 'pct_back_0', 'pct_bi_2', 'pct_bi_1', 'pct_bi_0']]
+    x = ['Oracle', 'FSkA*', 'BSkA* 2', 'BSkA* 1', 'BSkA* 0', 'FBSkA* 2', 'FBSkA* 1', 'FBSkA* 0']
+    cols = ['pct_oracle', 'pct_forward', 'pct_back_2', 'pct_back_1', 'pct_back_0', 'pct_bi_2', 'pct_bi_1', 'pct_bi_0']
+    y = UDF.agg_cols(df=df, cols=cols, type_agg=TypeAgg.MEDIAN)
+    y = [100-val for val in y]
+    name_x = 'Algorithm'
+    name = '%Reduced Exploration'
+    bar = Bar(x=x, y=y,
+              name_x=name_x, name=name, is_y_pct=True)
+    bar.save(path=png_algo)
+
+
 # union_csv()
 # format_csv()
 # performance_comparison_by_depth()
@@ -505,6 +542,8 @@ def heuristic_quality_pct() -> None:
 # manhattan_distance_pct()
 # normalized_manhattan_cnt()
 # normalized_manhattan_pct()
-explored_by_goals()
-heuristic_quality_cnt()
-heuristic_quality_pct()
+# explored_by_goals()
+# heuristic_quality_cnt()
+# heuristic_quality_pct()
+# domain()
+algo()
