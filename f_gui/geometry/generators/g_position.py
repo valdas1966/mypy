@@ -1,4 +1,4 @@
-from f_gui.geometry.generators.g_tlwh import GenLTWH
+from f_gui.geometry.generators.g_tlwh import GenTLWH
 from f_gui.geometry.position import Position
 
 
@@ -16,7 +16,7 @@ class GenPosition:
          Generate a half position.
         ========================================================================
         """
-        relative = GenLTWH.half()
+        relative = GenTLWH.half()
         return Position(relative=relative)
     
     @staticmethod
@@ -27,6 +27,6 @@ class GenPosition:
         ========================================================================
         """
         position = Position()
-        position.relative = GenLTWH.half()
-        position.parent = GenLTWH.half()
+        position.relative = GenTLWH.half()
+        position.parent = GenTLWH.half()
         return position
