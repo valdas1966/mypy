@@ -1,7 +1,5 @@
 from google.oauth2.service_account import Credentials
-from f_google.user import User
 import google.auth
-
 
 
 class UAuthentication:
