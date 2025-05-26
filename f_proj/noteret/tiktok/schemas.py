@@ -103,37 +103,6 @@ class Schemas:
         return schema
     
     @staticmethod
-    def videos_by_hashtag() -> Schema:
-        tname = 'videos_by_hashtag'
-        schema = Schemas._create_schema(tname=tname)
-        schema.append(Fields.ID_HASHTAG)
-        schema.append(Fields.ID_USER)
-        schema.append(Fields.ID_USER_UNIQUE)
-        schema.append(Fields.NICK)
-        schema.append(Fields.ID_VIDEO)
-        schema.append(Fields.REGION)
-        schema.append(Fields.TITLE)
-        schema.append(Fields.CREATED)
-        schema.append(Fields.DURATION)
-        schema.append(Fields.PLAYS)
-        schema.append(Fields.SHARES)
-        schema.append(Fields.DIGGS)
-        schema.append(Fields.DOWNLOADS)
-        schema.append(Fields.COMMENTS)
-        schema.append(Fields.IS_AD)
-        schema.append(Fields.IS_OK)
-        schema.append(Fields.IS_FOUND)
-        schema.append(Fields.INSERTED)
-        return schema
-
-    @staticmethod
-    def videos_by_hashtag_todo() -> Schema:
-        tname = 'videos_by_hashtag_todo'
-        schema = Schemas._create_schema(tname=tname)
-        schema.append(Fields.ID_HASHTAG)
-        return schema
-    
-    @staticmethod
     def comments_by_video() -> Schema:
         tname = 'comments_by_video'
         schema = Schemas._create_schema(tname=tname)
@@ -275,7 +244,41 @@ class Schemas:
         schema.append(Fields.ID_HASHTAG)
         schema.extend(Fields.video())
         schema.extend(Fields.audit())
-        return schema   
+        return schema
+
+    @staticmethod
+    def music() -> Schema:
+        """
+        ========================================================================
+         Return schema for table 'Musics_by_Id'.
+        ========================================================================
+        """
+        tname = 'music'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.ID_MUSIC)
+        schema.append(Fields.TITLE)
+        schema.append(Fields.AUTHOR)
+        schema.append(Fields.DURATION)
+        schema.append(Fields.ORIGINAL)
+        schema.append(Fields.VIDEOS)
+        schema.append(Fields.PLAY)
+        schema.append(Fields.IS_AD)
+        schema.append(Fields.IS_OK)
+        schema.append(Fields.IS_FOUND)
+        schema.append(Fields.INSERTED)
+        return schema
+
+    @staticmethod
+    def music_todo() -> Schema:
+        """
+        ========================================================================
+         Return schema for table 'Musics_by_Id_Todo'.
+        ========================================================================
+        """
+        tname = 'music_todo'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.ID_MUSIC)
+        return schema
     
     @staticmethod
     def _create_schema(tname: str) -> Schema:

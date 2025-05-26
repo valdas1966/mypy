@@ -26,12 +26,13 @@ class Fields:
     IS_SECRET = Field.boolean(name='is_secret')
     IS_PRIVATE = Field.boolean(name='is_private')
 
+    # Stats
+    VIDEOS = Field.integer(name='videos')
     # User Stats
     FOLLOWING = Field.integer(name='following')
     FOLLOWERS = Field.integer(name='followers')
     AWEME = Field.integer(name='aweme')
     FAVORITED = Field.integer(name='favorited')
-    VIDEOS = Field.integer(name='videos')
     HEARTS = Field.integer(name='hearts')
     DIGGS = Field.integer(name='diggs')
 
@@ -40,6 +41,11 @@ class Fields:
 
     # Music
     ID_MUSIC = Field.string(name='id_music')
+    TITLE = Field.string(name='title')
+    PLAY = Field.string(name='play')
+    AUTHOR = Field.string(name='author')
+    DURATION = Field.integer(name='duration')
+    ORIGINAL = Field.boolean(name='original')
 
     # KeyWord
     KEYWORD = Field.string(name='keyword')
@@ -60,14 +66,12 @@ class Fields:
     REGION = Field.string(name='region')
     TITLE = Field.string(name='title')
     CREATED = Field.integer(name='created')
-    DURATION = Field.integer(name='duration')
     PLAYS = Field.integer(name='plays')
     SHARES = Field.integer(name='shares')
     DIGGS = Field.integer(name='diggs')
     DOWNLOADS = Field.integer(name='downloads')
     COMMENTS = Field.integer(name='comments')
     IS_AD = Field.boolean(name='is_ad')
-    PLAY = Field.integer(name='play')
     
     @staticmethod
     def user_info() -> list[Field]:

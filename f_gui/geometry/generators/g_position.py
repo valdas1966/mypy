@@ -30,3 +30,7 @@ class GenPosition:
         position.relative = GenTLWH.half()
         position.parent = GenTLWH.half()
         return position
+
+
+pos = GenPosition.gen_position_quarter()
+print(pos)

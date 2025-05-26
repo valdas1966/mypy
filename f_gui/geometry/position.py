@@ -6,7 +6,9 @@ from f_gui.geometry.generators.g_tlwh import GenTLWH, TLWH
 class Position(Printable, Comparable):
     """
     ============================================================================
-     Component-Class to manage relative and absolute positions.
+     1. Component-Class to manage relative and absolute positions.
+     2. Position inits with a relative position (optionally with a parent).
+     3. The absolute position is updated automatically on parent-change.
     ============================================================================
     """
 
@@ -19,18 +21,9 @@ class Position(Printable, Comparable):
          Init private Attributes.
         ========================================================================
         """
-        # Inits Absolute later by _update_absolute()
-        self._absolute: TLWH = None
-        # Inits Relative
-        if isinstance(relative, tuple):
-            self._relative = TLWH(*relative)
-        else:
-            self._relative = relative
-        # Inits Parent
-        if isinstance(parent, tuple):
-            self.parent = TLWH(*parent)
-        else:
-            self.parent = parent
+        self._absolute: TLWH | None = None
+        self._relative = self._init_relative(relative=relative)
+        self._parent = self._init_parent(parent=parent)
 
     @property
     def relative(self) -> TLWH:
@@ -75,7 +68,7 @@ class Position(Printable, Comparable):
     def parent(self, val: TLWH) -> None:
         """
         ========================================================================
-         Set the parent's position.
+         Set the parent's absolute position.
         ========================================================================
         """
         self._parent = val
@@ -101,6 +94,34 @@ class Position(Printable, Comparable):
         height = (self._parent.height * self._relative.height / 100)
         self._absolute = TLWH(top, left, width, height)
 
+    def _init_relative(self,
+                       relative: tuple[float, float, float, float] | TLWH) -> TLWH:
+        """
+        ========================================================================
+         Inits Relative (TLWH).
+        ========================================================================
+        """ 
+        # If relative is a tuple, convert it to a TLWH object.
+        if isinstance(relative, tuple):
+            return TLWH(*relative)
+        # If relative is already a TLWH object, return it.
+        else:
+            return relative
+
+    def _init_parent(self,
+                     parent: tuple[float, float, float, float] | TLWH) -> TLWH:
+        """
+        ========================================================================
+         Inits Parent (TLWH).
+        ========================================================================
+        """ 
+        # If parent is a tuple, convert it to a TLWH object.
+        if isinstance(parent, tuple):
+            return TLWH(*parent)
+        # If parent is already a TLWH object, return it.
+        else:
+            return parent
+        
     def __str__(self) -> str:
         """
         ========================================================================

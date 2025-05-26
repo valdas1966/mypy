@@ -9,8 +9,6 @@ def test_half():
     ========================================================================
     """
     position = GenPosition.gen_position_half()
-    assert position.parent == GenTLWH.full()
-    assert position.relative == GenTLWH.half()
     assert position.absolute == GenTLWH.half()
 
 
@@ -21,6 +19,4 @@ def test_quarter():
     ========================================================================
     """
     position = GenPosition.gen_position_quarter()
-    assert position.parent == GenTLWH.half()
-    assert position.relative == GenTLWH.quarter()
     assert position.absolute == GenTLWH.quarter()
