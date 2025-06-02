@@ -1,4 +1,4 @@
-from f_gui.geometry.generators.g_tlwh import GenTLWH
+from f_gui.geometry.generators.g_bounds import GenBounds
 
 
 def test_full():
@@ -7,7 +7,7 @@ def test_full():
      Test the Full LTWH.
     ========================================================================
     """
-    full = GenTLWH.full()
+    full = GenBounds.full()
     assert full.top == 0
     assert full.left == 0
     assert full.width == 100
@@ -20,7 +20,7 @@ def test_half():
      Test the Half LTWH.
     ========================================================================
     """
-    half = GenTLWH.half()
+    half = GenBounds.half()
     assert half.top == 25
     assert half.left == 25
     assert half.width == 50
@@ -33,7 +33,7 @@ def test_quarter():
      Test the Quarter LTWH.
     ========================================================================
     """ 
-    quarter = GenTLWH.quarter()
+    quarter = GenBounds.quarter()
     assert quarter.top == 37.5
     assert quarter.left == 37.5
     assert quarter.width == 25

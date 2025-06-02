@@ -1,5 +1,5 @@
 from f_gui.geometry.generators.g_position import GenPosition
-from f_gui.geometry.generators.g_tlwh import GenTLWH
+from f_gui.geometry.generators.g_bounds import GenBounds
 
 
 def test_half():
@@ -9,7 +9,7 @@ def test_half():
     ========================================================================
     """
     position = GenPosition.gen_position_half()
-    assert position.absolute == GenTLWH.half()
+    assert position.absolute == GenBounds.half()
 
 
 def test_quarter():
@@ -19,4 +19,4 @@ def test_quarter():
     ========================================================================
     """
     position = GenPosition.gen_position_quarter()
-    assert position.absolute == GenTLWH.quarter()
+    assert position.absolute == GenBounds.quarter()

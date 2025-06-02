@@ -3,7 +3,7 @@ from f_gui.pyqt.mixins.has_widget import HasWidget
 from f_gui.mixins.has_position import HasPosition
 from f_ds.nodes.mixins.has_parent import HasParent
 from f_core.mixins.has_name import HasName
-from f_gui.geometry.tlwh import LTWH
+from f_gui.geometry.bounds import LTWH
 
 
 class Widget(HasName, HasParent, HasWidget, HasPosition):

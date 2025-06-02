@@ -5,8 +5,9 @@
       <excludeFolder url="file://$MODULE_DIR$/mypy" />
       <excludeFolder url="file://$MODULE_DIR$/venv_mypy" />
       <excludeFolder url="file://$MODULE_DIR$/venv_mypy" />
+      <excludeFolder url="file://$MODULE_DIR$/venv_mypy" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.12" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.12 (mypy) (2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PackageRequirementsSettings">
