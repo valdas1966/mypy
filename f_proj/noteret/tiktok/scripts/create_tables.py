@@ -193,25 +193,25 @@ def videos_by_hashtag() -> None:
     BigQuery().create.table(tname=tname, schema=schema)
 
 
-def music() -> None:
+def music_by_id() -> None:
     """
     ========================================================================
-     Create table 'Music'.
+     Create table 'Music_by_Id'.
     ========================================================================
     """
-    tname = Tables.MUSIC
-    schema = Schemas.music()
+    tname = Tables.MUSIC_BY_ID
+    schema = Schemas.music_by_id()
     BigQuery().create.table(tname=tname, schema=schema) 
 
 
-def music_todo() -> None:
+def music_by_id_todo() -> None:
     """
     ========================================================================
-     Create table 'Music_Todo'.
+     Create table 'Music_by_Id_Todo'.
     ========================================================================
     """ 
-    tname = Tables.MUSIC_TODO
-    schema = Schemas.music_todo()
+    tname = Tables.MUSIC_BY_ID_TODO
+    schema = Schemas.music_by_id_todo()
     BigQuery().create.table(tname=tname, schema=schema)
 
 
@@ -236,5 +236,5 @@ def music_todo() -> None:
 # videos_by_hashtag_todo()
 # followers_by_user()
 # followers_by_user_todo()
-music()
-music_todo()
+music_by_id()
+# music_by_id_todo()

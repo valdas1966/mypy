@@ -45,7 +45,7 @@ class Fields:
     PLAY = Field.string(name='play')
     AUTHOR = Field.string(name='author')
     DURATION = Field.integer(name='duration')
-    ORIGINAL = Field.boolean(name='original')
+    IS_ORIGINAL = Field.boolean(name='is_original')
 
     # KeyWord
     KEYWORD = Field.string(name='keyword')

@@ -22,9 +22,10 @@ class NodeKey(Generic[Key], HasKey[Key], HasName, Clonable):
          Init private Attributes.
         ========================================================================
         """
-        HasKey.__init__(self, key=key)
-        HasName.__init__(self, name=name)
-        Clonable.__init__(self)
+        super().__init__(key=key, name=name)
+        # HasKey.__init__(self, key=key)
+        # HasName.__init__(self, name=name)
+        # Clonable.__init__(self)
 
     def key_comparison(self) -> Key:
         """

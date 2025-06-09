@@ -24,5 +24,5 @@ class Tables:
     VIDEOS_BY_USER_TODO = f'{VIDEOS_BY_USER}_todo'
     HASHTAGS_BY_KEYWORD = f'{_pre}.hashtags_by_keyword'
     HASHTAGS_BY_KEYWORD_TODO = f'{HASHTAGS_BY_KEYWORD}_todo'
-    MUSIC = f'{_pre}.music'
-    MUSIC_TODO = f'{_pre}.music_todo'
+    MUSIC_BY_ID = f'{_pre}.music_by_id'
+    MUSIC_BY_ID_TODO = f'{MUSIC_BY_ID}_todo'

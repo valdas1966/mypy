@@ -3,7 +3,7 @@ from f_gui.pyqt.widget import Widget
 from f_gui.pyqt.container import Container
 from f_gui.pyqt.mixins.has_widget import HasWidget
 from f_core.mixins.has_name import HasName
-from f_gui.geometry.position import Position
+from f_gui.geometry.geometry import Position
 from f_gui.u_screen import UScreen as u_screen
 
 

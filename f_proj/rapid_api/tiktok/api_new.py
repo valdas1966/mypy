@@ -223,7 +223,33 @@ class TiktokAPI:
                                       name_cursor='time',
                                       to_rows=to_rows)
 
-
+    @staticmethod
+    def music_by_id(id_music: str) -> dict[str, Any]:
+        """
+        ========================================================================
+         Fetch music by id.
+        ========================================================================
+        """
+        url = f'https://{TiktokAPI._HOST}/music/info'
+        params = {'url': id_music}
+        def to_row(data: dict[str, Any]) -> dict[str, Any]:
+            row: dict[str, Any] = dict()
+            row['id_music'] = id_music
+            row['title'] = data['title']
+            row['play'] = data['play']
+            row['author'] = data['author']
+            row['duration'] = data['duration']
+            row['is_original'] = data['original']
+            row['videos'] = data['video_count']
+            row['is_ok'] = True
+            row['is_found'] = True
+            row['is_broken'] = False
+            return row
+        return TiktokAPI._fetch_single(url=url,
+                                       params=params,
+                                       anchor=('id_music', id_music),
+                                       to_row=to_row)
+            
     @staticmethod
     def _fetch_single(url: str,
                       params: dict[str, Any],

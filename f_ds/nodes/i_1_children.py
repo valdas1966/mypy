@@ -18,7 +18,8 @@ class NodeChildren(NodeKey[Key]):
          Initialize the NodeChildren.
         ========================================================================
         """
-        NodeKey.__init__(self, key=key, name=name)
+        super().__init__(key=key, name=name)
+        # NodeKey.__init__(self, key=key, name=name)
         self._children: dict[Key, Node] = dict()
 
     @property

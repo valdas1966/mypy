@@ -1,4 +1,4 @@
-from f_gui.geometry.position import Position
+from f_gui.geometry.geometry import Position
 
 
 pos = Position()

@@ -247,35 +247,32 @@ class Schemas:
         return schema
 
     @staticmethod
-    def music() -> Schema:
+    def music_by_id() -> Schema:
         """
         ========================================================================
          Return schema for table 'Musics_by_Id'.
         ========================================================================
         """
-        tname = 'music'
+        tname = 'music_by_id'
         schema = Schemas._create_schema(tname=tname)
         schema.append(Fields.ID_MUSIC)
         schema.append(Fields.TITLE)
         schema.append(Fields.AUTHOR)
         schema.append(Fields.DURATION)
-        schema.append(Fields.ORIGINAL)
+        schema.append(Fields.IS_ORIGINAL)
         schema.append(Fields.VIDEOS)
         schema.append(Fields.PLAY)
-        schema.append(Fields.IS_AD)
-        schema.append(Fields.IS_OK)
-        schema.append(Fields.IS_FOUND)
-        schema.append(Fields.INSERTED)
+        schema.extend(Fields.audit())
         return schema
 
     @staticmethod
-    def music_todo() -> Schema:
+    def music_by_id_todo() -> Schema:
         """
         ========================================================================
          Return schema for table 'Musics_by_Id_Todo'.
         ========================================================================
         """
-        tname = 'music_todo'
+        tname = 'music_by_id_todo'
         schema = Schemas._create_schema(tname=tname)
         schema.append(Fields.ID_MUSIC)
         return schema
