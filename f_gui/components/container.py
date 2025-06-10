@@ -4,7 +4,7 @@ from f_gui.components.component import Component
 from f_gui.geometry.geometry import Geometry
 
 
-class Container(Component, NodeHierarchy):
+class Container(NodeHierarchy):
     """
     ============================================================================
      A UI component that can contain children and manage layout.
@@ -21,9 +21,12 @@ class Container(Component, NodeHierarchy):
          Initialize the container.
         ========================================================================
         """
-        NodeHierarchy.__init__(self, key=key, parent=parent)
-        Component.__init__(self, key=key, parent=parent, geometry=geometry)
-        
+        NodeHierarchy.__init__(self, key=key, parent=parent)        
+
+    @NodeHierarchy.parent.setter
+    def parent(self, parent: Component) -> None:
+        NodeHierarchy.parent.fset(self, parent)
+        self.geometry.parent = parent.geometry.absolute
 
     def add_child(self, child: Component) -> None:
         NodeHierarchy.add_child(self, child)

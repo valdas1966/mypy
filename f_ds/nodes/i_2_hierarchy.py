@@ -21,9 +21,8 @@ class NodeHierarchy(NodeParent[Key], NodeChildren[Key]):
          Initialize the Node.
         ========================================================================
         """
-        super().__init__(key=key, parent=parent, name=name)
-        # NodeParent.__init__(self, key=key, parent=parent, name=name)
-        # NodeChildren.__init__(self, key=key, name=name)
+        NodeParent.__init__(self, key=key, parent=parent, name=name)
+        NodeChildren.__init__(self, key=key, name=name)
 
     def add_child(self, child: Node) -> None:
         """
