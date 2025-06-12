@@ -37,9 +37,12 @@ class NodeHierarchy(NodeParent[Key], NodeChildren[Key]):
         """
         ========================================================================
          Remove a child from the object and set the child's parent to None.
+         Can remove by child or key.
         ========================================================================
         """
-        key = key if key else child.key
+        # If child is provided, use child's key.
+        if child:
+            key = child.key
         child = NodeChildren.remove_child(self, key=key)
         child.parent = None
         return child
@@ -47,10 +50,9 @@ class NodeHierarchy(NodeParent[Key], NodeChildren[Key]):
     def _update_parent(self) -> None:
         """
         ========================================================================
-         Add self to the parent's children if self is not already a child.
+         Additional updates when the parent is set.
+         Add self to the parent's children if it is not already there.
         ========================================================================
         """
-        if self.parent and self not in self.parent.children:
+        if self not in self.parent.children:
             self.parent.add_child(child=self)
-
-

@@ -38,3 +38,17 @@ def test_add_child() -> None:
     parent.add_child(child=child)
     assert parent.children == {child.key: child}
     assert child.parent == parent
+
+
+def test_set_parent() -> None:
+    """
+    ========================================================================
+     Test the setting of a parent.
+    ========================================================================
+    """
+    parent, child = GenNodeHierarchy.parent_child()
+    parent.parent = child
+    assert parent.parent == child
+    assert parent.children == {child.key: child}
+    assert child.parent == parent
+    assert child.children == dict()
