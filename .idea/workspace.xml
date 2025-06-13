@@ -5,10 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_gui/components/mixins/has_children.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/nodes/i_2_hierarchy.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/i_2_hierarchy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/nodes/testers/t_2_hierarchy.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/testers/t_2_hierarchy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/components/component.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/component.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/geometry/bounds.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/geometry/bounds.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/geometry/generators/g_geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/geometry/generators/g_geometry.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/geometry/geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/geometry/geometry.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/geometry/testers/t_geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/geometry/testers/t_geometry.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_microsoft/excel.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_microsoft/excel.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,12 +37,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
-    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/valdas1966/mypy.git",
+    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -178,6 +183,7 @@
     "Python tests.Python tests for t_forward.test_kx_bfs_shared.executor": "Run",
     "Python tests.Python tests for t_g_cache.test_gen_3x3.executor": "Run",
     "Python tests.Python tests for t_g_state.test_gen_3x3.executor": "Run",
+    "Python tests.Python tests for t_geometry.test_full.executor": "Run",
     "Python tests.Python tests for t_get.test_success.executor": "Run",
     "Python tests.Python tests for t_graph.test_children.executor": "Run",
     "Python tests.Python tests for t_graph_map.test_graph_map.executor": "Run",
@@ -409,6 +415,7 @@
     "Python tests.Python tests in t_g_problem.py.executor": "Run",
     "Python tests.Python tests in t_g_state.py.executor": "Run",
     "Python tests.Python tests in t_generated_explored.py.executor": "Run",
+    "Python tests.Python tests in t_geometry.py.executor": "Run",
     "Python tests.Python tests in t_get.py (1).executor": "Run",
     "Python tests.Python tests in t_get.py.executor": "Run",
     "Python tests.Python tests in t_graph.py.executor": "Run",
@@ -500,6 +507,7 @@
     "Python.client.executor": "Run",
     "Python.collectionable.executor": "Run",
     "Python.comments_by_video.executor": "Run",
+    "Python.component.executor": "Run",
     "Python.container_qa.executor": "Run",
     "Python.create_tables (1).executor": "Run",
     "Python.create_tables (2).executor": "Run",
@@ -793,7 +801,29 @@
       <recent name="G:\mypy\f_gui\components" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.t_0_key">
+  <component name="RunManager" selected="Python tests.Python tests in t_geometry.py">
+    <configuration name="component" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/components" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_gui/components/component.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="t_0_key" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -808,28 +838,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_ds/nodes/testers/t_0_key.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="t_1_parent" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/nodes/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_ds/nodes/testers/t_1_parent.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -860,34 +868,19 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_1_children.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for t_geometry.test_full" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/nodes/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/geometry/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/nodes/testers/t_1_children.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_2_hierarchy.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/nodes/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/nodes/testers/t_2_hierarchy.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;t_geometry.test_full&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="Python tests in t_geometry.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -906,19 +899,19 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.component" />
       <item itemvalue="Python.t_0_key" />
-      <item itemvalue="Python.t_1_parent" />
       <item itemvalue="Python.t_2_hierarchy" />
-      <item itemvalue="Python tests.Python tests in t_1_children.py" />
-      <item itemvalue="Python tests.Python tests in t_2_hierarchy.py" />
+      <item itemvalue="Python tests.Python tests for t_geometry.test_full" />
+      <item itemvalue="Python tests.Python tests in t_geometry.py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests in t_geometry.py" />
+        <item itemvalue="Python tests.Python tests for t_geometry.test_full" />
+        <item itemvalue="Python.component" />
         <item itemvalue="Python.t_0_key" />
         <item itemvalue="Python.t_2_hierarchy" />
-        <item itemvalue="Python.t_1_parent" />
-        <item itemvalue="Python tests.Python tests in t_1_children.py" />
-        <item itemvalue="Python tests.Python tests in t_2_hierarchy.py" />
       </list>
     </recent_temporary>
   </component>

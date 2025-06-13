@@ -3,11 +3,16 @@ from openpyxl import Workbook, load_workbook
 
 
 class Excel:
+    """
+    ========================================================================
+     Excel Handler.
+    ========================================================================
+    """
     def __init__(self, path: str):
         """
-        Initialize Excel handler.
-        If the file exists, load it.
-        Otherwise, create a new file and save it.
+        ========================================================================
+         Initialize Excel handler.
+        ========================================================================
         """
         self.path = path
 

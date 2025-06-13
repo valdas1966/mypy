@@ -1,9 +1,9 @@
 from __future__ import annotations
-from f_ds.nodes.i_1_parent import NodeParent
+from f_ds.nodes.i_2_hierarchy import NodeHierarchy
 from f_gui.geometry.geometry import Geometry
 
 
-class Component(NodeParent):
+class Component(NodeHierarchy):
     """
     ============================================================================
      Base class for all UI components (visible or layout).
@@ -11,18 +11,19 @@ class Component(NodeParent):
     """
 
     def __init__(self,
-                 key: str,                # Unique identifier for the component
-                 parent: Component,       # Parent component
-                 geometry: Geometry       # Layout geometry of the component
+                 key: str,                   # Component's unique identifier
+                 geometry: Geometry,         # Component's Layout geometry
+                 parent: Component = None    # Parent component
                  ) -> None:
         """
         ========================================================================
          Initialize the component.
         ========================================================================
         """
-        NodeParent.__init__(key=key, parent=parent)
         self._geometry = geometry
-        self._geometry.parent = parent.geometry
+        if parent is not None:
+            self._geometry.parent = parent.geometry.absolute
+        NodeHierarchy.__init__(self, key=key, parent=parent)
 
     @property
     def geometry(self) -> Geometry:
@@ -33,12 +34,16 @@ class Component(NodeParent):
         """
         return self._geometry
     
-    @NodeParent.parent.setter
-    def parent(self, parent: Component) -> None:
+    @NodeHierarchy.parent.setter
+    def parent(self, new_parent: Component) -> None:
         """
         ========================================================================
          Set the parent and update the geometry based on the parent's geo.
         ========================================================================
         """
-        NodeParent.parent = parent
-        self._geometry.parent = parent.geometry
+        NodeHierarchy.parent.__set__(self, new_parent)
+        if new_parent:
+            self._geometry.parent = new_parent.geometry.absolute
+        # Update absolute bounds for each component's children
+        for child in self.children:
+            child.geometry.parent = 

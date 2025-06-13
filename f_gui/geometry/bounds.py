@@ -71,7 +71,7 @@ class Bounds(Generic[T], Printable, Comparable):
          Return the Top, Left, Width, Height values as a tuple.
         ========================================================================
         """
-        return self.left, self.top, self.width, self.height
+        return self.top, self.left, self.width, self.height
 
     def key_comparison(self) -> tuple[T, T, T, T]:
         """
