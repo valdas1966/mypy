@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_gui/components/generators/g_component.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/components/testers/t_component.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/nodes/i_1_parent.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/i_1_parent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/components/component.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/component.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/geometry/generators/g_geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/geometry/generators/g_geometry.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/geometry/geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/geometry/geometry.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/components/generators/g_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/generators/g_component.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/components/testers/t_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/testers/t_component.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -803,7 +799,7 @@
       <recent name="G:\mypy\f_gui\components" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for t_component.test_full">
+  <component name="RunManager" selected="Python tests.Python tests in t_component.py">
     <configuration name="component (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -895,8 +891,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests for t_component.test_full" />
         <item itemvalue="Python tests.Python tests in t_component.py" />
+        <item itemvalue="Python tests.Python tests for t_component.test_full" />
         <item itemvalue="Python.component (1)" />
         <item itemvalue="Python tests.Python tests in t_geometry.py (1)" />
         <item itemvalue="Python tests.Python tests in t_geometry.py" />
@@ -918,14 +914,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00170" summary="h">
-      <option name="closed" value="true" />
-      <created>1741633575645</created>
-      <option name="number" value="00170" />
-      <option name="presentableId" value="LOCAL-00170" />
-      <option name="project" value="LOCAL" />
-      <updated>1741633575645</updated>
     </task>
     <task id="LOCAL-00171" summary="h">
       <option name="closed" value="true" />
@@ -1311,7 +1299,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749821445647</updated>
     </task>
-    <option name="localTasksCounter" value="219" />
+    <task id="LOCAL-00219" summary="h">
+      <option name="closed" value="true" />
+      <created>1749909010959</created>
+      <option name="number" value="00219" />
+      <option name="presentableId" value="LOCAL-00219" />
+      <option name="project" value="LOCAL" />
+      <updated>1749909010959</updated>
+    </task>
+    <option name="localTasksCounter" value="220" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

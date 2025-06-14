@@ -8,8 +8,8 @@ class GenComponent:
     def full() -> Component:
         """
         ========================================================================
-         Generate a full component.
+         Generate a full-screen component.
         ========================================================================
         """
-        geometry = GenGeometry()
+        geometry = GenGeometry.full()
         return Component(key='full', geometry=geometry)
