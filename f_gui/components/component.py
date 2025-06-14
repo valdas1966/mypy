@@ -20,10 +20,10 @@ class Component(NodeHierarchy):
          Initialize the component.
         ========================================================================
         """
+        NodeHierarchy.__init__(self, key=key, parent=None)
         self._geometry = geometry
-        if parent is not None:
-            self._geometry.parent = parent.geometry.absolute
-        NodeHierarchy.__init__(self, key=key, parent=parent)
+        if parent:
+            self.parent = parent
 
     @property
     def geometry(self) -> Geometry:
@@ -43,7 +43,7 @@ class Component(NodeHierarchy):
         """
         NodeHierarchy.parent.__set__(self, new_parent)
         if new_parent:
-            self._geometry.parent = new_parent.geometry.absolute
+            self._geometry.bounds_parent = new_parent.geometry.bounds_absolute
         # Update absolute bounds for each component's children
         for child in self.children:
-            child.geometry.parent = 
+            child.geometry.bounds_parent = self.geometry.bounds_absolute

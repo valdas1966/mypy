@@ -19,8 +19,11 @@ class NodeParent(NodeKey[Key]):
         ========================================================================
         """
         NodeKey.__init__(self, key=key, name=name)
-        self.parent = parent
-
+        if parent is not None:
+            self.parent = parent
+        else:
+            self._parent = None
+ 
     @property
     def parent(self) -> NodeParent[Key]:
         """

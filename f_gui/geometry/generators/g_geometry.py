@@ -10,14 +10,19 @@ class GenGeometry:
     """
 
     @staticmethod
+    def full() -> Geometry:
+        return Geometry()
+
+
+    @staticmethod
     def half() -> Geometry:
         """
         ========================================================================
          Generate a half position.
         ========================================================================
         """
-        relative = GenBounds.half()
-        return Geometry(bounds_relative=relative)
+        bounds = GenBounds.half()
+        return Geometry(bounds_relative=bounds)
 
     @staticmethod
     def quarter() -> Geometry:
@@ -26,6 +31,6 @@ class GenGeometry:
          Generate a quarter position.
         ========================================================================
         """
-        relative = GenBounds.quarter()
-        return Geometry(bounds_relative=relative)
+        bounds = GenBounds.quarter()
+        return Geometry(bounds_relative=bounds)
         

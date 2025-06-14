@@ -14,7 +14,7 @@ class Geometry(Printable, Comparable):
     ============================================================================
      1. The relative bounds are defined as percentages of the parent.
      2. The absolute bounds are auto-computed based on the parent's bounds.   
-     3. When the parent geo changes, the absolute bounds update accordingly.
+     3. When the parent's bounds changes, the absolute bounds update auto.
     ============================================================================
     """
 
@@ -95,13 +95,19 @@ class Geometry(Printable, Comparable):
         ========================================================================
         """
         # Set the Top-Absolute-Value as a percentage of the parent's height.
-        top = (self._bounds_parent.height * self._bounds_relative.top / 100) + self._bounds_parent.top
+        offset_top = (self._bounds_parent.height
+                      * self._bounds_relative.top / 100)
+        top = offset_top + self._bounds_parent.top
         # Set the Left-Absolute-Value as a percentage of the parent's width.
-        left = (self._bounds_parent.width * self._bounds_relative.left / 100) + self._bounds_parent.left
+        offset_left = (self._bounds_parent.width
+                       * self._bounds_relative.left / 100)
+        left = offset_left + self._bounds_parent.left
         # Set the Width-Absolute-Value as a percentage of the parent's width.
-        width = (self._bounds_parent.width * self._bounds_relative.width / 100)
+        width = (self._bounds_parent.width
+                 * self._bounds_relative.width / 100)
         # Set the Height-Absolute-Value as a percentage of the parent's height.
-        height = (self._bounds_parent.height * self._bounds_relative.height / 100)
+        height = (self._bounds_parent.height
+                  * self._bounds_relative.height / 100)
         # Return the absolute bounds
         self._bounds_absolute = Bounds(top, left, width, height)
     
