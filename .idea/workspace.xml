@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h" />
+    <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_microsoft/excel/components/height_row.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_microsoft/excel/components/layout.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_microsoft/excel/components/width_col.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_microsoft/excel/generators/g_excel.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_microsoft/excel/testers/t_handler.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_microsoft/excel/testers/t_layout.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/i_0_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/i_0_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_microsoft/excel.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_microsoft/excel/handler.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -497,10 +507,14 @@
     "Python tests.pytest for t_component.test_window_container.executor": "Run",
     "Python tests.pytest for t_component.test_window_empty.executor": "Run",
     "Python tests.pytest for t_component.test_window_label.executor": "Run",
+    "Python tests.pytest for t_excel.test_open_new_file.executor": "Run",
+    "Python tests.pytest for t_excel.test_set_col_width.executor": "Run",
+    "Python tests.pytest for t_excel.test_set_row_height.executor": "Run",
     "Python tests.pytest in t_0_key.py.executor": "Run",
     "Python tests.pytest in t_bounds.py.executor": "Run",
     "Python tests.pytest in t_box.py.executor": "Run",
     "Python tests.pytest in t_component.py.executor": "Run",
+    "Python tests.pytest in t_excel.py.executor": "Run",
     "Python tests.pytest in t_rect.py.executor": "Run",
     "Python tests.pytest in t_window.py.executor": "Run",
     "Python.a_star.executor": "Run",
@@ -543,6 +557,7 @@
     "Python.e_test.executor": "Run",
     "Python.equable (1).executor": "Run",
     "Python.equable.executor": "Run",
+    "Python.excel.executor": "Run",
     "Python.f_rgb.executor": "Run",
     "Python.followers.executor": "Run",
     "Python.followers_by_user.executor": "Run",
@@ -800,113 +815,118 @@
       <recent name="D:\mypy\f_ds" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\mypy\f_microsoft\excel" />
       <recent name="G:\mypy\f_file" />
       <recent name="G:\mypy\f_gui" />
       <recent name="G:\mypy\f_proj\rapid_api\old" />
       <recent name="G:\mypy\f_ds\nodes\mixins" />
-      <recent name="G:\mypy\f_gui\components\testers" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.pytest in t_window.py">
-    <configuration name="pytest for t_bounds.test_half" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.pytest in t_excel.py">
+    <configuration name="handler" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_microsoft" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="G:\mypy\f_microsoft\excel\handler.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest for f_microsoft.excel.testers.t_excel.test_open_new_file" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/layout/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_microsoft/excel/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_keywords" value="&quot;&quot;" />
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_bounds.test_half&quot;" />
+      <option name="_new_target" value="&quot;f_microsoft.excel.testers.t_excel.test_open_new_file&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest in t_0_key.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="pytest for f_microsoft.excel.testers.t_excel.test_set_col_width" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/nodes/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_microsoft/excel/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_keywords" value="&quot;&quot;" />
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/nodes/testers/t_0_key.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;f_microsoft.excel.testers.t_excel.test_set_col_width&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest in t_bounds.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="pytest for f_microsoft.excel.testers.t_excel.test_set_row_height" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/layout/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_microsoft/excel/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_keywords" value="&quot;&quot;" />
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_gui/layout/testers/t_bounds.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;f_microsoft.excel.testers.t_excel.test_set_row_height&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest in t_component.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="pytest in t_excel.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/components/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_microsoft/excel/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_keywords" value="&quot;&quot;" />
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_gui/components/testers/t_component.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest in t_window.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/components/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_gui/components/testers/t_window.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_microsoft/excel/testers/t_excel.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python tests.pytest for t_bounds.test_half" />
-      <item itemvalue="Python tests.pytest in t_0_key.py" />
-      <item itemvalue="Python tests.pytest in t_bounds.py" />
-      <item itemvalue="Python tests.pytest in t_component.py" />
-      <item itemvalue="Python tests.pytest in t_window.py" />
+      <item itemvalue="Python.handler" />
+      <item itemvalue="Python tests.pytest for f_microsoft.excel.testers.t_excel.test_open_new_file" />
+      <item itemvalue="Python tests.pytest for f_microsoft.excel.testers.t_excel.test_set_col_width" />
+      <item itemvalue="Python tests.pytest for f_microsoft.excel.testers.t_excel.test_set_row_height" />
+      <item itemvalue="Python tests.pytest in t_excel.py" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.pytest in t_window.py" />
-        <item itemvalue="Python tests.pytest in t_component.py" />
-        <item itemvalue="Python tests.pytest in t_0_key.py" />
-        <item itemvalue="Python tests.pytest in t_bounds.py" />
-        <item itemvalue="Python tests.pytest for t_bounds.test_half" />
+        <item itemvalue="Python tests.pytest in t_excel.py" />
+        <item itemvalue="Python tests.pytest for f_microsoft.excel.testers.t_excel.test_set_col_width" />
+        <item itemvalue="Python tests.pytest for f_microsoft.excel.testers.t_excel.test_set_row_height" />
+        <item itemvalue="Python tests.pytest for f_microsoft.excel.testers.t_excel.test_open_new_file" />
+        <item itemvalue="Python.handler" />
       </list>
     </recent_temporary>
   </component>
@@ -925,14 +945,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00174" summary="h">
-      <option name="closed" value="true" />
-      <created>1741845128803</created>
-      <option name="number" value="00174" />
-      <option name="presentableId" value="LOCAL-00174" />
-      <option name="project" value="LOCAL" />
-      <updated>1741845128803</updated>
     </task>
     <task id="LOCAL-00175" summary="h">
       <option name="closed" value="true" />
@@ -1318,7 +1330,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749973768816</updated>
     </task>
-    <option name="localTasksCounter" value="223" />
+    <task id="LOCAL-00223" summary="h">
+      <option name="closed" value="true" />
+      <created>1749973797208</created>
+      <option name="number" value="00223" />
+      <option name="presentableId" value="LOCAL-00223" />
+      <option name="project" value="LOCAL" />
+      <updated>1749973797209</updated>
+    </task>
+    <option name="localTasksCounter" value="224" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

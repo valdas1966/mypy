@@ -45,17 +45,6 @@ class FileHandler(ABC):
         pass
 
     @abstractmethod
-    def save_as(self,
-                # Path to the new file
-                path: str) -> None:
-        """
-        ========================================================================
-         Save the file-as (must be implemented by subclasses).
-        ========================================================================
-        """
-        pass
-
-    @abstractmethod
     def close(self) -> None:
         """
         ========================================================================

@@ -1,4 +1,6 @@
-from openpyxl import Workbook, load_workbook, Worksheet
+from f_microsoft.excel.components.layout import Layout
+from openpyxl.worksheet.worksheet import Worksheet
+from openpyxl import Workbook, load_workbook
 from f_file.i_0_handler import FileHandler
 
 
@@ -18,24 +20,33 @@ class Excel(FileHandler):
          Initialize the Excel file handler.
         ========================================================================
         """
-        FileHandler.__init__(self, path=path)
         self._wb: Workbook = None
-        
-    def _create(self) -> None:
+        self._sheet: Worksheet = None
+        self._layout: Layout = None
+        FileHandler.__init__(self, path=path)
+    
+    @property
+    def layout(self) -> Layout:
         """
         ========================================================================
-         Create a new Excel file.
+         Get the layout of the worksheet.
         ========================================================================
         """
-        self._wb = Workbook()
+        return self._layout
 
-    def _open(self) -> None:
+    def set_cell_value(self,
+                       # Row index
+                       row: int,
+                       # Column index
+                       col: int,
+                       # Value
+                       value: str) -> None:
         """
         ========================================================================
-         Open an existing Excel file.
+         Set the value of a cell.
         ========================================================================
         """
-        self._wb = load_workbook(self.path)
+        self._sheet.cell(row=row, column=col).value = value
 
     def save(self) -> None:
         """
@@ -53,28 +64,31 @@ class Excel(FileHandler):
         """
         self._wb.save(path)
 
-    def close(self) -> None:
+    def close(self, save: bool = True) -> None:
         """
         ========================================================================
          Close the Excel file.
         ========================================================================
         """
+        if save:
+            self.save()
         self._wb.close()
+        
+    def _create(self) -> None:
+        """
+        ========================================================================
+         Create a new Excel file.
+        ========================================================================
+        """
+        self._wb = Workbook()
+        self.save()
 
-    @property
-    def workbook(self) -> Workbook:
+    def _open(self) -> None:
         """
         ========================================================================
-         Get the Excel workbook.
+         Open an existing Excel file.
         ========================================================================
         """
-        return self._wb
-
-    @property
-    def sheet_active(self) -> Worksheet:
-        """
-        ========================================================================
-         Get the active-sheet of the workbook.
-        ========================================================================
-        """
-        return self._wb.active
+        self._wb = load_workbook(self.path)
+        self._sheet = self._wb.active
+        self._layout = Layout(sheet=self._sheet)
