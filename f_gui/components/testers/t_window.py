@@ -14,3 +14,4 @@ def test_window() -> None:
     assert win.children == dict()
     rect_full = GenRect.full()
     assert win.bounds.absolute == rect_full
+

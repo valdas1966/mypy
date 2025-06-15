@@ -4,84 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_color/rgb.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_color/rgb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/components/study/s_position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/components/study/s_position.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/testers/t_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/testers/t_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/nodes/generators/g_0_key.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/generators/g_0_key.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/nodes/i_0_key.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/i_0_key.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/c_json.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/c_json.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/csv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/generators/g_1_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/generators/g_1_csv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/generators/g_1_txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/generators/g_1_txt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/generators/g_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/generators/g_csv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/generators/g_map_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/generators/g_map_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/generators/g_txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/generators/g_txt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/i_0_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/i_0_handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/i_1_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/i_1_csv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/i_1_txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/i_1_txt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/key.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/key.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/map_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/map_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/old_old_txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/old_old_txt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/old_old_txt/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/old_old_txt/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/old_old_txt/read.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/old_old_txt/read.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/old_old_txt/testers/t_write_read.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/old_old_txt/testers/t_write_read.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/old_old_txt/write.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/old_old_txt/write.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/old_txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/old_txt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/testers/t_1_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/testers/t_1_csv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/testers/t_1_txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/testers/t_1_txt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/testers/t_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/testers/t_csv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/testers/t_map_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/testers/t_map_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/testers/t_txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/testers/t_txt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/txt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/generators/g_graph_map.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/generators/g_graph_map.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand_results.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/components/component.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/component.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/components/container.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/container.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/components/generators/g_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/generators/g_component.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/components/testers/t_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/testers/t_component.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/geometry/bounds.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/layout/rect.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/geometry/generators/g_bounds.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/layout/generators/g_rect.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/geometry/generators/g_geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/layout/generators/g_bounds.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/geometry/geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/layout/bounds.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/geometry/testers/t_bounds.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/layout/testers/t_rect.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/geometry/testers/t_geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/layout/testers/t_bounds.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/mixins/has_position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/mixins/has_position.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/container.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/container.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/handlers/key_press.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/handlers/key_press.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/handlers/on_event.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/handlers/on_event.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/inner/widget/alignment.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/inner/widget/alignment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/inner/widget/font.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/inner/widget/font.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/layout.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/layout.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/mixins/has_widget.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/mixins/has_widget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/study/s_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/study/s_app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widget.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/widget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widget_resizable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/widget_resizable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widget_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/widget_text.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widgets/label.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/widgets/label.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widgets/msg_box.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/widgets/msg_box.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widgets/text_box.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/widgets/text_box.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/window.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/window.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/shapes/generators/g_1_rect.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/shapes/generators/g_1_rect.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/shapes/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/shapes/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/shapes/i_1_rect.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/shapes/i_1_rect.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/shapes/testers/t_1_rect.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/shapes/testers/t_1_rect.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/u_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/u_screen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_http/study/s_get.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_http/study/s_get.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_microsoft/excel.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_microsoft/excel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gui/i_0_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/myq/gui/i_0_qa.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gui/inner/container_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/myq/gui/inner/container_qa.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/old/study/s_tiktok_music.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/old/study/s_tiktok_music.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_psl/os/generators/g_folder.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/os/generators/g_folder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_py/encoding.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_py/encoding.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_py/testers/t_encoding.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_py/testers/t_encoding.py" afterDir="false" />
-    </list>
+    <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -1003,22 +926,6 @@
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
     </task>
-    <task id="LOCAL-00172" summary="h">
-      <option name="closed" value="true" />
-      <created>1741710785632</created>
-      <option name="number" value="00172" />
-      <option name="presentableId" value="LOCAL-00172" />
-      <option name="project" value="LOCAL" />
-      <updated>1741710785632</updated>
-    </task>
-    <task id="LOCAL-00173" summary="h">
-      <option name="closed" value="true" />
-      <created>1741843086722</created>
-      <option name="number" value="00173" />
-      <option name="presentableId" value="LOCAL-00173" />
-      <option name="project" value="LOCAL" />
-      <updated>1741843086722</updated>
-    </task>
     <task id="LOCAL-00174" summary="h">
       <option name="closed" value="true" />
       <created>1741845128803</created>
@@ -1395,7 +1302,23 @@
       <option name="project" value="LOCAL" />
       <updated>1749931706370</updated>
     </task>
-    <option name="localTasksCounter" value="221" />
+    <task id="LOCAL-00221" summary="h">
+      <option name="closed" value="true" />
+      <created>1749973254193</created>
+      <option name="number" value="00221" />
+      <option name="presentableId" value="LOCAL-00221" />
+      <option name="project" value="LOCAL" />
+      <updated>1749973254193</updated>
+    </task>
+    <task id="LOCAL-00222" summary="h">
+      <option name="closed" value="true" />
+      <created>1749973768816</created>
+      <option name="number" value="00222" />
+      <option name="presentableId" value="LOCAL-00222" />
+      <option name="project" value="LOCAL" />
+      <updated>1749973768816</updated>
+    </task>
+    <option name="localTasksCounter" value="223" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
