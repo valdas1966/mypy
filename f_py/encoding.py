@@ -2,7 +2,7 @@ from f_encoding.base_52 import Base52
 from f_utils.dtypes.u_str import UStr as u_str
 from f_os.u_folder import UFolder as u_folder
 from f_os.u_file import UFile as u_file
-from f_file.old_old_txt import Txt
+from f_file_old.old_old_txt import Txt
 
 
 class Encoding:

@@ -1,8 +1,8 @@
 from typing import Callable
-from f_gui.pyqt.container import Container
-from f_gui.pyqt.widget_text import WidgetText
-from f_gui.pyqt.widgets.label import Label
-from f_gui.pyqt.widgets.text_box import TextBox
+from f_gui_old.pyqt.container import Container
+from f_gui_old.pyqt.widget_text import WidgetText
+from f_gui_old.pyqt.widgets.label import Label
+from f_gui_old.pyqt.widgets.text_box import TextBox
 from f_proj.myq.questions.i_2_mask import QuestionMask
 
 

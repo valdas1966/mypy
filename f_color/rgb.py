@@ -8,10 +8,10 @@ class RGB(HasName, Comparable):
     """
     ============================================================================
      RGB Color (Red, Green, Blue).
-     Used to represent colors in computer graphics.
-     Formally defined as a tuple of three numbers (R, G, B).
-     In Web, UI and Image files common values are 0-255.
-     In Math and Programming, common values are 0-1.
+      - Used to represent colors in computer graphics.
+      - Formally defined as a tuple of three numbers (R, G, B).
+      - In Web, UI and Image files common values are 0-255.
+      - In Math and Programming, common values are 0-1.
     ============================================================================
     """
 
@@ -75,7 +75,7 @@ class RGB(HasName, Comparable):
 
     def to_tuple(self,
                  to_int: bool = False  # Convert to int-tuple
-                ) -> tuple[float, float, float]:
+                 ) -> tuple[float, float, float]:
         """
         ========================================================================
          Return a Tuple-REPR of the RGB (used by matplotlib (floats)).

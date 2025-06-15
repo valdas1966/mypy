@@ -5,9 +5,82 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_color/rgb.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_color/rgb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/components/study/s_position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/components/study/s_position.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/testers/t_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/testers/t_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/nodes/generators/g_0_key.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/generators/g_0_key.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/nodes/i_0_key.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/nodes/i_0_key.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/c_json.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/c_json.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/csv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/generators/g_1_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/generators/g_1_csv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/generators/g_1_txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/generators/g_1_txt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/generators/g_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/generators/g_csv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/generators/g_map_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/generators/g_map_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/generators/g_txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/generators/g_txt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/i_0_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/i_0_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/i_1_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/i_1_csv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/i_1_txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/i_1_txt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/key.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/key.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/map_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/map_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/old_old_txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/old_old_txt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/old_old_txt/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/old_old_txt/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/old_old_txt/read.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/old_old_txt/read.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/old_old_txt/testers/t_write_read.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/old_old_txt/testers/t_write_read.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/old_old_txt/write.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/old_old_txt/write.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/old_txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/old_txt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/testers/t_1_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/testers/t_1_csv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/testers/t_1_txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/testers/t_1_txt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/testers/t_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/testers/t_csv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/testers/t_map_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/testers/t_map_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/testers/t_txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/testers/t_txt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/txt.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/txt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/generators/g_graph_map.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/generators/g_graph_map.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_grand_results.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/components/component.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/component.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/components/container.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/container.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_gui/components/generators/g_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/generators/g_component.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_gui/components/testers/t_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/testers/t_component.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/geometry/bounds.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/layout/rect.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/geometry/generators/g_bounds.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/layout/generators/g_rect.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/geometry/generators/g_geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/layout/generators/g_bounds.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/geometry/geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/layout/bounds.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/geometry/testers/t_bounds.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/layout/testers/t_rect.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/geometry/testers/t_geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/layout/testers/t_bounds.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/mixins/has_position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/mixins/has_position.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/container.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/container.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/handlers/key_press.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/handlers/key_press.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/handlers/on_event.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/handlers/on_event.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/inner/widget/alignment.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/inner/widget/alignment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/inner/widget/font.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/inner/widget/font.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/layout.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/layout.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/mixins/has_widget.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/mixins/has_widget.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/study/s_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/study/s_app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widget.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/widget.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widget_resizable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/widget_resizable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widget_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/widget_text.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widgets/label.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/widgets/label.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widgets/msg_box.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/widgets/msg_box.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/widgets/text_box.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/widgets/text_box.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/pyqt/window.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/shapes/generators/g_1_rect.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/shapes/generators/g_1_rect.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/shapes/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/shapes/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/shapes/i_1_rect.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/shapes/i_1_rect.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/shapes/testers/t_1_rect.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/shapes/testers/t_1_rect.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/u_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/u_screen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_http/study/s_get.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_http/study/s_get.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_microsoft/excel.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_microsoft/excel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/myq/gui/i_0_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/myq/gui/i_0_qa.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/myq/gui/inner/container_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/myq/gui/inner/container_qa.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/old/study/s_tiktok_music.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/old/study/s_tiktok_music.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_psl/os/generators/g_folder.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/os/generators/g_folder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_py/encoding.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_py/encoding.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_py/testers/t_encoding.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_py/testers/t_encoding.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -496,6 +569,17 @@
     "Python tests.Python tests in t_user.py.executor": "Run",
     "Python tests.Python tests in testers.executor": "Run",
     "Python tests.Python tests in user_snapshots.py.executor": "Run",
+    "Python tests.pytest for t_bounds.test_half.executor": "Run",
+    "Python tests.pytest for t_component.test_window_1.executor": "Run",
+    "Python tests.pytest for t_component.test_window_container.executor": "Run",
+    "Python tests.pytest for t_component.test_window_empty.executor": "Run",
+    "Python tests.pytest for t_component.test_window_label.executor": "Run",
+    "Python tests.pytest in t_0_key.py.executor": "Run",
+    "Python tests.pytest in t_bounds.py.executor": "Run",
+    "Python tests.pytest in t_box.py.executor": "Run",
+    "Python tests.pytest in t_component.py.executor": "Run",
+    "Python tests.pytest in t_rect.py.executor": "Run",
+    "Python tests.pytest in t_window.py.executor": "Run",
     "Python.a_star.executor": "Run",
     "Python.algo.executor": "Run",
     "Python.api_new.executor": "Run",
@@ -761,6 +845,7 @@
     "Python.t_1_one_to_one.executor": "Run",
     "Python.t_1_parent.executor": "Run",
     "Python.t_2_hierarchy.executor": "Run",
+    "Python.t_component.executor": "Run",
     "Python.t_equable.executor": "Run",
     "Python.t_filter.executor": "Run",
     "Python.t_generated_explored.executor": "Run",
@@ -784,7 +869,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "last_opened_file_path": "D:/mypy/f_ds",
-    "settings.editor.selected.configurable": "configurable.group.editor"
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyIntegratedToolsModulesConfigurable"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -792,52 +877,66 @@
       <recent name="D:\mypy\f_ds" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\mypy\f_file" />
+      <recent name="G:\mypy\f_gui" />
       <recent name="G:\mypy\f_proj\rapid_api\old" />
       <recent name="G:\mypy\f_ds\nodes\mixins" />
       <recent name="G:\mypy\f_gui\components\testers" />
-      <recent name="G:\mypy\f_gui\components\generators" />
-      <recent name="G:\mypy\f_gui\components" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in t_component.py">
-    <configuration name="component (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/components" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_gui/components/component.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for t_component.test_full" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.pytest in t_window.py">
+    <configuration name="pytest for t_bounds.test_half" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/components/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/layout/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_component.test_full&quot;" />
+      <option name="_new_target" value="&quot;t_bounds.test_half&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_component.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="pytest in t_0_key.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/nodes/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/nodes/testers/t_0_key.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in t_bounds.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/layout/testers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_gui/layout/testers/t_bounds.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in t_component.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -847,55 +946,44 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_gui/components/testers/t_component.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in t_geometry.py (1)" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="pytest in t_window.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/geometry/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/components/testers" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_gui/geometry/testers/t_geometry.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in t_geometry.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/geometry/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_gui/geometry/testers/t_geometry.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_gui/components/testers/t_window.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.component (1)" />
-      <item itemvalue="Python tests.Python tests for t_component.test_full" />
-      <item itemvalue="Python tests.Python tests in t_component.py" />
-      <item itemvalue="Python tests.Python tests in t_geometry.py (1)" />
-      <item itemvalue="Python tests.Python tests in t_geometry.py" />
+      <item itemvalue="Python tests.pytest for t_bounds.test_half" />
+      <item itemvalue="Python tests.pytest in t_0_key.py" />
+      <item itemvalue="Python tests.pytest in t_bounds.py" />
+      <item itemvalue="Python tests.pytest in t_component.py" />
+      <item itemvalue="Python tests.pytest in t_window.py" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in t_component.py" />
-        <item itemvalue="Python tests.Python tests for t_component.test_full" />
-        <item itemvalue="Python.component (1)" />
-        <item itemvalue="Python tests.Python tests in t_geometry.py (1)" />
-        <item itemvalue="Python tests.Python tests in t_geometry.py" />
+        <item itemvalue="Python tests.pytest in t_window.py" />
+        <item itemvalue="Python tests.pytest in t_component.py" />
+        <item itemvalue="Python tests.pytest in t_0_key.py" />
+        <item itemvalue="Python tests.pytest in t_bounds.py" />
+        <item itemvalue="Python tests.pytest for t_bounds.test_half" />
       </list>
     </recent_temporary>
   </component>
@@ -914,14 +1002,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00171" summary="h">
-      <option name="closed" value="true" />
-      <created>1741693744287</created>
-      <option name="number" value="00171" />
-      <option name="presentableId" value="LOCAL-00171" />
-      <option name="project" value="LOCAL" />
-      <updated>1741693744288</updated>
     </task>
     <task id="LOCAL-00172" summary="h">
       <option name="closed" value="true" />
@@ -1307,7 +1387,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749909010959</updated>
     </task>
-    <option name="localTasksCounter" value="220" />
+    <task id="LOCAL-00220" summary="h">
+      <option name="closed" value="true" />
+      <created>1749931706370</created>
+      <option name="number" value="00220" />
+      <option name="presentableId" value="LOCAL-00220" />
+      <option name="project" value="LOCAL" />
+      <updated>1749931706370</updated>
+    </task>
+    <option name="localTasksCounter" value="221" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

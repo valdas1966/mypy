@@ -1,4 +1,4 @@
-from f_gui.geometry.geometry import Position
+from f_gui.layout.bounds import Position
 
 
 pos = Position()

@@ -17,5 +17,5 @@ class GenNodeKey:
         """
         key = 1
         name = 'One'
-        return NodeKey[int](key=key, name=name)  
+        return NodeKey[int](key=key, name=name)
 

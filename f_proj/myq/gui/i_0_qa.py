@@ -1,6 +1,6 @@
 from typing import Callable
-from f_gui.pyqt.app import App
-from f_gui.pyqt.widgets.msg_box import MsgBox
+from f_gui_old.pyqt.app import App
+from f_gui_old.pyqt.widgets.msg_box import MsgBox
 from f_proj.myq.questions.i_2_mask import QuestionMask
 from f_proj.myq.gui.inner.container_qa import ContainerQA
 

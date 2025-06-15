@@ -1,7 +1,7 @@
 from __future__ import annotations
 from f_ds.nodes.i_2_hierarchy import NodeHierarchy
 from f_gui.components.component import Component
-from f_gui.geometry.geometry import Geometry
+from f_gui.layout.bounds import Bounds
 
 
 class Container(NodeHierarchy):
@@ -12,9 +12,9 @@ class Container(NodeHierarchy):
     """
 
     def __init__(self,
-                 key: str,                # Unique identifier for the component
-                 parent: Component,       # Parent component
-                 geometry: Geometry       # Layout geometry of the component
+                 key: str,  # Unique identifier for the component
+                 parent: Component,  # Parent component
+                 geometry: Bounds  # Layout layout of the component
                  ) -> None:
         """
         ========================================================================
@@ -26,13 +26,13 @@ class Container(NodeHierarchy):
     @NodeHierarchy.parent.setter
     def parent(self, parent: Component) -> None:
         NodeHierarchy.parent.fset(self, parent)
-        self.geometry.parent = parent.geometry.absolute
+        self.geometry.parent = parent.bounds.absolute
 
     def add_child(self, child: Component) -> None:
         NodeHierarchy.add_child(self, child)
         child.parent = self
         # optional: position child relative to self
-        # child.geometry.parent = self.geometry.absolute
+        # child.layout.parent = self.layout.absolute
 
     def remove_child(self, key: str) -> Component:
         child = NodeHierarchy.remove_child(self, key=key)

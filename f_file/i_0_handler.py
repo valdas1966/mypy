@@ -3,20 +3,82 @@ from abc import ABC, abstractmethod
 
 
 class FileHandler(ABC):
-    def __init__(self, path: str):
-        self.path = path
-        if os.path.exists(path):
-            self._open()
-        else:
+    """
+    ============================================================================
+     Base class for all file handlers.
+    ============================================================================
+    """
+
+    def __init__(self,
+                 # Path to the file
+                 path: str
+                 ) -> None:
+        """
+        ========================================================================
+         Initialize the file handler.
+        ========================================================================
+        """
+        # Store the path to the file.
+        self._path = path
+        # If the file does not exist, create it.
+        if not os.path.exists(path):
             self._create()
-            self._open()
+        # Open the file.
+        self._open()
+
+    @property
+    def path(self) -> str:
+        """
+        ========================================================================
+         Get the path to the file.
+        ========================================================================
+        """
+        return self._path
 
     @abstractmethod
-    def _open(self) -> None:
-        """Open the file (must be implemented by subclasses)."""
+    def save(self) -> None:
+        """
+        ========================================================================
+         Save the file (must be implemented by subclasses).
+        ========================================================================
+        """
+        pass
+
+    @abstractmethod
+    def save_as(self,
+                # Path to the new file
+                path: str) -> None:
+        """
+        ========================================================================
+         Save the file-as (must be implemented by subclasses).
+        ========================================================================
+        """
+        pass
+
+    @abstractmethod
+    def close(self) -> None:
+        """
+        ========================================================================
+         Close the file (must be implemented by subclasses).
+        ========================================================================
+        """
         pass
 
     @abstractmethod
     def _create(self) -> None:
-        """Create a new file (must be implemented by subclasses)."""
+        """
+        ========================================================================
+         Create a new file (must be implemented by subclasses).
+        ========================================================================
+        """
         pass
+
+    @abstractmethod
+    def _open(self) -> None:
+        """
+        ========================================================================
+         Open the file (must be implemented by subclasses).
+        ========================================================================
+        """
+        pass
+   

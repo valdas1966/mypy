@@ -4,7 +4,7 @@ from f_core.mixins.has_rows_cols import HasRowsCols
 from f_ds.mixins.groupable import Groupable, Group
 from f_ds.groups.view import View
 from f_ds.grids.cell import Cell
-from f_file.map_grid import MapGrid
+from f_file_old.map_grid import MapGrid
 from collections.abc import Iterable
 from typing import Iterator
 import numpy as np

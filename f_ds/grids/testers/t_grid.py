@@ -1,7 +1,7 @@
 import pytest
 from f_ds.grids.grid import Grid
 from f_ds.grids.generators.g_grid import GenGrid
-from f_file.generators.g_map_grid import GenMapGrid
+from f_file_old.generators.g_map_grid import GenMapGrid
 
 
 @pytest.fixture

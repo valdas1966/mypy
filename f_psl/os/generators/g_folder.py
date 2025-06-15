@@ -1,5 +1,5 @@
 from f_psl.os.folder import Folder
-from f_file.txt import Txt
+from f_file_old.txt import Txt
 
 
 class GenFolder:

@@ -1,45 +1,80 @@
-import os
-from openpyxl import Workbook, load_workbook
+from openpyxl import Workbook, load_workbook, Worksheet
+from f_file.i_0_handler import FileHandler
 
 
-class Excel:
+class Excel(FileHandler):
     """
-    ========================================================================
-     Excel Handler.
-    ========================================================================
+    ============================================================================
+     Excel file handler.
+    ============================================================================
     """
-    def __init__(self, path: str):
+
+    def __init__(self,
+                 # Path to the Excel file to be opened
+                 path: str
+                 ) -> None:
         """
         ========================================================================
-         Initialize Excel handler.
+         Initialize the Excel file handler.
         ========================================================================
         """
-        self.path = path
+        FileHandler.__init__(self, path=path)
+        self._wb: Workbook = None
+        
+    def _create(self) -> None:
+        """
+        ========================================================================
+         Create a new Excel file.
+        ========================================================================
+        """
+        self._wb = Workbook()
 
-        if os.path.exists(path):
-            self.wb = load_workbook(path)
-        else:
-            self.wb = Workbook()
-            self.save()
+    def _open(self) -> None:
+        """
+        ========================================================================
+         Open an existing Excel file.
+        ========================================================================
+        """
+        self._wb = load_workbook(self.path)
 
     def save(self) -> None:
-        """Save the workbook to the file."""
-        self.wb.save(self.path)
-
-    def sheet(self, name: str = None):
         """
-        Get a worksheet by name.
-        If name is None, return the active sheet.
+        ========================================================================
+         Save the Excel file.
+        ========================================================================
         """
-        if name:
-            return self.wb[name]
-        return self.wb.active
+        self._wb.save(self.path)
 
-    def create_sheet(self, name: str) -> None:
-        """Create a new worksheet with the given name."""
-        self.wb.create_sheet(title=name)
-        self.save()
+    def save_as(self, path: str) -> None:
+        """
+        ========================================================================
+         Save the Excel file to a new path.
+        ========================================================================
+        """
+        self._wb.save(path)
 
-    def list_sheets(self) -> list[str]:
-        """Return the names of all sheets."""
-        return self.wb.sheetnames
+    def close(self) -> None:
+        """
+        ========================================================================
+         Close the Excel file.
+        ========================================================================
+        """
+        self._wb.close()
+
+    @property
+    def workbook(self) -> Workbook:
+        """
+        ========================================================================
+         Get the Excel workbook.
+        ========================================================================
+        """
+        return self._wb
+
+    @property
+    def sheet_active(self) -> Worksheet:
+        """
+        ========================================================================
+         Get the active-sheet of the workbook.
+        ========================================================================
+        """
+        return self._wb.active

@@ -3,6 +3,7 @@ from f_core.mixins.has_name import HasName
 from f_core.abstracts.clonable import Clonable
 from typing import Generic, TypeVar
 
+
 Key = TypeVar('Key')
 Node = TypeVar('Node', bound='NodeKey')
 
