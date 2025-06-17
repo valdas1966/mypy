@@ -149,6 +149,28 @@ def videos_by_user_todo() -> None:
     BigQuery().create.table(tname=tname, schema=schema) 
 
 
+def videos_new_by_user() -> None:
+    """
+    ========================================================================
+     Create table 'Videos_New_by_User'.
+    ========================================================================
+    """
+    tname = Tables.VIDEOS_NEW_BY_USER
+    schema = Schemas.videos_new_by_user()
+    BigQuery().create.table(tname=tname, schema=schema)
+
+
+def videos_new_by_user_todo() -> None:
+    """
+    ========================================================================
+     Create table 'Videos_New_by_User_Todo'.
+    ========================================================================
+    """
+    tname = Tables.VIDEOS_NEW_BY_USER_TODO
+    schema = Schemas.videos_new_by_user_todo()
+    BigQuery().create.table(tname=tname, schema=schema)
+
+
 def hashtags_by_keyword() -> None:
     """
     ========================================================================
@@ -229,6 +251,8 @@ def music_by_id_todo() -> None:
 # users_by_id_todo()
 # videos_by_user()
 # videos_by_user_todo()
+videos_new_by_user()
+videos_new_by_user_todo()
 # users_by_id_unique_todo()
 # hashtags_by_keyword()
 # hashtags_by_keyword_todo()
@@ -236,5 +260,5 @@ def music_by_id_todo() -> None:
 # videos_by_hashtag_todo()
 # followers_by_user()
 # followers_by_user_todo()
-music_by_id()
+# music_by_id()
 # music_by_id_todo()

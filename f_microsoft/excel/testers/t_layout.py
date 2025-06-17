@@ -14,7 +14,7 @@ def test_set_row_height() -> None:
     # Create new file
     excel = GenExcel.empty(path=path)
     # Test that the row height is the default
-    assert excel.layout.height_row[row] == HeightRow.DEFAULT
+    assert excel.layout.height_row[row] == excel.layout.height_row.DEFAULT
     # Set row height
     excel.layout.height_row[row] = height_new
     # Test that the row height is the new

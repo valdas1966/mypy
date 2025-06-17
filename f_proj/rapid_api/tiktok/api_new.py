@@ -119,6 +119,53 @@ class TiktokAPI:
                                       to_rows=to_rows)
 
     @staticmethod
+    def videos_new_by_user(# Id_User to crawl
+                           id_user: str,
+                           # Last created time (crawl only after this time)
+                           created: str) -> list[dict[str, Any]]:
+        """
+        ========================================================================
+         Fetch videos by user id (crawl only after this time).
+        ========================================================================
+        """
+        url = 'https://tiktok-video-no-watermark2.p.rapidapi.com/user/posts'
+        params = {'user_id': id_user, 'count': 50,
+                  'cursor': 0, 'id_user': id_user}
+        def to_rows(data: list[dict[str, Any]]) -> list[dict[str, Any]]:
+            rows: list[dict[str, Any]] = list()
+            for d in data:
+                row: dict[str, Any] = dict()
+                row['id_user'] = id_user
+                row['id_music'] = d['music_info']['id']
+                row['id_video'] = d['video_id']
+                row['region'] = str(d['region'])
+                row['title'] = d['title']
+                row['created'] = d['create_time']
+                row['duration'] = d['duration']
+                row['plays'] = d['play_count']
+                row['shares'] = d['share_count']
+                row['diggs'] = d['digg_count']
+                row['comments'] = d['comment_count']
+                row['downloads'] = d['download_count']
+                row['is_ad'] = d['is_ad']
+                row['play'] = d['play']
+                row['is_ok'] = True
+                row['is_found'] = True 
+                row['is_broken'] = False
+                # If the video was created after the last created time,
+                #  add it to the list. Otherwise, return the list.
+                if created != '<NA>' and row['created'] <= created:
+                    break
+                # Add the row to the list
+                rows.append(row)
+            return rows
+        return TiktokAPI._fetch_multi(url=url,
+                                      params=params,
+                                      anchor=('id_user', id_user),
+                                      name_list='videos',
+                                      to_rows=to_rows)
+
+    @staticmethod
     def hashtags_by_keyword(keyword: str) -> list[dict[str, Any]]:
         """
         ========================================================================
@@ -293,7 +340,7 @@ class TiktokAPI:
                      limit: int = 100000) -> list[dict[str, Any]]:
         """
         ========================================================================
-         Fetch multiple items from the API.
+         Fetch multiple items from the API and convert them to a list of dicts.
         ========================================================================
         """
         # Shorthand

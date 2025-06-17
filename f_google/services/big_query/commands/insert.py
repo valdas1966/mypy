@@ -42,3 +42,35 @@ class Insert(Command):
         for row in rows:
             row['inserted'] = sysdate
         return self.rows(tname=tname, rows=rows)
+    
+    def select(self,
+               name_table: str,
+               query: str) -> list[dict]:
+        """
+        ========================================================================
+         1. Execute 'INSERT INTO name_table SELECT ...'
+             using the provided query body.
+         Return a list of errors (empty if successful).
+        ========================================================================
+        """
+        query_full = f'INSERT INTO {name_table} {query}'
+        job = self._client.query(query=query_full, retry=Retry())
+        # Wait for completion
+        job.result()  
+        
+        # Number of rows inserted
+        rows = job.num_dml_affected_rows or 0
+
+        # List of errors (empty if successful)
+        errors = job.errors or []
+
+        if self._verbose:
+            if not errors:
+                print(f'Query executed successfully! [{rows}] rows inserted')
+                print()
+                print(query_full)
+            else:
+                print(f'Errors occurred while executing query:\n{query_full}')
+                print(errors)
+
+        return errors

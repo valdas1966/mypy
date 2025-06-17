@@ -178,8 +178,8 @@ class Schemas:
         schema = Schemas._create_schema(tname=tname)
         schema.append(Fields.ID_USER)
         schema.append(Fields.ID_MUSIC)
-        schema.extend(Fields.video_info())
-        schema.extend(Fields.audit_post())
+        schema.extend(Fields.video())
+        schema.extend(Fields.audit())
         return schema   
     
     @staticmethod
@@ -192,6 +192,34 @@ class Schemas:
         tname = 'videos_by_user_todo'
         schema = Schemas._create_schema(tname=tname)
         schema.append(Fields.ID_USER)
+        return schema
+    
+    @staticmethod
+    def videos_new_by_user() -> Schema:
+        """
+        ========================================================================
+         Return schema for table 'Videos_New_by_User'.
+        ========================================================================
+        """ 
+        tname = 'videos_new_by_user'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.ID_USER)
+        schema.append(Fields.ID_MUSIC)
+        schema.extend(Fields.video())
+        schema.extend(Fields.audit())
+        return schema   
+    
+    @staticmethod
+    def videos_new_by_user_todo() -> Schema:
+        """
+        ========================================================================
+         Return schema for table 'Videos_New_by_User_Todo'.
+        ========================================================================
+        """ 
+        tname = 'videos_new_by_user_todo'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.ID_USER)
+        schema.append(Fields.CREATED)
         return schema
     
     @staticmethod

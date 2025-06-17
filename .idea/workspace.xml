@@ -5,15 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_microsoft/excel/components/height_row.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_microsoft/excel/components/layout.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_microsoft/excel/components/width_col.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_microsoft/excel/generators/g_excel.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_microsoft/excel/testers/t_handler.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_microsoft/excel/testers/t_layout.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_google/services/big_query/commands/alter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_google/services/big_query/commands/truncate.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_google/services/big_query/study/s_select.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_new_by_user.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file/i_0_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/i_0_handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_microsoft/excel.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_microsoft/excel/handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/services/big_query/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/big_query/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/services/big_query/commands/insert.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/big_query/commands/insert.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/services/big_query/study/s_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/big_query/study/s_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/services/big_query/study/s_insert.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/big_query/study/s_insert.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/utils/generators/g_authentication.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/utils/generators/g_authentication.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_microsoft/excel/testers/t_layout.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_microsoft/excel/testers/t_layout.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/tables.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -502,6 +509,7 @@
     "Python tests.Python tests in t_user.py.executor": "Run",
     "Python tests.Python tests in testers.executor": "Run",
     "Python tests.Python tests in user_snapshots.py.executor": "Run",
+    "Python tests.pytest for t_authentication.test_rami.executor": "Run",
     "Python tests.pytest for t_bounds.test_half.executor": "Run",
     "Python tests.pytest for t_component.test_window_1.executor": "Run",
     "Python tests.pytest for t_component.test_window_container.executor": "Run",
@@ -757,6 +765,8 @@
     "Python.s_schema.executor": "Run",
     "Python.s_schemas (1).executor": "Run",
     "Python.s_schemas.executor": "Run",
+    "Python.s_select (1).executor": "Run",
+    "Python.s_select.executor": "Run",
     "Python.s_service.executor": "Run",
     "Python.s_sheet.executor": "Run",
     "Python.s_solution (1).executor": "Run",
@@ -770,6 +780,7 @@
     "Python.s_tiktok_user (1).executor": "Run",
     "Python.s_tiktok_user.executor": "Run",
     "Python.s_to_list.executor": "Run",
+    "Python.s_truncate.executor": "Run",
     "Python.s_user_list.executor": "Run",
     "Python.s_view.executor": "Run",
     "Python.s_window (1).executor": "Run",
@@ -803,11 +814,13 @@
     "Python.videos_by_music (1).executor": "Run",
     "Python.videos_by_music.executor": "Run",
     "Python.videos_by_user.executor": "Run",
+    "Python.videos_new_by_user (1).executor": "Run",
+    "Python.videos_new_by_user.executor": "Run",
     "Python.window.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "last_opened_file_path": "D:/mypy/f_ds",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyIntegratedToolsModulesConfigurable"
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -822,8 +835,8 @@
       <recent name="G:\mypy\f_ds\nodes\mixins" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.pytest in t_excel.py">
-    <configuration name="handler" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.videos_new_by_user (1)">
+    <configuration name="api_new" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -832,11 +845,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_microsoft" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/rapid_api/tiktok" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="G:\mypy\f_microsoft\excel\handler.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -845,88 +858,108 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest for f_microsoft.excel.testers.t_excel.test_open_new_file" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="s_insert" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_microsoft/excel/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/services/big_query/study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;f_microsoft.excel.testers.t_excel.test_open_new_file&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/services/big_query/study/s_insert.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest for f_microsoft.excel.testers.t_excel.test_set_col_width" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="s_select (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_microsoft/excel/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/services/big_query/study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;f_microsoft.excel.testers.t_excel.test_set_col_width&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/services/big_query/study/s_select.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest for f_microsoft.excel.testers.t_excel.test_set_row_height" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="s_truncate" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_microsoft/excel/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/services/big_query/study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;f_microsoft.excel.testers.t_excel.test_set_row_height&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/services/big_query/study/s_truncate.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest in t_excel.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="videos_new_by_user (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_microsoft/excel/testers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_microsoft/excel/testers/t_excel.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_new_by_user.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.handler" />
-      <item itemvalue="Python tests.pytest for f_microsoft.excel.testers.t_excel.test_open_new_file" />
-      <item itemvalue="Python tests.pytest for f_microsoft.excel.testers.t_excel.test_set_col_width" />
-      <item itemvalue="Python tests.pytest for f_microsoft.excel.testers.t_excel.test_set_row_height" />
-      <item itemvalue="Python tests.pytest in t_excel.py" />
+      <item itemvalue="Python.api_new" />
+      <item itemvalue="Python.s_select (1)" />
+      <item itemvalue="Python.s_truncate" />
+      <item itemvalue="Python.videos_new_by_user (1)" />
+      <item itemvalue="Python.s_insert" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.pytest in t_excel.py" />
-        <item itemvalue="Python tests.pytest for f_microsoft.excel.testers.t_excel.test_set_col_width" />
-        <item itemvalue="Python tests.pytest for f_microsoft.excel.testers.t_excel.test_set_row_height" />
-        <item itemvalue="Python tests.pytest for f_microsoft.excel.testers.t_excel.test_open_new_file" />
-        <item itemvalue="Python.handler" />
+        <item itemvalue="Python.videos_new_by_user (1)" />
+        <item itemvalue="Python.s_select (1)" />
+        <item itemvalue="Python.s_insert" />
+        <item itemvalue="Python.s_truncate" />
+        <item itemvalue="Python.api_new" />
       </list>
     </recent_temporary>
   </component>
@@ -945,14 +978,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00175" summary="h">
-      <option name="closed" value="true" />
-      <created>1741875940353</created>
-      <option name="number" value="00175" />
-      <option name="presentableId" value="LOCAL-00175" />
-      <option name="project" value="LOCAL" />
-      <updated>1741875940354</updated>
     </task>
     <task id="LOCAL-00176" summary="h">
       <option name="closed" value="true" />
@@ -1338,7 +1363,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749973797209</updated>
     </task>
-    <option name="localTasksCounter" value="224" />
+    <task id="LOCAL-00224" summary="h">
+      <option name="closed" value="true" />
+      <created>1749987496950</created>
+      <option name="number" value="00224" />
+      <option name="presentableId" value="LOCAL-00224" />
+      <option name="project" value="LOCAL" />
+      <updated>1749987496950</updated>
+    </task>
+    <option name="localTasksCounter" value="225" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

@@ -3,9 +3,15 @@ from f_google.services.big_query.client import BigQuery
 
 bq = BigQuery()
 
-print(bq.user)
-print(bq.creds)
+print(f'User = {bq.user}')
+print(f'Creds = {bq.creds}')
 
-cnt = bq.select.df(query='select count(*) from noteret.tiktok.temp_2')
+query = """
+            select
+                count(*)
+            from
+                noteret.tiktok.videos_new_by_user_todo
+        """
+cnt = bq.select.df(query=query)
 print(cnt)
 

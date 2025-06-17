@@ -1,4 +1,6 @@
-from f_google.utils.u_authentication import UAuthentication, User, Credentials
+from f_google.utils.u_authentication import UAuthentication, Credentials
+from f_google.user import User
+
 
 
 class GenAuthentication:
