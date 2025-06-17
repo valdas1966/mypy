@@ -1,7 +1,6 @@
-from f_microsoft.excel.components.layout import Layout
-from openpyxl.worksheet.worksheet import Worksheet
 from openpyxl import Workbook, load_workbook
 from f_file.i_0_handler import FileHandler
+from f_microsoft.excel.components.sheet import Sheet
 
 
 class Excel(FileHandler):
@@ -21,32 +20,7 @@ class Excel(FileHandler):
         ========================================================================
         """
         self._wb: Workbook = None
-        self._sheet: Worksheet = None
-        self._layout: Layout = None
         FileHandler.__init__(self, path=path)
-    
-    @property
-    def layout(self) -> Layout:
-        """
-        ========================================================================
-         Get the layout of the worksheet.
-        ========================================================================
-        """
-        return self._layout
-
-    def set_cell_value(self,
-                       # Row index
-                       row: int,
-                       # Column index
-                       col: int,
-                       # Value
-                       value: str) -> None:
-        """
-        ========================================================================
-         Set the value of a cell.
-        ========================================================================
-        """
-        self._sheet.cell(row=row, column=col).value = value
 
     def save(self) -> None:
         """
@@ -90,5 +64,19 @@ class Excel(FileHandler):
         ========================================================================
         """
         self._wb = load_workbook(self.path)
-        self._sheet = self._wb.active
-        self._layout = Layout(sheet=self._sheet)
+          
+    def __getitem__(self, key: str | int) -> Sheet:
+        """
+        ========================================================================
+         1. Get the worksheet by Name or Index.
+         2. Index starts from 1.
+        ========================================================================
+        """
+        if isinstance(key, str):
+            # Get the worksheet by Name
+            ws = self._wb[key]
+        else:
+            # Get the worksheet by Index
+            ws = self._wb.worksheets[key-1]
+        # Return the Sheet component
+        return Sheet(sheet=ws)

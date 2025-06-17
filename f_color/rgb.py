@@ -89,6 +89,27 @@ class RGB(HasName, Comparable):
             b = int(self._b * 255)
             return r, g, b
         return self._r, self._g, self._b
+    
+    def to_hex(self) -> str:
+        """
+        ========================================================================
+         Return a Hex-String of the RGB.
+        ========================================================================
+        """
+        r = int(self._r * 255)
+        g = int(self._g * 255)
+        b = int(self._b * 255)
+        return f'#{r:02X}{g:02X}{b:02X}'
+    
+    def to_argb(self,
+                alpha: int = 255  # Alpha-Value (0-255)
+                ) -> str:
+        """
+        ========================================================================
+         Return an ARGB-String of the RGB.
+        ========================================================================
+        """
+        return f'{alpha:02X}{self.to_hex()}'
 
     def key_comparison(self) -> tuple[float, float, float]:
         """
@@ -106,3 +127,17 @@ class RGB(HasName, Comparable):
         ========================================================================
         """
         return str(self.to_tuple())
+
+    @classmethod
+    def from_hex(cls,
+                 hex: str) -> RGB:
+        """
+        ========================================================================
+         Return an RGB object from a hex string.
+        ========================================================================
+        """
+        # Convert the hex string to RGB values [0-1]
+        r = int(hex[1:3], 16) / 255
+        g = int(hex[3:5], 16) / 255
+        b = int(hex[5:7], 16) / 255
+        return cls(r=r, g=g, b=b)

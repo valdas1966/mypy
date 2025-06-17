@@ -43,6 +43,3 @@ def test_open_existing_file() -> None:
     excel.close()
     # Delete file (clean-up)
     UFile.delete(path)
-
-
-
