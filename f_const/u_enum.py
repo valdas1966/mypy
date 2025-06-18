@@ -12,3 +12,14 @@ class DistanceMetric(Enum):
 
 class CoordinateSystem(Enum):
     CARTESIAN = auto()
+
+
+class Thickness(Enum):
+    """
+    ============================================================================
+     Thickness of a line.
+    ============================================================================
+    """
+    THIN = auto()
+    MEDIUM = auto()
+    THICK = auto()

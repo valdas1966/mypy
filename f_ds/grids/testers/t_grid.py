@@ -46,7 +46,7 @@ def test_random() -> None:
      Test the random method.
     ============================================================================
     """
-    grid = GenGrid.gen_random(rows=10, pct_invalid=20)
+    grid = GenGrid.random(rows=10, pct_invalid=20)
     assert len(grid) == 100
     assert len(grid.cells_valid) == 80
 
@@ -57,7 +57,7 @@ def test_distance_avg():
      Test the distance_avg() method.
     ============================================================================
     """
-    grid = GenGrid.gen_3x3()    
+    grid = GenGrid.full_3x3()    
     cells = [grid[0][0], grid[0][2], grid[2][0]]
     assert grid.distance_avg(cells) == 3
 
@@ -68,7 +68,7 @@ def test_from_array() -> None:
      Test the from_array method.
     ============================================================================
     """
-    grid = GenGrid.gen_random(rows=10, pct_invalid=20)
+    grid = GenGrid.random(rows=10, pct_invalid=20)
     array = grid.to_array()
     grid_from_array = Grid.from_array(array=array)
     assert grid == grid_from_array

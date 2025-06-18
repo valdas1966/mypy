@@ -1,5 +1,8 @@
+import os
+from f_ds.grids.grid import Grid
 from f_file_old.txt import Txt
 import numpy as np
+from f_ds.grids.factories.f_grid import FactoryGrid
 
 
 class MapGrid(Txt):
@@ -39,3 +42,16 @@ class MapGrid(Txt):
         # remove empty columns
         array = array[:, array.any(axis=0)] 
         return array
+    
+    def to_grid(self) -> Grid:
+        """
+        ========================================================================
+         Create a Grid from a Map-Grid-File.
+        ========================================================================
+        """
+        # Convert the Map-Grid-File to a numpy boolean array
+        array = self.to_array()
+        # Use the name of the file as the name of the grid
+        name = os.path.splitext(os.path.basename(self.path))[0]
+        # Create a Grid from the numpy boolean array
+        return FactoryGrid.from_array(array=array, name=name)

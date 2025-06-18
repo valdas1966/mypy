@@ -7,7 +7,7 @@ from f_graph.path.boundary import Boundary
 
 
 # Create a grid
-grid = GenGrid.gen_random(rows=6, pct_invalid=0)
+grid = GenGrid.random(rows=6, pct_invalid=0)
 # Add obstacles
 obstacles = [grid[0][3], grid[0][5], grid[1][4], grid[3][3],
              grid[4][3], grid[4][4], grid[5][2]]

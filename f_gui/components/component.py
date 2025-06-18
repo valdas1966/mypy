@@ -2,9 +2,10 @@ from __future__ import annotations
 from f_color.rgb import RGB
 from f_ds.nodes.i_2_hierarchy import NodeHierarchy
 from f_gui.layout.generators.g_bounds import GenBounds, Bounds
+from f_gui.components.mixins.has_color import HasColor
 
 
-class Component(NodeHierarchy):
+class Component(NodeHierarchy, HasColor):
     """
     ============================================================================
      Base class for all UI components (visible or layout).
@@ -19,7 +20,7 @@ class Component(NodeHierarchy):
                  # Parent component (default is None)
                  parent: Component = None,
                  # Component's background color (default is None)
-                 background: RGB = None
+                 color: RGB = None
                  ) -> None:
         """
         ========================================================================
@@ -27,8 +28,8 @@ class Component(NodeHierarchy):
         ========================================================================
         """
         NodeHierarchy.__init__(self, key=name, name=name, parent=None)
+        HasColor.__init__(self, color=color)
         self._bounds = bounds
-        self._background = background
         if parent:
             self.parent = parent
 
@@ -40,15 +41,6 @@ class Component(NodeHierarchy):
         ========================================================================
         """
         return self._bounds
-    
-    @property
-    def background(self) -> RGB:
-        """
-        ========================================================================
-         Get the background color of the component.
-        ========================================================================
-        """
-        return self._background
     
     @NodeHierarchy.parent.setter
     def parent(self, new_parent: Component) -> None:

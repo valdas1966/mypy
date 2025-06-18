@@ -116,19 +116,25 @@ def test_cell_background() -> None:
     # Path to the Excel file to test
     path = 'g:\\test.xlsx'
 
+    # Define the colors
+    rgb_red = RGB('RED')
+    rgb_yellow = RGB('YELLOW')
+    rgb_green = RGB('GREEN')
+
     # Generate an empty Excel and set the background of the cell
     excel = GenExcel.empty(path=path)
     sheet = excel[1]
-    cell = sheet[1][1]
-    rgb_red = RGB(r=1, g=0, b=0)
-    cell.background = rgb_red
+    sheet[1][1].background = rgb_red
+    sheet[1][2].background = rgb_yellow
+    sheet[1][3].background = rgb_green
     excel.close()
 
     # Open the modified Excel and assert the background of the cell
     excel = Excel(path=path)
     sheet = excel[1]
-    cell = sheet[1][1]
-    assert cell.background == rgb_red
+    assert sheet[1][1].background == rgb_red
+    assert sheet[1][2].background == rgb_yellow
+    assert sheet[1][3].background == rgb_green
     excel.close()
 
     # Clean up

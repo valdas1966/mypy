@@ -25,10 +25,10 @@ class RGB(HasName, Comparable):
                'MATTE_RED': (180, 80, 80)}
 
     def __init__(self,
-                 r: float = None,  # Red-Value (0-1)
-                 g: float = None,  # Green-Value (0-1)
-                 b: float = None,  # Blue-Value (0-1)
-                 name: str = None  # Color-Name (from matplotlib or custom)
+                 name: str = None,  # Color-Name (from matplotlib or custom)
+                 r: float = None,   # Red-Value (0-1)
+                 g: float = None,   # Green-Value (0-1)
+                 b: float = None    # Blue-Value (0-1)                 
                  ) -> None:
         """
         ========================================================================
@@ -109,7 +109,10 @@ class RGB(HasName, Comparable):
          Return an ARGB-String of the RGB.
         ========================================================================
         """
-        return f'{alpha:02X}{self.to_hex()}'
+        r = int(self._r * 255)
+        g = int(self._g * 255)
+        b = int(self._b * 255)
+        return f'{alpha:02X}{r:02X}{g:02X}{b:02X}'
 
     def key_comparison(self) -> tuple[float, float, float]:
         """
@@ -127,6 +130,14 @@ class RGB(HasName, Comparable):
         ========================================================================
         """
         return str(self.to_tuple())
+    
+    def __repr__(self) -> str:
+        """
+        ========================================================================
+         Return a REPR-REPR of the RGB.
+        ========================================================================
+        """
+        return f'<RGB: {self.to_tuple()}>'
 
     @classmethod
     def from_hex(cls,

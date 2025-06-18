@@ -123,3 +123,17 @@ class FactoryRGB:
             rgbs.extend(segment_colors)
 
         return rgbs[:n]  # Trim in case of any rounding issues
+
+    @staticmethod
+    def random(n: int) -> list[RGB]:
+        """
+        ========================================================================
+         Generate a list of n-random RGB-colors.
+        ========================================================================
+        """
+        r = np.random.rand(n)
+        g = np.random.rand(n)
+        b = np.random.rand(n)
+        return [RGB(r=r, g=g, b=b)
+                for r, g, b
+                in zip(r, g, b)]

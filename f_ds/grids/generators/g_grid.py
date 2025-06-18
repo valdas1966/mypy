@@ -9,19 +9,22 @@ class GenGrid:
     """
 
     @staticmethod
-    def gen_random(rows: int, pct_invalid: int) -> Grid:
+    def random(rows: int,
+               cols: int = None,
+               pct_invalid: int = 0,
+               name: str = None) -> Grid:
         """
         ============================================================================
          Generate a random grid.
         ============================================================================
         """
-        grid = Grid(rows=rows)
+        grid = Grid(rows=rows, cols=cols, name=name)
         cells_invalid = grid.sample(pct=pct_invalid)
         Cell.invalidate(cells_invalid)
         return grid
 
     @staticmethod
-    def gen_3x3() -> Grid:
+    def full_3x3() -> Grid:
         """
         ============================================================================
          Generate a 3x3 grid.
