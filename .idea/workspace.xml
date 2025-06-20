@@ -5,30 +5,56 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_ds/grids/distance.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/grids/export.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/grids/factories/f_grid.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/grids/factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/grids/select.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/components/mixins/border_side.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/components/mixins/has_color.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_http/inner/responses/json.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_color/factories/f_rgb.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_color/factories/f_rgb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_color/rgb.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_color/rgb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_const/u_enum.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_const/u_enum.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/generators/g_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/generators/g_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/inner/grid/offset.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/testers/t_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/testers/t_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_file_old/map_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file_old/map_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/generators/g_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/generators/g_graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/path/many_to_one/experiments/e_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/components/component.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/component.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/components/container.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/components/mixins/has_children.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_microsoft/excel/components/cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_microsoft/excel/components/cell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_microsoft/excel/testers/t_sheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_microsoft/excel/testers/t_sheet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_http/generators/g_request.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_http/inner/f_request.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_http/get/components/input.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_http/get/components/output.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_http/get/components/reasons.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_http/get/config.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_http/get/request.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_http/request.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_http/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_http/response.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_http/study/s_get.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_http/testers/old_t_request.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_http/testers/t_get.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_http/testers/t_request.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_http/inner/t_request.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/comments_by_video.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/comments_by_video.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/followers_by_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/followers_by_user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/hashtags_by_keyword.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/hashtags_by_keyword.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/music_by_id.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/music_by_id.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/users_by_id.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/users_by_id.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/users_by_id_unique.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/users_by_id_unique.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_by_hashtag.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_by_hashtag.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_by_music.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_by_music.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_by_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_by_user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_new_by_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_new_by_user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/generators/g_0_audit.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/generators/g_0_list.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/generators/g_2_user_by_id.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/generators/i_1_" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_0_audit.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_0_list.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_1_hashtag.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_1_music.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_1_music_info.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_1_user_info.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_1_user_stats.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_1_video.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_2_user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_2_video.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_3_users_by_id.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/i_3_videos_by_user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/data/testers/t_0_audit.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api_new.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/generators/g_api_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/s_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/old_data/i_0_abc.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/old_data/i_1_comments_from_videos.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/old_data/i_1_user_snapshot.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/old_data/i_1_videos_from_hashtag.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/old_data/i_1_videos_from_music.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/study/s_api.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -526,6 +552,7 @@
     &quot;Python tests.pytest for t_excel.test_open_new_file.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.pytest for t_excel.test_set_col_width.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.pytest for t_excel.test_set_row_height.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.pytest for t_request.test_invalid.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.pytest for t_sheet.test_cell_background.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.pytest for t_sheet.test_sheet_row.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.pytest for t_sheet.test_sheet_set_rows_and_cols_layout.executor&quot;: &quot;Run&quot;,
@@ -535,6 +562,7 @@
     &quot;Python tests.pytest in t_component.py.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.pytest in t_excel.py.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.pytest in t_rect.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.pytest in t_request.py.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.pytest in t_sheet.py.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.pytest in t_window.py.executor&quot;: &quot;Run&quot;,
     &quot;Python.a_star.executor&quot;: &quot;Run&quot;,
@@ -840,34 +868,29 @@
       <recent name="D:\mypy\f_ds" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\mypy\f_http\inner" />
+      <recent name="G:\mypy\f_http" />
+      <recent name="G:\mypy\f_proj\rapid_api\tiktok" />
       <recent name="G:\mypy\f_microsoft\excel" />
       <recent name="G:\mypy\f_file" />
-      <recent name="G:\mypy\f_gui" />
-      <recent name="G:\mypy\f_proj\rapid_api\old" />
-      <recent name="G:\mypy\f_ds\nodes\mixins" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.pytest for t_sheet.test_cell_background">
-    <configuration name="videos_new_by_user (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.pytest in t_request.py">
+    <configuration name="pytest for f_http.inner.t_request.test_invalid" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_http/inner" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_new_by_user.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;f_http.inner.t_request.test_invalid&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="pytest for t_sheet.test_cell_background" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
@@ -884,23 +907,6 @@
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;t_sheet.test_cell_background&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest for t_sheet.test_sheet_row" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_microsoft/excel/testers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;t_sheet.test_sheet_row&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -921,6 +927,23 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="pytest in t_request.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_http/inner" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_http/inner/t_request.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <configuration name="pytest in t_sheet.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -939,19 +962,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.videos_new_by_user (1)" />
+      <item itemvalue="Python tests.pytest for f_http.inner.t_request.test_invalid" />
+      <item itemvalue="Python tests.pytest in t_request.py" />
       <item itemvalue="Python tests.pytest for t_sheet.test_cell_background" />
-      <item itemvalue="Python tests.pytest for t_sheet.test_sheet_row" />
       <item itemvalue="Python tests.pytest for t_sheet.test_sheet_set_rows_and_cols_layout" />
       <item itemvalue="Python tests.pytest in t_sheet.py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.pytest in t_request.py" />
+        <item itemvalue="Python tests.pytest for f_http.inner.t_request.test_invalid" />
         <item itemvalue="Python tests.pytest for t_sheet.test_cell_background" />
         <item itemvalue="Python tests.pytest for t_sheet.test_sheet_set_rows_and_cols_layout" />
         <item itemvalue="Python tests.pytest in t_sheet.py" />
-        <item itemvalue="Python tests.pytest for t_sheet.test_sheet_row" />
-        <item itemvalue="Python.videos_new_by_user (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -970,14 +993,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00179" summary="h">
-      <option name="closed" value="true" />
-      <created>1742098838758</created>
-      <option name="number" value="00179" />
-      <option name="presentableId" value="LOCAL-00179" />
-      <option name="project" value="LOCAL" />
-      <updated>1742098838759</updated>
     </task>
     <task id="LOCAL-00180" summary="h">
       <option name="closed" value="true" />
@@ -1363,7 +1378,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750188870166</updated>
     </task>
-    <option name="localTasksCounter" value="228" />
+    <task id="LOCAL-00228" summary="h">
+      <option name="closed" value="true" />
+      <created>1750272768990</created>
+      <option name="number" value="00228" />
+      <option name="presentableId" value="LOCAL-00228" />
+      <option name="project" value="LOCAL" />
+      <updated>1750272768991</updated>
+    </task>
+    <option name="localTasksCounter" value="229" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

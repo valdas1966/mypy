@@ -1,7 +1,7 @@
-from f_http.request import RequestGet, ResponseAPI
+from f_http.client import ClientHttp, ResponseAPI
 
 
-class GenRequest:
+class FactoryRequest:
     """
     ========================================================================
      Class for generating valid and invalid responses.
@@ -9,21 +9,21 @@ class GenRequest:
     """
 
     @staticmethod
-    def get_valid() -> ResponseAPI:
+    def valid() -> ResponseAPI:
         """
         ========================================================================
          Returns a valid response.   
         ========================================================================
         """
         url_valid = "https://jsonplaceholder.typicode.com/posts/1"
-        return RequestGet.get(url=url_valid)
+        return ClientHttp.get(url=url_valid)
     
     @staticmethod
-    def get_invalid() -> ResponseAPI:
+    def invalid() -> ResponseAPI:
         """
         ========================================================================
          Returns an invalid response (404 - Not Found).
         ========================================================================
         """ 
         url_invalid = "https://jsonplaceholder.typicode.com/posts/999"
-        return RequestGet.get(url=url_invalid)
+        return ClientHttp.get(url=url_invalid)
