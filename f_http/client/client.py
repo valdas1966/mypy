@@ -1,5 +1,6 @@
-from f_http.inner.responses.json import ResponseJson
-from f_http.inner.responses.file import ResponseFile
+from f_http.responses.json import ResponseJson
+from f_http.responses.file import ResponseFile
+from f_http.status.status import StatusHttp
 from pathlib import Path
 from typing import Any
 import requests
@@ -21,27 +22,30 @@ class ClientHttp:
                  headers: dict[str, str] = None) -> ResponseJson:
         """
         ========================================================================
-         Send an HTTP-GET request and parse the response body as ResponseJson.
+         Send an HTTP-GET request and parse the response to ResponseJson.
         ========================================================================
         """
+        # Init the response variables as None (if request fails)
+        status: StatusHttp | None = None
+        data: dict[str, Any] | None = None        
+        elapsed: float | None = None
+        exception: str | None = None
+
+        # Try to get the response from the URL and parse to ResponseJson
         try:
-            # Try to get the response from the URL
             response = requests.get(url=url, params=params, headers=headers)
-            # Get the elapsed time of the response
+            status = StatusHttp(code=response.status_code)
             elapsed = round(response.elapsed.total_seconds(), 2)
-            try:
-                # Try to parse the response body as JSON
+            if status.is_valid:
                 data = response.json()
-            except ValueError:
-                # Response is not JSON
-                data = None
-            # On valid JSON-Conversion: Return the ResponseJson object
-            return ResponseJson(data=data,
-                                status=response.status_code,
-                                elapsed=elapsed)
-        except requests.RequestException:
-            # On error: Return invalid ResponseJson object
-            return ResponseJson(data=None, status=None, elapsed=None)
+        except Exception as e:
+            exception = str(e)
+
+        # Return the parsed Response as ResponseJson
+        return ResponseJson(status=status,
+                            data=data,
+                            elapsed=elapsed,
+                            exception=exception)
 
     @staticmethod
     def get_file(# URL to send the GET request to

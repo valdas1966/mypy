@@ -1,4 +1,4 @@
-from f_http.inner.f_request import FactoryRequest
+from f_http.client.inner.f_request import FactoryRequest
 
 
 def test_valid() -> None:

@@ -1,6 +1,6 @@
 from typing import Any
 from f_core.mixins.validatable import Validatable
-from f_http.inner.status.status import StatusHttp
+from f_http.status.status import StatusHttp
 
 
 class ResponseJson(Validatable):
@@ -11,26 +11,31 @@ class ResponseJson(Validatable):
     ------------------------------------------------------------------------
      Properties:
     ------------------------------------------------------------------------
-    |   1. data: dict[str, Any]
-    |   2. status: int (200 ok, 404 not found, other - errors)
-    |   3. elapsed: float (time in seconds)
-    |   4. is_found: bool (True if status is 200, False otherwise)
-    |   5. reason: str (explanation of why the request failed)
+       1. data: dict[str, Any]
+       2. status: StatusHttp
+       3. elapsed: float (time in seconds)
+       4. exception: str (error message if request fails)
     ========================================================================
     """
 
     def __init__(self,
+                 # Response's status
+                 status: StatusHttp,
+                 # Response's data
                  data: dict[str, Any],
-                 status: int,
-                 elapsed: float) -> None:
+                 # Response's elapsed time (in seconds)
+                 elapsed: float,
+                 # Response's exception message (if failed)
+                 exception: str = None) -> None:
         """
         ========================================================================
          Initialize the ResponseAPI object.
         ========================================================================
         """
-        self._data = data       
+        self._data = data
         self._elapsed = elapsed
-        self._status = StatusHttp(code=status)
+        self._status = status
+        self._exception = exception
         is_valid = bool(self._status) and (data is not None)
         Validatable.__init__(self, is_valid=is_valid)
 
@@ -61,3 +66,11 @@ class ResponseJson(Validatable):
         """
         return self._elapsed
     
+    @property
+    def exception(self) -> str:
+        """
+        ========================================================================
+         Get the exception message of the response.
+        ========================================================================
+        """
+        return self._exception

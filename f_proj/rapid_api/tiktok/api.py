@@ -1,6 +1,6 @@
 from typing import Any, Callable
 from f_os import u_environ
-from f_http.client import ClientHttp
+from f_http.client.client import ClientHttp
 
 
 class TiktokAPI:

@@ -1,4 +1,4 @@
-from f_http.client import ClientHttp, ResponseAPI
+from f_http.client.client import ClientHttp, ResponseAPI
 
 
 class FactoryRequest:
