@@ -43,7 +43,7 @@ class FactoryResponseJson:
          Returns an unknown response.
         ========================================================================
         """
-        status = FactoryStatus.unknown()
+        status = FactoryStatus.none()
         data = None
         elapsed = 0.1
         exception = 'Unknown error'

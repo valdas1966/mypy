@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h" />
+    <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_http/responses/f_json.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_http/responses/f_json.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -501,6 +504,9 @@
     "Python tests.pytest for t_excel.test_open_new_file.executor": "Run",
     "Python tests.pytest for t_excel.test_set_col_width.executor": "Run",
     "Python tests.pytest for t_excel.test_set_row_height.executor": "Run",
+    "Python tests.pytest for t_json.test_not_found.executor": "Run",
+    "Python tests.pytest for t_json.test_ok.executor": "Run",
+    "Python tests.pytest for t_json.test_unknown.executor": "Run",
     "Python tests.pytest for t_request.test_invalid.executor": "Run",
     "Python tests.pytest for t_sheet.test_cell_background.executor": "Run",
     "Python tests.pytest for t_sheet.test_sheet_row.executor": "Run",
@@ -512,6 +518,7 @@
     "Python tests.pytest in t_box.py.executor": "Run",
     "Python tests.pytest in t_component.py.executor": "Run",
     "Python tests.pytest in t_excel.py.executor": "Run",
+    "Python tests.pytest in t_json.py.executor": "Run",
     "Python tests.pytest in t_rect.py.executor": "Run",
     "Python tests.pytest in t_request.py.executor": "Run",
     "Python tests.pytest in t_sheet.py.executor": "Run",
@@ -558,6 +565,7 @@
     "Python.equable (1).executor": "Run",
     "Python.equable.executor": "Run",
     "Python.excel.executor": "Run",
+    "Python.f_json.executor": "Run",
     "Python.f_rgb.executor": "Run",
     "Python.followers.executor": "Run",
     "Python.followers_by_user.executor": "Run",
@@ -828,7 +836,7 @@
       <recent name="G:\mypy\f_http\status" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.pytest for t_json.test_unknown">
+  <component name="RunManager" selected="Python tests.pytest in t_json.py">
     <configuration name="f_json" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -851,20 +859,37 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest for f_http.status.inner.t_status.test_404" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="pytest for t_json.test_not_found" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_http/inner" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_http/responses" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_keywords" value="&quot;&quot;" />
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;f_http.status.inner.t_status.test_404&quot;" />
+      <option name="_new_target" value="&quot;t_json.test_not_found&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest for t_json.test_ok" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_http/responses" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;t_json.test_ok&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -902,37 +927,20 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest in t_status.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_http/inner" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_http/status/inner/t_status.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Python.f_json" />
-      <item itemvalue="Python tests.pytest for f_http.status.inner.t_status.test_404" />
+      <item itemvalue="Python tests.pytest for t_json.test_not_found" />
+      <item itemvalue="Python tests.pytest for t_json.test_ok" />
       <item itemvalue="Python tests.pytest for t_json.test_unknown" />
       <item itemvalue="Python tests.pytest in t_json.py" />
-      <item itemvalue="Python tests.pytest in t_status.py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.pytest in t_json.py" />
         <item itemvalue="Python tests.pytest for t_json.test_unknown" />
         <item itemvalue="Python.f_json" />
-        <item itemvalue="Python tests.pytest in t_json.py" />
-        <item itemvalue="Python tests.pytest in t_status.py" />
-        <item itemvalue="Python tests.pytest for f_http.status.inner.t_status.test_404" />
+        <item itemvalue="Python tests.pytest for t_json.test_not_found" />
+        <item itemvalue="Python tests.pytest for t_json.test_ok" />
       </list>
     </recent_temporary>
   </component>
@@ -951,14 +959,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
-    </task>
-    <task id="LOCAL-00182" summary="h">
-      <option name="closed" value="true" />
-      <created>1742473568122</created>
-      <option name="number" value="00182" />
-      <option name="presentableId" value="LOCAL-00182" />
-      <option name="project" value="LOCAL" />
-      <updated>1742473568122</updated>
     </task>
     <task id="LOCAL-00183" summary="h">
       <option name="closed" value="true" />
@@ -1344,7 +1344,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750511002849</updated>
     </task>
-    <option name="localTasksCounter" value="231" />
+    <task id="LOCAL-00231" summary="h">
+      <option name="closed" value="true" />
+      <created>1750511486587</created>
+      <option name="number" value="00231" />
+      <option name="presentableId" value="LOCAL-00231" />
+      <option name="project" value="LOCAL" />
+      <updated>1750511486587</updated>
+    </task>
+    <option name="localTasksCounter" value="232" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
