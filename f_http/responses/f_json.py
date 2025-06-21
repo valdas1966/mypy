@@ -1,4 +1,4 @@
-from f_http.inner.f_status import FactoryStatus
+from f_http.status.inner.f_status import FactoryStatus
 from f_http.responses.json import ResponseJson
 
 
@@ -46,7 +46,7 @@ class FactoryResponseJson:
         status = FactoryStatus.unknown()
         data = None
         elapsed = 0.1
-        exception = None
+        exception = 'Unknown error'
         return ResponseJson(status=status,
                             data=data,
                             elapsed=elapsed,
