@@ -1,4 +1,4 @@
-from f_google.services.big_query.client import BigQuery
+from old_f_google.services.big_query.client import BigQuery
 from f_proj.noteret.tiktok.tables import Tables
 from f_proj.rapid_api.c_tiktok import TikTok
 

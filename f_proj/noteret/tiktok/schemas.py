@@ -1,4 +1,4 @@
-from f_google.services.big_query.structures.schema import Schema
+from old_f_google.services.big_query.structures.schema import Schema
 from f_proj.noteret.tiktok.fields import Fields
 
 

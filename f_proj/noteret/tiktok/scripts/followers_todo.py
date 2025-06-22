@@ -1,4 +1,4 @@
-from f_google.services.big_query.client import BigQuery
+from old_f_google.services.big_query.client import BigQuery
 
 
 query = """
