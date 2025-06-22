@@ -1,5 +1,5 @@
 from f_google.services.big_query.client import BigQuery
-from f_proj.rapid_api.tiktok.api import TiktokAPI
+from f_proj.rapid_api.tiktok.requests import RequestsTiktok
 from f_proj.noteret.tiktok.tables import Tables
 from typing import Any
 
@@ -18,7 +18,7 @@ def prod() -> None:
     rows: list[dict[str, Any]] = list()
     ids_users: list[str] = bq.select.list(Tables.FOLLOWERS_BY_USER_TODO)
     for id_user in ids_users:
-        rows_new = TiktokAPI.followers_by_user(id_user=id_user)
+        rows_new = RequestsTiktok.followers_by_user(id_user=id_user)
         print(id_user, len(rows_new))
         rows.extend(rows_new)
         if len(rows) >= _BATCH_SIZE:

@@ -4,12 +4,14 @@ from f_core.mixins.has_name import HasName
 from http import HTTPStatus
 
 
-class StatusHttp(HasName, Printable, Validatable):
+class Status(HasName, Printable, Validatable):
     """
     ============================================================================
      Thin wrapper for HTTPStatus with validation and readable name.
     ============================================================================
     """
+
+    Factory: type = None
 
     def __init__(self, code: int) -> None:
         """

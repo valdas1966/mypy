@@ -1,26 +1,29 @@
 from typing import Any
 from f_core.mixins.validatable import Validatable
-from f_http.status.status import StatusHttp
+from f_http.status.status import Status
 
 
-class ResponseJson(Validatable):
+class Response(Validatable):
     """
     ========================================================================
      Result object returned by:
-        ClientHttp.json(url, params, headers) -> ResponseJson
+        ClientHttp.json(url, params, headers) -> Response
     ------------------------------------------------------------------------
      Properties:
     ------------------------------------------------------------------------
        1. data: dict[str, Any]
-       2. status: StatusHttp
+       2. status: Status
        3. elapsed: float (time in seconds)
        4. exception: str (error message if request fails)
     ========================================================================
     """
 
+    # Factory to create the response object
+    Factory: type = None
+
     def __init__(self,
                  # Response's status
-                 status: StatusHttp,
+                 status: Status,
                  # Response's data
                  data: dict[str, Any],
                  # Response's elapsed time (in seconds)
@@ -40,7 +43,7 @@ class ResponseJson(Validatable):
         Validatable.__init__(self, is_valid=is_valid)
 
     @property
-    def status(self) -> StatusHttp:
+    def status(self) -> Status:
         """
         ========================================================================
          Get the status code of the response.

@@ -1,40 +1,40 @@
-from f_http.status.status import StatusHttp
+from f_http.status.status import Status
 
 
 class FactoryStatus:
 
     @staticmethod
-    def ok() -> StatusHttp:
+    def ok() -> Status:
         """
         ========================================================================
          Returns a valid status.
         ========================================================================
         """
-        return StatusHttp(code=200)
+        return Status(code=200)
     
     @staticmethod
-    def not_found() -> StatusHttp:
+    def not_found() -> Status:
         """
         ========================================================================
          Returns a not found status.
         ========================================================================
         """
-        return StatusHttp(code=404)
+        return Status(code=404)
     
     @staticmethod
-    def bad_request() -> StatusHttp:
+    def bad_request() -> Status:
         """
         ========================================================================
          Returns a bad request status.
         ========================================================================
         """
-        return StatusHttp(code=400)
+        return Status(code=400)
     
     @staticmethod               
-    def none() -> StatusHttp:
+    def none() -> Status:
         """
         ========================================================================
          Returns a none status.
         ========================================================================
         """
-        return StatusHttp(code=None)
+        return Status(code=None)

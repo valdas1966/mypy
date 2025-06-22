@@ -1,4 +1,4 @@
-from f_http.responses.f_json import FactoryResponseJson
+from f_http.response import Response
 
 
 def test_ok() -> None:
@@ -7,7 +7,7 @@ def test_ok() -> None:
      Test the ok response.
     ========================================================================
     """
-    response = FactoryResponseJson.ok()
+    response = Response.Factory.ok()
     assert response
     assert response.status.code == 200
     assert response.status.name == 'OK'
@@ -22,7 +22,7 @@ def test_not_found() -> None:
      Test the not found response.
     ========================================================================
     """
-    response = FactoryResponseJson.not_found()
+    response = Response.Factory.not_found()
     assert not response
     assert response.status.code == 404
     assert response.status.name == 'NOT_FOUND'
@@ -37,7 +37,7 @@ def test_unknown() -> None:
      Test the unknown response.
     ========================================================================
     """
-    response = FactoryResponseJson.unknown()
+    response = Response.Factory.unknown()
     assert not response
     assert response.status.code is None
     assert response.status.name == 'UNKNOWN'

@@ -1,29 +1,29 @@
-from f_http.client.client import ClientHttp, ResponseAPI
+from f_http.client.client import Client, Response
 
 
-class FactoryRequest:
+class FactoryClientHttp:
     """
     ========================================================================
-     Class for generating valid and invalid responses.
+     Factory to create valid and invalid Response using ClientHttp.
     ========================================================================
     """
 
     @staticmethod
-    def valid() -> ResponseAPI:
+    def valid() -> Response:
         """
         ========================================================================
          Returns a valid response.   
         ========================================================================
         """
         url_valid = "https://jsonplaceholder.typicode.com/posts/1"
-        return ClientHttp.get(url=url_valid)
-    
+        return Client.get_json(url=url_valid)
+
     @staticmethod
-    def invalid() -> ResponseAPI:
+    def invalid() -> Response:
         """
         ========================================================================
          Returns an invalid response (404 - Not Found).
         ========================================================================
         """ 
         url_invalid = "https://jsonplaceholder.typicode.com/posts/999"
-        return ClientHttp.get(url=url_invalid)
+        return Client.get_json(url=url_invalid)

@@ -8,7 +8,10 @@ import gspread
 
 
 # Define the Union of possible client types
-GoogleClient = Union[bigquery.Client, storage.Client, gspread.Client, Resource]
+GoogleClient = Union[bigquery.Client,
+                     storage.Client,
+                     gspread.Client,
+                     Resource]
 
 
 class ClientBase(ABC):

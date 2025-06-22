@@ -1,5 +1,5 @@
 from f_google.services.big_query.client import BigQuery
-from f_proj.rapid_api.tiktok.api import TiktokAPI
+from f_proj.rapid_api.tiktok.requests import RequestsTiktok
 from f_proj.noteret.tiktok.tables import Tables
 from typing import Any
 
@@ -18,7 +18,7 @@ def prod() -> None:
     rows: list[dict[str, Any]] = list()
     ids_videos: list[str] = bq.select.list(Tables.COMMENTS_BY_VIDEO_TODO)
     for id_video in ids_videos:
-        rows_new = TiktokAPI.comments_by_video(id_video=id_video)
+        rows_new = RequestsTiktok.comments_by_video(id_video=id_video)
         print(id_video, len(rows_new))
         rows.extend(rows_new)
         if len(rows) >= _BATCH_SIZE:

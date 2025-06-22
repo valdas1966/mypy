@@ -1,4 +1,4 @@
-from f_proj.rapid_api.tiktok.api import TiktokAPI
+from f_proj.rapid_api.tiktok.api.api import TiktokAPI
 from typing import Any
 
 

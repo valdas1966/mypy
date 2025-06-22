@@ -1,11 +1,16 @@
-from f_http.status.inner.f_status import FactoryStatus
-from f_http.responses.json import ResponseJson
+from f_http.status._internal.factory import FactoryStatus
+from f_http.response.response import Response
 
 
-class FactoryResponseJson:
+class FactoryResponse:
+    """
+    ========================================================================
+     Factory to create the response object.
+    ========================================================================
+    """
 
     @staticmethod
-    def ok() -> ResponseJson:
+    def ok() -> Response:
         """
         ========================================================================
          Returns a valid response.
@@ -15,13 +20,13 @@ class FactoryResponseJson:
         data = {'key': 'value'}
         elapsed = 0.1
         exception = None
-        return ResponseJson(status=status,
-                            data=data,
-                            elapsed=elapsed,
-                            exception=exception)
+        return Response(status=status,
+                        data=data,
+                        elapsed=elapsed,
+                        exception=exception)
     
     @staticmethod
-    def not_found() -> ResponseJson:
+    def not_found() -> Response:
         """
         ========================================================================
          Returns a not found response.
@@ -31,13 +36,13 @@ class FactoryResponseJson:
         data = None
         elapsed = 0.1
         exception = None
-        return ResponseJson(status=status,
-                            data=data,
-                            elapsed=elapsed,
-                            exception=exception)
+        return Response(status=status,
+                        data=data,
+                        elapsed=elapsed,
+                        exception=exception)
     
     @staticmethod
-    def unknown() -> ResponseJson:
+    def unknown() -> Response:
         """
         ========================================================================
          Returns an unknown response.
@@ -47,9 +52,10 @@ class FactoryResponseJson:
         data = None
         elapsed = 0.1
         exception = 'Unknown error'
-        return ResponseJson(status=status,
-                            data=data,
-                            elapsed=elapsed,
-                            exception=exception)
+        return Response(status=status,
+                        data=data,
+                        elapsed=elapsed,
+                        exception=exception)
+
     
-    
+Response.Factory = FactoryResponse

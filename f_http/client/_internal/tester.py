@@ -1,4 +1,4 @@
-from f_http.client.inner.f_request import FactoryRequest
+from f_http.client import Client
 
 
 def test_valid() -> None:
@@ -7,10 +7,10 @@ def test_valid() -> None:
      Test the GET request with a valid response.
     ========================================================================
     """
-    response = FactoryRequest.valid()
+    response = Client.Factory.valid()
     assert response
-    assert response.status == 200
-    assert response.is_found
+    assert response.status.code == 200
+    assert response.status.name == 'OK'
     assert response.data
 
 
@@ -20,9 +20,8 @@ def test_invalid() -> None:
      Test the GET request with an invalid response.
     ========================================================================
     """
-    response = FactoryRequest.invalid()
-    assert response
-    assert response.status == 404
-    assert not response.is_found
+    response = Client.Factory.invalid()
+    assert not response
+    assert response.status.code == 404
+    assert response.status.name == 'NOT_FOUND'
     assert not response.data
-

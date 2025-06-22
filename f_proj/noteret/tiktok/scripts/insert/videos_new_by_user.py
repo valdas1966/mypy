@@ -1,5 +1,5 @@
 from f_google.services.big_query.client import BigQuery
-from f_proj.rapid_api.tiktok.api import TiktokAPI
+from f_proj.rapid_api.tiktok.requests import RequestsTiktok
 from f_proj.noteret.tiktok.tables import Tables
 from typing import Any
 
@@ -20,7 +20,7 @@ def prod() -> None:
     inputs = len(df_todo)
     # df_todo have 2 cols (id_user, created)
     for i, (id_user, created) in enumerate(df_todo.values):
-        rows_new = TiktokAPI.videos_new_by_user(id_user=id_user,
+        rows_new = RequestsTiktok.videos_new_by_user(id_user=id_user,
                                                 created=created)
         print(f'[{i+1} / {inputs}] | '
               f'Id_User=[{id_user}] | '
