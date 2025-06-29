@@ -1,5 +1,5 @@
 from screeninfo import get_monitors
-from f_gui.layout.rect import LTWH
+from f_gui.layout import LTWH
 
 
 class UScreen:

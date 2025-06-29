@@ -1,7 +1,7 @@
 from __future__ import annotations
 from f_color.rgb import RGB
 from f_ds.nodes.i_2_hierarchy import NodeHierarchy
-from f_gui.layout.generators.g_bounds import GenBounds, Bounds
+from f_gui.layout import FactoryBounds, Bounds
 from f_gui.components.mixins.has_color import HasColor
 
 
@@ -16,7 +16,7 @@ class Component(NodeHierarchy, HasColor):
                  # Component's unique identifier
                  name: str,
                  # Component's Layout layout (default is full)
-                 bounds: Bounds = GenBounds.full(),
+                 bounds: Bounds = FactoryBounds.full(),
                  # Parent component (default is None)
                  parent: Component = None,
                  # Component's background color (default is None)

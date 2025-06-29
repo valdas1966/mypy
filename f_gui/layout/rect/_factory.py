@@ -1,7 +1,7 @@
-from f_gui.layout.rect import Rect
+from f_gui.layout.rect.rect import Rect
 
 
-class GenRect:
+class FactoryRect:
     """
     ========================================================================
      Generator for LTWH objects.

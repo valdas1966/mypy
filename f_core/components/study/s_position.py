@@ -1,4 +1,4 @@
-from f_gui.layout.bounds import Position
+from f_gui.layout import Position
 
 
 pos = Position()

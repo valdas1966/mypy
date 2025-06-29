@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QApplication
-from f_gui.layout.bounds import Position
+from f_gui.layout import Position
 from f_core.mixins.has_name import HasName
 from f_gui_old.pyqt.window import Window
 from f_gui_old.pyqt.widget import Widget

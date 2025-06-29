@@ -14,6 +14,9 @@ class Rect(Generic[T], Printable, Comparable):
     ============================================================================
     """
 
+    # Factory
+    Factory: type = None
+
     def __init__(self,
                  top: T = None,
                  left: T = None,

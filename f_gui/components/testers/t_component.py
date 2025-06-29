@@ -1,5 +1,5 @@
 from f_gui.components.generators.g_component import GenComponent
-from f_gui.layout.generators.g_rect import GenRect
+from f_gui.layout import FactoryRect
 
 
 def test_window_empty() -> None:
@@ -11,7 +11,7 @@ def test_window_empty() -> None:
     win = GenComponent.window_empty()
     assert win.parent is None
     assert win.children == dict()
-    bounds_full = GenRect.full()
+    bounds_full = FactoryRect.full()
     assert win.bounds.absolute == bounds_full
 
 
@@ -26,7 +26,7 @@ def test_window_container() -> None:
     assert win.parent is None
     assert win.children == {'Container': con}
     assert con.parent == win
-    assert con.bounds.absolute == GenRect.half()
+    assert con.bounds.absolute == FactoryRect.half()
 
 
 def test_window_label() -> None:
@@ -40,4 +40,4 @@ def test_window_label() -> None:
     label = con.children['Label']       
     assert con.children == {'Label': label}
     assert label.parent == con
-    assert label.bounds.absolute == GenRect.quarter()
+    assert label.bounds.absolute == FactoryRect.quarter()

@@ -1,6 +1,7 @@
 from f_core.mixins.printable import Printable
 from f_core.mixins.comparable import Comparable
-from f_gui.layout.generators.g_rect import GenRect, Rect
+from f_gui.layout.rect._factory import FactoryRect
+from f_gui.layout.rect.rect import Rect
 from typing import Union
 
 RectLike = Union[tuple[float, float, float, float], Rect]
@@ -18,11 +19,14 @@ class Bounds(Printable, Comparable):
     ============================================================================
     """
 
+    # Factory
+    Factory: type = None
+
     def __init__(self,
                  # Object's Relative bounds (default is full)
-                 relative: RectLike = GenRect.full(),
+                 relative: RectLike = FactoryRect.full(),
                  # Object's Parent bounds (default is full)
-                 parent: RectLike = GenRect.full(),
+                 parent: RectLike = FactoryRect.full(),
                  ) -> None:
         """
         ========================================================================

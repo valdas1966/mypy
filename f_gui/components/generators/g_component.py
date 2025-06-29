@@ -1,5 +1,5 @@
 from f_gui.components.component import Component
-from f_gui.layout.generators.g_bounds import GenBounds
+from f_gui.layout import FactoryBounds
 
 
 class GenComponent:
@@ -16,7 +16,7 @@ class GenComponent:
          Generate a empty window component.
         ========================================================================
         """
-        geometry = GenBounds.full()
+        geometry = FactoryBounds.full()
         return Component(name='Window', bounds=geometry)
     
     @staticmethod
@@ -27,7 +27,7 @@ class GenComponent:
         ========================================================================
         """
         win = GenComponent.window_empty()
-        geo_con = GenBounds.half()
+        geo_con = FactoryBounds.half()
         con = Component(name='Container', bounds=geo_con)
         con.parent = win
         return win
@@ -41,7 +41,7 @@ class GenComponent:
         """
         win = GenComponent.window_container()
         con = win.children['Container']
-        geo_label = GenBounds.half()
+        geo_label = FactoryBounds.half()
         label = Component(name='Label', bounds=geo_label)
         label.parent = con
         return win  

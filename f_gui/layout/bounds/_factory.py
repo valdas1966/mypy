@@ -1,8 +1,8 @@
-from f_gui.layout.generators.g_rect import GenRect
-from f_gui.layout.bounds import Bounds
+from f_gui.layout.rect._factory import FactoryRect
+from f_gui.layout.bounds.bounds import Bounds
 
 
-class GenBounds:
+class FactoryBounds:
     """
     ========================================================================
      Generator for Bounds objects.
@@ -20,7 +20,7 @@ class GenBounds:
          Generate a half position.
         ========================================================================
         """
-        bounds = GenRect.half()
+        bounds = FactoryRect.half()
         return Bounds(relative=bounds)
 
     @staticmethod
@@ -30,5 +30,5 @@ class GenBounds:
          Generate a quarter position.
         ========================================================================
         """
-        bounds = GenRect.quarter()
+        bounds = FactoryRect.quarter()
         return Bounds(relative=bounds)

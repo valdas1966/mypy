@@ -1,5 +1,5 @@
 from f_gui.components.window import Window
-from f_gui.layout.generators.g_rect import GenRect
+from f_gui.layout import FactoryRect
 
 
 def test_window() -> None:
@@ -12,6 +12,6 @@ def test_window() -> None:
     assert win.name == 'Window'
     assert win.parent is None
     assert win.children == dict()
-    rect_full = GenRect.full()
+    rect_full = FactoryRect.full()
     assert win.bounds.absolute == rect_full
 
