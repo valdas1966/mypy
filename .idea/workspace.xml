@@ -5,35 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/layout/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/layout/bounds/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/layout/bounds/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/layout/bounds/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/layout/rect/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/layout/rect/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/layout/rect/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui_layout_code_review.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.claude/settings.local.json" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/components/study/s_position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/components/study/s_position.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/components/component.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/component.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/components/generators/g_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/generators/g_component.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/components/testers/t_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/testers/t_component.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/components/testers/t_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/components/testers/t_window.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/layout/bounds.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/layout/bounds/bounds.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/layout/generators/g_bounds.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/layout/generators/g_rect.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/layout/rect.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/layout/rect/rect.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/layout/testers/t_bounds.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/layout/testers/t_rect.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui_old/mixins/has_position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/mixins/has_position.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui_old/pyqt/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui_old/pyqt/widget.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/widget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui_old/pyqt/window.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/window.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui_old/u_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/u_screen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/layout/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/layout/_tester.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -546,6 +520,7 @@
     "Python tests.pytest for tester.test_rami.executor": "Run",
     "Python tests.pytest for tester.test_valid.executor": "Run",
     "Python tests.pytest in _tester.py (1).executor": "Run",
+    "Python tests.pytest in _tester.py (2).executor": "Run",
     "Python tests.pytest in _tester.py.executor": "Run",
     "Python tests.pytest in t_0_key.py.executor": "Run",
     "Python tests.pytest in t_bounds.py.executor": "Run",
@@ -565,6 +540,7 @@
     "Python.__init__ (1).executor": "Run",
     "Python.__init__ (2).executor": "Run",
     "Python.__init__.executor": "Run",
+    "Python._tester.executor": "Run",
     "Python.a_star.executor": "Run",
     "Python.algo.executor": "Run",
     "Python.api_new.executor": "Run",
@@ -887,7 +863,30 @@
       <recent name="G:\mypy\f_google\auth\_internal" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.pytest in _tester.py (1)">
+  <component name="RunManager" selected="Python._tester">
+    <configuration name="_tester" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/layout" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_gui/layout/_tester.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="pytest for tester.test_rami" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -923,6 +922,24 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="pytest in _tester.py (2)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/layout" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_gui/layout/_tester.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -942,42 +959,6 @@
       <method v="2" />
     </configuration>
     <configuration name="pytest in tester.py (1)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/layout/rect/_internal" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_gui/layout/rect/_internal/tester.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest in tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/_internal/auth/_internal" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_google/_internal/auth/_internal/tester.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest in tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -1082,19 +1063,19 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python._tester" />
       <item itemvalue="Python tests.pytest in _tester.py" />
       <item itemvalue="Python tests.pytest in _tester.py (1)" />
-      <item itemvalue="Python tests.pytest in tester.py (1)" />
+      <item itemvalue="Python tests.pytest in _tester.py (2)" />
       <item itemvalue="Python tests.pytest in tester.py (2)" />
-      <item itemvalue="Python tests.pytest in tester.py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python._tester" />
+        <item itemvalue="Python tests.pytest in _tester.py (2)" />
         <item itemvalue="Python tests.pytest in _tester.py (1)" />
         <item itemvalue="Python tests.pytest in _tester.py" />
         <item itemvalue="Python tests.pytest in tester.py (2)" />
-        <item itemvalue="Python tests.pytest in tester.py (1)" />
-        <item itemvalue="Python tests.pytest in tester.py" />
       </list>
     </recent_temporary>
   </component>
@@ -1115,15 +1096,7 @@
       <option name="presentableId" value="Default" />
       <updated>1720032247949</updated>
       <workItem from="1751012065332" duration="1496000" />
-      <workItem from="1751178863322" duration="8043000" />
-    </task>
-    <task id="LOCAL-00186" summary="h">
-      <option name="closed" value="true" />
-      <created>1742820762554</created>
-      <option name="number" value="00186" />
-      <option name="presentableId" value="LOCAL-00186" />
-      <option name="project" value="LOCAL" />
-      <updated>1742820762554</updated>
+      <workItem from="1751178863322" duration="12511000" />
     </task>
     <task id="LOCAL-00187" summary="h">
       <option name="closed" value="true" />
@@ -1509,7 +1482,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750606514900</updated>
     </task>
-    <option name="localTasksCounter" value="235" />
+    <task id="LOCAL-00235" summary="h">
+      <option name="closed" value="true" />
+      <created>1751188752603</created>
+      <option name="number" value="00235" />
+      <option name="presentableId" value="LOCAL-00235" />
+      <option name="project" value="LOCAL" />
+      <updated>1751188752603</updated>
+    </task>
+    <option name="localTasksCounter" value="236" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1544,6 +1525,8 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py__2_.coverage" NAME="pytest in _tester.py (2) Coverage Results" MODIFIED="1751189228838" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_gui/layout" />
+    <SUITE FILE_PATH="coverage/mypy$_tester.coverage" NAME="_tester Coverage Results" MODIFIED="1751196243901" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_gui/layout" />
     <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py.coverage" NAME="pytest in _tester.py Coverage Results" MODIFIED="1751188321306" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_gui/layout/rect" />
     <SUITE FILE_PATH="coverage/mypy$pytest_in_tester_py__2_.coverage" NAME="pytest in tester.py Coverage Results" MODIFIED="1751183054542" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_gui/layout/bounds/_internal" />
     <SUITE FILE_PATH="coverage/mypy$pytest_in_tester_py__1_.coverage" NAME="pytest in tester.py Coverage Results" MODIFIED="1751183032464" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_gui/layout/rect/_internal" />
