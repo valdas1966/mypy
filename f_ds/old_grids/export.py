@@ -1,13 +1,13 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 from f_ds.groups.group import Group
-from f_ds.grids.grid import Cell
+from f_ds.old_grids.old_grid import Cell
 import numpy as np
 
 
 if TYPE_CHECKING:
     # Only used for type hints  
-    from f_ds.grids.grid import Grid
+    from f_ds.old_grids.old_grid import Grid
 
 
 class Export:

@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import Sequence, Iterable
 from f_core.mixins.validatable_public import ValidatablePublic
 from f_core.mixins.has_row_col import HasRowCol
-from f_ds.grids.distance import Distance
+from f_ds.old_grids.old_cell.map.distance import Distance
 
 
 class Cell(HasRowCol, ValidatablePublic):
@@ -27,7 +27,7 @@ class Cell(HasRowCol, ValidatablePublic):
         self._distance = Distance
 
     @property
-    def distance(self) -> Distance:
+    def distance(self) -> type:
         """
         ========================================================================
          Return the Distance-Class.

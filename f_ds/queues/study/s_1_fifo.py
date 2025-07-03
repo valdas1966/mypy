@@ -1,5 +1,5 @@
 from f_ds.queues.i_1_fifo import QueueFIFO
-from f_ds.grids.cell import Cell
+from f_ds.old_grids.old_cell import Cell
 
 
 def study_1():

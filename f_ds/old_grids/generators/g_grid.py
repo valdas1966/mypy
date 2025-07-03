@@ -1,4 +1,4 @@
-from f_ds.grids.grid import Grid, Cell
+from f_ds.old_grids.old_grid import Grid, Cell
 
 
 class GenGrid:

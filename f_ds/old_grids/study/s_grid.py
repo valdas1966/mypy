@@ -1,4 +1,4 @@
-from f_ds.grids.grid import Grid
+from f_ds.old_grids.old_grid import Grid
 
 
 grid = Grid.generate(rows=3)

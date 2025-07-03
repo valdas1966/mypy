@@ -1,8 +1,8 @@
 import os
-from f_ds.grids.grid import Grid
+from f_ds.old_grids.old_grid import Grid
 from f_file_old.txt import Txt
 import numpy as np
-from f_ds.grids.factories.f_grid import FactoryGrid
+from f_ds.old_grids.factories.f_grid import FactoryGrid
 
 
 class MapGrid(Txt):

@@ -1,5 +1,5 @@
 from typing import Iterable
-from f_ds.grids.cell import Cell
+from f_ds.old_grids.old_cell import Cell
 
 
 class UCell:

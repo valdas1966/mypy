@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from f_ds.grids.grid import Grid
+from f_ds.old_grids.old_grid import Grid
 from f_file_old.map_grid import MapGrid
 
 

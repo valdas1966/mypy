@@ -1,6 +1,6 @@
 from f_graph.path.one_to_many.problem import ProblemOneToMany
 from f_graph.path.generators.g_graph import GenGraphPath, Graph
-from f_ds.grids.grid import Grid, Cell
+from f_ds.old_grids.old_grid import Grid, Cell
 import random
 
 

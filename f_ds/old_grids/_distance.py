@@ -1,5 +1,5 @@
 from collections.abc import Iterable
-from f_ds.grids.cell import Cell
+from f_ds.grids.cell.map.main import CellMap
 
 
 class Distance:
@@ -10,10 +10,10 @@ class Distance:
     """
 
     @staticmethod
-    def between(cell_a: Cell, cell_b: Cell) -> int:
+    def between(cell_a: CellMap, cell_b: CellMap) -> int:
         """
         ========================================================================
-         Return list Manhattan-Distance between the two given Cells.
+         Return the Manhattan-Distance between the two given Cells.
         ========================================================================
         """
         diff_row = abs(cell_a.row - cell_b.row)
@@ -21,7 +21,7 @@ class Distance:
         return diff_row + diff_col
 
     @staticmethod
-    def avg(cells: Iterable[Cell]) -> int:
+    def avg(cells: Iterable[CellMap]) -> int:
         """
         ========================================================================
          Return the average distance between all the cells in the iterable.
@@ -36,7 +36,7 @@ class Distance:
         return round(sum_dist / len(cells))
     
     @staticmethod
-    def farthest(cell: Cell, others: Iterable[Cell]) -> Cell:
+    def farthest(cell: CellMap, others: Iterable[CellMap]) -> CellMap:
         """
         ========================================================================
          Return the farthest other Cell from the given Cell.

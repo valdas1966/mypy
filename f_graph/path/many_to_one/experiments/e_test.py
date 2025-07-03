@@ -1,4 +1,4 @@
-from f_ds.grids.generators.g_grid import GenGrid, Cell
+from f_ds.old_grids.generators.g_grid import GenGrid, Cell
 from f_graph.path.graph import GraphPath
 from f_graph.path.many_to_one.problem import ProblemManyToOne
 from f_graph.path.many_to_one.algo import AlgoManyToOne, AlgoOneToOne

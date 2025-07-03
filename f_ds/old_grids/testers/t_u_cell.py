@@ -1,4 +1,4 @@
-from f_ds.grids.u_cell import UCell, Cell
+from f_ds.old_grids.u_cell import UCell, Cell
 
 
 def test_invalidate():

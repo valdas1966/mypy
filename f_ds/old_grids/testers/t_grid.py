@@ -1,6 +1,6 @@
 import pytest
-from f_ds.grids.grid import Grid
-from f_ds.grids.generators.g_grid import GenGrid
+from f_ds.old_grids.old_grid import Grid
+from f_ds.old_grids.generators.g_grid import GenGrid
 from f_file_old.generators.g_map_grid import GenMapGrid
 
 

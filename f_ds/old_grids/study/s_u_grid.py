@@ -1,4 +1,4 @@
-from f_ds.grids.u_grid import UGrid
+from f_ds.old_grids.u_grid import UGrid
 
 
 grid = UGrid.gen(rows=4, pct_valid=75)

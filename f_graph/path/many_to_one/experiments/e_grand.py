@@ -7,7 +7,7 @@ from f_graph.path.one_to_many.algo import AlgoOneToMany, AlgoOneToOne
 from f_graph.path.one_to_many.problem import ProblemOneToMany, ProblemOneToOne
 from f_graph.path.fore_and_back.algo import AlgoForeAndBack
 from f_graph.path.cache import Cache
-from f_ds.grids.grid import Grid, Cell
+from f_ds.old_grids.old_grid import Grid, Cell
 from f_file_old.i_1_csv import CSV
 from f_psl.os.u_folder import UFolder
 from f_utils import u_pickle

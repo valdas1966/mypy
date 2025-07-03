@@ -1,6 +1,6 @@
 from __future__ import annotations
 from f_ds.graphs.i_1_dict import GraphDict
-from f_ds.grids.grid import Grid, Group
+from f_ds.old_grids.old_grid import Grid, Group
 from f_ds.nodes.i_2_cell import NodeCell
 from typing import Generic, TypeVar, Type, Iterable
 

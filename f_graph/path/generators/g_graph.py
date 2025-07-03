@@ -1,5 +1,5 @@
 from f_graph.path.graph import GraphPath as Graph, NodePath
-from f_ds.grids.generators.g_grid import GenGrid
+from f_ds.old_grids.generators.g_grid import GenGrid
 
 
 class GenGraphPath:

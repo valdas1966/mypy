@@ -4,7 +4,7 @@ import numpy as np
 
 if TYPE_CHECKING:
     # Only used for type hints
-    from f_ds.grids.grid import Grid
+    from f_ds.old_grids.old_grid import Grid
 
 
 class Factory:

@@ -1,4 +1,4 @@
-from f_ds.grids.generators.g_cell import GenCell, Cell
+from f_ds.old_grids.generators.g_cell import GenCell, Cell
 
 
 def test_zero() -> None:
