@@ -1,8 +1,8 @@
-from f_core.mixins.has_row_col import HasRowCol
+from f_ds.grids.cell.base.main import CellBase
 from f_core.mixins.validatable_public import ValidatablePublic
 
 
-class CellMap(HasRowCol, ValidatablePublic):
+class CellMap(CellBase, ValidatablePublic):
     """
     ============================================================================
      Cell-Map for the 2D-Grid Maps.
@@ -18,13 +18,14 @@ class CellMap(HasRowCol, ValidatablePublic):
                  # Cell's Column
                  col: int,
                  # Cells's Validity
-                 is_valid: bool = True
+                 is_valid: bool = True,
+                 # Cell's Name
+                 name: str = 'CellMap'
                  ) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        HasRowCol.__init__(self, row=row, col=col)
+        CellBase.__init__(self, row=row, col=col, name=name)
         ValidatablePublic.__init__(self, is_valid=is_valid)
-        

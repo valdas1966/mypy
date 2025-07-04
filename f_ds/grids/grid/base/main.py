@@ -1,29 +1,28 @@
-from __future__ import annotations
-from typing import Type
 from f_core.mixins.has_name import HasName
 from f_core.mixins.has_rows_cols import HasRowsCols
 from f_ds.mixins.groupable import Groupable, Group
-from f_ds.old_grids.old_cell import Cell
+from f_ds.grids.cell import CellBase
 from collections.abc import Iterable
-from typing import Iterator
-from f_ds.old_grids.export import Export
-from f_ds.old_grids.factory import Factory
+from typing import Iterator, TypeVar, Generic, Type
+
+Cell = TypeVar('Cell', bound=CellBase)
 
 
-class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
+class GridBase(Generic[Cell], Groupable[Cell], HasName, HasRowsCols, Iterable):
     """
     ============================================================================
      2D-Grid Class of Cells.
     ============================================================================
     """
 
-    # The Factory-Class for creating Grids.
-    _factory: Type[Factory] = Factory
+    # Factory
+    Factory: type = None
 
     def __init__(self,
                  rows: int,
                  cols: int = None,
-                 name: str = None) -> None:
+                 name: str = None,
+                 type_cell: Type[Cell] = CellBase) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -31,54 +30,37 @@ class Grid(HasName, HasRowsCols, Groupable[Cell], Iterable):
         """
         HasName.__init__(self, name=name)
         HasRowsCols.__init__(self, rows=rows, cols=cols)
-        self._cells = [
-            [Cell(row, col) for col in range(self.cols)]
-            for row in range(self.rows)
-        ]
-        self._cells_valid = View(name='Valid Cells',
-                                 group=self.to_group(),
-                                 predicate=bool)
-        self._to = Export(grid=self)
+        self._cells = self._init_cells(type_cell)
 
-    @property
-    def cells_valid(self) -> View[Cell]:
+    def to_group(self, name: str = None) -> Group[Cell]:
         """
         ========================================================================
-         Component-Class for Valid-Cells in the Grid.
+         Convert the Grid into a Group of Cells.
         ========================================================================
         """
-        return self._cells_valid
+        return Group(name=name, data=list(self))
+    
+    def __len__(self) -> int:
+        """
+        ========================================================================
+         Return the total number of cells in the grid.
+        ========================================================================
+        """
+        return self.rows * self.cols
 
-    @classmethod
-    def factory(cls) -> type[Factory]:
+    def _init_cells(self, type_cell: Type[Cell]) -> list[list[Cell]]:
         """
         ========================================================================
-         Return the Factory-Class for creating Grids.
+         Initialize the cells of the grid.
         ========================================================================
         """
-        return cls._factory
-
-    @property
-    def to(self) -> Export:
-        """
-        ========================================================================
-         Return the Export-Grid.
-        ========================================================================
-        """
-        return self._to
-
-    def neighbors(self, cell: Cell) -> list[Cell]:
-        """
-        ========================================================================
-         Return List of list valid Cell-Neighbors in Clockwise-Order.
-        ========================================================================
-        """
-        cells_within = [self._cells[n.row][n.col]
-                        for n
-                        in cell.neighbors()
-                        if self.is_within(n.row, n.col)]
-        return [cell for cell in cells_within if cell]
-
+        return [
+                    [
+                        type_cell(row, col) for col in range(self.cols)
+                    ]
+                    for row in range(self.rows)
+                ]
+    
     def __getitem__(self, index) -> list[Cell]:
         """
         ========================================================================

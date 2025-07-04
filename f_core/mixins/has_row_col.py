@@ -1,8 +1,7 @@
 from __future__ import annotations
-from f_core.mixins.has_name import HasName
 
 
-class HasRowCol(HasName):
+class HasRowCol:
     """
     ============================================================================
      Mixin for classes with Row and Col properties.
@@ -11,8 +10,7 @@ class HasRowCol(HasName):
 
     def __init__(self,
                  row: int = None,
-                 col: int = None,
-                 name: str = None) -> None:
+                 col: int = None) -> None:
         """
         ========================================================================
          1. Inits the Object with received Row and Col arguments.
@@ -21,7 +19,6 @@ class HasRowCol(HasName):
         """
         self._row = row if row is not None else 0
         self._col = col if col is not None else self._row
-        HasName.__init__(self, name=name)
 
     @property
     # Object's Row
@@ -34,6 +31,12 @@ class HasRowCol(HasName):
         return self._col
 
     def neighbors(self) -> list[HasRowCol]:
+        """
+        ========================================================================
+         Return a List of Neighbor Cells in Clock-Wise Order
+           (North, East, South, West).
+        ========================================================================
+        """
         n_north = self.row - 1, self.col
         n_east = self.row, self.col + 1
         n_south = self.row + 1, self.col
@@ -46,7 +49,7 @@ class HasRowCol(HasName):
     def key_comparison(self) -> list:
         """
         ========================================================================
-         Prioritize Row over the Col in Comparisons.
+         Prioritize Row over the Col in Comparisons (Clock-Wise Order).
         ========================================================================
         """
         return [self.row, self.col]
