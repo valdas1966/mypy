@@ -5,21 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_ds/grids/cell/base/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/grids/grid/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/grids/grid/base/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/grids/grid/base/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/grids/grid/base/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/grids/grid/base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/grids/grid/map/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/has_row_col.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/has_row_col.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/cell/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cell/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/cell/_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cell/base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/cell/gui/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cell/gui/gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/cell/map/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cell/map/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/_base.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,12 +30,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
+    &quot;accountId&quot;: &quot;9193838d-ef26-4e0d-b77f-58e2bc1908f8&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -535,6 +522,7 @@
     "Python tests.pytest for tester.test_valid.executor": "Run",
     "Python tests.pytest in _tester.py (1).executor": "Run",
     "Python tests.pytest in _tester.py (2).executor": "Run",
+    "Python tests.pytest in _tester.py (3).executor": "Run",
     "Python tests.pytest in _tester.py.executor": "Run",
     "Python tests.pytest in t_0_key.py.executor": "Run",
     "Python tests.pytest in t_bounds.py.executor": "Run",
@@ -879,30 +867,7 @@
       <recent name="D:\mypy\f_gui\layout\rect\_internal" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.pytest in _tester.py">
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/cell/base" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_ds/grids/cell/base/main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python tests.pytest in _tester.py (3)">
     <configuration name="pytest for _tester.test_list" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -921,24 +886,6 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest for _tester.test_valid" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/cell/map" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;_tester.test_valid&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
     <configuration name="pytest in _tester.py (1)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -954,6 +901,42 @@
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/grids/cell/map/_tester.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in _tester.py (2)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/grid/base" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/grids/grid/base/_tester.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in _tester.py (3)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/grid/map" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/grids/grid/map/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -1017,23 +1000,6 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_http/responses" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_http/responses/json/inner/tester.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest in tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_http/client/_internal" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -1046,19 +1012,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.main" />
+      <item itemvalue="Python tests.pytest in _tester.py (2)" />
+      <item itemvalue="Python tests.pytest in _tester.py (3)" />
       <item itemvalue="Python tests.pytest for _tester.test_list" />
-      <item itemvalue="Python tests.pytest for _tester.test_valid" />
       <item itemvalue="Python tests.pytest in _tester.py" />
       <item itemvalue="Python tests.pytest in _tester.py (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.pytest in _tester.py (3)" />
+        <item itemvalue="Python tests.pytest in _tester.py (2)" />
         <item itemvalue="Python tests.pytest in _tester.py" />
         <item itemvalue="Python tests.pytest for _tester.test_list" />
         <item itemvalue="Python tests.pytest in _tester.py (1)" />
-        <item itemvalue="Python.main" />
-        <item itemvalue="Python tests.pytest for _tester.test_valid" />
       </list>
     </recent_temporary>
   </component>
@@ -1085,15 +1051,8 @@
       <workItem from="1751351368439" duration="595000" />
       <workItem from="1751448751000" duration="2110000" />
       <workItem from="1751536218779" duration="11145000" />
-      <workItem from="1751615629749" duration="4699000" />
-    </task>
-    <task id="LOCAL-00187" summary="h">
-      <option name="closed" value="true" />
-      <created>1742920517375</created>
-      <option name="number" value="00187" />
-      <option name="presentableId" value="LOCAL-00187" />
-      <option name="project" value="LOCAL" />
-      <updated>1742920517375</updated>
+      <workItem from="1751615629749" duration="4725000" />
+      <workItem from="1751743440942" duration="1984000" />
     </task>
     <task id="LOCAL-00188" summary="h">
       <option name="closed" value="true" />
@@ -1479,7 +1438,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751188752603</updated>
     </task>
-    <option name="localTasksCounter" value="236" />
+    <task id="LOCAL-00236" summary="h">
+      <option name="closed" value="true" />
+      <created>1751657880115</created>
+      <option name="number" value="00236" />
+      <option name="presentableId" value="LOCAL-00236" />
+      <option name="project" value="LOCAL" />
+      <updated>1751657880115</updated>
+    </task>
+    <option name="localTasksCounter" value="237" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1518,11 +1485,12 @@
     <SUITE FILE_PATH="coverage/mypy$_tester.coverage" NAME="_tester Coverage Results" MODIFIED="1751196243901" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_gui/layout" />
     <SUITE FILE_PATH="coverage/mypy$pytest_in_tester_py__1_.coverage" NAME="pytest in tester.py Coverage Results" MODIFIED="1751183032464" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_gui/layout/rect/_internal" />
     <SUITE FILE_PATH="coverage/mypy$pytest_for__tester_test_valid.coverage" NAME="pytest for _tester.test_valid Coverage Results" MODIFIED="1751631077610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/cell/map" />
-    <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py__2_.coverage" NAME="pytest in _tester.py (2) Coverage Results" MODIFIED="1751189228838" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_gui/layout" />
     <SUITE FILE_PATH="coverage/mypy$main.coverage" NAME="main Coverage Results" MODIFIED="1751631415911" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/cell/base" />
+    <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py__2_.coverage" NAME="pytest in _tester.py (2) Coverage Results" MODIFIED="1751744044142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/grid/base" />
     <SUITE FILE_PATH="coverage/mypy$pytest_for__tester_test_list.coverage" NAME="pytest for _tester.test_list Coverage Results" MODIFIED="1751631729831" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/grid/base" />
     <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py.coverage" NAME="pytest in _tester.py Coverage Results" MODIFIED="1751640967926" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/grid/base" />
     <SUITE FILE_PATH="coverage/mypy$u_pdf.coverage" NAME="u_pdf Coverage Results" MODIFIED="1751458578592" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_utils" />
     <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py__1_.coverage" NAME="pytest in _tester.py (1) Coverage Results" MODIFIED="1751631455283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/cell/map" />
+    <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py__3_.coverage" NAME="pytest in _tester.py (3) Coverage Results" MODIFIED="1751744803148" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/grid/map" />
   </component>
 </project>
