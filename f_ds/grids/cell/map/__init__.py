@@ -1,4 +1,4 @@
-from ._factory import FactoryCellMap, CellMap
+from ._factory import Factory, CellMap
 
 
-CellMap.Factory = FactoryCellMap 
+CellMap.Factory = Factory

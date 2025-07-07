@@ -1,7 +1,7 @@
 from f_ds.grids.cell.map.main import CellMap
 
 
-class FactoryCellMap:
+class Factory:
     """
     ============================================================================
      Factory-Class for the CellMap.
