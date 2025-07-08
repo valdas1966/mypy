@@ -1,4 +1,4 @@
-from .auth import Auth, Credentials, ServiceAccount
-from ._internal.factory import Factory
+from .main import Auth, ServiceAccount, Credentials
+from ._factory import Factory
 
 Auth.Factory = Factory

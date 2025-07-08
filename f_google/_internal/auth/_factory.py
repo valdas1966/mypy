@@ -1,28 +1,29 @@
-from typing import Generic, TypeVar
-
-Input = TypeVar('InputRequest')
+from .main import Auth, Credentials, ServiceAccount
 
 
-class HasInput(Generic[Input]):
+class Factory:
     """
     ============================================================================
-     Mixin-Class for Processes with InputRequest.
+     Factory for the Google Authentication process.
     ============================================================================
     """
 
-    def __init__(self, input: Input = None) -> None:
+    @staticmethod
+    def rami() -> Credentials:
         """
         ========================================================================
-         Init private Attributes.
+         Returns the credentials for the RAMI service account.
         ========================================================================
         """
-        self._input = input
-
-    @property
-    def input(self) -> Input:
+        account = ServiceAccount.RAMI   
+        return Auth.get_creds(account)
+    
+    @staticmethod
+    def valdas() -> Credentials:
         """
         ========================================================================
-         Return the Process' InputRequest.
+         Returns the credentials for the VALDAS service account.
         ========================================================================
         """
-        return self._input
+        account = ServiceAccount.VALDAS
+        return Auth.get_creds(account)

@@ -1,4 +1,4 @@
-from f_google._internal.auth import Auth, Credentials
+from .main import Auth, Credentials
 
 
 def test_rami() -> None:

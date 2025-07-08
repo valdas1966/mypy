@@ -1,45 +1,45 @@
+from typing import Generic, TypeVar 
 from f_core.mixins.comparable import Comparable
-from typing import Generic, TypeVar
 
-UID = TypeVar('UID')
+K = TypeVar('K')
 
 
-class HasUID(Generic[UID], Comparable):
+class HasKey(Generic[K], Comparable):
     """
     ============================================================================
-     Mixin for Classes with UID (Unique Identifier) property.
+     Mixin for objects that have a key.
     ============================================================================
-    """
+    """ 
 
-    def __init__(self, uid: UID) -> None:
+    def __init__(self, key: K) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._uid = uid
-
+        self._key = key
+    
     @property
-    def uid(self) -> UID:
+    def key(self) -> K:
         """
         ========================================================================
-         Return an ID property.
+         Return the key of the object.
         ========================================================================
-        """
-        return self._uid
+        """ 
+        return self._key
 
-    def key_comparison(self) -> UID:
+    def key_comparison(self) -> K:
         """
         ========================================================================
-         Compare by the UID.
+         Return the key of the object.
         ========================================================================
-        """
-        return self._uid
+        """ 
+        return self._key
 
     def __hash__(self) -> int:
         """
         ========================================================================
-         Hash the object by an UID.
+         Return the hash of the object.
         ========================================================================
-        """
-        return hash(self._uid)
+        """ 
+        return hash(self._key)

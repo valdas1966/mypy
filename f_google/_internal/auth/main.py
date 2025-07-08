@@ -1,5 +1,5 @@
 from google.oauth2.service_account import Credentials
-from ._internal.service_account import ServiceAccount
+from ._enums import ServiceAccount
 from os import environ
 
 
