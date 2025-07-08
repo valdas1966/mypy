@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import Sequence, Iterable
 from f_core.mixins.validatable_public import ValidatablePublic
-from f_core.mixins.has_row_col import HasRowCol
+from f_core.mixins.has.row_col import HasRowCol
 from f_ds.old_grids.old_cell.map.distance import Distance
 
 

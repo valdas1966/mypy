@@ -1,4 +1,4 @@
-from f_core.mixins.has_name import HasName
+from f_core.mixins.has.name import HasName
 import matplotlib.pyplot as plt
 from abc import abstractmethod
 

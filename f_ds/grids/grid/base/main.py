@@ -1,5 +1,5 @@
-from f_core.mixins.has_name import HasName
-from f_core.mixins.has_rows_cols import HasRowsCols
+from f_core.mixins.has.name import HasName
+from f_core.mixins.has.rows_cols import HasRowsCols
 from f_ds.mixins.groupable import Groupable, Group
 from f_ds.grids.cell import CellBase
 from collections.abc import Iterable

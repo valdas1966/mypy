@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import Type
-from f_core.mixins.has_name import HasName
-from f_core.mixins.has_rows_cols import HasRowsCols
+from f_core.mixins.has.name import HasName
+from f_core.mixins.has.rows_cols import HasRowsCols
 from f_ds.mixins.groupable import Groupable, Group
 from f_ds.groups.view import View
 from f_ds.old_grids.old_cell import Cell

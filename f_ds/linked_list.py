@@ -2,7 +2,7 @@ from __future__ import annotations
 from f_ds.nodes.i_1_has_prev import NodeHasPrev
 from f_ds.mixins.groupable import Groupable, Group
 from f_ds.mixins.has_head import HasHead
-from f_core.mixins.has_name import HasName
+from f_core.mixins.has.name import HasName
 from f_core.abstracts.clonable import Clonable
 from typing import Generic, TypeVar
 

@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QGridLayout, QSpacerItem, QSizePolicy
-from f_core.mixins.has_rows_cols import HasRowsCols
+from f_core.mixins.has.rows_cols import HasRowsCols
 
 
 class Layout(HasRowsCols):

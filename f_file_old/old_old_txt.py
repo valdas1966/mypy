@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import Iterator
-from f_core.mixins.has_name import HasName
+from f_core.mixins.has.name import HasName
 from f_utils.dtypes.u_list import UList
 from f_utils.dtypes.u_str import UStr
 

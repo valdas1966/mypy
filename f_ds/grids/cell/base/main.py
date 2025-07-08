@@ -1,5 +1,5 @@
-from f_core.mixins.has_row_col import HasRowCol
-from f_core.mixins.has_name import HasName
+from f_core.mixins.has.row_col import HasRowCol
+from f_core.mixins.has.name import HasName
 
 
 class CellBase(HasName, HasRowCol):

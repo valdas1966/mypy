@@ -1,6 +1,6 @@
 from f_ds.nodes.i_2_prev_next import NodePrevNext
 from f_ds.mixins.has_head import HasHead
-from f_core.mixins.has_name import HasName
+from f_core.mixins.has.name import HasName
 
 
 def study_1():

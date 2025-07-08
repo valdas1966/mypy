@@ -1,5 +1,5 @@
 import pytest
-from f_core.mixins.has_row_col import HasRowCol
+from f_core.mixins.has.row_col import HasRowCol
 
 
 @pytest.fixture

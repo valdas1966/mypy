@@ -1,6 +1,6 @@
 from __future__ import annotations
 from collections import UserList
-from f_core.mixins.has_name import HasName
+from f_core.mixins.has.name import HasName
 from f_utils.dtypes.u_seq import USeq
 from typing import TypeVar, Callable, Sequence
 from math import ceil

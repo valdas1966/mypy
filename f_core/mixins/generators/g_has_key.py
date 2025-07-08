@@ -1,4 +1,4 @@
-from f_core.mixins.has_key import HasKey
+from f_core.mixins.has.key import HasKey
 
 
 class GenHasKey(HasKey):

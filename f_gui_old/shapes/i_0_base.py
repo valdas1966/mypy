@@ -1,5 +1,5 @@
 from f_core.mixins.printable import Printable
-from f_core.mixins.has_name import HasName
+from f_core.mixins.has.name import HasName
 
 
 class Shape(HasName, Printable):

@@ -1,4 +1,4 @@
-from f_core.mixins.has_row_col import HasRowCol
+from f_core.mixins.has.row_col import HasRowCol
 from f_color.rgb import RGB
 from openpyxl.worksheet.worksheet import Worksheet
 from openpyxl.styles import PatternFill
