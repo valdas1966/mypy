@@ -5,20 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_google/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/excludable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/excludable.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_google/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/_internal/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/_internal/auth/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/_internal/auth/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/_internal/factory.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/_internal/services/storage/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/_internal/services/storage/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/_internal/services/storage/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/_internal/services/storage/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/_internal/services/storage/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/_internal/services/storage/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/_internal/services/storage/blob/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/_internal/services/storage/blob/_factory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_google/_internal/services/storage/blob/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/_internal/services/storage/blob/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/_internal/tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/_internal/tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/google.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/google.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/_internal/services/storage/file/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/_internal/services/storage/file/_factory.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/_internal/services/storage/file/_tester.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/_internal/services/storage/file/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/_internal/services/storage/folder/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/_internal/services/storage/folder/_factory.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/_internal/services/storage/folder/_tester.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/_internal/services/storage/folder/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/_internal/services/storage/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/_internal/services/storage/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,12 +46,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
-    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/valdas1966/mypy.git",
+    "accountId": "9193838d-ef26-4e0d-b77f-58e2bc1908f8"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -512,6 +516,7 @@
     "Python tests.pytest for auth._internal.tester.test_valdas.executor": "Run",
     "Python tests.pytest for auth._tester.test_rami.executor": "Run",
     "Python tests.pytest for f_google._tester.test_rami.executor": "Run",
+    "Python tests.pytest for storage._tester.test_storage.executor": "Run",
     "Python tests.pytest for t_authentication.test_rami.executor": "Run",
     "Python tests.pytest for t_bounds.test_half.executor": "Run",
     "Python tests.pytest for t_component.test_window_1.executor": "Run",
@@ -557,6 +562,7 @@
     "Python.__init__ (1).executor": "Run",
     "Python.__init__ (2).executor": "Run",
     "Python.__init__.executor": "Run",
+    "Python._study.executor": "Run",
     "Python._tester.executor": "Run",
     "Python.a_star.executor": "Run",
     "Python.algo.executor": "Run",
@@ -882,23 +888,28 @@
       <recent name="D:\mypy\f_ds\grids" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.pytest for f_google._tester.test_rami">
-    <configuration name="pytest for auth._tester.test_rami" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python._study">
+    <configuration name="_study" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/_internal" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/_internal/services/storage" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;auth._tester.test_rami&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/_internal/services/storage/_study.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
     <configuration name="pytest for f_google._tester.test_rami" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
@@ -919,13 +930,13 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest in _tester.py (1)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="pytest for storage._tester.test_storage" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/_internal/services" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
@@ -933,17 +944,17 @@
       <option name="_new_keywords" value="&quot;&quot;" />
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_google/_tester.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;storage._tester.test_storage&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest in _tester.py (2)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="pytest in _tester.py (3)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/_internal" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/_internal/services" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
@@ -951,7 +962,7 @@
       <option name="_new_keywords" value="&quot;&quot;" />
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_google/_internal/auth/_tester.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_google/_internal/services/storage/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -979,7 +990,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/cell/map" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/grid/map" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
@@ -987,7 +998,7 @@
       <option name="_new_keywords" value="&quot;&quot;" />
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/grids/cell/map/_tester.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/grids/grid/map/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -1135,46 +1146,28 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/grid/map" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/grids/grid/map/_tester.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <list>
+      <item itemvalue="Python._study" />
+      <item itemvalue="Python tests.pytest for storage._tester.test_storage" />
+      <item itemvalue="Python tests.pytest in _tester.py (3)" />
       <item itemvalue="Python tests.pytest for f_google._tester.test_rami" />
       <item itemvalue="Python tests.pytest in _tester.py (4)" />
-      <item itemvalue="Python tests.pytest in _tester.py (1)" />
-      <item itemvalue="Python tests.pytest for auth._tester.test_rami" />
-      <item itemvalue="Python tests.pytest in _tester.py (2)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python._study" />
+        <item itemvalue="Python tests.pytest for storage._tester.test_storage" />
+        <item itemvalue="Python tests.pytest in _tester.py (3)" />
         <item itemvalue="Python tests.pytest for f_google._tester.test_rami" />
         <item itemvalue="Python tests.pytest in _tester.py (4)" />
-        <item itemvalue="Python tests.pytest in _tester.py (2)" />
-        <item itemvalue="Python tests.pytest in _tester.py (1)" />
-        <item itemvalue="Python tests.pytest for auth._tester.test_rami" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-PY-251.26094.141" />
-        <option value="bundled-python-sdk-9f8e2b94138c-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26094.141" />
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-PY-251.26927.74" />
+        <option value="bundled-python-sdk-657d8234b839-64d779b69b7a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26927.74" />
       </set>
     </attachedChunks>
   </component>
@@ -1201,6 +1194,7 @@
       <workItem from="1752045871144" duration="276000" />
       <workItem from="1752046177873" duration="702000" />
       <workItem from="1752046898716" duration="2519000" />
+      <workItem from="1752084480675" duration="3439000" />
     </task>
     <task id="LOCAL-00188" summary="h">
       <option name="closed" value="true" />
@@ -1629,19 +1623,21 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py__2_.coverage" NAME="pytest in _tester.py (2) Coverage Results" MODIFIED="1752046883594" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_google/_internal" />
-    <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py__3_.coverage" NAME="pytest in _tester.py (3) Coverage Results" MODIFIED="1751744803148" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/grid/map" />
-    <SUITE FILE_PATH="coverage/mypy$_tester.coverage" NAME="_tester Coverage Results" MODIFIED="1751196243901" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_gui/layout" />
-    <SUITE FILE_PATH="coverage/mypy$u_pdf.coverage" NAME="u_pdf Coverage Results" MODIFIED="1751458578592" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_utils" />
-    <SUITE FILE_PATH="coverage/mypy$pytest_in_tester_py__1_.coverage" NAME="pytest in tester.py Coverage Results" MODIFIED="1751183032464" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_gui/layout/rect/_internal" />
-    <SUITE FILE_PATH="coverage/mypy$pytest_for_auth__tester_test_rami.coverage" NAME="pytest for auth._tester.test_rami Coverage Results" MODIFIED="1752001286547" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_google/_internal" />
-    <SUITE FILE_PATH="coverage/mypy$pytest_for__tester_test_valid.coverage" NAME="pytest for _tester.test_valid Coverage Results" MODIFIED="1751631077610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/cell/map" />
-    <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py__1_.coverage" NAME="pytest in _tester.py (1) Coverage Results" MODIFIED="1752046856930" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/mypy$pytest_for_f_google__tester_test_rami.coverage" NAME="pytest for f_google._tester.test_rami Coverage Results" MODIFIED="1752047089450" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/mypy$main.coverage" NAME="main Coverage Results" MODIFIED="1751631415911" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/cell/base" />
-    <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py.coverage" NAME="pytest in _tester.py Coverage Results" MODIFIED="1751640967926" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/grid/base" />
     <SUITE FILE_PATH="coverage/mypy$pytest_in_tester_py__2_.coverage" NAME="pytest in tester.py Coverage Results" MODIFIED="1751183054542" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_gui/layout/bounds/_internal" />
-    <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py__4_.coverage" NAME="pytest in _tester.py (4) Coverage Results" MODIFIED="1752047079724" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_google/_internal" />
+    <SUITE FILE_PATH="coverage/mypy$_tester.coverage" NAME="_tester Coverage Results" MODIFIED="1751196243901" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_gui/layout" />
+    <SUITE FILE_PATH="coverage/mypy$pytest_in_tester_py__1_.coverage" NAME="pytest in tester.py Coverage Results" MODIFIED="1751183032464" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_gui/layout/rect/_internal" />
+    <SUITE FILE_PATH="coverage/mypy$main.coverage" NAME="main Coverage Results" MODIFIED="1751631415911" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/cell/base" />
     <SUITE FILE_PATH="coverage/mypy$pytest_for__tester_test_list.coverage" NAME="pytest for _tester.test_list Coverage Results" MODIFIED="1751631729831" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/grid/base" />
+    <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py__1_.coverage" NAME="pytest in _tester.py (1) Coverage Results" MODIFIED="1752046856930" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mypy$_study.coverage" NAME="_study Coverage Results" MODIFIED="1752089457109" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_google/_internal/services/storage" />
+    <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py__4_.coverage" NAME="pytest in _tester.py (4) Coverage Results" MODIFIED="1752047079724" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_google/_internal" />
+    <SUITE FILE_PATH="coverage/mypy$pytest_for__tester_test_valid.coverage" NAME="pytest for _tester.test_valid Coverage Results" MODIFIED="1751631077610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/cell/map" />
+    <SUITE FILE_PATH="coverage/mypy$pytest_for_f_google__tester_test_rami.coverage" NAME="pytest for f_google._tester.test_rami Coverage Results" MODIFIED="1752047089450" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py__2_.coverage" NAME="pytest in _tester.py (2) Coverage Results" MODIFIED="1752046883594" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_google/_internal" />
+    <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py.coverage" NAME="pytest in _tester.py Coverage Results" MODIFIED="1751640967926" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/grid/base" />
+    <SUITE FILE_PATH="coverage/mypy$u_pdf.coverage" NAME="u_pdf Coverage Results" MODIFIED="1751458578592" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_utils" />
+    <SUITE FILE_PATH="coverage/mypy$pytest_for_auth__tester_test_rami.coverage" NAME="pytest for auth._tester.test_rami Coverage Results" MODIFIED="1752001286547" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_google/_internal" />
+    <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py__3_.coverage" NAME="pytest in _tester.py (3) Coverage Results" MODIFIED="1752088987227" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_google/_internal/services" />
+    <SUITE FILE_PATH="coverage/mypy$pytest_for_storage__tester_test_storage.coverage" NAME="pytest for storage._tester.test_storage Coverage Results" MODIFIED="1752089220543" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_google/_internal/services" />
   </component>
 </project>

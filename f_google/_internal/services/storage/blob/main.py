@@ -1,11 +1,6 @@
 from f_core.mixins.has import HasName
 from google.cloud.storage.blob import Blob as GBlob
 
-from typing import Optional, Dict, Any, IO
-import requests
-from pathlib import Path
-import io
-
 
 class Blob(HasName):
     """
@@ -13,6 +8,9 @@ class Blob(HasName):
      Wrapper for Google-Cloud-Storage BLOB (Binary Large Object).
     ============================================================================
     """
+
+    # Factory
+    Factory: type = None
 
     def __init__(self, blob: GBlob) -> None:
         """
@@ -31,24 +29,6 @@ class Blob(HasName):
         ========================================================================
         """
         return self._blob.size
-    
-    @property
-    def created(self) -> datetime:
-        """
-        ========================================================================
-         Get blob creation time.
-        ========================================================================
-        """
-        return self._blob.time_created
-    
-    @property
-    def updated(self) -> datetime:
-        """
-        ========================================================================
-         Get blob update time.
-        ========================================================================
-        """
-        return self._blob.updated
 
     def exists(self) -> bool:
         """
@@ -81,8 +61,5 @@ class Blob(HasName):
         Upload content from a local file.
         ========================================================================
         """
-        if content_type:
-            self._blob.content_type = content_type
         with open(file_path, 'rb') as file_obj:
             self._blob.upload_from_file(file_obj)
-        self._metadata_cache = None
