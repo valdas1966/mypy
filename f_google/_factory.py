@@ -1,4 +1,4 @@
-from f_google.google import Google, ServiceAccount
+from .main import Google, ServiceAccount
 
 
 class Factory:
@@ -9,11 +9,10 @@ class Factory:
     """
 
     @staticmethod
-    def RAMI() -> Google:
+    def rami() -> Google:
         """
         ========================================================================
          Returns the RAMI-Client.
         ========================================================================
         """
-        return Google(ServiceAccount.RAMI)
-    
+        return Google(service_account=ServiceAccount.RAMI)

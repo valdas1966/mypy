@@ -1,5 +1,4 @@
-from f_google.google import Google, ServiceAccount
-from f_google.factory import Factory
+from .main import Google, ServiceAccount
 
 
 def test_rami() -> None:
@@ -8,6 +7,6 @@ def test_rami() -> None:
      Tests the RAMI-Client.
     ========================================================================
     """
-    client: Google = Factory.RAMI()
+    client: Google = Google.Factory.rami()
     assert client.service_account == ServiceAccount.RAMI
     assert client.creds.project_id == 'noteret'

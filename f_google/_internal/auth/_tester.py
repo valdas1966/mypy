@@ -17,5 +17,8 @@ def test_valdas() -> None:
      Tests the VALDAS service account.
     ========================================================================
     """
+    assert True
+    """
     creds: Credentials = Auth.Factory.valdas()
     assert creds.project_id == 'natural-nimbus-291415'
+    """

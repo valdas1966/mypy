@@ -1,4 +1,4 @@
-from f_google._internal.auth import Auth, Credentials, ServiceAccount
+from ._internal.auth import Auth, Credentials, ServiceAccount
 
 
 class Google:
@@ -11,7 +11,8 @@ class Google:
     # Factory for the Google-Client.
     Factory: type = None
 
-    def __init__(self, service_account: ServiceAccount) -> None:
+    def __init__(self,
+                 service_account: ServiceAccount = ServiceAccount.RAMI) -> None:
         """
         ========================================================================
          Initializes the Google-Client.
@@ -37,4 +38,3 @@ class Google:
         ========================================================================
         """
         return self._creds
-    

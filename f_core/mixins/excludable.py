@@ -24,7 +24,7 @@ class Excludable(Generic[Item]):
          Return True if the given Item in the Exclude-Set.
         ========================================================================
         """
-        return item.lower() in self._exclude
+        return item in self._exclude
 
     def should_remain(self, item: Item) -> bool:
         """
