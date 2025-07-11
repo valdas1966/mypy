@@ -20,7 +20,7 @@ class Factory:
         """
         with open(path_src, 'rb') as f:
             gblob = GBlob(f.read(), bucket=path_dst)
-            blob = Blob(blob=gblob)
+            blob = Blob(g_blob=gblob)
             
         return blob
     

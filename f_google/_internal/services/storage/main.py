@@ -1,9 +1,11 @@
 from google.cloud import storage
 from f_core.mixins.validatable import Validatable
-from f_google.google import Credentials
+from f_ds.mixins.collectionable import Collectionable
+from f_google._internal.auth import Credentials
+from .bucket import Bucket
 
 
-class Storage(Validatable):
+class Storage(Validatable, Collectionable):
     """
     ============================================================================
      Google Cloud Storage client wrapper with enhanced functionality.
@@ -22,6 +24,14 @@ class Storage(Validatable):
         self._client = storage.Client(credentials=creds)
         Validatable.__init__(self, is_valid=bool(self._client))
 
+    def buckets(self) -> list[Bucket]:
+        """
+        ========================================================================
+         Get all buckets in the storage.
+        ========================================================================
+        """
+        return [Bucket(bucket) for bucket in self._client.list_buckets()]
+
     def names_buckets(self) -> list[str]:
         """
         ========================================================================
@@ -30,37 +40,32 @@ class Storage(Validatable):
         """
         return [bucket.name for bucket in self._client.list_buckets()]  
     
-    def is_exist_bucket(self, name_bucket: str) -> bool:
+    def to_iterable(self) -> list[Bucket]:
         """
         ========================================================================
-         Check if a bucket exists in the storage.
+         Return Iterable of Buckets.
         ========================================================================
         """
-        return name_bucket in self.names_buckets()
-    
-    def is_exist_file(self, name_bucket: str, path_dst: str) -> bool:
-        """
-        ========================================================================
-         Check if a file exists in the storage.
-        ========================================================================
-        """
-        return self.is_exist_bucket(name_bucket) and self._client.bucket(name_bucket).blob(path_dst).exists()   
-    
-    def upload_file(self,
-                    # Name of the Bucket where the file will be uploaded.
-                    name_bucket: str,
-                    # Path of the file to be uploaded.
-                    path_src: str,
-                    # Path of the file in the Bucket 
-                    path_dst: str) -> None:
-        """
-        ========================================================================
-         Upload a file to the storage.
-        ========================================================================
-        """
-        bucket = self._client.bucket(name_bucket)
-        blob = bucket.blob(path_dst)
-        blob.upload_from_filename(path_src)
+        return self.buckets()
 
+    def __contains__(self, item: Bucket | str) -> bool:
+        """
+        ========================================================================
+         Return True if the Storage contains a received Bucket.
+        ========================================================================
+        """
+        if isinstance(item, Bucket):
+            return item in self.buckets()
+        elif isinstance(item, str):
+            return item in self.names_buckets()
+        else:
+            raise TypeError
 
-    
+    def __getitem__(self, item: str) -> Bucket:
+        """
+        ========================================================================
+         Get Bucket by Name.
+        ========================================================================
+        """
+
+        return Bucket(g_bucket=self._client.get_bucket(item))

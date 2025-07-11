@@ -12,54 +12,45 @@ class Blob(HasName):
     # Factory
     Factory: type = None
 
-    def __init__(self, blob: GBlob) -> None:
+    def __init__(self, g_blob: GBlob) -> None:
         """
         ========================================================================
-        Initialize Blob wrapper with Google-Cloud-Storage blob instance.
+         Init private Attributes.
         ========================================================================
         """
-        HasName.__init__(self, name=blob.name)
-        self._blob = blob
+        HasName.__init__(self, name=g_blob.name)
+        self._g_blob = g_blob
 
     @property
     def size(self) -> int:
         """
         ========================================================================
-         Get blob size in bytes.
+         Get g_blob size in bytes.
         ========================================================================
         """
-        return self._blob.size
+        return self._g_blob.size
 
     def exists(self) -> bool:
         """
         ========================================================================
-         Check if blob exists in the bucket.
+         Check if g_blob exists in the bucket.
         ========================================================================
         """
-        return self._blob.exists()
+        return self._g_blob.exists()
 
     def delete(self) -> None:
         """
         ========================================================================
-         Delete the blob from storage.
+         Delete the g_blob from storage.
         ========================================================================
         """
-        self._blob.delete()
+        self._g_blob.delete()
 
     def download(self, path: str) -> None:
         """
         ========================================================================
-         Download blob content to a local file.
+         Download g_blob content to a local file.
         ========================================================================
         """
         with open(path, 'wb') as file:
-            self._blob.download_to_file(file)
-
-    def upload_from_file(self, file_path: str, content_type: Optional[str] = None) -> None:
-        """
-        ========================================================================
-        Upload content from a local file.
-        ========================================================================
-        """
-        with open(file_path, 'rb') as file_obj:
-            self._blob.upload_from_file(file_obj)
+            self._g_blob.download_to_file(file)

@@ -7,39 +7,39 @@ import os
 def test_blob_creation() -> None:
     """
     ========================================================================
-    Test blob creation using factory methods.
+    Test g_blob creation using factory methods.
     ========================================================================
     """
     try:
         # Test RAMI factory
-        blob = Factory.rami('test-bucket', 'test-blob.txt')
-        print(f"RAMI blob factory test passed: {blob.name}")
+        blob = Factory.rami('test-bucket', 'test-g_blob.txt')
+        print(f"RAMI g_blob factory test passed: {blob.name}")
     except Exception as e:
-        print(f"RAMI blob factory test failed: {e}")
+        print(f"RAMI g_blob factory test failed: {e}")
 
     try:
         # Test VALDAS factory
-        blob = Factory.valdas('test-bucket', 'test-blob.txt')
-        print(f"VALDAS blob factory test passed: {blob.name}")
+        blob = Factory.valdas('test-bucket', 'test-g_blob.txt')
+        print(f"VALDAS g_blob factory test passed: {blob.name}")
     except Exception as e:
-        print(f"VALDAS blob factory test failed: {e}")
+        print(f"VALDAS g_blob factory test failed: {e}")
 
     try:
         # Test generic factory
-        blob = Factory.from_path('test-bucket', 'test-blob.txt', ServiceAccount.RAMI)
-        print(f"Generic blob factory test passed: {blob.name}")
+        blob = Factory.from_path('test-bucket', 'test-g_blob.txt', ServiceAccount.RAMI)
+        print(f"Generic g_blob factory test passed: {blob.name}")
     except Exception as e:
-        print(f"Generic blob factory test failed: {e}")
+        print(f"Generic g_blob factory test failed: {e}")
 
 
 def test_blob_properties() -> None:
     """
     ========================================================================
-    Test blob properties and metadata.
+    Test g_blob properties and metadata.
     ========================================================================
     """
     try:
-        blob = Factory.rami('test-bucket', 'test-blob.txt')
+        blob = Factory.rami('test-bucket', 'test-g_blob.txt')
         
         # Test basic properties
         print(f"Blob name: {blob.name}")
@@ -58,15 +58,15 @@ def test_blob_properties() -> None:
 def test_blob_upload_download() -> None:
     """
     ========================================================================
-    Test blob upload and download operations.
+    Test g_blob upload and download operations.
     WARNING: This test creates and deletes blobs.
     ========================================================================
     """
     try:
-        blob = Factory.rami('test-bucket', 'test-blob-upload.txt')
+        blob = Factory.rami('test-bucket', 'test-g_blob-upload.txt')
         
         # Test string upload
-        test_content = "Test content for blob operations"
+        test_content = "Test content for g_blob operations"
         blob.upload_from_string(test_content, content_type='text/plain')
         print("String upload successful")
         
@@ -120,7 +120,7 @@ def test_blob_upload_download() -> None:
         blob.delete()
         print("Blob deleted successfully")
         
-        print("All blob upload/download tests passed")
+        print("All g_blob upload/download tests passed")
     except Exception as e:
         print(f"Blob upload/download test failed: {e}")
 
@@ -128,17 +128,17 @@ def test_blob_upload_download() -> None:
 def test_blob_copy_move() -> None:
     """
     ========================================================================
-    Test blob copy and move operations.
+    Test g_blob copy and move operations.
     WARNING: This test creates and deletes blobs.
     ========================================================================
     """
     try:
-        # Create source blob
-        source_blob = Factory.rami('test-bucket', 'source-blob.txt')
+        # Create source g_blob
+        source_blob = Factory.rami('test-bucket', 'source-g_blob.txt')
         source_blob.upload_from_string("Content to copy/move")
         
         # Test copy
-        copied_blob = source_blob.copy_to('copied-blob.txt')
+        copied_blob = source_blob.copy_to('copied-g_blob.txt')
         print(f"Blob copied to: {copied_blob.name}")
         
         # Verify copy
@@ -147,7 +147,7 @@ def test_blob_copy_move() -> None:
         print("Copy verification passed")
         
         # Test move
-        moved_blob = copied_blob.move_to('moved-blob.txt')
+        moved_blob = copied_blob.move_to('moved-g_blob.txt')
         print(f"Blob moved to: {moved_blob.name}")
         
         # Verify move (original should not exist)
@@ -167,12 +167,12 @@ def test_blob_copy_move() -> None:
 def test_blob_url_operations() -> None:
     """
     ========================================================================
-    Test blob URL-related operations.
+    Test g_blob URL-related operations.
     WARNING: This test creates and deletes blobs.
     ========================================================================
     """
     try:
-        blob = Factory.rami('test-bucket', 'test-url-blob.txt')
+        blob = Factory.rami('test-bucket', 'test-url-g_blob.txt')
         
         # Test URL upload
         test_url = "https://httpbin.org/json"
@@ -201,22 +201,22 @@ def test_blob_url_operations() -> None:
 def run_all_tests() -> None:
     """
     ========================================================================
-    Run all blob-specific tests.
+    Run all g_blob-specific tests.
     ========================================================================
     """
-    print("Running blob-specific tests...")
+    print("Running g_blob-specific tests...")
     
     try:
         test_blob_creation()
         test_blob_properties()
         
-        # Uncomment these tests if you want to test blob operations
+        # Uncomment these tests if you want to test g_blob operations
         # WARNING: These tests create/delete blobs
         # test_blob_upload_download()
         # test_blob_copy_move()
         # test_blob_url_operations()
         
-        print("All blob tests completed successfully!")
+        print("All g_blob tests completed successfully!")
         
     except Exception as e:
         print(f"Blob test failed: {e}")

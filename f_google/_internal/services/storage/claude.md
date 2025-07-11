@@ -164,21 +164,21 @@ bucket.upload_file('/path/to/local/file.txt', 'destination/file.txt')
 # Upload file from URL
 bucket.upload_from_url('https://example.com/file.pdf', 'downloaded/file.pdf')
 
-# Download blob to local PC
+# Download g_blob to local PC
 bucket.download_blob('remote/file.txt', '/path/to/local/file.txt')
 
-# Delete a blob
+# Delete a g_blob
 bucket.delete_blob('unwanted/file.txt')
 ```
 
 ### Advanced Blob Operations
 
 ```python
-# Check if blob exists
+# Check if g_blob exists
 if 'important.txt' in bucket:
     print("File exists!")
 
-# Get blob size
+# Get g_blob size
 size = bucket.get_blob_size('large-file.zip')
 print(f"File size: {size} bytes")
 
@@ -294,8 +294,8 @@ from f_google._internal.services.storage.blob import Blob
 from f_google._internal.services.storage.folder import Folder
 from f_google._internal.services.storage.file import File
 
-# Direct blob access
-blob = Blob.Factory.rami('bucket-name', 'blob-name')
+# Direct g_blob access
+blob = Blob.Factory.rami('bucket-name', 'g_blob-name')
 blob.upload_from_url('https://example.com/file.pdf')
 
 # Direct folder access

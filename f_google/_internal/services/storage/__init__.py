@@ -1,5 +1,4 @@
-from ._factory import Storage, Factory
+from ._factory import Factory
+from .main import Storage
 
-# Set up factory pattern integration
 Storage.Factory = Factory
-print(Storage.Factory)
