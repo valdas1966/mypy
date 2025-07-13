@@ -1,5 +1,4 @@
-from f_google import Auth, ServiceAccount
-from .main import Storage
+from .main import Storage, ServiceAccount
 
 
 class Factory:
@@ -16,5 +15,4 @@ class Factory:
          Get Storage instance authenticated with RAMI service account.
         ========================================================================
         """
-        creds = Auth.get_creds(ServiceAccount.RAMI)
-        return Storage(creds)
+        return Storage(ServiceAccount.RAMI)

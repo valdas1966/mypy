@@ -1,11 +1,10 @@
 from google.cloud import storage
-from f_core.mixins.validatable import Validatable
 from f_ds.mixins.collectionable import Collectionable
-from f_google._internal.auth import Credentials
-from .bucket import Bucket
+from f_google._internal.auth import ServiceAccount
+from f_google._internal.services.storage.bucket import Bucket
+from f_google._internal.services._base import BaseGoogleService
 
-
-class Storage(Validatable, Collectionable):
+class Storage(BaseGoogleService, Collectionable):
     """
     ============================================================================
      Google Cloud Storage client wrapper with enhanced functionality.
@@ -15,14 +14,17 @@ class Storage(Validatable, Collectionable):
     # Factory
     Factory: type = None
 
-    def __init__(self, creds: Credentials) -> None:
+    def __init__(self,
+                 service_account: ServiceAccount) -> None:
         """
         ========================================================================
          Initialize Storage client with credentials.
         ========================================================================
         """
+        BaseGoogleService.__init__(self,
+                                   service_account=ServiceAccount.RAMI,
+                                   is_valid=bool(self._client))
         self._client = storage.Client(credentials=creds)
-        Validatable.__init__(self, is_valid=bool(self._client))
 
     def buckets(self) -> list[Bucket]:
         """
