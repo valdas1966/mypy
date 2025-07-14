@@ -1,10 +1,36 @@
-from f_core.mixins.has.name.main import HasName
+from .main import HasName
 
 
-def create_has_name(name: str = None) -> HasName:
+class Factory:
     """
-    ============================================================================
-     Factory function to create HasName instances.
-    ============================================================================
+    =======================================================================
+     Factory for HasName object.
+    =======================================================================
     """
-    return HasName(name)
+
+    @staticmethod
+    def a() -> HasName:
+        """
+        =======================================================================
+         Return HasName object with name 'A'.
+        =======================================================================
+        """
+        return HasName(name='A')
+    
+    @staticmethod
+    def empty() -> HasName:
+        """
+        =======================================================================
+         Return HasName object with empty name.
+        =======================================================================
+        """
+        return HasName(name=str())
+    
+    @staticmethod
+    def none() -> HasName:
+        """
+        =======================================================================
+         Return HasName object with None name.
+        =======================================================================
+        """
+        return HasName()

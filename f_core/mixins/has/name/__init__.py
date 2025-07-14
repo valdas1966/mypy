@@ -1,3 +1,3 @@
-from f_core.mixins.has.name.main import HasName
+from ._factory import HasName, Factory
 
-__all__ = ["HasName"]
+HasName.Factory = Factory
