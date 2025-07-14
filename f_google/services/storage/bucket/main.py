@@ -1,4 +1,4 @@
-from f_google._internal.services.storage.blob.main import Blob
+from f_google.services.storage.bucket.blob.main import Blob
 from google.cloud.storage.bucket import Bucket as GBucket
 from f_ds.mixins.collectionable import Collectionable
 from f_core.mixins.has.name import HasName
@@ -10,9 +10,6 @@ class Bucket(HasName, Collectionable):
      Wrapper for Google-Cloud-Storage Bucket.
     ============================================================================
     """
-
-    # Factory
-    Factory: type = None
 
     def __init__(self, g_bucket: GBucket) -> None:
         """
@@ -40,3 +37,14 @@ class Bucket(HasName, Collectionable):
         ========================================================================
         """
         return [blob.name for blob in self._g_bucket.list_blobs()]
+
+    def __getitem__(self, name: str) -> Blob:
+        """
+        ========================================================================
+         Get Blob by name.
+        ========================================================================
+        """
+        g_blob = self._g_bucket.blob(name)
+        return Blob(g_blob=g_blob)
+
+    

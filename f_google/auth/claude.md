@@ -50,16 +50,18 @@ export VALDAS_JSON_PATH="/path/to/valdas-service-account.json"
 ## Usage Examples
 
 ### Basic Authentication
+
 ```python
-from f_google._internal.auth import Auth, ServiceAccount
+from f_google.auth import Auth, ServiceAccount
 
 # Get credentials for specific account
 creds = Auth.get_creds(ServiceAccount.RAMI)
 ```
 
 ### Using Factory Pattern
+
 ```python
-from f_google._internal.auth import Auth
+from f_google.auth import Auth
 
 # Quick access to RAMI credentials
 creds = Auth.Factory.rami()
@@ -69,8 +71,9 @@ creds = Auth.Factory.valdas()
 ```
 
 ### Type Safety
+
 ```python
-from f_google._internal.auth import Auth, ServiceAccount
+from f_google.auth import Auth, ServiceAccount
 
 # Type-safe account selection
 account = ServiceAccount.VALDAS
@@ -113,10 +116,11 @@ if not os.path.exists(json_path):
 ## Testing
 
 Run the authentication tests:
-```python
-from f_google._internal.auth._tester import test_rami, test_valdas
 
-test_rami()    # Verifies RAMI -> noteret project
+```python
+from f_google.auth._tester import test_rami, test_valdas
+
+test_rami()  # Verifies RAMI -> noteret project
 test_valdas()  # Verifies VALDAS -> natural-nimbus-291415 project
 ```
 

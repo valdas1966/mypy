@@ -1,4 +1,4 @@
-from ._internal.auth import Auth, Credentials, ServiceAccount
+from f_google.auth import Auth, Credentials, ServiceAccount
 
 
 class Google:

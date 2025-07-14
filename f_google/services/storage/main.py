@@ -1,13 +1,14 @@
 from google.cloud import storage
 from f_ds.mixins.collectionable import Collectionable
-from f_google._internal.auth import ServiceAccount
-from f_google._internal.services.storage.bucket import Bucket
-from f_google._internal.services._base import BaseGoogleService
+from f_google.auth import ServiceAccount
+from f_google.services.storage.bucket import Bucket
+from f_google.services._base import BaseGoogleService
+
 
 class Storage(BaseGoogleService, Collectionable):
     """
     ============================================================================
-     Google Cloud Storage client wrapper with enhanced functionality.
+     Google-Cloud-Storage Client Wrapper.
     ============================================================================
     """
 
@@ -15,16 +16,15 @@ class Storage(BaseGoogleService, Collectionable):
     Factory: type = None
 
     def __init__(self,
-                 service_account: ServiceAccount) -> None:
+                 service_account: ServiceAccount = ServiceAccount.RAMI) -> None:
         """
         ========================================================================
          Initialize Storage client with credentials.
         ========================================================================
         """
-        BaseGoogleService.__init__(self,
-                                   service_account=ServiceAccount.RAMI,
-                                   is_valid=bool(self._client))
-        self._client = storage.Client(credentials=creds)
+        BaseGoogleService.__init__(self, service_account=service_account)
+        self._client = storage.Client(credentials=self._creds)
+        self._is_valid = bool(self._client)
 
     def buckets(self) -> list[Bucket]:
         """
@@ -50,18 +50,13 @@ class Storage(BaseGoogleService, Collectionable):
         """
         return self.buckets()
 
-    def __contains__(self, item: Bucket | str) -> bool:
+    def __contains__(self, item: str) -> bool:
         """
         ========================================================================
-         Return True if the Storage contains a received Bucket.
+         Return True if the Storage contains a received Bucket's Name.
         ========================================================================
         """
-        if isinstance(item, Bucket):
-            return item in self.buckets()
-        elif isinstance(item, str):
-            return item in self.names_buckets()
-        else:
-            raise TypeError
+        return item in self.names_buckets()
 
     def __getitem__(self, item: str) -> Bucket:
         """
@@ -71,3 +66,8 @@ class Storage(BaseGoogleService, Collectionable):
         """
 
         return Bucket(g_bucket=self._client.get_bucket(item))
+
+
+storage = Storage()
+bucket = storage['noteret_mp4']
+print(bucket[0].name)

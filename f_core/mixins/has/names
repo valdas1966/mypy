@@ -1,0 +1,46 @@
+from collections import UserList
+from f_core.mixins.has.name import HasName
+
+
+class HasNames(UserList[HasName]):
+    """
+    ============================================================================
+     Mixin-Class for Objects with Collection of HasName Objects.
+    ============================================================================
+    """
+
+    def __init__(self, items: list[HasName]) -> None:
+        """
+        ========================================================================
+         Initialize the HasNames object with a list of HasName objects.
+        ========================================================================
+        """
+        UserList.__init__(self, items=items)
+    
+    def names(self) -> list[str]:
+        """
+        ========================================================================
+         Get the names of the HasName objects in the collection.
+        ========================================================================
+        """
+        return [item.name for item in self]
+    
+    def __contains__(self, name: str) -> bool:
+        """
+        ========================================================================
+         Check if a name exists in the collection.
+        ========================================================================
+        """
+        return name in self.names()
+    
+    # getitem() should receive name or index (slice, int)
+    def __getitem__(self, item: str | int) -> HasName:
+        """
+        ========================================================================
+         Get a HasName object by name or index.
+        ========================================================================
+        """
+        if isinstance(item, str):
+            return next(item for item in self if item.name == item)
+        else:
+            return UserList.__getitem__(self, item) 

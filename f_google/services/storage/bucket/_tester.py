@@ -1,4 +1,4 @@
-from . import Bucket
+from f_google.services.storage import Storage, Bucket
 
 
 def test_bucket() -> None:
@@ -7,5 +7,6 @@ def test_bucket() -> None:
      Test Bucket creation using factory methods.
     ========================================================================
     """
-    bucket = Bucket.Factory.noteret_mp4()
+    storage: Storage = Storage.Factory.rami()
+    bucket: Bucket = storage['noteret_mp4']
     assert bucket.name == 'noteret_mp4'

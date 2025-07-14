@@ -1,4 +1,4 @@
-from f_google._internal.services.storage import Storage
+from f_google.services.storage import Storage
 
 
 def test_storage() -> None:

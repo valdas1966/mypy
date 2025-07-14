@@ -116,7 +116,7 @@ f_google/_internal/services/storage/
 ### Basic Storage Operations
 
 ```python
-from f_google._internal.services.storage import Storage
+from f_google.services.storage import Storage
 
 # Create storage instance with factory
 storage = Storage.Factory.rami()
@@ -193,21 +193,22 @@ print(f"Bucket has {len(bucket)} blobs")
 ### Factory Pattern Usage
 
 ```python
-from f_google._internal.services.storage import Storage
+from f_google.services.storage import Storage
 
 # Quick access to different service accounts
 rami_storage = Storage.Factory.rami()
 valdas_storage = Storage.Factory.valdas()
 
 # Generic factory method
-from f_google._internal.auth import ServiceAccount
+from f_google.auth import ServiceAccount
+
 storage = Storage.Factory.from_account(ServiceAccount.RAMI)
 ```
 
 ### Bucket Factory Usage
 
 ```python
-from f_google._internal.services.storage.bucket import Bucket
+from f_google.services.storage.bucket import Bucket
 
 # Direct bucket access with factory
 bucket = Bucket.Factory.rami('my-bucket-name')
@@ -220,7 +221,7 @@ bucket = Bucket.Factory.from_name('my-bucket-name', ServiceAccount.RAMI)
 ### File System Abstraction Usage
 
 ```python
-from f_google._internal.services.storage import Storage
+from f_google.services.storage import Storage
 
 # Get storage and bucket
 storage = Storage.Factory.rami()
@@ -290,9 +291,9 @@ for folder_path, subfolders, files in bucket.walk():
 
 ```python
 # Direct component factories
-from f_google._internal.services.storage.blob import Blob
-from f_google._internal.services.storage.folder import Folder
-from f_google._internal.services.storage.file import File
+from f_google.services.storage.bucket.blob import Blob
+from f_google.services.storage import Folder
+from f_google.services.storage import File
 
 # Direct g_blob access
 blob = Blob.Factory.rami('bucket-name', 'g_blob-name')
@@ -412,18 +413,22 @@ except Exception as e:
 
 ```python
 # Run storage-level tests
-from f_google._internal.services.storage._tester import run_all_tests
+from f_google.services.storage._tester import run_all_tests
+
 run_all_tests()
 
 # Run bucket-specific tests
-from f_google._internal.services.storage.bucket._tester import run_all_tests
+from f_google.services.storage.bucket._tester import run_all_tests
+
 run_all_tests()
 
 # Run specific tests
-from f_google._internal.services.storage._tester import test_storage_connection
+from f_google.services.storage._tester import test_storage_connection
+
 test_storage_connection()
 
-from f_google._internal.services.storage.bucket._tester import test_blob_operations
+from f_google.services.storage.bucket._tester import test_blob_operations
+
 test_blob_operations()
 ```
 

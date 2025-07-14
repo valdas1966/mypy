@@ -15,4 +15,4 @@ class Factory:
          Get Storage instance authenticated with RAMI service account.
         ========================================================================
         """
-        return Storage(ServiceAccount.RAMI)
+        return Storage(service_account=ServiceAccount.RAMI)
