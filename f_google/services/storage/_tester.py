@@ -11,22 +11,15 @@ def test_storage() -> None:
     assert storage
 
 
-def test_getitem() -> None:
+def test_bucket() -> None:
     """
     ========================================================================
-     Test __getitem__() method.
-    ========================================================================
-    """
-    storage = Storage.Factory.rami()
-    bucket = storage['noteret_mp4']
-    assert bucket.name == 'noteret_mp4'
-
-
-def test_contains() -> None:
-    """
-    ========================================================================
-     Test __contains__() method.
+     Test bucket creation using factory methods.
     ========================================================================
     """
     storage = Storage.Factory.rami()
-    assert 'noteret_mp4' in storage
+    bucket_valid = storage.bucket('noteret_mp4')
+    assert bucket_valid is not None
+    assert bucket_valid.name == 'noteret_mp4'
+    bucket_invalid = storage.bucket('noteret_mp4_invalid')
+    assert bucket_invalid is None
