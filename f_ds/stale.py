@@ -1,7 +1,7 @@
 from typing import Generic, TypeVar, Iterable
 from f_ds.entry_priority import EntryPriority
 from f_core.mixins.comparable import Comparable
-from f_ds.mixins.collectionable import Collectionable
+from f_ds.mixins.collectionable.main import Collectionable
 
 
 Item = TypeVar('Item', bound=Comparable)
