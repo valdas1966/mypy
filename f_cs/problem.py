@@ -1,5 +1,5 @@
 from f_core.mixins.printable import Printable
-from f_core.abstracts.clonable import Clonable
+from f_core.mixins.clonable import Clonable
 from abc import abstractmethod
 
 

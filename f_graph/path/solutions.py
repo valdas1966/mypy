@@ -2,7 +2,7 @@ from __future__ import annotations
 from f_graph.path.path import Path
 from f_graph.path.stats import StatsPath
 from f_graph.path.node import NodePath as Node
-from f_core.abstracts.dictable import Dictable
+from f_core.mixins.dictable.main import Dictable
 from f_core.mixins.validatable import Validatable
 from f_graph.path.one_to_one.solution import SolutionOneToOne
 from f_graph.path.one_to_one.state import StateOneToOne as State

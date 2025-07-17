@@ -1,5 +1,5 @@
 from __future__ import annotations  
-from f_core.abstracts.dictable import Dictable
+from f_core.mixins.dictable.main import Dictable
 from f_graph.path.path import Path, Node
 
 

@@ -1,6 +1,6 @@
 from f_core.mixins.has.key import HasKey
 from f_core.mixins.has.name import HasName
-from f_core.abstracts.clonable import Clonable
+from f_core.mixins.clonable import Clonable
 from typing import Generic, TypeVar
 
 

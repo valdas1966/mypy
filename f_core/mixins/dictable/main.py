@@ -1,9 +1,9 @@
+from typing import Generic, TypeVar, Iterator, Union
 from f_core.mixins.printable import Printable
 from f_core.mixins.sizable import Sizable
-from typing import Generic, TypeVar, Iterator, Union
 
-K = TypeVar("K")  # Key type
-V = TypeVar("V")  # Value type
+K = TypeVar('K')  # Key type
+V = TypeVar('V')  # Value type
 
 
 class Dictable(Generic[K, V], Printable, Sizable):
@@ -12,6 +12,9 @@ class Dictable(Generic[K, V], Printable, Sizable):
      Abstract Base Class for dictionary-like objects.
     ========================================================================
     """
+
+    # Factory
+    Factory: type = None
 
     def __init__(self, data: dict[K, V] = None) -> None:
         """

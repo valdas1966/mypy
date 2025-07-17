@@ -1,7 +1,7 @@
 from __future__ import annotations
 from f_graph.path.problem import ProblemPath, Graph, Node
 from f_graph.path.one_to_one.problem import ProblemOneToOne
-from f_core.abstracts.clonable import Clonable
+from f_core.mixins.clonable import Clonable
 
 
 class ProblemManyToOne(ProblemPath, Clonable):

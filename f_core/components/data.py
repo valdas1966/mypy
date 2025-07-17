@@ -1,5 +1,5 @@
-from dataclasses import dataclass, field, asdict
-from f_core.abstracts.dictable import Dictable
+from dataclasses import dataclass, asdict
+from f_core.mixins.dictable.main import Dictable
 
 
 @dataclass
