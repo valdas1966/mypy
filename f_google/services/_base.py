@@ -1,9 +1,8 @@
-from f_core.mixins.validatable_public import ValidatablePublic
 from f_google.auth import Auth, ServiceAccount
 from abc import ABC
 
 
-class BaseGoogleService(ValidatablePublic, ABC):
+class BaseGoogleService:
     """
     ============================================================================
      Base class for all Google-Services Clients.
@@ -19,4 +18,13 @@ class BaseGoogleService(ValidatablePublic, ABC):
         """
         self._service_account = service_account
         self._creds = Auth.get_creds(account=service_account)
-        ValidatablePublic.__init__(self)
+        self._client = None
+        
+    def __bool__(self) -> bool:
+        """
+        ========================================================================
+         Check if the client is valid.
+        ========================================================================
+        """
+        return bool(self._client)
+    
