@@ -1,6 +1,6 @@
 from __future__ import annotations
 from google.cloud.bigquery import SchemaField
-from f_core.mixins.has_name import HasName
+from f_core.mixins.has.name import HasName
 
 
 class Field(HasName):

@@ -29,5 +29,23 @@ def videos_new_by_user_todo() -> None:
     print(df)
 
 
-videos_new_by_user_todo()
+def play_sample() -> None:
+    bq = BigQuery()
+    query = """
+                select
+                    play, inserted
+                from
+                    noteret.tiktok.videos_new_by_user
+                where 
+                    play is not null
+                order by
+                    inserted desc
+                limit 10
+            """
+    df = bq.select.df(query=query)
+    print(df)
+
+
+# videos_new_by_user_todo()
 # created()
+play_sample()

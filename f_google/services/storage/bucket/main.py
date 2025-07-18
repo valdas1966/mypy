@@ -3,6 +3,7 @@ from google.cloud.storage.bucket import Bucket as GBucket
 from f_core.mixins.has.name import HasName
 import requests
 import tempfile
+import os
 
 
 class Bucket(HasName):
@@ -75,16 +76,16 @@ class Bucket(HasName):
          Upload a file from a URL to the bucket.
         ========================================================================
         """
+        SIZE_LARGE = 100
         try:
             response = requests.head(url, allow_redirects=True)
             size_header = response.headers.get('Content-Length')
-            size_mb = int(size_header) / 1_048_576  # bytes to MB
-            if size_mb < 5 and size_header is not None:
-                return self._upload_from_url_small(name, url)
+            size_mb = int(size_header) / 1_048_576 if size_header else SIZE_LARGE
+            if size_mb < SIZE_LARGE:
+                return self._upload_from_url_small(name, url)   
             else:
                 return self._upload_from_url_large(name, url)
-        except Exception as e:
-            print(f"[upload_from_url] Error: {e}")
+        except Exception:
             return False
 
     def _upload_from_url_small(self, 
@@ -104,25 +105,28 @@ class Bucket(HasName):
         except Exception:
             return False
         
-    def _upload_from_url_large(self,
-                               name: str,
-                               url: str) -> bool:
+    def _upload_from_url_large(self, name: str, url: str) -> bool:
         """
         ========================================================================
-         Upload a large file (like mp4) from URL to the bucket without
-           loading into memory.
+         Stream download to a temp file, close it, upload, then delete.
         ========================================================================
         """
+        tmp_path: str | None = None
         try:
-            with requests.get(url, stream=True) as response:
-                response.raise_for_status()
-                with tempfile.NamedTemporaryFile(delete=True) as tmp_file:
-                    for chunk in response.iter_content(chunk_size=8192):
-                        tmp_file.write(chunk)
-                    tmp_file.flush()
-                    blob = self._g_bucket.blob(name)
-                    blob.upload_from_filename(tmp_file.name)
+            with requests.get(url, stream=True, timeout=60) as rsp:
+                rsp.raise_for_status()
+                # create temp file that we can reopen later
+                with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+                    tmp_path = tmp_file.name
+                    for chunk in rsp.iter_content(chunk_size=8192):
+                        if chunk:
+                            tmp_file.write(chunk)
+            # file is **closed** here → safe to reopen on Windows
+            blob = self._g_bucket.blob(name)
+            blob.upload_from_filename(tmp_path)
             return True
         except Exception:
             return False
-
+        finally:
+            if tmp_path and os.path.exists(tmp_path):
+                os.remove(tmp_path)

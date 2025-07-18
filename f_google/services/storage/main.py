@@ -60,5 +60,8 @@ class Storage(BaseGoogleService):
          Get a bucket by name.
         ========================================================================
         """
-        g_bucket = self._client.bucket(name)
-        return Bucket(g_bucket=g_bucket)
+        try:
+            g_bucket = self._client.get_bucket(name)
+            return Bucket(g_bucket=g_bucket)
+        except Exception:
+            return None
