@@ -237,6 +237,17 @@ def music_by_id_todo() -> None:
     BigQuery().create.table(tname=tname, schema=schema)
 
 
+def download_todo() -> None:
+    """
+    ========================================================================
+     Create table 'Download_Todo'.
+    ========================================================================
+    """ 
+    tname = Tables.DOWNLOAD_TODO
+    schema = Schemas.download_todo()
+    BigQuery().create.table(tname=tname, schema=schema)
+
+
 # users()
 # users_snapshots()
 # followers()
@@ -251,8 +262,8 @@ def music_by_id_todo() -> None:
 # users_by_id_todo()
 # videos_by_user()
 # videos_by_user_todo()
-videos_new_by_user()
-videos_new_by_user_todo()
+# videos_new_by_user()
+# videos_new_by_user_todo()
 # users_by_id_unique_todo()
 # hashtags_by_keyword()
 # hashtags_by_keyword_todo()
@@ -262,3 +273,4 @@ videos_new_by_user_todo()
 # followers_by_user_todo()
 # music_by_id()
 # music_by_id_todo()
+download_todo()

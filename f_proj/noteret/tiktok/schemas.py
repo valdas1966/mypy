@@ -306,6 +306,19 @@ class Schemas:
         return schema
     
     @staticmethod
+    def download_todo() -> Schema:
+        """
+        ========================================================================
+         Return schema for table 'Download_Todo'.
+        ========================================================================
+        """
+        tname = 'download_todo'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.ID_VIDEO)
+        schema.append(Fields.PLAY)
+        return schema
+    
+    @staticmethod
     def _create_schema(tname: str) -> Schema:
         """
         ========================================================================
