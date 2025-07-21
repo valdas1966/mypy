@@ -16,13 +16,13 @@ class Factory:
 
     @classmethod
     def array(cls,
-              # The numpy boolean-array
+              # The np boolean-array
               array: np.ndarray,
               # The name of the Grid
               name: str = None) -> Grid:
         """
         ========================================================================
-         Create a Grid from a numpy boolean array.
+         Create a Grid from a np boolean array.
         ========================================================================
         """
         rows = array.shape[0]

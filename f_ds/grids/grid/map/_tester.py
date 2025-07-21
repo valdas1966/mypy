@@ -18,10 +18,9 @@ def test_from_array() -> None:
      Test the From.array method.
     ========================================================================
     """
-    # Create a boolean numpy array with a X-Shape
+    # Create a boolean np array with a X-Shape
     array = np.array([[True, False, True],
                       [False, True, False],
                       [True, False, True]])
     grid = GridMap.From.array(array)
     assert len(grid.cells_valid()) == 5
-    

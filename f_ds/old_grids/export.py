@@ -36,7 +36,7 @@ class Export:
     def array(self) -> np.ndarray:
         """
         ========================================================================
-         Return a numpy boolean array representation of the Grid.
+         Return a np boolean array representation of the Grid.
         ========================================================================
         """
         return np.array([[bool(cell) for cell in row]

@@ -27,7 +27,7 @@ class MapGrid(Txt):
     def to_array(self) -> np.ndarray:
         """
         ====================================================================
-         Convert the MapGrid object to a numpy boolean array.
+         Convert the MapGrid object to a np boolean array.
         ====================================================================
         """
         lines = self[self.ROWS_TITLE:]
@@ -49,9 +49,9 @@ class MapGrid(Txt):
          Create a Grid from a Map-Grid-File.
         ========================================================================
         """
-        # Convert the Map-Grid-File to a numpy boolean array
+        # Convert the Map-Grid-File to a np boolean array
         array = self.to_array()
         # Use the name of the file as the name of the grid
         name = os.path.splitext(os.path.basename(self.path))[0]
-        # Create a Grid from the numpy boolean array
+        # Create a Grid from the np boolean array
         return FactoryGrid.from_array(array=array, name=name)

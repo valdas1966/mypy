@@ -41,7 +41,7 @@ class Color:
             Returns:
             list: A list of n RGB colors as tuples of floats (0.0-1.0).
             """
-            # Convert the RGB values to numpy arrays
+            # Convert the RGB values to np arrays
             start_rgb = np.array(start_rgb)
             end_rgb = np.array(end_rgb)
 
