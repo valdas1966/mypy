@@ -1,21 +1,21 @@
-from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
+from abc import ABC, abstractmethod
 
-Output = TypeVar('Output')
+Item = TypeVar('Item')
 
 
-class Readable(ABC, Generic[Output]):
+class Listable(ABC, Generic[Item]):
     """
     ============================================================================
-     Abstract class for all readable files.
+     Abstract class for all listable files.
     ============================================================================
     """
     
     @abstractmethod
-    def read_all(self) -> Output:
+    def to_list(self) -> list[Item]:
         """
         ========================================================================
-         Read the file.
+         Convert the file to a list.
         ========================================================================
         """
         pass
