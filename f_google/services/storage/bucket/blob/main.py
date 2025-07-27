@@ -26,4 +26,4 @@ class Blob(HasName):
         ========================================================================
         """
         _BYTES_IN_MIB = 1_048_576
-        return int(self._g_blob.size / _BYTES_IN_MIB)
+        return round(self._g_blob.size / _BYTES_IN_MIB)

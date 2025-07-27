@@ -318,6 +318,22 @@ class Schemas:
         schema.append(Fields.PLAY)
         return schema
     
+    @staticmethod   
+    def download_done() -> Schema:
+        """
+        ========================================================================
+         Return schema for table 'Download_Done'.
+        ========================================================================
+        """
+        tname = 'download_done'
+        schema = Schemas._create_schema(tname=tname)
+        schema.append(Fields.ID_VIDEO)
+        schema.append(Fields.SIZE)
+        schema.append(Fields.ELAPSED)
+        schema.append(Fields.INSERTED)
+        return schema
+    
+
     @staticmethod
     def _create_schema(tname: str) -> Schema:
         """

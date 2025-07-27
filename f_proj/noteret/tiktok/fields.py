@@ -73,6 +73,10 @@ class Fields:
     COMMENTS = Field.integer(name='comments')
     IS_AD = Field.boolean(name='is_ad')
     
+    # Download
+    SIZE = Field.integer(name='size')
+    ELAPSED = Field.integer(name='elapsed')
+    
     @staticmethod
     def user_info() -> list[Field]:
         fields: list[Field] = list()

@@ -248,6 +248,17 @@ def download_todo() -> None:
     BigQuery().create.table(tname=tname, schema=schema)
 
 
+def download_done() -> None:
+    """
+    ========================================================================
+     Create table 'Download_Done'.
+    ========================================================================
+    """ 
+    tname = Tables.DOWNLOAD_DONE    
+    schema = Schemas.download_done()
+    BigQuery().create.table(tname=tname, schema=schema)
+
+
 # users()
 # users_snapshots()
 # followers()
@@ -273,4 +284,5 @@ def download_todo() -> None:
 # followers_by_user_todo()
 # music_by_id()
 # music_by_id_todo()
-download_todo()
+# download_todo()
+download_done()

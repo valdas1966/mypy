@@ -29,3 +29,4 @@ class Tables:
     MUSIC_BY_ID = f'{_pre}.music_by_id'
     MUSIC_BY_ID_TODO = f'{MUSIC_BY_ID}_todo'
     DOWNLOAD_TODO = f'{_pre}.download_todo'
+    DOWNLOAD_DONE = f'{_pre}.download_done'

@@ -6,9 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/storage/bucket/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/storage/bucket/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/storage/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/storage/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/services/storage/bucket/blob/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/storage/bucket/blob/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/fields.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/fields.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/download.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/download.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/tables.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -892,6 +895,29 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.download">
+    <configuration name="create_tables" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="download" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -915,40 +941,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest for f_psl.f_numpy._tester.test_remove_empty_columns" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_psl/f_numpy" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/services/storage/bucket/blob" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;f_psl.f_numpy._tester.test_remove_empty_columns&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest for f_psl.f_numpy._tester.test_remove_empty_rows" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_psl/f_numpy" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;f_psl.f_numpy._tester.test_remove_empty_rows&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/services/storage/bucket/blob/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
     <configuration name="pytest for f_psl.f_numpy._tester.test_remove_empty_rows_and_columns" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
@@ -1294,18 +1307,19 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.create_tables" />
       <item itemvalue="Python.download" />
-      <item itemvalue="Python tests.pytest for f_psl.f_numpy._tester.test_remove_empty_columns" />
-      <item itemvalue="Python tests.pytest for f_psl.f_numpy._tester.test_remove_empty_rows" />
+      <item itemvalue="Python.main" />
       <item itemvalue="Python tests.pytest for f_psl.f_numpy._tester.test_remove_empty_rows_and_columns" />
       <item itemvalue="Python tests.pytest in _tester.py (1)" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.download" />
+        <item itemvalue="Python.main" />
+        <item itemvalue="Python.create_tables" />
         <item itemvalue="Python tests.pytest in _tester.py (1)" />
         <item itemvalue="Python tests.pytest for f_psl.f_numpy._tester.test_remove_empty_rows_and_columns" />
-        <item itemvalue="Python tests.pytest for f_psl.f_numpy._tester.test_remove_empty_columns" />
       </list>
     </recent_temporary>
   </component>
@@ -1358,15 +1372,7 @@
       <workItem from="1752847448849" duration="6186000" />
       <workItem from="1752996090372" duration="7781000" />
       <workItem from="1753097025966" duration="6888000" />
-      <workItem from="1753591538149" duration="3063000" />
-    </task>
-    <task id="LOCAL-00197" summary="h">
-      <option name="closed" value="true" />
-      <created>1744108214178</created>
-      <option name="number" value="00197" />
-      <option name="presentableId" value="LOCAL-00197" />
-      <option name="project" value="LOCAL" />
-      <updated>1744108214178</updated>
+      <workItem from="1753591538149" duration="5127000" />
     </task>
     <task id="LOCAL-00198" summary="h">
       <option name="closed" value="true" />
@@ -1752,7 +1758,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753105190006</updated>
     </task>
-    <option name="localTasksCounter" value="246" />
+    <task id="LOCAL-00246" summary="h">
+      <option name="closed" value="true" />
+      <created>1753608745762</created>
+      <option name="number" value="00246" />
+      <option name="presentableId" value="LOCAL-00246" />
+      <option name="project" value="LOCAL" />
+      <updated>1753608745762</updated>
+    </task>
+    <option name="localTasksCounter" value="247" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1788,6 +1802,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py__2_.coverage" NAME="pytest in _tester.py (2) Coverage Results" MODIFIED="1753108161540" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/grid/map" />
+    <SUITE FILE_PATH="coverage/mypy$create_tables.coverage" NAME="create_tables Coverage Results" MODIFIED="1753612418924" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts" />
     <SUITE FILE_PATH="coverage/mypy$_factory.coverage" NAME="_factory Coverage Results" MODIFIED="1752261881235" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_google/_internal/services/storage/bucket" />
     <SUITE FILE_PATH="coverage/mypy$pytest_for__tester_test_all.coverage" NAME="pytest for _tester.test_all Coverage Results" MODIFIED="1753006404899" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/grid" />
     <SUITE FILE_PATH="coverage/mypy$_tester.coverage" NAME="_tester Coverage Results" MODIFIED="1751196243901" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_gui/layout" />
@@ -1815,10 +1830,10 @@
     <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py__1_.coverage" NAME="pytest in _tester.py (1) Coverage Results" MODIFIED="1753107774438" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/file_map" />
     <SUITE FILE_PATH="coverage/mypy$pytest_for__tester_test_names_buckets.coverage" NAME="pytest for _tester.test_names_buckets Coverage Results" MODIFIED="1752848034846" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_google/services/storage" />
     <SUITE FILE_PATH="coverage/mypy$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1752405389386" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_google/_internal/services/storage" />
-    <SUITE FILE_PATH="coverage/mypy$main.coverage" NAME="main Coverage Results" MODIFIED="1752480706352" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_google/services/storage" />
+    <SUITE FILE_PATH="coverage/mypy$main.coverage" NAME="main Coverage Results" MODIFIED="1753612843901" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_google/services/storage/bucket/blob" />
     <SUITE FILE_PATH="coverage/mypy$pytest_in__tester_py.coverage" NAME="pytest in _tester.py Coverage Results" MODIFIED="1752999313476" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/cell/map" />
     <SUITE FILE_PATH="coverage/mypy$pytest_in_tester_py__2_.coverage" NAME="pytest in tester.py Coverage Results" MODIFIED="1751183054542" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_gui/layout/bounds/_internal" />
-    <SUITE FILE_PATH="coverage/mypy$download.coverage" NAME="download Coverage Results" MODIFIED="1753604979927" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts" />
+    <SUITE FILE_PATH="coverage/mypy$download.coverage" NAME="download Coverage Results" MODIFIED="1753613116693" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts" />
     <SUITE FILE_PATH="coverage/mypy$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1752253838152" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_google/_internal/services/storage" />
     <SUITE FILE_PATH="coverage/mypy$pytest_for__tester_test_bucket.coverage" NAME="pytest for _tester.test_bucket Coverage Results" MODIFIED="1752849883651" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_google/services/storage/bucket" />
     <SUITE FILE_PATH="coverage/mypy$pytest_for__tester_test_list.coverage" NAME="pytest for _tester.test_list Coverage Results" MODIFIED="1751631729831" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/f_ds/grids/grid/base" />
