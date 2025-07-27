@@ -70,7 +70,7 @@ class Bucket(HasName):
     
     def upload_from_url(self,
                         name: str,
-                        url: str) -> bool:
+                        url: str) -> Blob | None:
         """
         ========================================================================
          Upload a file from a URL to the bucket.
@@ -86,11 +86,11 @@ class Bucket(HasName):
             else:
                 return self._upload_from_url_large(name, url)
         except Exception:
-            return False
+            return None
 
     def _upload_from_url_small(self, 
                                name: str,
-                               url: str) -> bool:
+                               url: str) -> Blob:
         """
         ========================================================================
          Upload a file from a URL to the bucket.
@@ -101,11 +101,11 @@ class Bucket(HasName):
             response.raise_for_status()
             blob = self._g_bucket.blob(name)
             blob.upload_from_string(response.content)
-            return True
+            return blob
         except Exception:
-            return False
+            return None
         
-    def _upload_from_url_large(self, name: str, url: str) -> bool:
+    def _upload_from_url_large(self, name: str, url: str) -> Blob:
         """
         ========================================================================
          Stream download to a temp file, close it, upload, then delete.
@@ -124,9 +124,9 @@ class Bucket(HasName):
             # file is **closed** here → safe to reopen on Windows
             blob = self._g_bucket.blob(name)
             blob.upload_from_filename(tmp_path)
-            return True
+            return blob
         except Exception:
-            return False
+            return None
         finally:
             if tmp_path and os.path.exists(tmp_path):
                 os.remove(tmp_path)

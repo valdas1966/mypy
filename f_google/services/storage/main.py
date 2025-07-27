@@ -54,7 +54,7 @@ class Storage(BaseGoogleService):
         except Exception:
             return False
         
-    def get_bucket(self, name: str) -> Bucket:
+    def get_bucket(self, name: str) -> Bucket | None:
         """
         ========================================================================
          Get a bucket by name.
@@ -65,3 +65,11 @@ class Storage(BaseGoogleService):
             return Bucket(g_bucket=g_bucket)
         except Exception:
             return None
+
+    def close(self) -> None:
+        """
+        ========================================================================
+         Close the client.
+        ========================================================================
+        """
+        self._client.close()
