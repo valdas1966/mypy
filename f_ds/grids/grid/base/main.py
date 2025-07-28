@@ -32,6 +32,18 @@ class GridBase(Generic[Cell], Groupable[Cell], HasName, HasRowsCols, Iterable):
         HasRowsCols.__init__(self, rows=rows, cols=cols)
         self._cells = self._init_cells(type_cell)
 
+    def neighbors(self, cell: Cell) -> list[Cell]:
+        """
+        ========================================================================
+         Return the neighbors of a cell.
+        ========================================================================
+        """
+        li: list[Cell] = []
+        for neighbor in cell.neighbors():
+            if neighbor.row < self.rows and neighbor.col < self.cols:
+                li.append(neighbor)
+        return li
+    
     def to_group(self, name: str = None) -> Group[Cell]:
         """
         ========================================================================

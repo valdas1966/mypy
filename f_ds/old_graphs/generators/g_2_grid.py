@@ -1,4 +1,4 @@
-from f_ds.graphs.i_2_grid import GraphGrid, NodeCell, Grid
+from f_ds.old_graphs.i_2_grid import GraphGrid, NodeCell, Grid
 from typing import Type
 
 

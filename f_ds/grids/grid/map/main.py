@@ -6,7 +6,7 @@ from f_ds.groups.view import View
 class GridMap(GridBase[CellMap]):
     """
     ============================================================================
-     2D-Grid Class of Cells.
+     2D-Grid Class of CellsMaps (can be valid or invalid).
     ============================================================================
     """
 
@@ -41,3 +41,14 @@ class GridMap(GridBase[CellMap]):
         return View(group=self.to_group(),
                     predicate=bool)
     
+    def neighbors(self, cell: CellMap) -> list[CellMap]:
+        """
+        ========================================================================
+         Return the neighbors of a cell.
+        ========================================================================
+        """
+        li: list[CellMap] = list()
+        for cell in GridBase.neighbors(self, cell=cell):
+            if cell:
+                li.append(cell)
+        return li

@@ -1,4 +1,4 @@
-from f_ds.graphs.i_1_dict import GraphDict
+from f_ds.old_graphs.i_1_dict import GraphDict
 
 
 class GenGraphDict:

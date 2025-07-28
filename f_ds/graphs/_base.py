@@ -1,15 +1,18 @@
 from __future__ import annotations
-from abc import abstractmethod
-from typing import TypeVar, Generic
 from f_core.mixins.has.name import HasName
 from f_core.mixins.clonable import Clonable
 from f_ds.mixins.groupable import Groupable, Group
 from f_ds.nodes.i_0_key import NodeKey
+from typing import TypeVar, Generic
+from abc import abstractmethod
 
 Node = TypeVar('Node', bound=NodeKey)
 
 
-class GraphBase(Generic[Node], Groupable[Node], HasName, Clonable):
+class GraphBase(Generic[Node],
+                Groupable[Node],
+                HasName,
+                Clonable):
     """
     ============================================================================
      Graph Base-Class.
@@ -50,11 +53,11 @@ class GraphBase(Generic[Node], Groupable[Node], HasName, Clonable):
         ========================================================================
         """
         pass
-    
+
     def to_group(self, name: str = None) -> Group[Node]:
         """
         ========================================================================
-         Return list list representation of the Object.
+         Return a Group representation of the Object.
         ========================================================================
         """
         return Group(name=name, data=self.nodes())

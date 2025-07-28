@@ -21,4 +21,11 @@ class FactoryGridMap:
         grid[1][2].set_invalid()
         grid[2][1].set_invalid()
         return grid
-    
+
+
+if __name__ == '__main__':
+    grid = FactoryGridMap.x()
+    cell_00 = grid[0][0]
+    neighbors = grid.neighbors(cell=cell_00)
+    for n in neighbors:
+        print(bool(n))

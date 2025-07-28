@@ -1,4 +1,4 @@
-from f_ds.graphs.i_0_base import GraphBase, NodeGraph
+from f_ds.old_graphs.i_0_base import GraphBase, NodeGraph
 from typing import TypeVar
 
 Node = TypeVar('Node', bound=NodeGraph)

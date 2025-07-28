@@ -2,6 +2,21 @@ from f_ds.grids.grid.map import GridMap
 import numpy as np
 
 
+def test_neighbors() -> None:
+    """
+    ========================================================================
+     Test the neighbors() method.
+    ========================================================================
+    """
+    grid = GridMap.Factory.x()
+    cell_11 = grid[1][1]
+    neighbors_11 = grid.neighbors(cell_11)
+    assert len(neighbors_11) == 4
+    cell_00 = grid[0][0]
+    neighbors_00 = grid.neighbors(cell_00)
+    assert len(neighbors_00) == 0
+
+
 def test_cells_valid() -> None:
     """
     ========================================================================

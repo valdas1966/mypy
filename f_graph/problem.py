@@ -1,4 +1,4 @@
-from f_ds.graphs.i_0_base import GraphBase, NodeKey
+from f_ds.old_graphs.i_0_base import GraphBase, NodeKey
 from typing import Generic, TypeVar
 
 Graph = TypeVar('Graph', bound=GraphBase)

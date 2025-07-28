@@ -1,12 +1,18 @@
 from __future__ import annotations
+from f_core.mixins.comparable import Comparable
+from f_core.mixins.printable import Printable
+from typing import Self
 
 
-class HasRowCol:
+class HasRowCol(Comparable, Printable):
     """
     ============================================================================
      Mixin for classes with Row and Col properties.
     ============================================================================
     """
+
+    # Factory
+    Factory: type = None
 
     def __init__(self,
                  row: int = None,
@@ -17,6 +23,8 @@ class HasRowCol:
          2. If the Col is None, it takes the value of Row.
         ========================================================================
         """
+        Comparable.__init__(self)
+        Printable.__init__(self)
         self._row = row if row is not None else 0
         self._col = col if col is not None else self._row
 
@@ -30,7 +38,7 @@ class HasRowCol:
     def col(self) -> int:
         return self._col
 
-    def neighbors(self) -> list[HasRowCol]:
+    def neighbors(self) -> list[Self]:
         """
         ========================================================================
          Return a List of Neighbor Cells in Clock-Wise Order
@@ -41,7 +49,7 @@ class HasRowCol:
         n_east = self.row, self.col + 1
         n_south = self.row + 1, self.col
         n_west = self.row, self.col - 1
-        return [HasRowCol(n[0], n[1])
+        return [type(self)(n[0], n[1])
                 for n
                 in (n_north, n_east, n_south, n_west)
                 if n[0] >= 0 and n[1] >= 0]

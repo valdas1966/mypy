@@ -1,47 +1,71 @@
 from f_core.mixins.has.row_col.main import HasRowCol
 
 
-def test_has_row_col():
+def test_zero() -> None:
     """
-    ============================================================================
-     Test HasRowCol mixin functionality.
-    ============================================================================
+    ========================================================================
+     Test the zero() method.
+    ========================================================================
     """
-    # Test with explicit row and col
-    row_col_obj = HasRowCol(5, 10)
-    assert row_col_obj.row == 5
-    assert row_col_obj.col == 10
-    assert row_col_obj.key_comparison() == [5, 10]
-    assert row_col_obj.to_tuple() == (5, 10)
-    assert str(row_col_obj) == "(5,10)"
-    assert hash(row_col_obj) == hash((5, 10))
-    
-    # Test with None values (should default to 0)
-    default_obj = HasRowCol()
-    assert default_obj.row == 0
-    assert default_obj.col == 0
-    assert default_obj.to_tuple() == (0, 0)
-    
-    # Test with row only (col should take row value)
-    row_only_obj = HasRowCol(3)
-    assert row_only_obj.row == 3
-    assert row_only_obj.col == 3
-    assert row_only_obj.to_tuple() == (3, 3)
-    
-    # Test neighbors functionality
-    neighbors = row_col_obj.neighbors()
-    assert len(neighbors) == 4
-    neighbor_tuples = [n.to_tuple() for n in neighbors]
-    expected = [(4, 10), (5, 11), (6, 10), (5, 9)]  # N, E, S, W
-    assert neighbor_tuples == expected
-    
-    # Test neighbors with edge case (0,0)
-    edge_obj = HasRowCol(0, 0)
-    edge_neighbors = edge_obj.neighbors()
-    assert len(edge_neighbors) == 2  # Only E and S should be valid (>= 0)
-    
-    print("HasRowCol tests passed!")
+    zero = HasRowCol.Factory.zero()
+    assert zero.row == 0
+    assert zero.col == 0
 
 
-if __name__ == "__main__":
-    test_has_row_col()
+def test_one() -> None:
+    """
+    ========================================================================
+     Test the one() method.
+    ========================================================================
+    """
+    one = HasRowCol.Factory.one()
+    assert one.row == 1
+    assert one.col == 1
+
+
+def test_twelve() -> None:
+    """
+    ========================================================================
+     Test the twelve() method.
+    ========================================================================
+    """ 
+    twelve = HasRowCol.Factory.twelve()
+    assert twelve.row == 1
+    assert twelve.col == 2
+    
+    
+def test_key_comparison() -> None:
+    """
+    ========================================================================
+     Test the key_comparison() method.
+    ========================================================================
+    """ 
+    twelve = HasRowCol.Factory.twelve()
+    assert twelve.key_comparison() == [1, 2]
+    
+    
+def test_to_tuple() -> None:
+    """
+    ========================================================================
+     Test the to_tuple() method.
+    ========================================================================
+    """
+    twelve = HasRowCol.Factory.twelve()
+    assert twelve.to_tuple() == (1, 2)
+    
+    
+def test_neighbors() -> None:
+    """
+    ========================================================================
+     Test the neighbors() method.
+    ========================================================================
+    """
+    twelve = HasRowCol.Factory.twelve()
+    neighbors_test = twelve.neighbors()
+    neighbors_true = [
+                        HasRowCol(row=0, col=2),
+                        HasRowCol(row=1, col=3),
+                        HasRowCol(row=2, col=2),
+                        HasRowCol(row=1, col=1)
+                     ]
+    assert neighbors_test == neighbors_true

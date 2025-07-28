@@ -1,3 +1,4 @@
-from f_core.mixins.has.row_col.main import HasRowCol
+from .main import HasRowCol
+from ._factory import Factory
 
-__all__ = ["HasRowCol"]
+HasRowCol.Factory = Factory

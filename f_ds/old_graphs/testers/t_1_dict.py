@@ -1,4 +1,4 @@
-from f_ds.graphs.generators.g_1_dict import GenGraphDict
+from f_ds.old_graphs.generators.g_1_dict import GenGraphDict
 from f_ds.nodes.i_0_key import NodeKey
 
 

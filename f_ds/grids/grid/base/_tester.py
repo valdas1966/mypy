@@ -1,6 +1,21 @@
 from f_ds.grids.grid.base.main import GridBase
 
 
+def test_neighbors() -> None:
+    """
+    ========================================================================
+     Test the neighbors() method.
+    ========================================================================
+    """ 
+    grid = GridBase.Factory.grid_3x3()
+    cell_11 = grid[1][1]
+    neighbors_11 = grid.neighbors(cell_11)
+    assert len(neighbors_11) == 4
+    cell_00 = grid[0][0]
+    neighbors_00 = grid.neighbors(cell_00)
+    assert len(neighbors_00) == 2
+    
+    
 def test_len() -> None:
     """
     ========================================================================
@@ -43,3 +58,4 @@ def test_getitem() -> None:
     cell = grid[1][2]
     assert cell.row == 1
     assert cell.col == 2
+

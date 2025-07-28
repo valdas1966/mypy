@@ -1,10 +1,31 @@
-from f_core.mixins.has.row_col.main import HasRowCol
+from .main import HasRowCol
 
 
-def create_has_row_col(row: int = None, col: int = None) -> HasRowCol:
-    """
-    ============================================================================
-     Factory function to create HasRowCol instances.
-    ============================================================================
-    """
-    return HasRowCol(row, col)
+class Factory:
+    
+    @staticmethod
+    def zero() -> HasRowCol:
+        """
+        ========================================================================
+         Return a HasRowCol object with row and col set to 0.
+        ========================================================================
+        """
+        return HasRowCol()
+
+    @staticmethod
+    def one() -> HasRowCol:
+        """
+        ========================================================================
+         Return a HasRowCol object with row and col set to 1 and 2.
+        ========================================================================
+        """
+        return HasRowCol(row=1)
+
+    @staticmethod
+    def twelve() -> HasRowCol:
+        """
+        ========================================================================
+         Return a HasRowCol object with row and col set to 12.
+        ========================================================================
+        """
+        return HasRowCol(row=1, col=2)
