@@ -9,9 +9,9 @@ def test_neighbors() -> None:
     ========================================================================
     """
     grid = GridMap.Factory.x()
-    cell_11 = grid[1][1]
-    neighbors_11 = grid.neighbors(cell_11)
-    assert len(neighbors_11) == 4
+    cell_01 = grid[0][1]
+    neighbors_01 = grid.neighbors(cell_01)
+    assert len(neighbors_01) == 3
     cell_00 = grid[0][0]
     neighbors_00 = grid.neighbors(cell_00)
     assert len(neighbors_00) == 0

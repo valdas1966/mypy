@@ -8,7 +8,11 @@ from typing import Iterator, TypeVar, Generic, Type
 Cell = TypeVar('Cell', bound=CellBase)
 
 
-class GridBase(Generic[Cell], Groupable[Cell], HasName, HasRowsCols, Iterable):
+class GridBase(Generic[Cell],
+               Groupable[Cell],
+               HasName,
+               HasRowsCols,
+               Iterable):
     """
     ============================================================================
      2D-Grid Class of Cells.
@@ -39,9 +43,10 @@ class GridBase(Generic[Cell], Groupable[Cell], HasName, HasRowsCols, Iterable):
         ========================================================================
         """
         li: list[Cell] = []
-        for neighbor in cell.neighbors():
-            if neighbor.row < self.rows and neighbor.col < self.cols:
-                li.append(neighbor)
+        for row_col in cell.neighbors():
+            row, col = row_col.to_tuple()
+            if row < self.rows and col < self.cols:
+                li.append(self[row][col])
         return li
     
     def to_group(self, name: str = None) -> Group[Cell]:

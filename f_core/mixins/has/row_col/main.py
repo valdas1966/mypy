@@ -1,7 +1,6 @@
 from __future__ import annotations
 from f_core.mixins.comparable import Comparable
 from f_core.mixins.printable import Printable
-from typing import Self
 
 
 class HasRowCol(Comparable, Printable):
@@ -38,7 +37,7 @@ class HasRowCol(Comparable, Printable):
     def col(self) -> int:
         return self._col
 
-    def neighbors(self) -> list[Self]:
+    def neighbors(self) -> list[HasRowCol]:
         """
         ========================================================================
          Return a List of Neighbor Cells in Clock-Wise Order
@@ -49,7 +48,7 @@ class HasRowCol(Comparable, Printable):
         n_east = self.row, self.col + 1
         n_south = self.row + 1, self.col
         n_west = self.row, self.col - 1
-        return [type(self)(n[0], n[1])
+        return [HasRowCol(n[0], n[1])
                 for n
                 in (n_north, n_east, n_south, n_west)
                 if n[0] >= 0 and n[1] >= 0]

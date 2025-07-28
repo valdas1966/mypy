@@ -1,6 +1,6 @@
-from ._factory import FactoryGridMap
+from ._factory import Factory
 from ._from import From
 from .main import GridMap
 
-GridMap.Factory = FactoryGridMap
+GridMap.Factory = Factory
 GridMap.From = From
