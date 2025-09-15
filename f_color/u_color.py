@@ -10,7 +10,7 @@ class UColor:
     def show(rgbs: list[RGB]) -> None:
         """
         ========================================================================
-         Display list list of RGB colors as rectangles with their STR-REPR.
+         Display list of RGB colors as rectangles with their STR-REPR.
         ========================================================================
         """
         rect_width: float = 9.0

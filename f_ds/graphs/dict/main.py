@@ -1,64 +1,63 @@
-from f_core.mixins.has.key import HasKey
-from f_core.mixins.has.name import HasName
-from f_core.mixins.clonable import Clonable
+from f_ds.graphs._base import GraphBase, NodeKey
+from f_core.mixins.dictable.main import Dictable
 from typing import Generic, TypeVar, Self
 
-
 Key = TypeVar('Key')
-Node = TypeVar('Node', bound='NodeKey')
+Node = TypeVar('Node', bound=NodeKey)
 
 
-class NodeKey(Generic[Key], HasKey[Key], HasName, Clonable):
+class GraphDict(Generic[Key, Node],
+                GraphBase[Node],
+                Dictable[Key, Node]):
     """
     ============================================================================
-     ABC of Node classes.
+     Dict-Based Graph.
     ============================================================================
     """
+
+    # Factory
+    Factory: type = None
 
     def __init__(self,
-                 key: Key,
-                 name: str = 'Node') -> None:
+                 data: dict[Key, Node],
+                 name: str = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        HasKey.__init__(self, key=key)
-        HasName.__init__(self, name=name)
-        Clonable.__init__(self)
+        GraphBase.__init__(self, name=name)
+        Dictable.__init__(self, data=data)
 
-    def key_comparison(self) -> Key:
+    def nodes(self) -> list[Node]:
         """
         ========================================================================
-         Compare by Cell.
+         Return List of Nodes in the Graph.
         ========================================================================
         """
-        return HasKey.key_comparison(self)
-    
+        return list(self.values())
+
     def clone(self) -> Self:
         """
         ========================================================================
-         Clone the Node.
+         Return a Cloned object.
         ========================================================================
         """
-        # Clone the key if it is Clonable.
-        key = self.key.clone() if isinstance(self.key, Clonable) else self.key
-        # Return a new Node with the cloned key and name
-        return self.__class__(key=key, name=self.name)
+        data = {key: node.clone() for key, node in self.data.items()}
+        return GraphDict(data=data, name=self.name)
 
-    def __str__(self) -> str:
+    def neighbors(self, node: Node) -> list[Node]:
         """
         ========================================================================
-         Return a STR-Repr of the Node.
+         Return the neighbors of a node.
         ========================================================================
         """
-        return f'{self.name}({self.key})'
-    
-    def __hash__(self) -> int:
+        raise NotImplementedError("Not implemented for GraphDict")
+
+    def key_comparison(self) -> dict[Key, Node]:
         """
         ========================================================================
-         Hash by Key.
+         Return a Key-Comparison object.
         ========================================================================
         """
-        return HasKey.__hash__(self)
-    
+        return self.data

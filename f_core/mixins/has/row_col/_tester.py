@@ -69,3 +69,9 @@ def test_neighbors() -> None:
                         HasRowCol(row=1, col=1)
                      ]
     assert neighbors_test == neighbors_true
+
+
+def test_hash() -> None:
+    zero = HasRowCol.Factory.zero()
+    one = HasRowCol.Factory.one()
+    assert hash(zero) != hash(one)

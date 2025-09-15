@@ -1,78 +1,83 @@
-from __future__ import annotations
-from f_ds.old_graphs.i_0_base import GraphBase
+from f_core.mixins import HasName, Clonable, Equable, Dictable
 from f_ds.nodes.i_0_key import NodeKey, Key
-from f_core.mixins.equable import Equable
-from typing import Generic,Type, TypeVar, Iterable
+from f_ds.grids import GridMap
+from typing import Generic, TypeVar, Self, Type
 
 Node = TypeVar('Node', bound=NodeKey)
 
 
-class GraphDict(Generic[Node], GraphBase[Node], Equable):
+class GraphQuick(Generic[Key, Node],
+                 Dictable[Key, Node],
+                 HasName,
+                 Clonable,
+                 Equable):
     """
     ============================================================================
-     Dict-Based Graph.
+     Quick Graph.
     ============================================================================
     """
 
+    # Factory
+    Factory: type = None
+
     def __init__(self,
-                 keys: Iterable[Key],
+                 grid: GridMap,
                  type_node: Type[Node] = NodeKey,
-                 name: str = None) -> None:
+                 name: str = 'GraphQuick') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        GraphBase.__init__(self, name=name)
-        self._nodes: dict[Key, Node] = {key: type_node(key=key)
-                                        for key
-                                        in keys}
+        self._grid = grid
+        self._type_node = type_node
+        data: dict[Key, Node] = dict()
+        for cell in grid.cells_valid():
+            data[cell] = type_node(key=cell)
+        Dictable.__init__(self, data=data)
+        HasName.__init__(self, name=name)
 
     def nodes(self) -> list[Node]:
         """
         ========================================================================
-         Return a List of Graph's Nodes.
+         Return List of Nodes in the Graph.
         ========================================================================
         """
-        return list(self._nodes.values())
-
-    def nodes_by_keys(self,
-                      key: Key = None,
-                      keys: Iterable[Key] = None) -> Node | list[Node]:
-        """
-        ========================================================================
-         Return a Node by a given UID.
-        ========================================================================
-        """
-        if key:
-            return self._nodes[key]
-        elif keys:
-            return [self._nodes[key] for key in keys]
-        return None
+        return list(self.values())
 
     def neighbors(self, node: Node) -> list[Node]:
         """
         ========================================================================
-         Return a List of given Node's neighbors.
+         Return the neighbors of a node.
         ========================================================================
         """
-        return list()
+        cells = self._grid[node.row][node.col]
+        return [self[cell] for cell in cells]
     
-    def clone(self) -> GraphDict:
+    @property
+    def grid(self) -> GridMap:
+        """
+        ========================================================================
+         Return the Grid.
+        ========================================================================
+        """
+        return self._grid
+
+    def clone(self) -> Self:
         """
         ========================================================================
          Return a Cloned object.
         ========================================================================
         """
-        keys = list(self._nodes.keys())
-        return GraphDict(keys=keys,
-                         type_node=type(self._nodes[keys[0]]),
-                         name=self.name)
+        return GraphQuick(grid=self._grid,
+                          type_node=self._type_node,
+                          name=self.name)
 
-    def key_comparison(self) -> dict:
+    def key_comparison(self) -> dict[Key, Node]:
         """
         ========================================================================
-         Compare by a Dict of Nodes.
+         Return a Key-Comparison object.
         ========================================================================
         """
-        return self._nodes
+        return self.data
+    

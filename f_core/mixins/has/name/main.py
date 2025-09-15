@@ -45,7 +45,7 @@ class HasName(Comparable, Printable):
     def __hash__(self) -> int:
         """
         ========================================================================
-         Return list Hash-Value of the object's name.
+         Return Hash-Value of the object's name.
         ========================================================================
         """
         return hash(self.name)

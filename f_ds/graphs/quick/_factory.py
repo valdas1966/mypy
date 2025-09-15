@@ -1,19 +1,19 @@
-from __future__ import annotations
-from abc import ABC, abstractmethod
-from typing import Self
+from f_ds.graphs.quick.main import GraphQuick, GridMap
 
 
-class Clonable(ABC):
+class Factory:
     """
     ============================================================================
-     Clonable Abstract-Class.
+     Factory for the GraphQuick.
     ============================================================================
     """
 
-    @abstractmethod
-    def clone(self) -> Self:
+    @staticmethod
+    def x() -> GraphQuick:
         """
         ========================================================================
-         Clone an Object.
+         Return a GraphQuick with a 3x3 grid in a X-Shape.
         ========================================================================
         """
+        grid = GridMap.Factory.x()
+        return GraphQuick(grid=grid)

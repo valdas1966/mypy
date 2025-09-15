@@ -1,9 +1,10 @@
 from __future__ import annotations
 from f_core.mixins.has.name import HasName
 from f_core.mixins.clonable import Clonable
+from f_core.mixins.equable import Equable
 from f_ds.mixins.groupable import Groupable, Group
 from f_ds.nodes.i_0_key import NodeKey
-from typing import TypeVar, Generic
+from typing import TypeVar, Generic, Self
 from abc import abstractmethod
 
 Node = TypeVar('Node', bound=NodeKey)
@@ -12,7 +13,8 @@ Node = TypeVar('Node', bound=NodeKey)
 class GraphBase(Generic[Node],
                 Groupable[Node],
                 HasName,
-                Clonable):
+                Clonable,
+                Equable):
     """
     ============================================================================
      Graph Base-Class.
@@ -46,10 +48,18 @@ class GraphBase(Generic[Node],
         pass
 
     @abstractmethod
-    def clone(self) -> GraphBase:
+    def clone(self) -> Self:
         """
         ========================================================================
          Return a Cloned object.
+        ========================================================================
+        """
+        pass
+
+    def key_comparison(self) -> ProtocolEquable:
+        """
+        ========================================================================
+         Return a Key-Comparison object.
         ========================================================================
         """
         pass

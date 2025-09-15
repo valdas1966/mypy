@@ -32,14 +32,13 @@ class GridMap(GridBase[CellMap]):
                           name=name,
                           type_cell=CellMap)
         
-    def cells_valid(self) -> View[CellMap]:
+    def cells_valid(self) -> list[CellMap]:
         """
         ========================================================================
          Return a View of the Valid Cells in the Grid.
         ========================================================================
         """
-        return View(group=self.to_group(),
-                    predicate=bool)
+        return [cell for cell in self if cell]
     
     def neighbors(self, cell: CellMap) -> list[CellMap]:
         """
@@ -52,3 +51,18 @@ class GridMap(GridBase[CellMap]):
             if cell:
                 li.append(cell)
         return li
+
+    def __str__(self) -> str:
+        """
+        ========================================================================
+         Return a String Representation of the Grid in [0,1] 2Dbool format:
+         [ Name of the Grid [Shape]]
+            [0, 1, 0],
+            [1, 0, 1],
+            [0, 1, 0]
+         ]
+        ========================================================================
+        """
+        title = f'{self.name} {self.shape()}'
+        matrix = '\n'.join([' '.join(['1' if cell else '0' for cell in row]) for row in self._cells])
+        return f'{title}\n{matrix}'

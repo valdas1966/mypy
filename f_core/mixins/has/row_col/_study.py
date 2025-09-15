@@ -7,3 +7,5 @@ for n in obj.neighbors():
 
 obj_2 = HasRowCol.Factory.twelve()
 print(obj == obj_2)
+
+

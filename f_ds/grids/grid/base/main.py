@@ -34,7 +34,7 @@ class GridBase(Generic[Cell],
         """
         HasName.__init__(self, name=name)
         HasRowsCols.__init__(self, rows=rows, cols=cols)
-        self._cells = self._init_cells(type_cell)
+        self._cells: list[list[Cell]] = self._init_cells(type_cell)
 
     def neighbors(self, cell: Cell) -> list[Cell]:
         """
