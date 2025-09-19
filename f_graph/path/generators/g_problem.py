@@ -1,5 +1,5 @@
 from f_graph.path.generators.g_graph import GenGraphPath
-from f_graph.path.problem import ProblemPath
+from f_graph.path.core.problem import ProblemPath
 
 
 class GenProblemPath:

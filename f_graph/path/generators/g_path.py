@@ -1,4 +1,4 @@
-from f_graph.path.path import Path
+from f_graph.path.ds.path import Path
 from f_graph.path.generators.g_graph import GenGraphPath
 from f_graph.path.generators.g_node import GenNode
 

@@ -1,5 +1,5 @@
-from f_graph.path.heuristic import Heuristic, TypeHeuristic
-from f_graph.path.graph import GraphPath as Graph, NodePath as Node
+from f_graph.path.funcs.heuristic import Heuristic, TypeHeuristic
+from f_graph.path.ds.graphs.graph import GraphPath as Graph, NodePath as Node
 
 
 class GenHeuristic:

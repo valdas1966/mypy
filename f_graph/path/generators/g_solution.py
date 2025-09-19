@@ -1,5 +1,5 @@
 from f_graph.path.generators.g_stats import GenStatsPath
-from f_graph.path.solution import SolutionPath
+from f_graph.path.core.solution import SolutionPath
 
 
 class GenSolutionPath:

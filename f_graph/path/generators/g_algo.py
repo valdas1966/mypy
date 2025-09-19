@@ -1,6 +1,6 @@
 from f_graph.path.generators.g_problem import GenProblemPath
 from f_graph.path.generators.g_solution import GenSolutionPath, SolutionPath
-from f_graph.path.algo import AlgoPath
+from f_graph.path.algos.algo import AlgoPath
 
 
 class GenAlgoPath:

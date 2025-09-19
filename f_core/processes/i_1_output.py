@@ -2,7 +2,7 @@ from f_core.processes.i_0_abc import ProcessABC
 from abc import abstractmethod
 from typing import Generic, TypeVar
 
-Output = TypeVar('OutputRequest')
+Output = TypeVar('Output')
 
 
 class ProcessOutput(Generic[Output], ProcessABC):

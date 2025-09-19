@@ -1,5 +1,5 @@
 from f_ai.hs.ops.node import OpsNodeHS, Problem, DataOneToOne, Node
-from f_graph.path.cache import Cache
+from f_graph.path.ds.cache import Cache
 from typing import Callable
 
 

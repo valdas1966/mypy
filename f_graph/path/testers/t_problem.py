@@ -1,5 +1,5 @@
 from f_graph.path.generators.g_problem import GenProblemPath
-from f_graph.path.graph import GraphPath
+from f_graph.path.ds.graphs.graph import GraphPath
 
 
 def test_gen_3x3():

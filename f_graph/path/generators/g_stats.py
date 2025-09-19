@@ -1,4 +1,4 @@
-from f_graph.path.stats import StatsPath as Stats
+from f_graph.path.core.stats import StatsPath as Stats
 
 
 class GenStatsPath:

@@ -1,9 +1,10 @@
+from abc import abstractmethod
 from f_core.processes.i_1_input import ProcessInput
 from f_core.processes.i_1_output import ProcessOutput
 from typing import Generic, TypeVar
 
-Input = TypeVar('InputRequest')
-Output = TypeVar('OutputRequest')
+Input = TypeVar('Input')
+Output = TypeVar('Output')
 
 
 class ProcessIO(Generic[Input, Output],
@@ -11,7 +12,7 @@ class ProcessIO(Generic[Input, Output],
                 ProcessOutput[Output]):
     """
     ============================================================================
-     ABC for Processes with InputRequest and OutputRequest.
+     ABC for Processes with Input and Output.
     ============================================================================
     """
 
@@ -25,3 +26,12 @@ class ProcessIO(Generic[Input, Output],
         ========================================================================
         """
         ProcessInput.__init__(self, _input=_input, verbose=verbose, name=name)
+
+    @abstractmethod
+    def run(self) -> Output:
+        """
+        ========================================================================
+         Run the Process and return the Output.
+        ========================================================================
+        """
+        pass

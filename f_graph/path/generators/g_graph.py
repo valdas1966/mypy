@@ -1,4 +1,4 @@
-from f_graph.path.graph import GraphPath as Graph, NodePath
+from f_graph.path.ds.graphs.graph import GraphPath as Graph, NodePath
 from f_ds.old_grids.generators.g_grid import GenGrid
 
 

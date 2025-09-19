@@ -1,6 +1,6 @@
 from f_graph.path.generators.g_algo import GenAlgoPath, AlgoPath
-from f_graph.path.problem import ProblemPath
-from f_graph.path.solution import SolutionPath
+from f_graph.path.core.problem import ProblemPath
+from f_graph.path.core.solution import SolutionPath
 
 
 def test() -> None:

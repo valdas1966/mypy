@@ -1,6 +1,6 @@
-from f_graph.path.solutions import SolutionsPath
+from f_graph.path.core.solutions import SolutionsPath
 from f_graph.path.generators.g_node import GenNode
-from f_graph.path.one_to_one.generators.g_solution import GenSolutionOneToOne
+from f_graph.path.algos.one_to_one.generators.g_solution import GenSolutionOneToOne
 
 
 class GenSolutionsPath:

@@ -1,7 +1,7 @@
 from f_graph.path.generators.g_path import GenPath, GenNode
 from f_graph.path.generators.g_graph import GenGraphPath
-from f_graph.path.cache import Cache
-from f_graph.path.path import Path
+from f_graph.path.ds.cache import Cache
+from f_graph.path.ds.path import Path
 
 
 class GenCache:
