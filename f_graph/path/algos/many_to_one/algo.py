@@ -3,9 +3,9 @@ from f_graph.path.algos.one_to_one.algo import AlgoOneToOne, TypeAlgo
 from f_graph.path.funcs.heuristic import Heuristic, TypeHeuristic
 from f_graph.path.algos.many_to_one.problem import ProblemManyToOne, Node
 from f_graph.path.algos.many_to_one.solutions import SolutionsManyToOne as Solutions
-from f_graph.path.ds.boundary import Boundary
+from f_hs.ds.boundary import Boundary
 from f_graph.path.algos.algo import AlgoPath
-from f_graph.path.ds.cache import Cache
+from f_hs.ds.cache import Cache
 
 
 class AlgoManyToOne(AlgoPath[ProblemManyToOne, Solutions]):

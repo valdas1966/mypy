@@ -1,4 +1,4 @@
-from f_graph.path.ds.graphs.graph_map import GraphMap
+from f_hs.ds.graphs.graph_map import GraphMap
 from f_file_old.generators.g_map_grid import GenMapGrid
 from f_psl.os.folder import Folder
 from f_utils import u_datetime, u_pickle

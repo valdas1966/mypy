@@ -3,7 +3,7 @@ from f_graph.path.algos.many_to_one.generators.g_algo import GenAlgoManyToOne
 from f_graph.path.algos.many_to_one.algo import AlgoManyToOne, TypeAlgo
 from f_graph.path.algos.one_to_one.algo import AlgoOneToOne
 from f_graph.path.generators.g_graph import GenGraphPath, NodePath as Node
-from f_graph.path.ds.path import Path
+from f_hs.ds.path import Path
 import pytest
 
 

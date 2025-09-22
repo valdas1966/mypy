@@ -1,8 +1,8 @@
 from f_graph.path.algos.one_to_one.state import StateOneToOne as State
 from f_graph.path.core.problem import ProblemPath as Problem
 from f_graph.path.funcs.heuristic import Heuristic, Node
-from f_graph.path.ds.boundary import Boundary
-from f_graph.path.ds.cache import Cache
+from f_hs.ds.boundary import Boundary
+from f_hs.ds.cache import Cache
 from collections import Counter
 from enum import Enum, auto
 

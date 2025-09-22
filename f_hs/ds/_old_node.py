@@ -3,7 +3,7 @@ from f_ds.nodes.i_2_cell import NodeCell, Cell
 from f_ds.mixins.has_cache import HasCache
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from f_graph.path.ds.path import Path
+    from f_hs.ds.path import Path
 
 
 class NodePath(NodeCell, HasCache):
@@ -70,7 +70,7 @@ class NodePath(NodeCell, HasCache):
          Get the Path from the Root to this Node.
         ========================================================================
         """
-        from f_graph.path.ds.path import Path
+        from f_hs.ds.path import Path
         nodes = NodeCell.path_from_root(self)
         return Path(data=nodes)
     
@@ -80,7 +80,7 @@ class NodePath(NodeCell, HasCache):
          Get the Path from the given Node to this Node.
         ========================================================================
         """
-        from f_graph.path.ds.path import Path
+        from f_hs.ds.path import Path
         nodes = NodeCell.path_from_node(self, node=node)
         return Path(data=nodes)
 

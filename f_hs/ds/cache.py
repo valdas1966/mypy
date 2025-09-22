@@ -1,6 +1,6 @@
 from __future__ import annotations  
 from f_core.mixins.dictable.main import Dictable
-from f_graph.path.ds.path import Path, Node
+from f_hs.ds.path import Path, Node
 
 
 class Cache(Dictable[Node, Path]):

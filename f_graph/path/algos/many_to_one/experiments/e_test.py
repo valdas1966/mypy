@@ -1,5 +1,5 @@
 from f_ds.old_grids.generators.g_grid import GenGrid, Cell
-from f_graph.path.ds.graphs.graph import GraphPath
+from f_hs.ds.graphs.graph import GraphPath
 from f_graph.path.algos.many_to_one.problem import ProblemManyToOne
 from f_graph.path.algos.many_to_one.algo import AlgoManyToOne
 

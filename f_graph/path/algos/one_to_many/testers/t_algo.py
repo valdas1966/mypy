@@ -1,7 +1,7 @@
 from f_graph.path.algos.one_to_many.generators.g_algo import GenAlgoOneToMany, AlgoOneToMany
 from f_graph.path.algos.one_to_many.generators.g_problem import GenProblemOneToMany
-from f_graph.path.ds._old_node import NodePath as Node
-from f_graph.path.ds.path import Path
+from f_hs.ds._old_node import NodePath as Node
+from f_hs.ds.path import Path
 import pytest
 
 

@@ -1,5 +1,5 @@
 from f_ds.graphs import GraphQuick
-from f_graph.path.ds._old_node import NodePath
+from f_hs.ds._old_node import NodePath
 from f_ds.old_grids.old_grid import Grid
 from typing import TypeVar, Type
 

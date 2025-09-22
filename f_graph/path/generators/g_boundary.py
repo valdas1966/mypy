@@ -1,9 +1,9 @@
 from f_graph.path.generators.g_path import GenPath, GenNode
 from f_graph.path.generators.g_graph import GenGraphPath
 from f_graph.path.generators.g_cache import GenCache
-from f_graph.path.ds.boundary import Boundary
-from f_graph.path.ds.cache import Cache
-from f_graph.path.ds.path import Path
+from f_hs.ds.boundary import Boundary
+from f_hs.ds.cache import Cache
+from f_hs.ds.path import Path
 
 
 class GenBoundary:

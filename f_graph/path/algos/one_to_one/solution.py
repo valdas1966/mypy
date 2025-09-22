@@ -1,7 +1,7 @@
 from f_graph.path.algos.one_to_one.state import StateOneToOne as State, Node
 from f_graph.path.core.solution import SolutionPath, StatsPath
-from f_graph.path.ds.cache import Cache
-from f_graph.path.ds.path import Path
+from f_hs.ds.cache import Cache
+from f_hs.ds.path import Path
 
 
 class SolutionOneToOne(SolutionPath[StatsPath]):

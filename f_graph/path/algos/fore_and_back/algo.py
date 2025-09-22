@@ -4,7 +4,7 @@ from f_graph.path.algos.one_to_one.problem import ProblemOneToOne
 from f_graph.path.algos.one_to_one.solution import SolutionOneToOne
 from f_graph.path.algos.many_to_one.algo import AlgoManyToOne
 from f_graph.path.algos.many_to_one.problem import ProblemManyToOne
-from f_graph.path.ds.cache import Cache
+from f_hs.ds.cache import Cache
 from f_graph.path.core.solutions import SolutionsPath
 
 

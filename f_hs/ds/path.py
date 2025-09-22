@@ -1,6 +1,6 @@
 from __future__ import annotations
 from collections import UserList
-from f_graph.path.ds._old_node import NodePath as Node, Cell
+from f_hs.ds._old_node import NodePath as Node, Cell
 from f_core.mixins.comparable import Comparable
 
 

@@ -1,6 +1,6 @@
 from f_graph.path.algos.one_to_one.generators.g_algo import GenAlgoOneToOne
 from f_graph.path.algos.one_to_one.generators.g_problem import GenProblemOneToOne
-from f_graph.path.ds.path import Path
+from f_hs.ds.path import Path
 
 
 def test_bfs():

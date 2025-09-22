@@ -2,7 +2,7 @@ from f_cs.mixins.has_eager import HasEager
 from f_graph._base.algo import AlgoGraph
 from f_graph.path.core.problem import ProblemPath
 from f_graph.path.core.solution import SolutionPath
-from f_graph.path.ds._old_node import NodePath as Node
+from f_hs.ds._old_node import NodePath as Node
 from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemPath)

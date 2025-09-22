@@ -1,38 +1,44 @@
-from __future__ import annotations
-from f_graph.path.ds.graphs.graph import GraphPath, Grid
+from f_hs.ds.nodes.i_1_cost.main import NodeCost
+from f_ds.grids import CellMap as Cell
 
 
-class GraphMap(GraphPath):
+class Factory:
     """
     ============================================================================
-     GraphMap class.
+     Factory for creating nodes with cost values.
     ============================================================================
     """
+    
+    @staticmethod
+    def cell_00() -> NodeCost[Cell]:
+        """
+        ========================================================================
+         Create a new node with the cell (0, 0).
+        ========================================================================
+        """
+        cell = Cell(0, 0)   
+        node = NodeCost(key=cell, h=5)
+        return node
+    
+    @staticmethod
+    def cell_01() -> NodeCost[Cell]:
+        """
+        ========================================================================
+         Create a new node with the cell (0, 1).
+        ========================================================================
+        """
+        cell = Cell(0, 1)   
+        node = NodeCost(key=cell, h=4)
+        return node
 
-    def __init__(self, path: str, domain: str = None) -> None:
+    @staticmethod
+    def cell_11() -> NodeCost[Cell]:
         """
         ========================================================================
-         Initialize the GraphMap by loading the map grid from the given path.
+         Create a new node with the cell (1, 1).
         ========================================================================
         """
-        grid = Grid.from_map_grid(path=path)
-        GraphPath.__init__(self, grid=grid)
-        self._path = path
-        self._domain = domain
-
-    def clone(self) -> GraphMap:
-        """
-        ========================================================================
-         Clone the GraphMap.
-        ========================================================================
-        """
-        return GraphMap(path=self._path)
-
-    @property
-    def domain(self) -> str:
-        """
-        ========================================================================
-         Get the domain of the graph.
-        ========================================================================
-        """
-        return self._domain
+        cell = Cell(1, 1)
+        node = NodeCost(key=cell, h=3)
+        return node
+   

@@ -4,10 +4,10 @@ from f_graph.path.algos.one_to_one.state import StateOneToOne as State, TypeQueu
 from f_graph.path.algos.one_to_one.flow import FlowOneToOne as Flow
 from f_graph.path.algos.one_to_one.ops import OpsOneToOne as Ops, TypeCounter
 from f_graph.path.funcs.heuristic import Heuristic, TypeHeuristic
-from f_graph.path.ds.boundary import Boundary
+from f_hs.ds.boundary import Boundary
 from f_graph.path.core.stats import StatsPath
 from f_graph.path.algos.algo import AlgoPath
-from f_graph.path.ds.cache import Cache
+from f_hs.ds.cache import Cache
 from enum import Enum, auto
 
 

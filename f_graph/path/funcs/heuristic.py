@@ -1,4 +1,4 @@
-from f_graph.path.ds.graphs.graph import GraphPath as Graph, NodePath as Node
+from f_hs.ds.graphs.graph import GraphPath as Graph, NodePath as Node
 from enum import Enum, auto
 
 

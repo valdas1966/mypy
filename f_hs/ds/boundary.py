@@ -1,10 +1,10 @@
 from __future__ import annotations
 from collections import defaultdict
 from f_core.mixins.dictable.main import Dictable
-from f_graph.path.ds.path import Path, Node
-from f_graph.path.ds.graphs.graph import GraphPath as Graph
+from f_hs.ds.path import Path, Node
+from f_hs.ds.graphs.graph import GraphPath as Graph
 from f_graph.path.funcs.heuristic import Heuristic
-from f_graph.path.ds.cache import Cache
+from f_hs.ds.cache import Cache
 
 
 class Boundary(Dictable[Node, int]):

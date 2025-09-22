@@ -1,64 +1,82 @@
-from __future__ import annotations
-from f_hs.ds._old_node import NodePath
+from f_ds.nodes import NodeParent
+from typing import Self, Generic, TypeVar
+
+Key = TypeVar('Key')
 
 
-class NodeG(NodePath):
+class NodeCost(Generic[Key], NodeParent[Key]):
     """
     ============================================================================
-     Mixin-Class for Nodes with G-Value (Cost from Start to current Node).
+     NodeCost with G, H and F values.
     ============================================================================
     """
 
+    # Factory
+    Factory: type = None
+    
     def __init__(self,
-                 name: str = None,
-                 parent: NodeG = None) -> None:
+                 key: Key,
+                 h: int = None,
+                 name: str = 'NodeCost',
+                 parent: Self = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        NodePath.__init__(self, name=name, parent=parent)
-        self._g = (parent.g + 1) if parent else 0
+        NodeParent.__init__(self, key=key, name=name, parent=parent)
+        self._h = h
+        self._g = self._calc_g()
 
     @property
     def g(self) -> int:
         """
         ========================================================================
-         Cost from Start to current Node.
+         Get the g-value.
         ========================================================================
         """
         return self._g
 
-    @NodePath.parent.setter
-    def parent(self, parent_new: NodeG) -> None:
+    @property
+    def h(self) -> int:
         """
         ========================================================================
-         Set list new Parent and update the G-Value respectively.
+         Get the h-value.
         ========================================================================
         """
-        self._parent = parent_new
-        self._g = (parent_new.g + 1) if parent_new else 0
+        return self._h
+    
+    def f(self) -> int:
+        """
+        ========================================================================
+        ========================================================================
+        """
+        return self.g + self.h
+    
+    def key_comparison(self) -> tuple[int, int, Key]:
+        """
+        ========================================================================
+         Return the f-value, h-value, and key.
+        ========================================================================
+        """
+        return self.f(), self.h, self.key
+         
+    def _calc_g(self) -> int:
+        """
+        ========================================================================
+         Calculate the g-value (by the parent's g-value).
+        ========================================================================
+        """
+        if self.parent:
+            return self.parent.g + 1
+        else:
+            return 0
 
-    def is_better_parent(self, parent_new: NodeG) -> bool:
+    def _update_parent(self) -> None:
         """
         ========================================================================
-         Check if the new parent is better than the current based on G-Value.
+         Recalculate the g-value (based on the new parent).
         ========================================================================
         """
-        return self._parent is None or (parent_new.g < self.parent.g)
-
-    def key_comparison(self) -> list:
-        """
-        ========================================================================
-         If F-Values are equal, break ties on H-Value.
-        ========================================================================
-        """
-        return [-self.g, NodePath.key_comparison(self)]
-
-    def __repr__(self) -> str:
-        """
-        ========================================================================
-         '<NodeG: None> G=1'
-        ========================================================================
-        """
-        return f'{NodePath.__repr__(self)} G={self.g}'
+        self._g = self._calc_g()
+    
