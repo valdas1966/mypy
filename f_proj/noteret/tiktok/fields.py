@@ -25,6 +25,9 @@ class Fields:
     IS_VERIFIED = Field.boolean(name='is_verified')
     IS_SECRET = Field.boolean(name='is_secret')
     IS_PRIVATE = Field.boolean(name='is_private')
+    SIGNATURE = Field.string(name='signature')
+    TWITTER = Field.string(name='twitter_id')
+    YOUTUBE = Field.string(name='youtube_channel_title')
 
     # Stats
     VIDEOS = Field.integer(name='videos')
@@ -87,6 +90,9 @@ class Fields:
         fields.append(Fields.IS_VERIFIED)
         fields.append(Fields.IS_SECRET)
         fields.append(Fields.IS_PRIVATE)
+        fields.append(Fields.SIGNATURE)
+        fields.append(Fields.TWITTER)
+        fields.append(Fields.YOUTUBE)
         return fields
 
     @staticmethod
