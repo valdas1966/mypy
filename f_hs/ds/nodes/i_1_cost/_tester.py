@@ -52,5 +52,3 @@ def test_f() -> None:
         node_01.parent = node_11
     assert node_01.f() == 5
     assert node_01.parent == node_11
-    
-
