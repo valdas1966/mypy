@@ -15,7 +15,6 @@ d.print_details()
 
 e = NodeFlags.Factory.e()
 e.print_details()
-print(d.h, e.h)
 
 f = NodeFlags.Factory.f()
 f.print_details()

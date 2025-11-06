@@ -1,4 +1,4 @@
-from f_ds.graphs import GraphQuick
+from f_ds.graphs import GraphGrid
 from f_hs.ds._old_node import NodePath
 from f_ds.old_grids.old_grid import Grid
 from typing import TypeVar, Type
@@ -6,7 +6,7 @@ from typing import TypeVar, Type
 Node = TypeVar('Node', bound=NodePath)
 
 
-class GraphPath(GraphQuick[Node]):
+class GraphPath(GraphGrid[Node]):
     """
     ============================================================================
      Graph for Path-Finding problems.

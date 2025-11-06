@@ -6,14 +6,14 @@ from typing import Generic, TypeVar, Self, Type
 Node = TypeVar('Node', bound=NodeKey)
 
 
-class GraphQuick(Generic[Key, Node],
-                 Dictable[Key, Node],
-                 HasName,
-                 Clonable,
-                 Equable):
+class GraphGrid(Generic[Key, Node],
+                Dictable[Key, Node],
+                HasName,
+                Clonable,
+                Equable):
     """
     ============================================================================
-     Quick Graph.
+     Grid Graph.
     ============================================================================
     """
 
@@ -23,7 +23,7 @@ class GraphQuick(Generic[Key, Node],
     def __init__(self,
                  grid: GridMap,
                  type_node: Type[Node] = NodeKey,
-                 name: str = 'GraphQuick') -> None:
+                 name: str = 'GraphGrid') -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -69,9 +69,9 @@ class GraphQuick(Generic[Key, Node],
          Return a Cloned object.
         ========================================================================
         """
-        return GraphQuick(grid=self._grid,
-                          type_node=self._type_node,
-                          name=self.name)
+        return GraphGrid(grid=self._grid,
+                         type_node=self._type_node,
+                         name=self.name)
 
     def key_comparison(self) -> dict[Key, Node]:
         """

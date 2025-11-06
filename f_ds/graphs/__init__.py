@@ -1,1 +1,1 @@
-from .quick import GraphQuick
+from .grid import GraphGrid

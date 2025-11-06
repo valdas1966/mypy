@@ -1,2 +1,2 @@
-from f_ds.graphs import GraphQuick
+from f_ds.graphs import GraphGrid
 

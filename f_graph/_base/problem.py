@@ -1,8 +1,8 @@
-from f_ds.graphs import GraphQuick
+from f_ds.graphs import GraphGrid
 from f_ds.nodes import NodeKey
 from typing import Generic, TypeVar
 
-Graph = TypeVar('Graph', bound=GraphQuick)
+Graph = TypeVar('Graph', bound=GraphGrid)
 Node = TypeVar('Node', bound=NodeKey)
 
 

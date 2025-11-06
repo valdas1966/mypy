@@ -1,19 +1,19 @@
-from f_ds.graphs.quick.main import GraphQuick, GridMap
+from f_ds.graphs.grid.main import GraphGrid, GridMap
 
 
 class Factory:
     """
     ============================================================================
-     Factory for the GraphQuick.
+     Factory for the GraphGrid.
     ============================================================================
     """
 
     @staticmethod
-    def x() -> GraphQuick:
+    def x() -> GraphGrid:
         """
         ========================================================================
-         Return a GraphQuick with a 3x3 grid in a X-Shape.
+         Return a GraphGrid with a 3x3 grid in a X-Shape.
         ========================================================================
         """
         grid = GridMap.Factory.x()
-        return GraphQuick(grid=grid)
+        return GraphGrid(grid=grid)
