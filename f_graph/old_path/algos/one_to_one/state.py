@@ -1,7 +1,7 @@
 from f_core.components.enum_callable import EnumCallable
-from f_ds.queues.i_0_base import QueueBase
-from f_ds.queues.i_1_fifo import QueueFIFO
-from f_ds.queues.i_1_list import QueueList
+from f_ds.old_queues.i_0_base import QueueBase
+from f_ds.old_queues.i_1_fifo import QueueFIFO
+from f_ds.old_queues.i_1_list import QueueList
 from f_hs.ds._old_node import NodePath as Node
 
 

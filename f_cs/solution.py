@@ -12,8 +12,8 @@ class SolutionAlgo(Generic[Stats], ValidatablePublic):
     ============================================================================
     """
     def __init__(self,
-                  is_valid: bool,
-                    stats: Stats) -> None:
+                is_valid: bool,
+                stats: Stats) -> None:
         """
         ========================================================================
          Init private Attributes.

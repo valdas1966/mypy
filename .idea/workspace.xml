@@ -5,12 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_search/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/path/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/state/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/state/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/state/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/state/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/path/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/path/_factory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/path/_tester.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/problems/oospp/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/problems/oospp/_factory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/problems/oospp/_tester.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/problems/oospp/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/a_star.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/a_star_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/hs/algos/one_to_one/a_star_cache.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/comparable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_cs/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_cs/problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_cs/solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_cs/solution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/base/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/map/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/map/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_queues/factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/generators/g_1_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_queues/generators/g_1_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/generators/g_1_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_queues/generators/g_1_priority.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_queues/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_1_fifo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_queues/i_1_fifo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_1_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_queues/i_1_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_1_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_queues/i_1_priority.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/study/s_1_fifo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_queues/study/s_1_fifo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/study/s_1_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_queues/study/s_1_priority.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/testers/t_1_fifo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_queues/testers/t_1_fifo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/testers/t_1_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_queues/testers/t_1_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/testers/t_1_priority.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_queues/testers/t_1_priority.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_graph/old_path/algos/one_to_one/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_graph/old_path/algos/one_to_one/state.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/path/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/path/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/state/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/state/_factory.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -514,6 +539,7 @@
     "Python tests.pytest for _tester.test_remove_empty_rows.executor": "Run",
     "Python tests.pytest for _tester.test_remove_empty_rows_and_columns.executor": "Run",
     "Python tests.pytest for _tester.test_storage.executor": "Run",
+    "Python tests.pytest for _tester.test_tail.executor": "Run",
     "Python tests.pytest for _tester.test_to_tuple.executor": "Run",
     "Python tests.pytest for _tester.test_twelve.executor": "Run",
     "Python tests.pytest for _tester.test_upload_from_url.executor": "Run",
@@ -915,28 +941,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Python tests.pytest in _tester.py (1)">
-    <configuration name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/state" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/state/__init__.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="_study (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -981,6 +985,23 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="pytest for _tester.test_tail" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/path" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;_tester.test_tail&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <configuration name="pytest for _tester.test_twelve" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -996,6 +1017,23 @@
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;_tester.test_twelve&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in _tester.py (1)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_core/mixins/comparable" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_core/mixins/comparable/_tester.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="pytest in _tester.py (2)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
@@ -1046,6 +1084,23 @@
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/state/_tester.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/path" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/path/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -1320,19 +1375,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.__init__" />
       <item itemvalue="Python._study" />
       <item itemvalue="Python._study (1)" />
+      <item itemvalue="Python tests.pytest for _tester.test_tail" />
       <item itemvalue="Python tests.pytest for _tester.test_twelve" />
       <item itemvalue="Python tests.pytest in _tester.py (1)" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python tests.pytest in _tester.py (1)" />
+        <item itemvalue="Python tests.pytest in _tester.py (1)" />
+        <item itemvalue="Python tests.pytest for _tester.test_tail" />
+        <item itemvalue="Python tests.pytest in _tester.py (1)" />
         <item itemvalue="Python._study (1)" />
-        <item itemvalue="Python tests.pytest for _tester.test_twelve" />
-        <item itemvalue="Python.__init__" />
-        <item itemvalue="Python._study" />
       </list>
     </recent_temporary>
   </component>
@@ -1386,14 +1441,6 @@
       <workItem from="1753097025966" duration="6888000" />
       <workItem from="1753591538149" duration="5147000" />
       <workItem from="1753705522305" duration="11937000" />
-    </task>
-    <task id="LOCAL-00203" summary="h">
-      <option name="closed" value="true" />
-      <created>1745085811276</created>
-      <option name="number" value="00203" />
-      <option name="presentableId" value="LOCAL-00203" />
-      <option name="project" value="LOCAL" />
-      <updated>1745085811276</updated>
     </task>
     <task id="LOCAL-00204" summary="h">
       <option name="closed" value="true" />
@@ -1779,7 +1826,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762510283859</updated>
     </task>
-    <option name="localTasksCounter" value="252" />
+    <task id="LOCAL-00252" summary="h">
+      <option name="closed" value="true" />
+      <created>1762520368689</created>
+      <option name="number" value="00252" />
+      <option name="presentableId" value="LOCAL-00252" />
+      <option name="project" value="LOCAL" />
+      <updated>1762520368689</updated>
+    </task>
+    <option name="localTasksCounter" value="253" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

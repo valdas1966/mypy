@@ -28,3 +28,13 @@ class Factory:
         """
         cell = Cell(1, 1)
         return State(key=cell)
+
+    @staticmethod
+    def two() -> State[Cell]:
+        """
+        ========================================================================
+         Return a new State with the cell (2, 2).
+        ========================================================================
+        """
+        cell = Cell(2, 2)
+        return State(key=cell)

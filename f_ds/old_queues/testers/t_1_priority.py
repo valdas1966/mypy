@@ -1,5 +1,5 @@
-from f_ds.queues.i_1_priority import QueuePriority
-from f_ds.queues.generators.g_1_priority import GenPriorityQueue, Item
+from f_ds.old_queues.i_1_priority import QueuePriority
+from f_ds.old_queues.generators.g_1_priority import GenPriorityQueue, Item
 import pytest
 
 
