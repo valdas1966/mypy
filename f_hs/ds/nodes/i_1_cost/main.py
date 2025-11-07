@@ -1,4 +1,4 @@
-from f_ds.nodes import NodeParent
+from f_graph.nodes import NodeParent
 from typing import Self, Generic, TypeVar
 
 Key = TypeVar('Key')

@@ -36,7 +36,7 @@ def node_c() -> Node:
 def linked_1(node_a: Node, node_b: Node) -> LinkedList:
     """
     ========================================================================
-     Create a Linked-List with two nodes (A -> B).
+     Create a Linked-List with two old_nodes (A -> B).
     ========================================================================
     """
     linked = LinkedList(name='L1')

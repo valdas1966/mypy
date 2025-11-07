@@ -1,2 +1,2 @@
-from f_ds.graphs import GraphGrid
+from f_graph.graphs import GraphGrid
 

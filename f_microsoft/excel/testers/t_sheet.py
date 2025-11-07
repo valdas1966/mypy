@@ -138,6 +138,6 @@ def test_cell_background() -> None:
     excel.close()
 
     # Clean up
-    # UFile.delete(path=path)
+    # UFile.delete(old_path=old_path)
 
 

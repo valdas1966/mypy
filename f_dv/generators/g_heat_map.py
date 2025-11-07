@@ -13,7 +13,7 @@ class GenHeatMap:
     def window_full() -> HeatMap:
         """
         ========================================================================
-         Generate a heat map for a window full.
+         Generate a heat i_1_map for a window full.
         ========================================================================
         """
         pivot = GenPivot.window_full()
@@ -23,7 +23,7 @@ class GenHeatMap:
     def window_full_sum() -> HeatMap:
         """
         ========================================================================
-         Generate a heat map for a window full sum.
+         Generate a heat i_1_map for a window full sum.
         ========================================================================
         """
         pivot = GenPivot.window_full_sum()
@@ -33,7 +33,7 @@ class GenHeatMap:
     def window_full_mean() -> HeatMap:
         """
         ========================================================================
-         Generate a heat map for a window full mean.
+         Generate a heat i_1_map for a window full mean.
         ========================================================================
         """
         pivot = GenPivot.window_full_mean()
@@ -43,7 +43,7 @@ class GenHeatMap:
     def window_broken() -> HeatMap:
         """
         ========================================================================
-         Generate a heat map for a window broken.
+         Generate a heat i_1_map for a window broken.
         ========================================================================
         """
         pivot = GenPivot.window_broken()
@@ -53,7 +53,7 @@ class GenHeatMap:
     def random_10x10() -> HeatMap:
         """
         ========================================================================
-         Generate a heat map for a random 10x10 window.
+         Generate a heat i_1_map for a random 10x10 window.
         ========================================================================
         """
         pivot = GenPivot.random_10x10()

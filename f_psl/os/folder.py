@@ -23,7 +23,7 @@ class Folder:
     def path(self) -> str:
         """
         ====================================================================
-         Get the path of the Folder object.
+         Get the old_path of the Folder object.
         ====================================================================
         """
         return self._path

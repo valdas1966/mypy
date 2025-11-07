@@ -1,4 +1,4 @@
-from f_ds.nodes.mixins.has_children import HasChildren
+from f_graph.nodes import HasChildren
 
 
 class GenHasChildren:

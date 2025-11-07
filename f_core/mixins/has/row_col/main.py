@@ -53,13 +53,13 @@ class HasRowCol(Comparable, Printable):
                 in (n_north, n_east, n_south, n_west)
                 if n[0] >= 0 and n[1] >= 0]
 
-    def key_comparison(self) -> list:
+    def key_comparison(self) -> tuple[int, int]:
         """
         ========================================================================
          Prioritize Row over the Col in Comparisons (Clock-Wise Order).
         ========================================================================
         """
-        return [self.row, self.col]
+        return self.row, self.col
     
     def to_tuple(self) -> tuple[int, int]:
         """

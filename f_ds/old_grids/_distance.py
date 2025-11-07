@@ -1,5 +1,5 @@
 from collections.abc import Iterable
-from f_ds.grids.cell.map.main import CellMap
+from f_ds.grids.cell.i_1_map.main import CellMap
 
 
 class Distance:

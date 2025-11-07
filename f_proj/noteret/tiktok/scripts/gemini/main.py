@@ -3,7 +3,7 @@ import os
 import sys
 import subprocess
 
-# Define the folder path directly
+# Define the folder old_path directly
 folder_path = r'c:\path'
 
 if not os.path.isdir(folder_path):

@@ -91,7 +91,7 @@ def _run_module_tests(module_path: str) -> List[Tuple[str, bool, str]]:
     Run all test functions from a specific tester module.
     
     Args:
-        module_path: Module path like 'bounds._tester'
+        module_path: Module old_path like 'bounds._tester'
         
     Returns:
         List of (test_name, success, error_message) tuples

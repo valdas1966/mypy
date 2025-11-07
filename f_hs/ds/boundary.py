@@ -3,7 +3,7 @@ from collections import defaultdict
 from f_core.mixins.dictable.main import Dictable
 from f_hs.ds.path import Path, Node
 from f_hs.ds.graphs.graph import GraphPath as Graph
-from f_graph.path.funcs.heuristic import Heuristic
+from f_graph.old_path.funcs.heuristic import Heuristic
 from f_hs.ds.cache import Cache
 
 
@@ -28,7 +28,7 @@ class Boundary(Dictable[Node, int]):
     def changed(self) -> set[Node]:
         """
         ====================================================================
-         Get the changed nodes.
+         Get the changed old_nodes.
         ====================================================================
         """
         return self._changed
@@ -37,7 +37,7 @@ class Boundary(Dictable[Node, int]):
     def stats_changed(self) -> dict[int, int]:
         """
         ====================================================================
-         Get the stats of the changed nodes.
+         Get the stats of the changed old_nodes.
         ====================================================================
         """
         return self._stats_changed
@@ -87,7 +87,7 @@ class Boundary(Dictable[Node, int]):
         exploited = exploited if exploited else set()
         # Initialize the boundary
         boundary = cls()
-        # Iterate over the path nodes
+        # Iterate over the old_path old_nodes
         for node in path:
             if node in exploited:
                 continue

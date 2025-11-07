@@ -9,7 +9,7 @@ def test_all() -> None:
      Automatically discover and run all test functions from subfolder tester files.
     ========================================================================
     """
-    # Get the current directory path
+    # Get the current directory old_path
     current_dir = Path(__file__).parent
     
     # Find all subdirectories with _tester.py files

@@ -1,4 +1,4 @@
-from f_ds.nodes.mixins.has_parent import HasParent
+from f_graph.nodes import HasParent
 
 
 def test_path_from_root():

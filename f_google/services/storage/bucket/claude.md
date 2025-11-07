@@ -35,7 +35,7 @@ if blob:
 # Upload local file
 success = bucket.upload_from_pc(
     name='data/report.pdf',           # destination in bucket
-    path='/local/path/report.pdf'     # local file
+    path='/local/old_path/report.pdf'     # local file
 )
 print(f"Upload: {success}")
 ```

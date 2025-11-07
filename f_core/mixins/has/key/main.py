@@ -1,17 +1,17 @@
 from typing import Generic, TypeVar 
 from f_core.mixins.comparable import Comparable
 
-K = TypeVar('K')
+Key = TypeVar('Key')
 
 
-class HasKey(Generic[K], Comparable):
+class HasKey(Generic[Key], Comparable):
     """
     ============================================================================
      Mixin for objects that have a key.
     ============================================================================
     """ 
 
-    def __init__(self, key: K) -> None:
+    def __init__(self, key: Key) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -20,7 +20,7 @@ class HasKey(Generic[K], Comparable):
         self._key = key
     
     @property
-    def key(self) -> K:
+    def key(self) -> Key:
         """
         ========================================================================
          Return the key of the object.
@@ -28,7 +28,7 @@ class HasKey(Generic[K], Comparable):
         """ 
         return self._key
 
-    def key_comparison(self) -> K:
+    def key_comparison(self) -> Key:
         """
         ========================================================================
          Return the key of the object.

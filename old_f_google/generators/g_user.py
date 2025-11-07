@@ -4,7 +4,7 @@ from old_f_google.user import User
 class GenUser:
     """
     ============================================================================
-     Generate the path to the JSON files for the users.
+     Generate the old_path to the JSON files for the users.
     ============================================================================
     """ 
 
@@ -12,7 +12,7 @@ class GenUser:
     def gen_rami() -> str:
         """
         ============================================================================
-         Generate the path to the Rami's JSON file.
+         Generate the old_path to the Rami's JSON file.
         ============================================================================
         """
         return User.RAMI
@@ -21,7 +21,7 @@ class GenUser:
     def gen_valdas() -> str:
         """
         ============================================================================
-         Generate the path to the Valdas' JSON file.
+         Generate the old_path to the Valdas' JSON file.
         ============================================================================
         """ 
         return User.VALDAS

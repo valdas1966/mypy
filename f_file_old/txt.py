@@ -27,7 +27,7 @@ class Txt(UserList[str]):
     def path(self) -> str:
         """
         ====================================================================
-         Get the path of the Txt object.
+         Get the old_path of the Txt object.
         ====================================================================
         """
         return self._path

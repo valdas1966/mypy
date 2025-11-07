@@ -5,7 +5,7 @@ from f_ds.grids import CellMap as Cell
 class Factory:
     """
     ============================================================================
-     Factory for creating nodes with cost values.
+     Factory for creating old_nodes with cost values.
     ============================================================================
     """
     

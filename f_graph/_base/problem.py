@@ -1,5 +1,5 @@
-from f_ds.graphs import GraphGrid
-from f_ds.nodes import NodeKey
+from f_graph.graphs import GraphGrid
+from f_graph.nodes import NodeKey
 from typing import Generic, TypeVar
 
 Graph = TypeVar('Graph', bound=GraphGrid)

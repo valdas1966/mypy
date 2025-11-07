@@ -1,4 +1,4 @@
-from f_ds.grids.cell.base.main import CellBase
+from f_ds.grids.cell.i_0_base.main import CellBase
 from f_gui.components.component import Component
 
 

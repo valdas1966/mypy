@@ -5,7 +5,7 @@ from f_core.mixins.has.name import HasName
 class Shape(HasName, Printable):
     """
     =======================================================================
-     Abstract base class for all GUI-Shapes.
+     Abstract i_0_base class for all GUI-Shapes.
     =======================================================================
     """
     

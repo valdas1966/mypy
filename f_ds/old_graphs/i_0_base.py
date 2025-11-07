@@ -3,7 +3,7 @@ from __future__ import annotations
 from f_core.mixins.has.name import HasName
 from f_core.mixins.clonable import Clonable
 from f_ds.mixins.groupable import Groupable, Group
-from f_ds.nodes.i_0_key import NodeKey
+from f_graph.nodes import NodeKey
 from typing import TypeVar, Generic
 from abc import abstractmethod
 

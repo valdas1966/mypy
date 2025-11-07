@@ -41,7 +41,7 @@ def test_key_comparison() -> None:
     ========================================================================
     """ 
     twelve = HasRowCol.Factory.twelve()
-    assert twelve.key_comparison() == [1, 2]
+    assert twelve.key_comparison() == (1, 2)
     
     
 def test_to_tuple() -> None:

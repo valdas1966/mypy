@@ -21,24 +21,6 @@ class Iterable(Generic[Item], Printable):
         """
         pass
 
-    def insert(self, item: Item, index: int) -> None:
-        """
-        ========================================================================
-         Insert an Item into a given Index.
-        ========================================================================
-        """
-        list(self).insert(index, item)
-        print(list(self))
-
-    def move(self, item: Item, index: int) -> None:
-        """
-        ========================================================================
-         Move an Item to a given Index.
-        ========================================================================
-        """
-        self.to_list().remove(item)
-        self.insert(item=item, index=index)
-
     def __iter__(self) -> Iterator[Item]:
         """
         ========================================================================

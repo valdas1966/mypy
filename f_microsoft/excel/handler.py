@@ -33,7 +33,7 @@ class Excel(FileHandler):
     def save_as(self, path: str) -> None:
         """
         ========================================================================
-         Save the Excel file to a new path.
+         Save the Excel file to a new old_path.
         ========================================================================
         """
         self._wb.save(path)

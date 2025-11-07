@@ -2,7 +2,7 @@
 class HasFilePath:
     """
     ============================================================================
-     Mixin for classes that have a file path.
+     Mixin for classes that have a file old_path.
     ============================================================================
     """
     

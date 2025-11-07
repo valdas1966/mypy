@@ -1,6 +1,6 @@
 from __future__ import annotations
 from f_ds.old_graphs.i_0_base import GraphBase
-from f_ds.nodes.i_0_key import NodeKey, Key
+from f_graph.nodes import NodeKey, Key
 from f_core.mixins.equable import Equable
 from typing import Generic,Type, TypeVar, Iterable
 

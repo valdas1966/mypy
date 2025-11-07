@@ -18,7 +18,7 @@ class File(ABC):
          Initialize the file handler.
         ========================================================================
         """
-        # Store the path to the file.
+        # Store the old_path to the file.
         self._path = path
         # Open the file.
         self._open()
@@ -27,7 +27,7 @@ class File(ABC):
     def path(self) -> str:
         """
         ========================================================================
-         Get the path to the file.
+         Get the old_path to the file.
         ========================================================================
         """
         return self._path

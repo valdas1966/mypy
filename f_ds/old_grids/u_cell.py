@@ -23,7 +23,7 @@ class UCell:
         cand_max = None
         # Iterate over the candidates to find the farthest one
         for cand in cands:
-            # Get the distance between the base and the candidate
+            # Get the distance between the i_0_base and the candidate
             dist = base.distance(cand)
             # Update the max distance and candidate if the current distance
             #  is greater than the current max distance.

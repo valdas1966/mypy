@@ -14,10 +14,10 @@ class From:
     def file_map(path: str) -> GridMap:
         """
         ========================================================================
-         Return a GridMap created from a file-map.
+         Return a GridMap created from a file-i_1_map.
         ========================================================================
         """
-        # Get the boolean array from the file-map
+        # Get the boolean array from the file-i_1_map
         array = UFileMap.to_bool_array(path=path)
         # Return the GridMap
         return From.array(array=array)

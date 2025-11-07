@@ -19,7 +19,7 @@ class GenMapGrid:
         lines.append('type')
         lines.append('heig')
         lines.append('widt')
-        lines.append('map')
+        lines.append('i_1_map')
         lines.append('@...')
         lines.append('@.@.')
         lines.append('@...')

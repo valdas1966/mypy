@@ -1,4 +1,4 @@
-from f_graph.path.one_to_one.generators.gen_problem import UProblemOTO
+from f_graph.old_path.one_to_one.generators.gen_problem import UProblemOTO
 from f_ai.hs.algos.u_algos import UAlgos, Node
 
 

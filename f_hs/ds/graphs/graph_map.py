@@ -12,7 +12,7 @@ class GraphMap(GraphPath):
     def __init__(self, path: str, domain: str = None) -> None:
         """
         ========================================================================
-         Initialize the GraphMap by loading the map grid from the given path.
+         Initialize the GraphMap by loading the i_1_map grid from the given old_path.
         ========================================================================
         """
         grid = Grid.from_map_grid(path=path)

@@ -1,6 +1,6 @@
 from __future__ import annotations
 from f_ai.hs.nodes.i_1_f import NodeF
-from f_graph.path.nodes.i_1_cell import NodeCell, Cell
+from f_graph.old_path.nodes.i_1_cell import NodeCell, Cell
 
 
 class NodeFCell(NodeF, NodeCell):

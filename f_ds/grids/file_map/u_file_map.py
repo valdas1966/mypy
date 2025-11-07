@@ -17,7 +17,7 @@ class UFileMap:
     def to_bool_array(path: str) -> np.ndarray:
         """
         ========================================================================
-         Convert a file-map to a boolean array.
+         Convert a file-i_1_map to a boolean array.
         ========================================================================
         """
         lines = UTxt.to_list(path=path)

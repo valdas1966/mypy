@@ -8,7 +8,7 @@ class LogWritter(Inittable):
     ============================================================================
      Attributes:
     ----------------------------------------------------------------------------
-        1. nodes : str (Path of the Folder to store the new files).
+        1. old_nodes : str (Path of the Folder to store the new files).
         2. threshold : int (Number of lines per file).
     ============================================================================
     """

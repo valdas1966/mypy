@@ -11,7 +11,7 @@
 # might want to install, especially if they're looking to run this get-pip.py
 # script. Pip has a lot of code to deal with the security of installing
 # packages, various edge cases on various platforms, and other such sort of
-# "tribal knowledge" that has been encoded in its code base. Because of this
+# "tribal knowledge" that has been encoded in its code i_0_base. Because of this
 # we basically include an entire copy of pip inside this g_blob. We do this
 # because the alternatives are attempt to implement a "minipip" that probably
 # doesn't do things correctly and has weird edge cases, or compress pip itself
@@ -130,7 +130,7 @@ def main():
         with open(pip_zip, "wb") as fp:
             fp.write(b85decode(DATA.replace(b"\n", b"")))
 
-        # Add the zipfile to sys.path so that we can import it
+        # Add the zipfile to sys.old_path so that we can import it
         sys.path.insert(0, pip_zip)
 
         # Run the bootstrap

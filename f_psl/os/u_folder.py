@@ -12,7 +12,7 @@ class UFolder:
     def filepaths(path: str, recursive: bool = False) -> list[str]:
         """
         ========================================================================
-         Return all filepaths in the given folder path with optional boolean
+         Return all filepaths in the given folder old_path with optional boolean
          argument to include all subfolders.
         ========================================================================
         """

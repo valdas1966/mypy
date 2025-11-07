@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QWidget
 from f_gui_old.pyqt.mixins.has_widget import HasWidget
 from f_gui_old.mixins.has_position import HasPosition
-from f_ds.nodes.mixins.has_parent import HasParent
+from f_graph.nodes import HasParent
 from f_core.mixins.has.name import HasName
 from f_gui.layout import LTWH
 

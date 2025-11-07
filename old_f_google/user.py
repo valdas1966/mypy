@@ -10,7 +10,7 @@ class User:
 
     VALDAS = str(os.getenv(key='VALDAS_JSON_PATH'))
     # Try get RAMI_JSON_PATH from environment variable
-    #  on fail, use default path
+    #  on fail, use default old_path
     try:
         RAMI = str(os.getenv(key='RAMI_JSON_PATH'))
     except:

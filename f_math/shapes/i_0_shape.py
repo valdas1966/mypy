@@ -5,7 +5,7 @@ from abc import ABC
 class Shape(ABC, HasName):
     """
     =================================================================
-     Abstract base class for all shapes.
+     Abstract i_0_base class for all shapes.
     =================================================================
     """
 

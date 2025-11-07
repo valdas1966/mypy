@@ -15,7 +15,7 @@ path_output = r"C:\Users\user\Desktop\noteret\tiktok\scripts\gemini\output"
 with open(path_script, 'r') as f:
     script_content = f.read()
 
-# Get base filename without extension and add regex pattern for cat value
+# Get i_0_base filename without extension and add regex pattern for cat value
 pattern_cat = r'cat\s*=\s*\d+'
 base_name = os.path.splitext(os.path.basename(path_script))[0]
 
@@ -37,7 +37,7 @@ for i, json_file in enumerate(os.listdir(path_keys)):
     # Create new script content with replacements
     new_content = script_content
     
-    # Replace service account key path
+    # Replace service account key old_path
     new_content = re.sub(
         r'service_account_key_path\s*=\s*r?"[^"]*"',
         f'service_account_key_path = r"{json_path}"',

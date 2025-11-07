@@ -12,7 +12,7 @@ def load(folder: str,
     ============================================================================
      Arguments:
     ----------------------------------------------------------------------------
-        1. nodes : str (Csv-Logger Folder)
+        1. old_nodes : str (Csv-Logger Folder)
         2. bq : BigQuery (Connection-Class)
         3. tname : str (BigQuery Logger-Table-Name)
     ============================================================================

@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_ds.nodes.i_2_cell import NodeCell, Cell
+from f_graph.nodes.i_2_cell import NodeCell, Cell
 from f_ds.mixins.has_cache import HasCache
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -129,7 +129,7 @@ class NodePath(NodeCell, HasCache):
     def __eq__(self, other: NodePath) -> bool:
         """
         ========================================================================
-         Compare two nodes.
+         Compare two old_nodes.
         ========================================================================
         """
         return self.key == other.key
@@ -137,7 +137,7 @@ class NodePath(NodeCell, HasCache):
     def __ne__(self, other: NodePath) -> bool:
         """
         ========================================================================
-         Compare two nodes.
+         Compare two old_nodes.
         ========================================================================
         """
         return self.key != other.key

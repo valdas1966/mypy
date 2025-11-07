@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_ds.nodes.i_1_has_prev import NodeHasPrev
+from f_graph.nodes import NodeHasPrev
 from f_ds.mixins.groupable import Groupable, Group
 from f_ds.mixins.has_head import HasHead
 from f_core.mixins.has.name import HasName
@@ -81,7 +81,7 @@ class LinkedList(Generic[Node],
     def remove_all(self) -> None:
         """
         ========================================================================
-         Remove all nodes from the Linked-List.
+         Remove all old_nodes from the Linked-List.
         ========================================================================
         """
         self.head = None
@@ -130,7 +130,7 @@ class LinkedList(Generic[Node],
     def from_list(cls, li: list[Node], name: str = None) -> LinkedList[Node]:
         """
         ========================================================================
-         Create a Linked-List from a list of nodes.
+         Create a Linked-List from a list of old_nodes.
         ========================================================================
         """
         linked = cls(name=name)
@@ -142,7 +142,7 @@ class LinkedList(Generic[Node],
     def gen_abc(cls) -> LinkedList[Node]:
         """
         ========================================================================
-         Generate a Linked-List with nodes A, B, C.
+         Generate a Linked-List with old_nodes A, B, C.
         ========================================================================
         """
         node_a = NodePrevNext(uid='A')

@@ -1,11 +1,11 @@
 from f_ds.old_graphs.generators.g_1_dict import GenGraphDict
-from f_ds.nodes.i_0_key import NodeKey
+from f_graph.nodes import NodeKey
 
 
 def test_nodes() -> None:
     """
     ========================================================================
-     Test the nodes() method.
+     Test the old_nodes() method.
     ========================================================================
     """
     graph = GenGraphDict.two()

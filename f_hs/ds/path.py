@@ -41,7 +41,7 @@ class Path(UserList[Node], Comparable):
     def extend(self, other: Path) -> None:
         """
         ====================================================================
-         Extend the path.
+         Extend the old_path.
         ====================================================================
         """
         if self.goal == other.start:
@@ -51,7 +51,7 @@ class Path(UserList[Node], Comparable):
     def reverse(self) -> Path:
         """
         ====================================================================
-         Reverse the path.
+         Reverse the old_path.
         ====================================================================
         """
         return Path(data=list(reversed(self.data))) 
@@ -59,7 +59,7 @@ class Path(UserList[Node], Comparable):
     def from_node(self, node: Node) -> Path:
         """
         ====================================================================
-         Get the path from the given node to the goal.
+         Get the old_path from the given node to the goal.
         ====================================================================
         """
         return Path(data=self._data[self._data.index(node):])
@@ -67,7 +67,7 @@ class Path(UserList[Node], Comparable):
     def key_comparison(self) -> list[Cell]:
         """
         ====================================================================
-         Get the key comparison of the path.
+         Get the key comparison of the old_path.
         ====================================================================
         """
         return [node.cell for node in self]
@@ -96,7 +96,7 @@ class Path(UserList[Node], Comparable):
     def __reversed__(self) -> Path:
         """
         ====================================================================
-         Get the reversed path.
+         Get the reversed old_path.
         ====================================================================
         """
         return Path(data=list(reversed(self.data)))
@@ -104,7 +104,7 @@ class Path(UserList[Node], Comparable):
     def __str__(self) -> str:
         """
         ====================================================================
-         Get the string representation of the path.
+         Get the string representation of the old_path.
         ====================================================================
         """
         nodes = [str(node.cell.to_tuple()) for node in self]
