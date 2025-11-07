@@ -1,4 +1,4 @@
-from f_ds.queues.i_1_priority import QueuePriority
+from f_ds.old_queues.i_1_priority import QueuePriority
 from f_core.mixins.generators.g_comparable import GenComparable, Item
 
 

@@ -1,32 +1,26 @@
-from f_cs.stats import StatsAlgo    
-from f_core.mixins.validatable_public import ValidatablePublic
-from typing import Generic, TypeVar
-
-Stats = TypeVar('Stats', bound=StatsAlgo)
+from f_search import State
 
 
-class SolutionAlgo(Generic[Stats], ValidatablePublic):
+class HasGoal:
     """
     ============================================================================
-     ABC for Algorithm's Solution.
+     Mixin-Class for Problems with a Goal-State.
     ============================================================================
     """
-    def __init__(self,
-                is_valid: bool,
-                stats: Stats) -> None:
+
+    def __init__(self, goal: State) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        ValidatablePublic.__init__(self, is_valid=is_valid)
-        self._stats: Stats = stats
+        self._goal = goal   
 
     @property
-    def stats(self) -> Stats:
+    def goal(self) -> State:
         """
         ========================================================================
-         Return the Algorithm's Stats.
+         Return the Goal-State of the Problem.
         ========================================================================
         """
-        return self._stats
+        return self._goal

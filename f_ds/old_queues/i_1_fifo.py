@@ -1,6 +1,6 @@
 from collections import deque
 from f_ds.mixins.collectionable.main import IterableSized
-from f_ds.queues.i_0_base import QueueBase, Item
+from f_ds.old_queues.i_0_base import QueueBase, Item
 from typing import Deque
 
 

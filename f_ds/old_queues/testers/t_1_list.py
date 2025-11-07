@@ -1,4 +1,4 @@
-from f_ds.queues.generators.g_1_list import GenQueueList
+from f_ds.old_queues.generators.g_1_list import GenQueueList
 
 
 def test_push() -> None:

@@ -56,14 +56,6 @@ class GridBase(Generic[Cell],
         ========================================================================
         """
         return Group(name=name, data=list(self))
-    
-    def __len__(self) -> int:
-        """
-        ========================================================================
-         Return the total number of cells in the grid.
-        ========================================================================
-        """
-        return self.rows * self.cols
 
     def _init_cells(self, type_cell: Type[Cell]) -> list[list[Cell]]:
         """
@@ -77,7 +69,15 @@ class GridBase(Generic[Cell],
                     ]
                     for row in range(self.rows)
                 ]
-    
+
+    def __len__(self) -> int:
+        """
+        ========================================================================
+         Return the total number of cells in the grid.
+        ========================================================================
+        """
+        return self.rows * self.cols
+
     def __getitem__(self, index) -> list[Cell]:
         """
         ========================================================================

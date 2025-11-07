@@ -1,40 +1,40 @@
-from f_ds.grids.cell.i_1_map import CellMap as Cell
-from f_search.state.main import State
+from f_cs.stats import StatsAlgo
 
 
-class Factory:
+class StatsOOSPP(StatsAlgo):
     """
     ============================================================================
-     Factory for creating States.
+     Stats for One-to-One Shortest-Path-Problem.
     ============================================================================
     """
 
-    @staticmethod
-    def zero() -> State[Cell]:
+    def __init__(self,
+                 elapsed: int,
+                 generated: int,
+                 explored: int) -> None:
         """
         ========================================================================
-         Return a new State with the cell (0, 0).
+         Init private Attributes.
         ========================================================================
         """
-        cell = Cell(0, 0)
-        return State(key=cell)
+        StatsAlgo.__init__(self, elapsed=elapsed)
+        self._generated = generated
+        self._explored = explored    
 
-    @staticmethod
-    def one() -> State[Cell]:
+    @property
+    def generated(self) -> int:
         """
         ========================================================================
-         Return a new State with the cell (1, 1).
+         Return the Number of Generated Nodes.
         ========================================================================
         """
-        cell = Cell(1, 1)
-        return State(key=cell)
-
-    @staticmethod
-    def two() -> State[Cell]:
+        return self._generated
+    
+    @property
+    def explored(self) -> int:
         """
         ========================================================================
-         Return a new State with the cell (2, 2).
+         Return the Number of Explored Nodes.
         ========================================================================
         """
-        cell = Cell(2, 2)
-        return State(key=cell)
+        return self._explored

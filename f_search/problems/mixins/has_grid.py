@@ -1,40 +1,37 @@
-from f_ds.grids.cell.i_1_map import CellMap as Cell
-from f_search.state.main import State
+from f_ds.grids import GridMap as Grid, CellMap as Cell
+from f_search import State
 
 
-class Factory:
+class ProblemGrid:
     """
     ============================================================================
-     Factory for creating States.
+     Base-Class for Grid-Problems in Search.
     ============================================================================
     """
 
-    @staticmethod
-    def zero() -> State[Cell]:
+    def __init__(self, grid: Grid) -> None:
         """
         ========================================================================
-         Return a new State with the cell (0, 0).
+         Init private Attributes.
         ========================================================================
         """
-        cell = Cell(0, 0)
-        return State(key=cell)
+        self._grid = grid
 
-    @staticmethod
-    def one() -> State[Cell]:
+    @property
+    def grid(self) -> Grid:
         """
         ========================================================================
-         Return a new State with the cell (1, 1).
+         Return the Problem's Grid.
         ========================================================================
         """
-        cell = Cell(1, 1)
-        return State(key=cell)
+        return self._grid
 
-    @staticmethod
-    def two() -> State[Cell]:
+    def successors(self, state: State) -> list[State]:
         """
         ========================================================================
-         Return a new State with the cell (2, 2).
+         Return the successors of the given state.
         ========================================================================
         """
-        cell = Cell(2, 2)
-        return State(key=cell)
+        cells = self.grid.neighbors(cell=state.cell)
+        states = [State[Cell](key=cell) for cell in cells]
+        return states

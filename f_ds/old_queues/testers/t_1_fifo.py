@@ -1,5 +1,5 @@
 import pytest
-from f_ds.queues.i_1_fifo import QueueFIFO
+from f_ds.old_queues.i_1_fifo import QueueFIFO
 
 
 @pytest.fixture

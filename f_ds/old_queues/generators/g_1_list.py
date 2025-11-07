@@ -1,4 +1,4 @@
-from f_ds.queues.i_1_list import QueueList
+from f_ds.old_queues.i_1_list import QueueList
 
 
 class GenQueueList:

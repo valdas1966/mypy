@@ -1,5 +1,5 @@
 from f_graph.algos.one_to_one.i_1_core import AlgoOneToOneCore, Problem
-from f_ds.queues.i_1_priority import QueuePriority
+from f_ds.old_queues.i_1_priority import QueuePriority
 from f_ai.hs.ops.node import OpsNodeHS, Node
 from typing import Callable
 

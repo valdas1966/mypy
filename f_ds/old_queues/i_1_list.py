@@ -1,4 +1,4 @@
-from f_ds.queues.i_0_base import QueueBase
+from f_ds.old_queues.i_0_base import QueueBase
 from enum import Enum, auto
 from typing import TypeVar, Iterable
 
