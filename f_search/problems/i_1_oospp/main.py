@@ -1,11 +1,8 @@
-from f_search.problems.mixins import HasGrid, HasStart, HasGoal, Grid, State
-from f_cs.problem import ProblemAlgo
+from f_search.problems import ProblemSearch, Grid, State
+from f_search.problems.mixins import HasStart, HasGoal
 
 
-class ProblemOOSPP(ProblemAlgo,
-                   HasGrid,
-                   HasStart,
-                   HasGoal):
+class ProblemOOSPP(ProblemSearch, HasStart, HasGoal):
     """
     ============================================================================
      One-to-One Shortest-Path-Problem on a Grid.
@@ -21,7 +18,6 @@ class ProblemOOSPP(ProblemAlgo,
          Init private Attributes.
         ========================================================================
         """
-        ProblemAlgo.__init__(self)
-        HasGrid.__init__(self, grid=grid)
+        ProblemSearch.__init__(self, grid=grid)
         HasStart.__init__(self, start=start)
         HasGoal.__init__(self, goal=goal)

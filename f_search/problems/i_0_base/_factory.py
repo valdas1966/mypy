@@ -1,22 +1,22 @@
-from f_search.problems.mixins.has_grid.main import HasGrid, Grid
+from f_search.problems.i_0_base.main import ProblemSearch, Grid
 
 
 class Factory:
     """
     ============================================================================
-     Factory for the HasGrid mixin.
+     Factory for the ProblemSearch.
     ============================================================================
     """
 
     @staticmethod
-    def grid_3x3() -> HasGrid:
+    def grid_3x3() -> ProblemSearch:
         """
         ========================================================================
-         Return a HasGrid object with a 3x3 grid.
+         Return a ProblemSearch object with a 3x3 grid.
         ========================================================================
         """
-        class Temp(HasGrid):
+        class Temp(ProblemSearch):
             def __init__(self) -> None:
                 grid = Grid(rows=3)
-                HasGrid.__init__(self, grid=grid)
+                ProblemSearch.__init__(self, grid=grid)
         return Temp()

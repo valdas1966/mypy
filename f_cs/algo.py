@@ -17,14 +17,14 @@ class Algo(Generic[Problem, Solution],
     """
     def __init__(self,
                  problem: ProblemAlgo,
-                 verbose: bool = False,
+                 verbose: bool = True,
                  name: str = 'Algorithm') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._problem = problem.clone()
+        self._problem = problem
         ProcessIO.__init__(self,
                            _input=self._problem,
                            verbose=verbose, name=name)

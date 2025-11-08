@@ -1,11 +1,12 @@
 from f_ds.grids import GridMap as Grid, CellMap as Cell
+from f_cs.problem import ProblemAlgo
 from f_search.state import State
 
 
-class HasGrid:
+class ProblemSearch(ProblemAlgo):
     """
     ============================================================================
-     Base-Class for Grid-Problems in Search.
+     Base-Class for Search-Problems in Grid's domain.
     ============================================================================
     """
 
@@ -18,6 +19,7 @@ class HasGrid:
          Init private Attributes.
         ========================================================================
         """
+        ProblemAlgo.__init__(self)
         self._grid = grid
 
     @property
