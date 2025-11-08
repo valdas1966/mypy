@@ -1,8 +1,9 @@
-from f_search.algos.oospp import AlgoOOSPP, ProblemOOSPP, SolutionOOSPP
+from f_search.algos import AlgoOOSPP, ProblemOOSPP, SolutionOOSPP
+from f_ds.queues.i_1_priority import QueuePriority
 from f_search.state import State
 
 
-class AStar(AlgoOOSPP[ProblemOOSPP, SolutionOOSPP]):
+class AStar(AlgoOOSPP):
     """
     ============================================================================
      A* Algorithm for One-to-One Shortest-Path-Problem.
