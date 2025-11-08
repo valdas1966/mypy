@@ -1,13 +1,16 @@
 from f_ds.grids import GridMap as Grid, CellMap as Cell
-from f_search import State
+from f_search.state import State
 
 
-class ProblemGrid:
+class HasGrid:
     """
     ============================================================================
      Base-Class for Grid-Problems in Search.
     ============================================================================
     """
+
+    # Factory
+    Factory: type = None
 
     def __init__(self, grid: Grid) -> None:
         """
@@ -32,6 +35,6 @@ class ProblemGrid:
          Return the successors of the given state.
         ========================================================================
         """
-        cells = self.grid.neighbors(cell=state.cell)
+        cells = self.grid.neighbors(cell=state.key)
         states = [State[Cell](key=cell) for cell in cells]
         return states

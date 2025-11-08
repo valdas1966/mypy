@@ -1,4 +1,4 @@
-from f_search import State
+from f_search.state import State
 
 
 class HasGoal:
