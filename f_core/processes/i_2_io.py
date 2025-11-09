@@ -25,3 +25,11 @@ class ProcessIO(Generic[Input, Output],
         ========================================================================
         """
         ProcessInput.__init__(self, _input=_input, verbose=verbose, name=name)
+
+    def run(self) -> Output:
+        """
+        ========================================================================
+         Run the Process and return the Output.
+        ========================================================================
+        """
+        pass

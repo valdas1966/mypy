@@ -1,5 +1,4 @@
 from f_core.processes.i_0_abc import ProcessABC
-from abc import abstractmethod
 from typing import Generic, TypeVar
 
 Output = TypeVar('Output')
@@ -21,3 +20,11 @@ class ProcessOutput(Generic[Output], ProcessABC):
         ========================================================================
         """
         ProcessABC.__init__(self, name=name, verbose=verbose)
+
+    def run(self) -> Output:
+        """
+        ========================================================================
+         Run the Process and return the Output.
+        ========================================================================
+        """
+        pass

@@ -26,7 +26,7 @@ class AlgoSearch(Generic[Problem, Solution],
         """
         Algo.__init__(self, problem=problem, verbose=verbose, name=name)
 
-    def _pre_run(self) -> None:
+    def _run_pre(self) -> None:
         """
         ========================================================================
          Init data structures.

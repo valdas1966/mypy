@@ -18,3 +18,13 @@ class Factory:
         """
         problem = ProblemOOSPP.Factory.without_obstacles()
         return AStar.Factory.run(problem=problem)
+
+    @staticmethod
+    def with_obstacles() -> SolutionOOSPP:
+        """
+        ========================================================================
+         Return a AStar algorithm with a ProblemOOSPP with obstacles.
+        ========================================================================
+        """
+        problem = ProblemOOSPP.Factory.with_obstacles()
+        return AStar.Factory.run(problem=problem)

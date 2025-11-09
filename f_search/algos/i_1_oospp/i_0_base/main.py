@@ -29,7 +29,7 @@ class AlgoOOSPP(Generic[Problem, Solution],
                             verbose=verbose,
                             name=name)
 
-    def _pre_run(self) -> None:
+    def _run_pre(self) -> None:
         """
         ========================================================================
          Init data structures.

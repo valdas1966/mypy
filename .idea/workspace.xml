@@ -5,31 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_core/processes/study/s_0_abc.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/cost/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/cost/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/cost/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/cost/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/generated/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/generated/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/generated/_study.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/generated/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/generated/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search_ANALYSIS.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/has/row_col/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/has/row_col/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_core/processes/i_0_abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/processes/i_0_abc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/processes/i_1_input.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/processes/i_1_input.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_core/processes/i_1_output.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/processes/i_1_output.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_core/processes/i_2_io.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/processes/i_2_io.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_cs/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_cs/algo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/map/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/map/_factory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_search/algos/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_0_base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_oospp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_oospp/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_oospp/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_oospp/i_0_base/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_oospp/i_1_astar/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_oospp/i_1_astar/_factory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_oospp/i_1_astar/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_oospp/i_1_astar/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/path/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/path/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/solutions/i_1_oospp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/solutions/i_1_oospp/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/solutions/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/solutions/i_0_base/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1427,22 +1411,6 @@
       <workItem from="1753591538149" duration="5147000" />
       <workItem from="1753705522305" duration="11937000" />
     </task>
-    <task id="LOCAL-00211" summary="h">
-      <option name="closed" value="true" />
-      <created>1746026578882</created>
-      <option name="number" value="00211" />
-      <option name="presentableId" value="LOCAL-00211" />
-      <option name="project" value="LOCAL" />
-      <updated>1746026578882</updated>
-    </task>
-    <task id="LOCAL-00212" summary="h">
-      <option name="closed" value="true" />
-      <created>1746454871505</created>
-      <option name="number" value="00212" />
-      <option name="presentableId" value="LOCAL-00212" />
-      <option name="project" value="LOCAL" />
-      <updated>1746454871505</updated>
-    </task>
     <task id="LOCAL-00213" summary="h">
       <option name="closed" value="true" />
       <created>1746460554646</created>
@@ -1819,7 +1787,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762635285676</updated>
     </task>
-    <option name="localTasksCounter" value="260" />
+    <task id="LOCAL-00260" summary="h">
+      <option name="closed" value="true" />
+      <created>1762696288142</created>
+      <option name="number" value="00260" />
+      <option name="presentableId" value="LOCAL-00260" />
+      <option name="project" value="LOCAL" />
+      <updated>1762696288143</updated>
+    </task>
+    <task id="LOCAL-00261" summary="h">
+      <option name="closed" value="true" />
+      <created>1762697288653</created>
+      <option name="number" value="00261" />
+      <option name="presentableId" value="LOCAL-00261" />
+      <option name="project" value="LOCAL" />
+      <updated>1762697288653</updated>
+    </task>
+    <option name="localTasksCounter" value="262" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

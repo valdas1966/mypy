@@ -27,10 +27,6 @@ class ProcessABC(HasName, HasVerbose, Validatable):
         self._elapsed: float = None
         self._time_start: float = None
         self._time_finish: float = None
-        # Run the Process
-        self._run_pre() 
-        self._run()
-        self._run_post()
 
     @property
     def time_start(self) -> float:
@@ -69,7 +65,7 @@ class ProcessABC(HasName, HasVerbose, Validatable):
         if self.verbose:
             print(f'[{u_datetime.now()}] Start: {self.name}')
 
-    def _run(self) -> None:
+    def run(self) -> None:
         """
         ========================================================================
          Run the Process.

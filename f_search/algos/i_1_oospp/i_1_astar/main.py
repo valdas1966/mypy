@@ -16,7 +16,7 @@ class AStar(AlgoOOSPP):
 
     # Factory
     Factory: type = None
-    
+
     def __init__(self,
                  problem: ProblemOOSPP,
                  verbose: bool = False,
@@ -28,13 +28,13 @@ class AStar(AlgoOOSPP):
         """
         AlgoOOSPP.__init__(self, problem=problem, verbose=verbose, name=name)
 
-    def _pre_run(self) -> None:
+    def _run_pre(self) -> None:
         """
         ========================================================================
          Init data structures.
         ========================================================================
         """
-        AlgoOOSPP._pre_run(self)
+        AlgoOOSPP._run_pre(self)
         self._generated = Generated()
 
     def _run(self) -> SolutionOOSPP:
@@ -43,6 +43,7 @@ class AStar(AlgoOOSPP):
          Run the Algorithm and return the Solution.
         ========================================================================
         """
+        self._run_pre()
         self._generate(state=self._problem.start)
         while self._generated:
             self._best = self._generated.pop()
