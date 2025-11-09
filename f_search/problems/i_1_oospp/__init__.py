@@ -1,1 +1,3 @@
-from f_search.problems.i_1_oospp.main import ProblemOOSPP, State
+from f_search.problems.i_1_oospp._factory import Factory, ProblemOOSPP
+
+ProblemOOSPP.Factory = Factory

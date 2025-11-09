@@ -35,5 +35,5 @@ class AlgoOOSPP(Generic[Problem, Solution],
          Init data structures.
         ========================================================================
         """
-        AlgoSearch._pre_run(self)
+        AlgoSearch._run_pre(self)
         self._stats: StatsOOSPP = None

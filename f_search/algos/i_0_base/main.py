@@ -32,7 +32,7 @@ class AlgoSearch(Generic[Problem, Solution],
          Init data structures.
         ========================================================================
         """
-        Algo._pre_run(self)
+        Algo._run_pre(self)
         # Priority Queue for Generated States
         self._generated: Iterable[State] = None
         # Set of Explored States

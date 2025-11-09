@@ -37,7 +37,7 @@ class AStar(AlgoOOSPP):
         AlgoOOSPP._run_pre(self)
         self._generated = Generated()
 
-    def _run(self) -> SolutionOOSPP:
+    def run(self) -> SolutionOOSPP:
         """
         ========================================================================
          Run the Algorithm and return the Solution.

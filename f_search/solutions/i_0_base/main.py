@@ -15,27 +15,10 @@ class SolutionSearch(Generic[Stats], SolutionAlgo[Stats]):
     """
     def __init__(self,
                  is_valid: bool,
-                 stats: Stats,
-                 generated: Iterable[State],
-                 explored: set[State],
-                 g: dict[State, int],
-                 cost: dict[State, Cost]) -> None:
+                 stats: Stats) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         SolutionAlgo.__init__(self, is_valid=is_valid, stats=stats)
-        self._generated = generated
-        self._explored = explored
-        self._g = g
-        self._cost = cost
-
-    @property
-    def generated(self) -> Iterable[State]:
-        """
-        ========================================================================
-         Return the Generated States.
-        ========================================================================
-        """
-        return self._generated

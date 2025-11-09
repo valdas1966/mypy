@@ -1,8 +1,12 @@
-from f_search.problems import ProblemOOSPP, Grid, State
+from f_search.problems.i_1_oospp.main import ProblemOOSPP, Grid, State
 
 
 class Factory:
-
+    """
+    ============================================================================
+     Factory for the ProblemOOSPP.
+    ============================================================================
+    """
 
     @staticmethod
     def without_obstacles() -> ProblemOOSPP:

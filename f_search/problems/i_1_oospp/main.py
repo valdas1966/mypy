@@ -9,6 +9,9 @@ class ProblemOOSPP(ProblemSearch, HasStart, HasGoal):
     ============================================================================
     """
 
+    # Factory
+    Factory: type = None
+
     def __init__(self,
                  grid: Grid,
                  start: State,
