@@ -1,8 +1,8 @@
 from f_search.algos.i_0_base.main import AlgoSearch
+from f_search.stats import StatsOOSPP
 from f_search.problems import ProblemOOSPP
 from f_search.solutions import SolutionOOSPP
 from typing import Generic, TypeVar
-from abc import abstractmethod
 
 Problem = TypeVar('Problem', bound=ProblemOOSPP)
 Solution = TypeVar('Solution', bound=SolutionOOSPP) 
@@ -29,11 +29,11 @@ class AlgoOOSPP(Generic[Problem, Solution],
                             verbose=verbose,
                             name=name)
 
-    @abstractmethod
-    def run(self) -> Solution:
+    def _pre_run(self) -> None:
         """
         ========================================================================
-         Run the Algorithm and return the Solution.
+         Init data structures.
         ========================================================================
         """
-        pass
+        AlgoSearch._pre_run(self)
+        self._stats: StatsOOSPP = None

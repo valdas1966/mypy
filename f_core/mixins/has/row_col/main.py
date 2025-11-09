@@ -1,6 +1,7 @@
 from __future__ import annotations
 from f_core.mixins.comparable import Comparable
 from f_core.mixins.printable import Printable
+from typing import Self
 
 
 class HasRowCol(Comparable, Printable):
@@ -53,6 +54,16 @@ class HasRowCol(Comparable, Printable):
                 in (n_north, n_east, n_south, n_west)
                 if n[0] >= 0 and n[1] >= 0]
 
+    def distance(self, other: Self) -> int:
+        """
+        ========================================================================
+         Return Manhattan-Distance from Self to the Other.
+        ========================================================================
+        """
+        dist_row = abs(self.row - other.row)
+        dist_col = abs(self.col - other.col)
+        return dist_row + dist_col
+
     def key_comparison(self) -> tuple[int, int]:
         """
         ========================================================================
@@ -67,7 +78,7 @@ class HasRowCol(Comparable, Printable):
          Return a Tuple of (Row, Col).
         ========================================================================
         """
-        return (self.row, self.col)
+        return self.row, self.col
 
     def __str__(self) -> str:
         """

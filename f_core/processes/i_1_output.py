@@ -21,12 +21,3 @@ class ProcessOutput(Generic[Output], ProcessABC):
         ========================================================================
         """
         ProcessABC.__init__(self, name=name, verbose=verbose)
-
-    @abstractmethod
-    def run(self) -> Output:
-        """
-        ========================================================================
-         Run the Process and return the OutputRequest.
-        ========================================================================
-        """
-        pass

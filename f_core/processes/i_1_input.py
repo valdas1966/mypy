@@ -1,6 +1,5 @@
 from f_core.processes.i_0_abc import ProcessABC
 from typing import Generic, TypeVar
-from abc import abstractmethod
 
 Input = TypeVar('Input')
 
@@ -32,12 +31,3 @@ class ProcessInput(Generic[Input], ProcessABC):
         ========================================================================
         """
         return self._input
-
-    @abstractmethod
-    def run(self) -> None:
-        """
-        ========================================================================
-         Run the Process.
-        ========================================================================
-        """
-        pass

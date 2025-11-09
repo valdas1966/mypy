@@ -1,9 +1,8 @@
-from abc import abstractmethod
-from time import time
 from f_core.mixins.has.name import HasName
 from f_core.mixins.validatable import Validatable
 from f_core.processes.mixins.has_verbose import HasVerbose
 from f_utils import u_datetime
+from time import time
 
 
 class ProcessABC(HasName, HasVerbose, Validatable):
@@ -24,11 +23,33 @@ class ProcessABC(HasName, HasVerbose, Validatable):
         HasName.__init__(self, name=name)
         HasVerbose.__init__(self, verbose=verbose)
         Validatable.__init__(self)
-        self._elapsed: float | None = None
-        self._time_start = None
-        self._time_finish = None
+        # Init Time Attributes
+        self._elapsed: float = None
+        self._time_start: float = None
+        self._time_finish: float = None
+        # Run the Process
+        self._run_pre() 
+        self._run()
+        self._run_post()
 
     @property
+    def time_start(self) -> float:
+        """
+        ========================================================================
+         Return the start time of the process running.
+        ========================================================================
+        """
+        return self._time_start
+
+    @property
+    def time_finish(self) -> float:
+        """
+        ========================================================================
+         Return the finish time of the process running.
+        ========================================================================
+        """
+        return self._time_finish
+
     def elapsed(self) -> float:
         """
         ========================================================================
@@ -48,8 +69,7 @@ class ProcessABC(HasName, HasVerbose, Validatable):
         if self.verbose:
             print(f'[{u_datetime.now()}] Start: {self.name}')
 
-    @abstractmethod
-    def run(self) -> None:
+    def _run(self) -> None:
         """
         ========================================================================
          Run the Process.
