@@ -1,8 +1,9 @@
 from f_ds.grids.grid.base.main import GridBase
-from f_ds.grids.cell import CellMap
+from f_ds.grids.cell import CellMap as Cell
+from f_ds.groups.group import Group
 
 
-class GridMap(GridBase[CellMap]):
+class GridMap(GridBase[Cell]):
     """
     ============================================================================
      2D-Grid Class of CellsMaps (can be valid or invalid).
@@ -29,9 +30,9 @@ class GridMap(GridBase[CellMap]):
                           rows=rows,
                           cols=cols,
                           name=name,
-                          type_cell=CellMap)
+                          type_cell=Cell)
         
-    def cells_valid(self) -> list[CellMap]:
+    def cells_valid(self) -> list[Cell]:
         """
         ========================================================================
          Return a View of the Valid Cells in the Grid.
@@ -39,17 +40,27 @@ class GridMap(GridBase[CellMap]):
         """
         return [cell for cell in self if cell]
     
-    def neighbors(self, cell: CellMap) -> list[CellMap]:
+    def neighbors(self, cell: Cell) -> list[Cell]:
         """
         ========================================================================
          Return the neighbors of a cell.
         ========================================================================
         """
-        li: list[CellMap] = list()
+        li: list[Cell] = list[Cell]()
         for cell in GridBase.neighbors(self, cell=cell):
             if cell:
                 li.append(cell)
         return li
+
+    def to_group(self,
+                 name: str = "Valid-Cells") -> Group:
+        """
+        ========================================================================
+         Return a Group of the Grid's valid cells.
+        ========================================================================
+        """
+        return Group[Cell](name=name, data=self.cells_valid())
+
 
     def __str__(self) -> str:
         """
