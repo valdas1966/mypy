@@ -56,4 +56,14 @@ class Select:
          Return a random sample of Cells from the Grid within a given distance from the given Cell.
         ========================================================================
         """
-        return self._grid.sample(size=size, pct=pct)
+        offset = distance // 2
+        row_min = max(cell.row - offset, 0)
+        row_max = min(cell.row + offset, self._grid.rows - 1)
+        col_min = max(cell.col - offset, 0)
+        col_max = min(cell.col + offset, self._grid.cols - 1)
+        return self.random_in_range(size=size,
+                                    pct=pct,
+                                    row_min=row_min,
+                                    col_min=col_min,
+                                    row_max=row_max,
+                                    col_max=col_max)
