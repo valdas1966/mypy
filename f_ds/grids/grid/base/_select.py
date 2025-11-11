@@ -45,7 +45,6 @@ class Select:
         cells_within = self._grid.filter(predicate=predicate)
         return cells_within.sample(size=size, pct=pct)
 
-
     def random_within_distance(self,
                                cell: Cell,
                                distance: int,
@@ -53,7 +52,8 @@ class Select:
                                pct: int = None) -> Group[Cell]:
         """
         ========================================================================
-         Return a random sample of Cells from the Grid within a given distance from the given Cell.
+         Return a random sample of Cells from the Grid within a given
+          distance from the given Cell.
         ========================================================================
         """
         offset = distance // 2
