@@ -1,4 +1,4 @@
-from f_search.generated.main import Generated, State
+from f_search.ds.generated.main import Generated, State
 
 
 def test_generated() -> None:

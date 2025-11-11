@@ -1,6 +1,7 @@
 from f_core.mixins.has.name import HasName
 from f_core.mixins.has.rows_cols import HasRowsCols
 from f_ds.mixins.groupable import Groupable, Group
+from f_ds.grids.grid.base._select import Select
 from f_ds.grids.cell import CellBase
 from collections.abc import Iterable
 from typing import Iterator, TypeVar, Generic, Type
@@ -34,8 +35,18 @@ class GridBase(Generic[Cell],
         """
         HasName.__init__(self, name=name)
         HasRowsCols.__init__(self, rows=rows, cols=cols)
+        self._select = Select(grid=self)
         self._cells: list[list[Cell]] = self._init_cells(type_cell)
 
+    @property
+    def select(self) -> Select:
+        """
+        ========================================================================
+         Return the Select object.
+        ========================================================================
+        """
+        return self._select
+        
     def neighbors(self, cell: Cell) -> list[Cell]:
         """
         ========================================================================

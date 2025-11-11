@@ -1,4 +1,4 @@
-from f_search.state._factory import State, Cell
+from f_search.ds.state._factory import State, Cell
 import pytest
 
 

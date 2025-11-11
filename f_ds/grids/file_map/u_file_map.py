@@ -11,7 +11,7 @@ class UFileMap:
     """
     
     _ROWS_TO_SKIP = 4
-    _CHAR_VALID = '_'
+    _CHAR_VALID = '.'
     
     @staticmethod
     def to_bool_array(path: str) -> np.ndarray:

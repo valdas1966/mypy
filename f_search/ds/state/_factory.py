@@ -1,5 +1,5 @@
 from f_ds.grids.cell.i_1_map import CellMap as Cell
-from f_search.state.main import State
+from f_search.ds.state.main import State
 
 
 class Factory:

@@ -1,6 +1,6 @@
 from f_ds.grids import GridMap as Grid, CellMap as Cell
 from f_cs.problem import ProblemAlgo
-from f_search.state import State
+from f_search.ds.state import State
 
 
 class ProblemSearch(ProblemAlgo):

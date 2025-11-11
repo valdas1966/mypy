@@ -1,4 +1,4 @@
-from f_search.path._factory import Path, State
+from f_search.ds.path._factory import Path, State
 
 
 def test_to_iterable() -> None:

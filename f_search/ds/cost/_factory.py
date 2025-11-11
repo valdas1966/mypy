@@ -1,4 +1,4 @@
-from f_search.cost.main import Cost
+from f_search.ds.cost.main import Cost
 
 
 class Factory:

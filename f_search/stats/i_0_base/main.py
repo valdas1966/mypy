@@ -38,3 +38,4 @@ class StatsSearch(StatsAlgo):
         ========================================================================
         """
         return self._explored
+    

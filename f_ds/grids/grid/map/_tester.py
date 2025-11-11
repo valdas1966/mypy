@@ -39,3 +39,26 @@ def test_from_array() -> None:
                       [True, False, True]])
     grid = GridMap.From.array(array)
     assert len(grid.cells_valid()) == 5
+
+
+def test_from_file_map() -> None:
+    """
+    ========================================================================
+     Test the From.file_map method.
+    ========================================================================
+    """
+    path = 'g:\\temp\\test.txt'
+    grid = GridMap.From.file_map(path=path)
+    assert len(grid.cells_valid()) == 8
+
+
+def test_select_random_in_range() -> None:
+    """
+    ========================================================================
+     Test the Select.random_in_range() method.
+    ========================================================================
+    """
+    grid = GridMap.Factory.x()
+    selected = grid.select.random_in_range(size=2, row_max=1, col_max=1)
+    selected_true = {grid[0][0], grid[1][1]}
+    assert set(selected) == selected_true

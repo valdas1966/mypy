@@ -10,3 +10,14 @@ def test_last_folder() -> None:
     """
     path = GenPath.multiple_folders()
     assert UPath.last_folder(path) == 'folder_last'
+
+
+def test_filename() -> None:
+    """
+    ============================================================================
+     Test the filename method.
+    ============================================================================
+    """
+    path = 'c:\\folder_1\\folder_2\\file_name.txt'
+    assert UPath.filename(path) == 'file_name.txt'
+    assert UPath.filename(path, with_domain=False) == 'file_name'

@@ -10,7 +10,8 @@
       "Bash(mkdir:*)",
       "WebFetch(domain:cloud.google.com)",
       "Bash(python3:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(sed:*)"
     ],
     "deny": []
   }

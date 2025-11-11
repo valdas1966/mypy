@@ -61,6 +61,13 @@ class GridMap(GridBase[Cell]):
         """
         return Group[Cell](name=name, data=self.cells_valid())
 
+    def __len__(self) -> int:
+        """
+        ========================================================================
+         Return the total number of valid cells in the grid.
+        ========================================================================
+        """
+        return len(self.cells_valid())
 
     def __str__(self) -> str:
         """

@@ -1,4 +1,4 @@
-from f_search.state import State
+from f_search.ds.state import State
 
 
 class HasStart:

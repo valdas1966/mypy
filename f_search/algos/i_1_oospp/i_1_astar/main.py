@@ -1,10 +1,10 @@
 from f_search.algos.i_1_oospp import AlgoOOSPP
 from f_search.problems import ProblemOOSPP, State
 from f_search.solutions import SolutionOOSPP
-from f_search.generated import Generated
+from f_search.ds.generated import Generated
 from f_search.stats import StatsOOSPP
-from f_search.cost import Cost
-from f_search.path import Path
+from f_search.ds.cost import Cost
+from f_search.ds.path import Path
 
 
 class AStar(AlgoOOSPP):

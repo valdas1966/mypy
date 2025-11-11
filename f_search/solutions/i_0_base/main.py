@@ -1,8 +1,7 @@
 from f_cs.solution import SolutionAlgo
 from f_search.stats import StatsSearch
-from typing import Generic, TypeVar, Iterable
-from f_search.state import State
-from f_search.cost import Cost
+from typing import Generic, TypeVar
+from f_search.ds.cost import Cost
 
 Stats = TypeVar('Stats', bound=StatsSearch)
 

@@ -1,4 +1,4 @@
-from f_search.generated.main import Generated, State, Cost
+from f_search.ds.generated.main import Generated, State, Cost
 
 
 class Factory:

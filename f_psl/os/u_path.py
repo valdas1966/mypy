@@ -16,3 +16,16 @@ class UPath:
         ========================================================================
         """
         return os.path.basename(os.path.dirname(path))
+
+    
+    @staticmethod
+    def filename(path: str, with_domain: bool = True) -> str:
+        """
+        ========================================================================
+         Return the filename of the path.
+        ========================================================================
+        """
+        if with_domain:
+            return os.path.basename(path)
+        else:
+            return os.path.basename(path).split('.')[0]

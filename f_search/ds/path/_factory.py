@@ -1,5 +1,5 @@
-from f_search.path.main import Path
-from f_search.state._factory import State
+from f_search.ds.path.main import Path
+from f_search.ds.state._factory import State
 
 
 class Factory:

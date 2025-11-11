@@ -1,6 +1,6 @@
 from f_core.mixins import Dictable
-from f_search.state import State
-from f_search.cost import Cost
+from f_search.ds.state import State
+from f_search.ds.cost import Cost
 
 
 class Generated(Dictable[State, Cost]):

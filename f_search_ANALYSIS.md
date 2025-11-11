@@ -1056,10 +1056,11 @@ class AlgoOOSPP(Algo[ProblemOOSPP, SolutionOOSPP]):
 ---
 
 ### Common Usage
+
 ```python
 from f_search.problems import ProblemOOSPP
 from f_search.algos.oospp.astar import AStar
-from f_search.state import State
+from f_search.ds.state import State
 from f_ds.grids import GridMap
 
 # Setup

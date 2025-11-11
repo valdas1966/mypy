@@ -1,5 +1,5 @@
 from f_cs.algo import Algo
-from f_search.cost import Cost
+from f_search.ds.cost import Cost
 from f_search.stats import StatsSearch
 from f_search.problems import ProblemSearch, State
 from f_search.solutions import SolutionSearch

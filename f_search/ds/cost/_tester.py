@@ -1,4 +1,4 @@
-from f_search.cost import Cost
+from f_search.ds.cost import Cost
 
 
 def test_key_comparison() -> None:

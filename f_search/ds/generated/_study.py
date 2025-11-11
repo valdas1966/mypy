@@ -1,4 +1,4 @@
-from f_search.generated import Generated
+from f_search.ds.generated import Generated
 
 generated = Generated.Factory.ab()
 

@@ -1,6 +1,6 @@
 from f_search.solutions.i_0_base.main import SolutionSearch
 from f_search.stats import StatsOOSPP
-from f_search.path import Path
+from f_search.ds.path import Path
 
 
 class SolutionOOSPP(SolutionSearch[StatsOOSPP]):
