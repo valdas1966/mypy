@@ -5,53 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_search/ds/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/ds/cost/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/ds/generated/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/ds/generated/_study.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/ds/path/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/ds/state/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/pickle_grids.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.claude/settings.local.json" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/file_map/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/file_map/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/file_map/u_file_map.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/file_map/u_file_map.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/base/_select.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/base/_select.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/map/_from.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/map/_from.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/map/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/map/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/map/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/map/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_psl/os/testers/t_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/os/testers/t_path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_psl/os/u_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/os/u_path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_0_base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_oospp/i_1_astar/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_oospp/i_1_astar/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/cost/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/cost/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/cost/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/cost/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/cost/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/cost/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/cost/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/generated/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/generated/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/generated/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/generated/_study.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/generated/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/generated/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/generated/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/generated/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/path/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/path/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/path/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/path/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/path/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/path/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/path/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/problems/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/i_0_base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/problems/mixins/has_goal/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/mixins/has_goal/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/problems/mixins/has_start/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/mixins/has_start/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/solutions/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/solutions/i_0_base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/solutions/i_1_oospp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/solutions/i_1_oospp/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/state/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/state/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/state/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/state/_study.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/state/_study.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/state/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/state/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/state/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/state/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/stats/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/stats/i_0_base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search_ANALYSIS.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_search_ANALYSIS.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/problems/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/problems/mixins/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/mixins/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +36,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
-    &quot;accountId&quot;: &quot;9193838d-ef26-4e0d-b77f-58e2bc1908f8&quot;
+    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -1046,6 +1004,42 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/grid/map" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/grids/grid/map/_tester.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/_internal/auth" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_google/_internal/auth/_tester.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/cell/map" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -1324,42 +1318,6 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/grid/map" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/grids/grid/map/_tester.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/_internal/auth" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_google/_internal/auth/_tester.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <configuration name="pytest in t_path.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -1386,18 +1344,18 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.pickle_grids" />
         <item itemvalue="Python tests.pytest in t_path.py" />
+        <item itemvalue="Python tests.pytest in _tester.py" />
         <item itemvalue="Python tests.pytest in _tester.py (1)" />
         <item itemvalue="Python tests.pytest for _tester.test_to_bool_array" />
-        <item itemvalue="Python tests.pytest in _tester.py" />
+        <item itemvalue="Python.pickle_grids" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-41e8cd69c857-64d779b69b7a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26927.90" />
+        <option value="bundled-python-sdk-9f8e2b94138c-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26094.141" />
       </set>
     </attachedChunks>
   </component>
