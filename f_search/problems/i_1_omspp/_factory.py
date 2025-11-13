@@ -1,0 +1,59 @@
+from f_search.problems import ProblemOMSPP, Grid, State
+from typing import Iterable
+
+
+class Factory:
+    """
+    ============================================================================
+     Factory for the ProblemOMSPP.
+    ============================================================================
+    """
+
+    @staticmethod
+    def without_obstacles() -> ProblemOMSPP:
+        """
+        ========================================================================
+         Return a ProblemOMSPP with a GridMap without obstacles.
+        ========================================================================
+        """
+        grid = Grid.Factory.without_obstacles()
+        start = Factory._get_start_4x4()
+        goals = Factory._get_goals_4x4()
+        return ProblemOMSPP(grid=grid, start=start, goals=goals)
+
+    @staticmethod
+    def with_obstacles() -> ProblemOMSPP:
+        """
+        ========================================================================
+         Return a ProblemOMSPP with a GridMap with obstacles.
+        ========================================================================
+        """
+        grid = Grid.Factory.with_obstacles()
+        start = Factory._get_start_4x4()
+        goals = Factory._get_goals_4x4()
+        return ProblemOMSPP(grid=grid, start=start, goals=goals)
+
+    @staticmethod
+    def _get_start_4x4() -> State:
+        """
+        ========================================================================
+         Return the Start State for a 4x4 Grid.
+        ========================================================================
+        """
+        grid = Grid(rows=4)
+        cell_start = grid[0][0]
+        return State(key=cell_start)
+
+    @staticmethod
+    def _get_goals_4x4() -> Iterable[State]:
+        """
+        ========================================================================
+         Return the Goals for a 4x4 Grid.
+        ========================================================================
+        """
+        grid = Grid(rows=4)
+        cell_goal_a = grid[0][3]
+        cell_goal_b = grid[3][3]
+        goal_a = State(key=cell_goal_a)
+        goal_b = State(key=cell_goal_b)
+        return [goal_a, goal_b]
