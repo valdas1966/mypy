@@ -28,4 +28,5 @@ class Algo(Generic[Problem, Solution],
                            _input=self._problem,
                            verbose=verbose,
                            name=name)
+        self._counters: dict[str, int] = dict()
 

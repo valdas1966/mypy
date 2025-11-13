@@ -5,7 +5,7 @@ from f_psl.os.u_folder import UFolder
 from f_ds.grids.grid.map import GridMap as Grid
 
 
-path = 'g:\\temp\\maps'
+path = 'g:\\paper\\maps'
 filepaths = UFolder.filepaths(path=path, recursive=True)
 
 grids = defaultdict(dict[str, list[Grid]])
@@ -16,4 +16,4 @@ for filepath in filepaths:
     grids[domain][name] = grid
     print(f'{domain},{name}, {grid.rows}x{grid.cols}, {len(grid)}')
 
-u_pickle.dump(obj=grids, path='g:\\mypy\\f_search\\experiments\\grids.pkl')
+u_pickle.dump(obj=grids, path='g:\\paper\\grids.pkl')

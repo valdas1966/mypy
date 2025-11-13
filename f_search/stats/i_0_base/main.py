@@ -11,6 +11,7 @@ class StatsSearch(StatsAlgo):
     def __init__(self,
                  elapsed: int,
                  generated: int,
+                 updated: int,
                  explored: int) -> None:
         """
         ========================================================================
@@ -19,6 +20,7 @@ class StatsSearch(StatsAlgo):
         """
         StatsAlgo.__init__(self, elapsed=elapsed)
         self._generated = generated
+        self._updated = updated
         self._explored = explored
 
     @property
@@ -29,7 +31,11 @@ class StatsSearch(StatsAlgo):
         ========================================================================
         """
         return self._generated
-    
+
+    @property
+    def updated(self) -> int:
+        return self._updated
+
     @property
     def explored(self) -> int:
         """

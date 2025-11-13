@@ -26,30 +26,41 @@ class AStar(AlgoOOSPP):
          Init private Attributes.
         ========================================================================
         """
-        AlgoOOSPP.__init__(self, problem=problem, verbose=verbose, name=name)
+        AlgoOOSPP.__init__(self,
+                           problem=problem,
+                           verbose=verbose,
+                           name=name)
 
-    def _run_pre(self) -> None:
+    def _run_pre(self,
+                 generated: Generated | None = None,
+                 explored: set[State] | None = None) -> None:
         """
         ========================================================================
          Init data structures.
         ========================================================================
         """
         AlgoOOSPP._run_pre(self)
-        self._generated = Generated()
+        self._generated = generated if generated else Generated()
+        self._explored = explored if explored else set()
+        self._counters['GENERATED'] = 0
+        self._counters['UPDATED'] = 0
+        self._counters['EXPLORED'] = 0
 
-    def run(self) -> SolutionOOSPP:
+    def run(self,
+            generated: Generated | None = None,
+            explored: set[State] | None = None) -> SolutionOOSPP:
         """
         ========================================================================
          Run the Algorithm and return the Solution.
         ========================================================================
         """
-        self._run_pre()
+        self._run_pre(generated=generated, explored=explored)
         self._generate(state=self._problem.start)
         while self._generated:
             self._best = self._generated.pop()
             if self._can_terminate():
                 return self._create_solution(is_valid=True)
-            self._explore()        
+            self._explore()
         return self._create_solution(is_valid=False)
 
     def _explore(self) -> None:
@@ -58,6 +69,8 @@ class AStar(AlgoOOSPP):
          Explore the Best-State.
         ========================================================================
         """
+        # Increment explored counter
+        self._counters['EXPLORED'] += 1
         # Add State to Explored
         self._explored.add(self._best)
         # Generate State's unexplored Successors
@@ -74,11 +87,13 @@ class AStar(AlgoOOSPP):
         """
         # New State (not in Generated)
         if state not in self._generated:
+            self._counters['GENERATED'] += 1
             self._update_cost(state=state)
             self._generated.push(state=state, cost=self._cost[state])
         # If Best is a better parent for a given State
         elif self._best:
             if self._g[state] > self._g[self._best] + 1:
+                self._counters['UPDATED'] += 1
                 self._update_cost(state=state)
                 self._generated.push(state=state, cost=self._cost[state])
 
@@ -143,11 +158,10 @@ class AStar(AlgoOOSPP):
          Calculate the Stats.
         ========================================================================
         """
-        generated = len(self._generated)
-        explored = len(self._explored)
         return StatsOOSPP(elapsed=self.elapsed,
-                          generated=generated,
-                          explored=explored)
+                          generated=self._counters['GENERATED'],
+                          updated=self._counters['UPDATED'],
+                          explored=self._counters['EXPLORED'])
 
     def _create_solution(self, is_valid: bool) -> SolutionOOSPP:
         """
