@@ -44,3 +44,27 @@ def test_with_obstacles() -> None:
     cells_generated = {state.key for state in dijkstra._generated}
     cells_generated_true = set()
     assert cells_generated == cells_generated_true
+
+
+def test_counters_without_obstacles() -> None:
+    """
+    ========================================================================
+     Test that generated and explored counters match actual list/set sizes.
+    ========================================================================
+    """
+    dijkstra = Dijkstra.Factory.without_obstacles()
+    solution = dijkstra.run()
+    assert solution.stats.generated == 10
+    assert solution.stats.explored == 6
+
+
+def test_counters_with_obstacles() -> None:
+    """
+    ========================================================================
+     Test that generated and explored counters match actual list/set sizes.
+    ========================================================================
+    """
+    dijkstra = Dijkstra.Factory.with_obstacles()
+    solution = dijkstra.run()
+    assert solution.stats.generated == 14
+    assert solution.stats.explored == 13
