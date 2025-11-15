@@ -39,8 +39,7 @@ class KxAStar(AlgoOMSPP):
         ========================================================================
         """
         AlgoOMSPP._run_pre(self)
-        self._sub_problems: list[ProblemOOSPP] = []
-        self._sub_solutions: dict[State, SolutionOOSPP] = {}
+        self._sub_solutions: dict[State, SolutionOOSPP] = dict()
         self._counters['GENERATED'] = 0
         self._counters['UPDATED'] = 0
         self._counters['EXPLORED'] = 0
@@ -52,46 +51,14 @@ class KxAStar(AlgoOMSPP):
         ========================================================================
         """
         self._run_pre()
-        self._create_sub_problems()
-        self._solve_sub_problems()
+        sub_problems = self._problem.to_oospps()
+        for sub_problem in sub_problems:
+            astar = AStar(problem=sub_problem)
+            self._sub_solutions[sub_problem.goal] = astar.run()
+            if not self._sub_solutions[sub_problem.goal]:
+                # If any sub-problem is invalid, the overall solution is invalid
+                break        
         return self._create_solution()
-
-    def _create_sub_problems(self) -> None:
-        """
-        ========================================================================
-         Convert ProblemOMSPP into k ProblemOOSPP (one for each goal).
-        ========================================================================
-        """
-        start = self._problem.start
-        grid = self._problem.grid
-        goals = self._problem.goals
-
-        for goal in goals:
-            sub_problem = ProblemOOSPP(grid=grid,
-                                       start=start,
-                                       goal=goal)
-            self._sub_problems.append(sub_problem)
-
-    def _solve_sub_problems(self) -> None:
-        """
-        ========================================================================
-         Execute A* algorithm autonomously for each sub-problem.
-        ========================================================================
-        """
-        for sub_problem in self._sub_problems:
-            # Create and run A* for this sub-problem
-            astar = AStar(problem=sub_problem, verbose=False)
-            solution = astar.run()
-
-            # Store solution indexed by goal
-            goal = sub_problem.goal
-            self._sub_solutions[goal] = solution
-
-            # Aggregate counters
-            if solution.is_valid:
-                self._counters['GENERATED'] += solution.stats.generated
-                self._counters['UPDATED'] += solution.stats.updated
-                self._counters['EXPLORED'] += solution.stats.explored
 
     def _run_post(self) -> None:
         """
@@ -109,10 +76,10 @@ class KxAStar(AlgoOMSPP):
         ========================================================================
         """
         # Calculate per-goal stats
-        elapsed_per_goal = {}
-        generated_per_goal = {}
-        updated_per_goal = {}
-        explored_per_goal = {}
+        elapsed_per_goal: dict[State, int] = dict()
+        generated_per_goal: dict[State, int] = dict()
+        updated_per_goal: dict[State, int] = dict()
+        explored_per_goal: dict[State, int] = dict()
 
         for goal, solution in self._sub_solutions.items():
             if solution.is_valid:
@@ -130,7 +97,8 @@ class KxAStar(AlgoOMSPP):
                           updated_per_goal=updated_per_goal,
                           explored_per_goal=explored_per_goal)
 
-    def _create_solution(self) -> SolutionOMSPP:
+    def _create_solution(self,
+                         sub_solutions: dict[State, SolutionOOSPP]) -> SolutionOMSPP:
         """
         ========================================================================
          Aggregate all sub-solutions into a single SolutionOMSPP.
@@ -138,18 +106,11 @@ class KxAStar(AlgoOMSPP):
         """
         self._run_post()
 
-        # Extract paths from all valid sub-solutions
-        paths = {}
-        all_valid = True
-
-        for goal, solution in self._sub_solutions.items():
-            if solution.is_valid:
-                paths[goal] = solution.path
-            else:
-                all_valid = False
-
         # Solution is valid only if all sub-problems have valid solutions
-        is_valid = all_valid and len(paths) == len(self._sub_problems)
+        is_valid = all(sub_solution.is_valid for sub_solution in sub_solutions.values())
+
+        paths: dict[State, Path] = dict()
+        paths = {goal: sub_solution.path for goal, sub_solution in sub_solutions.items()}
 
         return SolutionOMSPP(is_valid=is_valid,
                             stats=self._stats,

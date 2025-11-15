@@ -5,33 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/NAMING_CONVENTION.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/NAMING_CONVENTION.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_graph/NAMING_CONVENTION.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/NAMING_CONVENTION.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_math/percentiles/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_math/percentiles/bin/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_math/percentiles/bin/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/NAMING_CONVENTION.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/pickle_cell_pairs_million.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui_layout_code_review.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/ds/graph/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/ds/graph/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/ds/nodes/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/ds/nodes/i_1_cost/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/ds/nodes/i_1_cost/_factory.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/ds/nodes/i_1_cost/_tester.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/ds/nodes/i_1_cost/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_math/percentiles/bin/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/ds/nodes/i_2_flags/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/ds/nodes/i_2_flags/_factory.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/ds/nodes/i_2_flags/_tester.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/ds/nodes/i_2_flags/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/ds/nodes/i_2_flags/study.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_math/percentiles/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_math/percentiles/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_math/percentiles/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_math/percentiles/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/generate_cell_pairs.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search_ANALYSIS.md" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -761,6 +735,7 @@
     "Python.music_by_id.executor": "Run",
     "Python.node.executor": "Run",
     "Python.pickle_cell_pairs_million.executor": "Run",
+    "Python.pickle_cell_pairs_potential.executor": "Run",
     "Python.pickle_grids (1).executor": "Run",
     "Python.pickle_grids.executor": "Run",
     "Python.position.executor": "Run",
@@ -1493,14 +1468,6 @@
       <workItem from="1753591538149" duration="5147000" />
       <workItem from="1753705522305" duration="11937000" />
     </task>
-    <task id="LOCAL-00222" summary="h">
-      <option name="closed" value="true" />
-      <created>1749973768816</created>
-      <option name="number" value="00222" />
-      <option name="presentableId" value="LOCAL-00222" />
-      <option name="project" value="LOCAL" />
-      <updated>1749973768816</updated>
-    </task>
     <task id="LOCAL-00223" summary="h">
       <option name="closed" value="true" />
       <created>1749973797208</created>
@@ -1885,7 +1852,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763199089743</updated>
     </task>
-    <option name="localTasksCounter" value="271" />
+    <task id="LOCAL-00271" summary="h">
+      <option name="closed" value="true" />
+      <created>1763216307494</created>
+      <option name="number" value="00271" />
+      <option name="presentableId" value="LOCAL-00271" />
+      <option name="project" value="LOCAL" />
+      <updated>1763216307494</updated>
+    </task>
+    <option name="localTasksCounter" value="272" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
