@@ -1,82 +1,70 @@
-from f_graph.nodes import NodeParent
-from typing import Self, Generic, TypeVar
-
-Key = TypeVar('Key')
+from f_core.mixins.has.key import HasKey
 
 
-class NodeCost(Generic[Key], NodeParent[Key]):
+class Bin(HasKey[int]):
     """
     ============================================================================
-     NodeCost with G, H and F values.
+     Represents a percentile bin with lower and upper bounds.
+     The key is the upper percentile (e.g., 10, 20, ..., 100).
     ============================================================================
     """
 
-    # Factory
-    Factory: type = None
-    
     def __init__(self,
-                 key: Key,
-                 h: int = None,
-                 name: str = 'NodeCost',
-                 parent: Self = None) -> None:
+                 percentile: int,
+                 lower: int,
+                 upper: int) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        NodeParent.__init__(self, key=key, name=name, parent=parent)
-        self._h = h
-        self._g = self._calc_g()
+        # Upper percentile of the bin (e.g., 10, 20, ..., 100)
+        HasKey.__init__(self, key=percentile)
+        # Lower bound (inclusive)
+        self._lower = lower
+        # Upper bound (exclusive)
+        self._upper = upper
 
     @property
-    def g(self) -> int:
+    def lower(self) -> int:
         """
         ========================================================================
-         Get the g-value.
+         Return the lower bound (inclusive).
         ========================================================================
         """
-        return self._g
+        return self._lower
 
     @property
-    def h(self) -> int:
+    def upper(self) -> int:
         """
         ========================================================================
-         Get the h-value.
+         Return the upper bound (exclusive).
         ========================================================================
         """
-        return self._h
-    
-    def f(self) -> int:
-        """
-        ========================================================================
-        ========================================================================
-        """
-        return self.g + self.h
-    
-    def key_comparison(self) -> tuple[int, int, Key]:
-        """
-        ========================================================================
-         Return the f-value, h-value, and key.
-        ========================================================================
-        """
-        return self.f(), self.h, self.key
-         
-    def _calc_g(self) -> int:
-        """
-        ========================================================================
-         Calculate the g-value (by the parent's g-value).
-        ========================================================================
-        """
-        if self.parent:
-            return self.parent.g + 1
-        else:
-            return 0
+        return self._upper
 
-    def _update_parent(self) -> None:
+    @property
+    def percentile(self) -> int:
         """
         ========================================================================
-         Recalculate the g-value (based on the new parent).
+         Return the upper percentile of this bin (alias for key).
         ========================================================================
         """
-        self._g = self._calc_g()
-    
+        return self._key
+
+    def __contains__(self, value: int) -> bool:
+        """
+        ========================================================================
+         Check if a value falls within this bin [lower, upper).
+        ========================================================================
+        """
+        return self._lower <= value < self._upper
+
+    def __repr__(self) -> str:
+        """
+        ========================================================================
+         String representation of the bin.
+        ========================================================================
+        """
+        str_range = f"[{self._lower}, {self._upper})"
+        return f"Bin(percentile={self._key}, range={str_range})"

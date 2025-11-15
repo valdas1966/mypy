@@ -127,7 +127,7 @@ for domain, grids_domain in grids.items():
     print()
 
 # Save results
-output_path = 'g:\\paper\\pairs.pkl'
+output_path = 'g:\\paper\\pairs_million.pkl'
 print("=" * 80)
 print(f"Saving results to {output_path}...")
 u_pickle.dump(obj=dict_pairs, path=output_path)
