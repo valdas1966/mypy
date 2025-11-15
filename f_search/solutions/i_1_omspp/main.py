@@ -13,16 +13,32 @@ class SolutionOMSPP(SolutionSearch[StatsOMSPP]):
     """
     def __init__(self,
                  is_valid: bool,
-                 stats: StatsOMSPP,
-                 paths: dict[State, Path],
                  sub_solutions: dict[State, SolutionOOSPP]) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
+        elapsed_per_goal = {goal: sub_solution.stats.elapsed
+                            for goal, sub_solution
+                            in sub_solutions.items()}
+        generated_per_goal = {goal: sub_solution.stats.generated
+                             for goal, sub_solution
+                             in sub_solutions.items()}
+        updated_per_goal = {goal: sub_solution.stats.updated
+                            for goal, sub_solution
+                            in sub_solutions.items()}
+        explored_per_goal = {goal: sub_solution.stats.explored
+                             for goal, sub_solution
+                             in sub_solutions.items()}
+        stats = StatsOMSPP(elapsed_per_goal=elapsed_per_goal,
+                           generated_per_goal=generated_per_goal,
+                           updated_per_goal=updated_per_goal,
+                           explored_per_goal=explored_per_goal)
         SolutionSearch.__init__(self, is_valid=is_valid, stats=stats)
-        self._paths = paths
+        self._paths = {goal: sub_solution.path
+                       for goal, sub_solution
+                       in sub_solutions.items()}
 
     @property
     def paths(self) -> dict[State, Path]:

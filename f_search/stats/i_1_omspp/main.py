@@ -10,10 +10,6 @@ class StatsOMSPP(StatsSearch):
     """
 
     def __init__(self,
-                 elapsed: int,
-                 generated: int,
-                 updated: int,
-                 explored: int,
                  elapsed_per_goal: dict[State, float],
                  generated_per_goal: dict[State, int],
                  updated_per_goal: dict[State, int],
@@ -24,6 +20,10 @@ class StatsOMSPP(StatsSearch):
          Init private Attributes.
         ========================================================================
         """
+        elapsed = sum(elapsed_per_goal.values())
+        generated = sum(generated_per_goal.values())
+        updated = sum(updated_per_goal.values())
+        explored = sum(explored_per_goal.values())
         StatsSearch.__init__(self,
                              elapsed=elapsed,
                              updated=updated,
