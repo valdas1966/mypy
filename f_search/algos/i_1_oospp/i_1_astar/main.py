@@ -1,4 +1,4 @@
-from f_search.algos.i_1_oospp import AlgoOOSPP
+from f_search.algos.i_1_oospp.i_0_base import AlgoOOSPP
 from f_search.problems import ProblemOOSPP, State
 from f_search.solutions import SolutionOOSPP
 from f_search.ds.generated import Generated

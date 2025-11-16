@@ -1,4 +1,5 @@
-from f_search.algos.i_1_omspp.i_1_kxastar.main import KxAStar, ProblemOMSPP
+from f_search.algos.i_1_omspp.i_1_kx_astar.main import KxAStar
+from f_search.problems.i_1_omspp import ProblemOMSPP
 
 
 class Factory:
@@ -16,7 +17,7 @@ class Factory:
         ========================================================================
         """
         problem = ProblemOMSPP.Factory.without_obstacles()
-        return KxAStar(problem=problem, verbose=True)
+        return KxAStar(problem=problem)
 
     @staticmethod
     def with_obstacles() -> KxAStar:

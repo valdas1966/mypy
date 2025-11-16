@@ -2,7 +2,7 @@ from f_search.ds import State
 from f_search.algos import AStar
 from f_search.problems import ProblemOMSPP
 from f_search.solutions import SolutionOOSPP, SolutionOMSPP
-from f_search.algos.i_1_omspp import AlgoOMSPP
+from f_search.algos.i_1_omspp.i_0_base import AlgoOMSPP
 
 
 class KxAStar(AlgoOMSPP):
@@ -10,7 +10,7 @@ class KxAStar(AlgoOMSPP):
     ============================================================================
      K x A* Algorithm for One-to-Many Shortest-Path-Problem.
     ----------------------------------------------------------------------------
-     Converts a ProblemOMSPP (One-to-Many) into k ProblemOOSPP (One-to-One)
+     Converts a ProblemOMSPP (One-to-Many) into k-ProblemOOSPP (One-to-One)
      and executes each autonomously using A* algorithm, then aggregates all
      solutions (paths and stats) into a single SolutionOMSPP.
     ============================================================================
