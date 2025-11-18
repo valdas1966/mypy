@@ -1,4 +1,4 @@
-from f_search.algos.i_1_omspp.i_1_kx_astar.main import KxAStar
+from f_search.algos.i_2_omspp.i_1_kx_astar.main import KxAStar
 from f_search.problems.i_1_omspp import ProblemOMSPP
 
 

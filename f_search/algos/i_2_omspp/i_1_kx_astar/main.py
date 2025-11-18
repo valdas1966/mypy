@@ -2,7 +2,7 @@ from f_search.ds import State
 from f_search.algos import AStar
 from f_search.problems import ProblemOMSPP
 from f_search.solutions import SolutionOOSPP, SolutionOMSPP
-from f_search.algos.i_1_omspp.i_0_base import AlgoOMSPP
+from f_search.algos.i_2_omspp.i_0_base import AlgoOMSPP
 
 
 class KxAStar(AlgoOMSPP):
