@@ -6,8 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/fields.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/fields.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/requests/requests.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/requests/requests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_0_base/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_oospp/i_1_astar/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_oospp/i_1_astar/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/ds/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/ds/data/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/data/search.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/ds/data/state.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1445,14 +1448,6 @@
       <workItem from="1753591538149" duration="5147000" />
       <workItem from="1753705522305" duration="11937000" />
     </task>
-    <task id="LOCAL-00225" summary="h">
-      <option name="closed" value="true" />
-      <created>1750148741051</created>
-      <option name="number" value="00225" />
-      <option name="presentableId" value="LOCAL-00225" />
-      <option name="project" value="LOCAL" />
-      <updated>1750148741051</updated>
-    </task>
     <task id="LOCAL-00226" summary="h">
       <option name="closed" value="true" />
       <created>1750148941819</created>
@@ -1837,7 +1832,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763468829821</updated>
     </task>
-    <option name="localTasksCounter" value="274" />
+    <task id="LOCAL-00274" summary="h">
+      <option name="closed" value="true" />
+      <created>1763558169649</created>
+      <option name="number" value="00274" />
+      <option name="presentableId" value="LOCAL-00274" />
+      <option name="project" value="LOCAL" />
+      <updated>1763558169649</updated>
+    </task>
+    <option name="localTasksCounter" value="275" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

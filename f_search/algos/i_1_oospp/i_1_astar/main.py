@@ -2,6 +2,7 @@ from f_search.algos.i_1_oospp.i_0_base import AlgoOOSPP
 from f_search.problems import ProblemOOSPP, State
 from f_search.solutions import SolutionOOSPP
 from f_search.ds.generated import Generated
+from f_search.ds.data.search import DataSearch
 from f_search.stats import StatsOOSPP
 from f_search.ds.cost import Cost
 from f_search.ds.path import Path
@@ -31,6 +32,21 @@ class AStar(AlgoOOSPP):
                            verbose=verbose,
                            name=name)
 
+    def run(self, data: DataSearch = None) -> SolutionOOSPP:
+        """
+        ========================================================================
+         Run the Algorithm and return the Solution.
+        ========================================================================
+        """
+        self._data = data if data else DataSearch()
+        self._generate(state=self._problem.start)
+        while self._generated:
+            self._best = self._generated.pop()
+            if self._can_terminate():
+                return self._create_solution(is_valid=True)
+            self._explore()
+        return self._create_solution(is_valid=False)
+
     def _run_pre(self,
                  generated: Generated | None = None,
                  explored: set[State] | None = None) -> None:
@@ -45,23 +61,6 @@ class AStar(AlgoOOSPP):
         self._counters['GENERATED'] = 0
         self._counters['UPDATED'] = 0
         self._counters['EXPLORED'] = 0
-
-    def run(self,
-            generated: Generated | None = None,
-            explored: set[State] | None = None) -> SolutionOOSPP:
-        """
-        ========================================================================
-         Run the Algorithm and return the Solution.
-        ========================================================================
-        """
-        self._run_pre(generated=generated, explored=explored)
-        self._generate(state=self._problem.start)
-        while self._generated:
-            self._best = self._generated.pop()
-            if self._can_terminate():
-                return self._create_solution(is_valid=True)
-            self._explore()
-        return self._create_solution(is_valid=False)
 
     def _explore(self) -> None:
         """
