@@ -35,6 +35,7 @@ class RequestsTiktok:
             row['signature'] = item['user']['signature']
             row['twitter'] = item['user']['twitter_id']
             row['youtube'] = item['user']['youtube_channel_title']
+            row['avatar'] = item['user']['avatarMedium']
             row['is_ok'] = True
             row['is_broken'] = False
             return row

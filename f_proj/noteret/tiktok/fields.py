@@ -28,6 +28,7 @@ class Fields:
     SIGNATURE = Field.string(name='signature')
     TWITTER = Field.string(name='twitter_id')
     YOUTUBE = Field.string(name='youtube_channel_title')
+    AVATAR = Field.string(name='avatarMedium')
 
     # Stats
     VIDEOS = Field.integer(name='videos')
