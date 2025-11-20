@@ -10,16 +10,16 @@ class HasGoals:
     """
 
     def __init__(self,
-                 goals: Iterable[State]) -> None:
+                 goals: list[State]) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._goals: set[State] = set(goals)
+        self._goals: list[State] = goals
 
     @property
-    def goals(self) -> set[State]:
+    def goals(self) -> list[State]:
         """
         ========================================================================
          Return Problem's Goals.

@@ -191,7 +191,7 @@ full_path = segment1 + segment2  # May need to remove duplicate s3
 
 - **State**: Path contains ordered sequence of States
 - **Solution**: Solutions contain Paths as results
-  - `SolutionOOSPP`: Single Path
+  - `SolutionSPP`: Single Path
   - `SolutionOMSPP`: Multiple Paths (dict[State, Path])
 - **Algorithms**: Construct Paths during solution creation
 

@@ -24,13 +24,13 @@ Instead of creating deep inheritance hierarchies, use **horizontal composition**
 ```
 Problem
   ├─ ProblemWithStart
-  │   ├─ ProblemWithStartAndGoal (OOSPP)
+  │   ├─ ProblemWithStartAndGoal (SPP)
   │   └─ ProblemWithStartAndGoals (OMSPP)
 ```
 
 **Mixin (Composition):**
 ```
-Problem + HasStart + HasGoal → OOSPP
+Problem + HasStart + HasGoal → SPP
 Problem + HasStart + HasGoals → OMSPP
 ```
 
@@ -44,7 +44,7 @@ Problem + HasStart + HasGoals → OMSPP
 - Constructor: `__init__(start: State)`
 
 **Used by:**
-- ProblemOOSPP
+- ProblemSPP
 - ProblemOMSPP
 
 **Semantics:** The initial configuration/position
@@ -57,7 +57,7 @@ Problem + HasStart + HasGoals → OMSPP
 - Constructor: `__init__(goal: State)`
 
 **Used by:**
-- ProblemOOSPP
+- ProblemSPP
 
 **Semantics:** The single target configuration/position
 
@@ -77,9 +77,9 @@ Problem + HasStart + HasGoals → OMSPP
 
 ## Mixin Composition Examples
 
-### One-to-One (OOSPP)
+### One-to-One (SPP)
 ```python
-class ProblemOOSPP(ProblemSearch, HasStart, HasGoal):
+class ProblemSPP(ProblemSearch, HasStart, HasGoal):
     def __init__(self, grid, start, goal):
         ProblemSearch.__init__(self, grid=grid)
         HasStart.__init__(self, start=start)
@@ -103,7 +103,7 @@ Result: Problem with grid + start + goals (set)
 
 ### 1. Reusability
 Each mixin is self-contained and reusable:
-- HasStart used by both OOSPP and OMSPP
+- HasStart used by both SPP and OMSPP
 - Can be reused in future problem types
 
 ### 2. Single Responsibility
@@ -120,7 +120,7 @@ Easy to create new combinations:
 
 ### 4. Explicitness
 Problem class signature clearly shows features:
-- `ProblemOOSPP(ProblemSearch, HasStart, HasGoal)` → obviously has start and goal
+- `ProblemSPP(ProblemSearch, HasStart, HasGoal)` → obviously has start and goal
 - `ProblemOMSPP(ProblemSearch, HasStart, HasGoals)` → obviously has start and goals
 
 ### 5. Type Safety
@@ -220,6 +220,6 @@ HasGoals  (independent)
 
 Problems combine them horizontally:
 ```
-ProblemOOSPP = ProblemSearch + HasStart + HasGoal
+ProblemSPP = ProblemSearch + HasStart + HasGoal
 ProblemOMSPP = ProblemSearch + HasStart + HasGoals
 ```

@@ -91,7 +91,7 @@ This keeps ProblemSearch simple and focused.
 
 ### Template for Specialization
 Subclasses add specific problem structure:
-- OOSPP: adds start + goal
+- SPP: adds start + goal
 - OMSPP: adds start + goals
 - Future: could add starts + goals, constraints, etc.
 
@@ -100,12 +100,12 @@ Subclasses add specific problem structure:
 - **GridMap**: Provides the physical search space
 - **State**: Represents configurations (grid cells)
 - **AlgoSearch**: Consumes problems, calls successors()
-- **ProblemOOSPP/OMSPP**: Extend with start/goal(s)
+- **ProblemSPP/OMSPP**: Extend with start/goal(s)
 
 ## Usage Context
 
 - **Direct instantiation**: Not typical (too generic)
-- **Specialization**: Extended by ProblemOOSPP, ProblemOMSPP
+- **Specialization**: Extended by ProblemSPP, ProblemOMSPP
 - **Role in hierarchy**: Root problem class for grid search
 
 ## Class Attribute

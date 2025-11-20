@@ -54,9 +54,9 @@ Uses Python `@property` decorator:
 
 ## Usage in Problems
 
-### OOSPP (One-to-One)
+### SPP (One-to-One)
 ```python
-class ProblemOOSPP(ProblemSearch, HasStart, HasGoal):
+class ProblemSPP(ProblemSearch, HasStart, HasGoal):
     def __init__(self, grid, start, goal):
         ProblemSearch.__init__(self, grid=grid)
         HasStart.__init__(self, start=start)
@@ -115,7 +115,7 @@ When a problem class includes HasGoal:
 | **Quantity** | Single goal | Multiple goals |
 | **Type** | State | set[State] |
 | **Property** | goal | goals |
-| **Use case** | OOSPP | OMSPP |
+| **Use case** | SPP | OMSPP |
 | **Termination** | state == goal | state in goals |
 
 ## Example Usage
@@ -143,14 +143,14 @@ if current_state == problem.goal:
 ## Relationship to Other Components
 
 - **State**: HasGoal stores a State object
-- **Problems**: Mixed into ProblemOOSPP
+- **Problems**: Mixed into ProblemSPP
 - **Algorithms**: Access via `problem.goal` for termination/heuristic
 
 ## Algorithm Integration
 
 ### Termination Checking
 ```python
-# OOSPP algorithms check single goal
+# SPP algorithms check single goal
 if current_state == problem.goal:
     return solution  # Goal reached
 ```

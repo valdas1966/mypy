@@ -74,7 +74,7 @@ print(f"Time: {solution.stats.elapsed}s")
 
 ### Type Parameter: Stats
 Bounded to `StatsSearch`, allows specialization:
-- `SolutionOOSPP` uses `StatsOOSPP`
+- `SolutionSPP` uses `StatsSPP`
 - `SolutionOMSPP` uses `StatsOMSPP`
 - Future solutions can use custom stats
 
@@ -91,7 +91,7 @@ SolutionSearch provides minimal base:
 - Nothing more
 
 Subclasses add problem-specific components:
-- OOSPP: adds `path` (single Path)
+- SPP: adds `path` (single Path)
 - OMSPP: adds `paths` (dict[State, Path])
 
 ## Design Philosophy
@@ -105,7 +105,7 @@ Leaves path/result structure to subclasses.
 
 ### Separation of Concerns
 - **SolutionSearch**: Validity + Statistics (generic)
-- **SolutionOOSPP**: + Single path (OOSPP-specific)
+- **SolutionSPP**: + Single path (SPP-specific)
 - **SolutionOMSPP**: + Multiple paths (OMSPP-specific)
 
 ### Immutability
@@ -118,13 +118,13 @@ Solutions are immutable after creation:
 
 - **SolutionAlgo**: Base interface (from f_cs)
 - **StatsSearch**: Statistics base class
-- **SolutionOOSPP/OMSPP**: Concrete solution types
+- **SolutionSPP/OMSPP**: Concrete solution types
 - **Algorithms**: Produce solutions
 
 ## Usage Context
 
 - **Direct instantiation**: Not typical (too generic, no paths)
-- **Specialization**: Extended by SolutionOOSPP, SolutionOMSPP
+- **Specialization**: Extended by SolutionSPP, SolutionOMSPP
 - **Role in hierarchy**: Root solution class for search problems
 
 ## Extension Pattern

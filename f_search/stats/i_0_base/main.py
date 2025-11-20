@@ -8,40 +8,13 @@ class StatsSearch(StatsAlgo):
     ============================================================================
     """
 
-    def __init__(self,
-                 elapsed: int,
-                 generated: int,
-                 updated: int,
-                 explored: int) -> None:
+    def __init__(self) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        StatsAlgo.__init__(self, elapsed=elapsed)
-        self._generated = generated
-        self._updated = updated
-        self._explored = explored
-
-    @property
-    def generated(self) -> int:
-        """
-        ========================================================================
-         Return the Number of Generated Nodes.
-        ========================================================================
-        """
-        return self._generated
-
-    @property
-    def updated(self) -> int:
-        return self._updated
-
-    @property
-    def explored(self) -> int:
-        """
-        ========================================================================
-         Return the Number of Explored Nodes.
-        ========================================================================
-        """
-        return self._explored
-    
+        StatsAlgo.__init__(self)
+        self.generated = 0
+        self.updated = 0
+        self.explored = 0

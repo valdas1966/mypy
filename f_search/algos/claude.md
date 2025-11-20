@@ -1,16 +1,16 @@
 # algos - Search Algorithm Implementations
 
 ## Purpose
-Contains all search algorithm implementations for solving pathfinding problems on 2D grids. Algorithms are organized hierarchically by problem type (OOSPP vs OMSPP) with shared base classes providing common infrastructure.
+Contains all search algorithm implementations for solving pathfinding problems on 2D grids. Algorithms are organized hierarchically by problem type (SPP vs OMSPP) with shared base classes providing common infrastructure.
 
 ## Structure
 
 ### Base Classes
 - **i_0_base/** - `AlgoSearch` - Root algorithm class with core data structures and lifecycle
 
-### OOSPP Algorithms (One-to-One)
-- **i_1_oospp/** - Algorithms for single start, single goal problems
-  - `i_0_base/` - `AlgoOOSPP` - Base for OOSPP algorithms
+### SPP Algorithms (One-to-One)
+- **i_1_spp/** - Algorithms for single start, single goal problems
+  - `i_0_base/` - `AlgoSPP` - Base for SPP algorithms
   - `i_1_astar/` - `AStar` - A* with Manhattan heuristic
   - `i_2_dijkstra/` - `Dijkstra` - Uninformed search (h=0)
 
@@ -24,9 +24,9 @@ Contains all search algorithm implementations for solving pathfinding problems o
 ```
 AlgoSearch (Generic base - i_0_base)
   │
-  ├─ AlgoOOSPP (One-to-One base - i_1_oospp/i_0_base)
-  │   ├─ AStar (A* algorithm - i_1_oospp/i_1_astar)
-  │   └─ Dijkstra (Dijkstra algorithm - i_1_oospp/i_2_dijkstra)
+  ├─ AlgoSPP (One-to-One base - i_1_spp/i_0_base)
+  │   ├─ AStar (A* algorithm - i_1_spp/i_1_astar)
+  │   └─ Dijkstra (Dijkstra algorithm - i_1_spp/i_2_dijkstra)
   │
   └─ AlgoOMSPP (One-to-Many base - i_1_omspp/i_0_base)
       └─ KxAStar (K times A* - i_1_omspp/i_1_kx_astar)
@@ -102,7 +102,7 @@ All algorithms track:
 ### Template Method Pattern
 Base classes define the algorithm structure; subclasses fill in specific steps:
 - `AlgoSearch` provides infrastructure
-- `AlgoOOSPP`/`AlgoOMSPP` specialize for problem types
+- `AlgoSPP`/`AlgoOMSPP` specialize for problem types
 - Concrete algorithms implement specific logic (heuristics, termination, etc.)
 
 ### Strategy Pattern
@@ -115,14 +115,14 @@ Different algorithms implement the same interface with different strategies:
 
 Algorithms use generic type parameters for compile-time safety:
 - `AlgoSearch[Problem, Solution]`
-- `AlgoOOSPP[ProblemOOSPP, SolutionOOSPP]`
+- `AlgoSPP[ProblemSPP, SolutionSPP]`
 - `AlgoOMSPP[ProblemOMSPP, SolutionOMSPP]`
 
 ## Extension Points
 
 To add a new algorithm:
-1. Determine problem type (OOSPP or OMSPP)
-2. Extend appropriate base class (`AlgoOOSPP` or `AlgoOMSPP`)
+1. Determine problem type (SPP or OMSPP)
+2. Extend appropriate base class (`AlgoSPP` or `AlgoOMSPP`)
 3. Implement required methods:
    - `run()` - Main algorithm logic
    - `_heuristic()` - Heuristic function (if applicable)

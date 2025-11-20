@@ -127,7 +127,7 @@ stats = StatsSearch(
 
 ### In Solutions
 ```python
-solution = SolutionOOSPP(
+solution = SolutionSPP(
     is_valid=True,
     stats=stats,  # StatsSearch or subclass
     path=path
@@ -160,13 +160,13 @@ Properties are read-only:
 
 ### Template for Extension
 Base class provides common metrics; subclasses can add problem-specific ones:
-- StatsOOSPP: Currently no additions
+- StatsSPP: Currently no additions
 - StatsOMSPP: Adds per-goal metrics
 
 ## Relationship to Other Classes
 
 - **StatsAlgo**: Base statistics interface
-- **StatsOOSPP/OMSPP**: Specialized statistics
+- **StatsSPP/OMSPP**: Specialized statistics
 - **Solutions**: Contain StatsSearch instances
 - **Algorithms**: Create StatsSearch instances
 

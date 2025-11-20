@@ -9,7 +9,7 @@ Contains problem definitions for grid-based pathfinding. Problems specify the se
 - **i_0_base/** - `ProblemSearch` - Base class for all grid search problems
 
 ### Problem Types
-- **i_1_oospp/** - `ProblemOOSPP` - One-to-One Shortest Path Problem (start → goal)
+- **i_1_spp/** - `ProblemSPP` - One-to-One Shortest Path Problem (start → goal)
 - **i_1_omspp/** - `ProblemOMSPP` - One-to-Many Shortest Path Problem (start → goals)
 
 ### Compositional Mixins
@@ -22,7 +22,7 @@ Contains problem definitions for grid-based pathfinding. Problems specify the se
 
 ```
 ProblemSearch (Grid-based base)
-  ├─ ProblemOOSPP (+ HasStart + HasGoal)
+  ├─ ProblemSPP (+ HasStart + HasGoal)
   └─ ProblemOMSPP (+ HasStart + HasGoals)
 ```
 
@@ -43,7 +43,7 @@ Returns list of valid successor states (neighbors) for a given state:
 
 ## Problem Types
 
-### ProblemOOSPP (One-to-One)
+### ProblemSPP (One-to-One)
 **Single start → Single goal**
 
 **Composition:**
@@ -75,9 +75,9 @@ Returns list of valid successor states (neighbors) for a given state:
 **Algorithms:**
 - KxAStar
 
-**Special Method: `to_oospps()`**
-Converts OMSPP into list of OOSPP sub-problems:
-- For each goal: creates ProblemOOSPP(grid, start, goal)
+**Special Method: `to_spps()`**
+Converts OMSPP into list of SPP sub-problems:
+- For each goal: creates ProblemSPP(grid, start, goal)
 - Enables decomposition-based solving (used by KxAStar)
 
 ## Mixin Pattern
@@ -88,13 +88,13 @@ Problems use **compositional design** via mixins rather than deep inheritance:
 Provides `start` property (single start state):
 - Constructor: `__init__(start: State)`
 - Property: `start` → returns `_start`
-- Used by: ProblemOOSPP, ProblemOMSPP
+- Used by: ProblemSPP, ProblemOMSPP
 
 ### HasGoal Mixin
 Provides `goal` property (single goal state):
 - Constructor: `__init__(goal: State)`
 - Property: `goal` → returns `_goal`
-- Used by: ProblemOOSPP
+- Used by: ProblemSPP
 
 ### HasGoals Mixin
 Provides `goals` property (multiple goal states):
@@ -119,7 +119,7 @@ Provides `goals` property (multiple goal states):
 ### Type Safety
 Problems use generic types and bounds:
 - Ensures algorithms work with compatible problems
-- `AlgoOOSPP` requires `ProblemOOSPP`
+- `AlgoSPP` requires `ProblemSPP`
 - `AlgoOMSPP` requires `ProblemOMSPP`
 
 ### Immutability
@@ -146,15 +146,15 @@ Problem ─ provides ─→ Algorithm
 
 Problem classes include `Factory` class attribute:
 - Provides static methods for creating test instances
-- Example: `ProblemOOSPP.Factory.without_obstacles()`
+- Example: `ProblemSPP.Factory.without_obstacles()`
 - Enables easy testing and experimentation
 
 ## Common Operations
 
 ### Creating Problems
 ```python
-# OOSPP
-problem_oospp = ProblemOOSPP(
+# SPP
+problem_spp = ProblemSPP(
     grid=grid,
     start=State(key=start_cell),
     goal=State(key=goal_cell)
@@ -179,20 +179,20 @@ successors = problem.successors(current_state)
 # Common to all problems
 grid = problem.grid
 
-# OOSPP and OMSPP
+# SPP and OMSPP
 start = problem.start
 
-# OOSPP only
+# SPP only
 goal = problem.goal
 
 # OMSPP only
 goals = problem.goals  # set[State]
 ```
 
-### Converting OMSPP to OOSPP
+### Converting OMSPP to SPP
 ```python
 omspp = ProblemOMSPP(grid, start, goals)
-oospps = omspp.to_oospps()  # list[ProblemOOSPP]
+spps = omspp.to_spps()  # list[ProblemSPP]
 ```
 
 ## External Dependencies

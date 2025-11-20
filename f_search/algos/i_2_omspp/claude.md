@@ -51,11 +51,11 @@ From `AlgoSearch`:
 **Naive approach: K times A* algorithm**
 
 **Strategy:**
-Decomposes the OMSPP into k independent OOSPP sub-problems and solves each separately.
+Decomposes the OMSPP into k independent SPP sub-problems and solves each separately.
 
 **Algorithm Steps:**
-1. **Decomposition**: Convert `ProblemOMSPP` → k × `ProblemOOSPP`
-   - For each goal in goals: create OOSPP(grid, start, goal)
+1. **Decomposition**: Convert `ProblemOMSPP` → k × `ProblemSPP`
+   - For each goal in goals: create SPP(grid, start, goal)
 2. **Independent Solving**: Run A* autonomously for each sub-problem
    - Each A* instance solves one start→goal path
    - No information sharing between runs
@@ -122,7 +122,7 @@ All OMSPP algorithms return `SolutionOMSPP` containing:
 - Simple decomposition approach
 - Provides baseline for comparison
 - Easy to implement and understand
-- Demonstrates problem conversion (OMSPP → k×OOSPP)
+- Demonstrates problem conversion (OMSPP → k×SPP)
 
 ### Why Track Per-Goal Stats?
 - Understand performance variation across goals
@@ -130,9 +130,9 @@ All OMSPP algorithms return `SolutionOMSPP` containing:
 - Support debugging and optimization
 - Enable fine-grained analysis
 
-## Comparison: OMSPP vs OOSPP
+## Comparison: OMSPP vs SPP
 
-| Aspect | OMSPP | OOSPP |
+| Aspect | OMSPP | SPP |
 |--------|-------|-------|
 | **Goals** | Multiple (k goals) | Single |
 | **Solution** | k paths (dict) | 1 path |
@@ -167,6 +167,6 @@ class MultiGoalAStar(AlgoOMSPP):
 - **Problems**: `ProblemOMSPP` (from problems/i_1_omspp)
 - **Solutions**: `SolutionOMSPP` (from solutions/i_1_omspp)
 - **Stats**: `StatsOMSPP` (from stats/i_1_omspp)
-- **Sub-algorithms**: `AStar` (from algos/i_1_oospp/i_1_astar)
-- **Sub-problems**: `ProblemOOSPP` (from problems/i_1_oospp)
+- **Sub-algorithms**: `AStar` (from algos/i_1_spp/i_1_astar)
+- **Sub-problems**: `ProblemSPP` (from problems/i_1_spp)
 - **Data Structures**: `State`, `Cost`, `Path`, `Generated` (from ds/)

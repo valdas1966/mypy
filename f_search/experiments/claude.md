@@ -77,7 +77,7 @@ Contains experimental scripts for generating test data and preparing benchmarks 
    # Run algorithms on test cases
    for grid_name, grid in grids.items():
        for start_cell, goal_cell in pairs:
-           problem = ProblemOOSPP(grid, State(start_cell), State(goal_cell))
+           problem = ProblemSPP(grid, State(start_cell), State(goal_cell))
            solution = algorithm.run(problem)
            # Collect results...
    ```
@@ -140,7 +140,7 @@ Maps likely come from standard benchmarks:
 ## Extension Opportunities
 
 Potential additions:
-- **pickle_problems.py**: Pre-generate ProblemOOSPP instances
+- **pickle_problems.py**: Pre-generate ProblemSPP instances
 - **generate_omspp_cases.py**: Multi-goal test cases
 - **benchmark_runner.py**: Automated experiment execution
 - **results_analyzer.py**: Statistical analysis of results

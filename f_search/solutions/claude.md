@@ -6,14 +6,14 @@ Contains solution classes that encapsulate the results of search algorithms. Sol
 ## Structure
 
 - **i_0_base/** - `SolutionSearch` - Base solution class for all search problems
-- **i_1_oospp/** - `SolutionOOSPP` - Solution for One-to-One problems (single path)
-- **i_1_oospp/** - `SolutionOMSPP` - Solution for One-to-Many problems (multiple paths)
+- **i_1_spp/** - `SolutionSPP` - Solution for One-to-One problems (single path)
+- **i_1_spp/** - `SolutionOMSPP` - Solution for One-to-Many problems (multiple paths)
 
 ## Inheritance Hierarchy
 
 ```
 SolutionSearch[Stats] (Generic base)
-  ├─ SolutionOOSPP (StatsOOSPP, single Path)
+  ├─ SolutionSPP (StatsSPP, single Path)
   └─ SolutionOMSPP (StatsOMSPP, multiple Paths)
 ```
 
@@ -27,16 +27,16 @@ Provides foundational solution structure:
 
 ### Generic Type Parameter
 - `Stats` bounded to `StatsSearch`
-- Allows type-safe specialization (StatsOOSPP vs StatsOMSPP)
+- Allows type-safe specialization (StatsSPP vs StatsOMSPP)
 
 ## Solution Types
 
-### SolutionOOSPP (One-to-One)
+### SolutionSPP (One-to-One)
 **Single start → Single goal**
 
 **Components:**
 - `is_valid`: True if goal was reached
-- `stats`: StatsOOSPP with performance metrics
+- `stats`: StatsSPP with performance metrics
 - `path`: Single Path object (sequence of states from start to goal)
 
 **Use Case:** Results from AStar, Dijkstra algorithms
@@ -55,7 +55,7 @@ Provides foundational solution structure:
 
 ### When is a Solution Valid?
 
-**OOSPP:**
+**SPP:**
 - Goal state was reached
 - Path exists from start to goal
 - Algorithm succeeded
@@ -84,7 +84,7 @@ All solutions provide:
 - `stats` property → Statistics object
 
 Specific solutions add:
-- OOSPP: `path` property → `Path`
+- SPP: `path` property → `Path`
 - OMSPP: `paths` property → `dict[State, Path]`
 
 ## Relationship to Other Components
@@ -103,10 +103,10 @@ Solution
 
 ### Creating Solutions (in algorithms)
 ```python
-# OOSPP
-solution = SolutionOOSPP(
+# SPP
+solution = SolutionSPP(
     is_valid=True,
-    stats=stats_oospp,
+    stats=stats_spp,
     path=path
 )
 
@@ -126,7 +126,7 @@ solution = algorithm.run()
 # Check validity
 if solution.is_valid:
     # Access path(s)
-    if isinstance(solution, SolutionOOSPP):
+    if isinstance(solution, SolutionSPP):
         path = solution.path
         print(f"Path length: {len(path.to_iterable())}")
 
@@ -178,12 +178,12 @@ All solutions include performance statistics:
 - `*_per_goal`: Individual metrics for each goal
 - Per-goal breakdown of performance
 
-## Comparison: OOSPP vs OMSPP Solutions
+## Comparison: SPP vs OMSPP Solutions
 
-| Aspect | SolutionOOSPP | SolutionOMSPP |
+| Aspect | SolutionSPP | SolutionOMSPP |
 |--------|--------------|--------------|
 | **Path(s)** | Single Path | dict[State, Path] |
-| **Stats** | StatsOOSPP | StatsOMSPP |
+| **Stats** | StatsSPP | StatsOMSPP |
 | **Validity** | Goal reached | All goals reached |
 | **Property** | path | paths |
 | **Iteration** | N/A | for goal, path in paths.items() |
@@ -191,7 +191,7 @@ All solutions include performance statistics:
 ## External Dependencies
 
 - **f_cs.solution** - SolutionAlgo (generic solution interface)
-- **f_search.stats** - StatsSearch, StatsOOSPP, StatsOMSPP
+- **f_search.stats** - StatsSearch, StatsSPP, StatsOMSPP
 - **f_search.ds** - Path, State
 
 ## Extension Example

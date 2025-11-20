@@ -1,1 +1,1 @@
-from f_search.algos.i_1_oospp import AStar, Dijkstra
+from f_search.algos.i_1_spp import AStar, Dijkstra

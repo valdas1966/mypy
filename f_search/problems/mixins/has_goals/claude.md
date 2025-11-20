@@ -72,7 +72,7 @@ class ProblemOMSPP(ProblemSearch, HasStart, HasGoals):
         HasGoals.__init__(self, goals=goals)  # Add goals (plural)
 ```
 
-**Note:** OOSPP uses HasGoal (singular) instead
+**Note:** SPP uses HasGoal (singular) instead
 
 ## Usage in Algorithms
 
@@ -155,7 +155,7 @@ When a problem class includes HasGoals:
 | **Quantity** | Multiple goals | Single goal |
 | **Type** | set[State] | State |
 | **Property** | goals | goal |
-| **Use case** | OMSPP | OOSPP |
+| **Use case** | OMSPP | SPP |
 | **Termination** | state in goals | state == goal |
 | **Heuristic** | min/avg to goals | distance to goal |
 
@@ -218,11 +218,11 @@ def _heuristic(self, state: State) -> int:
 ### Problem Decomposition
 ```python
 # Convert to multiple single-goal problems
-def to_oospps(self):
+def to_spps(self):
     sub_problems = []
     for goal in self.goals:
-        oospp = ProblemOOSPP(self.grid, self.start, goal)
-        sub_problems.append(oospp)
+        spp = ProblemSPP(self.grid, self.start, goal)
+        sub_problems.append(spp)
     return sub_problems
 ```
 

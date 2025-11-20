@@ -16,7 +16,7 @@ class Factory:
          Return a ProblemOMSPP with a GridMap without obstacles.
         ========================================================================
         """
-        grid = Grid.Factory.without_obstacles()
+        grid = Grid.Factory.four_without_obstacles()
         start = Factory._get_start_4x4()
         goals = Factory._get_goals_4x4()
         return ProblemOMSPP(grid=grid, start=start, goals=goals)
@@ -28,7 +28,7 @@ class Factory:
          Return a ProblemOMSPP with a GridMap with obstacles.
         ========================================================================
         """
-        grid = Grid.Factory.with_obstacles()
+        grid = Grid.Factory.four_with_obstacles()
         start = Factory._get_start_4x4()
         goals = Factory._get_goals_4x4()
         return ProblemOMSPP(grid=grid, start=start, goals=goals)

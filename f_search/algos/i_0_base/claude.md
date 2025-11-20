@@ -44,9 +44,9 @@ Pre-execution hook that initializes all data structures before the algorithm run
 - Initializes statistics object
 
 ### Design Pattern
-This class uses the Template Method pattern, providing the infrastructure while leaving concrete search logic to derived classes. Subclasses like `AlgoOOSPP` and specific algorithms (A*, Dijkstra) build upon this foundation.
+This class uses the Template Method pattern, providing the infrastructure while leaving concrete search logic to derived classes. Subclasses like `AlgoSPP` and specific algorithms (A*, Dijkstra) build upon this foundation.
 
 ## Usage Context
 - Direct instantiation: Not intended (abstract base class)
-- Specialization: Extended by `AlgoOOSPP` for single-goal problems
+- Specialization: Extended by `AlgoSPP` for single-goal problems
 - Role in hierarchy: Root algorithm class for all grid search implementations

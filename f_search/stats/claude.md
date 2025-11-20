@@ -6,14 +6,14 @@ Contains statistics classes that track performance metrics for search algorithms
 ## Structure
 
 - **i_0_base/** - `StatsSearch` - Base statistics for all search algorithms
-- **i_1_oospp/** - `StatsOOSPP` - Statistics for One-to-One problems
+- **i_1_spp/** - `StatsSPP` - Statistics for One-to-One problems
 - **i_1_omspp/** - `StatsOMSPP` - Statistics for One-to-Many problems (with per-goal metrics)
 
 ## Inheritance Hierarchy
 
 ```
 StatsSearch (Base metrics)
-  ├─ StatsOOSPP (OOSPP - currently no additions)
+  ├─ StatsSPP (SPP - currently no additions)
   └─ StatsOMSPP (OMSPP - adds per-goal metrics)
 ```
 
@@ -55,7 +55,7 @@ Provides core performance metrics for all search algorithms:
 
 ## Stats Types
 
-### StatsOOSPP (One-to-One)
+### StatsSPP (One-to-One)
 **Simple statistics for single-goal problems**
 
 **Components:** (all inherited from StatsSearch)
@@ -116,10 +116,10 @@ For less efficient search:
 Statistics are embedded in solutions:
 
 ```python
-# OOSPP
-solution = SolutionOOSPP(
+# SPP
+solution = SolutionSPP(
     is_valid=True,
-    stats=StatsOOSPP(
+    stats=StatsSPP(
         elapsed=0.042,
         generated=156,
         updated=23,
@@ -166,7 +166,7 @@ self._counters['EXPLORED'] += 1   # Explored state
 end_time = time.time()
 
 # Create stats
-stats = StatsOOSPP(
+stats = StatsSPP(
     elapsed=end_time - start_time,
     generated=self._counters['GENERATED'],
     updated=self._counters['UPDATED'],
@@ -236,12 +236,12 @@ Statistics are immutable after creation:
 
 ### Hierarchical Detail
 - Base: Overall metrics
-- OOSPP: Same as base (single goal)
+- SPP: Same as base (single goal)
 - OMSPP: Adds per-goal breakdown
 
-## Comparison: OOSPP vs OMSPP Stats
+## Comparison: SPP vs OMSPP Stats
 
-| Aspect | StatsOOSPP | StatsOMSPP |
+| Aspect | StatsSPP | StatsOMSPP |
 |--------|-----------|-----------|
 | **Base metrics** | Yes | Yes (aggregate) |
 | **Per-goal metrics** | No | Yes (4 dicts) |

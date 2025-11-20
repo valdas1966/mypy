@@ -9,7 +9,7 @@ A comprehensive Python framework for implementing and researching heuristic sear
 
 - **algos/** - Search algorithm implementations (A*, Dijkstra, K×A*)
 - **ds/** - Core data structures (State, Cost, Path, Generated queue)
-- **problems/** - Problem definitions (OOSPP, OMSPP) with compositional mixins
+- **problems/** - Problem definitions (SPP, OMSPP) with compositional mixins
 - **solutions/** - Solution containers with paths and statistics
 - **stats/** - Performance metrics and tracking
 - **experiments/** - Research scripts for data generation and benchmarking
@@ -24,7 +24,7 @@ The project uses a hierarchical naming system with prefixes:
   - `i_2_xxx/` - Second-level specializations (level 2)
 
 - **Problem type abbreviations:**
-  - **OOSPP** - One-to-One Shortest Path Problem (single start, single goal)
+  - **SPP** - One-to-One Shortest Path Problem (single start, single goal)
   - **OMSPP** - One-to-Many Shortest Path Problem (single start, multiple goals)
 
 ### Architecture Pattern
@@ -60,11 +60,11 @@ Problems compose functionality through mixins rather than deep inheritance:
 - `HasGoal` - Adds single goal state property
 - `HasGoals` - Adds multiple goal states property
 
-Example: `ProblemOOSPP(ProblemSearch, HasStart, HasGoal)`
+Example: `ProblemSPP(ProblemSearch, HasStart, HasGoal)`
 
 ### 3. Factory Pattern
 Each major class includes a nested `Factory` class for creating test instances:
-- `ProblemOOSPP.Factory.without_obstacles()`
+- `ProblemSPP.Factory.without_obstacles()`
 - Enables easy testing and experimentation
 
 ### 4. Generic Type System
@@ -78,7 +78,7 @@ Heavy use of Python generics for type safety:
 ### Algorithm Hierarchy
 ```
 AlgoSearch (Generic base)
-  ├─ AlgoOOSPP (One-to-One base)
+  ├─ AlgoSPP (One-to-One base)
   │   ├─ AStar (A* with Manhattan heuristic)
   │   └─ Dijkstra (h=0, uninformed search)
   └─ AlgoOMSPP (One-to-Many base)
@@ -88,7 +88,7 @@ AlgoSearch (Generic base)
 ### Problem Hierarchy
 ```
 ProblemSearch (Grid-based base)
-  ├─ ProblemOOSPP (Single start → Single goal)
+  ├─ ProblemSPP (Single start → Single goal)
   └─ ProblemOMSPP (Single start → Multiple goals)
 ```
 
@@ -100,7 +100,7 @@ ProblemSearch (Grid-based base)
 
 ## Problem Types
 
-### OOSPP (One-to-One Shortest Path Problem)
+### SPP (One-to-One Shortest Path Problem)
 - **Definition**: Find shortest path from single start to single goal
 - **Use Case**: Classic pathfinding (navigate A to B)
 - **Algorithms**: AStar, Dijkstra

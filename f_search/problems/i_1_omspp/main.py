@@ -1,5 +1,5 @@
 from f_search.problems import ProblemSearch, Grid, State
-from f_search.problems.i_1_oospp.main import ProblemOOSPP
+from f_search.problems.i_1_spp.main import ProblemSPP
 from f_search.problems.mixins import HasStart, HasGoals
 from typing import Iterable
 
@@ -17,7 +17,7 @@ class ProblemOMSPP(ProblemSearch, HasStart, HasGoals):
     def __init__(self,
                  grid: Grid,
                  start: State,
-                 goals: Iterable[State]) -> None:
+                 goals: list[State]) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -27,15 +27,15 @@ class ProblemOMSPP(ProblemSearch, HasStart, HasGoals):
         HasStart.__init__(self, start=start)
         HasGoals.__init__(self, goals=goals)
 
-    def to_oospps(self) -> list[ProblemOOSPP]:
+    def to_spps(self) -> list[ProblemSPP]:
         """
         ========================================================================
-         Convert the ProblemOMSPP to a list of ProblemOOSPPs.
+         Convert the ProblemOMSPP to a list of ProblemSPPs.
         ========================================================================
         """
-        sub_problems: list[ProblemOOSPP] = []
+        sub_problems: list[ProblemSPP] = []
         for goal in self.goals:
-            sub_problem = ProblemOOSPP(grid=self.grid,
+            sub_problem = ProblemSPP(grid=self.grid,
                                        start=self.start,
                                        goal=goal)
             sub_problems.append(sub_problem)

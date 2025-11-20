@@ -11,9 +11,9 @@ This document explains the naming patterns specific to the f_search module (heur
 ### Complete Algorithm Hierarchy
 ```
 AlgoSearch (algos/i_0_base)                    ← Level 0: Root algorithm base
-├─ AlgoOOSPP (algos/i_1_oospp/i_0_base)       ← Level 1: OOSPP base
-│  ├─ AStar (algos/i_1_oospp/i_1_astar)       ← Level 1: A* implementation
-│  └─ Dijkstra (algos/i_1_oospp/i_2_dijkstra) ← Level 2: Dijkstra (inherits AStar!)
+├─ AlgoSPP (algos/i_1_spp/i_0_base)       ← Level 1: SPP base
+│  ├─ AStar (algos/i_1_spp/i_1_astar)       ← Level 1: A* implementation
+│  └─ Dijkstra (algos/i_1_spp/i_2_dijkstra) ← Level 2: Dijkstra (inherits AStar!)
 └─ AlgoOMSPP (algos/i_1_omspp/i_0_base)       ← Level 1: OMSPP base
    └─ KxAStar (algos/i_1_omspp/i_1_kx_astar)  ← Level 1: K×A* implementation
 ```
@@ -23,21 +23,21 @@ AlgoSearch (algos/i_0_base)                    ← Level 0: Root algorithm base
 ### Complete Problem Hierarchy
 ```
 ProblemSearch (problems/i_0_base)              ← Level 0: Grid search base
-├─ ProblemOOSPP (problems/i_1_oospp)          ← Level 1: One-to-One
+├─ ProblemSPP (problems/i_1_spp)          ← Level 1: One-to-One
 └─ ProblemOMSPP (problems/i_1_omspp)          ← Level 1: One-to-Many
 ```
 
 ### Complete Solution Hierarchy
 ```
 SolutionSearch (solutions/i_0_base)            ← Level 0: Base solution
-├─ SolutionOOSPP (solutions/i_1_oospp)        ← Level 1: OOSPP solution
+├─ SolutionSPP (solutions/i_1_spp)        ← Level 1: SPP solution
 └─ SolutionOMSPP (solutions/i_1_omspp)        ← Level 1: OMSPP solution
 ```
 
 ### Complete Stats Hierarchy
 ```
 StatsSearch (stats/i_0_base)                   ← Level 0: Base statistics
-├─ StatsOOSPP (stats/i_1_oospp)               ← Level 1: OOSPP stats
+├─ StatsSPP (stats/i_1_spp)               ← Level 1: SPP stats
 └─ StatsOMSPP (stats/i_1_omspp)               ← Level 1: OMSPP stats (+ per-goal)
 ```
 
@@ -62,8 +62,8 @@ algos/
 ├─ i_0_base/                      - AlgoSearch (root base class)
 │  └─ main.py                     - Core search infrastructure
 │
-├─ i_1_oospp/                     - One-to-One algorithms
-│  ├─ i_0_base/                   - AlgoOOSPP base
+├─ i_1_spp/                     - One-to-One algorithms
+│  ├─ i_0_base/                   - AlgoSPP base
 │  ├─ i_1_astar/                  - A* algorithm
 │  └─ i_2_dijkstra/               - Dijkstra (special case of A*)
 │
@@ -76,7 +76,7 @@ algos/
 ```
 problems/
 ├─ i_0_base/                      - ProblemSearch (grid base)
-├─ i_1_oospp/                     - ProblemOOSPP (start + goal)
+├─ i_1_spp/                     - ProblemSPP (start + goal)
 ├─ i_1_omspp/                     - ProblemOMSPP (start + goals)
 └─ mixins/                        - Compositional mixins
    ├─ has_start/                  - HasStart mixin
@@ -99,23 +99,23 @@ ds/
 
 ## Problem Type Conventions
 
-### OOSPP (One-to-One Shortest Path Problem)
+### SPP (One-to-One Shortest Path Problem)
 **Definition**: Single start → Single goal
 
-**Naming pattern**: `*oospp*` (lowercase in folders, PascalCase in classes)
+**Naming pattern**: `*spp*` (lowercase in folders, PascalCase in classes)
 
 **Components**:
-- Problem: `ProblemOOSPP` (has start, goal)
+- Problem: `ProblemSPP` (has start, goal)
 - Algorithms: `AStar`, `Dijkstra`
-- Solution: `SolutionOOSPP` (contains single path)
-- Stats: `StatsOOSPP`
+- Solution: `SolutionSPP` (contains single path)
+- Stats: `StatsSPP`
 
 **Folder pattern**:
 ```
-algos/i_1_oospp/
-problems/i_1_oospp/
-solutions/i_1_oospp/
-stats/i_1_oospp/
+algos/i_1_spp/
+problems/i_1_spp/
+solutions/i_1_spp/
+stats/i_1_spp/
 ```
 
 ### OMSPP (One-to-Many Shortest Path Problem)
@@ -142,21 +142,21 @@ stats/i_1_omspp/
 ## Class Naming Patterns
 
 ### Algorithm Classes
-- **Prefix**: `Algo` (e.g., `AlgoSearch`, `AlgoOOSPP`)
-- **Suffix**: Problem type (e.g., `AlgoOOSPP`)
+- **Prefix**: `Algo` (e.g., `AlgoSearch`, `AlgoSPP`)
+- **Suffix**: Problem type (e.g., `AlgoSPP`)
 - **Specific**: Algorithm name (e.g., `AStar`, `Dijkstra`)
 
 ### Problem Classes
-- **Prefix**: `Problem` (e.g., `ProblemSearch`, `ProblemOOSPP`)
-- **Suffix**: Problem type (e.g., `ProblemOOSPP`)
+- **Prefix**: `Problem` (e.g., `ProblemSearch`, `ProblemSPP`)
+- **Suffix**: Problem type (e.g., `ProblemSPP`)
 
 ### Solution Classes
 - **Prefix**: `Solution` (e.g., `SolutionSearch`)
-- **Suffix**: Problem type (e.g., `SolutionOOSPP`)
+- **Suffix**: Problem type (e.g., `SolutionSPP`)
 
 ### Stats Classes
 - **Prefix**: `Stats` (e.g., `StatsSearch`)
-- **Suffix**: Problem type (e.g., `StatsOOSPP`)
+- **Suffix**: Problem type (e.g., `StatsSPP`)
 
 ### Data Structure Classes
 - **Direct names**: `State`, `Cost`, `Path`, `Generated`
@@ -180,7 +180,7 @@ stats/i_1_omspp/
 ### Usage Pattern
 Problems compose mixins:
 ```python
-ProblemOOSPP(ProblemSearch, HasStart, HasGoal)     # Singular goal
+ProblemSPP(ProblemSearch, HasStart, HasGoal)     # Singular goal
 ProblemOMSPP(ProblemSearch, HasStart, HasGoals)    # Plural goals
 ```
 
@@ -203,14 +203,14 @@ ProblemOMSPP(ProblemSearch, HasStart, HasGoals)    # Plural goals
 
 When you see nested inheritance levels:
 ```
-algos/i_1_oospp/i_2_dijkstra/
+algos/i_1_spp/i_2_dijkstra/
        ↑         ↑
-       Level 1   Level 2 within OOSPP branch
+       Level 1   Level 2 within SPP branch
 ```
 
 **Reading**:
-- First `i_1`: OOSPP is level 1 under AlgoSearch
-- Second `i_2`: Dijkstra is level 2 under AlgoOOSPP (via AStar)
+- First `i_1`: SPP is level 1 under AlgoSearch
+- Second `i_2`: Dijkstra is level 2 under AlgoSPP (via AStar)
 
 ---
 
@@ -249,17 +249,17 @@ algos/i_1_oospp/i_2_dijkstra/
 ### Typical Imports
 ```python
 from f_search.algos import AStar, Dijkstra
-from f_search.problems import ProblemOOSPP, ProblemOMSPP
-from f_search.solutions import SolutionOOSPP, SolutionOMSPP
-from f_search.stats import StatsOOSPP, StatsOMSPP
+from f_search.problems import ProblemSPP, ProblemOMSPP
+from f_search.solutions import SolutionSPP, SolutionOMSPP
+from f_search.stats import StatsSPP, StatsOMSPP
 from f_search.ds import State, Cost, Path, Generated
 ```
 
 ### Internal Imports (within f_search)
 ```python
 from f_search.algos.i_0_base.main import AlgoSearch
-from f_search.algos.i_1_oospp.i_0_base.main import AlgoOOSPP
-from f_search.algos.i_1_oospp.i_1_astar.main import AStar
+from f_search.algos.i_1_spp.i_0_base.main import AlgoSPP
+from f_search.algos.i_1_spp.i_1_astar.main import AStar
 ```
 
 ---
@@ -281,7 +281,7 @@ from f_search.algos.i_1_oospp.i_1_astar.main import AStar
 
 ### When Understanding Relationships
 
-1. **Check naming patterns** - OOSPP vs OMSPP
+1. **Check naming patterns** - SPP vs OMSPP
 2. **Look for parallel structures** - algos, problems, solutions, stats
 3. **Read claude.md comparisons** - Tables explain differences
 
@@ -292,14 +292,14 @@ from f_search.algos.i_1_oospp.i_1_astar.main import AStar
 ### Pattern 1: Parallel Hierarchies
 Problem type determines structure across all components:
 ```
-OOSPP → ProblemOOSPP → AlgoOOSPP → SolutionOOSPP → StatsOOSPP
+SPP → ProblemSPP → AlgoSPP → SolutionSPP → StatsSPP
 OMSPP → ProblemOMSPP → AlgoOMSPP → SolutionOMSPP → StatsOMSPP
 ```
 
 ### Pattern 2: Mixin Composition
 Problems use mixins instead of deep inheritance:
 ```
-Problem + HasStart + HasGoal  = OOSPP
+Problem + HasStart + HasGoal  = SPP
 Problem + HasStart + HasGoals = OMSPP
 ```
 
@@ -316,7 +316,7 @@ AStar (i_1)
 
 | Abbreviation | Meaning | Example |
 |--------------|---------|---------|
-| OOSPP | One-to-One SPP | Single start → Single goal |
+| SPP | One-to-One SPP | Single start → Single goal |
 | OMSPP | One-to-Many SPP | Single start → Multiple goals |
 | SPP | Shortest Path Problem | - |
 | i_0 | Level 0 (base) | Abstract base class |
@@ -335,7 +335,7 @@ AStar (i_1)
 - Check claude.md for confirmation
 
 ### When Asked About Relationships
-- OOSPP and OMSPP are siblings (different problem types)
+- SPP and OMSPP are siblings (different problem types)
 - Parallel naming across algos/problems/solutions/stats
 - Mixins provide compositional features
 
@@ -347,4 +347,4 @@ AStar (i_1)
 ### When Suggesting Changes
 - Respect i_X hierarchy in naming
 - Maintain parallel structure across components
-- Follow established patterns (OOSPP/OMSPP style)
+- Follow established patterns (SPP/OMSPP style)

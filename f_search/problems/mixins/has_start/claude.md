@@ -54,9 +54,9 @@ Uses Python `@property` decorator:
 
 ## Usage in Problems
 
-### OOSPP (One-to-One)
+### SPP (One-to-One)
 ```python
-class ProblemOOSPP(ProblemSearch, HasStart, HasGoal):
+class ProblemSPP(ProblemSearch, HasStart, HasGoal):
     def __init__(self, grid, start, goal):
         ProblemSearch.__init__(self, grid=grid)
         HasStart.__init__(self, start=start)  # Add start
@@ -123,7 +123,7 @@ If we needed multiple start states:
 | **Quantity** | Single start | Multiple starts |
 | **Type** | State | set[State] or list[State] |
 | **Property** | start | starts |
-| **Use case** | OOSPP, OMSPP | Multi-source problems |
+| **Use case** | SPP, OMSPP | Multi-source problems |
 
 ## Example Usage
 
@@ -147,7 +147,7 @@ print(problem.start)  # State(key=(0, 0))
 ## Relationship to Other Components
 
 - **State**: HasStart stores a State object
-- **Problems**: Mixed into ProblemOOSPP, ProblemOMSPP
+- **Problems**: Mixed into ProblemSPP, ProblemOMSPP
 - **Algorithms**: Access via `problem.start`
 
 ## Design Rationale

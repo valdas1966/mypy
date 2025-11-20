@@ -45,21 +45,21 @@ HasGoals.__init__(self, goals=goals)
 
 ### Problem Decomposition
 
-#### `to_oospps()` → `list[ProblemOOSPP]`
-Converts the OMSPP into multiple OOSPP sub-problems.
+#### `to_spps()` → `list[ProblemSPP]`
+Converts the OMSPP into multiple SPP sub-problems.
 
 **Purpose:** Enables decomposition-based solving strategies
 
 **Implementation:**
 - For each goal in `self.goals`:
-  - Creates `ProblemOOSPP(grid, start, goal)`
+  - Creates `ProblemSPP(grid, start, goal)`
   - Appends to list
 - Returns list of k sub-problems (k = number of goals)
 
 **Usage:**
 ```python
 omspp = ProblemOMSPP(grid, start, {goal1, goal2, goal3})
-oospps = omspp.to_oospps()  # [OOSPP(→goal1), OOSPP(→goal2), OOSPP(→goal3)]
+spps = omspp.to_spps()  # [SPP(→goal1), SPP(→goal2), SPP(→goal3)]
 ```
 
 **Used by:** KxAStar algorithm for naive decomposition approach
@@ -113,7 +113,7 @@ Algorithms interact with problem via:
 - `problem.start` - Get initial state
 - `problem.goals` - Get all goal states (set)
 - `problem.successors(state)` - Get neighbors
-- `problem.to_oospps()` - Decompose into OOSPP (KxAStar)
+- `problem.to_spps()` - Decompose into SPP (KxAStar)
 
 ## Goals as Set
 
@@ -144,20 +144,20 @@ k = len(problem.goals)
 
 - **Algorithms**: `AlgoOMSPP` (KxAStar)
 - **Solutions**: `SolutionOMSPP` (multiple paths)
-- **Sub-problems**: Can convert to `ProblemOOSPP` list
+- **Sub-problems**: Can convert to `ProblemSPP` list
 - **Grid**: `GridMap` (search space)
 - **States**: `State` (start, goals, path nodes)
 
-## Comparison with ProblemOOSPP
+## Comparison with ProblemSPP
 
-| Aspect | ProblemOMSPP | ProblemOOSPP |
+| Aspect | ProblemOMSPP | ProblemSPP |
 |--------|-------------|-------------|
 | **Goals** | Multiple (set) | Single |
 | **Mixin** | HasGoals | HasGoal |
 | **Property** | goals (set[State]) | goal (State) |
 | **Algorithms** | KxAStar | AStar, Dijkstra |
-| **Solutions** | SolutionOMSPP | SolutionOOSPP |
-| **Decomposition** | to_oospps() | N/A |
+| **Solutions** | SolutionOMSPP | SolutionSPP |
+| **Decomposition** | to_spps() | N/A |
 | **Complexity** | Higher | Lower |
 
 ## Problem Challenges
@@ -211,17 +211,17 @@ if solution.is_valid:
 ## Decomposition Example
 
 ```python
-# Convert to multiple OOSPP
+# Convert to multiple SPP
 omspp = ProblemOMSPP(grid, start, {g1, g2, g3})
-oospps = omspp.to_oospps()
+spps = omspp.to_spps()
 
-# oospps[0] = ProblemOOSPP(grid, start, g1)
-# oospps[1] = ProblemOOSPP(grid, start, g2)
-# oospps[2] = ProblemOOSPP(grid, start, g3)
+# spps[0] = ProblemSPP(grid, start, g1)
+# spps[1] = ProblemSPP(grid, start, g2)
+# spps[2] = ProblemSPP(grid, start, g3)
 
 # Can solve each independently
-for oospp in oospps:
-    astar = AStar(problem=oospp)
+for spp in spps:
+    astar = AStar(problem=spp)
     solution = astar.run()
 ```
 
@@ -233,11 +233,11 @@ for oospp in oospps:
 - **Different solutions**: Multiple paths vs single path
 - **Type safety**: Algorithms can require OMSPP specifically
 
-### Why Provide to_oospps()?
+### Why Provide to_spps()?
 - **Enables decomposition**: Supports naive solving strategies
-- **Reuses OOSPP algorithms**: Leverage existing A* implementation
+- **Reuses SPP algorithms**: Leverage existing A* implementation
 - **Simplifies KxAStar**: Provides sub-problems directly
-- **Explicit conversion**: Clear transformation from OMSPP to OOSPP
+- **Explicit conversion**: Clear transformation from OMSPP to SPP
 
 ### Future Algorithm Opportunities
 - **Multi-goal A***: Single search tree for all goals

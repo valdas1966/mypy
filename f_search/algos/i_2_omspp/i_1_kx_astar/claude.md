@@ -25,7 +25,7 @@ From `AlgoOMSPP` and `AlgoSearch`:
 **Decompose → Solve → Aggregate**
 
 The algorithm follows a three-phase approach:
-1. **Decomposition**: Convert OMSPP into k independent OOSPP sub-problems
+1. **Decomposition**: Convert OMSPP into k independent SPP sub-problems
 2. **Independent Solving**: Execute A* for each sub-problem separately
 3. **Aggregation**: Combine all results into a single OMSPP solution
 
@@ -34,7 +34,7 @@ The algorithm follows a three-phase approach:
 #### 1. Initialization (`_run_pre()`)
 Prepares data structures for multi-goal solving:
 - Calls parent initialization
-- Creates `_sub_problems`: List to store k OOSPP problems
+- Creates `_sub_problems`: List to store k SPP problems
 - Creates `_sub_solutions`: Dictionary mapping goals to their solutions
 - Initializes aggregate counters: GENERATED, UPDATED, EXPLORED (all to 0)
 
@@ -42,16 +42,16 @@ Prepares data structures for multi-goal solving:
 Orchestrates the three-phase process:
 ```
 1. _run_pre() - Initialize
-2. _create_sub_problems() - Decompose into k OOSPP
+2. _create_sub_problems() - Decompose into k SPP
 3. _solve_sub_problems() - Run A* for each
 4. _create_solution() - Aggregate results
 ```
 
 #### 3. Sub-Problem Creation (`_create_sub_problems()`)
-Converts the OMSPP into k OOSPP problems:
+Converts the OMSPP into k SPP problems:
 - Extracts start, grid, and goals from the OMSPP problem
 - For each goal in goals:
-  - Creates `ProblemOOSPP(grid, start, goal)`
+  - Creates `ProblemSPP(grid, start, goal)`
   - Adds to `_sub_problems` list
 - Result: k independent single-goal problems
 
@@ -89,10 +89,10 @@ Aggregates all sub-solutions into final result:
 
 ### Data Structures
 
-#### `_sub_problems: list[ProblemOOSPP]`
-List of k OOSPP problems, one per goal.
+#### `_sub_problems: list[ProblemSPP]`
+List of k SPP problems, one per goal.
 
-#### `_sub_solutions: dict[State, SolutionOOSPP]`
+#### `_sub_solutions: dict[State, SolutionSPP]`
 Maps each goal state to its A* solution.
 
 #### Aggregate Counters

@@ -75,14 +75,14 @@ This intermediate class provides a clear separation between:
 
 This design allows for future expansion while maintaining clean type boundaries and enabling algorithm-specific optimizations for multi-goal scenarios.
 
-## Comparison with AlgoOOSPP
+## Comparison with AlgoSPP
 
-| Aspect | AlgoOMSPP (this class) | AlgoOOSPP |
+| Aspect | AlgoOMSPP (this class) | AlgoSPP |
 |--------|------------------------|-----------|
 | **Goals** | Multiple | Single |
-| **Problem Type** | ProblemOMSPP | ProblemOOSPP |
-| **Solution Type** | SolutionOMSPP | SolutionOOSPP |
-| **Stats Type** | StatsOMSPP | StatsOOSPP |
+| **Problem Type** | ProblemOMSPP | ProblemSPP |
+| **Solution Type** | SolutionOMSPP | SolutionSPP |
+| **Stats Type** | StatsOMSPP | StatsSPP |
 | **Complexity** | Higher (k goals) | Lower (1 goal) |
 | **Per-goal tracking** | Yes | N/A |
 
