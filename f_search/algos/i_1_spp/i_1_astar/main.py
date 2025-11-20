@@ -83,7 +83,6 @@ class AStar(AlgoSPP):
         # If Best is a better parent for a given State
         elif data.best:
             if data.g[state] > data.g[data.best] + 1:
-                stats.updated += 1
                 self._update_cost(state=state)
                 data.generated.push(state=state,
                                     cost=data.cost[state])

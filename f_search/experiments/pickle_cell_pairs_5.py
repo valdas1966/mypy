@@ -12,7 +12,7 @@ def print_header() -> None:
     ============================================================================
     """
     print("=" * 80)
-    print("Extract One Random Pair per Domain->Map->Percentile")
+    print("Extract 5 Random Pairs per Domain->Map->Percentile")
     print("=" * 80)
     print()
 
@@ -40,21 +40,21 @@ def load_pairs_potential() -> dict[str, dict[str, dict[int, list[tuple[Cell, Cel
     return pairs
 
 
-def extract_one_pair_per_group(
+def extract_five_pairs_per_group(
     pairs_potential: dict[str, dict[str, dict[int, list[tuple[Cell, Cell]]]]]
 ) -> tuple[
-    dict[str, dict[str, dict[int, tuple[Cell, Cell]]]],
+    dict[str, dict[str, dict[int, list[tuple[Cell, Cell]]]]],
     dict[str, dict[str, dict[int, list[tuple[Cell, Cell]]]]]
 ]:
     """
     ============================================================================
-     Extract one random pair from each domain->map->percentile combination.
+     Extract 5 random pairs from each domain->map->percentile combination.
      Returns:
-         - pairs_1: dict with single pair per domain->map->percentile
+         - pairs_5: dict with 5 pairs per domain->map->percentile
          - pairs_remaining: dict with remaining pairs (original with selected pairs removed)
     ============================================================================
     """
-    pairs_1: dict[str, dict[str, dict[int, tuple[Cell, Cell]]]] = defaultdict(lambda: defaultdict(dict))
+    pairs_5: dict[str, dict[str, dict[int, list[tuple[Cell, Cell]]]]] = defaultdict(lambda: defaultdict(dict))
     pairs_remaining: dict[str, dict[str, dict[int, list[tuple[Cell, Cell]]]]] = defaultdict(lambda: defaultdict(dict))
 
     total_groups = sum(
@@ -65,7 +65,7 @@ def extract_one_pair_per_group(
 
     group_count = 0
 
-    print("Extracting one random pair per domain->map->percentile...")
+    print("Extracting 5 random pairs per domain->map->percentile...")
     print("-" * 80)
     print()
 
@@ -85,41 +85,42 @@ def extract_one_pair_per_group(
                     print(f"    Percentile {percentile:3d}: No pairs available (skipping)")
                     continue
 
-                # Select one random pair
-                selected_pair = random.choice(pairs_list)
-                pairs_1[domain][map_name][percentile] = selected_pair
+                # Select up to 5 random pairs
+                num_to_select = min(5, len(pairs_list))
+                selected_pairs = random.sample(pairs_list, num_to_select)
+                pairs_5[domain][map_name][percentile] = selected_pairs
 
-                # Store remaining pairs (all except the selected one)
-                remaining = [p for p in pairs_list if p != selected_pair]
+                # Store remaining pairs (all except the selected ones)
+                remaining = [p for p in pairs_list if p not in selected_pairs]
                 pairs_remaining[domain][map_name][percentile] = remaining
 
-                print(f"    Percentile {percentile:3d}: Selected 1 pair, {len(remaining)} remaining")
+                print(f"    Percentile {percentile:3d}: Selected {num_to_select} pair(s), {len(remaining)} remaining")
 
             print()
 
         print()
 
-    return dict(pairs_1), dict(pairs_remaining)
+    return dict(pairs_5), dict(pairs_remaining)
 
 
 def save_results(
-    pairs_1: dict[str, dict[str, dict[int, tuple[Cell, Cell]]]],
+    pairs_5: dict[str, dict[str, dict[int, list[tuple[Cell, Cell]]]]],
     pairs_remaining: dict[str, dict[str, dict[int, list[tuple[Cell, Cell]]]]],
 ) -> None:
     """
     ============================================================================
      Save the results:
-     - pairs_1.pkl: single pairs
+     - pairs_5.pkl: 5 pairs per group
      - pairs_potential.pkl: updated with remaining pairs
     ============================================================================
     """
     print("=" * 80)
     print("Saving results...")
 
-    # Save single pairs
-    pairs_1_path = 'g:\\paper\\pairs_1.pkl'
-    print(f"  Saving pairs_1 to {pairs_1_path}...")
-    u_pickle.dump(obj=pairs_1, path=pairs_1_path)
+    # Save 5 pairs
+    pairs_5_path = 'g:\\paper\\pairs_5.pkl'
+    print(f"  Saving pairs_5 to {pairs_5_path}...")
+    u_pickle.dump(obj=pairs_5, path=pairs_5_path)
 
     # Save remaining pairs (overwrite original)
     pairs_potential_path = 'g:\\paper\\pairs_potential.pkl'
@@ -131,7 +132,7 @@ def save_results(
 
 
 def print_summary(
-    pairs_1: dict[str, dict[str, dict[int, tuple[Cell, Cell]]]],
+    pairs_5: dict[str, dict[str, dict[int, list[tuple[Cell, Cell]]]]],
     pairs_remaining: dict[str, dict[str, dict[int, list[tuple[Cell, Cell]]]]],
     elapsed: float
 ) -> None:
@@ -140,14 +141,14 @@ def print_summary(
      Print summary statistics.
     ============================================================================
     """
-    # Calculate statistics for pairs_1
-    total_domains_1 = len(pairs_1)
-    total_maps_1 = sum(len(maps) for maps in pairs_1.values())
-    total_pairs_1 = sum(
-        1
-        for domain_maps in pairs_1.values()
+    # Calculate statistics for pairs_5
+    total_domains_5 = len(pairs_5)
+    total_maps_5 = sum(len(maps) for maps in pairs_5.values())
+    total_pairs_5 = sum(
+        len(pairs_list)
+        for domain_maps in pairs_5.values()
         for map_pairs in domain_maps.values()
-        for _ in map_pairs.values()
+        for pairs_list in map_pairs.values()
     )
 
     # Calculate statistics for remaining pairs
@@ -161,10 +162,10 @@ def print_summary(
     print("=" * 80)
     print("Summary")
     print("=" * 80)
-    print(f"Pairs extracted to pairs_1.pkl:")
-    print(f"  Domains: {total_domains_1}")
-    print(f"  Maps: {total_maps_1}")
-    print(f"  Total pairs: {total_pairs_1:,}")
+    print(f"Pairs extracted to pairs_5.pkl:")
+    print(f"  Domains: {total_domains_5}")
+    print(f"  Maps: {total_maps_5}")
+    print(f"  Total pairs: {total_pairs_5:,}")
     print()
     print(f"Pairs remaining in pairs_potential.pkl:")
     print(f"  Total pairs: {total_pairs_remaining:,}")
@@ -184,15 +185,15 @@ if __name__ == "__main__":
     # Load pairs_potential
     pairs_potential = load_pairs_potential()
 
-    # Extract one pair per group and get remaining pairs
-    pairs_1, pairs_remaining = extract_one_pair_per_group(pairs_potential)
+    # Extract 5 pairs per group and get remaining pairs
+    pairs_5, pairs_remaining = extract_five_pairs_per_group(pairs_potential)
 
     # Save results
-    save_results(pairs_1, pairs_remaining)
+    save_results(pairs_5, pairs_remaining)
 
     # Print summary
     elapsed = time.time() - start_time
-    print_summary(pairs_1, pairs_remaining, elapsed)
+    print_summary(pairs_5, pairs_remaining, elapsed)
 
     print("=" * 80)
     print("Extraction completed!")

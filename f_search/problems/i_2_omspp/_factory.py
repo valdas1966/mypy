@@ -1,4 +1,4 @@
-from f_search.problems.i_1_omspp.main import ProblemOMSPP, Grid, State
+from f_search.problems.i_2_omspp.main import ProblemOMSPP, Grid, State
 from typing import Iterable
 
 

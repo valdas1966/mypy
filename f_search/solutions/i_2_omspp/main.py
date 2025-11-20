@@ -18,12 +18,9 @@ class SolutionOMSPP(SolutionSearch[StatsOMSPP]):
         """
         ========================================================================
          Init private Attributes.
+         Stats are already accumulated by the algorithm during execution.
         ========================================================================
         """
-        stats_spp = {goal: sub_solution.stats
-                     for goal, sub_solution
-                     in sub_solutions.items()}
-        stats.fill(stats_spp=stats_spp)
         SolutionSearch.__init__(self, is_valid=is_valid, stats=stats)
         self._paths = {goal: sub_solution.path
                        for goal, sub_solution

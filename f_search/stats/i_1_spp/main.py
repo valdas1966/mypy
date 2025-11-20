@@ -10,3 +10,13 @@ class StatsSPP(StatsSearch):
     
     # Factory
     Factory: type = None
+
+    def __repr__(self) -> str:
+        """
+        ========================================================================
+         Return the STR-REPR of the StatsSPP.
+        ========================================================================
+        """
+        return f'StatsSPP(elapsed={self.elapsed}, \
+                          generated={self.generated}, \
+                          explored={self.explored})'

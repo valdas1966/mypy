@@ -16,5 +16,4 @@ class StatsSearch(StatsAlgo):
         """
         StatsAlgo.__init__(self)
         self.generated = 0
-        self.updated = 0
         self.explored = 0

@@ -41,3 +41,11 @@ class ProblemOMSPP(ProblemSearch, HasStart, HasGoals):
             sub_problems.append(sub_problem)
         return sub_problems
     
+    def __repr__(self) -> str:
+        """
+        ========================================================================
+         Return the STR-REPR of the ProblemOMSPP.
+        ========================================================================
+        """
+        return f'ProblemOMSPP(grid={self.grid.name}[{len(self.grid)}], \
+                              start={self.start}, goals={self.goals})'

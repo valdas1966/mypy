@@ -12,15 +12,14 @@ class Factory:
     def ab() -> StatsOMSPP:
         """
         ========================================================================
-         Return a StatsOMSPP with all values set to 10.
+         Return a StatsOMSPP with stats for goals A and B.
         ========================================================================
         """
         stats_a = StatsSPP.Factory.a()
         stats_b = StatsSPP.Factory.b()
         state_a = State.Factory.a()
         state_b = State.Factory.b()
-        stats_spp = {state_a: stats_a,
-                     state_b: stats_b}
         stats = StatsOMSPP()
-        stats.fill(stats_spp=stats_spp)
+        stats.add_stats_goal(goal=state_a, stats=stats_a)
+        stats.add_stats_goal(goal=state_b, stats=stats_b)
         return stats

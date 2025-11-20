@@ -46,10 +46,10 @@ class ProcessABC(HasName, HasVerbose, Validatable):
         """
         return self._time_finish
 
-    def elapsed(self) -> float:
+    def elapsed(self) -> int:
         """
         ========================================================================
-         Return the elapsed time of the process running.
+         Return the elapsed time of the process running (in milliseconds).
         ========================================================================
         """
         return self._elapsed
@@ -80,7 +80,7 @@ class ProcessABC(HasName, HasVerbose, Validatable):
         ========================================================================
         """
         self._time_finish = time()
-        self._elapsed = self._time_finish - self._time_start
+        self._elapsed = int((self._time_finish - self._time_start) * 1000)  # Convert to milliseconds
         if self.verbose:
             print(f'[{u_datetime.now()}] Finish: {self.name}')
 

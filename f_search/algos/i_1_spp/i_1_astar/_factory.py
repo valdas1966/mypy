@@ -16,7 +16,7 @@ class Factory:
         ========================================================================
         """
         problem = ProblemSPP.Factory.without_obstacles()
-        return AStar(problem=problem, verbose=True)
+        return AStar(problem=problem)
 
     @staticmethod
     def with_obstacles() -> AStar:
