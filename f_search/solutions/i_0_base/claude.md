@@ -92,7 +92,7 @@ SolutionSearch provides minimal base:
 
 Subclasses add problem-specific components:
 - SPP: adds `path` (single Path)
-- OMSPP: adds `paths` (dict[State, Path])
+- OMSPP: adds `paths` (dict[StateBase, Path])
 
 ## Design Philosophy
 

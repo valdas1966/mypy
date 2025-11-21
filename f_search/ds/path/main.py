@@ -1,10 +1,10 @@
 from f_ds.mixins.collectionable import Collectionable
 from f_core.mixins.comparable import Comparable
-from f_search.ds.state import State
+from f_search.ds.states.i_0_base import StateBase
 from typing import Self, Iterable
 
 
-class Path(Collectionable[State],
+class Path(Collectionable[StateBase],
            Comparable):
     """
     ========================================================================
@@ -15,15 +15,15 @@ class Path(Collectionable[State],
     # Factory
     Factory: type = None
 
-    def __init__(self, states: Iterable[State] = None) -> None:
+    def __init__(self, states: Iterable[StateBase] = None) -> None:
         """
         ========================================================================
          Initialize the Path.
         ========================================================================
         """
-        self._states: list[State] = list(states) if states else list()
+        self._states: list[StateBase] = list(states) if states else list()
 
-    def to_iterable(self) -> list[State]:
+    def to_iterable(self) -> list[StateBase]:
         """
         ========================================================================
          Convert the Path to a list of States.
@@ -31,7 +31,7 @@ class Path(Collectionable[State],
         """
         return self._states
 
-    def head(self) -> State:
+    def head(self) -> StateBase:
         """
         ========================================================================
          Get the head state.
@@ -39,7 +39,7 @@ class Path(Collectionable[State],
         """
         return self._states[0]
     
-    def tail(self) -> State:
+    def tail(self) -> StateBase:
         """
         ========================================================================
          Get the tail state.
@@ -56,7 +56,7 @@ class Path(Collectionable[State],
         rev = reversed(self._states)
         return type(self)(states=list(rev))
 
-    def key_comparison(self) -> list[State]:
+    def key_comparison(self) -> list[StateBase]:
         """
         ========================================================================
          Return the key comparison of the Path.

@@ -18,8 +18,8 @@ Implements Dijkstra's shortest path algorithm, which is a special case of A* whe
 From `AStar`:
 - Complete A* algorithm implementation
 - Core algorithm loop in `run()`
-- State exploration via `_explore()`
-- State generation via `_generate()`
+- StateBase exploration via `_explore()`
+- StateBase generation via `_generate()`
 - Cost updates via `_update_cost()`
 - Path reconstruction via `_reconstruct_path()`
 - Termination checking via `_can_terminate()`

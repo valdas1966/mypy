@@ -1,5 +1,5 @@
-from f_ds.grids import GridMap as Grid, CellMap as Cell
-from f_search.ds.state import State
+from f_ds.grids import GridMap as Grid
+from f_search.ds.states.i_0_base import StateBase
 from f_search.problems.i_1_omspp import ProblemOMSPP
 from f_search.algos.i_2_omspp.i_1_kx_astar import KxAStar
 from f_utils import u_pickle
@@ -235,8 +235,8 @@ def run_experiments(
                         grid = load_grid(grids_cache, domain, map_name, current_domain, current_map)
 
                         # Create states from cells
-                        start_state = State(key=problem_dict['start'])
-                        goal_states = [State(key=goal_cell) for goal_cell in problem_dict['goals']]
+                        start_state = StateBase(key=problem_dict['start'])
+                        goal_states = [StateBase(key=goal_cell) for goal_cell in problem_dict['goals']]
 
                         # Create OMSPP problem
                         problem = ProblemOMSPP(

@@ -1,4 +1,4 @@
-from f_search.ds.state import State
+from f_search.ds.states import StateCell as State
 
 
 class HasGoal:
@@ -15,6 +15,7 @@ class HasGoal:
         ========================================================================
         """
         self._goal = goal   
+        self._goal.name = 'Goal'
 
     @property
     def goal(self) -> State:

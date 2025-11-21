@@ -5,7 +5,7 @@ from f_graph.old_path.algos.one_to_one.state import QueueFIFO, QueuePriority
 def test_priority() -> None:
     """
     ========================================================================
-     Test that Priority State initializes correctly.
+     Test that Priority StateBase initializes correctly.
     ========================================================================
     """
     state = GenStateOneToOne.gen_priority()
@@ -19,7 +19,7 @@ def test_priority() -> None:
 def test_fifo() -> None:
     """
     ========================================================================
-     Test that FIFO State initializes correctly.
+     Test that FIFO StateBase initializes correctly.
     ========================================================================
     """
     state = GenStateOneToOne.gen_fifo()

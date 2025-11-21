@@ -24,15 +24,15 @@ Defines the One-to-Many Shortest Path Problem: finding optimal paths from a sing
 
 ### From HasGoals
 - `goals` property - Access to goal states (set)
-- `_goals` attribute - Goal states storage (set[State])
+- `_goals` attribute - Goal states storage (set[StateBase])
 
 ## Specialized Functionality
 
 ### Constructor (`__init__`)
 **Parameters:**
 - **grid**: `Grid` - The 2D grid map
-- **start**: `State` - The single start state
-- **goals**: `Iterable[State]` - Multiple goal states
+- **start**: `StateBase` - The single start state
+- **goals**: `Iterable[StateBase]` - Multiple goal states
 
 **Implementation:**
 ```python
@@ -69,7 +69,7 @@ spps = omspp.to_spps()  # [SPP(→goal1), SPP(→goal2), SPP(→goal3)]
 ### Complete Definition
 A ProblemOMSPP fully specifies a multi-goal pathfinding problem:
 1. **Search Space**: GridMap with obstacles
-2. **Initial State**: Single start state
+2. **Initial StateBase**: Single start state
 3. **Goal Condition**: Reach all goal states
 4. **Actions**: Move to neighboring cells
 5. **Objective**: Find optimal paths to all goals
@@ -78,8 +78,8 @@ A ProblemOMSPP fully specifies a multi-goal pathfinding problem:
 ```python
 problem = ProblemOMSPP(
     grid=grid_map,
-    start=State(key=(0, 0)),
-    goals=[State(key=(5, 5)), State(key=(10, 10)), State(key=(15, 15))]
+    start=StateBase(key=(0, 0)),
+    goals=[StateBase(key=(5, 5)), StateBase(key=(10, 10)), StateBase(key=(15, 15))]
 )
 ```
 
@@ -146,7 +146,7 @@ k = len(problem.goals)
 - **Solutions**: `SolutionOMSPP` (multiple paths)
 - **Sub-problems**: Can convert to `ProblemSPP` list
 - **Grid**: `GridMap` (search space)
-- **States**: `State` (start, goals, path nodes)
+- **States**: `StateBase` (start, goals, path nodes)
 
 ## Comparison with ProblemSPP
 
@@ -154,7 +154,7 @@ k = len(problem.goals)
 |--------|-------------|-------------|
 | **Goals** | Multiple (set) | Single |
 | **Mixin** | HasGoals | HasGoal |
-| **Property** | goals (set[State]) | goal (State) |
+| **Property** | goals (set[StateBase]) | goal (StateBase) |
 | **Algorithms** | KxAStar | AStar, Dijkstra |
 | **Solutions** | SolutionOMSPP | SolutionSPP |
 | **Decomposition** | to_spps() | N/A |
@@ -181,7 +181,7 @@ Valid ProblemOMSPP instances satisfy:
 
 ```python
 from f_ds.grids import GridMap
-from f_search.ds import State
+from f_search.ds import StateBase
 from f_search.problems import ProblemOMSPP
 from f_search.algos import KxAStar
 
@@ -189,11 +189,11 @@ from f_search.algos import KxAStar
 grid = GridMap(width=20, height=20)
 
 # Define start and multiple goals
-start = State(key=(0, 0))
+start = StateBase(key=(0, 0))
 goals = [
-    State(key=(5, 5)),
-    State(key=(15, 5)),
-    State(key=(10, 15))
+    StateBase(key=(5, 5)),
+    StateBase(key=(15, 5)),
+    StateBase(key=(10, 15))
 ]
 
 # Create problem

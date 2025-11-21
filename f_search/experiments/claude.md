@@ -77,7 +77,7 @@ Contains experimental scripts for generating test data and preparing benchmarks 
    # Run algorithms on test cases
    for grid_name, grid in grids.items():
        for start_cell, goal_cell in pairs:
-           problem = ProblemSPP(grid, State(start_cell), State(goal_cell))
+           problem = ProblemSPP(grid, StateBase(start_cell), StateBase(goal_cell))
            solution = algorithm.run(problem)
            # Collect results...
    ```

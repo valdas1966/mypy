@@ -19,7 +19,7 @@ Defines `DataSearch`, the base data container class that holds all working state
   - `state in generated` - Check membership
 - **Implementation**: Dictionary-based priority queue (O(1) push, O(n) pop)
 
-#### explored: set[State]
+#### explored: set[StateBase]
 - **Type**: Set of fully explored states
 - **Purpose**: Closed list - states already expanded
 - **Operations**:
@@ -27,7 +27,7 @@ Defines `DataSearch`, the base data container class that holds all working state
   - `state in explored` - Check if already explored
 - **Why set?**: Fast O(1) membership checking
 
-#### best: State | None
+#### best: StateBase | None
 - **Type**: Current best state (or None initially)
 - **Purpose**: Tracks the most recently popped state from generated
 - **Usage**:
@@ -35,7 +35,7 @@ Defines `DataSearch`, the base data container class that holds all working state
   - Checked in termination condition
   - Provides context for current exploration
 
-#### g: dict[State, int]
+#### g: dict[StateBase, int]
 - **Type**: Mapping from states to actual costs
 - **Purpose**: Tracks g-value (actual cost from start to state)
 - **Values**:
@@ -43,7 +43,7 @@ Defines `DataSearch`, the base data container class that holds all working state
   - Other states: `g[state] = g[parent] + edge_cost`
 - **Updates**: When better path to state is found
 
-#### h: dict[State, int]
+#### h: dict[StateBase, int]
 - **Type**: Mapping from states to heuristic estimates
 - **Purpose**: Tracks h-value (estimated cost from state to goal)
 - **Values**: Computed by `_heuristic(state)` method
@@ -51,14 +51,14 @@ Defines `DataSearch`, the base data container class that holds all working state
   - Should be admissible (never overestimate)
   - Manhattan distance for grid pathfinding
 
-#### cost: dict[State, Cost]
+#### cost: dict[StateBase, Cost]
 - **Type**: Mapping from states to Cost objects
 - **Purpose**: Stores combined cost for priority queue
 - **Structure**: `Cost(key=state, g=g_value, h=h_value)`
 - **f-value**: Computed as `g + h` inside Cost object
 - **Why separate?**: Cost objects handle comparison for priority queue
 
-#### parent: dict[State, State]
+#### parent: dict[StateBase, StateBase]
 - **Type**: Mapping from states to their parent states
 - **Purpose**: Enables path reconstruction from goal back to start
 - **Updates**: Set when state is first generated or updated with better path
@@ -142,7 +142,7 @@ All structures start empty, ready to be populated during algorithm execution.
 
 ### Design Rationale
 
-#### Why Dictionaries Instead of State Attributes?
+#### Why Dictionaries Instead of StateBase Attributes?
 - States are immutable and shared across algorithms
 - Need to track different costs/parents for same state in different runs
 - Allows multiple algorithms to work on same problem simultaneously
@@ -166,7 +166,7 @@ All structures start empty, ready to be populated during algorithm execution.
 
 - **AlgoSearch**: Creates and manages DataSearch instance
 - **Generated**: Priority queue implementation (ds/generated)
-- **State**: Search state representation (ds/state)
+- **StateBase**: Search state representation (ds/state)
 - **Cost**: Cost object with f-value (ds/cost)
 
 ### Testing Considerations
@@ -185,7 +185,7 @@ def test_data_initialization():
 ```python
 def test_data_population():
     data = DataSearch()
-    state = State(key=Cell(x=0, y=0))
+    state = StateBase(key=Cell(x=0, y=0))
 
     data.g[state] = 0
     data.h[state] = 10
@@ -200,6 +200,6 @@ def test_data_population():
 ## Related Components
 
 - **Generated** (ds/generated): Priority queue for open list
-- **State** (ds/state): Immutable state representation
+- **StateBase** (ds/state): Immutable state representation
 - **Cost** (ds/cost): Cost object with f-value comparison
 - **AlgoSearch** (algos/i_0_base): Algorithm that uses this data

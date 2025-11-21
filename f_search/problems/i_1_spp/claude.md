@@ -31,8 +31,8 @@ Defines the One-to-One Shortest Path Problem: finding the optimal path from a si
 ### Constructor (`__init__`)
 **Parameters:**
 - **grid**: `Grid` - The 2D grid map
-- **start**: `State` - The start state
-- **goal**: `State` - The goal state
+- **start**: `StateBase` - The start state
+- **goal**: `StateBase` - The goal state
 
 **Implementation:**
 ```python
@@ -51,7 +51,7 @@ HasGoal.__init__(self, goal=goal)
 ### Complete Definition
 A ProblemSPP fully specifies a pathfinding problem:
 1. **Search Space**: GridMap with obstacles
-2. **Initial State**: Single start state
+2. **Initial StateBase**: Single start state
 3. **Goal Condition**: Reach specific goal state
 4. **Actions**: Move to neighboring cells
 5. **Objective**: Find optimal (shortest) path
@@ -60,8 +60,8 @@ A ProblemSPP fully specifies a pathfinding problem:
 ```python
 problem = ProblemSPP(
     grid=grid_map,
-    start=State(key=(0, 0)),
-    goal=State(key=(10, 10))
+    start=StateBase(key=(0, 0)),
+    goal=StateBase(key=(10, 10))
 )
 ```
 
@@ -117,7 +117,7 @@ The Factory class provides methods for creating test problems:
 - **Algorithms**: `AlgoSPP` (AStar, Dijkstra)
 - **Solutions**: `SolutionSPP` (single path)
 - **Grid**: `GridMap` (search space)
-- **States**: `State` (start, goal, path nodes)
+- **States**: `StateBase` (start, goal, path nodes)
 
 ## Comparison with ProblemOMSPP
 
@@ -125,7 +125,7 @@ The Factory class provides methods for creating test problems:
 |--------|-------------|-------------|
 | **Goals** | Single | Multiple |
 | **Mixin** | HasGoal | HasGoals |
-| **Property** | goal (State) | goals (set[State]) |
+| **Property** | goal (StateBase) | goals (set[StateBase]) |
 | **Algorithms** | AStar, Dijkstra | KxAStar |
 | **Solutions** | SolutionSPP | SolutionOMSPP |
 | **Complexity** | Simpler | More complex |
@@ -142,7 +142,7 @@ Valid ProblemSPP instances satisfy:
 
 ```python
 from f_ds.grids import GridMap
-from f_search.ds import State
+from f_search.ds import StateBase
 from f_search.problems import ProblemSPP
 from f_search.algos import AStar
 
@@ -150,8 +150,8 @@ from f_search.algos import AStar
 grid = GridMap(width=20, height=20)
 
 # Define start and goal
-start = State(key=(0, 0))
-goal = State(key=(19, 19))
+start = StateBase(key=(0, 0))
+goal = StateBase(key=(19, 19))
 
 # Create problem
 problem = ProblemSPP(grid=grid, start=start, goal=goal)

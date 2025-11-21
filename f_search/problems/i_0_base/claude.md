@@ -35,7 +35,7 @@ Returns the problem's GridMap.
 
 ### Successor Generation
 
-#### `successors(state: State)` → `list[State]`
+#### `successors(state: StateBase)` → `list[StateBase]`
 Core method that defines the search space connectivity.
 
 **Purpose:** Returns all valid successor states from a given state
@@ -43,7 +43,7 @@ Core method that defines the search space connectivity.
 **Implementation:**
 1. Extracts cell from state: `cell = state.key`
 2. Gets neighbors from grid: `cells = grid.neighbors(cell)`
-3. Wraps neighbors as States: `states = [State(key=cell) for cell in cells]`
+3. Wraps neighbors as States: `states = [StateBase(key=cell) for cell in cells]`
 4. Returns list of successor states
 
 **Behavior:**
@@ -54,20 +54,20 @@ Core method that defines the search space connectivity.
 
 **Usage:**
 ```python
-current_state = State(key=cell_5_3)
+current_state = StateBase(key=cell_5_3)
 successors = problem.successors(current_state)
-# Returns: [State((4,3)), State((6,3)), State((5,2)), State((5,4))]
+# Returns: [StateBase((4,3)), StateBase((6,3)), StateBase((5,2)), StateBase((5,4))]
 ```
 
 ## Grid-Based Search Space
 
 ### Search Space Definition
-- **States**: Grid cells wrapped as State objects
+- **States**: Grid cells wrapped as StateBase objects
 - **Actions**: Moves to neighboring cells
-- **Transitions**: State → List[State] via successors()
+- **Transitions**: StateBase → List[StateBase] via successors()
 - **Obstacles**: Automatically filtered by GridMap
 
-### State Representation
+### StateBase Representation
 States are grid positions:
 - **Key**: Cell coordinates (e.g., (x, y))
 - **Validity**: Determined by GridMap (not obstacles)
@@ -98,7 +98,7 @@ Subclasses add specific problem structure:
 ## Relationship to Other Classes
 
 - **GridMap**: Provides the physical search space
-- **State**: Represents configurations (grid cells)
+- **StateBase**: Represents configurations (grid cells)
 - **AlgoSearch**: Consumes problems, calls successors()
 - **ProblemSPP/OMSPP**: Extend with start/goal(s)
 
@@ -119,12 +119,12 @@ Subclasses add specific problem structure:
 - **f_cs.problem**:
   - `ProblemAlgo` - Generic problem interface
 - **f_search.ds**:
-  - `State` - State wrapper
+  - `StateBase` - StateBase wrapper
 
 ## Key Properties
 
 1. **Grid-centric**: Everything revolves around the GridMap
-2. **State abstraction**: Uses State wrapper for grid cells
+2. **StateBase abstraction**: Uses StateBase wrapper for grid cells
 3. **Neighbor-based**: Successors are grid neighbors
 4. **Obstacle-aware**: Invalid cells automatically filtered
 5. **Generic base**: Doesn't specify start/goal

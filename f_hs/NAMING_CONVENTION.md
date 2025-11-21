@@ -54,7 +54,7 @@ Further extends with:
 - Specialized variant
 
 Compare with `f_search/ds/` which has:
-- `State` (simpler, no deep hierarchy)
+- `StateBase` (simpler, no deep hierarchy)
 - `Cost` (separate class, not node attribute)
 
 ---

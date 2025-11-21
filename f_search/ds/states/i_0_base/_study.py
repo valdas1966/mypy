@@ -1,8 +1,8 @@
-from f_search.ds.state import State
+from f_search.ds.states.i_0_base import StateBase
 
 
-zero = State.Factory.zero()
-one = State.Factory.one()
+zero = StateBase.Factory.zero()
+one = StateBase.Factory.one()
 
 print(zero.key_comparison())
 print(one.key_comparison())

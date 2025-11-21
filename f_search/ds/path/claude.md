@@ -1,11 +1,11 @@
 # Path - Sequence of States in Search Space
 
 ## Main Class
-`Path(Collectionable[State], Comparable)`
+`Path(Collectionable[StateBase], Comparable)`
 
 ## Inheritance
 - **Base Classes:**
-  - `Collectionable[State]` (from f_ds.mixins.collectionable)
+  - `Collectionable[StateBase]` (from f_ds.mixins.collectionable)
   - `Comparable` (from f_core.mixins.comparable)
 
 ## Purpose
@@ -17,12 +17,12 @@ Represents an ordered sequence of states forming a path through the search space
 Creates a Path from an iterable of states.
 
 **Parameters:**
-- **states**: `Iterable[State]` (optional) - Initial sequence of states
+- **states**: `Iterable[StateBase]` (optional) - Initial sequence of states
   - If provided: Converted to list and stored
   - If None: Empty list created
 
 **Storage:**
-- `_states`: Internal list of State objects
+- `_states`: Internal list of StateBase objects
 
 **Examples:**
 ```python
@@ -32,7 +32,7 @@ path2 = Path([state1, state2, state3])  # Path with 3 states
 
 ### Collection Interface
 
-#### `to_iterable()` → `list[State]`
+#### `to_iterable()` → `list[StateBase]`
 Converts the Path to a list of States (implements Collectionable interface).
 
 **Returns:** The internal `_states` list
@@ -41,7 +41,7 @@ Converts the Path to a list of States (implements Collectionable interface).
 
 ### Path Access Methods
 
-#### `head()` → `State`
+#### `head()` → `StateBase`
 Returns the first state in the path (start of path).
 
 **Returns:** `_states[0]`
@@ -50,7 +50,7 @@ Returns the first state in the path (start of path).
 
 **Note:** Will raise IndexError if path is empty
 
-#### `tail()` → `State`
+#### `tail()` → `StateBase`
 Returns the last state in the path (end of path).
 
 **Returns:** `_states[-1]`
@@ -75,7 +75,7 @@ Creates a reversed copy of the path.
 
 ### Comparison Method
 
-#### `key_comparison()` → `list[State]`
+#### `key_comparison()` → `list[StateBase]`
 Returns the state list for comparison (implements Comparable interface).
 
 **Returns:** The internal `_states` list
@@ -146,7 +146,7 @@ Others modify in-place:
 This hybrid approach balances efficiency and safety.
 
 ### Type Safety
-Path is specialized for State objects:
+Path is specialized for StateBase objects:
 - Type-safe operations
 - Clear domain semantics
 - Prevents mixing with other sequences
@@ -189,10 +189,10 @@ full_path = segment1 + segment2  # May need to remove duplicate s3
 
 ## Relationship to Other Classes
 
-- **State**: Path contains ordered sequence of States
+- **StateBase**: Path contains ordered sequence of States
 - **Solution**: Solutions contain Paths as results
   - `SolutionSPP`: Single Path
-  - `SolutionOMSPP`: Multiple Paths (dict[State, Path])
+  - `SolutionOMSPP`: Multiple Paths (dict[StateBase, Path])
 - **Algorithms**: Construct Paths during solution creation
 
 ## Properties

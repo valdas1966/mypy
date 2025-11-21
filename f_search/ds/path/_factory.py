@@ -1,5 +1,5 @@
 from f_search.ds.path.main import Path
-from f_search.ds.state._factory import State
+from f_search.ds.states.i_0_base._factory import StateBase
 
 
 class Factory:
@@ -16,8 +16,8 @@ class Factory:
          Return a new Path with the states (0, 0), (1, 1), (2, 2).
         ========================================================================
         """
-        zero = State.Factory.zero()
-        one = State.Factory.one()
-        two = State.Factory.two()
+        zero = StateBase.Factory.zero()
+        one = StateBase.Factory.one()
+        two = StateBase.Factory.two()
         states = [zero, one, two]
         return Path(states=states)

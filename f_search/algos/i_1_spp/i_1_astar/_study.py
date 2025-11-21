@@ -1,5 +1,5 @@
 from f_search.algos.i_1_spp.i_1_astar import AStar
-from f_search.ds import State
+from f_search.ds import StateBase
 
 
 astar = AStar.Factory.with_obstacles()

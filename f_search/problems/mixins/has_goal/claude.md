@@ -1,4 +1,4 @@
-# HasGoal - Mixin for Single Goal State
+# HasGoal - Mixin for Single Goal StateBase
 
 ## Main Class
 `HasGoal`
@@ -10,7 +10,7 @@ Provides a single goal state property to problem classes. This mixin adds the co
 
 ### Constructor (`__init__`)
 **Parameters:**
-- **goal**: `State` - The target state of the problem
+- **goal**: `StateBase` - The target state of the problem
 
 **Storage:**
 - `_goal`: Private attribute storing the goal state
@@ -22,7 +22,7 @@ HasGoal.__init__(self, goal=goal_state)
 
 ### Property Access
 
-#### `goal` property → `State`
+#### `goal` property → `StateBase`
 Returns the goal state of the problem.
 
 **Read-only**: No setter provided (immutable after construction)
@@ -75,7 +75,7 @@ def _can_terminate(self) -> bool:
     return self._best == self._problem.goal
 
 # In heuristic calculation
-def _heuristic(self, state: State) -> int:
+def _heuristic(self, state: StateBase) -> int:
     goal = self._problem.goal
     return manhattan_distance(state, goal)
 ```
@@ -105,7 +105,7 @@ HasGoal is completely independent:
 
 When a problem class includes HasGoal:
 - `problem.goal` is guaranteed to exist
-- Type checker knows `goal` returns `State`
+- Type checker knows `goal` returns `StateBase`
 - Compile-time verification of property access
 
 ## Comparison with HasGoals
@@ -113,7 +113,7 @@ When a problem class includes HasGoal:
 | Aspect | HasGoal (singular) | HasGoals (plural) |
 |--------|-------------------|------------------|
 | **Quantity** | Single goal | Multiple goals |
-| **Type** | State | set[State] |
+| **Type** | StateBase | set[StateBase] |
 | **Property** | goal | goals |
 | **Use case** | SPP | OMSPP |
 | **Termination** | state == goal | state in goals |
@@ -121,19 +121,21 @@ When a problem class includes HasGoal:
 ## Example Usage
 
 ```python
-from f_search.ds import State
+from f_search.ds import StateBase
 from f_search.problems.mixins import HasGoal
 
 # Create goal state
-goal_state = State(key=(10, 10))
+goal_state = StateBase(key=(10, 10))
+
 
 # Use in problem
 class MyProblem(HasGoal):
     def __init__(self, goal):
         HasGoal.__init__(self, goal=goal)
 
+
 problem = MyProblem(goal=goal_state)
-print(problem.goal)  # State(key=(10, 10))
+print(problem.goal)  # StateBase(key=(10, 10))
 
 # Check if state is goal
 if current_state == problem.goal:
@@ -142,7 +144,7 @@ if current_state == problem.goal:
 
 ## Relationship to Other Components
 
-- **State**: HasGoal stores a State object
+- **StateBase**: HasGoal stores a StateBase object
 - **Problems**: Mixed into ProblemSPP
 - **Algorithms**: Access via `problem.goal` for termination/heuristic
 
@@ -158,7 +160,7 @@ if current_state == problem.goal:
 ### Heuristic Calculation
 ```python
 # A* uses goal for heuristic
-def _heuristic(self, state: State) -> int:
+def _heuristic(self, state: StateBase) -> int:
     goal = self._problem.goal
     return abs(state.key[0] - goal.key[0]) + abs(state.key[1] - goal.key[1])
 ```
@@ -185,7 +187,7 @@ while current != problem.start:
 - **Type clarity**: goal vs goals (singular vs plural)
 - **Semantic difference**: One target vs many targets
 - **Algorithm differences**: Different termination/heuristic logic
-- **API simplicity**: State vs set[State]
+- **API simplicity**: StateBase vs set[StateBase]
 
 ### Why Immutable?
 - **Consistency**: Problem doesn't change during solving

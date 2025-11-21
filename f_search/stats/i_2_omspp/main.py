@@ -1,5 +1,5 @@
 from f_search.stats import StatsSPP
-from f_search.ds import State
+from f_search.ds import StateBase
 
 
 class StatsOMSPP(StatsSPP):
@@ -18,9 +18,9 @@ class StatsOMSPP(StatsSPP):
         ========================================================================
         """
         StatsSPP.__init__(self)
-        self._stats_goal: dict[State, StatsSPP] = {}
+        self._stats_goal: dict[StateBase, StatsSPP] = {}
 
-    def add_goal(self, goal: State, stats: StatsSPP) -> None:
+    def add_goal(self, goal: StateBase, stats: StatsSPP) -> None:
         """
         ========================================================================
          Add stats for a completed goal.
@@ -31,7 +31,7 @@ class StatsOMSPP(StatsSPP):
         self.generated += stats.generated
         self.explored += stats.explored
 
-    def __getitem__(self, goal: State) -> StatsSPP:
+    def __getitem__(self, goal: StateBase) -> StatsSPP:
         """
         ========================================================================
          Return the Stats for the given Goal.

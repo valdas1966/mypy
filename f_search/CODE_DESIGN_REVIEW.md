@@ -109,7 +109,7 @@ AStar.Factory.default()
 Dijkstra extends AStar, only overriding heuristic:
 ```python
 class Dijkstra(AStar):
-    def _heuristic(self, state: State) -> int:
+    def _heuristic(self, state: StateBase) -> int:
         return 0  # Uninformed search
 ```
 
@@ -154,9 +154,9 @@ class AlgoSearch(Generic[Problem, Solution, Stats, Data], ...):
 class StatsOMSPP(StatsSPP):
     def __init__(self) -> None:
         StatsSPP.__init__(self)
-        self._stats_spp: dict[State, StatsSPP] = dict()  # Empty!
+        self._stats_spp: dict[StateBase, StatsSPP] = dict()  # Empty!
 
-    def fill(self, stats_spp: dict[State, StatsSPP]) -> None:
+    def fill(self, stats_spp: dict[StateBase, StatsSPP]) -> None:
         # Must be called separately - temporal coupling
         self._stats_spp = stats_spp
         self.generated = sum(...)  # Only set here
@@ -181,7 +181,7 @@ class StatsOMSPP(StatsSPP):
 **Option A: Make stats_spp optional with default**
 ```python
 class StatsOMSPP(StatsSPP):
-    def __init__(self, stats_spp: dict[State, StatsSPP] = None) -> None:
+    def __init__(self, stats_spp: dict[StateBase, StatsSPP] = None) -> None:
         StatsSPP.__init__(self)
         self._stats_spp = stats_spp or {}
         if stats_spp:
@@ -222,7 +222,7 @@ return SolutionOMSPP(is_valid=is_valid,
 def __init__(self,
              is_valid: bool,
              stats: StatsOMSPP,  # ❌ Expects stats to fill
-             sub_solutions: dict[State, SolutionSPP]) -> None:
+             sub_solutions: dict[StateBase, SolutionSPP]) -> None:
     # Creates stats from sub_solutions
     stats_spp = {goal: sub_solution.stats for goal, sub_solution in sub_solutions.items()}
     stats.fill(stats_spp=stats_spp)  # ❌ Fills the passed stats
@@ -240,7 +240,7 @@ def __init__(self,
 ```python
 def __init__(self,
              is_valid: bool,
-             sub_solutions: dict[State, SolutionSPP]) -> None:
+             sub_solutions: dict[StateBase, SolutionSPP]) -> None:
     stats_spp = {goal: sub.stats for goal, sub in sub_solutions.items()}
     stats = StatsOMSPP(stats_spp=stats_spp)  # Create here
     SolutionSearch.__init__(self, is_valid=is_valid, stats=stats)
@@ -267,7 +267,7 @@ return SolutionOMSPP(is_valid=is_valid,
 
 ```python
 def _reconstruct_path(self) -> Path:
-    states = list[State]()
+    states = list[StateBase]()
     state = self._data.best
     while state:
         states.append(state)
@@ -293,7 +293,7 @@ But the loop should use `.get()` for safety.
 **Recommended Fix:**
 ```python
 def _reconstruct_path(self) -> Path:
-    states = list[State]()
+    states = list[StateBase]()
     state = self._data.best
     while state:
         states.append(state)
@@ -356,7 +356,7 @@ class KxAStar(AlgoOMSPP):
             ...
 ```
 
-**Current State:** `self._data` (DataOMSPP instance) is created but never read/written during search.
+**Current StateBase:** `self._data` (DataOMSPP instance) is created but never read/written during search.
 
 **Implications:**
 - Memory waste (unused object)
@@ -430,9 +430,9 @@ def _explore_best(self) -> None:
     stats = self._stats
     # Increment explored stats
     stats.explored += 1
-    # Add State to Explored
+    # Add StateBase to Explored
     data.explored.add(data.best)
-    # Generate State's unexplored Successors
+    # Generate StateBase's unexplored Successors
     successors = self._problem.successors(state=data.best)
     for succ in successors:
         if succ not in data.explored:
@@ -469,7 +469,7 @@ def _explore_best(self) -> None:
 
 **Quality:**
 ```python
-def _update_cost(self, state: State) -> None:
+def _update_cost(self, state: StateBase) -> None:
     data = self._data
     data.parent[state] = data.best
     data.g[state] = data.g[data.best] + 1 if data.best else 0
@@ -500,9 +500,9 @@ def _update_cost(self, state: State) -> None:
 
 **Current Implementation:**
 ```python
-def pop(self) -> State:
+def pop(self) -> StateBase:
     """
-    Pop the State with the lowest Cost.
+    Pop the StateBase with the lowest Cost.
     O(n) time complexity.
     """
     item_lowest = min(self._data, key=self._data.get)
@@ -533,7 +533,7 @@ import heapq
 class Generated:
     def __init__(self):
         self._heap = []  # Min-heap of (cost, state)
-        self._dict = {}  # State -> cost mapping for O(1) lookup
+        self._dict = {}  # StateBase -> cost mapping for O(1) lookup
 
     def push(self, state, cost):
         heapq.heappush(self._heap, (cost, state))
@@ -580,7 +580,7 @@ class Generated:
 **Example - Adding Greedy Best-First:**
 ```python
 class GreedyBestFirst(AlgoSPP):
-    def _update_cost(self, state: State) -> None:
+    def _update_cost(self, state: StateBase) -> None:
         data = self._data
         data.parent[state] = data.best
         data.g[state] = 0  # ← Ignore actual cost
@@ -609,7 +609,7 @@ class ProblemAPSP(ProblemSearch):  # No start/goal needed
 
 # Solution
 class SolutionAPSP(SolutionSearch):
-    def __init__(self, distances: dict[tuple[State, State], int]):
+    def __init__(self, distances: dict[tuple[StateBase, StateBase], int]):
         self._distances = distances
 
 # Algorithm
@@ -624,7 +624,7 @@ class AlgoAPSP(AlgoSearch):
 
 ## 7. Testing Coverage
 
-### 7.1 Current State
+### 7.1 Current StateBase
 
 **Test Files Found:**
 - `algos/i_1_spp/i_1_astar/_tester.py`
@@ -637,7 +637,7 @@ class AlgoAPSP(AlgoSearch):
 - ✅ SPP algorithms likely passing
 
 **Coverage Gaps:**
-- No tests for data structures (Generated, Cost, State)
+- No tests for data structures (Generated, Cost, StateBase)
 - No tests for mixins (HasStart, HasGoal, HasGoals)
 - No edge case tests (empty grid, unreachable goal, etc.)
 
@@ -655,7 +655,7 @@ class AlgoAPSP(AlgoSearch):
 
 ### 8.1 Input Validation ⚠️ MINIMAL
 
-**Current State:**
+**Current StateBase:**
 - No validation of grid dimensions
 - No validation of start/goal in grid bounds
 - No cycle detection in path reconstruction (could infinite loop)
@@ -672,7 +672,7 @@ state = self._data.parent[state]  # Infinite loop if cycle
 **Recommendation:**
 Add validation:
 ```python
-def __init__(self, grid: Grid, start: State, goal: State):
+def __init__(self, grid: Grid, start: StateBase, goal: StateBase):
     assert start.key in grid, "Start must be in grid"
     assert goal.key in grid, "Goal must be in grid"
     ...
@@ -830,7 +830,7 @@ The design is **exemplary** - clean layered architecture, proper use of design p
 ### Data Structures
 - `ds/generated/main.py` - Generated priority queue
 - `ds/cost/main.py` - Cost object
-- `ds/state/main.py` - State wrapper
+- `ds/state/main.py` - StateBase wrapper
 - `ds/data/i_0_base/main.py` - DataSearch
 - `ds/data/i_1_spp/main.py` - DataSPP
 - `ds/data/i_2_omspp/main.py` - DataOMSPP

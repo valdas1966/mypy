@@ -1,4 +1,4 @@
-from f_search.problems.i_0_base.main import ProblemSearch, State
+from f_search.problems.i_0_base.main import ProblemSearch, StateBase
 
 
 def test_successors() -> None:
@@ -11,9 +11,9 @@ def test_successors() -> None:
     cell_00 = problem.grid[0][0]
     cell_01 = problem.grid[0][1]
     cell_10 = problem.grid[1][0]
-    state_00 = State(key=cell_00)
-    state_01 = State(key=cell_01)
-    state_10 = State(key=cell_10)
+    state_00 = StateBase(key=cell_00)
+    state_01 = StateBase(key=cell_01)
+    state_10 = StateBase(key=cell_10)
     successors = problem.successors(state=state_00)
     successors_true = [state_01, state_10]
     assert successors == successors_true

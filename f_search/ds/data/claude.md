@@ -16,7 +16,7 @@ Contains data structure classes that hold the working state for search algorithm
 - **Data classes** contain the state (attributes)
 - This separation enables:
   - Easier testing and debugging
-  - State inspection during execution
+  - StateBase inspection during execution
   - Potential state serialization/checkpointing
   - Clear distinction between algorithm logic and working memory
 
@@ -41,12 +41,12 @@ The foundation for all algorithm data containers.
 
 ```python
 generated: Generated           # Priority queue of states to explore
-explored: set[State]          # Set of fully explored states
-best: State                   # Currently best state (last popped from generated)
-g: dict[State, int]          # Actual cost from start to each state
-h: dict[State, int]          # Heuristic estimate from state to goal
-cost: dict[State, Cost]      # Combined cost objects (f = g + h)
-parent: dict[State, State]   # Parent pointers for path reconstruction
+explored: set[StateBase]          # Set of fully explored states
+best: StateBase                   # Currently best state (last popped from generated)
+g: dict[StateBase, int]          # Actual cost from start to each state
+h: dict[StateBase, int]          # Heuristic estimate from state to goal
+cost: dict[StateBase, Cost]      # Combined cost objects (f = g + h)
+parent: dict[StateBase, StateBase]   # Parent pointers for path reconstruction
 ```
 
 ### Lifecycle
@@ -155,18 +155,18 @@ def _explore(self):
 ## Related Components
 
 - **Generated** (ds/generated): Priority queue for open list
-- **State** (ds/state): Search state representation
+- **StateBase** (ds/state): Search state representation
 - **Cost** (ds/cost): Cost object with f-value comparison
 - **AlgoSearch** (algos/i_0_base): Base algorithm that uses data
 - **Stats** (stats/): Metrics tracked separately from working data
 
-## State vs Data vs Stats
+## StateBase vs Data vs Stats
 
 Understanding the distinction:
 
 | Component | Purpose | Lifetime | Mutability |
 |-----------|---------|----------|------------|
-| **State** | Represents a search configuration | Created per state, immutable | Immutable |
+| **StateBase** | Represents a search configuration | Created per state, immutable | Immutable |
 | **Data** | Working memory during search | Created per algorithm run | Highly mutable |
 | **Stats** | Performance metrics | Created with solution | Mutable during run, frozen after |
 

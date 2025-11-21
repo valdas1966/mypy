@@ -27,7 +27,7 @@ def paths_true() -> dict[Node, Path]:
 def test_bfs_non_shared(paths_true: dict[Node, list[Node]]) -> None:
     """
     ========================================================================
-     Test BFS-Algorithm with non-shared State.
+     Test BFS-Algorithm with non-shared StateBase.
     ========================================================================
     """
     algo = GenAlgoManyToOne.gen_3x3_bfs(is_shared=False)
@@ -41,7 +41,7 @@ def test_bfs_non_shared(paths_true: dict[Node, list[Node]]) -> None:
 def test_astar_non_shared(paths_true: dict[Node, list[Node]]) -> None:
     """
     ========================================================================
-     Test A*-Algorithm with non-shared State.
+     Test A*-Algorithm with non-shared StateBase.
     ========================================================================
     """
     algo = GenAlgoManyToOne.gen_3x3_astar(is_shared=False)
@@ -55,7 +55,7 @@ def test_astar_non_shared(paths_true: dict[Node, list[Node]]) -> None:
 def test_astar_shared(paths_true: dict[Node, list[Node]]) -> None:
     """
     ========================================================================
-     Test A*-Algorithm with shared State.
+     Test A*-Algorithm with shared StateBase.
     ========================================================================
     """
     algo = GenAlgoManyToOne.gen_3x3_astar(is_shared=True)

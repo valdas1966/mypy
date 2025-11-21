@@ -155,7 +155,7 @@ class NewAlgo(AlgoSPP):
         # Implement algorithm logic
         pass
 
-    def _heuristic(self, state: State) -> int:
+    def _heuristic(self, state: StateBase) -> int:
         # Implement heuristic function
         pass
 
@@ -169,4 +169,4 @@ class NewAlgo(AlgoSPP):
 - **Problems**: `ProblemSPP` (from problems/i_1_spp)
 - **Solutions**: `SolutionSPP` (from solutions/i_1_spp)
 - **Stats**: `StatsSPP` (from stats/i_1_spp)
-- **Data Structures**: `State`, `Cost`, `Path`, `Generated` (from ds/)
+- **Data Structures**: `StateBase`, `Cost`, `Path`, `Generated` (from ds/)

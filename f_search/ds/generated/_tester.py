@@ -1,4 +1,4 @@
-from f_search.ds.generated.main import Generated, State
+from f_search.ds.generated.main import Generated, StateBase
 
 
 def test_generated() -> None:
@@ -8,5 +8,5 @@ def test_generated() -> None:
     ========================================================================
     """
     generated = Generated.Factory.ab()
-    assert generated.pop() == State.Factory.zero()
-    assert generated.pop() == State.Factory.one()
+    assert generated.pop() == StateBase.Factory.zero()
+    assert generated.pop() == StateBase.Factory.one()

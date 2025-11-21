@@ -5,14 +5,14 @@ Contains core data structures used throughout the search framework. These classe
 
 ## Structure
 
-- **state/** - `State` - Represents a configuration in the search space
+- **state/** - `StateBase` - Represents a configuration in the search space
 - **cost/** - `Cost` - Represents the cost/priority of reaching a state
 - **path/** - `Path` - Represents a sequence of states forming a solution
 - **generated/** - `Generated` - Priority queue for states awaiting exploration
 
 ## Core Concepts
 
-### State
+### StateBase
 **Purpose**: Wraps a key (typically a grid cell) to represent a search configuration
 
 **Key Features:**
@@ -49,7 +49,7 @@ Contains core data structures used throughout the search framework. These classe
 **Purpose**: Represents an ordered sequence of states from start to goal
 
 **Key Features:**
-- Wraps a list of State objects
+- Wraps a list of StateBase objects
 - Implements Collectionable (can convert to iterable)
 - Implements Comparable (can compare paths)
 - Provides: head(), tail(), reverse()
@@ -80,14 +80,14 @@ Contains core data structures used throughout the search framework. These classe
 ## Design Patterns
 
 ### Wrapper Pattern
-State and Path wrap simpler types (key, list) to provide semantic meaning and additional functionality.
+StateBase and Path wrap simpler types (key, list) to provide semantic meaning and additional functionality.
 
 ### Generic Types
 All data structures use Python generics for type safety:
-- `State[Key]`
+- `StateBase[Key]`
 - `Cost[Key]`
-- `Path` (operates on `State` objects)
-- `Generated` (stores `State` → `Cost` mappings)
+- `Path` (operates on `StateBase` objects)
+- `Generated` (stores `StateBase` → `Cost` mappings)
 
 ### Mixin Composition
 Classes implement standard interfaces:
@@ -100,22 +100,22 @@ Classes implement standard interfaces:
 
 ```
 Search Algorithm
-    ├─ Uses State to represent configurations
+    ├─ Uses StateBase to represent configurations
     ├─ Uses Cost to prioritize states
     ├─ Uses Generated to manage open list
     └─ Uses Path to store solutions
 
-State ←─ wrapped by ─→ Cost (via key reference)
-State ←─ contained in ─→ Path (as sequence)
-State + Cost ←─ stored in ─→ Generated (as key-value pair)
+StateBase ←─ wrapped by ─→ Cost (via key reference)
+StateBase ←─ contained in ─→ Path (as sequence)
+StateBase + Cost ←─ stored in ─→ Generated (as key-value pair)
 ```
 
 ## Performance Characteristics
 
 | Data Structure | Operation | Complexity | Notes |
 |----------------|-----------|------------|-------|
-| **State** | Create | O(1) | Simple wrapper |
-| **State** | Compare | O(1) | Via key equality |
+| **StateBase** | Create | O(1) | Simple wrapper |
+| **StateBase** | Compare | O(1) | Via key equality |
 | **Cost** | Create | O(1) | Stores g, h, key |
 | **Cost** | Compare | O(1) | Tuple comparison |
 | **Path** | Create | O(n) | Copies state list |
@@ -135,7 +135,7 @@ State + Cost ←─ stored in ─→ Generated (as key-value pair)
 
 ### Simplicity
 Each data structure has a focused responsibility:
-- State: Identity
+- StateBase: Identity
 - Cost: Priority
 - Path: Sequence
 - Generated: Queue
@@ -169,7 +169,7 @@ Data structures work together seamlessly:
 ## Usage Example Flow
 
 ```
-1. Create start state: state = State(key=cell)
+1. Create start state: state = StateBase(key=cell)
 2. Calculate cost: cost = Cost(key=cell, g=0, h=heuristic)
 3. Add to queue: generated.push(state, cost)
 4. Get next state: state = generated.pop()
@@ -186,7 +186,7 @@ All search algorithms depend on these data structures:
 
 ## Key Invariants
 
-1. **State uniqueness**: States compared by key equality
+1. **StateBase uniqueness**: States compared by key equality
 2. **Cost consistency**: f = g + h always holds
 3. **Path validity**: Paths contain connected state sequences
 4. **Generated ordering**: Pop always returns minimum cost state

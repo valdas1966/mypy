@@ -29,10 +29,10 @@ Provides extended statistics for One-to-Many Shortest Path Problem algorithms. A
 - **explored**: `int` - Total explored
 
 **Per-goal metrics**:
-- **elapsed_per_goal**: `dict[State, float]` - Time for each goal
-- **generated_per_goal**: `dict[State, int]` - Generated for each goal
-- **updated_per_goal**: `dict[State, int]` - Updated for each goal
-- **explored_per_goal**: `dict[State, int]` - Explored for each goal
+- **elapsed_per_goal**: `dict[StateBase, float]` - Time for each goal
+- **generated_per_goal**: `dict[StateBase, int]` - Generated for each goal
+- **updated_per_goal**: `dict[StateBase, int]` - Updated for each goal
+- **explored_per_goal**: `dict[StateBase, int]` - Explored for each goal
 
 **Implementation:**
 ```python
@@ -45,7 +45,7 @@ self._elapsed_per_goal = elapsed_per_goal
 
 ### Per-Goal Metrics
 
-#### `generated_per_goal` property → `dict[State, int]`
+#### `generated_per_goal` property → `dict[StateBase, int]`
 **Meaning**: States generated for each goal's sub-problem
 
 **Structure**: Maps goal state to its generated count
@@ -56,7 +56,7 @@ for goal, count in stats.generated_per_goal.items():
     print(f"Goal {goal}: {count} generated")
 ```
 
-#### `explored_per_goal` property → `dict[State, int]`
+#### `explored_per_goal` property → `dict[StateBase, int]`
 **Meaning**: States explored for each goal's sub-problem
 
 **Structure**: Maps goal state to its explored count
@@ -67,7 +67,7 @@ hardest_goal = max(stats.explored_per_goal, key=stats.explored_per_goal.get)
 print(f"Hardest goal: {hardest_goal}")
 ```
 
-#### `elapsed_per_goal` property → `dict[State, float]`
+#### `elapsed_per_goal` property → `dict[StateBase, float]`
 **Meaning**: Execution time for each goal's sub-problem
 
 **Structure**: Maps goal state to its time in seconds
@@ -78,7 +78,7 @@ for goal, time in stats.elapsed_per_goal.items():
     print(f"Goal {goal}: {time:.3f}s")
 ```
 
-#### `updated_per_goal` property → `dict[State, int]`
+#### `updated_per_goal` property → `dict[StateBase, int]`
 **Note:** Property exists but has no docstring in the code
 
 **Meaning**: States updated for each goal's sub-problem
@@ -224,24 +224,24 @@ StatsOMSPP(
 
     # Per-goal metrics
     elapsed_per_goal={
-        State((5,5)): 0.048,
-        State((10,10)): 0.051,
-        State((15,5)): 0.057
+        StateBase((5,5)): 0.048,
+        StateBase((10,10)): 0.051,
+        StateBase((15,5)): 0.057
     },
     generated_per_goal={
-        State((5,5)): 142,
-        State((10,10)): 165,
-        State((15,5)): 180
+        StateBase((5,5)): 142,
+        StateBase((10,10)): 165,
+        StateBase((15,5)): 180
     },
     updated_per_goal={
-        State((5,5)): 18,
-        State((10,10)): 25,
-        State((15,5)): 29
+        StateBase((5,5)): 18,
+        StateBase((10,10)): 25,
+        StateBase((15,5)): 29
     },
     explored_per_goal={
-        State((5,5)): 124,
-        State((10,10)): 144,
-        State((15,5)): 144
+        StateBase((5,5)): 124,
+        StateBase((10,10)): 144,
+        StateBase((15,5)): 144
     }
 )
 ```
@@ -252,7 +252,7 @@ StatsOMSPP(
 - **SolutionOMSPP**: Requires StatsOMSPP specifically
 - **AlgoOMSPP**: Creates StatsOMSPP instances
 - **KxAStar**: Aggregates per-goal stats from multiple A* runs
-- **State**: Used as dictionary keys for per-goal metrics
+- **StateBase**: Used as dictionary keys for per-goal metrics
 
 ## Design Rationale
 

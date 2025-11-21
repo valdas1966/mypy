@@ -15,21 +15,21 @@ class ProblemSPP(ProblemSearch, HasStart, HasGoal):
     def __init__(self,
                  grid: Grid,
                  start: State,
-                 goal: State) -> None:
+                 goal: State,
+                 name: str = 'ProblemSPP') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        ProblemSearch.__init__(self, grid=grid)
+        ProblemSearch.__init__(self, grid=grid, name=name)
         HasStart.__init__(self, start=start)
         HasGoal.__init__(self, goal=goal)
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         """
         ========================================================================
          Return the STR-REPR of the ProblemSPP.
         ========================================================================
         """
-        return f'ProblemSPP(grid={self.grid.name}[{len(self.grid)}], \
-                            start={self.start}, goal={self.goal})'
+        return f'{self.name}({str(self.grid)}, {str(self.start)}, {str(self.goal)})'

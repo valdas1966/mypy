@@ -1,4 +1,4 @@
-# Cost - State Cost and Priority Representation
+# Cost - StateBase Cost and Priority Representation
 
 ## Main Class
 `Cost[Key](Generic[Key], Comparable)`
@@ -40,7 +40,7 @@ Returns a tuple used for comparing and ordering costs.
 2. **priority_cached** = `int(not is_cached)` - Non-cached (1) before cached (0)
 3. **priority_bounded** = `int(not is_bounded)` - Non-bounded (1) before bounded (0)
 4. **h-value** = `h` - Heuristic value (tie-breaker)
-5. **key** = State identifier (final tie-breaker)
+5. **key** = StateBase identifier (final tie-breaker)
 
 **Ordering Logic:**
 - States with lower f-values explored first (best-first search)
@@ -128,7 +128,7 @@ cost1 vs cost2: (15, 1, 1, 5, A) > (15, 1, 1, 3, B)
 
 ## Relationship to Other Classes
 
-- **State**: Cost references a State via its key
+- **StateBase**: Cost references a StateBase via its key
 - **Generated**: Uses Cost to order States in priority queue
 - **AlgoSearch**: Creates and updates Cost objects during search
 - **Heuristic functions**: Provide h-values for Cost creation
@@ -143,7 +143,7 @@ Once created, Cost objects are effectively immutable:
 
 ### Type Safety
 Generic `Key` parameter ensures:
-- Type consistency with State keys
+- Type consistency with StateBase keys
 - Compile-time type checking
 - Flexible key types (cells, coordinates, indices, etc.)
 
@@ -184,11 +184,11 @@ The `is_bounded` flag supports scenarios where:
 ## Example Values
 
 ```
-State at (5, 3) with g=10, h=7:
+StateBase at (5, 3) with g=10, h=7:
 Cost = (key=(5,3), g=10, h=7, is_cached=False, is_bounded=False)
 key_comparison = (17, 1, 1, 7, (5,3))
 
-State at (6, 4) with g=12, h=5:
+StateBase at (6, 4) with g=12, h=5:
 Cost = (key=(6,4), g=12, h=5, is_cached=False, is_bounded=False)
 key_comparison = (17, 1, 1, 5, (6,4))
 

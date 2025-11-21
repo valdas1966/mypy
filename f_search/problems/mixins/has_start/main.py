@@ -1,4 +1,4 @@
-from f_search.ds.state import State
+from f_search.ds.states import StateCell as State
 
 
 class HasStart:
@@ -15,6 +15,7 @@ class HasStart:
         ========================================================================
         """
         self._start = start
+        self._start.name = 'Start'
 
     @property
     def start(self) -> State:

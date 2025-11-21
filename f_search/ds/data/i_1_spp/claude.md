@@ -42,12 +42,12 @@ Even though it doesn't add functionality currently, `DataSPP` provides:
 
 From `DataSearch`:
 - `generated: Generated` - Priority queue of open states
-- `explored: set[State]` - Set of closed states
-- `best: State` - Currently best state
-- `g: dict[State, int]` - Actual costs from start
-- `h: dict[State, int]` - Heuristic estimates to goal
-- `cost: dict[State, Cost]` - Combined cost objects
-- `parent: dict[State, State]` - Parent pointers for paths
+- `explored: set[StateBase]` - Set of closed states
+- `best: StateBase` - Currently best state
+- `g: dict[StateBase, int]` - Actual costs from start
+- `h: dict[StateBase, int]` - Heuristic estimates to goal
+- `cost: dict[StateBase, Cost]` - Combined cost objects
+- `parent: dict[StateBase, StateBase]` - Parent pointers for paths
 
 ### Usage in SPP Algorithms
 
@@ -81,7 +81,7 @@ SPP-specific attributes that could be added:
 
 1. **Goal-Specific Optimizations**
    ```python
-   self.goal_state: State  # Cache goal for fast comparison
+   self.goal_state: StateBase  # Cache goal for fast comparison
    self.min_h_seen: int    # Track minimum h-value seen
    ```
 
@@ -89,12 +89,12 @@ SPP-specific attributes that could be added:
    ```python
    self.forward_data: DataSearch  # Forward search from start
    self.backward_data: DataSearch # Backward search from goal
-   self.meeting_point: State      # Where searches meet
+   self.meeting_point: StateBase      # Where searches meet
    ```
 
 3. **Pathfinding Caching**
    ```python
-   self.distance_cache: dict[tuple[State, State], int]
+   self.distance_cache: dict[tuple[StateBase, StateBase], int]
    ```
 
 4. **Memory Optimization**

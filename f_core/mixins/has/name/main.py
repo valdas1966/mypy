@@ -26,6 +26,15 @@ class HasName(Comparable, Printable):
     def name(self) -> str:
         return self._name
 
+    @name.setter
+    def name(self, name: str) -> None:
+        """
+        ========================================================================
+         Set the Object's Name.
+        ========================================================================
+        """
+        self._name = name
+
     def key_comparison(self) -> list:
         """
         ========================================================================
@@ -41,6 +50,14 @@ class HasName(Comparable, Printable):
         ========================================================================
         """
         return self.name or 'None'
+
+    def __repr__(self) -> str:
+        """
+        ========================================================================
+         Return object string representation.
+        ========================================================================
+        """
+        return f'<{type(self).__name__}: Name={self.name}>'
 
     def __hash__(self) -> int:
         """

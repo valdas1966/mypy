@@ -22,7 +22,7 @@ Encapsulates the complete result of solving a One-to-Many Shortest Path Problem.
 **Parameters:**
 - **is_valid**: `bool` - Whether ALL goals were reached
 - **stats**: `StatsOMSPP` - Performance metrics (aggregate + per-goal)
-- **paths**: `dict[State, Path]` - Mapping from each goal to its path
+- **paths**: `dict[StateBase, Path]` - Mapping from each goal to its path
 
 **Implementation:**
 ```python
@@ -36,10 +36,10 @@ self._paths = paths
 
 ### Paths Access
 
-#### `paths` property → `dict[State, Path]`
+#### `paths` property → `dict[StateBase, Path]`
 Returns the dictionary of paths.
 
-**Type:** `dict[State, Path]` where:
+**Type:** `dict[StateBase, Path]` where:
 - **Key**: Goal state
 - **Value**: Path from start to that goal
 
@@ -63,7 +63,7 @@ A SolutionOMSPP contains:
 2. **stats** (StatsOMSPP): How did we perform?
    - **Aggregate**: Total elapsed, generated, updated, explored
    - **Per-goal**: Individual metrics for each goal
-3. **paths** (dict[State, Path]): What are the routes?
+3. **paths** (dict[StateBase, Path]): What are the routes?
    - One path for each goal
    - Each path: start → specific goal
 
@@ -159,7 +159,7 @@ for goal, path in solution.paths.items():
     # Process goal and its path
 
 # Get specific path
-goal_x = State(key=(10, 10))
+goal_x = StateBase(key=(10, 10))
 if goal_x in solution.paths:
     path_to_x = solution.paths[goal_x]
 
@@ -226,7 +226,7 @@ Represents final, unchanging result.
 | Aspect | SolutionOMSPP | SolutionSPP |
 |--------|--------------|--------------|
 | **Problem Type** | One-to-Many | One-to-One |
-| **Path(s)** | dict[State, Path] | Single Path |
+| **Path(s)** | dict[StateBase, Path] | Single Path |
 | **Property** | paths (dict) | path (Path) |
 | **Stats** | StatsOMSPP | StatsSPP |
 | **Validity** | All goals reached | Goal reached |
@@ -246,21 +246,21 @@ SolutionOMSPP(
         updated=72,
         explored=412,
         elapsed_per_goal={
-            State((5,5)): 0.048,
-            State((10,10)): 0.051,
-            State((15,5)): 0.057
+            StateBase((5,5)): 0.048,
+            StateBase((10,10)): 0.051,
+            StateBase((15,5)): 0.057
         },
         generated_per_goal={
-            State((5,5)): 142,
-            State((10,10)): 165,
-            State((15,5)): 180
+            StateBase((5,5)): 142,
+            StateBase((10,10)): 165,
+            StateBase((15,5)): 180
         },
         # ... other per-goal metrics
     ),
     paths={
-        State((5,5)): Path([State((0,0)), ..., State((5,5))]),
-        State((10,10)): Path([State((0,0)), ..., State((10,10))]),
-        State((15,5)): Path([State((0,0)), ..., State((15,5))])
+        StateBase((5,5)): Path([StateBase((0,0)), ..., StateBase((5,5))]),
+        StateBase((10,10)): Path([StateBase((0,0)), ..., StateBase((10,10))]),
+        StateBase((15,5)): Path([StateBase((0,0)), ..., StateBase((15,5))])
     }
 )
 ```
@@ -276,7 +276,7 @@ if solution.is_valid:
 
 ### Check Specific Goal
 ```python
-goal_x = State(key=(10, 10))
+goal_x = StateBase(key=(10, 10))
 if goal_x in solution.paths:
     path = solution.paths[goal_x]
     print(f"Found path to {goal_x}")
@@ -305,7 +305,7 @@ avg_explored = solution.stats.explored / len(solution.paths)
 - **Problems**: Solve ProblemOMSPP
 - **Statistics**: Contains StatsOMSPP
 - **Paths**: Contains multiple Path objects
-- **States**: Paths contain sequences of States, goals are State keys
+- **States**: Paths contain sequences of States, goals are StateBase keys
 
 ## Design Rationale
 

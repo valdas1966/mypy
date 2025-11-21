@@ -1,28 +1,31 @@
-from f_core.mixins.has.key import HasKey, Key
+from f_ds.grids.cell import CellMap as Cell
+from f_search.ds.states import StateBase
 
 
-class State(HasKey[Key]):
+class StateCell(StateBase[Cell]):
     """
     ============================================================================
-     Configuration in a Search-Space.
+     State representing a cell in a grid.
     ============================================================================
     """
 
     # Factory
     Factory: type = None
-    
-    def __init__(self, key: Key) -> None:
-        """
-        ========================================================================
-         Initialize the State.
-        ========================================================================
-        """
-        HasKey.__init__(self, key=key)
 
-    def __repr__(self) -> str:
+    def __init__(self,
+                 key: Cell,
+                 name: str = 'StateCell') -> None:
         """
         ========================================================================
-         Return the STR-REPR of the State.
+         Init private Attributes.
         ========================================================================
         """
-        return f'State({self.key.row},{self.key.col})'
+        StateBase.__init__(self, key=key, name=name)
+
+    def __str__(self) -> str:
+        """
+        ========================================================================
+         Return the STR-REPR of the StateCell.
+        ========================================================================
+        """
+        return f'{self.name}({self.key.row},{self.key.col})'

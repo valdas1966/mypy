@@ -1,7 +1,6 @@
 from f_search.problems import ProblemSearch, Grid, State
 from f_search.problems.i_1_spp.main import ProblemSPP
 from f_search.problems.mixins import HasStart, HasGoals
-from typing import Iterable
 
 
 class ProblemOMSPP(ProblemSearch, HasStart, HasGoals):
@@ -16,7 +15,7 @@ class ProblemOMSPP(ProblemSearch, HasStart, HasGoals):
 
     def __init__(self,
                  grid: Grid,
-                 start: State,
+                start: State,
                  goals: list[State]) -> None:
         """
         ========================================================================

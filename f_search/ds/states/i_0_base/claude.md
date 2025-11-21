@@ -1,14 +1,14 @@
-# State - Search State Representation
+# StateBase - Search StateBase Representation
 
 ## Main Class
-`State(HasKey[Key])`
+`StateBase(HasKey[Key])`
 
 ## Inheritance
 - **Base Classes:** `HasKey[Key]` (from f_core.mixins.has.key)
 - **Generic Parameter:** `Key` - the type of identifier for this state (typically a cell/coordinate)
 
 ## Purpose
-Represents a single configuration or node in the search space. In the context of grid-based pathfinding, a State typically wraps a cell/coordinate on the grid, representing a position that can be occupied and explored.
+Represents a single configuration or node in the search space. In the context of grid-based pathfinding, a StateBase typically wraps a cell/coordinate on the grid, representing a position that can be occupied and explored.
 
 ## Functionality from Base Classes
 From `HasKey[Key]`:
@@ -25,7 +25,7 @@ From `HasKey[Key]`:
   - `key`: The identifier for this state (e.g., cell coordinates)
 - **Storage:** Stores the key internally for later access
 
-### State Identity
+### StateBase Identity
 - States are identified and compared by their keys
 - Two states with the same key represent the same configuration
 - Used in sets and dictionaries for efficient lookup
@@ -33,7 +33,7 @@ From `HasKey[Key]`:
 ## Design Philosophy
 
 ### Wrapper Pattern
-State acts as a **wrapper** around the key:
+StateBase acts as a **wrapper** around the key:
 - Provides semantic meaning (this is a "state" not just a "key")
 - Allows for future extension of state properties
 - Maintains clean separation between state abstraction and concrete representation
@@ -57,7 +57,7 @@ States are used throughout the search process:
 ### In Grid Pathfinding
 For 2D grid search:
 - Key typically represents a cell (x, y coordinate)
-- State wraps this coordinate with semantic meaning
+- StateBase wraps this coordinate with semantic meaning
 - Enables pathfinding algorithms to operate on "states" abstractly
 
 ## Relationship to Other Classes

@@ -60,7 +60,7 @@ Decomposes the OMSPP into k independent SPP sub-problems and solves each separat
    - Each A* instance solves one start→goal path
    - No information sharing between runs
 3. **Aggregation**: Combine all sub-solutions into `SolutionOMSPP`
-   - Collect all paths: `dict[State, Path]` (goal → path)
+   - Collect all paths: `dict[StateBase, Path]` (goal → path)
    - Aggregate statistics: sum counters, collect per-goal metrics
 
 **Key Features:**
@@ -107,7 +107,7 @@ Potential sophisticated approaches:
 
 All OMSPP algorithms return `SolutionOMSPP` containing:
 - **is_valid**: Whether ALL goals were reached
-- **paths**: Dictionary mapping each goal to its path (`dict[State, Path]`)
+- **paths**: Dictionary mapping each goal to its path (`dict[StateBase, Path]`)
 - **stats**: `StatsOMSPP` object with aggregate and per-goal metrics
 
 ## Design Rationale
@@ -153,7 +153,7 @@ class MultiGoalAStar(AlgoOMSPP):
         # Terminate when all goals reached
         pass
 
-    def _heuristic(self, state: State) -> int:
+    def _heuristic(self, state: StateBase) -> int:
         # Heuristic to nearest unvisited goal
         pass
 
@@ -169,4 +169,4 @@ class MultiGoalAStar(AlgoOMSPP):
 - **Stats**: `StatsOMSPP` (from stats/i_1_omspp)
 - **Sub-algorithms**: `AStar` (from algos/i_1_spp/i_1_astar)
 - **Sub-problems**: `ProblemSPP` (from problems/i_1_spp)
-- **Data Structures**: `State`, `Cost`, `Path`, `Generated` (from ds/)
+- **Data Structures**: `StateBase`, `Cost`, `Path`, `Generated` (from ds/)

@@ -92,7 +92,7 @@ Aggregates all sub-solutions into final result:
 #### `_sub_problems: list[ProblemSPP]`
 List of k SPP problems, one per goal.
 
-#### `_sub_solutions: dict[State, SolutionSPP]`
+#### `_sub_solutions: dict[StateBase, SolutionSPP]`
 Maps each goal state to its A* solution.
 
 #### Aggregate Counters
@@ -187,6 +187,6 @@ Given: Start S, Goals {G1, G2, G3}
 Potential optimizations:
 1. **Parallelization**: Run A* instances concurrently
 2. **Early termination**: Stop if any goal unreachable
-3. **State caching**: Share explored states across runs
+3. **StateBase caching**: Share explored states across runs
 4. **Heuristic adaptation**: Use multi-goal aware heuristics
 5. **Incremental solving**: Build each solution on previous ones

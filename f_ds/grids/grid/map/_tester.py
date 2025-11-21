@@ -49,7 +49,7 @@ def test_from_file_map() -> None:
     """
     path = 'g:\\temp\\test.txt'
     grid = GridMap.From.file_map(path=path)
-    assert len(grid.cells_valid()) == 8
+    assert len(grid) == 8
 
 
 def test_select_random_in_range() -> None:
@@ -62,3 +62,23 @@ def test_select_random_in_range() -> None:
     selected = grid.select.random_in_range(size=2, row_max=1, col_max=1)
     selected_true = {grid[0][0], grid[1][1]}
     assert set(selected) == selected_true
+
+
+def test_str() -> None:
+    """
+    ========================================================================
+     Test the __str__ method.
+    ========================================================================
+    """
+    grid = GridMap.Factory.x()
+    assert str(grid) == 'GridMap(3x3, 5)'
+
+
+def test_repr() -> None:
+    """
+    ========================================================================
+     Test the __repr__ method.
+    ========================================================================
+    """
+    grid = GridMap.Factory.x()
+    assert repr(grid) == '<GridMap: Name=GridMap, Shape=3x3, Cells=5>'

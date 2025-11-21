@@ -5,7 +5,7 @@ from f_graph.old_path.funcs.heuristic import Heuristic
 class StateOneToMany(StateOneToOne):
     """
     ============================================================================
-     State object for One-To-Many Path-Algorithms.
+     StateBase object for One-To-Many Path-Algorithms.
     ============================================================================
     """
 

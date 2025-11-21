@@ -42,14 +42,14 @@ The main execution method implementing the A* algorithm:
    - Calls `_run_post()` to finalize statistics
    - Returns `SolutionSPP` with validity flag, path, and stats
 
-#### State Exploration (`_explore()`)
+#### StateBase Exploration (`_explore()`)
 Expands the current best state:
 - Increments EXPLORED counter in stats
 - Adds state to explored set
 - Gets successors from problem instance
 - For each successor, calls `_generate()`
 
-#### State Generation (`_generate()`)
+#### StateBase Generation (`_generate()`)
 Handles new or updated states:
 - Skips states in explored set
 - Calculates new g-value: `g[best] + cost(best, successor)`

@@ -40,8 +40,8 @@ Problem + HasStart + HasGoals → OMSPP
 **Purpose:** Adds a single start state to a problem
 
 **Provides:**
-- `start` property → `State`
-- Constructor: `__init__(start: State)`
+- `start` property → `StateBase`
+- Constructor: `__init__(start: StateBase)`
 
 **Used by:**
 - ProblemSPP
@@ -53,8 +53,8 @@ Problem + HasStart + HasGoals → OMSPP
 **Purpose:** Adds a single goal state to a problem
 
 **Provides:**
-- `goal` property → `State`
-- Constructor: `__init__(goal: State)`
+- `goal` property → `StateBase`
+- Constructor: `__init__(goal: StateBase)`
 
 **Used by:**
 - ProblemSPP
@@ -65,8 +65,8 @@ Problem + HasStart + HasGoals → OMSPP
 **Purpose:** Adds multiple goal states to a problem
 
 **Provides:**
-- `goals` property → `set[State]`
-- Constructor: `__init__(goals: Iterable[State])`
+- `goals` property → `set[StateBase]`
+- Constructor: `__init__(goals: Iterable[StateBase])`
 
 **Used by:**
 - ProblemOMSPP

@@ -7,7 +7,7 @@ Key = TypeVar('Key')
 class Cost(Generic[Key], Comparable):
     """
     ============================================================================
-     Cost of a State.
+     Cost of a StateBase.
     ============================================================================
     """
 
@@ -34,7 +34,7 @@ class Cost(Generic[Key], Comparable):
     def key_comparison(self) -> tuple[int, int, int, int, Key]:
         """
         ========================================================================
-         Return the State's Cost.
+         Return the StateBase's Cost.
         ========================================================================
         """
         return (self._g + self._h,

@@ -37,7 +37,7 @@ class Factory:
     def _get_start_4x4() -> State:
         """
         ========================================================================
-         Return the Start State for a 4x4 Grid.
+         Return the Start StateBase for a 4x4 Grid.
         ========================================================================
         """
         grid = Grid(rows=4)

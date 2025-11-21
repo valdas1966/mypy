@@ -8,7 +8,7 @@ A comprehensive Python framework for implementing and researching heuristic sear
 ### Core Components
 
 - **algos/** - Search algorithm implementations (A*, Dijkstra, K×A*)
-- **ds/** - Core data structures (State, Cost, Path, Generated queue)
+- **ds/** - Core data structures (StateBase, Cost, Path, Generated queue)
 - **problems/** - Problem definitions (SPP, OMSPP) with compositional mixins
 - **solutions/** - Solution containers with paths and statistics
 - **stats/** - Performance metrics and tracking
@@ -37,7 +37,7 @@ Problem → Algorithm → Solution
   Grid     Generated   Path
            Explored    Stats
            Cost
-           State
+           StateBase
 ```
 
 **Data Flow:**
@@ -71,7 +71,7 @@ Each major class includes a nested `Factory` class for creating test instances:
 Heavy use of Python generics for type safety:
 - `AlgoSearch[Problem, Solution]`
 - `SolutionSearch[Stats]`
-- `Cost[Key]`, `State[Key]`
+- `Cost[Key]`, `StateBase[Key]`
 
 ## Key Classes
 
@@ -93,7 +93,7 @@ ProblemSearch (Grid-based base)
 ```
 
 ### Data Structures
-- **State**: Wraps a key (typically grid Cell) representing a search configuration
+- **StateBase**: Wraps a key (typically grid Cell) representing a search configuration
 - **Cost**: Contains (g, h, key) with comparison via f=g+h
 - **Path**: Sequence of states forming a solution path
 - **Generated**: Dictionary-based priority queue (O(1) push, O(n) pop)

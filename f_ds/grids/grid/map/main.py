@@ -69,7 +69,7 @@ class GridMap(GridBase[Cell]):
         """
         return len(self.cells_valid())
 
-    def __str__(self) -> str:
+    def print(self) -> str:
         """
         ========================================================================
          Return a String Representation of the Grid in [0,1] 2Dbool format:
@@ -83,3 +83,21 @@ class GridMap(GridBase[Cell]):
         title = f'{self.name} {self.shape()}'
         matrix = '\n'.join([' '.join(['1' if cell else '0' for cell in row]) for row in self._cells])
         return f'{title}\n{matrix}'
+
+    def __str__(self) -> str:
+        """
+        ========================================================================
+         Return a String Representation of the Grid in [0,1] 2Dbool format:
+         Tel-Aviv(3x3, 8)
+        ========================================================================
+        """
+        return f'{self.name}({self.rows}x{self.cols}, {len(self)})'
+
+    def __repr__(self) -> str:
+        """
+        ========================================================================
+         Return a String Representation of the Grid in [0,1] 2Dbool format:
+         <GridMap: Name=Tel-Aviv, Shape=3x3, Cells=8>
+        ========================================================================
+        """
+        return f'<{type(self).__name__}: Name={self.name}, Shape={self.rows}x{self.cols}, Cells={len(self)}>'

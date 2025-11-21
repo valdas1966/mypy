@@ -30,7 +30,7 @@ class Dijkstra(AStar):
     def _heuristic(self, state: State) -> int:
         """
         ========================================================================
-         Return the Heuristic-Value of the given State.
+         Return the Heuristic-Value of the given StateBase.
          Dijkstra does not use heuristics, so h(n) = 0 for all nodes.
         ========================================================================
         """

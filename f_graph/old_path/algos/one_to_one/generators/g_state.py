@@ -13,7 +13,7 @@ class GenStateOneToOne:
     def gen_priority() -> StateOneToOne:
         """
         ========================================================================
-         Generate a State with a generated list as a Priority-Queue.
+         Generate a StateBase with a generated list as a Priority-Queue.
         ========================================================================
         """
         type_queue = TypeQueue.PRIORITY
@@ -31,7 +31,7 @@ class GenStateOneToOne:
     def gen_fifo() -> StateOneToOne:
         """
         ========================================================================
-         Generate a State with a generated list as a FIFO-Queue.
+         Generate a StateBase with a generated list as a FIFO-Queue.
         ========================================================================
         """
         type_queue = TypeQueue.FIFO

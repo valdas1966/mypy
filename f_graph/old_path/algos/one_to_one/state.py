@@ -18,7 +18,7 @@ class TypeQueue(EnumCallable):
 class StateOneToOne:
     """
     ============================================================================
-     State object for One-to-One Path-Algorithms.
+     StateBase object for One-to-One Path-Algorithms.
     ============================================================================
     """
 

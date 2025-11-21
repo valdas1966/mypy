@@ -1,9 +1,10 @@
-from f_ds.grids import GridMap as Grid, CellMap as Cell
+from f_core.mixins.has.name import HasName
+from f_ds.grids import GridMap as Grid
 from f_cs.problem import ProblemAlgo
-from f_search.ds.state import State
+from f_search.ds.states import StateCell as State
 
 
-class ProblemSearch(ProblemAlgo):
+class ProblemSearch(ProblemAlgo, HasName):
     """
     ============================================================================
      Base-Class for Search-Problems in Grid's domain.
@@ -13,13 +14,14 @@ class ProblemSearch(ProblemAlgo):
     # Factory
     Factory: type = None
 
-    def __init__(self, grid: Grid) -> None:
+    def __init__(self, grid: Grid, name: str = 'ProblemSearch') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         ProblemAlgo.__init__(self)
+        HasName.__init__(self, name=name)
         self._grid = grid
 
     @property
@@ -38,5 +40,5 @@ class ProblemSearch(ProblemAlgo):
         ========================================================================
         """
         cells = self.grid.neighbors(cell=state.key)
-        states = [State[Cell](key=cell) for cell in cells]
+        states = [State(key=cell) for cell in cells]
         return states

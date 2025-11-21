@@ -10,15 +10,15 @@ Provides multiple goal states property to problem classes. This mixin adds the c
 
 ### Constructor (`__init__`)
 **Parameters:**
-- **goals**: `Iterable[State]` - Collection of goal states
+- **goals**: `Iterable[StateBase]` - Collection of goal states
 
 **Storage:**
-- `_goals`: Private attribute storing goals as `set[State]`
+- `_goals`: Private attribute storing goals as `set[StateBase]`
 
 **Conversion:**
 Goals are converted from iterable to set:
 ```python
-self._goals: set[State] = set(goals)
+self._goals: set[StateBase] = set(goals)
 ```
 
 **Usage:**
@@ -28,16 +28,16 @@ HasGoals.__init__(self, goals=[goal1, goal2, goal3])
 
 ### Property Access
 
-#### `goals` property → `set[State]`
+#### `goals` property → `set[StateBase]`
 Returns the set of goal states.
 
 **Read-only**: No setter provided (immutable after construction)
 
-**Type**: Returns `set[State]`, not list or other iterable
+**Type**: Returns `set[StateBase]`, not list or other iterable
 
 **Usage:**
 ```python
-target_states = problem.goals  # set[State]
+target_states = problem.goals  # set[StateBase]
 ```
 
 ## Design Pattern
@@ -49,7 +49,7 @@ Provides exactly one feature:
 - Nothing more
 
 ### Set-Based Storage
-Uses `set[State]` instead of `list[State]`:
+Uses `set[StateBase]` instead of `list[StateBase]`:
 - **No duplicates**: Each goal appears once
 - **No order**: Goals have no inherent ordering
 - **Fast membership**: O(1) check if state is goal
@@ -145,7 +145,7 @@ HasGoals is completely independent:
 
 When a problem class includes HasGoals:
 - `problem.goals` is guaranteed to exist
-- Type checker knows `goals` returns `set[State]`
+- Type checker knows `goals` returns `set[StateBase]`
 - Compile-time verification of property access
 
 ## Comparison with HasGoal
@@ -153,7 +153,7 @@ When a problem class includes HasGoals:
 | Aspect | HasGoals (plural) | HasGoal (singular) |
 |--------|------------------|-------------------|
 | **Quantity** | Multiple goals | Single goal |
-| **Type** | set[State] | State |
+| **Type** | set[StateBase] | StateBase |
 | **Property** | goals | goal |
 | **Use case** | OMSPP | SPP |
 | **Termination** | state in goals | state == goal |
@@ -162,26 +162,28 @@ When a problem class includes HasGoals:
 ## Example Usage
 
 ```python
-from f_search.ds import State
+from f_search.ds import StateBase
 from f_search.problems.mixins import HasGoals
 
 # Create multiple goal states
 goal_states = [
-    State(key=(5, 5)),
-    State(key=(10, 10)),
-    State(key=(15, 5))
+    StateBase(key=(5, 5)),
+    StateBase(key=(10, 10)),
+    StateBase(key=(15, 5))
 ]
+
 
 # Use in problem
 class MyProblem(HasGoals):
     def __init__(self, goals):
         HasGoals.__init__(self, goals=goals)
 
+
 problem = MyProblem(goals=goal_states)
 
 # Access goals
 print(len(problem.goals))  # 3
-print(State(key=(5, 5)) in problem.goals)  # True
+print(StateBase(key=(5, 5)) in problem.goals)  # True
 
 # Iterate goals
 for goal in problem.goals:
@@ -207,7 +209,7 @@ if len(goals_reached) == len(problem.goals):
 ### Multi-Goal Heuristic
 ```python
 # Heuristic to nearest goal
-def _heuristic(self, state: State) -> int:
+def _heuristic(self, state: StateBase) -> int:
     min_dist = float('inf')
     for goal in self._problem.goals:
         dist = manhattan_distance(state, goal)
@@ -249,7 +251,7 @@ def to_spps(self):
 - **Simplicity**: Minimal, focused interface
 
 ### Why Separate from HasGoal?
-- **Type clarity**: goals (set) vs goal (State)
+- **Type clarity**: goals (set) vs goal (StateBase)
 - **Semantic difference**: Many targets vs one target
 - **Algorithm differences**: Different termination/heuristic logic
 - **API appropriateness**: Set operations for multiple goals

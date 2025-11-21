@@ -1,4 +1,4 @@
-from f_search.problems.i_1_spp.main import ProblemSPP, Grid, State
+from f_search.problems.i_1_spp.main import ProblemSPP, Grid, State  
 
 
 class Factory:

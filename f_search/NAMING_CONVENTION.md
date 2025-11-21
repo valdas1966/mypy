@@ -49,7 +49,7 @@ StatsSearch (stats/i_0_base)                   ← Level 0: Base statistics
 ```
 f_search/
 ├─ algos/           - Algorithm implementations
-├─ ds/              - Data structures (State, Cost, Path, Generated)
+├─ ds/              - Data structures (StateBase, Cost, Path, Generated)
 ├─ problems/        - Problem definitions
 ├─ solutions/       - Solution containers
 ├─ stats/           - Performance statistics
@@ -87,7 +87,7 @@ problems/
 ### ds/ Structure (No i_X hierarchy)
 ```
 ds/
-├─ state/           - State (search configuration)
+├─ state/           - StateBase (search configuration)
 ├─ cost/            - Cost (priority/f-value)
 ├─ path/            - Path (solution path)
 └─ generated/       - Generated (priority queue)
@@ -159,7 +159,7 @@ stats/i_1_omspp/
 - **Suffix**: Problem type (e.g., `StatsSPP`)
 
 ### Data Structure Classes
-- **Direct names**: `State`, `Cost`, `Path`, `Generated`
+- **Direct names**: `StateBase`, `Cost`, `Path`, `Generated`
 - **No prefix/suffix**: These are fundamental building blocks
 
 ---
@@ -174,8 +174,8 @@ stats/i_1_omspp/
 - `HasGoals` - Adds `goals` property (plural, set)
 
 ### Singular vs Plural
-- **`HasGoal`**: Single goal → `problem.goal` returns `State`
-- **`HasGoals`**: Multiple goals → `problem.goals` returns `set[State]`
+- **`HasGoal`**: Single goal → `problem.goal` returns `StateBase`
+- **`HasGoals`**: Multiple goals → `problem.goals` returns `set[StateBase]`
 
 ### Usage Pattern
 Problems compose mixins:
@@ -235,7 +235,7 @@ algos/i_1_spp/i_2_dijkstra/
 ## Data Structure Naming
 
 ### Core DS Classes
-- `State[Key]` - Wraps a key (grid cell)
+- `StateBase[Key]` - Wraps a key (grid cell)
 - `Cost[Key]` - Priority/cost for state
 - `Path` - Sequence of states
 - `Generated` - Priority queue (open list)
@@ -247,12 +247,13 @@ algos/i_1_spp/i_2_dijkstra/
 ## Import Patterns
 
 ### Typical Imports
+
 ```python
 from f_search.algos import AStar, Dijkstra
 from f_search.problems import ProblemSPP, ProblemOMSPP
 from f_search.solutions import SolutionSPP, SolutionOMSPP
 from f_search.stats import StatsSPP, StatsOMSPP
-from f_search.ds import State, Cost, Path, Generated
+from f_search.ds import StateBase, Cost, Path, Generated
 ```
 
 ### Internal Imports (within f_search)

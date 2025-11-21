@@ -1,4 +1,4 @@
-# HasStart - Mixin for Single Start State
+# HasStart - Mixin for Single Start StateBase
 
 ## Main Class
 `HasStart`
@@ -10,7 +10,7 @@ Provides a single start state property to problem classes. This mixin adds the c
 
 ### Constructor (`__init__`)
 **Parameters:**
-- **start**: `State` - The initial state of the problem
+- **start**: `StateBase` - The initial state of the problem
 
 **Storage:**
 - `_start`: Private attribute storing the start state
@@ -22,7 +22,7 @@ HasStart.__init__(self, start=start_state)
 
 ### Property Access
 
-#### `start` property → `State`
+#### `start` property → `StateBase`
 Returns the start state of the problem.
 
 **Read-only**: No setter provided (immutable after construction)
@@ -111,7 +111,7 @@ HasStart is completely independent:
 
 When a problem class includes HasStart:
 - `problem.start` is guaranteed to exist
-- Type checker knows `start` returns `State`
+- Type checker knows `start` returns `StateBase`
 - Compile-time verification of property access
 
 ## Comparison with HasStarts (Hypothetical)
@@ -121,18 +121,19 @@ If we needed multiple start states:
 | Aspect | HasStart (current) | HasStarts (hypothetical) |
 |--------|-------------------|-------------------------|
 | **Quantity** | Single start | Multiple starts |
-| **Type** | State | set[State] or list[State] |
+| **Type** | StateBase | set[StateBase] or list[StateBase] |
 | **Property** | start | starts |
 | **Use case** | SPP, OMSPP | Multi-source problems |
 
 ## Example Usage
 
 ```python
-from f_search.ds import State
+from f_search.ds import StateBase
 from f_search.problems.mixins import HasStart
 
 # Create start state
-start_state = State(key=(0, 0))
+start_state = StateBase(key=(0, 0))
+
 
 # Use in problem
 # (typically as part of multiple inheritance)
@@ -140,13 +141,14 @@ class MyProblem(HasStart):
     def __init__(self, start):
         HasStart.__init__(self, start=start)
 
+
 problem = MyProblem(start=start_state)
-print(problem.start)  # State(key=(0, 0))
+print(problem.start)  # StateBase(key=(0, 0))
 ```
 
 ## Relationship to Other Components
 
-- **State**: HasStart stores a State object
+- **StateBase**: HasStart stores a StateBase object
 - **Problems**: Mixed into ProblemSPP, ProblemOMSPP
 - **Algorithms**: Access via `problem.start`
 

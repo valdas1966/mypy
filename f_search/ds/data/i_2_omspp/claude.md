@@ -39,12 +39,12 @@ Even though it doesn't add functionality currently, `DataOMSPP` provides:
 
 From `DataSearch`:
 - `generated: Generated` - Priority queue of open states
-- `explored: set[State]` - Set of closed states
-- `best: State` - Currently best state
-- `g: dict[State, int]` - Actual costs from start
-- `h: dict[State, int]` - Heuristic estimates to goals
-- `cost: dict[State, Cost]` - Combined cost objects
-- `parent: dict[State, State]` - Parent pointers for paths
+- `explored: set[StateBase]` - Set of closed states
+- `best: StateBase` - Currently best state
+- `g: dict[StateBase, int]` - Actual costs from start
+- `h: dict[StateBase, int]` - Heuristic estimates to goals
+- `cost: dict[StateBase, Cost]` - Combined cost objects
+- `parent: dict[StateBase, StateBase]` - Parent pointers for paths
 
 ### Current Usage: KxAStar
 
@@ -75,31 +75,31 @@ More sophisticated OMSPP algorithms could leverage shared data:
 
 1. **Shared Explored Set**
    ```python
-   self.shared_explored: set[State]  # Common across all goals
+   self.shared_explored: set[StateBase]  # Common across all goals
    # Benefit: Don't re-explore states for different goals
    ```
 
 2. **Multi-Goal Heuristics**
    ```python
-   self.h_per_goal: dict[State, dict[State, int]]
+   self.h_per_goal: dict[StateBase, dict[StateBase, int]]
    # h[state][goal] = heuristic to specific goal
    ```
 
 3. **Goal Tracking**
    ```python
-   self.goals: set[State]           # All target goals
-   self.goals_reached: set[State]   # Goals found so far
-   self.goals_remaining: set[State] # Goals not yet found
+   self.goals: set[StateBase]           # All target goals
+   self.goals_reached: set[StateBase]   # Goals found so far
+   self.goals_remaining: set[StateBase] # Goals not yet found
    ```
 
 4. **Shared Path Data**
    ```python
-   self.paths_to_goals: dict[State, Path]  # Path to each goal found
+   self.paths_to_goals: dict[StateBase, Path]  # Path to each goal found
    ```
 
 5. **Frontier Management**
    ```python
-   self.goal_frontiers: dict[State, Generated]
+   self.goal_frontiers: dict[StateBase, Generated]
    # Separate frontier per goal for parallel exploration
    ```
 
@@ -159,7 +159,7 @@ class UnifiedOMSPP(AlgoOMSPP):
 | **Heuristic** | Distance to one goal | Min/combined distance to goals |
 | **Termination** | One goal reached | All goals reached (or best effort) |
 | **Path Output** | Single path | Multiple paths (one per goal) |
-| **State Sharing** | N/A | Potential for shared explored |
+| **StateBase Sharing** | N/A | Potential for shared explored |
 | **Complexity** | Simpler | More complex potential |
 
 ### Related Components

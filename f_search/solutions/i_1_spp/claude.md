@@ -169,7 +169,7 @@ Represents final, unchanging result.
 | Aspect | SolutionSPP | SolutionOMSPP |
 |--------|--------------|--------------|
 | **Problem Type** | One-to-One | One-to-Many |
-| **Path(s)** | Single Path | dict[State, Path] |
+| **Path(s)** | Single Path | dict[StateBase, Path] |
 | **Property** | path | paths |
 | **Stats** | StatsSPP | StatsOMSPP |
 | **Validity** | Goal reached | All goals reached |
@@ -189,9 +189,9 @@ SolutionSPP(
         explored=134
     ),
     path=Path([
-        State((0,0)), State((1,0)), State((2,0)),
+        StateBase((0,0)), StateBase((1,0)), StateBase((2,0)),
         ...,
-        State((10,10))
+        StateBase((10,10))
     ])
 )
 ```
@@ -235,7 +235,7 @@ print(f"Dijkstra explored: {sol_dijkstra.stats.explored}")
 ### Why Single Path Property?
 - SPP has single goal → single path
 - Simple, direct interface
-- Type-appropriate (Path vs dict[State, Path])
+- Type-appropriate (Path vs dict[StateBase, Path])
 
 ### Why Include Invalid Solutions?
 - Algorithms can fail (unreachable goal)

@@ -78,10 +78,10 @@ Provides core performance metrics for all search algorithms:
 - explored - Total states explored
 
 **Per-Goal Components:** (OMSPP-specific)
-- **elapsed_per_goal**: `dict[State, float]` - Time for each goal
-- **generated_per_goal**: `dict[State, int]` - Generated per goal
-- **updated_per_goal**: `dict[State, int]` - Updated per goal
-- **explored_per_goal**: `dict[State, int]` - Explored per goal
+- **elapsed_per_goal**: `dict[StateBase, float]` - Time for each goal
+- **generated_per_goal**: `dict[StateBase, int]` - Generated per goal
+- **updated_per_goal**: `dict[StateBase, int]` - Updated per goal
+- **explored_per_goal**: `dict[StateBase, int]` - Explored per goal
 
 **Use Case:** KxAStar algorithm results
 
@@ -251,7 +251,7 @@ Statistics are immutable after creation:
 ## External Dependencies
 
 - **f_cs.stats** - StatsAlgo (generic statistics interface)
-- **f_search.ds** - State (for per-goal dict keys in OMSPP)
+- **f_search.ds** - StateBase (for per-goal dict keys in OMSPP)
 
 ## Extension Example
 

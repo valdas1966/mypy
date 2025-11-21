@@ -47,7 +47,7 @@ Provides foundational solution structure:
 **Components:**
 - `is_valid`: True if ALL goals were reached
 - `stats`: StatsOMSPP with aggregate and per-goal metrics
-- `paths`: Dictionary mapping each goal to its path (`dict[State, Path]`)
+- `paths`: Dictionary mapping each goal to its path (`dict[StateBase, Path]`)
 
 **Use Case:** Results from KxAStar algorithm
 
@@ -85,7 +85,7 @@ All solutions provide:
 
 Specific solutions add:
 - SPP: `path` property → `Path`
-- OMSPP: `paths` property → `dict[State, Path]`
+- OMSPP: `paths` property → `dict[StateBase, Path]`
 
 ## Relationship to Other Components
 
@@ -182,7 +182,7 @@ All solutions include performance statistics:
 
 | Aspect | SolutionSPP | SolutionOMSPP |
 |--------|--------------|--------------|
-| **Path(s)** | Single Path | dict[State, Path] |
+| **Path(s)** | Single Path | dict[StateBase, Path] |
 | **Stats** | StatsSPP | StatsOMSPP |
 | **Validity** | Goal reached | All goals reached |
 | **Property** | path | paths |
@@ -192,7 +192,7 @@ All solutions include performance statistics:
 
 - **f_cs.solution** - SolutionAlgo (generic solution interface)
 - **f_search.stats** - StatsSearch, StatsSPP, StatsOMSPP
-- **f_search.ds** - Path, State
+- **f_search.ds** - Path, StateBase
 
 ## Extension Example
 
@@ -208,7 +208,7 @@ class SolutionMMSPP(SolutionSearch[StatsMMSPP]):
 ## Key Design Decisions
 
 ### Why Separate Solution Types?
-- **Type safety**: Different path structures (Path vs dict[State, Path])
+- **Type safety**: Different path structures (Path vs dict[StateBase, Path])
 - **Clarity**: Clear distinction between problem types
 - **API appropriateness**: Single path vs multiple paths
 - **Stats alignment**: Each solution type has matching stats type

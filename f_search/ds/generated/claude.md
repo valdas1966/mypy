@@ -1,11 +1,11 @@
 # Generated - Priority Queue for Generated States
 
 ## Main Class
-`Generated(Dictable[State, Cost])`
+`Generated(Dictable[StateBase, Cost])`
 
 ## Inheritance
-- **Base Classes:** `Dictable[State, Cost]` (from f_core.mixins)
-- **Type Parameters:** Maps `State` keys to `Cost` values
+- **Base Classes:** `Dictable[StateBase, Cost]` (from f_core.mixins)
+- **Type Parameters:** Maps `StateBase` keys to `Cost` values
 
 ## Purpose
 Implements a priority queue for generated states (open list) using a dictionary-based approach. Manages states that have been generated but not yet explored, ordered by their cost/priority. States are retrieved in best-first order (lowest cost first).
@@ -17,17 +17,17 @@ Creates an empty Generated queue.
 
 **Implementation:**
 - Calls `Dictable.__init__(self)` to initialize internal dictionary
-- Internal storage: `_data: dict[State, Cost]`
+- Internal storage: `_data: dict[StateBase, Cost]`
 
-**Initial State:** Empty queue (no states)
+**Initial StateBase:** Empty queue (no states)
 
 ### Queue Operations
 
-#### `push(state: State, cost: Cost)` → `None`
+#### `push(state: StateBase, cost: Cost)` → `None`
 Adds a state to the queue or updates its cost.
 
 **Parameters:**
-- **state**: The State to add/update
+- **state**: The StateBase to add/update
 - **cost**: The Cost object for priority ordering
 
 **Behavior:**
@@ -45,10 +45,10 @@ generated.push(state, new_cost)  # Update with better cost
 
 **Note:** Caller responsible for checking if new cost is better
 
-#### `pop()` → `State`
+#### `pop()` → `StateBase`
 Removes and returns the state with lowest cost.
 
-**Returns:** State object with minimum cost value
+**Returns:** StateBase object with minimum cost value
 
 **Behavior:**
 - Finds state with minimum cost in the queue
@@ -74,7 +74,7 @@ best_state = generated.pop()  # Get and remove best state
 ## Design Philosophy
 
 ### Dictionary-Based Implementation
-Uses Python dictionary (`dict[State, Cost]`) rather than heap:
+Uses Python dictionary (`dict[StateBase, Cost]`) rather than heap:
 
 **Advantages:**
 - **O(1) push**: Instant add/update operations
@@ -137,7 +137,7 @@ while self._generated:  # While not empty
                 counters['UPDATED'] += 1
 ```
 
-### State Update Pattern
+### StateBase Update Pattern
 ```python
 # Check if state already generated
 if state in self._generated:
@@ -186,7 +186,7 @@ For grid pathfinding with n states in queue:
 
 ## Relationship to Other Classes
 
-- **State**: Keys in the queue (what we're storing)
+- **StateBase**: Keys in the queue (what we're storing)
 - **Cost**: Values in the queue (how we order states)
 - **AlgoSearch**: Uses Generated as `_generated` open list
 - **AStar/Dijkstra**: Pop states, push successors, update costs

@@ -4,7 +4,7 @@ from f_graph.old_path.algos.one_to_many.state import StateOneToMany
 class GenStateOneToMany:
     """
     ============================================================================
-     Generator of State-Objects for One-To-Many Path-Algorithms.
+     Generator of StateBase-Objects for One-To-Many Path-Algorithms.
     ============================================================================
     """
 
@@ -12,7 +12,7 @@ class GenStateOneToMany:
     def gen_empty() -> StateOneToMany:
         """
         ========================================================================
-         Generate an empty State-Object.
+         Generate an empty StateBase-Object.
         ========================================================================
         """
         return StateOneToMany()

@@ -74,12 +74,12 @@ All algorithms inherit from `AlgoSearch` which provides:
    - If goal: reconstruct path, create solution
    - If not goal: explore state (generate successors)
 
-3. **State Exploration** (_explore):
+3. **StateBase Exploration** (_explore):
    - Add state to Explored set
    - Get successors from problem
    - For each successor, call _generate()
 
-4. **State Generation** (_generate):
+4. **StateBase Generation** (_generate):
    - Skip if in Explored
    - Calculate new g-value: g[parent] + cost(parent, successor)
    - If new state: add to Generated

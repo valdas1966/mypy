@@ -1,9 +1,9 @@
 from f_core.mixins import Dictable
-from f_search.ds.state import State
+from f_search.ds.states.i_0_base import StateBase
 from f_search.ds.cost import Cost
 
 
-class Generated(Dictable[State, Cost]):
+class Generated(Dictable[StateBase, Cost]):
     """
     ============================================================================
      Priority-Queue of Generated-States implemented as a Dictionary.
@@ -21,19 +21,19 @@ class Generated(Dictable[State, Cost]):
         """
         Dictable.__init__(self)
 
-    def push(self, state: State, cost: Cost) -> None:
+    def push(self, state: StateBase, cost: Cost) -> None:
         """
         ========================================================================
-         Push a new State into the Generated Queue.
+         Push a new StateBase into the Generated Queue.
          O(1) time complexity.
         ========================================================================
         """
         self._data[state] = cost
 
-    def pop(self) -> State:
+    def pop(self) -> StateBase:
         """
         ========================================================================
-         Pop the State with the lowest Cost from the Generated Queue.
+         Pop the StateBase with the lowest Cost from the Generated Queue.
          O(n) time complexity.
         ========================================================================
         """

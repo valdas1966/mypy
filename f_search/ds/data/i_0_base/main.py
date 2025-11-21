@@ -1,5 +1,5 @@
 from f_search.ds.generated import Generated
-from f_search.ds import State, Cost
+from f_search.ds import StateBase, Cost
 
 
 class DataSearch:
@@ -18,14 +18,14 @@ class DataSearch:
         # Priority Queue for Generated States
         self.generated: Generated = Generated()
         # Set of Explored States
-        self.explored: set[State] = set()
+        self.explored: set[StateBase] = set()
         # Best current generated state
-        self.best: State = None
-        # Mapping of State's G-Values
-        self.g: dict[State, int] = dict()
-        # Mapping of State's H-Values
-        self.h: dict[State, int] = dict()
-        # Mapping of State's Total-Costs
-        self.cost: dict[State, Cost] = dict()
-        # Mapping of State's Parent
-        self.parent: dict[State, State] = dict()
+        self.best: StateBase = None
+        # Mapping of StateBase's G-Values
+        self.g: dict[StateBase, int] = dict()
+        # Mapping of StateBase's H-Values
+        self.h: dict[StateBase, int] = dict()
+        # Mapping of StateBase's Total-Costs
+        self.cost: dict[StateBase, Cost] = dict()
+        # Mapping of StateBase's Parent
+        self.parent: dict[StateBase, StateBase] = dict()

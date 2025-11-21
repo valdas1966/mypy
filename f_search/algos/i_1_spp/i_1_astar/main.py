@@ -50,7 +50,7 @@ class AStar(AlgoSPP):
     def _explore_best(self) -> None:
         """
         ========================================================================
-         Explore the Best-State.
+         Explore the Best-StateBase.
         ========================================================================
         """
         # Aliases
@@ -112,7 +112,7 @@ class AStar(AlgoSPP):
     def _update_best(self) -> None:
         """
         ========================================================================
-         Update the Best-State.
+         Update the Best-StateBase.
         ========================================================================
         """
         self._data.best = self._data.generated.pop()
@@ -120,7 +120,7 @@ class AStar(AlgoSPP):
     def _heuristic(self, state: State) -> int:
         """
         ========================================================================
-         Return the Heuristic-Value of the given State 
+         Return the Heuristic-Value of the given State
           (Manhattan-Distance to the Goal).
         ========================================================================
         """
@@ -131,7 +131,7 @@ class AStar(AlgoSPP):
     def _update_cost(self, state: State) -> None:
         """
         ========================================================================
-         Update the Cost of the given State.
+         Update the Cost of the given StateBase.
         ========================================================================
         """
         # Aliases
@@ -146,7 +146,7 @@ class AStar(AlgoSPP):
     def _can_terminate(self) -> bool:
         """
         ========================================================================
-         Return True if the Goal is the Best-State in Generated-List.
+         Return True if the Goal is the Best-StateBase in Generated-List.
         ========================================================================
         """
         return self._data.best == self._problem.goal

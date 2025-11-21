@@ -1,4 +1,4 @@
-from f_search.ds.generated.main import Generated, State, Cost
+from f_search.ds.generated.main import Generated, StateBase, Cost
 
 
 class Factory:
@@ -16,8 +16,8 @@ class Factory:
           costs (A should be popped first even if B was pushed first).
         ========================================================================
         """
-        state_a = State.Factory.zero()
-        state_b = State.Factory.one()
+        state_a = StateBase.Factory.zero()
+        state_b = StateBase.Factory.one()
         cost_a = Cost.Factory.a()
         cost_b = Cost.Factory.b()
         generated = Generated()

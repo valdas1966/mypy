@@ -1,4 +1,4 @@
-from f_search.ds import State
+from f_search.ds import StateBase
 from f_search.algos import AStar
 from f_search.ds.data import DataOMSPP
 from f_search.problems import ProblemOMSPP, ProblemSPP
@@ -35,7 +35,7 @@ class KxAStar(AlgoOMSPP):
                            data=data,
                            verbose=verbose,
                            name=name)
-        self._sub_solutions: dict[State, SolutionSPP] = dict()
+        self._sub_solutions: dict[StateBase, SolutionSPP] = dict()
 
     def run(self) -> SolutionOMSPP:
         """
@@ -49,7 +49,7 @@ class KxAStar(AlgoOMSPP):
         # Initialize the search.
         self._run_pre()        
         # Init Attributes
-        self._sub_solutions: dict[State, SolutionSPP] = dict()
+        self._sub_solutions: dict[StateBase, SolutionSPP] = dict()
         sub_problems: list[ProblemSPP] = self._problem.to_spps()
 
         for i, sub_problem in enumerate(sub_problems):
