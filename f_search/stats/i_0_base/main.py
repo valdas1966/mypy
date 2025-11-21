@@ -17,3 +17,11 @@ class StatsSearch(StatsAlgo):
         StatsAlgo.__init__(self)
         self.generated = 0
         self.explored = 0
+
+    def __str__(self) -> str:
+        """
+        ========================================================================
+         Return the string representation of the Stats.
+        ========================================================================
+        """
+        return f'Stats(generated={self.generated}, explored={self.explored})'

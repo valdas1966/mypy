@@ -32,6 +32,15 @@ class AStar(AlgoSPP):
                          verbose=verbose,
                          name=name)
 
+    def _run_pre(self) -> None:
+        """
+        ========================================================================
+         Run necessary operations before the Algorithm starts.
+        ========================================================================
+        """
+        self._str_start += f' {str(self._problem)}'
+        AlgoSPP._run_pre(self)
+
     def run(self) -> SolutionSPP:
         """
         ========================================================================
@@ -46,6 +55,16 @@ class AStar(AlgoSPP):
                 return self._create_solution(is_valid=True)
             self._explore_best()
         return self._create_solution(is_valid=False)
+
+    def _run_post(self) -> None:
+        """
+        ========================================================================
+         Run necessary operations after the Algorithm finishes.
+        ========================================================================
+        """
+        self._str_finish += f' {str(self._stats)}'
+        AlgoSPP._run_post(self)
+        
 
     def _explore_best(self) -> None:
         """

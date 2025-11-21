@@ -1,11 +1,11 @@
 from f_core.mixins.has.name import HasName
 from f_core.mixins.validatable import Validatable
-from f_core.processes.mixins.has_verbose import HasVerbose
+from f_core.mixins.verbosable import Verbosable
 from f_utils import u_datetime
 from time import time
 
 
-class ProcessABC(HasName, HasVerbose, Validatable):
+class ProcessABC(HasName, Verbosable, Validatable):
     """
     ============================================================================
      ABC of Process-Classes.
@@ -21,12 +21,14 @@ class ProcessABC(HasName, HasVerbose, Validatable):
         ========================================================================
         """
         HasName.__init__(self, name=name)
-        HasVerbose.__init__(self, verbose=verbose)
+        Verbosable.__init__(self, verbose=verbose, name=name)
         Validatable.__init__(self)
         # Init Time Attributes
         self._elapsed: float = None
         self._time_start: float = None
         self._time_finish: float = None
+        self._str_start: str = '[Start]'
+        self._str_finish: str = '[Finish]'
 
     @property
     def time_start(self) -> float:
@@ -62,8 +64,7 @@ class ProcessABC(HasName, HasVerbose, Validatable):
         """
         self._elapsed = None
         self._time_start: float = time()
-        if self.verbose:
-            print(f'[{u_datetime.now()}] Start: {self.name}')
+        self.print(msg=self._str_start)
 
     def run(self) -> None:
         """
@@ -81,6 +82,4 @@ class ProcessABC(HasName, HasVerbose, Validatable):
         """
         self._time_finish = time()
         self._elapsed = int((self._time_finish - self._time_start) * 1000)  # Convert to milliseconds
-        if self.verbose:
-            print(f'[{u_datetime.now()}] Finish: {self.name}')
-
+        self.print(msg=self._str_finish)
