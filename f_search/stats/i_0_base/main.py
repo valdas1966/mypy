@@ -8,13 +8,13 @@ class StatsSearch(StatsAlgo):
     ============================================================================
     """
 
-    def __init__(self) -> None:
+    def __init__(self, name: str = 'StatsSearch') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        StatsAlgo.__init__(self)
+        StatsAlgo.__init__(self, name=name)
         self.generated = 0
         self.explored = 0
 

@@ -34,3 +34,21 @@ class AlgoSearch(Generic[Problem, Solution, Stats, Data],
         """
         Algo.__init__(self, problem=problem, verbose=verbose, name=name)
         self._data = data if data else self.cls_data()
+        
+    def _run_pre(self) -> None:
+        """
+        ========================================================================
+         Run necessary operations before the Algorithm starts.
+        ========================================================================
+        """
+        self._str_start += f' {str(self._problem)}'
+        Algo._run_pre(self)
+
+    def _run_post(self) -> None:
+        """
+        ========================================================================
+         Run necessary operations after the Algorithm finishes.
+        ========================================================================
+        """ 
+        self._str_finish += f' {str(self._stats)}'
+        Algo._run_post(self)

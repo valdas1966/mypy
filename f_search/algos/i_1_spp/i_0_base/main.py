@@ -37,3 +37,4 @@ class AlgoSPP(Generic[Problem, Solution, Stats, Data],
                             data=data,
                             verbose=verbose,
                             name=name)
+        

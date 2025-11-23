@@ -32,4 +32,4 @@ class ProblemSPP(ProblemSearch, HasStart, HasGoal):
          Return the STR-REPR of the ProblemSPP.
         ========================================================================
         """
-        return f'{self.name}({str(self.grid)}, {str(self.start)}, {str(self.goal)})'
+        return f'{self.name}(Grid={str(self.grid)}, Start={str(self.start)}, Goal={str(self.goal)})'

@@ -10,14 +10,14 @@ class StatsOMSPP(StatsSPP):
     ============================================================================
     """
 
-    def __init__(self) -> None:
+    def __init__(self, name: str = 'StatsOMSPP') -> None:
         """
         ========================================================================
          Init private Attributes.
          Initializes with empty stats, ready to accumulate sub-problem stats.
         ========================================================================
         """
-        StatsSPP.__init__(self)
+        StatsSPP.__init__(self, name=name)
         self._stats_goal: dict[StateBase, StatsSPP] = {}
 
     def add_goal(self, goal: StateBase, stats: StatsSPP) -> None:
@@ -38,23 +38,12 @@ class StatsOMSPP(StatsSPP):
         ========================================================================
         """
         return self._stats_goal[goal]
-
-    @property
-    def goals_completed(self) -> int:
-        """
-        ========================================================================
-         Return number of goals that have been reached.
-        ========================================================================
-        """
-        return len(self._stats_goal)
  
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         """
         ========================================================================
          Return the STR-REPR of the StatsOMSPP.
         ========================================================================
         """
-        return f'StatsOMSPP(elapsed={self.elapsed}, \
-                            generated={self.generated}, \
-                            explored={self.explored})'
+        return f'{self.name}[Generated={self.generated}, Explored={self.explored}]'
                     

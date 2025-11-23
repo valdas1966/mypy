@@ -15,14 +15,15 @@ class ProblemOMSPP(ProblemSearch, HasStart, HasGoals):
 
     def __init__(self,
                  grid: Grid,
-                start: State,
-                 goals: list[State]) -> None:
+                 start: State,
+                 goals: list[State],
+                 name: str = 'ProblemOMSPP') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        ProblemSearch.__init__(self, grid=grid)
+        ProblemSearch.__init__(self, grid=grid, name=name)
         HasStart.__init__(self, start=start)
         HasGoals.__init__(self, goals=goals)
 
@@ -40,11 +41,10 @@ class ProblemOMSPP(ProblemSearch, HasStart, HasGoals):
             sub_problems.append(sub_problem)
         return sub_problems
     
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         """
         ========================================================================
          Return the STR-REPR of the ProblemOMSPP.
         ========================================================================
         """
-        return f'ProblemOMSPP(grid={self.grid.name}[{len(self.grid)}], \
-                              start={self.start}, goals={self.goals})'
+        return f'{self.name}(Grid={str(self.grid)}, Start={str(self.start)}, #Goals={len(self.goals)})   '

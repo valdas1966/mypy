@@ -82,4 +82,5 @@ class ProcessABC(HasName, Verbosable, Validatable):
         """
         self._time_finish = time()
         self._elapsed = int((self._time_finish - self._time_start) * 1000)  # Convert to milliseconds
+        self._str_finish += f' [Elapsed={self._elapsed}]'
         self.print(msg=self._str_finish)
