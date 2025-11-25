@@ -17,7 +17,7 @@ class Factory:
         ========================================================================
         """
         problem = ProblemOMSPP.Factory.without_obstacles()
-        return KxAStar(problem=problem, verbose=True)
+        return KxAStar(problem=problem)
 
     @staticmethod
     def with_obstacles() -> KxAStar:
