@@ -1,6 +1,6 @@
 from f_search.algos.i_1_spp.i_1_astar import AStar
 from f_search.problems import ProblemSPP, State
-
+from f_search.ds.data import DataSPP
 
 class Dijkstra(AStar):
     """
@@ -15,6 +15,7 @@ class Dijkstra(AStar):
 
     def __init__(self,
                  problem: ProblemSPP,
+                 data: DataSPP = None,
                  verbose: bool = False,
                  name: str = 'Dijkstra') -> None:
         """
@@ -24,6 +25,7 @@ class Dijkstra(AStar):
         """
         AStar.__init__(self,
                        problem=problem,
+                       data=data,
                        verbose=verbose,
                        name=name)
 

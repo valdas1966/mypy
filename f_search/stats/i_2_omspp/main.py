@@ -20,7 +20,9 @@ class StatsOMSPP(StatsSPP):
         StatsSPP.__init__(self, name=name)
         self._stats_goal: dict[StateBase, StatsSPP] = {}
 
-    def add_goal(self, goal: StateBase, stats: StatsSPP) -> None:
+    def add_goal(self,
+                 goal: StateBase,
+                 stats: StatsSPP) -> None:
         """
         ========================================================================
          Add stats for a completed goal.

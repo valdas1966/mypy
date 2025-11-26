@@ -1,8 +1,9 @@
 from f_search.algos.i_0_base.main import AlgoSearch
 from f_search.solutions import SolutionOMSPP
 from f_search.problems import ProblemOMSPP
-from f_search.stats import StatsOMSPP
+from f_search.ds import StateBase as State
 from f_search.ds.data import DataOMSPP
+from f_search.stats import StatsOMSPP
 from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemOMSPP)
@@ -37,3 +38,27 @@ class AlgoOMSPP(Generic[Problem, Solution, Stats, Data],
                             data=data,
                             verbose=verbose,
                             name=name)
+        self._goals_active: list[State] = list()
+        self._sub_solutions: dict[State, Solution] = None
+        
+    def _run_pre(self) -> None:
+        """
+        ========================================================================
+         Run the Algorithm and return the Solution.
+        ========================================================================
+        """
+        AlgoSearch._run_pre(self)
+        self._goals_active = self._problem.goals
+        self._sub_solutions = dict()
+
+    def _create_solution(self,
+                         is_valid: bool) -> SolutionOMSPP:
+        """
+        ========================================================================
+         Create the Solution.
+        ========================================================================
+        """
+        self._run_post()
+        return SolutionOMSPP(is_valid=is_valid,
+                             stats=self._stats,
+                             sub_solutions=self._sub_solutions)

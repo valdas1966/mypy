@@ -39,7 +39,8 @@ class AStar(AlgoSPP):
         ========================================================================
         """
         self._run_pre()        
-        self._generate_state(state=self._problem.start)
+        if not self._data.generated:
+            self._generate_state(state=self._problem.start)
         while self._should_continue():
             self._update_best()
             if self._can_terminate():
@@ -95,10 +96,8 @@ class AStar(AlgoSPP):
         """
         # Run post
         self._run_post()
-        # Reconstruct path
-        path = self._reconstruct_path() if is_valid else None
         return SolutionSPP(is_valid=is_valid,
-                           path=path,
+                           data=self._data,
                            stats=self._stats)
 
     def _should_continue(self) -> bool:
@@ -150,17 +149,3 @@ class AStar(AlgoSPP):
         ========================================================================
         """
         return self._data.best == self._problem.goal
-
-    def _reconstruct_path(self) -> Path:
-        """
-        ========================================================================
-         Reconstruct the Path from Start to Goal.
-        ========================================================================
-        """
-        states = list[State]()
-        state = self._data.best
-        while state:
-            states.append(state)
-            state = self._data.parent[state]
-        states = states[::-1]
-        return Path(states=states)

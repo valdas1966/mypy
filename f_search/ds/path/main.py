@@ -80,3 +80,12 @@ class Path(Collectionable[StateBase],
         """
         self._states += other._states
         return self
+
+    def __str__(self) -> str:
+        """
+        ========================================================================
+         Return the string representation of the Path.
+        ========================================================================
+        """
+        cells = [str(state.key) for state in self._states]
+        return ', '.join(cells)

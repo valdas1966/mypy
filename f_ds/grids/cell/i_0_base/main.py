@@ -41,7 +41,7 @@ class CellBase(HasName, HasRowCol):
          Return a String Representation of the Cell.
         ========================================================================
         """
-        return f'{self.name}{HasRowCol.__str__(self)}'
+        return f'{HasRowCol.__str__(self)}'
 
     def __repr__(self) -> str:
         """

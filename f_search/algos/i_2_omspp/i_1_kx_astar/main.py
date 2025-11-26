@@ -1,4 +1,3 @@
-from f_search.ds import StateBase
 from f_search.algos import AStar
 from f_search.ds.data import DataOMSPP
 from f_search.problems import ProblemOMSPP, ProblemSPP
@@ -35,7 +34,6 @@ class KxAStar(AlgoOMSPP):
                            data=data,
                            verbose=verbose,
                            name=name)
-        self._sub_solutions: dict[StateBase, SolutionSPP] = dict()
 
     def run(self) -> SolutionOMSPP:
         """
@@ -44,7 +42,6 @@ class KxAStar(AlgoOMSPP):
         ========================================================================
         """
         self._run_pre()        
-        self._sub_solutions: dict[StateBase, SolutionSPP] = dict()
         sub_problems: list[ProblemSPP] = self._problem.to_spps()
         n_problems = len(sub_problems)
         for i, sub_problem in enumerate(sub_problems):
@@ -58,20 +55,14 @@ class KxAStar(AlgoOMSPP):
             # Add stats for the completed goal.
             self._stats.add_goal(goal=sub_problem.goal,
                                  stats=solution.stats)
+            self._goals_active.remove(sub_problem.goal)
+            # Add stats for the goals that are now explored.
+            for goal in self._goals_active:
+                if goal in astar._data.explored:
+                    self._stats.add_goal(goal=goal)
+                    self._goals_active.remove(goal)
             if not solution:
                 # If any sub-problem is invalid, the overall solution is invalid
                 return self._create_solution(is_valid=False)
         # Return valid solution.
         return self._create_solution(is_valid=True)
-
-    def _create_solution(self,
-                         is_valid: bool) -> SolutionOMSPP:
-        """
-        ========================================================================
-         Create the Solution.
-        ========================================================================
-        """
-        self._run_post()
-        return SolutionOMSPP(is_valid=is_valid,
-                             stats=self._stats,
-                             sub_solutions=self._sub_solutions)
