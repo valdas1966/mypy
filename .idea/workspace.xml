@@ -5,29 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/environment.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_core/mixins/has/id/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_core/mixins/has/id/_study.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_core/mixins/has/id/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_core/mixins/has/record/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/datetime/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/datetime/_study.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/datetime/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/mixins/has/record/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/mixins/has/record/_factory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/mixins/has/record/_study.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/mixins/has/record/_tester.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/has/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/has/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/study/s_linked_list.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/testers/t_linked_list.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_iterative/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_iterative/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_2_k_dijkstra/_study.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_2_k_dijkstra/_study.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/ds/data/i_1_spp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/data/i_1_spp/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/problems/i_2_omspp/_study.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/i_2_omspp/_study.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/problems/i_2_omspp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/i_2_omspp/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/solutions/i_1_spp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/solutions/i_1_spp/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/stats/i_2_omspp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/stats/i_2_omspp/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/u_datetime.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/u_datetime.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/has/record/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/has/record/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_cs/problem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_cs/problem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/problems/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/i_0_base/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -962,29 +947,7 @@
       <recent name="G:\mypy\f_search\problems" />
     </key>
   </component>
-  <component name="RunManager" selected="Python._study (4)">
-    <configuration name="_study (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_2_k_dijkstra" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_2_k_dijkstra/_study.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python tests.pytest in _tester.py (1)">
     <configuration name="_study (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -1051,20 +1014,42 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="_study" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_core/mixins/has/record" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_core/mixins/has/record/_study.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in _tester.py (1)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_2_k_dijkstra" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_core/mixins/has/record" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_keywords" value="&quot;&quot;" />
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/algos/i_2_omspp/i_2_k_dijkstra/_tester.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_core/mixins/has/record/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -1456,19 +1441,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python._study (1)" />
       <item itemvalue="Python._study (2)" />
       <item itemvalue="Python._study (3)" />
       <item itemvalue="Python._study (4)" />
-      <item itemvalue="Python tests.pytest in _tester.py" />
+      <item itemvalue="Python._study" />
+      <item itemvalue="Python tests.pytest in _tester.py (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.pytest in _tester.py (1)" />
+        <item itemvalue="Python._study" />
         <item itemvalue="Python._study (4)" />
         <item itemvalue="Python._study (3)" />
         <item itemvalue="Python._study (2)" />
-        <item itemvalue="Python tests.pytest in _tester.py" />
-        <item itemvalue="Python._study (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -1522,14 +1507,6 @@
       <workItem from="1753097025966" duration="6888000" />
       <workItem from="1753591538149" duration="5147000" />
       <workItem from="1753705522305" duration="11937000" />
-    </task>
-    <task id="LOCAL-00230" summary="h">
-      <option name="closed" value="true" />
-      <created>1750511002848</created>
-      <option name="number" value="00230" />
-      <option name="presentableId" value="LOCAL-00230" />
-      <option name="project" value="LOCAL" />
-      <updated>1750511002849</updated>
     </task>
     <task id="LOCAL-00231" summary="h">
       <option name="closed" value="true" />
@@ -1915,7 +1892,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764187447988</updated>
     </task>
-    <option name="localTasksCounter" value="279" />
+    <task id="LOCAL-00279" summary="h">
+      <option name="closed" value="true" />
+      <created>1764244103828</created>
+      <option name="number" value="00279" />
+      <option name="presentableId" value="LOCAL-00279" />
+      <option name="project" value="LOCAL" />
+      <updated>1764244103828</updated>
+    </task>
+    <option name="localTasksCounter" value="280" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

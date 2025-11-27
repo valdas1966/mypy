@@ -11,6 +11,8 @@ class ProblemSearch(ProblemAlgo, HasName):
     ============================================================================
     """
 
+    FIELDS_SPECIFIC = ('grid',)
+
     # Factory
     Factory: type = None
 
