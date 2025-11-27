@@ -10,16 +10,18 @@ class DataSPP(DataSearch):
     ============================================================================
     """
     
-    def path_to_best(self) -> Path:
+    def path_to(self, state: State) -> Path:
         """
         ========================================================================
          Reconstruct the Path from Start to Best State.
         ========================================================================
         """
         states: list[State] = list()
-        state = self.best
-        while state:
-            states.append(state)
-            state = self.parent[state]
+        cur = state
+        while cur:
+            states.append(cur)
+            cur = self.parent[cur]
         states = states[::-1]
+        path = Path(states=states)
+        print(self.best, path)
         return Path(states=states)

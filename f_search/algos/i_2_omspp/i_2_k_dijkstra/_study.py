@@ -7,5 +7,5 @@ goal_1, goal_2 = algo._problem.goals
 path_1 = solution.paths[goal_1]
 path_2 = solution.paths[goal_2]
 
-print(path_1)
+#print(path_1)
 

@@ -1,8 +1,7 @@
 from f_search.algos.i_1_spp.i_0_base.main import (AlgoSPP, ProblemSPP,
-                                                  SolutionSPP, DataSPP,
-                                                  StatsSPP)
+                                                  SolutionSPP, DataSPP)
 from f_search.algos.i_2_omspp.i_0_base.main import (AlgoOMSPP, ProblemOMSPP,
-                                                    SolutionOMSPP)
+                                                    SolutionOMSPP, State)
 
 
 class IterativeOMSPP(AlgoOMSPP):
@@ -41,13 +40,10 @@ class IterativeOMSPP(AlgoOMSPP):
         for i, sub_problem in enumerate(sub_problems):
             # Add stats for the goals that are already explored.
             if sub_problem.goal in data.explored:
-                stats = StatsSPP()
-                solution = SolutionSPP(is_valid=True,
-                                       data=data,
-                                       stats=stats)
-                self._sub_solutions[sub_problem.goal] = solution
-                self._stats.add_goal(goal=sub_problem.goal,
-                                     stats=stats)
+                path = data.path_to(state=sub_problem.goal)
+                solution = SolutionSPP(is_valid=True, path=path)
+                self._add_solution_spp(goal=sub_problem.goal,   
+                                       solution=solution)
                 continue
             # Run the sub-search.
             name_algo = f'{self._type_algo.__name__} {i+1}/{n_problems}'
@@ -56,15 +52,23 @@ class IterativeOMSPP(AlgoOMSPP):
                                    name=name_algo,
                                    verbose=self._verbose)
             solution = algo.run()
-            self._sub_solutions[sub_problem.goal] = solution
-            # Add stats for the completed goal.
-            self._stats.add_goal(goal=sub_problem.goal,
-                                 stats=solution.stats)
+            self._add_solution_spp(goal=sub_problem.goal,
+                                   solution=solution)
             if not solution:
-                # If any sub-problem is invalid, the overall solution is invalid
+                # If any subproblem is invalid, the overall solution is invalid
                 return self._create_solution(is_valid=False)
             algo._data.generated.push(state=algo._data.best,
                                       cost=algo._data.cost[algo._data.best])
             data = algo._data
         # Return valid solution.
         return self._create_solution(is_valid=True)
+
+    def _add_solution_spp(self, goal: State, solution: SolutionSPP) -> None:
+        """
+        ========================================================================
+         Add the Solution of the Sub-Problem to the Data.
+        ========================================================================
+        """
+        self._sub_solutions[goal] = solution
+        self._stats.add_goal(goal=goal, stats=solution.stats)
+

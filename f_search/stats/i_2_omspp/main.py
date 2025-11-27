@@ -22,13 +22,14 @@ class StatsOMSPP(StatsSPP):
 
     def add_goal(self,
                  goal: StateBase,
-                 stats: StatsSPP) -> None:
+                 stats: StatsSPP = None) -> None:
         """
         ========================================================================
          Add stats for a completed goal.
          Updates aggregate counts progressively.
         ========================================================================
         """
+        stats = stats if stats else StatsSPP()
         self._stats_goal[goal] = stats
         self.generated += stats.generated
         self.explored += stats.explored

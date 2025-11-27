@@ -1,9 +1,10 @@
 from f_search.problems import ProblemSearch, Grid, State
 from f_search.problems.i_1_spp.main import ProblemSPP
 from f_search.problems.mixins import HasStart, HasGoals
+from f_core.mixins.has.key import HasKey
 
 
-class ProblemOMSPP(ProblemSearch, HasStart, HasGoals):
+class ProblemOMSPP(ProblemSearch, HasStart, HasGoals, HasKey):
     """
     ============================================================================
      One-to-Many Shortest-Path-Problem on a Grid.
@@ -26,6 +27,7 @@ class ProblemOMSPP(ProblemSearch, HasStart, HasGoals):
         ProblemSearch.__init__(self, grid=grid, name=name)
         HasStart.__init__(self, start=start)
         HasGoals.__init__(self, goals=goals)
+        HasKey.__init__(self, key=(start, tuple(goals)))
 
     def to_spps(self) -> list[ProblemSPP]:
         """
@@ -48,3 +50,5 @@ class ProblemOMSPP(ProblemSearch, HasStart, HasGoals):
         ========================================================================
         """
         return f'{self.name}(Grid={str(self.grid)}, Start={str(self.start)}, #Goals={len(self.goals)})   '
+
+    

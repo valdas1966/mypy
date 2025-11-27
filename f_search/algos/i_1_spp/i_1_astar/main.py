@@ -96,8 +96,9 @@ class AStar(AlgoSPP):
         """
         # Run post
         self._run_post()
+        path = self._data.path_to(state=self._data.best)
         return SolutionSPP(is_valid=is_valid,
-                           data=self._data,
+                           path=path,
                            stats=self._stats)
 
     def _should_continue(self) -> bool:

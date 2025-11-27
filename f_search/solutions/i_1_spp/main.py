@@ -12,15 +12,16 @@ class SolutionSPP(SolutionSearch[StatsSPP]):
     """
     def __init__(self,
                  is_valid: bool,
-                 data: DataSPP,
-                 stats: StatsSPP) -> None:
+                 path: Path,
+                 stats: StatsSPP = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
+        stats = stats if stats else StatsSPP()
         SolutionSearch.__init__(self, is_valid=is_valid, stats=stats)
-        self._path = data.path_to_best() if is_valid else None
+        self._path = path
     
     @property
     def path(self) -> Path:

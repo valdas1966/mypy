@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from enum import Enum
 
 
 def now(format='yyyy-mm-dd hh:mi:ss', is_utc: bool = False) -> str:
