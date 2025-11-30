@@ -11,8 +11,8 @@ class GridMap(GridBase[Cell]):
     """
 
     # Static Classes
-    Factory: type = None
-    From: type = None
+    Factory = None
+    From = None
 
     def __init__(self,
                  # Number of Rows in the Grid

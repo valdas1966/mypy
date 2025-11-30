@@ -9,8 +9,13 @@ class StateCell(StateBase[Cell]):
     ============================================================================
     """
 
+    RECORD_SPEC = {'key': lambda o: None,
+                   'name': lambda o: None,
+                   'row': lambda o: o.key.row,
+                   'col': lambda o: o.key.col}
+    
     # Factory
-    Factory: type = None
+    Factory = None
 
     def __init__(self,
                  key: Cell,
@@ -28,4 +33,4 @@ class StateCell(StateBase[Cell]):
          Return the STR-REPR of the StateCell.
         ========================================================================
         """
-        return f'{self.name}({self.key.row},{self.key.col})'
+        return f'({self.key.row},{self.key.col})'

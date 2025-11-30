@@ -43,12 +43,3 @@ class AlgoSearch(Generic[Problem, Solution, Stats, Data],
         """
         self._str_start += f' {str(self._problem)}'
         Algo._run_pre(self)
-
-    def _run_post(self) -> None:
-        """
-        ========================================================================
-         Run necessary operations after the Algorithm finishes.
-        ========================================================================
-        """ 
-        self._str_finish += f' {str(self._stats)}'
-        Algo._run_post(self)

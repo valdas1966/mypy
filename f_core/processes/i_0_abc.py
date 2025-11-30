@@ -24,7 +24,7 @@ class ProcessABC(HasName, Verbosable, Validatable):
         Verbosable.__init__(self, verbose=verbose, name=name)
         Validatable.__init__(self)
         # Init Time Attributes
-        self._elapsed: float = None
+        self._elapsed: int = None
         self._time_start: float = None
         self._time_finish: float = None
         self._str_start: str = '[Start]'

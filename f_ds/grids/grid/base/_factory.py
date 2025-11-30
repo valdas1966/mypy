@@ -15,4 +15,4 @@ class FactoryGridBase:
          Create a 3x3 grid.
         ========================================================================
         """
-        return GridBase(rows=3)
+        return GridBase(rows=3, name='3x3')

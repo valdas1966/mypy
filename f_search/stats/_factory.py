@@ -1,18 +1,18 @@
-from f_ds.grids.cell.i_0_base.main import CellBase
+from f_search.stats.main import StatsSearch
 
 
 class Factory:
     """
     ============================================================================
-     Factory for CellBase.
+     Factory for StatsSearch.
     ============================================================================
     """
 
     @staticmethod
-    def zero() -> CellBase:
+    def linear() -> StatsSearch:
         """
         ========================================================================
-         Return a new CellBase with the row and col set to 0.
+         Factory of a linear stats.
         ========================================================================
         """
-        return CellBase(name='Zero', row=0, col=0)
+        return StatsSearch(generated=10, explored=20)

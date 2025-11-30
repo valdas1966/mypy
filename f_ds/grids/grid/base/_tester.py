@@ -58,4 +58,3 @@ def test_getitem() -> None:
     cell = grid[1][2]
     assert cell.row == 1
     assert cell.col == 2
-

@@ -11,8 +11,13 @@ class HasRowCol(Comparable, Printable):
     ============================================================================
     """
 
+    RECORD_SPEC = {
+        'row': lambda o: o.row,
+        'col': lambda o: o.col,
+    }
+
     # Factory
-    Factory: type = None
+    Factory = None
 
     def __init__(self,
                  row: int = None,

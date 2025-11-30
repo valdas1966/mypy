@@ -1,4 +1,4 @@
-from f_core.mixins.has.name import HasName
+from f_core.mixins.has.record import HasRecord
 from f_core.mixins.has.rows_cols import HasRowsCols
 from f_ds.mixins.groupable import Groupable, Group
 from f_ds.grids.grid.base._select import Select
@@ -11,8 +11,8 @@ Cell = TypeVar('Cell', bound=CellBase)
 
 class GridBase(Generic[Cell],
                Groupable[Cell],
-               HasName,
                HasRowsCols,
+               HasRecord,
                Iterable):
     """
     ============================================================================
@@ -20,8 +20,12 @@ class GridBase(Generic[Cell],
     ============================================================================
     """
 
+    RECORD_SPEC = {
+        'cells': lambda o: len(o)
+    }
+
     # Factory
-    Factory: type = None
+    Factory = None
 
     def __init__(self,
                  rows: int,
@@ -33,8 +37,8 @@ class GridBase(Generic[Cell],
          Init private Attributes.
         ========================================================================
         """
-        HasName.__init__(self, name=name)
         HasRowsCols.__init__(self, rows=rows, cols=cols)
+        HasRecord.__init__(self, name=name)
         self._select = Select(grid=self)
         self._cells: list[list[Cell]] = self._init_cells(type_cell)
 

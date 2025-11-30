@@ -70,5 +70,5 @@ class IterativeOMSPP(AlgoOMSPP):
         ========================================================================
         """
         self._sub_solutions[goal] = solution
-        self._stats.add_goal(goal=goal, stats=solution.stats)
+        self._stats.add_stats_goal(goal=goal, stats=solution.stats)
 

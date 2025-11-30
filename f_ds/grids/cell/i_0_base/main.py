@@ -1,8 +1,8 @@
 from f_core.mixins.has.row_col import HasRowCol
-from f_core.mixins.has.name import HasName
+from f_core.mixins.has.record import HasRecord
 
 
-class CellBase(HasName, HasRowCol):
+class CellBase(HasRecord, HasRowCol):
     """
     ============================================================================
      Base-Class for Cells in a 2D-Grid.
@@ -10,7 +10,7 @@ class CellBase(HasName, HasRowCol):
     """
 
     # Factory
-    Factory: type = None
+    Factory = None
 
     def __init__(self,
                  # Cell's Row
@@ -24,7 +24,7 @@ class CellBase(HasName, HasRowCol):
          Init private Attributes.
         ========================================================================
         """
-        HasName.__init__(self, name=name)
+        HasRecord.__init__(self, name=name)
         HasRowCol.__init__(self, row=row, col=col)
 
     def key_comparison(self) -> list:

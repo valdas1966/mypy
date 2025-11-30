@@ -1,19 +1,17 @@
 from f_search.solutions.i_0_base.main import SolutionSearch
 from f_search.solutions.i_1_spp.main import SolutionSPP
-from f_search.stats import StatsOMSPP
+from f_search.stats import StatsSearch
 from f_search.ds.path import Path
 from f_search.ds.states.i_0_base import StateBase
 
 
-class SolutionOMSPP(SolutionSearch[StatsOMSPP]):
+class SolutionOMSPP(SolutionSearch[StatsSearch]):
     """
     ============================================================================
      Solution for One-to-Many Shortest-Path-Problem.
     ============================================================================
     """
     def __init__(self,
-                 is_valid: bool,
-                 stats: StatsOMSPP,
                  sub_solutions: dict[StateBase, SolutionSPP]) -> None:
         """
         ========================================================================
@@ -21,6 +19,16 @@ class SolutionOMSPP(SolutionSearch[StatsOMSPP]):
          Stats are already accumulated by the algorithm during execution.
         ========================================================================
         """
+        generated = sum(sub_solution.stats.generated
+                        for sub_solution
+                        in sub_solutions.values())
+        explored = sum(sub_solution.stats.explored
+                       for sub_solution
+                       in sub_solutions.values())
+        is_valid = all(sub_solution
+                       for sub_solution
+                       in sub_solutions.values())
+        stats = StatsSearch(generated=generated, explored=explored)
         SolutionSearch.__init__(self, is_valid=is_valid, stats=stats)
         self._paths = {goal: sub_solution.path
                        for goal, sub_solution

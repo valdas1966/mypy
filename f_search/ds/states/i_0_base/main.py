@@ -1,7 +1,5 @@
 from f_core.mixins.has.key import HasKey, Key
-from typing import Generic, TypeVar
-
-Key = TypeVar('Key')
+from typing import Generic
 
 
 class StateBase(Generic[Key], HasKey[Key]):
@@ -12,7 +10,7 @@ class StateBase(Generic[Key], HasKey[Key]):
     """
 
     # Factory
-    Factory: type = None
+    Factory = None
     
     def __init__(self,
                  key: Key,

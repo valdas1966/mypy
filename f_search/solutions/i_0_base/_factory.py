@@ -1,37 +1,30 @@
-from f_search.stats.i_1_spp.main import StatsSPP
+from f_search.solutions.i_0_base.main import SolutionSearch, StatsSearch
 
 
 class Factory:
     """
     ============================================================================
-     Factory for the StatsSPP.
+     Factory for SolutionSearch.
     ============================================================================
     """
 
     @staticmethod
-    def a() -> StatsSPP:
+    def zero_valid() -> SolutionSearch:
         """
         ========================================================================
-         Return a StatsSPP with all values set to 10.
+         Factory of a valid solution with zero stats.
         ========================================================================
         """
-        stats = StatsSPP()
-        stats.elapsed = 10
-        stats.generated = 10
-        stats.updated = 10
-        stats.explored = 10
-        return stats
+        stats = StatsSearch.Factory.linear()
+        return SolutionSearch(is_valid=True, stats=stats)
 
     @staticmethod
-    def b() -> StatsSPP:
+    def zero_invalid() -> SolutionSearch:
         """
         ========================================================================
-         Return a StatsSPP with all values set to 20.
+         Factory of an invalid solution with zero stats.
         ========================================================================
         """
-        stats = StatsSPP()
-        stats.elapsed = 20
-        stats.generated = 20
-        stats.updated = 20
-        stats.explored = 20
-        return stats
+        stats = StatsSearch.Factory.linear()
+        return SolutionSearch(is_valid=False, stats=stats)
+

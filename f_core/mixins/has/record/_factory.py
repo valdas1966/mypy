@@ -16,11 +16,12 @@ class Factory:
         ========================================================================
         """
         class A(HasRecord):
-            FIELDS_SPECIFIC = ('a')
-            def __init__(self) -> None:
+            RECORD_SPEC = {'a': lambda o: o.a}
+            def __init__(self, name: str = 'A'):
+                super().__init__(name=name)
                 self.a = 1
         return A()
-    
+
     @staticmethod
     def b() -> HasRecord:
         """
@@ -29,13 +30,14 @@ class Factory:
         ========================================================================
         """
         class A(HasRecord):
-            FIELDS_SPECIFIC = ('a')
-            def __init__(self) -> None:
+            RECORD_SPEC = {'a': lambda o: o.a}
+            def __init__(self, name: str = 'A'):
+                super().__init__(name=name)
                 self.a = 1
         class B(A):
-            FIELDS_SPECIFIC = ('b')
-            def __init__(self) -> None:
-                super().__init__()
+            RECORD_SPEC = {'b': lambda o: o.b}
+            def __init__(self, name: str = 'B'):
+                super().__init__(name=name)
                 self.b = 2
         return B()
 

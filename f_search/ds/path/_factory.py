@@ -10,14 +10,13 @@ class Factory:
     """
 
     @staticmethod
-    def diagonal() -> Path:
+    def ab() -> Path:
         """
         ========================================================================
-         Return a new Path with the states (0, 0), (1, 1), (2, 2).
+         Return a new Path with the states A and B.
         ========================================================================
         """
-        zero = StateBase.Factory.zero()
-        one = StateBase.Factory.one()
-        two = StateBase.Factory.two()
-        states = [zero, one, two]
+        a = StateBase.Factory.a()
+        b = StateBase.Factory.b()
+        states = [a, b]
         return Path(states=states)

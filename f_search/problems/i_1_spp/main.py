@@ -8,9 +8,9 @@ class ProblemSPP(ProblemSearch, HasStart, HasGoal):
      One-to-One Shortest-Path-Problem on a Grid.
     ============================================================================
     """
-
+    
     # Factory
-    Factory: type = None
+    Factory = None
 
     def __init__(self,
                  grid: Grid,

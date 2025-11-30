@@ -1,29 +1,31 @@
-from f_search.algos.i_1_spp.i_2_dijkstra.main import Dijkstra, ProblemSPP
+from f_search.solutions.i_1_spp.main import SolutionSPP, StatsSearch, Path
 
 
 class Factory:
     """
     ============================================================================
-     Factory for creating Dijkstra algorithms.
+     Factory for SolutionSPP.
     ============================================================================
     """
 
     @staticmethod
-    def without_obstacles() -> Dijkstra:
+    def valid() -> SolutionSPP:
         """
         ========================================================================
-         Return a Dijkstra algorithm with a ProblemSPP without obstacles.
+         Factory of a valid solution.
         ========================================================================
         """
-        problem = ProblemSPP.Factory.without_obstacles()
-        return Dijkstra(problem=problem)
+        stats = StatsSearch.Factory.linear()
+        path = Path.Factory.ab()
+        return SolutionSPP(is_valid=True, path=path, stats=stats)
 
     @staticmethod
-    def with_obstacles() -> Dijkstra:
+    def invalid() -> SolutionSPP:
         """
         ========================================================================
-         Return a Dijkstra algorithm with a ProblemSPP with obstacles.
+         Factory of a valid solution.
         ========================================================================
         """
-        problem = ProblemSPP.Factory.with_obstacles()
-        return Dijkstra(problem=problem)
+        stats = StatsSearch.Factory.linear()
+        path = Path()
+        return SolutionSPP(is_valid=False, path=path, stats=stats)

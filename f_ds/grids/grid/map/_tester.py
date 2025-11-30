@@ -47,7 +47,7 @@ def test_from_file_map() -> None:
      Test the From.file_map method.
     ========================================================================
     """
-    path = 'g:\\temp\\test.txt'
+    path = 'f:\\temp\\test.txt'
     grid = GridMap.From.file_map(path=path)
     assert len(grid) == 8
 

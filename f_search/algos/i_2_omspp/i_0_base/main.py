@@ -3,12 +3,12 @@ from f_search.solutions import SolutionOMSPP
 from f_search.problems import ProblemOMSPP
 from f_search.ds import StateBase as State
 from f_search.ds.data import DataOMSPP
-from f_search.stats import StatsOMSPP
+from f_search.stats import StatsSearch
 from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemOMSPP)
 Solution = TypeVar('Solution', bound=SolutionOMSPP)
-Stats = TypeVar('Stats', bound=StatsOMSPP)
+Stats = TypeVar('Stats', bound=StatsSearch)
 Data = TypeVar('Data', bound=DataOMSPP)
 
 
@@ -20,7 +20,7 @@ class AlgoOMSPP(Generic[Problem, Solution, Stats, Data],
     ============================================================================
     """
 
-    cls_stats = StatsOMSPP
+    cls_stats = StatsSearch
     cls_data = DataOMSPP
 
     def __init__(self,
@@ -51,14 +51,12 @@ class AlgoOMSPP(Generic[Problem, Solution, Stats, Data],
         self._goals_active = self._problem.goals
         self._sub_solutions = dict()
 
-    def _create_solution(self,
-                         is_valid: bool) -> SolutionOMSPP:
+    def _create_solution(self) -> SolutionOMSPP:
         """
         ========================================================================
          Create the Solution.
         ========================================================================
         """
         self._run_post()
-        return SolutionOMSPP(is_valid=is_valid,
-                             stats=self._stats,
-                             sub_solutions=self._sub_solutions)
+        solution = SolutionOMSPP(sub_solutions=self._sub_solutions)
+        self.print(f'[Solution] {solution.stats}')

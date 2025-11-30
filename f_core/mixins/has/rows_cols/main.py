@@ -8,18 +8,38 @@ class HasRowsCols:
     ============================================================================
     """
 
+    RECORD_SPEC = {
+        'rows': lambda o: o.rows,
+        'cols': lambda o: o.cols,
+    }
+
     def __init__(self,
                  rows: int,
                  cols: int = None) -> None:
+        """
+        ========================================================================
+         Init private attributes.
+        ========================================================================
+        """
         self._rows = rows
         self._cols = cols if cols else rows
 
     @property
     def rows(self) -> int:
+        """
+        ========================================================================
+         Return the number of rows.
+        ========================================================================
+        """
         return self._rows
 
     @property
     def cols(self) -> int:
+        """
+        ========================================================================
+         Return the number of columns.
+        ========================================================================
+        """
         return self._cols
 
     def shape(self) -> str:

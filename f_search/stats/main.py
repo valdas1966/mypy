@@ -1,68 +1,71 @@
-from __future__ import annotations
-from f_core.mixins.comparable import Comparable
-from f_core.mixins.printable import Printable
+from f_cs.stats import StatsAlgo
 
 
-class HasName(Comparable, Printable):
+class StatsSearch(StatsAlgo):
     """
     ============================================================================
-     Mixin with list Name property (Default=None).
+     Stats for Search-Problems.
     ============================================================================
     """
 
-    # Factory
-    Factory = None
+    RECORD_SPEC = {'generated': lambda o: o.generated,
+                   'explored': lambda o: o.explored}
 
-    def __init__(self, name: str = None) -> None:
+    def __init__(self,
+                 generated: int = 0,
+                 explored: int = 0) -> None:
         """
         ========================================================================
-         Init private attributes.
+         Init private Attributes.
         ========================================================================
         """
-        self._name = name
+        StatsAlgo.__init__(self)
+        # Number of states added to the open queue (Generated)
+        self._generated = generated
+        # Number of states fully expanded (moved to closed list)
+        self._explored = explored
 
     @property
-    # Object's Name
-    def name(self) -> str:
-        return self._name
+    def generated(self) -> int:
+        """
+        ========================================================================
+         Return the number of generated states.
+        ========================================================================
+        """
+        return self._generated
 
-    @name.setter
-    def name(self, name: str) -> None:
+    @property
+    def explored(self) -> int:
         """
         ========================================================================
-         Set the Object's Name.
+         Return the number of explored states.
         ========================================================================
         """
-        self._name = name
+        return self._explored
 
-    def key_comparison(self) -> list:
+    @generated.setter
+    def generated(self, generated: int) -> None:
         """
         ========================================================================
-         Returns the Object's Key for Sorting.
+         Set the number of generated states.
         ========================================================================
         """
-        return [self._name or str()]
+        self._generated = generated
+
+    @explored.setter
+    def explored(self, explored: int) -> None:
+        """
+        ========================================================================
+         Set the number of explored states.
+        ========================================================================
+        """
+        self._explored = explored
 
     def __str__(self) -> str:
         """
         ========================================================================
-         Return object string representation.
+         Return the string representation of the stats.
         ========================================================================
         """
-        return self.name or 'None'
-
-    def __repr__(self) -> str:
-        """
-        ========================================================================
-         Return object string representation.
-        ========================================================================
-        """
-        return f'<{type(self).__name__}: Name={self.name}>'
-
-    def __hash__(self) -> int:
-        """
-        ========================================================================
-         Return Hash-Value of the object's name.
-        ========================================================================
-        """
-        return hash(self.name)
+        return f'[Elapsed={self._elapsed}] [Generated={self._generated}] [Explored={self._explored}]'
+        

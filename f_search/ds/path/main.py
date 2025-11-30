@@ -13,7 +13,7 @@ class Path(Collectionable[StateBase],
     """
 
     # Factory
-    Factory: type = None
+    Factory = None
 
     def __init__(self, states: Iterable[StateBase] = None) -> None:
         """

@@ -22,6 +22,4 @@ class DataSPP(DataSearch):
             states.append(cur)
             cur = self.parent[cur]
         states = states[::-1]
-        path = Path(states=states)
-        print(self.best, path)
         return Path(states=states)

@@ -52,17 +52,16 @@ class KxAStar(AlgoOMSPP):
                           verbose=self._verbose)
             solution = astar.run()
             self._sub_solutions[sub_problem.goal] = solution
-            # Add stats for the completed goal.
-            self._stats.add_goal(goal=sub_problem.goal,
-                                 stats=solution.stats)
             self._goals_active.remove(sub_problem.goal)
-            # Add stats for the goals that are now explored.
+            # Add solution for the goals that are explored in current A*.
             for goal in self._goals_active:
                 if goal in astar._data.explored:
-                    self._stats.add_goal(goal=goal)
+                    path = astar._data.path_to(state=goal)
+                    solution = SolutionSPP(is_valid=True, path=path)
+                    self._sub_solutions[goal] = solution
                     self._goals_active.remove(goal)
             if not solution:
                 # If any sub-problem is invalid, the overall solution is invalid
-                return self._create_solution(is_valid=False)
-        # Return valid solution.
-        return self._create_solution(is_valid=True)
+                break
+        # Return solution (valid or invalid)
+        return self._create_solution()

@@ -1,10 +1,6 @@
 from f_ds.grids.grid.base.main import GridBase as Grid
 
 
-grid = Grid(rows=3)
+grid = Grid.Factory.grid_3x3()
 
-cells = grid.sample(size=2)
-
-print(cells)
-
-
+print(grid.record)

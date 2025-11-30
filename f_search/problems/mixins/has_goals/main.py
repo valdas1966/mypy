@@ -8,6 +8,8 @@ class HasGoals:
     ============================================================================
     """
 
+    RECORD_SPEC = {'goals': lambda o: len(o.goals)}
+
     def __init__(self,
                  goals: list[State]) -> None:
         """
