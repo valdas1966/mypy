@@ -2,21 +2,31 @@
 from urllib.parse import parse_qs, urlparse
 
 
-class UURL:
+class URL:
     """
     ===========================================================================
      Utils class for URL.
     ===========================================================================
     """
     
-    @staticmethod
-    def get_suffix(url: str) -> str | None:
+    # Factory
+    Factory = None
+    
+    def __init__(self, url: str) -> None:
         """
         =======================================================================
-         Return the suffix of the url.
+         Init private Attributes.
         =======================================================================
         """
-        parsed = urlparse(url)
+        self._url = url
+        
+    def suffix(self) -> str | None:
+        """
+        =======================================================================
+         Return the suffix of the url (without leading dot).
+        =======================================================================
+        """
+        parsed = urlparse(self._url)
 
         # 1) Try to extract suffix from path (filename.ext)
         path = parsed.path
@@ -26,7 +36,7 @@ class UURL:
             # Take text after last dot
             ext = filename.rsplit(".", 1)[-1].lower()
             if ext:
-                return f".{ext}"
+                return ext   # <- no "."
 
         # 2) Fallback: try mime_type in query...
         qs = parse_qs(parsed.query)
@@ -36,6 +46,6 @@ class UURL:
             mime = mime_vals[0].lower()
             ext = mime.split("_")[-1].split("/")[-1]
             if ext:
-                return f".{ext}"
+                return ext   # <- no "."
 
         return None
