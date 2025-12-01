@@ -9,7 +9,6 @@ tname_todo = 'noteret.tiktok.download_todo'
 
 bq = BigQuery()
 df = bq.select.df(query=tname_todo)
-bq.close()
 
 storage = Storage.Factory.rami()
 bucket = storage.get_bucket('tiktok_downloads')
