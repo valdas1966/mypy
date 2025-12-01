@@ -1,16 +1,21 @@
-from f_core.mixins.has.name import HasName
+from f_core.mixins.has.record import HasRecord
 from f_core.mixins.validatable import Validatable
 from f_core.mixins.verbosable import Verbosable
-from f_utils import u_datetime
 from time import time
 
 
-class ProcessABC(HasName, Verbosable, Validatable):
+class ProcessABC(HasRecord, Verbosable, Validatable):
     """
     ============================================================================
      ABC of Process-Classes.
     ============================================================================
     """
+
+    # Record Specification
+    RECORD_SPEC = {'elapsed': lambda o: o.elapsed}
+
+    # Factory
+    Factory = None
 
     def __init__(self,
                  verbose: bool = False,
@@ -20,7 +25,7 @@ class ProcessABC(HasName, Verbosable, Validatable):
          Init private Attributes.
         ========================================================================
         """
-        HasName.__init__(self, name=name)
+        HasRecord.__init__(self, name=name)
         Verbosable.__init__(self, verbose=verbose, name=name)
         Validatable.__init__(self)
         # Init Time Attributes
@@ -29,6 +34,9 @@ class ProcessABC(HasName, Verbosable, Validatable):
         self._time_finish: float = None
         self._str_start: str = '[Start]'
         self._str_finish: str = '[Finish]'
+        self._run_pre()
+        self._run()
+        self._run_post()
 
     @property
     def time_start(self) -> float:
@@ -66,7 +74,7 @@ class ProcessABC(HasName, Verbosable, Validatable):
         self._time_start: float = time()
         self.print(msg=self._str_start)
 
-    def run(self) -> None:
+    def _run(self) -> None:
         """
         ========================================================================
          Run the Process.

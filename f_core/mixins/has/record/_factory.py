@@ -17,8 +17,8 @@ class Factory:
         """
         class A(HasRecord):
             RECORD_SPEC = {'a': lambda o: o.a}
-            def __init__(self, name: str = 'A'):
-                super().__init__(name=name)
+            def __init__(self, name: str = 'A', verbose: bool = True):
+                HasRecord.__init__(self, name=name, verbose=verbose)
                 self.a = 1
         return A()
 
@@ -31,13 +31,13 @@ class Factory:
         """
         class A(HasRecord):
             RECORD_SPEC = {'a': lambda o: o.a}
-            def __init__(self, name: str = 'A'):
-                super().__init__(name=name)
+            def __init__(self, name: str = 'A', verbose: bool = True):
+                HasRecord.__init__(self, name=name, verbose=verbose)
                 self.a = 1
         class B(A):
             RECORD_SPEC = {'b': lambda o: o.b}
-            def __init__(self, name: str = 'B'):
-                super().__init__(name=name)
+            def __init__(self, name: str = 'B', verbose: bool = True):
+                A.__init__(self, name=name, verbose=verbose)
                 self.b = 2
         return B()
 
