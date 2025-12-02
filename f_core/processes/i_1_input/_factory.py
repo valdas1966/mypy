@@ -9,14 +9,14 @@ class Factory:
     """
 
     @staticmethod
-    def a() -> ProcessInput:
+    def a() -> type[ProcessInput]:
         """
         ========================================================================
          Create a ProcessInput object with the input 'a'.
         ========================================================================
         """
-        class A(ProcessInput):
-            RECORD_SPEC = {'a': lambda o: o.a}
-            def __init__(self, a: int):
-                ProcessInput.__init__(self, a=a, verbose=True, name='A')
-        return A(a=1)
+        class A(ProcessInput[int]):
+            RECORD_SPEC = {'input': lambda o: o.input}
+            def __init__(self, input: int):
+                ProcessInput.__init__(self, input=input, verbose=True, name='A')
+        return A

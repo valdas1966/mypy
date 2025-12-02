@@ -1,4 +1,4 @@
-from f_core.processes.i_3_multi import ProcessMulti, DataInput
+from f_core.old_processes import ProcessMulti, DataInput
 from f_core.processes.i_1_input import ProcessInput
 
 

@@ -29,7 +29,7 @@ class TokenizerSingle:
         ========================================================================
          Convert the Text into a List of Tokens.
         ------------------------------------------------------------------------
-         Iterates over each word in the text, processes it (if needed), and
+         Iterates over each word in the text, old_processes it (if needed), and
           creates a token from the current word.
         ========================================================================
         """

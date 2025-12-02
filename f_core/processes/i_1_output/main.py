@@ -1,13 +1,13 @@
 from f_core.processes.i_0_abc import ProcessABC
 from typing import Generic, TypeVar
 
+Output = TypeVar('Output')
 
-Input = TypeVar('Input')
 
-class ProcessInput(Generic[Input], ProcessABC):
+class ProcessOutput(Generic[Output], ProcessABC):
     """
     ============================================================================
-     ABC for Processes with Input.
+     ABC for Processes with Output.
     ============================================================================
     """
 
@@ -15,23 +15,32 @@ class ProcessInput(Generic[Input], ProcessABC):
     Factory = None
 
     def __init__(self,
-                 input: Input,
                  verbose: bool = False,
-                 name: str = 'Process Input') -> None:
+                 name: str = 'ProcessOutput') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._input = input
+        self._output: Output | None = None
         ProcessABC.__init__(self, verbose=verbose, name=name)
 
-    @property
-    def input(self) -> Input:
+    def run(self) -> Output:
         """
         ========================================================================
-         Return the Input of the Process.
+         Run the Process and return the Output.
         ========================================================================
         """
-        return self._input
-        
+        self._run_pre()
+        self._run()
+        self._run_post()
+        return self._output
+
+    def _run_post(self) -> None:
+        """
+        ========================================================================
+         Run the Post-Run Commands.
+        ========================================================================
+        """
+        self._str_finish += f' [Output={self._output}]'
+        ProcessABC._run_post(self)

@@ -1,37 +1,36 @@
-from f_core.processes.i_0_abc import ProcessABC
+from f_core.processes.i_1_input import ProcessInput
+from f_core.processes.i_1_output import ProcessOutput
 from typing import Generic, TypeVar
 
-
 Input = TypeVar('Input')
+Output = TypeVar('Output')
 
-class ProcessInput(Generic[Input], ProcessABC):
+
+class ProcessIO(Generic[Input, Output],
+                ProcessInput[Input],
+                ProcessOutput[Output]):
     """
     ============================================================================
-     ABC for Processes with Input.
+     ABC for Processes with Input and Output.
     ============================================================================
     """
-
-    # Factory
-    Factory = None
 
     def __init__(self,
                  input: Input,
                  verbose: bool = False,
-                 name: str = 'Process Input') -> None:
+                 name: str = 'ProcessIO') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._input = input
-        ProcessABC.__init__(self, verbose=verbose, name=name)
+        ProcessInput.__init__(self, input=input, verbose=verbose, name=name)
+        ProcessOutput.__init__(self, verbose=verbose, name=name)
 
-    @property
-    def input(self) -> Input:
+    def run(self) -> Output:
         """
         ========================================================================
-         Return the Input of the Process.
+         Run the Process and return the Output.
         ========================================================================
         """
-        return self._input
-        
+        return ProcessOutput.run(self)

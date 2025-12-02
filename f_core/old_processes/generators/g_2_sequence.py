@@ -1,4 +1,4 @@
-from f_core.processes.i_2_sequence import ProcessSequence, DataSequence
+from f_core.old_processes import ProcessSequence, DataSequence
 from f_core.processes.i_1_input import ProcessInput
 
 

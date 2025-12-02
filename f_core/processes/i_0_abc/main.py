@@ -11,7 +11,7 @@ class ProcessABC(HasRecord, Validatable):
     """
 
     # Record Specification
-    RECORD_SPEC = {'elapsed': lambda o: o.elapsed()}
+    RECORD_SPEC = {'elapsed': lambda o: o._elapsed}
 
     # Factory
     Factory = None
@@ -30,37 +30,18 @@ class ProcessABC(HasRecord, Validatable):
         self._elapsed: int = None
         self._time_start: float = None
         self._time_finish: float = None
-        self._str_start: str = f'[Start] {self.str_record()}'
+        self._str_start: str = f'[Start]'
         self._str_finish: str = '[Finish]'
+
+    def run(self) -> None:
+        """
+        ========================================================================
+         Run the Process.
+        ========================================================================
+        """
         self._run_pre()
         self._run()
         self._run_post()
-
-    @property
-    def time_start(self) -> float:
-        """
-        ========================================================================
-         Return the start time of the process running.
-        ========================================================================
-        """
-        return self._time_start
-
-    @property
-    def time_finish(self) -> float:
-        """
-        ========================================================================
-         Return the finish time of the process running.
-        ========================================================================
-        """
-        return self._time_finish
-
-    def elapsed(self) -> int:
-        """
-        ========================================================================
-         Return the elapsed time of the process running (in milliseconds).
-        ========================================================================
-        """
-        return self._elapsed
 
     def _run_pre(self) -> None:
         """
@@ -70,6 +51,7 @@ class ProcessABC(HasRecord, Validatable):
         """
         self._elapsed = None
         self._time_start: float = time()
+        self._str_start += f' {self.str_record()}'
         self.print(msg=self._str_start)
 
     def _run(self) -> None:

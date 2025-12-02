@@ -1,5 +1,5 @@
 from f_core.processes.i_1_input import ProcessInput, Input
-from f_core.processes.i_2_sequence import ProcessSequence, DataSequence
+from f_core.old_processes import ProcessSequence, DataSequence
 from concurrent.futures import ThreadPoolExecutor, Future
 from f_ds.groups.group import Group
 from typing import Generic, TypeVar, Type
@@ -48,8 +48,8 @@ class ProcessMulti(Generic[Process], ProcessInput[DataInput]):
     def run(self) -> None:
         """
         ========================================================================
-         Execute processes in parallel threads, where each thread executes its
-         assigned processes sequentially. The processes are distributed across
+         Execute old_processes in parallel threads, where each thread executes its
+         assigned old_processes sequentially. The old_processes are distributed across
          threads using self._pools.
         ========================================================================
         """
@@ -64,9 +64,9 @@ class ProcessMulti(Generic[Process], ProcessInput[DataInput]):
             data = DataSequence(process=self._type_process, inputs=group)
             p = ProcessSequence(_input=data, name=f'{self._name}[{i+1}]')
             self._processes.append(p)
-        # Run all processes in parallel  
+        # Run all old_processes in parallel
         with ThreadPoolExecutor(max_workers=self._threads) as executor:
-            # Get futures tasks for all processes
+            # Get futures tasks for all old_processes
             futures: list[Future[None]] = self._get_futures(executor=executor)
             # Wait for all futures to complete
             for future in futures:
@@ -77,7 +77,7 @@ class ProcessMulti(Generic[Process], ProcessInput[DataInput]):
     def _get_futures(self, executor: ThreadPoolExecutor) -> list[Future[None]]:
         """
         ========================================================================
-         Convert the processes to futures.
+         Convert the old_processes to futures.
         ========================================================================
         """
         futures: list[Future[None]] = []

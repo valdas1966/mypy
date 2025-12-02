@@ -26,7 +26,7 @@ for script in script_files:
     p = subprocess.Popen([sys.executable, script_path])
     processes.append(p)
 
-# Optionally, wait for all processes to complete
+# Optionally, wait for all old_processes to complete
 for p in processes:
     p.wait()
 
