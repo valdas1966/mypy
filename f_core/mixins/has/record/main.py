@@ -72,12 +72,15 @@ class HasRecord(HasName):
         """
         ========================================================================
          Convert this instance to a string representation of the record:
-         '[field_name=value] [field_name=value] ...'
+         '[key_1=value_1] [key_2=value_2] ...'
         ========================================================================
         """
         if not self.record:
             return str()
-        return '[{}]'.format('] ['.join(f'{name}={value}' for name, value in self.record.items()))
+        res = '[{}]'.format('] ['.join(f'{key.capitalize()}={value}' for key, value in self.record.items() if key != 'name'))
+        if res == '[]':
+            return str()
+        return res
 
     def print(self, msg: str = str()) -> None:
         """

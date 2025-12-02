@@ -15,8 +15,17 @@ class Factory:
          Create a ProcessABC object with the name 'Stam'.
         ========================================================================
         """
-        class Stam(ProcessABC):
-            def run(self) -> None:
-                self._run_pre()
-                self._run_post()
-        return Stam(name='Stam', verbose=True)
+        return ProcessABC(name='Stam', verbose=True)
+
+    @staticmethod
+    def nested() -> ProcessABC:
+        """
+        ========================================================================
+         Create a ProcessABC object with the name 'Nested'.
+        ========================================================================
+        """
+        class Nested(ProcessABC):
+            def _run(self) -> None:
+                ProcessABC(name='Nested | Inner 1', verbose=True)
+                ProcessABC(name='Nested | Inner 2', verbose=True)
+        return Nested(name='Nested', verbose=True)

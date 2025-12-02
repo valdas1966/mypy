@@ -1,4 +1,8 @@
 from f_core.processes.i_0_abc import ProcessABC
 
 
-process = ProcessABC.Factory.stam()
+stam = ProcessABC.Factory.stam()
+
+print()
+
+nested = ProcessABC.Factory.nested()
