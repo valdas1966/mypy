@@ -13,7 +13,7 @@ df = bq.select.df(query=tname_todo)
 storage = Storage.Factory.rami()
 bucket = storage.get_bucket('tiktok_downloads')
 
-for index, row in df.iterrows()[:5]:
+for index, row in df.iterrows():
     start = time.time() 
     id = row['id']
     url = row['url']
