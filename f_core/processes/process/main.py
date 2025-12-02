@@ -60,7 +60,6 @@ class Process(Generic[Input, Output],
         """
         self._elapsed = None
         self._time_start: float = perf_counter()
-        self._str_start += f' {self.str_record()}'
         self.print(msg=self._str_start)
 
     def _run(self) -> None:
@@ -79,5 +78,5 @@ class Process(Generic[Input, Output],
         """
         self._time_finish = perf_counter()
         self._elapsed = int((self._time_finish - self._time_start) * 1000)  # Convert to milliseconds
-        self._str_finish += f' [Output={self._output}] [Elapsed={self._elapsed}]'
+        self._str_finish += f' [Elapsed={self._elapsed}]'
         self.print(msg=self._str_finish)
