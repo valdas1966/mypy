@@ -1,6 +1,6 @@
 from f_core.mixins.validatable import Validatable
 from f_core.mixins.has.record import HasRecord
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, Any
 from time import perf_counter
 
 Input = TypeVar('Input')
@@ -60,7 +60,18 @@ class Process(Generic[Input, Output],
         """
         self._elapsed = None
         self._time_start: float = perf_counter()
-        self.print(msg=self._str_start)
+        msg = self._str_start
+        if self._input is not None:
+            if isinstance(self._input, HasRecord):
+                rec = self._input.str_record()
+                if rec:
+                    # No label if record exists
+                    msg += f' {rec}'
+                else:
+                    msg += f' [Input={repr(self._input)}]'
+            else:
+                msg += f' [Input={repr(self._input)}]'
+        self.print(msg=msg)
 
     def _run(self) -> None:
         """
@@ -78,5 +89,28 @@ class Process(Generic[Input, Output],
         """
         self._time_finish = perf_counter()
         self._elapsed = int((self._time_finish - self._time_start) * 1000)  # Convert to milliseconds
-        self._str_finish += f' [Elapsed={self._elapsed}]'
-        self.print(msg=self._str_finish)
+        msg = self._str_finish
+        if self._output is not None:
+            if isinstance(self._output, HasRecord):
+                rec = self._output.str_record()
+                if rec:
+                    msg += f' {rec}'    # <-- NO LABEL
+                else:
+                    msg += f' [Output={repr(self._output)}]'
+            else:
+                msg += f' [Output={repr(self._output)}]'
+        msg += f' [Elapsed={self._elapsed}]'
+        self.print(msg=msg)
+
+    @staticmethod
+    def _format_io(value: Any) -> str:
+        """
+        ========================================================================
+         Prefer record-string if value is HasRecord, otherwise use repr(value).
+        ========================================================================
+        """
+        if isinstance(value, HasRecord):
+            s = value.str_record()
+            # If record is empty, fall back to repr
+            return s if s else repr(value)
+        return repr(value)
