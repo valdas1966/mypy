@@ -5,48 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_log/debug.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_log/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/os/data/dict_paths/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/os/data/dict_paths/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/os/data/dict_paths/_study.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/os/data/dict_paths/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/os/data/list_paths/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/os/data/list_paths/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/os/data/list_paths/_study.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/os/data/list_paths/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/data/i_0_filepaths_maps.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/data/i_1_domain_filepaths.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/i_2_grids/i_0_get_filepaths_of_maps.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/i_2_grids/i_1_classify_to_domains.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/i_2_grids/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/i_3_pairs/i_0_million/i_0_load_grids.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old_f_logging/test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/study/debug log.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/loggable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/loggable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_excel/ws/model/cells.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_excel/ws/model/cells.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/c_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/c_csv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/c_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/c_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/c_log_writter.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/c_log_writter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/c_loguru.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/c_loguru.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/c_stack_driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/c_stack_driver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/csv_to_bq.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/csv_to_bq.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/dec.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/dec.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/study/s_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/study/s_csv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/study/s_log_writter.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/study/s_log_writter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/study/s_loguru.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/study/s_loguru.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/study/s_loguru_multi_files.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/study/s_loguru_multi_files.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/study/s_stack_driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/study/s_stack_driver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/study/s_stack_driver_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/study/s_stack_driver_time.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/tazak.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/tazak.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_log/_study.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/testers/cn_test_dec.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/testers/cn_test_dec.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/testers/cn_test_for_all_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/testers/cn_test_for_all_methods.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/testers/log_20201118221939.csv" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/testers/log_20201118221939.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/testers/t_tazak.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/testers/t_tazak.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/testers/test/log_20201118221939.csv" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/testers/test/log_20201118221939.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_logging/u_log_splitter.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_logging/u_log_splitter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_log/_study.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_log/_study.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_log/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/f_log/debug.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_log/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_log/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -991,7 +953,7 @@
       <recent name="G:\mypy\f_search\algos\i_1_omspp" />
     </key>
   </component>
-  <component name="RunManager" selected="Python._study (2)">
+  <component name="RunManager" selected="Python.main">
     <configuration name="_study (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -1426,10 +1388,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
         <item itemvalue="Python._study (2)" />
         <item itemvalue="Python._study (1)" />
         <item itemvalue="Python._study" />
-        <item itemvalue="Python.main" />
         <item itemvalue="Python.i_1_domain_filepaths" />
       </list>
     </recent_temporary>
@@ -1484,14 +1446,6 @@
       <workItem from="1753097025966" duration="6888000" />
       <workItem from="1753591538149" duration="5147000" />
       <workItem from="1753705522305" duration="11937000" />
-    </task>
-    <task id="LOCAL-00237" summary="h">
-      <option name="closed" value="true" />
-      <created>1752089515270</created>
-      <option name="number" value="00237" />
-      <option name="presentableId" value="LOCAL-00237" />
-      <option name="project" value="LOCAL" />
-      <updated>1752089515270</updated>
     </task>
     <task id="LOCAL-00238" summary="h">
       <option name="closed" value="true" />
@@ -1877,7 +1831,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764681399568</updated>
     </task>
-    <option name="localTasksCounter" value="286" />
+    <task id="LOCAL-00286" summary="h">
+      <option name="closed" value="true" />
+      <created>1764846670662</created>
+      <option name="number" value="00286" />
+      <option name="presentableId" value="LOCAL-00286" />
+      <option name="project" value="LOCAL" />
+      <updated>1764846670662</updated>
+    </task>
+    <option name="localTasksCounter" value="287" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

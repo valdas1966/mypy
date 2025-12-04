@@ -1,4 +1,4 @@
-from f_log.utils import set_debug, log_calls
+from f_log.utils import set_debug, one_line
 
 
 set_debug(True)
@@ -11,8 +11,8 @@ class A:
 class C:
 
     @staticmethod
-    @log_calls
+    @one_line
     def add(a: int, b: int) -> list[int]:
-        return A()
+        return [a, b, [a, b], [a, b, a]]
 
 x = C.add(a=1, b=2)
