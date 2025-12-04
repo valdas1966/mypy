@@ -1,6 +1,6 @@
 import sys
 import logging
-from f_logging.dec import log_info
+from old_f_logging.dec import log_info
 
 
 logging.basicConfig(level=logging.INFO,

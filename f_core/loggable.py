@@ -1,6 +1,6 @@
 from f_core.inittable import Inittable
-from f_logging.c_loguru import LoGuru
-from f_logging.c_stack_driver import StackDriver
+from old_f_logging.c_loguru import LoGuru
+from old_f_logging.c_stack_driver import StackDriver
 from f_utils import u_datetime
 
 

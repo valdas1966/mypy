@@ -1,4 +1,4 @@
-from f_logging.dec import log_all_methods, log_info_class
+from old_f_logging.dec import log_all_methods, log_info_class
 from f_excel.model.ws.base import MyExcelWorkSheet
 from f_excel.model.cell.prod import MyExcelCell
 import openpyxl.worksheet

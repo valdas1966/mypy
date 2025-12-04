@@ -1,4 +1,4 @@
-from f_logging.c_loguru import LoGuru
+from old_f_logging.c_loguru import LoGuru
 
 repo = 'd:\\temp\\loguru'
 filepath_1 = f'{repo}\\loguru_1.log'

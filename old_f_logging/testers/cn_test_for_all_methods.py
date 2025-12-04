@@ -1,6 +1,6 @@
 import sys
 import logging
-from f_logging.dec import log_all_methods, log_info_without_self
+from old_f_logging.dec import log_all_methods, log_info_without_self
 
 
 logging.basicConfig(level=logging.INFO,

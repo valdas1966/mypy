@@ -1,4 +1,4 @@
-from f_logging.tazak import LoggerTazak
+from old_f_logging.tazak import LoggerTazak
 
 logger = LoggerTazak(titles='id,value')
 logger.write('1,list')

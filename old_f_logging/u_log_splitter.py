@@ -1,4 +1,4 @@
-from f_logging.c_log_writter import LogWritter
+from old_f_logging.c_log_writter import LogWritter
 from f_utils import u_file
 
 

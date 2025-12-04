@@ -1,4 +1,4 @@
-from f_logging.c_csv import CsvLogger
+from old_f_logging.c_csv import CsvLogger
 
 
 folder = 'd:\\temp\\study\\log'

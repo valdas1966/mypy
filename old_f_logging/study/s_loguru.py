@@ -1,4 +1,4 @@
-from f_logging.c_loguru import LoGuru
+from old_f_logging.c_loguru import LoGuru
 from datetime import datetime
 
 start = datetime.now()
