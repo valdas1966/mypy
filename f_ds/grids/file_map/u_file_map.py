@@ -10,7 +10,7 @@ class UFileMap:
     ============================================================================
     """
     
-    _ROWS_TO_SKIP = 0
+    _ROWS_TO_SKIP = 4
     _CHAR_VALID = '.'
     
     @staticmethod

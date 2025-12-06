@@ -5,6 +5,7 @@ import logging
 import os
 import re
 import time
+from collections.abc import Iterable
 from datetime import datetime
 from typing import Any, Callable, ParamSpec, TypeVar
 
@@ -121,55 +122,22 @@ def _short_repr(value: Any, max_len: int = 120) -> str:
 def _format_value(value: Any) -> str:
     """
     Convert a value to a short, log-friendly string.
-    - primitives: normal repr
-    - objects with to_log(): use that
-    - objects with record(): summarize record
-    - collections: summarize
+
+    RULE YOU ASKED:
+    - If value is iterable (except str/bytes) and has len:
+        -> "typename(length)", e.g. list(5), dict(10), MyContainer(42)
+    - Else:
+        -> normal truncated repr
     """
-    # Simple primitives
-    if isinstance(value, (int, float, bool, type(None))):
-        return repr(value)
+    # Iterables (but not str/bytes)
+    if isinstance(value, Iterable) and not isinstance(value, (str, bytes)):
+        if hasattr(value, "__len__"):
+            try:
+                return f"{type(value).__name__}({len(value)})"
+            except Exception:
+                pass  # if len() fails, fall through to repr
 
-    if isinstance(value, str):
-        return _short_repr(value, max_len=80)
-
-    # Custom log hook: to_log()
-    to_log = getattr(value, "to_log", None)
-    if callable(to_log):
-        try:
-            return _short_repr(to_log(), max_len=120)
-        except Exception:
-            pass
-
-    # HasRecord-style .record()
-    rec = getattr(value, "record", None)
-    if callable(rec):
-        try:
-            r = rec()
-            cls_name = value.__class__.__name__
-            if isinstance(r, dict):
-                items = list(r.items())[:3]
-                inner = ", ".join(f"{k}={_short_repr(v, 40)}"
-                                  for k, v in items)
-                return f"{cls_name}({inner}...)"
-            return f"{cls_name}({_short_repr(r, 80)})"
-        except Exception:
-            pass
-
-    # Collections
-    if isinstance(value, (list, tuple, set, frozenset)):
-        seq = list(value)
-        preview = ", ".join(_short_repr(v, 30) for v in seq[:3])
-        return f"{type(value).__name__}(len={len(seq)}, [{preview}...])"
-
-    if isinstance(value, dict):
-        items = list(value.items())[:3]
-        preview = ", ".join(
-            f"{_short_repr(k, 20)}={_short_repr(v, 30)}" for k, v in items
-        )
-        return f"dict(len={len(value)}, {{{preview}...}})"
-
-    # Fallback
+    # Simple primitives and everything else
     return _short_repr(value, max_len=120)
 
 
@@ -178,16 +146,19 @@ def _format_call_args(func: Callable[..., Any],
                       kwargs: dict[str, Any]) -> str:
     """
     Format arguments as 'name=value' pairs using the function signature,
-    with value rendered by _format_value().
+    with value rendered by _format_value(), skipping 'self' and 'cls'.
     """
     try:
         sig = inspect.signature(func)
         bound = sig.bind_partial(*args, **kwargs)
         bound.apply_defaults()
-        parts = [
-            f"{name}={_format_value(value)}"
-            for name, value in bound.arguments.items()
-        ]
+
+        parts = []
+        for name, value in bound.arguments.items():
+            if name in ("self", "cls"):
+                continue
+            parts.append(f"{name}={_format_value(value)}")
+
         return ", ".join(parts)
     except (TypeError, ValueError):
         return f"args={_format_value(args)}, kwargs={_format_value(kwargs)}"
@@ -207,10 +178,10 @@ def _class_func_name(func: Callable[..., Any]) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Decorator: one_line
+# Decorator: log_1 (one line)
 # ---------------------------------------------------------------------------
 
-def one_line(func: Callable[P, R]) -> Callable[P, R]:
+def log_1(func: Callable[P, R]) -> Callable[P, R]:
     """
     Single-line log per call.
 
@@ -219,8 +190,7 @@ def one_line(func: Callable[P, R]) -> Callable[P, R]:
       YELLOW: CLASS.FUNC()
       GREEN : IN[a=..., b=...] OUT[result]
 
-    Example:
-      [0] [04\\12\\2025 14:07:32] C.add() IN[a=1, b=2] OUT[3]
+    Iterable args/outputs are logged as type(len), e.g. list(5), dict(10).
     """
     @functools.wraps(func)
     def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
@@ -235,8 +205,8 @@ def one_line(func: Callable[P, R]) -> Callable[P, R]:
         cf = _class_func_name(func)
         arg_str = _format_call_args(func, args, kwargs)
 
-        time_part = f"[{elapsed}] [{ts}]"                       # red
-        cf_part   = cf                                          # yellow
+        time_part = f"[{elapsed}] [{ts}]"                          # red
+        cf_part   = cf                                             # yellow
         io_part   = f"IN[{arg_str}] OUT[{_format_value(result)}]"  # green
 
         msg = (
@@ -251,10 +221,10 @@ def one_line(func: Callable[P, R]) -> Callable[P, R]:
 
 
 # ---------------------------------------------------------------------------
-# Decorator: two_lines
+# Decorator: log_2 (two lines)
 # ---------------------------------------------------------------------------
 
-def two_lines(func: Callable[P, R]) -> Callable[P, R]:
+def log_2(func: Callable[P, R]) -> Callable[P, R]:
     """
     Two-line log per call: start and finish.
 
@@ -263,6 +233,8 @@ def two_lines(func: Callable[P, R]) -> Callable[P, R]:
 
     Finish (after call):
       [ELAPSED] [dd\\mm\\yyyy hh24:mi:ss] CLASS.FUNC() OUT[result]
+
+    Iterable args/outputs are logged as type(len), e.g. list(5), dict(10).
     """
     @functools.wraps(func)
     def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
