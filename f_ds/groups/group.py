@@ -14,6 +14,9 @@ class Group(HasName, UserList[Item]):
      Group Data-Structure (A named list with utility functions).
     ============================================================================
     """
+    
+    # Random Utility Class
+    Random: type = None
 
     def __init__(self,
                  data: Sequence[Item] = None,

@@ -107,25 +107,18 @@ def _short_repr(value: Any, max_len: int = 120) -> str:
 
 
 def _format_value(value: Any) -> str:
-    """
-    Convert a value to a short, log-friendly string.
-
-    RULE:
-    - If value is iterable (except str/bytes) and has len:
-        -> "typename(length)", e.g. list(5), dict(10), MyContainer(42)
-    - Else:
-        -> normal truncated repr
-    """
-    # Iterables (but not str/bytes)
+    # Summarize only builtin containers as typename(len)
     if isinstance(value, Iterable) and not isinstance(value, (str, bytes)):
-        if hasattr(value, "__len__"):
-            try:
-                return f"{type(value).__name__}({len(value)})"
-            except Exception:
-                pass  # if len() fails, fall through to repr
+        if type(value).__module__ == "builtins":
+            if hasattr(value, "__len__"):
+                try:
+                    return f"{type(value).__name__}({len(value)})"
+                except Exception:
+                    pass
 
-    # Simple primitives and everything else
+    # For everything else (including GridMap) use repr
     return _short_repr(value, max_len=120)
+
 
 
 def _format_call_args(
