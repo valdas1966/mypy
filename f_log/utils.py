@@ -6,20 +6,13 @@ import os
 import re
 import time
 from collections.abc import Iterable
-from datetime import datetime
 from typing import Any, Callable, ParamSpec, TypeVar
+from f_psl.datetime import UDateTime
+from f_log.color_formatter import ColorFormatter
+from f_log.colors import RED, YELLOW, GREEN, RESET, WHITE
 
 P = ParamSpec("P")
 R = TypeVar("R")
-
-# ---------------------------------------------------------------------------
-# Colors (ANSI)
-# ---------------------------------------------------------------------------
-
-RED    = "\033[91m"
-YELLOW = "\033[93m"
-GREEN  = "\033[92m"
-RESET  = "\033[0m"
 
 # ---------------------------------------------------------------------------
 # Debug flag & logger setup
@@ -42,27 +35,20 @@ class StripColorFormatter(logging.Formatter):
 
 
 def _create_logger() -> logging.Logger:
-    """
-    ========================================================================
-     Create Logger.
-    ========================================================================
-    """
     logger = logging.getLogger(_LOGGER_NAME)
 
-    # Avoid adding handlers twice if this file is imported multiple times
     if logger.handlers:
         return logger
 
     logger.setLevel(logging.DEBUG if DEBUG else logging.INFO)
 
-    # We build the whole line ourselves, so only use %(message)s
-    plain_formatter = logging.Formatter("%(message)s")
+    color_formatter = ColorFormatter("%(message)s")
     strip_color_formatter = StripColorFormatter("%(message)s")
 
-    # Console handler (keeps colors)
+    # Console handler (keeps / adds colors)
     ch = logging.StreamHandler()
     ch.setLevel(logging.DEBUG if DEBUG else logging.INFO)
-    ch.setFormatter(plain_formatter)
+    ch.setFormatter(color_formatter)          # <<< here
     logger.addHandler(ch)
 
     # File handler (colors stripped)
@@ -72,6 +58,7 @@ def _create_logger() -> logging.Logger:
     logger.addHandler(fh)
 
     return logger
+
 
 
 logger = _create_logger()
@@ -123,7 +110,7 @@ def _format_value(value: Any) -> str:
     """
     Convert a value to a short, log-friendly string.
 
-    RULE YOU ASKED:
+    RULE:
     - If value is iterable (except str/bytes) and has len:
         -> "typename(length)", e.g. list(5), dict(10), MyContainer(42)
     - Else:
@@ -141,32 +128,78 @@ def _format_value(value: Any) -> str:
     return _short_repr(value, max_len=120)
 
 
-def _format_call_args(func: Callable[..., Any],
-                      args: tuple[Any, ...],
-                      kwargs: dict[str, Any]) -> str:
+def _format_call_args(
+    func: Callable[..., Any],
+    args: tuple[Any, ...],
+    kwargs: dict[str, Any],
+) -> list[str]:
     """
-    Format arguments as 'name=value' pairs using the function signature,
-    with value rendered by _format_value(), skipping 'self' and 'cls'.
+    Format arguments as separate '[name=value]' parts using the function
+    signature, skipping 'self' and 'cls'.
+
+    Returns:
+        list like ['[a=1]', '[b=list(3)]'], where:
+          - '[' + 'name=' + ']' will be GREEN (from outer wrapper),
+          - the value itself is WHITE.
     """
     try:
         sig = inspect.signature(func)
         bound = sig.bind_partial(*args, **kwargs)
         bound.apply_defaults()
 
-        parts = []
+        parts: list[str] = []
         for name, value in bound.arguments.items():
             if name in ("self", "cls"):
                 continue
-            parts.append(f"{name}={_format_value(value)}")
+            # key + '=' stay green (outer), value is white, then back to green
+            parts.append(
+                f"[{name}={WHITE}{_format_value(value)}{GREEN}]"
+            )
 
-        return ", ".join(parts)
+        return parts
+
     except (TypeError, ValueError):
-        return f"args={_format_value(args)}, kwargs={_format_value(kwargs)}"
+        return [
+            f"[args={WHITE}{_format_value(args)}{GREEN}]",
+            f"[kwargs={WHITE}{_format_value(kwargs)}{GREEN}]",
+        ]
 
 
-def _timestamp_now() -> str:
-    """Return timestamp in format dd\\mm\\yyyy hh24:mi:ss."""
-    return datetime.now().strftime("%d\\%m\\%Y %H:%M:%S")
+
+def _format_io_lines(arg_parts: list[str], has_output: bool, result: Any) -> list[str]:
+    """
+    Build IO lines from inputs + optional output.
+
+    Rules (color-aware):
+    - inputs + output:
+        ['[a=1]', '[b=2] -> <RED>3<GREEN>']
+    - inputs only:
+        ['[a=1]', '[b=2]']
+    - output only:
+        ['-> <RED>3<GREEN>']
+    - neither:
+        []
+    """
+    inputs = list(arg_parts)
+    if has_output:
+        raw_output = _format_value(result)
+        # Arrow stays green (from outer GREEN), value is RED, then back to GREEN
+        colored_output = f"-> {RED}{raw_output}{GREEN}"
+    else:
+        colored_output = ""
+
+    if inputs and colored_output:
+        lines = inputs.copy()
+        lines[-1] = f"{lines[-1]} {colored_output}"
+        return lines
+
+    if inputs:
+        return inputs
+
+    if colored_output:
+        return [colored_output]
+
+    return []
 
 
 def _class_func_name(func: Callable[..., Any]) -> str:
@@ -183,14 +216,19 @@ def _class_func_name(func: Callable[..., Any]) -> str:
 
 def log_1(func: Callable[P, R]) -> Callable[P, R]:
     """
-    Single-line log per call.
+    Single-call log with multi-line IO if needed.
 
-    Format (with colors on console):
-      RED   : [ELAPSED] [dd\\mm\\yyyy hh24:mi:ss]
-      YELLOW: CLASS.FUNC()
-      GREEN : IN[a=..., b=...] OUT[result]
+    Example (2 inputs + output):
 
-    Iterable args/outputs are logged as type(len), e.g. list(5), dict(10).
+      [3] [07/12/2025 09:50:15] to_domain_filepaths() [filepaths=list(25)]
+                                                              [extra=list(10) -> 5]
+
+    Colors:
+      - time       : RED
+      - func name  : YELLOW
+      - [key=      : GREEN
+      - value      : WHITE
+      - output     : RED (after '->')
     """
     @functools.wraps(func)
     def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
@@ -201,24 +239,42 @@ def log_1(func: Callable[P, R]) -> Callable[P, R]:
         result = func(*args, **kwargs)
         elapsed = int(time.perf_counter() - t0)
 
-        ts = _timestamp_now()
+        ts = UDateTime.str_now()
         cf = _class_func_name(func)
-        arg_str = _format_call_args(func, args, kwargs)
+        arg_parts = _format_call_args(func, args, kwargs)
 
-        time_part = f"[{elapsed}] [{ts}]"                          # red
-        cf_part   = cf                                             # yellow
-        io_part   = f"IN[{arg_str}] OUT[{_format_value(result)}]"  # green
+        has_output = result is not None
+        io_lines = _format_io_lines(arg_parts, has_output, result)
 
-        msg = (
-            f"{RED}{time_part}{RESET} "
-            f"{YELLOW}{cf_part}{RESET} "
-            f"{GREEN}{io_part}{RESET}"
-        )
+        time_part = f"[{elapsed}] [{ts}]"
+        cf_part   = cf
+
+        # Visible, uncolored core prefix (for indent)
+        prefix_core = f"{time_part} {cf_part} "
+        indent = " " * len(prefix_core)
+
+        if io_lines:
+            # First IO line on same line as time + func
+            first_io = io_lines[0]
+            msg = (
+                f"{RED}{time_part}{RESET} "
+                f"{YELLOW}{cf_part}{RESET} "
+                f"{GREEN}{first_io}{RESET}"
+            )
+            # Subsequent IO lines, aligned under the first '['
+            for extra in io_lines[1:]:
+                msg += f"\n{indent}{GREEN}{extra}{RESET}"
+        else:
+            # No IO part at all
+            msg = (
+                f"{RED}{time_part}{RESET} "
+                f"{YELLOW}{cf_part}{RESET}"
+            )
+
         logger.debug(msg)
         return result
 
     return wrapper
-
 
 # ---------------------------------------------------------------------------
 # Decorator: log_2 (two lines)
@@ -229,12 +285,22 @@ def log_2(func: Callable[P, R]) -> Callable[P, R]:
     Two-line log per call: start and finish.
 
     Start (before call):
-      [0] [dd\\mm\\yyyy hh24:mi:ss] CLASS.FUNC() IN[args...]
+      [0] [TIMESTAMP] [START] FUNC [a=1]
+                                       [b=2]
 
     Finish (after call):
-      [ELAPSED] [dd\\mm\\yyyy hh24:mi:ss] CLASS.FUNC() OUT[result]
+      [ELAPSED] [TIMESTAMP] [FINISH] FUNC -> RED(3)
 
-    Iterable args/outputs are logged as type(len), e.g. list(5), dict(10).
+    Rules:
+    - Start line: inputs only (no output).
+    - Finish line: output only (no inputs).
+    Colors:
+      - time          : RED
+      - [START]/[FINISH]: WHITE
+      - func name     : YELLOW
+      - [key=         : GREEN
+      - value         : WHITE
+      - output        : RED (after '->')
     """
     @functools.wraps(func)
     def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
@@ -243,32 +309,68 @@ def log_2(func: Callable[P, R]) -> Callable[P, R]:
 
         t0 = time.perf_counter()
         cf = _class_func_name(func)
-        arg_str = _format_call_args(func, args, kwargs)
+        arg_parts = _format_call_args(func, args, kwargs)
 
-        # Start line: elapsed=0, only input
-        ts_start = _timestamp_now()
+        # --------------------- Start line --------------------- #
+        ts_start = UDateTime.str_now()
         time_part_start = f"[0] [{ts_start}]"
-        start_msg = (
-            f"{RED}{time_part_start}{RESET} "
-            f"{YELLOW}{cf}{RESET} "
-            f"{GREEN}IN[{arg_str}]{RESET}"
-        )
+
+        start_io_lines = _format_io_lines(arg_parts, has_output=False, result=None)
+
+        prefix_core_start = f"{time_part_start} [START] {cf} "
+        indent_start = " " * len(prefix_core_start)
+
+        if start_io_lines:
+            first_io = start_io_lines[0]
+            start_msg = (
+                f"{RED}{time_part_start}{RESET} "
+                f"{WHITE}[START]{RESET} "
+                f"{YELLOW}{cf}{RESET} "
+                f"{GREEN}{first_io}{RESET}"
+            )
+            for extra in start_io_lines[1:]:
+                start_msg += f"\n{indent_start}{GREEN}{extra}{RESET}"
+        else:
+            start_msg = (
+                f"{RED}{time_part_start}{RESET} "
+                f"{WHITE}[START]{RESET} "
+                f"{YELLOW}{cf}{RESET}"
+            )
+
         logger.debug(start_msg)
 
-        # Execute function
+        # --------------------- Execute function --------------------- #
         result = func(*args, **kwargs)
         elapsed = int(time.perf_counter() - t0)
 
-        # Finish line: real elapsed, only output
-        ts_end = _timestamp_now()
+        # --------------------- Finish line --------------------- #
+        ts_end = UDateTime.str_now()
         time_part_end = f"[{elapsed}] [{ts_end}]"
-        end_msg = (
-            f"{RED}{time_part_end}{RESET} "
-            f"{YELLOW}{cf}{RESET} "
-            f"{GREEN}OUT[{_format_value(result)}]{RESET}"
-        )
-        logger.debug(end_msg)
 
+        has_output = result is not None
+        finish_io_lines = _format_io_lines([], has_output, result)  # output only
+
+        prefix_core_finish = f"{time_part_end} [FINISH] {cf} "
+        indent_finish = " " * len(prefix_core_finish)
+
+        if finish_io_lines:
+            first_io = finish_io_lines[0]
+            end_msg = (
+                f"{RED}{time_part_end}{RESET} "
+                f"{WHITE}[FINISH]{RESET} "
+                f"{YELLOW}{cf}{RESET} "
+                f"{GREEN}{first_io}{RESET}"
+            )
+            for extra in finish_io_lines[1:]:
+                end_msg += f"\n{indent_finish}{GREEN}{extra}{RESET}"
+        else:
+            end_msg = (
+                f"{RED}{time_part_end}{RESET} "
+                f"{WHITE}[FINISH]{RESET} "
+                f"{YELLOW}{cf}{RESET}"
+            )
+
+        logger.debug(end_msg)
         return result
 
-    return wrapper
+    return wrapper  # <-- IMPORTANT

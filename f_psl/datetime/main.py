@@ -45,4 +45,4 @@ class UDateTime:
             return dt.strftime('%Y%m%d%H%M%S')
         elif format == UDateTime.Format.NANO:
             return dt.strftime('%Y%m%d%H%M%S%f')
-
+        return str()

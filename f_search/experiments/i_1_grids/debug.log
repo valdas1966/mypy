@@ -1,4 +1,8 @@
-[0] [06\12\2025 16:25:09] to_filepaths() IN[] OUT[list(25)]
-[0] [06\12\2025 16:25:09] to_domain_filepaths() IN[] OUT[dict(5)]
-[12] [06\12\2025 16:25:22] to_domain_grids() IN[] OUT[dict(5)]
-[11] [06\12\2025 16:25:33] to_pickle() IN[] OUT[None]
+[0] [07/12/2025 10:09:18] [START] maps_to_grids() [folder_maps='f:\\paper\\i_0_maps']
+                                                  [pickle_grids='f:\\paper\\i_1_grids\\grids.pkl']
+[0] [07/12/2025 10:09:18] to_filepaths() [folder='f:\\paper\\i_0_maps'] -> list(25)
+[0] [07/12/2025 10:09:18] to_domain_filepaths() [filepaths=list(25)] -> dict(5)
+[12] [07/12/2025 10:09:31] to_domain_grids() [domain_filepaths=dict(5)] -> dict(5)
+[11] [07/12/2025 10:09:43] to_pickle() [domain_grids=dict(5)]
+                                       [pickle_grids='f:\\paper\\i_1_grids\\grids.pkl']
+[24] [07/12/2025 10:09:43] [FINISH] maps_to_grids()
