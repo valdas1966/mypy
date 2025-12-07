@@ -1,5 +1,5 @@
 from f_ds.old_grids.old_grid import Grid, Cell
-from f_ds.groups.group import Group
+from f_ds.groups.main import Group
 
 
 class Select:

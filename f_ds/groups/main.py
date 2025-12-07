@@ -2,6 +2,7 @@ from __future__ import annotations
 from collections import UserList
 from f_core.mixins.has.name import HasName
 from f_utils.dtypes.u_seq import USeq
+from f_ds.groups._random import Random
 from typing import TypeVar, Callable, Sequence
 from math import ceil
 
@@ -14,9 +15,9 @@ class Group(HasName, UserList[Item]):
      Group Data-Structure (A named list with utility functions).
     ============================================================================
     """
-    
-    # Random Utility Class
-    Random: type = None
+
+    # Factory
+    Factory: type = None
 
     def __init__(self,
                  data: Sequence[Item] = None,
@@ -30,6 +31,16 @@ class Group(HasName, UserList[Item]):
         self._data = list(data) if data else list()
         HasName.__init__(self, name=name)
         UserList.__init__(self, self._data)
+        self._random = Random(group=self)
+
+    @property
+    def random(self) -> Random:
+        """
+        ========================================================================
+         Return the Random object.
+        ========================================================================
+        """
+        return self._random
 
     def filter(self,
                predicate: Callable[[Item], bool],
@@ -71,7 +82,7 @@ class Group(HasName, UserList[Item]):
     def distribute(self, n: int) -> list[Group[Item]]:
         """
         ========================================================================
-         Distribute the items into n groups.
+         Distribute the items into n old_groups.
         ========================================================================
         """
         size: int = ceil(len(self.data) / n)
@@ -146,7 +157,7 @@ class Group(HasName, UserList[Item]):
                   name: str = None) -> list[Group[Item]]:
         """
         ========================================================================
-         Convert a sequence of items into a list of groups.
+         Convert a sequence of items into a list of old_groups.
         ========================================================================
         """
         group = Group(name=name, data=data)

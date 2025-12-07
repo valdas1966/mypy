@@ -223,7 +223,7 @@ if __name__ == "__main__":
     # Load million pairs
     pairs_million = load_pairs_million()
 
-    # Process pairs and create percentile groups
+    # Process pairs and create percentile old_groups
     pairs_potential = process_all_pairs(pairs_million)
 
     # Save results

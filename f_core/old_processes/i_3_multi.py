@@ -1,7 +1,7 @@
 from f_core.processes.i_1_input import ProcessInput, Input
 from f_core.old_processes import ProcessSequence, DataSequence
 from concurrent.futures import ThreadPoolExecutor, Future
-from f_ds.groups.group import Group
+from f_ds.groups.main import Group
 from typing import Generic, TypeVar, Type
 from dataclasses import dataclass
 
@@ -55,7 +55,7 @@ class ProcessMulti(Generic[Process], ProcessInput[DataInput]):
         """
         # Run necessary operations before the start of the Process.
         self._run_pre()
-        # Create groups of distributed inputs
+        # Create old_groups of distributed inputs
         groups: list[Group[Input]] = Group.to_groups(data=self._inputs,
                                                      n=self._threads)
         # Create Sequence-Process for each Group

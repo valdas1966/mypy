@@ -1,6 +1,6 @@
 from f_ds.grids.grid.base.main import GridBase
 from f_ds.grids.cell import CellMap as Cell
-from f_ds.groups.group import Group
+from f_ds.groups.main import Group
 
 
 class GridMap(GridBase[Cell]):

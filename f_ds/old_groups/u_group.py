@@ -1,4 +1,4 @@
-from f_ds.groups.group import Group, Item
+from f_ds.groups.main import Group, Item
 from typing import Sequence
 
 
@@ -13,7 +13,7 @@ class UGroup:
     def union(name: str, groups: Sequence[Group[Item]]) -> Group[Item]:
         """
         ========================================================================
-         Generate a Group by union sequence of groups.
+         Generate a Group by union sequence of old_groups.
         ========================================================================
         """
         group = Group(name=name)

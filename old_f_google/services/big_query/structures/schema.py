@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_ds.groups.group import Group
+from f_ds.groups.main import Group
 from old_f_google.services.big_query.structures.field import Field
 from google.cloud.bigquery import SchemaField
 

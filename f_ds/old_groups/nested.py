@@ -1,4 +1,4 @@
-from f_ds.groups.group import Group, Item
+from f_ds.groups.main import Group, Item
 
 
 class NestedGroup(Group[Group[Item]]):

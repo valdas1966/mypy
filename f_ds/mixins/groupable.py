@@ -1,5 +1,5 @@
 from f_core.mixins.sizable import Sizable
-from f_ds.groups.group import Group
+from f_ds.groups.main import Group
 from abc import abstractmethod
 from typing import Generic, TypeVar, Callable, Iterator
 

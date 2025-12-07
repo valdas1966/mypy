@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
-from f_ds.groups.group import Group
+from f_ds.groups.main import Group
 from f_ds.old_grids.old_grid import Cell
 import numpy as np
 

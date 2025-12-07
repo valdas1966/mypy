@@ -1,5 +1,5 @@
 from f_core.mixins.has.name import HasName
-from f_ds.groups.group import Listable
+from f_ds.groups.main import Listable
 from f_proj.myq.questions.i_0_base import QuestionBase
 from typing import TypeVar
 

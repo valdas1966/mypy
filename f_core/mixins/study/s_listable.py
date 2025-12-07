@@ -1,4 +1,4 @@
-from f_ds.groups.group import Listable
+from f_ds.groups.main import Listable
 
 
 li = Listable(name='LIST')

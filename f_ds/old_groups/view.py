@@ -1,5 +1,5 @@
 from __future__ import annotations
-from f_ds.groups.group import Group, Item
+from f_ds.groups.main import Group, Item
 from f_core.mixins.has.name import HasName
 from f_core.mixins.sizable import Sizable
 from f_utils.dtypes.u_seq import USeq

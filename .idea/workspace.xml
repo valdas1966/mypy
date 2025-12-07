@@ -5,27 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_ds/groups/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/groups/_random.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/preparations/debug.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/preparations/i_0_million.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/preparations/p_1_grids.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/preparations/p_2_pairs_million.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/groups/_factory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/groups/_study.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/old_groups/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/groups/group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/groups/group.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_log/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_log/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/data/i_0_filepaths_maps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/data/i_1_domain_filepaths.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/i_1_grids/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/i_1_grids/debug.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/i_1_grids/i_0_get_filepaths_of_maps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/i_1_grids/i_1_classify_to_domains.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/i_1_grids/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/i_1_grids/pickle_grids.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/i_2_grids/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/i_3_pairs/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/i_3_pairs/i_0_million.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/i_3_pairs/i_0_million/i_0_load_grids.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ai/nlp/tokenizers/i_0_single.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ai/nlp/tokenizers/i_0_single.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/components/study/s_nested_group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/components/study/s_nested_group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/study/s_listable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/study/s_listable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/study/s_to_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/study/s_to_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_listable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/testers/t_listable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/old_processes/i_3_multi.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/old_processes/i_3_multi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/old_processes/study/s_rows_to_nested_group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/old_processes/study/s_rows_to_nested_group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/old_processes/testers/t_rows_to_nested_group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/old_processes/testers/t_rows_to_nested_group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/map/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/map/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/groups/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/groups/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/groups/_random.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/groups/_random.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/groups/generators/g_group.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/groups/group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/groups/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/groups/nested.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_groups/nested.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/groups/processes/nested/from_rows.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_groups/processes/nested/from_rows.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/groups/study/s_group.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/groups/study/s_view.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/groups/testers/t_group.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/groups/u_group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_groups/u_group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/groups/view.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_groups/view.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/mixins/groupable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/groupable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/old_grids/export.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_grids/export.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/old_grids/old_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_grids/old_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/old_grids/select.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/old_grids/select.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/myq/blocks/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/myq/blocks/i_0_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/i_1_group.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/myq/gsheets/i_1_group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/processes/nest_tuples_to_questions.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/myq/gsheets/processes/nest_tuples_to_questions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/pickle_cell_pairs_potential.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/pickle_cell_pairs_potential.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/structures/schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/big_query/structures/schema.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -970,14 +982,14 @@
       <recent name="D:\mypy\f_ds" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\mypy\f_ds\groups" />
       <recent name="F:\mypy\f_core\processes" />
       <recent name="F:\mypy\f_search\experiments\i_3_pairs" />
       <recent name="F:\mypy\f_search\experiments\i_2_grids" />
       <recent name="G:\mypy\f_search\ds\states" />
-      <recent name="G:\mypy\f_search\algos\i_1_omspp" />
     </key>
   </component>
-  <component name="RunManager" selected="Python._random">
+  <component name="RunManager" selected="Python._study">
     <configuration name="_random" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -1000,7 +1012,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="group" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="_study" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -1013,7 +1025,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_ds/groups/group.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_ds/groups/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1022,7 +1034,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main (4)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -1031,11 +1043,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/experiments/i_1_grids" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/groups" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/i_1_grids/main.py" />
+      <option name="SCRIPT_NAME" value="F:\mypy\f_ds\groups\main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1354,18 +1366,18 @@
     </configuration>
     <list>
       <item itemvalue="Python._random" />
-      <item itemvalue="Python.group" />
-      <item itemvalue="Python.main (4)" />
+      <item itemvalue="Python._study" />
       <item itemvalue="Python.p_1_grids" />
       <item itemvalue="Python.p_2_pairs_million" />
+      <item itemvalue="Python.main" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python._study" />
         <item itemvalue="Python._random" />
-        <item itemvalue="Python.group" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.p_1_grids" />
         <item itemvalue="Python.p_2_pairs_million" />
-        <item itemvalue="Python.main (4)" />
       </list>
     </recent_temporary>
   </component>
@@ -1419,14 +1431,6 @@
       <workItem from="1753097025966" duration="6888000" />
       <workItem from="1753591538149" duration="5147000" />
       <workItem from="1753705522305" duration="11937000" />
-    </task>
-    <task id="LOCAL-00241" summary="h">
-      <option name="closed" value="true" />
-      <created>1752695678559</created>
-      <option name="number" value="00241" />
-      <option name="presentableId" value="LOCAL-00241" />
-      <option name="project" value="LOCAL" />
-      <updated>1752695678559</updated>
     </task>
     <task id="LOCAL-00242" summary="h">
       <option name="closed" value="true" />
@@ -1812,7 +1816,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765095067637</updated>
     </task>
-    <option name="localTasksCounter" value="290" />
+    <task id="LOCAL-00290" summary="h">
+      <option name="closed" value="true" />
+      <created>1765116957859</created>
+      <option name="number" value="00290" />
+      <option name="presentableId" value="LOCAL-00290" />
+      <option name="project" value="LOCAL" />
+      <updated>1765116957859</updated>
+    </task>
+    <option name="localTasksCounter" value="291" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
