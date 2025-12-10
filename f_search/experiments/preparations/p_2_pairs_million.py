@@ -13,4 +13,3 @@ def load_grids(pickle_grids: str) -> dict[str, list[Grid]]:
     """
     return u_pickle.load(path=pickle_grids)
 
-
