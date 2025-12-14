@@ -2,10 +2,10 @@
 class Factory:
 
     @staticmethod
-    def ab() -> list[str]:
+    def abcd() -> list[str]:
         """
         ========================================================================
-         Return a list with the 'a' and 'b' items.
+         Return a list with the 'a', 'b', 'c', 'd' items.
         ========================================================================
         """
-        return ['a', 'b']
+        return ['a', 'b', 'c', 'd']

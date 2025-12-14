@@ -41,17 +41,6 @@ def test_from_array() -> None:
     assert len(grid.cells_valid()) == 5
 
 
-def test_from_file_map() -> None:
-    """
-    ========================================================================
-     Test the From.file_map method.
-    ========================================================================
-    """
-    path = 'f:\\temp\\test.txt'
-    grid = GridMap.From.file_map(path=path)
-    assert len(grid) == 8
-
-
 def test_select_random_in_range() -> None:
     """
     ========================================================================

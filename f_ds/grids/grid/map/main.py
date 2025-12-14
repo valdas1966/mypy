@@ -1,6 +1,6 @@
 from f_ds.grids.grid.base.main import GridBase
 from f_ds.grids.cell import CellMap as Cell
-from f_ds.groups.main import Group
+from f_ds.grids.grid.map._random import Random
 
 
 class GridMap(GridBase[Cell]):
@@ -31,7 +31,17 @@ class GridMap(GridBase[Cell]):
                           cols=cols,
                           name=name,
                           type_cell=Cell)
-        
+        self._random = Random(grid=self)
+
+    @property
+    def random(self) -> Random:
+        """
+        ========================================================================
+         Return the Random object.
+        ========================================================================
+        """
+        return self._random
+
     def cells_valid(self) -> list[Cell]:
         """
         ========================================================================
@@ -51,15 +61,6 @@ class GridMap(GridBase[Cell]):
             if cell:
                 li.append(cell)
         return li
-
-    def to_group(self,
-                 name: str = "Valid-Cells") -> Group:
-        """
-        ========================================================================
-         Return a Group of the Grid's valid cells.
-        ========================================================================
-        """
-        return Group[Cell](name=name, data=self.cells_valid())
 
     def __len__(self) -> int:
         """

@@ -1,6 +1,5 @@
 from f_core.mixins.has.record import HasRecord
 from f_core.mixins.has.rows_cols import HasRowsCols
-from f_ds.mixins.groupable import Groupable, Group
 from f_ds.grids.grid.base._select import Select
 from f_ds.grids.cell import CellBase
 from collections.abc import Iterable
@@ -10,7 +9,6 @@ Cell = TypeVar('Cell', bound=CellBase)
 
 
 class GridBase(Generic[Cell],
-               Groupable[Cell],
                HasRowsCols,
                HasRecord,
                Iterable):
@@ -63,14 +61,6 @@ class GridBase(Generic[Cell],
             if row < self.rows and col < self.cols:
                 li.append(self[row][col])
         return li
-    
-    def to_group(self, name: str = None) -> Group[Cell]:
-        """
-        ========================================================================
-         Convert the Grid into a Group of Cells.
-        ========================================================================
-        """
-        return Group(name=name, data=list(self))
 
     def _init_cells(self, type_cell: Type[Cell]) -> list[list[Cell]]:
         """

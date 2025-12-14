@@ -26,3 +26,24 @@ def filter(data: Iterable[Item],
     ============================================================================
     """
     return [item for item in data if predicate(item)]
+
+
+def pairs(data: Iterable[Item],
+          size: int,
+          predicate: Callable[[Item, Item], bool] = None,
+          retries: int = 100) -> list[tuple[Item, Item]]:
+    """
+    ============================================================================
+     1. Return a list of pairs from the iterable that satisfy the predicate.
+     2. If no pairs are found after {retries} -> return the list found so far.
+    ============================================================================
+    """
+    s: set[tuple[Item, Item]] = set()
+    for _ in range(retries):
+        a, b = sample(data=data, size=2)
+        if predicate and not predicate(a, b):
+            continue
+        s.add((a, b))
+        if len(s) == size:
+            return list(s)
+    return list(s)
