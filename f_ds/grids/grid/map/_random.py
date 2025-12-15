@@ -30,5 +30,5 @@ class Random:
         ========================================================================
         """
         predicate = lambda x, y: x.distance(other=y) >= min_distance
-        retries = size * 100
-        return pairs(data=self._grid, size=size, predicate=predicate, retries=retries)
+        tries = size * 100
+        return pairs(data=self._grid, size=size, predicate=predicate, tries=tries)
