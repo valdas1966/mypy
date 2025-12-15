@@ -1,4 +1,5 @@
 from typing import Iterable, TypeVar, Callable
+from f_ds.pair import Pair
 import random
 
 Item = TypeVar('Item')
@@ -31,19 +32,20 @@ def filter(data: Iterable[Item],
 def pairs(data: Iterable[Item],
           size: int,
           predicate: Callable[[Item, Item], bool] = None,
-          tries: int = 100) -> list[tuple[Item, Item]]:
+          tries: int = 100) -> list[Pair[Item]]:
     """
     ============================================================================
      1. Return a list of pairs from the iterable that satisfy the predicate.
      2. If no pairs are found after {retries} -> return the list found so far.
     ============================================================================
     """
-    s: set[tuple[Item, Item]] = set()
+    s: set[Pair[Item]] = set()
     for _ in range(tries):
         a, b = sample(data=data, size=2)
         if predicate and not predicate(a, b):
             continue
-        s.add((a, b))
+        pair = Pair(a=a, b=b, is_ordered=True)
+        s.add(pair)
         if len(s) == size:
             return list(s)
     return list(s)
