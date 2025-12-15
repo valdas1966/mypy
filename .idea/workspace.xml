@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/map/_random.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/map/_random.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/map/_study.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/map/_study.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/map/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/map/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/iter/u_iter.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/iter/u_iter.py" afterDir="false" />
-    </list>
+    <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -1332,14 +1326,6 @@
       <workItem from="1753591538149" duration="5147000" />
       <workItem from="1753705522305" duration="11937000" />
     </task>
-    <task id="LOCAL-00245" summary="h">
-      <option name="closed" value="true" />
-      <created>1753105190006</created>
-      <option name="number" value="00245" />
-      <option name="presentableId" value="LOCAL-00245" />
-      <option name="project" value="LOCAL" />
-      <updated>1753105190006</updated>
-    </task>
     <task id="LOCAL-00246" summary="h">
       <option name="closed" value="true" />
       <created>1753608745762</created>
@@ -1724,7 +1710,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765719925621</updated>
     </task>
-    <option name="localTasksCounter" value="294" />
+    <task id="LOCAL-00294" summary="h">
+      <option name="closed" value="true" />
+      <created>1765816463536</created>
+      <option name="number" value="00294" />
+      <option name="presentableId" value="LOCAL-00294" />
+      <option name="project" value="LOCAL" />
+      <updated>1765816463536</updated>
+    </task>
+    <option name="localTasksCounter" value="295" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
