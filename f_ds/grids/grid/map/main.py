@@ -20,7 +20,9 @@ class GridMap(GridBase[Cell]):
                  # Number of Columns in the Grid (None -> Grid is a Square)
                  cols: int = None,
                  # Name of the Grid
-                 name: str = 'GridMap') -> None:
+                 name: str = 'GridMap',
+                 # Domain of the Grid
+                 domain: str = None) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -32,7 +34,17 @@ class GridMap(GridBase[Cell]):
                           name=name,
                           type_cell=Cell)
         self._random = Random(grid=self)
-
+        self._domain = domain
+        
+    @property
+    def domain(self) -> str:
+        """
+        ========================================================================
+         Return the Domain of the Grid.
+        ========================================================================
+        """
+        return self._domain
+    
     @property
     def random(self) -> Random:
         """

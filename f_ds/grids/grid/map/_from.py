@@ -11,7 +11,7 @@ class From:
     """
     
     @staticmethod
-    def file_map(path: str, name: str = None) -> GridMap:
+    def file_map(path: str, name: str = None, domain: str = None) -> GridMap:
         """
         ========================================================================
          Return a GridMap created from a file-i_1_map.
@@ -20,10 +20,10 @@ class From:
         # Get the boolean array from the file-i_1_map
         array = UFileMap.to_bool_array(path=path)
         # Return the GridMap
-        return From.array(array=array, name=name)
+        return From.array(array=array, name=name, domain=domain)
 
     @staticmethod
-    def array(array: np.ndarray, name: str = None) -> GridMap:
+    def array(array: np.ndarray, name: str = None, domain: str = None) -> GridMap:
         """
         ========================================================================
          Return a GridMap from a boolean np array.
@@ -35,7 +35,8 @@ class From:
         # Create a GridMap with the same shape as the array
         grid = GridMap(rows=rows,
                        cols=cols,
-                       name=name)
+                       name=name,
+                       domain=domain)
         # Invalidate cells on False array values
         for i in range(rows):
             for j in range(cols):
