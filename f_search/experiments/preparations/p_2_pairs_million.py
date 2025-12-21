@@ -1,9 +1,7 @@
 from f_log.utils import set_debug, log_1, log_2
 from f_ds.grids import GridMap as Grid, CellMap as Cell
+from f_ds.pair import Pair
 from f_utils import u_pickle, u_iter
-from typing import Tuple
-
-Pair = Tuple[Cell, Cell]
 
 
 @log_2
@@ -17,15 +15,16 @@ def load_grids(pickle_grids: str) -> dict[str, Grid]:
 
 
 @log_2
-def generate_pairs_for_grids(i: int,
-                             grids: list[Grid]) -> dict[str, list[Pair]]:
+def generate_pairs_for_grids(grids: dict[str, Grid],
+                             size: int,
+                             min_distance: int) -> dict[str, list[Pair]]:
     """
     ============================================================================
      Generate Random-Pairs for a List of Grids.
     ============================================================================
     """
-    @log_1
-    def generate_pairs_for_grid(grid: Grid, i: int) -> list[Pair]:
+    @log_2
+    def for_grid(grid: Grid, i: int) -> list[Pair]:
         """
         ========================================================================
          Generate Random-Pairs for a given Grid (above the given min_distance).
@@ -33,14 +32,14 @@ def generate_pairs_for_grids(i: int,
         """
         predicate = lambda x, y: x.distance(other=y) >= min_distance
         pairs: list[Pair] = u_iter.pairs(data=grid,
-                                        size=size,
-                                        predicate=predicate)
+                                         size=size,
+                                         predicate=predicate)
         return pairs
     
     d: dict[str, list[Pair]] = dict()
-    for i, grid in enumerate(grids):
-        pairs = generate_pairs_for_grid(grid=grid, i=i)
-        d[grid.name] = pairs
+    for i, (name, grid) in enumerate(grids.items()):
+        pairs = for_grid(grid=grid, i=i)
+        d[name] = pairs
     return d
         
 """
@@ -66,7 +65,7 @@ def main(pickle_grids: str, pickle_pairs: str) -> None:
     ========================================================================
     """    
     grids = load_grids(pickle_grids=pickle_grids)
-    pairs = generate_pairs_for_grids(grids=grids)
+    pairs = generate_pairs_for_grids(grids=grids, size=size, min_distance=min_distance)
     u_pickle.dump(obj=pairs, path=pickle_pairs)
 
 main(pickle_grids=pickle_grids,
