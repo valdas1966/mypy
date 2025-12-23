@@ -1,7 +1,7 @@
 from f_core.mixins.printable import Printable
 from f_core.mixins.comparable import Comparable
 from f_gui.layout.rect._factory import FactoryRect
-from f_gui.layout.rect.rect import Rect
+from f_gui.layout.rect.main import Rect
 from typing import Union
 
 RectLike = Union[tuple[float, float, float, float], Rect]

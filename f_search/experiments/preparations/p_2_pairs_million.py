@@ -54,7 +54,7 @@ def generate_pairs_for_grids(grids: dict[str, Grid],
 set_debug(True)
 pickle_grids = 'f:\\paper\\i_1_grids\\grids.pkl'
 pickle_pairs = 'f:\\paper\\i_2_pairs\\pairs.pkl'
-size = 1_000_000
+size = 1000
 min_distance = 100
 
 @log_2

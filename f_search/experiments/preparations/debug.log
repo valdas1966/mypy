@@ -1,84 +1,9 @@
-[0] [21/12/2025 10:13:04] [START] main() [pickle_grids='f:\\paper\\i_1_grids\\grids.pkl']
+[0] [23/12/2025 15:59:45] [START] main() [pickle_grids='f:\\paper\\i_1_grids\\grids.pkl']
                                          [pickle_pairs='f:\\paper\\i_2_pairs\\pairs.pkl']
-[0] [21/12/2025 10:13:04] [START] load_grids() [pickle_grids='f:\\paper\\i_1_grids\\grids.pkl']
-[7] [21/12/2025 10:13:12] [FINISH] load_grids() -> dict(25)
-[0] [21/12/2025 10:13:12] [START] generate_pairs_for_grids() [grids=dict(25)]
-                                                             [size=1000000]
+[0] [23/12/2025 15:59:45] [START] load_grids() [pickle_grids='f:\\paper\\i_1_grids\\grids.pkl']
+[7] [23/12/2025 15:59:52] [FINISH] load_grids() -> dict(25)
+[0] [23/12/2025 15:59:52] [START] generate_pairs_for_grids() [grids=dict(25)]
+                                                             [size=1000]
                                                              [min_distance=100]
-[0] [21/12/2025 10:13:12] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=Berlin_2_1024, Shape=1024x1024, Cells=795261>]
+[0] [23/12/2025 15:59:52] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=Berlin_2_1024, Shape=1024x1024, Cells=795261>]
                                                                       [i=0]
-[14] [21/12/2025 10:13:26] [FINISH] generate_pairs_for_grids.for_grid() -> list(93)
-[0] [21/12/2025 10:13:26] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=London_1_1024, Shape=1024x1024, Cells=796301>]
-                                                                      [i=1]
-[14] [21/12/2025 10:13:40] [FINISH] generate_pairs_for_grids.for_grid() -> list(97)
-[0] [21/12/2025 10:13:40] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=Moscow_1_1024, Shape=1024x1024, Cells=796072>]
-                                                                      [i=2]
-[14] [21/12/2025 10:13:55] [FINISH] generate_pairs_for_grids.for_grid() -> list(100)
-[0] [21/12/2025 10:13:55] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=NewYork_0_1024, Shape=1024x1024, Cells=792676>]
-                                                                      [i=3]
-[14] [21/12/2025 10:14:09] [FINISH] generate_pairs_for_grids.for_grid() -> list(99)
-[0] [21/12/2025 10:14:09] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=Paris_0_1024, Shape=1024x1024, Cells=795749>]
-                                                                      [i=4]
-[14] [21/12/2025 10:14:23] [FINISH] generate_pairs_for_grids.for_grid() -> list(99)
-[0] [21/12/2025 10:14:23] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=brc503d, Shape=257x320, Cells=67351>]
-                                                                      [i=5]
-[0] [21/12/2025 10:14:24] [FINISH] generate_pairs_for_grids.for_grid() -> list(82)
-[0] [21/12/2025 10:14:24] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=den000d, Shape=276x432, Cells=58085>]
-                                                                      [i=6]
-[1] [21/12/2025 10:14:26] [FINISH] generate_pairs_for_grids.for_grid() -> list(90)
-[0] [21/12/2025 10:14:26] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=hrt000d, Shape=779x345, Cells=106608>]
-                                                                      [i=7]
-[3] [21/12/2025 10:14:29] [FINISH] generate_pairs_for_grids.for_grid() -> list(90)
-[0] [21/12/2025 10:14:29] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=lak405d, Shape=1005x782, Cells=47365>]
-                                                                      [i=8]
-[10] [21/12/2025 10:14:39] [FINISH] generate_pairs_for_grids.for_grid() -> list(100)
-[0] [21/12/2025 10:14:40] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=ost100d, Shape=771x777, Cells=137375>]
-                                                                      [i=9]
-[7] [21/12/2025 10:14:47] [FINISH] generate_pairs_for_grids.for_grid() -> list(97)
-[0] [21/12/2025 10:14:47] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=maze512-16-5, Shape=511x511, Cells=246016>]
-                                                                      [i=10]
-[3] [21/12/2025 10:14:51] [FINISH] generate_pairs_for_grids.for_grid() -> list(97)
-[0] [21/12/2025 10:14:51] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=maze512-2-0, Shape=511x511, Cells=174524>]
-                                                                      [i=11]
-[3] [21/12/2025 10:14:54] [FINISH] generate_pairs_for_grids.for_grid() -> list(89)
-[0] [21/12/2025 10:14:54] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=maze512-32-9, Shape=511x511, Cells=253792>]
-                                                                      [i=12]
-[3] [21/12/2025 10:14:58] [FINISH] generate_pairs_for_grids.for_grid() -> list(94)
-[0] [21/12/2025 10:14:58] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=maze512-4-6, Shape=511x511, Cells=209266>]
-                                                                      [i=13]
-[3] [21/12/2025 10:15:01] [FINISH] generate_pairs_for_grids.for_grid() -> list(95)
-[0] [21/12/2025 10:15:01] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=maze512-8-3, Shape=511x511, Cells=232925>]
-                                                                      [i=14]
-[3] [21/12/2025 10:15:05] [FINISH] generate_pairs_for_grids.for_grid() -> list(94)
-[0] [21/12/2025 10:15:05] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=random512-10-0, Shape=512x512, Cells=235900>]
-                                                                      [i=15]
-[3] [21/12/2025 10:15:08] [FINISH] generate_pairs_for_grids.for_grid() -> list(93)
-[0] [21/12/2025 10:15:08] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=random512-15-1, Shape=512x512, Cells=222683>]
-                                                                      [i=16]
-[3] [21/12/2025 10:15:11] [FINISH] generate_pairs_for_grids.for_grid() -> list(92)
-[0] [21/12/2025 10:15:12] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=random512-20-2, Shape=512x512, Cells=209231>]
-                                                                      [i=17]
-[3] [21/12/2025 10:15:15] [FINISH] generate_pairs_for_grids.for_grid() -> list(91)
-[0] [21/12/2025 10:15:15] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=random512-25-3, Shape=512x512, Cells=195275>]
-                                                                      [i=18]
-[3] [21/12/2025 10:15:18] [FINISH] generate_pairs_for_grids.for_grid() -> list(95)
-[0] [21/12/2025 10:15:18] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=random512-30-4, Shape=512x512, Cells=180132>]
-                                                                      [i=19]
-[4] [21/12/2025 10:15:23] [FINISH] generate_pairs_for_grids.for_grid() -> list(96)
-[0] [21/12/2025 10:15:23] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=16room_001, Shape=512x512, Cells=231350>]
-                                                                      [i=20]
-[3] [21/12/2025 10:15:26] [FINISH] generate_pairs_for_grids.for_grid() -> list(94)
-[0] [21/12/2025 10:15:26] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=32room_002, Shape=512x512, Cells=246420>]
-                                                                      [i=21]
-[3] [21/12/2025 10:15:29] [FINISH] generate_pairs_for_grids.for_grid() -> list(94)
-[0] [21/12/2025 10:15:30] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=64room_003, Shape=512x512, Cells=242206>]
-                                                                      [i=22]
-[3] [21/12/2025 10:15:33] [FINISH] generate_pairs_for_grids.for_grid() -> list(94)
-[0] [21/12/2025 10:15:33] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=64room_009, Shape=512x512, Cells=254117>]
-                                                                      [i=23]
-[3] [21/12/2025 10:15:36] [FINISH] generate_pairs_for_grids.for_grid() -> list(90)
-[0] [21/12/2025 10:15:36] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=8room_000, Shape=512x512, Cells=206642>]
-                                                                      [i=24]
-[3] [21/12/2025 10:15:40] [FINISH] generate_pairs_for_grids.for_grid() -> list(95)
-[148] [21/12/2025 10:15:40] [FINISH] generate_pairs_for_grids() -> dict(25)
-[156] [21/12/2025 10:15:40] [FINISH] main()

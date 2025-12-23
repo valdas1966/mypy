@@ -32,13 +32,15 @@ def filter(data: Iterable[Item],
 def pairs(data: Iterable[Item],
           size: int,
           predicate: Callable[[Item, Item], bool] = None,
-          tries: int = 100) -> list[Pair[Item]]:
+          tries: int = None) -> list[Pair[Item]]:
     """
     ============================================================================
      1. Return a list of pairs from the iterable that satisfy the predicate.
      2. If no pairs are found after {retries} -> return the list found so far.
     ============================================================================
     """
+    if not tries:
+        tries = size * 100
     s: set[Pair[Item]] = set()
     for _ in range(tries):
         a, b = sample(data=data, size=2)

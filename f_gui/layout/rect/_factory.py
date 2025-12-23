@@ -1,4 +1,4 @@
-from f_gui.layout.rect.rect import Rect
+from f_gui.layout.rect.main import Rect
 
 
 class FactoryRect:

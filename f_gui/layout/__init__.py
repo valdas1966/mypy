@@ -2,4 +2,4 @@
 from .bounds.bounds import Bounds
 
 # Manager of rectangular coordinates (Top, Left, Width, Height).
-from .rect.rect import Rect
+from .rect.main import Rect
