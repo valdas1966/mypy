@@ -41,6 +41,17 @@ def generate_pairs_for_grids(grids: dict[str, Grid],
         pairs = for_grid(grid=grid, i=i)
         d[name] = pairs
     return d
+
+
+@log_2
+def pairs_to_pickle(pairs: dict[str, list[Pair]], pickle_pairs: str) -> None:
+    """
+    ========================================================================
+     Pickle the List[Pair] to the given path.
+    ========================================================================
+    """
+    u_pickle.dump(obj=pairs, path=pickle_pairs)
+
         
 """
 ===============================================================================
@@ -66,7 +77,7 @@ def main(pickle_grids: str, pickle_pairs: str) -> None:
     """    
     grids = load_grids(pickle_grids=pickle_grids)
     pairs = generate_pairs_for_grids(grids=grids, size=size, min_distance=min_distance)
-    u_pickle.dump(obj=pairs, path=pickle_pairs)
+    pairs_to_pickle(pairs=pairs, pickle_pairs=pickle_pairs)
 
 main(pickle_grids=pickle_grids,
      pickle_pairs=pickle_pairs)

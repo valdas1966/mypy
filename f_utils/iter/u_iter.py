@@ -1,5 +1,5 @@
 from typing import Iterable, TypeVar, Callable
-from f_ds.pair import Pair
+from f_ds.pair.main import Pair
 import random
 
 Item = TypeVar('Item')

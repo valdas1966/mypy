@@ -64,13 +64,16 @@ def _create_logger() -> logging.Logger:
 logger = _create_logger()
 
 
-def set_debug(enabled: bool) -> None:
+def set_debug(enabled: bool, path: str = None) -> None:
     """
     Turn debug mode on/off at runtime.
     Call this once from your main() if you want to override the env var.
     """
     global DEBUG
     DEBUG = enabled
+    if path:
+        global _LOG_FILE
+        _LOG_FILE = path
 
     level = logging.DEBUG if DEBUG else logging.INFO
     logger.setLevel(level)

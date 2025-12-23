@@ -1,9 +1,0 @@
-[0] [23/12/2025 15:59:45] [START] main() [pickle_grids='f:\\paper\\i_1_grids\\grids.pkl']
-                                         [pickle_pairs='f:\\paper\\i_2_pairs\\pairs.pkl']
-[0] [23/12/2025 15:59:45] [START] load_grids() [pickle_grids='f:\\paper\\i_1_grids\\grids.pkl']
-[7] [23/12/2025 15:59:52] [FINISH] load_grids() -> dict(25)
-[0] [23/12/2025 15:59:52] [START] generate_pairs_for_grids() [grids=dict(25)]
-                                                             [size=1000]
-                                                             [min_distance=100]
-[0] [23/12/2025 15:59:52] [START] generate_pairs_for_grids.for_grid() [grid=<GridMap: Name=Berlin_2_1024, Shape=1024x1024, Cells=795261>]
-                                                                      [i=0]

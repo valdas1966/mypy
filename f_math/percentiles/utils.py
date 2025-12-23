@@ -16,8 +16,9 @@ class UPercentiles:
         """
         ========================================================================
          Return percentile-based integer bin boundaries as Bin objects.
-
+        ------------------------------------------------------------------------
          n_bins is interpreted as the *percent step per bin*.
+        ------------------------------------------------------------------------
          For example:
             values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             n_bins = 50  # 0–50%, 50–100%
