@@ -5,26 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_math/shapes/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_math/shapes/rect/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_math/shapes/rect/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_math/shapes/rect/_from.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_math/shapes/rect/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_math/shapes/rect/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/has/name/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/has/name/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/has/row_col/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/has/row_col/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/has/row_col/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/has/row_col/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/base/_select.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/base/_select.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/base/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/base/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/layout/rect/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/layout/rect/_factory.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/layout/rect/_tester.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/layout/rect/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_math/shapes/geometry/study/s_1_rect.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_math/shapes/i_0_shape.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_math/shapes/i_0_shape.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_math/shapes/i_1_rect.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1339,14 +1320,6 @@
       <workItem from="1753591538149" duration="5147000" />
       <workItem from="1753705522305" duration="11937000" />
     </task>
-    <task id="LOCAL-00251" summary="h">
-      <option name="closed" value="true" />
-      <created>1762510283859</created>
-      <option name="number" value="00251" />
-      <option name="presentableId" value="LOCAL-00251" />
-      <option name="project" value="LOCAL" />
-      <updated>1762510283859</updated>
-    </task>
     <task id="LOCAL-00252" summary="h">
       <option name="closed" value="true" />
       <created>1762520368689</created>
@@ -1731,7 +1704,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766580704214</updated>
     </task>
-    <option name="localTasksCounter" value="300" />
+    <task id="LOCAL-00300" summary="h">
+      <option name="closed" value="true" />
+      <created>1766594172290</created>
+      <option name="number" value="00300" />
+      <option name="presentableId" value="LOCAL-00300" />
+      <option name="project" value="LOCAL" />
+      <updated>1766594172290</updated>
+    </task>
+    <option name="localTasksCounter" value="301" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
