@@ -1,7 +1,7 @@
-from f_gui.layout.rect.main import Rect
+from f_math.shapes.rect.main import Rect
 
 
-class FactoryRect:
+class Factory:
     """
     ========================================================================
      Generator for LTWH objects.

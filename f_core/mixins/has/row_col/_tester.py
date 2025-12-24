@@ -1,4 +1,5 @@
 from f_core.mixins.has.row_col.main import HasRowCol
+from f_math.shapes import Rect
 
 
 def test_zero() -> None:
@@ -33,6 +34,18 @@ def test_twelve() -> None:
     assert twelve.row == 1
     assert twelve.col == 2
     
+
+def test_is_within() -> None:
+    """
+    ========================================================================
+     Test the is_within() method.
+    ========================================================================
+    """
+    twelve = HasRowCol.Factory.twelve()
+    rect_inside = Rect.From.Center(x=0, y=0, distance=2)
+    assert twelve.is_within(rect=rect_inside)
+    rect_outside = Rect.From.Center(x=0, y=0, distance=1)
+    assert not twelve.is_within(rect=rect_outside)
     
 def test_key_comparison() -> None:
     """

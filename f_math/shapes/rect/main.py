@@ -1,11 +1,10 @@
 from typing import Generic, TypeVar
-from f_core.mixins.printable import Printable
-from f_core.mixins.comparable import Comparable
+from f_math.shapes.i_0_shape import Shape
 
 T = TypeVar('T', int, float)
 
 
-class Rect(Generic[T], Printable, Comparable):
+class Rect(Generic[T], Shape):
     """
     ============================================================================
      1. Component Class to store Rect values (Top, Left, Width, Height).
@@ -16,17 +15,21 @@ class Rect(Generic[T], Printable, Comparable):
 
     # Factory
     Factory: type = None
+    # From
+    From: type = None
 
     def __init__(self,
                  top: T = None,
                  left: T = None,
                  width: T = None,
-                 height: T = None) -> None:
+                 height: T = None,
+                 name: str = 'Rect') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
+        Shape.__init__(self, name=name)
         self._top: T = top
         self._left: T = left
         self._width: T = width

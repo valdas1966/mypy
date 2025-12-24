@@ -37,17 +37,6 @@ def test_list() -> None:
     assert len(cells) == 9
 
 
-def test_group() -> None:
-    """
-    ========================================================================
-     Test the Group of the Grid.
-    ========================================================================
-    """
-    grid = GridBase.Factory.grid_3x3()
-    sampled = grid.sample(size=3)
-    assert len(sampled) == 3
-
-
 def test_getitem() -> None:
     """
     ========================================================================

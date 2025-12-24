@@ -1,4 +1,4 @@
-from f_gui.layout.rect._factory import FactoryRect
+from f_math.shapes import Rect
 
 
 def test_full():
@@ -7,7 +7,7 @@ def test_full():
      Test the Full LTWH.
     ========================================================================
     """
-    full = FactoryRect.full()
+    full = Rect.Factory.full()
     assert full.top == 0
     assert full.left == 0
     assert full.width == 100
@@ -20,7 +20,7 @@ def test_half():
      Test the Half LTWH.
     ========================================================================
     """
-    half = FactoryRect.half()
+    half = Rect.Factory.half()
     assert half.top == 25
     assert half.left == 25
     assert half.width == 50
@@ -33,8 +33,21 @@ def test_quarter():
      Test the Quarter LTWH.
     ========================================================================
     """ 
-    quarter = FactoryRect.quarter()
+    quarter = Rect.Factory.quarter()
     assert quarter.top == 37.5
     assert quarter.left == 37.5
     assert quarter.width == 25
     assert quarter.height == 25
+
+
+def test_from_center():
+    """
+    ========================================================================
+     Test the from center method.
+    ========================================================================
+    """
+    rect = Rect.From.center(x=50, y=50, distance=25)
+    assert rect.top == 25
+    assert rect.left == 25
+    assert rect.width == 51
+    assert rect.height == 51

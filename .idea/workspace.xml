@@ -5,19 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/p_1_grids.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/p_2_pairs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_math/shapes/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_math/shapes/rect/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_math/shapes/rect/_factory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_math/shapes/rect/_from.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_math/shapes/rect/_tester.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_math/shapes/rect/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/map/_random.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/map/_random.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/pair/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/pair/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_1_grids/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_1_grids/p_1_grids.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_2_pairs_potential/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_2_pairs_potential/i_1_random.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_2_pairs_potential/i_2_percentiles.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/iter/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/iter/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/iter/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/iter/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_utils/iter/u_iter.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/iter/u_iter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/has/name/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/has/name/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/has/row_col/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/has/row_col/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/has/row_col/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/has/row_col/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/base/_select.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/base/_select.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/base/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/base/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/base/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/layout/rect/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/layout/rect/_factory.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/layout/rect/_tester.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/layout/rect/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_math/shapes/geometry/study/s_1_rect.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_math/shapes/i_0_shape.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_math/shapes/i_0_shape.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_math/shapes/i_1_rect.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -547,8 +554,11 @@
     "Python tests.pytest for f_core.mixins.has.record._tester.test_a.executor": "Run",
     "Python tests.pytest for f_core.mixins.has.record._tester.test_b.executor": "Run",
     "Python tests.pytest for f_core.mixins.has.record._tester.test_none.executor": "Run",
+    "Python tests.pytest for f_core.mixins.has.row_col._tester.test_is_within.executor": "Run",
     "Python tests.pytest for f_ds.grids.grid.map._tester.test_random_pairs.executor": "Run",
     "Python tests.pytest for f_google._tester.test_rami.executor": "Run",
+    "Python tests.pytest for f_math.shapes.rect._tester.test_from_center.executor": "Run",
+    "Python tests.pytest for f_math.shapes.rect._tester.test_full.executor": "Run",
     "Python tests.pytest for f_search.algos.i_1_spp.i_1_astar._tester.test_counters_with_obstacles.executor": "Run",
     "Python tests.pytest for f_search.stats._tester.test_stats_search.executor": "Run",
     "Python tests.pytest for name._tester.test_key_comparison.executor": "Run",
@@ -605,6 +615,7 @@
     "Python._base.executor": "Run",
     "Python._factory (1).executor": "Run",
     "Python._factory.executor": "Run",
+    "Python._from.executor": "Run",
     "Python._random.executor": "Run",
     "Python._select.executor": "Run",
     "Python._study (1).executor": "Run",
@@ -741,6 +752,7 @@
     "Python.i_0_path.executor": "Run",
     "Python.i_0_qa (1).executor": "Run",
     "Python.i_0_qa.executor": "Run",
+    "Python.i_0_shape.executor": "Run",
     "Python.i_1_bar.executor": "Run",
     "Python.i_1_bar_stacked.executor": "Run",
     "Python.i_1_bfs.executor": "Run",
@@ -974,8 +986,8 @@
       <recent name="F:\mypy\f_search\experiments\i_3_pairs" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.p_3_k">
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.pytest in _tester.py">
+    <configuration name="_from" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -984,11 +996,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/pair" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_math/shapes/rect" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_ds/pair/main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_math/shapes/rect/_from.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -997,48 +1009,55 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="p_2_pairs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="pytest for f_core.mixins.has.row_col._tester.test_is_within" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/experiments" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_2_pairs.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;f_core.mixins.has.row_col._tester.test_is_within&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="p_3_k" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="pytest for f_math.shapes.rect._tester.test_from_center" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/experiments" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_3_k.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;f_math.shapes.rect._tester.test_from_center&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in _tester.py (1)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_math/shapes/rect/_tester.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="pytest in _tester.py (2)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
@@ -1071,24 +1090,7 @@
       <option name="_new_keywords" value="&quot;&quot;" />
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_utils/iter/_tester.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/grids/grid/map/_tester.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_core/mixins/has/row_col/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -1270,19 +1272,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.main" />
-      <item itemvalue="Python.p_2_pairs" />
-      <item itemvalue="Python.p_3_k" />
+      <item itemvalue="Python._from" />
+      <item itemvalue="Python tests.pytest for f_core.mixins.has.row_col._tester.test_is_within" />
+      <item itemvalue="Python tests.pytest for f_math.shapes.rect._tester.test_from_center" />
       <item itemvalue="Python tests.pytest in _tester.py" />
-      <item itemvalue="Python tests.pytest in _tester.py (2)" />
+      <item itemvalue="Python tests.pytest in _tester.py (1)" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.p_3_k" />
-        <item itemvalue="Python.p_2_pairs" />
         <item itemvalue="Python tests.pytest in _tester.py" />
-        <item itemvalue="Python.main" />
-        <item itemvalue="Python tests.pytest in _tester.py (2)" />
+        <item itemvalue="Python tests.pytest for f_core.mixins.has.row_col._tester.test_is_within" />
+        <item itemvalue="Python tests.pytest in _tester.py (1)" />
+        <item itemvalue="Python tests.pytest for f_math.shapes.rect._tester.test_from_center" />
+        <item itemvalue="Python._from" />
       </list>
     </recent_temporary>
   </component>
@@ -1336,14 +1338,6 @@
       <workItem from="1753097025966" duration="6888000" />
       <workItem from="1753591538149" duration="5147000" />
       <workItem from="1753705522305" duration="11937000" />
-    </task>
-    <task id="LOCAL-00250" summary="h">
-      <option name="closed" value="true" />
-      <created>1762370731777</created>
-      <option name="number" value="00250" />
-      <option name="presentableId" value="LOCAL-00250" />
-      <option name="project" value="LOCAL" />
-      <updated>1762370731777</updated>
     </task>
     <task id="LOCAL-00251" summary="h">
       <option name="closed" value="true" />
@@ -1729,7 +1723,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766520287052</updated>
     </task>
-    <option name="localTasksCounter" value="299" />
+    <task id="LOCAL-00299" summary="h">
+      <option name="closed" value="true" />
+      <created>1766580704214</created>
+      <option name="number" value="00299" />
+      <option name="presentableId" value="LOCAL-00299" />
+      <option name="project" value="LOCAL" />
+      <updated>1766580704214</updated>
+    </task>
+    <option name="localTasksCounter" value="300" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -1,7 +1,10 @@
 from __future__ import annotations
 from f_core.mixins.comparable import Comparable
 from f_core.mixins.printable import Printable
-from typing import Self
+from typing import Self, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from f_math.shapes import Rect
 
 
 class HasRowCol(Comparable, Printable):
@@ -10,11 +13,6 @@ class HasRowCol(Comparable, Printable):
      Mixin for classes with Row and Col properties.
     ============================================================================
     """
-
-    RECORD_SPEC = {
-        'row': lambda o: o.row,
-        'col': lambda o: o.col,
-    }
 
     # Factory
     Factory = None
@@ -68,6 +66,26 @@ class HasRowCol(Comparable, Printable):
         dist_row = abs(self.row - other.row)
         dist_col = abs(self.col - other.col)
         return dist_row + dist_col
+
+    def is_within(self,
+                  rect: Rect = None,
+                  row_min: int = None,
+                  col_min: int = None,
+                  row_max: int = None,
+                  col_max: int = None) -> bool:
+        """
+        ========================================================================
+         Return True if the object is within the given Rect or range.
+        ========================================================================
+        """
+        if rect:
+            row_min = rect.top
+            col_min = rect.left
+            row_max = rect.top + rect.height - 1
+            col_max = rect.left + rect.width - 1
+        row_valid: bool = row_min <= self.row <= row_max
+        col_valid: bool = col_min <= self.col <= col_max
+        return row_valid and col_valid
 
     def key_comparison(self) -> tuple[int, int]:
         """

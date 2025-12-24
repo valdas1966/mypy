@@ -35,13 +35,13 @@ class HasName(Comparable, Printable):
         """
         self._name = name
 
-    def key_comparison(self) -> list:
+    def key_comparison(self) -> str:
         """
         ========================================================================
          Returns the Object's Key for Sorting.
         ========================================================================
         """
-        return [self._name or str()]
+        return self._name or str()
 
     def __str__(self) -> str:
         """

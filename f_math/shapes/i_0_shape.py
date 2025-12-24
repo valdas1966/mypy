@@ -1,8 +1,7 @@
 from f_core.mixins.has.name import HasName
-from abc import ABC 
 
 
-class Shape(ABC, HasName):
+class Shape(HasName):
     """
     =================================================================
      Abstract i_0_base class for all shapes.
@@ -15,4 +14,12 @@ class Shape(ABC, HasName):
          Initialize the shape.
         =============================================================
         """
-        super().__init__(name)
+        HasName.__init__(self, name)
+
+    def key_comparison(self) -> str:
+        """
+        =============================================================
+         Return the name of the shape.
+        =============================================================
+        """
+        return HasName.key_comparison(self)

@@ -1,4 +1,3 @@
-from f_core.mixins.has.record import HasRecord
 from f_core.mixins.has.rows_cols import HasRowsCols
 from f_ds.grids.grid.base._select import Select
 from f_ds.grids.cell import CellBase
@@ -10,17 +9,12 @@ Cell = TypeVar('Cell', bound=CellBase)
 
 class GridBase(Generic[Cell],
                HasRowsCols,
-               HasRecord,
                Iterable):
     """
     ============================================================================
      2D-Grid Class of Cells.
     ============================================================================
     """
-
-    RECORD_SPEC = {
-        'cells': lambda o: len(o)
-    }
 
     # Factory
     Factory = None
@@ -36,7 +30,6 @@ class GridBase(Generic[Cell],
         ========================================================================
         """
         HasRowsCols.__init__(self, rows=rows, cols=cols)
-        HasRecord.__init__(self, name=name)
         self._select = Select(grid=self)
         self._cells: list[list[Cell]] = self._init_cells(type_cell)
 
