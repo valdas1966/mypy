@@ -1,0 +1,12 @@
+[0] [24/12/2025 14:51:08] [START] main() [pickle_pairs='f:\\paper\\i_2_pairs\\pairs.pkl']
+                                         [pickle_k='f:\\paper\\i_3_k\\k.pkl']
+                                         [k=list(5)]
+[0] [24/12/2025 14:51:08] [START] load_pairs() [pickle_pairs='f:\\paper\\i_2_pairs\\pairs.pkl']
+[0] [24/12/2025 14:51:08] [FINISH] load_pairs() -> dict(25)
+[0] [24/12/2025 14:51:08] [START] assign_k_to_pairs() [pairs=dict(25)]
+                                                      [k=list(5)]
+[0] [24/12/2025 14:51:08] [FINISH] assign_k_to_pairs() -> dict(25)
+[0] [24/12/2025 14:51:08] [START] pickle_results() [assigned_k=dict(25)]
+                                                   [pickle_k='f:\\paper\\i_3_k\\k.pkl']
+[0] [24/12/2025 14:51:08] [FINISH] pickle_results()
+[0] [24/12/2025 14:51:08] [FINISH] main()

@@ -5,24 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/p_1_grids/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/p_2_pairs_potential/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/p_2_pairs_potential/i_2_percentiles.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/experiments/p_1_grids.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/experiments/p_2_pairs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_log/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_log/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_math/percentiles/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_math/percentiles/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/claude.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/csv_cell_pairs_percentile.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/csv_cell_pairs_potential.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/csv_cell_pairs_potential_minmax.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/pickle_cell_pairs_5.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/pickle_cell_pairs_potential.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/pickle_problems_omspp.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/preparations/debug.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/preparations/i_0_million.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/preparations/p_1_grids.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_1_grids/p_1_grids.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/preparations/p_2_pairs_million.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_2_pairs_potential/i_1_random.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/run_kx_astar_omspp.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/map/_random.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/map/_random.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/pair/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/pair/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_1_grids/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_1_grids/p_1_grids.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_2_pairs_potential/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_2_pairs_potential/i_1_random.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_2_pairs_potential/i_2_percentiles.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_utils/iter/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/iter/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_utils/iter/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/iter/_tester.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_utils/iter/u_iter.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_utils/iter/u_iter.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -774,8 +768,10 @@
     "Python.music_by_id.executor": "Run",
     "Python.node.executor": "Run",
     "Python.p_1_grids.executor": "Run",
+    "Python.p_2_pairs.executor": "Run",
     "Python.p_2_pairs_million (1).executor": "Run",
     "Python.p_2_pairs_million.executor": "Run",
+    "Python.p_3_k.executor": "Run",
     "Python.p_3_percentiles.executor": "Run",
     "Python.pickle_cell_pairs_1.executor": "Run",
     "Python.pickle_cell_pairs_5.executor": "Run",
@@ -978,8 +974,8 @@
       <recent name="F:\mypy\f_search\experiments\i_3_pairs" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.i_2_percentiles">
-    <configuration name="i_1_random" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.p_3_k">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -988,11 +984,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/experiments/preparations" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/pair" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="F:\mypy\f_search\experiments\p_2_pairs_potential\i_1_random.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_ds/pair/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1001,7 +997,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="i_2_percentiles" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="p_2_pairs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -1010,11 +1006,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/experiments/preparations" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/experiments" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="F:\mypy\f_search\experiments\p_2_pairs_potential\i_2_percentiles.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_2_pairs.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1023,7 +1019,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="p_1_grids" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="p_3_k" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -1032,11 +1028,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/experiments/preparations" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/experiments" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/preparations/p_1_grids.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_3_k.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1045,29 +1041,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="p_2_pairs_million" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/experiments/preparations" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/preparations/p_2_pairs_million.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest in _tester.py (1)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="pytest in _tester.py (2)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -1080,7 +1054,7 @@
       <option name="_new_keywords" value="&quot;&quot;" />
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/pair/_tester.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/grids/grid/map/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -1098,6 +1072,58 @@
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_utils/iter/_tester.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/grids/grid/map/_tester.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/grid/map" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/grids/grid/map/_tester.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/mixins/indexable" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/mixins/indexable/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -1243,54 +1269,19 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/grids/grid/map" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/grids/grid/map/_tester.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/mixins/indexable" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/mixins/indexable/_tester.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <list>
-      <item itemvalue="Python.i_1_random" />
-      <item itemvalue="Python.i_2_percentiles" />
-      <item itemvalue="Python.p_2_pairs_million" />
-      <item itemvalue="Python.p_1_grids" />
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.p_2_pairs" />
+      <item itemvalue="Python.p_3_k" />
+      <item itemvalue="Python tests.pytest in _tester.py" />
       <item itemvalue="Python tests.pytest in _tester.py (2)" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.i_2_percentiles" />
-        <item itemvalue="Python.i_1_random" />
-        <item itemvalue="Python.p_2_pairs_million" />
-        <item itemvalue="Python.p_1_grids" />
+        <item itemvalue="Python.p_3_k" />
+        <item itemvalue="Python.p_2_pairs" />
+        <item itemvalue="Python tests.pytest in _tester.py" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python tests.pytest in _tester.py (2)" />
       </list>
     </recent_temporary>
@@ -1345,14 +1336,6 @@
       <workItem from="1753097025966" duration="6888000" />
       <workItem from="1753591538149" duration="5147000" />
       <workItem from="1753705522305" duration="11937000" />
-    </task>
-    <task id="LOCAL-00249" summary="h">
-      <option name="closed" value="true" />
-      <created>1758565846036</created>
-      <option name="number" value="00249" />
-      <option name="presentableId" value="LOCAL-00249" />
-      <option name="project" value="LOCAL" />
-      <updated>1758565846036</updated>
     </task>
     <task id="LOCAL-00250" summary="h">
       <option name="closed" value="true" />
@@ -1738,7 +1721,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766499037952</updated>
     </task>
-    <option name="localTasksCounter" value="298" />
+    <task id="LOCAL-00298" summary="h">
+      <option name="closed" value="true" />
+      <created>1766520287052</created>
+      <option name="number" value="00298" />
+      <option name="presentableId" value="LOCAL-00298" />
+      <option name="project" value="LOCAL" />
+      <updated>1766520287052</updated>
+    </task>
+    <option name="localTasksCounter" value="299" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

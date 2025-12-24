@@ -1,9 +1,9 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
-from f_utils.iter.u_iter import pairs
+from f_utils.iter.u_iter import Pair, pairs
 
 if TYPE_CHECKING:
-    from f_ds.grids.grid.map.main import GridMap as Grid, CellMap as Cell
+    from f_ds.grids.grid.map.main import GridMap as Grid, Cell
 
 
 class Random:
@@ -23,12 +23,16 @@ class Random:
 
     def pairs(self,
               size: int,
-              min_distance: int) -> list[tuple[Cell, Cell]]:
+              min_distance: int,
+              tries: int = None) -> list[Pair[Cell]]:
         """
         ========================================================================
          Return a list of pairs of cells from the grid.
         ========================================================================
         """
         predicate = lambda x, y: x.distance(other=y) >= min_distance
-        tries = size * 100
-        return pairs(data=self._grid, size=size, predicate=predicate, tries=tries)
+        tries = tries if tries is not None else size * 100
+        return pairs(items=self._grid,
+                     size=size,
+                     predicate=predicate,
+                     tries=tries)

@@ -62,7 +62,7 @@ class Pair(Generic[Item], Equable):
         ========================================================================
         """
         if self._is_ordered:
-            return (self._a, self._b)
+            return self._a, self._b
         else:
             return tuple(sorted((self._a, self._b)))
     

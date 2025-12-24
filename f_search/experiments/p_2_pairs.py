@@ -1,7 +1,8 @@
-from f_log.utils import set_debug, log_1, log_2
+from f_log.utils import set_debug, log_2
 from f_ds.grids import GridMap as Grid, CellMap as Cell
-from f_ds.pair import Pair
 from f_utils import u_pickle, u_iter
+
+Pair = tuple[Cell, Cell]
 
 
 @log_2
@@ -31,7 +32,7 @@ def generate_pairs_for_grids(grids: dict[str, Grid],
         ========================================================================
         """
         predicate = lambda x, y: x.distance(other=y) >= min_distance
-        pairs: list[Pair] = u_iter.pairs(data=grid,
+        pairs: list[Pair] = u_iter.pairs(items=grid,
                                          size=size,
                                          predicate=predicate)
         return pairs
@@ -65,7 +66,7 @@ def pairs_to_pickle(pairs: dict[str, list[Pair]], pickle_pairs: str) -> None:
 set_debug(True)
 pickle_grids = 'f:\\paper\\i_1_grids\\grids.pkl'
 pickle_pairs = 'f:\\paper\\i_2_pairs\\pairs.pkl'
-size = 1000
+size = 5
 min_distance = 100
 
 @log_2
@@ -75,9 +76,8 @@ def main(pickle_grids: str, pickle_pairs: str) -> None:
      Main
     ========================================================================
     """    
-    grids = load_grids(pickle_grids=pickle_grids)
-    pairs = generate_pairs_for_grids(grids=grids, size=size, min_distance=min_distance)
-    pairs_to_pickle(pairs=pairs, pickle_pairs=pickle_pairs)
+    grids = load_grids(pickle_grids)
+    pairs = generate_pairs_for_grids(grids, size, min_distance)
+    pairs_to_pickle(pairs, pickle_pairs)
 
-main(pickle_grids=pickle_grids,
-     pickle_pairs=pickle_pairs)
+main(pickle_grids, pickle_pairs)
