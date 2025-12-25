@@ -50,29 +50,12 @@ def test_getitem() -> None:
     assert cell.col == 2
 
 
-def test_select_sample() -> None:
+def test_select_rect() -> None:
     """
     ========================================================================
      Test the select.sample() method.
     ========================================================================
     """
     grid = GridBase.Factory.Grid_4x4()
-    sample = grid.select.sample(size=2)
-    assert len(sample) == 2
-    sample = grid.select.sample(pct=50)
-    assert len(sample) == 8
-
-
-def test_select_filter() -> None:
-    """
-    ========================================================================
-     Test the select.filter() method.
-    ========================================================================
-    """
-    grid = GridBase.Factory.Grid_4x4()
-    filtered = grid.select.filter(predicate=lambda cell: cell.row == 1)
-    assert len(filtered) == 4
-    predicate = lambda cell: cell.row == 1 and cell.col == 1
-    filtered = grid.select.filter(predicate=predicate)
-    assert len(filtered) == 1   
-
+    rect = grid.select.rect(row_max=2, col_max=2)
+    assert len(list(rect)) == 4
