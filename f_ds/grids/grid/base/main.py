@@ -1,4 +1,5 @@
 from f_core.mixins.has.rows_cols import HasRowsCols
+from f_core.mixins.has.name import HasName
 from f_ds.grids.grid.base._select import Select
 from f_ds.grids.cell import CellBase
 from collections.abc import Iterable
@@ -8,6 +9,7 @@ Cell = TypeVar('Cell', bound=CellBase)
 
 
 class GridBase(Generic[Cell],
+               HasName,
                HasRowsCols,
                Iterable):
     """
@@ -30,6 +32,7 @@ class GridBase(Generic[Cell],
         ========================================================================
         """
         HasRowsCols.__init__(self, rows=rows, cols=cols)
+        HasName.__init__(self, name=name)
         self._select = Select(grid=self)
         self._cells: list[list[Cell]] = self._init_cells(type_cell)
 

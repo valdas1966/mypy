@@ -8,11 +8,6 @@ class StateCell(StateBase[Cell]):
      State representing a cell in a grid.
     ============================================================================
     """
-
-    RECORD_SPEC = {'key': lambda o: None,
-                   'name': lambda o: None,
-                   'row': lambda o: o.key.row,
-                   'col': lambda o: o.key.col}
     
     # Factory
     Factory = None

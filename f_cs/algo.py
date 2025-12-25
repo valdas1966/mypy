@@ -30,7 +30,7 @@ class Algo(Generic[Problem, Solution, Stats],
         """
         self._problem = problem
         ProcessIO.__init__(self,
-                           _input=self._problem,
+                           input=self._problem,
                            verbose=verbose,
                            name=name)
         self._stats = self.cls_stats()
@@ -42,4 +42,4 @@ class Algo(Generic[Problem, Solution, Stats],
         ========================================================================
         """
         ProcessIO._run_post(self)
-        self._stats.elapsed = self.elapsed()
+        self._stats.elapsed = self._elapsed

@@ -9,7 +9,8 @@ Pair = tuple[Item, Item]
 
 def sample(items: Iterable[Item],
            size: int = None,
-           pct: int = None) -> list[Item]:
+           pct: int = None,
+           predicate: Callable[[Item], bool] = None) -> list[Item]:
     """
     ============================================================================
      Return a random sample of the iterable.
@@ -19,6 +20,8 @@ def sample(items: Iterable[Item],
         items = list(items)
     if not size:
         size = int(len(items) * pct / 100)
+    if predicate:
+        items = [item for item in items if predicate(item)]
     return random.sample(population=items, k=size)
 
 

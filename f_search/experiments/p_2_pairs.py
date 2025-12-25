@@ -1,5 +1,6 @@
 from f_log.utils import set_debug, log_2
 from f_ds.grids import GridMap as Grid, CellMap as Cell
+from f_search.algos.i_1_spp.utils import are_reachable
 from f_utils import u_pickle, u_iter
 
 Pair = tuple[Cell, Cell]
@@ -31,7 +32,10 @@ def generate_pairs_for_grids(grids: dict[str, Grid],
          Generate Random-Pairs for a given Grid (above the given min_distance).
         ========================================================================
         """
-        predicate = lambda x, y: x.distance(other=y) >= min_distance
+        cells = 
+        p_1 = lambda x, y: x.distance(other=y) >= min_distance
+        p_2 = lambda x, y: are_reachable(grid, x, y)
+        predicate = lambda x, y: p_1(x, y) and p_2(x, y)
         pairs: list[Pair] = u_iter.pairs(items=grid,
                                          size=size,
                                          predicate=predicate)

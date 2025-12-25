@@ -100,7 +100,6 @@ class AStar(AlgoSPP):
         solution = SolutionSPP(is_valid=is_valid,
                                path=path,
                                stats=self._stats)
-        self.print(f'[Solution] {solution.stats} [Path={len(path)}]')
         return solution
 
     def _should_continue(self) -> bool:

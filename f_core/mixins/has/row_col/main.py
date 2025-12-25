@@ -79,10 +79,7 @@ class HasRowCol(Comparable, Printable):
         ========================================================================
         """
         if rect:
-            row_min = rect.top
-            col_min = rect.left
-            row_max = rect.top + rect.height - 1
-            col_max = rect.left + rect.width - 1
+            row_min, col_min, row_max, col_max = rect.to_min_max()
         row_valid: bool = row_min <= self.row <= row_max
         col_valid: bool = col_min <= self.col <= col_max
         return row_valid and col_valid

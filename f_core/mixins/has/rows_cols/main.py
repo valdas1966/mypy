@@ -8,11 +8,6 @@ class HasRowsCols:
     ============================================================================
     """
 
-    RECORD_SPEC = {
-        'rows': lambda o: o.rows,
-        'cols': lambda o: o.cols,
-    }
-
     def __init__(self,
                  rows: int,
                  cols: int = None) -> None:

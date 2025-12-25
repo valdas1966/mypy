@@ -79,6 +79,18 @@ class Rect(Generic[T], Shape):
         """
         return self.top, self.left, self.width, self.height
 
+    def to_min_max(self) -> tuple[T, T, T, T]:
+        """
+        ========================================================================
+         Return the X-Min, Y-Min, X-Max, Y-Max values as a tuple.
+        ========================================================================
+        """
+        x_min = self.top
+        y_min = self.left
+        x_max = self.left + self.width - 1
+        y_max = self.top + self.height - 1
+        return x_min, y_min, x_max, y_max
+
     def key_comparison(self) -> tuple[T, T, T, T]:
         """
         ========================================================================

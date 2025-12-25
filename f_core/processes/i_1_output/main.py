@@ -42,5 +42,4 @@ class ProcessOutput(Generic[Output], ProcessABC):
          Run the Post-Run Commands.
         ========================================================================
         """
-        self._str_finish += f' [Output={self._output}]'
         ProcessABC._run_post(self)

@@ -1,17 +1,13 @@
 from f_core.mixins.validatable import Validatable
-from f_core.mixins.has.record import HasRecord
 from time import time
 
 
-class ProcessABC(HasRecord, Validatable):
+class ProcessABC(Validatable):
     """
     ============================================================================
      ABC of Process-Classes.
     ============================================================================
     """
-
-    # Record Specification
-    RECORD_SPEC = {'elapsed': lambda o: o._elapsed}
 
     # Factory
     Factory = None
@@ -24,14 +20,11 @@ class ProcessABC(HasRecord, Validatable):
          Init private Attributes.
         ========================================================================
         """
-        HasRecord.__init__(self, name=name, verbose=verbose)
         Validatable.__init__(self)
         # Init Time Attributes
         self._elapsed: int = None
         self._time_start: float = None
         self._time_finish: float = None
-        self._str_start: str = f'[Start]'
-        self._str_finish: str = '[Finish]'
 
     def run(self) -> None:
         """
@@ -51,8 +44,6 @@ class ProcessABC(HasRecord, Validatable):
         """
         self._elapsed = None
         self._time_start: float = time()
-        self._str_start += f' {self.str_record()}'
-        self.print(msg=self._str_start)
 
     def _run(self) -> None:
         """
@@ -70,5 +61,3 @@ class ProcessABC(HasRecord, Validatable):
         """
         self._time_finish = time()
         self._elapsed = int((self._time_finish - self._time_start) * 1000)  # Convert to milliseconds
-        self._str_finish += f' [Elapsed={self._elapsed}]'
-        self.print(msg=self._str_finish)

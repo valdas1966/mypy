@@ -41,5 +41,4 @@ class AlgoSearch(Generic[Problem, Solution, Stats, Data],
          Run necessary operations before the Algorithm starts.
         ========================================================================
         """
-        self._str_start += f' {str(self._problem)}'
         Algo._run_pre(self)
