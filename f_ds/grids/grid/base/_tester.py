@@ -59,3 +59,15 @@ def test_select_rect() -> None:
     grid = GridBase.Factory.Grid_4x4()
     rect = grid.select.rect(row_max=2, col_max=2)
     assert len(list(rect)) == 4
+
+
+def test_select_rect_around() -> None:
+    """
+    ========================================================================
+     Test the select.rect_around() method.
+    ========================================================================
+    """
+    grid = GridBase.Factory.Grid_4x4()
+    cell = grid[1][1]
+    rect = grid.select.rect_around(cell, distance=1)
+    assert len(list(rect)) == 9
