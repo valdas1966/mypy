@@ -1,6 +1,7 @@
 from f_ds.grids.grid.base.main import GridBase
 from f_ds.grids.cell import CellMap as Cell
 from f_ds.grids.grid.map._random import Random
+from typing import Iterator
 
 
 class GridMap(GridBase[Cell]):
@@ -60,7 +61,7 @@ class GridMap(GridBase[Cell]):
          Return a View of the Valid Cells in the Grid.
         ========================================================================
         """
-        return [cell for cell in self if cell]
+        return [cell for cell in super().__iter__() if cell]
     
     def neighbors(self, cell: Cell) -> list[Cell]:
         """
@@ -114,3 +115,11 @@ class GridMap(GridBase[Cell]):
         ========================================================================
         """
         return f'<{type(self).__name__}: Name={self.name}, Shape={self.rows}x{self.cols}, Cells={len(self)}>'
+
+    def __iter__(self) -> Iterator[Cell]:
+        """
+        ========================================================================
+         Return an Iterator over the Cells in the Grid.
+        ========================================================================
+        """
+        return iter(self.cells_valid())

@@ -17,7 +17,8 @@ def load_grids(pickle_grids: str) -> dict[str, Grid]:
 
 
 @log_2
-def generate_pairs_for_grids(grids: dict[str, Grid],
+def gen_pairs(grids: dict[str, Grid],
+                             pickle_black_cells: str,
                              size: int,
                              min_distance: int) -> dict[str, list[Pair]]:
     """
@@ -26,23 +27,26 @@ def generate_pairs_for_grids(grids: dict[str, Grid],
     ============================================================================
     """
     @log_2
-    def for_grid(grid: Grid, i: int) -> list[Pair]:
+    def for_grid(grid: Grid, total: int, i: int) -> list[Pair]:
         """
         ========================================================================
          Generate Random-Pairs for a given Grid (above the given min_distance).
         ========================================================================
         """ 
-        p_1 = lambda x, y: x.distance(other=y) >= min_distance
-        p_2 = lambda x, y: are_reachable(grid, x, y)
-        predicate = lambda x, y: p_1(x, y) and p_2(x, y)
-        pairs: list[Pair] = u_iter.pairs(items=grid,
+        cells_valid = set(grid.cells_valid()) - black_cells[grid.name]
+        p_1 = lambda a, b: a.distance(other=b) >= min_distance 
+        p_2 = lambda a, b: are_reachable(grid, a, b)
+        predicate = lambda a, b: p_1(a, b) and p_2(a, b)
+        pairs: list[Pair] = u_iter.pairs(items=cells_valid,
                                          size=size,
                                          predicate=predicate)
         return pairs
     
+    black_cells = u_pickle.load(pickle_black_cells)
+    total = len(grids)
     d: dict[str, list[Pair]] = dict()
     for i, (name, grid) in enumerate(grids.items()):
-        pairs = for_grid(grid=grid, i=i)
+        pairs = for_grid(grid=grid, total=total, i=i+1)
         d[name] = pairs
     return d
 
@@ -61,26 +65,34 @@ def pairs_to_pickle(pairs: dict[str, list[Pair]], pickle_pairs: str) -> None:
 ===============================================================================
  Main - Generate Random-Pairs for a List of Grids.
 -------------------------------------------------------------------------------
- Input: Pickle of dict[Grid.Name, Grid].
- Output: Pickle of dict[Grid.Name, List[Pair]].
+ Input: Pickle of dict[Grid.Name -> Grid].
+ Output: Pickle of dict[Grid.Name -> List[Pair]].
 ===============================================================================
 """
 
 set_debug(True)
 pickle_grids = 'f:\\paper\\i_1_grids\\grids.pkl'
-pickle_pairs = 'f:\\paper\\i_2_pairs\\pairs.pkl'
+pickle_black_cells = 'f:\\paper\\i_2_black_cells\\black_cells.pkl'
+pickle_pairs = 'f:\\paper\\i_3_pairs\\pairs.pkl'
+# Number of Pairs to Generate for each Grid.
 size = 5
+# Minimum Distance between the Pairs.
 min_distance = 100
 
 @log_2
-def main(pickle_grids: str, pickle_pairs: str) -> None:
+def main(pickle_grids: str,
+         pickle_black_cells: str,
+         pickle_pairs: str) -> None:
     """
     ========================================================================
      Main
     ========================================================================
     """    
     grids = load_grids(pickle_grids)
-    pairs = generate_pairs_for_grids(grids, size, min_distance)
+    pairs = gen_pairs(grids,
+                      pickle_black_cells,
+                      size,
+                      min_distance)
     pairs_to_pickle(pairs, pickle_pairs)
 
-main(pickle_grids, pickle_pairs)
+main(pickle_grids, pickle_black_cells, pickle_pairs)

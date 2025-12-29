@@ -1,12 +1,12 @@
-[0] [24/12/2025 14:51:08] [START] main() [pickle_pairs='f:\\paper\\i_2_pairs\\pairs.pkl']
-                                         [pickle_k='f:\\paper\\i_3_k\\k.pkl']
-                                         [k=list(5)]
-[0] [24/12/2025 14:51:08] [START] load_pairs() [pickle_pairs='f:\\paper\\i_2_pairs\\pairs.pkl']
-[0] [24/12/2025 14:51:08] [FINISH] load_pairs() -> dict(25)
-[0] [24/12/2025 14:51:08] [START] assign_k_to_pairs() [pairs=dict(25)]
-                                                      [k=list(5)]
-[0] [24/12/2025 14:51:08] [FINISH] assign_k_to_pairs() -> dict(25)
-[0] [24/12/2025 14:51:08] [START] pickle_results() [assigned_k=dict(25)]
-                                                   [pickle_k='f:\\paper\\i_3_k\\k.pkl']
-[0] [24/12/2025 14:51:08] [FINISH] pickle_results()
-[0] [24/12/2025 14:51:08] [FINISH] main()
+[0] [29/12/2025 12:44:39] [START] main() [pickle_grids='f:\\paper\\i_1_grids\\grids.pkl']
+                                         [pickle_black_cells='f:\\paper\\i_2_black_cells\\black_cells.pkl']
+                                         [pickle_pairs='f:\\paper\\i_3_pairs\\pairs.pkl']
+[0] [29/12/2025 12:44:39] [START] load_grids() [pickle_grids='f:\\paper\\i_1_grids\\grids.pkl']
+[7] [29/12/2025 12:44:46] [FINISH] load_grids() -> dict(25)
+[0] [29/12/2025 12:44:46] [START] generate_pairs() [grids=dict(25)]
+                                                   [pickle_black_cells='f:\\paper\\i_2_black_cells\\black_cells.pkl']
+                                                   [size=5]
+                                                   [min_distance=100]
+[0] [29/12/2025 12:44:46] [START] generate_pairs.for_grid() [grid=<GridMap: Name=Berlin_2_1024, Shape=1024x1024, Cells=795261>]
+                                                            [total=25]
+                                                            [i=1]

@@ -1,31 +1,27 @@
-from f_core.mixins.has.record import HasRecord
 from f_ds.grids import GridMap as Grid
 from f_cs.problem import ProblemAlgo
 from f_search.ds.states import StateCell as State
 
 
-class ProblemSearch(ProblemAlgo, HasRecord):
+class ProblemSearch(ProblemAlgo):
     """
     ============================================================================
      Base-Class for Search-Problems in Grid's domain.
     ============================================================================
     """
 
-    RECORD_SPEC = {
-        'grid': lambda o: o.grid.record
-    }
-
     # Factory
     Factory = None
 
-    def __init__(self, grid: Grid, name: str = 'ProblemSearch') -> None:
+    def __init__(self,
+                 grid: Grid,
+                 name: str = 'ProblemSearch') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         ProblemAlgo.__init__(self, name=name)
-        HasRecord.__init__(self, name=name)
         self._grid = grid
 
     @property
