@@ -16,7 +16,6 @@ class ProcessInput(Generic[Input], ProcessABC):
 
     def __init__(self,
                  input: Input,
-                 verbose: bool = False,
                  name: str = 'Process Input') -> None:
         """
         ========================================================================
@@ -24,7 +23,7 @@ class ProcessInput(Generic[Input], ProcessABC):
         ========================================================================
         """
         self._input = input
-        ProcessABC.__init__(self, verbose=verbose, name=name)
+        ProcessABC.__init__(self, name=name)
 
     @property
     def input(self) -> Input:

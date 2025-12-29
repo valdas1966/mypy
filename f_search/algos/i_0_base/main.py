@@ -25,14 +25,13 @@ class AlgoSearch(Generic[Problem, Solution, Stats, Data],
     def __init__(self,
                  problem: Problem,
                  data: Data = None,
-                 verbose: bool = False,
                  name: str = 'AlgoSearch') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        Algo.__init__(self, problem=problem, verbose=verbose, name=name)
+        Algo.__init__(self, problem=problem, name=name)
         self._data = data if data else self.cls_data()
         
     def _run_pre(self) -> None:

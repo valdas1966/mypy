@@ -25,7 +25,6 @@ class AlgoSPP(Generic[Problem, Solution, Stats, Data],
     def __init__(self,
                  problem: Problem,
                  data: Data = None,
-                 verbose: bool = False,
                  name: str = 'AlgoSPP') -> None:
         """
         ========================================================================
@@ -35,6 +34,5 @@ class AlgoSPP(Generic[Problem, Solution, Stats, Data],
         AlgoSearch.__init__(self,
                             problem=problem,
                             data=data,
-                            verbose=verbose,
                             name=name)
         

@@ -15,7 +15,6 @@ class ProcessOutput(Generic[Output], ProcessABC):
     Factory = None
 
     def __init__(self,
-                 verbose: bool = False,
                  name: str = 'ProcessOutput') -> None:
         """
         ========================================================================
@@ -23,7 +22,7 @@ class ProcessOutput(Generic[Output], ProcessABC):
         ========================================================================
         """
         self._output: Output | None = None
-        ProcessABC.__init__(self, verbose=verbose, name=name)
+        ProcessABC.__init__(self, name=name)
 
     def run(self) -> Output:
         """

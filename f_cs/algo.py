@@ -21,7 +21,6 @@ class Algo(Generic[Problem, Solution, Stats],
 
     def __init__(self,
                  problem: Problem,
-                 verbose: bool = False,
                  name: str = 'Algorithm') -> None:
         """
         ========================================================================
@@ -31,7 +30,6 @@ class Algo(Generic[Problem, Solution, Stats],
         self._problem = problem
         ProcessIO.__init__(self,
                            input=self._problem,
-                           verbose=verbose,
                            name=name)
         self._stats = self.cls_stats()
 

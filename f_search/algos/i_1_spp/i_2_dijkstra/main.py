@@ -16,7 +16,6 @@ class Dijkstra(AStar):
     def __init__(self,
                  problem: ProblemSPP,
                  data: DataSPP = None,
-                 verbose: bool = False,
                  name: str = 'Dijkstra') -> None:
         """
         ========================================================================
@@ -26,7 +25,6 @@ class Dijkstra(AStar):
         AStar.__init__(self,
                        problem=problem,
                        data=data,
-                       verbose=verbose,
                        name=name)
 
     def _heuristic(self, state: State) -> int:

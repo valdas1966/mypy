@@ -19,7 +19,6 @@ class AStar(AlgoSPP):
     def __init__(self,
                  problem: ProblemSPP,
                  data: DataSPP = None,
-                 verbose: bool = False,
                  name: str = 'AStar') -> None:
         """
         ========================================================================
@@ -29,7 +28,6 @@ class AStar(AlgoSPP):
         AlgoSPP.__init__(self,
                          problem=problem,
                          data=data,
-                         verbose=verbose,
                          name=name)
 
     def run(self) -> SolutionSPP:
