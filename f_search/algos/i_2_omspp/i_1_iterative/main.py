@@ -11,6 +11,9 @@ class IterativeOMSPP(AlgoOMSPP):
     ============================================================================
     """
     
+    # Factory
+    Factory: type = None
+
     def __init__(self,
                  problem: ProblemOMSPP,
                  type_algo: type[AlgoSPP],
@@ -38,7 +41,7 @@ class IterativeOMSPP(AlgoOMSPP):
         sub_problems: list[ProblemSPP] = self._problem.to_spps()
         n_problems = len(sub_problems)
         for i, sub_problem in enumerate(sub_problems):
-            # Add stats for the goals that are already explored.
+            # Add stats for the goals that were explored during other searches.
             if sub_problem.goal in data.explored:
                 path = data.path_to(state=sub_problem.goal)
                 solution = SolutionSPP(is_valid=True, path=path)
@@ -49,19 +52,19 @@ class IterativeOMSPP(AlgoOMSPP):
             name_algo = f'{self._type_algo.__name__} {i+1}/{n_problems}'
             algo = self._type_algo(problem=sub_problem,
                                    data=data,
-                                   name=name_algo,
-                                   verbose=self._verbose)
+                                   name=name_algo)
             solution = algo.run()
-            self._add_solution_spp(goal=sub_problem.goal,
-                                   solution=solution)
+            self._sub_solutions[sub_problem.goal] = solution
             if not solution:
                 # If any subproblem is invalid, the overall solution is invalid
-                return self._create_solution(is_valid=False)
-            algo._data.generated.push(state=algo._data.best,
-                                      cost=algo._data.cost[algo._data.best])
-            data = algo._data
+                return self._create_solution()
+            # Add Best to Generated (for further searches)
+            best = algo.data.best
+            cost_best = algo.data.cost[best]
+            algo.data.generated.push(state=best, cost=cost_best)
+            data = algo.data
         # Return valid solution.
-        return self._create_solution(is_valid=True)
+        return self._create_solution()
 
     def _add_solution_spp(self, goal: State, solution: SolutionSPP) -> None:
         """
@@ -71,4 +74,3 @@ class IterativeOMSPP(AlgoOMSPP):
         """
         self._sub_solutions[goal] = solution
         self._stats.add_stats_goal(goal=goal, stats=solution.stats)
-

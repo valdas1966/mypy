@@ -8,9 +8,6 @@ class StatsSearch(StatsAlgo):
     ============================================================================
     """
 
-    RECORD_SPEC = {'generated': lambda o: o.generated,
-                   'explored': lambda o: o.explored}
-
     def __init__(self,
                  generated: int = 0,
                  explored: int = 0) -> None:

@@ -6,6 +6,7 @@ class ProblemOMSPPLite:
     """
     ============================================================================
      Light-Weighted (not executable) One-to-Many Shortest-Path-Problem.
+     Use-Case: When Grid is too large and we want it's lazy representation.
     ============================================================================
     """
 

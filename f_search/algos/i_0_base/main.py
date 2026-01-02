@@ -34,6 +34,15 @@ class AlgoSearch(Generic[Problem, Solution, Stats, Data],
         Algo.__init__(self, problem=problem, name=name)
         self._data = data if data else self.cls_data()
         
+    @property
+    def data(self) -> Data:
+        """
+        ========================================================================
+         Get the Data.
+        ========================================================================
+        """
+        return self._data
+        
     def _run_pre(self) -> None:
         """
         ========================================================================

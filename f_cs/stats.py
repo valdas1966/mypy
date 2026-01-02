@@ -1,22 +1,17 @@
-from f_core.mixins.has.record import HasRecord
 
-
-class StatsAlgo(HasRecord):
+class StatsAlgo:
     """
     ============================================================================
      ABC for Algorithm's Stats.
     ============================================================================
     """
 
-    RECORD_SPEC = {'elapsed': lambda o: o.elapsed}
-
-    def __init__(self, name: str = None) -> None:
+    def __init__(self) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        HasRecord.__init__(self, name=name)
         self._elapsed = 0
 
     @property

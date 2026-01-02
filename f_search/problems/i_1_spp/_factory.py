@@ -31,3 +31,14 @@ class Factory:
         start = State(key=grid[0][0])
         goal = State(key=grid[0][3])
         return ProblemSPP(grid=grid, start=start, goal=goal)
+    
+    @staticmethod
+    def fictive_goal(grid: Grid, start: State) -> ProblemSPP:
+        """
+        ========================================================================
+         Return a fictive goal state.
+        ========================================================================
+        """
+        goal = State.Factory.million()
+        return ProblemSPP(grid=grid, start=start, goal=goal)
+        

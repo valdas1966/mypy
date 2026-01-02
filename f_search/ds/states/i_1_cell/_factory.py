@@ -38,3 +38,13 @@ class Factory:
         """
         cell = Cell(2, 2)
         return StateCell(key=cell, name='Two')
+    
+    @staticmethod
+    def million() -> StateCell:
+        """
+        ========================================================================
+         Return a new StateCell with the cell (1000000, 1000000).
+        ========================================================================
+        """
+        cell = Cell.Factory.million()
+        return StateCell(key=cell, name='Million')

@@ -10,9 +10,8 @@ class SolutionSPP(SolutionSearch[StatsSearch]):
     ============================================================================
     """
 
-    RECORD_SPEC = {'path': lambda o: len(o.path)}
-
-    Factory = None
+    # Factory
+    Factory: type = None
 
     def __init__(self,
                  is_valid: bool,

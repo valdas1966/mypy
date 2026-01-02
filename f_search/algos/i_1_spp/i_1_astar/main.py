@@ -3,7 +3,6 @@ from f_search.problems import ProblemSPP, State
 from f_search.solutions import SolutionSPP
 from f_search.ds.data import DataSPP
 from f_search.ds.cost import Cost
-from f_search.ds.path import Path
 
 
 class AStar(AlgoSPP):
@@ -37,9 +36,12 @@ class AStar(AlgoSPP):
         ========================================================================
         """
         self._run_pre()        
-        if not self._data.generated:
+        if self._data.generated:
+            self._update_generated()
+        else:
             self._generate_state(state=self._problem.start)
         while self._should_continue():
+            print(len(self.data.generated))
             self._update_best()
             if self._can_terminate():
                 return self._create_solution(is_valid=True)
@@ -92,9 +94,11 @@ class AStar(AlgoSPP):
          Create the Solution.
         ========================================================================
         """
-        # Run post
+        print('create_solution()')
         self._run_post()
+        print('after run_post()')
         path = self._data.path_to(state=self._data.best)
+        print('after path')
         solution = SolutionSPP(is_valid=is_valid,
                                path=path,
                                stats=self._stats)
@@ -130,7 +134,7 @@ class AStar(AlgoSPP):
     def _update_cost(self, state: State) -> None:
         """
         ========================================================================
-         Update the Cost of the given StateBase.
+         Update the Cost of the given State.
         ========================================================================
         """
         # Aliases
@@ -139,8 +143,8 @@ class AStar(AlgoSPP):
         data.g[state] = data.g[data.best] + 1 if data.best else 0
         data.h[state] = self._heuristic(state=state)
         data.cost[state] = Cost(key=state,
-                                      g=data.g[state],
-                                      h=data.h[state])
+                                g=data.g[state],
+                                h=data.h[state])
 
     def _can_terminate(self) -> bool:
         """
@@ -148,4 +152,13 @@ class AStar(AlgoSPP):
          Return True if the Goal is the Best-StateBase in Generated-List.
         ========================================================================
         """
+        print(self._data.best, self._problem.goal, self._data.best == self._problem.goal)
         return self._data.best == self._problem.goal
+
+    def _update_generated(self) -> None:
+        print('_update_generated')
+        data = self._data
+        for state in data.generated:
+            self._update_cost(state=state)
+            print(state, data.cost[state])
+            

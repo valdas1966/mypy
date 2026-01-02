@@ -42,3 +42,11 @@ class Cost(Generic[Key], Comparable):
                 int(not self._is_bounded),
                 self._h,
                 self._key)
+
+    def __str__(self) -> str:
+        """
+        =======================================================================
+         Return the State's Cost.
+        =======================================================================
+        """
+        return str(self.key_comparison())

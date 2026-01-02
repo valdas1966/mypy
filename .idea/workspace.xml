@@ -5,19 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
+      <change afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_3_dijkstra_neighborhood/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_3_dijkstra_neighborhood/_factory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_3_dijkstra_neighborhood/_tester.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_3_dijkstra_neighborhood/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/processes/i_0_abc/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/processes/i_0_abc/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/processes/i_1_input/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/processes/i_1_input/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/processes/i_1_output/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/processes/i_1_output/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/processes/i_2_io/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/processes/i_2_io/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_cs/algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_cs/algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_cs/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_cs/stats.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/cell/i_0_base/_study.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cell/i_0_base/_study.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/cell/i_1_map/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cell/i_1_map/_factory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_search/algos/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_0_base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_0_base/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_2_dijkstra/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_2_dijkstra/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_4_problems.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_4_problems.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_0_base/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_iterative/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_iterative/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_iterative/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_iterative/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/ds/cost/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/cost/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/ds/states/i_1_cell/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/states/i_1_cell/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/problems/i_1_spp/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/i_1_spp/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/problems/i_2_omspp_lite/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/i_2_omspp_lite/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/solutions/i_1_spp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/solutions/i_1_spp/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/solutions/i_2_omspp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/solutions/i_2_omspp/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/stats/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/stats/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +52,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
-    &quot;accountId&quot;: &quot;0f4621b9-87f9-4a4a-9ceb-401ed7593bcc&quot;
+    &quot;accountId&quot;: &quot;ddaa2239-897e-4e37-90b9-04afc5364900&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -512,6 +520,7 @@
     "Python tests.pytest for _tester.test_counters_with_obstacles (1).executor": "Run",
     "Python tests.pytest for _tester.test_counters_with_obstacles.executor": "Run",
     "Python tests.pytest for _tester.test_counters_without_obstacles.executor": "Run",
+    "Python tests.pytest for _tester.test_dijkstra_neighborhood.executor": "Run",
     "Python tests.pytest for _tester.test_f.executor": "Run",
     "Python tests.pytest for _tester.test_from_file_map.executor": "Run",
     "Python tests.pytest for _tester.test_g.executor": "Run",
@@ -967,7 +976,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "settings.editor.selected.configurable": "preferences.keymap",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -977,15 +986,15 @@
       <recent name="D:\mypy\f_ds" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\mypy\f_search\algos\i_1_spp" />
       <recent name="F:\mypy\f_search\experiments\p_2_pairs_potential" />
       <recent name="F:\mypy\f_search\experiments\p_1_grids" />
       <recent name="F:\mypy\f_ds\groups" />
       <recent name="F:\mypy\f_core\processes" />
-      <recent name="F:\mypy\f_search\experiments\i_3_pairs" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.pytest in _tester.py (2)">
-    <configuration name="p_3_pairs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager">
+    <configuration name="_study" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -994,11 +1003,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/experiments" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_iterative" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_3_pairs.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_iterative/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1007,60 +1016,21 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="p_4_problems" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/experiments" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_4_problems.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest in _tester.py (1)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="pytest for _tester.test_dijkstra_neighborhood" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/algos/i_1_spp/i_3_dijkstra_neighborhood" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_keywords" value="&quot;&quot;" />
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/_tester.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest in _tester.py (2)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/algos/i_1_spp/i_2_dijkstra/_tester.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;_tester.test_dijkstra_neighborhood&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="pytest in _tester.py (3)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
@@ -1094,6 +1064,40 @@
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_kx_astar/_tester.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/_tester.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/algos/i_1_spp/i_2_dijkstra/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -1221,26 +1225,26 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.p_3_pairs" />
-      <item itemvalue="Python.p_4_problems" />
+      <item itemvalue="Python._study" />
+      <item itemvalue="Python tests.pytest for _tester.test_dijkstra_neighborhood" />
       <item itemvalue="Python tests.pytest in _tester.py" />
       <item itemvalue="Python tests.pytest in _tester.py (2)" />
       <item itemvalue="Python tests.pytest in _tester.py (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python._study" />
+        <item itemvalue="Python tests.pytest for _tester.test_dijkstra_neighborhood" />
         <item itemvalue="Python tests.pytest in _tester.py (2)" />
         <item itemvalue="Python tests.pytest in _tester.py (1)" />
         <item itemvalue="Python tests.pytest in _tester.py" />
-        <item itemvalue="Python.p_4_problems" />
-        <item itemvalue="Python.p_3_pairs" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
+        <option value="bundled-python-sdk-9f8e2b94138c-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26094.141" />
       </set>
     </attachedChunks>
   </component>

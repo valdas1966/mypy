@@ -36,7 +36,6 @@ class AlgoOMSPP(Generic[Problem, Solution, Stats, Data],
         AlgoSearch.__init__(self,
                             problem=problem,
                             data=data,
-                            verbose=verbose,
                             name=name)
         self._goals_active: list[State] = list()
         self._sub_solutions: dict[State, Solution] = None
@@ -58,5 +57,4 @@ class AlgoOMSPP(Generic[Problem, Solution, Stats, Data],
         ========================================================================
         """
         self._run_post()
-        solution = SolutionOMSPP(sub_solutions=self._sub_solutions)
-        self.print(f'[Solution] {solution.stats}')
+        return SolutionOMSPP(sub_solutions=self._sub_solutions)
