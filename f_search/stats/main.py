@@ -9,6 +9,7 @@ class StatsSearch(StatsAlgo):
     """
 
     def __init__(self,
+                 elapsed: int = 0,
                  generated: int = 0,
                  explored: int = 0) -> None:
         """
@@ -16,7 +17,7 @@ class StatsSearch(StatsAlgo):
          Init private Attributes.
         ========================================================================
         """
-        StatsAlgo.__init__(self)
+        StatsAlgo.__init__(self, elapsed=elapsed)
         # Number of states added to the open queue (Generated)
         self._generated = generated
         # Number of states fully expanded (moved to closed list)

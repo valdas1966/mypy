@@ -183,7 +183,7 @@ Valid ProblemOMSPP instances satisfy:
 from f_ds.grids import GridMap
 from f_search.ds import StateBase
 from f_search.problems import ProblemOMSPP
-from f_search.algos import KxAStar
+from f_search.algos import AStarRepeated
 
 # Create grid
 grid = GridMap(width=20, height=20)
@@ -200,7 +200,7 @@ goals = [
 problem = ProblemOMSPP(grid=grid, start=start, goals=goals)
 
 # Solve with KxAStar
-kx_astar = KxAStar(problem=problem)
+kx_astar = AStarRepeated(problem=problem)
 solution = kx_astar.run()
 
 if solution.is_valid:

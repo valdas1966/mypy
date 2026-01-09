@@ -1,15 +1,15 @@
-from f_search.algos.i_0_base.main import AlgoSearch
+from f_search.algos.i_0_base import AlgoSearch
 from f_search.solutions import SolutionOMSPP
 from f_search.problems import ProblemOMSPP
 from f_search.ds import StateBase as State
-from f_search.ds.data import DataOMSPP
+from f_search.ds.data import DataSearch
 from f_search.stats import StatsSearch
 from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemOMSPP)
 Solution = TypeVar('Solution', bound=SolutionOMSPP)
 Stats = TypeVar('Stats', bound=StatsSearch)
-Data = TypeVar('Data', bound=DataOMSPP)
+Data = TypeVar('Data', bound=DataSearch)
 
 
 class AlgoOMSPP(Generic[Problem, Solution, Stats, Data],
@@ -21,12 +21,11 @@ class AlgoOMSPP(Generic[Problem, Solution, Stats, Data],
     """
 
     cls_stats = StatsSearch
-    cls_data = DataOMSPP
+    cls_data = DataSearch
 
     def __init__(self,
                  problem: Problem,
                  data: Data = None,
-                 verbose: bool = True,
                  name: str = 'AlgoOMSPP') -> None:
         """
         ========================================================================
@@ -38,8 +37,8 @@ class AlgoOMSPP(Generic[Problem, Solution, Stats, Data],
                             data=data,
                             name=name)
         self._goals_active: list[State] = list()
-        self._sub_solutions: dict[State, Solution] = None
-        
+        self._sub_solutions: dict[State, Solution] = dict()
+
     def _run_pre(self) -> None:
         """
         ========================================================================
@@ -57,4 +56,5 @@ class AlgoOMSPP(Generic[Problem, Solution, Stats, Data],
         ========================================================================
         """
         self._run_post()
-        return SolutionOMSPP(sub_solutions=self._sub_solutions)
+        return SolutionOMSPP(sub_solutions=self._sub_solutions,
+                             elapsed=self._stats.elapsed)

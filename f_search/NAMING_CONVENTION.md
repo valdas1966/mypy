@@ -257,8 +257,9 @@ from f_search.ds import StateBase, Cost, Path, Generated
 ```
 
 ### Internal Imports (within f_search)
+
 ```python
-from f_search.algos.i_0_base.main import AlgoSearch
+from f_search.algos.i_0_base import AlgoSearch
 from f_search.algos.i_1_spp.i_0_base.main import AlgoSPP
 from f_search.algos.i_1_spp.i_1_astar.main import AStar
 ```

@@ -1,5 +1,5 @@
-from f_search.algos.i_0_base.main import AlgoSearch
-from f_search.ds.data import DataSPP
+from f_search.algos.i_0_base import AlgoSearch
+from f_search.ds.data import DataSearch
 from f_search.stats import StatsSearch
 from f_search.problems import ProblemSPP
 from f_search.solutions import SolutionSPP
@@ -8,7 +8,7 @@ from typing import Generic, TypeVar
 Problem = TypeVar('Problem', bound=ProblemSPP)
 Solution = TypeVar('Solution', bound=SolutionSPP) 
 Stats = TypeVar('Stats', bound=StatsSearch)
-Data = TypeVar('Data', bound=DataSPP)
+Data = TypeVar('Data', bound=DataSearch)
 
 
 class AlgoSPP(Generic[Problem, Solution, Stats, Data],
@@ -20,7 +20,7 @@ class AlgoSPP(Generic[Problem, Solution, Stats, Data],
     """
 
     cls_stats = StatsSearch
-    cls_data = DataSPP
+    cls_data = DataSearch
 
     def __init__(self,
                  problem: Problem,
@@ -31,8 +31,7 @@ class AlgoSPP(Generic[Problem, Solution, Stats, Data],
          Init private Attributes.
         ========================================================================
         """
-        AlgoSearch.__init__(self,
-                            problem=problem,
-                            data=data,
-                            name=name)
+        super().__init__(problem=problem,
+                         data=data,
+                         name=name)
         

@@ -108,12 +108,13 @@ SolutionOMSPP(
 ## Usage with Algorithms
 
 ### Algorithm Returns Solution
+
 ```python
-from f_search.algos import KxAStar
+from f_search.algos import AStarRepeated
 from f_search.problems import ProblemOMSPP
 
 problem = ProblemOMSPP(grid, start, goals)
-kx_astar = KxAStar(problem=problem)
+kx_astar = AStarRepeated(problem=problem)
 solution = kx_astar.run()  # Returns SolutionOMSPP
 ```
 

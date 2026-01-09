@@ -34,6 +34,18 @@ class Factory:
         return ProblemOMSPP(grid=grid, start=start, goals=goals)
 
     @staticmethod
+    def all_goals(rows: int) -> ProblemOMSPP:
+        """
+        ========================================================================
+         Return a ProblemOMSPP when all the cells are Goals.
+        ========================================================================
+        """
+        grid = Grid(rows=rows)
+        start = State(key=grid[0][0])
+        goals = [State(key=cell) for cell in grid]
+        return ProblemOMSPP(grid=grid, start=start, goals=goals)
+        
+    @staticmethod
     def _get_start_4x4() -> State:
         """
         ========================================================================

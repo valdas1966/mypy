@@ -1,11 +1,7 @@
 from f_core.mixins.has import HasRowCol
 
 
-obj = HasRowCol.Factory.twelve()
-for n in obj.neighbors():
-    print(n)
+cell_03 = HasRowCol(0, 3)
+cell_12 = HasRowCol(1, 2)
 
-obj_2 = HasRowCol.Factory.twelve()
-print(obj == obj_2)
-
-
+print(cell_03 < cell_12)

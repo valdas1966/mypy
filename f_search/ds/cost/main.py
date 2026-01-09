@@ -30,6 +30,17 @@ class Cost(Generic[Key], Comparable):
         self._h = h
         self._is_cached = is_cached
         self._is_bounded = is_bounded
+
+    def update(self, g: int = None, h: int = None) -> None:
+        """
+        =======================================================================
+         Update private Attributes.
+        =======================================================================
+        """
+        if g is not None:
+            self._g = g
+        if h is not None:
+            self._h = h
         
     def key_comparison(self) -> tuple[int, int, int, int, Key]:
         """

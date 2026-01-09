@@ -7,8 +7,6 @@
 """
 
 from f_cs.experiments import ExperimentsRunner
-from f_cs.algo import Algo
-from f_cs.problem import ProblemAlgo
 
 
 # Example 1: Basic Usage
@@ -42,8 +40,8 @@ def example_with_config():
     """
     # Algorithm factory with custom configuration
     def algo_factory_with_config(problem):
-        from f_search.algos.i_2_omspp.i_1_kx_astar import KxAStar
-        return KxAStar(
+        from f_search.algos.i_2_omspp.i_1_repeated.astar import AStarRepeated
+        return AStarRepeated(
             problem=problem,
             verbose=False
             # Add any algorithm-specific parameters here

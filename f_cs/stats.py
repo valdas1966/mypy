@@ -6,13 +6,13 @@ class StatsAlgo:
     ============================================================================
     """
 
-    def __init__(self) -> None:
+    def __init__(self, elapsed: int = 0) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._elapsed = 0
+        self._elapsed = elapsed
 
     @property
     def elapsed(self) -> int:

@@ -12,7 +12,8 @@ class SolutionOMSPP(SolutionSearch[StatsSearch]):
     ============================================================================
     """
     def __init__(self,
-                 sub_solutions: dict[StateBase, SolutionSPP]) -> None:
+                 sub_solutions: dict[StateBase, SolutionSPP],
+                 elapsed: int) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -28,7 +29,9 @@ class SolutionOMSPP(SolutionSearch[StatsSearch]):
         is_valid = all(sub_solution
                        for sub_solution
                        in sub_solutions.values())
-        stats = StatsSearch(generated=generated, explored=explored)
+        stats = StatsSearch(elapsed=elapsed,
+                            generated=generated,
+                            explored=explored)
         SolutionSearch.__init__(self, is_valid=is_valid, stats=stats)
         self._sub_solutions = sub_solutions
         self._paths = {goal: sub_solution.path
