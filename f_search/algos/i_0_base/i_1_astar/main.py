@@ -102,6 +102,7 @@ class AStarBase(AlgoSearch):
                 data.generated.push(state=state,
                                     cost=data.cost[state])
 
+
     def _should_continue(self) -> bool:
         """
         ========================================================================
