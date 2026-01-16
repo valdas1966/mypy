@@ -15,7 +15,7 @@ class DijkstraNeighborhood(Dijkstra):
     
     def __init__(self,
                  problem: ProblemSPP,
-                 k: int,
+                 steps: int,
                  name: str = 'DijkstraNeighborhood') -> None:
         """
         ========================================================================
@@ -23,7 +23,7 @@ class DijkstraNeighborhood(Dijkstra):
         ========================================================================
         """
         Dijkstra.__init__(self, problem=problem, name=name)
-        self._k = k
+        self._steps = steps
         
     def _can_terminate(self) -> bool:
         """
@@ -33,7 +33,7 @@ class DijkstraNeighborhood(Dijkstra):
         """
         best = self.data.best
         g_best = self.data.g[best]
-        return g_best > self._k
+        return g_best > self._steps
     
     def _create_solution(self, is_valid: bool) -> set[State]:
         """

@@ -1,4 +1,4 @@
-from f_search.algos.i_1_spp import AStar, Dijkstra
+from f_search.algos.i_1_spp import AStar, DijkstraNeighborhood
 from f_search.problems import ProblemSPP
 from f_search.ds.states import StateCell as State
 from f_ds.grids import GridMap as Grid
@@ -72,17 +72,18 @@ def random_cells_up_to_distance(grid: Grid,
     return None
 
 
-def k_neighborhood(grid: Grid,
-                   cell: Cell,
-                   k: int) -> list[Cell]:
+def cells_reachable(grid: Grid,
+                    cell: Cell,
+                    steps_max: int) -> list[Cell]:
     """
     ========================================================================
-     Return the k-neighborhood of a cell.
+     Return the cells reachable from a given cell up to a
+      given maximum number of steps (using Dijkstra).
     ========================================================================
     """
-    cell_goal = Cell.Factory.Million()
-    goal = State(key=cell_goal)
     start = State(key=cell)
-    problem = ProblemSPP(grid=grid, start=cell, goal=goal)
-    solution = AStar(problem=problem).run()
-    return solution.path
+    problem = ProblemSPP.Factory.fictive_goal(grid=grid, start=start)
+    dijkstra = DijkstraNeighborhood(problem=problem, steps=steps_max)
+    dijkstra.run()
+    cells = [state.key for state in dijkstra.data.explored]
+    return list(sorted(cells))
