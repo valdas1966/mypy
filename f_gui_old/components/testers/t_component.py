@@ -1,4 +1,4 @@
-from f_gui.components.generators.g_component import GenComponent
+from f_gui_old.components.generators.g_component import GenComponent
 from f_gui.layout import FactoryRect
 
 

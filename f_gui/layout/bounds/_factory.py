@@ -1,8 +1,8 @@
-from f_gui.layout.rect._factory import FactoryRect
-from f_gui.layout.bounds.bounds import Bounds
+from f_gui.layout.bounds.main import Bounds
+from f_math.shapes.rect import Rect
 
 
-class FactoryBounds:
+class Factory:
     """
     ========================================================================
      Generator for Bounds objects.
@@ -20,7 +20,7 @@ class FactoryBounds:
          Generate a half position.
         ========================================================================
         """
-        bounds = FactoryRect.half()
+        bounds = Rect.Factory.half()
         return Bounds(relative=bounds)
 
     @staticmethod
@@ -30,5 +30,5 @@ class FactoryBounds:
          Generate a quarter position.
         ========================================================================
         """
-        bounds = FactoryRect.quarter()
+        bounds = Rect.Factory.quarter()
         return Bounds(relative=bounds)

@@ -1,4 +1,4 @@
-from f_gui.components.window import Window
+from f_gui_old.components.window import Window
 from f_gui.layout import FactoryRect
 
 

@@ -1,5 +1,5 @@
 from f_ds.grids.cell.i_0_base.main import CellBase
-from f_gui.components.component import Component
+from f_gui_old.components.component import Component
 
 
 class CellGui(CellBase):

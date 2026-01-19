@@ -1,4 +1,4 @@
-from f_gui.components.component import Component
+from f_gui_old.components.component import Component
 from f_gui.layout import FactoryBounds
 
 

@@ -2,7 +2,7 @@ from f_search.solutions.i_0_base.main import SolutionSearch
 from f_search.solutions.i_1_spp.main import SolutionSPP
 from f_search.stats import StatsSearch
 from f_search.ds.path import Path
-from f_search.ds.states import StateBase
+from f_search.ds.states import StateBase as State
 
 
 class SolutionOMSPP(SolutionSearch[StatsSearch]):
@@ -12,7 +12,7 @@ class SolutionOMSPP(SolutionSearch[StatsSearch]):
     ============================================================================
     """
     def __init__(self,
-                 sub_solutions: dict[StateBase, SolutionSPP],
+                 sub_solutions: dict[State, SolutionSPP],
                  elapsed: int) -> None:
         """
         ========================================================================
@@ -39,7 +39,7 @@ class SolutionOMSPP(SolutionSearch[StatsSearch]):
                        in sub_solutions.items()}
 
     @property
-    def paths(self) -> dict[StateBase, Path]:
+    def paths(self) -> dict[State, Path]:
         """
         ========================================================================
          Return the Solution's Paths for Each Goal.
@@ -48,7 +48,7 @@ class SolutionOMSPP(SolutionSearch[StatsSearch]):
         return self._paths
 
     @property
-    def subs(self) -> dict[StateBase, SolutionSPP]:
+    def subs(self) -> dict[State, SolutionSPP]:
         """
         ========================================================================
          Return the Sub-Solutions.

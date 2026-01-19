@@ -38,8 +38,7 @@ class IncrementalOMSPP(AlgoOMSPP):
             if sub_problem.goal in data.explored:
                 path = data.path_to(state=sub_problem.goal)
                 solution = SolutionSPP(is_valid=True, path=path)
-                self._add_solution_spp(goal=sub_problem.goal,   
-                                       solution=solution)
+                self._sub_solutions[sub_problem.goal] = solution
                 continue
             # Run the sub-search.
             name_algo = f'{self._type_algo.__name__} {i+1}/{n_problems}'
@@ -58,11 +57,3 @@ class IncrementalOMSPP(AlgoOMSPP):
             data = algo.data
         # Return valid solution.
         return self._create_solution()
-
-    def _add_solution_spp(self, goal: State, solution: SolutionSPP) -> None:
-        """
-        ========================================================================
-         Add the Solution of the Sub-Problem to the Data.
-        ========================================================================
-        """
-        self._sub_solutions[goal] = solution

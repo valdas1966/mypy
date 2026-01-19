@@ -1,6 +1,4 @@
-from f_gui.layout.bounds._factory import FactoryBounds
-from f_gui.layout.bounds.bounds import Bounds
-from f_gui.layout.rect._factory import FactoryRect
+from f_gui.layout.bounds.main import Bounds, Rect
 
 
 def test_full():
@@ -19,8 +17,8 @@ def test_half():
      Test the half layout.
     ========================================================================
     """
-    bounds = FactoryBounds.half()
-    assert bounds.absolute == FactoryRect.half()
+    bounds = Bounds.Factory.half()
+    assert bounds.absolute == Rect.Factory.half()
 
 
 def test_quarter():
@@ -29,5 +27,5 @@ def test_quarter():
      Test the quarter layout.
     ========================================================================
     """
-    bounds = FactoryBounds.quarter()
-    assert bounds.absolute == FactoryRect.quarter()
+    bounds = Bounds.Factory.quarter()
+    assert bounds.absolute == Rect.Factory.quarter()

@@ -4,6 +4,7 @@ from f_search.solutions import SolutionSearch
 from f_search.ds.data import DataSearch
 from f_search.ds.cost import Cost
 from abc import abstractmethod
+from f_psl.datetime import UDateTime
 
 
 class AStarBase(AlgoSearch):

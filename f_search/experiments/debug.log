@@ -1,21 +1,971 @@
-[0] [29/12/2025 18:47:20] [START] main() [pickle_grids='f:\\paper\\i_1_grids\\grids.pkl']
-                                         [pickle_pairs='f:\\paper\\i_3_pairs\\pairs.pkl']
-                                         [pickle_problems='f:\\paper\\i_4_problems\\problems.pkl']
-                                         [k_max=50]
-                                         [distance_rect=5]
-                                         [distance_path_max=121]
-                                         [tries=10]
-[0] [29/12/2025 18:47:20] [START] load_grids() [pickle_grids='f:\\paper\\i_1_grids\\grids.pkl']
-[7] [29/12/2025 18:47:28] [FINISH] load_grids() -> dict(25)
-[0] [29/12/2025 18:47:28] [START] load_pairs() [pickle_pairs='f:\\paper\\i_3_pairs\\pairs.pkl']
-[0] [29/12/2025 18:47:28] [FINISH] load_pairs() -> dict(25)
-[0] [29/12/2025 18:47:28] [START] gen_problems() [grids=dict(25)]
-                                                 [pairs=dict(25)]
-                                                 [k_max=50]
-                                                 [distance_rect=5]
-                                                 [distance_path_max=121]
-                                                 [tries=10]
-[0] [29/12/2025 18:47:28] [START] gen_problems.for_grid() [grid=<GridMap: Name=Berlin_2_1024, Shape=1024x1024, Cells=795261>]
-                                                          [pairs=list(5)]
-                                                          [total=25]
-                                                          [i=1]
+[0] [18/01/2026 21:19:41] [START] load_grids() [pickle_grids='f:\\paper\\i_1_grids\\grids.pkl']
+[7] [18/01/2026 21:19:48] [FINISH] load_grids() -> dict(25)
+[0] [18/01/2026 21:19:48] [START] load_problems() [pickle_problems='f:\\paper\\i_3_problems\\problems.pkl']
+[0] [18/01/2026 21:19:48] [FINISH] load_problems() -> list(250)
+[0] [18/01/2026 21:19:48] [START] run_algos() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                              [d_grids=dict(25)]
+                                              [problems=list(240)]
+[0] [18/01/2026 21:19:48] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=0]
+[261] [18/01/2026 21:24:10] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [18/01/2026 21:24:10] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=1]
+[821] [18/01/2026 21:37:52] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [18/01/2026 21:37:52] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=2]
+[256] [18/01/2026 21:42:08] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [18/01/2026 21:42:08] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=3]
+[791] [18/01/2026 21:55:20] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [18/01/2026 21:55:20] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=4]
+[253] [18/01/2026 21:59:33] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [18/01/2026 21:59:33] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=5]
+[790] [18/01/2026 22:12:44] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [18/01/2026 22:12:44] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=6]
+[253] [18/01/2026 22:16:57] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [18/01/2026 22:16:57] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=7]
+[792] [18/01/2026 22:30:13] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [18/01/2026 22:30:13] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=8]
+[253] [18/01/2026 22:34:26] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [18/01/2026 22:34:26] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=9]
+[790] [18/01/2026 22:47:37] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [18/01/2026 22:47:37] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=10]
+[709] [18/01/2026 22:59:26] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [18/01/2026 22:59:26] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=11]
+[800] [18/01/2026 23:12:47] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [18/01/2026 23:12:47] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=12]
+[708] [18/01/2026 23:24:35] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [18/01/2026 23:24:35] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=13]
+[800] [18/01/2026 23:37:56] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [18/01/2026 23:37:56] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=14]
+[708] [18/01/2026 23:49:44] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [18/01/2026 23:49:44] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=15]
+[805] [19/01/2026 00:03:09] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 00:03:09] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=16]
+[709] [19/01/2026 00:14:58] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 00:14:58] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=17]
+[801] [19/01/2026 00:28:19] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 00:28:19] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=18]
+[707] [19/01/2026 00:40:07] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 00:40:07] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=19]
+[801] [19/01/2026 00:53:28] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 00:53:28] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=20]
+[100] [19/01/2026 00:55:08] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 00:55:08] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=21]
+[74] [19/01/2026 00:56:23] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 00:56:23] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=22]
+[100] [19/01/2026 00:58:03] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 00:58:03] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=23]
+[73] [19/01/2026 00:59:17] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 00:59:17] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=24]
+[100] [19/01/2026 01:00:58] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:00:58] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=25]
+[74] [19/01/2026 01:02:12] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:02:12] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=26]
+[101] [19/01/2026 01:03:53] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:03:53] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=27]
+[74] [19/01/2026 01:05:07] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:05:07] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=28]
+[101] [19/01/2026 01:06:48] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:06:48] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=29]
+[74] [19/01/2026 01:08:03] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:08:03] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=30]
+[91] [19/01/2026 01:09:35] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:09:35] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=31]
+[60] [19/01/2026 01:10:35] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:10:35] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=32]
+[91] [19/01/2026 01:12:07] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:12:07] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=33]
+[60] [19/01/2026 01:13:08] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:13:08] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=34]
+[91] [19/01/2026 01:14:40] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:14:40] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=35]
+[60] [19/01/2026 01:15:41] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:15:41] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=36]
+[91] [19/01/2026 01:17:13] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:17:13] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=37]
+[62] [19/01/2026 01:18:15] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:18:15] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=38]
+[91] [19/01/2026 01:19:47] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:19:47] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=39]
+[61] [19/01/2026 01:20:48] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:20:48] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=40]
+[4] [19/01/2026 01:20:53] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:20:53] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=41]
+[6] [19/01/2026 01:20:59] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:20:59] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=42]
+[4] [19/01/2026 01:21:03] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:21:03] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=43]
+[6] [19/01/2026 01:21:10] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:21:10] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=44]
+[4] [19/01/2026 01:21:14] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:21:14] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=45]
+[6] [19/01/2026 01:21:20] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:21:20] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=46]
+[4] [19/01/2026 01:21:25] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:21:25] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=47]
+[6] [19/01/2026 01:21:31] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:21:31] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=48]
+[4] [19/01/2026 01:21:36] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:21:36] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=49]
+[6] [19/01/2026 01:21:42] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:21:42] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=50]
+[8] [19/01/2026 01:21:51] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:21:51] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=51]
+[12] [19/01/2026 01:22:03] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:22:03] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=52]
+[8] [19/01/2026 01:22:11] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:22:11] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=53]
+[12] [19/01/2026 01:22:24] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:22:24] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=54]
+[8] [19/01/2026 01:22:32] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:22:32] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=55]
+[12] [19/01/2026 01:22:44] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:22:44] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=56]
+[8] [19/01/2026 01:22:53] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:22:53] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=57]
+[12] [19/01/2026 01:23:05] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:23:05] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=58]
+[8] [19/01/2026 01:23:14] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:23:14] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=59]
+[12] [19/01/2026 01:23:26] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:23:26] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=60]
+[41] [19/01/2026 01:24:07] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:24:07] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=61]
+[9] [19/01/2026 01:24:17] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:24:17] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=62]
+[41] [19/01/2026 01:24:58] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:24:58] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=63]
+[9] [19/01/2026 01:25:08] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:25:08] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=64]
+[41] [19/01/2026 01:25:49] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:25:49] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=65]
+[9] [19/01/2026 01:25:58] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:25:58] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=66]
+[41] [19/01/2026 01:26:40] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:26:40] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=67]
+[9] [19/01/2026 01:26:50] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:26:50] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=68]
+[41] [19/01/2026 01:27:31] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:27:31] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=69]
+[9] [19/01/2026 01:27:41] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:27:41] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=70]
+[2] [19/01/2026 01:27:43] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:27:43] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=71]
+[5] [19/01/2026 01:27:48] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:27:48] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=72]
+[2] [19/01/2026 01:27:50] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:27:50] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=73]
+[5] [19/01/2026 01:27:55] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:27:55] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=74]
+[2] [19/01/2026 01:27:57] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:27:57] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=75]
+[5] [19/01/2026 01:28:03] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:28:03] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=76]
+[2] [19/01/2026 01:28:05] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:28:05] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=77]
+[5] [19/01/2026 01:28:10] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:28:10] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=78]
+[2] [19/01/2026 01:28:12] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:28:12] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=79]
+[5] [19/01/2026 01:28:18] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:28:18] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=80]
+[16] [19/01/2026 01:28:34] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:28:34] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=81]
+[5] [19/01/2026 01:28:40] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:28:40] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=82]
+[16] [19/01/2026 01:28:56] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:28:56] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=83]
+[5] [19/01/2026 01:29:02] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:29:02] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=84]
+[16] [19/01/2026 01:29:19] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:29:19] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=85]
+[5] [19/01/2026 01:29:25] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:29:25] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=86]
+[16] [19/01/2026 01:29:41] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:29:41] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=87]
+[5] [19/01/2026 01:29:47] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:29:47] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=88]
+[16] [19/01/2026 01:30:03] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:30:03] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=89]
+[5] [19/01/2026 01:30:09] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:30:09] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=90]
+[56] [19/01/2026 01:31:05] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:31:05] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=91]
+[35] [19/01/2026 01:31:40] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:31:40] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=92]
+[56] [19/01/2026 01:32:37] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:32:37] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=93]
+[35] [19/01/2026 01:33:13] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:33:13] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=94]
+[56] [19/01/2026 01:34:09] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:34:09] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=95]
+[35] [19/01/2026 01:34:44] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:34:44] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=96]
+[56] [19/01/2026 01:35:41] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:35:41] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=97]
+[35] [19/01/2026 01:36:16] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:36:16] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=98]
+[56] [19/01/2026 01:37:13] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:37:13] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=99]
+[35] [19/01/2026 01:37:48] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:37:48] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=100]
+[19] [19/01/2026 01:38:08] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:38:08] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=101]
+[16] [19/01/2026 01:38:24] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:38:24] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=102]
+[19] [19/01/2026 01:38:44] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:38:44] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=103]
+[15] [19/01/2026 01:38:59] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:38:59] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=104]
+[19] [19/01/2026 01:39:19] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:39:19] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=105]
+[15] [19/01/2026 01:39:35] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:39:35] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=106]
+[19] [19/01/2026 01:39:54] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:39:54] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=107]
+[15] [19/01/2026 01:40:10] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:40:10] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=108]
+[19] [19/01/2026 01:40:30] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:40:30] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=109]
+[15] [19/01/2026 01:40:46] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:40:46] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=110]
+[25] [19/01/2026 01:41:11] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:41:11] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=111]
+[54] [19/01/2026 01:42:05] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:42:05] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=112]
+[25] [19/01/2026 01:42:30] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:42:30] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=113]
+[54] [19/01/2026 01:43:24] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:43:24] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=114]
+[25] [19/01/2026 01:43:50] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:43:50] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=115]
+[53] [19/01/2026 01:44:44] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:44:44] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=116]
+[25] [19/01/2026 01:45:09] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:45:09] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=117]
+[53] [19/01/2026 01:46:03] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:46:03] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=118]
+[25] [19/01/2026 01:46:28] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:46:28] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=119]
+[54] [19/01/2026 01:47:23] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:47:23] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=120]
+[8] [19/01/2026 01:47:31] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:47:31] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=121]
+[9] [19/01/2026 01:47:41] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:47:41] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=122]
+[8] [19/01/2026 01:47:49] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:47:49] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=123]
+[9] [19/01/2026 01:47:59] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:47:59] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=124]
+[8] [19/01/2026 01:48:08] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:48:08] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=125]
+[9] [19/01/2026 01:48:17] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:48:17] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=126]
+[8] [19/01/2026 01:48:26] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:48:26] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=127]
+[9] [19/01/2026 01:48:36] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:48:36] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=128]
+[8] [19/01/2026 01:48:44] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:48:44] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=129]
+[9] [19/01/2026 01:48:54] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:48:54] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=130]
+[24] [19/01/2026 01:49:19] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:49:19] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=131]
+[28] [19/01/2026 01:49:48] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:49:48] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=132]
+[24] [19/01/2026 01:50:13] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:50:13] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=133]
+[28] [19/01/2026 01:50:41] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:50:41] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=134]
+[25] [19/01/2026 01:51:07] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:51:07] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=135]
+[28] [19/01/2026 01:51:36] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:51:36] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=136]
+[24] [19/01/2026 01:52:01] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:52:01] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=137]
+[29] [19/01/2026 01:52:30] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:52:30] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=138]
+[25] [19/01/2026 01:52:55] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:52:55] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=139]
+[29] [19/01/2026 01:53:24] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:53:24] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=140]
+[129] [19/01/2026 01:55:33] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:55:33] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=141]
+[130] [19/01/2026 01:57:44] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:57:44] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=142]
+[129] [19/01/2026 01:59:54] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 01:59:54] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=143]
+[131] [19/01/2026 02:02:05] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:02:05] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=144]
+[130] [19/01/2026 02:04:15] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:04:15] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=145]
+[130] [19/01/2026 02:06:26] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:06:26] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=146]
+[130] [19/01/2026 02:08:36] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:08:36] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=147]
+[130] [19/01/2026 02:10:47] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:10:47] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=148]
+[130] [19/01/2026 02:12:57] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:12:57] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=149]
+[131] [19/01/2026 02:15:09] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:15:09] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=150]
+[29] [19/01/2026 02:15:38] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:15:38] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=151]
+[30] [19/01/2026 02:16:08] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:16:08] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=152]
+[29] [19/01/2026 02:16:37] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:16:37] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=153]
+[30] [19/01/2026 02:17:08] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:17:08] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=154]
+[29] [19/01/2026 02:17:38] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:17:38] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=155]
+[30] [19/01/2026 02:18:08] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:18:08] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=156]
+[30] [19/01/2026 02:18:38] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:18:38] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=157]
+[30] [19/01/2026 02:19:09] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:19:09] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=158]
+[30] [19/01/2026 02:19:39] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:19:39] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=159]
+[31] [19/01/2026 02:20:10] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:20:10] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=160]
+[135] [19/01/2026 02:22:25] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:22:25] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=161]
+[77] [19/01/2026 02:23:43] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:23:43] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=162]
+[135] [19/01/2026 02:25:59] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:25:59] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=163]
+[77] [19/01/2026 02:27:16] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:27:16] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=164]
+[136] [19/01/2026 02:29:32] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:29:32] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=165]
+[77] [19/01/2026 02:30:50] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:30:50] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=166]
+[136] [19/01/2026 02:33:06] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:33:06] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=167]
+[77] [19/01/2026 02:34:24] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:34:24] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=168]
+[136] [19/01/2026 02:36:40] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:36:40] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=169]
+[77] [19/01/2026 02:37:58] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:37:58] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=170]
+[51] [19/01/2026 02:38:49] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:38:49] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=171]
+[35] [19/01/2026 02:39:25] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:39:25] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=172]
+[51] [19/01/2026 02:40:16] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:40:16] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=173]
+[35] [19/01/2026 02:40:52] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:40:52] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=174]
+[51] [19/01/2026 02:41:43] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:41:43] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=175]
+[35] [19/01/2026 02:42:19] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:42:19] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=176]
+[51] [19/01/2026 02:43:10] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:43:10] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=177]
+[35] [19/01/2026 02:43:46] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:43:46] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=178]
+[51] [19/01/2026 02:44:37] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:44:37] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=179]
+[35] [19/01/2026 02:45:12] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:45:12] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=180]
+[57] [19/01/2026 02:46:10] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:46:10] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=181]
+[73] [19/01/2026 02:47:24] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:47:24] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=182]
+[58] [19/01/2026 02:48:23] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:48:23] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=183]
+[74] [19/01/2026 02:49:37] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:49:37] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=184]
+[57] [19/01/2026 02:50:35] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:50:35] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=185]
+[74] [19/01/2026 02:51:50] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:51:50] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=186]
+[58] [19/01/2026 02:52:48] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:52:48] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=187]
+[74] [19/01/2026 02:54:02] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:54:02] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=188]
+[58] [19/01/2026 02:55:01] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:55:01] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=189]
+[74] [19/01/2026 02:56:15] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:56:15] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=190]
+[19] [19/01/2026 02:56:35] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:56:35] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=191]
+[32] [19/01/2026 02:57:08] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:57:08] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=192]
+[19] [19/01/2026 02:57:27] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:57:27] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=193]
+[33] [19/01/2026 02:58:01] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:58:01] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=194]
+[19] [19/01/2026 02:58:21] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:58:21] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=195]
+[33] [19/01/2026 02:58:55] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:58:55] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=196]
+[19] [19/01/2026 02:59:14] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:59:14] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=197]
+[34] [19/01/2026 02:59:48] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 02:59:48] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=198]
+[19] [19/01/2026 03:00:08] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:00:08] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=199]
+[34] [19/01/2026 03:00:42] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:00:42] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=200]
+[144] [19/01/2026 03:03:07] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:03:07] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=201]
+[27] [19/01/2026 03:03:34] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:03:34] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=202]
+[143] [19/01/2026 03:05:58] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:05:58] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=203]
+[27] [19/01/2026 03:06:25] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:06:25] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=204]
+[143] [19/01/2026 03:08:49] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:08:49] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=205]
+[27] [19/01/2026 03:09:17] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:09:17] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=206]
+[143] [19/01/2026 03:11:40] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:11:40] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=207]
+[27] [19/01/2026 03:12:08] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:12:08] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=208]
+[143] [19/01/2026 03:14:32] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:14:32] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=209]
+[27] [19/01/2026 03:14:59] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:14:59] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=210]
+[120] [19/01/2026 03:16:59] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:16:59] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=211]
+[84] [19/01/2026 03:18:24] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:18:24] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=212]
+[120] [19/01/2026 03:20:25] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:20:25] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=213]
+[83] [19/01/2026 03:21:49] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:21:49] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=214]
+[120] [19/01/2026 03:23:50] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:23:50] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=215]
+[83] [19/01/2026 03:25:14] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:25:14] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=216]
+[120] [19/01/2026 03:27:15] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:27:15] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=217]
+[84] [19/01/2026 03:28:39] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:28:39] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=218]
+[120] [19/01/2026 03:30:40] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:30:40] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=219]
+[84] [19/01/2026 03:32:04] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:32:04] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=220]
+[199] [19/01/2026 03:35:24] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:35:24] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=221]
+[94] [19/01/2026 03:36:59] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:36:59] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=222]
+[200] [19/01/2026 03:40:19] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:40:19] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=223]
+[94] [19/01/2026 03:41:54] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:41:54] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=224]
+[200] [19/01/2026 03:45:14] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:45:14] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=225]
+[94] [19/01/2026 03:46:49] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:46:49] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=226]
+[201] [19/01/2026 03:50:10] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:50:10] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=227]
+[94] [19/01/2026 03:51:44] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:51:44] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=228]
+[200] [19/01/2026 03:55:05] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:55:05] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=229]
+[94] [19/01/2026 03:56:40] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:56:40] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=230]
+[34] [19/01/2026 03:57:15] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:57:15] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=231]
+[38] [19/01/2026 03:57:53] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:57:53] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=232]
+[35] [19/01/2026 03:58:28] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:58:28] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=233]
+[38] [19/01/2026 03:59:06] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:59:06] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=234]
+[34] [19/01/2026 03:59:41] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 03:59:41] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=235]
+[37] [19/01/2026 04:00:19] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 04:00:19] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=236]
+[35] [19/01/2026 04:00:54] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 04:00:54] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=237]
+[38] [19/01/2026 04:01:32] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 04:01:32] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=238]
+[36] [19/01/2026 04:02:08] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[0] [19/01/2026 04:02:08] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main.DijkstraIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=239]
+[38] [19/01/2026 04:02:46] [FINISH] _run_problem() -> <SolutionOMSPP: Name=SolutionSearch>
+[24174] [19/01/2026 04:02:46] [FINISH] run_algos() -> list(240)
+[0] [19/01/2026 04:02:46] [START] pickle_result() [solutions=list(240)]
+                                                  [pickle_solutions='f:\\paper\\i_4_solutions\\dijkstra.pkl']
+[1] [19/01/2026 04:02:48] [FINISH] pickle_result()

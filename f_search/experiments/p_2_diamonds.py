@@ -1,13 +1,13 @@
 from f_log.utils import set_debug, log_1, log_2
 from f_ds.grids import GridMap as Grid, CellMap as Cell
-from f_search.algos.i_1_spp.utils import are_reachable, cells_reachable, ne
+from f_search.algos.i_1_spp.utils import are_reachable, cells_reachable
 from f_utils import u_pickle, u_iter
 import random
 
 PairCells = tuple[Cell, Cell]
-Square = list[Cell]
-PairSquares = tuple[Square, Square]
-DictSquares = dict[str, list[PairSquares]]
+Diamond = list[Cell]
+PairDiamonds = tuple[Diamond, Diamond]
+DictDiamonds = dict[str, list[PairDiamonds]]
 
 
 @log_2
@@ -38,68 +38,68 @@ def get_pair_cells(grid: Grid, distance_min: int) -> PairCells:
     return pair
 
 @log_2
-def get_pair_squares(grid: Grid,
-                     distance_min: int,
-                     steps_max: int,
-                     size_min: int) -> PairSquares:
+def get_pair_diamonds(grid: Grid,
+                      distance_min: int,
+                      steps_max: int,
+                      size_min: int) -> PairDiamonds:
     """
     ========================================================================
-     1. Get a pair of squares from the grid.
-     2. The squares have at least size_min cells.
+     1. Get a pair of diamonds from the grid.
+     2. The diamonds have at least size_min cells.
     ========================================================================
     """
     while True:
         pair_cells = get_pair_cells(grid=grid, distance_min=distance_min)
         cell_a, cell_b = pair_cells
-        square_a = cells_reachable(grid, cell_a, steps_max)
-        if len(square_a) < size_min:
+        diamond_a = cells_reachable(grid, cell_a, steps_max)
+        if len(diamond_a) < size_min:
             continue
-        random.shuffle(square_a)
-        square_b = cells_reachable(grid, cell_b, steps_max)
-        if len(square_b) < size_min:
+        random.shuffle(diamond_a)
+        diamond_b = cells_reachable(grid, cell_b, steps_max)
+        if len(diamond_b) < size_min:
             continue
-        random.shuffle(square_b)
-        return (square_a, square_b)
+        random.shuffle(diamond_b)
+        return (diamond_a, diamond_b)
 
 @log_2
-def get_squares(grid: Grid,
-                distance_min: int,
-                steps_max: int,
-                size_min: int,
-                n: int) -> list[PairSquares]:
+def get_diamonds(grid: Grid,
+                 distance_min: int,
+                 steps_max: int,
+                 size_min: int,
+                 n: int) -> list[PairDiamonds]:
     """
     ========================================================================
-     Get n-pairs of squares from the grid.
+     Get n-pairs of diamonds from the grid.
     ========================================================================
     """
-    func = lambda: get_pair_squares(grid, distance_min, steps_max, size_min)
+    func = lambda: get_pair_diamonds(grid, distance_min, steps_max, size_min)
     return [func() for _ in range(n)]
     
 @log_2
-def squares_from_grids(grids: dict[str, Grid],
-                       distance_min: int,
-                       steps_max: int,
-                       size_min: int,
-                       n: int) -> DictSquares:
+def diamonds_from_grids(grids: dict[str, Grid],
+                        distance_min: int,
+                        steps_max: int,
+                        size_min: int,
+                        n: int) -> DictDiamonds:
     """
     ========================================================================
-     Get n-pairs of squares from the grids.
+     Get n-pairs of diamonds from the grids.
     ========================================================================
     """
-    d: dict[str, list[PairSquares]] = dict()
+    d: dict[str, list[PairDiamonds]] = dict()
     for grid in grids.values():
-        squares = get_squares(grid, distance_min, steps_max, size_min, n)
-        d[grid.name] = squares
+        diamonds = get_diamonds(grid, distance_min, steps_max, size_min, n)
+        d[grid.name] = diamonds
     return d
 
 @log_2
-def squares_to_pickle(squares: DictSquares, pickle_squares: str) -> None:
+def diamonds_to_pickle(diamonds: DictDiamonds, pickle_diamonds: str) -> None:
     """
     ========================================================================
-     Pickle the DictSquares to the given path.
+     Pickle the DictDiamonds to the given path.
     ========================================================================
     """
-    u_pickle.dump(obj=squares, path=pickle_squares)
+    u_pickle.dump(obj=diamonds, path=pickle_diamonds)
 
         
 """
@@ -107,27 +107,27 @@ def squares_to_pickle(squares: DictSquares, pickle_squares: str) -> None:
  Main - Generate Random-Pairs for a List of Grids.
 -------------------------------------------------------------------------------
  Input: Pickle of dict[Grid.Name -> Grid].
- Output: Pickle of dict[Grid.Name -> List[PairSquares]].
+ Output: Pickle of dict[Grid.Name -> List[PairDiamonds]].
 ===============================================================================
 """
 
 set_debug(True)
 pickle_grids = 'f:\\paper\\i_1_grids\\grids.pkl'
-pickle_squares = 'f:\\paper\\i_2_squares\\squares.pkl'
+pickle_diamonds = 'f:\\paper\\i_2_diamonds\\diamonds.pkl'
 
 # Number of Pairs to Generate for each Grid.
 n = 1
 # Minimum Distance between the Pairs.
 distance_min = 100
 # Radius of the Diamond
-steps_max = 5
+steps_max = 10
 # Minimum size of Cells in the Diamond
 size_min = 50
 
 
 @log_2
 def main(pickle_grids: str,
-         pickle_squares: str,
+         pickle_diamonds: str,
          distance_min: int,
          steps_max: int,
          size_min: int,
@@ -138,12 +138,12 @@ def main(pickle_grids: str,
     ========================================================================
     """    
     grids = load_grids(pickle_grids)
-    squares = squares_from_grids(grids,
-                                 distance_min,
-                                 steps_max,
-                                 size_min,
-                                 n)
-    squares_to_pickle(squares, pickle_squares)
+    diamonds = diamonds_from_grids(grids,
+                                   distance_min,
+                                   steps_max,
+                                   size_min,
+                                   n)
+    diamonds_to_pickle(diamonds, pickle_diamonds)
 
 
-main(pickle_grids, pickle_squares, distance_min, steps_max, size_min, n)
+main(pickle_grids, pickle_diamonds, distance_min, steps_max, size_min, n)

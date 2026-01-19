@@ -1,4 +1,4 @@
-from .bounds import Bounds
-from ._factory import FactoryBounds
+from .main import Bounds
+from ._factory import Factory
 
-Bounds.Factory = FactoryBounds
+Bounds.Factory = Factory

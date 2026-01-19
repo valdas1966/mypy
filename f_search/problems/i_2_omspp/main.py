@@ -48,5 +48,3 @@ class ProblemOMSPP(ProblemSearch, HasStart, HasGoals):
         ========================================================================
         """
         return f'{self.name}(Grid={str(self.grid)}, Start={str(self.start)}, #Goals={len(self.goals)})   '
-
-    

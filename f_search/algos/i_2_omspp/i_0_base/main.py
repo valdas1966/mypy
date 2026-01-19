@@ -36,7 +36,7 @@ class AlgoOMSPP(Generic[Problem, Solution, Stats, Data],
                             problem=problem,
                             data=data,
                             name=name)
-        self._goals_active: list[State] = list()
+        self._goals_active: list[State] = []
         self._sub_solutions: dict[State, Solution] = dict()
 
     def _run_pre(self) -> None:
