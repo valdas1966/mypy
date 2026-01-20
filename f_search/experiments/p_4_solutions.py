@@ -3,6 +3,7 @@ from f_search.problems import ProblemOMSPP, ProblemOMSPPLite as ProblemLite
 from f_search.algos.i_2_omspp import AlgoOMSPP
 from f_search.algos.i_2_omspp import AStarRepeated
 from f_search.algos.i_2_omspp import AStarIncremental
+from f_search.algos.i_2_omspp import AStarAggregative
 from f_search.algos.i_2_omspp import DijkstraIncremental
 from f_search.solutions import SolutionOMSPP
 from f_ds.grids import GridMap as Grid
@@ -82,8 +83,8 @@ set_debug(True)
 pickle_grids = 'f:\\paper\\i_1_grids\\grids.pkl'
 pickle_problems = 'f:\\paper\\i_3_problems\\problems.pkl'
 
-algo = AStarRepeated
-pickle_solutions = f'f:\\paper\\i_4_solutions\\repeated.pkl'
+algo = AStarAggregative
+pickle_solutions = f'f:\\paper\\i_4_solutions\\aggregative.pkl'
 
 d_grids = load_grids(pickle_grids)
 problems = load_problems(pickle_problems)

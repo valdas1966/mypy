@@ -36,10 +36,12 @@ class AStarRepeated(AlgoOMSPP):
          Run the Algorithm and return the Solution.
         ========================================================================
         """
-        self._run_pre()        
+        self._run_pre()
         sub_problems: list[ProblemSPP] = self._problem.to_spps()
         n_problems = len(sub_problems)
         for i, sub_problem in enumerate(sub_problems):
+            if sub_problem.goal not in self._goals_active:
+                continue
             # Run the sub-search.
             name_astar = f'AStar {i+1}/{n_problems}'
             astar = AStar(problem=sub_problem,

@@ -1,10 +1,1 @@
-[0] [19/01/2026 07:23:53] [START] load_grids() [pickle_grids='f:\\paper\\i_1_grids\\grids.pkl']
-[7] [19/01/2026 07:24:00] [FINISH] load_grids() -> dict(25)
-[0] [19/01/2026 07:24:00] [START] load_problems() [pickle_problems='f:\\paper\\i_3_problems\\problems.pkl']
-[0] [19/01/2026 07:24:00] [FINISH] load_problems() -> list(250)
-[0] [19/01/2026 07:24:00] [START] run_algos() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
-                                              [d_grids=dict(25)]
-                                              [problems=list(250)]
-[0] [19/01/2026 07:24:00] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
-                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
-                                                 [i=0]
+[0] [20/01/2026 06:30:58] [START] load_grids() [pickle_grids='f:\\paper\\i_1_grids\\grids.pkl']
