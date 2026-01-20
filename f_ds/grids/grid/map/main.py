@@ -75,13 +75,14 @@ class GridMap(GridBase[Cell]):
                 li.append(cell)
         return li
 
-    def __len__(self) -> int:
+    def invalidate(self, cells: list[Cell]) -> None:
         """
         ========================================================================
-         Return the total number of valid cells in the grid.
+         Invalidate a list of cells.
         ========================================================================
         """
-        return len(self.cells_valid())
+        for cell in cells:
+            cell.set_invalid()
 
     def print(self) -> str:
         """
@@ -97,6 +98,14 @@ class GridMap(GridBase[Cell]):
         title = f'{self.name} {self.shape()}'
         matrix = '\n'.join([' '.join(['1' if cell else '0' for cell in row]) for row in self._cells])
         return f'{title}\n{matrix}'
+
+    def __len__(self) -> int:
+        """
+        ========================================================================
+         Return the total number of valid cells in the grid.
+        ========================================================================
+        """
+        return len(self.cells_valid())
 
     def __str__(self) -> str:
         """

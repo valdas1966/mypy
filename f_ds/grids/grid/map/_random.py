@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
-from f_utils.iter.u_iter import Pair, pairs
+from f_utils.iter.u_iter import Pair, pairs, sample
 
 if TYPE_CHECKING:
     from f_ds.grids.grid.map.main import GridMap as Grid, Cell
@@ -20,6 +20,14 @@ class Random:
         ========================================================================
         """
         self._grid = grid
+
+    def cells(self, size: int = None, pct: int = None) -> list[Cell]:
+        """
+        ========================================================================
+         Return a list of cells from the grid.
+        ========================================================================
+        """
+        return sample(items=self._grid, size=size, pct=pct)
 
     def pairs(self,
               size: int,

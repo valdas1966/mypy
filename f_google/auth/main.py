@@ -1,5 +1,7 @@
 from google.oauth2.service_account import Credentials
-from ._enums import ServiceAccount
+from f_google.auth._enums import ServiceAccount
+from f_psl.sys import utils
+from pathlib import Path
 from os import environ
 
 
@@ -10,7 +12,11 @@ class Auth:
     ============================================================================
     """
     
+    # Factory
     Factory: type = None
+
+    # Path in Mac
+    path_mac = Path.home() / 'prof' / 'rami.json'
 
     _SCOPES = ['https://www.googleapis.com/auth/cloud-platform',
                'https://www.googleapis.com/auth/drive',
@@ -25,7 +31,10 @@ class Auth:
         ========================================================================
         """
         scopes = Auth._SCOPES
-        var = f'{account.value}_JSON_PATH'
-        path = environ[var]
+        if utils.is_mac():
+            path = Auth.path_mac
+        else:
+            var = f'{account.value}_JSON_PATH'
+            path = environ[var]
         return Credentials.from_service_account_file(filename=path,
                                                      scopes=scopes)

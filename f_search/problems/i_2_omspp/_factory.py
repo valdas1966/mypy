@@ -44,6 +44,21 @@ class Factory:
         start = State(key=grid[0][0])
         goals = [State(key=cell) for cell in grid]
         return ProblemOMSPP(grid=grid, start=start, goals=goals)
+
+    @staticmethod
+    def custom(rows: int,
+               pct_obstacles: int,
+               k: int) -> ProblemOMSPP:
+        """
+        ========================================================================
+         Return a ProblemOMSPP with a GridMap with obstacles.
+        ========================================================================
+        """
+        grid = Grid.Factory.custom(rows, pct_obstacles)
+        cells = grid.random.cells(size=k+1)
+        start = State(key=cells[0])
+        goals = [State(key=cell) for cell in cells[1:]]
+        return ProblemOMSPP(grid=grid, start=start, goals=goals)
         
     @staticmethod
     def _get_start_4x4() -> State:

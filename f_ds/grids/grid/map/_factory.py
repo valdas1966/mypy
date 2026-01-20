@@ -43,3 +43,16 @@ class Factory:
         grid[0][2].set_invalid()
         grid[1][2].set_invalid()
         return grid
+
+    @staticmethod
+    def custom(rows: int,
+               pct_obstacles: int) -> GridMap:
+        """
+        ========================================================================
+         Return a GridMap with a custom number of obstacles.
+        ========================================================================
+        """
+        grid = GridMap(rows=rows)
+        obstacles = grid.random.cells(pct=pct_obstacles)
+        grid.invalidate(cells=obstacles)
+        return grid

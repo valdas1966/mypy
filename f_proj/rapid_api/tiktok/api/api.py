@@ -1,5 +1,8 @@
 from f_http.client.client import Client, Response, Status
 from f_proj.rapid_api.tiktok.batch import Batch
+from f_utils import u_file
+from f_psl.sys import utils
+from pathlib import Path
 from f_os import u_environ
 from typing import Any, Callable
 
@@ -11,8 +14,9 @@ class TiktokAPI:
     ============================================================================
     """
 
+    _PATH_MAC = str(Path.home() / 'prof' / 'rapid_tiktok.txt')
     _HOST = 'tiktok-video-no-watermark2.p.rapidapi.com'
-    _KEY = u_environ.get('TIKTOK_1')
+    _KEY = u_file.read(_PATH_MAC) if utils.is_mac() else u_environ.get('TIKTOK_1')
     _HEADERS: dict[str, str] = {'X-RapidAPI-Host': _HOST,
                                 'X-RapidAPI-Key': _KEY}
 
@@ -115,9 +119,10 @@ class TiktokAPI:
          Get the response from the API.
         ========================================================================
         """
-        return Client.get_json(url=url,
-                                    params=params,
-                                    headers=TiktokAPI._HEADERS)
+        response = Client.get_json(url=url,
+                                   params=params,
+                                   headers=TiktokAPI._HEADERS)
+        return response
 
     @staticmethod
     def _next_batch(# Response-Data from the API (json-dict)

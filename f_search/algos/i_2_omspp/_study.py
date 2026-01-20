@@ -3,16 +3,30 @@ from f_search.problems.i_2_omspp.main import ProblemOMSPP
 
 
 def compare() -> None:
-    problem = ProblemOMSPP.Factory.all_goals(rows=150)
+    problem = ProblemOMSPP.Factory.all_goals(rows=100)
     dijkstra = DijkstraIncremental(problem=problem)
     stats_dijkstra = dijkstra.run().stats
     print(stats_dijkstra)
     inc = AStarIncremental(problem=problem)
     stats_inc = inc.run().stats
     print(stats_inc)
-    #agg = AStarAggregative(problem=problem)
-    #stats_agg = agg.run().stats
-    #print(stats_agg)
+    agg = AStarAggregative(problem=problem)
+    stats_agg = agg.run().stats
+    print(stats_agg)
+
+
+def compare_custom() -> None:
+    problem = ProblemOMSPP.Factory.custom(rows=300, pct_obstacles=20, k=50)
+    dijkstra = DijkstraIncremental(problem=problem)
+    stats_dijkstra = dijkstra.run().stats
+    print(stats_dijkstra)
+    inc = AStarIncremental(problem=problem)
+    stats_inc = inc.run().stats
+    print(stats_inc)
+    agg = AStarAggregative(problem=problem)
+    stats_agg = agg.run().stats
+    print(stats_agg)
 
 
 compare()
+# compare_custom()
