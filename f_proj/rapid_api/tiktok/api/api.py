@@ -45,7 +45,7 @@ class TiktokAPI:
             # Get the data (json-dict)
             data = response.data['data']
             # Convert the data to the desired format (dict)
-            return to_row(item=data)
+            return to_row(data)
         # On error in fetching data, return a broken dict
         except Exception as e:
             return TiktokAPI._on_broken(msg=str(e), anchor=anchor)

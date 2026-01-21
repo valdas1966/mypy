@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from google.cloud import bigquery, storage
 from googleapiclient.discovery import Resource
 from google.oauth2.service_account import Credentials
-from old_f_google.utils.u_authentication import UAuthentication
+from f_google.auth import Auth
 import gspread
 
 
@@ -28,7 +28,7 @@ class ClientBase(ABC):
         ========================================================================
         """
         self._user = user
-        self._creds = UAuthentication.get(user=user)
+        self._creds = Auth.Factory.rami()
         self._client = self._get_client()
 
     @property
