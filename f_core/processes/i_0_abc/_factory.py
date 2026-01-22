@@ -17,10 +17,10 @@ class Factory:
         """
         class Nested(ProcessABC):
             def __init__(self) -> None:
-                ProcessABC.__init__(self, name='Nested', verbose=True)
+                ProcessABC.__init__(self, name='Nested')
             def _run(self) -> None:
-                proc_1 = ProcessABC(name='Nested | Inner 1', verbose=True)
+                proc_1 = ProcessABC(name='Nested | Inner 1')
                 proc_1.run()
-                proc_2 = ProcessABC(name='Nested | Inner 2', verbose=True)
+                proc_2 = ProcessABC(name='Nested | Inner 2')
                 proc_2.run()
         return Nested()

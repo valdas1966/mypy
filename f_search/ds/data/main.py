@@ -29,6 +29,8 @@ class DataSearch:
         self.cost: dict[State, Cost] = dict()
         # Mapping of State's Parent
         self.parent: dict[State, State] = dict()
+        # Mapping of State's Cached-Values (exact distance to goal)
+        self.cached: dict[State, int] = dict()
         
     def path_to(self, state: State) -> Path:
         """

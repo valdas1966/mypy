@@ -29,6 +29,10 @@ class ProcessABC(HasName, Validatable):
         # Lap timer (seconds since previous call)
         self._time_lap_prev: int | None = None
 
+    @property
+    def elapsed(self) -> int:
+        return self._elapsed
+
     def seconds_since_last_call(self) -> int:
         """
         ========================================================================
