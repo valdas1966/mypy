@@ -1,13 +1,20 @@
 from f_search.algos.i_0_base import AlgoSearch
 from f_search.problems import ProblemSearch, State
 from f_search.solutions import SolutionSearch
-from f_search.ds.data import DataSearch
-from f_search.ds.cost import Cost
+from f_search.stats import StatsSearch
+from f_search.ds.data import DataBestFirst
+from f_search.ds.priority import PriorityG as Priority
 from abc import abstractmethod
-from f_psl.datetime import UDateTime
+from typing import Generic, TypeVar
+
+Problem = TypeVar('Problem', bound=ProblemSearch)
+Solution = TypeVar('Solution', bound=SolutionSearch)
+Stats = TypeVar('Stats', bound=StatsSearch)
+Data = TypeVar('Data', bound=DataBestFirst)
 
 
-class BestFirstBase(AlgoSearch):
+class AlgoBestFirst(Generic[Problem, Solution, Stats, Data],
+                    AlgoSearch[Problem, Solution, Stats, Data]):
     """
     ============================================================================
      Base for Best-First Algorithms.
@@ -15,20 +22,21 @@ class BestFirstBase(AlgoSearch):
     """
 
     def __init__(self,
-                 problem: ProblemSearch,
-                 data: DataSearch = None,
-                 name: str = 'BestFirstBase') -> None:
+                 problem: Problem,
+                 data: Data = None,
+                 name: str = 'AlgoBestFirst') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        super().__init__(problem=problem,
-                         data=data,
-                         name=name)
+        AlgoSearch.__init__(self,
+                            problem=problem,
+                            data=data,
+                            name=name)
 
     @abstractmethod
-    def run(self) -> SolutionSearch:
+    def run(self) -> Solution:
         """
         ========================================================================
          Run the Algorithm and return the Solution.
@@ -37,7 +45,7 @@ class BestFirstBase(AlgoSearch):
         pass     
 
     @abstractmethod
-    def _create_solution(self, is_valid: bool) -> SolutionSearch:
+    def _create_solution(self, is_valid: bool) -> Solution:
         """
         ========================================================================
          Create the Solution.
@@ -70,30 +78,34 @@ class BestFirstBase(AlgoSearch):
         # Generate State's unexplored Successors
         successors = self._problem.successors(state=data.best)
         for succ in successors:
-            if succ not in data.explored:
-                self._generate_state(state=succ)
+            if succ in data.explored:
+                continue
+            if succ in data.frontier:
+                self._relax(state=succ)
+            else:   
+                self._discover(state=succ)
 
-    def _generate_state(self, state: State) -> None:
+    def _discover(self, state: State) -> None:
         """
         ========================================================================
-         Generate a new state.
+         Discover a new state.
         ========================================================================
         """
-        # Aliases
         data = self._data
-        stats = self._stats
-        # New State (not in Generated)
-        if state not in data.generated:
-            stats.generated += 1
-            self._update_cost(state=state)
-            data.generated.push(state=state, cost=data.cost[state])
-        # If Best is a better parent for a given State
-        elif data.best:
-            if data.g[state] > data.g[data.best] + 1:
-                self._update_cost(state=state)
-                data.generated.push(state=state,
-                                    cost=data.cost[state])
+        data.dict_parent[state] = data.best
+        data.dict_g[state] = data.dict_g[data.best] + 1 if data.best else 0
+        data.dict_priority[state] = Priority(key=state,
+                                                        g=data.dict_g[state])
+        data.frontier.push(state=state, priority=data.dict_priority[state])
+        self._stats.discovered += 1
 
+    def _relax(self, state: State) -> None:
+        """
+        ========================================================================
+         Relax the given State.
+        ========================================================================
+        """
+        self._stats.relaxed += 1
 
     def _should_continue(self) -> bool:
         """
@@ -101,7 +113,7 @@ class BestFirstBase(AlgoSearch):
          Return True if the Search should continue.
         ========================================================================
         """
-        return self._data.generated
+        return self._data.frontier
 
     def _update_best(self) -> None:
         """
@@ -110,22 +122,4 @@ class BestFirstBase(AlgoSearch):
         ========================================================================
         """
         data = self._data
-        data.best = data.generated.pop()
-
-    def _update_cost(self, state: State) -> None:
-        """
-        ========================================================================
-         Update the Cost of the given State.
-        ========================================================================
-        """
-        # Aliases
-        data = self._data
-        data.parent[state] = data.best
-        data.g[state] = data.g[data.best] + 1 if data.best else 0
-        data.h[state] = self._heuristic(state=state)
-        if state not in data.cost:
-            data.cost[state] = Cost(key=state,
-                                    g=data.g[state],
-                                    h=data.h[state])
-        else:
-            data.cost[state].update(g=data.g[state], h=data.h[state])
+        data.best = data.frontier.pop()

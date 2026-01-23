@@ -26,3 +26,12 @@ class Factory:
         ========================================================================
         """
         return StateBase[str](key='B', name='B')
+
+    @staticmethod
+    def c() -> StateBase[str]:
+        """
+        ========================================================================
+         Return a new StateBase with the key 'C'.
+        ========================================================================
+        """
+        return StateBase[str](key='C', name='C')
