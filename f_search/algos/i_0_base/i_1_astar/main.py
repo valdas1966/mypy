@@ -149,3 +149,17 @@ class AStarBase(AlgoSearch):
             data.h[state] = self._heuristic(state=state)
             data.cost[state].update(h=data.h[state])
             
+    def _fill_bounded(self, depth: int = 2) -> None:
+        """
+        ========================================================================
+         Fill the bounded dictionary with the cached values.
+        ========================================================================
+        """
+        data = self._data
+        exploited: set[State] = set()
+        for _ in range(depth):
+            for state in expl
+                for child in self._problem.successors(state=state):
+                    if child in exploited:
+                        continue
+                    exploited.add(child)

@@ -62,3 +62,14 @@ def test_counters_with_obstacles() -> None:
     solution = astar.run()
     assert solution.stats.generated == 13
     assert solution.stats.explored == 8
+
+
+def test_cached() -> None:
+    """
+    ========================================================================
+     Test AStar algorithm with cached state [1][0].
+    ========================================================================
+    """
+    astar = AStar.Factory.with_cache()
+    solution = astar.run()
+    assert solution.stats.explored == 7

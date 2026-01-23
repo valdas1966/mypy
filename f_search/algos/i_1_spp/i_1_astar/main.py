@@ -35,10 +35,11 @@ class AStar(AlgoSPP, AStarBase):
         ========================================================================
         """
         self._run_pre()
-        # For incremental algorithms
+        # If incremental algorithm
         if self._data.generated:
             self._update_generated()
         else:
+            # If not incremental algorithm
             self._generate_state(state=self._problem.start)
         while self._should_continue():
             self._update_best()
@@ -67,6 +68,8 @@ class AStar(AlgoSPP, AStarBase):
           (Manhattan-Distance to the Goal).
         ========================================================================
         """
+        if state in self.data.cached:
+            return self.data.cached[state]
         cell_state = state.key
         cell_goal = self._problem.goal.key
         return cell_state.distance(other=cell_goal)

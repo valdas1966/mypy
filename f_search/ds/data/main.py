@@ -9,7 +9,7 @@ class DataSearch:
     ===========================================================================
     """
     
-    def __init__(self) -> None:
+    def __init__(self, cached: dict[State, int] = dict()) -> None:
         """
         =======================================================================
          Init private Attributes.
@@ -30,7 +30,9 @@ class DataSearch:
         # Mapping of State's Parent
         self.parent: dict[State, State] = dict()
         # Mapping of State's Cached-Values (exact distance to goal)
-        self.cached: dict[State, int] = dict()
+        self.cached: dict[State, int] = cached
+        # Mapping of State's Bounded-Values (more accurate distance to goal)
+        self.bounded: dict[State, int] = dict()
         
     def path_to(self, state: State) -> Path:
         """
