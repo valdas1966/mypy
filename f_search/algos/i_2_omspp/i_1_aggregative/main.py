@@ -1,7 +1,7 @@
 from f_search.problems import State
 from f_search.stats import StatsSearch
 from f_search.algos.i_2_omspp import AlgoOMSPP
-from f_search.algos.i_0_base.i_1_astar import AStarBase
+from f_search.algos.i_0_base.i_2_astar import AStarBase
 from f_search.problems.i_2_omspp.main import ProblemOMSPP
 from f_search.solutions import SolutionSPP, SolutionOMSPP
 

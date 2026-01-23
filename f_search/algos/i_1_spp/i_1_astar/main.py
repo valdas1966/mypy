@@ -1,5 +1,5 @@
 from f_search.algos.i_1_spp.i_0_base import AlgoSPP
-from f_search.algos.i_0_base.i_1_astar import AStarBase
+from f_search.algos.i_0_base.i_2_astar import AStarBase
 from f_search.problems import ProblemSPP, State
 from f_search.solutions import SolutionSPP
 from f_search.ds.data import DataSearch

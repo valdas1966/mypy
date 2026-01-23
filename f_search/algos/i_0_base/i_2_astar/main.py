@@ -36,6 +36,35 @@ class AStarBase(AlgoSearch):
         """
         pass     
 
+    def create_cached(self) -> dict[State, int]:
+        """
+        ========================================================================
+         Create the cached dictionary.
+        ========================================================================
+        """
+        data = self._data
+        cached: dict[State, int] = dict()
+        for state in data.explored:
+            cached[state] = data.g[state]
+        return cached
+
+    def create_bounded(self, depth: int = 2) -> dict[State, int]:
+        """
+        ========================================================================
+         Create the bounded dictionary.
+        ========================================================================
+        """
+        data = self._data
+        bounded: dict[State, int] = dict()
+        for state in data.explored:
+            for child in self._problem.successors(state):
+                if child in data.explored or child in bounded:
+                    continue
+                for i in range(depth):
+                    bounded[child] = 
+
+
+
     @abstractmethod
     def _create_solution(self, is_valid: bool) -> SolutionSearch:
         """
@@ -149,17 +178,3 @@ class AStarBase(AlgoSearch):
             data.h[state] = self._heuristic(state=state)
             data.cost[state].update(h=data.h[state])
             
-    def _fill_bounded(self, depth: int = 2) -> None:
-        """
-        ========================================================================
-         Fill the bounded dictionary with the cached values.
-        ========================================================================
-        """
-        data = self._data
-        exploited: set[State] = set()
-        for _ in range(depth):
-            for state in expl
-                for child in self._problem.successors(state=state):
-                    if child in exploited:
-                        continue
-                    exploited.add(child)
