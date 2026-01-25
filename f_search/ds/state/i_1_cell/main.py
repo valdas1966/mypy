@@ -1,31 +1,31 @@
-from f_ds.mixins.collectionable import Collectionable
+from f_ds.grids.cell import CellMap as Cell
 from f_search.ds.state import StateBase
-from typing import TypeVar, Generic, abstractmethod
-
-State = TypeVar('State', bound=StateBase)
 
 
-class FrontierBase(Generic[State], Collectionable[State]):
+class StateCell(StateBase[Cell]):
     """
     ============================================================================
-     Base for Frontier.
+     State representing a cell in a grid.
     ============================================================================
     """
+    
+    # Factory
+    Factory = None
 
-    @abstractmethod
-    def pop(self) -> State:
-        """         
+    def __init__(self,
+                 key: Cell,
+                 name: str = 'StateCell') -> None:
+        """
         ========================================================================
-         Pop the best State from the Frontier.
+         Init private Attributes.
         ========================================================================
         """
-        pass
+        StateBase.__init__(self, key=key, name=name)
 
-    @abstractmethod
-    def peek(self) -> State:
+    def __str__(self) -> str:
         """
         ========================================================================
-         Peek at the best State from the Frontier.
+         Return the STR-REPR of the StateCell.
         ========================================================================
         """
-        pass
+        return f'({self.key.row},{self.key.col})'

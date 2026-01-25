@@ -1,4 +1,5 @@
-from f_search.ds import Path, StateBase as State
+from f_search.ds.path import Path
+from f_search.ds.state import StateBase as State
 from f_search.ds.frontier import FrontierBase as Frontier
 
 

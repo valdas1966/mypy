@@ -1,5 +1,5 @@
 from f_psl.f_numpy import UArray
-from f_psl.file import UTxt
+from f_psl.file import u_txt
 import numpy as np
 
 
@@ -20,7 +20,7 @@ class UFileMap:
          Convert a file-i_1_map to a boolean array.
         ========================================================================
         """
-        lines = UTxt.to_list(path=path)
+        lines = u_txt.to_list(path=path)
         lines = lines[UFileMap._ROWS_TO_SKIP:]
         array = np.array([[c == UFileMap._CHAR_VALID for c in line]
                           for line

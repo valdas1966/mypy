@@ -18,16 +18,16 @@ class StatsSearch(StatsAlgo):
         ========================================================================
         """
         StatsAlgo.__init__(self, elapsed=elapsed)
-        # Number of states added to the open queue (Generated)
+        # Number of state added to the open queue (Generated)
         self._generated = generated
-        # Number of states fully expanded (moved to closed list)
+        # Number of state fully expanded (moved to closed list)
         self._explored = explored
 
     @property
     def generated(self) -> int:
         """
         ========================================================================
-         Return the number of generated states.
+         Return the number of generated state.
         ========================================================================
         """
         return self._generated
@@ -36,7 +36,7 @@ class StatsSearch(StatsAlgo):
     def explored(self) -> int:
         """
         ========================================================================
-         Return the number of explored states.
+         Return the number of explored state.
         ========================================================================
         """
         return self._explored
@@ -45,7 +45,7 @@ class StatsSearch(StatsAlgo):
     def generated(self, generated: int) -> None:
         """
         ========================================================================
-         Set the number of generated states.
+         Set the number of generated state.
         ========================================================================
         """
         self._generated = generated
@@ -54,7 +54,7 @@ class StatsSearch(StatsAlgo):
     def explored(self, explored: int) -> None:
         """
         ========================================================================
-         Set the number of explored states.
+         Set the number of explored state.
         ========================================================================
         """
         self._explored = explored

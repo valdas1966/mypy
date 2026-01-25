@@ -1,6 +1,6 @@
 # Bounds Module
 
-> **Quick Recap**: GUI layout utility that converts relative (percentage-based) positions to absolute (pixel-based) positions within a parent container.
+> **Quick Recap**: GUI layout utility that converts relative (percentage-based) positions to absolute (unit-based) positions within a parent container. Absolute positions are computed on demand. Works with any unit system (screen pixels, grid cells, etc.).
 
 ---
 
@@ -8,7 +8,7 @@
 
 ```
 ┌─────────────────────────────────────────────┐
-│ Parent Container (100x100 pixels)          │
+│ Parent Container (100x100 units)          │
 │ Absolute: (0, 0, 100, 100)                 │
 │                                             │
 │   ┌─────────────────────┐                  │
@@ -22,7 +22,7 @@
 
 Parent resizes to 200x200:
 ┌─────────────────────────────────────────────────────────────────┐
-│ Parent Container (200x200 pixels)                               │
+│ Parent Container (200x200 units)                               │
 │ Absolute: (0, 0, 200, 200)                                      │
 │                                                                  │
 │   ┌─────────────────────────────────────────────┐              │
@@ -42,9 +42,8 @@ Parent resizes to 200x200:
 The `Bounds` class solves the **responsive layout problem** by:
 
 1. **Storing relative positions as percentages** (0-100)
-2. **Auto-calculating absolute pixel positions** based on parent dimensions
-3. **Auto-updating when parent changes** (reactive behavior)
-4. **Decoupling component logic from container sizes**
+2. **Computing absolute positions on demand** based on parent dimensions
+3. **Decoupling component logic from container sizes**
 
 ### Key Formula
 
@@ -64,11 +63,10 @@ absolute_height = parent.height × relative.height / 100
 ```
 Properties:
   .relative  → Rect (percentage-based: 0-100)
-  .parent    → Rect (absolute pixel values)
-  .absolute  → Rect (computed pixel values, read-only)
+  .parent    → Rect (absolute unit values)
+  .absolute  → Rect (computed on demand, read-only)
 
-Methods:
-  update_absolute()  → Recalculates absolute from relative × parent
+Note: .absolute is a computed property - no manual update needed.
 ```
 
 ### 2. **Factory Pattern** (`_factory.py`)
@@ -266,13 +264,12 @@ print(str(bounds))
 ### Data Flow
 
 ```
-User Sets             Bounds Manages           Auto-Computes
-─────────────         ──────────────           ─────────────
+User Sets             Bounds Stores            On Access
+─────────────         ─────────────            ─────────────
 
-relative (%)    →     _relative                     ↓
-parent (px)     →     _parent          →       _absolute (px)
-                           ↓
-                   update_absolute()
+relative (%)    →     _relative        ─┐
+                                        ├──→   .absolute (computed)
+parent (units)  →     _parent          ─┘
 ```
 
 ### Dependencies
@@ -316,14 +313,13 @@ Bounds(
 | Property   | Type | Access | Description                              |
 |-----------|------|--------|------------------------------------------|
 | `relative` | Rect | R/W    | Percentage-based bounds (0-100)         |
-| `parent`   | Rect | R/W    | Parent's absolute bounds (triggers update) |
-| `absolute` | Rect | R/O    | Computed absolute bounds                |
+| `parent`   | Rect | R/W    | Parent's absolute bounds                |
+| `absolute` | Rect | R/O    | Computed on demand - always current     |
 
 ### Methods
 
 | Method              | Returns | Description                          |
 |--------------------|---------|--------------------------------------|
-| `update_absolute()` | None    | Recalculates absolute from relative × parent |
 | `key_comparison()`  | tuple   | Returns absolute bounds as tuple (for Comparable) |
 
 ### Factory Methods
@@ -431,7 +427,7 @@ content = Bounds(relative=(10, 0, 100, 90), parent=window)
 ## ⚠️ Important Notes
 
 1. **Relative values are percentages (0-100)**, not decimals (0-1)
-2. **Setting `.parent` triggers automatic `update_absolute()`**
+2. **`.absolute` is computed on demand** - always reflects current state
 3. **`.absolute` is read-only** - modify via `.relative` or `.parent`
 4. **Tuples are auto-converted to Rect objects**
 5. **Comparison uses absolute bounds**, not relative
@@ -447,6 +443,6 @@ content = Bounds(relative=(10, 0, 100, 90), parent=window)
 
 ---
 
-**Last Updated**: 2026-01-18
+**Last Updated**: 2026-01-25
 **Module Path**: `f_gui.layout.bounds`
 **Main Class**: `Bounds`

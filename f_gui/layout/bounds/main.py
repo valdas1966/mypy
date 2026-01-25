@@ -36,10 +36,6 @@ class Bounds(Printable, Comparable):
         self._relative = self._init_relative(bounds=relative)
         # Initialize the object's parent absolute bounds
         self._parent = self._init_parent(bounds=parent)
-        # Initialize the object's absolute bounds
-        self._absolute = None
-        # Update the object's absolute bounds
-        self.update_absolute()
 
     @property
     def relative(self) -> Rect:
@@ -68,9 +64,16 @@ class Bounds(Printable, Comparable):
         """
         ========================================================================
          Get the absolute position (top, left, width, height).
+         Computed on demand - always reflects current relative and parent.
         ========================================================================
         """
-        return self._absolute
+        offset_top = (self._parent.height * self._relative.top / 100)
+        top = offset_top + self._parent.top
+        offset_left = (self._parent.width * self._relative.left / 100)
+        left = offset_left + self._parent.left
+        width = (self._parent.width * self._relative.width / 100)
+        height = (self._parent.height * self._relative.height / 100)
+        return Rect(top, left, width, height)
 
     @property
     def parent(self) -> Rect:
@@ -88,30 +91,8 @@ class Bounds(Printable, Comparable):
          Set the parent's absolute position.
         ========================================================================
         """
-        # Update the parent bounds
         self._parent = val
-        # Update the absolute position by parent bounds
-        self.update_absolute()
 
-    def update_absolute(self) -> None:
-        """
-        ========================================================================
-         Update the absolute position based on the parent's dimensions.
-        ========================================================================
-        """
-        # Set the Top-Absolute-Value as a percentage of the parent's height.
-        offset_top = (self._parent.height * self._relative.top / 100)
-        top = offset_top + self._parent.top
-        # Set the Left-Absolute-Value as a percentage of the parent's width.
-        offset_left = (self._parent.width * self._relative.left / 100)
-        left = offset_left + self._parent.left
-        # Set the Width-Absolute-Value as a percentage of the parent's width.
-        width = (self._parent.width * self._relative.width / 100)
-        # Set the Height-Absolute-Value as a percentage of the parent's height.
-        height = (self._parent.height * self._relative.height / 100)
-        # Return the absolute bounds
-        self._absolute = Rect(top, left, width, height)
-    
     def key_comparison(self) -> tuple[float, float, float, float]:
         """
         ========================================================================

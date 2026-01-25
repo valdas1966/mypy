@@ -1,5 +1,5 @@
 from f_search.ds.frontier.i_1_priority.main import FrontierPriority
-from f_search.ds.states.i_0_base.main import StateBase as State
+from f_search.ds.state.i_0_base.main import StateBase as State
 from f_search.ds.priority import PriorityG as Priority
 
 
@@ -14,7 +14,7 @@ class Factory:
     def abc() -> FrontierPriority[State, Priority]:
         """
         ========================================================================
-         Create a new FrontierPriority object with the 'A', 'B', 'C' states and
+         Create a new FrontierPriority object with the 'A', 'B', 'C' state and
           mess inserted priorities.
         ========================================================================
         """
@@ -34,7 +34,7 @@ class Factory:
     def abc_updated() -> FrontierPriority[State, Priority]:
         """
         ========================================================================
-         Create a new FrontierPriority object with the 'A', 'B', 'C' states and
+         Create a new FrontierPriority object with the 'A', 'B', 'C' state and
           updated priorities.
         ========================================================================
         """

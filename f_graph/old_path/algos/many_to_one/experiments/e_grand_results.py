@@ -1,6 +1,6 @@
 from f_file_old.i_1_csv import CSV
 from f_math.u_percent import UPercent
-from f_psl.os.u_folder import UFolder
+from f_psl.os.u_dir import UDir
 from f_psl.pandas.u_df import UDF, TypeAgg, TypeComparison
 from f_dv.i_1_bar import Bar
 from f_dv.i_1_bar_stacked import BarStacked
@@ -50,7 +50,7 @@ def union_csv() -> None:
      Union the csv files.
     ========================================================================
     """
-    paths_from = UFolder.filepaths(path=folder_results)
+    paths_from = UDir.filepaths(path=folder_results)
     CSV.union(paths_from=paths_from, path_to=csv_results)
 
 

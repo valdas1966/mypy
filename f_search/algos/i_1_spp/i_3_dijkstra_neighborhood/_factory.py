@@ -1,5 +1,5 @@
 from f_search.algos.i_1_spp.i_3_dijkstra_neighborhood.main import DijkstraNeighborhood
-from f_search.ds.states import StateCell as State
+from f_search.ds.state import StateCell as State
 from f_search.problems import ProblemSPP
 from f_ds.grids import GridMap as Grid
 

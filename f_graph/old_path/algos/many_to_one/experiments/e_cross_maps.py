@@ -2,7 +2,7 @@ from f_graph.old_path.generators.g_graph_map import GenGraphMap, GraphMap
 from f_graph.old_path.algos.many_to_one.generators.g_problem import GenProblemManyToOne
 from f_graph.old_path.algos.many_to_one.problem import ProblemManyToOne as Problem
 from f_graph.old_path.algos.many_to_one.algo import AlgoManyToOne, TypeAlgo
-from f_psl.os.u_folder import UFolder
+from f_psl.os.u_dir import UDir
 from f_utils import u_pickle
 from datetime import datetime
 import pandas as pd
@@ -37,7 +37,7 @@ def problems_to_pickle() -> None:
     ========================================================================
     """
     problems: list[tuple] = list()
-    paths_graphs = UFolder.filepaths(path=folder_graphs)
+    paths_graphs = UDir.filepaths(path=folder_graphs)
     for i, path in enumerate(paths_graphs):
         graph = u_pickle.load(path=path)
         for n_starts in [2, 4, 6, 8, 10]:

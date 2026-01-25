@@ -1,5 +1,5 @@
 from f_search.ds.data.i_0_best_first.main import DataBestFirst, Frontier
-from f_search.ds.states.i_0_base.main import StateBase as State
+from f_search.ds.state.i_0_base.main import StateBase as State
 from f_search.ds.priority import PriorityKey as Priority
 
 

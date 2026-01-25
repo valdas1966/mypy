@@ -8,7 +8,7 @@ from f_graph.old_path.algos.fore_and_back.algo import AlgoForeAndBack
 from f_hs.ds.cache import Cache
 from f_ds.old_grids.old_grid import Grid, Cell
 from f_file_old.i_1_csv import CSV
-from f_psl.os.u_folder import UFolder
+from f_psl.os.u_dir import UDir
 from f_utils import u_pickle
 import pandas as pd
 import random
@@ -295,7 +295,7 @@ def union_csv() -> None:
      Union the csv files.
     ========================================================================
     """
-    paths_from = UFolder.filepaths(path=folder_results)
+    paths_from = UDir.filepaths(path=folder_results)
     CSV.union(paths_from=paths_from, path_to=csv_results_union)
 
 

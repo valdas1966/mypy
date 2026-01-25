@@ -1,1 +1,1 @@
-from .u_txt import UTxt
+from f_psl.file import u_txt

@@ -1,5 +1,5 @@
 from f_search.solutions.i_2_omspp.main import SolutionOMSPP, SolutionSPP
-from f_search.ds.states import StateBase
+from f_search.ds.state import StateBase
 
 
 class Factory:

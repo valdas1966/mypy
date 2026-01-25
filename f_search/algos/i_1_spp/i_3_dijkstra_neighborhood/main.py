@@ -1,6 +1,6 @@
 from f_search.algos.i_1_spp import Dijkstra
 from f_search.problems import ProblemSPP
-from f_search.ds.states import StateBase as State
+from f_search.ds.state import StateBase as State
 
 
 class DijkstraNeighborhood(Dijkstra):

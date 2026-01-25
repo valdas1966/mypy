@@ -86,7 +86,7 @@ class SolutionsPath(Dictable[Node, SolutionOneToOne], Validatable):
     def states(self) -> dict[Node, State]:
         """
         ========================================================================
-         Return the states of all solutions.
+         Return the state of all solutions.
         ========================================================================
         """
         return self._states

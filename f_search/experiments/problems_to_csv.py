@@ -4,8 +4,8 @@ from f_psl.pathlib import u_pathlib
 from f_search.problems import ProblemOMSPPLite as ProblemLite
 
 
-pickle_problems = u_pathlib.to_path('temp/problems.pkl')
-csv_problems = u_pathlib.to_path('temp/problems.csv')
+pickle_problems = u_pathlib.to_mac_path('temp/problems.pkl')
+csv_problems = u_pathlib.to_mac_path('temp/problems.csv')
 
 problems: list[ProblemLite] = u_pickle.load(path=pickle_problems)
 

@@ -1,5 +1,5 @@
 from f_search.ds.path.main import Path
-from f_search.ds.states.i_0_base._factory import StateBase
+from f_search.ds.state.i_0_base._factory import StateBase
 
 
 class Factory:
@@ -13,7 +13,7 @@ class Factory:
     def ab() -> Path:
         """
         ========================================================================
-         Return a new Path with the states A and B.
+         Return a new Path with the state A and B.
         ========================================================================
         """
         a = StateBase.Factory.a()

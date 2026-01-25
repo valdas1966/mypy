@@ -1,6 +1,6 @@
 from f_ds.mixins.collectionable import Collectionable
 from f_core.mixins.comparable import Comparable
-from f_search.ds.states.i_0_base import StateBase
+from f_search.ds.state.i_0_base import StateBase
 from typing import Self, Iterable
 
 

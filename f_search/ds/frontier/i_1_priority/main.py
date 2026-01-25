@@ -65,7 +65,7 @@ class FrontierPriority(Generic[State, Priority], FrontierBase[State]):
         ========================================================================
          1. Remove and return state with best (lowest) priority.
          2. Precondition: frontier must not be empty.
-         3. Auto-compacts if heap has >3x current states (from stale updates).
+         3. Auto-compacts if heap has >3x current state (from stale updates).
          4. Skips stale entries until finding current best state.
          5. Complexity: O(log n) amortized
         ========================================================================
@@ -112,7 +112,7 @@ class FrontierPriority(Generic[State, Priority], FrontierBase[State]):
         ========================================================================
          1. Remove all stale entries from heap.
          2. Called automatically by pop() when heap bloats.
-         3. Rebuilds heap with only current states.
+         3. Rebuilds heap with only current state.
          4. Complexity: O(n log n)
         ========================================================================
         """
@@ -126,7 +126,7 @@ class FrontierPriority(Generic[State, Priority], FrontierBase[State]):
     def to_iterable(self) -> Iterable[State]:
         """
         ========================================================================
-         1. Return iterable of all states currently in frontier.
+         1. Return iterable of all state currently in frontier.
          2. Order is arbitrary (not by priority).
          3. Complexity: O(1) - returns dict view
         ========================================================================
@@ -145,7 +145,7 @@ class FrontierPriority(Generic[State, Priority], FrontierBase[State]):
     def __len__(self) -> int:
         """
         ========================================================================
-         1. Return number of states in frontier.
+         1. Return number of state in frontier.
          2. Complexity: O(1)
         ========================================================================
         """

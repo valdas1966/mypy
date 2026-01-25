@@ -1,5 +1,5 @@
 from f_search.ds.data.i_0_best_first.main import DataBestFirst
-from f_search.ds.states.i_0_base.main import StateBase as State
+from f_search.ds.state.i_0_base.main import StateBase as State
 
 
 def test_path_to() -> None:

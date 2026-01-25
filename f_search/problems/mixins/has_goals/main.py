@@ -1,4 +1,4 @@
-from f_search.ds.states import StateCell as State
+from f_search.ds.state import StateCell as State
 
 
 class HasGoals:

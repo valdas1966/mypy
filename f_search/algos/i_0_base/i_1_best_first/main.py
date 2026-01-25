@@ -68,36 +68,42 @@ class AlgoBestFirst(Generic[Problem, Solution, Stats, Data],
          Explore the Best-State.
         ========================================================================
         """
+        self._stats.explored += 1
         # Aliases
         data = self._data
-        stats = self._stats
-        # Increment explored stats
-        stats.explored += 1
         # Add State to Explored
         data.explored.add(data.best)
-        # Generate State's unexplored Successors
+        # Get the Successors of the Best-State
         successors = self._problem.successors(state=data.best)
+        # Operate Successors
         for succ in successors:
+            # If the Successor is already explored, skip it
             if succ in data.explored:
                 continue
-            if succ in data.frontier:
-                self._relax(state=succ)
-            else:   
+            # If the Successor is not in the Frontier, discover it
+            if succ not in data.frontier:
                 self._discover(state=succ)
+            # If the Successor is in the Frontier, relax it if needed
+            else:   
+                if self._need_relax(state=succ):
+                    self._relax(state=succ)
 
     def _discover(self, state: State) -> None:
         """
         ========================================================================
-         Discover a new state.
+         Discover the given State.
         ========================================================================
         """
-        data = self._data
-        data.dict_parent[state] = data.best
-        data.dict_g[state] = data.dict_g[data.best] + 1 if data.best else 0
-        data.dict_priority[state] = Priority(key=state,
-                                                        g=data.dict_g[state])
-        data.frontier.push(state=state, priority=data.dict_priority[state])
         self._stats.discovered += 1
+
+    @abstractmethod
+    def _need_relax(self, state: State) -> bool:
+        """
+        ========================================================================
+         Return True if the given State needs to be relaxed.
+        ========================================================================
+        """
+        pass
 
     def _relax(self, state: State) -> None:
         """

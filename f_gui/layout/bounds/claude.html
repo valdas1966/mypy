@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bounds Module Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg: #f8fafc;
+            --sidebar-bg: #1e293b;
+            --sidebar-text: #e2e8f0;
+            --card-bg: #ffffff;
+            --text: #334155;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --code-bg: #1e293b;
+            --success: #22c55e;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            background: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 10px;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .nav-section {
+            padding: 10px 20px 5px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+        }
+
+        .nav-link {
+            display: block;
+            padding: 8px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255,255,255,0.1);
+            border-left-color: var(--primary);
+        }
+
+        .nav-link.sub {
+            padding-left: 35px;
+            font-size: 0.85rem;
+        }
+
+        /* Main Content */
+        .main {
+            margin-left: 280px;
+            padding: 40px;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        section {
+            margin-bottom: 50px;
+            scroll-margin-top: 20px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin: 25px 0 15px;
+            color: var(--primary-dark);
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge {
+            background: var(--primary);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 0;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: var(--text);
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 25px;
+            background: var(--card-bg);
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Code */
+        pre {
+            background: var(--code-bg);
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+        }
+
+        .code-comment { color: #6b7280; }
+        .code-keyword { color: #c084fc; }
+        .code-string { color: #86efac; }
+        .code-number { color: #fbbf24; }
+        .code-function { color: #60a5fa; }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: var(--bg);
+        }
+
+        /* Visual Diagram */
+        .diagram {
+            background: #1e293b;
+            color: #86efac;
+            padding: 25px;
+            border-radius: 12px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        /* Formula */
+        .formula {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            font-family: 'Fira Code', monospace;
+            margin: 20px 0;
+        }
+
+        .formula-line {
+            margin: 8px 0;
+        }
+
+        /* List */
+        ul, ol {
+            margin: 15px 0 15px 25px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        /* Highlight box */
+        .highlight {
+            background: linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+
+        .warning {
+            background: #fef3c7;
+            border-left-color: #f59e0b;
+        }
+
+        /* Quick Reference Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .grid-item {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .grid-item code {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.8rem;
+        }
+
+        /* Collapsible */
+        .collapsible {
+            background: var(--card-bg);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .collapsible-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .collapsible-header:hover {
+            background: var(--bg);
+        }
+
+        .collapsible-header::after {
+            content: '+';
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .collapsible.open .collapsible-header::after {
+            content: '-';
+        }
+
+        .collapsible-content {
+            display: none;
+            padding: 0 20px 20px;
+        }
+
+        .collapsible.open .collapsible-content {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .main {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h1>Bounds Module</h1>
+            <p>f_gui.layout.bounds</p>
+        </div>
+
+        <div class="nav-section">Overview</div>
+        <a href="#overview" class="nav-link">Introduction</a>
+        <a href="#visual" class="nav-link">Visual Concept</a>
+        <a href="#formula" class="nav-link">Key Formula</a>
+
+        <div class="nav-section">Components</div>
+        <a href="#components" class="nav-link">Core Components</a>
+        <a href="#factory" class="nav-link">Factory Patterns</a>
+
+        <div class="nav-section">Usage</div>
+        <a href="#usecases" class="nav-link">Use Cases</a>
+        <a href="#usecases" class="nav-link sub">Responsive UI</a>
+        <a href="#usecases" class="nav-link sub">Nested Layouts</a>
+        <a href="#usecases" class="nav-link sub">Grid Layouts</a>
+        <a href="#usecases" class="nav-link sub">Dynamic Padding</a>
+
+        <div class="nav-section">Examples</div>
+        <a href="#examples" class="nav-link">Code Examples</a>
+
+        <div class="nav-section">Reference</div>
+        <a href="#api" class="nav-link">API Reference</a>
+        <a href="#patterns" class="nav-link">Common Patterns</a>
+        <a href="#notes" class="nav-link">Important Notes</a>
+    </nav>
+
+    <main class="main">
+        <!-- Overview Section -->
+        <section id="overview">
+            <h2>Bounds Module</h2>
+            <div class="highlight">
+                <strong>Quick Recap:</strong> GUI layout utility that converts relative (percentage-based) positions to absolute (unit-based) positions within a parent container. Absolute positions are computed on demand. Works with any unit system (screen pixels, grid cells, etc.).
+            </div>
+
+            <p>The <code>Bounds</code> class solves the <strong>responsive layout problem</strong> by:</p>
+            <ol>
+                <li><strong>Storing</strong> relative positions as percentages (0-100)</li>
+                <li><strong>Computing</strong> absolute positions on demand based on parent dimensions</li>
+                <li><strong>Decoupling</strong> component logic from container sizes</li>
+            </ol>
+        </section>
+
+        <!-- Visual Concept -->
+        <section id="visual">
+            <h2>Visual Concept</h2>
+            <div class="diagram">Parent Container (100x100 units)
++---------------------------------------------+
+|                                             |
+|   +-------------------------+               |
+|   | Child Component         |               |
+|   | Relative: (25%, 25%, 50%, 50%)          |
+|   |            |                            |
+|   | Absolute: (25, 25, 50, 50)              |
+|   +-------------------------+               |
+|                                             |
++---------------------------------------------+</div>
+
+            <h3>Auto-Resize Behavior</h3>
+            <p>When parent resizes from <strong>100x100</strong> to <strong>200x200</strong>:</p>
+            <table>
+                <tr>
+                    <th>Property</th>
+                    <th>Before</th>
+                    <th>After</th>
+                </tr>
+                <tr>
+                    <td>Parent</td>
+                    <td>100x100</td>
+                    <td>200x200</td>
+                </tr>
+                <tr>
+                    <td>Relative</td>
+                    <td>(25%, 25%, 50%, 50%)</td>
+                    <td><strong>UNCHANGED</strong></td>
+                </tr>
+                <tr>
+                    <td>Absolute</td>
+                    <td>(25, 25, 50, 50)</td>
+                    <td>(50, 50, 100, 100) <span class="badge">Auto-updated</span></td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Formula -->
+        <section id="formula">
+            <h2>Key Formula</h2>
+            <div class="formula">
+                <div class="formula-line">absolute_top    = parent.top + (parent.height x relative.top / 100)</div>
+                <div class="formula-line">absolute_left   = parent.left + (parent.width x relative.left / 100)</div>
+                <div class="formula-line">absolute_width  = parent.width x relative.width / 100</div>
+                <div class="formula-line">absolute_height = parent.height x relative.height / 100</div>
+            </div>
+        </section>
+
+        <!-- Core Components -->
+        <section id="components">
+            <h2>Core Components</h2>
+
+            <div class="card">
+                <div class="card-header">Bounds Class Properties</div>
+                <table>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Access</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>.relative</code></td>
+                        <td>Rect</td>
+                        <td>R/W</td>
+                        <td>Percentage-based bounds (0-100)</td>
+                    </tr>
+                    <tr>
+                        <td><code>.parent</code></td>
+                        <td>Rect</td>
+                        <td>R/W</td>
+                        <td>Parent's absolute bounds</td>
+                    </tr>
+                    <tr>
+                        <td><code>.absolute</code></td>
+                        <td>Rect</td>
+                        <td>R/O</td>
+                        <td>Computed absolute bounds</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Methods</div>
+                <table>
+                    <tr>
+                        <th>Method</th>
+                        <th>Returns</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>key_comparison()</code></td>
+                        <td>tuple</td>
+                        <td>Returns absolute bounds as tuple (for Comparable)</td>
+                    </tr>
+                </table>
+                <p style="margin-top:15px;color:var(--text-light);font-size:0.9rem;">
+                    <strong>Note:</strong> <code>.absolute</code> is a computed property - no manual update needed.
+                </p>
+            </div>
+        </section>
+
+        <!-- Factory -->
+        <section id="factory">
+            <h2>Factory Patterns</h2>
+            <p>Pre-configured common layouts:</p>
+
+            <div class="grid">
+                <div class="grid-item">
+                    <strong>Factory.full()</strong>
+                    <code>(0, 0, 100, 100)</code>
+                    <p style="margin-top:10px;font-size:0.85rem;color:var(--text-light)">Fills entire parent</p>
+                </div>
+                <div class="grid-item">
+                    <strong>Factory.half()</strong>
+                    <code>(25, 25, 50, 50)</code>
+                    <p style="margin-top:10px;font-size:0.85rem;color:var(--text-light)">Centered, half-size</p>
+                </div>
+                <div class="grid-item">
+                    <strong>Factory.quarter()</strong>
+                    <code>(37.5, 37.5, 25, 25)</code>
+                    <p style="margin-top:10px;font-size:0.85rem;color:var(--text-light)">Centered, quarter-size</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use Cases -->
+        <section id="usecases">
+            <h2>Use Cases</h2>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="uc1">Responsive UI</button>
+                <button class="tab-btn" data-tab="uc2">Nested Layouts</button>
+                <button class="tab-btn" data-tab="uc3">Grid Layouts</button>
+                <button class="tab-btn" data-tab="uc4">Dynamic Padding</button>
+            </div>
+
+            <div id="uc1" class="tab-content active">
+                <h3>Problem</h3>
+                <p>Button should always be centered and occupy 30% of window width</p>
+                <pre><code><span class="code-comment"># Window is 800x600</span>
+window = Rect(<span class="code-number">0</span>, <span class="code-number">0</span>, <span class="code-number">800</span>, <span class="code-number">600</span>)
+button_bounds = Bounds(
+    relative=(<span class="code-number">35</span>, <span class="code-number">35</span>, <span class="code-number">30</span>, <span class="code-number">10</span>),  <span class="code-comment"># 30% wide, 10% tall</span>
+    parent=window
+)
+
+<span class="code-function">print</span>(button_bounds.absolute)  <span class="code-comment"># (210, 280, 240, 60)</span>
+
+<span class="code-comment"># Window resizes to 1920x1080</span>
+button_bounds.parent = Rect(<span class="code-number">0</span>, <span class="code-number">0</span>, <span class="code-number">1920</span>, <span class="code-number">1080</span>)
+<span class="code-function">print</span>(button_bounds.absolute)  <span class="code-comment"># (378, 672, 576, 108) - auto-updated!</span></code></pre>
+            </div>
+
+            <div id="uc2" class="tab-content">
+                <h3>Problem</h3>
+                <p>Panel inside a sidebar, sidebar inside main window</p>
+                <pre><code><span class="code-comment"># Main window</span>
+main_window = Rect(<span class="code-number">0</span>, <span class="code-number">0</span>, <span class="code-number">1200</span>, <span class="code-number">800</span>)
+
+<span class="code-comment"># Sidebar (left 20% of window)</span>
+sidebar_bounds = Bounds(
+    relative=(<span class="code-number">0</span>, <span class="code-number">0</span>, <span class="code-number">20</span>, <span class="code-number">100</span>),
+    parent=main_window
+)
+
+<span class="code-comment"># Panel (top 50% of sidebar)</span>
+panel_bounds = Bounds(
+    relative=(<span class="code-number">0</span>, <span class="code-number">0</span>, <span class="code-number">100</span>, <span class="code-number">50</span>),
+    parent=sidebar_bounds.absolute  <span class="code-comment"># Nested!</span>
+)
+
+<span class="code-function">print</span>(sidebar_bounds.absolute)  <span class="code-comment"># (0, 0, 240, 800)</span>
+<span class="code-function">print</span>(panel_bounds.absolute)    <span class="code-comment"># (0, 0, 240, 400)</span></code></pre>
+            </div>
+
+            <div id="uc3" class="tab-content">
+                <h3>Problem</h3>
+                <p>Create 2x2 grid of equal cells</p>
+                <pre><code>parent = Rect(<span class="code-number">0</span>, <span class="code-number">0</span>, <span class="code-number">400</span>, <span class="code-number">400</span>)
+
+<span class="code-comment"># Top-left cell</span>
+cell_tl = Bounds(relative=(<span class="code-number">0</span>, <span class="code-number">0</span>, <span class="code-number">50</span>, <span class="code-number">50</span>), parent=parent)
+
+<span class="code-comment"># Top-right cell</span>
+cell_tr = Bounds(relative=(<span class="code-number">0</span>, <span class="code-number">50</span>, <span class="code-number">50</span>, <span class="code-number">50</span>), parent=parent)
+
+<span class="code-comment"># Bottom-left cell</span>
+cell_bl = Bounds(relative=(<span class="code-number">50</span>, <span class="code-number">0</span>, <span class="code-number">50</span>, <span class="code-number">50</span>), parent=parent)
+
+<span class="code-comment"># Bottom-right cell</span>
+cell_br = Bounds(relative=(<span class="code-number">50</span>, <span class="code-number">50</span>, <span class="code-number">50</span>, <span class="code-number">50</span>), parent=parent)
+
+<span class="code-function">print</span>(cell_tl.absolute)  <span class="code-comment"># (0, 0, 200, 200)</span>
+<span class="code-function">print</span>(cell_tr.absolute)  <span class="code-comment"># (0, 200, 200, 200)</span>
+<span class="code-function">print</span>(cell_bl.absolute)  <span class="code-comment"># (200, 0, 200, 200)</span>
+<span class="code-function">print</span>(cell_br.absolute)  <span class="code-comment"># (200, 200, 200, 200)</span></code></pre>
+            </div>
+
+            <div id="uc4" class="tab-content">
+                <h3>Problem</h3>
+                <p>Component should have 10% padding on all sides</p>
+                <pre><code>container = Rect(<span class="code-number">0</span>, <span class="code-number">0</span>, <span class="code-number">500</span>, <span class="code-number">300</span>)
+
+<span class="code-comment"># Content area (90% of container, centered with 5% margins)</span>
+content = Bounds(
+    relative=(<span class="code-number">5</span>, <span class="code-number">5</span>, <span class="code-number">90</span>, <span class="code-number">90</span>),
+    parent=container
+)
+
+<span class="code-function">print</span>(content.absolute)  <span class="code-comment"># (15, 25, 450, 270)</span>
+<span class="code-comment"># Actual padding: 15px top, 25px left, 15px bottom, 25px right</span></code></pre>
+            </div>
+        </section>
+
+        <!-- Examples -->
+        <section id="examples">
+            <h2>Code Examples</h2>
+
+            <div class="collapsible open">
+                <div class="collapsible-header">Basic Usage</div>
+                <div class="collapsible-content">
+                    <pre><code><span class="code-keyword">from</span> f_gui.layout.bounds <span class="code-keyword">import</span> Bounds
+<span class="code-keyword">from</span> f_math.shapes.rect <span class="code-keyword">import</span> Rect
+
+<span class="code-comment"># Create a bounds with default full layout</span>
+bounds = Bounds()
+<span class="code-function">print</span>(bounds)  <span class="code-comment"># (0, 0, 100, 100) X (0, 0, 100, 100) -> (0, 0, 100, 100)</span>
+
+<span class="code-comment"># Create custom relative bounds</span>
+custom = Bounds(
+    relative=(<span class="code-number">10</span>, <span class="code-number">20</span>, <span class="code-number">50</span>, <span class="code-number">30</span>),  <span class="code-comment"># top, left, width, height (%)</span>
+    parent=(<span class="code-number">0</span>, <span class="code-number">0</span>, <span class="code-number">800</span>, <span class="code-number">600</span>)     <span class="code-comment"># Tuple gets auto-converted to Rect</span>
+)
+<span class="code-function">print</span>(custom.absolute)  <span class="code-comment"># (60, 160, 400, 180)</span></code></pre>
+                </div>
+            </div>
+
+            <div class="collapsible">
+                <div class="collapsible-header">Using Factory</div>
+                <div class="collapsible-content">
+                    <pre><code><span class="code-keyword">from</span> f_gui.layout.bounds <span class="code-keyword">import</span> Bounds
+
+<span class="code-comment"># Create centered half-size layout</span>
+half = Bounds.Factory.half()
+<span class="code-function">print</span>(half.absolute)  <span class="code-comment"># (25, 25, 50, 50)</span>
+
+<span class="code-comment"># Create centered quarter-size layout</span>
+quarter = Bounds.Factory.quarter()
+<span class="code-function">print</span>(quarter.absolute)  <span class="code-comment"># (37.5, 37.5, 25, 25)</span></code></pre>
+                </div>
+            </div>
+
+            <div class="collapsible">
+                <div class="collapsible-header">Reactive Updates</div>
+                <div class="collapsible-content">
+                    <pre><code><span class="code-keyword">from</span> f_gui.layout.bounds <span class="code-keyword">import</span> Bounds
+<span class="code-keyword">from</span> f_math.shapes.rect <span class="code-keyword">import</span> Rect
+
+<span class="code-comment"># Component at 50% width/height, centered</span>
+component = Bounds(
+    relative=(<span class="code-number">25</span>, <span class="code-number">25</span>, <span class="code-number">50</span>, <span class="code-number">50</span>),
+    parent=Rect(<span class="code-number">0</span>, <span class="code-number">0</span>, <span class="code-number">400</span>, <span class="code-number">300</span>)
+)
+
+<span class="code-function">print</span>(component.absolute)  <span class="code-comment"># (75, 100, 200, 150)</span>
+
+<span class="code-comment"># Parent resizes</span>
+component.parent = Rect(<span class="code-number">0</span>, <span class="code-number">0</span>, <span class="code-number">800</span>, <span class="code-number">600</span>)
+<span class="code-function">print</span>(component.absolute)  <span class="code-comment"># (150, 200, 400, 300) - auto-calculated!</span></code></pre>
+                </div>
+            </div>
+
+            <div class="collapsible">
+                <div class="collapsible-header">Offset Parents</div>
+                <div class="collapsible-content">
+                    <pre><code><span class="code-keyword">from</span> f_gui.layout.bounds <span class="code-keyword">import</span> Bounds
+<span class="code-keyword">from</span> f_math.shapes.rect <span class="code-keyword">import</span> Rect
+
+<span class="code-comment"># Parent is NOT at (0,0) - it's offset in the screen</span>
+parent = Rect(top=<span class="code-number">100</span>, left=<span class="code-number">50</span>, width=<span class="code-number">600</span>, height=<span class="code-number">400</span>)
+
+<span class="code-comment"># Child takes upper-left quarter</span>
+child = Bounds(
+    relative=(<span class="code-number">0</span>, <span class="code-number">0</span>, <span class="code-number">50</span>, <span class="code-number">50</span>),
+    parent=parent
+)
+
+<span class="code-function">print</span>(child.absolute)  <span class="code-comment"># (100, 50, 300, 200)</span>
+<span class="code-comment"># Notice: top/left inherited parent's offset (100, 50)</span></code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Reference -->
+        <section id="api">
+            <h2>API Reference</h2>
+
+            <div class="card">
+                <div class="card-header">Constructor</div>
+                <pre><code>Bounds(
+    relative: RectLike = Rect.Factory.full(),  <span class="code-comment"># (top%, left%, width%, height%)</span>
+    parent: RectLike = Rect.Factory.full()     <span class="code-comment"># (top_px, left_px, width_px, height_px)</span>
+)</code></pre>
+                <p><strong>RectLike</strong> = <code>Rect</code> object or <code>tuple[float, float, float, float]</code></p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Rect Format</div>
+                <pre><code>(top, left, width, height)
+ |     |      |
+ |     |      +-- Size dimensions
+ +-----+--------- Position coordinates</code></pre>
+                <div class="highlight warning">
+                    <strong>Important:</strong> NOT (x, y, width, height) - it's <strong>(top, left, width, height)</strong>!
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Dependencies</div>
+                <pre><code>Bounds
+  +-- Rect (from f_math.shapes.rect)
+  +-- Printable (from f_core.mixins.printable)
+  +-- Comparable (from f_core.mixins.comparable)</code></pre>
+            </div>
+        </section>
+
+        <!-- Common Patterns -->
+        <section id="patterns">
+            <h2>Common Patterns</h2>
+            <table>
+                <tr>
+                    <th>Pattern</th>
+                    <th>Relative Values</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>Centered Element</td>
+                    <td><code>(30, 20, 60, 40)</code></td>
+                    <td>60% width, 40% height, centered</td>
+                </tr>
+                <tr>
+                    <td>Full-Screen Overlay</td>
+                    <td><code>Factory.full()</code></td>
+                    <td>Covers entire parent</td>
+                </tr>
+                <tr>
+                    <td>Left Pane (50%)</td>
+                    <td><code>(0, 0, 50, 100)</code></td>
+                    <td>Left half of parent</td>
+                </tr>
+                <tr>
+                    <td>Right Pane (50%)</td>
+                    <td><code>(0, 50, 50, 100)</code></td>
+                    <td>Right half of parent</td>
+                </tr>
+                <tr>
+                    <td>Top Toolbar (10%)</td>
+                    <td><code>(0, 0, 100, 10)</code></td>
+                    <td>Top 10% strip</td>
+                </tr>
+                <tr>
+                    <td>Content Area</td>
+                    <td><code>(10, 0, 100, 90)</code></td>
+                    <td>Below toolbar</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Important Notes -->
+        <section id="notes">
+            <h2>Important Notes</h2>
+            <div class="card">
+                <ol>
+                    <li><strong>Relative values are percentages (0-100)</strong>, not decimals (0-1)</li>
+                    <li><strong><code>.absolute</code> is computed on demand</strong> - always reflects current state</li>
+                    <li><strong><code>.absolute</code> is read-only</strong> - modify via <code>.relative</code> or <code>.parent</code></li>
+                    <li><strong>Tuples are auto-converted</strong> to Rect objects</li>
+                    <li><strong>Comparison uses absolute bounds</strong>, not relative</li>
+                </ol>
+            </div>
+
+            <h3>Quick Start</h3>
+            <pre><code><span class="code-comment"># 1. Import</span>
+<span class="code-keyword">from</span> f_gui.layout.bounds <span class="code-keyword">import</span> Bounds
+
+<span class="code-comment"># 2. Create bounds for a button (centered, 40% wide, 10% tall)</span>
+button = Bounds(
+    relative=(<span class="code-number">45</span>, <span class="code-number">30</span>, <span class="code-number">40</span>, <span class="code-number">10</span>),
+    parent=(<span class="code-number">0</span>, <span class="code-number">0</span>, <span class="code-number">1024</span>, <span class="code-number">768</span>)
+)
+
+<span class="code-comment"># 3. Get absolute position for rendering</span>
+x, y, w, h = button.absolute.to_tuple()
+draw_button(x, y, w, h)
+
+<span class="code-comment"># 4. Handle window resize</span>
+<span class="code-keyword">def</span> <span class="code-function">on_resize</span>(new_width, new_height):
+    button.parent = Rect(<span class="code-number">0</span>, <span class="code-number">0</span>, new_width, new_height)
+    <span class="code-comment"># button.absolute is now automatically updated!</span></code></pre>
+        </section>
+
+        <footer style="text-align:center;padding:40px;color:var(--text-light);font-size:0.85rem;">
+            <p><strong>Module Path:</strong> f_gui.layout.bounds</p>
+            <p>Last Updated: 2026-01-25</p>
+        </footer>
+    </main>
+
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.dataset.tab;
+
+                // Update buttons
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Update content
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Collapsible functionality
+        document.querySelectorAll('.collapsible-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.parentElement.classList.toggle('open');
+            });
+        });
+
+        // Active nav link on scroll
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

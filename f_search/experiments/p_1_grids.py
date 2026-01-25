@@ -1,6 +1,6 @@
 from f_log.utils import set_debug, log_1,  log_2
 from f_ds.grids import GridMap as Grid
-from f_psl.os.u_folder import UFolder
+from f_psl.os.u_dir import UDir
 from f_psl.os.u_path import UPath
 from f_utils import u_pickle
 
@@ -12,7 +12,7 @@ def folder_to_filepaths(folder: str) -> list[str]:
      Return List of FilePaths in the given Path.
     ========================================================================
     """
-    return UFolder.filepaths(path=folder, recursive=True)
+    return UDir.filepaths(path=folder, recursive=True)
 
 @log_2
 def filepaths_to_grids(filepaths: list[str]) -> dict[str, Grid]:

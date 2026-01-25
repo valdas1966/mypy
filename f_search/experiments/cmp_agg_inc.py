@@ -4,11 +4,11 @@ from f_psl.pathlib import u_pathlib
 from f_search.solutions import SolutionOMSPP
 
 
-csv_agg = u_pathlib.to_path('temp/agg.csv')
-csv_inc = u_pathlib.to_path('temp/inc.csv')
+csv_agg = u_pathlib.to_mac_path('temp/agg.csv')
+csv_inc = u_pathlib.to_mac_path('temp/inc.csv')
 
-pickle_aggregative = u_pathlib.to_path('temp/aggregative.pkl')
-pickle_incremental = u_pathlib.to_path('temp/incremental.pkl')
+pickle_aggregative = u_pathlib.to_mac_path('temp/aggregative.pkl')
+pickle_incremental = u_pathlib.to_mac_path('temp/incremental.pkl')
 
 li_agg: list[SolutionOMSPP] = u_pickle.load(path=pickle_aggregative)
 li_inc: list[SolutionOMSPP] = u_pickle.load(path=pickle_incremental)

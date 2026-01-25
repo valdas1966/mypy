@@ -12,7 +12,7 @@ class Factory:
     def abc() -> FrontierFifo:
         """
         ========================================================================
-         Create a FrontierFifo object with the 'A', 'B', 'C' states.
+         Create a FrontierFifo object with the 'A', 'B', 'C' state.
         ========================================================================
         """
         frontier = FrontierFifo[str]()

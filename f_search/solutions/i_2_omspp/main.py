@@ -2,7 +2,7 @@ from f_search.solutions.i_0_base.main import SolutionSearch
 from f_search.solutions.i_1_spp.main import SolutionSPP
 from f_search.stats import StatsSearch
 from f_search.ds.path import Path
-from f_search.ds.states import StateBase as State
+from f_search.ds.state import StateBase as State
 
 
 class SolutionOMSPP(SolutionSearch[StatsSearch]):
