@@ -10,7 +10,8 @@ class StatsSearch(StatsAlgo):
 
     def __init__(self,
                  elapsed: int = 0,
-                 generated: int = 0,
+                 discovered: int = 0,
+                 relaxed: int = 0,
                  explored: int = 0) -> None:
         """
         ========================================================================
@@ -18,19 +19,30 @@ class StatsSearch(StatsAlgo):
         ========================================================================
         """
         StatsAlgo.__init__(self, elapsed=elapsed)
-        # Number of state added to the open queue (Generated)
-        self._generated = generated
+        # Number of state discovered (added to the open queue)
+        self._discovered = discovered
+        # Number of state relaxed (updated with better priority)
+        self._relaxed = relaxed
         # Number of state fully expanded (moved to closed list)
         self._explored = explored
 
     @property
-    def generated(self) -> int:
+    def discovered(self) -> int:
         """
         ========================================================================
-         Return the number of generated state.
+         Return the number of discovered state.
         ========================================================================
         """
-        return self._generated
+        return self._discovered
+
+    @property
+    def relaxed(self) -> int:
+        """
+        ========================================================================
+         Return the number of relaxed state.
+        ========================================================================
+        """
+        return self._relaxed
 
     @property
     def explored(self) -> int:
@@ -41,14 +53,23 @@ class StatsSearch(StatsAlgo):
         """
         return self._explored
 
-    @generated.setter
-    def generated(self, generated: int) -> None:
+    @discovered.setter
+    def discovered(self, discovered: int) -> None:
         """
         ========================================================================
-         Set the number of generated state.
+         Set the number of discovered state.
         ========================================================================
         """
-        self._generated = generated
+        self._discovered = discovered
+
+    @relaxed.setter
+    def relaxed(self, relaxed: int) -> None:
+        """
+        ========================================================================
+         Set the number of relaxed state.
+        ========================================================================
+        """
+        self._relaxed = relaxed
 
     @explored.setter
     def explored(self, explored: int) -> None:
@@ -58,12 +79,3 @@ class StatsSearch(StatsAlgo):
         ========================================================================
         """
         self._explored = explored
-
-    def __str__(self) -> str:
-        """
-        ========================================================================
-         Return the string representation of the stats.
-        ========================================================================
-        """
-        return f'[Elapsed={self._elapsed}] [Generated={self._generated}] [Explored={self._explored}]'
-        

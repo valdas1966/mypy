@@ -1,67 +1,52 @@
-from f_search.algos.i_0_base import AlgoSearch
-from f_search.problems import ProblemSearch, State
-from f_search.solutions import SolutionSearch
-from f_search.stats import StatsSearch
 from f_search.ds.data import DataBestFirst
-from f_search.ds.priority import PriorityG as Priority
 from abc import abstractmethod
 from typing import Generic, TypeVar
 
-Problem = TypeVar('Problem', bound=ProblemSearch)
-Solution = TypeVar('Solution', bound=SolutionSearch)
-Stats = TypeVar('Stats', bound=StatsSearch)
+
 Data = TypeVar('Data', bound=DataBestFirst)
 
 
-class AlgoBestFirst(Generic[Problem, Solution, Stats, Data],
-                    AlgoSearch[Problem, Solution, Stats, Data]):
+class AlgoBestFirst(Generic[Data]):
     """
     ============================================================================
-     Base for Best-First Algorithms.
+     1. Mixin for Best-First Algorithms.
+     2. Concrete class must implement:
+        ------------------------------------------------------------------------
+          1. run() -> Solution
+          2. _can_terminate() -> bool
+          3. _need_relax(state) -> bool
+          3. _relax(state) -> None
+          4. _discover(state, parent) -> None
+          5. _create_solution(is_valid: bool) -> Solution
     ============================================================================
     """
 
-    def __init__(self,
-                 problem: Problem,
-                 data: Data = None,
-                 name: str = 'AlgoBestFirst') -> None:
+    @property
+    def data(self) -> Data:
         """
         ========================================================================
-         Init private Attributes.
+         Get the Data.
         ========================================================================
         """
-        AlgoSearch.__init__(self,
-                            problem=problem,
-                            data=data,
-                            name=name)
+        return self._data
 
-    @abstractmethod
-    def run(self) -> Solution:
+    def _should_continue(self) -> bool:
         """
         ========================================================================
-         Run the Algorithm and return the Solution.
+         Return True if the Search should continue (if Frontier is not empty).
         ========================================================================
         """
-        pass     
+        return bool(self._data.frontier)
 
-    @abstractmethod
-    def _create_solution(self, is_valid: bool) -> Solution:
+    def _update_best(self) -> None:
         """
         ========================================================================
-         Create the Solution.
+         Update the Best-State.
         ========================================================================
         """
-        pass
+        data = self._data
+        data.best = data.frontier.pop()
     
-    @abstractmethod
-    def _can_terminate(self) -> bool:
-        """
-        ========================================================================
-         Return True if the Algorithm should terminate.
-        ========================================================================
-        """
-        pass
-
     def _explore_best(self) -> None:
         """
         ========================================================================
@@ -87,45 +72,3 @@ class AlgoBestFirst(Generic[Problem, Solution, Stats, Data],
             else:   
                 if self._need_relax(state=succ):
                     self._relax(state=succ)
-
-    def _discover(self, state: State) -> None:
-        """
-        ========================================================================
-         Discover the given State.
-        ========================================================================
-        """
-        self._stats.discovered += 1
-
-    @abstractmethod
-    def _need_relax(self, state: State) -> bool:
-        """
-        ========================================================================
-         Return True if the given State needs to be relaxed.
-        ========================================================================
-        """
-        pass
-
-    def _relax(self, state: State) -> None:
-        """
-        ========================================================================
-         Relax the given State.
-        ========================================================================
-        """
-        self._stats.relaxed += 1
-
-    def _should_continue(self) -> bool:
-        """
-        ========================================================================
-         Return True if the Search should continue.
-        ========================================================================
-        """
-        return self._data.frontier
-
-    def _update_best(self) -> None:
-        """
-        ========================================================================
-         Update the Best-State.
-        ========================================================================
-        """
-        data = self._data
-        data.best = data.frontier.pop()

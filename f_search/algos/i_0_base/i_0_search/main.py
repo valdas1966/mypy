@@ -2,16 +2,14 @@ from f_cs.algo import Algo
 from f_search.stats import StatsSearch
 from f_search.problems import ProblemSearch
 from f_search.solutions import SolutionSearch
-from f_search.ds.data import DataSearch
 from typing import Generic, TypeVar, Type
 
 Problem = TypeVar('Problem', bound=ProblemSearch)
 Solution = TypeVar('Solution', bound=SolutionSearch)
 Stats = TypeVar('Stats', bound=StatsSearch)
-Data = TypeVar('Data', bound=DataSearch)
 
 
-class AlgoSearch(Generic[Problem, Solution, Stats, Data],
+class AlgoSearch(Generic[Problem, Solution, Stats],
                  Algo[Problem, Solution, Stats]):
     """
     ============================================================================
@@ -20,11 +18,9 @@ class AlgoSearch(Generic[Problem, Solution, Stats, Data],
     """
 
     cls_stats: Type[Stats] = StatsSearch
-    cls_data: Type[Data] = DataSearch
 
     def __init__(self,
                  problem: Problem,
-                 data: Data = None,
                  name: str = 'AlgoSearch') -> None:
         """
         ========================================================================
@@ -32,13 +28,5 @@ class AlgoSearch(Generic[Problem, Solution, Stats, Data],
         ========================================================================
         """
         super().__init__(problem=problem, name=name)
-        self._data = data if data else self.cls_data()
+        self._stats = self.cls_stats()
         
-    @property
-    def data(self) -> Data:
-        """
-        ========================================================================
-         Get the Data.
-        ========================================================================
-        """
-        return self._data

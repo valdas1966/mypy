@@ -1,10 +1,8 @@
 from f_search.algos.i_0_base import AlgoSearch
 from f_search.problems import ProblemSearch, State
 from f_search.solutions import SolutionSearch
-from f_search.ds.data import DataSearch
-from f_search.ds.cost import Cost
+from f_search.ds.data import DataBestFirst
 from abc import abstractmethod
-from f_psl.datetime import UDateTime
 
 
 class AStarBase(AlgoSearch):
@@ -16,7 +14,7 @@ class AStarBase(AlgoSearch):
 
     def __init__(self,
                  problem: ProblemSearch,
-                 data: DataSearch = None,
+                 data: DataBestFirst = None,
                  name: str = 'AStarBase') -> None:
         """
         ========================================================================
@@ -47,23 +45,6 @@ class AStarBase(AlgoSearch):
         for state in data.explored:
             cached[state] = data.g[state]
         return cached
-
-    def create_bounded(self, depth: int = 2) -> dict[State, int]:
-        """
-        ========================================================================
-         Create the bounded dictionary.
-        ========================================================================
-        """
-        data = self._data
-        bounded: dict[State, int] = dict()
-        for state in data.explored:
-            for child in self._problem.successors(state):
-                if child in data.explored or child in bounded:
-                    continue
-                for i in range(depth):
-                    bounded[child] = 
-
-
 
     @abstractmethod
     def _create_solution(self, is_valid: bool) -> SolutionSearch:
@@ -148,24 +129,6 @@ class AStarBase(AlgoSearch):
         ========================================================================
         """
         self._data.best = self._data.generated.pop()
-
-    def _update_cost(self, state: State) -> None:
-        """
-        ========================================================================
-         Update the Cost of the given State.
-        ========================================================================
-        """
-        # Aliases
-        data = self._data
-        data.parent[state] = data.best
-        data.g[state] = data.g[data.best] + 1 if data.best else 0
-        data.h[state] = self._heuristic(state=state)
-        if state not in data.cost:
-            data.cost[state] = Cost(key=state,
-                                    g=data.g[state],
-                                    h=data.h[state])
-        else:
-            data.cost[state].update(g=data.g[state], h=data.h[state])
 
     def _update_generated(self) -> None:
         """

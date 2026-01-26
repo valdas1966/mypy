@@ -20,6 +20,7 @@ class FrontierFifo(FrontierBase[State]):
         ========================================================================
         """
         self._queue: deque[State] = deque()
+        self._set: set[State] = set()
 
     def push(self, state: State) -> None:
         """
@@ -29,6 +30,7 @@ class FrontierFifo(FrontierBase[State]):
         ========================================================================
         """
         self._queue.append(state)
+        self._set.add(state)
 
     def pop(self) -> State:
         """
@@ -37,7 +39,9 @@ class FrontierFifo(FrontierBase[State]):
          Complexity: O(1)
         ========================================================================
         """
-        return self._queue.popleft()
+        state = self._queue.popleft()
+        self._set.remove(state)
+        return state
 
     def peek(self) -> State:
         """
@@ -70,7 +74,7 @@ class FrontierFifo(FrontierBase[State]):
         """
         ========================================================================
          Return True if the Frontier contains the State.
-         Complexity: O(n)
+         Complexity: O(1)
         ========================================================================
         """
-        return state in self._queue  
+        return state in self._set  
