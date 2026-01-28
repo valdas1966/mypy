@@ -1,6 +1,9 @@
-from f_search.ds.frontier.i_0_base.main import FrontierBase, State  
+from f_search.ds.frontier.i_0_base.main import FrontierBase
+from f_search.ds.state import StateBase
 from collections import deque
-from typing import Iterator, Iterable
+from typing import Iterator, Iterable, TypeVar
+
+State = TypeVar('State', bound=StateBase)
 
 
 class FrontierFifo(FrontierBase[State]):

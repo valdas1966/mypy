@@ -1,9 +1,11 @@
 from __future__ import annotations
-from f_search.ds.frontier.i_0_base.main import FrontierBase, State
+from f_search.ds.frontier.i_0_base.main import FrontierBase
+from f_search.ds.state import StateBase
 from f_search.ds.priority import PriorityKey
 from typing import Generic, Iterable, TypeVar
 import heapq
 
+State = TypeVar('State', bound=StateBase)
 Priority = TypeVar('Priority', bound=PriorityKey)
 HeapEntry = tuple[Priority, int, State]  # (priority, counter, state)
 

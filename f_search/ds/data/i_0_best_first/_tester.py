@@ -8,10 +8,16 @@ def test_path_to() -> None:
      Test the DataBestFirst.path_to() method.
     ========================================================================
     """
-    data = DataBestFirst.Factory.abc()
+    data = DataBestFirst.Factory.empty()
     state_a = State.Factory.a()
     state_b = State.Factory.b()
     state_c = State.Factory.c()
+    data.frontier.push(state_a)
+    data.frontier.push(state_b)
+    data.frontier.push(state_c)
+    data.dict_parent[state_a] = None
+    data.dict_parent[state_b] = state_a
+    data.dict_parent[state_c] = state_b
     path_a = [state_a]
     path_ab = [state_a, state_b]
     path_abc = [state_a, state_b, state_c]

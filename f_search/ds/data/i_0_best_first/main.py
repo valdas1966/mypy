@@ -1,9 +1,12 @@
 from f_search.ds.path import Path
-from f_search.ds.state import StateBase as State
+from f_search.ds.state import StateBase
 from f_search.ds.frontier import FrontierBase as Frontier
+from typing import TypeVar, Callable, Generic
+
+State = TypeVar('State', bound=StateBase)
 
 
-class DataBestFirst:
+class DataBestFirst(Generic[State]):
     """
     ===========================================================================
      Data structure for Best-First Algorithms.
@@ -14,28 +17,12 @@ class DataBestFirst:
     Factory: type = None
     
     def __init__(self,
-                 frontier: Frontier = None,
-                 type_frontier: type = Frontier,
-                 explored: set[State] = None,
-                 best: State = None,
-                 dict_g: dict[State, int] = None,
-                 dict_parent: dict[State, State] = None) -> None:
-        """
-        =======================================================================
-         Init private Attributes.
-        =======================================================================
-        """
-        # Frontier of generated States
-        self.frontier: Frontier = frontier if frontier else type_frontier()
-        # Set of explored States
-        self.explored: set[State] = explored if explored else set()
-        # Best current state
-        self.best: State = best
-        # Mapping of States to their G-Values
-        self.dict_g: dict[State, int] = dict_g if dict_g else dict()
-        # Mapping of States to their Parent
-        self.dict_parent: dict[State, State] = dict_parent if dict_parent else dict()  
-        
+                 make_frontier: Callable[[], Frontier[State]]) -> None:
+        self.frontier = make_frontier()
+        self.explored: set[State] = set()
+        self.best: State = None
+        self.dict_g: dict[State, int] = dict()
+        self.dict_parent: dict[State, State] = dict()
         
     def path_to(self, state: State) -> Path:
         """

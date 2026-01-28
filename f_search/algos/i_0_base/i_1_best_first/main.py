@@ -1,38 +1,30 @@
-from re import L
+from f_search.algos.i_0_base import AlgoSearch
+from f_search.problems import ProblemSearch
+from f_search.solutions import SolutionSearch
 from f_search.ds.data import DataBestFirst
+from f_search.ds.frontier import FrontierBase as Frontier
+from f_search.ds.state import StateBase
+from typing import Generic, TypeVar, Callable
 from abc import abstractmethod
-from typing import Generic, TypeVar
 
+State = TypeVar('State', bound=StateBase)
+Problem = TypeVar('Problem', bound=ProblemSearch)
+Solution = TypeVar('Solution', bound=SolutionSearch)
 
-Data = TypeVar('Data', bound=DataBestFirst)
+class AlgoBestFirst(Generic[Problem, Solution, State],
+                    AlgoSearch[Problem, Solution]):
 
-
-class AlgoBestFirst(Generic[Data]):
-    """
-    ============================================================================
-     1. Mixin for Best-First Algorithms.
-     2. Concrete class must implement:
-        ------------------------------------------------------------------------
-          1. run() -> Solution
-          2. _can_terminate() -> bool
-          3. _need_relax(state) -> bool
-          3. _relax(state) -> None
-          4. _discover(state, parent) -> None
-          5. _create_solution(is_valid: bool) -> Solution
-    ============================================================================
-    """
-
-    def __init__(self, data: Data = None) -> None:
-
-        self._data = data if data else Data()   
-    @property
-    def data(self) -> Data:
+    def __init__(self,
+                 problem: Problem,
+                 make_frontier: Callable[[], Frontier[State]],
+                 name: str = 'AlgoBestFirst') -> None:
         """
         ========================================================================
-         Get the Data.
+         Init private Attributes.
         ========================================================================
         """
-        return self._data
+        super().__init__(problem=problem, name=name)
+        self._data = DataBestFirst(make_frontier=make_frontier)
 
     def _should_continue(self) -> bool:
         """
@@ -42,7 +34,7 @@ class AlgoBestFirst(Generic[Data]):
         """
         return bool(self._data.frontier)
 
-    def _update_best(self) -> None:
+    def _select_best(self) -> None:
         """
         ========================================================================
          Update the Best-State.
@@ -63,16 +55,18 @@ class AlgoBestFirst(Generic[Data]):
         # Add State to Explored
         data.explored.add(data.best)
         # Get the Successors of the Best-State
-        successors = self._problem.successors(state=data.best)
-        # Operate Successors
+        successors = self.problem.successors(state=data.best)
+        # Handle Successors
         for succ in successors:
-            # If the Successor is already explored, skip it
             if succ in data.explored:
                 continue
-            # If the Successor is not in the Frontier, discover it
-            if succ not in data.frontier:
-                self._discover(state=succ)
-            # If the Successor is in the Frontier, relax it if needed
-            else:   
-                if self._need_relax(state=succ):
-                    self._relax(state=succ)
+            self._handle_successor(succ=succ)
+            
+    @abstractmethod
+    def _handle_successor(self, succ: State) -> None:
+        """
+        ========================================================================
+         Handle the Successor.
+        ========================================================================
+        """
+        pass

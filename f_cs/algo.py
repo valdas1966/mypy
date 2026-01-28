@@ -2,22 +2,20 @@ from f_core.processes.i_2_io import ProcessIO
 from f_cs.solution import SolutionAlgo
 from f_cs.problem import ProblemAlgo
 from f_cs.stats import StatsAlgo
-from typing import Generic, TypeVar, Type
+from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemAlgo)
-Solution = TypeVar('Solution', bound=SolutionAlgo[StatsAlgo])
-Stats = TypeVar('Stats', bound=StatsAlgo)
+Solution = TypeVar('Solution', bound=SolutionAlgo)
 
 
-class Algo(Generic[Problem, Solution, Stats],
-           ProcessIO[Problem, Solution]):
+class Algo(Generic[Problem, Solution], ProcessIO[Problem, Solution]):
     """
     ============================================================================
-     ABC for Algorithm.
+     Bace class for Algorithm in Computer-Science.
     ============================================================================
     """
 
-    cls_stats: Type[Stats] = StatsAlgo
+    cls_stats: type[StatsAlgo] = StatsAlgo
 
     def __init__(self,
                  problem: Problem,
@@ -27,11 +25,17 @@ class Algo(Generic[Problem, Solution, Stats],
          Init private Attributes.
         ========================================================================
         """
-        self._problem = problem
-        ProcessIO.__init__(self,
-                           input=self._problem,
-                           name=name)
-        self._stats = self.cls_stats()
+        super().__init__(input=problem, name=name)
+        self._stats: StatsAlgo = self.cls_stats()
+
+    @property
+    def problem(self) -> Problem:
+        """
+        ========================================================================
+         Return the Problem of the Algorithm.
+        ========================================================================
+        """
+        return self.input
 
     def _run_post(self) -> None:
         """
@@ -39,5 +43,5 @@ class Algo(Generic[Problem, Solution, Stats],
          Run necessary operations after the Algorithm finishes.
         ========================================================================
         """
-        ProcessIO._run_post(self)
-        self._stats.elapsed = self._elapsed
+        super()._run_post()
+        self._stats.elapsed = self.elapsed

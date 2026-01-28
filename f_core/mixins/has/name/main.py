@@ -1,9 +1,8 @@
 from __future__ import annotations
 from f_core.mixins.comparable import Comparable
-from f_core.mixins.printable import Printable
 
 
-class HasName(Comparable, Printable):
+class HasName(Comparable):
     """
     ============================================================================
      Mixin with list Name property (Default=None).

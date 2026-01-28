@@ -1,11 +1,12 @@
 from f_ds.mixins.collectionable import Collectionable
 from f_search.ds.state import StateBase
-from typing import TypeVar, Generic, abstractmethod
+from typing import TypeVar, Generic
+from abc import ABC, abstractmethod
 
 State = TypeVar('State', bound=StateBase)
 
 
-class FrontierBase(Generic[State], Collectionable[State]):
+class FrontierBase(ABC, Generic[State], Collectionable[State]):
     """
     ============================================================================
      Base for Frontier.

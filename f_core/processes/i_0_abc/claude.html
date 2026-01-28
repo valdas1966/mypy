@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProcessABC - Documentation</title>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-card: #21262d;
+            --accent: #58a6ff;
+            --accent-light: #79c0ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-orange: #d29922;
+            --accent-red: #f85149;
+            --accent-cyan: #39c5cf;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --border: #30363d;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-card));
+            padding: 2rem;
+            border-bottom: 2px solid var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '▶';
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 5rem;
+            color: var(--accent);
+            opacity: 0.1;
+            font-weight: bold;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header h1 span { color: var(--accent); }
+
+        .module-path {
+            color: var(--text-secondary);
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .tagline {
+            color: var(--accent-green);
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        .extends-badges {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .extends-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: rgba(163, 113, 247, 0.15);
+            border: 1px solid var(--accent-purple);
+            padding: 0.3rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+        }
+
+        .extends-badge a {
+            color: var(--accent-purple);
+            text-decoration: none;
+        }
+
+        .extends-badge a:hover { text-decoration: underline; }
+
+        .extends-badge.validatable {
+            background: rgba(63, 185, 80, 0.15);
+            border-color: var(--accent-green);
+        }
+
+        .extends-badge.validatable a { color: var(--accent-green); }
+
+        /* Main Layout */
+        .container {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Table of Contents */
+        .toc {
+            position: sticky;
+            top: 1rem;
+            height: fit-content;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .toc h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .toc ul { list-style: none; }
+        .toc li { margin-bottom: 0.5rem; }
+
+        .toc a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .toc a:hover, .toc a.active {
+            color: var(--accent-light);
+            background: rgba(88, 166, 255, 0.1);
+        }
+
+        .toc .sub { padding-left: 1rem; font-size: 0.85rem; }
+
+        .toc .external {
+            margin-top: 1rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .toc .external a { color: var(--accent-purple); }
+        .toc .external a::before { content: '↗ '; }
+
+        /* Main Content */
+        main { min-width: 0; }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+        }
+
+        .tab-btn:hover { color: var(--text-primary); background: var(--bg-card); }
+
+        .tab-btn.active {
+            color: var(--accent);
+            background: var(--bg-card);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .card h2, .card h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .card p { color: var(--text-secondary); }
+
+        /* Lifecycle Flow */
+        .lifecycle {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .lifecycle-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .lifecycle-step:last-child { margin-bottom: 0; }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+            background: var(--bg-secondary);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .step-content.override {
+            border-left-color: var(--accent-green);
+        }
+
+        .step-content h4 {
+            font-family: monospace;
+            color: var(--accent-light);
+            margin-bottom: 0.25rem;
+        }
+
+        .step-content.override h4 { color: var(--accent-green); }
+
+        .step-content p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .step-arrow {
+            width: 32px;
+            display: flex;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 1.25rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg-card);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        tr:hover { background: rgba(88, 166, 255, 0.05); }
+
+        /* Code */
+        code {
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-light);
+        }
+
+        pre {
+            background: var(--bg-card);
+            padding: 1.25rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            border-left: 3px solid var(--accent);
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+        }
+
+        .code-comment { color: var(--text-secondary); }
+        .code-keyword { color: var(--accent-purple); }
+        .code-string { color: var(--accent-green); }
+        .code-function { color: var(--accent-orange); }
+        .code-class { color: var(--accent); }
+        .code-number { color: var(--accent-orange); }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-hasname { background: rgba(163, 113, 247, 0.2); color: var(--accent-purple); }
+        .badge-validatable { background: rgba(63, 185, 80, 0.2); color: var(--accent-green); }
+        .badge-processabc { background: rgba(88, 166, 255, 0.2); color: var(--accent); }
+        .badge-override { background: rgba(210, 153, 34, 0.2); color: var(--accent-orange); }
+
+        /* Parent Links */
+        .parent-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--accent-purple);
+            text-decoration: none;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            background: rgba(163, 113, 247, 0.1);
+            transition: all 0.2s;
+        }
+
+        .parent-link:hover {
+            background: rgba(163, 113, 247, 0.2);
+            text-decoration: underline;
+        }
+
+        .parent-link::after {
+            content: '↗';
+            font-size: 0.8rem;
+        }
+
+        .parent-link.validatable {
+            color: var(--accent-green);
+            background: rgba(63, 185, 80, 0.1);
+        }
+
+        .parent-link.validatable:hover {
+            background: rgba(63, 185, 80, 0.2);
+        }
+
+        /* Hierarchy Tree */
+        .tree {
+            font-family: monospace;
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 8px;
+            line-height: 2;
+        }
+
+        .tree-node { color: var(--accent); }
+        .tree-node.current { color: var(--accent-green); font-weight: bold; }
+        .tree-line { color: var(--text-secondary); }
+        .tree-desc { color: var(--text-secondary); font-size: 0.85rem; }
+
+        /* Flow Diagram */
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+        }
+
+        .flow-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: monospace;
+        }
+
+        .flow-item.highlight {
+            border-color: var(--accent);
+            box-shadow: 0 0 8px rgba(88, 166, 255, 0.2);
+        }
+
+        .flow-arrow {
+            color: var(--accent);
+            font-size: 1rem;
+        }
+
+        /* Quick Grid */
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .quick-item {
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .quick-item h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .quick-item p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Timing Visual */
+        .timing-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+        }
+
+        .timing-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .timing-call {
+            background: var(--accent);
+            color: var(--bg-primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .timing-bar {
+            flex: 1;
+            height: 8px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .timing-bar-fill {
+            height: 100%;
+            background: var(--accent-green);
+            border-radius: 4px;
+        }
+
+        .timing-result {
+            color: var(--accent-green);
+            font-family: monospace;
+            font-size: 0.85rem;
+            min-width: 60px;
+            text-align: right;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; }
+            .toc { position: static; margin-bottom: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><span>Process</span>ABC</h1>
+        <div class="module-path">f_core/processes/i_0_abc</div>
+        <div class="tagline">Abstract base class for processes with timing</div>
+        <div class="extends-badges">
+            <span class="extends-badge">extends <a href="../../mixins/has/name/claude.html">HasName</a></span>
+            <span class="extends-badge validatable">+ <a href="../../mixins/validatable/claude.html">Validatable</a></span>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Table of Contents -->
+        <nav class="toc">
+            <h3>Contents</h3>
+            <ul>
+                <li><a href="#" onclick="showTab('overview')">Overview</a></li>
+                <li class="sub"><a href="#" onclick="showTab('overview')">Template Method</a></li>
+                <li><a href="#" onclick="showTab('lifecycle')">Lifecycle</a></li>
+                <li class="sub"><a href="#" onclick="showTab('lifecycle')">Execution Flow</a></li>
+                <li class="sub"><a href="#" onclick="showTab('lifecycle')">Lap Timer</a></li>
+                <li><a href="#" onclick="showTab('api')">API Reference</a></li>
+                <li><a href="#" onclick="showTab('hierarchy')">Hierarchy</a></li>
+                <li><a href="#" onclick="showTab('examples')">Examples</a></li>
+                <li class="external"><a href="../../mixins/has/name/claude.html">HasName Docs</a></li>
+                <li class="external"><a href="../../mixins/validatable/claude.html">Validatable Docs</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+                <button class="tab-btn" onclick="showTab('lifecycle')">Lifecycle</button>
+                <button class="tab-btn" onclick="showTab('api')">API</button>
+                <button class="tab-btn" onclick="showTab('hierarchy')">Hierarchy</button>
+                <button class="tab-btn" onclick="showTab('examples')">Examples</button>
+            </div>
+
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <div class="card">
+                    <h2>What is ProcessABC?</h2>
+                    <p>The abstract base class for all processes in f_core. Provides <strong>timing</strong>, <strong>lifecycle management</strong>, and inherits <strong>name-based comparison</strong> from <a href="../../mixins/has/name/claude.html" class="parent-link">HasName</a> and <strong>validity checking</strong> from <a href="../../mixins/validatable/claude.html" class="parent-link validatable">Validatable</a>.</p>
+
+                    <div class="quick-grid" style="margin-top: 1.5rem;">
+                        <div class="quick-item">
+                            <h4>Timing</h4>
+                            <p><code>elapsed</code> property tracks execution time</p>
+                        </div>
+                        <div class="quick-item">
+                            <h4>Lifecycle</h4>
+                            <p>Template method: pre → run → post</p>
+                        </div>
+                        <div class="quick-item">
+                            <h4>Lap Timer</h4>
+                            <p><code>seconds_since_last_call()</code></p>
+                        </div>
+                        <div class="quick-item">
+                            <h4>Sortable</h4>
+                            <p>Compare processes by name</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Template Method Pattern</h3>
+                    <div class="lifecycle">
+                        <div class="lifecycle-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>_run_pre()</h4>
+                                <p>Setup: reset timing, record start time</p>
+                            </div>
+                        </div>
+                        <div class="lifecycle-step">
+                            <div class="step-arrow">↓</div>
+                        </div>
+                        <div class="lifecycle-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content override">
+                                <h4>_run() <span class="badge badge-override">Override This</span></h4>
+                                <p>Main process logic - implement in subclass</p>
+                            </div>
+                        </div>
+                        <div class="lifecycle-step">
+                            <div class="step-arrow">↓</div>
+                        </div>
+                        <div class="lifecycle-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>_run_post()</h4>
+                                <p>Cleanup: record finish, calculate elapsed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Quick Start</h3>
+                    <pre><code><span class="code-keyword">from</span> f_core.processes.i_0_abc <span class="code-keyword">import</span> ProcessABC
+
+<span class="code-keyword">class</span> <span class="code-class">MyProcess</span>(ProcessABC):
+    <span class="code-keyword">def</span> <span class="code-function">_run</span>(self) -> <span class="code-keyword">None</span>:
+        <span class="code-comment"># Your process logic here</span>
+        self.do_work()
+
+process = MyProcess(name=<span class="code-string">'DataProcessor'</span>)
+process.run()
+print(f<span class="code-string">"Completed in {process.elapsed} seconds"</span>)</code></pre>
+                </div>
+            </div>
+
+            <!-- Lifecycle Tab -->
+            <div id="lifecycle" class="tab-content">
+                <div class="card">
+                    <h2>Execution Flow</h2>
+                    <div class="flow">
+                        <div class="flow-item"><code>run()</code></div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-item"><code>_run_pre()</code></div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-item highlight"><code>_run()</code></div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-item"><code>_run_post()</code></div>
+                    </div>
+
+                    <table style="margin-top: 1.5rem;">
+                        <tr>
+                            <th>Method</th>
+                            <th>Actions</th>
+                            <th>Override?</th>
+                        </tr>
+                        <tr>
+                            <td><code>run()</code></td>
+                            <td>Orchestrates lifecycle</td>
+                            <td>Rarely</td>
+                        </tr>
+                        <tr>
+                            <td><code>_run_pre()</code></td>
+                            <td><code>_elapsed = None</code>, <code>_time_start = time()</code></td>
+                            <td>Rarely</td>
+                        </tr>
+                        <tr>
+                            <td><code>_run()</code></td>
+                            <td>Empty - your logic goes here</td>
+                            <td><span class="badge badge-override">Yes</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>_run_post()</code></td>
+                            <td><code>_time_finish = time()</code>, calculate <code>elapsed</code></td>
+                            <td>Rarely</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Timing Attributes</h3>
+                    <table>
+                        <tr>
+                            <th>Attribute</th>
+                            <th>Type</th>
+                            <th>Set By</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td><code>_time_start</code></td>
+                            <td><code>float | None</code></td>
+                            <td><code>_run_pre()</code></td>
+                            <td>Unix timestamp at start</td>
+                        </tr>
+                        <tr>
+                            <td><code>_time_finish</code></td>
+                            <td><code>float | None</code></td>
+                            <td><code>_run_post()</code></td>
+                            <td>Unix timestamp at finish</td>
+                        </tr>
+                        <tr>
+                            <td><code>_elapsed</code></td>
+                            <td><code>int | None</code></td>
+                            <td><code>_run_post()</code></td>
+                            <td>Total seconds (truncated)</td>
+                        </tr>
+                        <tr>
+                            <td><code>elapsed</code></td>
+                            <td><code>int | None</code></td>
+                            <td>Property</td>
+                            <td>Read-only access to <code>_elapsed</code></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Lap Timer</h3>
+                    <p style="margin-bottom: 1rem;"><code>seconds_since_last_call()</code> measures time between consecutive calls.</p>
+
+                    <div class="timing-visual">
+                        <div class="timing-row">
+                            <span class="timing-call">Call 1</span>
+                            <div class="timing-bar"><div class="timing-bar-fill" style="width: 0%;"></div></div>
+                            <span class="timing-result">→ 0</span>
+                        </div>
+                        <div class="timing-row">
+                            <span class="timing-call">Call 2</span>
+                            <div class="timing-bar"><div class="timing-bar-fill" style="width: 30%;"></div></div>
+                            <span class="timing-result">→ 2 sec</span>
+                        </div>
+                        <div class="timing-row">
+                            <span class="timing-call">Call 3</span>
+                            <div class="timing-bar"><div class="timing-bar-fill" style="width: 50%;"></div></div>
+                            <span class="timing-result">→ 3 sec</span>
+                        </div>
+                        <div class="timing-row">
+                            <span class="timing-call">Call 4</span>
+                            <div class="timing-bar"><div class="timing-bar-fill" style="width: 20%;"></div></div>
+                            <span class="timing-result">→ 1 sec</span>
+                        </div>
+                    </div>
+
+                    <pre style="margin-top: 1rem;"><code><span class="code-keyword">def</span> <span class="code-function">_run</span>(self):
+    print(self.seconds_since_last_call())  <span class="code-comment"># 0 (first call)</span>
+    time.sleep(<span class="code-number">2</span>)
+    print(self.seconds_since_last_call())  <span class="code-comment"># 2</span>
+    time.sleep(<span class="code-number">3</span>)
+    print(self.seconds_since_last_call())  <span class="code-comment"># 3</span></code></pre>
+                </div>
+            </div>
+
+            <!-- API Tab -->
+            <div id="api" class="tab-content">
+                <div class="card">
+                    <h2>Constructor</h2>
+                    <pre><code><span class="code-keyword">def</span> <span class="code-function">__init__</span>(self, name: str = <span class="code-string">'ProcessABC'</span>) -> <span class="code-keyword">None</span></code></pre>
+
+                    <table style="margin-top: 1rem;">
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td><code>name</code></td>
+                            <td><code>str</code></td>
+                            <td><code>'ProcessABC'</code></td>
+                            <td>Process name (for identification and sorting)</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Methods</h3>
+                    <table>
+                        <tr>
+                            <th>Method</th>
+                            <th>Returns</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td><code>run()</code></td>
+                            <td><code>None</code></td>
+                            <td>Execute process lifecycle</td>
+                        </tr>
+                        <tr>
+                            <td><code>_run_pre()</code></td>
+                            <td><code>None</code></td>
+                            <td>Setup hook - starts timer</td>
+                        </tr>
+                        <tr>
+                            <td><code>_run()</code></td>
+                            <td><code>None</code></td>
+                            <td>Main logic - override this</td>
+                        </tr>
+                        <tr>
+                            <td><code>_run_post()</code></td>
+                            <td><code>None</code></td>
+                            <td>Cleanup hook - calculates elapsed</td>
+                        </tr>
+                        <tr>
+                            <td><code>seconds_since_last_call()</code></td>
+                            <td><code>int</code></td>
+                            <td>Lap timer - seconds since previous call</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Properties</h3>
+                    <table>
+                        <tr>
+                            <th>Property</th>
+                            <th>Type</th>
+                            <th>Source</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td><code>name</code></td>
+                            <td><code>str</code></td>
+                            <td><span class="badge badge-hasname">HasName</span></td>
+                            <td>Process name</td>
+                        </tr>
+                        <tr>
+                            <td><code>elapsed</code></td>
+                            <td><code>int | None</code></td>
+                            <td><span class="badge badge-processabc">ProcessABC</span></td>
+                            <td>Total execution time (seconds)</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Inherited from <a href="../../mixins/has/name/claude.html" class="parent-link">HasName</a></h3>
+                    <table>
+                        <tr>
+                            <td><code>__str__()</code></td>
+                            <td>Returns name</td>
+                        </tr>
+                        <tr>
+                            <td><code>__repr__()</code></td>
+                            <td>Returns <code>&lt;ClassName: Name=...&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>__eq__</code>, <code>__lt__</code>, etc.</td>
+                            <td>Compare by name</td>
+                        </tr>
+                        <tr>
+                            <td><code>__hash__()</code></td>
+                            <td>Hash by name</td>
+                        </tr>
+                    </table>
+
+                    <h4 style="margin-top: 1.5rem; color: var(--text-secondary);">Inherited from <a href="../../mixins/validatable/claude.html" class="parent-link validatable">Validatable</a></h4>
+                    <table>
+                        <tr>
+                            <td><code>__bool__()</code></td>
+                            <td>Returns <code>_is_valid</code></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Hierarchy Tab -->
+            <div id="hierarchy" class="tab-content">
+                <div class="card">
+                    <h2>Inheritance Chain</h2>
+                    <div class="tree">
+<span class="tree-node">Equable</span> <span class="tree-desc">─ ==, !=, hash()</span>
+<span class="tree-line">└──</span> <span class="tree-node">Comparable</span> <span class="tree-desc">─ &lt;, &lt;=, &gt;, &gt;=</span>
+<span class="tree-line">    └──</span> <span class="tree-node">HasName</span> <span class="tree-desc">─ name, str(), repr()</span>
+<span class="tree-line">        │</span>
+<span class="tree-line">        └──</span> <span class="tree-node current">ProcessABC</span> <span class="tree-desc">─ run(), elapsed, timing</span>
+<span class="tree-line">            │</span>
+<span class="tree-line">            └──</span> <span class="tree-node">Validatable</span> <span class="tree-desc">─ __bool__(), _is_valid</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Process Hierarchy</h3>
+                    <div class="tree">
+<span class="tree-node current">ProcessABC</span> <span class="tree-desc">─ i_0_abc (you are here)</span>
+<span class="tree-line">├──</span> <span class="tree-node">ProcessInput[Input]</span> <span class="tree-desc">─ i_1_input</span>
+<span class="tree-line">│   └──</span> Adds: <span class="tree-desc">input property</span>
+<span class="tree-line">│</span>
+<span class="tree-line">├──</span> <span class="tree-node">ProcessOutput[Output]</span> <span class="tree-desc">─ i_1_output</span>
+<span class="tree-line">│   └──</span> Adds: <span class="tree-desc">output, run() returns Output</span>
+<span class="tree-line">│</span>
+<span class="tree-line">└──</span> <span class="tree-node">ProcessIO[Input, Output]</span> <span class="tree-desc">─ i_2_io</span>
+<span class="tree-line">    └──</span> Combines: <span class="tree-desc">input + output</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Naming Convention</h3>
+                    <table>
+                        <tr>
+                            <th>Prefix</th>
+                            <th>Level</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td><code>i_0_</code></td>
+                            <td>Base</td>
+                            <td>Abstract base class</td>
+                        </tr>
+                        <tr>
+                            <td><code>i_1_</code></td>
+                            <td>Level 1</td>
+                            <td>Single capability (input OR output)</td>
+                        </tr>
+                        <tr>
+                            <td><code>i_2_</code></td>
+                            <td>Level 2</td>
+                            <td>Combined capabilities</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Examples Tab -->
+            <div id="examples" class="tab-content">
+                <div class="card">
+                    <h2>Basic Subclass</h2>
+                    <pre><code><span class="code-keyword">from</span> f_core.processes.i_0_abc <span class="code-keyword">import</span> ProcessABC
+
+<span class="code-keyword">class</span> <span class="code-class">DataProcessor</span>(ProcessABC):
+    <span class="code-keyword">def</span> <span class="code-function">_run</span>(self) -> <span class="code-keyword">None</span>:
+        <span class="code-comment"># Your processing logic</span>
+        self.load_data()
+        self.transform_data()
+        self.save_data()
+
+processor = DataProcessor(name=<span class="code-string">'ETL Pipeline'</span>)
+processor.run()
+
+print(f<span class="code-string">"Process: {processor.name}"</span>)
+print(f<span class="code-string">"Elapsed: {processor.elapsed} seconds"</span>)</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>With Lap Timer</h3>
+                    <pre><code><span class="code-keyword">class</span> <span class="code-class">TimedProcess</span>(ProcessABC):
+    <span class="code-keyword">def</span> <span class="code-function">_run</span>(self) -> <span class="code-keyword">None</span>:
+        <span class="code-comment"># Track time for each step</span>
+        self.seconds_since_last_call()  <span class="code-comment"># Reset (returns 0)</span>
+
+        self.step_one()
+        print(f<span class="code-string">"Step 1: {self.seconds_since_last_call()}s"</span>)
+
+        self.step_two()
+        print(f<span class="code-string">"Step 2: {self.seconds_since_last_call()}s"</span>)
+
+        self.step_three()
+        print(f<span class="code-string">"Step 3: {self.seconds_since_last_call()}s"</span>)</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Sorting Processes</h3>
+                    <pre><code><span class="code-comment"># Processes can be sorted by name (from HasName)</span>
+processes = [
+    DataProcessor(name=<span class="code-string">'Zebra'</span>),
+    DataProcessor(name=<span class="code-string">'Alpha'</span>),
+    DataProcessor(name=<span class="code-string">'Beta'</span>)
+]
+
+sorted(processes)  <span class="code-comment"># [Alpha, Beta, Zebra]</span>
+min(processes)     <span class="code-comment"># Alpha</span>
+max(processes)     <span class="code-comment"># Zebra</span>
+
+<span class="code-comment"># In sets (hashable)</span>
+unique = {processes[<span class="code-number">0</span>], processes[<span class="code-number">1</span>]}</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Validity Check</h3>
+                    <pre><code><span class="code-comment"># From Validatable</span>
+process = DataProcessor(name=<span class="code-string">'Test'</span>)
+
+<span class="code-comment"># Check validity before running</span>
+<span class="code-keyword">if</span> process:  <span class="code-comment"># Calls __bool__() → _is_valid</span>
+    process.run()
+<span class="code-keyword">else</span>:
+    print(<span class="code-string">"Process not valid"</span>)</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Factory Usage</h3>
+                    <pre><code><span class="code-comment"># Create test instances via Factory</span>
+nested = ProcessABC.Factory.nested()
+nested.run()
+print(nested.elapsed)</code></pre>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            document.getElementById(tabId).classList.add('active');
+
+            const tabNames = {
+                'overview': 'Overview',
+                'lifecycle': 'Lifecycle',
+                'api': 'API',
+                'hierarchy': 'Hierarchy',
+                'examples': 'Examples'
+            };
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.textContent === tabNames[tabId]) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,13 +1,14 @@
-from f_search.algos.i_0_base.i_1_best_first import AlgoBestFirst
 from f_search.algos.i_1_spp.i_0_base import AlgoSPP
-from f_search.problems import ProblemSPP as Problem
-from f_search.solutions import SolutionSPP as Solution
-from f_search.ds.data import DataBestFirst as Data
-from f_search.ds.state import StateBase as State
+from f_search.problems import ProblemSPP
+from f_search.solutions import SolutionSPP 
 from f_search.ds.frontier import FrontierFifo
+from f_search.ds.state import StateBase
+from typing import Generic, TypeVar
+
+State = TypeVar('State', bound=StateBase)
 
 
-class BFS(AlgoSPP[Data], AlgoBestFirst[Data]):
+class BFS(Generic[State], AlgoSPP[State]):
     """
     ============================================================================
      BFS (Breadth-First-Search) Algorithm.
@@ -18,8 +19,7 @@ class BFS(AlgoSPP[Data], AlgoBestFirst[Data]):
     Factory: type = None
 
     def __init__(self,
-                 problem: Problem,
-                 data: Data = None,
+                 problem: ProblemSPP,
                  name: str = 'BFS') -> None:
         """
         ========================================================================
@@ -27,22 +27,22 @@ class BFS(AlgoSPP[Data], AlgoBestFirst[Data]):
         ========================================================================
         """
         super().__init__(problem=problem,
-                         data=data, name=name,
-                         type_frontier=FrontierFifo)
+                         make_frontier=FrontierFifo,
+                         name=name)
 
-    def run(self) -> Solution:
+    def run(self) -> SolutionSPP:
         """
         ========================================================================
          Run the Algorithm and return the Solution.
         ========================================================================
         """
-        self._discover(state=self._problem.start)
+        self._discover(state=self.problem.start)
         while self._should_continue():
-            self._update_best()
+            self._select_best()
             if self._can_terminate():
-                return self._create_solution(is_valid=True)
+                return self._create_solution()
             self._explore_best()
-        return self._create_solution(is_valid=False)
+        return self._create_failure()
 
     def _discover(self, state: State, parent: State = None) -> None:
         """
@@ -60,10 +60,12 @@ class BFS(AlgoSPP[Data], AlgoBestFirst[Data]):
         # Push State to Frontier
         data.frontier.push(state=state)
 
-    def _need_relax(self, state: State) -> bool:
+    def _handle_successor(self, succ: State) -> None:
         """
         ========================================================================
-         BFS does not need to relax states.
+         Handle the Successor.
         ========================================================================
         """
-        return False
+        if succ not in self._data.frontier:
+            self._discover(state=succ, parent=self._data.best)
+        

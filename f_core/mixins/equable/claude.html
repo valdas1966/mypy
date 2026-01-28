@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equable Mixin - Documentation</title>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-card: #21262d;
+            --accent: #58a6ff;
+            --accent-light: #79c0ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-orange: #d29922;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --border: #30363d;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-card));
+            padding: 2rem;
+            border-bottom: 2px solid var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '==';
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 6rem;
+            color: var(--accent);
+            opacity: 0.1;
+            font-weight: bold;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header h1 span { color: var(--accent); }
+
+        .module-path {
+            color: var(--text-secondary);
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .tagline {
+            color: var(--accent-green);
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Main Layout */
+        .container {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Table of Contents */
+        .toc {
+            position: sticky;
+            top: 1rem;
+            height: fit-content;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .toc h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toc ul { list-style: none; }
+        .toc li { margin-bottom: 0.5rem; }
+
+        .toc a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .toc a:hover, .toc a.active {
+            color: var(--accent-light);
+            background: rgba(88, 166, 255, 0.1);
+        }
+
+        .toc .sub { padding-left: 1rem; font-size: 0.85rem; }
+
+        /* Main Content */
+        main { min-width: 0; }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+        }
+
+        .tab-btn:hover { color: var(--text-primary); background: var(--bg-card); }
+
+        .tab-btn.active {
+            color: var(--accent);
+            background: var(--bg-card);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .card h2, .card h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .card p { color: var(--text-secondary); }
+
+        /* Pattern Visualization */
+        .pattern-viz {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .pattern-box {
+            display: inline-block;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 2rem;
+            margin: 0.5rem;
+            position: relative;
+        }
+
+        .pattern-box.abstract {
+            border-style: dashed;
+            border-color: var(--accent-purple);
+        }
+
+        .pattern-box.concrete {
+            border-color: var(--accent-green);
+        }
+
+        .pattern-box.main {
+            background: var(--accent);
+            color: var(--bg-primary);
+            font-weight: bold;
+            border-color: var(--accent);
+        }
+
+        .pattern-arrow {
+            display: block;
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .pattern-row {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Method Cards */
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .method-card {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1rem;
+            border-left: 3px solid var(--accent);
+        }
+
+        .method-card.abstract { border-left-color: var(--accent-purple); }
+        .method-card.concrete { border-left-color: var(--accent-green); }
+
+        .method-card h4 {
+            font-family: monospace;
+            color: var(--accent-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .method-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg-card);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        tr:hover { background: rgba(88, 166, 255, 0.05); }
+
+        /* Code */
+        code {
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-light);
+        }
+
+        pre {
+            background: var(--bg-card);
+            padding: 1.25rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            border-left: 3px solid var(--accent);
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+        }
+
+        .code-comment { color: var(--text-secondary); }
+        .code-keyword { color: var(--accent-purple); }
+        .code-string { color: var(--accent-green); }
+        .code-function { color: var(--accent-orange); }
+        .code-class { color: var(--accent); }
+
+        /* Flow Diagram */
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+        }
+
+        .flow-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .flow-item.highlight {
+            border-color: var(--accent);
+            box-shadow: 0 0 12px rgba(88, 166, 255, 0.2);
+        }
+
+        .flow-arrow {
+            color: var(--accent);
+            font-size: 1.25rem;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-abstract { background: rgba(163, 113, 247, 0.2); color: var(--accent-purple); }
+        .badge-concrete { background: rgba(63, 185, 80, 0.2); color: var(--accent-green); }
+        .badge-info { background: rgba(88, 166, 255, 0.2); color: var(--accent); }
+        .badge-warning { background: rgba(210, 153, 34, 0.2); color: var(--accent-orange); }
+
+        /* Inheritance Tree */
+        .tree {
+            font-family: monospace;
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 8px;
+            line-height: 1.8;
+        }
+
+        .tree-node { color: var(--accent); }
+        .tree-line { color: var(--text-secondary); }
+        .tree-leaf { color: var(--accent-green); }
+
+        /* Warning/Info boxes */
+        .info-box {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .warning-box {
+            background: rgba(210, 153, 34, 0.1);
+            border: 1px solid var(--accent-orange);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .info-box h4, .warning-box h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Comparison Grid */
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .compare-item {
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .compare-item.good { border-top: 3px solid var(--accent-green); }
+        .compare-item.bad { border-top: 3px solid #f85149; }
+
+        .compare-item h4 {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; }
+            .toc { position: static; margin-bottom: 1rem; }
+            .compare-grid { grid-template-columns: 1fr; }
+            .pattern-row { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><span>Equable</span> Mixin</h1>
+        <div class="module-path">f_core/mixins/equable.py</div>
+        <div class="tagline">Equality through key comparison</div>
+    </header>
+
+    <div class="container">
+        <!-- Table of Contents -->
+        <nav class="toc">
+            <h3>Contents</h3>
+            <ul>
+                <li><a href="#" onclick="showTab('overview')">Overview</a></li>
+                <li><a href="#" onclick="showTab('pattern')">Design Pattern</a></li>
+                <li class="sub"><a href="#" onclick="showTab('pattern')">Template Method</a></li>
+                <li class="sub"><a href="#" onclick="showTab('pattern')">How It Works</a></li>
+                <li><a href="#" onclick="showTab('api')">API Reference</a></li>
+                <li class="sub"><a href="#" onclick="showTab('api')">Abstract Method</a></li>
+                <li class="sub"><a href="#" onclick="showTab('api')">Provided Methods</a></li>
+                <li><a href="#" onclick="showTab('inheritance')">Inheritance</a></li>
+                <li class="sub"><a href="#" onclick="showTab('inheritance')">Subclasses</a></li>
+                <li class="sub"><a href="#" onclick="showTab('inheritance')">Key Types</a></li>
+                <li><a href="#" onclick="showTab('examples')">Examples</a></li>
+                <li><a href="#" onclick="showTab('pitfalls')">Pitfalls</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+                <button class="tab-btn" onclick="showTab('pattern')">Pattern</button>
+                <button class="tab-btn" onclick="showTab('api')">API</button>
+                <button class="tab-btn" onclick="showTab('inheritance')">Inheritance</button>
+                <button class="tab-btn" onclick="showTab('examples')">Examples</button>
+                <button class="tab-btn" onclick="showTab('pitfalls')">Pitfalls</button>
+            </div>
+
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <div class="card">
+                    <h2>What is Equable?</h2>
+                    <p>A foundational <strong>abstract mixin</strong> that provides equality operations through key-based comparison. Instead of comparing objects directly, Equable compares their <code>key_comparison()</code> values.</p>
+
+                    <div class="method-grid" style="margin-top: 1.5rem;">
+                        <div class="method-card abstract">
+                            <h4>key_comparison()</h4>
+                            <p>You implement this</p>
+                        </div>
+                        <div class="method-card concrete">
+                            <h4>__eq__()</h4>
+                            <p>You get this free</p>
+                        </div>
+                        <div class="method-card concrete">
+                            <h4>__ne__()</h4>
+                            <p>You get this free</p>
+                        </div>
+                        <div class="method-card concrete">
+                            <h4>__hash__()</h4>
+                            <p>You get this free</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Quick Start</h3>
+                    <pre><code><span class="code-keyword">from</span> f_core.mixins.equable <span class="code-keyword">import</span> Equable
+
+<span class="code-keyword">class</span> <span class="code-class">Point</span>(Equable):
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(self, x: int, y: int):
+        self.x = x
+        self.y = y
+
+    <span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self) -> tuple:
+        <span class="code-keyword">return</span> (self.x, self.y)
+
+<span class="code-comment"># Now these work automatically:</span>
+Point(<span class="code-string">1</span>, <span class="code-string">2</span>) == Point(<span class="code-string">1</span>, <span class="code-string">2</span>)  <span class="code-comment"># True</span>
+Point(<span class="code-string">1</span>, <span class="code-string">2</span>) != Point(<span class="code-string">3</span>, <span class="code-string">4</span>)  <span class="code-comment"># True</span>
+{Point(<span class="code-string">1</span>, <span class="code-string">2</span>), Point(<span class="code-string">3</span>, <span class="code-string">4</span>)}  <span class="code-comment"># Works in sets!</span></code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Key Benefits</h3>
+                    <table>
+                        <tr>
+                            <th>Benefit</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-concrete">Separation</span></td>
+                            <td>Comparison logic separate from object state</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-concrete">Consistency</span></td>
+                            <td>Hash always matches equality (no set/dict bugs)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-concrete">Flexibility</span></td>
+                            <td>Compare with both Equable objects and raw values</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-concrete">Composable</span></td>
+                            <td>Keys can be tuples, nested structures, anything</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Pattern Tab -->
+            <div id="pattern" class="tab-content">
+                <div class="card">
+                    <h2>Template Method Pattern</h2>
+                    <p>Equable uses the <strong>Template Method Pattern</strong> - concrete methods that delegate to an abstract method.</p>
+
+                    <div class="pattern-viz" style="margin-top: 1.5rem;">
+                        <div class="pattern-box main">Equable (ABC)</div>
+                        <span class="pattern-arrow">|</span>
+                        <div class="pattern-row">
+                            <div class="pattern-box abstract">
+                                key_comparison()<br>
+                                <small style="color: var(--accent-purple)">abstract</small>
+                            </div>
+                        </div>
+                        <span class="pattern-arrow">delegates to</span>
+                        <div class="pattern-row">
+                            <div class="pattern-box concrete">__eq__</div>
+                            <div class="pattern-box concrete">__ne__</div>
+                            <div class="pattern-box concrete">__hash__</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>How Equality Works</h3>
+                    <div class="flow">
+                        <div class="flow-item"><code>a == b</code></div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-item"><code>a.__eq__(b)</code></div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-item highlight"><code>a.key_comparison()</code></div>
+                        <span class="flow-arrow">==</span>
+                        <div class="flow-item highlight"><code>b.key_comparison()</code></div>
+                    </div>
+
+                    <pre style="margin-top: 1.5rem;"><code><span class="code-keyword">def</span> <span class="code-function">__eq__</span>(self, other):
+    <span class="code-keyword">if</span> hasattr(other, <span class="code-string">'key_comparison'</span>):
+        <span class="code-comment"># Both are Equable - compare keys</span>
+        <span class="code-keyword">return</span> self.key_comparison() == other.key_comparison()
+    <span class="code-keyword">else</span>:
+        <span class="code-comment"># Other is raw value - compare directly</span>
+        <span class="code-keyword">return</span> self.key_comparison() == other</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Why This Pattern?</h3>
+                    <div class="info-box">
+                        <h4>Single Point of Truth</h4>
+                        <p>All operations (<code>==</code>, <code>!=</code>, <code>hash()</code>) use the same key. This prevents bugs where objects are "equal" but have different hashes.</p>
+                    </div>
+
+                    <table>
+                        <tr>
+                            <th>Without Equable</th>
+                            <th>With Equable</th>
+                        </tr>
+                        <tr>
+                            <td>Implement <code>__eq__</code></td>
+                            <td rowspan="3">Implement <code>key_comparison</code></td>
+                        </tr>
+                        <tr>
+                            <td>Implement <code>__ne__</code></td>
+                        </tr>
+                        <tr>
+                            <td>Implement <code>__hash__</code></td>
+                        </tr>
+                        <tr>
+                            <td>Risk: inconsistent hash/eq</td>
+                            <td>Guaranteed consistent</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- API Tab -->
+            <div id="api" class="tab-content">
+                <div class="card">
+                    <h2>Abstract Method</h2>
+                    <pre><code><span class="code-keyword">@abstractmethod</span>
+<span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self) -> Equable:
+    <span class="code-string">"""Return a value used for equality comparison."""</span>
+    <span class="code-keyword">pass</span></code></pre>
+
+                    <table style="margin-top: 1rem;">
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Details</th>
+                        </tr>
+                        <tr>
+                            <td>Returns</td>
+                            <td>Any value that supports <code>==</code> comparison</td>
+                        </tr>
+                        <tr>
+                            <td>For hashing</td>
+                            <td>Must return a hashable value (tuple, str, int, etc.)</td>
+                        </tr>
+                        <tr>
+                            <td>Stability</td>
+                            <td>Should return same value for same object state</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Provided Methods</h3>
+
+                    <div class="method-grid">
+                        <div class="method-card concrete">
+                            <h4>__eq__(other)</h4>
+                            <p>Returns <code>True</code> if keys equal</p>
+                        </div>
+                        <div class="method-card concrete">
+                            <h4>__ne__(other)</h4>
+                            <p>Returns <code>not self == other</code></p>
+                        </div>
+                        <div class="method-card concrete">
+                            <h4>__hash__()</h4>
+                            <p>Returns <code>hash(key_comparison())</code></p>
+                        </div>
+                    </div>
+
+                    <h4 style="margin-top: 1.5rem; color: var(--text-secondary);">Equality Logic</h4>
+                    <pre><code><span class="code-keyword">def</span> <span class="code-function">__eq__</span>(self, other: Equable) -> bool:
+    <span class="code-keyword">if</span> hasattr(other, <span class="code-string">'key_comparison'</span>):
+        <span class="code-keyword">return</span> self.key_comparison() == other.key_comparison()
+    <span class="code-keyword">else</span>:
+        <span class="code-keyword">return</span> self.key_comparison() == other</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Valid Key Types</h3>
+                    <table>
+                        <tr>
+                            <th>Type</th>
+                            <th>Example</th>
+                            <th>Hashable</th>
+                            <th>Use Case</th>
+                        </tr>
+                        <tr>
+                            <td><code>int</code></td>
+                            <td><code>42</code></td>
+                            <td><span class="badge badge-concrete">Yes</span></td>
+                            <td>Simple ID</td>
+                        </tr>
+                        <tr>
+                            <td><code>str</code></td>
+                            <td><code>"name"</code></td>
+                            <td><span class="badge badge-concrete">Yes</span></td>
+                            <td>Named objects</td>
+                        </tr>
+                        <tr>
+                            <td><code>tuple</code></td>
+                            <td><code>(x, y)</code></td>
+                            <td><span class="badge badge-concrete">Yes</span></td>
+                            <td>Composite keys</td>
+                        </tr>
+                        <tr>
+                            <td><code>frozenset</code></td>
+                            <td><code>frozenset({1,2})</code></td>
+                            <td><span class="badge badge-concrete">Yes</span></td>
+                            <td>Unordered sets</td>
+                        </tr>
+                        <tr>
+                            <td><code>list</code></td>
+                            <td><code>[a, b]</code></td>
+                            <td><span class="badge badge-warning">No</span></td>
+                            <td>Equality only</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Inheritance Tab -->
+            <div id="inheritance" class="tab-content">
+                <div class="card">
+                    <h2>Inheritance Hierarchy</h2>
+                    <div class="tree">
+<span class="tree-node">Equable</span> <span class="tree-line">(ABC)</span>
+<span class="tree-line">├──</span> <span class="tree-leaf">Comparable</span> <span class="tree-line">─ adds &lt;, &gt;, &lt;=, &gt;=</span>
+<span class="tree-line">│   ├──</span> <span class="tree-leaf">HasName</span>
+<span class="tree-line">│   ├──</span> <span class="tree-leaf">HasKey</span>
+<span class="tree-line">│   └──</span> <span class="tree-leaf">...</span>
+<span class="tree-line">│</span>
+<span class="tree-line">├──</span> <span class="tree-leaf">Pair</span> <span class="tree-line">─ ordered/unordered pairs</span>
+<span class="tree-line">├──</span> <span class="tree-leaf">EntryPriority</span> <span class="tree-line">─ priority queue entries</span>
+<span class="tree-line">└──</span> <span class="tree-leaf">GraphBase</span> <span class="tree-line">─ graph equality</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Direct Subclasses</h3>
+                    <table>
+                        <tr>
+                            <th>Class</th>
+                            <th>Module</th>
+                            <th>key_comparison()</th>
+                        </tr>
+                        <tr>
+                            <td><code>Comparable</code></td>
+                            <td><code>mixins/comparable</code></td>
+                            <td>Used for ordering too</td>
+                        </tr>
+                        <tr>
+                            <td><code>Pair</code></td>
+                            <td><code>f_ds/pair</code></td>
+                            <td><code>(a, b)</code> or sorted tuple</td>
+                        </tr>
+                        <tr>
+                            <td><code>EntryPriority</code></td>
+                            <td><code>f_ds/entry_priority</code></td>
+                            <td><code>[name] + item.key</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>GraphBase</code></td>
+                            <td><code>f_graph/graphs</code></td>
+                            <td>Graph structure</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Equable vs Comparable</h3>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th>Equable</th>
+                            <th>Comparable</th>
+                        </tr>
+                        <tr>
+                            <td>Provides</td>
+                            <td><code>==</code>, <code>!=</code>, <code>hash</code></td>
+                            <td>+ <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></td>
+                        </tr>
+                        <tr>
+                            <td>Use when</td>
+                            <td>Only need equality</td>
+                            <td>Need sorting/ordering</td>
+                        </tr>
+                        <tr>
+                            <td>Inherits from</td>
+                            <td><code>ABC</code></td>
+                            <td><code>Equable</code></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Protocol vs Mixin</h3>
+                    <div class="compare-grid">
+                        <div class="compare-item">
+                            <h4>Protocol (protocols/equable.py)</h4>
+                            <pre><code><span class="code-comment"># Type checking only</span>
+<span class="code-keyword">class</span> <span class="code-class">Equable</span>(Protocol):
+    <span class="code-keyword">def</span> <span class="code-function">__eq__</span>(...) -> bool
+    <span class="code-keyword">def</span> <span class="code-function">__ne__</span>(...) -> bool</code></pre>
+                        </div>
+                        <div class="compare-item">
+                            <h4>Mixin (mixins/equable.py)</h4>
+                            <pre><code><span class="code-comment"># Actual implementation</span>
+<span class="code-keyword">class</span> <span class="code-class">Equable</span>(ABC):
+    <span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(...)
+    <span class="code-keyword">def</span> <span class="code-function">__eq__</span>(...) <span class="code-comment"># impl</span></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Examples Tab -->
+            <div id="examples" class="tab-content">
+                <div class="card">
+                    <h2>Basic Implementation</h2>
+                    <pre><code><span class="code-keyword">from</span> f_core.mixins.equable <span class="code-keyword">import</span> Equable
+
+<span class="code-keyword">class</span> <span class="code-class">Point</span>(Equable):
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(self, x: int, y: int):
+        self.x = x
+        self.y = y
+
+    <span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self) -> tuple:
+        <span class="code-keyword">return</span> (self.x, self.y)
+
+<span class="code-comment"># Usage</span>
+p1 = Point(<span class="code-string">1</span>, <span class="code-string">2</span>)
+p2 = Point(<span class="code-string">1</span>, <span class="code-string">2</span>)
+p3 = Point(<span class="code-string">3</span>, <span class="code-string">4</span>)
+
+p1 == p2       <span class="code-comment"># True</span>
+p1 == p3       <span class="code-comment"># False</span>
+hash(p1) == hash(p2)  <span class="code-comment"># True</span></code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Composite Keys</h3>
+                    <pre><code><span class="code-keyword">class</span> <span class="code-class">Person</span>(Equable):
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(self, name: str, dob: date):
+        self.name = name
+        self.dob = dob
+
+    <span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self) -> tuple:
+        <span class="code-comment"># Case-insensitive name + date</span>
+        <span class="code-keyword">return</span> (self.name.lower(), self.dob)
+
+<span class="code-comment"># These are equal:</span>
+Person(<span class="code-string">"Alice"</span>, date(<span class="code-string">1990</span>,<span class="code-string">1</span>,<span class="code-string">1</span>)) == Person(<span class="code-string">"ALICE"</span>, date(<span class="code-string">1990</span>,<span class="code-string">1</span>,<span class="code-string">1</span>))</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Ordered vs Unordered</h3>
+                    <pre><code><span class="code-keyword">class</span> <span class="code-class">Pair</span>(Equable):
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(self, a, b, ordered=False):
+        self.a, self.b = a, b
+        self.ordered = ordered
+
+    <span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self):
+        <span class="code-keyword">if</span> self.ordered:
+            <span class="code-keyword">return</span> (self.a, self.b)
+        <span class="code-keyword">return</span> tuple(sorted([self.a, self.b]))
+
+<span class="code-comment"># Unordered pairs</span>
+Pair(<span class="code-string">1</span>, <span class="code-string">2</span>) == Pair(<span class="code-string">2</span>, <span class="code-string">1</span>)  <span class="code-comment"># True</span>
+
+<span class="code-comment"># Ordered pairs</span>
+Pair(<span class="code-string">1</span>, <span class="code-string">2</span>, ordered=True) == Pair(<span class="code-string">2</span>, <span class="code-string">1</span>, ordered=True)  <span class="code-comment"># False</span></code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>With Collections</h3>
+                    <pre><code><span class="code-comment"># In sets</span>
+points = {Point(<span class="code-string">1</span>,<span class="code-string">2</span>), Point(<span class="code-string">3</span>,<span class="code-string">4</span>)}
+Point(<span class="code-string">1</span>,<span class="code-string">2</span>) <span class="code-keyword">in</span> points  <span class="code-comment"># True</span>
+
+<span class="code-comment"># As dict keys</span>
+distances = {
+    Point(<span class="code-string">0</span>,<span class="code-string">0</span>): <span class="code-string">0</span>,
+    Point(<span class="code-string">1</span>,<span class="code-string">1</span>): <span class="code-string">1.414</span>
+}
+distances[Point(<span class="code-string">0</span>,<span class="code-string">0</span>)]  <span class="code-comment"># 0</span></code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Compare with Raw Values</h3>
+                    <pre><code><span class="code-keyword">class</span> <span class="code-class">Item</span>(Equable):
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(self, val):
+        self.val = val
+
+    <span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self):
+        <span class="code-keyword">return</span> self.val
+
+item = Item(<span class="code-string">42</span>)
+
+<span class="code-comment"># Compare with Equable object</span>
+item == Item(<span class="code-string">42</span>)  <span class="code-comment"># True</span>
+
+<span class="code-comment"># Compare with raw value</span>
+item == <span class="code-string">42</span>        <span class="code-comment"># True (direct comparison)</span></code></pre>
+                </div>
+            </div>
+
+            <!-- Pitfalls Tab -->
+            <div id="pitfalls" class="tab-content">
+                <div class="card">
+                    <h2>Common Pitfalls</h2>
+                </div>
+
+                <div class="card">
+                    <h3>Unhashable Keys</h3>
+                    <div class="compare-grid">
+                        <div class="compare-item bad">
+                            <h4>BAD - List is not hashable</h4>
+                            <pre><code><span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self):
+    <span class="code-keyword">return</span> [self.a, self.b]
+<span class="code-comment"># TypeError in sets!</span></code></pre>
+                        </div>
+                        <div class="compare-item good">
+                            <h4>GOOD - Tuple is hashable</h4>
+                            <pre><code><span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self):
+    <span class="code-keyword">return</span> (self.a, self.b)
+<span class="code-comment"># Works everywhere</span></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Mutable Keys</h3>
+                    <div class="compare-grid">
+                        <div class="compare-item bad">
+                            <h4>BAD - Key changes after hash</h4>
+                            <pre><code><span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self):
+    <span class="code-keyword">return</span> self.mutable_list
+<span class="code-comment"># Hash will be wrong!</span></code></pre>
+                        </div>
+                        <div class="compare-item good">
+                            <h4>GOOD - Immutable snapshot</h4>
+                            <pre><code><span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self):
+    <span class="code-keyword">return</span> tuple(self.mutable_list)
+<span class="code-comment"># Stable hash</span></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Inconsistent Types</h3>
+                    <div class="compare-grid">
+                        <div class="compare-item bad">
+                            <h4>BAD - Different types</h4>
+                            <pre><code><span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self):
+    <span class="code-keyword">if</span> self.x:
+        <span class="code-keyword">return</span> self.x
+    <span class="code-keyword">return</span> None
+<span class="code-comment"># Inconsistent!</span></code></pre>
+                        </div>
+                        <div class="compare-item good">
+                            <h4>GOOD - Consistent type</h4>
+                            <pre><code><span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self):
+    <span class="code-keyword">return</span> self.x <span class="code-keyword">or</span> <span class="code-string">""</span>
+<span class="code-comment"># Always string</span></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Forgetting to Implement</h3>
+                    <div class="warning-box">
+                        <h4>TypeError at instantiation</h4>
+                        <p>If you forget to implement <code>key_comparison()</code>, Python will raise <code>TypeError: Can't instantiate abstract class</code> when you try to create an instance.</p>
+                    </div>
+                    <pre><code><span class="code-keyword">class</span> <span class="code-class">Broken</span>(Equable):
+    <span class="code-keyword">pass</span>  <span class="code-comment"># Missing key_comparison!</span>
+
+Broken()  <span class="code-comment"># TypeError!</span></code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Best Practices</h3>
+                    <table>
+                        <tr>
+                            <th>Do</th>
+                            <th>Don't</th>
+                        </tr>
+                        <tr>
+                            <td>Return tuples for composite keys</td>
+                            <td>Return lists (not hashable)</td>
+                        </tr>
+                        <tr>
+                            <td>Use immutable values</td>
+                            <td>Reference mutable attributes directly</td>
+                        </tr>
+                        <tr>
+                            <td>Keep key type consistent</td>
+                            <td>Return different types based on state</td>
+                        </tr>
+                        <tr>
+                            <td>Include all relevant attributes</td>
+                            <td>Omit attributes that affect equality</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Deactivate all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+
+            // Activate corresponding button
+            const tabNames = {
+                'overview': 'Overview',
+                'pattern': 'Pattern',
+                'api': 'API',
+                'inheritance': 'Inheritance',
+                'examples': 'Examples',
+                'pitfalls': 'Pitfalls'
+            };
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.textContent === tabNames[tabId]) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

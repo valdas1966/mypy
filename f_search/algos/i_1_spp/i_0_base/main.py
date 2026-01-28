@@ -1,28 +1,24 @@
-from f_search.algos.i_0_base import AlgoSearch
-from f_search.ds.data import DataBestFirst
-from f_search.stats import StatsSearch as Stats
-from f_search.problems import ProblemSPP as Problem
-from f_search.solutions import SolutionSPP as Solution
+from f_search.algos.i_0_base import AlgoBestFirst
+from f_search.ds.state import StateBase
+from f_search.problems import ProblemSPP
+from f_search.solutions import SolutionSPP
 from f_search.ds.frontier import FrontierBase as Frontier
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, Callable
 
-Data = TypeVar('Data', bound=DataBestFirst)
+State = TypeVar('State', bound=StateBase)
 
 
-class AlgoSPP(Generic[Data], AlgoSearch[Problem, Solution, Stats, Data]):
+class AlgoSPP(Generic[State],
+              AlgoBestFirst[ProblemSPP, SolutionSPP, State]):
     """
     ============================================================================
      Base for One-to-One Shortest-Path-Problem Algorithms.
     ============================================================================
     """
 
-    cls_stats = Stats
-    cls_data = Data
-
     def __init__(self,
-                 problem: Problem,
-                 data: Data = None,
-                 type_frontier: type = Frontier,
+                 problem: ProblemSPP,
+                 make_frontier: Callable[[], Frontier[State]],
                  name: str = 'AlgoSPP') -> None:
         """
         ========================================================================
@@ -30,8 +26,7 @@ class AlgoSPP(Generic[Data], AlgoSearch[Problem, Solution, Stats, Data]):
         ========================================================================
         """
         super().__init__(problem=problem,
-                         data=data,
-                         type_frontier=type_frontier,
+                         make_frontier=make_frontier,
                          name=name)
 
     def _can_terminate(self) -> bool:
@@ -40,17 +35,27 @@ class AlgoSPP(Generic[Data], AlgoSearch[Problem, Solution, Stats, Data]):
          Return True if the Goal is the Best-State in Frontier.
         ========================================================================
         """
-        return self._data.best == self._problem.goal
+        return self._data.best == self.problem.goal
 
-    def _create_solution(self, is_valid: bool) -> Solution:
+    def _create_solution(self) -> SolutionSPP:
         """
         ========================================================================
          Create the Solution.
         ========================================================================
         """
-        path = self._data.path_to(self._problem.goal)
-        return Solution(is_valid=is_valid,
-                        stats=self._stats,
-                        path=path)
+        path = self._data.path_to(self.problem.goal)
+        return SolutionSPP(is_valid=True,
+                           stats=self._stats,
+                           path=path)
+
+    def _create_failure(self) -> SolutionSPP:
+        """
+        ========================================================================
+         Create a Failure Solution.
+        ========================================================================
+        """
+        return SolutionSPP(is_valid=False,
+                           stats=self._stats,
+                           path=None)
 
         

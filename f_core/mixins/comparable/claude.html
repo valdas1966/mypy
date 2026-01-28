@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparable Mixin - Documentation</title>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-card: #21262d;
+            --accent: #58a6ff;
+            --accent-light: #79c0ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-orange: #d29922;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --border: #30363d;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-card));
+            padding: 2rem;
+            border-bottom: 2px solid var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '< >';
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 5rem;
+            color: var(--accent);
+            opacity: 0.1;
+            font-weight: bold;
+            font-family: monospace;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header h1 span { color: var(--accent); }
+
+        .module-path {
+            color: var(--text-secondary);
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .tagline {
+            color: var(--accent-green);
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        .extends-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(163, 113, 247, 0.15);
+            border: 1px solid var(--accent-purple);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .extends-badge a {
+            color: var(--accent-purple);
+            text-decoration: none;
+        }
+
+        .extends-badge a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Layout */
+        .container {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Table of Contents */
+        .toc {
+            position: sticky;
+            top: 1rem;
+            height: fit-content;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .toc h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toc ul { list-style: none; }
+        .toc li { margin-bottom: 0.5rem; }
+
+        .toc a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .toc a:hover, .toc a.active {
+            color: var(--accent-light);
+            background: rgba(88, 166, 255, 0.1);
+        }
+
+        .toc .sub { padding-left: 1rem; font-size: 0.85rem; }
+
+        .toc .external {
+            color: var(--accent-purple);
+            border-left: 2px solid var(--accent-purple);
+            margin-top: 1rem;
+            padding-top: 0.5rem;
+        }
+
+        .toc .external a::before {
+            content: '↗ ';
+        }
+
+        /* Main Content */
+        main { min-width: 0; }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+        }
+
+        .tab-btn:hover { color: var(--text-primary); background: var(--bg-card); }
+
+        .tab-btn.active {
+            color: var(--accent);
+            background: var(--bg-card);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .card h2, .card h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .card p { color: var(--text-secondary); }
+
+        /* Operator Grid */
+        .operator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+        .operator-card {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .operator-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .operator-card.inherited {
+            border-color: var(--accent-purple);
+            background: rgba(163, 113, 247, 0.05);
+        }
+
+        .operator-card.new {
+            border-color: var(--accent-green);
+            background: rgba(63, 185, 80, 0.05);
+        }
+
+        .operator-symbol {
+            font-size: 2rem;
+            font-weight: bold;
+            font-family: monospace;
+            margin-bottom: 0.5rem;
+        }
+
+        .operator-card.inherited .operator-symbol { color: var(--accent-purple); }
+        .operator-card.new .operator-symbol { color: var(--accent-green); }
+
+        .operator-name {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-family: monospace;
+        }
+
+        .operator-source {
+            font-size: 0.7rem;
+            margin-top: 0.5rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .operator-card.inherited .operator-source {
+            background: rgba(163, 113, 247, 0.2);
+            color: var(--accent-purple);
+        }
+
+        .operator-card.new .operator-source {
+            background: rgba(63, 185, 80, 0.2);
+            color: var(--accent-green);
+        }
+
+        /* Hierarchy Visualization */
+        .hierarchy-viz {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .hierarchy-node {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            margin: 0.5rem;
+            font-weight: 500;
+        }
+
+        .hierarchy-node.abc {
+            background: var(--bg-secondary);
+            border: 2px dashed var(--text-secondary);
+            color: var(--text-secondary);
+        }
+
+        .hierarchy-node.equable {
+            background: rgba(163, 113, 247, 0.15);
+            border: 2px solid var(--accent-purple);
+            color: var(--accent-purple);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .hierarchy-node.equable:hover {
+            background: rgba(163, 113, 247, 0.25);
+            transform: scale(1.05);
+        }
+
+        .hierarchy-node.comparable {
+            background: var(--accent);
+            color: var(--bg-primary);
+            font-weight: bold;
+        }
+
+        .hierarchy-arrow {
+            display: block;
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .hierarchy-methods {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg-card);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        tr:hover { background: rgba(88, 166, 255, 0.05); }
+
+        /* Code */
+        code {
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-light);
+        }
+
+        pre {
+            background: var(--bg-card);
+            padding: 1.25rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            border-left: 3px solid var(--accent);
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+        }
+
+        .code-comment { color: var(--text-secondary); }
+        .code-keyword { color: var(--accent-purple); }
+        .code-string { color: var(--accent-green); }
+        .code-function { color: var(--accent-orange); }
+        .code-class { color: var(--accent); }
+        .code-number { color: var(--accent-orange); }
+
+        /* Comparison Table */
+        .compare-table {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .compare-col {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .compare-col.equable {
+            border-top: 3px solid var(--accent-purple);
+        }
+
+        .compare-col.comparable {
+            border-top: 3px solid var(--accent-green);
+        }
+
+        .compare-col h4 {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .compare-col.equable h4 { color: var(--accent-purple); }
+        .compare-col.comparable h4 { color: var(--accent-green); }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-inherited { background: rgba(163, 113, 247, 0.2); color: var(--accent-purple); }
+        .badge-new { background: rgba(63, 185, 80, 0.2); color: var(--accent-green); }
+        .badge-info { background: rgba(88, 166, 255, 0.2); color: var(--accent); }
+
+        /* Link to Equable */
+        .equable-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--accent-purple);
+            text-decoration: none;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            background: rgba(163, 113, 247, 0.1);
+            transition: all 0.2s;
+        }
+
+        .equable-link:hover {
+            background: rgba(163, 113, 247, 0.2);
+            text-decoration: underline;
+        }
+
+        .equable-link::after {
+            content: '↗';
+            font-size: 0.8rem;
+        }
+
+        /* Flow Diagram */
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+        }
+
+        .flow-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .flow-item.highlight {
+            border-color: var(--accent);
+            box-shadow: 0 0 12px rgba(88, 166, 255, 0.2);
+        }
+
+        .flow-arrow {
+            color: var(--accent);
+            font-size: 1.25rem;
+        }
+
+        /* Subclass Tree */
+        .tree {
+            font-family: monospace;
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 8px;
+            line-height: 2;
+        }
+
+        .tree-node { color: var(--accent-green); }
+        .tree-line { color: var(--text-secondary); }
+        .tree-desc { color: var(--text-secondary); font-size: 0.85rem; }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .info-box h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; }
+            .toc { position: static; margin-bottom: 1rem; }
+            .compare-table { grid-template-columns: 1fr; }
+            .operator-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><span>Comparable</span> Mixin</h1>
+        <div class="module-path">f_core/mixins/comparable</div>
+        <div class="tagline">Ordering operators for sortable objects</div>
+        <div class="extends-badge">
+            extends <a href="../equable/claude.html">Equable</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Table of Contents -->
+        <nav class="toc">
+            <h3>Contents</h3>
+            <ul>
+                <li><a href="#" onclick="showTab('overview')">Overview</a></li>
+                <li class="sub"><a href="#" onclick="showTab('overview')">Operators</a></li>
+                <li><a href="#" onclick="showTab('hierarchy')">Hierarchy</a></li>
+                <li class="sub"><a href="#" onclick="showTab('hierarchy')">Inheritance</a></li>
+                <li class="sub"><a href="#" onclick="showTab('hierarchy')">vs Equable</a></li>
+                <li><a href="#" onclick="showTab('api')">API Reference</a></li>
+                <li class="sub"><a href="#" onclick="showTab('api')">Methods</a></li>
+                <li class="sub"><a href="#" onclick="showTab('api')">Factory</a></li>
+                <li><a href="#" onclick="showTab('subclasses')">Subclasses</a></li>
+                <li><a href="#" onclick="showTab('examples')">Examples</a></li>
+                <li class="external"><a href="../equable/claude.html">Equable Docs</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+                <button class="tab-btn" onclick="showTab('hierarchy')">Hierarchy</button>
+                <button class="tab-btn" onclick="showTab('api')">API</button>
+                <button class="tab-btn" onclick="showTab('subclasses')">Subclasses</button>
+                <button class="tab-btn" onclick="showTab('examples')">Examples</button>
+            </div>
+
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <div class="card">
+                    <h2>What is Comparable?</h2>
+                    <p>Comparable extends <a href="../equable/claude.html" class="equable-link">Equable</a> to add <strong>ordering operators</strong>. While Equable provides equality (<code>==</code>, <code>!=</code>), Comparable adds the ability to sort and compare objects (<code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>).</p>
+
+                    <div class="info-box" style="margin-top: 1rem;">
+                        <h4>Same key_comparison() Pattern</h4>
+                        <p>Like <a href="../equable/claude.html" class="equable-link">Equable</a>, you only implement <code>key_comparison()</code>. All 6 operators are derived from it automatically.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>All Operators</h3>
+                    <div class="operator-grid">
+                        <div class="operator-card inherited">
+                            <div class="operator-symbol">==</div>
+                            <div class="operator-name">__eq__</div>
+                            <div class="operator-source">Equable</div>
+                        </div>
+                        <div class="operator-card inherited">
+                            <div class="operator-symbol">!=</div>
+                            <div class="operator-name">__ne__</div>
+                            <div class="operator-source">Equable</div>
+                        </div>
+                        <div class="operator-card inherited">
+                            <div class="operator-symbol">#</div>
+                            <div class="operator-name">__hash__</div>
+                            <div class="operator-source">Equable</div>
+                        </div>
+                        <div class="operator-card new">
+                            <div class="operator-symbol">&lt;</div>
+                            <div class="operator-name">__lt__</div>
+                            <div class="operator-source">Comparable</div>
+                        </div>
+                        <div class="operator-card new">
+                            <div class="operator-symbol">&lt;=</div>
+                            <div class="operator-name">__le__</div>
+                            <div class="operator-source">Comparable</div>
+                        </div>
+                        <div class="operator-card new">
+                            <div class="operator-symbol">&gt;</div>
+                            <div class="operator-name">__gt__</div>
+                            <div class="operator-source">Comparable</div>
+                        </div>
+                        <div class="operator-card new">
+                            <div class="operator-symbol">&gt;=</div>
+                            <div class="operator-name">__ge__</div>
+                            <div class="operator-source">Comparable</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1rem; text-align: center;">
+                        <span class="badge badge-inherited">Purple = from Equable</span>
+                        <span class="badge badge-new" style="margin-left: 0.5rem;">Green = from Comparable</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Quick Start</h3>
+                    <pre><code><span class="code-keyword">from</span> f_core.mixins.comparable <span class="code-keyword">import</span> Comparable
+
+<span class="code-keyword">class</span> <span class="code-class">Score</span>(Comparable):
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(self, points: int):
+        self.points = points
+
+    <span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self) -> int:
+        <span class="code-keyword">return</span> self.points
+
+<span class="code-comment"># All operators work automatically</span>
+s1 = Score(<span class="code-number">100</span>)
+s2 = Score(<span class="code-number">150</span>)
+
+s1 < s2    <span class="code-comment"># True</span>
+s2 > s1    <span class="code-comment"># True</span>
+s1 == Score(<span class="code-number">100</span>)  <span class="code-comment"># True (from Equable)</span>
+
+sorted([s2, s1])  <span class="code-comment"># [Score(100), Score(150)]</span></code></pre>
+                </div>
+            </div>
+
+            <!-- Hierarchy Tab -->
+            <div id="hierarchy" class="tab-content">
+                <div class="card">
+                    <h2>Inheritance Chain</h2>
+                    <div class="hierarchy-viz">
+                        <div class="hierarchy-node abc">ABC</div>
+                        <span class="hierarchy-arrow">↓</span>
+                        <a href="../equable/claude.html" style="text-decoration: none;">
+                            <div class="hierarchy-node equable">
+                                Equable
+                                <div class="hierarchy-methods">__eq__, __ne__, __hash__</div>
+                            </div>
+                        </a>
+                        <span class="hierarchy-arrow">↓</span>
+                        <div class="hierarchy-node comparable">
+                            Comparable
+                            <div class="hierarchy-methods" style="color: var(--bg-primary);">__lt__, __le__, __gt__, __ge__</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Equable vs Comparable</h3>
+                    <div class="compare-table">
+                        <div class="compare-col equable">
+                            <h4><a href="../equable/claude.html" class="equable-link">Equable</a></h4>
+                            <table>
+                                <tr><td><strong>Purpose</strong></td><td>Identity / Equality</td></tr>
+                                <tr><td><strong>Operators</strong></td><td><code>==</code> <code>!=</code> <code>hash()</code></td></tr>
+                                <tr><td><strong>Use for</strong></td><td>Sets, dicts, deduplication</td></tr>
+                                <tr><td><strong>Use when</strong></td><td>Only need equality</td></tr>
+                            </table>
+                        </div>
+                        <div class="compare-col comparable">
+                            <h4>Comparable</h4>
+                            <table>
+                                <tr><td><strong>Purpose</strong></td><td>Ordering / Ranking</td></tr>
+                                <tr><td><strong>Operators</strong></td><td>+ <code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code></td></tr>
+                                <tr><td><strong>Use for</strong></td><td>Sorting, min/max, ranges</td></tr>
+                                <tr><td><strong>Use when</strong></td><td>Need to order objects</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>How Comparison Works</h3>
+                    <div class="flow">
+                        <div class="flow-item"><code>a &lt; b</code></div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-item"><code>a.__lt__(b)</code></div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-item highlight"><code>a.key_comparison()</code></div>
+                        <span class="flow-arrow">&lt;</span>
+                        <div class="flow-item highlight"><code>b.key_comparison()</code></div>
+                    </div>
+
+                    <pre style="margin-top: 1rem;"><code><span class="code-keyword">def</span> <span class="code-function">__lt__</span>(self, other: Comparable) -> bool:
+    <span class="code-keyword">return</span> self.key_comparison() < other.key_comparison()
+
+<span class="code-keyword">def</span> <span class="code-function">__le__</span>(self, other: Comparable) -> bool:
+    <span class="code-keyword">return</span> self.key_comparison() <= other.key_comparison()
+
+<span class="code-comment"># Same pattern for __gt__ and __ge__</span></code></pre>
+                </div>
+            </div>
+
+            <!-- API Tab -->
+            <div id="api" class="tab-content">
+                <div class="card">
+                    <h2>Abstract Method</h2>
+                    <pre><code><span class="code-keyword">@abstractmethod</span>
+<span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self) -> Equable:
+    <span class="code-string">"""Return the key for comparison."""</span>
+    <span class="code-keyword">pass</span></code></pre>
+
+                    <p style="margin-top: 1rem;">Same as <a href="../equable/claude.html" class="equable-link">Equable.key_comparison()</a> - one method drives all operators.</p>
+
+                    <table style="margin-top: 1rem;">
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Details</th>
+                        </tr>
+                        <tr>
+                            <td>Returns</td>
+                            <td>Any value supporting <code>&lt;</code>, <code>&gt;</code>, <code>==</code></td>
+                        </tr>
+                        <tr>
+                            <td>Common types</td>
+                            <td><code>int</code>, <code>str</code>, <code>tuple</code>, <code>float</code></td>
+                        </tr>
+                        <tr>
+                            <td>For hashing</td>
+                            <td>Must be hashable (from <a href="../equable/claude.html" class="equable-link">Equable</a>)</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Methods Summary</h3>
+                    <table>
+                        <tr>
+                            <th>Method</th>
+                            <th>Operator</th>
+                            <th>Source</th>
+                        </tr>
+                        <tr>
+                            <td><code>__lt__(other)</code></td>
+                            <td><code>&lt;</code></td>
+                            <td><span class="badge badge-new">Comparable</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>__le__(other)</code></td>
+                            <td><code>&lt;=</code></td>
+                            <td><span class="badge badge-new">Comparable</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>__gt__(other)</code></td>
+                            <td><code>&gt;</code></td>
+                            <td><span class="badge badge-new">Comparable</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>__ge__(other)</code></td>
+                            <td><code>&gt;=</code></td>
+                            <td><span class="badge badge-new">Comparable</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>__eq__(other)</code></td>
+                            <td><code>==</code></td>
+                            <td><span class="badge badge-inherited">Equable</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>__ne__(other)</code></td>
+                            <td><code>!=</code></td>
+                            <td><span class="badge badge-inherited">Equable</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>__hash__()</code></td>
+                            <td><code>hash()</code></td>
+                            <td><span class="badge badge-inherited">Equable</span></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Factory Methods</h3>
+                    <pre><code>Comparable.Factory.a()  <span class="code-comment"># key='A'</span>
+Comparable.Factory.b()  <span class="code-comment"># key='B'</span></code></pre>
+
+                    <p style="margin-top: 1rem;">Uses internal <code>Temp</code> class for testing:</p>
+
+                    <pre><code><span class="code-keyword">class</span> <span class="code-class">Temp</span>(Comparable):
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(self, key: str):
+        self.key = key
+
+    <span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self) -> str:
+        <span class="code-keyword">return</span> self.key
+
+<span class="code-comment"># Usage</span>
+a = Comparable.Factory.a()  <span class="code-comment"># Temp(key='A')</span>
+b = Comparable.Factory.b()  <span class="code-comment"># Temp(key='B')</span>
+a < b  <span class="code-comment"># True ('A' < 'B')</span></code></pre>
+                </div>
+            </div>
+
+            <!-- Subclasses Tab -->
+            <div id="subclasses" class="tab-content">
+                <div class="card">
+                    <h2>Classes Using Comparable</h2>
+                    <div class="tree">
+<span class="tree-node">Comparable</span>
+<span class="tree-line">├──</span> <span class="tree-node">HasName</span> <span class="tree-desc">─ mixins/has/name ─ key: name string</span>
+<span class="tree-line">├──</span> <span class="tree-node">HasRowCol</span> <span class="tree-desc">─ mixins/has/row_col ─ key: (row, col)</span>
+<span class="tree-line">├──</span> <span class="tree-node">HasKey</span> <span class="tree-desc">─ mixins/has/key ─ key: generic type</span>
+<span class="tree-line">├──</span> <span class="tree-node">Bounds</span> <span class="tree-desc">─ f_gui/layout/bounds ─ key: (x, y, w, h)</span>
+<span class="tree-line">├──</span> <span class="tree-node">Path</span> <span class="tree-desc">─ f_search/ds/path ─ key: list[State]</span>
+<span class="tree-line">├──</span> <span class="tree-node">RGB</span> <span class="tree-desc">─ f_color/rgb ─ key: (r, g, b)</span>
+<span class="tree-line">└──</span> <span class="tree-node">PriorityKey</span> <span class="tree-desc">─ f_search/ds/priority ─ key: generic</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Implementation Examples</h3>
+                    <table>
+                        <tr>
+                            <th>Class</th>
+                            <th>key_comparison()</th>
+                            <th>Sort Order</th>
+                        </tr>
+                        <tr>
+                            <td><code>HasName</code></td>
+                            <td><code>self._name or ''</code></td>
+                            <td>Alphabetical</td>
+                        </tr>
+                        <tr>
+                            <td><code>HasRowCol</code></td>
+                            <td><code>(row, col)</code></td>
+                            <td>Top-to-bottom, left-to-right</td>
+                        </tr>
+                        <tr>
+                            <td><code>Bounds</code></td>
+                            <td><code>(x, y, w, h)</code></td>
+                            <td>By position, then size</td>
+                        </tr>
+                        <tr>
+                            <td><code>RGB</code></td>
+                            <td><code>(r, g, b)</code></td>
+                            <td>Red first, then green, blue</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>HasName Implementation</h3>
+                    <pre><code><span class="code-keyword">class</span> <span class="code-class">HasName</span>(Comparable, Printable):
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(self, name: str = None):
+        self._name = name
+
+    <span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self) -> str:
+        <span class="code-keyword">return</span> self._name <span class="code-keyword">or</span> <span class="code-string">''</span>  <span class="code-comment"># Empty sorts first</span>
+
+<span class="code-comment"># Sorting works</span>
+names = [HasName(<span class="code-string">"Zebra"</span>), HasName(<span class="code-string">"Apple"</span>), HasName(None)]
+sorted(names)  <span class="code-comment"># [None, Apple, Zebra]</span></code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>HasRowCol Implementation</h3>
+                    <pre><code><span class="code-keyword">class</span> <span class="code-class">HasRowCol</span>(Comparable, Printable):
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(self, row: int, col: int):
+        self._row = row
+        self._col = col
+
+    <span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self) -> tuple[int, int]:
+        <span class="code-keyword">return</span> (self._row, self._col)
+
+<span class="code-comment"># Grid positions sort top-to-bottom, left-to-right</span>
+cells = [HasRowCol(<span class="code-number">1</span>, <span class="code-number">2</span>), HasRowCol(<span class="code-number">0</span>, <span class="code-number">5</span>), HasRowCol(<span class="code-number">1</span>, <span class="code-number">0</span>)]
+sorted(cells)  <span class="code-comment"># [(0,5), (1,0), (1,2)]</span></code></pre>
+                </div>
+            </div>
+
+            <!-- Examples Tab -->
+            <div id="examples" class="tab-content">
+                <div class="card">
+                    <h2>Basic Implementation</h2>
+                    <pre><code><span class="code-keyword">from</span> f_core.mixins.comparable <span class="code-keyword">import</span> Comparable
+
+<span class="code-keyword">class</span> <span class="code-class">Score</span>(Comparable):
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(self, points: int):
+        self.points = points
+
+    <span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self) -> int:
+        <span class="code-keyword">return</span> self.points
+
+<span class="code-comment"># Comparison operators</span>
+s1 = Score(<span class="code-number">100</span>)
+s2 = Score(<span class="code-number">150</span>)
+
+s1 < s2   <span class="code-comment"># True</span>
+s2 > s1   <span class="code-comment"># True</span>
+s1 <= s1  <span class="code-comment"># True</span>
+s1 >= s1  <span class="code-comment"># True</span>
+s1 == Score(<span class="code-number">100</span>)  <span class="code-comment"># True</span></code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Sorting &amp; Min/Max</h3>
+                    <pre><code>scores = [Score(<span class="code-number">50</span>), Score(<span class="code-number">100</span>), Score(<span class="code-number">75</span>)]
+
+sorted(scores)  <span class="code-comment"># [Score(50), Score(75), Score(100)]</span>
+min(scores)     <span class="code-comment"># Score(50)</span>
+max(scores)     <span class="code-comment"># Score(100)</span>
+
+<span class="code-comment"># Reverse sort</span>
+sorted(scores, reverse=True)  <span class="code-comment"># [Score(100), Score(75), Score(50)]</span></code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Multi-Criteria Sorting</h3>
+                    <pre><code><span class="code-keyword">class</span> <span class="code-class">Person</span>(Comparable):
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(self, name: str, age: int):
+        self.name = name
+        self.age = age
+
+    <span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self) -> tuple[int, str]:
+        <span class="code-keyword">return</span> (self.age, self.name)  <span class="code-comment"># Sort by age, then name</span>
+
+people = [
+    Person(<span class="code-string">"Alice"</span>, <span class="code-number">30</span>),
+    Person(<span class="code-string">"Bob"</span>, <span class="code-number">25</span>),
+    Person(<span class="code-string">"Charlie"</span>, <span class="code-number">30</span>),
+]
+
+sorted(people)
+<span class="code-comment"># [Bob(25), Alice(30), Charlie(30)]</span>
+<span class="code-comment"># Bob first (youngest), then Alice < Charlie (same age, alphabetical)</span></code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>With Collections</h3>
+                    <pre><code><span class="code-comment"># Sets work (via Equable's __hash__)</span>
+unique = {Score(<span class="code-number">100</span>), Score(<span class="code-number">50</span>), Score(<span class="code-number">100</span>)}
+len(unique)  <span class="code-comment"># 2 (duplicates removed)</span>
+
+<span class="code-comment"># Dict keys work</span>
+rankings = {
+    Score(<span class="code-number">100</span>): <span class="code-string">"Gold"</span>,
+    Score(<span class="code-number">50</span>): <span class="code-string">"Bronze"</span>
+}
+rankings[Score(<span class="code-number">100</span>)]  <span class="code-comment"># "Gold"</span></code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Generic Wrapper</h3>
+                    <pre><code><span class="code-keyword">from</span> typing <span class="code-keyword">import</span> Generic, TypeVar
+
+Key = TypeVar(<span class="code-string">'Key'</span>)
+
+<span class="code-keyword">class</span> <span class="code-class">PriorityKey</span>(Generic[Key], Comparable):
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(self, key: Key):
+        self._key = key
+
+    <span class="code-keyword">def</span> <span class="code-function">key_comparison</span>(self) -> Key:
+        <span class="code-keyword">return</span> self._key
+
+<span class="code-comment"># Works with any comparable type</span>
+PriorityKey(<span class="code-number">10</span>) < PriorityKey(<span class="code-number">20</span>)        <span class="code-comment"># int</span>
+PriorityKey(<span class="code-string">"a"</span>) < PriorityKey(<span class="code-string">"b"</span>)      <span class="code-comment"># str</span>
+PriorityKey((<span class="code-number">1</span>,<span class="code-number">2</span>)) < PriorityKey((<span class="code-number">1</span>,<span class="code-number">3</span>))  <span class="code-comment"># tuple</span></code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Common Patterns</h3>
+                    <table>
+                        <tr>
+                            <th>Pattern</th>
+                            <th>key_comparison()</th>
+                            <th>Effect</th>
+                        </tr>
+                        <tr>
+                            <td>Simple value</td>
+                            <td><code>return self.val</code></td>
+                            <td>Sort by single attribute</td>
+                        </tr>
+                        <tr>
+                            <td>Tuple</td>
+                            <td><code>return (a, b)</code></td>
+                            <td>Sort by a, then b</td>
+                        </tr>
+                        <tr>
+                            <td>Handle None</td>
+                            <td><code>return val or ''</code></td>
+                            <td>None sorts first</td>
+                        </tr>
+                        <tr>
+                            <td>Descending</td>
+                            <td><code>return -self.val</code></td>
+                            <td>Reverse order</td>
+                        </tr>
+                        <tr>
+                            <td>Case-insensitive</td>
+                            <td><code>return name.lower()</code></td>
+                            <td>Ignore case</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            document.getElementById(tabId).classList.add('active');
+
+            const tabNames = {
+                'overview': 'Overview',
+                'hierarchy': 'Hierarchy',
+                'api': 'API',
+                'subclasses': 'Subclasses',
+                'examples': 'Examples'
+            };
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.textContent === tabNames[tabId]) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
