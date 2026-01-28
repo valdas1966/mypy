@@ -1,3 +1,4 @@
+from re import L
 from f_search.ds.data import DataBestFirst
 from abc import abstractmethod
 from typing import Generic, TypeVar
@@ -21,6 +22,9 @@ class AlgoBestFirst(Generic[Data]):
     ============================================================================
     """
 
+    def __init__(self, data: Data = None) -> None:
+
+        self._data = data if data else Data()   
     @property
     def data(self) -> Data:
         """
