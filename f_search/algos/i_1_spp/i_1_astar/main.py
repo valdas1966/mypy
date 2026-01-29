@@ -1,14 +1,17 @@
 from f_search.algos.i_1_spp.i_0_base import AlgoSPP
-from f_search.algos.i_0_base.i_2_astar import AStarBase
-from f_search.problems import ProblemSPP, State
-from f_search.solutions import SolutionSPP
-from f_search.ds.data import DataBestFirst
+from f_search.problems import ProblemSPP
+from f_search.solutions import SolutionSPP 
+from f_search.ds.frontier import FrontierPriority
+from f_search.ds.state import StateBase
+from typing import Generic, TypeVar
+
+State = TypeVar('State', bound=StateBase)
 
 
-class AStar(AlgoSPP, AStarBase):
+class AStar(Generic[State], AlgoSPP[State]):
     """
     ============================================================================
-     A* Algorithm for One-to-One Shortest-Path-Problem.
+     AStar (A*) Algorithm.
     ============================================================================
     """
 
@@ -17,7 +20,6 @@ class AStar(AlgoSPP, AStarBase):
 
     def __init__(self,
                  problem: ProblemSPP,
-                 data: DataBestFirst = None,
                  name: str = 'AStar') -> None:
         """
         ========================================================================
@@ -25,7 +27,7 @@ class AStar(AlgoSPP, AStarBase):
         ========================================================================
         """
         super().__init__(problem=problem,
-                         data=data,
+                         make_frontier=FrontierPriority,
                          name=name)
 
     def run(self) -> SolutionSPP:
@@ -34,50 +36,36 @@ class AStar(AlgoSPP, AStarBase):
          Run the Algorithm and return the Solution.
         ========================================================================
         """
-        self._run_pre()
-        # If incremental algorithm
-        if self._data.generated:
-            self._update_generated()
-        else:
-            # If not incremental algorithm
-            self._generate_state(state=self._problem.start)
+        self._discover(state=self.problem.start)
         while self._should_continue():
-            self._update_best()
+            self._select_best()
             if self._can_terminate():
-                return self._create_solution(is_valid=True)
+                return self._create_solution()
             self._explore_best()
-        return self._create_solution(is_valid=False)        
+        return self._create_failure()
 
-    def _create_solution(self, is_valid: bool) -> SolutionSPP:
+    def _discover(self, state: State, parent: State = None) -> None:
         """
         ========================================================================
-         Create the Solution.
+         Discover the given State.
         ========================================================================
         """
-        self._run_post()
-        path = self._data.path_to(state=self._data.best) if is_valid else None
-        solution = SolutionSPP(is_valid=is_valid,
-                               path=path,
-                               stats=self._stats)
-        return solution
+        self._stats.discovered += 1
+        # Aliases
+        data = self._data
+        # Set State's Parent
+        data.dict_parent[state] = parent
+        # Set State's G-Value (based on Parent g-value if exists, otherwise 0)
+        data.dict_g[state] = data.dict_g[parent] + 1 if parent else 0
+        # Push State to Frontier
+        data.frontier.push(state=state)
 
-    def _heuristic(self, state: State) -> int:
+    def _handle_successor(self, succ: State) -> None:
         """
         ========================================================================
-         Return the Heuristic-Value of the given State
-          (Manhattan-Distance to the Goal).
+         Handle the Successor.
         ========================================================================
         """
-        if state in self.data.cached:
-            return self.data.cached[state]
-        cell_state = state.key
-        cell_goal = self._problem.goal.key
-        return cell_state.distance(other=cell_goal)
-
-    def _can_terminate(self) -> bool:
-        """
-        ========================================================================
-         Return True if the Goal is the Best-StateBase in Generated-List.
-        ========================================================================
-        """
-        return self._data.best == self._problem.goal
+        if succ not in self._data.frontier:
+            self._discover(state=succ, parent=self._data.best)
+        
