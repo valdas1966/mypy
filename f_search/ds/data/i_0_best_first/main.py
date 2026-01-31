@@ -16,13 +16,21 @@ class DataBestFirst(Generic[State]):
     # Factory
     Factory: type = None
     
-    def __init__(self,
-                 make_frontier: Callable[[], Frontier[State]]) -> None:
-        self.frontier = make_frontier()
+    def __init__(self, frontier: Frontier[State]) -> None:
+        self.frontier = frontier
         self.explored: set[State] = set()
         self.best: State = None
         self.dict_g: dict[State, int] = dict()
         self.dict_parent: dict[State, State] = dict()
+
+    def set_best_to_be_parent_of(self, state: State) -> None:
+        """
+        ========================================================================
+         Set the Best-State to be the Parent of the given State.
+        ========================================================================
+        """
+        self.dict_parent[state] = self.best
+        self.dict_g[state] = self.dict_g[self.best] + 1 if self.best else 0
         
     def path_to(self, state: State) -> Path:
         """

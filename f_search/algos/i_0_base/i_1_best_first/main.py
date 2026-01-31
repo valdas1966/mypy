@@ -13,6 +13,11 @@ Solution = TypeVar('Solution', bound=SolutionSearch)
 
 class AlgoBestFirst(Generic[Problem, Solution, State],
                     AlgoSearch[Problem, Solution]):
+    """
+    ============================================================================  
+        Base for Best-First Search-Algorithms.
+    ============================================================================
+    """
 
     def __init__(self,
                  problem: Problem,
@@ -24,7 +29,8 @@ class AlgoBestFirst(Generic[Problem, Solution, State],
         ========================================================================
         """
         super().__init__(problem=problem, name=name)
-        self._data = DataBestFirst(make_frontier=make_frontier)
+        frontier = make_frontier()
+        self._data = DataBestFirst(frontier=frontier)
 
     def _should_continue(self) -> bool:
         """

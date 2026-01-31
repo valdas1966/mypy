@@ -29,6 +29,21 @@ class AlgoSPP(Generic[State],
                          make_frontier=make_frontier,
                          name=name)
 
+    def _run(self) -> None:
+        """
+        ========================================================================
+         Run the Algorithm and return the Solution.
+        ========================================================================
+        """
+        self._discover(state=self.problem.start)
+        while self._should_continue():
+            self._select_best()
+            if self._can_terminate():
+                self._output = self._create_solution()
+                return
+            self._explore_best()
+        self._output = self._create_failure()
+
     def _can_terminate(self) -> bool:
         """
         ========================================================================

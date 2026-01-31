@@ -1,18 +1,12 @@
-from f_log.utils import set_debug, one_line
+import logging
+from f_log.config import setup_log
+
+setup_log(enabled=True, level=logging.DEBUG, sink='both', path='debug.log')
 
 
-set_debug(True)
-
-class A:
-
-    def __repr__(self) -> str:
-        return 'A=1, B=2'
-
-class C:
-
-    @staticmethod
-    @one_line
-    def add(a: int, b: int) -> list[int]:
-        return [a, b, [a, b], [a, b, a]]
-
-x = C.add(a=1, b=2)
+log = logging.getLogger(__name__)
+log.debug('debug message')
+log.info('info message')
+log.warning('warning message')
+log.error('error message')
+log.critical('critical message')

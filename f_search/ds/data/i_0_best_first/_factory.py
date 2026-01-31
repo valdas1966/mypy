@@ -16,4 +16,5 @@ class Factory:
          Create a DataBestFirst object with an empty Frontier.
         ========================================================================
         """
-        return DataBestFirst(make_frontier=FrontierFifo)
+        frontier = FrontierFifo()
+        return DataBestFirst(frontier=frontier)

@@ -1,10 +1,7 @@
-from f_log.utils import set_debug, log_2
+from f_log.old.utils import set_debug, log_2
 from f_search.problems import ProblemOMSPP, ProblemOMSPPLite as ProblemLite
 from f_search.algos.i_2_omspp import AlgoOMSPP
-from f_search.algos.i_2_omspp import AStarRepeated
-from f_search.algos.i_2_omspp import AStarIncremental
 from f_search.algos.i_2_omspp import AStarAggregative
-from f_search.algos.i_2_omspp import DijkstraIncremental
 from f_search.solutions import SolutionOMSPP
 from f_ds.grids import GridMap as Grid
 from f_utils import u_pickle

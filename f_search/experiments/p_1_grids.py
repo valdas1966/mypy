@@ -1,4 +1,4 @@
-from f_log.utils import set_debug, log_1,  log_2
+from f_log.old.utils import set_debug, log_1,  log_2
 from f_ds.grids import GridMap as Grid
 from f_psl.os.u_dir import UDir
 from f_psl.os.u_path import UPath

@@ -1,4 +1,4 @@
-from f_log.utils import set_debug, log_1, log_2
+from f_log.old.utils import set_debug, log_1, log_2
 from f_ds.grids import GridMap as Grid, CellMap as Cell
 from f_search.algos.i_1_spp.utils import are_reachable, cells_reachable
 from f_utils import u_pickle, u_iter

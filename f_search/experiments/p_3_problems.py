@@ -1,5 +1,5 @@
-from f_log.utils import set_debug, log_2
-from f_ds.grids import GridMap as Grid, CellMap as Cell
+from f_log.old.utils import set_debug, log_2
+from f_ds.grids import CellMap as Cell
 from f_search.problems import ProblemOMSPPLite as ProblemLite
 from f_search.ds.state import StateCell as State
 from f_utils import u_pickle

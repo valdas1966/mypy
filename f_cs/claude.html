@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>f_cs - Computer Science Algorithm Framework</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #181818;
+            --bg-hover: #1e1e1e;
+            --text-primary: #d0d0d0;
+            --text-secondary: #606060;
+            --text-muted: #404040;
+            --accent: #5c9fd4;
+            --accent-dim: #3a6a8a;
+            --code-bg: #0d0d0d;
+            --border: #252525;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar / Table of Contents */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            padding: 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            color: var(--accent);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .toc {
+            list-style: none;
+        }
+
+        .toc li {
+            margin: 0.25rem 0;
+        }
+
+        .toc a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: block;
+            padding: 0.4rem 0.75rem;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .toc a:hover {
+            color: var(--accent);
+            background: var(--bg-hover);
+        }
+
+        .toc .sub {
+            padding-left: 1.5rem;
+            font-size: 0.85rem;
+        }
+
+        /* Main Content */
+        .main {
+            margin-left: 280px;
+            flex: 1;
+            padding: 2rem 3rem;
+            max-width: 1000px;
+        }
+
+        h1 {
+            color: var(--text-primary);
+            font-size: 2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            color: var(--text-primary);
+            font-size: 1.4rem;
+            margin: 2.5rem 0 1rem;
+            padding-top: 1rem;
+        }
+
+        h3 {
+            color: var(--accent);
+            font-size: 1.1rem;
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p {
+            margin: 0.75rem 0;
+            color: var(--text-primary);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin: 1.5rem 0 0;
+        }
+
+        .tab {
+            padding: 0.75rem 1.25rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .tab:hover {
+            color: var(--text-primary);
+        }
+
+        .tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 1.5rem 0;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            overflow: hidden;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.7rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: var(--bg-hover);
+        }
+
+        /* Code */
+        code {
+            background: var(--code-bg);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.85rem;
+            color: var(--accent);
+        }
+
+        pre {
+            background: var(--code-bg);
+            padding: 1rem 1.25rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+        }
+
+        pre code {
+            padding: 0;
+            background: none;
+            color: var(--text-primary);
+        }
+
+        .keyword { color: #7aa2c9; }
+        .type { color: #a0a0a0; }
+        .string { color: #6a8759; }
+        .comment { color: #454545; }
+
+        /* Architecture diagram */
+        .diagram {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            white-space: pre;
+            overflow-x: auto;
+            color: var(--text-secondary);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .card h4 {
+            color: var(--accent);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        /* Highlight */
+        .highlight {
+            color: var(--accent);
+        }
+
+        /* Lists */
+        ul {
+            margin: 0.75rem 0 0.75rem 1.5rem;
+            color: var(--text-primary);
+        }
+
+        li {
+            margin: 0.3rem 0;
+        }
+
+        /* Separator */
+        hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 2rem 0;
+        }
+
+        /* Quick info box */
+        .info-box {
+            background: var(--bg-card);
+            border-left: 3px solid var(--accent-dim);
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .info-box p {
+            margin: 0.25rem 0;
+            font-size: 0.9rem;
+        }
+
+        .info-box strong {
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar / Table of Contents -->
+    <nav class="sidebar">
+        <h2>Contents</h2>
+        <ul class="toc">
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#components">Components</a></li>
+            <li><a class="sub" href="#algo">Algo</a></li>
+            <li><a class="sub" href="#problem">ProblemAlgo</a></li>
+            <li><a class="sub" href="#solution">SolutionAlgo</a></li>
+            <li><a class="sub" href="#stats">StatsAlgo</a></li>
+            <li><a href="#usage">Usage Examples</a></li>
+            <li><a href="#hierarchy">Inheritance Hierarchy</a></li>
+            <li><a href="#patterns">Design Patterns</a></li>
+            <li><a href="#dependencies">Dependencies</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main">
+        <h1>f_cs</h1>
+        <p class="subtitle">Computer Science Algorithm Framework</p>
+
+        <section id="overview">
+            <h2>Overview</h2>
+            <div class="info-box">
+                <p><strong>Location:</strong> <code>f_cs/</code></p>
+                <p><strong>Purpose:</strong> Base classes for implementing algorithms with problems, solutions, and statistics</p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>File</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Algo[Problem, Solution]</code></td>
+                        <td>algo.py</td>
+                        <td>Base class for all algorithms</td>
+                    </tr>
+                    <tr>
+                        <td><code>ProblemAlgo</code></td>
+                        <td>problem.py</td>
+                        <td>ABC marker for algorithm problems</td>
+                    </tr>
+                    <tr>
+                        <td><code>SolutionAlgo[Stats]</code></td>
+                        <td>solution.py</td>
+                        <td>ABC for algorithm solutions</td>
+                    </tr>
+                    <tr>
+                        <td><code>StatsAlgo</code></td>
+                        <td>stats.py</td>
+                        <td>ABC for algorithm statistics</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="architecture">
+            <h2>Architecture</h2>
+            <div class="diagram">ProcessIO[Input, Output] (f_core)
+    │
+    └── Algo[Problem, Solution]
+            │
+            ├── problem: Problem (input)
+            ├── _stats: StatsAlgo
+            └── run() → Solution (output)</div>
+
+            <h3>Data Flow</h3>
+            <div class="diagram">ProblemAlgo ──→ Algo ──→ SolutionAlgo
+                │              │
+                └── StatsAlgo ─┘</div>
+        </section>
+
+        <section id="components">
+            <h2>Components</h2>
+
+            <!-- Tabs for components -->
+            <div class="tabs">
+                <div class="tab active" onclick="showTab('algo')">Algo</div>
+                <div class="tab" onclick="showTab('problem')">ProblemAlgo</div>
+                <div class="tab" onclick="showTab('solution')">SolutionAlgo</div>
+                <div class="tab" onclick="showTab('stats')">StatsAlgo</div>
+            </div>
+
+            <!-- Algo Tab -->
+            <div id="algo" class="tab-content active">
+                <h3>Type Parameters</h3>
+                <pre><code><span class="type">Problem</span> = TypeVar(<span class="string">'Problem'</span>, bound=ProblemAlgo)
+<span class="type">Solution</span> = TypeVar(<span class="string">'Solution'</span>, bound=SolutionAlgo)</code></pre>
+
+                <h3>Inheritance</h3>
+                <pre><code><span class="keyword">class</span> <span class="type">Algo</span>(Generic[Problem, Solution], ProcessIO[Problem, Solution])</code></pre>
+                <p>Inherits from <code>ProcessIO</code>, treating <span class="highlight">Input</span> as Problem and <span class="highlight">Output</span> as Solution.</p>
+
+                <h3>Constructor</h3>
+                <table>
+                    <thead>
+                        <tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>problem</code></td><td>Problem</td><td><em>required</em></td><td>The problem instance to solve</td></tr>
+                        <tr><td><code>name</code></td><td>str</td><td>'Algorithm'</td><td>Algorithm name</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Class Attributes</h3>
+                <table>
+                    <thead>
+                        <tr><th>Attribute</th><th>Type</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>cls_stats</code></td><td>type[StatsAlgo]</td><td>Stats class to instantiate (override in subclasses)</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Properties</h3>
+                <table>
+                    <thead>
+                        <tr><th>Property</th><th>Type</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>problem</code></td><td>Problem</td><td>Read-only access (alias for input)</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Lifecycle</h3>
+                <table>
+                    <thead>
+                        <tr><th>Method</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>_run_post()</code></td><td>Records elapsed time to _stats.elapsed</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ProblemAlgo Tab -->
+            <div id="problem" class="tab-content">
+                <p>Marker class for algorithm problems. Empty ABC that serves as a type bound.</p>
+                <pre><code><span class="keyword">class</span> <span class="type">ProblemAlgo</span>:
+    <span class="string">"""ABC for Algorithm's Problem."""</span>
+    <span class="keyword">pass</span></code></pre>
+                <p>Subclass this to define specific problem types with their own attributes.</p>
+            </div>
+
+            <!-- SolutionAlgo Tab -->
+            <div id="solution" class="tab-content">
+                <h3>Type Parameters</h3>
+                <pre><code><span class="type">Stats</span> = TypeVar(<span class="string">'Stats'</span>, bound=StatsAlgo)</code></pre>
+
+                <h3>Inheritance</h3>
+                <pre><code><span class="keyword">class</span> <span class="type">SolutionAlgo</span>(Generic[Stats], ValidatablePublic)</code></pre>
+
+                <h3>Constructor</h3>
+                <table>
+                    <thead>
+                        <tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>is_valid</code></td><td>bool</td><td><em>required</em></td><td>Whether solution is valid</td></tr>
+                        <tr><td><code>stats</code></td><td>Stats</td><td><em>required</em></td><td>Statistics from run</td></tr>
+                        <tr><td><code>name</code></td><td>str</td><td>'SolutionAlgo'</td><td>Solution name</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Properties</h3>
+                <table>
+                    <thead>
+                        <tr><th>Property</th><th>Type</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>is_valid</code></td><td>bool</td><td>Solution validity</td></tr>
+                        <tr><td><code>stats</code></td><td>Stats</td><td>Performance statistics</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- StatsAlgo Tab -->
+            <div id="stats" class="tab-content">
+                <h3>Constructor</h3>
+                <table>
+                    <thead>
+                        <tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>elapsed</code></td><td>int</td><td>0</td><td>Elapsed time in seconds</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Properties</h3>
+                <table>
+                    <thead>
+                        <tr><th>Property</th><th>Type</th><th>Access</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>elapsed</code></td><td>int</td><td>get/set</td><td>Execution time in seconds</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <hr>
+
+        <section id="usage">
+            <h2>Usage Examples</h2>
+
+            <h3>Basic Algorithm</h3>
+            <pre><code><span class="keyword">from</span> f_cs.algo <span class="keyword">import</span> Algo
+<span class="keyword">from</span> f_cs.problem <span class="keyword">import</span> ProblemAlgo
+<span class="keyword">from</span> f_cs.solution <span class="keyword">import</span> SolutionAlgo
+<span class="keyword">from</span> f_cs.stats <span class="keyword">import</span> StatsAlgo
+
+<span class="keyword">class</span> <span class="type">MyProblem</span>(ProblemAlgo):
+    <span class="keyword">def</span> __init__(self, data: list[int]):
+        self.data = data
+
+<span class="keyword">class</span> <span class="type">MySolution</span>(SolutionAlgo[StatsAlgo]):
+    <span class="keyword">def</span> __init__(self, result: int, stats: StatsAlgo):
+        <span class="keyword">super</span>().__init__(is_valid=<span class="keyword">True</span>, stats=stats)
+        self.result = result
+
+<span class="keyword">class</span> <span class="type">SumAlgo</span>(Algo[MyProblem, MySolution]):
+    <span class="keyword">def</span> _run(self) -> <span class="type">None</span>:
+        result = sum(self.problem.data)
+        self._output = MySolution(result=result, stats=self._stats)
+
+<span class="comment"># Usage</span>
+problem = MyProblem(data=[1, 2, 3, 4, 5])
+algo = SumAlgo(problem=problem, name=<span class="string">'Sum'</span>)
+solution = algo.run()
+print(solution.result)        <span class="comment"># 15</span></code></pre>
+
+            <h3>Custom Statistics</h3>
+            <pre><code><span class="keyword">class</span> <span class="type">MyStats</span>(StatsAlgo):
+    <span class="keyword">def</span> __init__(self):
+        <span class="keyword">super</span>().__init__()
+        self.iterations = 0
+        self.nodes_explored = 0
+
+<span class="keyword">class</span> <span class="type">SearchAlgo</span>(Algo[MyProblem, MySolution]):
+    cls_stats = MyStats  <span class="comment"># Override stats class</span>
+
+    <span class="keyword">def</span> _run(self) -> <span class="type">None</span>:
+        stats: MyStats = self._stats
+        stats.iterations = 100
+        stats.nodes_explored = 500</code></pre>
+        </section>
+
+        <hr>
+
+        <section id="hierarchy">
+            <h2>Inheritance Hierarchy</h2>
+            <div class="diagram">f_core.ProcessIO[Problem, Solution]
+    │
+    └── f_cs.Algo[Problem, Solution]
+            │
+            ├── f_search.AlgoSearch
+            │       ├── AlgoSPP (A*, Dijkstra)
+            │       └── AlgoOMSPP (K×A*)
+            │
+            └── (your algorithms)</div>
+        </section>
+
+        <hr>
+
+        <section id="patterns">
+            <h2>Design Patterns</h2>
+            <div class="grid">
+                <div class="card">
+                    <h4>Template Method</h4>
+                    <p>Lifecycle hooks: _run_pre, _run, _run_post</p>
+                </div>
+                <div class="card">
+                    <h4>Generic Programming</h4>
+                    <p>Type-safe Problem/Solution pairs</p>
+                </div>
+                <div class="card">
+                    <h4>Factory Pattern</h4>
+                    <p>cls_stats for stats instantiation</p>
+                </div>
+                <div class="card">
+                    <h4>Marker Interface</h4>
+                    <p>ProblemAlgo as type bound</p>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <section id="dependencies">
+            <h2>Dependencies</h2>
+            <table>
+                <thead>
+                    <tr><th>Type</th><th>Dependency</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Inherits</td><td><code>f_core.processes.i_2_io.ProcessIO</code></td></tr>
+                    <tr><td>Uses</td><td><code>f_core.mixins.validatable_public.ValidatablePublic</code></td></tr>
+                    <tr><td>Standard Library</td><td><code>typing.Generic</code>, <code>typing.TypeVar</code></td></tr>
+                </tbody>
+            </table>
+
+            <h3>Comparison with ProcessIO</h3>
+            <table>
+                <thead>
+                    <tr><th>Aspect</th><th>ProcessIO</th><th>Algo</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Type Params</td><td>[Input, Output]</td><td>[Problem, Solution]</td></tr>
+                    <tr><td>Input Access</td><td>self.input</td><td>self.problem</td></tr>
+                    <tr><td>Statistics</td><td>None</td><td>self._stats</td></tr>
+                    <tr><td>Post-run</td><td>Basic</td><td>Records elapsed time</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script>
+        function showTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            // Remove active from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Show selected tab content
+            document.getElementById(tabId).classList.add('active');
+            // Mark clicked tab as active
+            event.target.classList.add('active');
+        }
+
+        // Highlight current section in TOC on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const scrollPos = window.scrollY + 100;
+
+            sections.forEach(section => {
+                const top = section.offsetTop;
+                const height = section.offsetHeight;
+                const id = section.getAttribute('id');
+                const link = document.querySelector(`.toc a[href="#${id}"]`);
+
+                if (link) {
+                    if (scrollPos >= top && scrollPos < top + height) {
+                        link.style.color = 'var(--accent)';
+                        link.style.background = 'var(--bg-hover)';
+                    } else {
+                        link.style.color = '';
+                        link.style.background = '';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

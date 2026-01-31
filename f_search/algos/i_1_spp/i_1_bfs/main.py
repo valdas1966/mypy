@@ -30,20 +30,6 @@ class BFS(Generic[State], AlgoSPP[State]):
                          make_frontier=FrontierFifo,
                          name=name)
 
-    def run(self) -> SolutionSPP:
-        """
-        ========================================================================
-         Run the Algorithm and return the Solution.
-        ========================================================================
-        """
-        self._discover(state=self.problem.start)
-        while self._should_continue():
-            self._select_best()
-            if self._can_terminate():
-                return self._create_solution()
-            self._explore_best()
-        return self._create_failure()
-
     def _discover(self, state: State, parent: State = None) -> None:
         """
         ========================================================================
@@ -53,10 +39,8 @@ class BFS(Generic[State], AlgoSPP[State]):
         self._stats.discovered += 1
         # Aliases
         data = self._data
-        # Set State's Parent
-        data.dict_parent[state] = parent
-        # Set State's G-Value (based on Parent g-value if exists, otherwise 0)
-        data.dict_g[state] = data.dict_g[parent] + 1 if parent else 0
+        # Update the Parent of the State (and its G-Value respectively)
+        data.set_best_to_be_parent_of(state=state)
         # Push State to Frontier
         data.frontier.push(state=state)
 
