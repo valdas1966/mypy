@@ -1,4 +1,4 @@
-from f_cs.stats import StatsAlgo
+from f_cs.stats.main import StatsAlgo
 
 
 class StatsSearch(StatsAlgo):

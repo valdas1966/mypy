@@ -1,5 +1,5 @@
 from f_core.mixins.printable import Printable
-from f_cs.stats import StatsAlgo
+from f_cs.stats.main import StatsAlgo
 
 
 class StatsPath(StatsAlgo, Printable):

@@ -32,7 +32,7 @@ class Dijkstra(AStar):
         """
         ========================================================================
          Return the Heuristic-Value of the given StateBase.
-         Dijkstra does not use heuristics, so h(n) = 0 for all nodes.
+         Dijkstra does not use heuristic, so h(n) = 0 for all nodes.
         ========================================================================
         """
         return 0

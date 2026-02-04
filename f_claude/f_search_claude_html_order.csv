@@ -1,0 +1,37 @@
+order,level,path,class,dependencies,has_claude_html
+1,0,ds/state/i_0_base/,StateBase,None,no
+2,0,ds/priority/i_0_key/,PriorityKey,None,no
+3,0,stats/,StatsSearch,None,yes
+4,1,ds/state/i_1_cell/,StateCell,StateBase,no
+5,1,ds/path/,Path,StateBase,no
+6,1,ds/frontier/i_0_base/,FrontierBase,StateBase,no
+7,1,ds/priority/i_1_g/,PriorityG,PriorityKey,no
+8,2,ds/frontier/i_1_fifo/,FrontierFifo,"FrontierBase, StateBase",no
+9,2,ds/priority/i_2_gh/,PriorityGH,PriorityG,no
+10,2,problems/mixins/has_start/,HasStart,StateCell,no
+11,2,problems/mixins/has_goal/,HasGoal,StateCell,no
+12,2,problems/mixins/has_goals/,HasGoals,StateCell,no
+13,3,ds/frontier/i_1_priority/,FrontierPriority,"FrontierBase, PriorityKey",no
+14,3,ds/priority/i_3_gh_flags/,PriorityGHFlags,PriorityGH,no
+15,3,problems/i_0_base/,ProblemSearch,StateCell,no
+16,4,solutions/i_0_base/,SolutionSearch,StatsSearch,no
+17,4,ds/data/i_0_best_first/,DataBestFirst,"Path, StateBase, FrontierBase",no
+18,4,problems/i_1_spp/,ProblemSPP,"ProblemSearch, HasStart, HasGoal",no
+19,4,heuristics/i_0_base/,HeuristicsBase,"StateBase, ProblemSearch",no
+20,5,solutions/i_1_spp/,SolutionSPP,"SolutionSearch, Path",no
+21,5,ds/data/i_1_heuristics/,DataHeuristics,"DataBestFirst, FrontierPriority, PriorityGH",no
+22,5,problems/i_2_omspp/,ProblemOMSPP,"ProblemSearch, ProblemSPP, HasStart, HasGoals",no
+23,6,solutions/i_2_omspp/,SolutionOMSPP,"SolutionSearch, SolutionSPP, Path",no
+24,6,algos/i_0_base/i_0_search/,AlgoSearch,"ProblemSearch, SolutionSearch, StatsSearch",no
+25,7,algos/i_0_base/i_1_best_first/,AlgoBestFirst,"AlgoSearch, DataBestFirst, FrontierBase",no
+26,7,algos/i_2_omspp/i_0_base/,AlgoOMSPP,"AlgoSearch, SolutionOMSPP, ProblemOMSPP",no
+27,8,algos/i_1_spp/i_0_base/,AlgoSPP,"AlgoBestFirst, ProblemSPP, SolutionSPP",no
+28,9,algos/i_1_spp/i_1_astar/,AStar,"AlgoSPP, FrontierPriority, PriorityGH",no
+29,9,algos/i_1_spp/i_1_bfs/,BFS,"AlgoSPP, FrontierFifo",no
+30,10,algos/i_1_spp/i_2_dijkstra/,Dijkstra,AStar,no
+31,10,algos/i_1_spp/i_3_dijkstra_neighborhood/,DijkstraNeighborhood,Dijkstra,no
+32,11,algos/i_2_omspp/i_1_aggregative/,AStarAggregative,"AlgoOMSPP, AStar",no
+33,11,algos/i_2_omspp/i_1_incremental/,IncrementalBase,AlgoOMSPP,no
+34,11,algos/i_2_omspp/i_1_incremental/astar/,AStarIncremental,"IncrementalBase, AStar",no
+35,11,algos/i_2_omspp/i_1_incremental/dijkstra/,DijkstraIncremental,"IncrementalBase, Dijkstra",no
+36,11,algos/i_2_omspp/i_1_repeated/astar/,AStarRepeated,"AlgoOMSPP, AStar",no

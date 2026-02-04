@@ -32,7 +32,7 @@ class AStar(Generic[State], AlgoSPP[State]):
                          name=name)
         self._heuristics = heuristics
 
-    def _discover(self, state: State, parent: State = None) -> None:
+    def _discover(self, state: State) -> None:
         """
         ========================================================================
          Discover the given State.

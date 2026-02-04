@@ -1,6 +1,6 @@
 from f_graph._base.problem import ProblemGraph, NodeKey
 from f_graph._base.solution import SolutionGraph
-from f_cs.algo import Algo
+from f_cs.algo.main import Algo
 from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemGraph)

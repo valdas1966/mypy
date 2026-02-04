@@ -1,5 +1,5 @@
 from f_ds.grids import GridMap as Grid
-from f_cs.problem import ProblemAlgo
+from f_cs.problem.main import ProblemAlgo
 from f_search.ds.state import StateCell as State
 
 

@@ -1,7 +1,7 @@
 from f_core.processes.i_2_io import ProcessIO
-from f_cs.solution import SolutionAlgo
-from f_cs.problem import ProblemAlgo
-from f_cs.stats import StatsAlgo
+from f_cs.solution.main import SolutionAlgo
+from f_cs.problem.main import ProblemAlgo
+from f_cs.stats.main import StatsAlgo
 from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemAlgo)

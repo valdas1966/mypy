@@ -336,6 +336,7 @@ window.addEventListener('scroll', () => {
 Before finalizing, verify:
 
 - [ ] Color palette uses only black, gray, light blue
+- [ ] Backward should be in dark themes, and content (text, lines) in very bright.
 - [ ] Fixed sidebar with clickable TOC
 - [ ] Smooth scrolling enabled (`html { scroll-behavior: smooth; }`)
 - [ ] All sections have `id` attributes matching TOC links

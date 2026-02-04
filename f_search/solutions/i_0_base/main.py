@@ -1,4 +1,4 @@
-from f_cs.solution import SolutionAlgo
+from f_cs.solution.main import SolutionAlgo
 from f_search.stats import StatsSearch
 from typing import Generic, TypeVar
 

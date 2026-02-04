@@ -1,22 +1,17 @@
-from f_cs.solution.main import SolutionAlgo, StatsAlgo
-from typing import TypeVar, Generic
-
-Stats = TypeVar('Stats', bound=StatsAlgo)
+from f_core.mixins.has.name import HasName
 
 
-class SolutionGraph(Generic[Stats], SolutionAlgo[Stats]):
+class ProblemAlgo(HasName):
     """
     ============================================================================
-     ABC for Solution of Graph-Problem.
+     ABC for Algorithm's Problem.
     ============================================================================
     """
 
-    def __init__(self,
-                 is_valid: bool,
-                 stats: Stats) -> None:
+    def __init__(self, name: str = 'ProblemAlgo') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        SolutionAlgo.__init__(self, is_valid=is_valid, stats=stats)
+        super().__init__(name)

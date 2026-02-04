@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProblemAlgo - Algorithm Problem Definition</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #181818;
+            --bg-hover: #1e1e1e;
+            --text-primary: #e8e8e8;
+            --text-secondary: #909090;
+            --text-muted: #606060;
+            --accent: #5c9fd4;
+            --accent-dim: #3a6a8a;
+            --code-bg: #0d0d0d;
+            --border: #252525;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            display: flex;
+        }
+        .sidebar {
+            width: 280px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            padding: 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+        .toc { list-style: none; }
+        .toc li { margin: 0.25rem 0; }
+        .toc a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: block;
+            padding: 0.4rem 0.75rem;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .toc a:hover {
+            color: var(--accent);
+            background: var(--bg-hover);
+        }
+        .toc .sub {
+            padding-left: 1.5rem;
+            font-size: 0.85rem;
+        }
+        .main {
+            margin-left: 280px;
+            flex: 1;
+            padding: 2rem 3rem;
+            max-width: 1000px;
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            color: #ffffff;
+        }
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin: 1.5rem 0 0.75rem;
+        }
+        p { margin: 0.5rem 0; }
+        .info-box {
+            background: var(--bg-card);
+            border-left: 3px solid var(--accent-dim);
+            padding: 1rem 1.25rem;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 1.5rem;
+        }
+        .info-box p { margin: 0.3rem 0; }
+        .info-box strong { color: var(--text-secondary); }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            overflow: hidden;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+        th, td { padding: 0.75rem 1rem; text-align: left; }
+        th {
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        td { border-top: 1px solid var(--border); }
+        tr:hover td { background: var(--bg-hover); }
+        code {
+            background: var(--code-bg);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.85rem;
+            color: var(--accent);
+        }
+        pre {
+            background: var(--code-bg);
+            padding: 1rem 1.25rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        pre code { padding: 0; background: none; color: var(--text-primary); }
+        .keyword { color: #7aa2c9; }
+        .type { color: #c0c0c0; }
+        .string { color: #8faf6a; }
+        .comment { color: #707070; }
+        .diagram {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.25rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            white-space: pre;
+            overflow-x: auto;
+            color: #c0c0c0;
+            margin: 1rem 0;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.25rem;
+        }
+        .card h4 { color: var(--accent); font-size: 0.95rem; margin-bottom: 0.5rem; }
+        .card p { color: var(--text-secondary); font-size: 0.9rem; margin: 0; }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <h2>Contents</h2>
+        <ul class="toc">
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#components">Components</a></li>
+            <li><a class="sub" href="#problemalgo-class">ProblemAlgo</a></li>
+            <li><a href="#usage">Usage Examples</a></li>
+            <li><a href="#hierarchy">Inheritance Hierarchy</a></li>
+            <li><a href="#patterns">Design Patterns</a></li>
+            <li><a href="#dependencies">Dependencies</a></li>
+        </ul>
+    </nav>
+
+    <main class="main">
+        <h1>ProblemAlgo</h1>
+        <p class="subtitle">ABC for Algorithm's Problem</p>
+
+        <section id="overview">
+            <h2>Overview</h2>
+            <div class="info-box">
+                <p><strong>Location:</strong> <code>f_cs/problem/main.py</code></p>
+                <p><strong>Purpose:</strong> Abstract base class representing the problem definition that an algorithm will solve.</p>
+            </div>
+            <table>
+                <tr><th>Aspect</th><th>Details</th></tr>
+                <tr><td>Class</td><td><code>ProblemAlgo</code></td></tr>
+                <tr><td>Package</td><td><code>f_cs.problem</code></td></tr>
+                <tr><td>Export</td><td><code>from f_cs.problem import ProblemAlgo</code></td></tr>
+                <tr><td>Inherits</td><td><code>HasName</code></td></tr>
+            </table>
+        </section>
+
+        <section id="architecture">
+            <h2>Architecture</h2>
+            <div class="diagram">┌─────────────────────────────────────┐
+│             HasName                 │
+│        (f_core.mixins.has.name)     │
+└───────────────┬─────────────────────┘
+                │
+                ▼
+┌─────────────────────────────────────┐
+│          ProblemAlgo                │
+├─────────────────────────────────────┤
+│  _name: str (inherited)             │
+├─────────────────────────────────────┤
+│  + __init__(name: str = 'Problem..')│
+│  + name (property, inherited)       │
+└─────────────────────────────────────┘</div>
+        </section>
+
+        <section id="components">
+            <h2>Components</h2>
+
+            <h3 id="problemalgo-class">ProblemAlgo</h3>
+            <p>Abstract base class for algorithm problems. Inherits naming capability from <code>HasName</code> mixin.</p>
+
+            <p><strong>Constructor:</strong></p>
+            <pre><code><span class="keyword">def</span> __init__(self, name: <span class="type">str</span> = <span class="string">'ProblemAlgo'</span>) -> <span class="type">None</span></code></pre>
+
+            <p><strong>Inherited Properties:</strong></p>
+            <table>
+                <tr><th>Property</th><th>Type</th><th>Source</th><th>Description</th></tr>
+                <tr><td><code>name</code></td><td><code>str</code></td><td><code>HasName</code></td><td>Problem identifier/name</td></tr>
+            </table>
+        </section>
+
+        <section id="usage">
+            <h2>Usage Examples</h2>
+            <pre><code><span class="keyword">from</span> f_cs.problem <span class="keyword">import</span> ProblemAlgo
+
+<span class="comment"># Subclass for specific problem</span>
+<span class="keyword">class</span> <span class="type">MyProblem</span>(ProblemAlgo):
+    <span class="keyword">def</span> __init__(self, data, name=<span class="string">'MyProblem'</span>):
+        <span class="keyword">super</span>().__init__(name=name)
+        self.data = data
+
+<span class="comment"># Create problem instance</span>
+problem = MyProblem(data=[<span class="string">1</span>, <span class="string">2</span>, <span class="string">3</span>])
+<span class="keyword">print</span>(problem.name)  <span class="comment"># 'MyProblem'</span></code></pre>
+        </section>
+
+        <section id="hierarchy">
+            <h2>Inheritance Hierarchy</h2>
+            <div class="diagram">HasName (f_core.mixins.has.name)
+    │
+    └── ProblemAlgo
+            │
+            └── (concrete problem implementations)</div>
+        </section>
+
+        <section id="patterns">
+            <h2>Design Patterns</h2>
+            <div class="grid">
+                <div class="card">
+                    <h4>Abstract Base Class</h4>
+                    <p>Defines interface for algorithm problems</p>
+                </div>
+                <div class="card">
+                    <h4>Mixin Inheritance</h4>
+                    <p>Uses HasName for naming functionality</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="dependencies">
+            <h2>Dependencies</h2>
+            <table>
+                <tr><th>Dependency</th><th>Purpose</th></tr>
+                <tr><td><code>f_core.mixins.has.name.HasName</code></td><td>Provides name property mixin</td></tr>
+            </table>
+        </section>
+    </main>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const scrollPos = window.scrollY + 100;
+            sections.forEach(section => {
+                const top = section.offsetTop;
+                const height = section.offsetHeight;
+                const id = section.getAttribute('id');
+                const link = document.querySelector(`.toc a[href="#${id}"]`);
+                if (link) {
+                    if (scrollPos >= top && scrollPos < top + height) {
+                        link.style.color = 'var(--accent)';
+                        link.style.background = 'var(--bg-hover)';
+                    } else {
+                        link.style.color = '';
+                        link.style.background = '';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
