@@ -1,6 +1,5 @@
-from f_search.algos.i_1_spp.i_1_astar.main import AStar, ProblemSPP
-from f_search.ds.data import DataBestFirst
-from f_search.problems import State
+from f_search.algos.i_1_spp.i_1_astar.main import AStar
+from f_search.problems import ProblemSPP
 
 
 class Factory:

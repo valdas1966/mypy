@@ -1,0 +1,1 @@
+from f_search.heuristics.i_1_manhattan.main import HeuristicsManhattan

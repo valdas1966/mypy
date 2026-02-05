@@ -1,6 +1,6 @@
 from f_search.algos.i_1_spp.i_0_base import AlgoSPP
+from f_search.ds.data import DataBestFirst
 from f_search.problems import ProblemSPP
-from f_search.solutions import SolutionSPP 
 from f_search.ds.frontier import FrontierFifo
 from f_search.ds.state import StateBase
 from typing import Generic, TypeVar
@@ -8,7 +8,7 @@ from typing import Generic, TypeVar
 State = TypeVar('State', bound=StateBase)
 
 
-class BFS(Generic[State], AlgoSPP[State]):
+class BFS(Generic[State], AlgoSPP[State, DataBestFirst[State]]):
     """
     ============================================================================
      BFS (Breadth-First-Search) Algorithm.
@@ -28,6 +28,7 @@ class BFS(Generic[State], AlgoSPP[State]):
         """
         super().__init__(problem=problem,
                          make_frontier=FrontierFifo,
+                         make_data=DataBestFirst,
                          name=name)
 
     def _discover(self, state: State, parent: State = None) -> None:

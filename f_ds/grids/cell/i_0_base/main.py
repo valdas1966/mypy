@@ -1,8 +1,7 @@
 from f_core.mixins.has.row_col import HasRowCol
-from f_core.mixins.has.record import HasRecord
 
 
-class CellBase(HasRecord, HasRowCol):
+class CellBase(HasRowCol):
     """
     ============================================================================
      Base-Class for Cells in a 2D-Grid.
@@ -24,7 +23,6 @@ class CellBase(HasRecord, HasRowCol):
          Init private Attributes.
         ========================================================================
         """
-        HasRecord.__init__(self, name=name)
         HasRowCol.__init__(self, row=row, col=col)
 
     def key_comparison(self) -> list:

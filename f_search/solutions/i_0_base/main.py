@@ -1,11 +1,13 @@
 from f_cs.solution.main import SolutionAlgo
+from f_search.problems import ProblemSearch
 from f_search.stats import StatsSearch
 from typing import Generic, TypeVar
 
+Problem = TypeVar('Problem', bound=ProblemSearch)
 Stats = TypeVar('Stats', bound=StatsSearch)
 
 
-class SolutionSearch(Generic[Stats], SolutionAlgo[Stats]):
+class SolutionSearch(Generic[Problem, Stats], SolutionAlgo[Problem, Stats]):
     """
     ============================================================================
      Solution for Search-Problems.
@@ -15,12 +17,15 @@ class SolutionSearch(Generic[Stats], SolutionAlgo[Stats]):
     Factory = None
     
     def __init__(self,
+                 problem: Problem,
                  is_valid: bool,
-                 stats: Stats,
-                 name: str = 'SolutionSearch') -> None:
+                 stats: Stats) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        SolutionAlgo.__init__(self, is_valid=is_valid, stats=stats, name=name)
+        SolutionAlgo.__init__(self,
+                              problem=problem,
+                              is_valid=is_valid,
+                              stats=stats)

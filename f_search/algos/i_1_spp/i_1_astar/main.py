@@ -1,14 +1,16 @@
 from f_search.algos.i_1_spp.i_0_base import AlgoSPP
-from f_search.problems import ProblemSPP
+from f_search.problems import ProblemSPP as Problem
 from f_search.ds.frontier import FrontierPriority
 from f_search.ds.state import StateBase
 from f_search.ds.priority import PriorityGH
+from f_search.heuristics import HeuristicsBase, HeuristicsManhattan
+from f_search.ds.data import DataHeuristics
 from typing import Generic, TypeVar, Callable
 
 State = TypeVar('State', bound=StateBase)
 
 
-class AStar(Generic[State], AlgoSPP[State]):
+class AStar(Generic[State], AlgoSPP[State, DataHeuristics]):
     """
     ============================================================================
      AStar (A*) Algorithm.
@@ -19,9 +21,9 @@ class AStar(Generic[State], AlgoSPP[State]):
     Factory: type = None
 
     def __init__(self,
-                 problem: ProblemSPP,
-                 heuristics: Callable[[State], int],
-                 name: str = 'AStar') -> None:
+                 problem: Problem,
+                 name: str = 'AStar',
+                 heuristics: HeuristicsBase[State, Problem] = None) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -29,8 +31,9 @@ class AStar(Generic[State], AlgoSPP[State]):
         """
         super().__init__(problem=problem,
                          make_frontier=FrontierPriority,
+                         make_data=DataHeuristics,
                          name=name)
-        self._heuristics = heuristics
+        self._heuristics = heuristics if heuristics else HeuristicsManhattan(problem)
 
     def _discover(self, state: State) -> None:
         """
@@ -62,7 +65,7 @@ class AStar(Generic[State], AlgoSPP[State]):
             if self._need_relax(succ=succ):
                 self._relax(succ=succ)
         else:
-            self._discover(state=succ, parent=self._data.best)
+            self._discover(state=succ)
 
     def _need_relax(self, succ: State) -> bool:
         """

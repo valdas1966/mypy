@@ -3,13 +3,15 @@ from f_search.ds.state import StateBase
 from f_search.problems import ProblemSPP
 from f_search.solutions import SolutionSPP
 from f_search.ds.frontier import FrontierBase as Frontier
+from f_search.ds.data import DataBestFirst
 from typing import Generic, TypeVar, Callable
 
 State = TypeVar('State', bound=StateBase)
+Data = TypeVar('Data', bound=DataBestFirst)
 
 
-class AlgoSPP(Generic[State],
-              AlgoBestFirst[ProblemSPP, SolutionSPP, State]):
+class AlgoSPP(Generic[State, Data],
+              AlgoBestFirst[ProblemSPP, SolutionSPP, State, Data]):
     """
     ============================================================================
      Base for One-to-One Shortest-Path-Problem Algorithms.
@@ -19,6 +21,7 @@ class AlgoSPP(Generic[State],
     def __init__(self,
                  problem: ProblemSPP,
                  make_frontier: Callable[[], Frontier[State]],
+                 make_data: Callable[[], Data],
                  name: str = 'AlgoSPP') -> None:
         """
         ========================================================================
@@ -27,6 +30,7 @@ class AlgoSPP(Generic[State],
         """
         super().__init__(problem=problem,
                          make_frontier=make_frontier,
+                         make_data=make_data,
                          name=name)
 
     def _run(self) -> None:
@@ -59,7 +63,8 @@ class AlgoSPP(Generic[State],
         ========================================================================
         """
         path = self._data.path_to(self.problem.goal)
-        return SolutionSPP(is_valid=True,
+        return SolutionSPP(problem=self.problem,
+                           is_valid=True,
                            stats=self._stats,
                            path=path)
 
@@ -69,7 +74,8 @@ class AlgoSPP(Generic[State],
          Create a Failure Solution.
         ========================================================================
         """
-        return SolutionSPP(is_valid=False,
+        return SolutionSPP(problem=self.problem,
+                           is_valid=False,
                            stats=self._stats,
                            path=None)
 

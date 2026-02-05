@@ -8,10 +8,11 @@ from typing import Generic, TypeVar, Callable
 from abc import abstractmethod
 
 State = TypeVar('State', bound=StateBase)
+Data = TypeVar('Data', bound=DataBestFirst)
 Problem = TypeVar('Problem', bound=ProblemSearch)
 Solution = TypeVar('Solution', bound=SolutionSearch)
 
-class AlgoBestFirst(Generic[Problem, Solution, State],
+class AlgoBestFirst(Generic[Problem, Solution, State, Data],
                     AlgoSearch[Problem, Solution]):
     """
     ============================================================================  
@@ -22,6 +23,7 @@ class AlgoBestFirst(Generic[Problem, Solution, State],
     def __init__(self,
                  problem: Problem,
                  make_frontier: Callable[[], Frontier[State]],
+                 make_data: Callable[[], Data],
                  name: str = 'AlgoBestFirst') -> None:
         """
         ========================================================================
@@ -30,7 +32,7 @@ class AlgoBestFirst(Generic[Problem, Solution, State],
         """
         super().__init__(problem=problem, name=name)
         frontier = make_frontier()
-        self._data = DataBestFirst(frontier=frontier)
+        self._data = make_data(frontier=frontier)
 
     def _should_continue(self) -> bool:
         """

@@ -40,7 +40,7 @@ class HasName(Comparable):
          Returns the Object's Key for Sorting.
         ========================================================================
         """
-        return self._name or str()
+        return self._name
 
     def __str__(self) -> str:
         """

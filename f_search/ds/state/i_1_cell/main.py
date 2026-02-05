@@ -1,5 +1,6 @@
 from f_ds.grids.cell import CellMap as Cell
 from f_search.ds.state import StateBase
+from typing import Self
 
 
 class StateCell(StateBase[Cell]):
@@ -21,6 +22,14 @@ class StateCell(StateBase[Cell]):
         ========================================================================
         """
         StateBase.__init__(self, key=key, name=name)
+
+    def distance(self, other: Self) -> int:
+        """
+        ========================================================================
+         Return the distance between the two states.
+        ========================================================================
+        """
+        return self.key.distance(other.key)
 
     def __str__(self) -> str:
         """

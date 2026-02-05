@@ -1,32 +1,31 @@
-from f_search.ds.state import StateBase
+from f_search.heuristics.i_0_base import HeuristicsBase
 from f_search.problems.i_0_base import ProblemSearch
-from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
+from f_search.ds.state import StateBase
+from typing import TypeVar, Generic
 
-State = TypeVar('State', bound=StateBase)
 Problem = TypeVar('Problem', bound=ProblemSearch)
+State = TypeVar('State', bound=StateBase)
 
 
-class HeuristicsBase(ABC, Generic[State, Problem]):
+class HeuristicsManhattan(Generic[Problem, State], HeuristicsBase[Problem, State]):
     """
     ============================================================================
-     Base-Class for Heuristics.
+     Heuristics represented Manhattan-Distance between State and Goal.
     ============================================================================
     """
-    
+
     def __init__(self, problem: Problem) -> None:
         """
         ========================================================================
          Init private attributes.
         ========================================================================
         """
-        self._problem = problem
+        super().__init__(problem=problem)
     
-    @abstractmethod
     def __call__(self, state: State) -> int:
         """
         ========================================================================
-         Return Heuristic-Value for the given State.
+         Return Manhattan-Distance between State and Goal.
         ========================================================================
         """
-        pass
+        return self._problem.goal.distance(other=state)
