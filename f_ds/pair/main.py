@@ -1,4 +1,4 @@
-from f_core.mixins.equable import Equable
+from f_core.mixins.equable.main import Equable
 from typing import Generic, TypeVar
 
 Item = TypeVar('Item')

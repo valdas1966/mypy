@@ -4,7 +4,7 @@ from typing import Generic, TypeVar
 Key = TypeVar('Key')
 
 
-class PriorityKey(Generic[Key], Comparable):
+class PriorityKey(Comparable, Generic[Key]):
     """
     ============================================================================
      Priority based on the Key of a State.

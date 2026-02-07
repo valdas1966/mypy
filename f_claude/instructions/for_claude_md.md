@@ -20,5 +20,5 @@ For each API item include a signature with full type hints and behavior / guaran
 ### 4) Dependencies - Summarize imports as core dependencies (classes this class relies on)
 
 ### 5) Usage example (concise + classic)
-Provide a minimal example that a user would actually write
+Provide a minimal example/s that a user would actually write
 You can use _factory.py and _tester.py files from the folder for practical examples.

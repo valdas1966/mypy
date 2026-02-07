@@ -14,14 +14,13 @@ class StateCell(StateBase[Cell]):
     Factory = None
 
     def __init__(self,
-                 key: Cell,
-                 name: str = 'StateCell') -> None:
+                 key: Cell) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        StateBase.__init__(self, key=key, name=name)
+        StateBase.__init__(self, key=key,)
 
     def distance(self, other: Self) -> int:
         """

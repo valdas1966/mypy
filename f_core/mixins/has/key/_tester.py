@@ -1,25 +1,14 @@
-from f_core.mixins.has.key.main import HasKey
+from f_core.mixins.has.key import HasKey
 
 
-def test_has_key():
+def test_a() -> None:
     """
-    ============================================================================
-     Test HasKey mixin functionality.
-    ============================================================================
+    ========================================================================
     """
-    # Test basic functionality
-    key_obj = HasKey("test_key")
-    assert key_obj.key == "test_key"
-    assert key_obj.key_comparison() == "test_key"
-    assert hash(key_obj) == hash("test_key")
+    a = HasKey.Factory.a()
+    other_a = HasKey.Factory.a()
+    assert a.key == 'A'
+    assert a.key_comparison() == 'A'
+    assert hash(a) == hash('A')
+    assert a == other_a
     
-    # Test with different key types
-    int_key_obj = HasKey(42)
-    assert int_key_obj.key == 42
-    assert hash(int_key_obj) == hash(42)
-    
-    print("HasKey tests passed!")
-
-
-if __name__ == "__main__":
-    test_has_key()

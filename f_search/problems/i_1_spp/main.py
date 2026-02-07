@@ -1,4 +1,6 @@
-from f_search.problems import ProblemSearch, Grid, State
+from f_search.problems import ProblemSearch
+from f_search.ds.state import StateCell as State
+from f_ds.grids import GridMap as Grid
 from f_search.problems.mixins import HasStart, HasGoal
 
 
@@ -13,7 +15,7 @@ class ProblemSPP(ProblemSearch, HasStart, HasGoal):
     Factory = None
 
     def __init__(self,
-                 grid: Grid,
+                 grid: Grid | str,
                  start: State,
                  goal: State,
                  name: str = 'ProblemSPP') -> None:

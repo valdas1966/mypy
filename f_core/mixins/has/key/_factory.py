@@ -1,14 +1,27 @@
-from typing import TypeVar
-
-from f_core.mixins.has.key.main import HasKey
-
-K = TypeVar('K')
+from f_core.mixins.has.key import HasKey
 
 
-def create_has_key(key: K) -> HasKey[K]:
+class Factory:
     """
     ============================================================================
-     Factory function to create HasKey instances.
+     Factory for the HasKey class.
     ============================================================================
     """
-    return HasKey(key)
+
+    @staticmethod
+    def a() -> HasKey[str]:
+        """
+        ========================================================================
+        Create a HasKey object with the key 'A'.
+        ========================================================================
+        """
+        return HasKey[str](key='A')
+
+    @staticmethod
+    def b() -> HasKey[str]:
+        """
+        ========================================================================
+        Create a HasKey object with the key 'B'.
+        ========================================================================
+        """
+        return HasKey[str](key='B')

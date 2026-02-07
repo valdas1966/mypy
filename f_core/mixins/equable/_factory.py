@@ -1,29 +1,34 @@
-from f_search.algos.i_1_spp.i_2_dijkstra.main import Dijkstra, ProblemSPP
+from f_core.mixins.equable.main import Equable
 
 
 class Factory:
     """
     ============================================================================
-     Factory for creating Dijkstra algorithms.
+     Factory for the Equable class.
     ============================================================================
     """
 
-    @staticmethod
-    def without_obstacles() -> Dijkstra:
-        """
-        ========================================================================
-         Return a Dijkstra algorithm with a ProblemSPP without obstacles.
-        ========================================================================
-        """
-        problem = ProblemSPP.Factory.without_obstacles()
-        return Dijkstra(problem=problem)
+    class Char(Equable):
+        def __init__(self, char: str):
+            self.char = char
+        def key_comparison(self) -> str:
+            return self.char
 
     @staticmethod
-    def with_obstacles() -> Dijkstra:
+    def a() -> Equable:
         """
         ========================================================================
-         Return a Dijkstra algorithm with a ProblemSPP with obstacles.
+         Create a Char object with the value 'A'.
         ========================================================================
         """
-        problem = ProblemSPP.Factory.with_obstacles()
-        return Dijkstra(problem=problem)
+        return Factory.Char(char='A')
+
+    @staticmethod
+    def b() -> Equable:
+        """
+        ========================================================================
+         Create a Char object with the value 'B'.
+        ========================================================================
+        """
+        return Factory.Char(char='B')
+        

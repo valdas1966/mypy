@@ -5,7 +5,7 @@ from f_search.ds.state import StateBase
 from f_search.ds.priority import PriorityGH
 from f_search.heuristics import HeuristicsBase, HeuristicsManhattan
 from f_search.ds.data import DataHeuristics
-from typing import Generic, TypeVar, Callable
+from typing import Generic, TypeVar
 
 State = TypeVar('State', bound=StateBase)
 

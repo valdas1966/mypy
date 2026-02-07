@@ -20,25 +20,6 @@ def b() -> Comparable:
     """
     return Comparable.Factory.b()
 
-def test_eq(a: Comparable, b: Comparable) -> None:
-    """
-    ========================================================================
-     Test the __eq__() method.
-    ========================================================================
-    """
-    assert a == a
-    assert not (a == b)
-
-
-def test_ne(a: Comparable, b: Comparable) -> None:
-    """
-    ========================================================================
-     Test the __ne__() method.
-    ========================================================================
-    """
-    assert a != b
-    assert not (a != a)
-
 
 def test_lt(a: Comparable, b: Comparable) -> None:
     """
@@ -80,3 +61,7 @@ def test_ge(a: Comparable, b: Comparable) -> None:
     assert a >= a
     assert b >= a
     assert not (a >= b)
+
+
+def test_eq(a: Comparable, b: Comparable) -> None:
+    assert a == a

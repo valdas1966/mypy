@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equable - Documentation</title>
+    <title>SupportsEquality - Documentation</title>
     <style>
         :root {
             --bg: #0b0f14;
@@ -67,10 +67,16 @@
             font-size: 0.9rem;
         }
 
-        .sidebar a:hover { background: var(--panel2); color: var(--text); text-decoration: none; }
+        .sidebar a:hover {
+            background: var(--panel2);
+            color: var(--text);
+            text-decoration: none;
+        }
+
         .sidebar .sub-item { padding-left: 1.5rem; font-size: 0.85rem; color: var(--faint); }
 
         .search-box { margin-bottom: 1rem; }
+
         .search-box input {
             width: 100%;
             padding: 0.5rem 0.75rem;
@@ -80,29 +86,46 @@
             color: var(--text);
             font-size: 0.9rem;
         }
+
         .search-box input:focus { outline: none; border-color: var(--accent); }
         .search-box input::placeholder { color: var(--faint); }
 
-        .main { margin-left: 280px; flex: 1; padding: 2rem 3rem; max-width: 900px; }
+        .main {
+            margin-left: 280px;
+            flex: 1;
+            padding: 2rem 3rem;
+            max-width: 900px;
+        }
 
-        header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
+        header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
         header h1 { font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; }
         header .path { color: var(--faint); font-family: monospace; font-size: 0.9rem; }
         header .tag {
             display: inline-block;
             margin-top: 0.5rem;
             padding: 0.25rem 0.75rem;
-            background: var(--good);
+            background: var(--accent2);
             color: var(--bg);
             border-radius: 4px;
             font-size: 0.8rem;
             font-weight: 600;
         }
-        header .implements { margin-top: 0.5rem; color: var(--muted); font-size: 0.9rem; }
-        header .implements a { color: var(--accent2); }
 
         section { margin-bottom: 3rem; }
-        h2 { color: #fff; font-size: 1.5rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
+
+        h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
         h3 { color: var(--text); font-size: 1.2rem; margin: 1.5rem 0 0.75rem; }
         h4 { color: var(--muted); font-size: 1rem; margin: 1rem 0 0.5rem; }
         p { margin-bottom: 1rem; color: var(--text); }
@@ -116,12 +139,38 @@
             font-size: 0.9rem;
         }
 
-        pre { background: var(--code-bg); border: 2px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
-        code { font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace; font-size: 0.9rem; color: var(--text); }
-        pre code { display: block; line-height: 1.5; }
-        .inline-code { background: var(--panel2); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.85rem; }
+        pre {
+            background: var(--code-bg);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
 
-        .panel { background: var(--panel); border: 2px solid var(--border); border-radius: 8px; margin: 1rem 0; overflow: hidden; }
+        code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        pre code { display: block; line-height: 1.5; }
+
+        .inline-code {
+            background: var(--panel2);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
         .panel-header {
             background: var(--panel2);
             padding: 0.75rem 1rem;
@@ -132,6 +181,7 @@
             font-weight: 600;
             color: #fff;
         }
+
         .panel-header:hover { background: var(--border); }
         .panel-header:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
         .panel-header .arrow { transition: transform 0.2s; color: var(--faint); }
@@ -139,21 +189,66 @@
         .panel-content { padding: 1rem; }
         .panel.collapsed .panel-content { display: none; }
 
-        .api-item { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+        .api-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
         .api-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .api-signature { background: var(--code-bg); padding: 0.75rem 1rem; border-radius: 4px; margin-bottom: 0.5rem; border-left: 3px solid var(--accent); }
+
+        .api-signature {
+            background: var(--code-bg);
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            border-left: 3px solid var(--accent);
+        }
+
         .api-description { color: var(--muted); font-size: 0.95rem; padding-left: 0.5rem; }
 
-        .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-right: 0.5rem; }
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
         .badge-stdlib { background: var(--accent); color: var(--bg); }
         .badge-internal { background: var(--accent2); color: var(--bg); }
-        .badge-abstract { background: var(--warn); color: var(--bg); }
 
-        .hierarchy-tree { font-family: monospace; background: var(--code-bg); padding: 1rem; border-radius: 6px; border: 2px solid var(--border); }
+        .hierarchy-tree {
+            font-family: monospace;
+            background: var(--code-bg);
+            padding: 1rem;
+            border-radius: 6px;
+            border: 2px solid var(--border);
+        }
+
         .hierarchy-tree .level { padding-left: 1.5rem; position: relative; }
-        .hierarchy-tree .level::before { content: ''; position: absolute; left: 0.5rem; top: 0; bottom: 0.5rem; border-left: 2px solid var(--border); }
+
+        .hierarchy-tree .level::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0.5rem;
+            border-left: 2px solid var(--border);
+        }
+
         .hierarchy-tree .node { position: relative; padding: 0.25rem 0; }
-        .hierarchy-tree .node::before { content: ''; position: absolute; left: -1rem; top: 50%; width: 0.75rem; border-top: 2px solid var(--border); }
+
+        .hierarchy-tree .node::before {
+            content: '';
+            position: absolute;
+            left: -1rem;
+            top: 50%;
+            width: 0.75rem;
+            border-top: 2px solid var(--border);
+        }
+
         .hierarchy-tree .root::before { display: none; }
 
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
@@ -164,13 +259,20 @@
         .back-to-top { display: inline-block; margin-top: 1rem; font-size: 0.85rem; color: var(--faint); }
         .back-to-top:hover { color: var(--accent); }
 
-        footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); color: var(--faint); font-size: 0.85rem; }
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border);
+            color: var(--faint);
+            font-size: 0.85rem;
+        }
 
         @media (max-width: 900px) {
             .sidebar { position: static; width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border); }
             .main { margin-left: 0; padding: 1.5rem; }
             .container { flex-direction: column; }
         }
+
         .hidden { display: none !important; }
     </style>
 </head>
@@ -184,8 +286,6 @@
             <ul>
                 <li><a href="#purpose">Purpose</a></li>
                 <li><a href="#public-api">Public API</a></li>
-                <li class="sub-item"><a href="#api-factory">Factory</a></li>
-                <li class="sub-item"><a href="#api-key-comparison">key_comparison()</a></li>
                 <li class="sub-item"><a href="#api-eq">__eq__()</a></li>
                 <li><a href="#inheritance">Inheritance</a></li>
                 <li><a href="#dependencies">Dependencies</a></li>
@@ -195,22 +295,20 @@
 
         <main class="main">
             <header id="top">
-                <h1>Equable</h1>
-                <div class="path">f_core/mixins/equable/</div>
-                <div class="tag">MIXIN</div>
-                <div class="implements">Implements: <a href="../../protocols/equality/CLAUDE.html">SupportsEquality</a></div>
+                <h1>SupportsEquality</h1>
+                <div class="path">f_core/protocols/equality/</div>
+                <div class="tag">PROTOCOL</div>
             </header>
 
             <section id="purpose">
                 <h2>Purpose</h2>
                 <p>
-                    Mixin for objects that support equality checks. Implements the
-                    <a href="../../protocols/equality/CLAUDE.html">SupportsEquality</a> protocol by delegating
-                    <code class="inline-code">==</code> to a single <code class="inline-code">key_comparison()</code>
-                    method that subclasses must implement.
+                    Protocol defining the contract for objects that support equality checks via
+                    <code class="inline-code">__eq__</code>. Used as a type hint and base for classes
+                    that can be compared for equality.
                 </p>
                 <div class="note">
-                    <code class="inline-code">__ne__()</code> is omitted because Python automatically implements it as <code class="inline-code">not self == other</code>.
+                    <code class="inline-code">__ne__()</code> is omitted; Python derives <code class="inline-code">!=</code> from <code class="inline-code">__eq__</code> by default.
                 </div>
                 <a href="#top" class="back-to-top">Back to top</a>
             </section>
@@ -220,34 +318,17 @@
 
                 <div class="panel">
                     <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
-                        <span>class Equable(SupportsEquality)</span>
+                        <span>class SupportsEquality(Protocol)</span>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
-                        <div class="api-item" id="api-factory">
-                            <h4>Class Attribute</h4>
-                            <div class="api-signature">
-                                <code>Factory: type | None = None</code>
-                            </div>
-                            <p class="api-description">Factory class for creating instances. Attached via <code class="inline-code">__init__.py</code>.</p>
-                        </div>
-
-                        <div class="api-item" id="api-key-comparison">
-                            <h4><span class="badge badge-abstract">ABSTRACT</span> Method</h4>
-                            <div class="api-signature">
-                                <code>@abstractmethod<br>def key_comparison(self) -> SupportsEquality</code>
-                            </div>
-                            <p class="api-description">Returns the key used for equality comparison. Must be implemented by subclasses.</p>
-                        </div>
-
                         <div class="api-item" id="api-eq">
-                            <h4>Dunder Method</h4>
+                            <h4>Protocol Method</h4>
                             <div class="api-signature">
                                 <code>def __eq__(self, other: object) -> bool</code>
                             </div>
                             <p class="api-description">
-                                Returns <code class="inline-code">True</code> if <code class="inline-code">self.key_comparison() == other.key_comparison()</code>.
-                                Returns <code class="inline-code">NotImplemented</code> if <code class="inline-code">other</code> is not an <code class="inline-code">Equable</code>.
+                                Returns <code class="inline-code">True</code> if the object is equal to <code class="inline-code">other</code>.
                             </p>
                         </div>
                     </div>
@@ -260,9 +341,9 @@
                 <h2>Inheritance (Hierarchy)</h2>
 
                 <div class="hierarchy-tree">
-                    <div class="node root"><a href="../../protocols/equality/CLAUDE.html">SupportsEquality</a> (Protocol)</div>
+                    <div class="node root">Protocol</div>
                     <div class="level">
-                        <div class="node">Equable</div>
+                        <div class="node">SupportsEquality</div>
                     </div>
                 </div>
 
@@ -270,14 +351,17 @@
                     <thead><tr><th>Base</th><th>Responsibility</th></tr></thead>
                     <tbody>
                         <tr>
-                            <td><code class="inline-code"><a href="../../protocols/equality/CLAUDE.html">SupportsEquality</a></code></td>
-                            <td>Protocol defining <code class="inline-code">__eq__</code> contract</td>
+                            <td><code class="inline-code">Protocol</code></td>
+                            <td>Enables structural subtyping (duck typing with type hints)</td>
                         </tr>
                     </tbody>
                 </table>
 
                 <h3>Direct Subclass</h3>
-                <p><a href="../comparable/CLAUDE.html"><code class="inline-code">Comparable</code></a> (<code class="inline-code">f_core.mixins.comparable</code>)</p>
+                <p><a href="../comparison/CLAUDE.html"><code class="inline-code">SupportsComparison</code></a> (<code class="inline-code">f_core.protocols.comparison</code>)</p>
+
+                <h3>Implemented By</h3>
+                <p><a href="../../mixins/equable/CLAUDE.html"><code class="inline-code">Equable</code></a> (<code class="inline-code">f_core.mixins.equable</code>)</p>
 
                 <a href="#top" class="back-to-top">Back to top</a>
             </section>
@@ -289,15 +373,10 @@
                 <table>
                     <thead><tr><th>Import</th><th>Used For</th></tr></thead>
                     <tbody>
-                        <tr><td><code class="inline-code">abc.abstractmethod</code></td><td>Decorator for <code class="inline-code">key_comparison()</code></td></tr>
-                    </tbody>
-                </table>
-
-                <h3><span class="badge badge-internal">INTERNAL</span> Project Imports</h3>
-                <table>
-                    <thead><tr><th>Import</th><th>Used For</th></tr></thead>
-                    <tbody>
-                        <tr><td><code class="inline-code">f_core.protocols.equality.SupportsEquality</code></td><td>Protocol this class implements</td></tr>
+                        <tr>
+                            <td><code class="inline-code">typing.Protocol</code></td>
+                            <td>Base class for structural subtyping</td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -309,45 +388,45 @@
 
                 <div class="panel">
                     <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
-                        <span>Example 1: Custom Implementation</span>
+                        <span>Example 1: Type Hint for Function Parameter</span>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
-                        <pre><code>from f_core.mixins.equable import Equable
+                        <pre><code>from f_core.protocols.equality import SupportsEquality
 
 
-class Point(Equable):
-    def __init__(self, x: int, y: int):
-        self.x = x
-        self.y = y
-
-    def key_comparison(self) -> tuple[int, int]:
-        return (self.x, self.y)
+def are_equal(a: SupportsEquality, b: SupportsEquality) -> bool:
+    return a == b
 
 
-p1 = Point(1, 2)
-p2 = Point(1, 2)
-p3 = Point(3, 4)
-
-p1 == p2  # True
-p1 != p3  # True</code></pre>
+# Any object with __eq__ satisfies the protocol
+are_equal("hello", "hello")  # True
+are_equal(1, 2)              # False</code></pre>
                     </div>
                 </div>
 
                 <div class="panel">
                     <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
-                        <span>Example 2: Using the Factory</span>
+                        <span>Example 2: Implemented by Equable Mixin</span>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
-                        <pre><code>from f_core.mixins.equable import Equable
+                        <pre><code>from f_core.protocols.equality import SupportsEquality
 
-a = Equable.Factory.a()  # Char('A')
-b = Equable.Factory.b()  # Char('B')
 
-a == a  # True
-a != b  # True</code></pre>
-                        <p style="margin-top: 1rem; color: var(--muted);"><em>From <code class="inline-code">_tester.py</code></em></p>
+class Equable(SupportsEquality):
+    """Mixin that implements SupportsEquality protocol."""
+
+    def key_comparison(self) -> SupportsEquality:
+        ...
+
+    def __eq__(self, other: object) -> bool:
+        if hasattr(other, 'key_comparison'):
+            return self.key_comparison() == other.key_comparison()
+        return self.key_comparison() == other</code></pre>
+                        <p style="margin-top: 1rem; color: var(--muted);">
+                            <em>From <a href="../../mixins/equable/CLAUDE.html"><code class="inline-code">f_core.mixins.equable</code></a></em>
+                        </p>
                     </div>
                 </div>
 
@@ -356,7 +435,7 @@ a != b  # True</code></pre>
 
             <footer>
                 <p>Generated: <span id="timestamp"></span></p>
-                <p>Scope: f_core.mixins.equable package documentation</p>
+                <p>Scope: f_core.protocols.equality package documentation</p>
             </footer>
         </main>
     </div>

@@ -4,7 +4,7 @@ from typing import Generic, TypeVar
 Output = TypeVar('Output')
 
 
-class ProcessOutput(Generic[Output], ProcessABC):
+class ProcessOutput(ProcessABC, Generic[Output]):
     """
     ============================================================================
      ABC for Processes with Output.

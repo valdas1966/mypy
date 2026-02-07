@@ -1,5 +1,5 @@
 from f_graph.old_path.core.problem import ProblemPath, Graph, Node
-from f_core.mixins.equable import Equable
+from f_core.mixins.equable.main import Equable
 
 
 class ProblemOneToOne(ProblemPath, Equable):

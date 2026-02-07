@@ -1,55 +1,37 @@
-from __future__ import annotations
+from f_core.protocols.comparison import SupportsComparison
+from f_core.mixins.equable.main import Equable
+from functools import total_ordering
 from abc import abstractmethod
-from f_core.mixins.equable import Equable, ProtocolEquable
 
 
-class Comparable(Equable):
+@total_ordering
+class Comparable(Equable, SupportsComparison):
     """
     ============================================================================
-     Mixin class for objects that support comparison operations.
+     1. Mixin class for objects that support comparison operations.
+     2. @total_ordering decorator automatically generates the additional
+       comparison methods to __lt__().
     ============================================================================
     """
 
     # Factory
-    Factory: type = None
+    Factory: type | None = None
 
     @abstractmethod
-    def key_comparison(self) -> ProtocolEquable:
+    def key_comparison(self) -> SupportsComparison:
         """
         ========================================================================
          Return the key for comparison between two Comparable objects.
         ========================================================================
         """
-        pass
+        raise NotImplementedError
 
-    def __lt__(self, other: Comparable) -> bool:
+    def __lt__(self, other: object) -> bool:
         """
         ========================================================================
          Return True if the current object is less than another object.
         ========================================================================
         """
+        if not isinstance(other, Comparable):
+            return NotImplemented
         return self.key_comparison() < other.key_comparison()
-
-    def __le__(self, other: Comparable) -> bool:
-        """
-        ========================================================================
-         Return True if the current object is less or equal to other object.
-        ========================================================================
-        """
-        return self.key_comparison() <= other.key_comparison()
-
-    def __gt__(self, other: Comparable) -> bool:
-        """
-        ========================================================================
-         Return True if the current object is greater that other object.
-        ========================================================================
-        """
-        return self.key_comparison() > other.key_comparison()
-
-    def __ge__(self, other: Comparable) -> bool:
-        """
-        ========================================================================
-         Return True if the current object is greater or equal to other object.
-        ========================================================================
-        """
-        return self.key_comparison() >= other.key_comparison()

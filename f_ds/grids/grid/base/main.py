@@ -8,10 +8,10 @@ from typing import Iterator, TypeVar, Generic, Type
 Cell = TypeVar('Cell', bound=CellBase)
 
 
-class GridBase(Generic[Cell],
-               HasName,
+class GridBase(HasName,
                HasRowsCols,
-               Iterable):
+               Iterable,
+               Generic[Cell]):
     """
     ============================================================================
      2D-Grid Class of Cells.

@@ -1,7 +1,7 @@
 from __future__ import annotations
 from f_core.mixins.has.name import HasName
 from f_core.mixins.clonable import Clonable
-from f_core.mixins.equable import Equable
+from f_core.mixins.equable.main import Equable
 from f_ds.mixins.groupable import Groupable, Group
 from f_graph.nodes.i_0_key import NodeKey
 from typing import TypeVar, Generic, Self

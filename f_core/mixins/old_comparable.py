@@ -1,6 +1,6 @@
 from __future__ import annotations
 from abc import abstractmethod
-from f_core.mixins.equable import Equable, ProtocolEquable
+from f_core.mixins.equable.main import Equable, ProtocolEquable
 
 
 class Comparable(Equable):

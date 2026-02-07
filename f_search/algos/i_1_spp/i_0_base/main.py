@@ -43,10 +43,22 @@ class AlgoSPP(Generic[State, Data],
         while self._should_continue():
             self._select_best()
             if self._can_terminate():
-                self._output = self._create_solution()
                 return
             self._explore_best()
-        self._output = self._create_failure()
+
+    def _run_post(self) -> None:
+        """
+        ========================================================================
+         Run the Post-Execution.
+        ========================================================================
+        """
+        super()._run_post()
+        is_valid = self._can_terminate()
+        path = self._data.path_to(self.problem.goal) if is_valid else None
+        self._output = SolutionSPP(problem=self.problem,
+                                   is_valid=is_valid,
+                                   stats=self._stats,
+                                   path=path)
 
     def _can_terminate(self) -> bool:
         """
@@ -55,28 +67,3 @@ class AlgoSPP(Generic[State, Data],
         ========================================================================
         """
         return self._data.best == self.problem.goal
-
-    def _create_solution(self) -> SolutionSPP:
-        """
-        ========================================================================
-         Create the Solution.
-        ========================================================================
-        """
-        path = self._data.path_to(self.problem.goal)
-        return SolutionSPP(problem=self.problem,
-                           is_valid=True,
-                           stats=self._stats,
-                           path=path)
-
-    def _create_failure(self) -> SolutionSPP:
-        """
-        ========================================================================
-         Create a Failure Solution.
-        ========================================================================
-        """
-        return SolutionSPP(problem=self.problem,
-                           is_valid=False,
-                           stats=self._stats,
-                           path=None)
-
-        

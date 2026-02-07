@@ -21,4 +21,4 @@ class Factory:
         goal_1 = StateBase.Factory.a()
         goal_2 = StateBase.Factory.b()
         sub_solutions = {goal_1: sol_1, goal_2: sol_2}
-        return SolutionOMSPP(sub_solutions=sub_solutions)
+        return SolutionOMSPP(subs=sub_solutions)

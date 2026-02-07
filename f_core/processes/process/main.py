@@ -1,5 +1,4 @@
 from f_core.mixins.validatable import Validatable
-from f_core.mixins.has.record import HasRecord
 from typing import Generic, TypeVar, Any
 from time import perf_counter
 
@@ -7,16 +6,12 @@ Input = TypeVar('Input')
 Output = TypeVar('Output')
 
 class Process(Generic[Input, Output],
-              HasRecord,
               Validatable):
     """
     ============================================================================
      Simple unified Process class with optional input and output.
     ============================================================================
     """
-
-    # Record Specification
-    RECORD_SPEC = {'elapsed': lambda o: o._elapsed}
 
     # Factory
     Factory = None
@@ -32,7 +27,6 @@ class Process(Generic[Input, Output],
         """
         self._input: Input | None = input
         self._output: Output | None = None
-        HasRecord.__init__(self, name=name, verbose=verbose)
         Validatable.__init__(self)
         # Init Time Attributes
         self._elapsed: int = None

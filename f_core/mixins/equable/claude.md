@@ -2,64 +2,59 @@
 
 ## Purpose
 
-Abstract mixin class for objects that support equality checks. Provides `==`, `!=`, and `hash()` operations based on a single `key_comparison()` method that subclasses must implement.
+Mixin for objects that support equality checks. Implements the `SupportsEquality` protocol by delegating `==` to a single `key_comparison()` method that subclasses must implement.
+
+Note: `__ne__()` is omitted because Python automatically implements it as `not self == other`.
 
 ## Public API
+
+### Class Attributes
+
+```python
+Factory: type | None = None
+```
+Factory class for creating instances. Attached via `__init__.py`.
 
 ### Abstract Methods
 
 ```python
 @abstractmethod
-def key_comparison(self) -> ProtocolEquable
+def key_comparison(self) -> SupportsEquality
 ```
-Must be implemented by subclasses. Returns the key used for equality comparison and hashing. The returned object must support `==`.
+Returns the key used for equality comparison. Must be implemented by subclasses.
 
 ### Dunder Methods
 
 ```python
-def __eq__(self, other: Equable) -> bool
+def __eq__(self, other: object) -> bool
 ```
-Returns `True` if `self.key_comparison() == other.key_comparison()`. If `other` lacks `key_comparison()`, compares directly: `self.key_comparison() == other`.
-
-```python
-def __ne__(self, other: Equable) -> bool
-```
-Returns `not self == other`.
-
-```python
-def __hash__(self) -> int
-```
-Returns `hash(self.key_comparison())`. Enables use in sets and as dict keys.
+Returns `True` if `self.key_comparison() == other.key_comparison()`. Returns `NotImplemented` if `other` is not an `Equable`.
 
 ## Inheritance (Hierarchy)
 
 ```
-ABC
+SupportsEquality (Protocol)
  └── Equable
 ```
 
-| Base Class | Responsibilities |
-|------------|------------------|
-| `ABC` | Makes `Equable` abstract; enforces `key_comparison()` implementation |
+| Base | Responsibility |
+|------|----------------|
+| `SupportsEquality` | Protocol defining `__eq__` contract |
 
-### Classes That Inherit Equable
-
-| Class | Module |
-|-------|--------|
-| `Comparable` | `f_core.mixins.comparable` |
+**Direct subclass:** `Comparable` (`f_core.mixins.comparable`)
 
 ## Dependencies
 
 | Import | Purpose |
 |--------|---------|
-| `abc.ABC` | Abstract base class |
 | `abc.abstractmethod` | Decorator for `key_comparison()` |
-| `f_core.protocols.equable.Equable` | Type hint for `key_comparison()` return value (aliased as `ProtocolEquable`) |
+| `f_core.protocols.equality.SupportsEquality` | Protocol this class implements |
 
 ## Usage Example
 
 ```python
 from f_core.mixins.equable import Equable
+
 
 class Point(Equable):
     def __init__(self, x: int, y: int):
@@ -69,18 +64,23 @@ class Point(Equable):
     def key_comparison(self) -> tuple[int, int]:
         return (self.x, self.y)
 
-# Equality
+
 p1 = Point(1, 2)
 p2 = Point(1, 2)
 p3 = Point(3, 4)
 
 p1 == p2  # True
 p1 != p3  # True
+```
 
-# Works with sets and dicts
-points = {Point(1, 2), Point(1, 2), Point(3, 4)}  # len = 2
-data = {Point(0, 0): "origin"}
+### Using the Factory
 
-# Comparison with raw values (via fallback in __eq__)
-p1 == (1, 2)  # True - compares key_comparison() with tuple directly
+```python
+from f_core.mixins.equable import Equable
+
+a = Equable.Factory.a()  # Char('A')
+b = Equable.Factory.b()  # Char('B')
+
+a == a  # True
+a != b  # True
 ```

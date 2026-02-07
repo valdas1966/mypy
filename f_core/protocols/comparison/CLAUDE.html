@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comparable - Documentation</title>
+    <title>SupportsComparison - Documentation</title>
     <style>
         :root {
             --bg: #0b0f14;
@@ -48,43 +48,142 @@
             padding: 1.5rem;
         }
 
-        .sidebar h2 { color: var(--text); font-size: 1rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
+        .sidebar h2 {
+            color: var(--text);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
         .sidebar ul { list-style: none; }
         .sidebar li { margin-bottom: 0.5rem; }
-        .sidebar a { display: block; padding: 0.4rem 0.6rem; border-radius: 4px; color: var(--muted); font-size: 0.9rem; }
-        .sidebar a:hover { background: var(--panel2); color: var(--text); text-decoration: none; }
+
+        .sidebar a {
+            display: block;
+            padding: 0.4rem 0.6rem;
+            border-radius: 4px;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .sidebar a:hover {
+            background: var(--panel2);
+            color: var(--text);
+            text-decoration: none;
+        }
+
         .sidebar .sub-item { padding-left: 1.5rem; font-size: 0.85rem; color: var(--faint); }
 
         .search-box { margin-bottom: 1rem; }
-        .search-box input { width: 100%; padding: 0.5rem 0.75rem; background: var(--panel2); border: 2px solid var(--border); border-radius: 4px; color: var(--text); font-size: 0.9rem; }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            background: var(--panel2);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+
         .search-box input:focus { outline: none; border-color: var(--accent); }
         .search-box input::placeholder { color: var(--faint); }
 
-        .main { margin-left: 280px; flex: 1; padding: 2rem 3rem; max-width: 900px; }
+        .main {
+            margin-left: 280px;
+            flex: 1;
+            padding: 2rem 3rem;
+            max-width: 900px;
+        }
 
-        header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
+        header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
         header h1 { font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; }
         header .path { color: var(--faint); font-family: monospace; font-size: 0.9rem; }
-        header .tag { display: inline-block; margin-top: 0.5rem; margin-right: 0.5rem; padding: 0.25rem 0.75rem; background: var(--good); color: var(--bg); border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
-        header .decorator { display: inline-block; margin-top: 0.5rem; padding: 0.25rem 0.75rem; background: var(--warn); color: var(--bg); border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+        header .tag {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--accent2);
+            color: var(--bg);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
         header .extends { margin-top: 0.5rem; color: var(--muted); font-size: 0.9rem; }
         header .extends a { color: var(--accent2); }
 
         section { margin-bottom: 3rem; }
-        h2 { color: #fff; font-size: 1.5rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
+
+        h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
         h3 { color: var(--text); font-size: 1.2rem; margin: 1.5rem 0 0.75rem; }
         h4 { color: var(--muted); font-size: 1rem; margin: 1rem 0 0.5rem; }
         p { margin-bottom: 1rem; color: var(--text); }
 
-        .note { background: var(--panel2); border-left: 3px solid var(--accent); padding: 0.75rem 1rem; margin: 1rem 0; color: var(--muted); font-size: 0.9rem; }
+        .note {
+            background: var(--panel2);
+            border-left: 3px solid var(--accent);
+            padding: 0.75rem 1rem;
+            margin: 1rem 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
 
-        pre { background: var(--code-bg); border: 2px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
-        code { font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace; font-size: 0.9rem; color: var(--text); }
+        pre {
+            background: var(--code-bg);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
         pre code { display: block; line-height: 1.5; }
-        .inline-code { background: var(--panel2); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.85rem; }
 
-        .panel { background: var(--panel); border: 2px solid var(--border); border-radius: 8px; margin: 1rem 0; overflow: hidden; }
-        .panel-header { background: var(--panel2); padding: 0.75rem 1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #fff; }
+        .inline-code {
+            background: var(--panel2);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: var(--panel2);
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #fff;
+        }
+
         .panel-header:hover { background: var(--border); }
         .panel-header:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
         .panel-header .arrow { transition: transform 0.2s; color: var(--faint); }
@@ -92,25 +191,69 @@
         .panel-content { padding: 1rem; }
         .panel.collapsed .panel-content { display: none; }
 
-        .api-item { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+        .api-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
         .api-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .api-signature { background: var(--code-bg); padding: 0.75rem 1rem; border-radius: 4px; margin-bottom: 0.5rem; border-left: 3px solid var(--accent); }
+
+        .api-signature {
+            background: var(--code-bg);
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            border-left: 3px solid var(--accent);
+        }
+
         .api-signature.inherited { border-left-color: var(--accent2); }
-        .api-signature.generated { border-left-color: var(--warn); }
+
         .api-description { color: var(--muted); font-size: 0.95rem; padding-left: 0.5rem; }
 
-        .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-right: 0.5rem; }
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
         .badge-stdlib { background: var(--accent); color: var(--bg); }
         .badge-internal { background: var(--accent2); color: var(--bg); }
-        .badge-abstract { background: var(--warn); color: var(--bg); }
         .badge-inherited { background: var(--faint); color: var(--bg); }
-        .badge-generated { background: var(--warn); color: var(--bg); }
 
-        .hierarchy-tree { font-family: monospace; background: var(--code-bg); padding: 1rem; border-radius: 6px; border: 2px solid var(--border); }
+        .hierarchy-tree {
+            font-family: monospace;
+            background: var(--code-bg);
+            padding: 1rem;
+            border-radius: 6px;
+            border: 2px solid var(--border);
+        }
+
         .hierarchy-tree .level { padding-left: 1.5rem; position: relative; }
-        .hierarchy-tree .level::before { content: ''; position: absolute; left: 0.5rem; top: 0; bottom: 0.5rem; border-left: 2px solid var(--border); }
+
+        .hierarchy-tree .level::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0.5rem;
+            border-left: 2px solid var(--border);
+        }
+
         .hierarchy-tree .node { position: relative; padding: 0.25rem 0; }
-        .hierarchy-tree .node::before { content: ''; position: absolute; left: -1rem; top: 50%; width: 0.75rem; border-top: 2px solid var(--border); }
+
+        .hierarchy-tree .node::before {
+            content: '';
+            position: absolute;
+            left: -1rem;
+            top: 50%;
+            width: 0.75rem;
+            border-top: 2px solid var(--border);
+        }
+
         .hierarchy-tree .root::before { display: none; }
 
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
@@ -121,13 +264,20 @@
         .back-to-top { display: inline-block; margin-top: 1rem; font-size: 0.85rem; color: var(--faint); }
         .back-to-top:hover { color: var(--accent); }
 
-        footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); color: var(--faint); font-size: 0.85rem; }
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border);
+            color: var(--faint);
+            font-size: 0.85rem;
+        }
 
         @media (max-width: 900px) {
             .sidebar { position: static; width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border); }
             .main { margin-left: 0; padding: 1.5rem; }
             .container { flex-direction: column; }
         }
+
         .hidden { display: none !important; }
     </style>
 </head>
@@ -141,10 +291,7 @@
             <ul>
                 <li><a href="#purpose">Purpose</a></li>
                 <li><a href="#public-api">Public API</a></li>
-                <li class="sub-item"><a href="#api-factory">Factory</a></li>
-                <li class="sub-item"><a href="#api-key-comparison">key_comparison()</a></li>
                 <li class="sub-item"><a href="#api-lt">__lt__()</a></li>
-                <li class="sub-item"><a href="#api-generated">Generated</a></li>
                 <li class="sub-item"><a href="#api-inherited">Inherited</a></li>
                 <li><a href="#inheritance">Inheritance</a></li>
                 <li><a href="#dependencies">Dependencies</a></li>
@@ -154,24 +301,22 @@
 
         <main class="main">
             <header id="top">
-                <h1>Comparable</h1>
-                <div class="path">f_core/mixins/comparable/</div>
-                <span class="tag">MIXIN</span>
-                <span class="decorator">@total_ordering</span>
-                <div class="extends">Extends: <a href="../equable/CLAUDE.html">Equable</a> + <a href="../../protocols/comparison/CLAUDE.html">SupportsComparison</a></div>
+                <h1>SupportsComparison</h1>
+                <div class="path">f_core/protocols/comparison/</div>
+                <div class="tag">PROTOCOL</div>
+                <div class="extends">Extends: <a href="../equality/CLAUDE.html">SupportsEquality</a></div>
             </header>
 
             <section id="purpose">
                 <h2>Purpose</h2>
                 <p>
-                    Mixin for objects that support comparison operations. Extends
-                    <a href="../equable/CLAUDE.html">Equable</a> and implements
-                    <a href="../../protocols/comparison/CLAUDE.html">SupportsComparison</a> protocol
-                    by delegating <code class="inline-code">&lt;</code> to a single
-                    <code class="inline-code">key_comparison()</code> method.
+                    Protocol defining the contract for objects that support comparison operations
+                    (<code class="inline-code">&lt;</code>, <code class="inline-code">&lt;=</code>,
+                    <code class="inline-code">&gt;</code>, <code class="inline-code">&gt;=</code>).
+                    Extends <a href="../equality/CLAUDE.html">SupportsEquality</a> to include ordering.
                 </p>
                 <div class="note">
-                    <code class="inline-code">@total_ordering</code> decorator automatically generates
+                    <code class="inline-code">@total_ordering</code> decorator in concrete classes will automatically generate
                     <code class="inline-code">&lt;=</code>, <code class="inline-code">&gt;</code>, <code class="inline-code">&gt;=</code>
                     from <code class="inline-code">__lt__()</code> and <code class="inline-code">__eq__()</code>.
                 </div>
@@ -183,57 +328,28 @@
 
                 <div class="panel">
                     <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
-                        <span>@total_ordering class Comparable(Equable, SupportsComparison)</span>
+                        <span>class SupportsComparison(SupportsEquality, Protocol)</span>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
-                        <div class="api-item" id="api-factory">
-                            <h4>Class Attribute</h4>
-                            <div class="api-signature">
-                                <code>Factory: type | None = None</code>
-                            </div>
-                            <p class="api-description">Factory class for creating instances. Attached via <code class="inline-code">__init__.py</code>.</p>
-                        </div>
-
-                        <div class="api-item" id="api-key-comparison">
-                            <h4><span class="badge badge-abstract">ABSTRACT</span> Method</h4>
-                            <div class="api-signature">
-                                <code>@abstractmethod<br>def key_comparison(self) -> SupportsComparison</code>
-                            </div>
-                            <p class="api-description">Returns the key used for all comparison operations. Must be implemented by subclasses.</p>
-                        </div>
-
                         <div class="api-item" id="api-lt">
-                            <h4>Dunder Method</h4>
+                            <h4>Protocol Method</h4>
                             <div class="api-signature">
                                 <code>def __lt__(self, other: object) -> bool</code>
                             </div>
                             <p class="api-description">
-                                Returns <code class="inline-code">self.key_comparison() &lt; other.key_comparison()</code>.
-                                Returns <code class="inline-code">NotImplemented</code> if <code class="inline-code">other</code> is not a <code class="inline-code">Comparable</code>.
+                                Returns <code class="inline-code">True</code> if the object is less than <code class="inline-code">other</code>.
                             </p>
                         </div>
 
-                        <div class="api-item" id="api-generated">
-                            <h4><span class="badge badge-generated">@total_ordering</span> Generated Methods</h4>
-                            <div class="api-signature generated">
-                                <code>def __le__(self, other: object) -> bool</code>
-                            </div>
-                            <div class="api-signature generated" style="margin-top: 0.5rem;">
-                                <code>def __gt__(self, other: object) -> bool</code>
-                            </div>
-                            <div class="api-signature generated" style="margin-top: 0.5rem;">
-                                <code>def __ge__(self, other: object) -> bool</code>
-                            </div>
-                            <p class="api-description">Automatically generated from <code class="inline-code">__lt__</code> and <code class="inline-code">__eq__</code>.</p>
-                        </div>
-
                         <div class="api-item" id="api-inherited">
-                            <h4><span class="badge badge-inherited">INHERITED</span> From Equable</h4>
+                            <h4><span class="badge badge-inherited">INHERITED</span> From SupportsEquality</h4>
                             <div class="api-signature inherited">
                                 <code>def __eq__(self, other: object) -> bool</code>
                             </div>
-                            <p class="api-description">Equality via <code class="inline-code">key_comparison()</code>.</p>
+                            <p class="api-description">
+                                Returns <code class="inline-code">True</code> if the object is equal to <code class="inline-code">other</code>.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -245,11 +361,11 @@
                 <h2>Inheritance (Hierarchy)</h2>
 
                 <div class="hierarchy-tree">
-                    <div class="node root"><a href="../../protocols/equality/CLAUDE.html">SupportsEquality</a> (Protocol)</div>
+                    <div class="node root">Protocol</div>
                     <div class="level">
-                        <div class="node"><a href="../equable/CLAUDE.html">Equable</a></div>
+                        <div class="node"><a href="../equality/CLAUDE.html">SupportsEquality</a></div>
                         <div class="level">
-                            <div class="node">Comparable <span style="color: var(--faint);">+ <a href="../../protocols/comparison/CLAUDE.html">SupportsComparison</a></span></div>
+                            <div class="node">SupportsComparison</div>
                         </div>
                     </div>
                 </div>
@@ -258,19 +374,18 @@
                     <thead><tr><th>Base</th><th>Responsibility</th></tr></thead>
                     <tbody>
                         <tr>
-                            <td><code class="inline-code"><a href="../../protocols/equality/CLAUDE.html">SupportsEquality</a></code></td>
-                            <td>Protocol defining <code class="inline-code">__eq__</code> contract</td>
+                            <td><code class="inline-code">Protocol</code></td>
+                            <td>Enables structural subtyping</td>
                         </tr>
                         <tr>
-                            <td><code class="inline-code"><a href="../equable/CLAUDE.html">Equable</a></code></td>
-                            <td>Provides <code class="inline-code">__eq__</code> implementation via <code class="inline-code">key_comparison()</code></td>
-                        </tr>
-                        <tr>
-                            <td><code class="inline-code"><a href="../../protocols/comparison/CLAUDE.html">SupportsComparison</a></code></td>
-                            <td>Protocol defining <code class="inline-code">__lt__</code> contract</td>
+                            <td><code class="inline-code"><a href="../equality/CLAUDE.html">SupportsEquality</a></code></td>
+                            <td>Provides <code class="inline-code">__eq__</code> contract</td>
                         </tr>
                     </tbody>
                 </table>
+
+                <h3>Implemented By</h3>
+                <p><a href="../../mixins/comparable/CLAUDE.html"><code class="inline-code">Comparable</code></a> (<code class="inline-code">f_core.mixins.comparable</code>)</p>
 
                 <a href="#top" class="back-to-top">Back to top</a>
             </section>
@@ -282,8 +397,10 @@
                 <table>
                     <thead><tr><th>Import</th><th>Used For</th></tr></thead>
                     <tbody>
-                        <tr><td><code class="inline-code">abc.abstractmethod</code></td><td>Decorator for <code class="inline-code">key_comparison()</code></td></tr>
-                        <tr><td><code class="inline-code">functools.total_ordering</code></td><td>Generates comparison methods from <code class="inline-code">__lt__</code> and <code class="inline-code">__eq__</code></td></tr>
+                        <tr>
+                            <td><code class="inline-code">typing.Protocol</code></td>
+                            <td>Base class for structural subtyping</td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -291,8 +408,10 @@
                 <table>
                     <thead><tr><th>Import</th><th>Used For</th></tr></thead>
                     <tbody>
-                        <tr><td><code class="inline-code">f_core.mixins.equable.Equable</code></td><td>Base class providing equality</td></tr>
-                        <tr><td><code class="inline-code">f_core.protocols.comparison.SupportsComparison</code></td><td>Protocol this class implements</td></tr>
+                        <tr>
+                            <td><code class="inline-code">f_core.protocols.equality.SupportsEquality</code></td>
+                            <td>Base protocol for equality</td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -304,49 +423,44 @@
 
                 <div class="panel">
                     <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
-                        <span>Example 1: Custom Implementation</span>
+                        <span>Example 1: Type Hint for Function Parameter</span>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
-                        <pre><code>from f_core.mixins.comparable import Comparable
+                        <pre><code>from f_core.protocols.comparison import SupportsComparison
 
 
-class Score(Comparable):
-    def __init__(self, points: int):
-        self.points = points
-
-    def key_comparison(self) -> int:
-        return self.points
+def is_smaller(a: SupportsComparison, b: SupportsComparison) -> bool:
+    return a < b
 
 
-s1 = Score(100)
-s2 = Score(150)
-
-s1 < s2   # True
-s2 > s1   # True
-s1 <= s1  # True
-s1 == Score(100)  # True (from Equable)
-
-# Sorting works
-sorted([Score(50), Score(100), Score(75)])  # [Score(50), Score(75), Score(100)]</code></pre>
+# Any object with __lt__ and __eq__ satisfies the protocol
+is_smaller(1, 2)        # True
+is_smaller("a", "b")    # True</code></pre>
                     </div>
                 </div>
 
                 <div class="panel">
                     <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
-                        <span>Example 2: Using the Factory</span>
+                        <span>Example 2: Implemented by Comparable Mixin</span>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
-                        <pre><code>from f_core.mixins.comparable import Comparable
+                        <pre><code>from f_core.protocols.comparison import SupportsComparison
+from f_core.mixins.equable import Equable
 
-a = Comparable.Factory.a()  # Char('A')
-b = Comparable.Factory.b()  # Char('B')
 
-a < b   # True
-a == a  # True
-b > a   # True</code></pre>
-                        <p style="margin-top: 1rem; color: var(--muted);"><em>From <code class="inline-code">_tester.py</code></em></p>
+class Comparable(Equable, SupportsComparison):
+    """Mixin that implements SupportsComparison protocol."""
+
+    def key_comparison(self) -> SupportsComparison:
+        ...
+
+    def __lt__(self, other: object) -> bool:
+        return self.key_comparison() < other.key_comparison()</code></pre>
+                        <p style="margin-top: 1rem; color: var(--muted);">
+                            <em>From <a href="../../mixins/comparable/CLAUDE.html"><code class="inline-code">f_core.mixins.comparable</code></a></em>
+                        </p>
                     </div>
                 </div>
 
@@ -355,7 +469,7 @@ b > a   # True</code></pre>
 
             <footer>
                 <p>Generated: <span id="timestamp"></span></p>
-                <p>Scope: f_core.mixins.comparable package documentation</p>
+                <p>Scope: f_core.protocols.comparison package documentation</p>
             </footer>
         </main>
     </div>

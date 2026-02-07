@@ -1,4 +1,4 @@
-from f_core.mixins.equable import Equable
+from f_core.mixins.equable.main import Equable
 from f_core.protocols.equable import Equable as ProtocolEquable
 
 

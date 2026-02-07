@@ -1,6 +1,7 @@
 from f_ds.grids import GridMap as Grid
 from f_cs.problem.main import ProblemAlgo
 from f_search.ds.state import StateCell as State
+from f_ds.grids.grid.registry import GridRegistry
 
 
 class ProblemSearch(ProblemAlgo):
@@ -14,7 +15,8 @@ class ProblemSearch(ProblemAlgo):
     Factory = None
 
     def __init__(self,
-                 grid: Grid,
+                 # Grid or its name (on heavy cases for lazy loading)
+                 grid: Grid | str,
                  name: str = 'ProblemSearch') -> None:
         """
         ========================================================================
@@ -31,6 +33,8 @@ class ProblemSearch(ProblemAlgo):
          Return the Problem's Grid.
         ========================================================================
         """
+        if isinstance(self._grid, str):
+            self._grid = GridRegistry.get(name=self._grid)
         return self._grid
 
     def successors(self, state: State) -> list[State]:

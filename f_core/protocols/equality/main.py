@@ -1,23 +1,17 @@
-from f_core.mixins.has.key import HasKey
-from typing import Generic, TypeVar
-
-Key = TypeVar('Key')
+from typing import Protocol
 
 
-class StateBase(Generic[Key], HasKey[Key]):
+class SupportsEquality(Protocol):
     """
     ============================================================================
-     Configuration in a Search-Space.
+     1. Protocol that supports equality checks between two objects.
+     2. __ne__() is omitted; Python derives != from __eq__ by default.
     ============================================================================
     """
 
-    # Factory
-    Factory = None
-    
-    def __init__(self, key: Key) -> None:
+    def __eq__(self, other: object) -> bool:
         """
         ========================================================================
-         Initialize the StateBase.
+         Return True if the Object is equals to the other Object.
         ========================================================================
         """
-        HasKey.__init__(self, key=key)

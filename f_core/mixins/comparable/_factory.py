@@ -1,5 +1,4 @@
 from f_core.mixins.comparable.main import Comparable
-from f_core.protocols.equable import Equable
 
 
 class Factory:
@@ -9,26 +8,26 @@ class Factory:
     ============================================================================
     """
 
-    class Temp(Comparable):
-        def __init__(self, key: str) -> None:
-            self.key = key
+    class Char(Comparable):
+        def __init__(self, char: str) -> None:
+            self.char = char
         def key_comparison(self) -> str:
-            return self.key
+            return self.char
 
     @staticmethod
-    def a() -> Temp:
+    def a() -> Comparable:
         """
         ========================================================================
          Create a Comparable object with the value 'A'.
         ========================================================================
         """
-        return Factory.Temp(key='A')
+        return Factory.Char(char='A')
 
     @staticmethod
-    def b() -> Temp:
+    def b() -> Comparable:
         """
         ========================================================================
          Create a Comparable object with the value 'B'.
         ========================================================================
         """
-        return Factory.Temp(key='B')
+        return Factory.Char(char='B')
