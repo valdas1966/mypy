@@ -1,34 +1,26 @@
-from f_core.mixins.equable.main import Equable
 
-
-class Factory:
+class Validatable:
     """
     ============================================================================
-     Factory for the Equable class.
+     Mixin-Class for Validatable Objects.
     ============================================================================
     """
 
-    class Char(Equable):
-        def __init__(self, char: str):
-            self.char = char
-        def key_comparison(self) -> str:
-            return self.char
+    # Factory
+    Factory: type | None = None
+    
+    def __init__(self, is_valid: bool) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
+        self._is_valid = is_valid
 
-    @staticmethod
-    def a() -> Equable:
+    def __bool__(self) -> bool:
         """
         ========================================================================
-         Create a Char object with the value 'A'.
+         Return True if the Object is Valid.
         ========================================================================
         """
-        return Factory.Char(char='A')
-
-    @staticmethod
-    def b() -> Equable:
-        """
-        ========================================================================
-         Create a Char object with the value 'B'.
-        ========================================================================
-        """
-        return Factory.Char(char='B')
-        
+        return self._is_valid

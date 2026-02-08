@@ -23,15 +23,16 @@ class AStar(Generic[State], AlgoSPP[State, DataHeuristics]):
     def __init__(self,
                  problem: Problem,
                  name: str = 'AStar',
+                 data: DataHeuristics[State] = None,
                  heuristics: HeuristicsBase[State, Problem] = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
+        data = data if data else DataHeuristics(frontier=FrontierPriority())
         super().__init__(problem=problem,
-                         make_frontier=FrontierPriority,
-                         make_data=DataHeuristics,
+                         data=data,
                          name=name)
         self._heuristics = heuristics if heuristics else HeuristicsManhattan(problem)
 

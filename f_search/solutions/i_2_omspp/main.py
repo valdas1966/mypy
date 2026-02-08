@@ -15,7 +15,7 @@ class SolutionOMSPP(SolutionSearch[ProblemOMSPP, StatsSearch]):
 
     def __init__(self,
                  problem: ProblemOMSPP,
-                 subs: dict[State, SolutionSPP],
+                 subs: list[SolutionSPP],
                  elapsed: int) -> None:
         """
         ========================================================================
@@ -23,23 +23,15 @@ class SolutionOMSPP(SolutionSearch[ProblemOMSPP, StatsSearch]):
          Stats are already accumulated by the algorithm during execution.
         ========================================================================
         """
-        discovered = sum(sub_solution.stats.discovered
-                         for sub_solution
-                         in subs.values())
-        explored = sum(sub_solution.stats.explored
-                       for sub_solution
-                       in subs.values())
-        is_valid = all(sub_solution
-                       for sub_solution
-                       in subs.values())
+        discovered = sum(sub.stats.discovered for sub in subs)
+        explored = sum(sub.stats.explored for sub in subs)
+        is_valid = all(sub for sub in subs) and len(subs) == len(problem.goals)
         stats = StatsSearch(elapsed=elapsed,
                             discovered=discovered,
                             explored=explored)
         SolutionSearch.__init__(self, problem=problem, is_valid=is_valid, stats=stats)
         self._sub_solutions = subs
-        self._paths = {goal: sub_solution.path
-                       for goal, sub_solution
-                       in subs.items()}
+        self._paths = {sub.problem.goal: sub.path for sub in subs}
 
     @property
     def paths(self) -> dict[State, Path]:

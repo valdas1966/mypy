@@ -2,7 +2,7 @@ from f_core.protocols.equality.main import SupportsEquality
 from abc import abstractmethod
 
 
-class Equable(SupportsEquality):
+class Equatable(SupportsEquality):
     """
     ============================================================================
      1. Mixin for Objects that support Equality checks.
@@ -31,6 +31,6 @@ class Equable(SupportsEquality):
         """
         if other is self:
             return True
-        if not isinstance(other, Equable):
+        if not isinstance(other, Equatable):
             return NotImplemented
         return self.key_comparison() == other.key_comparison()

@@ -1,12 +1,23 @@
-from f_core.mixins.validatable import Validatable
+from f_core.mixins.validatable.main import Validatable
 
 
-class ValidatablePublic(Validatable):
+class ValidatableMutable(Validatable):
     """
     ============================================================================
      Mixin-Class for Validatable Objects with public access to modify.
     ============================================================================
     """
+
+    # Factory
+    Factory: type | None = None
+
+    def __init__(self, is_valid: bool | None = None) -> None:
+        """
+        ========================================================================
+         Init private Attributes.
+        ========================================================================
+        """
+        super().__init__(is_valid=is_valid)
 
     def set_valid(self) -> None:
         """

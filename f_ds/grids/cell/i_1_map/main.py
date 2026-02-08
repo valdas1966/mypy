@@ -1,8 +1,8 @@
 from f_ds.grids.cell.i_0_base.main import CellBase
-from f_core.mixins.validatable_public import ValidatablePublic
+from f_core.mixins.validatable_mutable.main import ValidatableMutable
 
 
-class CellMap(CellBase, ValidatablePublic):
+class CellMap(CellBase, ValidatableMutable):
     """
     ============================================================================
      Cell-Map for the 2D-Grid Maps.
@@ -28,4 +28,4 @@ class CellMap(CellBase, ValidatablePublic):
         ========================================================================
         """
         CellBase.__init__(self, row=row, col=col, name=name)
-        ValidatablePublic.__init__(self, is_valid=is_valid)
+        ValidatableMutable.__init__(self, is_valid=is_valid)

@@ -1,4 +1,4 @@
-from f_core.mixins.validatable import Validatable
+from f_core.mixins.validatable.main import Validatable
 from f_cs.problem.main import ProblemAlgo
 from f_cs.stats.main import StatsAlgo
 from typing import Generic, TypeVar

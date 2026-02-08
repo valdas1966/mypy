@@ -1,19 +1,16 @@
 from f_search.algos.i_0_base import AlgoSearch
-from f_search.solutions import SolutionOMSPP
+from f_search.solutions import SolutionOMSPP, SolutionSPP
 from f_search.problems import ProblemOMSPP
-from f_search.ds import StateBase
-from f_search.ds.data import DataSearch
-from f_search.stats import StatsSearch
+from f_search.ds.state import StateBase
+from f_search.ds.data import DataBestFirst
 from typing import Generic, TypeVar
 
-Problem = TypeVar('Problem', bound=ProblemOMSPP)
-Solution = TypeVar('Solution', bound=SolutionOMSPP)
 State = TypeVar('State', bound=StateBase)
-Data = TypeVar('Data', bound=DataSearch)
+Data = TypeVar('Data', bound=DataBestFirst)
 
 
-class AlgoOMSPP(Generic[Problem, Solution, State, Data],
-                AlgoSearch[Problem, Solution, State, Data]):
+class AlgoOMSPP(AlgoSearch[ProblemOMSPP, SolutionOMSPP],
+                Generic[State, Data]):
     """
     ============================================================================
      Base for One-to-Many Shortest-Path-Problem Algorithms.
@@ -21,7 +18,7 @@ class AlgoOMSPP(Generic[Problem, Solution, State, Data],
     """
 
     def __init__(self,
-                 problem: Problem,
+                 problem: ProblemOMSPP,
                  name: str = 'AlgoOMSPP') -> None:
         """
         ========================================================================
@@ -31,8 +28,8 @@ class AlgoOMSPP(Generic[Problem, Solution, State, Data],
         AlgoSearch.__init__(self,
                             problem=problem,
                             name=name)
-        self._goals_active: list[State] = []
-        self._sub_solutions: dict[State, Solution] = dict()
+        self._goals_active: list[State]
+        self._sub_solutions: list[SolutionSPP]
 
     def _run_pre(self) -> None:
         """
@@ -41,15 +38,16 @@ class AlgoOMSPP(Generic[Problem, Solution, State, Data],
         ========================================================================
         """
         AlgoSearch._run_pre(self)
-        self._goals_active = self._problem.goals
-        self._sub_solutions = dict()
+        self._goals_active = self.problem.goals
+        self._sub_solutions = list()
 
-    def _create_solution(self) -> SolutionOMSPP:
+    def _run_post(self) -> None:
         """
         ========================================================================
-         Create the Solution.
+         Run Post-Processing.
         ========================================================================
         """
-        self._run_post()
-        return SolutionOMSPP(sub_solutions=self._sub_solutions,
-                             elapsed=self._stats.elapsed)
+        super()._run_post()
+        self._output = SolutionOMSPP(problem=self.problem,
+                                     subs=self._sub_solutions,
+                                     elapsed=self._stats.elapsed)

@@ -1,11 +1,11 @@
 from f_core.mixins.comparable import Comparable
-from f_core.mixins.equable.main import Equable
+from f_core.mixins.equatable.main import Equatable
 from typing import Generic, TypeVar
 
 Item = TypeVar('Item', bound=Comparable)
 
 
-class EntryPriority(Generic[Item], Equable):
+class EntryPriority(Generic[Item], Equatable):
     """
     ============================================================================
      Entry for Item with Priority.

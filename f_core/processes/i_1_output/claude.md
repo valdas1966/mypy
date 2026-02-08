@@ -213,7 +213,7 @@ ProcessABC (i_0_abc)
 - [f_core.mixins.has.name.HasName](../../mixins/has/name/claude.md)
 - [f_core.mixins.validatable.Validatable](../../mixins/validatable/claude.md)
 - [f_core.mixins.comparable.Comparable](../../mixins/comparable/claude.md)
-- [f_core.mixins.equable.Equable](../../mixins/equable/claude.md)
+- [f_core.mixins.equable.Equable](../../mixins/equatable/claude.md)
 
 **Standard Library:**
 - `typing.Generic` for generic typing

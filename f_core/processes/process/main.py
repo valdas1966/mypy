@@ -1,4 +1,4 @@
-from f_core.mixins.validatable import Validatable
+from f_core.mixins.validatable.main import Validatable
 from typing import Generic, TypeVar, Any
 from time import perf_counter
 

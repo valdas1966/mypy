@@ -10,7 +10,7 @@ def test_without_obstacles():
     algo = AStarRepeated.Factory.without_obstacles()
     solution = algo.run()
     assert solution.stats.explored == 3 + 6
-    assert solution.stats.generated == 7 + 11
+    assert solution.stats.discovered == 7 + 11
     
 
 def test_with_obstacles():
@@ -22,4 +22,4 @@ def test_with_obstacles():
     algo = AStarRepeated.Factory.with_obstacles()
     solution = algo.run()
     assert solution.stats.explored == 8 + 6
-    assert solution.stats.generated == 13 + 12
+    assert solution.stats.discovered == 13 + 12

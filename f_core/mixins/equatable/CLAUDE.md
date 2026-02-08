@@ -53,10 +53,10 @@ SupportsEquality (Protocol)
 ## Usage Example
 
 ```python
-from f_core.mixins.equable import Equable
+from f_core.mixins.equatable import Equatable
 
 
-class Point(Equable):
+class Point(Equatable):
     def __init__(self, x: int, y: int):
         self.x = x
         self.y = y
@@ -76,10 +76,10 @@ p1 != p3  # True
 ### Using the Factory
 
 ```python
-from f_core.mixins.equable import Equable
+from f_core.mixins.equatable import Equatable
 
-a = Equable.Factory.a()  # Char('A')
-b = Equable.Factory.b()  # Char('B')
+a = Equatable.Factory.a()  # Char('A')
+b = Equatable.Factory.b()  # Char('B')
 
 a == a  # True
 a != b  # True

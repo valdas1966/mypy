@@ -1,9 +1,9 @@
 from f_search.algos.i_1_spp import AStar
-from f_search.algos.i_2_omspp.i_1_incremental import IncrementalOMSPP
+from f_search.algos.i_2_omspp.i_1_incremental import AlgoIncremental
 from f_search.problems.i_2_omspp.main import ProblemOMSPP
 
 
-class AStarIncremental(IncrementalOMSPP):
+class AStarIncremental(AlgoIncremental):
     """
     ============================================================================
      A* Algorithm for One-to-Many Shortest-Path-Problem.

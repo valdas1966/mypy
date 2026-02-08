@@ -1,14 +1,14 @@
 import pytest
-from f_core.mixins.validatable_public import ValidatablePublic
+from f_core.mixins.validatable_mutable.main import ValidatableMutable
 
 
 @pytest.fixture
-def ex_valid() -> ValidatablePublic:
-    return ValidatablePublic()
+def ex_valid() -> ValidatableMutable:
+    return ValidatableMutable()
 
 @pytest.fixture
-def ex_invalid() -> ValidatablePublic:
-    return ValidatablePublic(is_valid=False)
+def ex_invalid() -> ValidatableMutable:
+    return ValidatableMutable(is_valid=False)
 
 
 def test_init(ex_valid, ex_invalid):

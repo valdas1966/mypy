@@ -240,7 +240,7 @@ ProcessABC.Factory.nested()  # Creates example nested process
 
 **Through HasName:**
 - [f_core.mixins.comparable.Comparable](../../mixins/comparable/claude.md)
-- [f_core.mixins.equable.Equable](../../mixins/equable/claude.md)
+- [f_core.mixins.equable.Equable](../../mixins/equatable/claude.md)
 
 **Standard Library:**
 - `time.time()` for timing

@@ -20,15 +20,16 @@ class BFS(Generic[State], AlgoSPP[State, DataBestFirst[State]]):
 
     def __init__(self,
                  problem: ProblemSPP,
-                 name: str = 'BFS') -> None:
+                 name: str = 'BFS',
+                 data: DataBestFirst[State] = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
+        data = data if data else DataBestFirst(frontier=FrontierFifo())
         super().__init__(problem=problem,
-                         make_frontier=FrontierFifo,
-                         make_data=DataBestFirst,
+                         data=data,
                          name=name)
 
     def _discover(self, state: State, parent: State = None) -> None:

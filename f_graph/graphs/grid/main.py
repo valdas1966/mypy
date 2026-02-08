@@ -1,4 +1,4 @@
-from f_core.mixins import HasName, Clonable, Equable, Dictable
+from f_core.mixins import HasName, Clonable, Equatable, Dictable
 from f_graph.nodes.i_0_key import NodeKey, Key
 from f_ds.grids import GridMap
 from typing import Generic, TypeVar, Self, Type
@@ -10,7 +10,7 @@ class GraphGrid(Generic[Key, Node],
                 Dictable[Key, Node],
                 HasName,
                 Clonable,
-                Equable):
+                Equatable):
     """
     ============================================================================
      Grid Graph.

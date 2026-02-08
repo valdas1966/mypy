@@ -2,16 +2,23 @@
 
 ## Purpose
 
-Mixin class that provides a `name` property with comparison and string representation capabilities. Objects inheriting from `HasName` can be compared, sorted, hashed, and displayed using their name as the key.
+Mixin that provides a `name` property with full comparison, hashing, and string representation. Objects with `HasName` can be compared, sorted, used in sets/dicts, and printed — all based on their name.
 
 ## Public API
+
+### Class Attributes
+
+```python
+Factory: type | None = None
+```
+Factory class for creating instances. Attached via `__init__.py`.
 
 ### Constructor
 
 ```python
 def __init__(self, name: str = None) -> None
 ```
-Initializes the object with an optional name (defaults to `None`).
+Stores `name` as the private attribute `_name`.
 
 ### Properties
 
@@ -30,16 +37,16 @@ Sets the object's name.
 ### Methods
 
 ```python
-def key_comparison(self) -> str | None
+def key_comparison(self) -> str
 ```
-Returns `self._name` directly (can be `None`, `''`, or a string value).
+Returns `self._name`. Implements the abstract method from `Comparable`/`Equable`, used for all comparison and equality operations.
 
 ### Dunder Methods
 
 ```python
 def __str__(self) -> str
 ```
-Returns `name` if set, otherwise `'None'`.
+Returns `name` if truthy, otherwise `'None'`. Note: both `None` and `''` produce `'None'`.
 
 ```python
 def __repr__(self) -> str
@@ -49,7 +56,7 @@ Returns `<ClassName: Name={name}>`.
 ```python
 def __hash__(self) -> int
 ```
-Returns hash of `name`. Enables use in sets and as dict keys.
+Returns `hash(self.name)`. Enables use in sets and as dict keys.
 
 ### Inherited from Comparable
 
@@ -64,27 +71,27 @@ def __ge__(self, other: Comparable) -> bool
 
 ```python
 def __eq__(self, other: Equable) -> bool
-def __ne__(self, other: Equable) -> bool
 ```
 
 ## Inheritance (Hierarchy)
 
 ```
-ABC
- └── Equable          # Provides ==, !=, hash()
-      └── Comparable  # Provides <, <=, >, >=
+SupportsEquality (Protocol)
+ └── Equable          # ==, != via key_comparison()
+      └── Comparable  # <, <=, >, >= via key_comparison()
            └── HasName
 ```
 
-| Base Class | Responsibilities |
-|------------|------------------|
-| `Equable` | Equality operators (`==`, `!=`) and hashing |
+| Base | Responsibility |
+|------|----------------|
+| `Equable` | Equality operators (`==`) via `key_comparison()` |
 | `Comparable` | Ordering operators (`<`, `<=`, `>`, `>=`) via `key_comparison()` |
 
 ## Dependencies
 
 | Import | Purpose |
 |--------|---------|
+| `__future__.annotations` | Postponed evaluation of annotations |
 | `f_core.mixins.comparable.Comparable` | Base class providing comparison operators |
 
 ## Usage Example
@@ -92,26 +99,32 @@ ABC
 ```python
 from f_core.mixins.has.name import HasName
 
-# Create named objects
 obj = HasName(name="Alice")
 print(obj.name)    # Alice
 print(str(obj))    # Alice
 print(repr(obj))   # <HasName: Name=Alice>
 
-# Sorting (only objects with string names)
-items = [HasName("zebra"), HasName("apple"), HasName("")]
-sorted(items)  # ['', 'apple', 'zebra']
+# Sorting
+items = [HasName("zebra"), HasName("apple"), HasName("banana")]
+sorted(items)  # [apple, banana, zebra]
 
-# Using Factory (from _factory.py)
+# Sets and dicts
+{HasName("a"), HasName("b"), HasName("a")}  # 2 elements
+```
+
+### Using the Factory
+
+```python
+from f_core.mixins.has.name import HasName
+
 a = HasName.Factory.a()          # name='A'
 empty = HasName.Factory.empty()  # name=''
 none = HasName.Factory.none()    # name=None
 
-# Comparison
-assert empty < a        # '' < 'A'
-assert empty != none    # '' != None
-assert a == HasName('A')
+assert str(a) == 'A'
+assert str(empty) == 'None'    # '' is falsy
+assert str(none) == 'None'
 
-# Note: Comparing None with str raises TypeError
-# none < a  # TypeError: '<' not supported between 'NoneType' and 'str'
+assert empty < a               # '' < 'A'
+assert empty == none
 ```

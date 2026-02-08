@@ -1,11 +1,11 @@
 from f_core.protocols.comparison import SupportsComparison
-from f_core.mixins.equable.main import Equable
+from f_core.mixins.equatable.main import Equatable
 from functools import total_ordering
 from abc import abstractmethod
 
 
 @total_ordering
-class Comparable(Equable, SupportsComparison):
+class Comparable(Equatable, SupportsComparison):
     """
     ============================================================================
      1. Mixin class for objects that support comparison operations.

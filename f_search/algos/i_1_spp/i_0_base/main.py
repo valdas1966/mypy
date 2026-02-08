@@ -2,9 +2,8 @@ from f_search.algos.i_0_base import AlgoBestFirst
 from f_search.ds.state import StateBase
 from f_search.problems import ProblemSPP
 from f_search.solutions import SolutionSPP
-from f_search.ds.frontier import FrontierBase as Frontier
 from f_search.ds.data import DataBestFirst
-from typing import Generic, TypeVar, Callable
+from typing import Generic, TypeVar
 
 State = TypeVar('State', bound=StateBase)
 Data = TypeVar('Data', bound=DataBestFirst)
@@ -20,8 +19,7 @@ class AlgoSPP(Generic[State, Data],
 
     def __init__(self,
                  problem: ProblemSPP,
-                 make_frontier: Callable[[], Frontier[State]],
-                 make_data: Callable[[], Data],
+                 data: Data,
                  name: str = 'AlgoSPP') -> None:
         """
         ========================================================================
@@ -29,8 +27,7 @@ class AlgoSPP(Generic[State, Data],
         ========================================================================
         """
         super().__init__(problem=problem,
-                         make_frontier=make_frontier,
-                         make_data=make_data,
+                         data=data,
                          name=name)
 
     def _run(self) -> None:
@@ -39,7 +36,8 @@ class AlgoSPP(Generic[State, Data],
          Run the Algorithm and return the Solution.
         ========================================================================
         """
-        self._discover(state=self.problem.start)
+        if not self.data.frontier:
+            self._discover(state=self.problem.start)
         while self._should_continue():
             self._select_best()
             if self._can_terminate():

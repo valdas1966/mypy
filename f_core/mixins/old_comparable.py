@@ -1,9 +1,9 @@
 from __future__ import annotations
 from abc import abstractmethod
-from f_core.mixins.equable.main import Equable, ProtocolEquable
+from f_core.mixins.equatable.main import Equatable, ProtocolEquable
 
 
-class Comparable(Equable):
+class Comparable(Equatable):
     """
     ============================================================================
      Mixin class for objects that support comparison operations.

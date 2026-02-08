@@ -1,10 +1,10 @@
 from gspread.cell import Cell as GSCell
-from f_core.mixins.validatable_public import ValidatablePublic
+from f_core.mixins.validatable_mutable.main import ValidatableMutable
 from f_utils import u_str
 from typing import Callable
 
 
-class Cell(ValidatablePublic):
+class Cell(ValidatableMutable):
     """
     ============================================================================
      1. Google-Sheets Cell.
@@ -23,7 +23,7 @@ class Cell(ValidatablePublic):
         """
         self._cell = cell
         self._add_to_batch = add_to_batch
-        ValidatablePublic.__init__(self, is_valid=self.value is not None)
+        ValidatableMutable.__init__(self, is_valid=self.value is not None)
 
     @property
     def row(self) -> int:

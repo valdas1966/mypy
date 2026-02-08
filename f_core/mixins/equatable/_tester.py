@@ -1,4 +1,4 @@
-from f_core.mixins.equable.main import Equable
+from f_core.mixins.equatable.main import Equatable
 
 
 def test_eq() -> None:
@@ -7,8 +7,8 @@ def test_eq() -> None:
      Test the __eq__() method.
     ========================================================================
     """
-    a = Equable.Factory.a()
-    b = Equable.Factory.b()
+    a = Equatable.Factory.a()
+    b = Equatable.Factory.b()
     assert a == a
     assert a != b
 
@@ -19,7 +19,7 @@ def test_ne() -> None:
      Test the __ne__() method.
     ========================================================================
     """
-    a = Equable.Factory.a()
-    b = Equable.Factory.b()
+    a = Equatable.Factory.a()
+    b = Equatable.Factory.b()
     assert a != b
     assert not (a != a)

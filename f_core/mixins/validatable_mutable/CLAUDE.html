@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comparable - Documentation</title>
+    <title>ValidatableMutable - Documentation</title>
     <style>
         :root {
             --bg: #0b0f14;
@@ -48,15 +48,38 @@
             padding: 1.5rem;
         }
 
-        .sidebar h2 { color: var(--text); font-size: 1rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
+        .sidebar h2 {
+            color: var(--text);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
         .sidebar ul { list-style: none; }
         .sidebar li { margin-bottom: 0.5rem; }
-        .sidebar a { display: block; padding: 0.4rem 0.6rem; border-radius: 4px; color: var(--muted); font-size: 0.9rem; }
+
+        .sidebar a {
+            display: block;
+            padding: 0.4rem 0.6rem;
+            border-radius: 4px;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
         .sidebar a:hover { background: var(--panel2); color: var(--text); text-decoration: none; }
         .sidebar .sub-item { padding-left: 1.5rem; font-size: 0.85rem; color: var(--faint); }
 
         .search-box { margin-bottom: 1rem; }
-        .search-box input { width: 100%; padding: 0.5rem 0.75rem; background: var(--panel2); border: 2px solid var(--border); border-radius: 4px; color: var(--text); font-size: 0.9rem; }
+        .search-box input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            background: var(--panel2);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
         .search-box input:focus { outline: none; border-color: var(--accent); }
         .search-box input::placeholder { color: var(--faint); }
 
@@ -65,8 +88,16 @@
         header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
         header h1 { font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; }
         header .path { color: var(--faint); font-family: monospace; font-size: 0.9rem; }
-        header .tag { display: inline-block; margin-top: 0.5rem; margin-right: 0.5rem; padding: 0.25rem 0.75rem; background: var(--good); color: var(--bg); border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
-        header .decorator { display: inline-block; margin-top: 0.5rem; padding: 0.25rem 0.75rem; background: var(--warn); color: var(--bg); border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+        header .tag {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--good);
+            color: var(--bg);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
         header .extends { margin-top: 0.5rem; color: var(--muted); font-size: 0.9rem; }
         header .extends a { color: var(--accent2); }
 
@@ -76,7 +107,14 @@
         h4 { color: var(--muted); font-size: 1rem; margin: 1rem 0 0.5rem; }
         p { margin-bottom: 1rem; color: var(--text); }
 
-        .note { background: var(--panel2); border-left: 3px solid var(--accent); padding: 0.75rem 1rem; margin: 1rem 0; color: var(--muted); font-size: 0.9rem; }
+        .note {
+            background: var(--panel2);
+            border-left: 3px solid var(--accent);
+            padding: 0.75rem 1rem;
+            margin: 1rem 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
 
         pre { background: var(--code-bg); border: 2px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
         code { font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace; font-size: 0.9rem; color: var(--text); }
@@ -84,7 +122,16 @@
         .inline-code { background: var(--panel2); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.85rem; }
 
         .panel { background: var(--panel); border: 2px solid var(--border); border-radius: 8px; margin: 1rem 0; overflow: hidden; }
-        .panel-header { background: var(--panel2); padding: 0.75rem 1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #fff; }
+        .panel-header {
+            background: var(--panel2);
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #fff;
+        }
         .panel-header:hover { background: var(--border); }
         .panel-header:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
         .panel-header .arrow { transition: transform 0.2s; color: var(--faint); }
@@ -95,16 +142,12 @@
         .api-item { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
         .api-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
         .api-signature { background: var(--code-bg); padding: 0.75rem 1rem; border-radius: 4px; margin-bottom: 0.5rem; border-left: 3px solid var(--accent); }
-        .api-signature.inherited { border-left-color: var(--accent2); }
-        .api-signature.generated { border-left-color: var(--warn); }
+        .api-signature.mutator { border-left-color: var(--accent2); }
         .api-description { color: var(--muted); font-size: 0.95rem; padding-left: 0.5rem; }
 
         .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-right: 0.5rem; }
-        .badge-stdlib { background: var(--accent); color: var(--bg); }
         .badge-internal { background: var(--accent2); color: var(--bg); }
-        .badge-abstract { background: var(--warn); color: var(--bg); }
         .badge-inherited { background: var(--faint); color: var(--bg); }
-        .badge-generated { background: var(--warn); color: var(--bg); }
 
         .hierarchy-tree { font-family: monospace; background: var(--code-bg); padding: 1rem; border-radius: 6px; border: 2px solid var(--border); }
         .hierarchy-tree .level { padding-left: 1.5rem; position: relative; }
@@ -142,10 +185,10 @@
                 <li><a href="#purpose">Purpose</a></li>
                 <li><a href="#public-api">Public API</a></li>
                 <li class="sub-item"><a href="#api-factory">Factory</a></li>
-                <li class="sub-item"><a href="#api-key-comparison">key_comparison()</a></li>
-                <li class="sub-item"><a href="#api-lt">__lt__()</a></li>
-                <li class="sub-item"><a href="#api-generated">Generated</a></li>
-                <li class="sub-item"><a href="#api-inherited">Inherited</a></li>
+                <li class="sub-item"><a href="#api-init">__init__()</a></li>
+                <li class="sub-item"><a href="#api-set-valid">set_valid()</a></li>
+                <li class="sub-item"><a href="#api-set-invalid">set_invalid()</a></li>
+                <li class="sub-item"><a href="#api-bool">__bool__()</a></li>
                 <li><a href="#inheritance">Inheritance</a></li>
                 <li><a href="#dependencies">Dependencies</a></li>
                 <li><a href="#usage">Usage Examples</a></li>
@@ -154,26 +197,24 @@
 
         <main class="main">
             <header id="top">
-                <h1>Comparable</h1>
-                <div class="path">f_core/mixins/comparable/</div>
-                <span class="tag">MIXIN</span>
-                <span class="decorator">@total_ordering</span>
-                <div class="extends">Extends: <a href="../equatable/CLAUDE.html">Equable</a> + <a href="../../protocols/comparison/CLAUDE.html">SupportsComparison</a></div>
+                <h1>ValidatableMutable</h1>
+                <div class="path">f_core/mixins/validatable_mutable/</div>
+                <div class="tag">MIXIN</div>
+                <div class="extends">Extends: <a href="../validatable/CLAUDE.html">Validatable</a></div>
             </header>
 
             <section id="purpose">
                 <h2>Purpose</h2>
                 <p>
-                    Mixin for objects that support comparison operations. Extends
-                    <a href="../equatable/CLAUDE.html">Equable</a> and implements
-                    <a href="../../protocols/comparison/CLAUDE.html">SupportsComparison</a> protocol
-                    by delegating <code class="inline-code">&lt;</code> to a single
-                    <code class="inline-code">key_comparison()</code> method.
+                    Mixin that extends <a href="../validatable/CLAUDE.html">Validatable</a> with public methods to
+                    change the validation state at runtime. Use when an object's validity is determined or toggled
+                    after construction.
                 </p>
                 <div class="note">
-                    <code class="inline-code">@total_ordering</code> decorator automatically generates
-                    <code class="inline-code">&lt;=</code>, <code class="inline-code">&gt;</code>, <code class="inline-code">&gt;=</code>
-                    from <code class="inline-code">__lt__()</code> and <code class="inline-code">__eq__()</code>.
+                    Adds <code class="inline-code">set_valid()</code> and <code class="inline-code">set_invalid()</code>
+                    to the read-only <code class="inline-code">Validatable</code> base. Overrides the constructor
+                    to default <code class="inline-code">is_valid</code> to <code class="inline-code">None</code>.
+                    <code class="inline-code">__bool__</code> is inherited.
                 </div>
                 <a href="#top" class="back-to-top">Back to top</a>
             </section>
@@ -183,7 +224,7 @@
 
                 <div class="panel">
                     <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
-                        <span>@total_ordering class Comparable(Equable, SupportsComparison)</span>
+                        <span>class ValidatableMutable(Validatable)</span>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
@@ -195,45 +236,36 @@
                             <p class="api-description">Factory class for creating instances. Attached via <code class="inline-code">__init__.py</code>.</p>
                         </div>
 
-                        <div class="api-item" id="api-key-comparison">
-                            <h4><span class="badge badge-abstract">ABSTRACT</span> Method</h4>
+                        <div class="api-item" id="api-init">
+                            <h4>Constructor</h4>
                             <div class="api-signature">
-                                <code>@abstractmethod<br>def key_comparison(self) -> SupportsComparison</code>
+                                <code>def __init__(self, is_valid: bool | None = None) -> None</code>
                             </div>
-                            <p class="api-description">Returns the key used for all comparison operations. Must be implemented by subclasses.</p>
+                            <p class="api-description">Calls <code class="inline-code">super().__init__(is_valid=is_valid)</code>. Defaults to <code class="inline-code">None</code> (unset) if not provided.</p>
                         </div>
 
-                        <div class="api-item" id="api-lt">
-                            <h4>Dunder Method</h4>
+                        <div class="api-item" id="api-set-valid">
+                            <h4>Method</h4>
+                            <div class="api-signature mutator">
+                                <code>def set_valid(self) -> None</code>
+                            </div>
+                            <p class="api-description">Sets <code class="inline-code">_is_valid = True</code>.</p>
+                        </div>
+
+                        <div class="api-item" id="api-set-invalid">
+                            <h4>Method</h4>
+                            <div class="api-signature mutator">
+                                <code>def set_invalid(self) -> None</code>
+                            </div>
+                            <p class="api-description">Sets <code class="inline-code">_is_valid = False</code>.</p>
+                        </div>
+
+                        <div class="api-item" id="api-bool">
+                            <h4><span class="badge badge-inherited">INHERITED</span> Dunder Method</h4>
                             <div class="api-signature">
-                                <code>def __lt__(self, other: object) -> bool</code>
+                                <code>def __bool__(self) -> bool</code>
                             </div>
-                            <p class="api-description">
-                                Returns <code class="inline-code">self.key_comparison() &lt; other.key_comparison()</code>.
-                                Returns <code class="inline-code">NotImplemented</code> if <code class="inline-code">other</code> is not a <code class="inline-code">Comparable</code>.
-                            </p>
-                        </div>
-
-                        <div class="api-item" id="api-generated">
-                            <h4><span class="badge badge-generated">@total_ordering</span> Generated Methods</h4>
-                            <div class="api-signature generated">
-                                <code>def __le__(self, other: object) -> bool</code>
-                            </div>
-                            <div class="api-signature generated" style="margin-top: 0.5rem;">
-                                <code>def __gt__(self, other: object) -> bool</code>
-                            </div>
-                            <div class="api-signature generated" style="margin-top: 0.5rem;">
-                                <code>def __ge__(self, other: object) -> bool</code>
-                            </div>
-                            <p class="api-description">Automatically generated from <code class="inline-code">__lt__</code> and <code class="inline-code">__eq__</code>.</p>
-                        </div>
-
-                        <div class="api-item" id="api-inherited">
-                            <h4><span class="badge badge-inherited">INHERITED</span> From Equable</h4>
-                            <div class="api-signature inherited">
-                                <code>def __eq__(self, other: object) -> bool</code>
-                            </div>
-                            <p class="api-description">Equality via <code class="inline-code">key_comparison()</code>.</p>
+                            <p class="api-description">Inherited from <a href="../validatable/CLAUDE.html">Validatable</a>. Returns <code class="inline-code">_is_valid</code>.</p>
                         </div>
                     </div>
                 </div>
@@ -245,12 +277,9 @@
                 <h2>Inheritance (Hierarchy)</h2>
 
                 <div class="hierarchy-tree">
-                    <div class="node root"><a href="../../protocols/equality/CLAUDE.html">SupportsEquality</a> (Protocol)</div>
+                    <div class="node root"><a href="../validatable/CLAUDE.html">Validatable</a></div>
                     <div class="level">
-                        <div class="node"><a href="../equatable/CLAUDE.html">Equable</a></div>
-                        <div class="level">
-                            <div class="node">Comparable <span style="color: var(--faint);">+ <a href="../../protocols/comparison/CLAUDE.html">SupportsComparison</a></span></div>
-                        </div>
+                        <div class="node">ValidatableMutable</div>
                     </div>
                 </div>
 
@@ -258,16 +287,8 @@
                     <thead><tr><th>Base</th><th>Responsibility</th></tr></thead>
                     <tbody>
                         <tr>
-                            <td><code class="inline-code"><a href="../../protocols/equality/CLAUDE.html">SupportsEquality</a></code></td>
-                            <td>Protocol defining <code class="inline-code">__eq__</code> contract</td>
-                        </tr>
-                        <tr>
-                            <td><code class="inline-code"><a href="../equatable/CLAUDE.html">Equable</a></code></td>
-                            <td>Provides <code class="inline-code">__eq__</code> implementation via <code class="inline-code">key_comparison()</code></td>
-                        </tr>
-                        <tr>
-                            <td><code class="inline-code"><a href="../../protocols/comparison/CLAUDE.html">SupportsComparison</a></code></td>
-                            <td>Protocol defining <code class="inline-code">__lt__</code> contract</td>
+                            <td><code class="inline-code"><a href="../validatable/CLAUDE.html">Validatable</a></code></td>
+                            <td>Read-only validation state (<code class="inline-code">__bool__</code>)</td>
                         </tr>
                     </tbody>
                 </table>
@@ -278,21 +299,14 @@
             <section id="dependencies">
                 <h2>Dependencies</h2>
 
-                <h3><span class="badge badge-stdlib">STDLIB</span> Standard Library</h3>
-                <table>
-                    <thead><tr><th>Import</th><th>Used For</th></tr></thead>
-                    <tbody>
-                        <tr><td><code class="inline-code">abc.abstractmethod</code></td><td>Decorator for <code class="inline-code">key_comparison()</code></td></tr>
-                        <tr><td><code class="inline-code">functools.total_ordering</code></td><td>Generates comparison methods from <code class="inline-code">__lt__</code> and <code class="inline-code">__eq__</code></td></tr>
-                    </tbody>
-                </table>
-
                 <h3><span class="badge badge-internal">INTERNAL</span> Project Imports</h3>
                 <table>
                     <thead><tr><th>Import</th><th>Used For</th></tr></thead>
                     <tbody>
-                        <tr><td><code class="inline-code">f_core.mixins.equable.Equable</code></td><td>Base class providing equality</td></tr>
-                        <tr><td><code class="inline-code">f_core.protocols.comparison.SupportsComparison</code></td><td>Protocol this class implements</td></tr>
+                        <tr>
+                            <td><code class="inline-code">f_core.mixins.validatable.main.Validatable</code></td>
+                            <td>Base class providing <code class="inline-code">__bool__</code></td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -304,31 +318,29 @@
 
                 <div class="panel">
                     <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
-                        <span>Example 1: Custom Implementation</span>
+                        <span>Example 1: Mixin in a Custom Class</span>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
-                        <pre><code>from f_core.mixins.comparable import Comparable
+                        <pre><code>from f_core.mixins.validatable_mutable import ValidatableMutable
 
 
-class Score(Comparable):
-    def __init__(self, points: int):
-        self.points = points
+class Cell(ValidatableMutable):
+    def __init__(self, row: int, col: int):
+        ValidatableMutable.__init__(self, is_valid=True)
+        self.row = row
+        self.col = col
 
-    def key_comparison(self) -> int:
-        return self.points
 
+cell = Cell(0, 0)
+if cell:             # True
+    visit(cell)
 
-s1 = Score(100)
-s2 = Score(150)
+cell.set_invalid()   # Mark as obstacle
+if not cell:         # Now False
+    skip(cell)
 
-s1 < s2   # True
-s2 > s1   # True
-s1 <= s1  # True
-s1 == Score(100)  # True (from Equable)
-
-# Sorting works
-sorted([Score(50), Score(100), Score(75)])  # [Score(50), Score(75), Score(100)]</code></pre>
+cell.set_valid()     # Reopen</code></pre>
                     </div>
                 </div>
 
@@ -338,15 +350,14 @@ sorted([Score(50), Score(100), Score(75)])  # [Score(50), Score(75), Score(100)]
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
-                        <pre><code>from f_core.mixins.comparable import Comparable
+                        <pre><code>from f_core.mixins.validatable_mutable import ValidatableMutable
 
-a = Comparable.Factory.a()  # Char('A')
-b = Comparable.Factory.b()  # Char('B')
+obj = ValidatableMutable.Factory.valid()
+assert obj
 
-a < b   # True
-a == a  # True
-b > a   # True</code></pre>
-                        <p style="margin-top: 1rem; color: var(--muted);"><em>From <code class="inline-code">_tester.py</code></em></p>
+obj.set_invalid()
+assert not obj</code></pre>
+                        <p style="margin-top: 1rem; color: var(--muted);"><em>From <code class="inline-code">_factory.py</code> / <code class="inline-code">_tester.py</code></em></p>
                     </div>
                 </div>
 
@@ -355,7 +366,7 @@ b > a   # True</code></pre>
 
             <footer>
                 <p>Generated: <span id="timestamp"></span></p>
-                <p>Scope: f_core.mixins.comparable package documentation</p>
+                <p>Scope: f_core.mixins.validatable_mutable package documentation</p>
             </footer>
         </main>
     </div>

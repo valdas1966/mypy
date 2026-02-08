@@ -2,9 +2,8 @@ from f_search.algos.i_0_base import AlgoSearch
 from f_search.problems import ProblemSearch
 from f_search.solutions import SolutionSearch
 from f_search.ds.data import DataBestFirst
-from f_search.ds.frontier import FrontierBase as Frontier
 from f_search.ds.state import StateBase
-from typing import Generic, TypeVar, Callable
+from typing import Generic, TypeVar
 from abc import abstractmethod
 
 State = TypeVar('State', bound=StateBase)
@@ -22,8 +21,7 @@ class AlgoBestFirst(Generic[Problem, Solution, State, Data],
 
     def __init__(self,
                  problem: Problem,
-                 make_frontier: Callable[[], Frontier[State]],
-                 make_data: Callable[[], Data],
+                 data: Data,
                  name: str = 'AlgoBestFirst') -> None:
         """
         ========================================================================
@@ -31,8 +29,7 @@ class AlgoBestFirst(Generic[Problem, Solution, State, Data],
         ========================================================================
         """
         super().__init__(problem=problem, name=name)
-        frontier = make_frontier()
-        self._data = make_data(frontier=frontier)
+        self._data = data
 
     def _should_continue(self) -> bool:
         """

@@ -2,6 +2,7 @@ from f_search.algos.i_1_spp import AStar
 from f_search.problems import ProblemOMSPP, ProblemSPP
 from f_search.solutions import SolutionSPP, SolutionOMSPP
 from f_search.algos.i_2_omspp.i_0_base import AlgoOMSPP
+from f_search.stats import StatsSearch as Stats
 
 
 class AStarRepeated(AlgoOMSPP):
@@ -16,7 +17,7 @@ class AStarRepeated(AlgoOMSPP):
     """
 
     # Factory
-    Factory: type = None
+    Factory: type | None = None
 
     def __init__(self,
                  problem: ProblemOMSPP,
@@ -30,14 +31,13 @@ class AStarRepeated(AlgoOMSPP):
                            problem=problem,
                            name=name)
 
-    def run(self) -> SolutionOMSPP:
+    def _run(self) -> None:
         """
         ========================================================================
-         Run the Algorithm and return the Solution.
+         Run the AStarRepeated Algorithm.
         ========================================================================
         """
-        self._run_pre()
-        sub_problems: list[ProblemSPP] = self._problem.to_spps()
+        sub_problems: list[ProblemSPP] = self.problem.to_spps()
         n_problems = len(sub_problems)
         for i, sub_problem in enumerate(sub_problems):
             if sub_problem.goal not in self._goals_active:
@@ -45,19 +45,33 @@ class AStarRepeated(AlgoOMSPP):
             # Run the sub-search.
             name_astar = f'AStar {i+1}/{n_problems}'
             astar = AStar(problem=sub_problem,
-                          name=name_astar)
+                               name=name_astar)
             solution = astar.run()
-            self._sub_solutions[sub_problem.goal] = solution
+            if not solution:
+                return
             self._goals_active.remove(sub_problem.goal)
             # Add a solution for the goals that are explored in current A*.
             for goal in self._goals_active:
                 if goal in astar._data.explored:
                     path = astar._data.path_to(state=goal)
-                    solution = SolutionSPP(is_valid=True, path=path)
-                    self._sub_solutions[goal] = solution
+                    problem_by_the_way = ProblemSPP(grid=sub_problem.grid,
+                                         start=sub_problem.start,
+                                         goal=goal)
+                    solution_by_the_way = SolutionSPP(problem=problem_by_the_way,
+                                           is_valid=True,
+                                           path=path,
+                                           stats=Stats())
+                    self._sub_solutions.append(solution_by_the_way)
                     self._goals_active.remove(goal)
-            if not solution:
-                # If any sub-problem is invalid, the overall solution is invalid
-                break
-        # Return solution (valid or invalid)
-        return self._create_solution()
+            self._sub_solutions.append(solution)
+        
+    def _run_post(self) -> None:
+        """
+        ========================================================================
+         Run Post-Processing.
+        ========================================================================
+        """
+        super()._run_post()
+        self._output = SolutionOMSPP(problem=self.problem,
+                                     subs=self._sub_solutions,
+                                     elapsed=self._elapsed)

@@ -1,9 +1,9 @@
-from f_core.mixins.validatable import Validatable
+from f_core.mixins import ValidatableMutable
 from f_core.mixins.has import HasName
 from time import time
 
 
-class ProcessABC(HasName, Validatable):
+class ProcessABC(HasName, ValidatableMutable):
     """
     ============================================================================
      ABC of Process-Classes.
@@ -20,7 +20,7 @@ class ProcessABC(HasName, Validatable):
         ========================================================================
         """
         HasName.__init__(self, name=name)
-        Validatable.__init__(self)
+        ValidatableMutable.__init__(self)
         # Init Time Attributes
         self._elapsed: int = None
         self._time_start: float = None

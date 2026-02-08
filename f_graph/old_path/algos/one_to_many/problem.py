@@ -1,10 +1,10 @@
 from f_graph.old_path.core.problem import ProblemPath, Graph, Node
 from f_graph.old_path.algos.one_to_one.problem import ProblemOneToOne
-from f_core.mixins.equable.main import Equable
+from f_core.mixins.equatable.main import Equatable
 from typing import Iterable
 
 
-class ProblemOneToMany(ProblemPath, Equable):
+class ProblemOneToMany(ProblemPath, Equatable):
     """
     ===========================================================================
      Problem for One-To-Many Pathfinding.

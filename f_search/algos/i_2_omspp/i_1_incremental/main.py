@@ -4,7 +4,7 @@ from f_search.algos.i_2_omspp.i_0_base.main import (AlgoOMSPP, ProblemOMSPP,
                                                     SolutionOMSPP, State)
 
 
-class IncrementalOMSPP(AlgoOMSPP):
+class AlgoIncremental(AlgoOMSPP):
     """
     ============================================================================
      Iterative Algorithm for One-to-Many Shortest-Path-Problem.
@@ -14,7 +14,7 @@ class IncrementalOMSPP(AlgoOMSPP):
     def __init__(self,
                  problem: ProblemOMSPP,
                  type_algo: type[AlgoSPP],
-                 name: str = 'IterativeOMSPP') -> None:
+                 name: str = 'AlgoIncremental') -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -23,13 +23,12 @@ class IncrementalOMSPP(AlgoOMSPP):
         super().__init__(problem=problem, name=name)
         self._type_algo = type_algo
         
-    def run(self) -> SolutionOMSPP:
+    def _run(self) -> None:
         """
         ========================================================================
-         Run the Algorithm and return the Solution.
+         Run the Algorithm.
         ========================================================================
-        """
-        self._run_pre()       
+        """       
         data = DataSearch()
         sub_problems: list[ProblemSPP] = self._problem.to_spps()
         n_problems = len(sub_problems)

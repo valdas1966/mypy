@@ -1,5 +1,5 @@
 from typing import Any
-from f_core.mixins.validatable import Validatable
+from f_core.mixins.validatable.main import Validatable
 from f_http.status.status import Status
 
 

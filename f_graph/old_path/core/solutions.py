@@ -3,7 +3,7 @@ from f_hs.ds.path import Path
 from f_graph.old_path.core.stats import StatsPath
 from f_hs.ds._old_node import NodePath as Node
 from f_core.mixins.dictable.main import Dictable
-from f_core.mixins.validatable import Validatable
+from f_core.mixins.validatable.main import Validatable
 from f_graph.old_path.algos.one_to_one.solution import SolutionOneToOne
 from f_graph.old_path.algos.one_to_one.state import StateOneToOne as State
 

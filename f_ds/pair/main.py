@@ -1,10 +1,10 @@
-from f_core.mixins.equable.main import Equable
+from f_core.mixins.equatable.main import Equatable
 from typing import Generic, TypeVar
 
 Item = TypeVar('Item')
 
 
-class Pair(Generic[Item], Equable):
+class Pair(Generic[Item], Equatable):
     """
     ============================================================================
      1. Pair of two items.
