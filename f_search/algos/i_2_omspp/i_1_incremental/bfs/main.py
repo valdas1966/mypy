@@ -1,4 +1,4 @@
-from f_search.algos import AlgoOMSPP
+from f_search.algos.i_2_omspp import AlgoOMSPP
 from f_search.problems import ProblemOMSPP
 from f_search.ds.state import StateBase
 from f_search.ds.data import DataBestFirst

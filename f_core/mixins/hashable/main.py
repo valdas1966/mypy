@@ -1,4 +1,3 @@
-from f_core.protocols.equality import SupportsEquality
 from f_core.mixins.equatable import Equatable
 
 

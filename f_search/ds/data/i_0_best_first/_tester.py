@@ -1,5 +1,6 @@
 from f_search.ds.data.i_0_best_first.main import DataBestFirst
 from f_search.ds.state.i_0_base.main import StateBase as State
+from f_ds.grids.cell.i_1_map import CellMap as Cell
 
 
 def test_path_to() -> None:
@@ -21,6 +22,17 @@ def test_path_to() -> None:
     path_a = [state_a]
     path_ab = [state_a, state_b]
     path_abc = [state_a, state_b, state_c]
-    assert data.path_to(state_a) == path_a
-    assert data.path_to(state_b) == path_ab
-    assert data.path_to(state_c) == path_abc
+    assert data.path_to(state_a).key_comparison() == path_a
+    assert data.path_to(state_b).key_comparison() == path_ab
+    assert data.path_to(state_c).key_comparison() == path_abc
+
+
+def test_cell_00() -> None: 
+    """
+    ========================================================================
+     Test the DataBestFirst.cell_00() method.
+    ========================================================================
+    """
+    data = DataBestFirst.Factory.cell_00()
+    assert len(data.frontier) == 2
+    assert len(data.explored) == 1

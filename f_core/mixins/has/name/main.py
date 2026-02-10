@@ -1,18 +1,19 @@
 from __future__ import annotations
+from f_core.mixins.hashable import Hashable
 from f_core.mixins.comparable import Comparable
 
 
-class HasName(Comparable):
+class HasName(Comparable, Hashable):
     """
     ============================================================================
-     Mixin with list Name property (Default=None).
+     Mixin with Name property (Default='None').
     ============================================================================
     """
 
     # Factory
-    Factory = None
+    Factory: type | None = None
 
-    def __init__(self, name: str = None) -> None:
+    def __init__(self, name: str = 'None') -> None:
         """
         ========================================================================
          Init private attributes.
@@ -24,15 +25,6 @@ class HasName(Comparable):
     # Object's Name
     def name(self) -> str:
         return self._name
-
-    @name.setter
-    def name(self, name: str) -> None:
-        """
-        ========================================================================
-         Set the Object's Name.
-        ========================================================================
-        """
-        self._name = name
 
     def key_comparison(self) -> str:
         """
@@ -48,20 +40,12 @@ class HasName(Comparable):
          Return object string representation.
         ========================================================================
         """
-        return self.name or 'None'
+        return self.name
 
     def __repr__(self) -> str:
         """
         ========================================================================
-         Return object string representation.
+         Return object representation.
         ========================================================================
         """
         return f'<{type(self).__name__}: Name={self.name}>'
-
-    def __hash__(self) -> int:
-        """
-        ========================================================================
-         Return Hash-Value of the object's name.
-        ========================================================================
-        """
-        return hash(self.name)

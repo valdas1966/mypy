@@ -9,10 +9,8 @@ def test_str() -> None:
     """
     a = HasName.Factory.a()
     assert str(a) == 'A'
-    empty = HasName.Factory.empty()
+    empty = HasName()
     assert str(empty) == 'None'
-    none = HasName.Factory.none()
-    assert str(none) == 'None'
 
 
 def test_key_comparison() -> None:
@@ -22,7 +20,21 @@ def test_key_comparison() -> None:
     =======================================================================
     """
     a = HasName.Factory.a()
-    empty = HasName.Factory.empty()
-    none = HasName.Factory.none()
-    assert empty < a
-    assert empty == none
+    b = HasName.Factory.b()
+    assert HasName.Factory.a() == HasName.Factory.a()
+    assert a < b
+    assert {a, a, b} == {a, b}
+
+
+def test_repr() -> None:
+    """
+    =======================================================================
+     Test the repr() function.
+    =======================================================================
+    """
+    a = HasName.Factory.a()
+    assert repr(a) == '<HasName: Name=A>'
+    class Test(HasName):
+        pass
+    t = Test(name='T')
+    assert repr(t) == '<Test: Name=T>'

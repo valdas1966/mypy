@@ -16,12 +16,21 @@ class DataBestFirst(Generic[State]):
     # Factory
     Factory: type = None
     
-    def __init__(self, frontier: Frontier[State]) -> None:
+    def __init__(self,
+                 frontier: Frontier[State],
+                 explored: set[State] = None,
+                 dict_g: dict[State, int] = None,
+                 dict_parent: dict[State, State] = None) -> None:
+        """
+        =============================================================
+         Init private Attributes.
+        =============================================================
+        """
         self.frontier = frontier
-        self.explored: set[State] = set()
-        self.best: State = None
-        self.dict_g: dict[State, int] = dict()
-        self.dict_parent: dict[State, State] = dict()
+        self.explored = explored if explored else set()
+        self.dict_g = dict_g if dict_g else dict()
+        self.dict_parent= dict_parent if dict_parent else dict()
+        self.best: State | None = None
 
     def set_best_to_be_parent_of(self, state: State) -> None:
         """

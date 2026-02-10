@@ -16,21 +16,12 @@ class Factory:
         =======================================================================
         """
         return HasName(name='A')
-    
+
     @staticmethod
-    def empty() -> HasName:
+    def b() -> HasName:
         """
         =======================================================================
-         Return HasName object with empty name.
+         Return HasName object with name 'B'.
         =======================================================================
         """
-        return HasName(name=str())
-    
-    @staticmethod
-    def none() -> HasName:
-        """
-        =======================================================================
-         Return HasName object with None name.
-        =======================================================================
-        """
-        return HasName()
+        return HasName(name='B')

@@ -4,7 +4,7 @@ from f_math.shapes.i_0_shape import Shape
 T = TypeVar('T', int, float)
 
 
-class Rect(Generic[T], Shape):
+class Rect(Shape, Generic[T]):
     """
     ============================================================================
      1. Component Class to store Rect values (Top, Left, Width, Height).
@@ -29,7 +29,7 @@ class Rect(Generic[T], Shape):
          Init private Attributes.
         ========================================================================
         """
-        Shape.__init__(self, name=name)
+        super().__init__(name=name)
         self._top: T = top
         self._left: T = left
         self._width: T = width

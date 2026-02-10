@@ -16,7 +16,7 @@ class Factory:
          Return a new StateBase with the key 'A'.
         ========================================================================
         """
-        return StateBase[str](key='A', name='A')
+        return StateBase[str](key='A')
 
     @staticmethod
     def b() -> StateBase[str]:
@@ -25,7 +25,7 @@ class Factory:
          Return a new StateBase with the key 'B'.
         ========================================================================
         """
-        return StateBase[str](key='B', name='B')
+        return StateBase[str](key='B')
 
     @staticmethod
     def c() -> StateBase[str]:
@@ -34,4 +34,4 @@ class Factory:
          Return a new StateBase with the key 'C'.
         ========================================================================
         """
-        return StateBase[str](key='C', name='C')
+        return StateBase[str](key='C')

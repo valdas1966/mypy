@@ -1,21 +1,18 @@
-from f_ds.grids.cell.i_0_base.main import CellBase
+from typing import Protocol, Generic, TypeVar
+
+T = TypeVar('T', int, float)
 
 
-def test_str() -> None:
+class SupportsBounds(Protocol, Generic[T]):
     """
     ========================================================================
-     Test the __str__() method.
+     Protocol for objects that have bounds.
     ========================================================================
     """
-    cell = CellBase.Factory.zero()
-    assert str(cell) == 'Zero(0,0)'
 
-
-def test_repr() -> None:
+    def bounds(self) -> tuple[T, T, T, T]: ...
     """
     ========================================================================
-     Test the __repr__() method.
+     Return the bounds of the object as a tuple (top, left, bottom, right).
     ========================================================================
     """
-    cell = CellBase.Factory.zero()
-    assert repr(cell) == '<CellBase: Name=Zero, Row=0, Col=0>'

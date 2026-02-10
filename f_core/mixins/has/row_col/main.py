@@ -1,13 +1,13 @@
 from __future__ import annotations
 from f_core.mixins.comparable import Comparable
-from f_core.mixins.printable import Printable
+from f_core.mixins.hashable import Hashable
 from typing import Self, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from f_math.shapes import Rect
 
 
-class HasRowCol(Comparable, Printable):
+class HasRowCol(Comparable, Hashable):
     """
     ============================================================================
      Mixin for classes with Row and Col properties.
@@ -18,16 +18,14 @@ class HasRowCol(Comparable, Printable):
     Factory = None
 
     def __init__(self,
-                 row: int = None,
-                 col: int = None) -> None:
+                 row: int | None = None,
+                 col: int | None = None) -> None:
         """
         ========================================================================
          1. Inits the Object with received Row and Col arguments.
          2. If the Col is None, it takes the value of Row.
         ========================================================================
         """
-        Comparable.__init__(self)
-        Printable.__init__(self)
         self._row = row if row is not None else 0
         self._col = col if col is not None else self._row
 
@@ -108,11 +106,3 @@ class HasRowCol(Comparable, Printable):
         ========================================================================
         """
         return f'({self._row},{self._col})'
-
-    def __hash__(self) -> int:
-        """
-        ========================================================================
-         Return Hash-Value by (Row, Col).
-        ========================================================================
-        """
-        return hash((self.row, self.col))

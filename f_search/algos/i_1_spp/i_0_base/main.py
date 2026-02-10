@@ -36,7 +36,7 @@ class AlgoSPP(Generic[State, Data],
          Run the Algorithm and return the Solution.
         ========================================================================
         """
-        if not self.data.frontier:
+        if not self._data.frontier:
             self._discover(state=self.problem.start)
         while self._should_continue():
             self._select_best()

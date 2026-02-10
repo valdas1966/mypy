@@ -17,7 +17,7 @@ class Factory:
         ========================================================================
         """
         cell = Cell(0, 0)
-        return StateCell(key=cell, name='Zero')
+        return StateCell(key=cell)
 
     @staticmethod
     def one() -> StateCell:
@@ -27,7 +27,7 @@ class Factory:
         ========================================================================
         """
         cell = Cell(1, 1)
-        return StateCell(key=cell, name='One')
+        return StateCell(key=cell)
 
     @staticmethod
     def two() -> StateCell:
@@ -37,7 +37,7 @@ class Factory:
         ========================================================================
         """
         cell = Cell(2, 2)
-        return StateCell(key=cell, name='Two')
+        return StateCell(key=cell)
     
     @staticmethod
     def million() -> StateCell:
@@ -47,4 +47,24 @@ class Factory:
         ========================================================================
         """
         cell = Cell.Factory.million()
-        return StateCell(key=cell, name='Million')
+        return StateCell(key=cell)
+
+    @staticmethod
+    def cell_01() -> StateCell:
+        """
+        ========================================================================
+         Return a new StateCell with the cell (0, 1).
+        ========================================================================
+        """
+        cell = Cell(0, 1)
+        return StateCell(key=cell)
+
+    @staticmethod
+    def cell_10() -> StateCell:
+        """
+        ========================================================================
+         Return a new StateCell with the cell (1, 0).
+        ========================================================================
+        """
+        cell = Cell(1, 0)
+        return StateCell(key=cell)
