@@ -27,13 +27,14 @@ class CellBase(HasRowCol, HasName):
         HasRowCol.__init__(self, row=row, col=col)
         HasName.__init__(self, name=name)
 
-    def key_comparison(self) -> tuple[int, int]:
+    @property
+    def key(self) -> tuple[int, int]:
         """
         ========================================================================
          Return the key for comparison between two CellBase objects.
         ========================================================================
         """
-        return HasRowCol.key_comparison(self)
+        return HasRowCol.key.fget(self)
 
     def __str__(self) -> str:
         """

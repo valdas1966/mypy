@@ -22,9 +22,9 @@ def test_path_to() -> None:
     path_a = [state_a]
     path_ab = [state_a, state_b]
     path_abc = [state_a, state_b, state_c]
-    assert data.path_to(state_a).key_comparison() == path_a
-    assert data.path_to(state_b).key_comparison() == path_ab
-    assert data.path_to(state_c).key_comparison() == path_abc
+    assert data.path_to(state_a).key() == path_a
+    assert data.path_to(state_b).key() == path_ab
+    assert data.path_to(state_c).key() == path_abc
 
 
 def test_cell_00() -> None: 

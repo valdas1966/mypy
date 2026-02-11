@@ -111,13 +111,13 @@ class Group(HasName, UserList[Item]):
         for item in self.data:
             print(item)
 
-    def key_comparison(self) -> list:
+    def key(self) -> list:
         """
         ========================================================================
          Compare first by the name of the Group, and second by its Data.
         ========================================================================
         """
-        return [HasName.key_comparison(self), self.data]
+        return [HasName.key(self), self.data]
 
     def __iadd__(self, other: list[Item]) -> Group[Item]:
         """

@@ -62,7 +62,7 @@ class ProblemOneToMany(ProblemPath, Equatable):
         goals = set(graph.nodes_by_keys(key=goal.key) for goal in self.goals)
         return ProblemOneToMany(graph=graph, start=start, goals=goals)  
     
-    def key_comparison(self) -> tuple[Graph, Node, set[Node]]:
+    def key(self) -> tuple[Graph, Node, set[Node]]:
         """
         ========================================================================
          Compare by a Tuple of (Graph, Start, Goals).

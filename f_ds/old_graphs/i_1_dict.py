@@ -69,7 +69,7 @@ class GraphDict(Generic[Node], GraphBase[Node], Equatable):
                          type_node=type(self._nodes[keys[0]]),
                          name=self.name)
 
-    def key_comparison(self) -> dict:
+    def key(self) -> dict:
         """
         ========================================================================
          Compare by a Dict of Nodes.

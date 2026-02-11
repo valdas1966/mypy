@@ -1,4 +1,5 @@
-from f_search.problems.i_0_base.main import ProblemSearch, StateBase
+from f_search.problems.i_0_base.main import ProblemSearch
+from f_search.ds.state import StateBase
 
 
 def test_successors() -> None:

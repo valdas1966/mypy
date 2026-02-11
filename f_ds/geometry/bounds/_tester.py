@@ -1,32 +1,31 @@
-from f_ds.grids.cell.i_0_base.main import CellBase
+from f_ds.geometry.bounds.main import Bounds
+
+
+def test_full() -> None:
+    """
+    ========================================================================
+     Test the full bounds.
+    ========================================================================
+    """
+    bounds = Bounds.Factory.full()
+    assert bounds.to_tuple() == (0, 0, 100, 100)
 
 
 def test_str() -> None:
     """
     ========================================================================
-     Test the __str__() method.
+     Test the string representation of the bounds.
     ========================================================================
     """
-    cell = CellBase.Factory.zero()
-    assert str(cell) == 'Zero(0,0)'
+    bounds = Bounds.Factory.full()
+    assert str(bounds) == '(0, 0, 100, 100)'
 
 
 def test_repr() -> None:
     """
     ========================================================================
-     Test the __repr__() method.
+     Test the key comparison of the bounds.
     ========================================================================
     """
-    cell = CellBase.Factory.zero()
-    assert repr(cell) == '<CellBase: Name=Zero, Row=0, Col=0>'
-
-
-def test_neighbors() -> None:
-    """
-    ========================================================================
-     Test the neighbors() method.
-    ========================================================================
-    """
-    cell = CellBase.Factory.zero()
-    neighbors = cell.neighbors()
-    assert len(neighbors) == 2
+    bounds = Bounds.Factory.full()
+    assert repr(bounds) == '<Bounds: top=0, left=0, bottom=100, right=100>'

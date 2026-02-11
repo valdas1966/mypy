@@ -4,7 +4,7 @@ from f_core.protocols.equable import Equable as ProtocolEquable
 
 class C(Equatable):
 
-    def key_comparison(self) -> ProtocolEquable:
+    def key(self) -> ProtocolEquable:
         return 1, 1
 
 

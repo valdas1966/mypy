@@ -27,13 +27,17 @@ class PriorityGHFlags(PriorityGH[Key]):
         self._is_cached = is_cached
         self._is_bounded = is_bounded
 
-    def key_comparison(self) -> tuple[int, bool, bool, int, Key]:
+    @property
+    def key(self) -> tuple[int, bool, bool, tuple[int, Key]]:
         """
         ========================================================================
          Return the Key of the State.
         ========================================================================
         """
-        return self._g + self._h, not self._is_cached, not self._is_bounded, PriorityG.key_comparison(self)
+        return (self._g + self._h,
+                not self._is_cached,
+                not self._is_bounded,
+                PriorityG.key.fget(self))
 
     def __repr__(self) -> str:
         """

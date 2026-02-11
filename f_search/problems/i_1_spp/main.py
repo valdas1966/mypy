@@ -27,11 +27,3 @@ class ProblemSPP(ProblemSearch, HasStart, HasGoal):
         ProblemSearch.__init__(self, grid=grid, name=name)
         HasStart.__init__(self, start=start)
         HasGoal.__init__(self, goal=goal)
-
-    def __str__(self) -> str:
-        """
-        ========================================================================
-         Return the STR-REPR of the ProblemSPP.
-        ========================================================================
-        """
-        return f'{self.name}(Grid={str(self.grid)}, Start={str(self.start)}, Goal={str(self.goal)})'

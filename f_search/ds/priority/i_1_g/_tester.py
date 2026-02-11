@@ -12,3 +12,6 @@ def test_key_comparison() -> None:
     assert priority_b < priority_a
     priority_c = PriorityG.Factory.c()
     assert priority_b < priority_c
+    assert repr(priority_a) == "<PriorityG: key=(0, 'A'), g=0>"
+    assert repr(priority_b) == "<PriorityG: key=(-1, 'B'), g=1>"
+    assert repr(priority_c) == "<PriorityG: key=(-1, 'C'), g=1>"

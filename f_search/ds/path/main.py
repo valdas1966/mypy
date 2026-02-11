@@ -56,7 +56,7 @@ class Path(Collectionable[StateBase],
         rev = reversed(self._states)
         return type(self)(states=list(rev))
 
-    def key_comparison(self) -> list[StateBase]:
+    def key(self) -> list[StateBase]:
         """
         ========================================================================
          Return the key comparison of the Path.

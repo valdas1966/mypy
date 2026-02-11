@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comparable - Documentation</title>
+    <title>Hashable - Documentation</title>
     <style>
         :root {
             --bg: #0b0f14;
@@ -67,8 +67,7 @@
         header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
         header h1 { font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; }
         header .path { color: var(--faint); font-family: monospace; font-size: 0.9rem; }
-        header .tag { display: inline-block; margin-top: 0.5rem; margin-right: 0.5rem; padding: 0.25rem 0.75rem; background: var(--good); color: var(--bg); border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
-        header .decorator { display: inline-block; margin-top: 0.5rem; padding: 0.25rem 0.75rem; background: var(--warn); color: var(--bg); border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+        header .tag { display: inline-block; margin-top: 0.5rem; padding: 0.25rem 0.75rem; background: var(--good); color: var(--bg); border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
         header .extends { margin-top: 0.5rem; color: var(--muted); font-size: 0.9rem; }
         header .extends a { color: var(--accent2); }
 
@@ -98,15 +97,12 @@
         .api-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
         .api-signature { background: var(--code-bg); padding: 0.75rem 1rem; border-radius: 4px; margin-bottom: 0.5rem; border-left: 3px solid var(--accent); }
         .api-signature.inherited { border-left-color: var(--accent2); }
-        .api-signature.generated { border-left-color: var(--warn); }
         .api-description { color: var(--muted); font-size: 0.95rem; padding-left: 0.5rem; }
 
         .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-right: 0.5rem; }
         .badge-stdlib { background: var(--accent); color: var(--bg); }
         .badge-internal { background: var(--accent2); color: var(--bg); }
-        .badge-abstract { background: var(--warn); color: var(--bg); }
         .badge-inherited { background: var(--faint); color: var(--bg); }
-        .badge-generated { background: var(--warn); color: var(--bg); }
 
         .hierarchy-tree { font-family: monospace; background: var(--code-bg); padding: 1rem; border-radius: 6px; border: 2px solid var(--border); }
         .hierarchy-tree .level { padding-left: 1.5rem; position: relative; }
@@ -144,40 +140,37 @@
                 <li><a href="#purpose">Purpose</a></li>
                 <li><a href="#public-api">Public API</a></li>
                 <li class="sub-item"><a href="#api-factory">Factory</a></li>
-                <li class="sub-item"><a href="#api-key">key()</a></li>
-                <li class="sub-item"><a href="#api-lt">__lt__()</a></li>
-                <li class="sub-item"><a href="#api-generated">Generated</a></li>
+                <li class="sub-item"><a href="#api-hash">__hash__()</a></li>
                 <li class="sub-item"><a href="#api-inherited">Inherited</a></li>
                 <li><a href="#inheritance">Inheritance</a></li>
                 <li><a href="#dependencies">Dependencies</a></li>
                 <li><a href="#usage">Usage Examples</a></li>
                 <li class="sep"><a href="../equatable/CLAUDE.html">Equatable Docs</a></li>
-                <li class="sep" style="border:none;"><a href="../hashable/CLAUDE.html">Hashable Docs</a></li>
+                <li class="sep" style="border:none;"><a href="../comparable/claude.html">Comparable Docs</a></li>
             </ul>
         </nav>
 
         <main class="main">
             <header id="top">
-                <h1>Comparable</h1>
-                <div class="path">f_core/mixins/comparable/</div>
-                <span class="tag">MIXIN</span>
-                <span class="decorator">@total_ordering</span>
-                <div class="extends">Extends: <a href="../equatable/CLAUDE.html">Equatable</a> + <a href="../../protocols/comparison/CLAUDE.html">SupportsComparison</a></div>
+                <h1>Hashable</h1>
+                <div class="path">f_core/mixins/hashable/</div>
+                <div class="tag">MIXIN</div>
+                <div class="extends">Extends: <a href="../equatable/CLAUDE.html">Equatable</a></div>
             </header>
 
             <section id="purpose">
                 <h2>Purpose</h2>
                 <p>
-                    Mixin for objects that support comparison operations. Extends
+                    Mixin for objects that support hashing. Extends
                     <a href="../equatable/CLAUDE.html">Equatable</a> and implements
-                    <a href="../../protocols/comparison/CLAUDE.html">SupportsComparison</a> protocol
-                    by delegating <code class="inline-code">&lt;</code> to a single abstract
+                    <code class="inline-code">__hash__</code> by delegating to the inherited
                     <code class="inline-code">key()</code> method.
                 </p>
                 <div class="note">
-                    <code class="inline-code">@total_ordering</code> decorator automatically generates
-                    <code class="inline-code">&lt;=</code>, <code class="inline-code">&gt;</code>, <code class="inline-code">&gt;=</code>
-                    from <code class="inline-code">__lt__()</code> and <code class="inline-code">__eq__()</code>.
+                    Maintains the Python invariant: <code class="inline-code">a == b</code> implies
+                    <code class="inline-code">hash(a) == hash(b)</code>, since both
+                    <code class="inline-code">__eq__</code> and <code class="inline-code">__hash__</code>
+                    delegate to the same <code class="inline-code">key()</code> value.
                 </div>
                 <a href="#top" class="back-to-top">Back to top</a>
             </section>
@@ -187,7 +180,7 @@
 
                 <div class="panel">
                     <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
-                        <span>@total_ordering class Comparable(Equatable, SupportsComparison)</span>
+                        <span>class Hashable(Equatable)</span>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
@@ -199,44 +192,25 @@
                             <p class="api-description">Factory class for creating test instances. Attached via <code class="inline-code">__init__.py</code>.</p>
                         </div>
 
-                        <div class="api-item" id="api-key">
-                            <h4><span class="badge badge-abstract">ABSTRACT</span> Method</h4>
-                            <div class="api-signature">
-                                <code>@abstractmethod<br>def key(self) -> SupportsComparison</code>
-                            </div>
-                            <p class="api-description">
-                                Returns the value that represents this object for comparison, equality, and (via Hashable) hashing.
-                            </p>
-                        </div>
-
-                        <div class="api-item" id="api-lt">
+                        <div class="api-item" id="api-hash">
                             <h4>Dunder Method</h4>
                             <div class="api-signature">
-                                <code>def __lt__(self, other: object) -> bool</code>
+                                <code>def __hash__(self) -> int</code>
                             </div>
                             <p class="api-description">
-                                Returns <code class="inline-code">self.key() &lt; other.key()</code>.
-                                Returns <code class="inline-code">NotImplemented</code> if <code class="inline-code">other</code> is not a <code class="inline-code">Comparable</code>.
+                                Returns <code class="inline-code">hash(self.key())</code>.
+                                The <code class="inline-code">key()</code> value must be hashable (immutable).
                             </p>
-                        </div>
-
-                        <div class="api-item" id="api-generated">
-                            <h4><span class="badge badge-generated">@total_ordering</span> Generated Methods</h4>
-                            <div class="api-signature generated">
-                                <code>def __le__(self, other: object) -> bool</code>
-                            </div>
-                            <div class="api-signature generated" style="margin-top: 0.5rem;">
-                                <code>def __gt__(self, other: object) -> bool</code>
-                            </div>
-                            <div class="api-signature generated" style="margin-top: 0.5rem;">
-                                <code>def __ge__(self, other: object) -> bool</code>
-                            </div>
-                            <p class="api-description">Automatically generated from <code class="inline-code">__lt__</code> and <code class="inline-code">__eq__</code>.</p>
                         </div>
 
                         <div class="api-item" id="api-inherited">
                             <h4><span class="badge badge-inherited">INHERITED</span> From Equatable</h4>
                             <div class="api-signature inherited">
+                                <code>@abstractmethod<br>def key(self) -> SupportsEquality</code>
+                            </div>
+                            <p class="api-description">Abstract &mdash; must be implemented by subclasses. Drives both <code class="inline-code">__eq__</code> and <code class="inline-code">__hash__</code>.</p>
+
+                            <div class="api-signature inherited" style="margin-top: 0.75rem;">
                                 <code>def __eq__(self, other: object) -> bool</code>
                             </div>
                             <p class="api-description">Equality via <code class="inline-code">key()</code>.</p>
@@ -255,7 +229,7 @@
                     <div class="level">
                         <div class="node"><a href="../equatable/CLAUDE.html">Equatable</a></div>
                         <div class="level">
-                            <div class="node"><strong>Comparable</strong> <span style="color: var(--faint);">+ <a href="../../protocols/comparison/CLAUDE.html">SupportsComparison</a></span></div>
+                            <div class="node"><strong>Hashable</strong></div>
                         </div>
                     </div>
                 </div>
@@ -269,11 +243,7 @@
                         </tr>
                         <tr>
                             <td><code class="inline-code"><a href="../equatable/CLAUDE.html">Equatable</a></code></td>
-                            <td>Provides <code class="inline-code">__eq__</code> implementation via <code class="inline-code">key()</code></td>
-                        </tr>
-                        <tr>
-                            <td><code class="inline-code"><a href="../../protocols/comparison/CLAUDE.html">SupportsComparison</a></code></td>
-                            <td>Protocol defining <code class="inline-code">__lt__</code> contract</td>
+                            <td>Provides <code class="inline-code">__eq__</code> and abstract <code class="inline-code">key()</code></td>
                         </tr>
                     </tbody>
                 </table>
@@ -284,23 +254,15 @@
             <section id="dependencies">
                 <h2>Dependencies</h2>
 
-                <h3><span class="badge badge-stdlib">STDLIB</span> Standard Library</h3>
-                <table>
-                    <thead><tr><th>Import</th><th>Used For</th></tr></thead>
-                    <tbody>
-                        <tr><td><code class="inline-code">abc.abstractmethod</code></td><td>Decorator for <code class="inline-code">key()</code></td></tr>
-                        <tr><td><code class="inline-code">functools.total_ordering</code></td><td>Generates comparison methods from <code class="inline-code">__lt__</code> and <code class="inline-code">__eq__</code></td></tr>
-                    </tbody>
-                </table>
-
                 <h3><span class="badge badge-internal">INTERNAL</span> Project Imports</h3>
                 <table>
                     <thead><tr><th>Import</th><th>Used For</th></tr></thead>
                     <tbody>
-                        <tr><td><code class="inline-code">f_core.mixins.equatable.main.Equatable</code></td><td>Base class providing equality via <code class="inline-code">key()</code></td></tr>
-                        <tr><td><code class="inline-code">f_core.protocols.comparison.SupportsComparison</code></td><td>Protocol this class implements</td></tr>
+                        <tr><td><code class="inline-code">f_core.mixins.equatable.Equatable</code></td><td>Base class providing <code class="inline-code">key()</code> and <code class="inline-code">__eq__</code></td></tr>
                     </tbody>
                 </table>
+
+                <div class="note">No stdlib imports needed &mdash; <code class="inline-code">hash()</code> is a Python builtin.</div>
 
                 <a href="#top" class="back-to-top">Back to top</a>
             </section>
@@ -314,26 +276,23 @@
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
-                        <pre><code>from f_core.mixins.comparable import Comparable
+                        <pre><code>from f_core.mixins.hashable import Hashable
 
 
-class Score(Comparable):
-    def __init__(self, points: int):
-        self.points = points
+class Tag(Hashable):
+    def __init__(self, name: str):
+        self.name = name
 
-    def key(self) -> int:
-        return self.points
+    def key(self) -> str:
+        return self.name
 
 
-s1 = Score(100)
-s2 = Score(150)
+a = Tag("python")
+b = Tag("python")
 
-s1 &lt; s2   # True
-s2 &gt; s1   # True
-s1 &lt;= s1  # True
-s1 == Score(100)  # True (from Equatable)
-
-sorted([Score(50), Score(100), Score(75)])  # [50, 75, 100]</code></pre>
+a == b              # True (from Equatable)
+hash(a) == hash(b)  # True
+{a, a, b}           # {Tag("python")} &mdash; deduplication works</code></pre>
                     </div>
                 </div>
 
@@ -343,14 +302,12 @@ sorted([Score(50), Score(100), Score(75)])  # [50, 75, 100]</code></pre>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
-                        <pre><code>from f_core.mixins.comparable import Comparable
+                        <pre><code>from f_core.mixins.hashable import Hashable
 
-a = Comparable.Factory.a()  # Char('A')
-b = Comparable.Factory.b()  # Char('B')
+a = Hashable.Factory.a()  # Char('A')
+b = Hashable.Factory.b()  # Char('B')
 
-a &lt; b   # True
-a == a  # True
-b &gt; a   # True</code></pre>
+{a, a, b} == {a, b}  # True</code></pre>
                         <p style="margin-top: 1rem; color: var(--muted);"><em>From <code class="inline-code">_tester.py</code></em></p>
                     </div>
                 </div>
@@ -360,7 +317,7 @@ b &gt; a   # True</code></pre>
 
             <footer>
                 <p>Generated: <span id="timestamp"></span></p>
-                <p>Scope: f_core.mixins.comparable package documentation</p>
+                <p>Scope: f_core.mixins.hashable package documentation</p>
             </footer>
         </main>
     </div>

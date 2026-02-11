@@ -26,7 +26,8 @@ class HasName(Comparable, Hashable):
     def name(self) -> str:
         return self._name
 
-    def key_comparison(self) -> str:
+    @property
+    def key(self) -> str:
         """
         ========================================================================
          Returns the Object's Key for Sorting.

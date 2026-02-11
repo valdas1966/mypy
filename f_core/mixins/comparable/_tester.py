@@ -65,3 +65,4 @@ def test_ge(a: Comparable, b: Comparable) -> None:
 
 def test_eq(a: Comparable, b: Comparable) -> None:
     assert a == a
+

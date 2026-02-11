@@ -4,7 +4,7 @@ from f_search.ds.state.i_0_base import StateBase
 zero = StateBase.Factory.zero()
 one = StateBase.Factory.one()
 
-print(zero.key_comparison())
-print(one.key_comparison())
+print(zero.key())
+print(one.key())
 
-print(zero.key_comparison() == one.key_comparison())
+print(zero.key() == one.key())

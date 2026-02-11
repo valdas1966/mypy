@@ -31,13 +31,14 @@ class PriorityGH(PriorityG[Key]):
         if h is not None:
             self._h = h
 
-    def key_comparison(self) -> tuple[int, int, Key]:
+    @property
+    def key(self) -> tuple[int, tuple[int, Key]]:
         """
         ========================================================================
          Return the Key of the State.
         ========================================================================
         """
-        return self._g + self._h, PriorityG.key_comparison(self)
+        return self._g + self._h, super().key
 
     def __repr__(self) -> str:
         """
@@ -48,4 +49,4 @@ class PriorityGH(PriorityG[Key]):
         key = f'key={self._key}'
         g = f'g={self._g}'
         h = f'h={self._h}'
-        return f'PriorityGH({key}, {g}, {h})'  
+        return f'<PriorityGH: {key}, {g}, {h}>'

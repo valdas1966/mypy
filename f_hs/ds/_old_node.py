@@ -91,7 +91,7 @@ class NodePath(NodeCell, HasCache):
         ========================================================================
         """
         if self.f() is None:
-            return NodeCell.key_comparison(self)
+            return NodeCell.key(self)
         else:
             return [self.f(),
                     not self.is_cached,

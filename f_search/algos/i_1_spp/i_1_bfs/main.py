@@ -32,7 +32,7 @@ class BFS(Generic[State], AlgoSPP[State, DataBestFirst[State]]):
                          data=data,
                          name=name)
 
-    def _discover(self, state: State, parent: State = None) -> None:
+    def _discover(self, state: State) -> None:
         """
         ========================================================================
          Discover the given State.
@@ -53,5 +53,5 @@ class BFS(Generic[State], AlgoSPP[State, DataBestFirst[State]]):
         ========================================================================
         """
         if succ not in self._data.frontier:
-            self._discover(state=succ, parent=self._data.best)
+            self._discover(state=succ)
         

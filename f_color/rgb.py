@@ -114,7 +114,7 @@ class RGB(HasName, Comparable):
         b = int(self._b * 255)
         return f'{alpha:02X}{r:02X}{g:02X}{b:02X}'
 
-    def key_comparison(self) -> tuple[float, float, float]:
+    def key(self) -> tuple[float, float, float]:
         """
         ========================================================================
          Return a Tuple-REPR of the RGB.

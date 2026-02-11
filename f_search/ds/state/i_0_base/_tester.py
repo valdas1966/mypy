@@ -1,5 +1,4 @@
-from f_search.ds.state.i_0_base._factory import StateBase, Cell
-import pytest
+from f_search.ds.state.i_0_base._factory import StateBase
 
 
 def test_repr() -> None:
@@ -9,4 +8,4 @@ def test_repr() -> None:
     ========================================================================
     """
     a = StateBase.Factory.a()
-    assert repr(a) == '<StateBase: Name=A, Key=A>'
+    assert repr(a) == '<StateBase: Key=A>'

@@ -73,7 +73,7 @@ class GraphGrid(Generic[Key, Node],
                          type_node=self._type_node,
                          name=self.name)
 
-    def key_comparison(self) -> dict[Key, Node]:
+    def key(self) -> dict[Key, Node]:
         """
         ========================================================================
          Return a Key-Comparison object.

@@ -55,7 +55,7 @@ class Pair(Generic[Item], Equatable):
         """
         return self._is_ordered
 
-    def key_comparison(self) -> tuple[Item, Item]:
+    def key(self) -> tuple[Item, Item]:
         """
         ========================================================================
          Get the key for comparison of the pair.

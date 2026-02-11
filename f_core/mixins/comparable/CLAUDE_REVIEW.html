@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Review — f_core.mixins.comparable</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --bg-section: #111820;
+      --bg-code: #0d1117;
+      --border: #1e2a38;
+      --text: #c9d1d9;
+      --text-muted: #8b949e;
+      --heading: #e6edf3;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --yellow: #d29922;
+      --red: #f85149;
+      --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.7;
+      padding: 2rem 3rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      color: var(--heading);
+      font-size: 1.8rem;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    h2 {
+      color: var(--accent);
+      font-size: 1.3rem;
+      margin-bottom: 0.75rem;
+      margin-top: 0;
+    }
+
+    h3 {
+      color: var(--heading);
+      font-size: 1.05rem;
+      margin-bottom: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    section {
+      background: var(--bg-section);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    ul {
+      padding-left: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    li {
+      margin-bottom: 0.4rem;
+    }
+
+    pre {
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      line-height: 1.5;
+      margin: 0.75rem 0;
+      color: var(--text);
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      background: var(--bg-code);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      color: var(--accent);
+    }
+
+    p {
+      margin-bottom: 0.6rem;
+    }
+
+    .file-ref {
+      color: var(--yellow);
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+    }
+
+    .severity-ok { color: var(--green); font-weight: 600; }
+    .severity-low { color: var(--yellow); font-weight: 600; }
+    .severity-med { color: var(--yellow); font-weight: 600; }
+    .severity-high { color: var(--red); font-weight: 600; }
+
+    .verdict {
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--green);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.75rem 0;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--bg-code);
+      color: var(--heading);
+    }
+
+    td {
+      color: var(--text);
+    }
+
+    .meta {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Module Review Report</h1>
+<p class="meta">
+  Module: <code>f_core.mixins.comparable</code><br>
+  Files reviewed: <code>main.py</code>, <code>_factory.py</code>, <code>_tester.py</code>, <code>__init__.py</code><br>
+  Deep-inspected: <code>f_core.protocols.comparison.main</code>, <code>f_core.protocols.equality.main</code>, <code>f_core.mixins.equatable.main</code><br>
+  Date: 2026-02-11
+</p>
+
+<!-- ============================================================ -->
+<!-- SECTION 0: DEPENDENCY MAP                                     -->
+<!-- ============================================================ -->
+
+<section>
+  <h2>0) Dependency Map</h2>
+
+  <h3>main.py &mdash; Imports</h3>
+  <table>
+    <tr><th>Import</th><th>Symbol Used</th><th>How Used</th><th>Direction</th></tr>
+    <tr>
+      <td><code>f_core.protocols.comparison.SupportsComparison</code></td>
+      <td><code>SupportsComparison</code></td>
+      <td>Base class of <code>Comparable</code> (protocol satisfaction); return type of <code>key()</code></td>
+      <td><span class="severity-ok">Correct</span> &mdash; mixin depends on protocol (upward)</td>
+    </tr>
+    <tr>
+      <td><code>f_core.mixins.equatable.main.Equatable</code></td>
+      <td><code>Equatable</code></td>
+      <td>Base class of <code>Comparable</code>; provides <code>__eq__</code> via <code>key()</code></td>
+      <td><span class="severity-ok">Correct</span> &mdash; peer-layer mixin inheritance</td>
+    </tr>
+    <tr>
+      <td><code>functools.total_ordering</code></td>
+      <td><code>@total_ordering</code></td>
+      <td>Class decorator generating <code>__le__</code>, <code>__gt__</code>, <code>__ge__</code></td>
+      <td><span class="severity-ok">Correct</span> &mdash; stdlib utility</td>
+    </tr>
+    <tr>
+      <td><code>abc.abstractmethod</code></td>
+      <td><code>@abstractmethod</code></td>
+      <td>Marks <code>key()</code> as abstract</td>
+      <td><span class="severity-ok">Correct</span> &mdash; stdlib utility</td>
+    </tr>
+  </table>
+
+  <h3>_factory.py &mdash; Imports</h3>
+  <table>
+    <tr><th>Import</th><th>Symbol Used</th><th>How Used</th><th>Direction</th></tr>
+    <tr>
+      <td><code>f_core.mixins.comparable.main.Comparable</code></td>
+      <td><code>Comparable</code></td>
+      <td>Base for inner class <code>Factory.Char</code>; return type of factory methods</td>
+      <td><span class="severity-ok">Correct</span> &mdash; factory depends on its target class</td>
+    </tr>
+  </table>
+
+  <h3>_tester.py &mdash; Imports</h3>
+  <table>
+    <tr><th>Import</th><th>Symbol Used</th><th>How Used</th><th>Direction</th></tr>
+    <tr>
+      <td><code>f_core.mixins.comparable.Comparable</code></td>
+      <td><code>Comparable</code></td>
+      <td>Type annotation for fixtures; accessed <code>.Factory</code> for instance creation</td>
+      <td><span class="severity-ok">Correct</span> &mdash; test depends on module under test</td>
+    </tr>
+    <tr>
+      <td><code>pytest</code></td>
+      <td><code>pytest.fixture</code></td>
+      <td>Fixture decorator for test data</td>
+      <td><span class="severity-ok">Correct</span> &mdash; test utility</td>
+    </tr>
+  </table>
+
+  <h3>__init__.py &mdash; Imports</h3>
+  <table>
+    <tr><th>Import</th><th>Symbol Used</th><th>How Used</th><th>Direction</th></tr>
+    <tr>
+      <td><code>f_core.mixins.comparable._factory.Factory</code></td>
+      <td><code>Factory</code></td>
+      <td>Attached to <code>Comparable.Factory</code> at module load</td>
+      <td><span class="severity-ok">Correct</span></td>
+    </tr>
+    <tr>
+      <td><code>f_core.mixins.comparable._factory.Comparable</code></td>
+      <td><code>Comparable</code></td>
+      <td>Re-exported; receives <code>Factory</code> attribute</td>
+      <td><span class="severity-ok">Correct</span></td>
+    </tr>
+  </table>
+
+  <h3>Transitive Dependencies (Deep Inspection)</h3>
+  <table>
+    <tr><th>Symbol</th><th>Defined In</th><th>Inherits From</th><th>Key Behavior</th></tr>
+    <tr>
+      <td><code>SupportsComparison</code></td>
+      <td><span class="file-ref">f_core/protocols/comparison/main.py:5</span></td>
+      <td><code>SupportsEquality</code>, <code>Protocol</code></td>
+      <td>Declares <code>__lt__(self, other: object) -&gt; bool</code></td>
+    </tr>
+    <tr>
+      <td><code>SupportsEquality</code></td>
+      <td><span class="file-ref">f_core/protocols/equality/main.py:4</span></td>
+      <td><code>Protocol</code></td>
+      <td>Declares <code>__eq__(self, other: object) -&gt; bool</code></td>
+    </tr>
+    <tr>
+      <td><code>Equatable</code></td>
+      <td><span class="file-ref">f_core/mixins/equatable/main.py:5</span></td>
+      <td><code>SupportsEquality</code></td>
+      <td>Abstract <code>key() -&gt; SupportsEquality</code>; concrete <code>__eq__</code> via key delegation; identity short-circuit; <code>NotImplemented</code> for non-Equatable</td>
+    </tr>
+  </table>
+
+  <h3>Cycle / Inversion Analysis</h3>
+  <ul>
+    <li><strong>Cycles:</strong> None. <code>__init__.py</code> imports from <code>_factory</code> which imports from <code>main</code> &mdash; this is a one-directional chain with no back-references.</li>
+    <li><strong>Layering violations:</strong> None. The dependency direction is protocols &larr; mixins &larr; factories &larr; tests, which is correct.</li>
+    <li><strong>Inversion issues:</strong> None detected.</li>
+  </ul>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION: SUMMARY                                              -->
+<!-- ============================================================ -->
+
+<section>
+  <h2>Summary</h2>
+  <p>
+    The <code>comparable</code> module is clean, focused, and well-structured. It correctly extends <code>Equatable</code> with ordering semantics via a single abstract <code>key()</code> method and <code>@total_ordering</code>. The protocol hierarchy (<code>SupportsEquality</code> &rarr; <code>SupportsComparison</code>) is properly mirrored in the mixin hierarchy (<code>Equatable</code> &rarr; <code>Comparable</code>). The factory and test patterns are consistent with the sibling <code>equatable</code> module.
+  </p>
+  <p>
+    There is one type annotation imprecision and one minor test coverage gap. No correctness bugs or design problems were found.
+  </p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 1: CORRECTNESS                                        -->
+<!-- ============================================================ -->
+
+<section>
+  <h2>1) Must-fix Issues (Correctness)</h2>
+
+  <h3>1a. <code>__lt__</code> return type annotation vs. actual return</h3>
+  <p>
+    <span class="file-ref">main.py:29</span> &mdash; <code>def __lt__(self, other: object) -&gt; bool</code>
+  </p>
+  <p>
+    The method returns <code>NotImplemented</code> (a sentinel of type <code>NotImplementedType</code>) on line 36 when <code>other</code> is not a <code>Comparable</code>. The declared return type is <code>bool</code>, but the actual return type is <code>bool | NotImplementedType</code>. This is technically a typing issue, not a runtime crash, because Python's comparison protocol expects <code>NotImplemented</code> as a valid return. However, <code>mypy --strict</code> will flag this as an incompatible return type.
+  </p>
+  <p>
+    <strong>Severity:</strong> <span class="severity-low">Low</span> &mdash; not a crash, but a typing contract mismatch.
+  </p>
+  <p>
+    <strong>Note:</strong> This is the same pattern used in <code>Equatable.__eq__</code> at <span class="file-ref">equatable/main.py:26</span>, so it is a project-wide convention. The idiomatic Python approach is <code>-&gt; bool</code> for dunder comparison methods because <code>NotImplemented</code> is an implementation detail of the comparison protocol, not part of the caller-facing contract. Mypy accepts this pattern with the <code>--no-strict</code> flag or via <code># type: ignore[return-value]</code> if strict mode is enforced. Since this is a deliberate convention and not a bug, it is recorded here for awareness but does not require a change unless mypy strict compliance is a goal.
+  </p>
+
+  <h3>1b. No cross-type comparison guard in tests</h3>
+  <p>
+    <span class="file-ref">_tester.py</span> &mdash; The test suite does not test comparing a <code>Comparable</code> against a non-<code>Comparable</code> object (e.g., <code>a &lt; 42</code>). The <code>NotImplemented</code> path in <code>__lt__</code> is untested.
+  </p>
+  <p>
+    <strong>Severity:</strong> <span class="severity-low">Low</span> &mdash; the code is correct, but the boundary condition lacks coverage.
+  </p>
+  <p>
+    <strong>Patch direction:</strong> Add a test like:
+  </p>
+  <pre>def test_lt_non_comparable(a: Comparable) -&gt; None:
+    assert a.__lt__(42) is NotImplemented</pre>
+
+  <h3>1c. No other correctness issues</h3>
+  <p>
+    The <code>@total_ordering</code> decorator correctly generates <code>__le__</code>, <code>__gt__</code>, <code>__ge__</code> from <code>__lt__</code> and <code>__eq__</code> (inherited from <code>Equatable</code>). The abstract <code>key()</code> method ensures subclasses must provide a comparison key. The <code>isinstance</code> guard in <code>__lt__</code> correctly returns <code>NotImplemented</code> for non-<code>Comparable</code> types. The identity short-circuit in <code>Equatable.__eq__</code> is inherited correctly.
+  </p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 2: READABILITY                                        -->
+<!-- ============================================================ -->
+
+<section>
+  <h2>2) Readability / Maintainability</h2>
+
+  <h3>2a. <code>key()</code> naming after rename from <code>key_comparison()</code></h3>
+  <p>
+    <span class="file-ref">main.py:21</span> &mdash; The method was recently renamed from <code>key_comparison()</code> to <code>key()</code>. The new name is shorter and consistent with the same method in <code>Equatable</code> (<span class="file-ref">equatable/main.py:18</span>), which also defines <code>key()</code>. This is a good rename &mdash; a single <code>key()</code> method now drives both equality and comparison, which aligns with the covariant return type (<code>SupportsEquality</code> in <code>Equatable</code>, narrowed to <code>SupportsComparison</code> in <code>Comparable</code>).
+  </p>
+
+  <h3>2b. Docstring box style is heavyweight but consistent</h3>
+  <p>
+    All docstrings use the <code>=====</code> box style. This is heavy for single-line descriptions (e.g., <span class="file-ref">_factory.py:7-9</span>: "Factory for the Comparable class."). However, this is a project-wide convention visible in every inspected file, so it is consistent.
+  </p>
+  <p class="verdict">No change needed.</p>
+
+  <h3>2c. Overall readability</h3>
+  <p>
+    The module is short (38 lines in <code>main.py</code>), has flat control flow, clear naming, and no clever tricks. Re-entry cost is low. The factory and tester files are similarly straightforward.
+  </p>
+  <p class="verdict">No change needed.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 3: DESIGN (OOP)                                       -->
+<!-- ============================================================ -->
+
+<section>
+  <h2>3) Design Review</h2>
+
+  <h3>3a. Mixin + Protocol dual inheritance</h3>
+  <p>
+    <span class="file-ref">main.py:8</span> &mdash; <code>class Comparable(Equatable, SupportsComparison)</code>
+  </p>
+  <p>
+    <code>Comparable</code> inherits from both <code>Equatable</code> (concrete mixin) and <code>SupportsComparison</code> (protocol). This is a correct pattern:
+  </p>
+  <ul>
+    <li><code>Equatable</code> provides the concrete <code>__eq__</code> implementation.</li>
+    <li><code>SupportsComparison</code> declares the structural contract (<code>__lt__</code>), which <code>Comparable</code> fulfills.</li>
+    <li>The protocol hierarchy mirrors the mixin hierarchy: <code>SupportsEquality &rarr; SupportsComparison</code> || <code>Equatable &rarr; Comparable</code>.</li>
+  </ul>
+  <p>
+    No diamond problem because <code>SupportsComparison</code> is a protocol (structural typing, no state) and <code>SupportsEquality</code> appears in both chains but contributes no implementation conflict.
+  </p>
+
+  <h3>3b. <code>key()</code> covariance</h3>
+  <p>
+    <code>Equatable.key()</code> returns <code>SupportsEquality</code> (<span class="file-ref">equatable/main.py:18</span>).<br>
+    <code>Comparable.key()</code> returns <code>SupportsComparison</code> (<span class="file-ref">main.py:21</span>).<br>
+    Since <code>SupportsComparison</code> extends <code>SupportsEquality</code>, this is a valid covariant override. The Liskov substitution principle is satisfied: anywhere a <code>SupportsEquality</code> is expected, a <code>SupportsComparison</code> value works.
+  </p>
+
+  <h3>3c. <code>Factory</code> class attribute pattern</h3>
+  <p>
+    <span class="file-ref">main.py:18</span> &mdash; <code>Factory: type | None = None</code>, attached at import time in <code>__init__.py</code>.
+  </p>
+  <p>
+    This is a known pattern in the codebase (also used in <code>Equatable</code>). It avoids circular imports between the class and its factory. The tradeoff is that <code>Factory</code> is typed as <code>type | None</code>, which means static analyzers cannot resolve <code>Comparable.Factory.a()</code> without a cast. This is a project-level architectural choice, not a local design flaw.
+  </p>
+
+  <h3>3d. SRP</h3>
+  <p>
+    <code>Comparable</code> has one responsibility: provide <code>__lt__</code> (and by extension the full ordering) via a <code>key()</code> delegation pattern. SRP is satisfied.
+  </p>
+
+  <p class="verdict">No change needed.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 4: PERFORMANCE                                        -->
+<!-- ============================================================ -->
+
+<section>
+  <h2>4) Performance Notes</h2>
+
+  <h3>Big-O Analysis</h3>
+  <table>
+    <tr><th>Method</th><th>Time</th><th>Space</th><th>Notes</th></tr>
+    <tr>
+      <td><code>__lt__</code></td>
+      <td>O(K)</td>
+      <td>O(K)</td>
+      <td>K = cost of <code>key()</code>. Two <code>key()</code> calls + one comparison. The <code>isinstance</code> check is O(D) where D = MRO depth, but this is negligible in practice.</td>
+    </tr>
+    <tr>
+      <td><code>__eq__</code> (inherited)</td>
+      <td>O(K)</td>
+      <td>O(K)</td>
+      <td>Identity short-circuit is O(1). Otherwise two <code>key()</code> calls.</td>
+    </tr>
+    <tr>
+      <td><code>__le__</code>, <code>__gt__</code>, <code>__ge__</code></td>
+      <td>O(K)</td>
+      <td>O(K)</td>
+      <td>Generated by <code>@total_ordering</code>. Each calls <code>__lt__</code> and/or <code>__eq__</code>. Note: <code>@total_ordering</code> methods may call <em>both</em> <code>__eq__</code> and <code>__lt__</code> in some cases (e.g., <code>__le__</code> = <code>__lt__ or __eq__</code>), resulting in up to 4 <code>key()</code> calls per comparison.</td>
+    </tr>
+  </table>
+
+  <h3>Hot path consideration</h3>
+  <p>
+    If <code>Comparable</code> objects are sorted frequently (e.g., via <code>sorted()</code>), the <code>@total_ordering</code>-generated methods can call <code>key()</code> up to 4 times per comparison instead of 1. For <code>n</code> elements, sorting does O(n log n) comparisons, so this becomes O(4K * n log n).
+  </p>
+  <p>
+    <strong>Mitigation:</strong> If <code>key()</code> is expensive, subclasses can cache the result. Alternatively, for sorting-heavy code, a <code>__lt__</code>-only approach (without <code>@total_ordering</code>) with manual implementations of <code>__le__</code>, <code>__gt__</code>, <code>__ge__</code> would reduce calls. However, this is a known tradeoff of <code>@total_ordering</code> documented in the Python stdlib.
+  </p>
+  <p>
+    <strong>Severity:</strong> <span class="severity-low">Low</span> &mdash; only relevant if <code>key()</code> is expensive and objects are sorted in hot loops. For most use cases, the simplicity benefit of <code>@total_ordering</code> outweighs the cost.
+  </p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 5: TYPING                                             -->
+<!-- ============================================================ -->
+
+<section>
+  <h2>5) Typing Review</h2>
+
+  <h3>5a. <code>__lt__</code> return type</h3>
+  <p>
+    <span class="file-ref">main.py:29</span> &mdash; <code>def __lt__(self, other: object) -&gt; bool</code>
+  </p>
+  <p>
+    As noted in the correctness section, this method can return <code>NotImplemented</code>. The idiomatic typing for Python dunder comparison methods is <code>-&gt; bool</code>, because <code>NotImplemented</code> is a protocol-level implementation detail. Both <code>typeshed</code> and the CPython stubs use <code>-&gt; bool</code> for <code>__lt__</code>. This is therefore correct.
+  </p>
+
+  <h3>5b. <code>Factory</code> class attribute type</h3>
+  <p>
+    <span class="file-ref">main.py:18</span> &mdash; <code>Factory: type | None = None</code>
+  </p>
+  <p>
+    The type <code>type | None</code> is accurate at the class definition level (before <code>__init__.py</code> attaches the real factory). However, this means <code>Comparable.Factory.a()</code> cannot be resolved by a type checker &mdash; <code>type</code> has no <code>a()</code> method. Downstream code (e.g., <span class="file-ref">_tester.py:12</span>) relies on runtime attachment.
+  </p>
+  <p>
+    A more precise annotation would be:
+  </p>
+  <pre>from __future__ import annotations
+from typing import ClassVar
+
+Factory: ClassVar[type[Factory] | None] = None</pre>
+  <p>
+    However, this creates a circular reference at the annotation level (<code>Factory</code> is not yet defined when the class body is evaluated). The current approach is a pragmatic compromise that is consistent with <code>Equatable</code>. This is a project-level architectural pattern, not a local fix.
+  </p>
+
+  <h3>5c. <code>Factory.Char.key()</code> return type</h3>
+  <p>
+    <span class="file-ref">_factory.py:14</span> &mdash; <code>def key(self) -&gt; str</code>
+  </p>
+  <p>
+    Returns <code>str</code>, which satisfies <code>SupportsComparison</code> structurally (<code>str</code> has <code>__lt__</code> and <code>__eq__</code>). Correct.
+  </p>
+
+  <h3>5d. All public APIs fully typed</h3>
+  <p>
+    Every method signature in <code>main.py</code>, <code>_factory.py</code>, and <code>_tester.py</code> has complete type annotations. No leaking <code>Any</code>.
+  </p>
+
+  <p class="verdict">No change needed.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 6: DOCUMENTATION                                      -->
+<!-- ============================================================ -->
+
+<section>
+  <h2>6) Documentation Review</h2>
+
+  <h3>6a. <code>Comparable</code> class docstring</h3>
+  <p>
+    <span class="file-ref">main.py:9-15</span>
+  </p>
+  <pre>"""
+============================================================================
+ 1. Mixin class for objects that support comparison operations.
+ 2. @total_ordering decorator automatically generates the additional
+   comparison methods to __lt__().
+============================================================================
+"""</pre>
+  <p>
+    Clear and accurate. States both the purpose and the mechanism. The mention of <code>@total_ordering</code> is important context for maintainers.
+  </p>
+
+  <h3>6b. <code>key()</code> docstring</h3>
+  <p>
+    <span class="file-ref">main.py:22-26</span> &mdash; "Return the key for comparison between two Comparable objects."
+  </p>
+  <p>
+    Adequate. Could mention that this key also drives <code>__eq__</code> (inherited from <code>Equatable</code>), but the CLAUDE.md file already documents this, so the in-code docstring is sufficient for quick reference.
+  </p>
+
+  <h3>6c. <code>__lt__</code> docstring</h3>
+  <p>
+    <span class="file-ref">main.py:30-34</span> &mdash; "Return True if the current object is less than another object."
+  </p>
+  <p>
+    Standard dunder docstring. Does not mention the <code>NotImplemented</code> return for non-<code>Comparable</code> types, but this is an implementation detail of Python's comparison protocol that experienced Python developers would expect.
+  </p>
+
+  <h3>6d. Factory docstrings</h3>
+  <p>
+    <span class="file-ref">_factory.py:6-9</span> &mdash; "Factory for the Comparable class." Minimal but sufficient for a private test utility.
+  </p>
+
+  <p class="verdict">No change needed.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 7: MODULARITY                                         -->
+<!-- ============================================================ -->
+
+<section>
+  <h2>7) Modularity</h2>
+
+  <h3>File inventory and focus</h3>
+  <table>
+    <tr><th>File</th><th>Lines</th><th>Responsibility</th><th>Verdict</th></tr>
+    <tr>
+      <td><code>main.py</code></td>
+      <td>38</td>
+      <td>Core <code>Comparable</code> class definition</td>
+      <td><span class="severity-ok">Focused</span></td>
+    </tr>
+    <tr>
+      <td><code>_factory.py</code></td>
+      <td>34</td>
+      <td>Test factory with <code>Char</code> inner class</td>
+      <td><span class="severity-ok">Focused</span></td>
+    </tr>
+    <tr>
+      <td><code>_tester.py</code></td>
+      <td>69</td>
+      <td>Pytest test suite for comparison operations</td>
+      <td><span class="severity-ok">Focused</span></td>
+    </tr>
+    <tr>
+      <td><code>__init__.py</code></td>
+      <td>3</td>
+      <td>Wiring: re-export + attach factory</td>
+      <td><span class="severity-ok">Focused</span></td>
+    </tr>
+  </table>
+
+  <p>
+    All files are short, single-purpose, and have no cross-layer dependencies. The module follows the same structure as <code>equatable</code>: <code>main.py</code> + <code>_factory.py</code> + <code>_tester.py</code> + <code>__init__.py</code>. No overloaded modules or dumping grounds.
+  </p>
+
+  <p class="verdict">No change needed.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 8: ARCHITECTURE                                       -->
+<!-- ============================================================ -->
+
+<section>
+  <h2>8) Architecture Findings</h2>
+
+  <h3>8a. Protocol / Mixin parallel hierarchy</h3>
+  <p>
+    The architecture establishes a parallel hierarchy:
+  </p>
+  <pre>Protocols:  SupportsEquality  -&gt;  SupportsComparison
+Mixins:     Equatable         -&gt;  Comparable</pre>
+  <p>
+    This is a clean, intentional pattern. Each mixin implements the corresponding protocol. The dependency direction is correct (mixins depend on protocols, never the reverse). Cross-module consistency is maintained.
+  </p>
+
+  <h3>8b. <code>key()</code> unification across <code>Equatable</code> and <code>Comparable</code></h3>
+  <p>
+    Both <code>Equatable</code> and <code>Comparable</code> define an abstract <code>key()</code> method with covariant return types. A concrete subclass of <code>Comparable</code> only needs to implement <code>key()</code> once, and it drives both <code>__eq__</code> and <code>__lt__</code>. This is a strong design choice that minimizes the API surface for subclass authors.
+  </p>
+  <p>
+    The covariant override (<code>SupportsEquality</code> in <code>Equatable</code> narrowed to <code>SupportsComparison</code> in <code>Comparable</code>) is structurally correct but worth noting: a subclass of <code>Comparable</code> must return a value from <code>key()</code> that supports both <code>__eq__</code> and <code>__lt__</code>. This is enforced by the return type annotation <code>SupportsComparison</code>. In practice, Python builtins (<code>int</code>, <code>str</code>, <code>float</code>, <code>tuple</code>) all satisfy this, so it is not restrictive.
+  </p>
+
+  <h3>8c. Factory attachment pattern</h3>
+  <p>
+    The <code>__init__.py</code> wiring pattern (<code>Comparable.Factory = Factory</code>) is used identically in <code>equatable/__init__.py</code> (<span class="file-ref">equatable/__init__.py:4</span>). This is a consistent project-wide pattern. The tradeoff (runtime-only attachment, invisible to static analysis) is accepted project-wide.
+  </p>
+
+  <p class="verdict">No change needed.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 9: SUGGESTIONS                                        -->
+<!-- ============================================================ -->
+
+<section>
+  <h2>9) Suggestions for Improvements</h2>
+
+  <table>
+    <tr>
+      <th>#</th>
+      <th>Suggestion</th>
+      <th>Evidence</th>
+      <th>Risk / Cost</th>
+      <th>Benefit</th>
+      <th>Minimal Change</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Add cross-type comparison test</td>
+      <td><span class="file-ref">_tester.py</span> &mdash; no test covers the <code>NotImplemented</code> return path in <code>__lt__</code> when <code>other</code> is not <code>Comparable</code></td>
+      <td><span class="severity-low">Low cost</span>; 3 lines of test code</td>
+      <td>Covers the <code>NotImplemented</code> sentinel return path; prevents regression if the isinstance guard is accidentally removed</td>
+      <td>
+        <pre>def test_lt_non_comparable(a: Comparable) -&gt; None:
+    """Test __lt__ returns NotImplemented for non-Comparable."""
+    assert a.__lt__(42) is NotImplemented</pre>
+      </td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Add equality cross-type test</td>
+      <td><span class="file-ref">_tester.py</span> &mdash; <code>test_eq</code> (line 66) only tests <code>a == a</code> (identity). Does not test <code>a == b</code> (different objects, different keys) or <code>a == 42</code> (non-Equatable)</td>
+      <td><span class="severity-low">Low cost</span>; 3-5 lines</td>
+      <td>Covers both the <code>False</code> path and the <code>NotImplemented</code> path inherited from <code>Equatable.__eq__</code></td>
+      <td>
+        <pre>def test_eq_different(a: Comparable, b: Comparable) -&gt; None:
+    assert not (a == b)
+
+def test_eq_non_comparable(a: Comparable) -&gt; None:
+    assert a.__eq__(42) is NotImplemented</pre>
+      </td>
+    </tr>
+  </table>
+
+  <p>
+    No improvements needed beyond the items above. The module is clean, well-structured, and consistent with the codebase's established patterns.
+  </p>
+</section>
+
+</body>
+</html>

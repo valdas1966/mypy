@@ -14,8 +14,9 @@ class Equatable(SupportsEquality):
     # Factory
     Factory: type | None= None
 
+    @property
     @abstractmethod
-    def key_comparison(self) -> SupportsEquality:
+    def key(self) -> SupportsEquality:
         """
         ========================================================================
          Return an object that supports equality checks.
@@ -33,4 +34,4 @@ class Equatable(SupportsEquality):
             return True
         if not isinstance(other, Equatable):
             return NotImplemented
-        return self.key_comparison() == other.key_comparison()
+        return self.key == other.key

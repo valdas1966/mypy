@@ -27,13 +27,13 @@ class NodeKey(Generic[Key], HasKey[Key], HasName, Clonable):
         HasName.__init__(self, name=name)
         Clonable.__init__(self)
 
-    def key_comparison(self) -> Key:
+    def key(self) -> Key:
         """
         ========================================================================
          Compare by Cell.
         ========================================================================
         """
-        return HasKey.key_comparison(self)
+        return HasKey.key(self)
     
     def clone(self) -> Self:
         """

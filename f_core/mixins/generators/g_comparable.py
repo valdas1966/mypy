@@ -16,7 +16,7 @@ class Item(Comparable):
         """
         self.val = val
 
-    def key_comparison(self) -> int:
+    def key(self) -> int:
         """
         ========================================================================
          Compare Items by their value.

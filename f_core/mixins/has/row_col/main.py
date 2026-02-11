@@ -82,7 +82,8 @@ class HasRowCol(Comparable, Hashable):
         col_valid: bool = col_min <= self.col <= col_max
         return row_valid and col_valid
 
-    def key_comparison(self) -> tuple[int, int]:
+    @property
+    def key(self) -> tuple[int, int]:
         """
         ========================================================================
          Prioritize Row over the Col in Comparisons (Clock-Wise Order).

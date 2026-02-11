@@ -9,6 +9,8 @@ class PriorityG(PriorityKey[Key]):
     """
 
     # Factory
+    Factory: type | None = None
+
     def __init__(self, key: Key, g: int) -> None:
         """
         ========================================================================
@@ -18,6 +20,15 @@ class PriorityG(PriorityKey[Key]):
         PriorityKey.__init__(self, key=key)
         self._g = g
 
+    @property
+    def key(self) -> tuple[int, Key]:
+        """
+        ========================================================================
+         Return the Key of the State.
+        ========================================================================
+        """
+        return -self._g, super().key
+
     def update(self, g: int) -> None:
         """
         ========================================================================
@@ -25,14 +36,6 @@ class PriorityG(PriorityKey[Key]):
         ========================================================================
         """
         self._g = g
-
-    def key_comparison(self) -> tuple[int, Key]:
-        """
-        ========================================================================
-         Return the Key of the State.
-        ========================================================================
-        """
-        return -self._g, PriorityKey.key_comparison(self)
     
     def __repr__(self) -> str:
         """
@@ -40,4 +43,4 @@ class PriorityG(PriorityKey[Key]):
          Return the string representation of the PriorityG.
         ========================================================================
         """
-        return f'PriorityG(key={self._key}, g={self._g})'
+        return f'<PriorityG: key={self.key}, g={self._g}>'

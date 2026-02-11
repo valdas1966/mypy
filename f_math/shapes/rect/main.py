@@ -91,7 +91,7 @@ class Rect(Shape, Generic[T]):
         y_max = self.top + self.height - 1
         return x_min, y_min, x_max, y_max
 
-    def key_comparison(self) -> tuple[T, T, T, T]:
+    def key(self) -> tuple[T, T, T, T]:
         """
         ========================================================================
          Compare by the object  Top-Width-Height values.

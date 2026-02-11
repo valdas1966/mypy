@@ -16,10 +16,10 @@ class Shape(HasName):
         """
         HasName.__init__(self, name)
 
-    def key_comparison(self) -> str:
+    def key(self) -> str:
         """
         =============================================================
          Return the name of the shape.
         =============================================================
         """
-        return HasName.key_comparison(self)
+        return HasName.key(self)

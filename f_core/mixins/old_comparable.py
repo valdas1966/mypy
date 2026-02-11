@@ -11,7 +11,7 @@ class Comparable(Equatable):
     """
 
     @abstractmethod
-    def key_comparison(self) -> ProtocolEquable:
+    def key(self) -> ProtocolEquable:
         pass
 
     def __lt__(self, other: Comparable) -> bool:
@@ -20,7 +20,7 @@ class Comparable(Equatable):
          Return True if the current object is less than another object.
         ========================================================================
         """
-        return self.key_comparison() < other.key_comparison()
+        return self.key() < other.key()
 
     def __le__(self, other: Comparable) -> bool:
         """
@@ -28,7 +28,7 @@ class Comparable(Equatable):
          Return True if the current object is less or equal to other object.
         ========================================================================
         """
-        return self.key_comparison() <= other.key_comparison()
+        return self.key() <= other.key()
 
     def __gt__(self, other: Comparable) -> bool:
         """
@@ -36,7 +36,7 @@ class Comparable(Equatable):
          Return True if the current object is greater that other object.
         ========================================================================
         """
-        return self.key_comparison() > other.key_comparison()
+        return self.key() > other.key()
 
     def __ge__(self, other: Comparable) -> bool:
         """
@@ -44,4 +44,4 @@ class Comparable(Equatable):
          Return True if the current object is greater or equal to other object.
         ========================================================================
         """
-        return self.key_comparison() >= other.key_comparison()
+        return self.key() >= other.key()

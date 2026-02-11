@@ -64,7 +64,7 @@ class Path(UserList[Node], Comparable):
         """
         return Path(data=self._data[self._data.index(node):])
     
-    def key_comparison(self) -> list[Cell]:
+    def key(self) -> list[Cell]:
         """
         ====================================================================
          Get the key comparison of the old_path.
@@ -116,7 +116,7 @@ class Path(UserList[Node], Comparable):
          Compare two paths.
         ====================================================================
         """
-        return self.key_comparison() == other.key_comparison()
+        return self.key() == other.key()
 
     @classmethod
     def from_list(cls, nodes: list[Node]) -> Path:

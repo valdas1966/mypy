@@ -12,4 +12,4 @@ data.frontier.push(state_c)
 data.dict_parent[state_a] = None
 data.dict_parent[state_b] = state_a
 data.dict_parent[state_c] = state_b
-assert data.path_to(state_a).key_comparison() == [state_a]
+assert data.path_to(state_a).key() == [state_a]

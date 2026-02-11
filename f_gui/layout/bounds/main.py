@@ -93,7 +93,7 @@ class Bounds(Printable, Comparable):
         """
         self._parent = val
 
-    def key_comparison(self) -> tuple[float, float, float, float]:
+    def key(self) -> tuple[float, float, float, float]:
         """
         ========================================================================
          Return the key-comparison of the object.

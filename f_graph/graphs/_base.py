@@ -56,7 +56,7 @@ class GraphBase(Generic[Node],
         """
         pass
 
-    def key_comparison(self) -> ProtocolEquable:
+    def key(self) -> ProtocolEquable:
         """
         ========================================================================
          Return a Key-Comparison object.

@@ -11,3 +11,4 @@ def test_str() -> None:
     assert str(zero) == '(0,0)'
     zero_other = State.Factory.zero()
     assert zero == zero_other
+    assert zero.distance(zero_other) == 0

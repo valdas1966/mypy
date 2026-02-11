@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Review: f_core.protocols.bounds</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #111827;
+            --panel2: #0f172a;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --faint: #94a3b8;
+            --border: #334155;
+            --accent: #60a5fa;
+            --accent2: #a78bfa;
+            --good: #34d399;
+            --warn: #fbbf24;
+            --bad: #fb7185;
+            --code-bg: #0a1220;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 2rem 3rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        h1 { color: #fff; font-size: 2rem; margin-bottom: 0.5rem; }
+        h2 { color: #fff; font-size: 1.4rem; margin: 2.5rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
+        h3 { color: var(--text); font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
+        p { margin-bottom: 1rem; }
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.4rem; }
+
+        a { color: var(--accent); }
+
+        .subtitle { color: var(--faint); font-family: monospace; font-size: 0.9rem; margin-bottom: 2rem; }
+
+        pre {
+            background: var(--code-bg);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            color: var(--text);
+        }
+
+        .inline-code {
+            background: var(--panel2);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .severity-high { color: var(--bad); font-weight: 600; }
+        .severity-med { color: var(--warn); font-weight: 600; }
+        .severity-low { color: var(--good); font-weight: 600; }
+        .no-issue { color: var(--good); }
+
+        .issue-box {
+            background: var(--panel);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .issue-box.high { border-left: 4px solid var(--bad); }
+        .issue-box.med { border-left: 4px solid var(--warn); }
+        .issue-box.low { border-left: 4px solid var(--good); }
+
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.6rem 0.75rem; text-align: left; border: 1px solid var(--border); }
+        th { background: var(--panel2); color: #fff; font-weight: 600; }
+        td { background: var(--panel); color: var(--muted); }
+
+        .verdict {
+            background: var(--panel);
+            border: 2px solid var(--accent2);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        footer { margin-top: 3rem; padding-top: 1rem; border-top: 2px solid var(--border); color: var(--faint); font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+<h1>Module Review Report</h1>
+<div class="subtitle">f_core/protocols/bounds/main.py &mdash; 36 lines</div>
+
+<!-- ============================================================ -->
+<section>
+    <h2>Summary</h2>
+    <p>
+        Small module (36 lines) defining two symbols: a <code class="inline-code">Bounds</code> NamedTuple and a
+        <code class="inline-code">SupportsBounds</code> Protocol. Both are generic over
+        <code class="inline-code">T: int | float</code>. The module has <strong>zero consumers</strong> in the
+        codebase &mdash; neither class is imported or used anywhere.
+    </p>
+    <p>
+        There is one real bug (misplaced docstring), one structural gap (missing <code class="inline-code">__init__.py</code>),
+        and an important architectural question about whether the <code class="inline-code">Bounds</code> data class
+        belongs in a protocol module.
+    </p>
+</section>
+
+<!-- ============================================================ -->
+<section>
+    <h2>0) Dependency Map</h2>
+
+    <h3>Used Imports</h3>
+    <table>
+        <thead><tr><th>Symbol</th><th>Source</th><th>Used By</th></tr></thead>
+        <tbody>
+            <tr>
+                <td><code class="inline-code">Protocol</code></td>
+                <td><code class="inline-code">typing</code></td>
+                <td>Base class of <code class="inline-code">SupportsBounds</code></td>
+            </tr>
+            <tr>
+                <td><code class="inline-code">Generic</code></td>
+                <td><code class="inline-code">typing</code></td>
+                <td>Base class of <code class="inline-code">SupportsBounds</code> (parameterizes T)</td>
+            </tr>
+            <tr>
+                <td><code class="inline-code">TypeVar</code></td>
+                <td><code class="inline-code">typing</code></td>
+                <td>Defines <code class="inline-code">T</code> constrained to <code class="inline-code">int, float</code></td>
+            </tr>
+            <tr>
+                <td><code class="inline-code">NamedTuple</code></td>
+                <td><code class="inline-code">typing</code></td>
+                <td>Base class of <code class="inline-code">Bounds</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Dependency Analysis</h3>
+    <ul>
+        <li><strong>Cycles:</strong> None. Pure leaf module with only stdlib imports.</li>
+        <li><strong>Inversion issues:</strong> None.</li>
+        <li><strong>Layering violations:</strong> None. <code class="inline-code">f_core.protocols</code> is the lowest layer.</li>
+    </ul>
+
+    <h3>Deep Inspection Notes</h3>
+    <p>
+        All four imports are from <code class="inline-code">typing</code> (stdlib). All are used.
+        No unused imports.
+    </p>
+</section>
+
+<!-- ============================================================ -->
+<section>
+    <h2>1) Must-fix Issues (Correctness)</h2>
+
+    <div class="issue-box high">
+        <h3><span class="severity-high">BUG</span> &mdash; Misplaced docstring for <code class="inline-code">bounds()</code> method</h3>
+        <p><strong>File:</strong> <code class="inline-code">main.py:30-35</code></p>
+        <p><strong>Evidence:</strong></p>
+        <pre><code>def bounds(self) -> Bounds[T]: ...
+"""
+========================================================================
+    Return the bounds of the object as a Bounds object.
+========================================================================
+"""</code></pre>
+        <p>
+            The docstring appears <strong>after</strong> the method body (<code class="inline-code">...</code>).
+            Python treats this as a standalone string expression at module level, not a docstring.
+            <code class="inline-code">help(SupportsBounds.bounds)</code> and
+            <code class="inline-code">SupportsBounds.bounds.__doc__</code> will <strong>not</strong> show this text.
+        </p>
+        <p><strong>Fix:</strong></p>
+        <pre><code>def bounds(self) -> Bounds[T]:
+    """
+    ========================================================================
+        Return the bounds of the object as a Bounds object.
+    ========================================================================
+    """
+    ...</code></pre>
+    </div>
+
+    <div class="issue-box med">
+        <h3><span class="severity-med">STRUCTURAL</span> &mdash; Missing <code class="inline-code">__init__.py</code></h3>
+        <p><strong>Evidence:</strong> The <code class="inline-code">bounds/</code> directory has no <code class="inline-code">__init__.py</code>.
+        Sibling modules (<code class="inline-code">equality/</code>, <code class="inline-code">comparison/</code>) both have
+        <code class="inline-code">__init__.py</code> files that re-export their protocol.</p>
+        <p>
+            Additionally, <code class="inline-code">f_core/protocols/__init__.py</code> exports
+            <code class="inline-code">SupportsEquality</code> and <code class="inline-code">SupportsComparison</code>
+            but does not export <code class="inline-code">SupportsBounds</code>.
+        </p>
+        <p><strong>Fix:</strong> Create <code class="inline-code">bounds/__init__.py</code>:</p>
+        <pre><code>from f_core.protocols.bounds.main import Bounds, SupportsBounds</code></pre>
+        <p>And add to <code class="inline-code">f_core/protocols/__init__.py</code>:</p>
+        <pre><code>from f_core.protocols.bounds import Bounds, SupportsBounds</code></pre>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<section>
+    <h2>2) Readability / Maintainability</h2>
+
+    <div class="issue-box low">
+        <h3><span class="severity-low">MINOR</span> &mdash; Docstring style is heavy for a 4-field NamedTuple</h3>
+        <p><strong>Evidence:</strong> <code class="inline-code">main.py:7-17</code> &mdash; 11-line docstring with decorative <code class="inline-code">===</code>
+        bars for a class that has 4 self-evident field names.</p>
+        <p>
+            This matches the project convention (seen in <code class="inline-code">equable.py</code>,
+            <code class="inline-code">comparable.py</code>, etc.), so it's consistent. No change needed unless
+            you want to trim project-wide.
+        </p>
+    </div>
+
+    <p class="no-issue">Otherwise clean. Short file, clear naming, obvious intent. No nesting complexity.</p>
+</section>
+
+<!-- ============================================================ -->
+<section>
+    <h2>3) Design Review</h2>
+
+    <div class="verdict">
+        <h3>Key Question: Should <code class="inline-code">Bounds</code> (NamedTuple) live in a Protocol module?</h3>
+
+        <p><strong>Current state:</strong>
+        <code class="inline-code">f_core/protocols/bounds/main.py</code> contains both the
+        <code class="inline-code">Bounds</code> data class and the <code class="inline-code">SupportsBounds</code> protocol.
+        </p>
+
+        <h3>Arguments FOR keeping Bounds here:</h3>
+        <ul>
+            <li><strong>Tight coupling:</strong> <code class="inline-code">SupportsBounds.bounds()</code> returns
+            <code class="inline-code">Bounds[T]</code>. They are a protocol-return-type pair.</li>
+            <li><strong>Co-location reduces imports:</strong> consumers import from one place.</li>
+            <li><strong>Precedent:</strong> Python stdlib does this &mdash;
+            <code class="inline-code">typing.NamedTuple</code> is defined alongside protocols/generics.</li>
+            <li><strong>Small scope:</strong> <code class="inline-code">Bounds</code> is a pure data container with no logic. It's essentially a typed return type annotation.</li>
+        </ul>
+
+        <h3>Arguments AGAINST keeping Bounds here:</h3>
+        <ul>
+            <li><strong>SRP violation:</strong> A "protocols" module should only contain protocols (behavioral contracts). A NamedTuple is a concrete data structure, not a contract.</li>
+            <li><strong>Naming collision:</strong> <code class="inline-code">f_gui.layout.bounds.Bounds</code> already exists and is a completely different class (GUI layout with relative/absolute coordinates). Having two <code class="inline-code">Bounds</code> classes is confusing.</li>
+            <li><strong>Inconsistency:</strong> The sibling protocols (<code class="inline-code">SupportsEquality</code>,
+            <code class="inline-code">SupportsComparison</code>) contain ONLY protocols. None co-locate
+            a concrete data structure alongside the protocol.</li>
+            <li><strong>The protocol could use <code class="inline-code">tuple[T, T, T, T]</code> instead:</strong>
+            If <code class="inline-code">Bounds</code> were removed, the protocol could return a plain tuple.
+            NamedTuple is a tuple subtype, so implementations returning <code class="inline-code">Bounds</code> would still satisfy the protocol.</li>
+        </ul>
+
+        <h3>Recommendation</h3>
+        <p><strong>Tactical (minimal change):</strong> Keep <code class="inline-code">Bounds</code> here.
+        The coupling is real (return type of the protocol method), and the module is tiny.
+        Rename it to something more specific than <code class="inline-code">Bounds</code> to avoid collision,
+        e.g., <code class="inline-code">BoundsRect</code> or <code class="inline-code">BoundingBox</code>.</p>
+
+        <p><strong>Strategic (if project grows):</strong> Move <code class="inline-code">Bounds</code> to a
+        dedicated data-types location (e.g., <code class="inline-code">f_core/types/bounds.py</code> or
+        <code class="inline-code">f_core/data/bounds.py</code>), and have the protocol import from there.
+        This follows the pattern: data types live in one layer, protocols reference them.</p>
+    </div>
+
+    <div class="issue-box med">
+        <h3><span class="severity-med">DESIGN</span> &mdash; Method vs Property for <code class="inline-code">bounds()</code></h3>
+        <p><strong>Evidence:</strong> The GUI <code class="inline-code">f_gui.layout.bounds.Bounds</code> class and
+        <code class="inline-code">Component</code> use <code class="inline-code">@property</code> for <code class="inline-code">bounds</code>.
+        This protocol defines it as a plain method <code class="inline-code">def bounds(self)</code>.</p>
+        <p>This is a design choice: properties in protocols are stricter (require implementors to also use
+        <code class="inline-code">@property</code>). A method is more flexible. But if the intent is to match the
+        existing codebase pattern, <code class="inline-code">@property</code> would be more consistent.</p>
+    </div>
+
+    <div class="issue-box low">
+        <h3><span class="severity-low">OBSERVATION</span> &mdash; Module is unused</h3>
+        <p><strong>Evidence:</strong> No file in the codebase imports <code class="inline-code">Bounds</code> or
+        <code class="inline-code">SupportsBounds</code> from this module. Zero consumers.</p>
+        <p>This may be intentional (module under development), but worth noting.</p>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<section>
+    <h2>4) Performance Notes</h2>
+    <p class="no-issue">No change needed.</p>
+    <ul>
+        <li><code class="inline-code">Bounds</code> construction: O(1). NamedTuple &mdash; lightweight, immutable, no overhead.</li>
+        <li><code class="inline-code">SupportsBounds</code>: Protocol &mdash; zero runtime cost (type-checking only, unless <code class="inline-code">isinstance</code> is used with <code class="inline-code">runtime_checkable</code>).</li>
+        <li>No hot paths. No allocations beyond the NamedTuple itself.</li>
+    </ul>
+</section>
+
+<!-- ============================================================ -->
+<section>
+    <h2>5) Typing Review</h2>
+
+    <div class="issue-box med">
+        <h3><span class="severity-med">TYPING</span> &mdash; <code class="inline-code">TypeVar('T', int, float)</code> uses value restriction, not bound</h3>
+        <p><strong>Evidence:</strong> <code class="inline-code">main.py:3</code></p>
+        <pre><code>T = TypeVar('T', int, float)</code></pre>
+        <p>
+            This is a <strong>value restriction</strong> (T must be exactly <code class="inline-code">int</code> OR exactly
+            <code class="inline-code">float</code>). This means <code class="inline-code">Bounds[int]</code> and
+            <code class="inline-code">Bounds[float]</code> are valid, but <code class="inline-code">Bounds[np.int64]</code>
+            or any subclass would be rejected by mypy.
+        </p>
+        <p>
+            If the intent is "any numeric type", use <code class="inline-code">TypeVar('T', bound=float)</code> instead
+            (<code class="inline-code">int</code> is a subtype of <code class="inline-code">float</code> in the type system).
+            If the intent is strictly <code class="inline-code">int | float</code> only, current form is correct.
+        </p>
+    </div>
+
+    <p>All public APIs are fully typed. No leaking <code class="inline-code">Any</code>.</p>
+</section>
+
+<!-- ============================================================ -->
+<section>
+    <h2>6) Documentation Review</h2>
+
+    <div class="issue-box high">
+        <h3><span class="severity-high">BUG</span> &mdash; <code class="inline-code">bounds()</code> docstring is unreachable</h3>
+        <p>Same as correctness issue #1. The docstring at <code class="inline-code">main.py:31-35</code> is dead code.
+        Move it inside the method body.</p>
+    </div>
+
+    <p>
+        <code class="inline-code">Bounds</code> class docstring (<code class="inline-code">main.py:7-17</code>): Accurate and complete.
+        Lists all four attributes with descriptions.
+    </p>
+    <p>
+        <code class="inline-code">SupportsBounds</code> class docstring (<code class="inline-code">main.py:24-28</code>): Concise and correct.
+    </p>
+</section>
+
+<!-- ============================================================ -->
+<section>
+    <h2>7) Modularity</h2>
+
+    <div class="issue-box med">
+        <h3><span class="severity-med">STRUCTURE</span> &mdash; Two distinct concerns in one file</h3>
+        <p>
+            <code class="inline-code">Bounds</code> (data container) and <code class="inline-code">SupportsBounds</code>
+            (behavioral contract) are conceptually different. However, at 36 lines total,
+            splitting would create unnecessary file proliferation. <strong>Acceptable at current size.</strong>
+        </p>
+        <p>If more data types are added (e.g., <code class="inline-code">Margins</code>, <code class="inline-code">Padding</code>),
+        split them out at that point.</p>
+    </div>
+
+    <div class="issue-box med">
+        <h3><span class="severity-med">STRUCTURE</span> &mdash; Module not wired into the package</h3>
+        <p>Missing <code class="inline-code">__init__.py</code> (covered in correctness above).
+        Without it, the module is effectively invisible to the rest of the project.</p>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<section>
+    <h2>8) Architecture Findings</h2>
+
+    <div class="issue-box med">
+        <h3><span class="severity-med">ARCHITECTURE</span> &mdash; Naming collision: two <code class="inline-code">Bounds</code> classes</h3>
+        <p><strong>Evidence:</strong></p>
+        <ul>
+            <li><code class="inline-code">f_core.protocols.bounds.main.Bounds</code> &mdash; NamedTuple (top, left, bottom, right)</li>
+            <li><code class="inline-code">f_gui.layout.bounds.main.Bounds</code> &mdash; Full class (relative %, parent, computed absolute)</li>
+        </ul>
+        <p>These represent fundamentally different concepts:</p>
+        <table>
+            <thead><tr><th>Aspect</th><th>Protocol Bounds</th><th>GUI Bounds</th></tr></thead>
+            <tbody>
+                <tr><td>Type</td><td>NamedTuple (immutable)</td><td>Class with mixins (mutable parent)</td></tr>
+                <tr><td>Fields</td><td>top, left, bottom, right</td><td>relative (Rect), parent (Rect), absolute (computed)</td></tr>
+                <tr><td>Coordinate system</td><td>Absolute edges</td><td>Relative % + absolute parent</td></tr>
+                <tr><td>Inheritance</td><td>NamedTuple</td><td>Printable, Comparable</td></tr>
+                <tr><td>Used by</td><td>Nobody</td><td>f_gui_old/components</td></tr>
+            </tbody>
+        </table>
+
+        <h3>1) Tactical fix</h3>
+        <p>Rename the protocol-level class to <code class="inline-code">BoundingBox</code> to distinguish it.
+        This eliminates confusion with zero risk (no consumers exist).</p>
+
+        <h3>2) Strategic redesign</h3>
+        <p>Create a <code class="inline-code">f_core/types/</code> package for lightweight data containers
+        (NamedTuples, dataclasses). Move <code class="inline-code">Bounds</code> (renamed) there.
+        Keep the protocols package purely for Protocol definitions.
+        The protocol would then import from <code class="inline-code">f_core.types</code>:</p>
+        <pre><code># f_core/types/bounding_box.py
+from typing import NamedTuple, TypeVar
+T = TypeVar('T', int, float)
+class BoundingBox(NamedTuple):
+    top: T; left: T; bottom: T; right: T
+
+# f_core/protocols/bounds/main.py
+from typing import Protocol, Generic, TypeVar
+from f_core.types.bounding_box import BoundingBox
+T = TypeVar('T', int, float)
+class SupportsBounds(Protocol, Generic[T]):
+    def bounds(self) -> BoundingBox[T]: ...</code></pre>
+
+        <h3>3) Migration plan</h3>
+        <ol>
+            <li>Rename <code class="inline-code">Bounds</code> &rarr; <code class="inline-code">BoundingBox</code> in <code class="inline-code">main.py</code> (zero consumers, safe).</li>
+            <li>Create <code class="inline-code">__init__.py</code> exporting both symbols.</li>
+            <li>Add exports to <code class="inline-code">f_core/protocols/__init__.py</code>.</li>
+            <li>If/when more data types appear, extract to <code class="inline-code">f_core/types/</code>.</li>
+        </ol>
+    </div>
+
+    <div class="issue-box low">
+        <h3><span class="severity-low">PATTERN</span> &mdash; Protocol module pattern inconsistency</h3>
+        <p><strong>Evidence:</strong></p>
+        <ul>
+            <li><code class="inline-code">equality/main.py</code>: Protocol only</li>
+            <li><code class="inline-code">comparison/main.py</code>: Protocol only (extends equality)</li>
+            <li><code class="inline-code">rect_like.py</code>: Protocol only (flat file, not a package)</li>
+            <li><code class="inline-code">bounds/main.py</code>: Protocol + NamedTuple data class</li>
+        </ul>
+        <p>This is the only protocol module that co-locates a concrete data structure.
+        Not necessarily wrong, but breaks the established pattern.</p>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<section>
+    <h2>9) Suggestions for Improvements</h2>
+
+    <table>
+        <thead><tr><th>#</th><th>Issue</th><th>Risk</th><th>Benefit</th><th>Minimal Change</th></tr></thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Misplaced docstring (bug)</td>
+                <td class="severity-high">High &mdash; docstring is dead code</td>
+                <td>Correct introspection, IDE hints, help()</td>
+                <td>Move docstring before <code class="inline-code">...</code></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Missing <code class="inline-code">__init__.py</code></td>
+                <td class="severity-med">Medium &mdash; module invisible</td>
+                <td>Proper export, consistent with siblings</td>
+                <td>Create file with 1-line import</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Naming collision</td>
+                <td class="severity-med">Medium &mdash; confusion risk</td>
+                <td>Clear distinction between protocol-level and GUI types</td>
+                <td>Rename to <code class="inline-code">BoundingBox</code></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>TypeVar style</td>
+                <td class="severity-low">Low &mdash; works as-is</td>
+                <td>Supports numeric subclasses</td>
+                <td>Change to <code class="inline-code">bound=float</code> if needed</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>No further improvements needed beyond the items above.</p>
+</section>
+
+<footer>
+    <p>Review generated: 2026-02-11</p>
+    <p>Scope: f_core.protocols.bounds package &mdash; full system-aware review</p>
+</footer>
+
+</body>
+</html>

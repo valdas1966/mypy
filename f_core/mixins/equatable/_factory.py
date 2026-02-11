@@ -11,7 +11,7 @@ class Factory:
     class Char(Equatable):
         def __init__(self, char: str):
             self.char = char
-        def key_comparison(self) -> str:
+        def key(self) -> str:
             return self.char
 
     @staticmethod

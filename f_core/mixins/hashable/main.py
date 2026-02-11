@@ -17,4 +17,4 @@ class Hashable(Equatable):
          Return the hash of the object.
         ========================================================================
         """
-        return hash(self.key_comparison())
+        return hash(self.key)

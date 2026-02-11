@@ -54,7 +54,7 @@ class GraphDict(Generic[Key, Node],
         """
         raise NotImplementedError("Not implemented for GraphDict")
 
-    def key_comparison(self) -> dict[Key, Node]:
+    def key(self) -> dict[Key, Node]:
         """
         ========================================================================
          Return a Key-Comparison object.

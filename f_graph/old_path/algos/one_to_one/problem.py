@@ -59,7 +59,7 @@ class ProblemOneToOne(ProblemPath, Equatable):
                                start=problem.goal,
                                goal=problem.start)
 
-    def key_comparison(self) -> tuple[Graph, Node, Node]:
+    def key(self) -> tuple[Graph, Node, Node]:
         """
         ========================================================================
          Compare by a Tuple of (Graph, Start, Goal).

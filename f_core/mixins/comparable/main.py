@@ -17,8 +17,9 @@ class Comparable(Equatable, SupportsComparison):
     # Factory
     Factory: type | None = None
 
+    @property
     @abstractmethod
-    def key_comparison(self) -> SupportsComparison:
+    def key(self) -> SupportsComparison:
         """
         ========================================================================
          Return the key for comparison between two Comparable objects.
@@ -34,4 +35,4 @@ class Comparable(Equatable, SupportsComparison):
         """
         if not isinstance(other, Comparable):
             return NotImplemented
-        return self.key_comparison() < other.key_comparison()
+        return self.key < other.key

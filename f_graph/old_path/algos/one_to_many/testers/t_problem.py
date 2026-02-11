@@ -49,5 +49,5 @@ def test_key_comparison():
     ========================================================================
     """
     problem = GenProblemOneToMany.gen_3x3()
-    key = problem.key_comparison()
+    key = problem.key()
     assert key == (problem.graph, problem.start, problem.goals)
