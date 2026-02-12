@@ -47,21 +47,6 @@ class FrontierPriority(Generic[State, Priority], FrontierBase[State]):
         self._current[state] = (priority, cnt)
         heapq.heappush(self._heap, (priority, cnt, state))
 
-    def update(self, state: State, priority: Priority) -> None:
-        """
-        ========================================================================
-         1. Update priority of existing state.
-         2. Precondition: state must already be in frontier.
-         3. For A*: only call when better path found (lower f-value).
-         4. Creates new heap entry; old entry becomes stale and will be skipped.
-         5. Complexity: O(log n)
-        ========================================================================
-        """
-        self._counter += 1
-        cnt = self._counter
-        self._current[state] = (priority, cnt)
-        heapq.heappush(self._heap, (priority, cnt, state))
-
     def pop(self) -> State:
         """
         ========================================================================
@@ -108,6 +93,21 @@ class FrontierPriority(Generic[State, Priority], FrontierBase[State]):
                 continue
                 
             return state
+
+    def update(self, state: State, priority: Priority) -> None:
+        """
+        ========================================================================
+         1. Update priority of existing state.
+         2. Precondition: state must already be in frontier.
+         3. For A*: only call when better path found (lower f-value).
+         4. Creates new heap entry; old entry becomes stale and will be skipped.
+         5. Complexity: O(log n)
+        ========================================================================
+        """
+        self._counter += 1
+        cnt = self._counter
+        self._current[state] = (priority, cnt)
+        heapq.heappush(self._heap, (priority, cnt, state))
 
     def _compact(self) -> None:
         """

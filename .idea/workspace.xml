@@ -4,82 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_search/algos/i_1_neighborhood/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/algos/i_1_neighborhood/_bfs_modified.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/algos/i_1_neighborhood/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/algos/i_1_neighborhood/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/algos/i_1_neighborhood/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/check_diamonds.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/heuristics/manhattan/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/heuristics/manhattan/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/heuristics/manhattan/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/heuristics/protocol.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/problems/i_1_neighborhood/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/problems/i_1_neighborhood/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/problems/i_1_neighborhood/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/solutions/i_1_neighborhood/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/solutions/i_1_neighborhood/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/clonable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/generators/g_comparable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/generators/g_has_key.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/generators/g_has_row_col.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/hashable/CLAUDE_REVIEW.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/hashable/CLAUDE_REVIEW.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/hashable/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/hashable/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/hashable/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/hashable/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/hashable/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/hashable/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/old_comparable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/study/s_comparable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/study/s_cursorable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/study/s_has_generator.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/study/s_inputable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/study/s_iterable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/study/s_listable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/study/s_printable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/study/s_to_list.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_comparable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_cursorable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_equable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_has_key.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_has_row_col.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_has_rows_cols.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_has_uid.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_indexable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_iterable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_listable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_nameable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_parentable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_printable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_sortable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_to_list.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_validatable.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/test_id_autoincrement.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/map/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/map/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_0_base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_bfs/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_bfs/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/bfs/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/bfs/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/ds/data/i_1_heuristics/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/data/i_1_heuristics/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/check_problems.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/check_problems.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_2_diamonds.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_2_diamonds.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_3_problems.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_3_problems.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/heuristics/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/heuristics/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/heuristics/i_0_base/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/heuristics/i_0_base/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/heuristics/i_1_manhattan/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/heuristics/i_1_manhattan/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/problems/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/problems/mixins/has_goal/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/mixins/has_goal/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/problems/mixins/has_goals/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/mixins/has_goals/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/problems/mixins/has_start/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/mixins/has_start/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/solutions/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/solutions/__init__.py" afterDir="false" />
-    </list>
+    <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -1739,14 +1664,6 @@
       <workItem from="1770703006670" duration="7888000" />
       <workItem from="1770804142876" duration="9603000" />
     </task>
-    <task id="LOCAL-00275" summary="h">
-      <option name="closed" value="true" />
-      <created>1763641961458</created>
-      <option name="number" value="00275" />
-      <option name="presentableId" value="LOCAL-00275" />
-      <option name="project" value="LOCAL" />
-      <updated>1763641961458</updated>
-    </task>
     <task id="LOCAL-00276" summary="h">
       <option name="closed" value="true" />
       <created>1763662035899</created>
@@ -2131,7 +2048,15 @@
       <option name="project" value="LOCAL" />
       <updated>1770889702984</updated>
     </task>
-    <option name="localTasksCounter" value="324" />
+    <task id="LOCAL-00324" summary="h">
+      <option name="closed" value="true" />
+      <created>1770904243697</created>
+      <option name="number" value="00324" />
+      <option name="presentableId" value="LOCAL-00324" />
+      <option name="project" value="LOCAL" />
+      <updated>1770904243697</updated>
+    </task>
+    <option name="localTasksCounter" value="325" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
