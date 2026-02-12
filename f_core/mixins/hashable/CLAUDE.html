@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hashable - Documentation</title>
+    <title>Hashable — Documentation</title>
     <style>
         :root {
             --bg: #0b0f14;
@@ -146,7 +146,7 @@
                 <li><a href="#dependencies">Dependencies</a></li>
                 <li><a href="#usage">Usage Examples</a></li>
                 <li class="sep"><a href="../equatable/CLAUDE.html">Equatable Docs</a></li>
-                <li class="sep" style="border:none;"><a href="../comparable/claude.html">Comparable Docs</a></li>
+                <li class="sep" style="border:none;"><a href="../comparable/CLAUDE.html">Comparable Docs</a></li>
             </ul>
         </nav>
 
@@ -164,13 +164,13 @@
                     Mixin for objects that support hashing. Extends
                     <a href="../equatable/CLAUDE.html">Equatable</a> and implements
                     <code class="inline-code">__hash__</code> by delegating to the inherited
-                    <code class="inline-code">key()</code> method.
+                    <code class="inline-code">key</code> property.
                 </p>
                 <div class="note">
                     Maintains the Python invariant: <code class="inline-code">a == b</code> implies
                     <code class="inline-code">hash(a) == hash(b)</code>, since both
                     <code class="inline-code">__eq__</code> and <code class="inline-code">__hash__</code>
-                    delegate to the same <code class="inline-code">key()</code> value.
+                    delegate to the same <code class="inline-code">key</code> value.
                 </div>
                 <a href="#top" class="back-to-top">Back to top</a>
             </section>
@@ -198,22 +198,22 @@
                                 <code>def __hash__(self) -> int</code>
                             </div>
                             <p class="api-description">
-                                Returns <code class="inline-code">hash(self.key())</code>.
-                                The <code class="inline-code">key()</code> value must be hashable (immutable).
+                                Returns <code class="inline-code">hash(self.key)</code>.
+                                The <code class="inline-code">key</code> value must be hashable (immutable).
                             </p>
                         </div>
 
                         <div class="api-item" id="api-inherited">
                             <h4><span class="badge badge-inherited">INHERITED</span> From Equatable</h4>
                             <div class="api-signature inherited">
-                                <code>@abstractmethod<br>def key(self) -> SupportsEquality</code>
+                                <code>@property<br>@abstractmethod<br>def key(self) -> SupportsEquality</code>
                             </div>
                             <p class="api-description">Abstract &mdash; must be implemented by subclasses. Drives both <code class="inline-code">__eq__</code> and <code class="inline-code">__hash__</code>.</p>
 
                             <div class="api-signature inherited" style="margin-top: 0.75rem;">
                                 <code>def __eq__(self, other: object) -> bool</code>
                             </div>
-                            <p class="api-description">Equality via <code class="inline-code">key()</code>.</p>
+                            <p class="api-description">Equality via <code class="inline-code">key</code>. Returns <code class="inline-code">NotImplemented</code> if <code class="inline-code">other</code> is not an <code class="inline-code">Equatable</code>.</p>
                         </div>
                     </div>
                 </div>
@@ -243,7 +243,7 @@
                         </tr>
                         <tr>
                             <td><code class="inline-code"><a href="../equatable/CLAUDE.html">Equatable</a></code></td>
-                            <td>Provides <code class="inline-code">__eq__</code> and abstract <code class="inline-code">key()</code></td>
+                            <td>Provides <code class="inline-code">__eq__</code> and abstract <code class="inline-code">key</code> property</td>
                         </tr>
                     </tbody>
                 </table>
@@ -258,7 +258,7 @@
                 <table>
                     <thead><tr><th>Import</th><th>Used For</th></tr></thead>
                     <tbody>
-                        <tr><td><code class="inline-code">f_core.mixins.equatable.Equatable</code></td><td>Base class providing <code class="inline-code">key()</code> and <code class="inline-code">__eq__</code></td></tr>
+                        <tr><td><code class="inline-code">f_core.mixins.equatable.Equatable</code></td><td>Base class providing <code class="inline-code">key</code> property and <code class="inline-code">__eq__</code></td></tr>
                     </tbody>
                 </table>
 
@@ -272,7 +272,7 @@
 
                 <div class="panel">
                     <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
-                        <span>Example 1: Custom Implementation</span>
+                        <span>Example 1: Custom Subclass</span>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
@@ -280,10 +280,11 @@
 
 
 class Tag(Hashable):
-    def __init__(self, name: str):
+    def __init__(self, name: str) -&gt; None:
         self.name = name
 
-    def key(self) -> str:
+    @property
+    def key(self) -&gt; str:
         return self.name
 
 

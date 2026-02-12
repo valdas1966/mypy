@@ -1,76 +1,75 @@
 # Equatable
 
 ## Purpose
-
-Mixin for objects that support equality checks. Implements the `SupportsEquality` protocol by delegating `__eq__` to a single abstract `key()` method that subclasses must implement.
-
-`__ne__()` is omitted — Python derives `!=` from `__eq__` by default.
+Mixin for objects that support equality checks (`==`, `!=`).
+Subclasses implement a single abstract `key` property; `__eq__` delegates to comparing keys.
+`__ne__` is omitted — Python derives `!=` from `__eq__` by default.
 
 ## Public API
 
-### Class Attributes
-
+### Class Attribute
 ```python
 Factory: type | None = None
 ```
-Factory class for creating test instances. Attached via `__init__.py`.
+Factory for creating test instances. Wired via `__init__.py`.
 
-### Abstract Methods
-
+### Abstract Property
 ```python
+@property
 @abstractmethod
-def key(self) -> SupportsEquality
+def key(self) -> SupportsEquality:
 ```
-Returns the value that represents this object for equality. Must be implemented by subclasses. The returned value drives `__eq__`, and downstream: `__lt__` (via `Comparable`) and `__hash__` (via `Hashable`).
+Return the value used for equality comparison. Must be implemented by every subclass.
+This single property also drives `__lt__` (via `Comparable`) and `__hash__` (via `Hashable`) downstream.
 
 ### Dunder Methods
-
 ```python
-def __eq__(self, other: object) -> bool
+def __eq__(self, other: object) -> bool:
 ```
-Returns `True` if `self.key() == other.key()`. Returns `NotImplemented` if `other` is not an `Equatable`. Short-circuits with `True` if `other is self`.
+Returns `True` if `self.key == other.key`.
+Returns `NotImplemented` if `other` is not an `Equatable`.
+Short-circuits with `True` on identity (`other is self`).
 
 ## Inheritance (Hierarchy)
 
 ```
 SupportsEquality (Protocol)
  └── Equatable
+      ├── Comparable
+      └── Hashable
 ```
 
 | Base | Responsibility |
 |------|----------------|
-| `SupportsEquality` | Protocol defining `__eq__` contract |
-
-**Direct subclasses:** `Comparable`, `Hashable`
+| `SupportsEquality` | Protocol defining the `__eq__` contract |
 
 ## Dependencies
 
 | Import | Purpose |
 |--------|---------|
-| `abc.abstractmethod` | Decorator for `key()` |
+| `abc.abstractmethod` | Marks `key` as abstract |
 | `f_core.protocols.equality.main.SupportsEquality` | Protocol this class implements |
 
 ## Usage Examples
 
+### Custom Subclass
 ```python
 from f_core.mixins.equatable import Equatable
 
-
 class Point(Equatable):
-    def __init__(self, x: int, y: int):
+    def __init__(self, x: int, y: int) -> None:
         self.x = x
         self.y = y
 
+    @property
     def key(self) -> tuple[int, int]:
         return (self.x, self.y)
-
 
 Point(1, 2) == Point(1, 2)  # True
 Point(1, 2) != Point(3, 4)  # True
 ```
 
 ### Using the Factory
-
 ```python
 from f_core.mixins.equatable import Equatable
 

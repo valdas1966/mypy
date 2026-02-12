@@ -1,6 +1,6 @@
 from f_log.old.utils import set_debug, log_2
 from f_ds.grids import CellMap as Cell
-from f_search.problems import ProblemOMSPPLite as ProblemLite
+from f_search.problems import ProblemOMSPP as Problem
 from f_search.ds.state import StateCell as State
 from f_utils import u_pickle
 
@@ -21,13 +21,13 @@ def load_diamonds(pickle_diamonds: str) -> dict[str, list[Diamond]]:
 
 
 @log_2
-def get_problems(d_diamonds: dict[str, list[PairsDiamonds]]) -> list[ProblemLite]:
+def get_problems(d_diamonds: dict[str, list[PairsDiamonds]]) -> list[Problem]:
     """
     ========================================================================
      Get the problems for the given grids and diamonds.
     ========================================================================
     """
-    problems: list[ProblemLite] = []
+    problems: list[Problem] = []
     for grid in d_diamonds:
         pairs_diamonds = d_diamonds[grid]
         problems_cur = _get_problems_from_grid(grid, pairs_diamonds)
@@ -37,13 +37,13 @@ def get_problems(d_diamonds: dict[str, list[PairsDiamonds]]) -> list[ProblemLite
         
 @log_2
 def _get_problems_from_grid(grid: str,
-                            pairs_diamonds: PairsDiamonds) -> list[ProblemLite]:
+                            pairs_diamonds: PairsDiamonds) -> list[Problem]:
     """
     ========================================================================
      Get the problems for the given grid and pairs of diamonds.
     ========================================================================
     """
-    problems: list[ProblemLite] = []
+    problems: list[Problem] = []
     for diamond_a, diamond_b in pairs_diamonds:
         for k in k_values:
             # Problem from diamond_a to diamond_b.
@@ -51,19 +51,21 @@ def _get_problems_from_grid(grid: str,
             # Goals = first k cells of diamond_b.
             start = State(key=diamond_a[0])
             goals = [State(key=cell) for cell in diamond_b[:k]]
-            problem = ProblemLite(grid=grid, start=start, goals=goals)
+            problem = Problem(grid=grid, start=start, goals=goals)
+            problem.unload_grid()
             problems.append(problem)
             # Problem from diamond_b to diamond_a.
             # Start = first cell of diamond_b
             # Goals = first k cells of diamond_a.
             start = State(key=diamond_b[0])
             goals = [State(key=cell) for cell in diamond_a[:k]]
-            problem = ProblemLite(grid=grid, start=start, goals=goals)
+            problem = Problem(grid=grid, start=start, goals=goals)
+            problem.unload_grid()
             problems.append(problem)
     return problems
 
 @log_2
-def pickle_results(problems: dict[str, list[ProblemLite]],
+def pickle_results(problems: dict[str, list[Problem]],
                    pickle_problems: str) -> None:
     """
     ============================================================================
@@ -79,7 +81,7 @@ def pickle_results(problems: dict[str, list[ProblemLite]],
  For each pair we generate two problems (in both directions).
 -------------------------------------------------------------------------------
  Input: Pickle of dict[Grid.Name -> Grid], dict[Grid.Name -> List[Pair]].
- Output: Pickle of dict[Grid.Name -> List[ProblemLite]].
+ Output: Pickle of dict[Grid.Name -> List[Problem]].
 ===============================================================================
 """
 

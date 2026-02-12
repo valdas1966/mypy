@@ -18,3 +18,17 @@ def test_successors() -> None:
     successors = problem.successors(state=state_00)
     successors_true = [state_01, state_10]
     assert successors == successors_true
+
+
+def test_light_and_heavy() -> None:
+    """
+    ========================================================================
+     Test the light and heavy methods.
+    ========================================================================
+    """
+    problem = ProblemSearch.Factory.grid_3x3()
+    problem_light = problem.to_light()
+    assert problem_light.grid == '3x3'
+    grids = {problem.grid.name: problem.grid}
+    problem_heavy = problem_light.to_heavy(grids=grids)
+    assert problem_heavy.grid == problem.grid

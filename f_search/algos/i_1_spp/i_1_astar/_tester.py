@@ -62,3 +62,18 @@ def test_counters_with_obstacles() -> None:
     solution = astar.run()
     assert solution.stats.discovered == 13
     assert solution.stats.explored == 8
+
+def test_without_obstacles_with_cell_00() -> None:
+    """
+    ========================================================================
+     Test AStar algorithm without obstacles and with an explored Cell(0,0).
+    ========================================================================
+    """
+    astar = AStar.Factory.without_obstacles_with_cell_00()
+    solution = astar.run()
+    cells_path = [state.key for state in solution.path._states]
+    grid = astar.problem.grid
+    cells_true = [grid[0][0], grid[0][1], grid[0][2], grid[0][3]]
+    assert cells_path == cells_true
+    assert solution.stats.explored == 2
+    assert solution.stats.discovered == 4

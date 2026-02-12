@@ -13,12 +13,24 @@ class DataHeuristics(Generic[State], DataBestFirst[State]):
      Data structure for Heuristics.
     ===========================================================================
     """
-    
-    def __init__(self, frontier: FrontierPriority[State, PriorityGH]) -> None:
+
+    # Factory
+    Factory : type | None = None
+
+    def __init__(self,
+                 frontier: FrontierPriority[State, PriorityGH],
+                 explored: set[StateBase] = None,
+                 dict_parent: dict[State, State] = None,
+                 dict_g: dict[State, int] = None,
+                 dict_h: dict[State, int] = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        DataBestFirst.__init__(self, frontier=frontier)
-        self.dict_h: dict[State, int] = dict()
+        DataBestFirst.__init__(self,
+                               frontier=frontier,
+                               explored=explored,
+                               dict_parent=dict_parent,
+                               dict_g=dict_g)
+        self.dict_h = dict_h if dict_h else dict()

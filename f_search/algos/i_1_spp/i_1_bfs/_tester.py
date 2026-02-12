@@ -19,6 +19,8 @@ def test_without_obstacles() -> None:
     cells_generated_true = {grid[1][2], grid[2][1], grid[3][0]}
     cells_generated = {state.key for state in bfs._data.frontier}
     assert cells_generated == cells_generated_true
+    assert solution.stats.explored == 6
+    assert solution.stats.discovered == 10
 
 
 def test_without_obstacles_with_cell_00() -> None:
@@ -40,5 +42,4 @@ def test_without_obstacles_with_cell_00() -> None:
     cells_generated = {state.key for state in bfs._data.frontier}
     assert cells_generated == cells_generated_true
     assert solution.stats.explored == 5
-    assert solution.stats.discovered == 6
-
+    assert solution.stats.discovered == 7

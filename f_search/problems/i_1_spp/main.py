@@ -2,6 +2,7 @@ from f_search.problems import ProblemSearch
 from f_search.ds.state import StateCell as State
 from f_ds.grids import GridMap as Grid
 from f_search.problems.mixins import HasStart, HasGoal
+from typing import Self
 
 
 class ProblemSPP(ProblemSearch, HasStart, HasGoal):
@@ -27,3 +28,25 @@ class ProblemSPP(ProblemSearch, HasStart, HasGoal):
         ProblemSearch.__init__(self, grid=grid, name=name)
         HasStart.__init__(self, start=start)
         HasGoal.__init__(self, goal=goal)
+
+    def to_light(self) -> Self:
+        """
+        ========================================================================
+         Return a light object (Grid.Name instead of Grid object).
+        ========================================================================
+        """
+        return type(self)(grid=self.grid.name,
+                          start=self.start,
+                          goal=self.goal,
+                          name=self.name)
+
+    def to_heavy(self, grids: dict[str, Grid]) -> Self:
+        """
+        ========================================================================
+         Return a heavy object (Grid object instead of Grid.Name).
+        ========================================================================
+        """
+        return type(self)(grid=grids[self.grid],
+                          start=self.start,
+                          goal=self.goal,
+                          name=self.name)

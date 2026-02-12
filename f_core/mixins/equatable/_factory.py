@@ -4,7 +4,7 @@ from f_core.mixins.equatable.main import Equatable
 class Factory:
     """
     ============================================================================
-     Factory for the Equable class.
+     Factory for the Equatable class.
     ============================================================================
     """
 

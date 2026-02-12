@@ -30,7 +30,7 @@ class SolutionOMSPP(SolutionSearch[ProblemOMSPP, StatsSearch]):
                             discovered=discovered,
                             explored=explored)
         SolutionSearch.__init__(self, problem=problem, is_valid=is_valid, stats=stats)
-        self._sub_solutions = subs
+        self._subs = subs
         self._paths = {sub.problem.goal: sub.path for sub in subs}
 
     @property
@@ -43,10 +43,10 @@ class SolutionOMSPP(SolutionSearch[ProblemOMSPP, StatsSearch]):
         return self._paths
 
     @property
-    def subs(self) -> dict[State, SolutionSPP]:
+    def subs(self) -> list[SolutionSPP]:
         """
         ========================================================================
          Return the Sub-Solutions.
         ========================================================================
         """
-        return self._sub_solutions
+        return self._subs

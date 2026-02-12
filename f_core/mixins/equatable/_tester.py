@@ -11,6 +11,8 @@ def test_eq() -> None:
     b = Equatable.Factory.b()
     assert a == a
     assert a != b
+    assert a != 42
+    assert a != "A"
 
 
 def test_ne() -> None:

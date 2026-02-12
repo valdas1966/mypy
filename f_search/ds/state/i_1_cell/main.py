@@ -11,7 +11,7 @@ class StateCell(StateBase[Cell]):
     """
     
     # Factory
-    Factory = None
+    Factory: type | None = None
 
     def __init__(self,
                  key: Cell) -> None:

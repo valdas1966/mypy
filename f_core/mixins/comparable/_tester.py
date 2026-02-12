@@ -29,6 +29,7 @@ def test_lt(a: Comparable, b: Comparable) -> None:
     """
     assert a < b
     assert not (b < a)
+    assert a.__lt__(42) is NotImplemented
 
 
 def test_le(a: Comparable, b: Comparable) -> None:
@@ -64,5 +65,11 @@ def test_ge(a: Comparable, b: Comparable) -> None:
 
 
 def test_eq(a: Comparable, b: Comparable) -> None:
+    """
+    ========================================================================
+     Test the __eq__() method.
+    ========================================================================
+    """
     assert a == a
-
+    assert a != b
+    assert a != 42

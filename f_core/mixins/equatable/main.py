@@ -12,7 +12,7 @@ class Equatable(SupportsEquality):
     """
 
     # Factory
-    Factory: type | None= None
+    Factory: type | None = None
 
     @property
     @abstractmethod

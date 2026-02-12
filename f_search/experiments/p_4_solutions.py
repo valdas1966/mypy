@@ -1,7 +1,8 @@
 from f_log.old.utils import set_debug, log_2
-from f_search.problems import ProblemOMSPP, ProblemOMSPPLite as ProblemLite
+from f_search.problems import ProblemOMSPP
 from f_search.algos.i_2_omspp import AlgoOMSPP
-from f_search.algos.i_2_omspp import AStarAggregative
+from f_search.algos.i_2_omspp import AStarRepeated
+from f_search.algos.i_2_omspp import BFSIncremental
 from f_search.solutions import SolutionOMSPP
 from f_ds.grids import GridMap as Grid
 from f_utils import u_pickle
@@ -18,7 +19,7 @@ def load_grids(pickle_grids: str) -> dict[str, Grid]:
 
 
 @log_2
-def load_problems(pickle_problems: str) -> list[ProblemLite]:
+def load_problems(pickle_problems: str) -> list[ProblemOMSPP]:
     """
     ========================================================================
      Load the problems from the pickle file.
@@ -30,15 +31,15 @@ def load_problems(pickle_problems: str) -> list[ProblemLite]:
 @log_2
 def run_algos(type_algo: type[AlgoOMSPP],
               d_grids: dict[str, Grid],
-              problems: list[ProblemLite]) -> list[SolutionOMSPP]:
+              problems: list[ProblemOMSPP]) -> list[SolutionOMSPP]:
     """
     ========================================================================
      Run the algorithms for the given problems.
     ========================================================================
     """
     solutions: list[SolutionOMSPP] = []
-    for i, problem_lite in enumerate(problems):
-        problem = problem_lite.materialize(grids=d_grids)
+    for i, problem in enumerate(problems):
+        problem.load_grid(grids=d_grids)
         solution = _run_problem(type_algo, problem, i)
         solutions.append(solution)
     return solutions
@@ -70,7 +71,7 @@ def _run_problem(type_algo: type[AlgoOMSPP],
 ===============================================================================
  Main - Load the grids and problems.
 -------------------------------------------------------------------------------
- Input: Pickle of dict[Grid.Name -> Grid], Pickle of list[ProblemLite].
+ Input: Pickle of dict[Grid.Name -> Grid], Pickle of list[ProblemOMSPP].
  Output: None.
 ===============================================================================
 """
@@ -80,8 +81,8 @@ set_debug(True)
 pickle_grids = 'f:\\paper\\i_1_grids\\grids.pkl'
 pickle_problems = 'f:\\paper\\i_3_problems\\problems.pkl'
 
-algo = AStarAggregative
-pickle_solutions = f'f:\\paper\\i_4_solutions\\aggregative.pkl'
+algo = BFSIncremental
+pickle_solutions = f'f:\\paper\\i_4_solutions\\bfs_incremental.pkl'
 
 d_grids = load_grids(pickle_grids)
 problems = load_problems(pickle_problems)

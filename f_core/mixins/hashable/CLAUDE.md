@@ -1,35 +1,35 @@
 # Hashable
 
 ## Purpose
-
-Mixin for objects that support hashing. Extends `Equatable` and implements `__hash__` by delegating to the inherited `key()` method. Ensures that objects with equal keys produce equal hashes, maintaining the Python invariant `a == b` implies `hash(a) == hash(b)`.
+Mixin for objects that support hashing. Extends `Equatable` and implements `__hash__` by delegating to the inherited abstract `key` property.
+Maintains the Python invariant: `a == b` implies `hash(a) == hash(b)`, since both `__eq__` and `__hash__` delegate to the same `key` value.
 
 ## Public API
 
-### Class Attributes
-
+### Class Attribute
 ```python
 Factory: type | None = None
 ```
-Factory class for creating test instances. Attached via `__init__.py`.
+Factory for creating test instances. Wired via `__init__.py`.
 
 ### Dunder Methods
-
 ```python
-def __hash__(self) -> int
+def __hash__(self) -> int:
 ```
-Returns `hash(self.key())`. The `key()` value must be hashable (i.e., immutable).
+Returns `hash(self.key)`. The `key` value must be hashable (i.e., immutable).
 
 ### Inherited from Equatable
-
 ```python
+@property
 @abstractmethod
-def key(self) -> SupportsEquality
+def key(self) -> SupportsEquality:
 ```
+Abstract — must be implemented by every subclass. Drives both `__eq__` (inherited from `Equatable`) and `__hash__` (this class).
 
 ```python
-def __eq__(self, other: object) -> bool
+def __eq__(self, other: object) -> bool:
 ```
+Equality via `key`. Returns `NotImplemented` if `other` is not an `Equatable`.
 
 ## Inheritance (Hierarchy)
 
@@ -42,24 +42,26 @@ SupportsEquality (Protocol)
 | Base | Responsibility |
 |------|----------------|
 | `SupportsEquality` | Protocol defining `__eq__` contract |
-| `Equatable` | Provides `__eq__` and abstract `key()` |
+| `Equatable` | Provides `__eq__` and abstract `key` property |
 
 ## Dependencies
 
 | Import | Purpose |
 |--------|---------|
-| `f_core.mixins.equatable.Equatable` | Base class providing `key()` and `__eq__` |
+| `f_core.mixins.equatable.Equatable` | Base class providing `key` property and `__eq__` |
 
 ## Usage Examples
 
+### Custom Subclass
 ```python
 from f_core.mixins.hashable import Hashable
 
 
 class Tag(Hashable):
-    def __init__(self, name: str):
+    def __init__(self, name: str) -> None:
         self.name = name
 
+    @property
     def key(self) -> str:
         return self.name
 
@@ -73,7 +75,6 @@ hash(a) == hash(b)  # True
 ```
 
 ### Using the Factory
-
 ```python
 from f_core.mixins.hashable import Hashable
 

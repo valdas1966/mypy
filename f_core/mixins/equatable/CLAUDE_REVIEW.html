@@ -1,734 +1,517 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equatable - Code Review Report</title>
-    <style>
-        :root {
-            --bg: #0b0f14;
-            --panel: #111827;
-            --panel2: #0f172a;
-            --text: #f8fafc;
-            --muted: #cbd5e1;
-            --faint: #94a3b8;
-            --border: #334155;
-            --accent: #60a5fa;
-            --accent2: #a78bfa;
-            --good: #34d399;
-            --warn: #fbbf24;
-            --bad: #fb7185;
-            --code-bg: #0a1220;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Equatable — Code Review Report</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-        }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
 
-        a { color: var(--accent); text-decoration: none; }
-        a:hover { text-decoration: underline; color: var(--accent2); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; color: var(--accent2); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-        .container { display: flex; min-height: 100vh; }
+.container { display: flex; min-height: 100vh; }
 
-        .sidebar {
-            width: 280px;
-            background: var(--panel);
-            border-right: 2px solid var(--border);
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            overflow-y: auto;
-            padding: 1.5rem;
-        }
+.sidebar {
+    width: 280px;
+    background: var(--panel);
+    border-right: 2px solid var(--border);
+    position: fixed;
+    top: 0; left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 1.5rem;
+}
+.sidebar h2 { color: var(--text); font-size: 1rem; margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 2px solid var(--border); }
+.sidebar ul { list-style: none; }
+.sidebar li { margin-bottom: .5rem; }
+.sidebar a { display: block; padding: .4rem .6rem; border-radius: 4px; color: var(--muted); font-size: .9rem; }
+.sidebar a:hover { background: var(--panel2); color: var(--text); text-decoration: none; }
 
-        .sidebar h2 { color: var(--text); font-size: 1rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
-        .sidebar ul { list-style: none; }
-        .sidebar li { margin-bottom: 0.5rem; }
-        .sidebar a { display: block; padding: 0.4rem 0.6rem; border-radius: 4px; color: var(--muted); font-size: 0.9rem; }
-        .sidebar a:hover { background: var(--panel2); color: var(--text); text-decoration: none; }
+.main { margin-left: 280px; flex: 1; padding: 2rem 3rem; max-width: 960px; }
 
-        .main { margin-left: 280px; flex: 1; padding: 2rem 3rem; max-width: 960px; }
+header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
+header h1 { font-size: 2.2rem; color: #fff; margin-bottom: .5rem; }
+header .path { color: var(--faint); font-family: monospace; font-size: .9rem; }
+header .tag { display: inline-block; margin-top: .5rem; padding: .25rem .75rem; border-radius: 4px; font-size: .8rem; font-weight: 600; background: var(--accent2); color: var(--bg); }
 
-        header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
-        header h1 { font-size: 2.2rem; color: #fff; margin-bottom: 0.5rem; }
-        header .path { color: var(--faint); font-family: monospace; font-size: 0.9rem; }
-        header .tag { display: inline-block; margin-top: 0.5rem; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
-        header .tag-review { background: var(--accent2); color: var(--bg); }
+section { margin-bottom: 3rem; }
+h2 { color: #fff; font-size: 1.5rem; margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 2px solid var(--border); }
+h3 { color: var(--text); font-size: 1.15rem; margin: 1.5rem 0 .75rem; }
+p { margin-bottom: 1rem; color: var(--text); }
+ul { margin: .5rem 0 1rem 1.5rem; color: var(--text); }
+li { margin-bottom: .4rem; }
 
-        section { margin-bottom: 3rem; }
-        h2 { color: #fff; font-size: 1.5rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
-        h3 { color: var(--text); font-size: 1.15rem; margin: 1.5rem 0 0.75rem; }
-        h4 { color: var(--muted); font-size: 1rem; margin: 1rem 0 0.5rem; }
-        p { margin-bottom: 1rem; color: var(--text); }
+.note { background: var(--panel2); border-left: 3px solid var(--accent); padding: .75rem 1rem; margin: 1rem 0; color: var(--muted); font-size: .9rem; }
+.note-good { border-left-color: var(--good); }
+.note-warn { border-left-color: var(--warn); }
+.note-bad { border-left-color: var(--bad); }
 
-        ul { margin: 0.5rem 0 1rem 1.5rem; color: var(--text); }
-        li { margin-bottom: 0.4rem; }
+pre { background: var(--code-bg); border: 2px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+code { font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace; font-size: .9rem; color: var(--text); }
+pre code { display: block; line-height: 1.5; }
+.ic { background: var(--panel2); padding: .15rem .4rem; border-radius: 3px; font-size: .85rem; }
 
-        .note { background: var(--panel2); border-left: 3px solid var(--accent); padding: 0.75rem 1rem; margin: 1rem 0; color: var(--muted); font-size: 0.9rem; }
-        .note-good { border-left-color: var(--good); }
-        .note-warn { border-left-color: var(--warn); }
-        .note-bad { border-left-color: var(--bad); }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+th, td { padding: .75rem; text-align: left; border: 1px solid var(--border); }
+th { background: var(--panel2); color: #fff; font-weight: 600; }
+td { background: var(--panel); color: var(--muted); }
 
-        pre { background: var(--code-bg); border: 2px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
-        code { font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace; font-size: 0.9rem; color: var(--text); }
-        pre code { display: block; line-height: 1.5; }
-        .inline-code { background: var(--panel2); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.85rem; }
+.v { display: inline-block; padding: .2rem .6rem; border-radius: 4px; font-size: .8rem; font-weight: 600; }
+.v-pass { background: var(--good); color: var(--bg); }
+.v-minor { background: var(--warn); color: var(--bg); }
+.v-fail { background: var(--bad); color: var(--bg); }
 
-        .panel { background: var(--panel); border: 2px solid var(--border); border-radius: 8px; margin: 1rem 0; overflow: hidden; }
-        .panel-header { background: var(--panel2); padding: 0.75rem 1rem; font-weight: 600; color: #fff; }
+.fr { color: var(--accent); font-family: monospace; font-size: .85rem; }
 
-        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-        th, td { padding: 0.75rem; text-align: left; border: 1px solid var(--border); }
-        th { background: var(--panel2); color: #fff; font-weight: 600; }
-        td { background: var(--panel); color: var(--muted); }
+footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); color: var(--faint); font-size: .85rem; }
 
-        .verdict { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
-        .verdict-pass { background: var(--good); color: var(--bg); }
-        .verdict-minor { background: var(--warn); color: var(--bg); }
-        .verdict-fail { background: var(--bad); color: var(--bg); }
-
-        .file-ref { color: var(--accent); font-family: monospace; font-size: 0.85rem; }
-
-        footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); color: var(--faint); font-size: 0.85rem; }
-
-        @media (max-width: 900px) {
-            .sidebar { position: static; width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border); }
-            .main { margin-left: 0; padding: 1.5rem; }
-            .container { flex-direction: column; }
-        }
-    </style>
+@media (max-width: 900px) {
+    .sidebar { position: static; width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border); }
+    .main { margin-left: 0; padding: 1.5rem; }
+    .container { flex-direction: column; }
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <nav class="sidebar">
-            <h2>Review Sections</h2>
-            <ul>
-                <li><a href="#summary">Summary</a></li>
-                <li><a href="#dependency-map">0. Dependency Map</a></li>
-                <li><a href="#correctness">1. Must-fix Issues (Correctness)</a></li>
-                <li><a href="#readability">2. Readability / Maintainability</a></li>
-                <li><a href="#design">3. Design Review</a></li>
-                <li><a href="#performance">4. Performance Notes</a></li>
-                <li><a href="#typing">5. Typing Review</a></li>
-                <li><a href="#documentation">6. Documentation Review</a></li>
-                <li><a href="#modularity">7. Modularity</a></li>
-                <li><a href="#architecture">8. Architecture Findings</a></li>
-                <li><a href="#suggestions">9. Suggestions for Improvements</a></li>
-            </ul>
-        </nav>
+<div class="container">
 
-        <main class="main">
-            <header id="top">
-                <h1>Module Review Report</h1>
-                <div class="path">f_core/mixins/equatable/</div>
-                <span class="tag tag-review">CODE REVIEW</span>
-                <p style="margin-top: 1rem; color: var(--muted);">
-                    Files reviewed:
-                    <code class="inline-code">main.py</code>,
-                    <code class="inline-code">_factory.py</code>,
-                    <code class="inline-code">_tester.py</code>,
-                    <code class="inline-code">__init__.py</code>
-                </p>
-                <p style="color: var(--muted);">
-                    Deep-inspected dependencies:
-                    <code class="inline-code">f_core.protocols.equality.main.SupportsEquality</code>,
-                    <code class="inline-code">abc.abstractmethod</code>
-                </p>
-            </header>
+<nav class="sidebar">
+    <h2>Review Sections</h2>
+    <ul>
+        <li><a href="#dependency-map">0. Dependency Map</a></li>
+        <li><a href="#summary">Summary</a></li>
+        <li><a href="#correctness">1. Correctness</a></li>
+        <li><a href="#readability">2. Readability</a></li>
+        <li><a href="#design">3. Design Review</a></li>
+        <li><a href="#performance">4. Performance</a></li>
+        <li><a href="#typing">5. Typing</a></li>
+        <li><a href="#documentation">6. Documentation</a></li>
+        <li><a href="#modularity">7. Modularity</a></li>
+        <li><a href="#architecture">8. Architecture</a></li>
+        <li><a href="#suggestions">9. Suggestions</a></li>
+    </ul>
+</nav>
 
-            <!-- ============================================================ -->
-            <!-- SECTION 0: DEPENDENCY MAP                                     -->
-            <!-- ============================================================ -->
-            <section id="dependency-map">
-                <h2>0. Dependency Map</h2>
+<main class="main">
 
-                <h3>main.py &mdash; Used Imports</h3>
-                <table>
-                    <thead>
-                        <tr><th>Import</th><th>Symbol(s) Used</th><th>How Used</th><th>Direction</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code class="inline-code">abc.abstractmethod</code></td>
-                            <td><code class="inline-code">abstractmethod</code></td>
-                            <td>Decorator on <code class="inline-code">key()</code> (<span class="file-ref">main.py:17</span>)</td>
-                            <td><span class="verdict verdict-pass">OK</span> stdlib</td>
-                        </tr>
-                        <tr>
-                            <td><code class="inline-code">f_core.protocols.equality.main</code></td>
-                            <td><code class="inline-code">SupportsEquality</code></td>
-                            <td>
-                                1. Base class of <code class="inline-code">Equatable</code> (<span class="file-ref">main.py:5</span>)<br>
-                                2. Return type annotation of <code class="inline-code">key()</code> (<span class="file-ref">main.py:18</span>)
-                            </td>
-                            <td><span class="verdict verdict-pass">OK</span> protocol &rarr; mixin is correct direction</td>
-                        </tr>
-                    </tbody>
-                </table>
+<header id="top">
+    <h1>Module Review Report</h1>
+    <div class="path">f_core/mixins/equatable/</div>
+    <span class="tag">CODE REVIEW</span>
+    <p style="margin-top:1rem;color:var(--muted)">
+        Files reviewed:
+        <code class="ic">main.py</code>,
+        <code class="ic">_factory.py</code>,
+        <code class="ic">_tester.py</code>,
+        <code class="ic">__init__.py</code>
+    </p>
+    <p style="color:var(--muted)">
+        Deep-inspected:
+        <code class="ic">f_core.protocols.equality.main.SupportsEquality</code>
+    </p>
+</header>
 
-                <h3>_factory.py &mdash; Used Imports</h3>
-                <table>
-                    <thead>
-                        <tr><th>Import</th><th>Symbol(s) Used</th><th>How Used</th><th>Direction</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code class="inline-code">f_core.mixins.equatable.main</code></td>
-                            <td><code class="inline-code">Equatable</code></td>
-                            <td>
-                                1. Base class of <code class="inline-code">Factory.Char</code> (<span class="file-ref">_factory.py:11</span>)<br>
-                                2. Return type annotation of <code class="inline-code">a()</code> and <code class="inline-code">b()</code> (<span class="file-ref">_factory.py:18, 28</span>)
-                            </td>
-                            <td><span class="verdict verdict-pass">OK</span> factory depends on class it builds</td>
-                        </tr>
-                    </tbody>
-                </table>
+<!-- ================================================================ -->
+<section id="dependency-map">
+    <h2>0. Dependency Map</h2>
 
-                <h3>_tester.py &mdash; Used Imports</h3>
-                <table>
-                    <thead>
-                        <tr><th>Import</th><th>Symbol(s) Used</th><th>How Used</th><th>Direction</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code class="inline-code">f_core.mixins.equatable.main</code></td>
-                            <td><code class="inline-code">Equatable</code></td>
-                            <td>
-                                Accesses <code class="inline-code">Equatable.Factory.a()</code> and <code class="inline-code">Equatable.Factory.b()</code>
-                                (<span class="file-ref">_tester.py:10-11, 22-23</span>)
-                            </td>
-                            <td><span class="verdict verdict-pass">OK</span> test depends on tested class</td>
-                        </tr>
-                    </tbody>
-                </table>
+    <h3>main.py &mdash; Used Imports</h3>
+    <table>
+        <thead><tr><th>Import</th><th>Symbol</th><th>How Used</th><th>Direction</th></tr></thead>
+        <tbody>
+            <tr>
+                <td><code class="ic">abc</code></td>
+                <td><code class="ic">abstractmethod</code></td>
+                <td>Decorator on <code class="ic">key</code> (<span class="fr">main.py:17</span>)</td>
+                <td><span class="v v-pass">OK</span> stdlib</td>
+            </tr>
+            <tr>
+                <td><code class="ic">f_core.protocols.equality.main</code></td>
+                <td><code class="ic">SupportsEquality</code></td>
+                <td>
+                    1. Base class of <code class="ic">Equatable</code> (<span class="fr">main.py:5</span>)<br>
+                    2. Return type of <code class="ic">key</code> (<span class="fr">main.py:19</span>)
+                </td>
+                <td><span class="v v-pass">OK</span> protocol &rarr; mixin</td>
+            </tr>
+        </tbody>
+    </table>
 
-                <h3>__init__.py &mdash; Used Imports</h3>
-                <table>
-                    <thead>
-                        <tr><th>Import</th><th>Symbol(s) Used</th><th>How Used</th><th>Direction</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code class="inline-code">f_core.mixins.equatable.main</code></td>
-                            <td><code class="inline-code">Equatable</code></td>
-                            <td>Target of <code class="inline-code">Equatable.Factory = Factory</code> assignment (<span class="file-ref">__init__.py:4</span>)</td>
-                            <td><span class="verdict verdict-pass">OK</span></td>
-                        </tr>
-                        <tr>
-                            <td><code class="inline-code">f_core.mixins.equatable._factory</code></td>
-                            <td><code class="inline-code">Factory</code></td>
-                            <td>Assigned to <code class="inline-code">Equatable.Factory</code> (<span class="file-ref">__init__.py:4</span>)</td>
-                            <td><span class="verdict verdict-pass">OK</span></td>
-                        </tr>
-                    </tbody>
-                </table>
+    <h3>_factory.py &mdash; Used Imports</h3>
+    <table>
+        <thead><tr><th>Import</th><th>Symbol</th><th>How Used</th><th>Direction</th></tr></thead>
+        <tbody>
+            <tr>
+                <td><code class="ic">f_core.mixins.equatable.main</code></td>
+                <td><code class="ic">Equatable</code></td>
+                <td>
+                    Base of <code class="ic">Factory.Char</code> (<span class="fr">_factory.py:11</span>);
+                    return type of <code class="ic">a()</code>, <code class="ic">b()</code>
+                </td>
+                <td><span class="v v-pass">OK</span> factory &rarr; class</td>
+            </tr>
+        </tbody>
+    </table>
 
-                <h3>Deep Inspection: SupportsEquality</h3>
-                <div class="note note-good">
-                    Inspected at <span class="file-ref">f_core/protocols/equality/main.py</span>. It is a
-                    <code class="inline-code">typing.Protocol</code> defining only
-                    <code class="inline-code">__eq__(self, other: object) -> bool</code>.
-                    No runtime logic, no additional dependencies beyond <code class="inline-code">typing.Protocol</code>.
-                    Clean structural-subtyping contract.
-                </div>
+    <h3>_tester.py &mdash; Used Imports</h3>
+    <table>
+        <thead><tr><th>Import</th><th>Symbol</th><th>How Used</th><th>Direction</th></tr></thead>
+        <tbody>
+            <tr>
+                <td><code class="ic">f_core.mixins.equatable.main</code></td>
+                <td><code class="ic">Equatable</code></td>
+                <td><code class="ic">Equatable.Factory.a()</code> / <code class="ic">.b()</code> (<span class="fr">_tester.py:10-11, 22-23</span>)</td>
+                <td><span class="v v-pass">OK</span> test &rarr; class</td>
+            </tr>
+        </tbody>
+    </table>
 
-                <h3>Cycle / Inversion / Layering Analysis</h3>
-                <ul>
-                    <li><strong>Cycles:</strong> None detected. The dependency graph is acyclic:
-                        <code class="inline-code">Protocol &rarr; Mixin &rarr; Factory &rarr; (attached in __init__)</code>.</li>
-                    <li><strong>Inversions:</strong> None. The mixin depends on the protocol (abstract &rarr; concrete), which is correct.</li>
-                    <li><strong>Layering:</strong> Clean. <code class="inline-code">_factory.py</code> imports from
-                        <code class="inline-code">main.py</code> (not from <code class="inline-code">__init__.py</code>),
-                        avoiding circular import at package init time.</li>
-                </ul>
-            </section>
+    <h3>__init__.py &mdash; Used Imports</h3>
+    <table>
+        <thead><tr><th>Import</th><th>Symbol</th><th>How Used</th><th>Direction</th></tr></thead>
+        <tbody>
+            <tr>
+                <td><code class="ic">.main</code></td>
+                <td><code class="ic">Equatable</code></td>
+                <td>Re-export + Factory wiring target (<span class="fr">__init__.py:1,4</span>)</td>
+                <td><span class="v v-pass">OK</span></td>
+            </tr>
+            <tr>
+                <td><code class="ic">._factory</code></td>
+                <td><code class="ic">Factory</code></td>
+                <td>Assigned to <code class="ic">Equatable.Factory</code> (<span class="fr">__init__.py:2,4</span>)</td>
+                <td><span class="v v-pass">OK</span></td>
+            </tr>
+        </tbody>
+    </table>
 
-            <!-- ============================================================ -->
-            <!-- SUMMARY                                                       -->
-            <!-- ============================================================ -->
-            <section id="summary">
-                <h2>Summary</h2>
-                <div class="note note-good">
-                    The <code class="inline-code">equatable</code> module is well-structured, minimal, and correct.
-                    The design is clean: one abstract method (<code class="inline-code">key()</code>) drives equality,
-                    and the factory pattern is neatly separated. Only two substantive issues were found.
-                </div>
-                <table>
-                    <thead>
-                        <tr><th>Area</th><th>Verdict</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Correctness</td><td><span class="verdict verdict-minor">1 MINOR ISSUE</span></td></tr>
-                        <tr><td>Readability</td><td><span class="verdict verdict-minor">1 MINOR ISSUE</span></td></tr>
-                        <tr><td>Design (OOP)</td><td><span class="verdict verdict-pass">PASS</span></td></tr>
-                        <tr><td>Performance</td><td><span class="verdict verdict-pass">PASS</span></td></tr>
-                        <tr><td>Typing</td><td><span class="verdict verdict-minor">1 MINOR ISSUE</span></td></tr>
-                        <tr><td>Documentation</td><td><span class="verdict verdict-minor">1 MINOR ISSUE</span></td></tr>
-                        <tr><td>Modularity</td><td><span class="verdict verdict-pass">PASS</span></td></tr>
-                        <tr><td>Architecture</td><td><span class="verdict verdict-pass">PASS</span></td></tr>
-                    </tbody>
-                </table>
-            </section>
+    <h3>Deep Inspection: SupportsEquality</h3>
+    <div class="note note-good">
+        <span class="fr">f_core/protocols/equality/main.py</span> &mdash;
+        A <code class="ic">typing.Protocol</code> defining only
+        <code class="ic">__eq__(self, other: object) -> bool</code>.
+        No runtime logic. No additional dependencies beyond <code class="ic">typing.Protocol</code>.
+        Clean structural-subtyping contract.
+    </div>
 
-            <!-- ============================================================ -->
-            <!-- SECTION 1: CORRECTNESS                                        -->
-            <!-- ============================================================ -->
-            <section id="correctness">
-                <h2>1. Must-fix Issues (Correctness)</h2>
+    <h3>Cycle / Inversion / Layering</h3>
+    <ul>
+        <li><strong>Cycles:</strong> None. Acyclic graph: Protocol &rarr; Mixin &rarr; Factory &rarr; wired in __init__.</li>
+        <li><strong>Inversions:</strong> None. Mixin depends on protocol (abstract &rarr; concrete). Correct.</li>
+        <li><strong>Layering:</strong> Clean. <code class="ic">_factory.py</code> imports from <code class="ic">main.py</code> (not <code class="ic">__init__.py</code>), avoiding circular init-time imports.</li>
+    </ul>
+</section>
 
-                <h3>1.1 &mdash; <code class="inline-code">__eq__</code> return type vs actual return value</h3>
-                <div class="note note-warn">
-                    <strong>Severity:</strong> Minor (Python handles this correctly at runtime, but the type contract is technically inaccurate.)
-                </div>
-                <p>
-                    <span class="file-ref">main.py:26</span> &mdash;
-                    <code class="inline-code">__eq__</code> is annotated as <code class="inline-code">-> bool</code>,
-                    but line 35 returns <code class="inline-code">NotImplemented</code> (a singleton of type
-                    <code class="inline-code">NotImplementedType</code>).
-                </p>
-                <p>
-                    <strong>Why it matters:</strong> This is the standard Python idiom and mypy/pyright accept it
-                    because <code class="inline-code">__eq__</code> is special-cased in type checkers.
-                    The <code class="inline-code">SupportsEquality</code> protocol also declares
-                    <code class="inline-code">-> bool</code>. So this is <em>intentional and conventional</em>.
-                    No change is strictly needed, but it is worth acknowledging.
-                </p>
-                <p>
-                    <strong>Verdict:</strong> No fix needed. Python's data model expects
-                    <code class="inline-code">__eq__</code> to return <code class="inline-code">NotImplemented</code>
-                    for unsupported comparisons, and type checkers special-case this.
-                </p>
+<!-- ================================================================ -->
+<section id="summary">
+    <h2>Summary</h2>
+    <div class="note note-good">
+        The module is well-structured, minimal, and correct.
+        One abstract method (<code class="ic">key</code>) drives equality, and the factory pattern is cleanly separated.
+        Only minor issues found.
+    </div>
+    <table>
+        <thead><tr><th>Area</th><th>Verdict</th></tr></thead>
+        <tbody>
+            <tr><td>Correctness</td><td><span class="v v-minor">1 MINOR</span></td></tr>
+            <tr><td>Readability</td><td><span class="v v-minor">2 MINOR</span></td></tr>
+            <tr><td>Design (OOP)</td><td><span class="v v-pass">PASS</span></td></tr>
+            <tr><td>Performance</td><td><span class="v v-pass">PASS</span></td></tr>
+            <tr><td>Typing</td><td><span class="v v-minor">1 MINOR</span></td></tr>
+            <tr><td>Documentation</td><td><span class="v v-minor">1 MINOR</span></td></tr>
+            <tr><td>Modularity</td><td><span class="v v-pass">PASS</span></td></tr>
+            <tr><td>Architecture</td><td><span class="v v-pass">PASS</span></td></tr>
+        </tbody>
+    </table>
+</section>
 
-                <h3>1.2 &mdash; Edge case: <code class="inline-code">key()</code> returning <code class="inline-code">None</code></h3>
-                <p>
-                    If a subclass's <code class="inline-code">key()</code> returns <code class="inline-code">None</code>,
-                    <code class="inline-code">self.key() == other.key()</code> would be
-                    <code class="inline-code">None == None</code>, which is <code class="inline-code">True</code>.
-                    This is technically correct Python behavior but could silently cause distinct objects to compare equal
-                    if a subclass forgets to implement <code class="inline-code">key()</code> properly.
-                </p>
-                <p>
-                    <strong>Verdict:</strong> Not a bug in <code class="inline-code">Equatable</code> itself &mdash;
-                    <code class="inline-code">key()</code> is abstract, so the contract is on the subclass.
-                    The <code class="inline-code">@abstractmethod</code> decorator prevents instantiation of classes
-                    that do not implement <code class="inline-code">key()</code>. No change needed.
-                </p>
+<!-- ================================================================ -->
+<section id="correctness">
+    <h2>1. Must-fix Issues (Correctness)</h2>
 
-                <h3>1.3 &mdash; Test coverage gap: missing cross-type comparison test</h3>
-                <div class="note note-warn">
-                    <strong>Severity:</strong> Minor &mdash; tests do not exercise the <code class="inline-code">NotImplemented</code> path.
-                </div>
-                <p>
-                    <span class="file-ref">_tester.py</span> &mdash;
-                    Neither <code class="inline-code">test_eq()</code> nor <code class="inline-code">test_ne()</code>
-                    tests the case where <code class="inline-code">other</code> is not an <code class="inline-code">Equatable</code>
-                    (e.g., <code class="inline-code">a == 42</code> or <code class="inline-code">a == "hello"</code>).
-                    This is the <code class="inline-code">NotImplemented</code> branch at
-                    <span class="file-ref">main.py:34-35</span>.
-                </p>
-                <p><strong>Suggested addition:</strong></p>
-                <pre><code>def test_eq_non_equatable() -> None:
+    <h3>1.1 &mdash; Missing test coverage for the NotImplemented branch</h3>
+    <div class="note note-warn">
+        <strong>Evidence:</strong> <span class="fr">_tester.py</span> &mdash; neither
+        <code class="ic">test_eq()</code> nor <code class="ic">test_ne()</code> tests the case where
+        <code class="ic">other</code> is not an <code class="ic">Equatable</code>
+        (e.g. <code class="ic">a == 42</code>).
+        This is the <code class="ic">NotImplemented</code> branch at <span class="fr">main.py:35-36</span>.
+    </div>
+    <p><strong>Why it matters:</strong> The guard clause is the only defensive path in the class. Untested code is unverified code.</p>
+    <p><strong>Suggested addition:</strong></p>
+<pre><code>def test_eq_non_equatable() -> None:
+    """
+    ========================================================================
+     Test __eq__() with a non-Equatable object.
+    ========================================================================
+    """
     a = Equatable.Factory.a()
     assert a != 42
     assert a != "A"
     assert not (a == None)</code></pre>
-            </section>
+</section>
 
-            <!-- ============================================================ -->
-            <!-- SECTION 2: READABILITY                                        -->
-            <!-- ============================================================ -->
-            <section id="readability">
-                <h2>2. Readability / Maintainability</h2>
+<!-- ================================================================ -->
+<section id="readability">
+    <h2>2. Readability / Maintainability</h2>
 
-                <h3>2.1 &mdash; Factory docstring typo: "Equable" should be "Equatable"</h3>
-                <div class="note note-warn">
-                    <strong>Evidence:</strong> <span class="file-ref">_factory.py:7</span> &mdash;
-                    <code class="inline-code">Factory for the Equable class.</code>
-                </div>
-                <p>
-                    The class was renamed from <code class="inline-code">Equable</code> to
-                    <code class="inline-code">Equatable</code> but this docstring was not updated.
-                    This is a stale reference that will confuse on re-entry.
-                </p>
-                <p><strong>Fix:</strong> Change to <code class="inline-code">Factory for the Equatable class.</code></p>
+    <h3>2.1 &mdash; Factory docstring typo: "Equable" should be "Equatable"</h3>
+    <div class="note note-warn">
+        <strong>Evidence:</strong> <span class="fr">_factory.py:7</span> &mdash;
+        <code class="ic">Factory for the Equable class.</code>
+    </div>
+    <p>Stale reference from a previous rename. Will confuse on re-entry.</p>
+    <p><strong>Fix:</strong> Change to <code class="ic">Factory for the Equatable class.</code></p>
 
-                <h3>2.2 &mdash; Minor whitespace: missing space before <code class="inline-code">=</code></h3>
-                <p>
-                    <span class="file-ref">main.py:15</span> &mdash;
-                    <code class="inline-code">Factory: type | None= None</code> has no space before <code class="inline-code">=</code>.
-                    PEP 8 convention: <code class="inline-code">Factory: type | None = None</code>.
-                </p>
+    <h3>2.2 &mdash; Missing space before <code class="ic">=</code></h3>
+    <div class="note note-warn">
+        <strong>Evidence:</strong> <span class="fr">main.py:15</span> &mdash;
+        <code class="ic">Factory: type | None= None</code>
+    </div>
+    <p>PEP 8: <code class="ic">Factory: type | None = None</code> (space before <code class="ic">=</code>).</p>
 
-                <h3>Overall</h3>
-                <div class="note note-good">
-                    The code is clean and minimal. Naming is precise (<code class="inline-code">key()</code>,
-                    <code class="inline-code">Equatable</code>, <code class="inline-code">Factory.Char</code>).
-                    Nesting is flat. No clever tricks. No duplication. No hidden coupling.
-                    Only the two items above.
-                </div>
-            </section>
+    <h3>Overall</h3>
+    <div class="note note-good">
+        Beyond the two items above, the code is clean. Naming is precise. Nesting is flat.
+        No clever tricks. No duplication. No hidden coupling.
+    </div>
+</section>
 
-            <!-- ============================================================ -->
-            <!-- SECTION 3: DESIGN REVIEW                                      -->
-            <!-- ============================================================ -->
-            <section id="design">
-                <h2>3. Design Review</h2>
+<!-- ================================================================ -->
+<section id="design">
+    <h2>3. Design Review</h2>
 
-                <h3>Abstraction Boundaries</h3>
-                <p>
-                    Clean separation. <code class="inline-code">SupportsEquality</code> is a protocol (structural contract).
-                    <code class="inline-code">Equatable</code> is an abstract mixin (behavioral implementation).
-                    <code class="inline-code">Factory</code> is a test helper, cleanly separated into <code class="inline-code">_factory.py</code>
-                    and attached at init time.
-                </p>
+    <h3>Abstraction Boundaries</h3>
+    <p>
+        Clean separation: <code class="ic">SupportsEquality</code> is a protocol (structural contract),
+        <code class="ic">Equatable</code> is an abstract mixin (behavioral implementation),
+        <code class="ic">Factory</code> is a test helper in a separate file.
+    </p>
 
-                <h3>SRP</h3>
-                <p>
-                    <code class="inline-code">Equatable</code> does exactly one thing: define equality via
-                    <code class="inline-code">key()</code>. The <code class="inline-code">Factory</code> class attribute
-                    is the only non-equality concern, and it is optional (defaults to <code class="inline-code">None</code>)
-                    and lives in a separate file.
-                </p>
+    <h3>SRP</h3>
+    <p>
+        <code class="ic">Equatable</code> does exactly one thing: define equality via <code class="ic">key</code>.
+        The <code class="ic">Factory</code> attribute is optional and lives in a separate file.
+    </p>
 
-                <h3>Dependency Direction</h3>
-                <p>
-                    Protocol (<code class="inline-code">SupportsEquality</code>) &rarr;
-                    Mixin (<code class="inline-code">Equatable</code>) &rarr;
-                    Subclasses (<code class="inline-code">Comparable</code>, <code class="inline-code">Hashable</code>).
-                    Dependencies flow from abstract to concrete. Correct.
-                </p>
+    <h3>Dependency Direction</h3>
+    <p>Protocol &rarr; Mixin &rarr; Subclasses. Dependencies flow abstract to concrete. Correct.</p>
 
-                <h3>Inheritance Depth</h3>
-                <p>
-                    <code class="inline-code">Protocol &rarr; Equatable &rarr; Comparable/Hashable</code> is 2 levels deep.
-                    Shallow and manageable.
-                </p>
+    <h3>Inheritance Depth</h3>
+    <p>Protocol &rarr; Equatable &rarr; Comparable/Hashable. Two levels. Shallow and manageable.</p>
 
-                <h3>Public vs Private API</h3>
-                <p>
-                    <code class="inline-code">_factory.py</code> and <code class="inline-code">_tester.py</code>
-                    are correctly prefixed with underscore. <code class="inline-code">main.py</code> is the public module.
-                    <code class="inline-code">__init__.py</code> re-exports only <code class="inline-code">Equatable</code>
-                    (implicitly, via the import).
-                </p>
+    <h3>Public vs Private API</h3>
+    <p>
+        <code class="ic">_factory.py</code> and <code class="ic">_tester.py</code> correctly underscore-prefixed.
+        <code class="ic">__init__.py</code> re-exports only <code class="ic">Equatable</code>.
+    </p>
 
-                <div class="note note-good">No change needed.</div>
-            </section>
+    <div class="note note-good">No change needed.</div>
+</section>
 
-            <!-- ============================================================ -->
-            <!-- SECTION 4: PERFORMANCE                                        -->
-            <!-- ============================================================ -->
-            <section id="performance">
-                <h2>4. Performance Notes</h2>
+<!-- ================================================================ -->
+<section id="performance">
+    <h2>4. Performance Notes</h2>
 
-                <h3><code class="inline-code">__eq__</code> &mdash; Time Complexity</h3>
-                <table>
-                    <thead>
-                        <tr><th>Operation</th><th>Complexity</th><th>Notes</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code class="inline-code">other is self</code></td>
-                            <td>O(1)</td>
-                            <td>Identity check, fast short-circuit</td>
-                        </tr>
-                        <tr>
-                            <td><code class="inline-code">isinstance(other, Equatable)</code></td>
-                            <td>O(1) amortized</td>
-                            <td>CPython caches MRO lookups</td>
-                        </tr>
-                        <tr>
-                            <td><code class="inline-code">self.key() == other.key()</code></td>
-                            <td>O(k)</td>
-                            <td>Depends on <code class="inline-code">key()</code> implementation.
-                                For <code class="inline-code">str</code> keys, O(n) in string length.
-                                For <code class="inline-code">tuple</code> keys, O(m) in tuple length.</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p>
-                    The <code class="inline-code">is</code> identity short-circuit at
-                    <span class="file-ref">main.py:32</span> is a good optimization for the common case
-                    where an object is compared to itself (e.g., in sets, sorted containers).
-                </p>
-                <p>
-                    <strong>Space:</strong> O(1) &mdash; no allocations beyond what <code class="inline-code">key()</code> returns.
-                </p>
+    <h3><code class="ic">__eq__</code> &mdash; Time Complexity</h3>
+    <table>
+        <thead><tr><th>Operation</th><th>Complexity</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr>
+                <td><code class="ic">other is self</code></td>
+                <td>O(1)</td>
+                <td>Identity check, fast short-circuit</td>
+            </tr>
+            <tr>
+                <td><code class="ic">isinstance(other, Equatable)</code></td>
+                <td>O(1) amortized</td>
+                <td>CPython caches MRO lookups</td>
+            </tr>
+            <tr>
+                <td><code class="ic">self.key == other.key</code></td>
+                <td>O(k)</td>
+                <td>Depends on <code class="ic">key</code> implementation (str &rarr; O(n), tuple &rarr; O(m))</td>
+            </tr>
+        </tbody>
+    </table>
+    <p><strong>Space:</strong> O(1) &mdash; no allocations beyond what <code class="ic">key</code> returns.</p>
+    <div class="note note-good">No change needed. The hot path is optimal for a mixin pattern.</div>
+</section>
 
-                <div class="note note-good">No change needed. The hot path is optimal for a mixin pattern.</div>
-            </section>
+<!-- ================================================================ -->
+<section id="typing">
+    <h2>5. Typing Review</h2>
 
-            <!-- ============================================================ -->
-            <!-- SECTION 5: TYPING                                             -->
-            <!-- ============================================================ -->
-            <section id="typing">
-                <h2>5. Typing Review</h2>
+    <table>
+        <thead><tr><th>Symbol</th><th>Signature</th><th>Verdict</th></tr></thead>
+        <tbody>
+            <tr>
+                <td><code class="ic">Factory</code></td>
+                <td><code class="ic">type | None = None</code></td>
+                <td><span class="v v-minor">IMPRECISE</span></td>
+            </tr>
+            <tr>
+                <td><code class="ic">key</code></td>
+                <td><code class="ic">-&gt; SupportsEquality</code></td>
+                <td><span class="v v-pass">OK</span></td>
+            </tr>
+            <tr>
+                <td><code class="ic">__eq__</code></td>
+                <td><code class="ic">(other: object) -&gt; bool</code></td>
+                <td><span class="v v-pass">OK</span></td>
+            </tr>
+        </tbody>
+    </table>
 
-                <h3>main.py</h3>
-                <table>
-                    <thead>
-                        <tr><th>Symbol</th><th>Signature</th><th>Verdict</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code class="inline-code">Factory</code></td>
-                            <td><code class="inline-code">type | None = None</code></td>
-                            <td><span class="verdict verdict-minor">IMPRECISE</span></td>
-                        </tr>
-                        <tr>
-                            <td><code class="inline-code">key()</code></td>
-                            <td><code class="inline-code">-> SupportsEquality</code></td>
-                            <td><span class="verdict verdict-pass">OK</span></td>
-                        </tr>
-                        <tr>
-                            <td><code class="inline-code">__eq__()</code></td>
-                            <td><code class="inline-code">(other: object) -> bool</code></td>
-                            <td><span class="verdict verdict-pass">OK</span> (standard __eq__ signature)</td>
-                        </tr>
-                    </tbody>
-                </table>
+    <h3>5.1 &mdash; <code class="ic">Factory: type | None</code></h3>
+    <div class="note note-warn">
+        <strong>Evidence:</strong> <span class="fr">main.py:15</span>
+    </div>
+    <p>
+        Bare <code class="ic">type</code> tells the type checker nothing about what methods Factory has.
+        Calls like <code class="ic">Equatable.Factory.a()</code> are not type-safe.
+    </p>
+    <p>
+        <strong>Pragmatic assessment:</strong> The Factory is monkey-patched at init time and only used in tests.
+        This same pattern is used in <code class="ic">Comparable</code> and <code class="ic">Hashable</code>,
+        so any fix should be applied consistently. Low priority.
+    </p>
+</section>
 
-                <h3>5.1 &mdash; <code class="inline-code">Factory: type | None</code> annotation</h3>
-                <div class="note note-warn">
-                    <strong>Evidence:</strong> <span class="file-ref">main.py:15</span>
-                </div>
-                <p>
-                    <code class="inline-code">type | None</code> is a bare <code class="inline-code">type</code>.
-                    It tells the type checker that <code class="inline-code">Factory</code> could be any class &mdash;
-                    no information about what methods it has.
-                    Downstream, <code class="inline-code">Equatable.Factory.a()</code> (<span class="file-ref">_tester.py:10</span>)
-                    is not type-safe because <code class="inline-code">type</code> has no <code class="inline-code">.a()</code> method.
-                </p>
-                <p>
-                    <strong>Pragmatic assessment:</strong> Since <code class="inline-code">Factory</code> is monkey-patched at
-                    <code class="inline-code">__init__.py</code> load time and is only used in tests, this is a known limitation
-                    of the pattern. A <code class="inline-code">TYPE_CHECKING</code>-guarded forward reference or a
-                    <code class="inline-code">ClassVar</code> with a protocol could improve this, but it would add complexity
-                    to a test-only attribute. This same pattern is used in
-                    <code class="inline-code">Comparable</code> and <code class="inline-code">Hashable</code>, so any fix
-                    should be applied consistently across the hierarchy.
-                </p>
+<!-- ================================================================ -->
+<section id="documentation">
+    <h2>6. Documentation Review</h2>
 
-                <h3>_factory.py</h3>
-                <table>
-                    <thead>
-                        <tr><th>Symbol</th><th>Signature</th><th>Verdict</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code class="inline-code">Char.__init__()</code></td>
-                            <td><code class="inline-code">(char: str)</code></td>
-                            <td><span class="verdict verdict-pass">OK</span></td>
-                        </tr>
-                        <tr>
-                            <td><code class="inline-code">Char.key()</code></td>
-                            <td><code class="inline-code">-> str</code></td>
-                            <td><span class="verdict verdict-pass">OK</span> (<code class="inline-code">str</code> satisfies <code class="inline-code">SupportsEquality</code>)</td>
-                        </tr>
-                        <tr>
-                            <td><code class="inline-code">Factory.a()</code></td>
-                            <td><code class="inline-code">-> Equatable</code></td>
-                            <td><span class="verdict verdict-pass">OK</span></td>
-                        </tr>
-                        <tr>
-                            <td><code class="inline-code">Factory.b()</code></td>
-                            <td><code class="inline-code">-> Equatable</code></td>
-                            <td><span class="verdict verdict-pass">OK</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3>_tester.py</h3>
-                <table>
-                    <thead>
-                        <tr><th>Symbol</th><th>Signature</th><th>Verdict</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code class="inline-code">test_eq()</code></td>
-                            <td><code class="inline-code">-> None</code></td>
-                            <td><span class="verdict verdict-pass">OK</span></td>
-                        </tr>
-                        <tr>
-                            <td><code class="inline-code">test_ne()</code></td>
-                            <td><code class="inline-code">-> None</code></td>
-                            <td><span class="verdict verdict-pass">OK</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <!-- ============================================================ -->
-            <!-- SECTION 6: DOCUMENTATION                                      -->
-            <!-- ============================================================ -->
-            <section id="documentation">
-                <h2>6. Documentation Review</h2>
-
-                <h3>main.py &mdash; Class Docstring</h3>
-                <div class="note note-good">
-                    <span class="file-ref">main.py:7-12</span> &mdash;
-                    Clearly states: (1) mixin purpose, (2) why <code class="inline-code">__ne__</code> is omitted. Concise and useful.
-                </div>
-
-                <h3>main.py &mdash; <code class="inline-code">key()</code></h3>
-                <div class="note note-good">
-                    <span class="file-ref">main.py:19-23</span> &mdash;
-                    Explains the return contract. Could mention it also drives <code class="inline-code">__lt__</code>
-                    and <code class="inline-code">__hash__</code> in subclasses, but that is documented in the
-                    <code class="inline-code">CLAUDE.md</code> file so duplication is not needed.
-                </div>
-
-                <h3>_factory.py &mdash; Class Docstring</h3>
-                <div class="note note-warn">
-                    <span class="file-ref">_factory.py:5-9</span> &mdash;
-                    Contains the stale name "Equable" (see Readability 2.1). Should read "Equatable".
-                </div>
-
-                <h3>_factory.py &mdash; Method Docstrings</h3>
-                <div class="note note-good">
-                    <span class="file-ref">_factory.py:18-24, 28-34</span> &mdash;
-                    <code class="inline-code">a()</code> and <code class="inline-code">b()</code> are clear and concise.
-                </div>
-
-                <h3>_tester.py</h3>
-                <div class="note note-good">
-                    Test docstrings clearly state what they test. No change needed.
-                </div>
-            </section>
-
-            <!-- ============================================================ -->
-            <!-- SECTION 7: MODULARITY                                         -->
-            <!-- ============================================================ -->
-            <section id="modularity">
-                <h2>7. Modularity</h2>
-
-                <h3>File Sizes</h3>
-                <table>
-                    <thead>
-                        <tr><th>File</th><th>Lines</th><th>Purpose</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><code class="inline-code">main.py</code></td><td>37</td><td>Core class definition</td></tr>
-                        <tr><td><code class="inline-code">_factory.py</code></td><td>34</td><td>Test factory</td></tr>
-                        <tr><td><code class="inline-code">_tester.py</code></td><td>26</td><td>Tests</td></tr>
-                        <tr><td><code class="inline-code">__init__.py</code></td><td>4</td><td>Package init + Factory wiring</td></tr>
-                    </tbody>
-                </table>
-                <p>
-                    All files are short and focused. Each has a single responsibility.
-                    <code class="inline-code">main.py</code> contains only the class.
-                    <code class="inline-code">_factory.py</code> contains only the factory.
-                    <code class="inline-code">_tester.py</code> contains only tests.
-                    <code class="inline-code">__init__.py</code> contains only wiring.
-                </p>
-                <div class="note note-good">No change needed.</div>
-            </section>
-
-            <!-- ============================================================ -->
-            <!-- SECTION 8: ARCHITECTURE                                       -->
-            <!-- ============================================================ -->
-            <section id="architecture">
-                <h2>8. Architecture Findings</h2>
-
-                <h3>Cross-Module Pattern Consistency</h3>
-                <p>
-                    The <code class="inline-code">key()</code>-based mixin pattern is used consistently across the hierarchy:
-                </p>
-                <ul>
-                    <li><code class="inline-code">Equatable.key() -> SupportsEquality</code> drives <code class="inline-code">__eq__</code></li>
-                    <li><code class="inline-code">Comparable.key() -> SupportsComparison</code> drives <code class="inline-code">__lt__</code></li>
-                    <li><code class="inline-code">Hashable</code> reuses <code class="inline-code">key()</code> for <code class="inline-code">__hash__</code></li>
-                </ul>
-                <p>
-                    The <code class="inline-code">Factory</code> pattern is also consistent:
-                    each mixin declares <code class="inline-code">Factory: type | None = None</code>,
-                    has a <code class="inline-code">_factory.py</code>, and wires it in <code class="inline-code">__init__.py</code>.
-                </p>
-
-                <h3>Potential Concern: <code class="inline-code">Comparable</code> narrows <code class="inline-code">key()</code> return type</h3>
-                <p>
-                    <span class="file-ref">f_core/mixins/comparable/main.py:21</span> &mdash;
-                    <code class="inline-code">Comparable.key()</code> returns <code class="inline-code">SupportsComparison</code>,
-                    which is a stricter type than <code class="inline-code">Equatable.key()</code>'s
-                    <code class="inline-code">SupportsEquality</code>.
-                    This is covariant narrowing of a return type in an override, which is type-safe
-                    (Liskov-compliant: subclass promises more, not less). This is correct and intentional.
-                </p>
-
-                <h3>Potential Concern: <code class="inline-code">Hashable</code> assumes <code class="inline-code">key()</code> is hashable</h3>
-                <p>
-                    <span class="file-ref">f_core/mixins/hashable/main.py:20</span> &mdash;
-                    <code class="inline-code">hash(self.key())</code> will raise <code class="inline-code">TypeError</code> at runtime
-                    if <code class="inline-code">key()</code> returns an unhashable value (e.g., a list).
-                    This is a valid concern but is a downstream responsibility of <code class="inline-code">Hashable</code>,
-                    not of <code class="inline-code">Equatable</code>. The type system could enforce this with a
-                    <code class="inline-code">SupportsHash</code> protocol on <code class="inline-code">Hashable.key()</code>,
-                    but that is a <code class="inline-code">Hashable</code>-level concern, not an <code class="inline-code">Equatable</code> issue.
-                </p>
-
-                <div class="note note-good">
-                    No architectural changes needed for the <code class="inline-code">equatable</code> module.
-                    The hierarchy is clean and the patterns are consistent.
-                </div>
-            </section>
-
-            <!-- ============================================================ -->
-            <!-- SECTION 9: SUGGESTIONS                                        -->
-            <!-- ============================================================ -->
-            <section id="suggestions">
-                <h2>9. Suggestions for Improvements</h2>
-
-                <table>
-                    <thead>
-                        <tr><th>#</th><th>Item</th><th>Evidence</th><th>Risk</th><th>Benefit</th><th>Fix</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Fix "Equable" typo in Factory docstring</td>
-                            <td><span class="file-ref">_factory.py:7</span></td>
-                            <td>Zero-risk</td>
-                            <td>Eliminates stale name reference; prevents confusion on re-entry</td>
-                            <td>Change <code class="inline-code">Equable</code> to <code class="inline-code">Equatable</code></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Fix missing space before <code class="inline-code">=</code></td>
-                            <td><span class="file-ref">main.py:15</span></td>
-                            <td>Zero-risk</td>
-                            <td>PEP 8 consistency</td>
-                            <td>Change <code class="inline-code">type | None= None</code> to <code class="inline-code">type | None = None</code></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Add cross-type comparison test</td>
-                            <td><span class="file-ref">_tester.py</span> (missing branch coverage)</td>
-                            <td>Zero-risk</td>
-                            <td>Covers <code class="inline-code">NotImplemented</code> return path at <span class="file-ref">main.py:34-35</span></td>
-                            <td>Add <code class="inline-code">test_eq_non_equatable()</code> (see Correctness 1.3)</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <p>No improvements needed beyond the items above.</p>
-            </section>
-
-            <footer>
-                <p>Review date: <span id="timestamp"></span></p>
-                <p>Scope: <code class="inline-code">f_core.mixins.equatable</code> package (4 files)</p>
-                <p>Reviewer: Claude Opus 4.6</p>
-            </footer>
-        </main>
+    <h3>main.py &mdash; Class Docstring</h3>
+    <div class="note note-good">
+        <span class="fr">main.py:7-12</span> &mdash; Clearly states purpose and why <code class="ic">__ne__</code> is omitted. Concise.
     </div>
 
-    <script>
-        document.getElementById('timestamp').textContent = new Date().toISOString().split('T')[0];
-    </script>
+    <h3>main.py &mdash; <code class="ic">key</code> / <code class="ic">__eq__</code></h3>
+    <div class="note note-good">Docstrings are accurate and follow the project separator convention.</div>
+
+    <h3>_factory.py &mdash; Class Docstring</h3>
+    <div class="note note-warn">
+        <span class="fr">_factory.py:7</span> &mdash; Stale name "Equable". Should be "Equatable". (See Readability 2.1.)
+    </div>
+
+    <h3>_tester.py</h3>
+    <div class="note note-good">Test docstrings clearly state what they test. No change needed.</div>
+</section>
+
+<!-- ================================================================ -->
+<section id="modularity">
+    <h2>7. Modularity</h2>
+
+    <table>
+        <thead><tr><th>File</th><th>Lines</th><th>Purpose</th></tr></thead>
+        <tbody>
+            <tr><td><code class="ic">main.py</code></td><td>38</td><td>Core class</td></tr>
+            <tr><td><code class="ic">_factory.py</code></td><td>34</td><td>Test factory</td></tr>
+            <tr><td><code class="ic">_tester.py</code></td><td>26</td><td>Tests</td></tr>
+            <tr><td><code class="ic">__init__.py</code></td><td>4</td><td>Wiring</td></tr>
+        </tbody>
+    </table>
+    <p>All files short and focused. Each has a single responsibility.</p>
+    <div class="note note-good">No change needed.</div>
+</section>
+
+<!-- ================================================================ -->
+<section id="architecture">
+    <h2>8. Architecture Findings</h2>
+
+    <h3>Cross-Module Pattern Consistency</h3>
+    <p>The <code class="ic">key</code>-based mixin pattern is consistent across the hierarchy:</p>
+    <ul>
+        <li><code class="ic">Equatable.key &rarr; SupportsEquality</code> drives <code class="ic">__eq__</code></li>
+        <li><code class="ic">Comparable.key &rarr; SupportsComparison</code> drives <code class="ic">__lt__</code></li>
+        <li><code class="ic">Hashable</code> reuses <code class="ic">key</code> for <code class="ic">__hash__</code></li>
+    </ul>
+    <p>The Factory pattern is also consistent across all three mixins.</p>
+
+    <h3>Comparable narrows key return type</h3>
+    <p>
+        <code class="ic">Comparable.key()</code> returns <code class="ic">SupportsComparison</code>,
+        which is stricter than <code class="ic">SupportsEquality</code>.
+        This is covariant narrowing of a return type &mdash; Liskov-compliant. Correct and intentional.
+    </p>
+
+    <div class="note note-good">No architectural changes needed.</div>
+</section>
+
+<!-- ================================================================ -->
+<section id="suggestions">
+    <h2>9. Suggestions for Improvements</h2>
+
+    <table>
+        <thead><tr><th>#</th><th>Item</th><th>Evidence</th><th>Risk</th><th>Benefit</th><th>Fix</th></tr></thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Fix "Equable" typo</td>
+                <td><span class="fr">_factory.py:7</span></td>
+                <td>Zero</td>
+                <td>Eliminates stale reference</td>
+                <td>Change to "Equatable"</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Fix missing space before <code class="ic">=</code></td>
+                <td><span class="fr">main.py:15</span></td>
+                <td>Zero</td>
+                <td>PEP 8 consistency</td>
+                <td><code class="ic">type | None = None</code></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Add cross-type comparison test</td>
+                <td><span class="fr">_tester.py</span></td>
+                <td>Zero</td>
+                <td>Covers NotImplemented branch</td>
+                <td>Add <code class="ic">test_eq_non_equatable()</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>No improvements needed beyond the items above.</p>
+</section>
+
+<footer>
+    <p>Review date: <span id="ts"></span></p>
+    <p>Scope: <code class="ic">f_core.mixins.equatable</code> (4 files)</p>
+    <p>Reviewer: Claude Opus 4.6</p>
+</footer>
+
+</main>
+</div>
+
+<script>
+document.getElementById('ts').textContent = new Date().toISOString().split('T')[0];
+</script>
 </body>
 </html>

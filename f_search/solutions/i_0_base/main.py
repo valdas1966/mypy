@@ -26,6 +26,6 @@ class SolutionSearch(Generic[Problem, Stats], SolutionAlgo[Problem, Stats]):
         ========================================================================
         """
         SolutionAlgo.__init__(self,
-                              problem=problem,
+                              problem=problem.to_light(),
                               is_valid=is_valid,
                               stats=stats)

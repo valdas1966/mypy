@@ -1,4 +1,5 @@
-from f_search.problems.i_0_base.main import ProblemSearch, Grid
+from f_search.problems.i_0_base.main import ProblemSearch
+from f_ds.grids.grid import GridBase as Grid
 
 
 class Factory:
@@ -15,8 +16,5 @@ class Factory:
          Return a ProblemSearch object with a 3x3 grid.
         ========================================================================
         """
-        class Temp(ProblemSearch):
-            def __init__(self) -> None:
-                grid = Grid(rows=3)
-                ProblemSearch.__init__(self, grid=grid)
-        return Temp()
+        grid = Grid.Factory.grid_3x3()
+        return ProblemSearch(grid=grid, name='3x3')
