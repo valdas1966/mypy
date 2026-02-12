@@ -8,8 +8,6 @@ class HasGoals:
     ============================================================================
     """
 
-    RECORD_SPEC = {'goals': lambda o: len(o.goals)}
-
     def __init__(self,
                  goals: list[State]) -> None:
         """
@@ -18,8 +16,6 @@ class HasGoals:
         ========================================================================
         """
         self._goals: list[State] = goals
-        for i, goal in enumerate(self._goals, start=1):
-            goal.name = f'Goal_{i}'
 
     @property
     def goals(self) -> list[State]:

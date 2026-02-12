@@ -1,11 +1,14 @@
 from f_log.old.utils import set_debug, log_1, log_2
+from f_search.ds.state import StateCell as State
+from f_search.algos.i_1_neighborhood import BFSNeighborhood
+from f_search.problems import ProblemNeighborhood
 from f_ds.grids import GridMap as Grid, CellMap as Cell
-from f_search.algos.i_1_spp.utils import are_reachable, cells_reachable
+from f_search.algos.i_1_spp.utils import are_reachable
 from f_utils import u_pickle, u_iter
 import random
 
 PairCells = tuple[Cell, Cell]
-Diamond = list[Cell]
+Diamond = list[State]
 PairDiamonds = tuple[Diamond, Diamond]
 DictDiamonds = dict[str, list[PairDiamonds]]
 
@@ -51,15 +54,20 @@ def get_pair_diamonds(grid: Grid,
     while True:
         pair_cells = get_pair_cells(grid=grid, distance_min=distance_min)
         cell_a, cell_b = pair_cells
-        diamond_a = cells_reachable(grid, cell_a, steps_max)
+        state_a, state_b = State(key=cell_a), State(key=cell_b)
+        problem_a = ProblemNeighborhood(grid=grid, start=state_a, steps_max=steps_max)
+        bfs_a = BFSNeighborhood(problem=problem_a)
+        diamond_a = list(bfs_a.run().neighborhood)
         if len(diamond_a) < size_min:
             continue
         random.shuffle(diamond_a)
-        diamond_b = cells_reachable(grid, cell_b, steps_max)
+        problem_b = ProblemNeighborhood(grid=grid, start=state_b, steps_max=steps_max)
+        bfs_b = BFSNeighborhood(problem=problem_b)
+        diamond_b = list(bfs_b.run().neighborhood)
         if len(diamond_b) < size_min:
             continue
         random.shuffle(diamond_b)
-        return (diamond_a, diamond_b)
+        return diamond_a, diamond_b
 
 @log_2
 def get_diamonds(grid: Grid,

@@ -39,7 +39,7 @@ def run_algos(type_algo: type[AlgoOMSPP],
     """
     solutions: list[SolutionOMSPP] = []
     for i, problem in enumerate(problems):
-        problem.load_grid(grids=d_grids)
+        problem = problem.to_heavy(grids=d_grids)
         solution = _run_problem(type_algo, problem, i)
         solutions.append(solution)
     return solutions

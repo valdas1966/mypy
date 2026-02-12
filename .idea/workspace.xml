@@ -5,54 +5,80 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/bfs/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/bfs/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/bfs/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/ds/data/i_1_heuristics/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/check_problems.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/algos/i_1_neighborhood/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/algos/i_1_neighborhood/_bfs_modified.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/algos/i_1_neighborhood/_factory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/algos/i_1_neighborhood/_tester.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/algos/i_1_neighborhood/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/experiments/check_diamonds.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/heuristics/manhattan/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/heuristics/manhattan/_factory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/heuristics/manhattan/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/heuristics/protocol.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/problems/i_1_neighborhood/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/problems/i_1_neighborhood/_factory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/problems/i_1_neighborhood/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/solutions/i_1_neighborhood/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/solutions/i_1_neighborhood/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CLAUDE_HTML_STYLE_GUIDE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NAMING_CONVENTION.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_claude/f_search_claude_html_order.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_claude/instructions/for_claude_review.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_claude/instructions/for_claude_review.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/comparable/CLAUDE_REVIEW.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/comparable/CLAUDE_REVIEW.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/comparable/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/comparable/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/comparable/claude.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/comparable/claude.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/comparable/claude.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/comparable/claude.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/equatable/CLAUDE.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/equatable/CLAUDE.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/equatable/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/equatable/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/equatable/CLAUDE_REVIEW.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/equatable/CLAUDE_REVIEW.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/equatable/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/equatable/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/equatable/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/equatable/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/equatable/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/equatable/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/hashable/CLAUDE.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/hashable/CLAUDE.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/hashable/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/hashable/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_bfs/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_bfs/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/clonable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/generators/g_comparable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/generators/g_has_key.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/generators/g_has_row_col.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/hashable/CLAUDE_REVIEW.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/hashable/CLAUDE_REVIEW.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/hashable/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/hashable/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/hashable/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/hashable/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/hashable/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/hashable/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/old_comparable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/study/s_comparable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/study/s_cursorable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/study/s_has_generator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/study/s_inputable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/study/s_iterable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/study/s_listable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/study/s_printable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/study/s_to_list.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_comparable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_cursorable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_equable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_has_key.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_has_row_col.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_has_rows_cols.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_has_uid.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_indexable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_iterable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_listable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_nameable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_parentable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_printable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_sortable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_to_list.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/t_validatable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/testers/test_id_autoincrement.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/map/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/map/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_0_base/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_bfs/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_bfs/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/bfs/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/bfs/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/ds/data/i_1_heuristics/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/data/i_1_heuristics/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_search/ds/data/i_1_heuristics/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/data/i_1_heuristics/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/ds/frontier/i_1_priority/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/frontier/i_1_priority/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/ds/state/i_1_cell/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/state/i_1_cell/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/check_problems.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/check_problems.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_search/experiments/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/debug.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_2_diamonds.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_2_diamonds.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_search/experiments/p_3_problems.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_3_problems.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/problems/i_0_base/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/i_0_base/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/problems/i_0_base/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/i_0_base/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/problems/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/i_0_base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/problems/i_1_spp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/i_1_spp/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/problems/i_2_omspp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/i_2_omspp/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/solutions/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/solutions/i_0_base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/solutions/i_2_omspp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/solutions/i_2_omspp/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get-pip.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/heuristics/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/heuristics/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/heuristics/i_0_base/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/heuristics/i_0_base/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/heuristics/i_1_manhattan/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/heuristics/i_1_manhattan/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/problems/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/problems/mixins/has_goal/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/mixins/has_goal/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/problems/mixins/has_goals/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/mixins/has_goals/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/problems/mixins/has_start/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/mixins/has_start/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/solutions/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/solutions/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -686,6 +712,7 @@
     "Python.api_new.executor": "Run",
     "Python.app.executor": "Run",
     "Python.bfs.executor": "Run",
+    "Python.check_diamonds.executor": "Run",
     "Python.check_problems.executor": "Run",
     "Python.client.executor": "Run",
     "Python.cmp_agg_inc.executor": "Run",
@@ -1061,8 +1088,30 @@
       <recent name="$PROJECT_DIR$/f_core/mixins/equable" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.p_4_solutions">
-    <configuration name="p_4_solutions" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.pytest in _tester.py">
+    <configuration name="p_3_problems" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/experiments" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_3_problems.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="p_4_solutions" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -1084,40 +1133,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest for f_search.problems.i_0_base._tester.test_light_and_heavy" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;f_search.problems.i_0_base._tester.test_light_and_heavy&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest for f_search.problems.i_0_base._tester.test_to_light" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;f_search.problems.i_0_base._tester.test_to_light&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
     <configuration name="pytest in _tester.py (1)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -1131,7 +1146,24 @@
       <option name="_new_keywords" value="&quot;&quot;" />
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/problems/i_0_base/_tester.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_core/mixins/hashable/_tester.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in _tester.py (2)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/heuristics/manhattan/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -1148,7 +1180,24 @@
       <option name="_new_keywords" value="&quot;&quot;" />
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/bfs/_tester.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/_tester.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/problems/i_0_base/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -1598,19 +1647,19 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.p_3_problems" />
       <item itemvalue="Python.p_4_solutions" />
-      <item itemvalue="Python tests.pytest for f_search.problems.i_0_base._tester.test_light_and_heavy" />
-      <item itemvalue="Python tests.pytest for f_search.problems.i_0_base._tester.test_to_light" />
+      <item itemvalue="Python tests.pytest in _tester.py (2)" />
       <item itemvalue="Python tests.pytest in _tester.py (1)" />
       <item itemvalue="Python tests.pytest in _tester.py" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.p_4_solutions" />
         <item itemvalue="Python tests.pytest in _tester.py" />
+        <item itemvalue="Python tests.pytest in _tester.py (2)" />
         <item itemvalue="Python tests.pytest in _tester.py (1)" />
-        <item itemvalue="Python tests.pytest for f_search.problems.i_0_base._tester.test_light_and_heavy" />
-        <item itemvalue="Python tests.pytest for f_search.problems.i_0_base._tester.test_to_light" />
+        <item itemvalue="Python.p_4_solutions" />
+        <item itemvalue="Python.p_3_problems" />
       </list>
     </recent_temporary>
   </component>
@@ -1689,14 +1738,6 @@
       <workItem from="1770540816637" duration="6873000" />
       <workItem from="1770703006670" duration="7888000" />
       <workItem from="1770804142876" duration="9603000" />
-    </task>
-    <task id="LOCAL-00274" summary="h">
-      <option name="closed" value="true" />
-      <created>1763558169649</created>
-      <option name="number" value="00274" />
-      <option name="presentableId" value="LOCAL-00274" />
-      <option name="project" value="LOCAL" />
-      <updated>1763558169649</updated>
     </task>
     <task id="LOCAL-00275" summary="h">
       <option name="closed" value="true" />
@@ -2082,7 +2123,15 @@
       <option name="project" value="LOCAL" />
       <updated>1770553512995</updated>
     </task>
-    <option name="localTasksCounter" value="323" />
+    <task id="LOCAL-00323" summary="h">
+      <option name="closed" value="true" />
+      <created>1770889702984</created>
+      <option name="number" value="00323" />
+      <option name="presentableId" value="LOCAL-00323" />
+      <option name="project" value="LOCAL" />
+      <updated>1770889702984</updated>
+    </task>
+    <option name="localTasksCounter" value="324" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

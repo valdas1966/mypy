@@ -8,10 +8,6 @@ class HasStart:
     ============================================================================
     """
 
-    RECORD_SPEC = {
-        'start': lambda o: o.start.record
-    }
-
     def __init__(self, start: State) -> None:
         """
         ========================================================================
@@ -19,7 +15,6 @@ class HasStart:
         ========================================================================
         """
         self._start = start
-        self._start.name = 'Start'
 
     @property
     def start(self) -> State:

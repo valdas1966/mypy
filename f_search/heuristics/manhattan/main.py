@@ -1,31 +1,31 @@
-from f_search.heuristics.i_0_base import HeuristicsBase
-from f_search.problems.i_0_base import ProblemSearch
+from f_search.heuristics.protocol import HeuristicsProtocol
 from f_search.ds.state import StateBase
-from typing import TypeVar, Generic
+from typing import Generic, TypeVar
 
-Problem = TypeVar('Problem', bound=ProblemSearch)
 State = TypeVar('State', bound=StateBase)
 
-
-class HeuristicsManhattan(Generic[Problem, State], HeuristicsBase[Problem, State]):
+class HeuristicsManhattan(HeuristicsProtocol[State], Generic[State]):
     """
     ============================================================================
      Heuristics represented Manhattan-Distance between State and Goal.
     ============================================================================
     """
 
-    def __init__(self, problem: Problem) -> None:
+    # Factory
+    Factory: type | None = None
+
+    def __init__(self, goal: State) -> None:
         """
         ========================================================================
-         Init private attributes.
+         Init private Attributes.
         ========================================================================
         """
-        super().__init__(problem=problem)
-    
+        self._goal = goal
+
     def __call__(self, state: State) -> int:
         """
         ========================================================================
          Return Manhattan-Distance between State and Goal.
         ========================================================================
         """
-        return self._problem.goal.distance(other=state)
+        return state.distance(other=self._goal)

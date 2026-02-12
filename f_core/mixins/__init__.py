@@ -1,5 +1,4 @@
 from .dictable import Dictable
-from .clonable import Clonable
 from f_core.mixins.equatable.main import Equatable
 from .iterable import Iterable
 from .has import HasKey, HasName, HasRowCol, HasRowsCols

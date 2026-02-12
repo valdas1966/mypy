@@ -1,0 +1,1 @@
+from f_search.solutions.i_1_neighborhood.main import SolutionNeighborhood

@@ -3,14 +3,14 @@ from f_search.algos.i_1_spp import BFS
 from f_search.problems import ProblemOMSPP
 from f_search.solutions import SolutionSPP, SolutionOMSPP
 from f_search.ds.state import StateBase
-from f_search.ds.data import DataBestFirst
-from f_search.ds.frontier import FrontierFifo
+from f_search.ds.data import DataBestFirst as Data
+from f_search.ds.frontier import FrontierFifo as Frontier
 from typing import Generic, TypeVar
 
 State = TypeVar('State', bound=StateBase)
 
 
-class BFSIncremental(AlgoOMSPP[State, DataBestFirst[State]], Generic[State]):
+class BFSIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
     """
     ============================================================================
      Incremental BFS Algorithm for OMSPP.
@@ -22,17 +22,17 @@ class BFSIncremental(AlgoOMSPP[State, DataBestFirst[State]], Generic[State]):
 
     def __init__(self,
                  problem: ProblemOMSPP,
-                 name: str = 'BFSIncremental',
-                 data: DataBestFirst[State] = None) -> None:
+                 data: Data[State] = None,
+                 name: str = 'BFSIncremental') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        frontier = FrontierFifo()
-        self._data = data if data else DataBestFirst(frontier=frontier)
-        super().__init__(problem=problem,
-                         name=name)
+        super().__init__(problem=problem, name=name)
+        frontier = Frontier()
+        self._data = data if data else Data(frontier=frontier)
+        
 
     def _run(self) -> None:
         """

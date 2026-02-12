@@ -4,7 +4,8 @@ from f_core.mixins.equatable import Equatable
 class Hashable(Equatable):
     """
     ============================================================================
-     Mixin for hashable objects (has distinct value for each instance).
+     1. Mixin for objects that support hashing via the inherited key property.
+     2. Guarantees: a == b implies hash(a) == hash(b).
     ============================================================================
     """
 

@@ -16,6 +16,7 @@ class Factory:
         """
         def __init__(self, char: str):
             self.char = char
+        @property
         def key(self) -> str:
             return self.char
 

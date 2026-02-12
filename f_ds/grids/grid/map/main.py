@@ -70,9 +70,9 @@ class GridMap(GridBase[Cell]):
         ========================================================================
         """
         li: list[Cell] = list[Cell]()
-        for cell in GridBase.neighbors(self, cell=cell):
-            if cell:
-                li.append(cell)
+        for cell_neighbor in GridBase.neighbors(self, cell=cell):
+            if cell_neighbor:
+                li.append(cell_neighbor)
         return li
 
     def invalidate(self, cells: list[Cell]) -> None:

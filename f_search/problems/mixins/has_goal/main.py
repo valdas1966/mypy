@@ -8,16 +8,13 @@ class HasGoal:
     ============================================================================
     """
 
-    RECORD_SPEC = {'goal': lambda o: o.goal.record}
-
     def __init__(self, goal: State) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._goal = goal   
-        self._goal.name = 'Goal'
+        self._goal = goal
 
     @property
     def goal(self) -> State:

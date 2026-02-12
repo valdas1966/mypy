@@ -2,6 +2,7 @@ from f_search.ds.data import DataBestFirst
 from f_search.ds.frontier import FrontierPriority
 from f_search.ds.state import StateBase
 from f_search.ds.priority import PriorityGH
+from f_search.heuristics import HeuristicsProtocol as Heuristics
 from typing import TypeVar, Generic
 
 State = TypeVar('State', bound=StateBase)
@@ -34,3 +35,12 @@ class DataHeuristics(Generic[State], DataBestFirst[State]):
                                dict_parent=dict_parent,
                                dict_g=dict_g)
         self.dict_h = dict_h if dict_h else dict()
+
+    def update_h(self, heuristics: Heuristics) -> None:
+        """
+        ========================================================================
+         Update the H-Value of the State.
+        ========================================================================
+        """
+        for state in self.dict_h:
+            self.dict_h[state] = heuristics(state)

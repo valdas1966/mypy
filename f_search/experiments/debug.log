@@ -1,7 +1,1012 @@
-[0] [12/02/2026 11:48:10] [START] load_grids() [pickle_grids='f:\\paper\\i_1_grids\\grids.pkl']
-[8] [12/02/2026 11:48:19] [FINISH] load_grids() -> dict(25)
-[0] [12/02/2026 11:48:19] [START] load_problems() [pickle_problems='f:\\paper\\i_3_problems\\problems.pkl']
-[0] [12/02/2026 11:48:19] [FINISH] load_problems() -> list(2500)
-[0] [12/02/2026 11:48:19] [START] run_algos() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+[0] [12/02/2026 15:01:28] [START] load_grids() [pickle_grids='f:\\paper\\i_1_grids\\grids.pkl']
+[8] [12/02/2026 15:01:37] [FINISH] load_grids() -> dict(25)
+[0] [12/02/2026 15:01:37] [START] load_problems() [pickle_problems='f:\\paper\\i_3_problems\\problems.pkl']
+[0] [12/02/2026 15:01:37] [FINISH] load_problems() -> list(250)
+[0] [12/02/2026 15:01:37] [START] run_algos() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
                                               [d_grids=dict(25)]
-                                              [problems=list(2500)]
+                                              [problems=list(250)]
+[0] [12/02/2026 15:01:37] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=0]
+[1] [12/02/2026 15:01:38] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149A1B25580>
+[0] [12/02/2026 15:01:38] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=1]
+[0] [12/02/2026 15:01:39] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001499F903650>
+[0] [12/02/2026 15:01:39] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=2]
+[1] [12/02/2026 15:01:40] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149EE409610>
+[0] [12/02/2026 15:01:40] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=3]
+[0] [12/02/2026 15:01:40] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149A9A3FE60>
+[0] [12/02/2026 15:01:40] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=4]
+[0] [12/02/2026 15:01:41] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001498465D2B0>
+[0] [12/02/2026 15:01:41] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=5]
+[0] [12/02/2026 15:01:41] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149A9ABB710>
+[0] [12/02/2026 15:01:41] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=6]
+[0] [12/02/2026 15:01:41] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149A5E56960>
+[0] [12/02/2026 15:01:41] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=7]
+[0] [12/02/2026 15:01:42] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149A9C3B3B0>
+[0] [12/02/2026 15:01:42] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=8]
+[0] [12/02/2026 15:01:42] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149A6091040>
+[0] [12/02/2026 15:01:42] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=9]
+[0] [12/02/2026 15:01:43] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149A9DF94F0>
+[0] [12/02/2026 15:01:43] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=10]
+[6] [12/02/2026 15:01:49] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149D8D6D100>
+[0] [12/02/2026 15:01:49] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=11]
+[13] [12/02/2026 15:02:03] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B614FCE0>
+[0] [12/02/2026 15:02:03] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                              [76] [12/02/2026 15:02:34] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5B6E24D70>
+[0] [12/02/2026 15:02:34] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=13]
+[133] [12/02/2026 15:04:47] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5BA16B080>
+[0] [12/02/2026 15:04:47] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=14]
+[94] [12/02/2026 15:06:22] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5B2209EB0>
+[0] [12/02/2026 15:06:22] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=15]
+[203] [12/02/2026 15:09:45] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5B7819340>
+[0] [12/02/2026 15:09:45] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=16]
+[119] [12/02/2026 15:11:45] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5BC2E93A0>
+[0] [12/02/2026 15:11:45] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=17]
+[241] [12/02/2026 15:15:47] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5B5699280>
+[0] [12/02/2026 15:15:47] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=18]
+[124] [12/02/2026 15:17:51] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5B32DD310>
+[0] [12/02/2026 15:17:51] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=19]
+[279] [12/02/2026 15:22:31] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5BAE83560>
+[0] [12/02/2026 15:22:31] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=20]
+[64] [12/02/2026 15:23:36] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5B416ABA0>
+[0] [12/02/2026 15:23:36] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=21]
+[72] [12/02/2026 15:24:48] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5B8503E90>
+[0] [12/02/2026 15:24:48] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=22]
+[109] [12/02/2026 15:26:37] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5BB539400>
+[0] [12/02/2026 15:26:37] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=23]
+[133] [12/02/2026 15:28:51] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5BC149F70>
+[0] [12/02/2026 15:28:51] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=24]
+[155] [12/02/2026 15:31:26] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5C0D14D40>
+[0] [12/02/2026 15:31:26] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=25]
+[156] [12/02/2026 15:34:03] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5BDA9B8F0>
+[0] [12/02/2026 15:34:03] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=26]
+[183] [12/02/2026 15:37:06] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5BAFB44D0>
+[0] [12/02/2026 15:37:06] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=27]
+[196] [12/02/2026 15:40:22] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5BD8F1820>
+[0] [12/02/2026 15:40:22] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=28]
+[231] [12/02/2026 15:44:14] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5C29773B0>
+[0] [12/02/2026 15:44:14] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=29]
+[244] [12/02/2026 15:48:19] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5C0740110>
+[0] [12/02/2026 15:48:19] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=30]
+[1] [12/02/2026 15:48:21] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5B62E0590>
+[0] [12/02/2026 15:48:21] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=31]
+[2] [12/02/2026 15:48:23] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5B2E10F50>
+[0] [12/02/2026 15:48:23] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=32]
+[3] [12/02/2026 15:48:26] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5B7F52E70>
+[0] [12/02/2026 15:48:26] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=33]
+[4] [12/02/2026 15:48:30] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5B69CEE70>
+[0] [12/02/2026 15:48:30] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=34]
+[4] [12/02/2026 15:48:34] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5BB297350>
+[0] [12/02/2026 15:48:34] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=35]
+[6] [12/02/2026 15:48:41] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5C0D22930>
+[0] [12/02/2026 15:48:41] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=36]
+[5] [12/02/2026 15:48:46] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5BFB6EA20>
+[0] [12/02/2026 15:48:46] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=37]
+[6] [12/02/2026 15:48:53] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5C5656930>
+[0] [12/02/2026 15:48:53] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=38]
+[6] [12/02/2026 15:48:59] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5B5453020>
+[0] [12/02/2026 15:48:59] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=39]
+[7] [12/02/2026 15:49:07] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5B304BFE0>
+[0] [12/02/2026 15:49:07] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=40]
+[0] [12/02/2026 15:49:08] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5C2B145F0>
+[0] [12/02/2026 15:49:08] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=41]
+[1] [12/02/2026 15:49:09] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5C1299CD0>
+[0] [12/02/2026 15:49:09] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=42]
+[1] [12/02/2026 15:49:10] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5C51E61E0>
+[0] [12/02/2026 15:49:10] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=43]
+[2] [12/02/2026 15:49:13] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5C593CE90>
+[0] [12/02/2026 15:49:13] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=44]
+[1] [12/02/2026 15:49:15] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5C617C290>
+[0] [12/02/2026 15:49:15] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=45]
+[4] [12/02/2026 15:49:19] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5C65BA030>
+[0] [12/02/2026 15:49:19] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=46]
+[1] [12/02/2026 15:49:21] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5C68C7FB0>
+[0] [12/02/2026 15:49:21] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=47]
+[5] [12/02/2026 15:49:26] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5C6E7CCE0>
+[0] [12/02/2026 15:49:26] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=48]
+[2] [12/02/2026 15:49:28] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5C7614200>
+[0] [12/02/2026 15:49:28] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=49]
+[5] [12/02/2026 15:49:34] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5C7886E40>
+[0] [12/02/2026 15:49:34] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=50]
+[7] [12/02/2026 15:49:41] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5CF69DC40>
+[0] [12/02/2026 15:49:41] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=51]
+[7] [12/02/2026 15:49:49] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5CF19FA40>
+[0] [12/02/2026 15:49:49] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=52]
+[13] [12/02/2026 15:50:02] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5CFBBBE90>
+[0] [12/02/2026 15:50:02] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=53]
+[11] [12/02/2026 15:50:14] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x000001B5CF8E6CC0>
+[0] [12/02/2026 15:50:14] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_repeated.astar.main.AStarRepeated'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=54]
+lem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=54]
+[0] [12/02/2026 15:08:23] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AD4FF8C0>
+[0] [12/02/2026 15:08:23] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=55]
+[0] [12/02/2026 15:08:24] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B3855CA0>
+[0] [12/02/2026 15:08:24] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=56]
+[0] [12/02/2026 15:08:25] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AD3805F0>
+[0] [12/02/2026 15:08:25] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=57]
+[0] [12/02/2026 15:08:26] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C5F56AE0>
+[0] [12/02/2026 15:08:26] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=58]
+[0] [12/02/2026 15:08:27] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AD29DA00>
+[0] [12/02/2026 15:08:27] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=59]
+[0] [12/02/2026 15:08:27] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B83BCEC0>
+[0] [12/02/2026 15:08:27] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=60]
+[0] [12/02/2026 15:08:28] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AD22AB70>
+[0] [12/02/2026 15:08:28] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=61]
+[0] [12/02/2026 15:08:29] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149ACFAC1A0>
+[0] [12/02/2026 15:08:29] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=62]
+[0] [12/02/2026 15:08:30] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B5EDB950>
+[0] [12/02/2026 15:08:30] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=63]
+[0] [12/02/2026 15:08:31] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149ACD1A180>
+[0] [12/02/2026 15:08:31] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=64]
+[0] [12/02/2026 15:08:32] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AD5D2720>
+[0] [12/02/2026 15:08:32] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=65]
+[0] [12/02/2026 15:08:32] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149ACC7D700>
+[0] [12/02/2026 15:08:32] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=66]
+[1] [12/02/2026 15:08:33] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BEA06E70>
+[0] [12/02/2026 15:08:33] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=67]
+[0] [12/02/2026 15:08:34] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149ACA1DAC0>
+[0] [12/02/2026 15:08:34] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=68]
+[0] [12/02/2026 15:08:35] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AD2E22A0>
+[0] [12/02/2026 15:08:35] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=69]
+[0] [12/02/2026 15:08:36] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AC8EBF50>
+[0] [12/02/2026 15:08:36] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=70]
+[1] [12/02/2026 15:08:38] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AD5FE720>
+[0] [12/02/2026 15:08:38] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=71]
+[1] [12/02/2026 15:08:39] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AA567050>
+[0] [12/02/2026 15:08:39] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=72]
+[2] [12/02/2026 15:08:41] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B68AA750>
+[0] [12/02/2026 15:08:41] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=73]
+[1] [12/02/2026 15:08:43] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AA527290>
+[0] [12/02/2026 15:08:43] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=74]
+[1] [12/02/2026 15:08:45] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C93CD4C0>
+[0] [12/02/2026 15:08:45] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=75]
+[1] [12/02/2026 15:08:46] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AA306510>
+[0] [12/02/2026 15:08:46] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=76]
+[1] [12/02/2026 15:08:48] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149ACA43E30>
+[0] [12/02/2026 15:08:48] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=77]
+[1] [12/02/2026 15:08:50] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B48546E0>
+[0] [12/02/2026 15:08:50] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=78]
+[2] [12/02/2026 15:08:52] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C77D3E60>
+[0] [12/02/2026 15:08:52] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=79]
+[1] [12/02/2026 15:08:53] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B64C86E0>
+[0] [12/02/2026 15:08:53] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=80]
+[0] [12/02/2026 15:08:54] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AC091940>
+[0] [12/02/2026 15:08:54] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=81]
+[0] [12/02/2026 15:08:54] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AB864860>
+[0] [12/02/2026 15:08:54] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=82]
+[0] [12/02/2026 15:08:54] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AB461370>
+[0] [12/02/2026 15:08:54] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=83]
+[0] [12/02/2026 15:08:55] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149ABCE22D0>
+[0] [12/02/2026 15:08:55] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=84]
+[0] [12/02/2026 15:08:55] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AB1E5B50>
+[0] [12/02/2026 15:08:55] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=85]
+[0] [12/02/2026 15:08:55] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AB7D5DF0>
+[0] [12/02/2026 15:08:55] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=86]
+[0] [12/02/2026 15:08:55] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AB12D790>
+[0] [12/02/2026 15:08:55] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=87]
+[0] [12/02/2026 15:08:56] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149ABC85070>
+[0] [12/02/2026 15:08:56] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=88]
+[0] [12/02/2026 15:08:56] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AB115250>
+[0] [12/02/2026 15:08:56] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=89]
+[0] [12/02/2026 15:08:56] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AC077C50>
+[0] [12/02/2026 15:08:56] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=90]
+[1] [12/02/2026 15:08:58] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AADC4110>
+[0] [12/02/2026 15:08:58] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=91]
+[1] [12/02/2026 15:09:00] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AC367C20>
+[0] [12/02/2026 15:09:00] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=92]
+[1] [12/02/2026 15:09:01] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B60BF2F0>
+[0] [12/02/2026 15:09:01] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=93]
+[1] [12/02/2026 15:09:03] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149ACF6E630>
+[0] [12/02/2026 15:09:03] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=94]
+[1] [12/02/2026 15:09:05] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B2A70F50>
+[0] [12/02/2026 15:09:05] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=95]
+[1] [12/02/2026 15:09:07] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AE2BEB70>
+[0] [12/02/2026 15:09:07] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=96]
+[2] [12/02/2026 15:09:09] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B34B4DA0>
+[0] [12/02/2026 15:09:09] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=97]
+[1] [12/02/2026 15:09:11] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AB463680>
+[0] [12/02/2026 15:09:11] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=98]
+[1] [12/02/2026 15:09:13] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B3D10CE0>
+[0] [12/02/2026 15:09:13] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=99]
+[2] [12/02/2026 15:09:15] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B4B3BF80>
+[0] [12/02/2026 15:09:15] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=100]
+[2] [12/02/2026 15:09:17] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B43A0E30>
+[0] [12/02/2026 15:09:17] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=101]
+[2] [12/02/2026 15:09:20] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149A9C0FC20>
+[0] [12/02/2026 15:09:20] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=102]
+[2] [12/02/2026 15:09:22] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B8EC9A30>
+[0] [12/02/2026 15:09:22] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=103]
+[2] [12/02/2026 15:09:25] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AEA9DFD0>
+[0] [12/02/2026 15:09:25] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=104]
+[2] [12/02/2026 15:09:27] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BE407830>
+[0] [12/02/2026 15:09:27] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=105]
+[3] [12/02/2026 15:09:31] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B53D6C00>
+[0] [12/02/2026 15:09:31] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=106]
+[2] [12/02/2026 15:09:33] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B80F52E0>
+[0] [12/02/2026 15:09:33] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=107]
+[3] [12/02/2026 15:09:36] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AC2EE810>
+[0] [12/02/2026 15:09:36] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=108]
+[2] [12/02/2026 15:09:39] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B9BA6A20>
+[0] [12/02/2026 15:09:39] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=109]
+[3] [12/02/2026 15:09:42] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B64B8350>
+[0] [12/02/2026 15:09:42] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=110]
+[0] [12/02/2026 15:09:43] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B50636B0>
+[0] [12/02/2026 15:09:43] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=111]
+[2] [12/02/2026 15:09:45] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B983EE10>
+[0] [12/02/2026 15:09:45] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=112]
+[0] [12/02/2026 15:09:46] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AC580B30>
+[0] [12/02/2026 15:09:46] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=113]
+[2] [12/02/2026 15:09:48] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B60D91C0>
+[0] [12/02/2026 15:09:48] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=114]
+[0] [12/02/2026 15:09:49] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C899E1E0>
+[0] [12/02/2026 15:09:49] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=115]
+[2] [12/02/2026 15:09:51] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B82EB800>
+[0] [12/02/2026 15:09:51] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=116]
+[0] [12/02/2026 15:09:52] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B3D13080>
+[0] [12/02/2026 15:09:52] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=117]
+[2] [12/02/2026 15:09:54] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AC583230>
+[0] [12/02/2026 15:09:54] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=118]
+[0] [12/02/2026 15:09:55] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BE180740>
+[0] [12/02/2026 15:09:55] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=119]
+[2] [12/02/2026 15:09:57] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AD2E3140>
+[0] [12/02/2026 15:09:57] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=120]
+[1] [12/02/2026 15:09:59] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AA729C10>
+[0] [12/02/2026 15:09:59] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=121]
+[1] [12/02/2026 15:10:00] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BC4A7500>
+[0] [12/02/2026 15:10:00] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=122]
+[2] [12/02/2026 15:10:03] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149ABC72540>
+[0] [12/02/2026 15:10:03] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=123]
+[1] [12/02/2026 15:10:04] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149ACD51C10>
+[0] [12/02/2026 15:10:04] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=124]
+[1] [12/02/2026 15:10:05] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AB41D7F0>
+[0] [12/02/2026 15:10:05] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=125]
+[1] [12/02/2026 15:10:07] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B31B4830>
+[0] [12/02/2026 15:10:07] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=126]
+[1] [12/02/2026 15:10:08] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B66350D0>
+[0] [12/02/2026 15:10:08] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=127]
+[1] [12/02/2026 15:10:09] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B9AEAA50>
+[0] [12/02/2026 15:10:09] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=128]
+[1] [12/02/2026 15:10:11] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B8BAF890>
+[0] [12/02/2026 15:10:11] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=129]
+[1] [12/02/2026 15:10:12] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C9725BE0>
+[0] [12/02/2026 15:10:12] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=130]
+[3] [12/02/2026 15:10:16] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C94B9CA0>
+[0] [12/02/2026 15:10:16] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=131]
+[2] [12/02/2026 15:10:19] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B84368D0>
+[0] [12/02/2026 15:10:19] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=132]
+[3] [12/02/2026 15:10:23] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B499D820>
+[0] [12/02/2026 15:10:23] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=133]
+[3] [12/02/2026 15:10:26] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B7373830>
+[0] [12/02/2026 15:10:26] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=134]
+[3] [12/02/2026 15:10:30] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C95B5D00>
+[0] [12/02/2026 15:10:30] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=135]
+[3] [12/02/2026 15:10:33] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149A94AB950>
+[0] [12/02/2026 15:10:33] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=136]
+[3] [12/02/2026 15:10:37] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B60217F0>
+[0] [12/02/2026 15:10:37] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=137]
+[2] [12/02/2026 15:10:39] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C74E1D90>
+[0] [12/02/2026 15:10:39] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=138]
+[3] [12/02/2026 15:10:43] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BDB80230>
+[0] [12/02/2026 15:10:43] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=139]
+[3] [12/02/2026 15:10:47] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BD7095E0>
+[0] [12/02/2026 15:10:47] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=140]
+[1] [12/02/2026 15:10:48] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BD666B70>
+[0] [12/02/2026 15:10:48] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=141]
+[2] [12/02/2026 15:10:50] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B22A5E80>
+[0] [12/02/2026 15:10:50] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=142]
+[1] [12/02/2026 15:10:52] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C7D72030>
+[0] [12/02/2026 15:10:52] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=143]
+[2] [12/02/2026 15:10:54] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AE70C2C0>
+[0] [12/02/2026 15:10:54] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=144]
+[1] [12/02/2026 15:10:55] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BA194530>
+[0] [12/02/2026 15:10:55] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=145]
+[2] [12/02/2026 15:10:58] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B9F403E0>
+[0] [12/02/2026 15:10:58] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=146]
+[1] [12/02/2026 15:11:00] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149A96FA510>
+[0] [12/02/2026 15:11:00] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=147]
+[2] [12/02/2026 15:11:02] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149A940B2C0>
+[0] [12/02/2026 15:11:02] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=148]
+[1] [12/02/2026 15:11:03] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BD8FCB60>
+[0] [12/02/2026 15:11:03] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=149]
+[2] [12/02/2026 15:11:05] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B3EEDFD0>
+[0] [12/02/2026 15:11:05] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=150]
+[0] [12/02/2026 15:11:06] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B83BFBC0>
+[0] [12/02/2026 15:11:06] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=151]
+[0] [12/02/2026 15:11:06] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B8474920>
+[0] [12/02/2026 15:11:06] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=152]
+[0] [12/02/2026 15:11:07] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BD4A90D0>
+[0] [12/02/2026 15:11:07] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=153]
+[0] [12/02/2026 15:11:07] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149ACC035F0>
+[0] [12/02/2026 15:11:07] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=154]
+[0] [12/02/2026 15:11:08] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B9EBF3E0>
+[0] [12/02/2026 15:11:08] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=155]
+[0] [12/02/2026 15:11:08] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B53D5A90>
+[0] [12/02/2026 15:11:08] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=156]
+[0] [12/02/2026 15:11:09] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149A97200B0>
+[0] [12/02/2026 15:11:09] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=157]
+[0] [12/02/2026 15:11:09] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B7E289E0>
+[0] [12/02/2026 15:11:09] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=158]
+[0] [12/02/2026 15:11:10] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BA4771A0>
+[0] [12/02/2026 15:11:10] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=159]
+[0] [12/02/2026 15:11:10] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149CA83CAD0>
+[0] [12/02/2026 15:11:10] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=160]
+[1] [12/02/2026 15:11:12] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BB99B5F0>
+[0] [12/02/2026 15:11:12] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=161]
+[0] [12/02/2026 15:11:13] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B5DA7AD0>
+[0] [12/02/2026 15:11:13] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=162]
+[1] [12/02/2026 15:11:14] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AA307A40>
+[0] [12/02/2026 15:11:14] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=163]
+[0] [12/02/2026 15:11:15] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B8E7BC80>
+[0] [12/02/2026 15:11:15] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=164]
+[1] [12/02/2026 15:11:16] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B66842F0>
+[0] [12/02/2026 15:11:16] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=165]
+[0] [12/02/2026 15:11:17] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B98C65A0>
+[0] [12/02/2026 15:11:17] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=166]
+[1] [12/02/2026 15:11:18] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BDC3F980>
+[0] [12/02/2026 15:11:18] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=167]
+[0] [12/02/2026 15:11:19] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B9BF7BC0>
+[0] [12/02/2026 15:11:19] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=168]
+[1] [12/02/2026 15:11:21] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BD332D20>
+[0] [12/02/2026 15:11:21] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=169]
+[0] [12/02/2026 15:11:21] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C8A18110>
+[0] [12/02/2026 15:11:21] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=170]
+[2] [12/02/2026 15:11:24] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B597AA20>
+[0] [12/02/2026 15:11:24] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=171]
+[2] [12/02/2026 15:11:26] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B2897080>
+[0] [12/02/2026 15:11:26] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=172]
+[2] [12/02/2026 15:11:29] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BD6658B0>
+[0] [12/02/2026 15:11:29] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=173]
+[2] [12/02/2026 15:11:31] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B2545280>
+[0] [12/02/2026 15:11:31] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=174]
+[2] [12/02/2026 15:11:34] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BA215F70>
+[0] [12/02/2026 15:11:34] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=175]
+[2] [12/02/2026 15:11:37] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B23809E0>
+[0] [12/02/2026 15:11:37] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=176]
+[2] [12/02/2026 15:11:40] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BC6DCEC0>
+[0] [12/02/2026 15:11:40] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=177]
+[2] [12/02/2026 15:11:42] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B20AC440>
+[0] [12/02/2026 15:11:42] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=178]
+[2] [12/02/2026 15:11:45] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AA7051F0>
+[0] [12/02/2026 15:11:45] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=179]
+[2] [12/02/2026 15:11:47] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B200E0C0>
+[0] [12/02/2026 15:11:47] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=180]
+[4] [12/02/2026 15:11:52] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AC769DF0>
+[0] [12/02/2026 15:11:52] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=181]
+[2] [12/02/2026 15:11:54] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B2FCCFB0>
+[0] [12/02/2026 15:11:54] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=182]
+[3] [12/02/2026 15:11:58] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B4AEA720>
+[0] [12/02/2026 15:11:58] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=183]
+[2] [12/02/2026 15:12:00] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B331EDB0>
+[0] [12/02/2026 15:12:00] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=184]
+[3] [12/02/2026 15:12:03] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149A944B290>
+[0] [12/02/2026 15:12:03] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=185]
+[2] [12/02/2026 15:12:06] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B3812EA0>
+[0] [12/02/2026 15:12:06] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=186]
+[3] [12/02/2026 15:12:09] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B13350A0>
+[0] [12/02/2026 15:12:09] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=187]
+[2] [12/02/2026 15:12:11] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B395CEC0>
+[0] [12/02/2026 15:12:11] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=188]
+[3] [12/02/2026 15:12:14] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C82496D0>
+[0] [12/02/2026 15:12:14] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=189]
+[2] [12/02/2026 15:12:16] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B3D7CCE0>
+[0] [12/02/2026 15:12:16] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=190]
+[1] [12/02/2026 15:12:18] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B48A6600>
+[0] [12/02/2026 15:12:18] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=191]
+[1] [12/02/2026 15:12:19] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BDF2D1F0>
+[0] [12/02/2026 15:12:19] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=192]
+[1] [12/02/2026 15:12:21] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C644F050>
+[0] [12/02/2026 15:12:21] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=193]
+[1] [12/02/2026 15:12:22] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BDD003B0>
+[0] [12/02/2026 15:12:22] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=194]
+[1] [12/02/2026 15:12:24] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C6A17E00>
+[0] [12/02/2026 15:12:24] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=195]
+[1] [12/02/2026 15:12:25] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B22E6180>
+[0] [12/02/2026 15:12:25] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=196]
+[1] [12/02/2026 15:12:27] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C69BD5B0>
+[0] [12/02/2026 15:12:27] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=197]
+[1] [12/02/2026 15:12:28] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BD0FA780>
+[0] [12/02/2026 15:12:28] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=198]
+[1] [12/02/2026 15:12:30] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C712A900>
+[0] [12/02/2026 15:12:30] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=199]
+[1] [12/02/2026 15:12:31] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BB922C60>
+[0] [12/02/2026 15:12:31] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=200]
+[2] [12/02/2026 15:12:34] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C729F170>
+[0] [12/02/2026 15:12:34] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=201]
+[1] [12/02/2026 15:12:35] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B7B39A00>
+[0] [12/02/2026 15:12:35] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=202]
+[2] [12/02/2026 15:12:38] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B1FF5EE0>
+[0] [12/02/2026 15:12:38] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=203]
+[1] [12/02/2026 15:12:39] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B8CD35F0>
+[0] [12/02/2026 15:12:39] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=204]
+[3] [12/02/2026 15:12:43] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AA7463F0>
+[0] [12/02/2026 15:12:43] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=205]
+[1] [12/02/2026 15:12:44] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B93E6F30>
+[0] [12/02/2026 15:12:44] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=206]
+[2] [12/02/2026 15:12:47] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B20CBBF0>
+[0] [12/02/2026 15:12:47] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=207]
+[1] [12/02/2026 15:12:48] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C7168440>
+[0] [12/02/2026 15:12:48] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=208]
+[2] [12/02/2026 15:12:50] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B1DF7AA0>
+[0] [12/02/2026 15:12:50] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=209]
+[1] [12/02/2026 15:12:52] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B8DEBB00>
+[0] [12/02/2026 15:12:52] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=210]
+[4] [12/02/2026 15:12:56] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B932A840>
+[0] [12/02/2026 15:12:56] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=211]
+[3] [12/02/2026 15:12:59] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AE824800>
+[0] [12/02/2026 15:12:59] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=212]
+[4] [12/02/2026 15:13:04] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B2D10650>
+[0] [12/02/2026 15:13:04] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=213]
+[4] [12/02/2026 15:13:08] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AEA05910>
+[0] [12/02/2026 15:13:08] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=214]
+[4] [12/02/2026 15:13:13] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B1152F60>
+[0] [12/02/2026 15:13:13] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=215]
+[4] [12/02/2026 15:13:17] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AEABA390>
+[0] [12/02/2026 15:13:17] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=216]
+[4] [12/02/2026 15:13:22] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B8B634A0>
+[0] [12/02/2026 15:13:22] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=217]
+[4] [12/02/2026 15:13:26] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AED34FE0>
+[0] [12/02/2026 15:13:26] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=218]
+[4] [12/02/2026 15:13:31] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149ABD87980>
+[0] [12/02/2026 15:13:31] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=219]
+[4] [12/02/2026 15:13:35] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AF06A600>
+[0] [12/02/2026 15:13:35] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=220]
+[3] [12/02/2026 15:13:39] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B163DFD0>
+[0] [12/02/2026 15:13:39] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=221]
+[2] [12/02/2026 15:13:42] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AE80CFB0>
+[0] [12/02/2026 15:13:42] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=222]
+[2] [12/02/2026 15:13:45] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149A9C0C080>
+[0] [12/02/2026 15:13:45] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=223]
+[2] [12/02/2026 15:13:48] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B1135280>
+[0] [12/02/2026 15:13:48] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=224]
+[2] [12/02/2026 15:13:50] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BA2CFAA0>
+[0] [12/02/2026 15:13:50] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=225]
+[2] [12/02/2026 15:13:53] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C92ABB00>
+[0] [12/02/2026 15:13:53] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=226]
+[2] [12/02/2026 15:13:56] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BCE25490>
+[0] [12/02/2026 15:13:56] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=227]
+[2] [12/02/2026 15:13:58] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C8D550D0>
+[0] [12/02/2026 15:13:58] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=228]
+[2] [12/02/2026 15:14:01] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AD6B5E50>
+[0] [12/02/2026 15:14:01] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=229]
+[2] [12/02/2026 15:14:04] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C8CFE1B0>
+[0] [12/02/2026 15:14:04] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=230]
+[3] [12/02/2026 15:14:07] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C9D70A10>
+[0] [12/02/2026 15:14:07] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=231]
+[4] [12/02/2026 15:14:12] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149ABFFC920>
+[0] [12/02/2026 15:14:12] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=232]
+[3] [12/02/2026 15:14:15] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AFCF7D40>
+[0] [12/02/2026 15:14:15] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=233]
+[4] [12/02/2026 15:14:19] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C8B11EB0>
+[0] [12/02/2026 15:14:19] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=234]
+[3] [12/02/2026 15:14:23] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149A9172180>
+[0] [12/02/2026 15:14:23] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=235]
+[4] [12/02/2026 15:14:27] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C6D205C0>
+[0] [12/02/2026 15:14:27] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=236]
+[4] [12/02/2026 15:14:31] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149A91A9FA0>
+[0] [12/02/2026 15:14:31] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=237]
+[4] [12/02/2026 15:14:35] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C9781400>
+[0] [12/02/2026 15:14:35] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=238]
+[3] [12/02/2026 15:14:38] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149A9260CB0>
+[0] [12/02/2026 15:14:38] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=239]
+[4] [12/02/2026 15:14:42] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149AACB2870>
+[0] [12/02/2026 15:14:42] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=240]
+[0] [12/02/2026 15:14:43] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149BDC2F080>
+[0] [12/02/2026 15:14:43] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=241]
+[1] [12/02/2026 15:14:45] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B13B06B0>
+[0] [12/02/2026 15:14:45] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=242]
+[1] [12/02/2026 15:14:46] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B6EAEED0>
+[0] [12/02/2026 15:14:46] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=243]
+[1] [12/02/2026 15:14:48] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C9D65670>
+[0] [12/02/2026 15:14:48] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=244]
+[0] [12/02/2026 15:14:49] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B9BA7F50>
+[0] [12/02/2026 15:14:49] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=245]
+[1] [12/02/2026 15:14:50] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C7D974D0>
+[0] [12/02/2026 15:14:50] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=246]
+[0] [12/02/2026 15:14:51] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B9118F20>
+[0] [12/02/2026 15:14:51] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=247]
+[1] [12/02/2026 15:14:53] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149C9889820>
+[0] [12/02/2026 15:14:53] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=248]
+[0] [12/02/2026 15:14:54] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149ADA53080>
+[0] [12/02/2026 15:14:54] [START] _run_problem() [type_algo=<class 'f_search.algos.i_2_omspp.i_1_incremental.bfs.main.BFSIncremental'>]
+                                                 [problem=<ProblemOMSPP: Name=ProblemOMSPP>]
+                                                 [i=249]
+[1] [12/02/2026 15:14:56] [FINISH] _run_problem() -> <f_search.solutions.i_2_omspp.main.SolutionOMSPP object at 0x00000149B3813B60>
+[798] [12/02/2026 15:14:56] [FINISH] run_algos() -> list(250)
+[0] [12/02/2026 15:14:56] [START] pickle_result() [solutions=list(250)]
+                                                  [pickle_solutions='f:\\paper\\i_4_solutions\\bfs_incremental.pkl']
+[1] [12/02/2026 15:14:57] [FINISH] pickle_result()

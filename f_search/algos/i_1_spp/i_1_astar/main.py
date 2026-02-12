@@ -1,16 +1,16 @@
 from f_search.algos.i_1_spp.i_0_base import AlgoSPP
 from f_search.problems import ProblemSPP as Problem
-from f_search.ds.frontier import FrontierPriority
+from f_search.ds.frontier import FrontierPriority as Frontier
 from f_search.ds.state import StateBase
-from f_search.ds.priority import PriorityGH
-from f_search.heuristics import HeuristicsBase, HeuristicsManhattan
-from f_search.ds.data import DataHeuristics
+from f_search.ds.priority import PriorityGH as Priority
+from f_search.heuristics import HeuristicsProtocol, HeuristicsManhattan as Manhattan
+from f_search.ds.data import DataHeuristics as Data
 from typing import Generic, TypeVar
 
 State = TypeVar('State', bound=StateBase)
 
 
-class AStar(Generic[State], AlgoSPP[State, DataHeuristics]):
+class AStar(Generic[State], AlgoSPP[State, Data]):
     """
     ============================================================================
      AStar (A*) Algorithm.
@@ -23,18 +23,25 @@ class AStar(Generic[State], AlgoSPP[State, DataHeuristics]):
     def __init__(self,
                  problem: Problem,
                  name: str = 'AStar',
-                 data: DataHeuristics[State] = None,
-                 heuristics: HeuristicsBase[State, Problem] = None) -> None:
+                 data: Data[State] = None,
+                 heuristics: HeuristicsProtocol[State] = None,
+                 need_path: bool = True) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        data = data if data else DataHeuristics(frontier=FrontierPriority())
+        if not data:
+            frontier = Frontier[State, Priority]()
+            data = Data[State](frontier=frontier)
+        if heuristics:
+            self._heuristics = heuristics
+        else:
+            self._heuristics = Manhattan[State](goal=problem.goal)
         super().__init__(problem=problem,
                          data=data,
-                         name=name)
-        self._heuristics = heuristics if heuristics else HeuristicsManhattan(problem)
+                         name=name,
+                         need_path=need_path)
 
     def _discover(self, state: State) -> None:
         """
@@ -50,7 +57,7 @@ class AStar(Generic[State], AlgoSPP[State, DataHeuristics]):
         # Calculate the heuristic distance from state to goal
         data.dict_h[state] = self._heuristics(state=state)
         # Calculate the priority of the State (in the Frontier)
-        priority = PriorityGH(key=state.key,
+        priority = Priority[State](key=state.key,
                                    g=data.dict_g[state],
                                    h=data.dict_h[state])
         # Push State to Frontier
@@ -91,7 +98,7 @@ class AStar(Generic[State], AlgoSPP[State, DataHeuristics]):
         data = self._data
         # Set the Successor's Parent to the Best-State
         data.set_best_to_be_parent_of(state=succ)
-        priority = PriorityGH(key=succ.key,
+        priority = Priority[State](key=succ.key,
                                    g=data.dict_g[succ],
                                    h=data.dict_h[succ])
         data.frontier.update(state=succ, priority=priority)

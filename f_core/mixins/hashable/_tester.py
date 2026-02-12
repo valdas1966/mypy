@@ -9,4 +9,11 @@ def test_hashable() -> None:
     """
     a = Hashable.Factory.a()
     b = Hashable.Factory.b()
-    assert {a, a, b} == {a, b}
+    a_other = Hashable.Factory.a()  # distinct instance, same key
+    # Value-based equality
+    assert a == a_other
+    assert a != b
+    # Hash consistency
+    assert hash(a) == hash(a_other)
+    # Set deduplication (value-based, not identity-based)
+    assert {a, a_other, b} == {a, b}

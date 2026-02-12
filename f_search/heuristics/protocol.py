@@ -1,19 +1,20 @@
-from __future__ import annotations
-from abc import ABC, abstractmethod
-from typing import Self
+from typing import Protocol, TypeVar
+from f_search.ds.state import StateBase
+
+State = TypeVar('State', bound=StateBase)
 
 
-class Clonable(ABC):
+class HeuristicsProtocol(Protocol[State]):
     """
     ============================================================================
-     Clonable Abstract-Class.
+     Protocol for a function that returns the heuristic value of a given state.
     ============================================================================
     """
 
-    @abstractmethod
-    def clone(self) -> Self:
+    def __call__(self, state: State) -> int:
         """
         ========================================================================
-         Clone an Object.
+         Return Heuristic-Value for the given State.
         ========================================================================
         """
+        ...

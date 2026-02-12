@@ -1,4 +1,4 @@
-from f_search.algos.i_1_spp import AStar, DijkstraNeighborhood
+from f_search.algos.i_1_spp import AStar
 from f_search.problems import ProblemSPP
 from f_search.ds.state import StateCell as State
 from f_ds.grids import GridMap as Grid

@@ -1,2 +1,2 @@
-from f_search.heuristics.i_0_base import HeuristicsBase
-from f_search.heuristics.i_1_manhattan import HeuristicsManhattan
+from f_search.heuristics.protocol import HeuristicsProtocol
+from f_search.heuristics.manhattan import HeuristicsManhattan

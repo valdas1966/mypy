@@ -2,6 +2,7 @@ from f_log.old.utils import set_debug, log_2
 from f_ds.grids import CellMap as Cell
 from f_search.problems import ProblemOMSPP as Problem
 from f_search.ds.state import StateCell as State
+from f_ds.grids import GridMap as Grid
 from f_utils import u_pickle
 
 Diamond = list[Cell]
@@ -49,18 +50,16 @@ def _get_problems_from_grid(grid: str,
             # Problem from diamond_a to diamond_b.
             # Start = first cell of diamond_a
             # Goals = first k cells of diamond_b.
-            start = State(key=diamond_a[0])
-            goals = [State(key=cell) for cell in diamond_b[:k]]
+            start = diamond_a[0]
+            goals = diamond_b[:k]
             problem = Problem(grid=grid, start=start, goals=goals)
-            problem.unload_grid()
             problems.append(problem)
             # Problem from diamond_b to diamond_a.
             # Start = first cell of diamond_b
             # Goals = first k cells of diamond_a.
-            start = State(key=diamond_b[0])
-            goals = [State(key=cell) for cell in diamond_a[:k]]
+            start = diamond_b[0]
+            goals = diamond_a[:k]
             problem = Problem(grid=grid, start=start, goals=goals)
-            problem.unload_grid()
             problems.append(problem)
     return problems
 
