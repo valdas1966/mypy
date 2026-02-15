@@ -12,7 +12,7 @@ class Factory:
     def valid() -> Validatable:
         """
         ========================================================================
-         Create a Validatable object.
+         Create a valid Validatable object.
         ========================================================================
         """
         return Validatable(is_valid=True)
@@ -21,7 +21,7 @@ class Factory:
     def invalid() -> Validatable:
         """
         ========================================================================
-         Create a Validatable object.
+         Create an invalid Validatable object.
         ========================================================================
         """
         return Validatable(is_valid=False)

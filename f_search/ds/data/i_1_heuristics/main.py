@@ -35,12 +35,3 @@ class DataHeuristics(Generic[State], DataBestFirst[State]):
                                dict_parent=dict_parent,
                                dict_g=dict_g)
         self.dict_h = dict_h if dict_h else dict()
-
-    def update_h(self, heuristics: Heuristics) -> None:
-        """
-        ========================================================================
-         Update the H-Value of the State.
-        ========================================================================
-        """
-        for state in self.dict_h:
-            self.dict_h[state] = heuristics(state)

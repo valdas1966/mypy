@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ValidatableMutable - Documentation</title>
+    <title>Dictable - Documentation</title>
     <style>
         :root {
             --bg: #0b0f14;
@@ -97,9 +97,8 @@
             border-radius: 4px;
             font-size: 0.8rem;
             font-weight: 600;
+            margin-right: 0.5rem;
         }
-        header .extends { margin-top: 0.5rem; color: var(--muted); font-size: 0.9rem; }
-        header .extends a { color: var(--accent2); }
 
         section { margin-bottom: 3rem; }
         h2 { color: #fff; font-size: 1.5rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
@@ -147,14 +146,9 @@
 
         .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-right: 0.5rem; }
         .badge-internal { background: var(--accent2); color: var(--bg); }
-        .badge-inherited { background: var(--faint); color: var(--bg); }
+        .badge-stdlib { background: var(--faint); color: var(--bg); }
 
-        .hierarchy-tree { font-family: monospace; background: var(--code-bg); padding: 1rem; border-radius: 6px; border: 2px solid var(--border); }
-        .hierarchy-tree .level { padding-left: 1.5rem; position: relative; }
-        .hierarchy-tree .level::before { content: ''; position: absolute; left: 0.5rem; top: 0; bottom: 0.5rem; border-left: 2px solid var(--border); }
-        .hierarchy-tree .node { position: relative; padding: 0.25rem 0; }
-        .hierarchy-tree .node::before { content: ''; position: absolute; left: -1rem; top: 50%; width: 0.75rem; border-top: 2px solid var(--border); }
-        .hierarchy-tree .root::before { display: none; }
+        .hierarchy-tree { font-family: monospace; background: var(--code-bg); padding: 1rem; border-radius: 6px; border: 2px solid var(--border); line-height: 1.8; }
 
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
         th, td { padding: 0.75rem; text-align: left; border: 1px solid var(--border); }
@@ -186,9 +180,18 @@
                 <li><a href="#public-api">Public API</a></li>
                 <li class="sub-item"><a href="#api-factory">Factory</a></li>
                 <li class="sub-item"><a href="#api-init">__init__()</a></li>
-                <li class="sub-item"><a href="#api-set-valid">set_valid()</a></li>
-                <li class="sub-item"><a href="#api-set-invalid">set_invalid()</a></li>
-                <li class="sub-item"><a href="#api-bool">__bool__()</a></li>
+                <li class="sub-item"><a href="#api-keys">keys()</a></li>
+                <li class="sub-item"><a href="#api-values">values()</a></li>
+                <li class="sub-item"><a href="#api-items">items()</a></li>
+                <li class="sub-item"><a href="#api-get">get()</a></li>
+                <li class="sub-item"><a href="#api-update">update()</a></li>
+                <li class="sub-item"><a href="#api-getitem">__getitem__()</a></li>
+                <li class="sub-item"><a href="#api-setitem">__setitem__()</a></li>
+                <li class="sub-item"><a href="#api-contains">__contains__()</a></li>
+                <li class="sub-item"><a href="#api-len">__len__()</a></li>
+                <li class="sub-item"><a href="#api-iter">__iter__()</a></li>
+                <li class="sub-item"><a href="#api-str">__str__()</a></li>
+                <li class="sub-item"><a href="#api-eq">__eq__()</a></li>
                 <li><a href="#inheritance">Inheritance</a></li>
                 <li><a href="#dependencies">Dependencies</a></li>
                 <li><a href="#usage">Usage Examples</a></li>
@@ -197,24 +200,24 @@
 
         <main class="main">
             <header id="top">
-                <h1>ValidatableMutable</h1>
-                <div class="path">f_core/mixins/validatable_mutable/</div>
-                <div class="tag">MIXIN</div>
-                <div class="extends">Extends: <a href="../validatable/CLAUDE.html">Validatable</a></div>
+                <h1>Dictable</h1>
+                <div class="path">f_core/mixins/dictable/</div>
+                <span class="tag">MIXIN</span>
+                <span class="tag" style="background: var(--accent2);">GENERIC</span>
             </header>
 
             <section id="purpose">
                 <h2>Purpose</h2>
                 <p>
-                    Mixin that extends <a href="../validatable/CLAUDE.html">Validatable</a> with public methods to
-                    change the validation state at runtime. Use when an object's validity is determined or toggled
-                    after construction.
+                    Generic mixin that wraps a <code class="inline-code">dict[K, V]</code> and exposes a
+                    dictionary-like public API. Provides key/value access, iteration, containment checks,
+                    update, and equality. Inherits printability from
+                    <code class="inline-code">Printable</code> and size semantics from
+                    <code class="inline-code">Sizable</code>.
                 </p>
                 <div class="note">
-                    Adds <code class="inline-code">set_valid()</code> and <code class="inline-code">set_invalid()</code>
-                    to the read-only <code class="inline-code">Validatable</code> base. Overrides the constructor
-                    to default <code class="inline-code">is_valid</code> to <code class="inline-code">None</code>.
-                    <code class="inline-code">__bool__</code> is inherited.
+                    Internal storage is <code class="inline-code">self._data: dict[K, V]</code>.
+                    All public methods delegate to this dict.
                 </div>
                 <a href="#top" class="back-to-top">Back to top</a>
             </section>
@@ -224,14 +227,15 @@
 
                 <div class="panel">
                     <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
-                        <span>class ValidatableMutable(Validatable)</span>
+                        <span>class Dictable(Generic[K, V], Printable, Sizable)</span>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
+
                         <div class="api-item" id="api-factory">
                             <h4>Class Attribute</h4>
                             <div class="api-signature">
-                                <code>Factory: type | None = None</code>
+                                <code>Factory: type = None</code>
                             </div>
                             <p class="api-description">Factory class for creating instances. Attached via <code class="inline-code">__init__.py</code>.</p>
                         </div>
@@ -239,34 +243,107 @@
                         <div class="api-item" id="api-init">
                             <h4>Constructor</h4>
                             <div class="api-signature">
-                                <code>def __init__(self, is_valid: bool | None = None) -> None</code>
+                                <code>def __init__(self, data: dict[K, V] = None) -> None</code>
                             </div>
-                            <p class="api-description">Calls <code class="inline-code">super().__init__(is_valid=is_valid)</code>. Defaults to <code class="inline-code">None</code> (unset) if not provided.</p>
+                            <p class="api-description">Stores <code class="inline-code">data</code> (or a new empty <code class="inline-code">dict</code>) as <code class="inline-code">_data</code>.</p>
                         </div>
 
-                        <div class="api-item" id="api-set-valid">
+                        <div class="api-item" id="api-keys">
                             <h4>Method</h4>
-                            <div class="api-signature mutator">
-                                <code>def set_valid(self) -> None</code>
-                            </div>
-                            <p class="api-description">Sets <code class="inline-code">_is_valid = True</code>.</p>
-                        </div>
-
-                        <div class="api-item" id="api-set-invalid">
-                            <h4>Method</h4>
-                            <div class="api-signature mutator">
-                                <code>def set_invalid(self) -> None</code>
-                            </div>
-                            <p class="api-description">Sets <code class="inline-code">_is_valid = False</code>.</p>
-                        </div>
-
-                        <div class="api-item" id="api-bool">
-                            <h4><span class="badge badge-inherited">INHERITED</span> Dunder Method</h4>
                             <div class="api-signature">
-                                <code>def __bool__(self) -> bool</code>
+                                <code>def keys(self) -> list[K]</code>
                             </div>
-                            <p class="api-description">Inherited from <a href="../validatable/CLAUDE.html">Validatable</a>. Returns <code class="inline-code">_is_valid</code>.</p>
+                            <p class="api-description">Returns list of keys.</p>
                         </div>
+
+                        <div class="api-item" id="api-values">
+                            <h4>Method</h4>
+                            <div class="api-signature">
+                                <code>def values(self) -> list[V]</code>
+                            </div>
+                            <p class="api-description">Returns list of values.</p>
+                        </div>
+
+                        <div class="api-item" id="api-items">
+                            <h4>Method</h4>
+                            <div class="api-signature">
+                                <code>def items(self) -> list[tuple[K, V]]</code>
+                            </div>
+                            <p class="api-description">Returns list of <code class="inline-code">(key, value)</code> tuples.</p>
+                        </div>
+
+                        <div class="api-item" id="api-get">
+                            <h4>Method</h4>
+                            <div class="api-signature">
+                                <code>def get(self, key: K, default: V = None) -> V</code>
+                            </div>
+                            <p class="api-description">Returns value for <code class="inline-code">key</code>, or <code class="inline-code">default</code> if missing.</p>
+                        </div>
+
+                        <div class="api-item" id="api-update">
+                            <h4>Method</h4>
+                            <div class="api-signature mutator">
+                                <code>def update(self, data: Union[dict[K, V], 'Dictable[K, V]']) -> None</code>
+                            </div>
+                            <p class="api-description">Merges <code class="inline-code">data</code> into <code class="inline-code">_data</code>. Accepts a <code class="inline-code">dict</code> or another <code class="inline-code">Dictable</code>.</p>
+                        </div>
+
+                        <div class="api-item" id="api-getitem">
+                            <h4>Dunder Method</h4>
+                            <div class="api-signature">
+                                <code>def __getitem__(self, key: K) -> V</code>
+                            </div>
+                            <p class="api-description"><code class="inline-code">obj[key]</code> — raises <code class="inline-code">KeyError</code> if missing.</p>
+                        </div>
+
+                        <div class="api-item" id="api-setitem">
+                            <h4>Dunder Method</h4>
+                            <div class="api-signature mutator">
+                                <code>def __setitem__(self, key: K, value: V) -> None</code>
+                            </div>
+                            <p class="api-description"><code class="inline-code">obj[key] = value</code>.</p>
+                        </div>
+
+                        <div class="api-item" id="api-contains">
+                            <h4>Dunder Method</h4>
+                            <div class="api-signature">
+                                <code>def __contains__(self, key: K) -> bool</code>
+                            </div>
+                            <p class="api-description"><code class="inline-code">key in obj</code>.</p>
+                        </div>
+
+                        <div class="api-item" id="api-len">
+                            <h4>Dunder Method</h4>
+                            <div class="api-signature">
+                                <code>def __len__(self) -> int</code>
+                            </div>
+                            <p class="api-description"><code class="inline-code">len(obj)</code> — satisfies <code class="inline-code">Sizable</code> contract.</p>
+                        </div>
+
+                        <div class="api-item" id="api-iter">
+                            <h4>Dunder Method</h4>
+                            <div class="api-signature">
+                                <code>def __iter__(self) -> Iterator[K]</code>
+                            </div>
+                            <p class="api-description">Iterates over keys.</p>
+                        </div>
+
+                        <div class="api-item" id="api-str">
+                            <h4>Dunder Method</h4>
+                            <div class="api-signature">
+                                <code>def __str__(self) -> str</code>
+                            </div>
+                            <p class="api-description">Returns <code class="inline-code">str(self._data)</code> — satisfies <code class="inline-code">Printable</code> contract.</p>
+                        </div>
+
+                        <div class="api-item" id="api-eq">
+                            <h4>Dunder Method</h4>
+                            <div class="api-signature">
+                                <code>def __eq__(self, other: 'Dictable[K, V]') -> bool</code>
+                            </div>
+                            <p class="api-description">Compares <code class="inline-code">_data</code> dicts for equality.</p>
+                        </div>
+
                     </div>
                 </div>
 
@@ -277,18 +354,26 @@
                 <h2>Inheritance (Hierarchy)</h2>
 
                 <div class="hierarchy-tree">
-                    <div class="node root"><a href="../validatable/CLAUDE.html">Validatable</a></div>
-                    <div class="level">
-                        <div class="node">ValidatableMutable</div>
-                    </div>
+ABC &rarr; Printable (abstract __str__, concrete __repr__)<br>
+Sized &rarr; Sizable (abstract __len__, concrete __bool__)<br>
+<br>
+Dictable(Generic[K, V], Printable, Sizable)
                 </div>
 
                 <table>
                     <thead><tr><th>Base</th><th>Responsibility</th></tr></thead>
                     <tbody>
                         <tr>
-                            <td><code class="inline-code"><a href="../validatable/CLAUDE.html">Validatable</a></code></td>
-                            <td>Read-only validation state (<code class="inline-code">__bool__</code>)</td>
+                            <td><code class="inline-code">Printable</code></td>
+                            <td>Abstract <code class="inline-code">__str__</code>, concrete <code class="inline-code">__repr__</code></td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">Sizable</code></td>
+                            <td>Abstract <code class="inline-code">__len__</code>, concrete <code class="inline-code">__bool__</code></td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">Generic[K, V]</code></td>
+                            <td>Type parameterization for key/value types</td>
                         </tr>
                     </tbody>
                 </table>
@@ -299,13 +384,28 @@
             <section id="dependencies">
                 <h2>Dependencies</h2>
 
+                <h3><span class="badge badge-stdlib">STDLIB</span> Standard Library</h3>
+                <table>
+                    <thead><tr><th>Import</th><th>Used For</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td><code class="inline-code">typing.Generic, TypeVar, Iterator, Union</code></td>
+                            <td>Generics and type annotations</td>
+                        </tr>
+                    </tbody>
+                </table>
+
                 <h3><span class="badge badge-internal">INTERNAL</span> Project Imports</h3>
                 <table>
                     <thead><tr><th>Import</th><th>Used For</th></tr></thead>
                     <tbody>
                         <tr>
-                            <td><code class="inline-code">f_core.mixins.validatable.main.Validatable</code></td>
-                            <td>Base class providing <code class="inline-code">__bool__</code></td>
+                            <td><code class="inline-code">f_core.mixins.printable.Printable</code></td>
+                            <td>Base — string representation (<code class="inline-code">__str__</code>, <code class="inline-code">__repr__</code>)</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">f_core.mixins.sizable.Sizable</code></td>
+                            <td>Base — size/bool semantics (<code class="inline-code">__len__</code>, <code class="inline-code">__bool__</code>)</td>
                         </tr>
                     </tbody>
                 </table>
@@ -318,29 +418,18 @@
 
                 <div class="panel">
                     <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
-                        <span>Example 1: Mixin in a Custom Class</span>
+                        <span>Example 1: Basic Dictionary Operations</span>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
-                        <pre><code>from f_core.mixins.validatable_mutable import ValidatableMutable
+                        <pre><code>from f_core.mixins.dictable import Dictable
 
-
-class Cell(ValidatableMutable):
-    def __init__(self, row: int, col: int):
-        ValidatableMutable.__init__(self, is_valid=True)
-        self.row = row
-        self.col = col
-
-
-cell = Cell(0, 0)
-if cell:             # True
-    visit(cell)
-
-cell.set_invalid()   # Mark as obstacle
-if not cell:         # Now False
-    skip(cell)
-
-cell.set_valid()     # Reopen</code></pre>
+d = Dictable(data={'a': 1, 'b': 2, 'c': 3})
+d['d'] = 4
+print(d.keys())       # ['a', 'b', 'c', 'd']
+print('a' in d)       # True
+print(d.get('z', 0))  # 0
+print(len(d))         # 4</code></pre>
                     </div>
                 </div>
 
@@ -350,13 +439,12 @@ cell.set_valid()     # Reopen</code></pre>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
-                        <pre><code>from f_core.mixins.validatable_mutable import ValidatableMutable
+                        <pre><code>from f_core.mixins.dictable import Dictable
 
-obj = ValidatableMutable.Factory.valid()
-assert obj
-
-obj.set_invalid()
-assert not obj</code></pre>
+abc = Dictable.Factory.abc()  # {'a': 1, 'b': 2, 'c': 3}
+print(abc.keys())             # ['a', 'b', 'c']
+print(abc['b'])               # 2
+print(abc.items())            # [('a', 1), ('b', 2), ('c', 3)]</code></pre>
                         <p style="margin-top: 1rem; color: var(--muted);"><em>From <code class="inline-code">_factory.py</code> / <code class="inline-code">_tester.py</code></em></p>
                     </div>
                 </div>
@@ -366,7 +454,7 @@ assert not obj</code></pre>
 
             <footer>
                 <p>Generated: 2026-02-15</p>
-                <p>Scope: f_core.mixins.validatable_mutable package documentation</p>
+                <p>Scope: f_core.mixins.dictable package documentation</p>
             </footer>
         </main>
     </div>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Review Report — ValidatableMutable</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #111827;
+            --panel2: #0f172a;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --faint: #94a3b8;
+            --border: #334155;
+            --accent: #60a5fa;
+            --accent2: #a78bfa;
+            --good: #34d399;
+            --warn: #fbbf24;
+            --bad: #fb7185;
+            --code-bg: #0a1220;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 2rem 3rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; color: var(--accent2); }
+
+        h1 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .module-path {
+            font-family: monospace;
+            color: var(--faint);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-top: 2.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p { margin-bottom: 1rem; }
+
+        section {
+            background: var(--panel);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        section h2 {
+            margin-top: 0;
+        }
+
+        .no-change {
+            color: var(--good);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.4rem; color: var(--muted); }
+        li strong { color: var(--text); }
+
+        pre {
+            background: var(--code-bg);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 0.75rem 0;
+        }
+
+        code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+
+        pre code { display: block; line-height: 1.5; }
+
+        .inline-code {
+            background: var(--panel2);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .severity-med {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            background: var(--warn);
+            color: var(--bg);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .severity-low {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            background: var(--faint);
+            color: var(--bg);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border);
+            color: var(--faint);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Module Review Report</h1>
+<div class="module-path">f_core/mixins/validatable_mutable/</div>
+
+<section>
+    <h2>Summary</h2>
+    <p>
+        Small, focused mixin that extends <code class="inline-code">Validatable</code> with mutation methods.
+        One typing mismatch between the constructor signature and the parent's type contract is the only
+        notable finding. The rest of the module is clean and follows project conventions.
+    </p>
+</section>
+
+<section>
+    <h2>Must-fix Issues (Correctness)</h2>
+    <p class="no-change">No change needed.</p>
+    <p>
+        When <code class="inline-code">is_valid=None</code> (the default) is passed to
+        <code class="inline-code">Validatable.__init__</code>, <code class="inline-code">_is_valid</code>
+        is set to <code class="inline-code">None</code>. Calling <code class="inline-code">__bool__</code>
+        then returns <code class="inline-code">None</code>, which Python treats as falsy. This works at
+        runtime but silently violates <code class="inline-code">Validatable.__bool__</code>'s declared
+        return type of <code class="inline-code">bool</code>. See Typing section for the fix.
+    </p>
+</section>
+
+<section>
+    <h2>Readability / Maintainability</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>Design Review</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>Performance Notes</h2>
+    <p class="no-change">No change needed.</p>
+    <p>
+        <code class="inline-code">set_valid()</code> and <code class="inline-code">set_invalid()</code>
+        are O(1) — single attribute assignment. No hot paths.
+    </p>
+</section>
+
+<section>
+    <h2>Typing Review</h2>
+    <ul>
+        <li>
+            <span class="severity-med">MED</span>
+            <strong>Constructor vs parent type mismatch</strong> —
+            <code class="inline-code">main.py:14</code>:
+            <code class="inline-code">def __init__(self, is_valid: bool | None = None) -> None</code>
+            passes <code class="inline-code">None</code> to
+            <code class="inline-code">Validatable.__init__(self, is_valid: bool)</code>,
+            which declares <code class="inline-code">is_valid: bool</code> (no <code class="inline-code">None</code>).
+            <br><br>
+            This is intentional by design (allowing unset state), but the parent's type hint doesn't
+            account for it. Two options:
+<pre><code># Option A: Widen parent signature (preferred if None is a valid state)
+# In Validatable.main.py:
+def __init__(self, is_valid: bool | None = None) -> None:
+
+# Option B: Default to False here instead of None
+# In ValidatableMutable.main.py:
+def __init__(self, is_valid: bool = False) -> None:</code></pre>
+        </li>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong>Factory attribute type</strong> —
+            <code class="inline-code">main.py:12</code>:
+            Same project-wide pattern as <code class="inline-code">Validatable</code>.
+            Flag for a project-wide decision only.
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>Documentation Review</h2>
+    <ul>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong>Factory docstrings</strong> —
+            <code class="inline-code">_factory.py:15</code> and
+            <code class="inline-code">_factory.py:24</code>:
+            Both <code class="inline-code">valid()</code> and <code class="inline-code">invalid()</code>
+            share the identical docstring "Create a ValidatableMutable object." Consider differentiating:
+<pre><code># valid()
+"""Create a Valid ValidatableMutable object (is_valid=True)."""
+
+# invalid()
+"""Create an Invalid ValidatableMutable object (is_valid=False)."""</code></pre>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>Modularity</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>Architecture Findings</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>Suggestions for Improvements</h2>
+    <ol>
+        <li>
+            <strong>Resolve <code class="inline-code">None</code> typing mismatch</strong> —
+            Evidence: <code class="inline-code">main.py:14</code> vs
+            <code class="inline-code">validatable/main.py:12</code>.
+            Risk: Type checker warnings; silent <code class="inline-code">None</code> return from
+            <code class="inline-code">__bool__</code>.
+            Cost: Trivial (one-line signature change in either class).
+            Benefit: Clean type contracts across the hierarchy.
+        </li>
+        <li>
+            <strong>Differentiate Factory docstrings</strong> —
+            Evidence: <code class="inline-code">_factory.py:15,24</code>.
+            Risk: None. Cost: Trivial.
+            Benefit: Clearer intent when reading factory methods.
+        </li>
+    </ol>
+</section>
+
+<footer>
+    <p>Generated: 2026-02-15</p>
+    <p>Scope: f_core.mixins.validatable_mutable — full code + design review</p>
+</footer>
+
+</body>
+</html>

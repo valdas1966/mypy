@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Review Report — Validatable</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #111827;
+            --panel2: #0f172a;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --faint: #94a3b8;
+            --border: #334155;
+            --accent: #60a5fa;
+            --accent2: #a78bfa;
+            --good: #34d399;
+            --warn: #fbbf24;
+            --bad: #fb7185;
+            --code-bg: #0a1220;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 2rem 3rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; color: var(--accent2); }
+
+        h1 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .module-path {
+            font-family: monospace;
+            color: var(--faint);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-top: 2.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p { margin-bottom: 1rem; }
+
+        section {
+            background: var(--panel);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        section h2 {
+            margin-top: 0;
+        }
+
+        .no-change {
+            color: var(--good);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.4rem; color: var(--muted); }
+        li strong { color: var(--text); }
+
+        pre {
+            background: var(--code-bg);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 0.75rem 0;
+        }
+
+        code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+
+        pre code { display: block; line-height: 1.5; }
+
+        .inline-code {
+            background: var(--panel2);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .severity-low {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            background: var(--warn);
+            color: var(--bg);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border);
+            color: var(--faint);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Module Review Report</h1>
+<div class="module-path">f_core/mixins/validatable/</div>
+
+<section>
+    <h2>Summary</h2>
+    <p>
+        Clean, minimal mixin with a single responsibility: storing an immutable boolean validation state
+        and exposing it via <code class="inline-code">__bool__</code>. The module follows project conventions
+        consistently. No correctness, design, performance, or modularity issues found. Two minor typing/documentation
+        observations noted below.
+    </p>
+</section>
+
+<section>
+    <h2>Must-fix Issues (Correctness)</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>Readability / Maintainability</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>Design Review</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>Performance Notes</h2>
+    <p class="no-change">No change needed.</p>
+    <p>
+        <code class="inline-code">__bool__</code> is O(1) — single attribute lookup. No hot paths.
+    </p>
+</section>
+
+<section>
+    <h2>Typing Review</h2>
+    <ul>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong>Factory attribute type</strong> —
+            <code class="inline-code">main.py:10</code>:
+            <code class="inline-code">Factory: type | None = None</code>.
+            The declared type <code class="inline-code">type</code> is correct but broad.
+            A narrower annotation like <code class="inline-code">type[Factory] | None</code> would
+            improve IDE support and downstream typing. However, this is a project-wide convention
+            (all classes use <code class="inline-code">Factory: type | None = None</code>),
+            so changing it here alone would be inconsistent. Flag for a project-wide decision only.
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>Documentation Review</h2>
+    <ul>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong>Factory docstrings</strong> —
+            <code class="inline-code">_factory.py:13</code> and
+            <code class="inline-code">_factory.py:22</code>:
+            Both <code class="inline-code">valid()</code> and <code class="inline-code">invalid()</code>
+            share the identical docstring "Create a Validatable object." Consider differentiating:
+<pre><code># valid()
+"""Create a Valid Validatable object (is_valid=True)."""
+
+# invalid()
+"""Create an Invalid Validatable object (is_valid=False)."""</code></pre>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>Modularity</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>Architecture Findings</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>Suggestions for Improvements</h2>
+    <ol>
+        <li>
+            <strong>Differentiate Factory docstrings</strong> —
+            Evidence: <code class="inline-code">_factory.py:13,22</code>.
+            Risk: None. Cost: Trivial.
+            Benefit: Clearer intent when reading factory methods.
+        </li>
+        <li>
+            <strong>Project-wide Factory typing decision</strong> —
+            Evidence: <code class="inline-code">main.py:10</code> and all other modules using the same pattern.
+            Risk: Low. Cost: Moderate (touches every module).
+            Benefit: Better IDE autocomplete and type-checking.
+            This is a strategic item, not a local fix.
+        </li>
+    </ol>
+</section>
+
+<footer>
+    <p>Generated: 2026-02-15</p>
+    <p>Scope: f_core.mixins.validatable — full code + design review</p>
+</footer>
+
+</body>
+</html>
