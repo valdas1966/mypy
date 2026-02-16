@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HasRowsCols - Documentation</title>
+    <style>
+        :root {
+            --bg: #0b0f14; --panel: #111827; --panel2: #0f172a; --text: #f8fafc;
+            --muted: #cbd5e1; --faint: #94a3b8; --border: #334155; --accent: #60a5fa;
+            --accent2: #a78bfa; --good: #34d399; --warn: #fbbf24; --bad: #fb7185; --code-bg: #0a1220;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; color: var(--accent2); } a:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+        .container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background: var(--panel); border-right: 2px solid var(--border); position: fixed; top: 0; left: 0; height: 100vh; overflow-y: auto; padding: 1.5rem; }
+        .sidebar h2 { color: var(--text); font-size: 1rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
+        .sidebar ul { list-style: none; } .sidebar li { margin-bottom: 0.5rem; }
+        .sidebar a { display: block; padding: 0.4rem 0.6rem; border-radius: 4px; color: var(--muted); font-size: 0.9rem; }
+        .sidebar a:hover { background: var(--panel2); color: var(--text); text-decoration: none; }
+        .sidebar .sub-item { padding-left: 1.5rem; font-size: 0.85rem; color: var(--faint); }
+        .search-box { margin-bottom: 1rem; }
+        .search-box input { width: 100%; padding: 0.5rem 0.75rem; background: var(--panel2); border: 2px solid var(--border); border-radius: 4px; color: var(--text); font-size: 0.9rem; }
+        .search-box input:focus { outline: none; border-color: var(--accent); } .search-box input::placeholder { color: var(--faint); }
+        .main { margin-left: 280px; flex: 1; padding: 2rem 3rem; max-width: 900px; }
+        header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
+        header h1 { font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; }
+        header .path { color: var(--faint); font-family: monospace; font-size: 0.9rem; }
+        header .tag { display: inline-block; margin-top: 0.5rem; padding: 0.25rem 0.75rem; background: var(--good); color: var(--bg); border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+        section { margin-bottom: 3rem; } h2 { color: #fff; font-size: 1.5rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
+        h3 { color: var(--text); font-size: 1.2rem; margin: 1.5rem 0 0.75rem; } h4 { color: var(--muted); font-size: 1rem; margin: 1rem 0 0.5rem; }
+        p { margin-bottom: 1rem; color: var(--text); }
+        pre { background: var(--code-bg); border: 2px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+        code { font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace; font-size: 0.9rem; color: var(--text); } pre code { display: block; line-height: 1.5; }
+        .inline-code { background: var(--panel2); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.85rem; }
+        .panel { background: var(--panel); border: 2px solid var(--border); border-radius: 8px; margin: 1rem 0; overflow: hidden; }
+        .panel-header { background: var(--panel2); padding: 0.75rem 1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #fff; }
+        .panel-header:hover { background: var(--border); } .panel-header:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+        .panel-header .arrow { transition: transform 0.2s; color: var(--faint); }
+        .panel.collapsed .panel-header .arrow { transform: rotate(-90deg); }
+        .panel-content { padding: 1rem; } .panel.collapsed .panel-content { display: none; }
+        .api-item { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+        .api-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .api-signature { background: var(--code-bg); padding: 0.75rem 1rem; border-radius: 4px; margin-bottom: 0.5rem; border-left: 3px solid var(--accent); }
+        .api-signature.property { border-left-color: var(--good); }
+        .api-description { color: var(--muted); font-size: 0.95rem; padding-left: 0.5rem; }
+        .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-right: 0.5rem; }
+        .badge-stdlib { background: var(--accent); color: var(--bg); } .badge-property { background: var(--good); color: var(--bg); }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.75rem; text-align: left; border: 1px solid var(--border); }
+        th { background: var(--panel2); color: #fff; font-weight: 600; } td { background: var(--panel); color: var(--muted); }
+        .back-to-top { display: inline-block; margin-top: 1rem; font-size: 0.85rem; color: var(--faint); } .back-to-top:hover { color: var(--accent); }
+        footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); color: var(--faint); font-size: 0.85rem; }
+        @media (max-width: 900px) { .sidebar { position: static; width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border); } .main { margin-left: 0; padding: 1.5rem; } .container { flex-direction: column; } }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="search-box">
+                <input type="text" id="search" placeholder="Search..." aria-label="Search documentation">
+            </div>
+            <h2>Contents</h2>
+            <ul>
+                <li><a href="#purpose">Purpose</a></li>
+                <li><a href="#public-api">Public API</a></li>
+                <li class="sub-item"><a href="#api-init">__init__()</a></li>
+                <li class="sub-item"><a href="#api-rows">rows</a></li>
+                <li class="sub-item"><a href="#api-cols">cols</a></li>
+                <li class="sub-item"><a href="#api-shape">shape()</a></li>
+                <li class="sub-item"><a href="#api-is-within">is_within()</a></li>
+                <li class="sub-item"><a href="#api-key-comparison">key_comparison()</a></li>
+                <li class="sub-item"><a href="#api-len">__len__()</a></li>
+                <li class="sub-item"><a href="#api-str">__str__()</a></li>
+                <li class="sub-item"><a href="#api-hash">__hash__()</a></li>
+                <li><a href="#inheritance">Inheritance</a></li>
+                <li><a href="#dependencies">Dependencies</a></li>
+                <li><a href="#usage">Usage Examples</a></li>
+            </ul>
+        </nav>
+        <main class="main">
+            <header id="top">
+                <h1>HasRowsCols</h1>
+                <div class="path">f_core/mixins/has/rows_cols/</div>
+                <div class="tag">MIXIN</div>
+            </header>
+            <section id="purpose">
+                <h2>Purpose</h2>
+                <p>Mixin for objects with <code class="inline-code">rows</code> and <code class="inline-code">cols</code> dimensions representing a 2D shape. Provides shape string, bounds checking, flat length (<code class="inline-code">rows * cols</code>), and hashing.</p>
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
+            <section id="public-api">
+                <h2>Public API</h2>
+                <div class="panel">
+                    <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
+                        <span>class HasRowsCols</span>
+                        <span class="arrow">&#9660;</span>
+                    </div>
+                    <div class="panel-content">
+                        <div class="api-item" id="api-init">
+                            <h4>Constructor</h4>
+                            <div class="api-signature"><code>def __init__(self, rows: int, cols: int = None) -> None</code></div>
+                            <p class="api-description">Stores <code class="inline-code">rows</code> and <code class="inline-code">cols</code>. If <code class="inline-code">cols</code> is falsy, defaults to value of <code class="inline-code">rows</code> (square shape).</p>
+                        </div>
+                        <div class="api-item" id="api-rows">
+                            <h4><span class="badge badge-property">PROPERTY</span> rows</h4>
+                            <div class="api-signature property"><code>@property<br>def rows(self) -> int</code></div>
+                            <p class="api-description">Returns the number of rows.</p>
+                        </div>
+                        <div class="api-item" id="api-cols">
+                            <h4><span class="badge badge-property">PROPERTY</span> cols</h4>
+                            <div class="api-signature property"><code>@property<br>def cols(self) -> int</code></div>
+                            <p class="api-description">Returns the number of columns.</p>
+                        </div>
+                        <div class="api-item" id="api-shape">
+                            <h4>Method</h4>
+                            <div class="api-signature"><code>def shape(self) -> str</code></div>
+                            <p class="api-description">Returns <code class="inline-code">'(rows,cols)'</code> string.</p>
+                        </div>
+                        <div class="api-item" id="api-is-within">
+                            <h4>Method</h4>
+                            <div class="api-signature"><code>def is_within(self, row: int, col: int) -> bool</code></div>
+                            <p class="api-description">Returns <code class="inline-code">True</code> if <code class="inline-code">0 &lt;= row &lt; rows</code> and <code class="inline-code">0 &lt;= col &lt; cols</code>.</p>
+                        </div>
+                        <div class="api-item" id="api-key-comparison">
+                            <h4>Method</h4>
+                            <div class="api-signature"><code>def key_comparison(self) -> list</code></div>
+                            <p class="api-description">Returns <code class="inline-code">[len(self), self.rows]</code>. First compares by total size, then by rows.</p>
+                        </div>
+                        <div class="api-item" id="api-len">
+                            <h4>Dunder Method</h4>
+                            <div class="api-signature"><code>def __len__(self) -> int</code></div>
+                            <p class="api-description">Returns <code class="inline-code">rows * cols</code> (flat length).</p>
+                        </div>
+                        <div class="api-item" id="api-str">
+                            <h4>Dunder Method</h4>
+                            <div class="api-signature"><code>def __str__(self) -> str</code></div>
+                            <p class="api-description">Returns <code class="inline-code">self.shape()</code>.</p>
+                        </div>
+                        <div class="api-item" id="api-hash">
+                            <h4>Dunder Method</h4>
+                            <div class="api-signature"><code>def __hash__(self) -> int</code></div>
+                            <p class="api-description">Returns <code class="inline-code">hash((self.rows, self.cols))</code>.</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
+            <section id="inheritance">
+                <h2>Inheritance (Hierarchy)</h2>
+                <p>Plain class with no mixin bases.</p>
+                <pre><code>HasRowsCols (plain class)</code></pre>
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
+            <section id="dependencies">
+                <h2>Dependencies</h2>
+                <h3><span class="badge badge-stdlib">STDLIB</span> Standard Library</h3>
+                <table>
+                    <thead><tr><th>Import</th><th>Used For</th></tr></thead>
+                    <tbody>
+                        <tr><td><code class="inline-code">__future__.annotations</code></td><td>Postponed evaluation of annotations</td></tr>
+                    </tbody>
+                </table>
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
+            <section id="usage">
+                <h2>Usage Examples</h2>
+                <div class="panel">
+                    <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
+                        <span>Example 1: Basic Usage</span>
+                        <span class="arrow">&#9660;</span>
+                    </div>
+                    <div class="panel-content">
+                        <pre><code>from f_core.mixins.has.rows_cols import HasRowsCols
+
+grid = HasRowsCols(rows=3, cols=4)
+print(grid.shape())           # '(3,4)'
+print(len(grid))              # 12
+print(grid.is_within(2, 3))   # True
+print(grid.is_within(3, 4))   # False</code></pre>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
+                        <span>Example 2: Square Shape (Default cols)</span>
+                        <span class="arrow">&#9660;</span>
+                    </div>
+                    <div class="panel-content">
+                        <pre><code>from f_core.mixins.has.rows_cols import HasRowsCols
+
+square = HasRowsCols(rows=5)   # cols defaults to 5
+print(square.shape())          # '(5,5)'
+print(len(square))             # 25
+print(str(square))             # '(5,5)'
+print(hash(square))            # hash((5, 5))</code></pre>
+                    </div>
+                </div>
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
+            <footer>
+                <p>Generated: <span id="timestamp"></span></p>
+                <p>Scope: f_core.mixins.has.rows_cols package documentation</p>
+            </footer>
+        </main>
+    </div>
+    <script>
+        document.getElementById('timestamp').textContent = new Date().toISOString().split('T')[0];
+        function togglePanel(header) { header.parentElement.classList.toggle('collapsed'); }
+        function handlePanelKey(event, header) { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); togglePanel(header); } }
+        const searchInput = document.getElementById('search');
+        const searchableItems = document.querySelectorAll('.api-item, .panel');
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            if (query === '') { searchableItems.forEach(item => item.classList.remove('hidden')); return; }
+            searchableItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(query)) { item.classList.remove('hidden'); const panel = item.closest('.panel'); if (panel) panel.classList.remove('collapsed'); }
+                else { item.classList.add('hidden'); }
+            });
+        });
+    </script>
+</body>
+</html>

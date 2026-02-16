@@ -16,7 +16,7 @@ Factory class for creating instances. Attached via `__init__.py`.
 ### Constructor
 
 ```python
-def __init__(self, row: int = None, col: int = None) -> None
+def __init__(self, row: int | None = None, col: int | None = None) -> None
 ```
 Sets `_row` and `_col`. If `row` is `None`, defaults to `0`. If `col` is `None`, defaults to the value of `row`.
 
@@ -33,6 +33,12 @@ Returns the object's row (read-only).
 def col(self) -> int
 ```
 Returns the object's column (read-only).
+
+```python
+@property
+def key(self) -> tuple[int, int]
+```
+Returns `(self.row, self.col)`. Satisfies the abstract `key` contract from `Equatable`/`Comparable`. Row-major order.
 
 ### Methods
 
@@ -52,11 +58,6 @@ def is_within(self, rect: Rect = None, row_min: int = None, col_min: int = None,
 Returns `True` if position is within the given `Rect` or explicit bounds. If `rect` is provided, it overrides the individual min/max parameters.
 
 ```python
-def key_comparison(self) -> tuple[int, int]
-```
-Returns `(self.row, self.col)`. Implements the abstract method from `Equatable`. Row is prioritized over col (row-major order).
-
-```python
 def to_tuple(self) -> tuple[int, int]
 ```
 Returns `(self.row, self.col)`.
@@ -68,52 +69,30 @@ def __str__(self) -> str
 ```
 Returns `(row,col)`.
 
-### Inherited from Hashable
-
-```python
-def __hash__(self) -> int
-```
-Returns `hash(self.key_comparison())`. Enables use in sets and as dict keys.
-
-### Inherited from Comparable (`@total_ordering`)
-
-```python
-def __lt__(self, other: object) -> bool
-def __le__(self, other: object) -> bool
-def __gt__(self, other: object) -> bool
-def __ge__(self, other: object) -> bool
-```
-
-### Inherited from Equatable
-
-```python
-def __eq__(self, other: object) -> bool
-```
-
 ## Inheritance (Hierarchy)
 
 ```
-SupportsEquality (Protocol)
- └── Equatable          # ==, != via key_comparison()
-      ├── Hashable       # __hash__ via key_comparison()
-      └── Comparable     # <, <=, >, >= via @total_ordering + key_comparison()
-           └── HasRowCol(Comparable, Hashable)
+Equatable (abstract key, __eq__)
+  ├── Comparable (@total_ordering, __lt__)
+  └── Hashable (__hash__ via key)
+       └── HasRowCol(Comparable, Hashable)
 ```
 
 | Base | Responsibility |
 |------|----------------|
-| `Equatable` | Equality operator (`==`) via `key_comparison()` |
-| `Comparable` | Ordering operators (`<`, `<=`, `>`, `>=`) via `@total_ordering` and `key_comparison()` |
-| `Hashable` | Hashing (`__hash__`) via `key_comparison()` |
+| `Equatable` | Abstract `key` property, concrete `__eq__` |
+| `Comparable` | `@total_ordering`, concrete `__lt__` |
+| `Hashable` | Concrete `__hash__` via `hash(self.key)` |
 
 ## Dependencies
 
 | Import | Purpose |
 |--------|---------|
 | `__future__.annotations` | Postponed evaluation of annotations |
-| `f_core.mixins.comparable.Comparable` | Base class providing ordering operators |
-| `f_core.mixins.hashable.Hashable` | Base class providing `__hash__` |
-| `typing.Self` | Self-type for `distance()` return annotation |
+| `f_core.mixins.comparable.Comparable` | Base — ordering operators |
+| `f_core.mixins.hashable.Hashable` | Base — hashing |
+| `typing.Self` | Self-type for `distance()` annotation |
+| `typing.TYPE_CHECKING` | Guard for type-only imports |
 | `f_math.shapes.Rect` | Type-only import for `is_within()` parameter |
 
 ## Usage Example
@@ -125,22 +104,9 @@ zero = HasRowCol.Factory.zero()     # row=0, col=0
 one = HasRowCol.Factory.one()       # row=1, col=1
 twelve = HasRowCol.Factory.twelve()  # row=1, col=2
 
-assert str(twelve) == '(1,2)'
-assert twelve.to_tuple() == (1, 2)
-
-# Comparison (row-major)
-assert zero < one
-assert HasRowCol(0, 3) < HasRowCol(1, 2)  # row 0 < row 1
-
-# Neighbors (clock-wise: N, E, S, W)
-assert twelve.neighbors() == [
-    HasRowCol(0, 2), HasRowCol(1, 3),
-    HasRowCol(2, 2), HasRowCol(1, 1)
-]
-
-# Manhattan distance
-assert HasRowCol(0, 0).distance(HasRowCol(2, 3)) == 5
-
-# Hashing
-assert hash(zero) != hash(one)
+print(str(twelve))           # '(1,2)'
+print(twelve.to_tuple())     # (1, 2)
+print(zero < one)            # True
+print(twelve.neighbors())    # [HasRowCol(0,2), HasRowCol(1,3), HasRowCol(2,2), HasRowCol(1,1)]
+print(zero.distance(twelve)) # 3
 ```

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HasRowCol - Documentation</title>
+    <title>HasParent - Documentation</title>
     <style>
         :root {
             --bg: #0b0f14;
@@ -193,42 +193,34 @@
                 <li><a href="#public-api">Public API</a></li>
                 <li class="sub-item"><a href="#api-factory">Factory</a></li>
                 <li class="sub-item"><a href="#api-init">__init__()</a></li>
-                <li class="sub-item"><a href="#api-row">row</a></li>
-                <li class="sub-item"><a href="#api-col">col</a></li>
-                <li class="sub-item"><a href="#api-neighbors">neighbors()</a></li>
-                <li class="sub-item"><a href="#api-distance">distance()</a></li>
-                <li class="sub-item"><a href="#api-is-within">is_within()</a></li>
-                <li class="sub-item"><a href="#api-key">key</a></li>
-                <li class="sub-item"><a href="#api-to-tuple">to_tuple()</a></li>
-                <li class="sub-item"><a href="#api-str">__str__()</a></li>
-                <li class="sub-item"><a href="#api-inherited">Inherited</a></li>
+                <li class="sub-item"><a href="#api-parent">parent</a></li>
+                <li class="sub-item"><a href="#api-path-from-root">path_from_root()</a></li>
                 <li><a href="#inheritance">Inheritance</a></li>
                 <li><a href="#dependencies">Dependencies</a></li>
                 <li><a href="#usage">Usage Examples</a></li>
-                <li class="sep"><a href="../../equatable/CLAUDE.html">Equatable Docs</a></li>
-                <li class="sep" style="border:none;"><a href="../../comparable/CLAUDE.html">Comparable Docs</a></li>
-                <li class="sep" style="border:none;"><a href="../../hashable/CLAUDE.html">Hashable Docs</a></li>
+                <li class="sep"><a href="../name/CLAUDE.html">HasName Docs</a></li>
+                <li class="sep" style="border:none;"><a href="../id/CLAUDE.html">HasId Docs</a></li>
+                <li class="sep" style="border:none;"><a href="../row_col/CLAUDE.html">HasRowCol Docs</a></li>
             </ul>
         </nav>
 
         <main class="main">
             <header id="top">
-                <h1>HasRowCol</h1>
-                <div class="path">f_core/mixins/has/row_col/</div>
+                <h1>HasParent</h1>
+                <div class="path">f_core/mixins/has/parent/</div>
                 <div class="tag">MIXIN</div>
-                <div class="extends">Extends: <a href="../../comparable/CLAUDE.html">Comparable</a>, <a href="../../hashable/CLAUDE.html">Hashable</a> &rarr; <a href="../../equatable/CLAUDE.html">Equatable</a></div>
             </header>
 
             <section id="purpose">
                 <h2>Purpose</h2>
                 <p>
-                    Mixin that gives objects <code class="inline-code">row</code> and <code class="inline-code">col</code> properties representing a position on a 2D grid.
-                    Provides comparison (row-major order), hashing, neighbor discovery, Manhattan distance, and bounds checking &mdash; all derived from the <code class="inline-code">(row, col)</code> pair.
+                    Mixin that gives objects a <code class="inline-code">parent</code> property, enabling parent traversal to form chains and trees.
+                    Each instance optionally references another <code class="inline-code">HasParent</code> as its parent, and can walk back to the root
+                    via <code class="inline-code">path_from_root()</code>.
                 </p>
                 <div class="note">
-                    Implements <code class="inline-code">key</code> from
-                    <a href="../../equatable/CLAUDE.html">Equatable</a>,
-                    returning <code class="inline-code">(self.row, self.col)</code> as the comparison key (row-major order).
+                    HasParent is a plain class with no mixin bases. It provides the structural foundation for
+                    hierarchical relationships between objects &mdash; parent chains, trees, and root-to-leaf paths.
                 </div>
                 <a href="#top" class="back-to-top">Back to top</a>
             </section>
@@ -238,7 +230,7 @@
 
                 <div class="panel">
                     <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
-                        <span>class HasRowCol(Comparable, Hashable)</span>
+                        <span>class HasParent</span>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
@@ -247,112 +239,37 @@
                             <div class="api-signature">
                                 <code>Factory = None</code>
                             </div>
-                            <p class="api-description">Factory class for creating instances. Attached via <code class="inline-code">__init__.py</code>.</p>
+                            <p class="api-description">Factory class for creating instances. Attached via <code class="inline-code">__init__.py</code>. Creates <code class="inline-code">ParentWithName(HasParent, HasName)</code> instances with a <code class="inline-code">name</code> and optional <code class="inline-code">parent</code>.</p>
                         </div>
 
                         <div class="api-item" id="api-init">
                             <h4>Constructor</h4>
                             <div class="api-signature">
-                                <code>def __init__(self, row: int = None, col: int = None) -> None</code>
+                                <code>def __init__(self, parent: HasParent = None) -&gt; None</code>
                             </div>
                             <p class="api-description">
-                                Sets <code class="inline-code">_row</code> and <code class="inline-code">_col</code>.
-                                If <code class="inline-code">row</code> is <code class="inline-code">None</code>, defaults to <code class="inline-code">0</code>.
-                                If <code class="inline-code">col</code> is <code class="inline-code">None</code>, defaults to the value of <code class="inline-code">row</code>.
+                                Stores the given <code class="inline-code">parent</code> in <code class="inline-code">_parent</code>.
+                                If <code class="inline-code">parent</code> is <code class="inline-code">None</code>, the instance is a root node with no parent.
                             </p>
                         </div>
 
-                        <div class="api-item" id="api-row">
-                            <h4><span class="badge badge-property">PROPERTY</span> row</h4>
+                        <div class="api-item" id="api-parent">
+                            <h4><span class="badge badge-property">PROPERTY</span> parent</h4>
                             <div class="api-signature property">
-                                <code>@property<br>def row(self) -> int</code>
+                                <code>@property<br>def parent(self) -&gt; HasParent</code>
                             </div>
-                            <p class="api-description">Returns the object's row (read-only).</p>
+                            <p class="api-description">Returns the parent reference (read-only). Returns <code class="inline-code">None</code> if this instance is a root node.</p>
                         </div>
 
-                        <div class="api-item" id="api-col">
-                            <h4><span class="badge badge-property">PROPERTY</span> col</h4>
-                            <div class="api-signature property">
-                                <code>@property<br>def col(self) -> int</code>
-                            </div>
-                            <p class="api-description">Returns the object's column (read-only).</p>
-                        </div>
-
-                        <div class="api-item" id="api-neighbors">
+                        <div class="api-item" id="api-path-from-root">
                             <h4>Method</h4>
                             <div class="api-signature">
-                                <code>def neighbors(self) -> list[HasRowCol]</code>
+                                <code>def path_from_root(self) -&gt; list[HasParent]</code>
                             </div>
                             <p class="api-description">
-                                Returns up to 4 neighbors in clock-wise order (North, East, South, West).
-                                Filters out positions with negative row or col.
+                                Walks up the parent chain from <code class="inline-code">self</code> to the root, then returns the path in root-to-leaf order.
+                                The returned list starts with the root (the ancestor with no parent) and ends with <code class="inline-code">self</code>.
                             </p>
-                        </div>
-
-                        <div class="api-item" id="api-distance">
-                            <h4>Method</h4>
-                            <div class="api-signature">
-                                <code>def distance(self, other: Self) -> int</code>
-                            </div>
-                            <p class="api-description">Returns Manhattan distance (<code class="inline-code">|row_diff| + |col_diff|</code>) to <code class="inline-code">other</code>.</p>
-                        </div>
-
-                        <div class="api-item" id="api-is-within">
-                            <h4>Method</h4>
-                            <div class="api-signature">
-                                <code>def is_within(self, rect: Rect = None, row_min: int = None,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col_min: int = None, row_max: int = None,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col_max: int = None) -> bool</code>
-                            </div>
-                            <p class="api-description">
-                                Returns <code class="inline-code">True</code> if position is within the given <code class="inline-code">Rect</code> or explicit bounds.
-                                If <code class="inline-code">rect</code> is provided, it overrides the individual min/max parameters.
-                            </p>
-                        </div>
-
-                        <div class="api-item" id="api-key">
-                            <h4><span class="badge badge-property">PROPERTY</span> key</h4>
-                            <div class="api-signature property">
-                                <code>@property<br>def key(self) -> tuple[int, int]</code>
-                            </div>
-                            <p class="api-description">
-                                Returns <code class="inline-code">(self.row, self.col)</code>. Satisfies the abstract <code class="inline-code">key</code> contract from
-                                <a href="../../equatable/CLAUDE.html">Equatable</a>/<a href="../../comparable/CLAUDE.html">Comparable</a>. Row-major order.
-                            </p>
-                        </div>
-
-                        <div class="api-item" id="api-to-tuple">
-                            <h4>Method</h4>
-                            <div class="api-signature">
-                                <code>def to_tuple(self) -> tuple[int, int]</code>
-                            </div>
-                            <p class="api-description">Returns <code class="inline-code">(self.row, self.col)</code>.</p>
-                        </div>
-
-                        <div class="api-item" id="api-str">
-                            <h4>Dunder Method</h4>
-                            <div class="api-signature">
-                                <code>def __str__(self) -> str</code>
-                            </div>
-                            <p class="api-description">Returns <code class="inline-code">(row,col)</code>.</p>
-                        </div>
-
-                        <div class="api-item" id="api-inherited">
-                            <h4><span class="badge badge-inherited">INHERITED</span> from <a href="../../hashable/CLAUDE.html">Hashable</a></h4>
-                            <div class="api-signature inherited">
-                                <code>def __hash__(self) -> int</code>
-                            </div>
-                            <p class="api-description">Returns <code class="inline-code">hash(self.key)</code>. Enables use in sets and as dict keys.</p>
-
-                            <h4 style="margin-top: 1rem;"><span class="badge badge-inherited">INHERITED</span> from <a href="../../comparable/CLAUDE.html">Comparable</a> (<code class="inline-code">@total_ordering</code>)</h4>
-                            <div class="api-signature inherited">
-                                <code>def __lt__(self, other: object) -> bool<br>def __le__(self, other: object) -> bool<br>def __gt__(self, other: object) -> bool<br>def __ge__(self, other: object) -> bool</code>
-                            </div>
-                            <p class="api-description">Ordering operators, delegating to <code class="inline-code">key</code>.</p>
-
-                            <h4 style="margin-top: 1rem;"><span class="badge badge-inherited">INHERITED</span> from <a href="../../equatable/CLAUDE.html">Equatable</a></h4>
-                            <div class="api-signature inherited">
-                                <code>def __eq__(self, other: object) -> bool</code>
-                            </div>
-                            <p class="api-description">Equality via <code class="inline-code">key</code>.</p>
                         </div>
                     </div>
                 </div>
@@ -364,35 +281,15 @@
                 <h2>Inheritance (Hierarchy)</h2>
 
                 <div class="hierarchy-tree">
-                    <div class="node root"><a href="../../equatable/CLAUDE.html">SupportsEquality</a> (Protocol)</div>
-                    <div class="level">
-                        <div class="node"><a href="../../equatable/CLAUDE.html">Equatable</a> &mdash; ==, != via key</div>
-                        <div class="level">
-                            <div class="node"><a href="../../hashable/CLAUDE.html">Hashable</a> &mdash; __hash__ via key</div>
-                        </div>
-                        <div class="level">
-                            <div class="node"><a href="../../comparable/CLAUDE.html">Comparable</a> &mdash; &lt;, &lt;=, &gt;, &gt;= via @total_ordering + key</div>
-                            <div class="level">
-                                <div class="node"><strong>HasRowCol(Comparable, Hashable)</strong></div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="node root"><strong>HasParent</strong> &mdash; plain class, no mixin bases</div>
                 </div>
 
                 <table>
                     <thead><tr><th>Base</th><th>Responsibility</th></tr></thead>
                     <tbody>
                         <tr>
-                            <td><code class="inline-code"><a href="../../equatable/CLAUDE.html">Equatable</a></code></td>
-                            <td>Equality operator (<code class="inline-code">==</code>) via <code class="inline-code">key</code></td>
-                        </tr>
-                        <tr>
-                            <td><code class="inline-code"><a href="../../comparable/CLAUDE.html">Comparable</a></code></td>
-                            <td>Ordering operators (<code class="inline-code">&lt;</code>, <code class="inline-code">&lt;=</code>, <code class="inline-code">&gt;</code>, <code class="inline-code">&gt;=</code>) via <code class="inline-code">@total_ordering</code> + <code class="inline-code">key</code></td>
-                        </tr>
-                        <tr>
-                            <td><code class="inline-code"><a href="../../hashable/CLAUDE.html">Hashable</a></code></td>
-                            <td>Hashing (<code class="inline-code">__hash__</code>) via <code class="inline-code">key</code></td>
+                            <td><code class="inline-code">object</code></td>
+                            <td>Python default base class. HasParent has no mixin bases &mdash; it is a standalone plain class.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -407,19 +304,7 @@
                 <table>
                     <thead><tr><th>Import</th><th>Used For</th></tr></thead>
                     <tbody>
-                        <tr><td><code class="inline-code">__future__.annotations</code></td><td>Postponed evaluation of annotations</td></tr>
-                        <tr><td><code class="inline-code">typing.Self</code></td><td>Self-type annotation for <code class="inline-code">distance()</code></td></tr>
-                        <tr><td><code class="inline-code">typing.TYPE_CHECKING</code></td><td>Guard for type-only imports</td></tr>
-                    </tbody>
-                </table>
-
-                <h3><span class="badge badge-internal">INTERNAL</span> Project Imports</h3>
-                <table>
-                    <thead><tr><th>Import</th><th>Used For</th></tr></thead>
-                    <tbody>
-                        <tr><td><code class="inline-code">f_core.mixins.comparable.Comparable</code></td><td>Base class providing ordering operators</td></tr>
-                        <tr><td><code class="inline-code">f_core.mixins.hashable.Hashable</code></td><td>Base class providing <code class="inline-code">__hash__</code></td></tr>
-                        <tr><td><code class="inline-code">f_math.shapes.Rect</code></td><td>Type-only import for <code class="inline-code">is_within()</code> parameter</td></tr>
+                        <tr><td><code class="inline-code">__future__.annotations</code></td><td>Postponed evaluation of annotations (allows <code class="inline-code">HasParent</code> self-reference in type hints)</td></tr>
                     </tbody>
                 </table>
 
@@ -431,53 +316,55 @@
 
                 <div class="panel">
                     <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
-                        <span>Example 1: Basic Usage</span>
+                        <span>Example 1: Basic Parent Chain</span>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
-                        <pre><code>from f_core.mixins.has.row_col import HasRowCol
+                        <pre><code>from f_core.mixins.has.parent import HasParent
 
-cell = HasRowCol(row=1, col=2)
-print(cell.row)    # 1
-print(cell.col)    # 2
-print(str(cell))   # (1,2)
-print(cell.to_tuple())  # (1, 2)
+# Root node (no parent)
+root = HasParent()
+print(root.parent)           # None
 
-# Col defaults to row
-same = HasRowCol(row=3)  # row=3, col=3
+# Child node with parent
+child = HasParent(parent=root)
+print(child.parent is root)  # True
 
-# Both default to 0
-origin = HasRowCol()  # row=0, col=0</code></pre>
+# Grandchild
+grandchild = HasParent(parent=child)
+
+# Walk from root to grandchild
+path = grandchild.path_from_root()
+print(len(path))             # 3
+print(path[0] is root)       # True
+print(path[1] is child)      # True
+print(path[2] is grandchild) # True
+
+# Root's path is just itself
+print(root.path_from_root()) # [root]</code></pre>
                     </div>
                 </div>
 
                 <div class="panel">
                     <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
-                        <span>Example 2: Using the Factory</span>
+                        <span>Example 2: Using the Factory (ParentWithName)</span>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
-                        <pre><code>from f_core.mixins.has.row_col import HasRowCol
+                        <pre><code>from f_core.mixins.has.parent import HasParent
 
-zero = HasRowCol.Factory.zero()      # row=0, col=0
-one = HasRowCol.Factory.one()        # row=1, col=1
-twelve = HasRowCol.Factory.twelve()  # row=1, col=2
+# Factory creates ParentWithName(HasParent, HasName) instances
+a = HasParent.Factory.a()  # name='A', no parent
+b = HasParent.Factory.b()  # name='B', parent=a
 
-# Comparison (row-major)
-assert zero &lt; one
-assert HasRowCol(0, 3) &lt; HasRowCol(1, 2)  # row 0 &lt; row 1
+print(a.parent)             # None (root)
+print(b.parent is a)        # True
 
-# Neighbors (clock-wise: N, E, S, W)
-assert twelve.neighbors() == [
-    HasRowCol(0, 2), HasRowCol(1, 3),
-    HasRowCol(2, 2), HasRowCol(1, 1)
-]
-
-# Manhattan distance
-assert HasRowCol(0, 0).distance(HasRowCol(2, 3)) == 5
-
-# Hashing
-assert hash(zero) != hash(one)</code></pre>
+# path_from_root on b returns [a, b]
+path = b.path_from_root()
+print(len(path))            # 2
+print(path[0] is a)         # True  (root)
+print(path[1] is b)         # True  (leaf)</code></pre>
                         <p style="margin-top: 1rem; color: var(--muted);"><em>From <code class="inline-code">_factory.py</code> / <code class="inline-code">_tester.py</code></em></p>
                     </div>
                 </div>
@@ -487,7 +374,7 @@ assert hash(zero) != hash(one)</code></pre>
 
             <footer>
                 <p>Generated: <span id="timestamp"></span></p>
-                <p>Scope: f_core.mixins.has.row_col package documentation</p>
+                <p>Scope: f_core.mixins.has.parent package documentation</p>
             </footer>
         </main>
     </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HasName - Documentation</title>
+    <title>HasKey — Documentation</title>
     <style>
         :root {
             --bg: #0b0f14;
@@ -24,7 +24,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
@@ -48,41 +48,17 @@
             padding: 1.5rem;
         }
 
-        .sidebar h2 {
-            color: var(--text);
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--border);
-        }
-
+        .sidebar h2 { color: var(--text); font-size: 1rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
         .sidebar ul { list-style: none; }
         .sidebar li { margin-bottom: 0.5rem; }
-
-        .sidebar a {
-            display: block;
-            padding: 0.4rem 0.6rem;
-            border-radius: 4px;
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
-
+        .sidebar a { display: block; padding: 0.4rem 0.6rem; border-radius: 4px; color: var(--muted); font-size: 0.9rem; }
         .sidebar a:hover { background: var(--panel2); color: var(--text); text-decoration: none; }
         .sidebar .sub-item { padding-left: 1.5rem; font-size: 0.85rem; color: var(--faint); }
-
         .sidebar .sep { margin-top: 1rem; padding-top: 0.5rem; border-top: 2px solid var(--border); }
         .sidebar .sep a { color: var(--accent2); }
 
         .search-box { margin-bottom: 1rem; }
-        .search-box input {
-            width: 100%;
-            padding: 0.5rem 0.75rem;
-            background: var(--panel2);
-            border: 2px solid var(--border);
-            border-radius: 4px;
-            color: var(--text);
-            font-size: 0.9rem;
-        }
+        .search-box input { width: 100%; padding: 0.5rem 0.75rem; background: var(--panel2); border: 2px solid var(--border); border-radius: 4px; color: var(--text); font-size: 0.9rem; }
         .search-box input:focus { outline: none; border-color: var(--accent); }
         .search-box input::placeholder { color: var(--faint); }
 
@@ -91,16 +67,7 @@
         header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
         header h1 { font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; }
         header .path { color: var(--faint); font-family: monospace; font-size: 0.9rem; }
-        header .tag {
-            display: inline-block;
-            margin-top: 0.5rem;
-            padding: 0.25rem 0.75rem;
-            background: var(--good);
-            color: var(--bg);
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
+        header .tag { display: inline-block; margin-top: 0.5rem; padding: 0.25rem 0.75rem; background: var(--good); color: var(--bg); border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
         header .extends { margin-top: 0.5rem; color: var(--muted); font-size: 0.9rem; }
         header .extends a { color: var(--accent2); }
 
@@ -110,14 +77,7 @@
         h4 { color: var(--muted); font-size: 1rem; margin: 1rem 0 0.5rem; }
         p { margin-bottom: 1rem; color: var(--text); }
 
-        .note {
-            background: var(--panel2);
-            border-left: 3px solid var(--accent);
-            padding: 0.75rem 1rem;
-            margin: 1rem 0;
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
+        .note { background: var(--panel2); border-left: 3px solid var(--accent); padding: 0.75rem 1rem; margin: 1rem 0; color: var(--muted); font-size: 0.9rem; }
 
         pre { background: var(--code-bg); border: 2px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
         code { font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace; font-size: 0.9rem; color: var(--text); }
@@ -125,16 +85,7 @@
         .inline-code { background: var(--panel2); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.85rem; }
 
         .panel { background: var(--panel); border: 2px solid var(--border); border-radius: 8px; margin: 1rem 0; overflow: hidden; }
-        .panel-header {
-            background: var(--panel2);
-            padding: 0.75rem 1rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            color: #fff;
-        }
+        .panel-header { background: var(--panel2); padding: 0.75rem 1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #fff; }
         .panel-header:hover { background: var(--border); }
         .panel-header:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
         .panel-header .arrow { transition: transform 0.2s; color: var(--faint); }
@@ -192,38 +143,42 @@
                 <li><a href="#public-api">Public API</a></li>
                 <li class="sub-item"><a href="#api-factory">Factory</a></li>
                 <li class="sub-item"><a href="#api-init">__init__()</a></li>
-                <li class="sub-item"><a href="#api-name">name</a></li>
-                <li class="sub-item"><a href="#api-key">key</a></li>
+                <li class="sub-item"><a href="#api-key">key (property)</a></li>
                 <li class="sub-item"><a href="#api-str">__str__()</a></li>
                 <li class="sub-item"><a href="#api-repr">__repr__()</a></li>
                 <li class="sub-item"><a href="#api-inherited">Inherited</a></li>
                 <li><a href="#inheritance">Inheritance</a></li>
                 <li><a href="#dependencies">Dependencies</a></li>
                 <li><a href="#usage">Usage Examples</a></li>
-                <li class="sep"><a href="../../equatable/CLAUDE.html">Equatable Docs</a></li>
-                <li class="sep" style="border:none;"><a href="../../comparable/CLAUDE.html">Comparable Docs</a></li>
-                <li class="sep" style="border:none;"><a href="../../hashable/CLAUDE.html">Hashable Docs</a></li>
+                <li class="sep"><a href="../../../comparable/CLAUDE.html">Comparable Docs</a></li>
+                <li class="sep" style="border:none;"><a href="../../../hashable/CLAUDE.html">Hashable Docs</a></li>
+                <li class="sep" style="border:none;"><a href="../../../equatable/CLAUDE.html">Equatable Docs</a></li>
             </ul>
         </nav>
 
         <main class="main">
             <header id="top">
-                <h1>HasName</h1>
-                <div class="path">f_core/mixins/has/name/</div>
+                <h1>HasKey</h1>
+                <div class="path">f_core/mixins/has/key/</div>
                 <div class="tag">MIXIN</div>
-                <div class="extends">Extends: <a href="../../comparable/CLAUDE.html">Comparable</a>, <a href="../../hashable/CLAUDE.html">Hashable</a> &rarr; <a href="../../equatable/CLAUDE.html">Equatable</a></div>
+                <div class="extends">Extends: <a href="../../../comparable/CLAUDE.html">Comparable</a>, <a href="../../../hashable/CLAUDE.html">Hashable</a>, Generic[Key]</div>
             </header>
 
             <section id="purpose">
                 <h2>Purpose</h2>
                 <p>
-                    Mixin that gives objects a <code class="inline-code">name</code> property and derives comparison, equality, hashing, and string representation from it.
-                    Objects with <code class="inline-code">HasName</code> can be compared, sorted, used in sets/dicts, and printed &mdash; all based on their name.
+                    Mixin for objects that have a key. Provides a concrete
+                    <code class="inline-code">key</code> property, string representations, and
+                    inherits ordering from <a href="../../../comparable/CLAUDE.html">Comparable</a>
+                    and hashing from <a href="../../../hashable/CLAUDE.html">Hashable</a>.
+                    Generic over the <code class="inline-code">Key</code> type variable.
                 </p>
                 <div class="note">
-                    Implements <code class="inline-code">key</code> from
-                    <a href="../../equatable/CLAUDE.html">Equatable</a>,
-                    returning <code class="inline-code">self._name</code> as the comparison key.
+                    HasKey is the first concrete implementation of the abstract
+                    <code class="inline-code">key</code> property defined in
+                    <a href="../../../equatable/CLAUDE.html">Equatable</a>. It stores the key
+                    as a private <code class="inline-code">_key</code> attribute and exposes it
+                    via a read-only property.
                 </div>
                 <a href="#top" class="back-to-top">Back to top</a>
             </section>
@@ -233,83 +188,100 @@
 
                 <div class="panel">
                     <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
-                        <span>class HasName(Comparable, Hashable)</span>
+                        <span>class HasKey(Comparable, Hashable, Generic[Key])</span>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
+
                         <div class="api-item" id="api-factory">
                             <h4>Class Attribute</h4>
                             <div class="api-signature">
                                 <code>Factory: type | None = None</code>
                             </div>
-                            <p class="api-description">Factory class for creating instances. Attached via <code class="inline-code">__init__.py</code>.</p>
+                            <p class="api-description">
+                                Factory class for creating test instances. Attached via
+                                <code class="inline-code">__init__.py</code>. Provides
+                                <code class="inline-code">a()</code> &rarr; <code class="inline-code">HasKey[str](key='A')</code> and
+                                <code class="inline-code">b()</code> &rarr; <code class="inline-code">HasKey[str](key='B')</code>.
+                            </p>
                         </div>
 
                         <div class="api-item" id="api-init">
                             <h4>Constructor</h4>
                             <div class="api-signature">
-                                <code>def __init__(self, name: str = 'None') -> None</code>
+                                <code>def __init__(self, key: Key) -&gt; None</code>
                             </div>
-                            <p class="api-description">Stores <code class="inline-code">name</code> as the private attribute <code class="inline-code">_name</code>. Default is the string <code class="inline-code">'None'</code>.</p>
-                        </div>
-
-                        <div class="api-item" id="api-name">
-                            <h4><span class="badge badge-property">PROPERTY</span> name</h4>
-                            <div class="api-signature property">
-                                <code>@property<br>def name(self) -> str</code>
-                            </div>
-                            <p class="api-description">Returns the object's name (read-only).</p>
+                            <p class="api-description">
+                                Stores <code class="inline-code">key</code> as the private attribute
+                                <code class="inline-code">_key</code>.
+                            </p>
                         </div>
 
                         <div class="api-item" id="api-key">
-                            <h4><span class="badge badge-property">PROPERTY</span> key</h4>
+                            <h4><span class="badge badge-property">PROPERTY</span> Key Accessor</h4>
                             <div class="api-signature property">
-                                <code>@property<br>def key(self) -> str</code>
+                                <code>@property<br>def key(self) -&gt; Key</code>
                             </div>
                             <p class="api-description">
-                                Returns <code class="inline-code">self._name</code>. Satisfies the abstract <code class="inline-code">key</code> contract from
-                                <a href="../../equatable/CLAUDE.html">Equatable</a>/<a href="../../comparable/CLAUDE.html">Comparable</a>.
+                                Returns the key of the object. This is the concrete implementation of the
+                                abstract <code class="inline-code">key</code> property from
+                                <a href="../../../equatable/CLAUDE.html">Equatable</a>. Drives
+                                <code class="inline-code">__eq__</code>,
+                                <code class="inline-code">__hash__</code>, and all comparison operators.
                             </p>
                         </div>
 
                         <div class="api-item" id="api-str">
                             <h4>Dunder Method</h4>
                             <div class="api-signature">
-                                <code>def __str__(self) -> str</code>
+                                <code>def __str__(self) -&gt; str</code>
                             </div>
                             <p class="api-description">
-                                Returns <code class="inline-code">self.name</code> directly.
+                                Returns <code class="inline-code">str(self.key)</code>.
                             </p>
                         </div>
 
                         <div class="api-item" id="api-repr">
                             <h4>Dunder Method</h4>
                             <div class="api-signature">
-                                <code>def __repr__(self) -> str</code>
+                                <code>def __repr__(self) -&gt; str</code>
                             </div>
                             <p class="api-description">
-                                Returns <code class="inline-code">&lt;ClassName: Name={name}&gt;</code>. Uses <code class="inline-code">type(self).__name__</code>, so subclasses show their own class name.
+                                Returns <code class="inline-code">&lt;ClassName: Key=value&gt;</code>, e.g.
+                                <code class="inline-code">&lt;HasKey: Key=A&gt;</code>.
                             </p>
                         </div>
 
                         <div class="api-item" id="api-inherited">
-                            <h4><span class="badge badge-inherited">INHERITED</span> from <a href="../../hashable/CLAUDE.html">Hashable</a></h4>
+                            <h4><span class="badge badge-inherited">INHERITED</span> From Hashable</h4>
                             <div class="api-signature inherited">
-                                <code>def __hash__(self) -> int</code>
+                                <code>def __hash__(self) -&gt; int</code>
                             </div>
-                            <p class="api-description">Returns <code class="inline-code">hash(self.key)</code>. Enables use in sets and as dict keys.</p>
+                            <p class="api-description">
+                                Returns <code class="inline-code">hash(self.key)</code>. Inherited from
+                                <a href="../../../hashable/CLAUDE.html">Hashable</a>.
+                            </p>
 
-                            <h4 style="margin-top: 1rem;"><span class="badge badge-inherited">INHERITED</span> from <a href="../../comparable/CLAUDE.html">Comparable</a> (<code class="inline-code">@total_ordering</code>)</h4>
+                            <h4 style="margin-top: 1.5rem;"><span class="badge badge-inherited">INHERITED</span> From Comparable</h4>
                             <div class="api-signature inherited">
-                                <code>def __lt__(self, other: object) -> bool<br>def __le__(self, other: object) -> bool<br>def __gt__(self, other: object) -> bool<br>def __ge__(self, other: object) -> bool</code>
+                                <code>def __lt__(self, other) -&gt; bool<br>def __le__(self, other) -&gt; bool<br>def __gt__(self, other) -&gt; bool<br>def __ge__(self, other) -&gt; bool</code>
                             </div>
-                            <p class="api-description">Ordering operators, delegating to <code class="inline-code">key</code>.</p>
+                            <p class="api-description">
+                                Rich comparison operators. All delegate to <code class="inline-code">key</code>.
+                                Inherited from <a href="../../../comparable/CLAUDE.html">Comparable</a>.
+                            </p>
 
-                            <h4 style="margin-top: 1rem;"><span class="badge badge-inherited">INHERITED</span> from <a href="../../equatable/CLAUDE.html">Equatable</a></h4>
+                            <h4 style="margin-top: 1.5rem;"><span class="badge badge-inherited">INHERITED</span> From Equatable</h4>
                             <div class="api-signature inherited">
-                                <code>def __eq__(self, other: object) -> bool</code>
+                                <code>def __eq__(self, other: object) -&gt; bool</code>
                             </div>
-                            <p class="api-description">Equality via <code class="inline-code">key</code>.</p>
+                            <p class="api-description">
+                                Equality via <code class="inline-code">key</code>. Returns
+                                <code class="inline-code">NotImplemented</code> if
+                                <code class="inline-code">other</code> is not an
+                                <code class="inline-code">Equatable</code>. Inherited from
+                                <a href="../../../equatable/CLAUDE.html">Equatable</a>.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -318,20 +290,15 @@
             </section>
 
             <section id="inheritance">
-                <h2>Inheritance (Hierarchy)</h2>
+                <h2>Inheritance Hierarchy</h2>
 
                 <div class="hierarchy-tree">
-                    <div class="node root"><a href="../../equatable/CLAUDE.html">SupportsEquality</a> (Protocol)</div>
+                    <div class="node root"><a href="../../../equatable/CLAUDE.html">Equatable</a></div>
                     <div class="level">
-                        <div class="node"><a href="../../equatable/CLAUDE.html">Equatable</a> &mdash; ==, != via key</div>
+                        <div class="node"><a href="../../../comparable/CLAUDE.html">Comparable</a></div>
+                        <div class="node"><a href="../../../hashable/CLAUDE.html">Hashable</a></div>
                         <div class="level">
-                            <div class="node"><a href="../../hashable/CLAUDE.html">Hashable</a> &mdash; __hash__ via key</div>
-                        </div>
-                        <div class="level">
-                            <div class="node"><a href="../../comparable/CLAUDE.html">Comparable</a> &mdash; &lt;, &lt;=, &gt;, &gt;= via @total_ordering + key</div>
-                            <div class="level">
-                                <div class="node"><strong>HasName(Comparable, Hashable)</strong></div>
-                            </div>
+                            <div class="node"><strong>HasKey[Key]</strong></div>
                         </div>
                     </div>
                 </div>
@@ -340,16 +307,16 @@
                     <thead><tr><th>Base</th><th>Responsibility</th></tr></thead>
                     <tbody>
                         <tr>
-                            <td><code class="inline-code"><a href="../../equatable/CLAUDE.html">Equatable</a></code></td>
-                            <td>Equality operator (<code class="inline-code">==</code>) via <code class="inline-code">key</code></td>
+                            <td><code class="inline-code"><a href="../../../equatable/CLAUDE.html">Equatable</a></code></td>
+                            <td>Abstract <code class="inline-code">key</code> property and <code class="inline-code">__eq__</code></td>
                         </tr>
                         <tr>
-                            <td><code class="inline-code"><a href="../../comparable/CLAUDE.html">Comparable</a></code></td>
-                            <td>Ordering operators (<code class="inline-code">&lt;</code>, <code class="inline-code">&lt;=</code>, <code class="inline-code">&gt;</code>, <code class="inline-code">&gt;=</code>) via <code class="inline-code">@total_ordering</code> + <code class="inline-code">key</code></td>
+                            <td><code class="inline-code"><a href="../../../comparable/CLAUDE.html">Comparable</a></code></td>
+                            <td>Ordering operators (<code class="inline-code">__lt__</code>, <code class="inline-code">__le__</code>, <code class="inline-code">__gt__</code>, <code class="inline-code">__ge__</code>)</td>
                         </tr>
                         <tr>
-                            <td><code class="inline-code"><a href="../../hashable/CLAUDE.html">Hashable</a></code></td>
-                            <td>Hashing (<code class="inline-code">__hash__</code>) via <code class="inline-code">key</code></td>
+                            <td><code class="inline-code"><a href="../../../hashable/CLAUDE.html">Hashable</a></code></td>
+                            <td>Hashing via <code class="inline-code">__hash__</code></td>
                         </tr>
                     </tbody>
                 </table>
@@ -364,7 +331,10 @@
                 <table>
                     <thead><tr><th>Import</th><th>Used For</th></tr></thead>
                     <tbody>
-                        <tr><td><code class="inline-code">__future__.annotations</code></td><td>Postponed evaluation of annotations</td></tr>
+                        <tr>
+                            <td><code class="inline-code">typing.Generic</code>, <code class="inline-code">typing.TypeVar</code></td>
+                            <td>Generic type parameterization over <code class="inline-code">Key</code></td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -372,8 +342,14 @@
                 <table>
                     <thead><tr><th>Import</th><th>Used For</th></tr></thead>
                     <tbody>
-                        <tr><td><code class="inline-code">f_core.mixins.comparable.Comparable</code></td><td>Base class providing ordering operators</td></tr>
-                        <tr><td><code class="inline-code">f_core.mixins.hashable.Hashable</code></td><td>Base class providing <code class="inline-code">__hash__</code></td></tr>
+                        <tr>
+                            <td><code class="inline-code">f_core.mixins.comparable.Comparable</code></td>
+                            <td>Base class providing ordering operators</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">f_core.mixins.hashable.Hashable</code></td>
+                            <td>Base class providing <code class="inline-code">__hash__</code></td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -385,23 +361,32 @@
 
                 <div class="panel">
                     <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
-                        <span>Example 1: Basic Usage</span>
+                        <span>Example 1: Basic HasKey Usage</span>
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
-                        <pre><code>from f_core.mixins.has.name import HasName
+                        <pre><code>from f_core.mixins.has.key import HasKey
 
-obj = HasName(name='Alice')
-print(obj.name)    # Alice
-print(str(obj))    # Alice
-print(repr(obj))   # &lt;HasName: Name=Alice&gt;
+# Create instances with string keys
+a = HasKey[str](key='A')
+b = HasKey[str](key='B')
+a2 = HasKey[str](key='A')
 
-# Sorting
-items = [HasName('zebra'), HasName('apple'), HasName('banana')]
-sorted(items)  # [apple, banana, zebra]
+# String representation
+str(a)          # 'A'
+repr(a)         # '&lt;HasKey: Key=A&gt;'
 
-# Sets and dicts
-{HasName('a'), HasName('b'), HasName('a')}  # 2 elements</code></pre>
+# Equality (from Equatable)
+a == a2         # True
+a == b          # False
+
+# Ordering (from Comparable)
+a &lt; b           # True
+b &gt;= a          # True
+
+# Hashing (from Hashable)
+hash(a) == hash(a2)  # True
+{a, a2, b}           # two unique items</code></pre>
                     </div>
                 </div>
 
@@ -411,20 +396,20 @@ sorted(items)  # [apple, banana, zebra]
                         <span class="arrow">&#9660;</span>
                     </div>
                     <div class="panel-content">
-                        <pre><code>from f_core.mixins.has.name import HasName
+                        <pre><code>from f_core.mixins.has.key import HasKey
 
-a = HasName.Factory.a()     # name='A'
-b = HasName.Factory.b()     # name='B'
-default = HasName()          # name='None' (default)
+# Factory creates pre-configured instances
+a = HasKey.Factory.a()   # HasKey[str](key='A')
+b = HasKey.Factory.b()   # HasKey[str](key='B')
 
-assert str(a) == 'A'
-assert str(default) == 'None'
-assert repr(a) == '&lt;HasName: Name=A&gt;'
+str(a)          # 'A'
+str(b)          # 'B'
+repr(a)         # '&lt;HasKey: Key=A&gt;'
 
-assert HasName.Factory.a() == HasName.Factory.a()
-assert a &lt; b                 # 'A' &lt; 'B'
-assert {a, a, b} == {a, b}  # set dedup via __hash__ + __eq__</code></pre>
-                        <p style="margin-top: 1rem; color: var(--muted);"><em>From <code class="inline-code">_factory.py</code> / <code class="inline-code">_tester.py</code></em></p>
+a &lt; b           # True  (ordering by key)
+a == b          # False
+{a, b}          # usable in sets thanks to __hash__</code></pre>
+                        <p style="margin-top: 1rem; color: var(--muted);"><em>Factory defined in <code class="inline-code">_factory.py</code></em></p>
                     </div>
                 </div>
 
@@ -433,7 +418,7 @@ assert {a, a, b} == {a, b}  # set dedup via __hash__ + __eq__</code></pre>
 
             <footer>
                 <p>Generated: <span id="timestamp"></span></p>
-                <p>Scope: f_core.mixins.has.name package documentation</p>
+                <p>Scope: f_core.mixins.has.key package documentation</p>
             </footer>
         </main>
     </div>

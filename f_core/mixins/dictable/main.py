@@ -1,12 +1,11 @@
 from typing import Generic, TypeVar, Iterator, Union
-from f_core.mixins.printable import Printable
 from f_core.mixins.sizable import Sizable
 
 K = TypeVar('K')  # Key type
 V = TypeVar('V')  # Value type
 
 
-class Dictable(Generic[K, V], Printable, Sizable):
+class Dictable(Sizable, Generic[K, V]):
     """
     ========================================================================
      Abstract Base Class for dictionary-like objects.
@@ -121,4 +120,6 @@ class Dictable(Generic[K, V], Printable, Sizable):
          Check if the two dictionaries are equal.
         ========================================================================
         """
+        if not isinstance(other, Dictable):
+            return NotImplemented
         return self._data == other._data

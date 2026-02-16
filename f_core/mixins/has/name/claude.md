@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Mixin that gives objects a `name` property and derives comparison, equality, hashing, and string representation from it. Objects with `HasName` can be compared, sorted, used in sets/dicts, and printed — all based on their name.
+Mixin that gives objects a `name` property and derives equality, ordering, hashing, string representation, and repr from it. Objects with `HasName` can be compared, sorted, used in sets/dicts, and printed — all based on their name.
 
 ## Public API
 
@@ -18,7 +18,7 @@ Factory class for creating instances. Attached via `__init__.py`.
 ```python
 def __init__(self, name: str = 'None') -> None
 ```
-Stores `name` as the private attribute `_name`. Default is the string `'None'`.
+Stores `name` as `_name`. Default is the string `'None'`.
 
 ### Properties
 
@@ -28,85 +28,59 @@ def name(self) -> str
 ```
 Returns the object's name (read-only).
 
-### Methods
-
 ```python
-def key_comparison(self) -> str
+@property
+def key(self) -> str
 ```
-Returns `self._name`. Implements the abstract method from `Equatable`, used by all equality, comparison, and hashing operations.
+Returns `self._name`. Satisfies the abstract `key` contract from `Equatable`/`Comparable`.
 
 ### Dunder Methods
 
 ```python
 def __str__(self) -> str
 ```
-Returns `self.name` directly.
+Returns `self.name`.
 
 ```python
 def __repr__(self) -> str
 ```
-Returns `<ClassName: Name={name}>`. Uses `type(self).__name__`, so subclasses show their own class name.
-
-### Inherited from Hashable
-
-```python
-def __hash__(self) -> int
-```
-Returns `hash(self.key_comparison())`. Enables use in sets and as dict keys.
-
-### Inherited from Comparable (`@total_ordering`)
-
-```python
-def __lt__(self, other: object) -> bool
-def __le__(self, other: object) -> bool
-def __gt__(self, other: object) -> bool
-def __ge__(self, other: object) -> bool
-```
-
-### Inherited from Equatable
-
-```python
-def __eq__(self, other: object) -> bool
-```
+Returns `<ClassName: Name=value>`. Uses `type(self).__name__`, so subclasses show their own class name.
 
 ## Inheritance (Hierarchy)
 
 ```
-SupportsEquality (Protocol)
- └── Equatable          # ==, != via key_comparison()
-      ├── Hashable       # __hash__ via key_comparison()
-      └── Comparable     # <, <=, >, >= via @total_ordering + key_comparison()
-           └── HasName(Comparable, Hashable)
+Equatable (abstract key, __eq__)
+  ├── Comparable (@total_ordering, __lt__)
+  └── Hashable (__hash__ via key)
+       └── HasName(Comparable, Hashable)
 ```
 
 | Base | Responsibility |
 |------|----------------|
-| `Equatable` | Equality operator (`==`) via `key_comparison()` |
-| `Comparable` | Ordering operators (`<`, `<=`, `>`, `>=`) via `@total_ordering` and `key_comparison()` |
-| `Hashable` | Hashing (`__hash__`) via `key_comparison()` |
+| `Equatable` | Abstract `key` property, concrete `__eq__` |
+| `Comparable` | `@total_ordering`, concrete `__lt__` |
+| `Hashable` | Concrete `__hash__` via `hash(self.key)` |
 
 ## Dependencies
 
 | Import | Purpose |
 |--------|---------|
 | `__future__.annotations` | Postponed evaluation of annotations |
-| `f_core.mixins.comparable.Comparable` | Base class providing ordering operators |
-| `f_core.mixins.hashable.Hashable` | Base class providing `__hash__` |
+| `f_core.mixins.comparable.Comparable` | Base — ordering operators |
+| `f_core.mixins.hashable.Hashable` | Base — hashing |
 
 ## Usage Example
 
 ```python
 from f_core.mixins.has.name import HasName
 
-a = HasName.Factory.a()     # name='A'
-b = HasName.Factory.b()     # name='B'
-default = HasName()          # name='None' (default)
+a = HasName.Factory.a()   # HasName(name='A')
+b = HasName.Factory.b()   # HasName(name='B')
 
-assert str(a) == 'A'
-assert str(default) == 'None'
-assert repr(a) == '<HasName: Name=A>'
-
-assert HasName.Factory.a() == HasName.Factory.a()
-assert a < b                 # 'A' < 'B'
-assert {a, a, b} == {a, b}  # set dedup via __hash__ + __eq__
+print(a.name)      # 'A'
+print(str(a))      # 'A'
+print(repr(a))     # '<HasName: Name=A>'
+print(a == HasName.Factory.a())  # True
+print(a < b)       # True
+print(hash(a))     # hash('A')
 ```

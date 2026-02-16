@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Generic mixin that wraps a `dict[K, V]` and exposes a dictionary-like public API. Provides key/value access, iteration, containment checks, update, and equality. Inherits printability (`__str__`, `__repr__`) from `Printable` and size semantics (`__len__`, `__bool__`) from `Sizable`.
+Generic mixin that wraps a `dict[K, V]` and exposes a dictionary-like public API. Provides key/value access, iteration, containment checks, update, and equality. Inherits size semantics (`__len__`, `__bool__`) from `Sizable`. Implements `__str__` directly (not via `Printable`).
 
 ## Public API
 
@@ -77,27 +77,23 @@ Iterates over keys.
 ```python
 def __str__(self) -> str
 ```
-Returns `str(self._data)` — satisfies `Printable` contract.
+Returns `str(self._data)`.
 
 ```python
 def __eq__(self, other: 'Dictable[K, V]') -> bool
 ```
-Compares `_data` dicts for equality.
+Compares `_data` dicts for equality. Returns `NotImplemented` for non-Dictable.
 
 ## Inheritance (Hierarchy)
 
 ```
-ABC
- └── Printable (abstract __str__, provides __repr__)
-Sized
+Sized (collections.abc)
  └── Sizable (abstract __len__, provides __bool__)
-
-Dictable(Generic[K, V], Printable, Sizable)
+      └── Dictable(Sizable, Generic[K, V])
 ```
 
 | Base | Responsibility |
 |------|----------------|
-| `Printable` | Abstract `__str__`, concrete `__repr__` |
 | `Sizable` | Abstract `__len__`, concrete `__bool__` |
 | `Generic[K, V]` | Type parameterization for key/value types |
 
@@ -106,7 +102,6 @@ Dictable(Generic[K, V], Printable, Sizable)
 | Import | Purpose |
 |--------|---------|
 | `typing.Generic`, `TypeVar`, `Iterator`, `Union` | Generics and type hints |
-| `f_core.mixins.printable.Printable` | Base — string representation |
 | `f_core.mixins.sizable.Sizable` | Base — size/bool semantics |
 
 ## Usage Example

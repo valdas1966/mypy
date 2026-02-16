@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Review Report — HasRecord</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #111827;
+            --panel2: #0f172a;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --faint: #94a3b8;
+            --border: #334155;
+            --accent: #60a5fa;
+            --accent2: #a78bfa;
+            --good: #34d399;
+            --warn: #fbbf24;
+            --bad: #fb7185;
+            --code-bg: #0a1220;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 2rem 3rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; color: var(--accent2); }
+
+        h1 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .module-path {
+            font-family: monospace;
+            color: var(--faint);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-top: 2.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p { margin-bottom: 1rem; }
+
+        section {
+            background: var(--panel);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        section h2 {
+            margin-top: 0;
+        }
+
+        .no-change {
+            color: var(--good);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.6rem; color: var(--muted); }
+        li strong { color: var(--text); }
+
+        pre {
+            background: var(--code-bg);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 0.75rem 0;
+        }
+
+        code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+
+        pre code { display: block; line-height: 1.5; }
+
+        .inline-code {
+            background: var(--panel2);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .severity-high {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            background: var(--bad);
+            color: var(--bg);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .severity-med {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            background: var(--warn);
+            color: var(--bg);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .severity-low {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            background: var(--faint);
+            color: var(--bg);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border);
+            color: var(--faint);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Module Review Report</h1>
+<div class="module-path">f_core/mixins/has/record/</div>
+
+<section>
+    <h2>Summary</h2>
+    <p>
+        <code class="inline-code">HasRecord</code> is a mixin that converts objects into flat
+        record dicts by merging <code class="inline-code">RECORD_SPEC</code> definitions across
+        the MRO. It inherits from <code class="inline-code">HasName</code> and adds verbose
+        printing with ANSI colors. The design is clean and the MRO-based spec merging is elegant.
+        Main concerns: a type annotation gap on the <code class="inline-code">name</code> parameter,
+        the <code class="inline-code">record</code> property calling each getter twice, and the
+        inline <code class="inline-code">Color</code> enum that could be shared.
+    </p>
+</section>
+
+<section>
+    <h2>Must-fix Issues (Correctness)</h2>
+    <ul>
+        <li>
+            <span class="severity-med">MED</span>
+            <strong><code class="inline-code">name: str = None</code> missing optional type</strong> —
+            <code class="inline-code">main.py:39</code>:
+            The <code class="inline-code">name</code> parameter is typed as
+            <code class="inline-code">str</code> but defaults to <code class="inline-code">None</code>.
+            This is a type error. Fix:
+<pre><code>def __init__(self,
+             name: str | None = None,
+             verbose: bool = False) -> None:</code></pre>
+        </li>
+        <li>
+            <span class="severity-med">MED</span>
+            <strong><code class="inline-code">Factory = None</code> missing type annotation</strong> —
+            <code class="inline-code">main.py:36</code>:
+            The <code class="inline-code">Factory</code> class attribute has no type hint.
+            Should be <code class="inline-code">Factory: type | None = None</code>.
+            This is a project-wide pattern.
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>Readability / Maintainability</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>Design Review</h2>
+    <ul>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong><code class="inline-code">Color</code> enum defined inline</strong> —
+            <code class="inline-code">main.py:7-20</code>:
+            The <code class="inline-code">Color</code> enum is defined at module level inside this
+            mixin file. It contains general-purpose ANSI escape codes that could be useful elsewhere.
+            Consider extracting it to a shared utility module (e.g.,
+            <code class="inline-code">f_utils.u_color</code>) so other modules can reuse it
+            without importing from a mixin.
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>Performance Notes</h2>
+    <ul>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong><code class="inline-code">record</code> property calls each getter twice</strong> —
+            <code class="inline-code">main.py:66-69</code>:
+            The dict comprehension calls <code class="inline-code">getter(self)</code> once in the
+            <code class="inline-code">if</code> filter and once for the value. For expensive getters,
+            this doubles the work. Fix with a walrus operator:
+<pre><code>return {name: val
+        for name, getter in self._record_spec().items()
+        if (val := getter(self)) is not None}</code></pre>
+        </li>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong><code class="inline-code">str_record()</code> accesses <code class="inline-code">self.record</code> twice</strong> —
+            <code class="inline-code">main.py:78,80</code>:
+            The first access (<code class="inline-code">if not self.record</code>) computes the
+            full record dict, then the second access (<code class="inline-code">self.record.items()</code>)
+            recomputes it. Cache in a local variable:
+<pre><code>def str_record(self) -> str:
+    rec = self.record
+    if not rec:
+        return str()
+    res = '[{}]'.format('] ['.join(
+        f'{key.capitalize()}={value}'
+        for key, value in rec.items() if key != 'name'))
+    if res == '[]':
+        return str()
+    return res</code></pre>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>Typing Review</h2>
+    <ul>
+        <li>
+            <span class="severity-med">MED</span>
+            <strong><code class="inline-code">name: str = None</code></strong> —
+            <code class="inline-code">main.py:39</code>:
+            Should be <code class="inline-code">str | None = None</code>.
+            (Also listed in Must-fix above.)
+        </li>
+        <li>
+            <span class="severity-med">MED</span>
+            <strong><code class="inline-code">Factory = None</code></strong> —
+            <code class="inline-code">main.py:36</code>:
+            Missing type annotation. Should be <code class="inline-code">Factory: type | None = None</code>.
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>Documentation Review</h2>
+    <p class="no-change">No change needed.</p>
+    <p>
+        All public methods have docstrings. The class-level docstring clearly describes the
+        mixin's purpose. Minor typo in the <code class="inline-code">record</code> property
+        docstring: "record-dicr" should be "record-dict"
+        (<code class="inline-code">main.py:62</code>).
+    </p>
+</section>
+
+<section>
+    <h2>Modularity</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>Architecture Findings</h2>
+    <p class="no-change">No change needed.</p>
+    <p>
+        The MRO-based <code class="inline-code">_record_spec()</code> pattern is well-designed:
+        subclasses define their own <code class="inline-code">RECORD_SPEC</code> and the merge
+        walks <code class="inline-code">cls.__mro__</code> in reverse, so more-derived specs
+        override base specs. This is a clean, declarative approach.
+    </p>
+</section>
+
+<section>
+    <h2>Usage &amp; Usefulness</h2>
+
+    <h3>A) How to use it</h3>
+    <p>Subclass <code class="inline-code">HasRecord</code> and define a
+    <code class="inline-code">RECORD_SPEC</code> dict mapping field names to lambdas:</p>
+<pre><code>from f_core.mixins.has.record import HasRecord
+
+class Player(HasRecord):
+    RECORD_SPEC = HasRecord.spec(
+        score=lambda o: o.score,
+        level=lambda o: o.level,
+    )
+
+    def __init__(self, name, score, level):
+        super().__init__(name=name)
+        self.score = score
+        self.level = level
+
+p = Player('Alice', 100, 5)
+print(p.record)        # {'name': 'Alice', 'score': 100, 'level': 5}
+print(p.str_record())  # [Score=100] [Level=5]</code></pre>
+
+    <h3>B) When it's useful</h3>
+    <p>
+        Ideal for domain objects that need a flat dict representation for CSV export, table
+        display, logging, or serialization. The MRO-based merging means multi-level
+        inheritance hierarchies automatically compose their record fields.
+    </p>
+
+    <h3>C) When it's not useful</h3>
+    <p>
+        If you only need a one-off dict conversion, calling
+        <code class="inline-code">vars(obj)</code> or writing a manual
+        <code class="inline-code">to_dict()</code> method is simpler. The mixin adds
+        value when multiple classes in a hierarchy share the pattern.
+    </p>
+
+    <h3>D) Better best-practice design</h3>
+    <p>
+        No fundamental redesign needed. The spec-based approach is clean and declarative.
+        Consider using the walrus operator in the <code class="inline-code">record</code>
+        property to avoid double-calling getters.
+    </p>
+</section>
+
+<section>
+    <h2>Suggestions for Improvements</h2>
+    <ol>
+        <li>
+            <strong>Fix <code class="inline-code">name</code> type hint</strong> —
+            Evidence: <code class="inline-code">main.py:39</code>.
+            Risk: Type checker errors; <code class="inline-code">None</code> is not
+            <code class="inline-code">str</code>.
+            Cost: Trivial (change <code class="inline-code">str</code> to
+            <code class="inline-code">str | None</code>).
+        </li>
+        <li>
+            <strong>Annotate <code class="inline-code">Factory</code></strong> —
+            Evidence: <code class="inline-code">main.py:36</code>.
+            Risk: Type checker cannot verify usage.
+            Cost: Trivial (add <code class="inline-code">: type | None</code>).
+        </li>
+        <li>
+            <strong>Avoid double getter calls in <code class="inline-code">record</code></strong> —
+            Evidence: <code class="inline-code">main.py:66-69</code>.
+            Risk: Performance — each getter runs twice per field.
+            Cost: Trivial (walrus operator).
+<pre><code>return {name: val
+        for name, getter in self._record_spec().items()
+        if (val := getter(self)) is not None}</code></pre>
+        </li>
+        <li>
+            <strong>Cache <code class="inline-code">self.record</code> in <code class="inline-code">str_record()</code></strong> —
+            Evidence: <code class="inline-code">main.py:78,80</code>.
+            Risk: Minor performance — record computed twice.
+            Cost: Trivial (one local variable).
+        </li>
+        <li>
+            <strong>Extract <code class="inline-code">Color</code> enum to shared utility</strong> —
+            Evidence: <code class="inline-code">main.py:7-20</code>.
+            Risk: None. Cost: Small refactor.
+            Benefit: Reusable ANSI color codes across the project.
+        </li>
+    </ol>
+</section>
+
+<footer>
+    <p>Generated: 2026-02-16</p>
+    <p>Scope: f_core.mixins.has.record — full code + design review</p>
+</footer>
+
+</body>
+</html>

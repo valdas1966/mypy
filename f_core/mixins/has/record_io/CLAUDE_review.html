@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Review Report — HasRecordIO</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #111827;
+            --panel2: #0f172a;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --faint: #94a3b8;
+            --border: #334155;
+            --accent: #60a5fa;
+            --accent2: #a78bfa;
+            --good: #34d399;
+            --warn: #fbbf24;
+            --bad: #fb7185;
+            --code-bg: #0a1220;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 2rem 3rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; color: var(--accent2); }
+
+        h1 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .module-path {
+            font-family: monospace;
+            color: var(--faint);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-top: 2.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p { margin-bottom: 1rem; }
+
+        section {
+            background: var(--panel);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        section h2 {
+            margin-top: 0;
+        }
+
+        .no-change {
+            color: var(--good);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.6rem; color: var(--muted); }
+        li strong { color: var(--text); }
+
+        pre {
+            background: var(--code-bg);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 0.75rem 0;
+        }
+
+        code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+
+        pre code { display: block; line-height: 1.5; }
+
+        .inline-code {
+            background: var(--panel2);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .severity-high {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            background: var(--bad);
+            color: var(--bg);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .severity-med {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            background: var(--warn);
+            color: var(--bg);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .severity-low {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            background: var(--faint);
+            color: var(--bg);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border);
+            color: var(--faint);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Module Review Report</h1>
+<div class="module-path">f_core/mixins/has/record_io/</div>
+
+<section>
+    <h2>Summary</h2>
+    <p>
+        <code class="inline-code">HasRecordIO</code> is a thin mixin that pairs an input and
+        output <code class="inline-code">HasRecord</code> on a named object. The main module
+        (<code class="inline-code">main.py</code>) is clean and correctly typed. However, the
+        factory file (<code class="inline-code">_factory.py</code>) has two correctness bugs:
+        <code class="inline-code">Factory.proc()</code> never returns the constructed object, and
+        it passes <code class="inline-code">verbose=True</code> to
+        <code class="inline-code">HasRecordIO.__init__</code> which does not accept that parameter.
+        The module also lacks an <code class="inline-code">__init__.py</code>, preventing standard
+        package imports.
+    </p>
+</section>
+
+<section>
+    <h2>Must-fix Issues (Correctness)</h2>
+    <ul>
+        <li>
+            <span class="severity-med">MED</span>
+            <strong><code class="inline-code">Factory.proc()</code> never returns anything</strong> —
+            <code class="inline-code">_factory.py:6-21</code>:
+            The method defines a local <code class="inline-code">Proc</code> class and its
+            <code class="inline-code">__init__</code>, but never instantiates or returns it.
+            The return type declares <code class="inline-code">HasRecordIO</code> but the
+            function body has no <code class="inline-code">return</code> statement, so it
+            returns <code class="inline-code">None</code> at runtime. Fix:
+<pre><code>@staticmethod
+def proc() -> HasRecordIO:
+    class Proc(HasRecordIO):
+        def __init__(self) -> None:
+            HasRecordIO.__init__(self, name='Process')
+    return Proc()</code></pre>
+        </li>
+        <li>
+            <span class="severity-med">MED</span>
+            <strong><code class="inline-code">verbose=True</code> passed to <code class="inline-code">HasRecordIO.__init__</code></strong> —
+            <code class="inline-code">_factory.py:20</code>:
+            <code class="inline-code">HasRecordIO.__init__(self, name='Process', verbose=True)</code>
+            but <code class="inline-code">HasRecordIO.__init__</code> only accepts
+            <code class="inline-code">name</code>. This will raise a
+            <code class="inline-code">TypeError</code> at runtime:
+            <code class="inline-code">__init__() got an unexpected keyword argument 'verbose'</code>.
+            Either add <code class="inline-code">verbose</code> to
+            <code class="inline-code">HasRecordIO.__init__</code> or remove the argument from
+            the factory call.
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>Readability / Maintainability</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>Design Review</h2>
+    <ul>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong>Very thin wrapper with no IO-specific logic</strong> —
+            <code class="inline-code">main.py</code>:
+            The class holds two <code class="inline-code">HasRecord</code> instances and
+            exposes them as properties, but adds no IO-specific behavior (no read, write,
+            serialize, or stream methods). The structural convention is valid as a
+            placeholder for future IO logic, but currently the class provides no
+            functionality beyond composition.
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>Performance Notes</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>Typing Review</h2>
+    <p class="no-change">No change needed.</p>
+    <p>
+        All type annotations in <code class="inline-code">main.py</code> are correct. The
+        <code class="inline-code">name</code> parameter has a string default
+        (<code class="inline-code">'HasRecordIO'</code>) rather than
+        <code class="inline-code">None</code>, so the <code class="inline-code">str</code>
+        type is accurate. Return types on properties are correctly annotated.
+    </p>
+</section>
+
+<section>
+    <h2>Documentation Review</h2>
+    <p class="no-change">No change needed.</p>
+    <p>
+        All public methods and the class have docstrings. Documentation in
+        <code class="inline-code">main.py</code> is clean and sufficient.
+    </p>
+</section>
+
+<section>
+    <h2>Modularity</h2>
+    <ul>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong>No <code class="inline-code">__init__.py</code></strong> —
+            The <code class="inline-code">record_io</code> directory has no
+            <code class="inline-code">__init__.py</code> file, so it cannot be imported
+            as a package via <code class="inline-code">from f_core.mixins.has.record_io import HasRecordIO</code>.
+            Sibling modules like <code class="inline-code">record</code> and
+            <code class="inline-code">row_col</code> have <code class="inline-code">__init__.py</code>.
+            Add one for consistency.
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>Architecture Findings</h2>
+    <p class="no-change">No change needed.</p>
+    <p>
+        The module establishes a structural convention: objects that process data have a
+        distinct input record and output record. This is a valid architectural pattern
+        for data-flow or pipeline objects, even if the current implementation is minimal.
+    </p>
+</section>
+
+<section>
+    <h2>Usage &amp; Usefulness</h2>
+
+    <h3>A) How to use it</h3>
+    <p>Subclass <code class="inline-code">HasRecordIO</code> to create objects that track
+    input and output records:</p>
+<pre><code>from f_core.mixins.has.record_io.main import HasRecordIO
+
+class Transformer(HasRecordIO):
+    def __init__(self, name: str):
+        super().__init__(name=name)
+
+t = Transformer('MyProcess')
+print(t.record_input)   # HasRecord instance
+print(t.record_output)  # HasRecord instance</code></pre>
+
+    <h3>B) When it's useful</h3>
+    <p>
+        Useful as a structural convention for input/output data flow objects in a pipeline
+        architecture. Each processing step can record what it received and what it produced.
+    </p>
+
+    <h3>C) When it's not useful</h3>
+    <p>
+        If you only need a single record (no input/output distinction), use
+        <code class="inline-code">HasRecord</code> directly. The wrapper adds no IO-specific
+        logic currently.
+    </p>
+
+    <h3>D) Better best-practice design</h3>
+    <p>
+        Consider adding actual IO methods (e.g., <code class="inline-code">read()</code>,
+        <code class="inline-code">write()</code>, or <code class="inline-code">serialize()</code>)
+        to justify the "IO" in the name. Alternatively, if this is purely structural, document
+        that it is a composition-only mixin.
+    </p>
+</section>
+
+<section>
+    <h2>Suggestions for Improvements</h2>
+    <ol>
+        <li>
+            <strong>Add <code class="inline-code">return Proc()</code> to <code class="inline-code">Factory.proc()</code></strong> —
+            Evidence: <code class="inline-code">_factory.py:6-21</code>.
+            Risk: Method returns <code class="inline-code">None</code> instead of a
+            <code class="inline-code">HasRecordIO</code> instance.
+            Cost: Trivial (one line).
+        </li>
+        <li>
+            <strong>Remove <code class="inline-code">verbose=True</code> from factory call</strong> —
+            Evidence: <code class="inline-code">_factory.py:20</code>.
+            Risk: <code class="inline-code">TypeError</code> at runtime.
+            Cost: Trivial (remove the keyword argument or add
+            <code class="inline-code">verbose</code> to <code class="inline-code">HasRecordIO.__init__</code>).
+        </li>
+        <li>
+            <strong>Add <code class="inline-code">__init__.py</code></strong> —
+            Evidence: Directory listing shows no <code class="inline-code">__init__.py</code>.
+            Risk: Cannot import as a package.
+            Cost: Trivial (create file with standard exports).
+        </li>
+    </ol>
+</section>
+
+<footer>
+    <p>Generated: 2026-02-16</p>
+    <p>Scope: f_core.mixins.has.record_io — full code + design review</p>
+</footer>
+
+</body>
+</html>

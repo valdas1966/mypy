@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Review Report — HasRowsCols</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #111827;
+            --panel2: #0f172a;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --faint: #94a3b8;
+            --border: #334155;
+            --accent: #60a5fa;
+            --accent2: #a78bfa;
+            --good: #34d399;
+            --warn: #fbbf24;
+            --bad: #fb7185;
+            --code-bg: #0a1220;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 2rem 3rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; color: var(--accent2); }
+
+        h1 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .module-path {
+            font-family: monospace;
+            color: var(--faint);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-top: 2.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p { margin-bottom: 1rem; }
+
+        section {
+            background: var(--panel);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        section h2 {
+            margin-top: 0;
+        }
+
+        .no-change {
+            color: var(--good);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.6rem; color: var(--muted); }
+        li strong { color: var(--text); }
+
+        pre {
+            background: var(--code-bg);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 0.75rem 0;
+        }
+
+        code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+
+        pre code { display: block; line-height: 1.5; }
+
+        .inline-code {
+            background: var(--panel2);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .severity-high {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            background: var(--bad);
+            color: var(--bg);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .severity-med {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            background: var(--warn);
+            color: var(--bg);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .severity-low {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            background: var(--faint);
+            color: var(--bg);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border);
+            color: var(--faint);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Module Review Report</h1>
+<div class="module-path">f_core/mixins/has/rows_cols/</div>
+
+<section>
+    <h2>Summary</h2>
+    <p>
+        <code class="inline-code">HasRowsCols</code> is a plain class (no mixin bases) representing
+        2D shape dimensions with bounds checking and flat length. It has three medium-severity
+        issues: a falsy guard on <code class="inline-code">cols</code> that breaks when
+        <code class="inline-code">cols=0</code>, a missing optional type on the
+        <code class="inline-code">cols</code> parameter, and an untyped return on
+        <code class="inline-code">key_comparison()</code>. It also defines
+        <code class="inline-code">__hash__</code> without <code class="inline-code">__eq__</code>,
+        which violates Python convention. The factory uses a plain function instead of a class,
+        diverging from sibling modules.
+    </p>
+</section>
+
+<section>
+    <h2>Must-fix Issues (Correctness)</h2>
+    <ul>
+        <li>
+            <span class="severity-med">MED</span>
+            <strong><code class="inline-code">cols: int = None</code> missing optional type</strong> —
+            <code class="inline-code">main.py:13</code>:
+            The <code class="inline-code">cols</code> parameter is typed as
+            <code class="inline-code">int</code> but defaults to <code class="inline-code">None</code>.
+            This is a type error. Fix:
+<pre><code>def __init__(self,
+             rows: int,
+             cols: int | None = None) -> None:</code></pre>
+        </li>
+        <li>
+            <span class="severity-med">MED</span>
+            <strong>Falsy guard on <code class="inline-code">cols</code> breaks for <code class="inline-code">cols=0</code></strong> —
+            <code class="inline-code">main.py:20</code>:
+            <code class="inline-code">self._cols = cols if cols else rows</code>.
+            When <code class="inline-code">cols=0</code> is passed (a valid dimension),
+            <code class="inline-code">0</code> is falsy, so it silently defaults to
+            <code class="inline-code">rows</code>. This is a correctness bug. Fix:
+<pre><code>self._cols = cols if cols is not None else rows</code></pre>
+        </li>
+        <li>
+            <span class="severity-med">MED</span>
+            <strong><code class="inline-code">key_comparison() -> list</code> untyped return</strong> —
+            <code class="inline-code">main.py:57</code>:
+            The return type is bare <code class="inline-code">list</code> instead of
+            <code class="inline-code">list[int]</code>. This weakens type checking for
+            any code that consumes the comparison key. Fix:
+<pre><code>def key_comparison(self) -> list[int]:</code></pre>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>Readability / Maintainability</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>Design Review</h2>
+    <ul>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong><code class="inline-code">__hash__</code> without <code class="inline-code">__eq__</code></strong> —
+            <code class="inline-code">main.py:83-89</code>:
+            Python convention states that if <code class="inline-code">__hash__</code> is defined,
+            <code class="inline-code">__eq__</code> should be too. Without
+            <code class="inline-code">__eq__</code>, two <code class="inline-code">HasRowsCols</code>
+            instances with the same <code class="inline-code">(rows, cols)</code> will have the
+            same hash but will not be considered equal (default
+            <code class="inline-code">__eq__</code> uses identity). This breaks the hash/equality
+            contract for sets and dict keys. Fix:
+<pre><code>def __eq__(self, other: object) -> bool:
+    if not isinstance(other, HasRowsCols):
+        return NotImplemented
+    return self.rows == other.rows and self.cols == other.cols</code></pre>
+        </li>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong>Factory is a plain function, not a class</strong> —
+            <code class="inline-code">_factory.py</code>:
+            Sibling modules (<code class="inline-code">record</code>,
+            <code class="inline-code">row_col</code>) use a
+            <code class="inline-code">Factory</code> class with static methods. This module
+            uses a bare function <code class="inline-code">create_has_rows_cols()</code>.
+            This inconsistency may confuse developers expecting the standard pattern. Consider
+            wrapping it in a <code class="inline-code">Factory</code> class for uniformity.
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>Performance Notes</h2>
+    <p class="no-change">No change needed.</p>
+    <p>
+        All operations are O(1). <code class="inline-code">__len__</code> is a single
+        multiplication. <code class="inline-code">is_within()</code> is two comparisons.
+    </p>
+</section>
+
+<section>
+    <h2>Typing Review</h2>
+    <ul>
+        <li>
+            <span class="severity-med">MED</span>
+            <strong><code class="inline-code">cols: int = None</code></strong> —
+            <code class="inline-code">main.py:13</code>:
+            Should be <code class="inline-code">int | None = None</code>.
+            (Also listed in Must-fix above.)
+        </li>
+        <li>
+            <span class="severity-med">MED</span>
+            <strong><code class="inline-code">key_comparison() -> list</code></strong> —
+            <code class="inline-code">main.py:57</code>:
+            Should be <code class="inline-code">list[int]</code>.
+            (Also listed in Must-fix above.)
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>Documentation Review</h2>
+    <p class="no-change">No change needed.</p>
+    <p>
+        All public methods have docstrings. The class-level docstring is clear.
+        The <code class="inline-code">key_comparison()</code> docstring explains the
+        two-level comparison strategy (size first, then rows).
+    </p>
+</section>
+
+<section>
+    <h2>Modularity</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>Architecture Findings</h2>
+    <p class="no-change">No change needed.</p>
+    <p>
+        Unlike sibling <code class="inline-code">HasRowCol</code> which inherits from
+        <code class="inline-code">Comparable</code> and <code class="inline-code">Hashable</code>,
+        this class is a plain standalone class with no mixin bases. It implements
+        <code class="inline-code">__hash__</code> and <code class="inline-code">__len__</code>
+        directly. This is a valid design choice for a simple shape descriptor, though
+        inheriting from the project's <code class="inline-code">Hashable</code> mixin would
+        improve consistency.
+    </p>
+</section>
+
+<section>
+    <h2>Usage &amp; Usefulness</h2>
+
+    <h3>A) How to use it</h3>
+    <p>Construct with dimensions and use for shape queries:</p>
+<pre><code>from f_core.mixins.has.rows_cols import HasRowsCols
+
+shape = HasRowsCols(rows=3, cols=5)
+print(shape)              # (3,5)
+print(len(shape))         # 15
+print(shape.is_within(2, 4))  # True
+print(shape.is_within(3, 5))  # False (exclusive upper bound)
+
+# Square shape (cols defaults to rows)
+square = HasRowsCols(rows=4)
+print(square)             # (4,4)
+print(len(square))        # 16</code></pre>
+
+    <h3>B) When it's useful</h3>
+    <p>
+        Useful for 2D shape dimensions in grids, matrices, game boards, or image processing.
+        Provides bounds checking, flat length, shape string, hashing, and comparison key
+        in a single lightweight object.
+    </p>
+
+    <h3>C) When it's not useful</h3>
+    <p>
+        If you only need a <code class="inline-code">(rows, cols)</code> tuple without
+        methods, a plain <code class="inline-code">NamedTuple</code> or
+        <code class="inline-code">tuple[int, int]</code> is simpler. For 3D or N-dimensional
+        shapes, this class would need extension.
+    </p>
+
+    <h3>D) Better best-practice design</h3>
+    <p>
+        Add <code class="inline-code">__eq__</code> to match
+        <code class="inline-code">__hash__</code>. Fix the falsy guard on
+        <code class="inline-code">cols</code>. Consider inheriting from the project's
+        <code class="inline-code">Hashable</code> and <code class="inline-code">Comparable</code>
+        mixins for consistency with <code class="inline-code">HasRowCol</code>.
+    </p>
+</section>
+
+<section>
+    <h2>Suggestions for Improvements</h2>
+    <ol>
+        <li>
+            <strong>Fix falsy guard on <code class="inline-code">cols</code></strong> —
+            Evidence: <code class="inline-code">main.py:20</code>.
+            Risk: <code class="inline-code">cols=0</code> silently becomes
+            <code class="inline-code">rows</code>.
+            Cost: Trivial (change <code class="inline-code">if cols</code> to
+            <code class="inline-code">if cols is not None</code>).
+<pre><code>self._cols = cols if cols is not None else rows</code></pre>
+        </li>
+        <li>
+            <strong>Fix <code class="inline-code">cols</code> type annotation</strong> —
+            Evidence: <code class="inline-code">main.py:13</code>.
+            Risk: Type checker errors.
+            Cost: Trivial (change <code class="inline-code">int</code> to
+            <code class="inline-code">int | None</code>).
+        </li>
+        <li>
+            <strong>Type <code class="inline-code">key_comparison()</code> return</strong> —
+            Evidence: <code class="inline-code">main.py:57</code>.
+            Risk: Weak type checking downstream.
+            Cost: Trivial (change <code class="inline-code">list</code> to
+            <code class="inline-code">list[int]</code>).
+        </li>
+        <li>
+            <strong>Add <code class="inline-code">__eq__</code> to match <code class="inline-code">__hash__</code></strong> —
+            Evidence: <code class="inline-code">main.py:83-89</code>.
+            Risk: Hash/equality contract violation — objects with same hash are not equal.
+            Cost: Small (5-line method).
+<pre><code>def __eq__(self, other: object) -> bool:
+    if not isinstance(other, HasRowsCols):
+        return NotImplemented
+    return self.rows == other.rows and self.cols == other.cols</code></pre>
+        </li>
+        <li>
+            <strong>Align Factory pattern with siblings</strong> —
+            Evidence: <code class="inline-code">_factory.py</code>.
+            Risk: Inconsistency across modules.
+            Cost: Small (wrap function in a <code class="inline-code">Factory</code> class).
+        </li>
+    </ol>
+</section>
+
+<footer>
+    <p>Generated: 2026-02-16</p>
+    <p>Scope: f_core.mixins.has.rows_cols — full code + design review</p>
+</footer>
+
+</body>
+</html>
