@@ -11,7 +11,7 @@ class ValidatableMutable(Validatable):
     # Factory
     Factory: type | None = None
 
-    def __init__(self, is_valid: bool) -> None:
+    def __init__(self, is_valid: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.

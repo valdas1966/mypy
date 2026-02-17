@@ -1,4 +1,4 @@
-from f_core.mixins.printable import Printable
+from f_core.old_mixins.printable import Printable
 from f_core.mixins.has.name import HasName
 
 

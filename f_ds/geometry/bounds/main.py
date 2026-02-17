@@ -1,19 +1,19 @@
 from typing import Generic, TypeVar
-from f_core.mixins import Equatable
 
-T = TypeVar('T', bound=float)
+T = TypeVar('T', int, float)
 
 
-class Bounds(Equatable, Generic[T]):
+class Bounds(Generic[T]): 
     """
     ========================================================================
      A named tuple representing the bounds of an object.
     ========================================================================
-     Attributes:
-        top: The top coordinate of the bounds.
-        left: The left coordinate of the bounds.
-        bottom: The bottom coordinate of the bounds.
-        right: The right coordinate of the bounds.
+     Properties:
+    ------------------------------------------------------------------------
+        1. top: The top coordinate of the bounds.
+        2. left: The left coordinate of the bounds.
+        3. bottom: The bottom coordinate of the bounds.
+        4. right: The right coordinate of the bounds.
     ========================================================================
     """
     
@@ -30,6 +30,8 @@ class Bounds(Equatable, Generic[T]):
          Init private Attributes.
         ========================================================================
         """
+        assert top <= bottom, f'Top must be less than bottom, got {top} > {bottom}'
+        assert left <= right, f'Left must be less than right, got {left} > {right}'
         self._top = top
         self._left = left
         self._bottom = bottom
@@ -77,15 +79,7 @@ class Bounds(Equatable, Generic[T]):
          Return the bounds as a tuple.
         ========================================================================
         """
-        return (self._top, self._left, self._bottom, self._right)
-
-    def key(self) -> tuple[T, T, T, T]:
-        """
-        ========================================================================
-         Return the key of the bounds.
-        ========================================================================
-        """
-        return self.to_tuple()
+        return self._top, self._left, self._bottom, self._right
 
     def __str__(self) -> str:
         """
@@ -102,6 +96,6 @@ class Bounds(Equatable, Generic[T]):
         ========================================================================
         """
         name = self.__class__.__name__
-        values = f'top={self._top}, left={self._left}, '
-        values += f'bottom={self._bottom}, right={self._right}'
+        values = f'Top={self._top}, Left={self._left}, '
+        values += f'Bottom={self._bottom}, Right={self._right}'
         return f'<{name}: {values}>'

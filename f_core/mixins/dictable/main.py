@@ -1,4 +1,4 @@
-from typing import Generic, TypeVar, Iterator, Union
+from typing import Generic, TypeVar, Iterator, Self
 from f_core.mixins.sizable import Sizable
 
 K = TypeVar('K')  # Key type
@@ -47,7 +47,7 @@ class Dictable(Sizable, Generic[K, V]):
         """
         return list(self._data.items())
     
-    def get(self, key: K, default: V = None) -> V:
+    def get(self, key: K, default: V = None) -> V | None:
         """
         ========================================================================
          Get an item by key.
@@ -55,7 +55,7 @@ class Dictable(Sizable, Generic[K, V]):
         """
         return self._data.get(key, default)
     
-    def update(self, data: Union[dict[K, V], 'Dictable[K, V]']) -> None:
+    def update(self, data: Self | dict[K, V]) -> None:
         """
         ========================================================================
          Update the internal dictionary with the given data.
@@ -114,7 +114,7 @@ class Dictable(Sizable, Generic[K, V]):
         """
         return str(self._data)
 
-    def __eq__(self, other: 'Dictable[K, V]') -> bool:
+    def __eq__(self, other: object) -> bool:
         """
         ========================================================================
          Check if the two dictionaries are equal.

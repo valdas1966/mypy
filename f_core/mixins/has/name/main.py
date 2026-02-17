@@ -1,9 +1,7 @@
 from __future__ import annotations
-from f_core.mixins.hashable import Hashable
-from f_core.mixins.comparable import Comparable
 
 
-class HasName(Comparable, Hashable):
+class HasName:
     """
     ============================================================================
      Mixin with Name property (Default='None').
@@ -13,24 +11,21 @@ class HasName(Comparable, Hashable):
     # Factory
     Factory: type | None = None
 
-    def __init__(self, name: str = 'None') -> None:
+    def __init__(self, name: str = 'NoName') -> None:
         """
         ========================================================================
          Init private attributes.
         ========================================================================
         """
+        assert isinstance(name, str), f'Name must be a string, got {type(name)}'
         self._name = name
 
     @property
     # Object's Name
     def name(self) -> str:
-        return self._name
-
-    @property
-    def key(self) -> str:
         """
         ========================================================================
-         Returns the Object's Key for Sorting.
+         Return the object's name.
         ========================================================================
         """
         return self._name

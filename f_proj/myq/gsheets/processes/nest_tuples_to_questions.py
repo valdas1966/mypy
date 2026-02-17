@@ -1,5 +1,5 @@
 from f_ds.old_groups import ProcRowsToNested, Input
-from f_core.mixins.excludable import Excludable
+from f_core.old_mixins.excludable import Excludable
 from f_proj.myq.questions.i_3_mask_one_word import QuestionMaskOneWord as Question
 from typing import Type, Sequence
 

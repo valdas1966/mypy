@@ -57,14 +57,14 @@ def test_key_comparison() -> None:
     assert twelve.key() == (1, 2)
     
     
-def test_to_tuple() -> None:
+def test_key() -> None:
     """
     ========================================================================
      Test the to_tuple() method.
     ========================================================================
     """
     twelve = HasRowCol.Factory.twelve()
-    assert twelve.to_tuple() == (1, 2)
+    assert twelve.key == (1, 2)
     
     
 def test_neighbors() -> None:
@@ -85,6 +85,21 @@ def test_neighbors() -> None:
 
 
 def test_hash() -> None:
+    """
+    ========================================================================
+     Test the hash() method.
+    ========================================================================
+    """
     zero = HasRowCol.Factory.zero()
     one = HasRowCol.Factory.one()
     assert hash(zero) != hash(one)
+
+
+def test_repr() -> None:
+    """
+    ========================================================================
+     Test the repr() method.
+    ========================================================================
+    """
+    twelve = HasRowCol.Factory.twelve()
+    assert repr(twelve) == '<HasRowCol: Row=1, Col=2>'

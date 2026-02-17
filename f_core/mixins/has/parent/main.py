@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Self
 
 
 class HasParent:
@@ -9,18 +10,19 @@ class HasParent:
     """
 
     # Factory
-    Factory = None
+    Factory: type = None
 
-    def __init__(self, parent: HasParent = None) -> None:
+    def __init__(self, parent: Self = None) -> None:
         """
         ========================================================================
          Init private attributes.
         ========================================================================
         """
+        assert isinstance(parent, Self), f'Parent must be an instance of {Self.__name__}, got {type(parent)}'
         self._parent = parent
 
     @property
-    def parent(self) -> HasParent:
+    def parent(self) -> HasParent | None:
         """
         ========================================================================
          Return the parent of the object.
@@ -28,13 +30,13 @@ class HasParent:
         """
         return self._parent
 
-    def path_from_root(self) -> list[HasParent]:
+    def path_from_root(self) -> list[Self]:
         """
         ========================================================================
          Return the path from the root to the current object.
         ========================================================================
         """
-        path: list[HasParent] = []
+        path: list[Self] = []
         current = self
         while current:
             path.append(current)

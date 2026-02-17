@@ -1,4 +1,4 @@
-from f_core.mixins.cursorable import Cursorable
+from f_core.old_mixins.cursorable import Cursorable
 from f_ds.groups.main import Group
 
 

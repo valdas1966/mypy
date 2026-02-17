@@ -1,6 +1,6 @@
 import string
 from f_proj.myq.questions.i_2_mask import QuestionMask
-from f_core.mixins.excludable import Excludable
+from f_core.old_mixins.excludable import Excludable
 from f_utils.dtypes.u_str import UStr
 from f_utils.dtypes.u_seq import USeq
 from f_ai.nlp.u_nlp import UNLP

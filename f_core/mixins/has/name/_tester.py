@@ -1,4 +1,4 @@
-from .main import HasName
+from f_core.mixins.has.name.main import HasName
 
 
 def test_str() -> None:
@@ -10,20 +10,7 @@ def test_str() -> None:
     a = HasName.Factory.a()
     assert str(a) == 'A'
     empty = HasName()
-    assert str(empty) == 'None'
-
-
-def test_key_comparison() -> None:
-    """
-    =======================================================================
-     Test the key_comparison() method.
-    =======================================================================
-    """
-    a = HasName.Factory.a()
-    b = HasName.Factory.b()
-    assert HasName.Factory.a() == HasName.Factory.a()
-    assert a < b
-    assert {a, a, b} == {a, b}
+    assert str(empty) == 'NoName'
 
 
 def test_repr() -> None:

@@ -53,7 +53,7 @@ class GridBase(HasName,
         """
         li: list[Cell] = []
         for row_col in cell.neighbors():
-            row, col = row_col.to_tuple()
+            row, col = row_col.key
             if row < self.rows and col < self.cols:
                 li.append(self[row][col])
         return li

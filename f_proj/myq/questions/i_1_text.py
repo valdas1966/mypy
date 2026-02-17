@@ -1,5 +1,5 @@
 from f_proj.myq.questions.i_0_base import QuestionBase
-from f_core.mixins.printable import Printable
+from f_core.old_mixins.printable import Printable
 
 
 class QuestionText(QuestionBase, Printable):

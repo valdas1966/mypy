@@ -1,5 +1,5 @@
 from f_ds.old_groups import NestedGroup
-from f_core.mixins.excludable import Excludable
+from f_core.old_mixins.excludable import Excludable
 from f_proj.myq.gsheets.processes.nest_tuples_to_questions import ProcNestTuplesToQuestions
 from f_proj.myq.questions.i_3_mask_one_word import (QuestionMaskOneWord as
                                                     Question)

@@ -1,4 +1,4 @@
-from f_core.mixins.printable import Printable
+from f_core.old_mixins.printable import Printable
 from f_core.mixins.comparable import Comparable
 from f_math.shapes.rect.main import Rect
 from typing import Union

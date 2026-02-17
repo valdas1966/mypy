@@ -1,10 +1,8 @@
 from __future__ import annotations
 from f_core.mixins.comparable import Comparable
 from f_core.mixins.hashable import Hashable
-from typing import Self, TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from f_math.shapes import Rect
+from f_core.protocols.bounds import SupportsBounds
+from typing import Self
 
 
 class HasRowCol(Comparable, Hashable):
@@ -15,7 +13,7 @@ class HasRowCol(Comparable, Hashable):
     """
 
     # Factory
-    Factory = None
+    Factory: type = None
 
     def __init__(self,
                  row: int | None = None,
@@ -26,20 +24,32 @@ class HasRowCol(Comparable, Hashable):
          2. If the Col is None, it takes the value of Row.
         ========================================================================
         """
+        assert isinstance(row, int) or row is None, f'Row must be an integer or None, got {type(row)}'
+        assert isinstance(col, int) or col is None, f'Col must be an integer or None, got {type(col)}'
         self._row = row if row is not None else 0
         self._col = col if col is not None else self._row
 
     @property
     # Object's Row
     def row(self) -> int:
+        """
+        ========================================================================
+         Return the object's row.
+        ========================================================================
+        """
         return self._row
 
     @property
     # Objects Col
     def col(self) -> int:
+        """
+        ========================================================================
+         Return the object's column.
+        ========================================================================
+        """
         return self._col
 
-    def neighbors(self) -> list[HasRowCol]:
+    def neighbors(self) -> list[Self]:
         """
         ========================================================================
          Return a List of Neighbor Cells in Clock-Wise Order
@@ -61,12 +71,13 @@ class HasRowCol(Comparable, Hashable):
          Return Manhattan-Distance from Self to the Other.
         ========================================================================
         """
+        assert isinstance(other, HasRowCol), f'Other must be an instance of {Self.__name__}, got {type(other)}'
         dist_row = abs(self.row - other.row)
         dist_col = abs(self.col - other.col)
         return dist_row + dist_col
 
     def is_within(self,
-                  rect: Rect = None,
+                  rect: SupportsBounds = None,
                   row_min: int = None,
                   col_min: int = None,
                   row_max: int = None,
@@ -76,6 +87,7 @@ class HasRowCol(Comparable, Hashable):
          Return True if the object is within the given Rect or range.
         ========================================================================
         """
+        assert isinstance(rect, SupportsBounds) or all((row_min, col_min, row_max, col_max)), f'Rect must be an instance of SupportsBounds, got {type(rect)}'
         if rect:
             row_min, col_min, row_max, col_max = rect.to_min_max()
         row_valid: bool = row_min <= self.row <= row_max
@@ -90,14 +102,6 @@ class HasRowCol(Comparable, Hashable):
         ========================================================================
         """
         return self.row, self.col
-    
-    def to_tuple(self) -> tuple[int, int]:
-        """
-        ========================================================================
-         Return a Tuple of (Row, Col).
-        ========================================================================
-        """
-        return self.row, self.col
 
     def __str__(self) -> str:
         """
@@ -107,3 +111,12 @@ class HasRowCol(Comparable, Hashable):
         ========================================================================
         """
         return f'({self._row},{self._col})'
+
+    def __repr__(self) -> str:
+        """
+        ========================================================================
+         Return REPR-REPR of the Object.
+         Ex: '<HasRowCol: Row=1, Col=2>'
+        ========================================================================
+        """
+        return f'<{type(self).__name__}: Row={self._row}, Col={self._col}>'
