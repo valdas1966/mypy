@@ -22,7 +22,8 @@ class AlgoBestFirst(Generic[Problem, Solution, State, Data],
     def __init__(self,
                  problem: Problem,
                  data: Data,
-                 name: str = 'AlgoBestFirst') -> None:
+                 name: str = 'AlgoBestFirst',
+                 **kwargs) -> None:
         """
         ========================================================================
          Init private Attributes.

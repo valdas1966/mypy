@@ -11,4 +11,4 @@ def test_aggregative() -> None:
     solution = algo.run()
     stats = solution.stats
     assert stats.explored == 6
-    assert stats.generated == 11
+    assert stats.discovered == 11

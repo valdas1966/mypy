@@ -19,7 +19,8 @@ class AlgoOMSPP(AlgoSearch[ProblemOMSPP, SolutionOMSPP],
 
     def __init__(self,
                  problem: ProblemOMSPP,
-                 name: str = 'AlgoOMSPP') -> None:
+                 name: str = 'AlgoOMSPP',
+                 **kwargs) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -38,7 +39,7 @@ class AlgoOMSPP(AlgoSearch[ProblemOMSPP, SolutionOMSPP],
         ========================================================================
         """
         AlgoSearch._run_pre(self)
-        self._goals_active = self.problem.goals
+        self._goals_active = list(self.problem.goals)
         self._sub_solutions = list()
 
     def _run_post(self) -> None:
