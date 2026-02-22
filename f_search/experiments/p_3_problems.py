@@ -88,7 +88,7 @@ set_debug(True)
 pickle_diamonds = 'f:\\paper\\i_2_diamonds\\diamonds.pkl'
 pickle_problems = 'f:\\paper\\i_3_problems\\problems.pkl'
 
-k_values = [10, 20, 30, 40, 50]
+k_values = [20, 40, 60, 80, 100]
 
 
 def main() -> None:

@@ -163,7 +163,7 @@ def write_omspps_csv(
 # ----------------------------
 
 if __name__ == "__main__":
-    path_pickle = r"f:\paper\i_3_problems\problems.pkl"
+    path_pickle = r"f:\paper\i_3_problems\problems - 100k.pkl"
     path_csv = r"f:\paper\i_3_problems\problems.csv"
 
     problems: list[Any] = u_pickle.load(path=path_pickle)

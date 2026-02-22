@@ -124,13 +124,13 @@ pickle_grids = 'f:\\paper\\i_1_grids\\grids.pkl'
 pickle_diamonds = 'f:\\paper\\i_2_diamonds\\diamonds.pkl'
 
 # Number of Pairs to Generate for each Grid.
-n = 1
+n = 10
 # Minimum Distance between the Pairs.
 distance_min = 100
 # Radius of the Diamond
-steps_max = 10
+steps_max = 15
 # Minimum size of Cells in the Diamond
-size_min = 50
+size_min = 100
 
 
 @log_2

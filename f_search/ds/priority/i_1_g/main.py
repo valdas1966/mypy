@@ -27,7 +27,7 @@ class PriorityG(PriorityKey[Key]):
          Return the Key of the State.
         ========================================================================
         """
-        return -self._g, super().key
+        return self._g, super().key
 
     def update(self, g: int) -> None:
         """

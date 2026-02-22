@@ -38,7 +38,7 @@ class PriorityGH(PriorityG[Key]):
          Return the Key of the State.
         ========================================================================
         """
-        return self._g + self._h, super().key
+        return self._g + self._h, -self._g, super().key
 
     def __repr__(self) -> str:
         """
