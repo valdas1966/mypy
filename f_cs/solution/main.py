@@ -15,6 +15,7 @@ class SolutionAlgo(Generic[Problem, Stats], Validatable):
     """
 
     def __init__(self,
+                 name_algo: str,
                  problem: Problem,
                  is_valid: bool,
                  stats: Stats) -> None:
@@ -24,8 +25,18 @@ class SolutionAlgo(Generic[Problem, Stats], Validatable):
         ========================================================================
         """
         Validatable.__init__(self, is_valid=is_valid)
+        self._name_algo: str = name_algo
         self._stats: Stats = stats
         self._problem: Problem = problem
+
+    @property
+    def name_algo(self) -> str:
+        """
+        ========================================================================
+         Return the Algorithm's Name.
+        ========================================================================
+        """
+        return self._name_algo
 
     @property
     def stats(self) -> Stats:
