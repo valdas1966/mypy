@@ -47,15 +47,35 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     overflow-y: auto;
     padding: 1.5rem;
 }
-.sidebar h2 { color: var(--text); font-size: 1rem; margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 2px solid var(--border); }
+.sidebar h2 {
+    color: var(--text);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: .5rem;
+    border-bottom: 2px solid var(--border);
+}
 .sidebar ul { list-style: none; }
 .sidebar li { margin-bottom: .5rem; }
-.sidebar a { display: block; padding: .4rem .6rem; border-radius: 4px; color: var(--muted); font-size: .9rem; }
+.sidebar a {
+    display: block;
+    padding: .4rem .6rem;
+    border-radius: 4px;
+    color: var(--muted);
+    font-size: .9rem;
+}
 .sidebar a:hover { background: var(--panel2); color: var(--text); text-decoration: none; }
 .sidebar .sub { padding-left: 1.5rem; font-size: .85rem; color: var(--faint); }
 
 .search-box { margin-bottom: 1rem; }
-.search-box input { width: 100%; padding: .5rem .75rem; background: var(--panel2); border: 2px solid var(--border); border-radius: 4px; color: var(--text); font-size: .9rem; }
+.search-box input {
+    width: 100%;
+    padding: .5rem .75rem;
+    background: var(--panel2);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-size: .9rem;
+}
 .search-box input:focus { outline: none; border-color: var(--accent); }
 .search-box input::placeholder { color: var(--faint); }
 
@@ -65,26 +85,75 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
 header h1 { font-size: 2.4rem; color: #fff; margin-bottom: .4rem; }
 header .path { color: var(--faint); font-family: monospace; font-size: .9rem; }
-header .tag { display: inline-block; margin-top: .5rem; padding: .25rem .75rem; background: var(--good); color: var(--bg); border-radius: 4px; font-size: .8rem; font-weight: 600; }
+header .tag {
+    display: inline-block;
+    margin-top: .5rem;
+    padding: .25rem .75rem;
+    background: var(--good);
+    color: var(--bg);
+    border-radius: 4px;
+    font-size: .8rem;
+    font-weight: 600;
+}
 
 section { margin-bottom: 3rem; }
-h2 { color: #fff; font-size: 1.5rem; margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 2px solid var(--border); }
+h2 {
+    color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: .5rem;
+    border-bottom: 2px solid var(--border);
+}
 h3 { color: var(--text); font-size: 1.15rem; margin: 1.5rem 0 .75rem; }
 p { margin-bottom: 1rem; color: var(--text); }
 
-.note { background: var(--panel2); border-left: 3px solid var(--accent); padding: .75rem 1rem; margin: 1rem 0; color: var(--muted); font-size: .9rem; }
+.note {
+    background: var(--panel2);
+    border-left: 3px solid var(--accent);
+    padding: .75rem 1rem;
+    margin: 1rem 0;
+    color: var(--muted);
+    font-size: .9rem;
+}
 
-pre { background: var(--code-bg); border: 2px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
-code { font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace; font-size: .9rem; color: var(--text); }
+pre {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+}
+code {
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace;
+    font-size: .9rem;
+    color: var(--text);
+}
 pre code { display: block; line-height: 1.5; }
-.ic { background: var(--panel2); padding: .15rem .4rem; border-radius: 3px; font-size: .85rem; }
+.ic {
+    background: var(--panel2);
+    padding: .15rem .4rem;
+    border-radius: 3px;
+    font-size: .85rem;
+}
 
 /* ---- Panels ---- */
-.panel { background: var(--panel); border: 2px solid var(--border); border-radius: 8px; margin: 1rem 0; overflow: hidden; }
+.panel {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    margin: 1rem 0;
+    overflow: hidden;
+}
 .panel-header {
-    background: var(--panel2); padding: .75rem 1rem; cursor: pointer;
-    display: flex; justify-content: space-between; align-items: center;
-    font-weight: 600; color: #fff;
+    background: var(--panel2);
+    padding: .75rem 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    color: #fff;
 }
 .panel-header:hover { background: var(--border); }
 .panel-header:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
@@ -94,18 +163,42 @@ pre code { display: block; line-height: 1.5; }
 .panel.collapsed .panel-content { display: none; }
 
 /* ---- API items ---- */
-.api-item { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.api-item {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+}
 .api-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-.api-sig { background: var(--code-bg); padding: .75rem 1rem; border-radius: 4px; margin-bottom: .5rem; border-left: 3px solid var(--accent); }
+.api-sig {
+    background: var(--code-bg);
+    padding: .75rem 1rem;
+    border-radius: 4px;
+    margin-bottom: .5rem;
+    border-left: 3px solid var(--accent);
+}
 .api-desc { color: var(--muted); font-size: .95rem; padding-left: .5rem; }
 
-.badge { display: inline-block; padding: .2rem .6rem; border-radius: 4px; font-size: .75rem; font-weight: 600; margin-right: .5rem; }
+.badge {
+    display: inline-block;
+    padding: .2rem .6rem;
+    border-radius: 4px;
+    font-size: .75rem;
+    font-weight: 600;
+    margin-right: .5rem;
+}
 .badge-stdlib { background: var(--accent); color: var(--bg); }
 .badge-internal { background: var(--accent2); color: var(--bg); }
 .badge-abstract { background: var(--warn); color: var(--bg); }
 
 /* ---- Hierarchy ---- */
-.tree { font-family: monospace; background: var(--code-bg); padding: 1rem; border-radius: 6px; border: 2px solid var(--border); line-height: 1.8; }
+.tree {
+    font-family: monospace;
+    background: var(--code-bg);
+    padding: 1rem;
+    border-radius: 6px;
+    border: 2px solid var(--border);
+    line-height: 1.8;
+}
 
 table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
 th, td { padding: .75rem; text-align: left; border: 1px solid var(--border); }
@@ -115,12 +208,24 @@ td { background: var(--panel); color: var(--muted); }
 .back { display: inline-block; margin-top: 1rem; font-size: .85rem; color: var(--faint); }
 .back:hover { color: var(--accent); }
 
-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); color: var(--faint); font-size: .85rem; }
+footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--border);
+    color: var(--faint);
+    font-size: .85rem;
+}
 
 .hidden { display: none !important; }
 
 @media (max-width: 900px) {
-    .sidebar { position: static; width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border); }
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 2px solid var(--border);
+    }
     .main { margin-left: 0; padding: 1.5rem; }
     .container { flex-direction: column; }
 }
@@ -160,15 +265,19 @@ footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--bord
 <section id="purpose">
     <h2>Purpose</h2>
     <p>
-        Mixin for objects that support equality checks (<code class="ic">==</code>, <code class="ic">!=</code>).
-        Subclasses implement a single abstract <code class="ic">key</code> property;
-        <code class="ic">__eq__</code> delegates to comparing keys.
+        Mixin for objects that support equality checks
+        (<code class="ic">==</code>, <code class="ic">!=</code>).
+        Subclasses implement a single abstract <code class="ic">key</code>
+        property; <code class="ic">__eq__</code> delegates to comparing keys.
     </p>
     <div class="note">
-        <code class="ic">__ne__</code> is omitted &mdash; Python derives <code class="ic">!=</code>
-        from <code class="ic">__eq__</code> by default.
+        <code class="ic">__ne__</code> is omitted &mdash; Python derives
+        <code class="ic">!=</code> from <code class="ic">__eq__</code>
+        by default. No type guards &mdash; comparing incompatible types
+        raises <code class="ic">AttributeError</code>. This is intentional;
+        cross-type comparison is a bug in this framework.
     </div>
-    <a href="#top" class="back">Back to top</a>
+    <a href="#top" class="back">&uarr; Back to top</a>
 </section>
 
 <!-- ---- B. Public API ---- -->
@@ -176,7 +285,9 @@ footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--bord
     <h2>Public API</h2>
 
     <div class="panel" id="panel-equatable">
-        <div class="panel-header" tabindex="0" onclick="toggle(this)" onkeydown="panelKey(event,this)">
+        <div class="panel-header" tabindex="0"
+             onclick="toggle(this)"
+             onkeydown="panelKey(event,this)">
             <span>class Equatable(SupportsEquality)</span>
             <span class="arrow">&#9660;</span>
         </div>
@@ -184,37 +295,49 @@ footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--bord
 
             <div class="api-item" id="api-factory">
                 <h3>Class Attribute</h3>
-                <div class="api-sig"><code>Factory: type | None = None</code></div>
+                <div class="api-sig">
+                    <code>Factory: type | None = None</code>
+                </div>
                 <p class="api-desc">
-                    Factory for creating test instances. Wired in <code class="ic">__init__.py</code>.
+                    Factory for creating test instances. Wired in
+                    <code class="ic">__init__.py</code>.
                 </p>
             </div>
 
             <div class="api-item" id="api-key">
-                <h3><span class="badge badge-abstract">ABSTRACT</span> Property</h3>
-                <div class="api-sig"><code>@property<br>@abstractmethod<br>def key(self) -> SupportsEquality:</code></div>
+                <h3><span class="badge badge-abstract">ABSTRACT</span>
+                    Property</h3>
+                <div class="api-sig">
+                    <code>@property<br>@abstractmethod<br>def key(self)
+                    -&gt; SupportsEquality:</code>
+                </div>
                 <p class="api-desc">
-                    Return the value used for equality comparison. Must be implemented by every subclass.
-                    This single property also drives <code class="ic">__lt__</code> (via Comparable)
-                    and <code class="ic">__hash__</code> (via Hashable) downstream.
+                    Return the value used for equality comparison.
+                    Must be implemented by every subclass.
+                    This property also drives
+                    <code class="ic">__lt__</code> (via Comparable) and
+                    <code class="ic">__hash__</code> (via Hashable)
+                    downstream.
                 </p>
             </div>
 
             <div class="api-item" id="api-eq">
                 <h3>Dunder Method</h3>
-                <div class="api-sig"><code>def __eq__(self, other: object) -> bool:</code></div>
+                <div class="api-sig">
+                    <code>def __eq__(self, other: object) -&gt; bool:</code>
+                </div>
                 <p class="api-desc">
-                    Returns <code class="ic">True</code> if <code class="ic">self.key == other.key</code>.
-                    Returns <code class="ic">NotImplemented</code> if <code class="ic">other</code>
-                    is not an <code class="ic">Equatable</code>.
-                    Short-circuits with <code class="ic">True</code> on identity (<code class="ic">other is self</code>).
+                    Returns <code class="ic">True</code> if
+                    <code class="ic">self.key == other.key</code>.
+                    Short-circuits with <code class="ic">True</code> on
+                    identity (<code class="ic">other is self</code>).
                 </p>
             </div>
 
         </div>
     </div>
 
-    <a href="#top" class="back">Back to top</a>
+    <a href="#top" class="back">&uarr; Back to top</a>
 </section>
 
 <!-- ---- C. Inheritance ---- -->
@@ -222,7 +345,9 @@ footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--bord
     <h2>Inheritance (Hierarchy)</h2>
 
     <div class="panel">
-        <div class="panel-header" tabindex="0" onclick="toggle(this)" onkeydown="panelKey(event,this)">
+        <div class="panel-header" tabindex="0"
+             onclick="toggle(this)"
+             onkeydown="panelKey(event,this)">
             <span>Equatable Hierarchy</span>
             <span class="arrow">&#9660;</span>
         </div>
@@ -230,34 +355,42 @@ footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--bord
             <div class="tree">
 SupportsEquality <span style="color:var(--faint)">(Protocol)</span><br>
 &nbsp;&nbsp;&#9492;&#9472; <strong>Equatable</strong><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9500;&#9472; Comparable<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9500;&#9472; Comparable
+    <span style="color:var(--faint)">(+ SupportsComparison)</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9492;&#9472; Hashable
             </div>
 
             <table style="margin-top:1rem">
-                <thead><tr><th>Base</th><th>Responsibility</th></tr></thead>
+                <thead>
+                    <tr><th>Base</th><th>Responsibility</th></tr>
+                </thead>
                 <tbody>
                     <tr>
                         <td><code class="ic">SupportsEquality</code></td>
-                        <td>Protocol defining the <code class="ic">__eq__</code> contract</td>
+                        <td>Protocol defining the
+                            <code class="ic">__eq__</code> contract</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 
-    <a href="#top" class="back">Back to top</a>
+    <a href="#top" class="back">&uarr; Back to top</a>
 </section>
 
 <!-- ---- D. Dependencies ---- -->
 <section id="dependencies">
     <h2>Dependencies</h2>
 
-    <h3><span class="badge badge-stdlib">STDLIB</span> Standard Library</h3>
+    <h3><span class="badge badge-stdlib">STDLIB</span>
+        Standard Library</h3>
     <table>
         <thead><tr><th>Import</th><th>Used For</th></tr></thead>
         <tbody>
-            <tr><td><code class="ic">abc.abstractmethod</code></td><td>Marks <code class="ic">key</code> as abstract</td></tr>
+            <tr>
+                <td><code class="ic">abc.abstractmethod</code></td>
+                <td>Marks <code class="ic">key</code> as abstract</td>
+            </tr>
         </tbody>
     </table>
 
@@ -266,22 +399,26 @@ SupportsEquality <span style="color:var(--faint)">(Protocol)</span><br>
         <thead><tr><th>Import</th><th>Used For</th></tr></thead>
         <tbody>
             <tr>
-                <td><code class="ic">f_core.protocols.equality.main.SupportsEquality</code></td>
-                <td>Protocol this class implements; return type of <code class="ic">key</code></td>
+                <td><code class="ic">f_core.protocols.equality.main
+                    .SupportsEquality</code></td>
+                <td>Protocol this class implements; return type of
+                    <code class="ic">key</code></td>
             </tr>
         </tbody>
     </table>
 
-    <a href="#top" class="back">Back to top</a>
+    <a href="#top" class="back">&uarr; Back to top</a>
 </section>
 
 <!-- ---- E. Usage Examples ---- -->
 <section id="usage">
     <h2>Usage Examples</h2>
 
-    <div class="panel">
-        <div class="panel-header" tabindex="0" onclick="toggle(this)" onkeydown="panelKey(event,this)">
-            <span>Example 1: Custom Subclass</span>
+    <div class="panel" id="example-subclass">
+        <div class="panel-header" tabindex="0"
+             onclick="toggle(this)"
+             onkeydown="panelKey(event,this)">
+            <span>Example 1 &mdash; Custom Subclass</span>
             <span class="arrow">&#9660;</span>
         </div>
         <div class="panel-content">
@@ -289,12 +426,12 @@ SupportsEquality <span style="color:var(--faint)">(Protocol)</span><br>
 
 
 class Point(Equatable):
-    def __init__(self, x: int, y: int) -> None:
+    def __init__(self, x: int, y: int) -&gt; None:
         self.x = x
         self.y = y
 
     @property
-    def key(self) -> tuple[int, int]:
+    def key(self) -&gt; tuple[int, int]:
         return (self.x, self.y)
 
 
@@ -303,9 +440,11 @@ Point(1, 2) != Point(3, 4)  # True</code></pre>
         </div>
     </div>
 
-    <div class="panel">
-        <div class="panel-header" tabindex="0" onclick="toggle(this)" onkeydown="panelKey(event,this)">
-            <span>Example 2: Using the Factory</span>
+    <div class="panel" id="example-factory">
+        <div class="panel-header" tabindex="0"
+             onclick="toggle(this)"
+             onkeydown="panelKey(event,this)">
+            <span>Example 2 &mdash; Using the Factory</span>
             <span class="arrow">&#9660;</span>
         </div>
         <div class="panel-content">
@@ -316,33 +455,45 @@ b = Equatable.Factory.b()  # Char('B')
 
 a == a  # True
 a != b  # True</code></pre>
-            <p style="margin-top:1rem;color:var(--muted)"><em>From _factory.py and _tester.py</em></p>
+            <p style="margin-top:1rem;color:var(--muted)">
+                <em>From _factory.py and _tester.py</em>
+            </p>
         </div>
     </div>
 
-    <a href="#top" class="back">Back to top</a>
+    <a href="#top" class="back">&uarr; Back to top</a>
 </section>
 
 <footer>
-    <p>Generated: <span id="ts"></span></p>
-    <p>Scope: <code class="ic">f_core.mixins.equatable</code> &mdash; Equatable mixin and Factory</p>
+    <p>Generated: 2026-02-24</p>
+    <p>Scope: <code class="ic">f_core.mixins.equatable</code> &mdash;
+       Equatable mixin and Factory</p>
 </footer>
 
 </main>
 </div>
 
 <script>
-document.getElementById('ts').textContent = new Date().toISOString().split('T')[0];
+function toggle(h) {
+    h.parentElement.classList.toggle('collapsed');
+}
 
-function toggle(h) { h.parentElement.classList.toggle('collapsed'); }
-function panelKey(e, h) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(h); } }
+function panelKey(e, h) {
+    if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggle(h);
+    }
+}
 
-document.getElementById('search').addEventListener('input', function() {
+document.getElementById('search').addEventListener('input', function () {
     var q = this.value.toLowerCase().trim();
-    document.querySelectorAll('.api-item, .panel').forEach(function(el) {
+    document.querySelectorAll('.api-item, .panel').forEach(function (el) {
         var t = el.textContent.toLowerCase();
-        if (q === '' || t.includes(q)) { el.classList.remove('hidden'); }
-        else { el.classList.add('hidden'); }
+        if (q === '' || t.includes(q)) {
+            el.classList.remove('hidden');
+        } else {
+            el.classList.add('hidden');
+        }
     });
 });
 </script>

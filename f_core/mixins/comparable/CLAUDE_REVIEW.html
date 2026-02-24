@@ -3,246 +3,349 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Code Review — f_core.mixins.comparable</title>
+<title>Code Review — Comparable</title>
 <style>
 :root {
     --bg: #0b0f14;
-    --bg-section: #111820;
-    --bg-code: #0d1117;
-    --border: #1e2a38;
-    --text: #c9d1d9;
-    --text-muted: #8b949e;
-    --heading: #e6edf3;
-    --accent: #58a6ff;
-    --green: #3fb950;
-    --yellow: #d29922;
-    --red: #f85149;
-    --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
 }
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: var(--bg);
     color: var(--text);
-    font-family: var(--font-sans);
-    font-size: 15px;
     line-height: 1.7;
     padding: 2rem 3rem;
     max-width: 960px;
     margin: 0 auto;
 }
-
-h1 {
-    color: var(--heading);
-    font-size: 1.8rem;
-    border-bottom: 2px solid var(--accent);
-    padding-bottom: .5rem;
-    margin-bottom: 2rem;
-}
-
-h2 {
-    color: var(--accent);
-    font-size: 1.3rem;
-    margin-bottom: .75rem;
-    margin-top: 0;
-}
-
-h3 {
-    color: var(--heading);
-    font-size: 1.05rem;
-    margin-bottom: .5rem;
-    margin-top: 1rem;
-}
-
-section {
-    background: var(--bg-section);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.5rem;
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); text-decoration: underline; }
+h1 { color: #fff; font-size: 2rem; margin-bottom: .3rem; }
+.path {
+    color: var(--faint);
+    font-family: monospace;
+    font-size: .9rem;
     margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border);
 }
-
-ul { padding-left: 1.5rem; margin-bottom: .75rem; }
-li { margin-bottom: .4rem; }
-
+h2 {
+    color: #fff;
+    font-size: 1.4rem;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: .4rem;
+    border-bottom: 2px solid var(--border);
+}
+h3 { color: var(--text); font-size: 1.1rem; margin: 1.5rem 0 .5rem; }
+ol { padding-left: 1.5rem; margin: .75rem 0; }
+li { margin-bottom: .6rem; color: var(--muted); }
+li strong { color: var(--text); }
+p { margin-bottom: .75rem; color: var(--muted); }
 pre {
-    background: var(--bg-code);
-    border: 1px solid var(--border);
+    background: var(--code-bg);
+    border: 2px solid var(--border);
     border-radius: 6px;
     padding: 1rem;
     overflow-x: auto;
-    font-family: var(--font-mono);
-    font-size: .85rem;
-    line-height: 1.5;
     margin: .75rem 0;
+}
+code {
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace;
+    font-size: .9rem;
     color: var(--text);
 }
-
-code {
-    font-family: var(--font-mono);
-    font-size: .88em;
-    background: var(--bg-code);
-    padding: .15em .4em;
-    border-radius: 4px;
-    color: var(--accent);
+pre code { display: block; line-height: 1.5; }
+.ic {
+    background: var(--panel2);
+    padding: .15rem .4rem;
+    border-radius: 3px;
+    font-size: .85rem;
 }
-
-p { margin-bottom: .6rem; }
-
-.file-ref { color: var(--yellow); font-family: var(--font-mono); font-size: .85em; }
-.severity-ok { color: var(--green); font-weight: 600; }
-.severity-low { color: var(--yellow); font-weight: 600; }
-.verdict { font-size: 1rem; font-style: italic; color: var(--green); }
-
-table { width: 100%; border-collapse: collapse; margin: .75rem 0; font-size: .9rem; }
-th, td { text-align: left; padding: .5rem .75rem; border: 1px solid var(--border); }
-th { background: var(--bg-code); color: var(--heading); }
-td { color: var(--text); }
-
-.meta { color: var(--text-muted); font-size: .85rem; margin-bottom: 2rem; }
+.v {
+    display: inline-block;
+    padding: .2rem .6rem;
+    border-radius: 4px;
+    font-size: .8rem;
+    font-weight: 600;
+}
+.v-pass { background: var(--good); color: var(--bg); }
+.v-minor { background: var(--warn); color: var(--bg); }
+.fr { color: var(--accent); font-family: monospace; font-size: .85rem; }
+.note {
+    background: var(--panel2);
+    border-left: 3px solid var(--accent);
+    padding: .75rem 1rem;
+    margin: 1rem 0;
+    color: var(--muted);
+    font-size: .9rem;
+}
+.note-good { border-left-color: var(--good); }
+.note-warn { border-left-color: var(--warn); }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+th, td { padding: .75rem; text-align: left; border: 1px solid var(--border); }
+th { background: var(--panel2); color: #fff; font-weight: 600; }
+td { background: var(--panel); color: var(--muted); }
+footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--border);
+    color: var(--faint);
+    font-size: .85rem;
+}
 </style>
 </head>
 <body>
 
-<h1>Module Review Report</h1>
-<p class="meta">
-    Module: <code>f_core.mixins.comparable</code><br>
-    Files reviewed: <code>main.py</code>, <code>_factory.py</code>, <code>_tester.py</code>, <code>__init__.py</code><br>
-    Deep-inspected: <code>SupportsComparison</code>, <code>SupportsEquality</code>, <code>Equatable</code>
+<h1>Code + Design Review</h1>
+<div class="path">f_core / mixins / comparable</div>
+<p>
+    Files reviewed:
+    <code class="ic">main.py</code>,
+    <code class="ic">_factory.py</code>,
+    <code class="ic">_tester.py</code>,
+    <code class="ic">__init__.py</code>
+</p>
+<p>
+    Deep-inspected:
+    <code class="ic">Equatable</code>,
+    <code class="ic">SupportsComparison</code>,
+    <code class="ic">SupportsEquality</code>
 </p>
 
-<!-- ============================================================ -->
+<!-- ======== 1. Correctness ======== -->
+<section>
+    <h2>1. Correctness</h2>
+    <p class="note note-good">No change needed.</p>
+    <ol>
+        <li>
+            All four comparison operators directly delegate to
+            <code class="ic">self.key &lt;op&gt; other.key</code>.
+            No type guards by design &mdash; cross-type comparison
+            raises <code class="ic">AttributeError</code>.
+        </li>
+        <li>
+            <code class="ic">__eq__</code> inherited from
+            <code class="ic">Equatable</code> works correctly with
+            the covariant <code class="ic">key</code> override.
+        </li>
+    </ol>
+</section>
+
+<!-- ======== 2. Readability / Naming ======== -->
+<section>
+    <h2>2. Readability / Naming</h2>
+    <ol>
+        <li>
+            <strong><span class="fr">__init__.py:1</span></strong>
+            &mdash; Imports <code class="ic">Comparable</code>
+            indirectly from <code class="ic">_factory.py</code>
+            instead of directly from <code class="ic">main.py</code>.
+            Inconsistent with equatable's convention.
+<pre><code># current
+from f_core.mixins.comparable._factory import Factory, Comparable
+
+# convention (matches equatable/__init__.py)
+from f_core.mixins.comparable.main import Comparable
+from f_core.mixins.comparable._factory import Factory</code></pre>
+        </li>
+    </ol>
+</section>
+
+<!-- ======== 3. Design (OOP) ======== -->
+<section>
+    <h2>3. Design (OOP)</h2>
+    <p class="note note-good">No change needed.</p>
+    <ol>
+        <li>
+            Dual inheritance
+            (<code class="ic">Equatable</code> +
+            <code class="ic">SupportsComparison</code>) mirrors
+            the protocol hierarchy cleanly.
+        </li>
+        <li>
+            <code class="ic">key</code> narrows from
+            <code class="ic">SupportsEquality</code> to
+            <code class="ic">SupportsComparison</code> &mdash;
+            covariant return, Liskov-compliant.
+        </li>
+        <li>
+            Explicit operator implementations instead of
+            <code class="ic">@total_ordering</code> &mdash;
+            correct performance-driven decision for a search
+            algorithm framework.
+        </li>
+    </ol>
+</section>
+
+<!-- ======== 4. Performance ======== -->
+<section>
+    <h2>4. Performance</h2>
+    <p class="note note-good">No change needed.</p>
+    <ol>
+        <li>
+            Each comparison: exactly 2
+            <code class="ic">key</code> accesses, no
+            <code class="ic">isinstance</code>, no indirection.
+            Optimal for hot-path usage (heap operations, sorting).
+        </li>
+    </ol>
+</section>
+
+<!-- ======== 5. Typing ======== -->
+<section>
+    <h2>5. Typing</h2>
+    <p class="note note-good">No change needed.</p>
+    <ol>
+        <li>
+            All public signatures fully typed.
+            <code class="ic">key</code> returns
+            <code class="ic">SupportsComparison</code>,
+            correctly narrowing the parent's
+            <code class="ic">SupportsEquality</code>.
+            Factory methods return
+            <code class="ic">Comparable</code>.
+        </li>
+    </ol>
+</section>
+
+<!-- ======== 6. Documentation ======== -->
+<section>
+    <h2>6. Documentation</h2>
+    <p class="note note-good">No change needed.</p>
+    <ol>
+        <li>
+            Class and method docstrings follow the project's
+            <code class="ic">====</code> separator convention.
+        </li>
+    </ol>
+</section>
+
+<!-- ======== 7. Modularity ======== -->
+<section>
+    <h2>7. Modularity</h2>
+    <p class="note note-good">No change needed.</p>
+    <ol>
+        <li>
+            Standard 4-file layout. All files short and focused.
+        </li>
+    </ol>
+</section>
+
+<!-- ======== 8. Architecture ======== -->
+<section>
+    <h2>8. Architecture</h2>
+    <p class="note note-good">No change needed.</p>
+    <ol>
+        <li>
+            Protocol hierarchy
+            (<code class="ic">SupportsEquality</code> &rarr;
+            <code class="ic">SupportsComparison</code>) is correctly
+            mirrored by the mixin hierarchy
+            (<code class="ic">Equatable</code> &rarr;
+            <code class="ic">Comparable</code>).
+            Acyclic dependencies.
+        </li>
+    </ol>
+</section>
+
+<!-- ======== 9. Usage & Usefulness ======== -->
+<section>
+    <h2>9. Usage &amp; Usefulness</h2>
+    <ol>
+        <li>
+            <strong>How to use:</strong> inherit from
+            <code class="ic">Comparable</code>, implement
+            <code class="ic">key</code> property.
+            All six comparison operators work automatically.
+        </li>
+        <li>
+            <strong>When useful:</strong> any domain object that
+            needs ordering (priority queues, sorted collections,
+            search states, graph nodes with costs).
+        </li>
+        <li>
+            <strong>Overengineered?</strong> No. Central to the
+            search algorithm framework. Eliminates 5 dunder methods
+            per subclass.
+        </li>
+        <li>
+            <strong>Alternative:</strong>
+            <code class="ic">dataclasses(order=True)</code> generates
+            comparison methods but requires all fields in fixed order
+            and doesn't support the
+            single-<code class="ic">key</code> indirection.
+            Current design is the right fit.
+        </li>
+    </ol>
+</section>
+
+<!-- ======== 10. Suggestions ======== -->
+<section>
+    <h2>10. Suggestions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th><th>Item</th><th>Evidence</th>
+                <th>Risk</th><th>Benefit</th><th>Fix</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Import <code class="ic">Comparable</code>
+                    from <code class="ic">main.py</code> in
+                    <code class="ic">__init__.py</code></td>
+                <td><span class="fr">__init__.py:1</span></td>
+                <td>None</td>
+                <td>Consistent with equatable pattern;
+                    explicit dependency</td>
+                <td>Split import into two lines</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- ======== Summary ======== -->
 <section>
     <h2>Summary</h2>
-    <p>
-        The module is clean, focused, and well-structured. It correctly extends <code>Equatable</code> with ordering semantics via a single abstract <code>key()</code> property and <code>@total_ordering</code>. The protocol hierarchy is properly mirrored in the mixin hierarchy. Two minor test coverage gaps found. No correctness bugs or design issues.
-    </p>
+    <ol>
+        <li>
+            <span class="v v-pass">CLEAN</span>
+            Code is correct, minimal, and performance-optimized.
+        </li>
+        <li>
+            One minor inconsistency:
+            <code class="ic">__init__.py</code> imports
+            <code class="ic">Comparable</code> indirectly from
+            <code class="ic">_factory.py</code>.
+        </li>
+        <li>
+            No bugs, no typing issues, no performance concerns.
+        </li>
+        <li>
+            Test coverage is thorough: all 5 comparison operators
+            tested.
+        </li>
+    </ol>
 </section>
 
-<!-- ============================================================ -->
-<section>
-    <h2>Must-fix Issues (Correctness)</h2>
-
-    <h3>1. Missing cross-type test for <code>__lt__</code></h3>
-    <p>
-        <span class="file-ref">_tester.py</span> &mdash; No test covers the <code>NotImplemented</code> return path in <code>__lt__</code> when <code>other</code> is not a <code>Comparable</code> (e.g. <code>a &lt; 42</code>).
-    </p>
-    <p><strong>Severity:</strong> <span class="severity-low">Low</span> &mdash; code is correct, but the boundary condition lacks coverage.</p>
-    <p><strong>Patch direction:</strong></p>
-<pre>def test_lt_non_comparable(a: Comparable) -&gt; None:
-    """
-    ========================================================================
-     Test __lt__() with a non-Comparable object.
-    ========================================================================
-    """
-    assert a.__lt__(42) is NotImplemented</pre>
-
-    <h3>2. <code>test_eq</code> is minimal</h3>
-    <p>
-        <span class="file-ref">_tester.py:66-68</span> &mdash; Only tests identity (<code>a == a</code>). Does not test <code>a == b</code> (different keys) or <code>a == 42</code> (non-Equatable).
-    </p>
-    <p><strong>Severity:</strong> <span class="severity-low">Low</span> &mdash; these paths are tested in <code>equatable/_tester.py</code>, but covering them here verifies inherited behavior works with the covariant <code>key()</code> override.</p>
-    <p><strong>Patch direction:</strong></p>
-<pre>def test_eq_full(a: Comparable, b: Comparable) -&gt; None:
-    """
-    ========================================================================
-     Test __eq__() inherited from Equatable.
-    ========================================================================
-    """
-    assert a == a
-    assert not (a == b)
-    assert a != 42</pre>
-</section>
-
-<!-- ============================================================ -->
-<section>
-    <h2>Readability / Maintainability</h2>
-    <p class="verdict">No change needed.</p>
-</section>
-
-<!-- ============================================================ -->
-<section>
-    <h2>Design Review</h2>
-    <p class="verdict">No change needed.</p>
-</section>
-
-<!-- ============================================================ -->
-<section>
-    <h2>Performance Notes</h2>
-
-    <h3>Big-O</h3>
-    <table>
-        <tr><th>Method</th><th>Time</th><th>Space</th><th>Notes</th></tr>
-        <tr>
-            <td><code>__lt__</code></td>
-            <td>O(K)</td>
-            <td>O(1)</td>
-            <td>K = cost of <code>key()</code>. Two calls + one comparison.</td>
-        </tr>
-        <tr>
-            <td><code>__le__</code>, <code>__gt__</code>, <code>__ge__</code></td>
-            <td>O(K)</td>
-            <td>O(1)</td>
-            <td>Generated by <code>@total_ordering</code>. May call both <code>__lt__</code> and <code>__eq__</code>, resulting in up to 4 <code>key()</code> calls per comparison.</td>
-        </tr>
-    </table>
-    <p>
-        The <code>@total_ordering</code> overhead is a known stdlib tradeoff. Only relevant if <code>key()</code> is expensive and objects are sorted in hot loops.
-    </p>
-</section>
-
-<!-- ============================================================ -->
-<section>
-    <h2>Typing Review</h2>
-    <p class="verdict">No change needed.</p>
-</section>
-
-<!-- ============================================================ -->
-<section>
-    <h2>Documentation Review</h2>
-    <p class="verdict">No change needed.</p>
-</section>
-
-<!-- ============================================================ -->
-<section>
-    <h2>Modularity</h2>
-    <p class="verdict">No change needed.</p>
-</section>
-
-<!-- ============================================================ -->
-<section>
-    <h2>Architecture Findings</h2>
-    <p class="verdict">No change needed.</p>
-</section>
-
-<!-- ============================================================ -->
-<section>
-    <h2>Suggestions for Improvements</h2>
-
-    <table>
-        <tr><th>#</th><th>Suggestion</th><th>Evidence</th><th>Risk/Cost</th><th>Benefit</th><th>Minimal Change</th></tr>
-        <tr>
-            <td>1</td>
-            <td>Add cross-type comparison test</td>
-            <td><span class="file-ref">_tester.py</span> &mdash; <code>NotImplemented</code> path untested</td>
-            <td><span class="severity-low">Low</span>; 5 lines</td>
-            <td>Covers guard clause in <code>__lt__</code></td>
-            <td>Add <code>test_lt_non_comparable()</code></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Expand <code>test_eq</code></td>
-            <td><span class="file-ref">_tester.py:66-68</span> &mdash; only tests identity</td>
-            <td><span class="severity-low">Low</span>; 5 lines</td>
-            <td>Verifies inherited <code>__eq__</code> with covariant <code>key()</code></td>
-            <td>Add inequality + cross-type assertions</td>
-        </tr>
-    </table>
-
-    <p>No improvements needed beyond the items above.</p>
-</section>
+<footer>
+    <p>Review date: 2026-02-24</p>
+    <p>Scope: <code class="ic">f_core.mixins.comparable</code>
+       (4 files)</p>
+</footer>
 
 </body>
 </html>

@@ -9,8 +9,9 @@ class Factory:
     """
 
     class Char(Equatable):
-        def __init__(self, char: str):
+        def __init__(self, char: str) -> None:
             self.char = char
+        @property
         def key(self) -> str:
             return self.char
 

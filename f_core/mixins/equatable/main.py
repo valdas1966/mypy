@@ -32,6 +32,4 @@ class Equatable(SupportsEquality):
         """
         if other is self:
             return True
-        if not isinstance(other, Equatable):
-            return NotImplemented
         return self.key == other.key

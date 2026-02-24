@@ -1,16 +1,12 @@
 from f_core.protocols.comparison import SupportsComparison
 from f_core.mixins.equatable.main import Equatable
-from functools import total_ordering
 from abc import abstractmethod
 
 
-@total_ordering
 class Comparable(Equatable, SupportsComparison):
     """
     ============================================================================
-     1. Mixin class for objects that support comparison operations.
-     2. @total_ordering decorator automatically generates the additional
-       comparison methods to __lt__().
+     Mixin class for objects that support comparison operations.
     ============================================================================
     """
 
@@ -33,6 +29,28 @@ class Comparable(Equatable, SupportsComparison):
          Return True if the current object is less than another object.
         ========================================================================
         """
-        if not isinstance(other, Comparable):
-            return NotImplemented
         return self.key < other.key
+
+    def __le__(self, other: object) -> bool:
+        """
+        ========================================================================
+         Return True if the current object is less than or equal to another.
+        ========================================================================
+        """
+        return self.key <= other.key
+
+    def __gt__(self, other: object) -> bool:
+        """
+        ========================================================================
+         Return True if the current object is greater than another object.
+        ========================================================================
+        """
+        return self.key > other.key
+
+    def __ge__(self, other: object) -> bool:
+        """
+        ========================================================================
+         Return True if the current object is greater than or equal to another.
+        ========================================================================
+        """
+        return self.key >= other.key
