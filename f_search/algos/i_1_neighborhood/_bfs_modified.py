@@ -16,14 +16,13 @@ class BFSModified(Generic[State], BFS[State]):
     def __init__(self,
                  problem: Problem,
                  steps_max: int,
-                 name: str = 'BFSModified',
-                 need_path: bool = False) -> None:
+                 name: str = 'BFSModified') -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        super().__init__(problem=problem, name=name, need_path=need_path)
+        super().__init__(problem=problem, name=name)
         self._steps_max = steps_max
 
     def _can_terminate(self) -> bool:

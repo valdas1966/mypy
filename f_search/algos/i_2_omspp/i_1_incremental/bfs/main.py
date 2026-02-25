@@ -44,10 +44,9 @@ class BFSIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
         for sub_problem in self.problem.to_spps():
             # If the goal is already explored, append the solution.
             if sub_problem.goal in self._data.explored:
-                path = self._data.path_to(state=sub_problem.goal)
-                solution = SolutionSPP(problem=sub_problem,
-                                       is_valid=True,
-                                       path=path)
+                solution = SolutionSPP(name_algo=self.name,
+                                       problem=sub_problem,
+                                       is_valid=True)
                 self._sub_solutions.append(solution)
                 continue
             # Run the sub-search (SPP) using BFS.
@@ -66,7 +65,8 @@ class BFSIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
         ========================================================================
         """
         super()._run_post()
-        self._output = SolutionOMSPP(problem=self.problem,
+        self._output = SolutionOMSPP(name_algo=self.name,
+                                     problem=self.problem,
                                      subs=self._sub_solutions,
                                      elapsed=self.elapsed)
         

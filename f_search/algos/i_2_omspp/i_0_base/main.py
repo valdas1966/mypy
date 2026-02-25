@@ -49,6 +49,7 @@ class AlgoOMSPP(AlgoSearch[ProblemOMSPP, SolutionOMSPP],
         ========================================================================
         """
         super()._run_post()
-        self._output = SolutionOMSPP(problem=self.problem,
+        self._output = SolutionOMSPP(name_algo=self.name,
+                                     problem=self.problem,
                                      subs=self._sub_solutions,
                                      elapsed=self._stats.elapsed)

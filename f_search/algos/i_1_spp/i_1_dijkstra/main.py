@@ -22,8 +22,7 @@ class Dijkstra(Generic[State], AlgoSPP[State, Data[State]]):
     def __init__(self,
                  problem: ProblemSPP,
                  name: str = 'Dijkstra',
-                 data: Data[State] = None,
-                 need_path: bool = True) -> None:
+                 data: Data[State] = None) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -32,8 +31,7 @@ class Dijkstra(Generic[State], AlgoSPP[State, Data[State]]):
         data = data if data else Data(frontier=Frontier())
         super().__init__(problem=problem,
                          data=data,
-                         name=name,
-                         need_path=need_path)
+                         name=name)
 
     def _discover(self, state: State) -> None:
         """

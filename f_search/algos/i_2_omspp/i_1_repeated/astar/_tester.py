@@ -1,6 +1,17 @@
 from f_search.algos.i_2_omspp.i_1_repeated.astar import AStarRepeated
 
 
+def test_name_algo() -> None:
+    """
+    ========================================================================
+     Test that solution.name_algo matches the Algorithm's Name.
+    ========================================================================
+    """
+    algo = AStarRepeated.Factory.without_obstacles()
+    solution = algo.run()
+    assert solution.name_algo == 'KxAStar'
+
+
 def test_without_obstacles():
     """
     ========================================================================

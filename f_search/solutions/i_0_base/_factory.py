@@ -16,7 +16,8 @@ class Factory:
         ========================================================================
         """
         stats = StatsSearch.Factory.linear()
-        return SolutionSearch(is_valid=True, stats=stats)
+        return SolutionSearch(name_algo='TestAlgo',
+                              is_valid=True, stats=stats)
 
     @staticmethod
     def zero_invalid() -> SolutionSearch:
@@ -26,5 +27,6 @@ class Factory:
         ========================================================================
         """
         stats = StatsSearch.Factory.linear()
-        return SolutionSearch(is_valid=False, stats=stats)
+        return SolutionSearch(name_algo='TestAlgo',
+                              is_valid=False, stats=stats)
 

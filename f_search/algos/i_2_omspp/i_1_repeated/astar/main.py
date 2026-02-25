@@ -53,13 +53,13 @@ class AStarRepeated(AlgoOMSPP):
             # Add a solution for the goals that are explored in current A*.
             for goal in self._goals_active:
                 if goal in astar._data.explored:
-                    path = astar._data.path_to(state=goal)
                     problem_by_the_way = ProblemSPP(grid=sub_problem.grid,
                                          start=sub_problem.start,
                                          goal=goal)
-                    solution_by_the_way = SolutionSPP(problem=problem_by_the_way,
+                    solution_by_the_way = SolutionSPP(
+                                           name_algo=self.name,
+                                           problem=problem_by_the_way,
                                            is_valid=True,
-                                           path=path,
                                            stats=Stats())
                     self._sub_solutions.append(solution_by_the_way)
                     self._goals_active.remove(goal)
@@ -72,6 +72,7 @@ class AStarRepeated(AlgoOMSPP):
         ========================================================================
         """
         super()._run_post()
-        self._output = SolutionOMSPP(problem=self.problem,
+        self._output = SolutionOMSPP(name_algo=self.name,
+                                     problem=self.problem,
                                      subs=self._sub_solutions,
                                      elapsed=self._elapsed)

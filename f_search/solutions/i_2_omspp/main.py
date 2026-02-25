@@ -14,6 +14,7 @@ class SolutionOMSPP(SolutionSearch[ProblemOMSPP, StatsSearch]):
     """
 
     def __init__(self,
+                 name_algo: str,
                  problem: ProblemOMSPP,
                  subs: list[SolutionSPP],
                  elapsed: int) -> None:
@@ -29,7 +30,11 @@ class SolutionOMSPP(SolutionSearch[ProblemOMSPP, StatsSearch]):
         stats = StatsSearch(elapsed=elapsed,
                             discovered=discovered,
                             explored=explored)
-        SolutionSearch.__init__(self, problem=problem, is_valid=is_valid, stats=stats)
+        SolutionSearch.__init__(self,
+                                name_algo=name_algo,
+                                problem=problem,
+                                is_valid=is_valid,
+                                stats=stats)
         self._subs = subs
         self._paths = {sub.problem.goal: sub.path for sub in subs}
 

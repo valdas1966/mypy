@@ -17,7 +17,8 @@ class Factory:
         """
         stats = StatsSearch.Factory.linear()
         path = Path.Factory.ab()
-        return SolutionSPP(is_valid=True, path=path, stats=stats)
+        return SolutionSPP(name_algo='TestAlgo',
+                           is_valid=True, path=path, stats=stats)
 
     @staticmethod
     def invalid() -> SolutionSPP:
@@ -28,4 +29,5 @@ class Factory:
         """
         stats = StatsSearch.Factory.linear()
         path = Path()
-        return SolutionSPP(is_valid=False, path=path, stats=stats)
+        return SolutionSPP(name_algo='TestAlgo',
+                           is_valid=False, path=path, stats=stats)

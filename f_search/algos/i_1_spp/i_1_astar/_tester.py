@@ -1,6 +1,17 @@
 from f_search.algos.i_1_spp.i_1_astar import AStar
 
 
+def test_name_algo() -> None:
+    """
+    ========================================================================
+     Test that solution.name_algo matches the Algorithm's Name.
+    ========================================================================
+    """
+    astar = AStar.Factory.without_obstacles()
+    solution = astar.run()
+    assert solution.name_algo == 'AStar'
+
+
 def test_without_obstacles() -> None:
     """
     ========================================================================
@@ -9,7 +20,8 @@ def test_without_obstacles() -> None:
     """
     astar = AStar.Factory.without_obstacles()
     solution = astar.run()
-    cells_path = [state.key for state in solution.path._states]
+    path = astar._data.path_to(state=astar.problem.goal)
+    cells_path = [state.key for state in path._states]
     grid = astar.problem.grid
     cells_true = [grid[0][0], grid[0][1], grid[0][2], grid[0][3]]
     assert cells_path == cells_true
@@ -28,7 +40,8 @@ def test_with_obstacles() -> None:
     """
     astar = AStar.Factory.with_obstacles()
     solution = astar.run()
-    cells_path = [state.key for state in solution.path._states]
+    path = astar._data.path_to(state=astar.problem.goal)
+    cells_path = [state.key for state in path._states]
     grid = astar.problem.grid
     cells_true = [grid[0][0], grid[0][1], grid[1][1], grid[2][1],
                   grid[2][2], grid[2][3], grid[1][3], grid[0][3]]
@@ -71,7 +84,8 @@ def test_without_obstacles_with_cell_00() -> None:
     """
     astar = AStar.Factory.without_obstacles_with_cell_00()
     solution = astar.run()
-    cells_path = [state.key for state in solution.path._states]
+    path = astar._data.path_to(state=astar.problem.goal)
+    cells_path = [state.key for state in path._states]
     grid = astar.problem.grid
     cells_true = [grid[0][0], grid[0][1], grid[0][2], grid[0][3]]
     assert cells_path == cells_true

@@ -106,15 +106,14 @@ class AStarAggregative(AlgoOMSPP[State, Data],
         problem = ProblemSPP(grid=self.problem.grid,
                              start=self.problem.start,
                              goal=self._data.best)
-        path = self._data.path_to(state=self._data.best)
         stats = StatsSearch(explored=self._stats.explored-self._prev_explored,
                             discovered=self._stats.discovered-self._prev_discovered,
                             elapsed=self.seconds_since_last_call())
         self._prev_explored = self._stats.explored
         self._prev_discovered = self._stats.discovered
-        solution = SolutionSPP(problem=problem,
+        solution = SolutionSPP(name_algo=self.name,
+                               problem=problem,
                                is_valid=True,
-                               path=path,
                                stats=stats)
         self._sub_solutions.append(solution)
 

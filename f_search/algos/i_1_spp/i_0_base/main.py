@@ -20,8 +20,7 @@ class AlgoSPP(Generic[State, Data],
     def __init__(self,
                  problem: ProblemSPP,
                  data: Data,
-                 name: str = 'AlgoSPP',
-                 need_path: bool = True) -> None:
+                 name: str = 'AlgoSPP') -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -30,7 +29,6 @@ class AlgoSPP(Generic[State, Data],
         super().__init__(problem=problem,
                          data=data,
                          name=name)
-        self._need_path = need_path
 
     def _run(self) -> None:
         """
@@ -54,13 +52,10 @@ class AlgoSPP(Generic[State, Data],
         """
         super()._run_post()
         is_valid = self._can_terminate()
-        path = None
-        if is_valid and self._need_path:
-            path = self._data.path_to(self.problem.goal)
-        self._output = SolutionSPP(problem=self.problem,
+        self._output = SolutionSPP(name_algo=self.name,
+                                    problem=self.problem,
                                     is_valid=is_valid,
-                                    stats=self._stats,
-                                    path=path)
+                                    stats=self._stats)
 
     def _can_terminate(self) -> bool:
         """

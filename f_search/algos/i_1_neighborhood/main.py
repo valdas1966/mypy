@@ -48,6 +48,7 @@ class BFSNeighborhood(AlgoSearch[Problem, Solution], Generic[State]):
         ========================================================================
         """
         super()._run_post()
-        self._output = Solution(problem=self.problem,
+        self._output = Solution(name_algo=self.name,
+                                problem=self.problem,
                                 neighborhood=self._neighborhood,
                                 stats=self._stats)

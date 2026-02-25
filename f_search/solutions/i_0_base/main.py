@@ -17,6 +17,7 @@ class SolutionSearch(Generic[Problem, Stats], SolutionAlgo[Problem, Stats]):
     Factory = None
     
     def __init__(self,
+                 name_algo: str,
                  problem: Problem,
                  is_valid: bool,
                  stats: Stats) -> None:
@@ -26,6 +27,7 @@ class SolutionSearch(Generic[Problem, Stats], SolutionAlgo[Problem, Stats]):
         ========================================================================
         """
         SolutionAlgo.__init__(self,
+                              name_algo=name_algo,
                               problem=problem.to_light(),
                               is_valid=is_valid,
                               stats=stats)

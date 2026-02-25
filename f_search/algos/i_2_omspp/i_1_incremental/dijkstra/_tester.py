@@ -1,6 +1,17 @@
 from f_search.algos.i_2_omspp.i_1_incremental.dijkstra.main import DijkstraIncremental
 
 
+def test_name_algo() -> None:
+    """
+    ========================================================================
+     Test that solution.name_algo matches the Algorithm's Name.
+    ========================================================================
+    """
+    algo = DijkstraIncremental.Factory.without_obstacles()
+    solution = algo.run()
+    assert solution.name_algo == 'DijkstraIncremental'
+
+
 def test_dijkstra_incremental() -> None:
     """
     ========================================================================

@@ -24,8 +24,7 @@ class AStar(Generic[State], AlgoSPP[State, Data]):
                  problem: Problem,
                  name: str = 'AStar',
                  data: Data[State] = None,
-                 heuristics: HeuristicsProtocol[State] = None,
-                 need_path: bool = True) -> None:
+                 heuristics: HeuristicsProtocol[State] = None) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -40,8 +39,7 @@ class AStar(Generic[State], AlgoSPP[State, Data]):
             self._heuristics = Manhattan[State](goal=problem.goal)
         super().__init__(problem=problem,
                          data=data,
-                         name=name,
-                         need_path=need_path)
+                         name=name)
 
     def _discover(self, state: State) -> None:
         """

@@ -12,6 +12,7 @@ class SolutionNeighborhood(SolutionSearch):
     """
 
     def __init__(self,
+                 name_algo: str,
                  problem: ProblemNeighborhood,
                  neighborhood: set[State],
                  stats: Stats) -> None:
@@ -21,6 +22,7 @@ class SolutionNeighborhood(SolutionSearch):
         ========================================================================
         """
         SolutionSearch.__init__(self,
+                                name_algo=name_algo,
                                 problem=problem,
                                 is_valid=True,
                                 stats=stats)

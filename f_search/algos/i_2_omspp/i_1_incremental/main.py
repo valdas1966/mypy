@@ -36,7 +36,8 @@ class AlgoIncremental(AlgoOMSPP):
             # Add stats for the goals that were explored during other searches.
             if sub_problem.goal in data.explored:
                 path = data.path_to(state=sub_problem.goal)
-                solution = SolutionSPP(is_valid=True, path=path)
+                solution = SolutionSPP(name_algo=self.name,
+                                       is_valid=True, path=path)
                 self._sub_solutions[sub_problem.goal] = solution
                 continue
             # Run the sub-search.

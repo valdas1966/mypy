@@ -1,6 +1,17 @@
 from f_search.algos.i_1_neighborhood.main import BFSNeighborhood
 
 
+def test_name_algo() -> None:
+    """
+    ========================================================================
+     Test that solution.name_algo matches the Algorithm's Name.
+    ========================================================================
+    """
+    bfs = BFSNeighborhood.Factory.without_obstacles()
+    solution = bfs.run()
+    assert solution.name_algo == 'BFSNeighborhood'
+
+
 def test_without_obstacles() -> None:
     """
     ========================================================================

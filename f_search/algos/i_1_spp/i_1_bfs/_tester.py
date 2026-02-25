@@ -1,6 +1,17 @@
 from f_search.algos.i_1_spp.i_1_bfs import BFS
 
 
+def test_name_algo() -> None:
+    """
+    ========================================================================
+     Test that solution.name_algo matches the Algorithm's Name.
+    ========================================================================
+    """
+    bfs = BFS.Factory.without_obstacles()
+    solution = bfs.run()
+    assert solution.name_algo == 'BFS'
+
+
 def test_without_obstacles() -> None:
     """
     ========================================================================
@@ -9,7 +20,8 @@ def test_without_obstacles() -> None:
     """
     bfs = BFS.Factory.without_obstacles()
     solution = bfs.run()
-    cells_path = [state.key for state in solution.path._states]
+    path = bfs._data.path_to(state=bfs.problem.goal)
+    cells_path = [state.key for state in path._states]
     grid = bfs.problem.grid
     cells_true = [grid[0][0], grid[0][1], grid[0][2], grid[0][3]]
     assert cells_path == cells_true
@@ -31,7 +43,8 @@ def test_without_obstacles_with_cell_00() -> None:
     """
     bfs = BFS.Factory.without_obstacles_with_cell_00()
     solution = bfs.run()
-    cells_path = [state.key for state in solution.path._states]
+    path = bfs._data.path_to(state=bfs.problem.goal)
+    cells_path = [state.key for state in path._states]
     grid = bfs.problem.grid
     cells_true = [grid[0][0], grid[0][1], grid[0][2], grid[0][3]]
     assert cells_path == cells_true

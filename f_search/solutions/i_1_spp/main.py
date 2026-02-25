@@ -15,9 +15,10 @@ class SolutionSPP(SolutionSearch[Problem, StatsSearch]):
     Factory: type = None
 
     def __init__(self,
+                 name_algo: str,
                  problem: Problem,
                  is_valid: bool,
-                 path: Path,
+                 path: Path = None,
                  stats: StatsSearch = None) -> None:
         """
         ========================================================================
@@ -26,6 +27,7 @@ class SolutionSPP(SolutionSearch[Problem, StatsSearch]):
         """
         stats = stats if stats else StatsSearch()
         SolutionSearch.__init__(self,
+                                name_algo=name_algo,
                                 problem=problem,
                                 is_valid=is_valid,
                                 stats=stats)

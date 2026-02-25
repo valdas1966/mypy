@@ -69,10 +69,9 @@ class AStarIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
          On Goal Already Explored - Append the Sub-Solution.
         ========================================================================
         """
-        path = self._data.path_to(state=problem.goal)
-        solution = SolutionSPP(problem=problem,
-                               is_valid=True,
-                               path=path)
+        solution = SolutionSPP(name_algo=self.name,
+                               problem=problem,
+                               is_valid=True)
         self._sub_solutions.append(solution)
 
     def _run_sub_search(self, problem: ProblemSPP) -> SolutionSPP:
