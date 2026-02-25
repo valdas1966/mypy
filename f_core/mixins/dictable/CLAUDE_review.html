@@ -161,68 +161,58 @@
 
 <section>
     <h2>Summary</h2>
-    <p>
-        Clean generic dictionary wrapper with a complete public API. One correctness concern:
-        <code class="inline-code">__init__</code> uses <code class="inline-code">data or dict()</code>
-        which discards an intentionally empty dict. Several typing signatures need tightening
-        (missing <code class="inline-code">| None</code>, legacy <code class="inline-code">Union</code> syntax).
-        The <code class="inline-code">__eq__</code> guard is already correctly implemented.
-        Design and modularity are clean.
-    </p>
+    <ol>
+        <li>Clean generic dictionary wrapper with a complete public API.</li>
+        <li>One correctness concern: <code class="inline-code">__init__</code> uses <code class="inline-code">data or dict()</code> which discards an intentionally empty dict.</li>
+        <li>Constructor type hint declares <code class="inline-code">dict[K, V]</code> but defaults to <code class="inline-code">None</code>.</li>
+        <li>Design and modularity are clean; all methods delegate directly to the internal dict.</li>
+        <li>Test coverage is thorough across all 11 public API methods.</li>
+    </ol>
 </section>
 
 <section>
-    <h2>Must-fix Issues (Correctness)</h2>
-    <ul>
+    <h2>1. Correctness</h2>
+    <ol>
         <li>
             <span class="severity-med">MED</span>
             <strong>Falsy-guard discards empty dict</strong> —
             <code class="inline-code">main.py:24</code>:
             <code class="inline-code">self._data = data or dict()</code>.
-            An intentionally empty <code class="inline-code">{}</code> is falsy, so
-            <code class="inline-code">data or dict()</code> replaces it with a new
-            <code class="inline-code">dict()</code>. While the end result is equivalent for empty dicts,
-            it means the caller's original dict object is silently discarded. The type hint also
-            declares <code class="inline-code">dict[K, V]</code> but the default is
-            <code class="inline-code">None</code> — this is a type error. Fix:
+            An intentionally empty <code class="inline-code">{}</code> is falsy, so the caller's original dict object is silently discarded.
+            The type hint also declares <code class="inline-code">dict[K, V]</code> but the default is <code class="inline-code">None</code>.
 <pre><code>def __init__(self, data: dict[K, V] | None = None) -> None:
     self._data: dict[K, V] = data if data is not None else dict()</code></pre>
         </li>
-    </ul>
+    </ol>
 </section>
 
 <section>
-    <h2>Readability / Maintainability</h2>
+    <h2>2. Readability / Naming</h2>
     <p class="no-change">No change needed.</p>
 </section>
 
 <section>
-    <h2>Design Review</h2>
-    <ul>
+    <h2>3. Design (OOP)</h2>
+    <ol>
         <li>
             <span class="severity-low">LOW</span>
             <strong>No <code class="inline-code">Printable</code> inheritance</strong> —
             <code class="inline-code">main.py:8</code>:
             <code class="inline-code">Dictable</code> implements <code class="inline-code">__str__</code>
-            but does not inherit from <code class="inline-code">Printable</code>. This means it lacks
-            <code class="inline-code">__repr__</code> (which <code class="inline-code">Printable</code>
-            provides as <code class="inline-code">&lt;ClassName: str(self)&gt;</code>). If the project
-            convention is for all mixins to include <code class="inline-code">Printable</code>,
-            consider adding it. Otherwise, no action needed.
+            but does not inherit from <code class="inline-code">Printable</code>, so it lacks
+            <code class="inline-code">__repr__</code>. If project convention requires all mixins to be printable, consider adding it.
         </li>
         <li>
             <span class="severity-low">LOW</span>
-            <strong><code class="inline-code">Sizable.__bool__</code> semantics</strong> —
-            <code class="inline-code">Sizable</code> provides
-            <code class="inline-code">__bool__</code> via <code class="inline-code">bool(len(self))</code>.
-            An empty <code class="inline-code">Dictable</code> is falsy. This is correct
-            Python container semantics. No action needed.
+            <strong><code class="inline-code">Sizable.__bool__</code> semantics are correct</strong> —
+            An empty <code class="inline-code">Dictable</code> is falsy via
+            <code class="inline-code">bool(len(self))</code>. Standard Python container semantics. No action needed.
         </li>
-    </ul>
+    </ol>
 </section>
 
 <section>
-    <h2>Performance Notes</h2>
+    <h2>4. Performance</h2>
     <p class="no-change">No change needed.</p>
     <p>
         All methods are O(1) delegations to <code class="inline-code">dict</code> except
@@ -233,8 +223,8 @@
 </section>
 
 <section>
-    <h2>Typing Review</h2>
-    <ul>
+    <h2>5. Typing</h2>
+    <ol>
         <li>
             <span class="severity-med">MED</span>
             <strong>Constructor <code class="inline-code">data</code> parameter</strong> —
@@ -244,62 +234,42 @@
             <code class="inline-code">dict[K, V] | None = None</code>.
         </li>
         <li>
-            <span class="severity-med">MED</span>
-            <strong><code class="inline-code">get()</code> return type</strong> —
-            <code class="inline-code">main.py:50</code>:
-            <code class="inline-code">def get(self, key: K, default: V = None) -> V</code>.
-            When no default is provided, returns <code class="inline-code">None</code>, but the
-            return type says <code class="inline-code">V</code>. Should be
-            <code class="inline-code">V | None</code>. Also <code class="inline-code">default: V = None</code>
-            should be <code class="inline-code">default: V | None = None</code>.
-        </li>
-        <li>
-            <span class="severity-med">MED</span>
-            <strong><code class="inline-code">__eq__</code> parameter type</strong> —
-            <code class="inline-code">main.py:117</code>:
-            Should accept <code class="inline-code">object</code> per Python convention, not
-            <code class="inline-code">Dictable[K, V]</code>. The runtime guard is correct
-            (<code class="inline-code">isinstance</code> check + <code class="inline-code">NotImplemented</code>),
-            but the type hint is misleading.
-        </li>
-        <li>
             <span class="severity-low">LOW</span>
-            <strong>Legacy <code class="inline-code">Union</code> import</strong> —
-            <code class="inline-code">main.py:1</code>:
-            Uses <code class="inline-code">Union[dict[K, V], 'Dictable[K, V]']</code> in
-            <code class="inline-code">update()</code>. Can use modern
-            <code class="inline-code">dict[K, V] | 'Dictable[K, V]'</code> syntax
-            (Python 3.10+).
+            <strong><code class="inline-code">get()</code> default parameter</strong> —
+            <code class="inline-code">main.py:50</code>:
+            <code class="inline-code">default: V = None</code> should be
+            <code class="inline-code">default: V | None = None</code> to match the return type
+            <code class="inline-code">V | None</code>.
         </li>
         <li>
             <span class="severity-low">LOW</span>
             <strong>Factory attribute type</strong> —
             <code class="inline-code">main.py:16</code>:
             <code class="inline-code">Factory: type = None</code> — missing
-            <code class="inline-code">| None</code>. Project-wide pattern.
+            <code class="inline-code">| None</code>. Project-wide pattern; low priority.
         </li>
-    </ul>
+    </ol>
 </section>
 
 <section>
-    <h2>Documentation Review</h2>
+    <h2>6. Documentation</h2>
     <p class="no-change">No change needed.</p>
 </section>
 
 <section>
-    <h2>Modularity</h2>
+    <h2>7. Modularity</h2>
     <p class="no-change">No change needed.</p>
 </section>
 
 <section>
-    <h2>Architecture Findings</h2>
+    <h2>8. Architecture</h2>
     <p class="no-change">No change needed.</p>
 </section>
 
 <section>
-    <h2>Usage &amp; Usefulness</h2>
+    <h2>9. Usage &amp; Usefulness</h2>
 
-    <h3>A) How to use it</h3>
+    <h3>A) How to use</h3>
     <p>Import and construct with an optional dict, then use as a dict-like object:</p>
 <pre><code>from f_core.mixins.dictable import Dictable
 
@@ -310,62 +280,52 @@ print(len(d))      # 3
 print(bool(d))     # True</code></pre>
     <p>Use <code class="inline-code">Dictable.Factory.abc()</code> for quick test instances.</p>
 
-    <h3>B) When it's useful</h3>
-    <p>
-        When you need a typed, mixin-composable dict wrapper that plugs into the project's
-        <code class="inline-code">Sizable</code> hierarchy. Useful for domain objects that
-        are fundamentally key-value stores but need to compose with other mixins.
-    </p>
+    <h3>B) When useful</h3>
+    <ol>
+        <li>When you need a typed, mixin-composable dict wrapper in the <code class="inline-code">Sizable</code> hierarchy.</li>
+        <li>For domain objects that are fundamentally key-value stores but need to compose with other mixins.</li>
+    </ol>
 
-    <h3>C) When it's not useful</h3>
-    <p>
-        If you only need a plain <code class="inline-code">dict</code> with no mixin composition,
-        using <code class="inline-code">Dictable</code> adds indirection without benefit.
-        The wrapper is thin enough that it is not overengineered — every method delegates directly.
-    </p>
+    <h3>C) When not useful</h3>
+    <ol>
+        <li>If you only need a plain <code class="inline-code">dict</code> with no mixin composition — adds indirection without benefit.</li>
+        <li>The wrapper is thin enough that it is not overengineered; every method delegates directly.</li>
+    </ol>
 
-    <h3>D) Better best-practice design</h3>
-    <p>
-        No fundamental redesign needed. The class is a clean, minimal wrapper. Consider adding
-        <code class="inline-code">Printable</code> to the base list if the project convention
-        expects all mixins to be printable.
-    </p>
+    <h3>D) Better design</h3>
+    <ol>
+        <li>No fundamental redesign needed. The class is a clean, minimal wrapper.</li>
+        <li>Consider adding <code class="inline-code">Printable</code> to bases if the project convention expects it.</li>
+    </ol>
 </section>
 
 <section>
-    <h2>Suggestions for Improvements</h2>
+    <h2>10. Suggestions</h2>
     <ol>
         <li>
             <strong>Fix <code class="inline-code">__init__</code> default and guard</strong> —
             Evidence: <code class="inline-code">main.py:18,24</code>.
-            Risk: Type checker errors; <code class="inline-code">data or dict()</code> discards caller's empty dict reference.
-            Cost: Trivial (two-line change).
+            Risk: type checker errors; <code class="inline-code">data or dict()</code> discards caller's empty dict reference.
+            Cost: trivial two-line change.
 <pre><code>def __init__(self, data: dict[K, V] | None = None) -> None:
     self._data: dict[K, V] = data if data is not None else dict()</code></pre>
         </li>
         <li>
-            <strong>Fix <code class="inline-code">get()</code> type hints</strong> —
+            <strong>Fix <code class="inline-code">get()</code> default parameter type</strong> —
             Evidence: <code class="inline-code">main.py:50</code>.
-            Risk: Type checker false positives.
-            Cost: Trivial (signature change to <code class="inline-code">default: V | None = None</code> and return <code class="inline-code">V | None</code>).
+            Risk: type checker false positives.
+            Cost: trivial signature change to <code class="inline-code">default: V | None = None</code>.
         </li>
         <li>
-            <strong>Fix <code class="inline-code">__eq__</code> parameter type to <code class="inline-code">object</code></strong> —
-            Evidence: <code class="inline-code">main.py:117</code>.
-            Risk: Misleading type hint (runtime behavior is already correct).
-            Cost: Trivial (signature change).
-        </li>
-        <li>
-            <strong>Replace <code class="inline-code">Union</code> with <code class="inline-code">|</code> syntax</strong> —
-            Evidence: <code class="inline-code">main.py:1,58</code>.
-            Risk: None. Cost: Trivial.
-            Benefit: Modern syntax, removes unused <code class="inline-code">Union</code> import.
+            <strong>Add <code class="inline-code">| None</code> to Factory attribute</strong> —
+            Evidence: <code class="inline-code">main.py:16</code>.
+            Risk: none. Cost: trivial. Aligns with type correctness.
         </li>
     </ol>
 </section>
 
 <footer>
-    <p>Generated: 2026-02-16</p>
+    <p>Generated: 2026-02-25</p>
     <p>Scope: f_core.mixins.dictable — full code + design review</p>
 </footer>
 

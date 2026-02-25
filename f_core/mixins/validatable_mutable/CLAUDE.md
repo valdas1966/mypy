@@ -16,9 +16,9 @@ Factory class for creating instances. Attached via `__init__.py`.
 ### Constructor
 
 ```python
-def __init__(self, is_valid: bool | None = None) -> None
+def __init__(self, is_valid: bool = False) -> None
 ```
-Calls `super().__init__(is_valid=is_valid)`. Defaults to `None` (unset) if not provided.
+Calls `super().__init__(is_valid=is_valid)`. Defaults to `False` (invalid) if not provided.
 
 ### Methods
 
@@ -48,7 +48,7 @@ Validatable
 
 | Base | Responsibility |
 |------|----------------|
-| [`Validatable`](../validatable/CLAUDE.html) | Read-only validation state (`__bool__`) |
+| [`Validatable`](../validatable/claude.html) | Read-only validation state (`__bool__`) |
 
 ## Dependencies
 
@@ -87,6 +87,7 @@ from f_core.mixins.validatable_mutable import ValidatableMutable
 
 obj = ValidatableMutable.Factory.valid()
 assert obj
+
 obj.set_invalid()
 assert not obj
 ```

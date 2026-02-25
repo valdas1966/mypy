@@ -141,31 +141,32 @@
 
 <section>
     <h2>Summary</h2>
-    <p>
-        Clean, minimal mixin with a single responsibility: storing an immutable boolean validation state
-        and exposing it via <code class="inline-code">__bool__</code>. The module follows project conventions
-        consistently. No correctness, design, performance, or modularity issues found. Two minor typing/documentation
-        observations noted below.
-    </p>
+    <ol>
+        <li>Clean, minimal mixin with a single responsibility: storing an immutable boolean validation state.</li>
+        <li>Exposed via <code class="inline-code">__bool__</code> for Pythonic truthiness checks.</li>
+        <li>Follows project conventions consistently (Factory pattern, docstring style, file layout).</li>
+        <li>No correctness, design, performance, or modularity issues found.</li>
+        <li>Two minor typing/documentation observations noted below.</li>
+    </ol>
 </section>
 
 <section>
-    <h2>Must-fix Issues (Correctness)</h2>
+    <h2>1. Correctness</h2>
     <p class="no-change">No change needed.</p>
 </section>
 
 <section>
-    <h2>Readability / Maintainability</h2>
+    <h2>2. Readability / Naming</h2>
     <p class="no-change">No change needed.</p>
 </section>
 
 <section>
-    <h2>Design Review</h2>
+    <h2>3. Design (OOP)</h2>
     <p class="no-change">No change needed.</p>
 </section>
 
 <section>
-    <h2>Performance Notes</h2>
+    <h2>4. Performance</h2>
     <p class="no-change">No change needed.</p>
     <p>
         <code class="inline-code">__bool__</code> is O(1) — single attribute lookup. No hot paths.
@@ -173,8 +174,8 @@
 </section>
 
 <section>
-    <h2>Typing Review</h2>
-    <ul>
+    <h2>5. Typing</h2>
+    <ol>
         <li>
             <span class="severity-low">LOW</span>
             <strong>Factory attribute type</strong> —
@@ -182,44 +183,51 @@
             <code class="inline-code">Factory: type | None = None</code>.
             The declared type <code class="inline-code">type</code> is correct but broad.
             A narrower annotation like <code class="inline-code">type[Factory] | None</code> would
-            improve IDE support and downstream typing. However, this is a project-wide convention
-            (all classes use <code class="inline-code">Factory: type | None = None</code>),
-            so changing it here alone would be inconsistent. Flag for a project-wide decision only.
+            improve IDE support. However, this is a project-wide convention — flag for a project-wide decision only.
         </li>
-    </ul>
+    </ol>
 </section>
 
 <section>
-    <h2>Documentation Review</h2>
-    <ul>
+    <h2>6. Documentation</h2>
+    <ol>
         <li>
             <span class="severity-low">LOW</span>
             <strong>Factory docstrings</strong> —
             <code class="inline-code">_factory.py:13</code> and
             <code class="inline-code">_factory.py:22</code>:
             Both <code class="inline-code">valid()</code> and <code class="inline-code">invalid()</code>
-            share the identical docstring "Create a Validatable object." Consider differentiating:
+            have near-identical docstrings. Consider differentiating:
 <pre><code># valid()
 """Create a Valid Validatable object (is_valid=True)."""
 
 # invalid()
 """Create an Invalid Validatable object (is_valid=False)."""</code></pre>
         </li>
-    </ul>
+    </ol>
 </section>
 
 <section>
-    <h2>Modularity</h2>
+    <h2>7. Modularity</h2>
     <p class="no-change">No change needed.</p>
 </section>
 
 <section>
-    <h2>Architecture Findings</h2>
+    <h2>8. Architecture</h2>
     <p class="no-change">No change needed.</p>
 </section>
 
 <section>
-    <h2>Suggestions for Improvements</h2>
+    <h2>9. Usage &amp; Usefulness</h2>
+    <ol>
+        <li><strong>How to use:</strong> Mix into any class that needs a boolean validity state; call <code class="inline-code">Validatable.__init__(self, is_valid=...)</code> in the subclass constructor.</li>
+        <li><strong>When useful:</strong> Objects that represent results, responses, or operations that can succeed or fail (e.g., <code class="inline-code">SolutionSPP</code>, API responses).</li>
+        <li><strong>Not overengineered:</strong> Minimal surface area (one attribute, one dunder). No simplification needed.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>10. Suggestions</h2>
     <ol>
         <li>
             <strong>Differentiate Factory docstrings</strong> —
@@ -238,7 +246,7 @@
 </section>
 
 <footer>
-    <p>Generated: 2026-02-15</p>
+    <p>Generated: 2026-02-25</p>
     <p>Scope: f_core.mixins.validatable — full code + design review</p>
 </footer>
 

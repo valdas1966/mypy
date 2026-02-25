@@ -200,20 +200,20 @@
                 <h1>ValidatableMutable</h1>
                 <div class="path">f_core/mixins/validatable_mutable/</div>
                 <div class="tag">MIXIN</div>
-                <div class="extends">Extends: <a href="../validatable/CLAUDE.html">Validatable</a></div>
+                <div class="extends">Extends: <a href="../validatable/claude.html">Validatable</a></div>
             </header>
 
             <section id="purpose">
                 <h2>Purpose</h2>
                 <p>
-                    Mixin that extends <a href="../validatable/CLAUDE.html">Validatable</a> with public methods to
+                    Mixin that extends <a href="../validatable/claude.html">Validatable</a> with public methods to
                     change the validation state at runtime. Use when an object's validity is determined or toggled
                     after construction.
                 </p>
                 <div class="note">
                     Adds <code class="inline-code">set_valid()</code> and <code class="inline-code">set_invalid()</code>
-                    to the read-only <code class="inline-code">Validatable</code> base. Overrides the constructor
-                    to default <code class="inline-code">is_valid</code> to <code class="inline-code">None</code>.
+                    to the read-only <code class="inline-code">Validatable</code> base. The constructor
+                    defaults <code class="inline-code">is_valid</code> to <code class="inline-code">False</code>.
                     <code class="inline-code">__bool__</code> is inherited.
                 </div>
                 <a href="#top" class="back-to-top">Back to top</a>
@@ -239,9 +239,9 @@
                         <div class="api-item" id="api-init">
                             <h4>Constructor</h4>
                             <div class="api-signature">
-                                <code>def __init__(self, is_valid: bool | None = None) -> None</code>
+                                <code>def __init__(self, is_valid: bool = False) -> None</code>
                             </div>
-                            <p class="api-description">Calls <code class="inline-code">super().__init__(is_valid=is_valid)</code>. Defaults to <code class="inline-code">None</code> (unset) if not provided.</p>
+                            <p class="api-description">Calls <code class="inline-code">super().__init__(is_valid=is_valid)</code>. Defaults to <code class="inline-code">False</code> (invalid) if not provided.</p>
                         </div>
 
                         <div class="api-item" id="api-set-valid">
@@ -265,7 +265,7 @@
                             <div class="api-signature">
                                 <code>def __bool__(self) -> bool</code>
                             </div>
-                            <p class="api-description">Inherited from <a href="../validatable/CLAUDE.html">Validatable</a>. Returns <code class="inline-code">_is_valid</code>.</p>
+                            <p class="api-description">Inherited from <a href="../validatable/claude.html">Validatable</a>. Returns <code class="inline-code">_is_valid</code>.</p>
                         </div>
                     </div>
                 </div>
@@ -277,7 +277,7 @@
                 <h2>Inheritance (Hierarchy)</h2>
 
                 <div class="hierarchy-tree">
-                    <div class="node root"><a href="../validatable/CLAUDE.html">Validatable</a></div>
+                    <div class="node root"><a href="../validatable/claude.html">Validatable</a></div>
                     <div class="level">
                         <div class="node">ValidatableMutable</div>
                     </div>
@@ -287,7 +287,7 @@
                     <thead><tr><th>Base</th><th>Responsibility</th></tr></thead>
                     <tbody>
                         <tr>
-                            <td><code class="inline-code"><a href="../validatable/CLAUDE.html">Validatable</a></code></td>
+                            <td><code class="inline-code"><a href="../validatable/claude.html">Validatable</a></code></td>
                             <td>Read-only validation state (<code class="inline-code">__bool__</code>)</td>
                         </tr>
                     </tbody>
@@ -365,7 +365,7 @@ assert not obj</code></pre>
             </section>
 
             <footer>
-                <p>Generated: 2026-02-15</p>
+                <p>Generated: 2026-02-25</p>
                 <p>Scope: f_core.mixins.validatable_mutable package documentation</p>
             </footer>
         </main>

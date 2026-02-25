@@ -276,7 +276,7 @@
                         <div class="api-item" id="api-get">
                             <h4>Method</h4>
                             <div class="api-signature">
-                                <code>def get(self, key: K, default: V = None) -> V</code>
+                                <code>def get(self, key: K, default: V = None) -> V | None</code>
                             </div>
                             <p class="api-description">Returns value for <code class="inline-code">key</code>, or <code class="inline-code">default</code> if missing.</p>
                         </div>
@@ -284,7 +284,7 @@
                         <div class="api-item" id="api-update">
                             <h4>Method</h4>
                             <div class="api-signature mutator">
-                                <code>def update(self, data: Union[dict[K, V], 'Dictable[K, V]']) -> None</code>
+                                <code>def update(self, data: Self | dict[K, V]) -> None</code>
                             </div>
                             <p class="api-description">Merges <code class="inline-code">data</code> into <code class="inline-code">_data</code>. Accepts a <code class="inline-code">dict</code> or another <code class="inline-code">Dictable</code>.</p>
                         </div>
@@ -340,7 +340,7 @@
                         <div class="api-item" id="api-eq">
                             <h4>Dunder Method</h4>
                             <div class="api-signature">
-                                <code>def __eq__(self, other: 'Dictable[K, V]') -> bool</code>
+                                <code>def __eq__(self, other: object) -> bool</code>
                             </div>
                             <p class="api-description">Compares <code class="inline-code">_data</code> dicts for equality. Returns <code class="inline-code">NotImplemented</code> for non-Dictable.</p>
                         </div>
@@ -385,7 +385,7 @@ Sized (collections.abc)<br>
                     <thead><tr><th>Import</th><th>Used For</th></tr></thead>
                     <tbody>
                         <tr>
-                            <td><code class="inline-code">typing.Generic, TypeVar, Iterator, Union</code></td>
+                            <td><code class="inline-code">typing.Generic, TypeVar, Iterator, Self</code></td>
                             <td>Generics and type annotations</td>
                         </tr>
                     </tbody>
@@ -445,7 +445,7 @@ print(abc.items())            # [('a', 1), ('b', 2), ('c', 3)]</code></pre>
             </section>
 
             <footer>
-                <p>Generated: 2026-02-16</p>
+                <p>Generated: 2026-02-25</p>
                 <p>Scope: f_core.mixins.dictable package documentation</p>
             </footer>
         </main>

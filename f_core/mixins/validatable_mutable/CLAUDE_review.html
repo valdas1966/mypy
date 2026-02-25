@@ -115,16 +115,6 @@
             font-size: 0.85rem;
         }
 
-        .severity-med {
-            display: inline-block;
-            padding: 0.15rem 0.5rem;
-            background: var(--warn);
-            color: var(--bg);
-            border-radius: 3px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
         .severity-low {
             display: inline-block;
             padding: 0.15rem 0.5rem;
@@ -151,38 +141,32 @@
 
 <section>
     <h2>Summary</h2>
-    <p>
-        Small, focused mixin that extends <code class="inline-code">Validatable</code> with mutation methods.
-        One typing mismatch between the constructor signature and the parent's type contract is the only
-        notable finding. The rest of the module is clean and follows project conventions.
-    </p>
+    <ol>
+        <li>Small, focused mixin that extends <code class="inline-code">Validatable</code> with mutation methods.</li>
+        <li>Constructor defaults <code class="inline-code">is_valid</code> to <code class="inline-code">False</code>, matching parent's <code class="inline-code">bool</code> type contract.</li>
+        <li>Follows project conventions consistently (Factory pattern, docstring style, file layout).</li>
+        <li>No correctness, design, performance, or modularity issues found.</li>
+        <li>One minor documentation observation noted below.</li>
+    </ol>
 </section>
 
 <section>
-    <h2>Must-fix Issues (Correctness)</h2>
-    <p class="no-change">No change needed.</p>
-    <p>
-        When <code class="inline-code">is_valid=None</code> (the default) is passed to
-        <code class="inline-code">Validatable.__init__</code>, <code class="inline-code">_is_valid</code>
-        is set to <code class="inline-code">None</code>. Calling <code class="inline-code">__bool__</code>
-        then returns <code class="inline-code">None</code>, which Python treats as falsy. This works at
-        runtime but silently violates <code class="inline-code">Validatable.__bool__</code>'s declared
-        return type of <code class="inline-code">bool</code>. See Typing section for the fix.
-    </p>
-</section>
-
-<section>
-    <h2>Readability / Maintainability</h2>
+    <h2>1. Correctness</h2>
     <p class="no-change">No change needed.</p>
 </section>
 
 <section>
-    <h2>Design Review</h2>
+    <h2>2. Readability / Naming</h2>
     <p class="no-change">No change needed.</p>
 </section>
 
 <section>
-    <h2>Performance Notes</h2>
+    <h2>3. Design (OOP)</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>4. Performance</h2>
     <p class="no-change">No change needed.</p>
     <p>
         <code class="inline-code">set_valid()</code> and <code class="inline-code">set_invalid()</code>
@@ -191,89 +175,77 @@
 </section>
 
 <section>
-    <h2>Typing Review</h2>
-    <ul>
-        <li>
-            <span class="severity-med">MED</span>
-            <strong>Constructor vs parent type mismatch</strong> —
-            <code class="inline-code">main.py:14</code>:
-            <code class="inline-code">def __init__(self, is_valid: bool | None = None) -> None</code>
-            passes <code class="inline-code">None</code> to
-            <code class="inline-code">Validatable.__init__(self, is_valid: bool)</code>,
-            which declares <code class="inline-code">is_valid: bool</code> (no <code class="inline-code">None</code>).
-            <br><br>
-            This is intentional by design (allowing unset state), but the parent's type hint doesn't
-            account for it. Two options:
-<pre><code># Option A: Widen parent signature (preferred if None is a valid state)
-# In Validatable.main.py:
-def __init__(self, is_valid: bool | None = None) -> None:
-
-# Option B: Default to False here instead of None
-# In ValidatableMutable.main.py:
-def __init__(self, is_valid: bool = False) -> None:</code></pre>
-        </li>
+    <h2>5. Typing</h2>
+    <ol>
         <li>
             <span class="severity-low">LOW</span>
             <strong>Factory attribute type</strong> —
             <code class="inline-code">main.py:12</code>:
-            Same project-wide pattern as <code class="inline-code">Validatable</code>.
+            Same project-wide <code class="inline-code">Factory: type | None = None</code> pattern.
             Flag for a project-wide decision only.
         </li>
-    </ul>
+    </ol>
 </section>
 
 <section>
-    <h2>Documentation Review</h2>
-    <ul>
+    <h2>6. Documentation</h2>
+    <ol>
         <li>
             <span class="severity-low">LOW</span>
             <strong>Factory docstrings</strong> —
             <code class="inline-code">_factory.py:15</code> and
             <code class="inline-code">_factory.py:24</code>:
             Both <code class="inline-code">valid()</code> and <code class="inline-code">invalid()</code>
-            share the identical docstring "Create a ValidatableMutable object." Consider differentiating:
+            share near-identical docstrings. Consider differentiating:
 <pre><code># valid()
 """Create a Valid ValidatableMutable object (is_valid=True)."""
 
 # invalid()
 """Create an Invalid ValidatableMutable object (is_valid=False)."""</code></pre>
         </li>
-    </ul>
+    </ol>
 </section>
 
 <section>
-    <h2>Modularity</h2>
+    <h2>7. Modularity</h2>
     <p class="no-change">No change needed.</p>
 </section>
 
 <section>
-    <h2>Architecture Findings</h2>
+    <h2>8. Architecture</h2>
     <p class="no-change">No change needed.</p>
 </section>
 
 <section>
-    <h2>Suggestions for Improvements</h2>
+    <h2>9. Usage &amp; Usefulness</h2>
     <ol>
-        <li>
-            <strong>Resolve <code class="inline-code">None</code> typing mismatch</strong> —
-            Evidence: <code class="inline-code">main.py:14</code> vs
-            <code class="inline-code">validatable/main.py:12</code>.
-            Risk: Type checker warnings; silent <code class="inline-code">None</code> return from
-            <code class="inline-code">__bool__</code>.
-            Cost: Trivial (one-line signature change in either class).
-            Benefit: Clean type contracts across the hierarchy.
-        </li>
+        <li><strong>How to use:</strong> Mix into any class whose validity can change at runtime; call <code class="inline-code">set_valid()</code> / <code class="inline-code">set_invalid()</code> to toggle state.</li>
+        <li><strong>When useful:</strong> Grid cells that can become obstacles, search states that can be invalidated, mutable domain objects with lifecycle validity.</li>
+        <li><strong>Not overengineered:</strong> Two mutation methods on top of an immutable base. Minimal and appropriate.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>10. Suggestions</h2>
+    <ol>
         <li>
             <strong>Differentiate Factory docstrings</strong> —
             Evidence: <code class="inline-code">_factory.py:15,24</code>.
             Risk: None. Cost: Trivial.
             Benefit: Clearer intent when reading factory methods.
         </li>
+        <li>
+            <strong>Project-wide Factory typing decision</strong> —
+            Evidence: <code class="inline-code">main.py:12</code> and all other modules using the same pattern.
+            Risk: Low. Cost: Moderate (touches every module).
+            Benefit: Better IDE autocomplete and type-checking.
+            This is a strategic item, not a local fix.
+        </li>
     </ol>
 </section>
 
 <footer>
-    <p>Generated: 2026-02-15</p>
+    <p>Generated: 2026-02-25</p>
     <p>Scope: f_core.mixins.validatable_mutable — full code + design review</p>
 </footer>
 

@@ -8,20 +8,9 @@ def test_reverse() -> None:
     ========================================================================
     """
     problem = ProblemSPP.Factory.without_obstacles()
-    reversed_problem = problem.reverse()
-    assert reversed_problem.start == problem.goal
-    assert reversed_problem.goal == problem.start
-    assert reversed_problem.grid is problem.grid
-
-
-def test_reverse_with_name() -> None:
-    """
-    ========================================================================
-     Test the reverse() method with a custom Name.
-    ========================================================================
-    """
-    problem = ProblemSPP.Factory.without_obstacles()
-    reversed_problem = problem.reverse(name='Reversed')
-    assert reversed_problem.name == 'Reversed'
-    assert reversed_problem.start == problem.goal
-    assert reversed_problem.goal == problem.start
+    name = 'ProblemSPP-Reversed'
+    problem_reversed = problem.reverse(name=name)
+    assert problem_reversed.name == name
+    assert problem_reversed.start == problem.goal
+    assert problem_reversed.goal == problem.start
+    assert problem_reversed.grid is problem.grid

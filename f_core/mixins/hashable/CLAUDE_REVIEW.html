@@ -1,288 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Code Review — f_core.mixins.hashable</title>
-<style>
-:root {
-    --bg: #0b0f14;
-    --bg-section: #111820;
-    --bg-code: #0d1117;
-    --border: #1e2a38;
-    --text: #c9d1d9;
-    --text-muted: #8b949e;
-    --heading: #e6edf3;
-    --accent: #58a6ff;
-    --green: #3fb950;
-    --yellow: #d29922;
-    --red: #f85149;
-    --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Review Report — Hashable</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #111827;
+            --panel2: #0f172a;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --faint: #94a3b8;
+            --border: #334155;
+            --accent: #60a5fa;
+            --accent2: #a78bfa;
+            --good: #34d399;
+            --warn: #fbbf24;
+            --bad: #fb7185;
+            --code-bg: #0a1220;
+        }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-sans);
-    font-size: 15px;
-    line-height: 1.7;
-    padding: 2rem 3rem;
-    max-width: 960px;
-    margin: 0 auto;
-}
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 2rem 3rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
 
-h1 {
-    color: var(--heading);
-    font-size: 1.8rem;
-    border-bottom: 2px solid var(--accent);
-    padding-bottom: .5rem;
-    margin-bottom: 2rem;
-}
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; color: var(--accent2); }
 
-h2 {
-    color: var(--accent);
-    font-size: 1.3rem;
-    margin-bottom: .75rem;
-    margin-top: 0;
-}
+        h1 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border);
+        }
 
-h3 {
-    color: var(--heading);
-    font-size: 1.05rem;
-    margin-bottom: .5rem;
-    margin-top: 1rem;
-}
+        .module-path {
+            font-family: monospace;
+            color: var(--faint);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
 
-section {
-    background: var(--bg-section);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-}
+        h2 {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-top: 2.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--border);
+        }
 
-ul { padding-left: 1.5rem; margin-bottom: .75rem; }
-li { margin-bottom: .4rem; }
+        h3 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
 
-pre {
-    background: var(--bg-code);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 1rem;
-    overflow-x: auto;
-    font-family: var(--font-mono);
-    font-size: .85rem;
-    line-height: 1.5;
-    margin: .75rem 0;
-    color: var(--text);
-}
+        p { margin-bottom: 1rem; }
 
-code {
-    font-family: var(--font-mono);
-    font-size: .88em;
-    background: var(--bg-code);
-    padding: .15em .4em;
-    border-radius: 4px;
-    color: var(--accent);
-}
+        section {
+            background: var(--panel);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
 
-p { margin-bottom: .6rem; }
+        section h2 {
+            margin-top: 0;
+        }
 
-.file-ref { color: var(--yellow); font-family: var(--font-mono); font-size: .85em; }
-.severity-high { color: var(--red); font-weight: 600; }
-.severity-low { color: var(--yellow); font-weight: 600; }
-.verdict { font-size: 1rem; font-style: italic; color: var(--green); }
+        .no-change {
+            color: var(--good);
+            font-weight: 600;
+            font-size: 1rem;
+        }
 
-table { width: 100%; border-collapse: collapse; margin: .75rem 0; font-size: .9rem; }
-th, td { text-align: left; padding: .5rem .75rem; border: 1px solid var(--border); }
-th { background: var(--bg-code); color: var(--heading); }
-td { color: var(--text); }
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.4rem; color: var(--muted); }
+        li strong { color: var(--text); }
 
-.meta { color: var(--text-muted); font-size: .85rem; margin-bottom: 2rem; }
-</style>
+        pre {
+            background: var(--code-bg);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 0.75rem 0;
+        }
+
+        code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+
+        pre code { display: block; line-height: 1.5; }
+
+        .inline-code {
+            background: var(--panel2);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .severity-low {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            background: var(--faint);
+            color: var(--bg);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.75rem; text-align: left; border: 1px solid var(--border); }
+        th { background: var(--panel2); color: #fff; font-weight: 600; }
+        td { background: var(--panel); color: var(--muted); }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border);
+            color: var(--faint);
+            font-size: 0.85rem;
+        }
+    </style>
 </head>
 <body>
 
 <h1>Module Review Report</h1>
-<p class="meta">
-    Module: <code>f_core.mixins.hashable</code><br>
-    Files reviewed: <code>main.py</code>, <code>_factory.py</code>, <code>_tester.py</code>, <code>__init__.py</code><br>
-    Deep-inspected: <code>Equatable</code>, <code>SupportsEquality</code>
-</p>
+<div class="module-path">f_core/mixins/hashable/</div>
 
-<!-- ============================================================ -->
 <section>
     <h2>Summary</h2>
-    <p>
-        The module is small (21 lines in <code>main.py</code>) and conceptually clean: <code>Hashable</code> extends <code>Equatable</code> with a single <code>__hash__</code> delegating to the inherited <code>key</code> property. One correctness bug found in <code>_factory.py</code> &mdash; <code>key</code> is defined as a plain method instead of a <code>@property</code>, causing <code>__hash__</code> and <code>__eq__</code> to operate on bound method objects instead of actual key values. The test does not catch this because it only exercises identity-based deduplication. One misleading docstring noted.
-    </p>
+    <ol>
+        <li>Small, clean mixin (22 lines in <code class="inline-code">main.py</code>) that extends <code class="inline-code">Equatable</code> with <code class="inline-code">__hash__</code> delegating to <code class="inline-code">key</code>.</li>
+        <li>Factory correctly uses <code class="inline-code">@property</code> on <code class="inline-code">key</code>, matching the abstract declaration in <code class="inline-code">Equatable</code>.</li>
+        <li>Test verifies value-based equality, hash consistency, and set deduplication with distinct instances.</li>
+        <li>Docstring accurately describes the <code class="inline-code">__eq__</code>/<code class="inline-code">__hash__</code> invariant.</li>
+        <li>No correctness, design, performance, or modularity issues found.</li>
+    </ol>
 </section>
 
-<!-- ============================================================ -->
 <section>
-    <h2>Must-fix Issues (Correctness)</h2>
-
-    <h3>1. Missing <code>@property</code> on <code>Factory.Char.key</code></h3>
-    <p>
-        <span class="file-ref">_factory.py:19</span> &mdash; <code>key</code> is defined as <code>def key(self) -&gt; str</code> (plain method), but the abstract declaration in <code>Equatable</code> (<span class="file-ref">equatable/main.py:17-18</span>) is <code>@property @abstractmethod def key</code>.
-    </p>
-    <p>
-        Because the child class defines a plain function (non-data descriptor), it shadows the parent&rsquo;s property descriptor. <code>self.key</code> returns a <strong>bound method object</strong> instead of the <code>str</code> value.
-    </p>
-    <p><strong>Impact:</strong></p>
-    <ul>
-        <li><code>__hash__</code> (<code>main.py:20</code>): <code>hash(self.key)</code> hashes the bound method (identity-based), not the string &mdash; two distinct <code>Char('A')</code> instances get <strong>different</strong> hashes.</li>
-        <li><code>__eq__</code> (inherited): <code>self.key == other.key</code> compares bound methods (identity-based) &mdash; two distinct <code>Char('A')</code> instances are <strong>not equal</strong>.</li>
-        <li>The <code>__eq__</code>/<code>__hash__</code> invariant is technically maintained (unequal objects may have different hashes), but the <em>intended</em> value-based semantics are completely broken.</li>
-    </ul>
-    <p><strong>Severity:</strong> <span class="severity-high">High</span> &mdash; silent correctness bug. Hashing and equality operate on method identity instead of key values.</p>
-    <p><strong>Patch direction:</strong></p>
-<pre># _factory.py — add @property decorator
-class Char(Hashable):
-    def __init__(self, char: str):
-        self.char = char
-    @property
-    def key(self) -&gt; str:
-        return self.char</pre>
-    <p><strong>Cross-module note:</strong> The same bug exists in <span class="file-ref">equatable/_factory.py:14</span>. The comparable factory (<span class="file-ref">comparable/_factory.py:14-15</span>) correctly uses <code>@property</code>.</p>
-
-    <h3>2. Test does not verify value-based equality/hashing</h3>
-    <p>
-        <span class="file-ref">_tester.py:12</span> &mdash; <code>assert {a, a, b} == {a, b}</code> passes even with the broken factory because it only tests identity-based deduplication (same object reference <code>a</code> appears twice). It does not test that two <em>distinct</em> instances with the same key are equal and hash-equal.
-    </p>
-    <p><strong>Severity:</strong> <span class="severity-high">High</span> &mdash; the test provides false confidence; it cannot detect the bug above.</p>
-    <p><strong>Patch direction:</strong></p>
-<pre>def test_hashable() -&gt; None:
-    """
-    ========================================================================
-     Test the Hashable class.
-    ========================================================================
-    """
-    a = Hashable.Factory.a()
-    b = Hashable.Factory.b()
-    a2 = Hashable.Factory.a()  # distinct instance, same key
-    # Value-based equality
-    assert a == a2
-    assert a != b
-    # Hash consistency
-    assert hash(a) == hash(a2)
-    # Set deduplication (value-based, not identity-based)
-    assert {a, a2, b} == {a, b}</pre>
+    <h2>1. Correctness</h2>
+    <p class="no-change">No change needed.</p>
 </section>
 
-<!-- ============================================================ -->
 <section>
-    <h2>Readability / Maintainability</h2>
-    <p class="verdict">No change needed.</p>
+    <h2>2. Readability / Naming</h2>
+    <p class="no-change">No change needed.</p>
 </section>
 
-<!-- ============================================================ -->
 <section>
-    <h2>Design Review</h2>
-    <p class="verdict">No change needed.</p>
+    <h2>3. Design (OOP)</h2>
+    <p class="no-change">No change needed.</p>
 </section>
 
-<!-- ============================================================ -->
 <section>
-    <h2>Performance Notes</h2>
+    <h2>4. Performance</h2>
+    <p class="no-change">No change needed.</p>
 
     <h3>Big-O</h3>
     <table>
         <tr><th>Method</th><th>Time</th><th>Space</th><th>Notes</th></tr>
         <tr>
-            <td><code>__hash__</code></td>
+            <td><code class="inline-code">__hash__</code></td>
             <td>O(K)</td>
             <td>O(1)</td>
-            <td>K = cost of <code>key</code> property + built-in <code>hash()</code> of that value.</td>
+            <td>K = cost of <code class="inline-code">key</code> property + built-in <code class="inline-code">hash()</code>.</td>
         </tr>
     </table>
     <p>
-        <code>__hash__</code> calls <code>self.key</code> on every hash lookup. If <code>key</code> is expensive and instances are used heavily in sets/dicts, caching the hash value is a subclass-level concern.
+        <code class="inline-code">__hash__</code> calls <code class="inline-code">self.key</code> on every hash lookup.
+        If <code class="inline-code">key</code> is expensive and instances are used heavily in sets/dicts,
+        caching the hash is a subclass-level concern.
     </p>
 </section>
 
-<!-- ============================================================ -->
 <section>
-    <h2>Typing Review</h2>
-    <p class="verdict">No change needed.</p>
+    <h2>5. Typing</h2>
+    <ol>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong>Factory attribute type</strong> &mdash;
+            <code class="inline-code">main.py:13</code>:
+            Same project-wide <code class="inline-code">Factory: type | None = None</code> pattern.
+            Flag for a project-wide decision only.
+        </li>
+    </ol>
 </section>
 
-<!-- ============================================================ -->
 <section>
-    <h2>Documentation Review</h2>
-
-    <h3>Misleading class docstring</h3>
-    <p>
-        <span class="file-ref">main.py:7</span> &mdash; <em>&ldquo;Mixin for hashable objects (has distinct value for each instance).&rdquo;</em>
-    </p>
-    <p>
-        The parenthetical &ldquo;has distinct value for each instance&rdquo; implies unique hashes per instance, which contradicts the <code>__eq__</code>/<code>__hash__</code> invariant (equal objects <em>must</em> have equal hashes).
-    </p>
-    <p><strong>Severity:</strong> <span class="severity-low">Low</span></p>
-    <p><strong>Patch direction:</strong></p>
-<pre>"""
-============================================================================
- Mixin for objects that support hashing via the inherited key property.
- Guarantees: a == b implies hash(a) == hash(b).
-============================================================================
-"""</pre>
+    <h2>6. Documentation</h2>
+    <p class="no-change">No change needed.</p>
 </section>
 
-<!-- ============================================================ -->
 <section>
-    <h2>Modularity</h2>
-    <p class="verdict">No change needed.</p>
+    <h2>7. Modularity</h2>
+    <p class="no-change">No change needed.</p>
 </section>
 
-<!-- ============================================================ -->
 <section>
-    <h2>Architecture Findings</h2>
-    <p class="verdict">No change needed.</p>
+    <h2>8. Architecture</h2>
+    <p class="no-change">No change needed.</p>
 </section>
 
-<!-- ============================================================ -->
 <section>
-    <h2>Suggestions for Improvements</h2>
-
-    <table>
-        <tr><th>#</th><th>Suggestion</th><th>Evidence</th><th>Risk/Cost</th><th>Benefit</th><th>Minimal Change</th></tr>
-        <tr>
-            <td>1</td>
-            <td>Add <code>@property</code> to <code>Factory.Char.key</code></td>
-            <td><span class="file-ref">_factory.py:19</span> &mdash; plain method shadows parent&rsquo;s property descriptor</td>
-            <td><span class="severity-high">High priority</span>; 1 line</td>
-            <td>Fixes broken value-based hashing and equality</td>
-            <td>Add <code>@property</code> above <code>def key</code></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Expand test to verify value-based semantics</td>
-            <td><span class="file-ref">_tester.py:12</span> &mdash; only tests identity dedup</td>
-            <td><span class="severity-high">High priority</span>; 5 lines</td>
-            <td>Catches the <code>@property</code> bug and verifies the <code>__eq__</code>/<code>__hash__</code> invariant</td>
-            <td>Create second instance with same key; assert equality and hash match</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Fix misleading class docstring</td>
-            <td><span class="file-ref">main.py:7</span> &mdash; &ldquo;distinct value&rdquo; implies unique hashes</td>
-            <td><span class="severity-low">Low</span>; 1 line</td>
-            <td>Accurate mental model on re-entry</td>
-            <td>Reword to describe hashing via <code>key</code> + invariant guarantee</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Fix same <code>@property</code> bug in equatable factory</td>
-            <td><span class="file-ref">equatable/_factory.py:14</span> &mdash; identical issue</td>
-            <td><span class="severity-high">High priority</span>; 1 line</td>
-            <td>Fixes broken value-based equality in equatable&rsquo;s test factory</td>
-            <td>Add <code>@property</code> above <code>def key</code></td>
-        </tr>
-    </table>
+    <h2>9. Usage &amp; Usefulness</h2>
+    <ol>
+        <li><strong>How to use:</strong> Mix into any class that needs to be used in sets or as dict keys; implement the <code class="inline-code">key</code> property returning an immutable value.</li>
+        <li><strong>When useful:</strong> Domain objects that need deduplication (grid cells, states, tags) or dictionary-based lookup by value rather than identity.</li>
+        <li><strong>Not overengineered:</strong> Single method delegation on top of <code class="inline-code">Equatable</code>. Minimal and appropriate.</li>
+    </ol>
 </section>
+
+<section>
+    <h2>10. Suggestions</h2>
+    <ol>
+        <li>
+            <strong>Project-wide Factory typing decision</strong> &mdash;
+            Evidence: <code class="inline-code">main.py:13</code> and all other modules using the same pattern.
+            Risk: Low. Cost: Moderate (touches every module).
+            Benefit: Better IDE autocomplete and type-checking.
+            This is a strategic item, not a local fix.
+        </li>
+    </ol>
+</section>
+
+<footer>
+    <p>Generated: 2026-02-25</p>
+    <p>Scope: f_core.mixins.hashable &mdash; full code + design review</p>
+</footer>
 
 </body>
 </html>

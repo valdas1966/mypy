@@ -100,7 +100,6 @@
         .api-description { color: var(--muted); font-size: 0.95rem; padding-left: 0.5rem; }
 
         .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-right: 0.5rem; }
-        .badge-stdlib { background: var(--accent); color: var(--bg); }
         .badge-internal { background: var(--accent2); color: var(--bg); }
         .badge-inherited { background: var(--faint); color: var(--bg); }
 
@@ -213,7 +212,7 @@
                             <div class="api-signature inherited" style="margin-top: 0.75rem;">
                                 <code>def __eq__(self, other: object) -> bool</code>
                             </div>
-                            <p class="api-description">Equality via <code class="inline-code">key</code>. Returns <code class="inline-code">NotImplemented</code> if <code class="inline-code">other</code> is not an <code class="inline-code">Equatable</code>.</p>
+                            <p class="api-description">Equality via <code class="inline-code">key</code>. Raises <code class="inline-code">AttributeError</code> if <code class="inline-code">other</code> has no <code class="inline-code">key</code> property.</p>
                         </div>
                     </div>
                 </div>
@@ -305,10 +304,13 @@ hash(a) == hash(b)  # True
                     <div class="panel-content">
                         <pre><code>from f_core.mixins.hashable import Hashable
 
-a = Hashable.Factory.a()  # Char('A')
-b = Hashable.Factory.b()  # Char('B')
+a = Hashable.Factory.a()        # Char('A')
+b = Hashable.Factory.b()        # Char('B')
+a_other = Hashable.Factory.a()  # distinct instance, same key
 
-{a, a, b} == {a, b}  # True</code></pre>
+assert a == a_other
+assert hash(a) == hash(a_other)
+assert {a, a_other, b} == {a, b}</code></pre>
                         <p style="margin-top: 1rem; color: var(--muted);"><em>From <code class="inline-code">_tester.py</code></em></p>
                     </div>
                 </div>
@@ -317,14 +319,13 @@ b = Hashable.Factory.b()  # Char('B')
             </section>
 
             <footer>
-                <p>Generated: <span id="timestamp"></span></p>
+                <p>Generated: 2026-02-25</p>
                 <p>Scope: f_core.mixins.hashable package documentation</p>
             </footer>
         </main>
     </div>
 
     <script>
-        document.getElementById('timestamp').textContent = new Date().toISOString().split('T')[0];
         function togglePanel(header) { header.parentElement.classList.toggle('collapsed'); }
         function handlePanelKey(event, header) { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); togglePanel(header); } }
         const searchInput = document.getElementById('search');

@@ -38,12 +38,12 @@ def items(self) -> list[tuple[K, V]]
 Returns list of `(key, value)` tuples.
 
 ```python
-def get(self, key: K, default: V = None) -> V
+def get(self, key: K, default: V = None) -> V | None
 ```
 Returns value for `key`, or `default` if missing.
 
 ```python
-def update(self, data: Union[dict[K, V], 'Dictable[K, V]']) -> None
+def update(self, data: Self | dict[K, V]) -> None
 ```
 Merges `data` into `_data`. Accepts a `dict` or another `Dictable`.
 
@@ -80,7 +80,7 @@ def __str__(self) -> str
 Returns `str(self._data)`.
 
 ```python
-def __eq__(self, other: 'Dictable[K, V]') -> bool
+def __eq__(self, other: object) -> bool
 ```
 Compares `_data` dicts for equality. Returns `NotImplemented` for non-Dictable.
 
@@ -101,7 +101,7 @@ Sized (collections.abc)
 
 | Import | Purpose |
 |--------|---------|
-| `typing.Generic`, `TypeVar`, `Iterator`, `Union` | Generics and type hints |
+| `typing.Generic`, `TypeVar`, `Iterator`, `Self` | Generics and type hints |
 | `f_core.mixins.sizable.Sizable` | Base — size/bool semantics |
 
 ## Usage Example

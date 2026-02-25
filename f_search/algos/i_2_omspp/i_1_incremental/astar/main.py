@@ -1,5 +1,5 @@
 from f_search.algos.i_2_omspp import AlgoOMSPP
-from f_search.algos.i_1_spp import AStar
+from f_search.algos.i_1_spp.i_2_astar_reusable import AStarReusable
 from f_search.problems import ProblemSPP, ProblemOMSPP
 from f_search.solutions import SolutionSPP
 from f_search.heuristics import HeuristicsProtocol, HeuristicsManhattan as Manhattan
@@ -91,7 +91,7 @@ class AStarIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
                                        h=self._data.dict_h[state])
             self._data.frontier.update(state=state, priority=priority)
         # Run the Sub-Search using AStar.
-        algo = AStar[State](problem=problem,
-                            data=self._data,
-                            heuristics=heuristics)
+        algo = AStarReusable[State](problem=problem,
+                                    data=self._data,
+                                    heuristics=heuristics)
         return algo.run()
