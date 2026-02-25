@@ -29,6 +29,18 @@ class ProblemSPP(ProblemSearch, HasStart, HasGoal):
         HasStart.__init__(self, start=start)
         HasGoal.__init__(self, goal=goal)
 
+    def reverse(self, name: str = None) -> Self:
+        """
+        ========================================================================
+         Return a reversed Problem (Start and Goal swapped).
+        ========================================================================
+        """
+        name = name if name else self.name
+        return type(self)(grid=self.grid,
+                          start=self.goal,
+                          goal=self.start,
+                          name=name)
+
     def to_light(self) -> Self:
         """
         ========================================================================
