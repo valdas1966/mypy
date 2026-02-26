@@ -2,7 +2,7 @@ from f_search.algos.i_1_spp.i_1_astar.main import (AStar, State, Data,
                                                     Priority, Frontier)
 from f_search.problems import ProblemSPP as Problem
 from f_search.heuristics import HeuristicsProtocol, HeuristicsManhattan as Manhattan
-from f_search.utils.propagation import propagate
+from f_search.utils.propagation import Propagation
 from typing import Generic
 
 
@@ -20,7 +20,8 @@ class AStarReusable(Generic[State], AStar[State]):
                  problem: Problem,
                  name: str = 'AStarReusable',
                  data: Data[State] = None,
-                 heuristics: HeuristicsProtocol[State] = None) -> None:
+                 heuristics: HeuristicsProtocol[State] = None,
+                 need_path: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -31,6 +32,7 @@ class AStarReusable(Generic[State], AStar[State]):
             self._data = data
         if heuristics:
             self._heuristics = heuristics
+        self._need_path = need_path
 
     def distances_to_goal(self) -> dict[State, int]:
         """
@@ -64,10 +66,10 @@ class AStarReusable(Generic[State], AStar[State]):
         if not depth:
             return bounds
         sources = {**bounds, **self.distances_to_goal()}
-        propagated = propagate(sources=sources,
-                               excluded=set(sources.keys()),
-                               successors=self.problem.successors,
-                               depth=depth,
-                               prune=self._heuristics)
-        bounds.update(propagated)
+        propagation = Propagation(sources=sources,
+                                  excluded=set(sources.keys()),
+                                  successors=self.problem.successors,
+                                  depth=depth,
+                                  prune=self._heuristics)
+        bounds.update(propagation.run())
         return bounds

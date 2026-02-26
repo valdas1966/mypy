@@ -21,7 +21,8 @@ class BFS(Generic[State], AlgoSPP[State, DataBestFirst[State]]):
     def __init__(self,
                  problem: ProblemSPP,
                  name: str = 'BFS',
-                 data: DataBestFirst[State] = None) -> None:
+                 data: DataBestFirst[State] = None,
+                 need_path: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -31,6 +32,7 @@ class BFS(Generic[State], AlgoSPP[State, DataBestFirst[State]]):
         super().__init__(problem=problem,
                          data=data,
                          name=name)
+        self._need_path = need_path
 
     def _discover(self, state: State) -> None:
         """

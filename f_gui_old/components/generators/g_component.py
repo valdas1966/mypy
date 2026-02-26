@@ -1,5 +1,5 @@
 from f_gui_old.components.component import Component
-from f_gui.layout import FactoryBounds
+from f_gui_old.layout import FactoryBounds
 
 
 class GenComponent:

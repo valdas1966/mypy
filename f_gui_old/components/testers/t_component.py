@@ -1,5 +1,5 @@
 from f_gui_old.components.generators.g_component import GenComponent
-from f_gui.layout import FactoryRect
+from f_gui_old.layout import FactoryRect
 
 
 def test_window_empty() -> None:

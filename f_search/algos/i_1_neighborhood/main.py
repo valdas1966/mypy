@@ -19,13 +19,15 @@ class BFSNeighborhood(AlgoSearch[Problem, Solution], Generic[State]):
 
     def __init__(self,
                  problem: Problem,
-                 name: str = 'BFSNeighborhood') -> None:
+                 name: str = 'BFSNeighborhood',
+                 need_path: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         super().__init__(problem=problem, name=name)
+        self._need_path = need_path
         self._neighborhood: dict[State] | None = None
         
     def _run(self) -> None:

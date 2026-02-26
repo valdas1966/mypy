@@ -52,9 +52,13 @@ class AlgoSPP(Generic[State, Data],
         """
         super()._run_post()
         is_valid = self._can_terminate()
+        path = None
+        if self._need_path and is_valid:
+            path = self._data.path_to(state=self.problem.goal)
         self._output = SolutionSPP(name_algo=self.name,
                                     problem=self.problem,
                                     is_valid=is_valid,
+                                    path=path,
                                     stats=self._stats)
 
     def _can_terminate(self) -> bool:

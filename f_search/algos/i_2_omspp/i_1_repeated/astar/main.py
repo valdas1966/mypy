@@ -21,7 +21,8 @@ class AStarRepeated(AlgoOMSPP):
 
     def __init__(self,
                  problem: ProblemOMSPP,
-                 name: str = 'KxAStar') -> None:
+                 name: str = 'KxAStar',
+                 need_path: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -30,6 +31,7 @@ class AStarRepeated(AlgoOMSPP):
         AlgoOMSPP.__init__(self,
                            problem=problem,
                            name=name)
+        self._need_path = need_path
 
     def _run(self) -> None:
         """
@@ -45,7 +47,8 @@ class AStarRepeated(AlgoOMSPP):
             # Run the sub-search.
             name_astar = f'AStar {i+1}/{n_problems}'
             astar = AStar(problem=sub_problem,
-                               name=name_astar)
+                          name=name_astar,
+                          need_path=self._need_path)
             solution = astar.run()
             if not solution:
                 return
@@ -53,14 +56,19 @@ class AStarRepeated(AlgoOMSPP):
             # Add a solution for the goals that are explored in current A*.
             for goal in self._goals_active:
                 if goal in astar._data.explored:
-                    problem_by_the_way = ProblemSPP(grid=sub_problem.grid,
-                                         start=sub_problem.start,
-                                         goal=goal)
+                    problem_by_the_way = ProblemSPP(
+                        grid=sub_problem.grid,
+                        start=sub_problem.start,
+                        goal=goal)
+                    path = None
+                    if self._need_path:
+                        path = astar._data.path_to(state=goal)
                     solution_by_the_way = SolutionSPP(
-                                           name_algo=self.name,
-                                           problem=problem_by_the_way,
-                                           is_valid=True,
-                                           stats=Stats())
+                        name_algo=self.name,
+                        problem=problem_by_the_way,
+                        is_valid=True,
+                        path=path,
+                        stats=Stats())
                     self._sub_solutions.append(solution_by_the_way)
                     self._goals_active.remove(goal)
             self._sub_solutions.append(solution)

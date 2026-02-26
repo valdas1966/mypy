@@ -22,7 +22,8 @@ class AStar(Generic[State], AlgoSPP[State, Data]):
 
     def __init__(self,
                  problem: Problem,
-                 name: str = 'AStar') -> None:
+                 name: str = 'AStar',
+                 need_path: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -34,6 +35,7 @@ class AStar(Generic[State], AlgoSPP[State, Data]):
         super().__init__(problem=problem,
                          data=data,
                          name=name)
+        self._need_path = need_path
 
     def _discover(self, state: State) -> None:
         """

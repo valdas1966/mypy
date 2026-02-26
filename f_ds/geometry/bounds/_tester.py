@@ -28,4 +28,4 @@ def test_repr() -> None:
     ========================================================================
     """
     bounds = Bounds.Factory.full()
-    assert repr(bounds) == '<Bounds: top=0, left=0, bottom=100, right=100>'
+    assert repr(bounds) == '<Bounds: Top=0, Left=0, Bottom=100, Right=100>'

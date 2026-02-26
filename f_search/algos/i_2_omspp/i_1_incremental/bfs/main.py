@@ -23,13 +23,15 @@ class BFSIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
     def __init__(self,
                  problem: ProblemOMSPP,
                  data: Data[State] = None,
-                 name: str = 'BFSIncremental') -> None:
+                 name: str = 'BFSIncremental',
+                 need_path: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         super().__init__(problem=problem, name=name)
+        self._need_path = need_path
         frontier = Frontier()
         self._data = data if data else Data(frontier=frontier)
         
@@ -44,14 +46,19 @@ class BFSIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
         for sub_problem in self.problem.to_spps():
             # If the goal is already explored, append the solution.
             if sub_problem.goal in self._data.explored:
+                path = None
+                if self._need_path:
+                    path = self._data.path_to(state=sub_problem.goal)
                 solution = SolutionSPP(name_algo=self.name,
                                        problem=sub_problem,
-                                       is_valid=True)
+                                       is_valid=True,
+                                       path=path)
                 self._sub_solutions.append(solution)
                 continue
             # Run the sub-search (SPP) using BFS.
             algo = BFS(problem=sub_problem,
-                       data=self._data)
+                       data=self._data,
+                       need_path=self._need_path)
             sub_solution = algo.run()
             if not sub_solution:
                 return

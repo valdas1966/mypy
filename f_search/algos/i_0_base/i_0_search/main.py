@@ -26,3 +26,4 @@ class AlgoSearch(Generic[Problem, Solution], Algo[Problem, Solution]):
         ========================================================================
         """
         super().__init__(problem=problem, name=name)
+        self._need_path: bool = False

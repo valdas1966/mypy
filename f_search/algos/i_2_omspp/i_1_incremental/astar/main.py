@@ -26,13 +26,15 @@ class AStarIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
                  problem: ProblemOMSPP,
                  data: Data[State] = None,
                  heuristics: HeuristicsProtocol[State] = None,
-                 name: str = 'AStarIncremental') -> None:
+                 name: str = 'AStarIncremental',
+                 need_path: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         super().__init__(problem=problem, name=name)
+        self._need_path = need_path
         self._data = data
         if not data:
             frontier = Frontier[State, Priority]()
@@ -69,10 +71,24 @@ class AStarIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
          On Goal Already Explored - Append the Sub-Solution.
         ========================================================================
         """
+        path = None
+        if self._need_path:
+            path = self._data.path_to(state=problem.goal)
         solution = SolutionSPP(name_algo=self.name,
                                problem=problem,
-                               is_valid=True)
+                               is_valid=True,
+                               path=path)
         self._sub_solutions.append(solution)
+
+    def optimal_lengths(self) -> dict[State, int]:
+        """
+        ========================================================================
+         Return optimal path lengths per goal from the shared Data.
+        ========================================================================
+        """
+        return {goal: self._data.dict_g[goal]
+                for goal in self.problem.goals
+                if goal in self._data.dict_g}
 
     def _run_sub_search(self, problem: ProblemSPP) -> SolutionSPP:
         """
@@ -93,5 +109,6 @@ class AStarIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
         # Run the Sub-Search using AStar.
         algo = AStarReusable[State](problem=problem,
                                     data=self._data,
-                                    heuristics=heuristics)
+                                    heuristics=heuristics,
+                                    need_path=self._need_path)
         return algo.run()

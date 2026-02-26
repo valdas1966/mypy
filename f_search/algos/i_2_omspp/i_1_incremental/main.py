@@ -14,13 +14,15 @@ class AlgoIncremental(AlgoOMSPP):
     def __init__(self,
                  problem: ProblemOMSPP,
                  type_algo: type[AlgoSPP],
-                 name: str = 'AlgoIncremental') -> None:
+                 name: str = 'AlgoIncremental',
+                 need_path: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         super().__init__(problem=problem, name=name)
+        self._need_path = need_path
         self._type_algo = type_algo
         
     def _run(self) -> None:
@@ -35,7 +37,9 @@ class AlgoIncremental(AlgoOMSPP):
         for i, sub_problem in enumerate(sub_problems):
             # Add stats for the goals that were explored during other searches.
             if sub_problem.goal in data.explored:
-                path = data.path_to(state=sub_problem.goal)
+                path = None
+                if self._need_path:
+                    path = data.path_to(state=sub_problem.goal)
                 solution = SolutionSPP(name_algo=self.name,
                                        is_valid=True, path=path)
                 self._sub_solutions[sub_problem.goal] = solution

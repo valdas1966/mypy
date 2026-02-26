@@ -1,18 +1,13 @@
 from f_search.ds.state import StateBase
-from typing import TypeVar, Callable
+from typing import TypeVar, Callable, Generic
 
 State = TypeVar('State', bound=StateBase)
 
 
-def propagate(sources: dict[State, int],
-              excluded: set[State],
-              successors: Callable[[State], list[State]],
-              depth: int,
-              prune: Callable[[State], int] | None = None
-              ) -> dict[State, int]:
+class Propagation(Generic[State]):
     """
     ========================================================================
-     Multi-source wavefront expansion with decaying values.
+     Multi-source Wavefront Expansion with Decaying Values.
     ========================================================================
      Propagates integer values outward from source states on a graph.
      At each step, values decrease by 1 (triangle inequality).
@@ -42,18 +37,19 @@ def propagate(sources: dict[State, int],
 
      sources = {A: 6}, excluded = {A}, depth=3
 
-     Step 1: A→B with value 5
-     Step 2: B→C with value 4
-     Step 3: C→D with value 3
+     Step 1: A->B with value 5
+     Step 2: B->C with value 4
+     Step 3: C->D with value 3
 
      Returns: {B: 5, C: 4, D: 3}
     ========================================================================
      Example with pruning (prune returns h-value for each state):
     ------------------------------------------------------------------------
-     sources = {A: 6}, excluded = {A}, depth=3, prune(B)=2, prune(C)=5
+     sources = {A: 6}, excluded = {A}, depth=3,
+      prune(B)=2, prune(C)=5
 
-     Step 1: A→B with value 5 > prune(B)=2 → kept
-     Step 2: B→C with value 4 <= prune(C)=5 → pruned (and subtree)
+     Step 1: A->B with value 5 > prune(B)=2 -> kept
+     Step 2: B->C with value 4 <= prune(C)=5 -> pruned (and subtree)
 
      Returns: {B: 5}
     ========================================================================
@@ -63,77 +59,88 @@ def propagate(sources: dict[State, int],
 
      sources = {A: 4, B: 6}, excluded = {A, B}, depth=1
 
-     Step 1: A→X with value 3, B→X with value 5 → max wins
+     Step 1: A->X with value 3, B->X with value 5 -> max wins
 
      Returns: {X: 5}
     ========================================================================
     """
-    frontier = dict(sources)
-    result: dict[State, int] = {}
-    for _ in range(depth):
-        # Expand the current wavefront level Frontier
-        frontier = _expand(frontier, excluded, successors, prune)
-        # If there is no propagation potential, stop
-        if not frontier:
-            break
-        # If there is a propagation potential,
-        #  update the result with the new frontier
-        result.update(frontier)
-        # Update the excluded states with the new frontier
-        # (they are already propagated and should not be propagated again)
-        excluded.update(frontier.keys())
-    return result
 
+    Factory: type = None
 
-def _expand(# Frontier of the current wavefront level
-            frontier: dict[State, int],
-            # States that are already excluded from the propagation
-            excluded: set[State],
-            # Function that returns the successors of the current state
-            successors: Callable[[State], list[State]],
-            # Pruning threshold function (e.g., a heuristic)
-            prune: Callable[[State], int] | None
-            ) -> dict[State, int]:
-    """
-    ========================================================================
-     Expand one wavefront level from all frontier states.
-    ========================================================================
-    """
-    next_frontier: dict[State, int] = {}
-    for state, value in frontier.items():
-        # IF there is a propagation potential
-        if value > 1:
-            _expand_state(state, value, excluded,
-                          successors, prune, next_frontier)
-    return next_frontier
+    def __init__(self,
+                 sources: dict[State, int],
+                 excluded: set[State],
+                 successors: Callable[[State], list[State]],
+                 depth: int,
+                 prune: Callable[[State], int] | None = None
+                 ) -> None:
+        """
+        ====================================================================
+         Init private Attributes.
+        ====================================================================
+        """
+        self._sources = sources
+        self._excluded = excluded
+        self._successors = successors
+        self._depth = depth
+        self._prune = prune
 
+    def run(self) -> dict[State, int]:
+        """
+        ====================================================================
+         Run the Propagation and return the Result.
+        ====================================================================
+        """
+        frontier = dict(self._sources)
+        result: dict[State, int] = {}
+        for _ in range(self._depth):
+            # Expand the current wavefront level Frontier
+            frontier = self._expand(frontier=frontier)
+            # If there is no propagation potential, stop
+            if not frontier:
+                break
+            # Update the result with the new frontier
+            result.update(frontier)
+            # Update excluded (already propagated)
+            self._excluded.update(frontier.keys())
+        return result
 
-def _expand_state(# Current state
-                  state: State,
-                  # Value of the current state
-                  value: int,
-                  # States that are already excluded from the propagation
-                  excluded: set[State],
-                  # Function that returns the successors of the current state
-                  successors: Callable[[State], list[State]],
-                  # Pruning threshold function (e.g., a heuristic)
-                  prune: Callable[[State], int] | None,
-                  # Next-Frontier of the next wavefront level
-                  next_frontier: dict[State, int]) -> None:
-    """
-    ========================================================================
-     Expand a single state: propagate its value to valid successors
-      (by decreasing the value by 1).
-    ========================================================================
-    """
-    for succ in successors(state):
-        if succ in excluded:
-            continue
-        value_propagated = value - 1
-        # Skip if pruning threshold already provides a tighter value
-        if prune and value_propagated <= prune(state=succ):
-            continue
-        # Keep the max value if multiple sources reach the same state
-        if value_propagated > next_frontier.get(succ, -1):
-            next_frontier[succ] = value_propagated
+    def _expand(self,
+                frontier: dict[State, int]
+                ) -> dict[State, int]:
+        """
+        ====================================================================
+         Expand one wavefront level from all frontier states.
+        ====================================================================
+        """
+        next_frontier: dict[State, int] = {}
+        for state, value in frontier.items():
+            # IF there is a propagation potential
+            if value > 1:
+                self._expand_state(state=state,
+                                   value=value,
+                                   next_frontier=next_frontier)
+        return next_frontier
 
+    def _expand_state(self,
+                      state: State,
+                      value: int,
+                      next_frontier: dict[State, int]
+                      ) -> None:
+        """
+        ====================================================================
+         Expand a single state: propagate its value to valid
+          successors (by decreasing the value by 1).
+        ====================================================================
+        """
+        for succ in self._successors(state):
+            if succ in self._excluded:
+                continue
+            value_propagated = value - 1
+            # Skip if pruning threshold provides a tighter value
+            if (self._prune
+                    and value_propagated <= self._prune(state=succ)):
+                continue
+            # Keep the max value if multiple sources reach same state
+            if value_propagated > next_frontier.get(succ, -1):
+                next_frontier[succ] = value_propagated

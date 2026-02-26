@@ -1,4 +1,4 @@
-from f_gui.layout.bounds.main import Bounds, Rect
+from f_gui_old.layout.bounds.main import Bounds, Rect
 
 
 def test_full():

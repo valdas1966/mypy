@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Review — f_ds/geometry/bounds</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #111827;
+            --panel2: #0f172a;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --faint: #94a3b8;
+            --border: #334155;
+            --accent: #60a5fa;
+            --accent2: #a78bfa;
+            --good: #34d399;
+            --warn: #fbbf24;
+            --bad: #fb7185;
+            --code-bg: #0a1220;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem 3rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        h1 { color: #fff; font-size: 2rem; margin-bottom: 0.25rem; }
+        .path { color: var(--faint); font-family: monospace; font-size: 0.9rem; margin-bottom: 2rem; }
+        h2 {
+            color: #fff;
+            font-size: 1.3rem;
+            margin-top: 2.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--border);
+        }
+        h3 { color: var(--muted); font-size: 1.05rem; margin: 1rem 0 0.5rem; }
+        p { margin-bottom: 0.75rem; color: var(--text); }
+        ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+        li { margin-bottom: 0.5rem; color: var(--muted); font-size: 0.95rem; }
+        pre {
+            background: var(--code-bg);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+            overflow-x: auto;
+            margin: 0.5rem 0 1rem;
+        }
+        code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+        .inline-code {
+            background: var(--panel2);
+            padding: 0.12rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+        .tag {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.4rem;
+        }
+        .tag-bug { background: var(--bad); color: var(--bg); }
+        .tag-fix { background: var(--warn); color: var(--bg); }
+        .tag-ok { background: var(--good); color: var(--bg); }
+        section { margin-bottom: 1.5rem; }
+        .summary {
+            background: var(--panel);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin: 2rem 0;
+        }
+        .summary h2 { margin-top: 0; }
+        footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--border);
+            color: var(--faint);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Code + Design Review</h1>
+<div class="path">f_ds/geometry/bounds/</div>
+
+<div class="summary">
+    <h2>Summary</h2>
+    <ol>
+        <li><span class="tag tag-bug">BUG</span> <code class="inline-code">__repr__</code> uses <code class="inline-code">Top=</code> but test expects <code class="inline-code">top=</code> &mdash; test fails.</li>
+        <li><span class="tag tag-fix">FIX</span> <code class="inline-code">test_repr</code> docstring says &ldquo;key comparison&rdquo; but tests repr output.</li>
+        <li><span class="tag tag-fix">FIX</span> Class docstring says &ldquo;named tuple&rdquo; but <code class="inline-code">Bounds</code> is a regular class.</li>
+        <li><span class="tag tag-ok">OK</span> Clean, minimal, immutable data container &mdash; not overengineered.</li>
+        <li><span class="tag tag-ok">OK</span> Good candidate as coordinate primitive for the GUI layout system.</li>
+    </ol>
+</div>
+
+<section>
+    <h2>1. Correctness</h2>
+    <ol>
+        <li><span class="tag tag-bug">BUG</span> <code class="inline-code">main.py:99</code> &mdash; <code class="inline-code">__repr__</code> produces <code class="inline-code">Top=</code> (capitalized) but <code class="inline-code">_tester.py:31</code> asserts lowercase <code class="inline-code">top=</code>. Test fails.</li>
+    </ol>
+    <h3>Fix</h3>
+    <p>Lowercase the keys in <code class="inline-code">__repr__</code> to match the test expectation and Python convention:</p>
+<pre><code># main.py:99-100 — change to:
+values = f'top={self._top}, left={self._left}, '
+values += f'bottom={self._bottom}, right={self._right}'</code></pre>
+</section>
+
+<section>
+    <h2>2. Readability / Naming</h2>
+    <ol>
+        <li><code class="inline-code">_tester.py:26</code> &mdash; <code class="inline-code">test_repr</code> docstring says &ldquo;Test the key comparison&rdquo; but actually tests <code class="inline-code">__repr__</code> output. Rename to &ldquo;Test the repr representation&rdquo;.</li>
+        <li><code class="inline-code">main.py:9</code> &mdash; Class docstring says &ldquo;A named tuple&rdquo; but <code class="inline-code">Bounds</code> is not a <code class="inline-code">NamedTuple</code>. Change to &ldquo;Immutable rectangular bounds container&rdquo;.</li>
+        <li><code class="inline-code">main.py:99-100</code> &mdash; <code class="inline-code">__repr__</code> builds string via concatenation (<code class="inline-code">values +=</code>). Single f-string is cleaner.</li>
+    </ol>
+    <h3>Fix for #3</h3>
+<pre><code>def __repr__(self) -> str:
+    name = self.__class__.__name__
+    return (f'&lt;{name}: top={self._top}, left={self._left}, '
+            f'bottom={self._bottom}, right={self._right}&gt;')</code></pre>
+</section>
+
+<section>
+    <h2>3. Design (OOP)</h2>
+    <ol>
+        <li><strong>No <code class="inline-code">__eq__</code></strong> &mdash; Two <code class="inline-code">Bounds</code> with identical coordinates are not equal. For an immutable data container this is unexpected. Evidence: no <code class="inline-code">__eq__</code> in <code class="inline-code">main.py</code>. Fix: add <code class="inline-code">__eq__</code> comparing <code class="inline-code">to_tuple()</code>.</li>
+        <li><strong>No computed size properties</strong> &mdash; <code class="inline-code">width</code> (<code class="inline-code">right - left</code>) and <code class="inline-code">height</code> (<code class="inline-code">bottom - top</code>) are the most common derived values. Every consumer will compute them manually. Fix: add <code class="inline-code">@property width</code> and <code class="inline-code">height</code>.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>4. Performance</h2>
+    <p>No change needed.</p>
+</section>
+
+<section>
+    <h2>5. Typing</h2>
+    <ol>
+        <li><code class="inline-code">Factory: type | None = None</code> &mdash; declared as <code class="inline-code">type</code> but the actual Factory is a class, not a type alias. This is a framework-wide convention, acceptable.</li>
+    </ol>
+    <p>All public APIs are fully typed. No leaking <code class="inline-code">Any</code>.</p>
+</section>
+
+<section>
+    <h2>6. Documentation</h2>
+    <ol>
+        <li><code class="inline-code">main.py:9</code> &mdash; &ldquo;A named tuple&rdquo; is factually wrong. Rewrite: &ldquo;Immutable rectangular bounds container.&rdquo;</li>
+    </ol>
+</section>
+
+<section>
+    <h2>7. Modularity</h2>
+    <p>No change needed. Clean split: <code class="inline-code">main.py</code>, <code class="inline-code">_factory.py</code>, <code class="inline-code">_tester.py</code>, <code class="inline-code">__init__.py</code>.</p>
+</section>
+
+<section>
+    <h2>8. Architecture</h2>
+    <ol>
+        <li><strong>Naming collision</strong> &mdash; <code class="inline-code">f_core/protocols/bounds/</code> defines a <code class="inline-code">Bounds</code> NamedTuple with the same field names <code class="inline-code">(top, left, bottom, right)</code>. Two different <code class="inline-code">Bounds</code> types in the same codebase. Risk: wrong import silently used. Tactical fix: import as <code class="inline-code">from f_ds.geometry.bounds import Bounds</code> consistently. Migration: consider consolidating into one canonical <code class="inline-code">Bounds</code> or renaming the protocol's NamedTuple to <code class="inline-code">BoundsData</code>.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>9. Usage &amp; Usefulness</h2>
+    <h3>How to use</h3>
+<pre><code>from f_ds.geometry.bounds import Bounds
+
+b = Bounds(top=0, left=0, bottom=100, right=100)
+print(b.top, b.right)   # 0 100
+print(b.to_tuple())     # (0, 0, 100, 100)</code></pre>
+    <h3>When useful</h3>
+    <ol>
+        <li>Representing percentage-based positions for GUI elements (0&ndash;100 range).</li>
+        <li>Storing absolute resolved coordinates after layout resolution.</li>
+        <li>Any 2D rectangular region (grid sub-areas, clipping bounds, viewport).</li>
+    </ol>
+    <h3>When overengineered</h3>
+    <ol>
+        <li>Not overengineered. 102 lines, no unnecessary abstractions.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>10. Suggestions</h2>
+    <ol>
+        <li><strong>Fix <code class="inline-code">__repr__</code> casing</strong> &mdash; Risk: low. Benefit: test passes. Change: lowercase keys in <code class="inline-code">main.py:99-100</code>.</li>
+        <li><strong>Fix class docstring</strong> &mdash; Risk: none. Benefit: accuracy. Change: &ldquo;named tuple&rdquo; &rarr; &ldquo;Immutable rectangular bounds container&rdquo;.</li>
+        <li><strong>Fix test docstring</strong> &mdash; Risk: none. Benefit: clarity. Change: &ldquo;key comparison&rdquo; &rarr; &ldquo;repr representation&rdquo;.</li>
+        <li><strong>Add <code class="inline-code">__eq__</code></strong> &mdash; Risk: low. Benefit: enables equality checks between Bounds with same coordinates. Change: compare <code class="inline-code">to_tuple()</code>.</li>
+        <li><strong>Add <code class="inline-code">width</code> / <code class="inline-code">height</code> properties</strong> &mdash; Risk: none. Benefit: avoids manual computation in every consumer. Change: two <code class="inline-code">@property</code> methods.</li>
+        <li><strong>Add Factory methods</strong> &mdash; <code class="inline-code">Factory</code> has only <code class="inline-code">full()</code>. Consider adding <code class="inline-code">half()</code>, <code class="inline-code">quarter()</code>, or a parametric builder for tests.</li>
+    </ol>
+</section>
+
+<footer>
+    <p>Review scope: f_ds/geometry/bounds/ (main.py, _factory.py, _tester.py, __init__.py)</p>
+    <p>Generated: <span id="timestamp"></span></p>
+</footer>
+
+<script>
+    document.getElementById('timestamp').textContent = new Date().toISOString().split('T')[0];
+</script>
+
+</body>
+</html>

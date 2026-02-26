@@ -175,7 +175,7 @@ print(content.absolute)  # (15, 25, 450, 270)
 ### Example 1: Basic Usage
 
 ```python
-from f_gui.layout.bounds import Bounds
+from f_gui_old.layout import Bounds
 from f_math.shapes.rect import Rect
 
 # Create a bounds with default full layout
@@ -185,7 +185,7 @@ print(bounds)  # (0, 0, 100, 100) X (0, 0, 100, 100) -> (0, 0, 100, 100)
 # Create custom relative bounds
 custom = Bounds(
     relative=(10, 20, 50, 30),  # top, left, width, height (%)
-    parent=(0, 0, 800, 600)     # Tuple gets auto-converted to Rect
+    parent=(0, 0, 800, 600)  # Tuple gets auto-converted to Rect
 )
 print(custom.absolute)  # (60, 160, 400, 180)
 ```
@@ -193,7 +193,7 @@ print(custom.absolute)  # (60, 160, 400, 180)
 ### Example 2: Using Factory
 
 ```python
-from f_gui.layout.bounds import Bounds
+from f_gui_old.layout import Bounds
 
 # Create centered half-size layout
 half = Bounds.Factory.half()
@@ -207,7 +207,7 @@ print(quarter.absolute)  # (37.5, 37.5, 25, 25)
 ### Example 3: Reactive Updates
 
 ```python
-from f_gui.layout.bounds import Bounds
+from f_gui_old.layout import Bounds
 from f_math.shapes.rect import Rect
 
 # Component at 50% width/height, centered
@@ -226,7 +226,7 @@ print(component.absolute)  # (150, 200, 400, 300) - auto-calculated!
 ### Example 4: Offsetted Parents
 
 ```python
-from f_gui.layout.bounds import Bounds
+from f_gui_old.layout import Bounds
 from f_math.shapes.rect import Rect
 
 # Parent is NOT at (0,0) - it's offset in the screen
@@ -245,7 +245,7 @@ print(child.absolute)  # (100, 50, 300, 200)
 ### Example 5: String Representation
 
 ```python
-from f_gui.layout.bounds import Bounds
+from f_gui_old.layout import Bounds
 
 bounds = Bounds(
     relative=(20, 30, 40, 50),
@@ -337,15 +337,18 @@ Bounds(
 Located in `_tester.py`:
 
 ```python
-from f_gui.layout.bounds import Bounds
+from f_gui_old.layout import Bounds
+
 
 def test_full():
     bounds = Bounds()
     assert bounds.absolute == (0, 0, 100, 100)
 
+
 def test_half():
     bounds = Bounds.Factory.half()
     assert bounds.absolute == Rect.Factory.half()
+
 
 def test_quarter():
     bounds = Bounds.Factory.quarter()
@@ -373,7 +376,7 @@ All Rect objects use the format:
 
 ```python
 # 1. Import
-from f_gui.layout.bounds import Bounds
+from f_gui_old.layout import Bounds
 
 # 2. Create bounds for a button (centered, 40% wide, 10% tall)
 button = Bounds(
@@ -384,6 +387,7 @@ button = Bounds(
 # 3. Get absolute position for rendering
 x, y, w, h = button.absolute.to_tuple()
 draw_button(x, y, w, h)
+
 
 # 4. Handle window resize
 def on_resize(new_width, new_height):

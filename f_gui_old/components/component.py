@@ -1,7 +1,7 @@
 from __future__ import annotations
 from f_color.rgb import RGB
 from f_graph.nodes import NodeHierarchy
-from f_gui.layout import FactoryBounds, Bounds
+from f_gui_old.layout import FactoryBounds, Bounds
 from f_gui_old.components.mixins.has_color import HasColor
 
 
