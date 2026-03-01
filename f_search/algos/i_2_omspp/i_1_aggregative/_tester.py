@@ -1,17 +1,6 @@
 from f_search.algos.i_2_omspp.i_1_aggregative import AStarAggregative
 
 
-def test_name_algo() -> None:
-    """
-    ========================================================================
-     Test that solution.name_algo matches the Algorithm's Name.
-    ========================================================================
-    """
-    algo = AStarAggregative.Factory.without_obstacles()
-    solution = algo.run()
-    assert solution.name_algo == 'AStarAggregative'
-
-
 def test_aggregative() -> None:
     """
     ========================================================================

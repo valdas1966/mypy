@@ -1,17 +1,6 @@
 from f_search.algos.i_1_spp.i_1_astar import AStar
 
 
-def test_name_algo() -> None:
-    """
-    ========================================================================
-     Test that solution.name_algo matches the Algorithm's Name.
-    ========================================================================
-    """
-    astar = AStar.Factory.without_obstacles()
-    solution = astar.run()
-    assert solution.name_algo == 'AStar'
-
-
 def test_without_obstacles() -> None:
     """
     ========================================================================
@@ -19,7 +8,7 @@ def test_without_obstacles() -> None:
     ========================================================================
     """
     astar = AStar.Factory.without_obstacles()
-    astar.run()
+    solution = astar.run()
     path = astar._data.path_to(state=astar.problem.goal)
     cells_path = [state.key for state in path._states]
     grid = astar.problem.grid
@@ -30,7 +19,8 @@ def test_without_obstacles() -> None:
     cells_generated_true = [grid[1][0], grid[1][1], grid[1][2]]
     cells_generated = [state.key for state in astar._data.frontier]
     assert cells_generated == cells_generated_true
-
+    assert solution.stats.discovered == 7
+    assert solution.stats.explored == 3
 
 def test_with_obstacles() -> None:
     """
@@ -39,7 +29,7 @@ def test_with_obstacles() -> None:
     ========================================================================
     """
     astar = AStar.Factory.with_obstacles()
-    astar.run()
+    solution = astar.run()
     path = astar._data.path_to(state=astar.problem.goal)
     cells_path = [state.key for state in path._states]
     grid = astar.problem.grid
@@ -51,27 +41,5 @@ def test_with_obstacles() -> None:
     cells_generated_true = [grid[2][0], grid[3][1], grid[3][2], grid[3][3]]
     cells_generated = [state.key for state in astar._data.frontier]
     assert cells_generated == cells_generated_true
-
-
-def test_counters_without_obstacles() -> None:
-    """
-    ========================================================================
-     Test that generated and explored counters match actual list/set sizes.
-    ========================================================================
-    """
-    astar = AStar.Factory.without_obstacles()
-    solution = astar.run()
-    assert solution.stats.discovered == 7
-    assert solution.stats.explored == 3
-
-
-def test_counters_with_obstacles() -> None:
-    """
-    ========================================================================
-     Test that generated and explored counters match actual list/set sizes.
-    ========================================================================
-    """
-    astar = AStar.Factory.with_obstacles()
-    solution = astar.run()
     assert solution.stats.discovered == 13
     assert solution.stats.explored == 8

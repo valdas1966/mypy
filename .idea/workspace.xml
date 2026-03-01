@@ -5,79 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_ds/geometry/bounds/CLAUDE.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/geometry/bounds/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/geometry/bounds/CLAUDE_REVIEW.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_0_base/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_0_base/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_0_base/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_0_base/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_container/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_container/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_container/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_container/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_label/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_label/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_label/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_label/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_2_window/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_2_window/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_2_window/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_2_window/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui_old/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_3_astar_reusable_flags/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_3_astar_reusable_flags/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_3_astar_reusable_flags/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_3_astar_reusable_flags/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar_backward/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar_backward/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar_backward/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar_backward/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/ds/data/incremental/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/ds/data/incremental/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/ds/data/incremental/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/ds/data/incremental/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.claude/worktrees/busy-elgamal" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/worktrees/busy-elgamal" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/components/study/s_position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/components/study/s_position.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/dictable/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/dictable/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/geometry/bounds/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/geometry/bounds/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/layout/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/layout/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/layout/bounds/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/layout/bounds/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/layout/bounds/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/layout/bounds/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/layout/bounds/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/layout/bounds/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/layout/bounds/claude.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/layout/bounds/claude.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/layout/bounds/claude.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/layout/bounds/claude.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/layout/bounds/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/layout/bounds/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui_old/components/component.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/components/component.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui_old/components/generators/g_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/components/generators/g_component.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui_old/components/testers/t_component.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/components/testers/t_component.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui_old/components/testers/t_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/components/testers/t_window.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui_old/mixins/has_position.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/mixins/has_position.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui_old/pyqt/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui_old/pyqt/widget.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/widget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui_old/pyqt/window.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/pyqt/window.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui_old/u_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui_old/u_screen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_0_base/i_0_search/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_0_base/i_0_search/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_neighborhood/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_neighborhood/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_0_base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_bfs/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_bfs/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_dijkstra/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_dijkstra/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_2_astar_reusable/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_2_astar_reusable/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_aggregative/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_aggregative/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_aggregative/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_aggregative/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/_tester.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/bfs/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/bfs/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/dijkstra/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/dijkstra/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_repeated/astar/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_repeated/astar/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/ds/data/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/ds/data/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/utils/propagation/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/utils/propagation/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/utils/propagation/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/utils/propagation/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/utils/propagation/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/utils/propagation/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/utils/propagation/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/utils/propagation/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar_backward/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar_backward/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar_backward/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar_backward/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,6 +62,7 @@
     &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
     &quot;Python tests.Python tests for f_search.algos.i_1_spp.i_1_astar._tester.test_g_values_of_optimal_path.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for f_search.algos.i_1_spp.i_1_astar._tester.test_with_obstacles.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for f_search.algos.i_1_spp.i_1_dijkstra._tester.test_dijkstra.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for f_search.algos.i_1_spp.i_2_astar_reusable._tester.test_bounds_to_goal.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for f_search.utils.propagation._tester.test_depth_zero.executor&quot;: &quot;Run&quot;,
@@ -1103,7 +1039,23 @@
       <recent name="$PROJECT_DIR$/f_core/protocols/equality" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in _tester.py (1)">
+  <component name="RunManager">
+    <configuration name="Python tests for f_search.algos.i_1_spp.i_1_astar._tester.test_with_obstacles" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;f_search.algos.i_1_spp.i_1_astar._tester.test_with_obstacles&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <configuration name="Python tests for f_search.utils.propagation._tester.test_depth_zero" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -1216,6 +1168,25 @@
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/geometry/bounds/_tester.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/ds/data/i_0_best_first/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -1515,39 +1486,20 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="RUN_TOOL" value="" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/ds/data/i_0_best_first/_tester.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <list>
+      <item itemvalue="Python tests.Python tests for f_search.algos.i_1_spp.i_1_astar._tester.test_with_obstacles" />
+      <item itemvalue="Python tests.pytest in _tester.py" />
       <item itemvalue="Python tests.Python tests in _tester.py" />
       <item itemvalue="Python tests.Python tests for f_search.utils.propagation._tester.test_depth_zero" />
       <item itemvalue="Python tests.Python tests in _tester.py (2)" />
-      <item itemvalue="Python tests.Python tests in _tester.py (3)" />
-      <item itemvalue="Python tests.Python tests in _tester.py (1)" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in _tester.py (1)" />
-        <item itemvalue="Python tests.Python tests in _tester.py" />
-        <item itemvalue="Python tests.Python tests in _tester.py (3)" />
-        <item itemvalue="Python tests.Python tests for f_search.utils.propagation._tester.test_depth_zero" />
+        <item itemvalue="Python tests.Python tests for f_search.algos.i_1_spp.i_1_astar._tester.test_with_obstacles" />
         <item itemvalue="Python tests.Python tests in _tester.py (2)" />
+        <item itemvalue="Python tests.pytest in _tester.py" />
+        <item itemvalue="Python tests.Python tests in _tester.py" />
+        <item itemvalue="Python tests.Python tests for f_search.utils.propagation._tester.test_depth_zero" />
       </list>
     </recent_temporary>
   </component>
@@ -1626,14 +1578,6 @@
       <workItem from="1770540816637" duration="6873000" />
       <workItem from="1770703006670" duration="7888000" />
       <workItem from="1770804142876" duration="9603000" />
-    </task>
-    <task id="LOCAL-00279" summary="h">
-      <option name="closed" value="true" />
-      <created>1764244103828</created>
-      <option name="number" value="00279" />
-      <option name="presentableId" value="LOCAL-00279" />
-      <option name="project" value="LOCAL" />
-      <updated>1764244103828</updated>
     </task>
     <task id="LOCAL-00280" summary="h">
       <option name="closed" value="true" />
@@ -2019,7 +1963,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772050411976</updated>
     </task>
-    <option name="localTasksCounter" value="328" />
+    <task id="LOCAL-00328" summary="h">
+      <option name="closed" value="true" />
+      <created>1772109632590</created>
+      <option name="number" value="00328" />
+      <option name="presentableId" value="LOCAL-00328" />
+      <option name="project" value="LOCAL" />
+      <updated>1772109632590</updated>
+    </task>
+    <option name="localTasksCounter" value="329" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

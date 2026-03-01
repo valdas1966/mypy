@@ -4,7 +4,6 @@ from f_search.algos.i_1_spp.i_3_astar_reusable_flags import (
 from f_search.problems import ProblemSPP, ProblemOMSPP
 from f_search.solutions import SolutionSPP
 from f_search.ds.data.incremental import DataIncremental
-from f_search.ds.path import Path
 from f_search.ds.state import StateBase
 from typing import Generic, TypeVar
 
@@ -42,7 +41,6 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
         self._need_path = need_path
         self._depth_propagation = depth_propagation
         self._data_incremental = DataIncremental[State]()
-        self._dict_g: dict[State, int] = dict()
 
     def _run(self) -> None:
         """
@@ -67,14 +65,6 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
                 return
             self._sub_solutions.append(sub_solution)
 
-    def optimal_lengths(self) -> dict[State, int]:
-        """
-        ====================================================================
-         Return optimal path lengths per goal.
-        ====================================================================
-        """
-        return dict(self._dict_g)
-
     def _run_sub_search(self,
                         forward_problem: ProblemSPP,
                         backward_problem: ProblemSPP,
@@ -95,9 +85,6 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
         # If no solution found, return None
         if not backward_solution:
             return None
-        # Store g-value for optimal_lengths()
-        self._dict_g[forward_problem.goal] = (
-            algo._data.dict_g[backward_problem.goal])
         # Optionally reconstruct forward path
         fwd_path = None
         if self._need_path:

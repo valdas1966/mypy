@@ -80,16 +80,6 @@ class AStarIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
                                path=path)
         self._sub_solutions.append(solution)
 
-    def optimal_lengths(self) -> dict[State, int]:
-        """
-        ========================================================================
-         Return optimal path lengths per goal from the shared Data.
-        ========================================================================
-        """
-        return {goal: self._data.dict_g[goal]
-                for goal in self.problem.goals
-                if goal in self._data.dict_g}
-
     def _run_sub_search(self, problem: ProblemSPP) -> SolutionSPP:
         """
         ========================================================================
