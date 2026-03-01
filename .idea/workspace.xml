@@ -5,138 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.venv/pyvenv.cfg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/bigquery/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/bigquery/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/bigquery/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/bigquery/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar_backward/_study.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old_f_google/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old_f_google/auth/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old_f_google/auth/_enums.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old_f_google/auth/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old_f_google/auth/_study.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old_f_google/auth/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old_f_google/auth/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar_backward/_find.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/has/row_col/_study.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/has/row_col/_study.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/auth/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/auth/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/auth/_enums.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/auth/_enums.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/auth/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/auth/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/auth/_study.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/auth/_study.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/auth/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/auth/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/auth/claude.md" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/auth/claude.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/auth/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/auth/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/storage/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/storage/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/storage/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/storage/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/storage/_study.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/storage/_study.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/storage/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/storage/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/storage/bucket/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/storage/bucket/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/storage/bucket/_study.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/storage/bucket/_study.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/storage/bucket/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/storage/bucket/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/storage/bucket/blob/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/storage/bucket/blob/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/storage/bucket/blob/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/storage/bucket/blob/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/storage/bucket/blob/claude.md" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/storage/bucket/blob/claude.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/storage/bucket/blob/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/storage/bucket/blob/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/storage/bucket/claude.md" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/storage/bucket/claude.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/storage/bucket/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/storage/bucket/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/storage/claude.md" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/storage/claude.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/storage/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/storage/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/storage/scripts/create_bucket.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_f_google/services/storage/scripts/create_bucket.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/i_0_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/myq/gsheets/i_0_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/study/s_open_spread.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/myq/gsheets/study/s_open_spread.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/fields.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/fields.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/download.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/download.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/followers.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/followers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/followers_todo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/followers_todo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/comments_by_video.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/comments_by_video.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/followers_by_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/followers_by_user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/hashtags_by_keyword.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/hashtags_by_keyword.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/music_by_id.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/music_by_id.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/users_by_id.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/users_by_id.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/users_by_id_unique.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/users_by_id_unique.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_by_hashtag.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_by_hashtag.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_by_music.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_by_music.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_by_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_by_user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_new_by_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/videos_new_by_user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/keywords_to_hashtags.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/keywords_to_hashtags.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/old/study/s_alias_to_id.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/old/study/s_alias_to_id.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/old/study/s_tiktok_music.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/rapid_api/old/study/s_tiktok_music.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar_backward/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar_backward/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar_backward/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar_backward/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/problems/i_2_omspp/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/i_2_omspp/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/client/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/client/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/generators/g_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/generators/g_user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/inner/video_annotation/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/inner/video_annotation/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/inner/video_annotation/context.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/inner/video_annotation/context.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/abc/command.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/abc/command.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/commands/alter.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/commands/alter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/commands/create.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/commands/create.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/commands/drop.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/commands/drop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/commands/insert.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/commands/insert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/commands/select.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/commands/select.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/commands/study/s_create.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/commands/study/s_create.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/commands/study/s_drop.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/commands/study/s_drop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/commands/study/s_insert.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/commands/study/s_insert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/commands/study/s_select.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/commands/study/s_select.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/commands/truncate.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/commands/truncate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/structures/field.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/structures/field.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/structures/schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/structures/schema.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/structures/schema_partial.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/structures/schema_partial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/structures/study/s_field.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/structures/study/s_field.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/structures/study/s_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/structures/study/s_schema.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/structures/testers/t_field.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/structures/testers/t_field.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/structures/testers/t_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/structures/testers/t_schema.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/study/s_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/study/s_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/study/s_insert.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/study/s_insert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/study/s_select.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/study/s_select.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/big_query/study/s_truncate.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/big_query/study/s_truncate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/drive/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/drive/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/sheets/batch.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/sheets/batch.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/sheets/cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/sheets/cell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/sheets/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/sheets/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/sheets/sheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/sheets/sheet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/sheets/spread.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/sheets/spread.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/sheets/study/s_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/sheets/study/s_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/sheets/study/s_sheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/sheets/study/s_sheet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/sheets/study/s_spread.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/sheets/study/s_spread.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/sheets/testers/t_sheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/sheets/testers/t_sheet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/sheets/u_sheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/sheets/u_sheet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/sheets/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/sheets/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/slides/generators/g_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/slides/generators/g_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/slides/generators/g_client_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/slides/generators/g_client_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/slides/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/slides/ops.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/storage/blob.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/storage/blob.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/storage/bucket.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/storage/bucket.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/storage/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/storage/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/storage/study/s_bucket.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/storage/study/s_bucket.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/services/storage/study/s_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/services/storage/study/s_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/strategies/retry.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/strategies/retry.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/study/s_storage.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/study/s_storage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/testers/t_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/testers/t_user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/u_pub_sub.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/u_pub_sub.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/u_storage.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/u_storage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/u_video_analytics.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/u_video_analytics.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/u_video_annotation.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/u_video_annotation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/utils/generators/g_authentication.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/utils/generators/g_authentication.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/utils/study/s_auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/utils/study/s_auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/utils/study/s_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/utils/study/s_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/utils/testers/t_authentication.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/utils/testers/t_authentication.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/utils/u_authentication.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/utils/u_authentication.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_f_google/utils/u_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_old_f_google/utils/u_service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1723,14 +1593,6 @@
       <workItem from="1770703006670" duration="7888000" />
       <workItem from="1770804142876" duration="9603000" />
     </task>
-    <task id="LOCAL-00280" summary="h">
-      <option name="closed" value="true" />
-      <created>1764511039920</created>
-      <option name="number" value="00280" />
-      <option name="presentableId" value="LOCAL-00280" />
-      <option name="project" value="LOCAL" />
-      <updated>1764511039920</updated>
-    </task>
     <task id="LOCAL-00281" summary="h">
       <option name="closed" value="true" />
       <created>1764599065634</created>
@@ -2115,7 +1977,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772109632590</updated>
     </task>
-    <option name="localTasksCounter" value="329" />
+    <task id="LOCAL-00329" summary="h">
+      <option name="closed" value="true" />
+      <created>1772389118000</created>
+      <option name="number" value="00329" />
+      <option name="presentableId" value="LOCAL-00329" />
+      <option name="project" value="LOCAL" />
+      <updated>1772389118000</updated>
+    </task>
+    <option name="localTasksCounter" value="330" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
