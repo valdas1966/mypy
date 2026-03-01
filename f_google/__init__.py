@@ -1,3 +1,2 @@
-from ._factory import Google, Factory
-
-Google.Factory = Factory
+from f_google.auth import Auth
+from f_google.bigquery import BigQuery

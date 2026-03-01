@@ -46,6 +46,33 @@ class Factory:
         return ProblemOMSPP(grid=grid, start=start, goals=goals)
 
     @staticmethod
+    def grid_5x5() -> ProblemOMSPP:
+        """
+        ====================================================================
+         Return a ProblemOMSPP on a 5x5 grid with 5 obstacles and 3 goals.
+        ====================================================================
+         Layout (S=start, G=goal, X=obstacle, .=free):
+            0   1   2   3   4
+         0 [S] [.] [X] [.] [G0]
+         1 [.] [.] [X] [.] [.]
+         2 [.] [.] [.] [.] [X]
+         3 [X] [.] [.] [G1][.]
+         4 [.] [.] [X] [.] [G2]
+        ====================================================================
+        """
+        grid = Grid(rows=5, cols=5)
+        grid[0][2].set_invalid()
+        grid[1][2].set_invalid()
+        grid[2][4].set_invalid()
+        grid[3][0].set_invalid()
+        grid[4][2].set_invalid()
+        start = State(key=grid[0][0])
+        goals = [State(key=grid[0][4]),
+                 State(key=grid[3][3]),
+                 State(key=grid[4][4])]
+        return ProblemOMSPP(grid=grid, start=start, goals=goals)
+
+    @staticmethod
     def custom(rows: int,
                pct_obstacles: int,
                k: int) -> ProblemOMSPP:

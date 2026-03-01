@@ -1,5 +1,5 @@
 from f_proj.rapid_api.tiktok.requests import RequestsTiktok
-from old_f_google.services.big_query.client import BigQuery
+from old_old_f_google.services.big_query.client import BigQuery
 from f_proj.noteret.tiktok.tables import Tables
 from typing import Any
 

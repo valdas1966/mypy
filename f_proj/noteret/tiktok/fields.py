@@ -1,4 +1,4 @@
-from old_f_google.services.big_query.structures.field import Field
+from old_old_f_google.services.big_query.structures.field import Field
 
 
 class Fields:

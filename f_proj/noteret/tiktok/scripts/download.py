@@ -1,5 +1,5 @@
-from old_f_google.services.big_query.client import BigQuery
-from f_google.services.storage import Storage
+from old_old_f_google.services.big_query.client import BigQuery
+from old_f_google.services.storage import Storage
 from datetime import datetime
 from f_http.url import URL
 import time

@@ -1,10 +1,12 @@
-from .main import Auth, Credentials, ServiceAccount
+from google.oauth2.service_account import Credentials
+from f_google.auth.main import Auth
+from f_google.auth._enums import ServiceAccount
 
 
 class Factory:
     """
     ============================================================================
-     Factory for the Google Authentication process.
+     Factory for Google Authentication.
     ============================================================================
     """
 
@@ -12,18 +14,16 @@ class Factory:
     def rami() -> Credentials:
         """
         ========================================================================
-         Returns the credentials for the RAMI service account.
+         Return Credentials for the RAMI Service Account.
         ========================================================================
         """
-        account = ServiceAccount.RAMI   
-        return Auth.get_creds(account)
-    
+        return Auth.get_creds(account=ServiceAccount.RAMI)
+
     @staticmethod
     def valdas() -> Credentials:
         """
         ========================================================================
-         Returns the credentials for the VALDAS service account.
+         Return Credentials for the VALDAS Service Account.
         ========================================================================
         """
-        account = ServiceAccount.VALDAS
-        return Auth.get_creds(account)
+        return Auth.get_creds(account=ServiceAccount.VALDAS)

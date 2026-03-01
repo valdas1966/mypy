@@ -1,5 +1,5 @@
-from f_google.auth import Auth
+from f_google.auth import Auth, ServiceAccount
 
-
-creds = Auth.Factory.rami()
-print(creds)
+account=ServiceAccount.RAMI
+creds = Auth.get_creds(account=account)
+print(creds.project_id)  # noteret

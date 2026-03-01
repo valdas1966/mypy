@@ -4,7 +4,7 @@ from enum import Enum
 class ServiceAccount(Enum):
     """
     ============================================================================
-     Google Service Accounts (available in the environment variables)
+     Google Service Accounts (available in the environment variables).
     ============================================================================
     """
 

@@ -22,6 +22,11 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
       cached (exact) heuristics over bounded (lower-bound) over unbounded
       (Manhattan).
     ========================================================================
+     depth_propagation controls accumulated heuristic levels:
+       -1: cached exact distances only (from optimal path).
+        0: cached + lower bounds from explored states.
+       >0: cached + lower bounds + BFS propagation at given depth.
+    ========================================================================
     """
 
     # Factory
@@ -29,7 +34,7 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
 
     def __init__(self,
                  problem: ProblemOMSPP,
-                 depth_propagation: int = 0,
+                 depth_propagation: int = 2,
                  name: str = 'AStarIncrementalBackward',
                  need_path: bool = False) -> None:
         """
@@ -93,15 +98,20 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
             fwd_path = bwd_path.reverse()
         # Accumulate heuristic info for future sub-searches
         if not is_last:
+            depth = self._depth_propagation
+            # Cached exact distances (always collected)
             cached = algo.distances_to_goal()
-            bounded = algo.propagate_bounds(
-                depth=self._depth_propagation)
             self._data_incremental.dict_cached.update(cached)
-            # Keep the tighter (max) lower bound per state
-            for state, value in bounded.items():
-                old = self._data_incremental.dict_bounded.get(state)
-                if old is None or value > old:
-                    self._data_incremental.dict_bounded[state] = value
+            # Lower bounds (depth >= 0)
+            if depth >= 0:
+                bounded = algo.propagate_bounds(depth=depth)
+                # Keep the tighter (max) lower bound per state
+                for state, value in bounded.items():
+                    old = self._data_incremental.dict_bounded.get(
+                        state)
+                    if old is None or value > old:
+                        self._data_incremental.dict_bounded[state] \
+                            = value
         # Return forward sub-solution (problem.goal=Gi for SolutionOMSPP)
         return SolutionSPP(name_algo=self.name,
                            problem=forward_problem,

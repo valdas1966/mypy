@@ -1,6 +1,6 @@
 from f_proj.rapid_api.c_tiktok import TikTok
-from old_f_google.services.big_query.client import BigQuery
-from old_f_google.services.big_query.structures.schema import Schema
+from old_old_f_google.services.big_query.client import BigQuery
+from old_old_f_google.services.big_query.structures.schema import Schema
 
 
 tname_input = 'noteret.tiktok2.keywords_to_hashtags_input'

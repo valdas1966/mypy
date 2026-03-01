@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(conda run:*)",
+      "Bash(python3.12:*)",
+      "Bash(source:*)",
+      "Bash(ls:*)",
+      "Bash(/mnt/c/Users/User/miniconda3/envs/myenv/python.exe:*)",
+      "Bash(conda info:*)",
+      "Bash(pip install:*)"
+    ]
+  }
+}
