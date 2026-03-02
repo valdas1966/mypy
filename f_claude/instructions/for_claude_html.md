@@ -2,6 +2,23 @@
 
 Create a `CLAUDE.html` for the given folder. Keep it concise, concrete, and accurate to the code. Do not invent behavior.
 
+## Core principle: FAST RE-ENTRY
+
+This file is for a solo developer working across multiple projects.
+Every design decision must optimize for:
+1. Fast scanning — numbered lists everywhere, zero flowing paragraphs.
+2. Fast navigation — sticky TOC, anchor links, collapsible panels.
+3. Conciseness — each point is one idea, ~15 words max. No filler.
+
+## Writing style (MANDATORY)
+
+1. ALL human-facing text MUST be in numbered lists (`<ol><li>`).
+2. No standalone `<p>` paragraphs. Not in Purpose, not in API descriptions, not anywhere.
+3. Each list item = one idea, one short sentence (~15 words max).
+4. Lead with the key point. Cut every word that doesn't add information.
+5. Code signatures in `<code>` blocks are the exception — they are not numbered.
+6. Tone: direct, specific, no fluff.
+
 ## Output rules
 - Output MUST be a single, self-contained HTML file named `CLAUDE.html`.
 - If something is unclear from the code alone, add a "Questions / Ambiguities" section and list clarifying questions (do not guess).
@@ -39,10 +56,9 @@ Also:
 - Keep it “clean dark” (no neon overload), but bright content.
 
 ## Document goals
-Make the file:
-- visualizable (clean layout, readable typography, code blocks)
-- navigable (sticky TOC, anchor links, back-to-top)
-- easy to use (collapsible sections, quick search, copy buttons optional)
+1. Scannable — numbered lists, no prose walls.
+2. Navigable — sticky TOC, anchor links, back-to-top.
+3. Collapsible — panels for API classes, examples, hierarchy.
 
 ## Required page structure (in this exact order)
 1) Header (title + folder path)
@@ -59,13 +75,16 @@ Make the file:
 ## Mandatory content requirements
 
 ### A) Purpose
-- One short paragraph: what this folder/package/class is responsible for.
-- If multiple modules/classes exist, summarize the folder’s role and list the main components.
+- Numbered list of 1–3 short points. No paragraphs.
+- Point 1: what this class/module does (one sentence).
+- Point 2: key design decision or constraint (if any).
+- Point 3: main components (only if multiple classes in folder).
 
 ### B) Public API
 List only public methods/properties (including dunder methods), per class/module.
 For each API item include:
-- Signature with FULL type hints (rendered in a monospace code block)
+- Signature with FULL type hints (rendered in a monospace code block).
+- Description as a numbered list (even if only 1 point). Each point ~15 words max.
 
 Presentation requirements:
 - Group by class (or by module if no classes).
@@ -73,8 +92,8 @@ Presentation requirements:
 - Each API method/property should have an anchor link for deep linking.
 
 ### C) Inheritance (Hierarchy)
-- Show the full inheritance chain in base order (e.g., `Child -> Base1 -> Base2 -> ABC`).
-- For each base, state what responsibility/contract comes from it (ONLY if evident from code/docstrings).
+- Show the full inheritance chain as an indented tree.
+- Responsibility table: one numbered row per base — what contract it provides.
 - If unclear, state “Not explicit in code” and put a question in Questions / Ambiguities.
 
 Presentation requirements:
@@ -82,14 +101,14 @@ Presentation requirements:
 - Make each class chain collapsible.
 
 ### D) Dependencies
-Summarize imports as core dependencies (types/classes this code relies on).
+Numbered table rows. One row per key import.
 - Split into: standard library, internal project imports, third-party.
-- List key imported symbols that are central to behavior (not every trivial import).
-- If a dependency seems unused or unclear, mention it neutrally.
+- Each row: import path + one-sentence “Used for” description.
+- Skip trivial imports. If a dependency seems unused, mention it neutrally.
 
 Presentation requirements:
 - Use chips/badges for categories (stdlib/internal/third-party).
-- Each dependency item can show “Used for: …” if obvious.
+- Table format: Import | Used For.
 
 ### E) Usage examples (concise + classic)
 Provide minimal examples a user would actually write.

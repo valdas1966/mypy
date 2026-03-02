@@ -15,7 +15,7 @@ path_output = r"C:\Users\user\Desktop\noteret\tiktok\scripts\gemini\output"
 with open(path_script, 'r') as f:
     script_content = f.read()
 
-# Get i_0_base filename without extension and add regex pattern for cat value
+# Get i_0_element filename without extension and add regex pattern for cat value
 pattern_cat = r'cat\s*=\s*\d+'
 base_name = os.path.splitext(os.path.basename(path_script))[0]
 

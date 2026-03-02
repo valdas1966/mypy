@@ -50,7 +50,7 @@ def test_add_container(win: Window) -> None:
     """
     bounds = Bounds(top=30, left=50, bottom=50, right=70)
     container = Container(bounds=bounds)
-    win.add(child=container)
+    win.add_child(child=container)
     assert len(win.children) == 1
     assert container.parent is win
 
@@ -64,11 +64,11 @@ def test_nested_layout(win: Window) -> None:
     # Add Container to Window
     bounds_c = Bounds(top=30, left=50, bottom=50, right=70)
     container = Container(bounds=bounds_c)
-    win.add(child=container)
+    win.add_child(child=container)
     # Add Label to Container
     bounds_l = Bounds(top=20, left=10, bottom=40, right=30)
     label = Label(bounds=bounds_l, text='Hello')
-    container.add(child=label)
+    container.add_child(child=label)
     # Verify hierarchy
     assert label.parent is container
     assert container.parent is win

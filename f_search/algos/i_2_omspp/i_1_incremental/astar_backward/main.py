@@ -3,8 +3,10 @@ from f_search.algos.i_1_spp.i_3_astar_reusable_flags import (
     AStarReusableFlags)
 from f_search.problems import ProblemSPP, ProblemOMSPP
 from f_search.solutions import SolutionSPP
-from f_search.ds.data.incremental import DataIncremental
+from f_search.ds.data import DataIncremental as Data
+from f_search.ds.data import DataIncrementalAnalytics as DataAnalytics
 from f_search.ds.state import StateBase
+from f_ds.set_ordered import SetOrdered
 from typing import Generic, TypeVar
 
 State = TypeVar('State', bound=StateBase)
@@ -36,7 +38,8 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
                  problem: ProblemOMSPP,
                  depth_propagation: int = 2,
                  name: str = 'AStarIncrementalBackward',
-                 need_path: bool = False) -> None:
+                 need_path: bool = False,
+                 is_analytics: bool = False) -> None:
         """
         ====================================================================
          Init private Attributes.
@@ -45,7 +48,17 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
         super().__init__(problem=problem, name=name)
         self._need_path = need_path
         self._depth_propagation = depth_propagation
-        self._data_incremental = DataIncremental[State]()
+        self._data_incremental = Data[State]()
+        self._analytics = DataAnalytics[State]() if is_analytics else None
+
+    @property
+    def analytics(self) -> DataAnalytics[State] | None:
+        """
+        ====================================================================
+         Return the Analytics Data (None if is_analytics=False).
+        ====================================================================
+        """
+        return self._analytics
 
     def _run(self) -> None:
         """
@@ -86,6 +99,9 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
             problem=backward_problem,
             data_incremental=self._data_incremental,
             need_path=self._need_path)
+        # Use OrderedSet for explored to preserve exploration order
+        if self._analytics:
+            algo._data.explored = SetOrdered()
         backward_solution = algo.run()
         # If no solution found, return None
         if not backward_solution:
@@ -96,6 +112,12 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
             bwd_path = algo._data.path_to(
                 state=backward_problem.goal)
             fwd_path = bwd_path.reverse()
+        # Collect analytics (before accumulation mutates _data_incremental)
+        if self._analytics:
+            self._analytics.collect(
+                goal_key=forward_problem.goal.key,
+                data=algo._data,
+                data_incremental=self._data_incremental)
         # Accumulate heuristic info for future sub-searches
         if not is_last:
             depth = self._depth_propagation

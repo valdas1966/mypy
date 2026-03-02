@@ -24,8 +24,6 @@ class HasRowCol(Comparable, Hashable):
          2. If the Col is None, it takes the value of Row.
         ========================================================================
         """
-        assert isinstance(row, int) or row is None, f'Row must be an integer or None, got {type(row)}'
-        assert isinstance(col, int) or col is None, f'Col must be an integer or None, got {type(col)}'
         self._row = row if row is not None else 0
         self._col = col if col is not None else self._row
 
@@ -60,7 +58,7 @@ class HasRowCol(Comparable, Hashable):
         n_east = self.row, self.col + 1
         n_south = self.row + 1, self.col
         n_west = self.row, self.col - 1
-        return [HasRowCol(n[0], n[1])
+        return [type(self)(n[0], n[1])
                 for n
                 in (n_north, n_east, n_south, n_west)
                 if n[0] >= 0 and n[1] >= 0]
@@ -71,23 +69,22 @@ class HasRowCol(Comparable, Hashable):
          Return Manhattan-Distance from Self to the Other.
         ========================================================================
         """
-        assert isinstance(other, HasRowCol), f'Other must be an instance of {Self.__name__}, got {type(other)}'
         dist_row = abs(self.row - other.row)
         dist_col = abs(self.col - other.col)
         return dist_row + dist_col
 
     def is_within(self,
-                  rect: SupportsBounds = None,
-                  row_min: int = None,
-                  col_min: int = None,
-                  row_max: int = None,
-                  col_max: int = None) -> bool:
+                  rect: SupportsBounds | None = None,
+                  row_min: int | None = None,
+                  col_min: int | None = None,
+                  row_max: int | None = None,
+                  col_max: int | None = None) -> bool:
         """
         ========================================================================
          Return True if the object is within the given Rect or range.
         ========================================================================
         """
-        assert isinstance(rect, SupportsBounds) or all((row_min, col_min, row_max, col_max)), f'Rect must be an instance of SupportsBounds, got {type(rect)}'
+        assert (rect is not None) or all(v is not None for v in (row_min, col_min, row_max, col_max)), f'Provide rect or all four bounds (row_min, col_min, row_max, col_max)'
         if rect:
             row_min, col_min, row_max, col_max = rect.to_min_max()
         row_valid: bool = row_min <= self.row <= row_max

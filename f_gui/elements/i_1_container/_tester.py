@@ -1,6 +1,6 @@
 import pytest
 from f_gui.elements.i_1_container.main import Container
-from f_gui.elements.i_0_base.main import Element
+from f_gui.elements.i_0_element.main import Element
 from f_ds.geometry.bounds import Bounds
 
 
@@ -40,7 +40,7 @@ def test_add(full: Container) -> None:
     """
     bounds = Bounds(top=10, left=10, bottom=50, right=50)
     child = Element(bounds=bounds)
-    full.add(child=child)
+    full.add_child(child=child)
     assert len(full.children) == 1
     assert full.children[0] is child
 
@@ -48,12 +48,12 @@ def test_add(full: Container) -> None:
 def test_add_sets_parent(full: Container) -> None:
     """
     ========================================================================
-     Test that add() sets the child's parent.
+     Test that add_child() sets the child's parent.
     ========================================================================
     """
     bounds = Bounds(top=10, left=10, bottom=50, right=50)
     child = Element(bounds=bounds)
-    full.add(child=child)
+    full.add_child(child=child)
     assert child.parent is full
 
 
@@ -65,8 +65,8 @@ def test_add_multiple(full: Container) -> None:
     """
     a = Element(bounds=Bounds(top=0, left=0, bottom=50, right=50))
     b = Element(bounds=Bounds(top=50, left=50, bottom=100, right=100))
-    full.add(child=a)
-    full.add(child=b)
+    full.add_child(child=a)
+    full.add_child(child=b)
     assert len(full.children) == 2
 
 

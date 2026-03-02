@@ -1,38 +1,45 @@
 from f_search.algos.i_2_omspp.i_1_incremental.astar_backward import (
     AStarIncrementalBackward)
-from f_search.algos.i_1_spp import AStar
 from f_search.problems.i_2_omspp import ProblemOMSPP
+import csv
 
 
-def _explored_repeated(problem: ProblemOMSPP) -> int | None:
+
+def _run_incremental(problem: ProblemOMSPP,
+                     depth: int,
+                     is_analytics: bool = False
+                     ) -> tuple[int, AStarIncrementalBackward] | None:
     """
     ========================================================================
-     Return total explored states for repeated backward A* (no sharing).
-    ========================================================================
-    """
-    total = 0
-    for spp in problem.to_spps():
-        algo = AStar(problem=spp.reverse())
-        sol = algo.run()
-        if not sol:
-            return None
-        total += sol.stats.explored
-    return total
-
-
-def _explored_incremental(problem: ProblemOMSPP,
-                          depth: int) -> int | None:
-    """
-    ========================================================================
-     Return total explored states for AStarIncrementalBackward.
+     Run AStarIncrementalBackward and return (explored, algo).
     ========================================================================
     """
     algo = AStarIncrementalBackward(problem=problem,
-                                    depth_propagation=depth)
+                                    depth_propagation=depth,
+                                    is_analytics=is_analytics)
     sol = algo.run()
     if not sol:
         return None
-    return sol.stats.explored
+    return sol.stats.explored, algo
+
+
+def _csv_analytics(algo: AStarIncrementalBackward,
+                   path: str) -> None:
+    """
+    ========================================================================
+     Write explored States analytics to a CSV file.
+    ========================================================================
+    """
+    rows = algo.analytics.list_explored
+    if not rows:
+        return
+    fieldnames = ['depth'] + list(rows[0].keys())
+    with open(path, 'w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        depth = algo._depth_propagation
+        for row in rows:
+            writer.writerow({'depth': depth, **row})
 
 
 def find(rows: int,
@@ -50,15 +57,26 @@ def find(rows: int,
         problem = ProblemOMSPP.Factory.custom(rows=rows,
                                               pct_obstacles=pct_obstacles,
                                               k=n_goals)
-        explored_a = _explored_incremental(problem=problem, depth=depth)
-        if explored_a is None:
+        algo_a = AStarIncrementalBackward(problem=problem,
+                                          depth_propagation=depth,
+                                          is_analytics=True)
+        sol_a = algo_a.run()
+        if not sol_a:
             continue
-        explored_b = _explored_incremental(problem=problem, depth=depth+1)
-        if explored_b < explored_a:
+        algo_b = AStarIncrementalBackward(problem=problem,
+                                          depth_propagation=depth+1,
+                                          is_analytics=True)
+        sol_b = algo_b.run()
+        if sol_b.stats.explored < sol_a.stats.explored:
+            _csv_analytics(algo_a, path=csv_explored_a)
+            _csv_analytics(algo_b, path=csv_explored_b)
             return problem
     return None
 
 
+folder_temp = 'f:\\temp\\2026\\03'
+csv_explored_a = f'{folder_temp}\\explored_a.csv'
+csv_explored_b = f'{folder_temp}\\explored_b.csv'
 problem = find(rows=5, pct_obstacles=50, n_goals=2, depth=-1, tries=1_000)
 if not problem:
     exit()

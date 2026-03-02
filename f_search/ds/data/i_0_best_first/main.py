@@ -1,12 +1,13 @@
 from f_search.ds.path import Path
 from f_search.ds.state import StateBase
+from f_search.ds.data.mixins import HasDataState
 from f_search.ds.frontier import FrontierBase as Frontier
-from typing import TypeVar, Callable, Generic
+from typing import TypeVar, Generic
 
 State = TypeVar('State', bound=StateBase)
 
 
-class DataBestFirst(Generic[State]):
+class DataBestFirst(Generic[State], HasDataState[State]):
     """
     ===========================================================================
      Data structure for Best-First Algorithms.
@@ -41,6 +42,16 @@ class DataBestFirst(Generic[State]):
         self.dict_parent[state] = self.best
         self.dict_g[state] = self.dict_g[self.best] + 1 if self.best else 0
         
+    def data_state(self, state: State) -> dict[str, any]:
+        """
+        ====================================================================
+         Return a dict of State's stored Data (as key=value pairs).
+        ====================================================================
+        """
+        data = super().data_state(state)
+        data['g'] = self.dict_g.get(state)
+        return data
+
     def path_to(self, state: State) -> Path:
         """
         ========================================================================

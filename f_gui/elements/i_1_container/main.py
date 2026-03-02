@@ -1,8 +1,9 @@
-from f_gui.elements.i_0_base.main import Element
+from f_gui.elements.i_0_element.main import Element
+from f_core.mixins.has.children import HasChildren
 from f_ds.geometry.bounds import Bounds
 
 
-class Container(Element):
+class Container(Element, HasChildren):
     """
     ========================================================================
      Container Element that can hold Children.
@@ -21,22 +22,13 @@ class Container(Element):
         ========================================================================
         """
         Element.__init__(self, bounds=bounds, name=name)
-        self._children: list[Element] = list()
+        HasChildren.__init__(self)
 
-    @property
-    def children(self) -> list[Element]:
-        """
-        ========================================================================
-         Get the list of Children Elements.
-        ========================================================================
-        """
-        return self._children
-
-    def add(self, child: Element) -> None:
+    def add_child(self, child: Element) -> None:
         """
         ========================================================================
          Add a Child Element to the Container.
         ========================================================================
         """
         child._parent = self
-        self._children.append(child)
+        HasChildren.add_child(self, child=child)

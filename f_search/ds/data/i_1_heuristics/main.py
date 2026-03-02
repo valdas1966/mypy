@@ -35,3 +35,17 @@ class DataHeuristics(Generic[State], DataBestFirst[State]):
                                dict_parent=dict_parent,
                                dict_g=dict_g)
         self.dict_h = dict_h if dict_h else dict()
+
+    def data_state(self, state: State) -> dict[str, any]:
+        """
+        ====================================================================
+         Return a dict of State's stored Data (as key=value pairs).
+        ====================================================================
+        """
+        data = super().data_state(state)
+        h = self.dict_h.get(state)
+        g = data['g']
+        f = g + h if g is not None and h is not None else None
+        data['f'] = f
+        data['h'] = h
+        return data

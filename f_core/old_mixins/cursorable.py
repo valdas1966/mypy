@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import Generic, TypeVar, Iterable, Callable
-from f_core.mixins.sizable import Sizable
+from f_core.mixins.sizable.main import Sizable
 
 Item = TypeVar('Item')
 

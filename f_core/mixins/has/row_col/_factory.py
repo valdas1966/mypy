@@ -16,7 +16,7 @@ class Factory:
     def one() -> HasRowCol:
         """
         ========================================================================
-         Return a HasRowCol object with row and col set to 1 and 2.
+         Return a HasRowCol object with row and col set to 1.
         ========================================================================
         """
         return HasRowCol(row=1)

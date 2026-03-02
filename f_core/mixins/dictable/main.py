@@ -1,5 +1,5 @@
 from typing import Generic, TypeVar, Iterator, Self
-from f_core.mixins.sizable import Sizable
+from f_core.mixins.sizable.main import Sizable
 
 K = TypeVar('K')  # Key type
 V = TypeVar('V')  # Value type

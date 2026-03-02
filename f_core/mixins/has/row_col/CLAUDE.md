@@ -1,112 +1,123 @@
 # HasRowCol
 
 ## Purpose
-
-Mixin that gives objects `row` and `col` properties representing a position on a 2D grid. Provides comparison (row-major order), hashing, neighbor discovery, Manhattan distance, and bounds checking — all derived from the `(row, col)` pair.
+1. Mixin that gives objects `row` and `col` properties for 2D grid position.
+2. Provides comparison (row-major), hashing, neighbor discovery, Manhattan distance, bounds checking.
+3. All operators derived from the `(row, col)` key pair.
 
 ## Public API
 
-### Class Attributes
-
+### Class Attribute
 ```python
-Factory = None
+Factory: type = None
 ```
-Factory class for creating instances. Attached via `__init__.py`.
+1. Factory for creating test instances. Wired via `__init__.py`.
 
 ### Constructor
-
 ```python
-def __init__(self, row: int | None = None, col: int | None = None) -> None
+def __init__(self, row: int | None = None, col: int | None = None) -> None:
 ```
-Sets `_row` and `_col`. If `row` is `None`, defaults to `0`. If `col` is `None`, defaults to the value of `row`.
+1. Sets `_row` and `_col`.
+2. `row=None` defaults to `0`.
+3. `col=None` defaults to the value of `row`.
 
 ### Properties
+```python
+@property
+def row(self) -> int:
+```
+1. Returns the object's row (read-only).
 
 ```python
 @property
-def row(self) -> int
+def col(self) -> int:
 ```
-Returns the object's row (read-only).
+1. Returns the object's column (read-only).
 
 ```python
 @property
-def col(self) -> int
+def key(self) -> tuple[int, int]:
 ```
-Returns the object's column (read-only).
-
-```python
-@property
-def key(self) -> tuple[int, int]
-```
-Returns `(self.row, self.col)`. Satisfies the abstract `key` contract from `Equatable`/`Comparable`. Row-major order.
+1. Returns `(row, col)` — row-major order.
+2. Satisfies the abstract `key` contract from `Comparable`/`Hashable`.
 
 ### Methods
+```python
+def neighbors(self) -> list[Self]:
+```
+1. Returns up to 4 neighbors in clock-wise order (N, E, S, W).
+2. Filters out positions with negative row or col.
 
 ```python
-def neighbors(self) -> list[HasRowCol]
+def distance(self, other: Self) -> int:
 ```
-Returns up to 4 neighbors in clock-wise order (North, East, South, West). Filters out positions with negative row or col.
+1. Returns Manhattan distance: `|row_diff| + |col_diff|`.
 
 ```python
-def distance(self, other: Self) -> int
+def is_within(self, rect: SupportsBounds = None, row_min: int = None, col_min: int = None, row_max: int = None, col_max: int = None) -> bool:
 ```
-Returns Manhattan distance (`|row_diff| + |col_diff|`) to `other`.
-
-```python
-def is_within(self, rect: Rect = None, row_min: int = None, col_min: int = None, row_max: int = None, col_max: int = None) -> bool
-```
-Returns `True` if position is within the given `Rect` or explicit bounds. If `rect` is provided, it overrides the individual min/max parameters.
-
-```python
-def to_tuple(self) -> tuple[int, int]
-```
-Returns `(self.row, self.col)`.
+1. Returns `True` if position is inside the given `rect` or explicit min/max bounds.
+2. If `rect` is provided, extracts bounds via `rect.to_min_max()`.
 
 ### Dunder Methods
+```python
+def __str__(self) -> str:
+```
+1. Returns `'(row,col)'`.
 
 ```python
-def __str__(self) -> str
+def __repr__(self) -> str:
 ```
-Returns `(row,col)`.
+1. Returns `'<HasRowCol: Row=1, Col=2>'`.
+
+### Inherited
+```python
+def __eq__(self, other: object) -> bool:    # from Equatable
+def __lt__(self, other: object) -> bool:    # from Comparable
+def __le__(self, other: object) -> bool:    # from Comparable
+def __gt__(self, other: object) -> bool:    # from Comparable
+def __ge__(self, other: object) -> bool:    # from Comparable
+def __hash__(self) -> int:                  # from Hashable
+```
+1. All delegate to `self.key` — the `(row, col)` tuple.
 
 ## Inheritance (Hierarchy)
 
 ```
-Equatable (abstract key, __eq__)
-  ├── Comparable (@total_ordering, __lt__)
-  └── Hashable (__hash__ via key)
-       └── HasRowCol(Comparable, Hashable)
+SupportsEquality (Protocol)
+ └── Equatable (__eq__ via key)
+      ├── Comparable (__lt__, __le__, __gt__, __ge__)
+      └── Hashable (__hash__ via key)
+           └── HasRowCol(Comparable, Hashable)
 ```
 
-| Base | Responsibility |
-|------|----------------|
-| `Equatable` | Abstract `key` property, concrete `__eq__` |
-| `Comparable` | `@total_ordering`, concrete `__lt__` |
-| `Hashable` | Concrete `__hash__` via `hash(self.key)` |
+| Base         | Responsibility                              |
+|--------------|---------------------------------------------|
+| `Equatable`  | Abstract `key` property, concrete `__eq__`  |
+| `Comparable` | Comparison operators via `key`              |
+| `Hashable`   | `__hash__` via `hash(self.key)`             |
 
 ## Dependencies
 
-| Import | Purpose |
-|--------|---------|
-| `__future__.annotations` | Postponed evaluation of annotations |
-| `f_core.mixins.comparable.Comparable` | Base — ordering operators |
-| `f_core.mixins.hashable.Hashable` | Base — hashing |
-| `typing.Self` | Self-type for `distance()` annotation |
-| `typing.TYPE_CHECKING` | Guard for type-only imports |
-| `f_math.shapes.Rect` | Type-only import for `is_within()` parameter |
+| Import                                | Purpose                                  |
+|---------------------------------------|------------------------------------------|
+| `__future__.annotations`              | Postponed annotation evaluation          |
+| `f_core.mixins.comparable.Comparable` | Base — ordering operators                |
+| `f_core.mixins.hashable.Hashable`     | Base — hashing                           |
+| `f_core.protocols.bounds.SupportsBounds` | Protocol for `is_within()` rect param |
+| `typing.Self`                         | Self-type for `neighbors()`, `distance()`|
 
 ## Usage Example
 
 ```python
 from f_core.mixins.has.row_col import HasRowCol
 
-zero = HasRowCol.Factory.zero()     # row=0, col=0
-one = HasRowCol.Factory.one()       # row=1, col=1
-twelve = HasRowCol.Factory.twelve()  # row=1, col=2
+zero   = HasRowCol.Factory.zero()      # (0,0)
+one    = HasRowCol.Factory.one()       # (1,1)
+twelve = HasRowCol.Factory.twelve()    # (1,2)
 
-print(str(twelve))           # '(1,2)'
-print(twelve.to_tuple())     # (1, 2)
-print(zero < one)            # True
-print(twelve.neighbors())    # [HasRowCol(0,2), HasRowCol(1,3), HasRowCol(2,2), HasRowCol(1,1)]
-print(zero.distance(twelve)) # 3
+zero < one                # True (row-major)
+hash(zero) != hash(one)   # True
+twelve.neighbors()        # [(0,2), (1,3), (2,2), (1,1)]
+zero.distance(twelve)     # 3
 ```

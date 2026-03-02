@@ -18,7 +18,6 @@ class HasParent:
          Init private attributes.
         ========================================================================
         """
-        assert isinstance(parent, Self), f'Parent must be an instance of {Self.__name__}, got {type(parent)}'
         self._parent = parent
 
     @property

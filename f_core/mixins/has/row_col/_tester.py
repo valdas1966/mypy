@@ -47,16 +47,7 @@ def test_is_within() -> None:
     rect_outside = Rect.From.Center(x=0, y=0, distance=1)
     assert not twelve.is_within(rect=rect_outside)
     
-def test_key_comparison() -> None:
-    """
-    ========================================================================
-     Test the key_comparison() method.
-    ========================================================================
-    """ 
-    twelve = HasRowCol.Factory.twelve()
-    assert twelve.key() == (1, 2)
-    
-    
+
 def test_key() -> None:
     """
     ========================================================================

@@ -1,8 +1,9 @@
 from f_core.mixins.has.name import HasName
+from f_core.mixins.has.parent import HasParent
 from f_ds.geometry.bounds import Bounds
 
 
-class Element(HasName):
+class Element(HasName, HasParent):
     """
     ========================================================================
      Base-Class for all GUI Elements.
@@ -21,8 +22,8 @@ class Element(HasName):
         ========================================================================
         """
         HasName.__init__(self, name=name)
+        HasParent.__init__(self)
         self._bounds = bounds or Bounds.Factory.full()
-        self._parent = None
 
     @property
     def bounds(self) -> Bounds[float]:
@@ -32,15 +33,6 @@ class Element(HasName):
         ========================================================================
         """
         return self._bounds
-
-    @property
-    def parent(self) -> 'Element | None':
-        """
-        ========================================================================
-         Get the Parent Element.
-        ========================================================================
-        """
-        return self._parent
 
     def __str__(self) -> str:
         """

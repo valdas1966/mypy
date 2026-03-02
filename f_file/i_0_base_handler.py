@@ -11,7 +11,7 @@ class BaseFileHandler(ABC):
     def __init__(self, path: str) -> None:
         """
         ========================================================================
-         Initialize the i_0_base file handler with a file old_path.
+         Initialize the i_0_element file handler with a file old_path.
         ========================================================================
         """
         self._path = path

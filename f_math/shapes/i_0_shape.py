@@ -4,7 +4,7 @@ from f_core.mixins.has.name import HasName
 class Shape(HasName):
     """
     =================================================================
-     Abstract i_0_base class for all shapes.
+     Abstract i_0_element class for all shapes.
     =================================================================
     """
 
