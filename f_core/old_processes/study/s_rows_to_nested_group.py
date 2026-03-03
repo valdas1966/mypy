@@ -1,6 +1,6 @@
 from typing import Sequence
-from f_ds.old_groups import (RowsToNestedGroup,
-                             NestedGroup, Group)
+from f_ds.old.old_groups import (RowsToNestedGroup,
+                                 NestedGroup, Group)
 
 
 class C(RowsToNestedGroup):

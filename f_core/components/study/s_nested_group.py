@@ -1,4 +1,4 @@
-from f_ds.old_groups import NestedGroup, Group
+from f_ds.old.old_groups import NestedGroup, Group
 
 
 b = Group(name='B')

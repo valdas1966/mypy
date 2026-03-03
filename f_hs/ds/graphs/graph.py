@@ -1,6 +1,6 @@
 from f_graph.graphs import GraphGrid
 from f_hs.ds._old_node import NodePath
-from f_ds.old_grids.old_grid import Grid
+from f_ds.old.old_grids.old_grid import Grid
 from typing import TypeVar, Type
 
 Node = TypeVar('Node', bound=NodePath)
