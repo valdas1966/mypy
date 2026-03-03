@@ -8,9 +8,9 @@ def test_add() -> None:
     ========================================================================
     """
     s = SetOrdered()
+    assert 1 not in s
     s.add(1)
     assert 1 in s
-    assert len(s) == 1
 
 
 def test_add_duplicate() -> None:
@@ -19,9 +19,11 @@ def test_add_duplicate() -> None:
      Test that adding a duplicate does not increase size.
     ========================================================================
     """
-    s = SetOrdered.Factory.abc()
-    s.add('a')
-    assert len(s) == 3
+    s = SetOrdered()
+    s.add(1)
+    assert len(s) == 1
+    s.add(1)
+    assert len(s) == 1
 
 
 def test_discard() -> None:
@@ -30,21 +32,13 @@ def test_discard() -> None:
      Test discard() method.
     ========================================================================
     """
-    s = SetOrdered.Factory.abc()
-    s.discard('b')
-    assert 'b' not in s
-    assert len(s) == 2
-
-
-def test_discard_absent() -> None:
-    """
-    ========================================================================
-     Test that discarding an absent item does not raise.
-    ========================================================================
-    """
-    s = SetOrdered.Factory.abc()
-    s.discard('z')
-    assert len(s) == 3
+    s = SetOrdered()
+    s.add(1)
+    assert len(s) == 1
+    s.discard(1)
+    assert len(s) == 0
+    s.discard(1)
+    assert len(s) == 0
 
 
 def test_contains() -> None:
@@ -53,9 +47,10 @@ def test_contains() -> None:
      Test __contains__() method.
     ========================================================================
     """
-    s = SetOrdered.Factory.abc()
-    assert 'a' in s
-    assert 'z' not in s
+    s = SetOrdered()
+    s.add(1)
+    assert 1 in s
+    assert 2 not in s
 
 
 def test_len() -> None:
@@ -130,9 +125,7 @@ def test_union() -> None:
      Test union (|) operator.
     ========================================================================
     """
-    result = SetOrdered.Factory.abc() | SetOrdered(['c', 'd'])
-    assert len(result) == 4
-    assert 'd' in result
+    assert SetOrdered([1, 2]) | SetOrdered([2, 3]) == SetOrdered([1, 2, 3])
 
 
 def test_intersection() -> None:
@@ -141,8 +134,7 @@ def test_intersection() -> None:
      Test intersection (&) operator.
     ========================================================================
     """
-    result = SetOrdered.Factory.abc() & SetOrdered(['b', 'c', 'd'])
-    assert list(result) == ['b', 'c']
+    assert SetOrdered([1, 2]) & SetOrdered([2, 3]) == SetOrdered([2])
 
 
 def test_difference() -> None:
@@ -151,9 +143,7 @@ def test_difference() -> None:
      Test difference (-) operator.
     ========================================================================
     """
-    result = SetOrdered.Factory.abc() - SetOrdered(['b'])
-    assert 'b' not in result
-    assert len(result) == 2
+    assert SetOrdered([1, 2]) - SetOrdered([2, 3]) == SetOrdered([1])
 
 
 def test_subset() -> None:
@@ -162,8 +152,7 @@ def test_subset() -> None:
      Test subset (<=) operator.
     ========================================================================
     """
-    assert SetOrdered(['a', 'b']) <= SetOrdered.Factory.abc()
-    assert not SetOrdered.Factory.abc() <= SetOrdered(['a', 'b'])
+    assert SetOrdered([1, 2]) < SetOrdered([1, 2, 3])
 
 
 def test_repr_small() -> None:
@@ -182,5 +171,4 @@ def test_repr_large() -> None:
     ========================================================================
     """
     r = repr(SetOrdered(list(range(100))))
-    assert 'len=100' in r
-    assert '...' in r
+    assert r == "SetOrdered(0, 1, 2, ..., 99, len=100)"

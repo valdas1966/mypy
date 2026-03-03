@@ -1,4 +1,4 @@
-from collections.abc import MutableSet, Iterator
+from collections.abc import MutableSet, Iterator, Iterable
 from typing import TypeVar, Generic
 
 Item = TypeVar('Item')
@@ -17,7 +17,7 @@ class SetOrdered(Generic[Item], MutableSet):
     # Factory
     Factory: type = None
 
-    def __init__(self, iterable: list[Item] = None) -> None:
+    def __init__(self, iterable: Iterable[Item] = None) -> None:
         """
         ====================================================================
          Init from an optional Iterable.
@@ -77,6 +77,6 @@ class SetOrdered(Generic[Item], MutableSet):
         items = list(self._dict.keys())
         if len(items) <= 6:
             return f'SetOrdered({items})'
-        head = items[:3]
+        head = ', '.join([str(item) for item in items[:3]])
         tail = items[-1]
         return f'SetOrdered({head}, ..., {tail}, len={len(items)})'

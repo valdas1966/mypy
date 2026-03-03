@@ -1,5 +1,5 @@
 from google.cloud import bigquery
-from f_google.auth import Auth, ServiceAccount
+from f_google.auth import Auth, Account
 import pandas as pd
 
 
@@ -14,7 +14,7 @@ class BigQuery:
     Factory: type = None
 
     def __init__(self,
-                 account: ServiceAccount = ServiceAccount.RAMI) -> None:
+                 account: Account = Account.RAMI) -> None:
         """
         ========================================================================
          Init BigQuery Client with the given Service Account.

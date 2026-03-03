@@ -1,6 +1,6 @@
 from f_google.auth.main import Auth
-from f_google.auth._enums import ServiceAccount
+from f_google.auth._enums import Account, TypeAuth
 from f_google.auth._factory import Factory
-from google.oauth2.service_account import Credentials
+from google.auth.credentials import Credentials
 
 Auth.Factory = Factory
