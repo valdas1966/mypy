@@ -1,29 +1,31 @@
-from google.auth.credentials import Credentials
+from google.oauth2.service_account import Credentials as SACredentials
 from f_google.auth.main import Auth
-from f_google.auth._enums import Account
+from pathlib import Path
+from os import environ
+import sys
 
 
 class Factory:
     """
     ============================================================================
-     Factory for Google Authentication.
+     Factory for Google Service-Account Authentication.
     ============================================================================
     """
 
-    @staticmethod
-    def rami() -> Credentials:
-        """
-        ====================================================================
-         Return Credentials for the RAMI Account (Service Account).
-        ====================================================================
-        """
-        return Auth.get_creds(account=Account.RAMI)
+    _SCOPES = ['https://www.googleapis.com/auth/cloud-platform',
+               'https://www.googleapis.com/auth/drive',
+               'https://www.googleapis.com/auth/spreadsheets',
+               'https://www.googleapis.com/auth/presentations']
 
     @staticmethod
-    def valdas() -> Credentials:
+    def rami() -> SACredentials:
         """
         ====================================================================
-         Return Credentials for the VALDAS Account (OAuth).
+         Return Service-Account Credentials for RAMI (project: noteret).
         ====================================================================
         """
-        return Auth.get_creds(account=Account.VALDAS)
+        if sys.platform == 'darwin':
+            path = str(Path.home() / 'prof' / 'rami.json')
+        else:
+            path = environ['RAMI_JSON_PATH']
+        return Auth.get_creds(path=path, scopes=Factory._SCOPES)

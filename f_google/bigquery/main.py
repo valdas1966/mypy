@@ -1,5 +1,5 @@
+from google.oauth2.service_account import Credentials as SACredentials
 from google.cloud import bigquery
-from f_google.auth import Auth, Account
 import pandas as pd
 
 
@@ -13,14 +13,12 @@ class BigQuery:
     # Factory
     Factory: type = None
 
-    def __init__(self,
-                 account: Account = Account.RAMI) -> None:
+    def __init__(self, creds: SACredentials) -> None:
         """
         ========================================================================
-         Init BigQuery Client with the given Service Account.
+         Init BigQuery Client with Service-Account Credentials.
         ========================================================================
         """
-        creds = Auth.get_creds(account=account)
         self._client = bigquery.Client(credentials=creds,
                                        project=creds.project_id)
 

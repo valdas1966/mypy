@@ -4,6 +4,7 @@ from f_search.problems import ProblemOMSPP
 from f_search.ds.state import StateBase
 from f_search.ds.data import DataBestFirst
 from typing import Generic, TypeVar
+from time import time
 
 State = TypeVar('State', bound=StateBase)
 Data = TypeVar('Data', bound=DataBestFirst)
@@ -42,14 +43,14 @@ class AlgoOMSPP(AlgoSearch[ProblemOMSPP, SolutionOMSPP],
         self._goals_active = list(self.problem.goals)
         self._sub_solutions = list()
 
-    def _run_post(self) -> None:
+    def _create_solution(self) -> SolutionOMSPP:
         """
         ========================================================================
-         Run Post-Processing.
+         Construct and return the OMSPP Solution.
         ========================================================================
         """
-        super()._run_post()
-        self._output = SolutionOMSPP(name_algo=self.name,
-                                     problem=self.problem,
-                                     subs=self._sub_solutions,
-                                     elapsed=self._stats.elapsed)
+        elapsed = int(time() - self._time_start)
+        return SolutionOMSPP(name_algo=self.name,
+                             problem=self.problem,
+                             subs=self._sub_solutions,
+                             elapsed=elapsed)

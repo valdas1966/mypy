@@ -1,4 +1,5 @@
 from f_google.bigquery.main import BigQuery
+from f_google.auth import Auth
 
 
 class Factory:
@@ -15,4 +16,5 @@ class Factory:
          Return a BigQuery Client for the RAMI Service Account.
         ========================================================================
         """
-        return BigQuery()
+        creds = Auth.Factory.rami()
+        return BigQuery(creds=creds)

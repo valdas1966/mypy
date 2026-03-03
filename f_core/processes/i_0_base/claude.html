@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProcessBase — Documentation</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Header */
+header {
+    background: var(--panel);
+    padding: 2rem 3rem;
+    border-bottom: 2px solid var(--accent);
+}
+header h1 { color: #fff; font-size: 2.2rem; margin-bottom: 0.3rem; }
+header h1 span { color: var(--accent); }
+.path {
+    color: var(--faint);
+    font-family: monospace;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Layout */
+.container {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 2rem;
+    padding: 2rem 3rem;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+/* TOC */
+.toc {
+    position: sticky;
+    top: 1rem;
+    height: fit-content;
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 1.25rem;
+    border: 2px solid var(--border);
+}
+.toc h3 {
+    color: var(--accent);
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border);
+}
+.toc ul { list-style: none; }
+.toc li { margin-bottom: 0.4rem; }
+.toc a {
+    color: var(--faint);
+    display: block;
+    padding: 0.3rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    transition: all 0.15s;
+}
+.toc a:hover { color: var(--accent); background: rgba(96, 165, 250, 0.1); text-decoration: none; }
+.toc .sub { padding-left: 1rem; font-size: 0.8rem; }
+.toc .ext {
+    margin-top: 0.75rem;
+    padding-top: 0.5rem;
+    border-top: 2px solid var(--border);
+}
+.toc .ext a { color: var(--accent2); }
+.toc .ext a::before { content: '< '; }
+
+/* Search */
+.search-box {
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+}
+.search-box:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
+.search-box::placeholder { color: var(--faint); }
+
+/* Main */
+main { min-width: 0; }
+
+/* Sections */
+section {
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 2px solid var(--border);
+}
+section h2 {
+    color: #fff;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--border);
+}
+section h3 {
+    color: var(--text);
+    font-size: 1.05rem;
+    margin: 1.25rem 0 0.5rem;
+}
+ol { padding-left: 1.5rem; margin: 0.5rem 0; }
+li { margin-bottom: 0.5rem; color: var(--muted); }
+li strong { color: var(--text); }
+
+/* Collapsible */
+details {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin: 0.75rem 0;
+}
+details summary {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.95rem;
+    user-select: none;
+}
+details summary:hover { color: var(--accent); }
+details summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+details[open] summary { border-bottom: 1px solid var(--border); }
+details .inner { padding: 1rem; }
+
+/* Code */
+pre {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 0.75rem 0;
+}
+code {
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace;
+    font-size: 0.9rem;
+    color: var(--text);
+}
+pre code { display: block; line-height: 1.5; }
+.ic {
+    background: var(--panel2);
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.85rem;
+}
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; }
+th, td { padding: 0.6rem 0.75rem; text-align: left; border: 1px solid var(--border); }
+th { background: var(--panel2); color: #fff; font-weight: 600; font-size: 0.9rem; }
+td { background: var(--panel); color: var(--muted); font-size: 0.9rem; }
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.badge-internal { background: rgba(96, 165, 250, 0.2); color: var(--accent); }
+.badge-stdlib { background: rgba(52, 211, 153, 0.2); color: var(--good); }
+
+/* Back to top */
+.back-top {
+    display: block;
+    text-align: right;
+    font-size: 0.8rem;
+    color: var(--faint);
+    margin-top: 0.75rem;
+}
+.back-top:hover { color: var(--accent); }
+
+/* Footer */
+footer {
+    margin: 2rem 3rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--border);
+    color: var(--faint);
+    font-size: 0.85rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container { grid-template-columns: 1fr; padding: 1rem; }
+    .toc { position: static; margin-bottom: 1rem; }
+    header { padding: 1.5rem; }
+    footer { margin: 1.5rem 1rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1><span>Process</span>Base</h1>
+    <div class="path">f_core / processes / i_0_base</div>
+</header>
+
+<div class="container">
+
+<!-- TOC -->
+<nav class="toc">
+    <h3>Contents</h3>
+    <input type="text" class="search-box" placeholder="Search..." oninput="filterSections(this.value)">
+    <ul>
+        <li><a href="#purpose">Purpose</a></li>
+        <li><a href="#api">Public API</a></li>
+        <li class="sub"><a href="#api-constructor">Constructor</a></li>
+        <li class="sub"><a href="#api-run">run()</a></li>
+        <li class="sub"><a href="#api-elapsed">elapsed</a></li>
+        <li class="sub"><a href="#api-lap">seconds_since_last_call()</a></li>
+        <li class="sub"><a href="#api-lifecycle">Lifecycle hooks</a></li>
+        <li class="sub"><a href="#api-inherited">Inherited</a></li>
+        <li><a href="#hierarchy">Hierarchy</a></li>
+        <li><a href="#deps">Dependencies</a></li>
+        <li><a href="#examples">Examples</a></li>
+        <li class="ext"><a href="../../mixins/has/name/claude.html">HasName</a></li>
+        <li class="ext"><a href="../../mixins/validatable/claude.html">ValidatableMutable</a></li>
+    </ul>
+</nav>
+
+<main>
+
+<!-- A. Purpose -->
+<section id="purpose">
+    <h2>A. Purpose</h2>
+    <ol>
+        <li><strong>ProcessBase</strong> is the abstract base class for all process classes in <code class="ic">f_core</code>.</li>
+        <li>Uses the <strong>Template Method</strong> pattern: <code class="ic">run()</code> orchestrates <code class="ic">_run_pre()</code> &rarr; <code class="ic">_run()</code> &rarr; <code class="ic">_run_post()</code>.</li>
+        <li>Provides execution timing (<code class="ic">elapsed</code>) and a lap timer (<code class="ic">seconds_since_last_call()</code>).</li>
+    </ol>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- B. Public API -->
+<section id="api">
+    <h2>B. Public API</h2>
+
+    <details open id="api-constructor">
+        <summary>Constructor</summary>
+        <div class="inner">
+            <pre><code>def __init__(self, name: str = 'ProcessBase') -> None</code></pre>
+            <ol>
+                <li>Calls <code class="ic">HasName.__init__</code> and <code class="ic">ValidatableMutable.__init__</code>.</li>
+                <li>Initializes <code class="ic">_elapsed</code>, <code class="ic">_time_start</code>, <code class="ic">_time_finish</code> to <code class="ic">None</code>.</li>
+                <li>Initializes lap timer checkpoint <code class="ic">_time_lap_prev</code> to <code class="ic">None</code>.</li>
+            </ol>
+        </div>
+    </details>
+
+    <details open id="api-run">
+        <summary>run()</summary>
+        <div class="inner">
+            <pre><code>def run(self) -> None</code></pre>
+            <ol>
+                <li>Entry point for process execution.</li>
+                <li>Calls <code class="ic">_run_pre()</code>, <code class="ic">_run()</code>, <code class="ic">_run_post()</code> in sequence.</li>
+                <li>Rarely overridden; override <code class="ic">_run()</code> instead.</li>
+            </ol>
+        </div>
+    </details>
+
+    <details open id="api-elapsed">
+        <summary>elapsed (property)</summary>
+        <div class="inner">
+            <pre><code>@property
+def elapsed(self) -> int</code></pre>
+            <ol>
+                <li>Returns total execution time in seconds (truncated to <code class="ic">int</code>).</li>
+                <li><code class="ic">None</code> before <code class="ic">run()</code> completes.</li>
+            </ol>
+        </div>
+    </details>
+
+    <details open id="api-lap">
+        <summary>seconds_since_last_call()</summary>
+        <div class="inner">
+            <pre><code>def seconds_since_last_call(self) -> int</code></pre>
+            <ol>
+                <li>Returns seconds elapsed since the previous call to this method.</li>
+                <li>First call returns <code class="ic">0</code> and stores a checkpoint.</li>
+                <li>Subsequent calls return delta and update the checkpoint.</li>
+            </ol>
+        </div>
+    </details>
+
+    <details id="api-lifecycle">
+        <summary>Lifecycle hooks (_run_pre, _run, _run_post)</summary>
+        <div class="inner">
+            <pre><code>def _run_pre(self) -> None
+def _run(self) -> None
+def _run_post(self) -> None</code></pre>
+            <table>
+                <tr><th>Method</th><th>Actions</th><th>Override?</th></tr>
+                <tr>
+                    <td><code class="ic">_run_pre()</code></td>
+                    <td>Resets <code class="ic">_elapsed</code>, records <code class="ic">_time_start</code></td>
+                    <td>Rarely</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">_run()</code></td>
+                    <td>No-op &mdash; override with process logic</td>
+                    <td><strong>Yes</strong></td>
+                </tr>
+                <tr>
+                    <td><code class="ic">_run_post()</code></td>
+                    <td>Records <code class="ic">_time_finish</code>, calculates <code class="ic">_elapsed</code></td>
+                    <td>Rarely</td>
+                </tr>
+            </table>
+        </div>
+    </details>
+
+    <details id="api-inherited">
+        <summary>Inherited API</summary>
+        <div class="inner">
+            <h3>From HasName</h3>
+            <table>
+                <tr><th>Member</th><th>Description</th></tr>
+                <tr><td><code class="ic">name</code></td><td>Process name (read-only property)</td></tr>
+                <tr><td><code class="ic">__str__()</code></td><td>Returns name</td></tr>
+                <tr><td><code class="ic">__repr__()</code></td><td>Returns <code class="ic">&lt;ClassName: Name=...&gt;</code></td></tr>
+                <tr><td><code class="ic">__eq__</code>, <code class="ic">__lt__</code>, <code class="ic">__le__</code>, <code class="ic">__gt__</code>, <code class="ic">__ge__</code></td><td>Compare by name</td></tr>
+                <tr><td><code class="ic">__hash__()</code></td><td>Hash by name</td></tr>
+            </table>
+            <h3>From ValidatableMutable</h3>
+            <table>
+                <tr><th>Member</th><th>Description</th></tr>
+                <tr><td><code class="ic">__bool__()</code></td><td>Returns mutable <code class="ic">_is_valid</code> flag</td></tr>
+            </table>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- C. Hierarchy -->
+<section id="hierarchy">
+    <h2>C. Inheritance (Hierarchy)</h2>
+
+    <details open>
+        <summary>Inheritance Chain</summary>
+        <div class="inner">
+            <pre><code>Equatable
+ └── Comparable
+      └── HasName ─────────── name, str(), comparison, hash
+           │
+           └── ProcessBase ─── run(), elapsed, timing
+                │
+                └── ValidatableMutable ── __bool__(), _is_valid</code></pre>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Responsibility Table</summary>
+        <div class="inner">
+            <table>
+                <tr><th>#</th><th>Base</th><th>Contract</th></tr>
+                <tr><td>1</td><td><code class="ic">Equatable</code></td><td><code class="ic">__eq__</code>, <code class="ic">__hash__</code> via abstract <code class="ic">key</code></td></tr>
+                <tr><td>2</td><td><code class="ic">Comparable</code></td><td><code class="ic">__lt__</code>, <code class="ic">__le__</code>, <code class="ic">__gt__</code>, <code class="ic">__ge__</code> via <code class="ic">key</code></td></tr>
+                <tr><td>3</td><td><code class="ic">HasName</code></td><td><code class="ic">name</code> property as <code class="ic">key</code>, <code class="ic">__str__</code>, <code class="ic">__repr__</code></td></tr>
+                <tr><td>4</td><td><code class="ic">ValidatableMutable</code></td><td><code class="ic">__bool__</code>, mutable <code class="ic">_is_valid</code> flag</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Process Hierarchy (subclasses)</summary>
+        <div class="inner">
+            <pre><code>ProcessBase (i_0_base) &larr; this module
+ ├── ProcessInput[Input] (i_1_input)
+ │    └── Adds: input property
+ ├── ProcessOutput[Output] (i_1_output)
+ │    └── Adds: output, run() returns Output
+ └── ProcessIO[Input, Output] (i_2_io)
+      └── Combines: input + output</code></pre>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- D. Dependencies -->
+<section id="deps">
+    <h2>D. Dependencies</h2>
+    <table>
+        <tr><th>#</th><th>Import</th><th>Category</th><th>Used For</th></tr>
+        <tr>
+            <td>1</td>
+            <td><code class="ic">f_core.mixins.ValidatableMutable</code></td>
+            <td><span class="badge badge-internal">internal</span></td>
+            <td>Mutable validity mixin (<code class="ic">__bool__</code>)</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td><code class="ic">f_core.mixins.has.HasName</code></td>
+            <td><span class="badge badge-internal">internal</span></td>
+            <td>Name-based identity, comparison, hash</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td><code class="ic">time.time</code></td>
+            <td><span class="badge badge-stdlib">stdlib</span></td>
+            <td>Wall-clock timing for elapsed and lap</td>
+        </tr>
+    </table>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- E. Examples -->
+<section id="examples">
+    <h2>E. Usage Examples</h2>
+
+    <details open>
+        <summary>Basic Subclass</summary>
+        <div class="inner">
+            <pre><code>from f_core.processes.i_0_base import ProcessBase
+
+class MyProcess(ProcessBase):
+    def _run(self) -> None:
+        # process logic here
+        pass
+
+process = MyProcess(name='DataProcessor')
+process.run()
+print(process.elapsed)  # seconds taken</code></pre>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Lap Timer</summary>
+        <div class="inner">
+            <pre><code>import time
+from f_core.processes.i_0_base import ProcessBase
+
+class TimedSteps(ProcessBase):
+    def _run(self) -> None:
+        self.seconds_since_last_call()  # 0 (first)
+        time.sleep(2)
+        print(self.seconds_since_last_call())  # 2
+        time.sleep(3)
+        print(self.seconds_since_last_call())  # 3
+
+TimedSteps(name='Steps').run()</code></pre>
+        </div>
+    </details>
+
+    <details>
+        <summary>Factory</summary>
+        <div class="inner">
+            <pre><code>from f_core.processes.i_0_base import ProcessBase
+
+nested = ProcessBase.Factory.nested()
+nested.run()
+print(nested.elapsed)</code></pre>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+</main>
+</div>
+
+<footer>
+    <ol>
+        <li>Generated: 2026-03-03</li>
+        <li>Scope: <code class="ic">f_core.processes.i_0_base</code> (4 files: main.py, _factory.py, _study_run.py, _study_time.py)</li>
+    </ol>
+</footer>
+
+<script>
+function filterSections(query) {
+    const q = query.toLowerCase();
+    document.querySelectorAll('main details').forEach(d => {
+        const text = d.textContent.toLowerCase();
+        d.style.display = text.includes(q) ? '' : 'none';
+    });
+}
+</script>
+
+</body>
+</html>

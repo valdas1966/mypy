@@ -3,7 +3,7 @@ from f_search.problems import ProblemSPP as Problem
 from f_search.ds.frontier import FrontierPriority as Frontier
 from f_search.ds.state import StateBase
 from f_search.ds.priority import PriorityGH as Priority
-from f_search.heuristics import HeuristicsProtocol, HeuristicsManhattan as Manhattan
+from f_search.heuristics import HeuristicsManhattan as Manhattan
 from f_search.ds.data import DataHeuristics as Data
 from typing import Generic, TypeVar
 

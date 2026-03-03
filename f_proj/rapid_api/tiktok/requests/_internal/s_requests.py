@@ -8,8 +8,8 @@ def users_by_id() -> None:
     ========================================================================
     """
     id_user = '107955'
-    row = RequestsTiktok.users_by_id(id_user=id_user)
-    print(row)
+    rows = RequestsTiktok.users_by_id(id_user=id_user)
+    print(rows)
 
 
 def users_by_id_unique() -> None:
@@ -19,8 +19,8 @@ def users_by_id_unique() -> None:
     ========================================================================
     """
     id_user_unique = 'tiktok'
-    row = RequestsTiktok.users_by_id_unique(id_user_unique=id_user_unique)
-    print(row)
+    rows = RequestsTiktok.users_by_id_unique(id_user_unique=id_user_unique)
+    print(rows)
 
 
 def videos_by_user() -> None:
@@ -89,8 +89,8 @@ def music_by_id() -> None:
     ========================================================================
     """
     id_music = '7518111689754069773'
-    row = RequestsTiktok.music_by_id(id_music=id_music)
-    print(row)
+    rows = RequestsTiktok.music_by_id(id_music=id_music)
+    print(rows)
 
 
 def videos_by_music() -> None:

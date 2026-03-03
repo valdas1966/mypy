@@ -1,12 +1,10 @@
 from f_search.algos.i_2_omspp import AlgoOMSPP
-from f_search.algos.i_1_spp.i_3_astar_reusable_flags import (
-    AStarReusableFlags)
+from f_search.algos.i_1_spp.i_3_astar_cached import AStarCached
 from f_search.problems import ProblemSPP, ProblemOMSPP
-from f_search.solutions import SolutionSPP
-from f_search.ds.data import DataIncremental as Data
-from f_search.ds.data import DataIncrementalAnalytics as DataAnalytics
+from f_search.solutions import SolutionSPP, SolutionOMSPP
+from f_search.ds.data import DataCached as Data
+from f_search.ds.data import DataCachedAnalytics as DataAnalytics
 from f_search.ds.state import StateBase
-from f_ds.set_ordered import SetOrdered
 from typing import Generic, TypeVar
 
 State = TypeVar('State', bound=StateBase)
@@ -48,7 +46,7 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
         super().__init__(problem=problem, name=name)
         self._need_path = need_path
         self._depth_propagation = depth_propagation
-        self._data_incremental = Data[State]()
+        self._data_cached = Data[State]()
         self._analytics = DataAnalytics[State]() if is_analytics else None
 
     @property
@@ -60,7 +58,7 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
         """
         return self._analytics
 
-    def _run(self) -> None:
+    def _run(self) -> SolutionOMSPP:
         """
         ====================================================================
          Run the Algorithm.
@@ -80,8 +78,9 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
                 backward_problem=reversed_problem,
                 is_last=is_last)
             if not sub_solution:
-                return
+                break
             self._sub_solutions.append(sub_solution)
+        return self._create_solution()
 
     def _run_sub_search(self,
                         forward_problem: ProblemSPP,
@@ -95,13 +94,10 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
         ====================================================================
         """
         # Run backward A* with flag-aware priorities
-        algo = AStarReusableFlags[State](
+        algo = AStarCached[State](
             problem=backward_problem,
-            data_incremental=self._data_incremental,
+            data_cached=self._data_cached,
             need_path=self._need_path)
-        # Use OrderedSet for explored to preserve exploration order
-        if self._analytics:
-            algo._data.explored = SetOrdered()
         backward_solution = algo.run()
         # If no solution found, return None
         if not backward_solution:
@@ -109,30 +105,31 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
         # Optionally reconstruct forward path
         fwd_path = None
         if self._need_path:
-            bwd_path = algo._data.path_to(
-                state=backward_problem.goal)
+            bwd_path = backward_solution.path
             fwd_path = bwd_path.reverse()
-        # Collect analytics (before accumulation mutates _data_incremental)
+        # Collect analytics (before accumulation mutates _data_cached)
         if self._analytics:
             self._analytics.collect(
                 goal_key=forward_problem.goal.key,
                 data=algo._data,
-                data_incremental=self._data_incremental)
+                data_cached=self._data_cached)
         # Accumulate heuristic info for future sub-searches
-        if not is_last:
+        # (only when goal was reached — early cached termination
+        #  has no new path info to extract)
+        if not is_last and algo.reached_goal:
             depth = self._depth_propagation
             # Cached exact distances (always collected)
             cached = algo.distances_to_goal()
-            self._data_incremental.dict_cached.update(cached)
+            self._data_cached.dict_cached.update(cached)
             # Lower bounds (depth >= 0)
             if depth >= 0:
                 bounded = algo.propagate_bounds(depth=depth)
                 # Keep the tighter (max) lower bound per state
                 for state, value in bounded.items():
-                    old = self._data_incremental.dict_bounded.get(
+                    old = self._data_cached.dict_bounded.get(
                         state)
                     if old is None or value > old:
-                        self._data_incremental.dict_bounded[state] \
+                        self._data_cached.dict_bounded[state] \
                             = value
         # Return forward sub-solution (problem.goal=Gi for SolutionOMSPP)
         return SolutionSPP(name_algo=self.name,

@@ -53,7 +53,7 @@ class AStarAggregative(AlgoOMSPP[State, Data],
         self._prev_explored = 0
         self._prev_discovered = 0
 
-    def _run(self) -> None:
+    def _run(self) -> SolutionOMSPP:
         """
         ========================================================================
          Run the Algorithm and return the Solution.
@@ -65,8 +65,9 @@ class AStarAggregative(AlgoOMSPP[State, Data],
             if self._data.best in self._goals_active:
                 self._on_goal_found()
             if self._can_terminate():
-                return
+                break
             self._explore_best()
+        return self._create_solution()
 
     def _discover(self, state: State) -> None:
         """

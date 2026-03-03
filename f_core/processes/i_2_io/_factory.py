@@ -18,8 +18,8 @@ class Factory:
         class Square(ProcessIO[int, int]):
             RECORD_SPEC = {'input': lambda o: o.input,
                            'output': lambda o: o._output}
-            def __init__(self, name='Square', verbose=True, input=input) -> None:
-                ProcessIO.__init__(self, name=name, verbose=verbose, input=input)
-            def _run(self) -> None:
-                self._output = self.input * self.input
+            def __init__(self, name='Square', input=input) -> None:
+                ProcessIO.__init__(self, name=name, input=input)
+            def _run(self) -> int:
+                return self.input * self.input
         return Square

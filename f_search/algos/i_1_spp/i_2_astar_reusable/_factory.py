@@ -21,16 +21,6 @@ class Factory:
         return AStarReusable(problem=problem)
 
     @staticmethod
-    def with_obstacles() -> AStarReusable:
-        """
-        ========================================================================
-         Return an AStarReusable with a ProblemSPP with obstacles.
-        ========================================================================
-        """
-        problem = ProblemSPP.Factory.with_obstacles()
-        return AStarReusable(problem=problem)
-
-    @staticmethod
     def without_obstacles_with_cell_00() -> AStarReusable:
         """
         ========================================================================

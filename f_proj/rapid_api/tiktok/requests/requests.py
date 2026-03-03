@@ -10,7 +10,7 @@ class RequestsTiktok:
     """
 
     @staticmethod
-    def users_by_id(id_user: str) -> dict[str, Any]:
+    def users_by_id(id_user: str) -> list[dict[str, Any]]:
         """
         ========================================================================
          Fetch users by their ids.
@@ -46,7 +46,7 @@ class RequestsTiktok:
                                       to_row=to_row)
 
     @staticmethod
-    def users_by_id_unique(id_user_unique: str) -> dict[str, Any]:
+    def users_by_id_unique(id_user_unique: str) -> list[dict[str, Any]]:
         """
         ========================================================================
          Fetch users by their unique ids.
@@ -282,7 +282,7 @@ class RequestsTiktok:
                                      limit=limit)
 
     @staticmethod
-    def music_by_id(id_music: str) -> dict[str, Any]:
+    def music_by_id(id_music: str) -> list[dict[str, Any]]:
         """
         ========================================================================
          Fetch music by id.
@@ -310,7 +310,7 @@ class RequestsTiktok:
                                       to_row=to_row)
 
     @staticmethod
-    def videos_by_music(id_music: str, limit: int = None) -> dict[str, Any]:
+    def videos_by_music(id_music: str, limit: int = None) -> list[dict[str, Any]]:
         """
         ========================================================================
          Fetch videos by music id.

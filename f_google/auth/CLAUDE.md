@@ -1,70 +1,45 @@
 # Auth
 
 ## Purpose
-Static utility class for Google authentication.
-Supports two auth flows: Service Account (JSON key) and OAuth (browser login).
-Each `Account` enum member declares its auth type; `get_creds()` dispatches
-accordingly.
+Static utility class for Google Service-Account authentication.
+Takes a path to a JSON key file and scopes, returns `SACredentials`.
 
 ## Public API
 
-### `Auth.get_creds(account: Account) -> Credentials`
-Return credentials for the given account.
-Dispatches to Service Account or OAuth based on `account.type_auth`.
+### `Auth.get_creds(path: str, scopes: list[str]) -> SACredentials`
+Return Service-Account credentials from a JSON key file.
 
-### `Auth.Factory.rami() -> Credentials`
-Return Service Account credentials for RAMI (`project_id='noteret'`).
-
-### `Auth.Factory.valdas() -> Credentials`
-Return OAuth credentials for VALDAS (opens browser on first use).
-
-### Enums
-
-#### `TypeAuth`
-| Value | Description |
-|-------|-------------|
-| `SERVICE_ACCOUNT` | JSON key file auth |
-| `OAUTH` | Browser-based OAuth flow |
-
-#### `Account`
-| Value | Auth Type | Description |
-|-------|-----------|-------------|
-| `RAMI` | `SERVICE_ACCOUNT` | GCP project `noteret` |
-| `VALDAS` | `OAUTH` | Personal Google account |
-
-**Properties:** `account -> str`, `type_auth -> TypeAuth`
+### `Auth.Factory.rami() -> SACredentials`
+Return credentials for RAMI (project `noteret`).
+Resolves path via `~/prof/rami.json` (Mac) or `RAMI_JSON_PATH` env var.
 
 ## Inheritance (Hierarchy)
 ```
 Auth (static utility, no base class)
 ```
-No inheritance. All methods are `@staticmethod`.
 
 ## Dependencies
 
 | Import | Purpose |
 |--------|---------|
-| `google.oauth2.service_account.Credentials` | Service Account auth |
-| `google.oauth2.credentials.Credentials` | OAuth token credentials |
-| `google.auth.transport.requests.Request` | Token refresh |
-| `google_auth_oauthlib.flow.InstalledAppFlow` | OAuth browser login |
+| `google.oauth2.service_account.Credentials` | SA credentials |
 
-## Credential Files (`~/prof/`)
+## Credential Files
 
-| File | Purpose |
-|------|---------|
-| `rami.json` | RAMI Service Account key |
-| `oauth_client.json` | OAuth client ID (from RAMI's GCP) |
-| `valdas_token.json` | Cached VALDAS OAuth token (auto-generated) |
+| Platform | Path |
+|----------|------|
+| Mac | `~/prof/rami.json` |
+| Windows | `RAMI_JSON_PATH` env var |
 
 ## Usage Example
 ```python
-from f_google.auth import Auth, Account
+from f_google.auth import Auth
 
-# Service Account
-creds = Auth.get_creds(account=Account.RAMI)
+# Via Factory
+creds = Auth.Factory.rami()
 print(creds.project_id)  # 'noteret'
 
-# OAuth (opens browser on first login, caches token after)
-creds = Auth.get_creds(account=Account.VALDAS)
+# Generic
+creds = Auth.get_creds(path='/path/to/key.json',
+                       scopes=['https://...'])
 ```

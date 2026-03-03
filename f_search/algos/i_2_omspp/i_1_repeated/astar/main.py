@@ -33,7 +33,7 @@ class AStarRepeated(AlgoOMSPP):
                            name=name)
         self._need_path = need_path
 
-    def _run(self) -> None:
+    def _run(self) -> SolutionOMSPP:
         """
         ========================================================================
          Run the AStarRepeated Algorithm.
@@ -51,7 +51,7 @@ class AStarRepeated(AlgoOMSPP):
                           need_path=self._need_path)
             solution = astar.run()
             if not solution:
-                return
+                break
             self._goals_active.remove(sub_problem.goal)
             # Add a solution for the goals that are explored in current A*.
             for goal in self._goals_active:
@@ -72,15 +72,4 @@ class AStarRepeated(AlgoOMSPP):
                     self._sub_solutions.append(solution_by_the_way)
                     self._goals_active.remove(goal)
             self._sub_solutions.append(solution)
-        
-    def _run_post(self) -> None:
-        """
-        ========================================================================
-         Run Post-Processing.
-        ========================================================================
-        """
-        super()._run_post()
-        self._output = SolutionOMSPP(name_algo=self.name,
-                                     problem=self.problem,
-                                     subs=self._sub_solutions,
-                                     elapsed=self._elapsed)
+        return self._create_solution()

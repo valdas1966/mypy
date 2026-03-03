@@ -6,8 +6,8 @@ Provides DataFrame-based queries, DDL/DML execution, and table management.
 
 ## Public API
 
-### `__init__(account: Account = Account.RAMI) -> None`
-Create a BigQuery client authenticated with the given account.
+### `__init__(creds: SACredentials) -> None`
+Create a BigQuery client with Service-Account credentials.
 
 ### `select(query: str, limit: int = -1) -> pd.DataFrame`
 Run a SELECT query, return results as DataFrame.
@@ -53,9 +53,8 @@ No inheritance. Standalone client wrapper.
 
 | Import | Purpose |
 |--------|---------|
+| `google.oauth2.service_account.Credentials` | SA credentials |
 | `google.cloud.bigquery` | BigQuery client |
-| `f_google.auth.Auth` | Authentication |
-| `f_google.auth.Account` | Account enum |
 | `pandas` | DataFrame results |
 
 ## Usage Example

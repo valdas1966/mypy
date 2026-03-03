@@ -30,7 +30,7 @@ class BFSNeighborhood(AlgoSearch[Problem, Solution], Generic[State]):
         self._need_path = need_path
         self._neighborhood: dict[State] | None = None
         
-    def _run(self) -> None:
+    def _run(self) -> Solution:
         """
         ========================================================================
          Run the Algorithm and return the Solution.
@@ -42,15 +42,7 @@ class BFSNeighborhood(AlgoSearch[Problem, Solution], Generic[State]):
                                  steps_max=self.problem.steps_max)
         bfs.run()
         self._neighborhood = bfs._data.explored
-
-    def _run_post(self) -> None:
-        """
-        ========================================================================
-         Run the Post-Execution.
-        ========================================================================
-        """
-        super()._run_post()
-        self._output = Solution(name_algo=self.name,
-                                problem=self.problem,
-                                neighborhood=self._neighborhood,
-                                stats=self._stats)
+        return Solution(name_algo=self.name,
+                        problem=self.problem,
+                        neighborhood=self._neighborhood,
+                        stats=self._stats)

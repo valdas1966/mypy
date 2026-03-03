@@ -12,7 +12,10 @@
       "Bash(pip install:*)",
       "Bash(PYTHONPATH=/mnt/f/mypy python:*)",
       "Bash(conda env:*)",
-      "Bash(/Users/eyalberkovich/miniconda3/envs/mypy/bin/python:*)"
+      "Bash(/Users/eyalberkovich/miniconda3/envs/mypy/bin/python:*)",
+      "Bash(/mnt/f/mypy/.venv/bin/python:*)",
+      "Bash(conda list:*)",
+      "Bash(test:*)"
     ]
   }
 }

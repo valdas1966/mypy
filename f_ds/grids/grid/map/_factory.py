@@ -45,6 +45,20 @@ class Factory:
         return grid
 
     @staticmethod
+    def six_with_obstacles() -> GridMap:
+        """
+        =======================================================================
+         Return a 6x6 Grid - Good for Cached and Bounded states.
+        =======================================================================
+        """
+        grid = GridMap(rows=6, name='Grid5x5WithObstacles')
+        grid[0][4].set_invalid()
+        grid[1][4].set_invalid()
+        grid[2][4].set_invalid()
+        grid[3][4].set_invalid()
+        return grid
+
+    @staticmethod
     def custom(rows: int,
                pct_obstacles: int) -> GridMap:
         """

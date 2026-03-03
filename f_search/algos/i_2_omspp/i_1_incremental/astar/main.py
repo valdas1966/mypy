@@ -1,7 +1,7 @@
 from f_search.algos.i_2_omspp import AlgoOMSPP
 from f_search.algos.i_1_spp.i_2_astar_reusable import AStarReusable
 from f_search.problems import ProblemSPP, ProblemOMSPP
-from f_search.solutions import SolutionSPP
+from f_search.solutions import SolutionSPP, SolutionOMSPP
 from f_search.heuristics import HeuristicsProtocol, HeuristicsManhattan as Manhattan
 from f_search.ds.data import DataHeuristics as Data
 from f_search.ds.frontier import FrontierPriority as Frontier
@@ -43,7 +43,7 @@ class AStarIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
         if not heuristics:
             self._heuristics = Manhattan[State]
 
-    def _run(self) -> None:
+    def _run(self) -> SolutionOMSPP:
         """
         ========================================================================
          Run the Algorithm.
@@ -58,12 +58,14 @@ class AStarIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
             # Run the sub-search (SPP) using AStar.
             sub_solution = self._run_sub_search(problem=sub_problem)
             if not sub_solution:
-                return
+                break
             self._sub_solutions.append(sub_solution)
             priority = Priority[State](key=sub_problem.goal.key,
                                        g=self._data.dict_g[sub_problem.goal],
                                        h=self._data.dict_h[sub_problem.goal])
-            self._data.frontier.push(state=sub_problem.goal, priority=priority)
+            self._data.frontier.push(state=sub_problem.goal,
+                                     priority=priority)
+        return self._create_solution()
 
     def _on_goal_already_explored(self, problem: ProblemSPP) -> None:
         """

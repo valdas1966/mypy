@@ -1,4 +1,4 @@
-from f_core.old_mixins.printable import Printable
+from f_core.old.old_mixins import Printable
 from f_cs.stats.main import StatsAlgo
 
 

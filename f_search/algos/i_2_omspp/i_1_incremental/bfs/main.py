@@ -36,7 +36,7 @@ class BFSIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
         self._data = data if data else Data(frontier=frontier)
         
 
-    def _run(self) -> None:
+    def _run(self) -> SolutionOMSPP:
         """
         ========================================================================
          Run the Algorithm.
@@ -61,19 +61,7 @@ class BFSIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
                        need_path=self._need_path)
             sub_solution = algo.run()
             if not sub_solution:
-                return
+                break
             self._sub_solutions.append(sub_solution)
             self._data.frontier.push(state=sub_problem.goal)
-
-    def _run_post(self) -> None:
-        """
-        ========================================================================
-         Run Post-Processing.
-        ========================================================================
-        """
-        super()._run_post()
-        self._output = SolutionOMSPP(name_algo=self.name,
-                                     problem=self.problem,
-                                     subs=self._sub_solutions,
-                                     elapsed=self.elapsed)
-        
+        return self._create_solution()

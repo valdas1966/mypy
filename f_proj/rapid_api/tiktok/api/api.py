@@ -29,7 +29,7 @@ class TiktokAPI:
                      # Anchor to identify the request (like id_user, 122343434)
                      anchor: tuple[str, str],
                      # Function to convert the data to a row (dict to dict)
-                     to_row: Callable[[dict], dict]) -> dict[str, Any]:
+                     to_row: Callable[[dict], dict]) -> list[dict[str, Any]]:
         """
         ========================================================================
          Fetch a single item from the API.
@@ -39,16 +39,17 @@ class TiktokAPI:
         response = TiktokAPI._get_response(url=url, params=params)
         # If response is invalid, return an invalid dict
         if not response:
-            return TiktokAPI._on_error(status=response.status, anchor=anchor)
+            return [TiktokAPI._on_error(status=response.status,
+                                        anchor=anchor)]
         # Try to extract the data (json-dict)
         try:
             # Get the data (json-dict)
             data = response.data['data']
             # Convert the data to the desired format (dict)
-            return to_row(data)
+            return [to_row(data)]
         # On error in fetching data, return a broken dict
         except Exception as e:
-            return TiktokAPI._on_broken(msg=str(e), anchor=anchor)
+            return [TiktokAPI._on_broken(msg=str(e), anchor=anchor)]
 
     @staticmethod
     def fetch_multi(# URL to fetch the data from

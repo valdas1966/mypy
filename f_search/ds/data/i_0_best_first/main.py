@@ -2,6 +2,7 @@ from f_search.ds.path import Path
 from f_search.ds.state import StateBase
 from f_search.ds.data.mixins import HasDataState
 from f_search.ds.frontier import FrontierBase as Frontier
+from f_ds.set_ordered import SetOrdered
 from typing import TypeVar, Generic
 
 State = TypeVar('State', bound=StateBase)
@@ -28,7 +29,7 @@ class DataBestFirst(Generic[State], HasDataState[State]):
         =============================================================
         """
         self.frontier = frontier
-        self.explored = explored if explored else set()
+        self.explored = explored if explored else SetOrdered()
         self.dict_g = dict_g if dict_g else dict()
         self.dict_parent= dict_parent if dict_parent else dict()
         self.best: State | None = None
@@ -51,6 +52,15 @@ class DataBestFirst(Generic[State], HasDataState[State]):
         data = super().data_state(state)
         data['g'] = self.dict_g.get(state)
         return data
+
+    def list_explored(self) -> list[dict[str, any]]:
+        """
+        ========================================================================
+         Return a list of dicts with stored Data for each explored State
+          (in exploration order).
+        ========================================================================
+        """
+        return [self.data_state(state=s) for s in self.explored]
 
     def path_to(self, state: State) -> Path:
         """

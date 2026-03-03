@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Review — ProcessBase (i_0_base)</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 2rem 3rem;
+    max-width: 960px;
+    margin: 0 auto;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); text-decoration: underline; }
+h1 { color: #fff; font-size: 2rem; margin-bottom: .3rem; }
+.path {
+    color: var(--faint);
+    font-family: monospace;
+    font-size: .9rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border);
+}
+h2 {
+    color: #fff;
+    font-size: 1.4rem;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: .4rem;
+    border-bottom: 2px solid var(--border);
+}
+h3 { color: var(--text); font-size: 1.1rem; margin: 1.5rem 0 .5rem; }
+ol { padding-left: 1.5rem; margin: .75rem 0; }
+li { margin-bottom: .6rem; color: var(--muted); }
+li strong { color: var(--text); }
+pre {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: .75rem 0;
+}
+code {
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace;
+    font-size: .9rem;
+    color: var(--text);
+}
+pre code { display: block; line-height: 1.5; }
+.ic {
+    background: var(--panel2);
+    padding: .15rem .4rem;
+    border-radius: 3px;
+    font-size: .85rem;
+}
+.v {
+    display: inline-block;
+    padding: .2rem .6rem;
+    border-radius: 4px;
+    font-size: .8rem;
+    font-weight: 600;
+}
+.v-pass { background: var(--good); color: var(--bg); }
+.v-minor { background: var(--warn); color: var(--bg); }
+.fr { color: var(--accent); font-family: monospace; font-size: .85rem; }
+.note {
+    background: var(--panel2);
+    border-left: 3px solid var(--accent);
+    padding: .75rem 1rem;
+    margin: 1rem 0;
+    color: var(--muted);
+    font-size: .9rem;
+}
+.note-good { border-left-color: var(--good); }
+.note-warn { border-left-color: var(--warn); }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+th, td { padding: .75rem; text-align: left; border: 1px solid var(--border); }
+th { background: var(--panel2); color: #fff; font-weight: 600; }
+td { background: var(--panel); color: var(--muted); }
+footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--border);
+    color: var(--faint);
+    font-size: .85rem;
+}
+</style>
+</head>
+<body>
+
+<h1>Code + Design Review</h1>
+<div class="path">f_core / processes / i_0_base</div>
+<ol>
+    <li>Files reviewed:
+        <code class="ic">main.py</code>,
+        <code class="ic">_factory.py</code>,
+        <code class="ic">__init__.py</code>
+    </li>
+    <li>Deep-inspected:
+        <code class="ic">HasName</code>,
+        <code class="ic">ValidatableMutable</code>
+    </li>
+</ol>
+
+<!-- 1. Correctness -->
+<section>
+    <h2>1. Correctness</h2>
+    <div class="note note-warn">Minor issues found.</div>
+    <ol>
+        <li>
+            <strong><span class="fr">main.py:25</span></strong>
+            &mdash; <code class="ic">self._elapsed: int = None</code>
+            annotates as <code class="ic">int</code> but assigns
+            <code class="ic">None</code>. Should be
+            <code class="ic">int | None = None</code>.
+            Same issue on lines 26&ndash;27 for
+            <code class="ic">_time_start</code> and
+            <code class="ic">_time_finish</code>.
+<pre><code># current
+self._elapsed: int = None
+self._time_start: float = None
+self._time_finish: float = None
+
+# fix
+self._elapsed: int | None = None
+self._time_start: float | None = None
+self._time_finish: float | None = None</code></pre>
+        </li>
+        <li>
+            <strong><span class="fr">main.py:67</span></strong>
+            &mdash; <code class="ic">_run_pre()</code> re-annotates
+            <code class="ic">self._time_start: float = time()</code>.
+            The type annotation on assignment is redundant and
+            re-declares the attribute. Should be plain assignment:
+            <code class="ic">self._time_start = time()</code>.
+        </li>
+    </ol>
+</section>
+
+<!-- 2. Readability / Naming -->
+<section>
+    <h2>2. Readability / Naming</h2>
+    <div class="note note-good">Resolved.</div>
+    <ol>
+        <li>
+            Folder renamed from <code class="ic">i_0_abc</code> to
+            <code class="ic">i_0_base</code> and class from
+            <code class="ic">ProcessABC</code> to
+            <code class="ic">ProcessBase</code>. Consistent with
+            codebase convention.
+        </li>
+    </ol>
+</section>
+
+<!-- 3. Design (OOP) -->
+<section>
+    <h2>3. Design (OOP)</h2>
+    <div class="note note-good">No change needed.</div>
+    <ol>
+        <li>
+            Template Method pattern is clean and correct:
+            <code class="ic">run()</code> &rarr;
+            <code class="ic">_run_pre()</code> &rarr;
+            <code class="ic">_run()</code> &rarr;
+            <code class="ic">_run_post()</code>.
+        </li>
+        <li>
+            Mixin composition (<code class="ic">HasName</code> +
+            <code class="ic">ValidatableMutable</code>) is appropriate
+            and follows project conventions.
+        </li>
+        <li>
+            Lap timer (<code class="ic">seconds_since_last_call</code>)
+            is orthogonal to the lifecycle and doesn't interfere.
+        </li>
+    </ol>
+</section>
+
+<!-- 4. Performance -->
+<section>
+    <h2>4. Performance</h2>
+    <div class="note note-good">No change needed.</div>
+    <ol>
+        <li>
+            <code class="ic">time.time()</code> is appropriate for
+            second-level precision. Not a hot path.
+        </li>
+    </ol>
+</section>
+
+<!-- 5. Typing -->
+<section>
+    <h2>5. Typing</h2>
+    <div class="note note-warn">Minor issues found.</div>
+    <ol>
+        <li>
+            <strong><span class="fr">main.py:25&ndash;27</span></strong>
+            &mdash; Three attributes typed as
+            <code class="ic">int</code>/<code class="ic">float</code>
+            but initialized to <code class="ic">None</code>.
+            Fix: use union type <code class="ic">int | None</code> /
+            <code class="ic">float | None</code>.
+        </li>
+        <li>
+            <strong><span class="fr">main.py:33</span></strong>
+            &mdash; <code class="ic">elapsed</code> property return type
+            is <code class="ic">int</code> but can return
+            <code class="ic">None</code>. Should be
+            <code class="ic">int | None</code>.
+        </li>
+    </ol>
+</section>
+
+<!-- 6. Documentation -->
+<section>
+    <h2>6. Documentation</h2>
+    <div class="note note-good">No change needed.</div>
+    <ol>
+        <li>
+            Class and method docstrings follow the project's
+            <code class="ic">====</code> separator convention.
+        </li>
+        <li>
+            Inline comments are short and above the line they describe.
+        </li>
+    </ol>
+</section>
+
+<!-- 7. Modularity -->
+<section>
+    <h2>7. Modularity</h2>
+    <div class="note note-good">No change needed.</div>
+    <ol>
+        <li>
+            Standard file layout:
+            <code class="ic">main.py</code>,
+            <code class="ic">_factory.py</code>,
+            <code class="ic">__init__.py</code>,
+            two <code class="ic">_study_*.py</code> files.
+        </li>
+        <li>
+            All files are short and focused. Single class per module.
+        </li>
+    </ol>
+</section>
+
+<!-- 8. Architecture -->
+<section>
+    <h2>8. Architecture</h2>
+    <div class="note note-warn">Minor issue found.</div>
+    <ol>
+        <li>
+            <strong><span class="fr">__init__.py:1</span></strong>
+            &mdash; Imports <code class="ic">ProcessBase</code>
+            indirectly from <code class="ic">_factory.py</code>
+            instead of directly from <code class="ic">main.py</code>.
+            Inconsistent with the equatable/comparable convention.
+<pre><code># current
+from f_core.processes.i_0_base._factory import ProcessBase, Factory
+
+# convention
+from f_core.processes.i_0_base.main import ProcessBase
+from f_core.processes.i_0_base._factory import Factory</code></pre>
+        </li>
+    </ol>
+</section>
+
+<!-- 9. Usage & Usefulness -->
+<section>
+    <h2>9. Usage &amp; Usefulness</h2>
+    <ol>
+        <li>
+            <strong>How to use:</strong> inherit from
+            <code class="ic">ProcessBase</code>, override
+            <code class="ic">_run()</code>. Call
+            <code class="ic">run()</code> to execute with timing.
+        </li>
+        <li>
+            <strong>When useful:</strong> any operation that needs
+            lifecycle hooks and/or execution timing. Root of the
+            process hierarchy used by
+            <code class="ic">ProcessInput</code>,
+            <code class="ic">ProcessOutput</code>,
+            <code class="ic">ProcessIO</code>.
+        </li>
+        <li>
+            <strong>Overengineered?</strong> No. Minimal base class
+            with timing. Lap timer is a small addition that costs
+            nothing when unused.
+        </li>
+        <li>
+            <strong>Alternative:</strong> a plain function with
+            <code class="ic">time.time()</code> calls. The class
+            hierarchy is justified by the downstream generic processes
+            that build on it.
+        </li>
+    </ol>
+</section>
+
+<!-- 10. Suggestions -->
+<section>
+    <h2>10. Suggestions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th><th>Item</th><th>Evidence</th>
+                <th>Risk</th><th>Benefit</th><th>Fix</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Fix type annotations for nullable attributes</td>
+                <td><span class="fr">main.py:25&ndash;27, 33</span></td>
+                <td>None</td>
+                <td>Correct typing; static analysis compliance</td>
+                <td>Change <code class="ic">int</code> to
+                    <code class="ic">int | None</code>, etc.</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Remove redundant re-annotation in
+                    <code class="ic">_run_pre()</code></td>
+                <td><span class="fr">main.py:67</span></td>
+                <td>None</td>
+                <td>Cleaner code; single source of truth for type</td>
+                <td>Remove <code class="ic">: float</code> from
+                    assignment</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Import <code class="ic">ProcessBase</code>
+                    from <code class="ic">main.py</code> in
+                    <code class="ic">__init__.py</code></td>
+                <td><span class="fr">__init__.py:1</span></td>
+                <td>None</td>
+                <td>Consistent with codebase convention</td>
+                <td>Split import into two lines</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td><s>Rename folder to <code class="ic">i_0_base</code></s>
+                    (DONE)</td>
+                <td>Folder and class renamed</td>
+                <td>&mdash;</td>
+                <td>Consistent naming; avoids stdlib shadow</td>
+                <td>Resolved</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- Summary -->
+<section>
+    <h2>Summary</h2>
+    <ol>
+        <li>
+            <span class="v v-minor">MINOR</span>
+            Code is correct in behavior but has typing inaccuracies.
+        </li>
+        <li>
+            Three nullable attributes annotated without
+            <code class="ic">| None</code>; one redundant
+            re-annotation.
+        </li>
+        <li>
+            <code class="ic">__init__.py</code> imports
+            <code class="ic">ProcessBase</code> indirectly from
+            <code class="ic">_factory.py</code>.
+        </li>
+        <li>
+            Folder renamed from <code class="ic">i_0_abc</code> to
+            <code class="ic">i_0_base</code> (resolved).
+        </li>
+        <li>
+            Design, performance, and documentation are clean.
+        </li>
+    </ol>
+</section>
+
+<footer>
+    <ol>
+        <li>Review date: 2026-03-03</li>
+        <li>Scope: <code class="ic">f_core.processes.i_0_base</code>
+            (3 files)</li>
+    </ol>
+</footer>
+
+</body>
+</html>

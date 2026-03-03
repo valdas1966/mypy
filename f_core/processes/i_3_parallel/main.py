@@ -46,7 +46,7 @@ class ProcessParallel(Generic[Item, Output],
         """
         return self._errors
 
-    def _run(self) -> None:
+    def _run(self) -> list[Output | None]:
         """
         ========================================================================
          Distribute items across workers and execute in parallel.
@@ -56,8 +56,7 @@ class ProcessParallel(Generic[Item, Output],
         self._errors = []
         # Handle empty input
         if not self._input:
-            self._output = []
-            return
+            return []
         # Split input into chunks
         chunks = Group.to_groups(data=self._input,
                                   n=self._workers,
@@ -92,4 +91,4 @@ class ProcessParallel(Generic[Item, Output],
                     results[i] = future.result()
                 except Exception as exc:
                     self._errors.append((i, chunk_data, exc))
-        self._output = results
+        return results

@@ -1,10 +1,10 @@
-from f_core.processes.i_0_abc import ProcessABC
+from f_core.processes.i_0_base import ProcessBase
 from typing import Generic, TypeVar
 
 Output = TypeVar('Output')
 
 
-class ProcessOutput(ProcessABC, Generic[Output]):
+class ProcessOutput(ProcessBase, Generic[Output]):
     """
     ============================================================================
      ABC for Processes with Output.
@@ -22,7 +22,7 @@ class ProcessOutput(ProcessABC, Generic[Output]):
         ========================================================================
         """
         self._output: Output | None = None
-        ProcessABC.__init__(self, name=name)
+        ProcessBase.__init__(self, name=name)
 
     def run(self) -> Output:
         """
@@ -31,7 +31,7 @@ class ProcessOutput(ProcessABC, Generic[Output]):
         ========================================================================
         """
         self._run_pre()
-        self._run()
+        self._output = self._run()
         self._run_post()
         return self._output
 
@@ -41,4 +41,4 @@ class ProcessOutput(ProcessABC, Generic[Output]):
          Run the Post-Run Commands.
         ========================================================================
         """
-        ProcessABC._run_post(self)
+        super()._run_post()

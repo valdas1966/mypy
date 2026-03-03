@@ -30,7 +30,7 @@ class AlgoSPP(Generic[State, Data],
                          data=data,
                          name=name)
 
-    def _run(self) -> None:
+    def _run(self) -> SolutionSPP:
         """
         ========================================================================
          Run the Algorithm and return the Solution.
@@ -41,25 +41,18 @@ class AlgoSPP(Generic[State, Data],
         while self._should_continue():
             self._select_best()
             if self._can_terminate():
-                return
+                break
             self._explore_best()
-
-    def _run_post(self) -> None:
-        """
-        ========================================================================
-         Run the Post-Execution.
-        ========================================================================
-        """
-        super()._run_post()
+        # Construct and return the Solution
         is_valid = self._can_terminate()
         path = None
         if self._need_path and is_valid:
             path = self._data.path_to(state=self.problem.goal)
-        self._output = SolutionSPP(name_algo=self.name,
-                                    problem=self.problem,
-                                    is_valid=is_valid,
-                                    path=path,
-                                    stats=self._stats)
+        return SolutionSPP(name_algo=self.name,
+                           problem=self.problem,
+                           is_valid=is_valid,
+                           path=path,
+                           stats=self._stats)
 
     def _can_terminate(self) -> bool:
         """

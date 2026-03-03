@@ -25,12 +25,12 @@ class AlgoIncremental(AlgoOMSPP):
         self._need_path = need_path
         self._type_algo = type_algo
         
-    def _run(self) -> None:
+    def _run(self) -> SolutionOMSPP:
         """
         ========================================================================
          Run the Algorithm.
         ========================================================================
-        """       
+        """
         data = DataSearch()
         sub_problems: list[ProblemSPP] = self._problem.to_spps()
         n_problems = len(sub_problems)
@@ -52,12 +52,10 @@ class AlgoIncremental(AlgoOMSPP):
             solution = algo.run()
             self._sub_solutions[sub_problem.goal] = solution
             if not solution:
-                # If any subproblem is invalid, the overall solution is invalid
-                return self._create_solution()
+                break
             # Add Best to Generated (for further searches)
             best = algo.data.best
             cost_best = algo.data.cost[best]
             algo.data.generated.push(state=best, cost=cost_best)
             data = algo.data
-        # Return valid solution.
         return self._create_solution()

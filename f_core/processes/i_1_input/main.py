@@ -1,10 +1,10 @@
-from f_core.processes.i_0_abc import ProcessABC
+from f_core.processes.i_0_base import ProcessBase
 from typing import Generic, TypeVar
 
 
 Input = TypeVar('Input')
 
-class ProcessInput(ProcessABC, Generic[Input]):
+class ProcessInput(ProcessBase, Generic[Input]):
     """
     ============================================================================
      ABC for Processes with Input.
@@ -23,7 +23,7 @@ class ProcessInput(ProcessABC, Generic[Input]):
         ========================================================================
         """
         self._input = input
-        ProcessABC.__init__(self, name=name)
+        ProcessBase.__init__(self, name=name)
 
     @property
     def input(self) -> Input:

@@ -1,276 +1,136 @@
-# ProcessIO Module
+# ProcessIO
 
-> **Location:** `f_core/processes/i_2_io`
-> **Purpose:** Generic process combining input and output capabilities
+## Purpose
+Generic process combining input and output capabilities.
+Extends `ProcessInput[Input]` and `ProcessOutput[Output]`
+via multiple inheritance. Subclass, override `_run()` to read
+`self.input` and **return** the output, then call `run()`.
 
----
-
-## Quick Reference
-
-| Component | Description |
-|-----------|-------------|
-| `ProcessIO[Input, Output]` | Generic process with both input and output |
-| `Factory` | Static factory for test instances |
-| Inherits | [ProcessInput](../i_1_input/claude.md), [ProcessOutput](../i_1_output/claude.md) |
-| Pattern | Multiple inheritance combining both capabilities |
-
----
-
-## Architecture
-
-```
-ProcessABC ────────────────── ../i_0_abc/
-    │
-    ├── ProcessInput[Input] ── ../i_1_input/
-    │       └── input property
-    │
-    ├── ProcessOutput[Output] ── ../i_1_output/
-    │       └── run() → Output
-    │
-    └── ProcessIO[Input, Output] ──── (this module)
-            ├── input property (from ProcessInput)
-            └── run() → Output (from ProcessOutput)
-```
-
-### What You Get
-
-| From [ProcessInput](../i_1_input/claude.md) | From [ProcessOutput](../i_1_output/claude.md) | Combined |
-|---------------------------------------------|----------------------------------------------|----------|
-| `input` property | `run()` returns `Output` | Both capabilities |
-| Generic `Input` type | `_output` attribute | Two type parameters |
-| | Generic `Output` type | Full I/O process |
-
----
-
-## Files
-
-| File | Purpose |
-|------|---------|
-| `main.py` | Core `ProcessIO[Input, Output]` class |
-| `_factory.py` | Factory for test instances |
-| `_study.py` | Usage examples |
-| `__init__.py` | Exports + Factory binding |
-
----
-
-## ProcessIO Class
+## Public API
 
 ### Type Parameters
-
 ```python
-Input = TypeVar('Input')    # Generic input type
-Output = TypeVar('Output')  # Generic output type
+Input = TypeVar('Input')
+Output = TypeVar('Output')
 ```
 
 ### Constructor
+```python
+def __init__(self,
+             input: Input,
+             name: str = 'ProcessIO') -> None
+```
+Delegates to `ProcessInput.__init__` and `ProcessOutput.__init__`.
+
+### Methods
 
 ```python
-def __init__(self, input: Input, name: str = 'ProcessIO') -> None
+def run(self) -> Output
 ```
+Delegates to `ProcessOutput.run(self)` which executes the
+lifecycle (`_run_pre` -> `_run` -> `_run_post`), captures the
+return value of `_run()` into `_output`, and returns it.
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `input` | `Input` | *required* | The input data for the process |
-| `name` | `str` | `'ProcessIO'` | Process name |
+### Subclass Contract
+Subclasses **must** override `_run()`, read `self.input`, and
+**return** the output. `run()` captures the return value.
 
-### Properties
-
-| Property | Type | Source | Description |
-|----------|------|--------|-------------|
-| `input` | `Input` | ProcessInput | Read-only access to input data |
-| `name` | `str` | ProcessABC | Process name |
-| `elapsed` | `int \| None` | ProcessABC | Execution time in seconds |
-
-### Private Attributes
-
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `_input` | `Input` | Stored input data |
-| `_output` | `Output \| None` | Computed output (set in `_run`) |
-
-### run() Method
-
+### Inherited (from ProcessInput)
 ```python
-def run(self) -> Output:
-    return ProcessOutput.run(self)
+@property
+def input(self) -> Input
 ```
 
-Delegates to `ProcessOutput.run()` which returns the output.
+### Inherited (from ProcessBase)
+```python
+def _run(self) -> Output        # override this — return output
+def _run_pre(self) -> None
+def _run_post(self) -> None
+def seconds_since_last_call(self) -> int
+@property
+def elapsed(self) -> int
+@property
+def name(self) -> str
+def __str__(self) -> str
+def __eq__(self, other: object) -> bool
+def __lt__(self, other: object) -> bool
+def __hash__(self) -> int
+def __bool__(self) -> bool
+```
 
----
+## Inheritance (Hierarchy)
+
+```
+Equatable
+ └── Comparable
+      └── HasName
+           └── ProcessBase ─── run() -> None, elapsed, timing
+                │
+                ├── ProcessInput[Input] ─── input property
+                │
+                ├── ProcessOutput[Output] ─── run() -> Output
+                │
+                └── ProcessIO[Input, Output] ─── combines both
+                     │
+                     └── ValidatableMutable ── __bool__()
+```
+
+| Base | Responsibility |
+|------|----------------|
+| `ProcessInput` | `input` property, generic `Input` type |
+| `ProcessOutput` | `run()` returns `Output`, `_output` attribute |
+| `ProcessBase` | Template Method lifecycle, timing |
+| `HasName` | `name` as `key`, `str`, comparison, hash |
+| `ValidatableMutable` | `__bool__`, mutable `_is_valid` |
+
+## Dependencies
+
+| Import | Purpose |
+|--------|---------|
+| `f_core.processes.i_1_input.ProcessInput` | Input parent class |
+| `f_core.processes.i_1_output.ProcessOutput` | Output parent class |
+| `typing.Generic` | Generic class support |
+| `typing.TypeVar` | `Input` and `Output` type variables |
 
 ## Usage Examples
 
 ### Basic Subclass
-
 ```python
 from f_core.processes.i_2_io import ProcessIO
 
 class Doubler(ProcessIO[int, int]):
-    def _run(self) -> None:
-        self._output = self.input * 2
+    def _run(self) -> int:
+        return self.input * 2
 
-doubler = Doubler(input=5, name='Doubler')
-result = doubler.run()  # Returns 10
-print(f"Input: {doubler.input}, Output: {result}")
+result = Doubler(input=5, name='Doubler').run()
+print(result)  # 10
 ```
 
 ### String Transformation
-
 ```python
 class UpperCase(ProcessIO[str, str]):
-    def _run(self) -> None:
-        self._output = self.input.upper()
+    def _run(self) -> str:
+        return self.input.upper()
 
-proc = UpperCase(input='hello', name='UpperCase')
-result = proc.run()  # Returns 'HELLO'
+result = UpperCase(input='hello', name='Upper').run()
+print(result)  # 'HELLO'
 ```
 
 ### Different Input/Output Types
-
 ```python
 class Parser(ProcessIO[str, list[int]]):
-    def _run(self) -> None:
-        self._output = [int(x) for x in self.input.split(',')]
+    def _run(self) -> list[int]:
+        return [int(x) for x in self.input.split(',')]
 
-parser = Parser(input='1,2,3,4,5', name='Parser')
-result = parser.run()  # Returns [1, 2, 3, 4, 5]
+result = Parser(input='1,2,3', name='Parser').run()
+print(result)  # [1, 2, 3]
 ```
 
-### With Complex Types
-
+### Factory
 ```python
-from dataclasses import dataclass
+from f_core.processes.i_2_io import ProcessIO
 
-@dataclass
-class Config:
-    path: str
-    batch_size: int
-
-@dataclass
-class Result:
-    success: bool
-    count: int
-
-class DataProcessor(ProcessIO[Config, Result]):
-    def _run(self) -> None:
-        # Access typed input
-        config = self.input
-
-        # Produce typed output
-        self._output = Result(
-            success=True,
-            count=config.batch_size * 10
-        )
-
-config = Config(path='/data', batch_size=32)
-processor = DataProcessor(input=config, name='Processor')
-result = processor.run()
-print(result.count)  # 320
-```
-
----
-
-## Factory
-
-```python
-# Get the factory-created class
 Square = ProcessIO.Factory.square()
-
-# Instantiate with input
-proc = Square(input=4)
-result = proc.run()  # Returns 16 (4 * 4)
+result = Square(input=4).run()
+print(result)  # 16
 ```
-
-### Factory.square()
-
-Returns a `ProcessIO[int, int]` class that squares its input:
-
-```python
-@staticmethod
-def square() -> type[ProcessIO[int, int]]:
-    class Square(ProcessIO[int, int]):
-        RECORD_SPEC = {
-            'input': lambda o: o.input,
-            'output': lambda o: o._output
-        }
-        def __init__(self, name='Square', verbose=True, input=input) -> None:
-            ProcessIO.__init__(self, name=name, verbose=verbose, input=input)
-        def _run(self) -> None:
-            self._output = self.input * self.input
-    return Square
-```
-
----
-
-## Process Hierarchy
-
-```
-ProcessABC (i_0_abc)
-    │
-    ├── ProcessInput[Input] (i_1_input)
-    │       └── Adds: input property
-    │
-    ├── ProcessOutput[Output] (i_1_output)
-    │       └── Adds: _output, run() returns Output
-    │
-    └── ProcessIO[Input, Output] (i_2_io) ← YOU ARE HERE
-            └── Combines: input + output
-```
-
-### Multiple Inheritance
-
-```python
-class ProcessIO(Generic[Input, Output],
-                ProcessInput[Input],
-                ProcessOutput[Output]):
-```
-
-ProcessIO uses **multiple inheritance** to combine both capabilities.
-
-### Naming Convention
-
-| Prefix | Level | Description |
-|--------|-------|-------------|
-| `i_0_` | Base | Abstract base class |
-| `i_1_` | Level 1 | Single capability (input OR output) |
-| `i_2_` | Level 2 | Combined capabilities |
-
----
-
-## Dependencies
-
-**Inherits:**
-- [f_core.processes.i_1_input.ProcessInput](../i_1_input/claude.md)
-- [f_core.processes.i_1_output.ProcessOutput](../i_1_output/claude.md)
-
-**Through parents:**
-- [f_core.processes.i_0_abc.ProcessABC](../i_0_abc/claude.md)
-- [f_core.mixins.has.name.HasName](../../mixins/has/name/claude.md)
-- [f_core.mixins.validatable.Validatable](../../mixins/validatable/claude.md)
-- [f_core.mixins.comparable.Comparable](../../mixins/comparable/claude.md)
-- [f_core.mixins.equable.Equable](../../mixins/equatable/claude.md)
-
-**Standard Library:**
-- `typing.Generic` for generic typing
-- `typing.TypeVar` for type variables
-
----
-
-## Design Patterns
-
-1. **Multiple Inheritance** - Combines ProcessInput and ProcessOutput
-2. **Generic Programming** - `ProcessIO[Input, Output]` with two type variables
-3. **Template Method** - Inherits lifecycle from ProcessABC
-4. **Factory Pattern** - `ProcessIO.Factory` for test instances
-
----
-
-## Comparison Summary
-
-| Class | Type Params | Has `input` | `run()` returns |
-|-------|-------------|-------------|-----------------|
-| ProcessABC | None | No | `None` |
-| ProcessInput | `[Input]` | Yes | `None` |
-| ProcessOutput | `[Output]` | No | `Output` |
-| **ProcessIO** | `[Input, Output]` | **Yes** | **`Output`** |
