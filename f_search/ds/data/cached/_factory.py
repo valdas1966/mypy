@@ -130,3 +130,21 @@ class Factory:
         dict_bounded[state_22] = 9
         dict_cached = Factory.six_cached().dict_cached
         return DataCached(dict_cached=dict_cached, dict_bounded=dict_bounded)
+
+    @staticmethod
+    def six_bounded_depth_2() -> DataCached:
+        """
+        =======================================================================
+         Return cached states (on optimal path) with a lower bounds (adjacent
+          states to optimal path) and adjacent of adjacent.
+        =======================================================================
+        """
+        problem = ProblemOMSPP.Factory.for_cached()
+        grid = problem.grid
+        state_20 = State(grid[2][0])
+        state_31 = State(grid[3][1])
+        dict_bounded = Factory.six_bounded_depth_1().dict_bounded
+        dict_bounded[state_20] = 9
+        dict_bounded[state_31] = 9
+        dict_cached = Factory.six_cached().dict_cached
+        return DataCached(dict_cached=dict_cached, dict_bounded=dict_bounded)

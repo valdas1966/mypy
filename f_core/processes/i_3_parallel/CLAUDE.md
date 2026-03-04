@@ -1,126 +1,139 @@
-# ProcessParallel Module
+# ProcessParallel
 
-> **Location:** `f_core/processes/i_3_parallel`
-> **Purpose:** Parallel process that distributes items across workers
+## Purpose
+Parallel process that splits a list of items into chunks, distributes
+them across workers (threads or processes), and collects results.
+Extends `ProcessIO[list[Item], list[Output | None]]`. Failed chunks
+produce `None` in the output; errors are collected separately.
 
----
+## Public API
 
-## Quick Reference
-
-| Component | Description |
-|-----------|-------------|
-| `ProcessParallel[Item, Output]` | Splits input into chunks, executes in parallel |
-| `Factory` | Static factory for test instances |
-| Inherits | [ProcessIO](../i_2_io/CLAUDE.md) |
-| Pattern | Generic, tolerant (failed chunks produce `None`) |
-
----
-
-## Architecture
-
-```
-ProcessABC ──── ../i_0_abc/
-    ├── ProcessInput[Input] ── ../i_1_input/
-    ├── ProcessOutput[Output] ── ../i_1_output/
-    └── ProcessIO[Input, Output] ── ../i_2_io/
-            └── ProcessParallel[Item, Output] ── (this module)
-```
-
----
-
-## Files
-
-| File | Purpose |
-|------|---------|
-| `main.py` | Core `ProcessParallel` class |
-| `_factory.py` | Factory with test instances |
-| `_tester.py` | pytest unit tests |
-| `_study.py` | Usage examples |
-| `__init__.py` | Exports + Factory binding |
-
----
-
-## Constructor
-
+### Type Parameters
 ```python
-ProcessParallel(input, func, workers, use_processes=False, name='ProcessParallel')
+Item = TypeVar('Item')
+Output = TypeVar('Output')
 ```
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `input` | `list[Item]` | required | Items to distribute |
-| `func` | `Callable[[list[Item]], Output \| None]` | required | Worker function per chunk |
-| `workers` | `int` | required | Number of parallel workers |
-| `use_processes` | `bool` | `False` | `False`=threads, `True`=processes |
-| `name` | `str` | `'ProcessParallel'` | Process name |
-
----
-
-## Properties
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `input` | `list[Item]` | Read-only input data |
-| `errors` | `list[tuple[int, list[Item], Exception]]` | (chunk_idx, chunk_data, exception) |
-| `elapsed` | `int` | Execution time in seconds |
-
----
-
-## Cross-Platform Behavior
-
-| Platform | Threads (`use_processes=False`) | Processes (`use_processes=True`) |
-|----------|--------------------------------|----------------------------------|
-| **Linux** | Works | Works (forkserver context) |
-| **macOS** | Works | Works (forkserver context) |
-| **Windows** | Works | Works (spawn context) |
-
-### Windows requirement for processes
-
-On Windows, Python's `multiprocessing` uses `spawn` which re-imports the
-main module. When using `use_processes=True`, the caller script **must**
-wrap the entry point with `if __name__ == '__main__':`.
-
-This is a Python-wide requirement on Windows, not specific to this class.
-On macOS and Linux, no guard is needed — `forkserver` handles it.
-
+### Constructor
 ```python
-# Windows-safe script
+def __init__(self,
+             input: list[Item],
+             func: Callable[[list[Item]], Output | None],
+             workers: int,
+             use_processes: bool = False,
+             name: str = 'ProcessParallel') -> None
+```
+Stores `func`, clamps `workers` to `len(input)`, and delegates to
+`ProcessIO.__init__`. Workers are set to `0` if input is empty.
+
+### Properties
+```python
+@property
+def errors(self) -> list[tuple[int, list[Item], Exception]]
+```
+Returns collected errors from failed chunks as
+`(chunk_index, chunk_data, exception)` tuples.
+
+### Inherited (from ProcessIO / ProcessBase)
+```python
+def run(self) -> list[Output | None]
+@property
+def input(self) -> list[Item]
+@property
+def elapsed(self) -> int
+@property
+def name(self) -> str
+def seconds_since_last_call(self) -> int
+def __str__(self) -> str
+def __eq__(self, other: object) -> bool
+def __lt__(self, other: object) -> bool
+def __hash__(self) -> int
+def __bool__(self) -> bool
+```
+
+### Subclass Contract
+Not intended for subclassing. Pass a `func` callable instead.
+
+## Inheritance (Hierarchy)
+
+```
+Equatable
+ └── Comparable
+      └── HasName
+           └── ProcessBase ─── run(), elapsed, timing
+                ├── ProcessInput[list[Item]] ─── input property
+                ├── ProcessOutput[list[Output | None]] ─── run() -> Output
+                └── ProcessIO[list[Item], list[Output | None]]
+                     └── ProcessParallel[Item, Output] ← this module
+```
+
+| Base | Responsibility |
+|------|----------------|
+| `ProcessIO` | Combines input + output, lifecycle |
+| `ProcessInput` | `input` property |
+| `ProcessOutput` | `run()` returns output |
+| `ProcessBase` | Template Method lifecycle, timing |
+| `HasName` | `name` as `key`, comparison, hash |
+| `ValidatableMutable` | `__bool__`, mutable `_is_valid` |
+
+## Dependencies
+
+| Import | Purpose |
+|--------|---------|
+| `f_core.processes.i_2_io.ProcessIO` | Parent class |
+| `f_ds.groups.Group` | `to_groups()` splits input into chunks |
+| `concurrent.futures.ThreadPoolExecutor` | Thread-based parallelism |
+| `concurrent.futures.ProcessPoolExecutor` | Process-based parallelism |
+| `multiprocessing` | `get_context('forkserver')` on non-Windows |
+| `sys` | Platform detection (`sys.platform`) |
+
+## Usage Examples
+
+### Thread-Based (I/O-Bound)
+```python
 from f_core.processes.i_3_parallel import ProcessParallel
 
 def square_chunk(chunk: list[int]) -> int:
     return sum(x * x for x in chunk)
 
-if __name__ == '__main__':
-    proc = ProcessParallel(input=list(range(1, 13)),
-                           func=square_chunk,
-                           workers=3,
-                           use_processes=True)
-    output = proc.run()
-    print(output)
+proc = ProcessParallel(input=list(range(1, 13)),
+                       func=square_chunk,
+                       workers=3)
+output = proc.run()
+print(output)          # [14, 77, 194]
+print(proc.elapsed)    # seconds
+print(proc.errors)     # []
 ```
 
----
+### Process-Based (CPU-Bound)
+```python
+proc = ProcessParallel(input=list(range(1, 13)),
+                       func=square_chunk,
+                       workers=3,
+                       use_processes=True)
+output = proc.run()
+```
 
-## Error Tolerance
+### Error Tolerance
+```python
+def failing(chunk: list[int]) -> int:
+    if 3 in chunk:
+        raise ValueError('fail')
+    return sum(chunk)
 
-Failed chunks produce `None` in the output. Other chunks continue.
-Errors are collected in `proc.errors` as `(chunk_idx, chunk_data, exception)`.
+proc = ProcessParallel(input=list(range(1, 7)),
+                       func=failing,
+                       workers=3)
+output = proc.run()
+# Failed chunks → None, others succeed
+for idx, chunk_data, exc in proc.errors:
+    print(f'Chunk {idx}: {chunk_data} → {exc}')
+```
 
----
+### Factory
+```python
+from f_core.processes.i_3_parallel import ProcessParallel
 
-## Factory
-
-| Method | Workers | Executor | Input | Purpose |
-|--------|---------|----------|-------|---------|
-| `io_bound()` | 3 | threads | `[1..12]` | Happy path, threads |
-| `cpu_bound()` | 3 | processes | `[1..12]` | Happy path, processes |
-| `with_error()` | 3 | threads | `[1..6]` | Error tolerance path |
-
----
-
-## Dependencies
-
-- [f_core.processes.i_2_io.ProcessIO](../i_2_io/CLAUDE.md)
-- [f_ds.groups.Group](../../../f_ds/groups/) — chunking via `distribute()`
-- `concurrent.futures.ThreadPoolExecutor`
-- `concurrent.futures.ProcessPoolExecutor`
+proc = ProcessParallel.Factory.io_bound()
+output = proc.run()
+```

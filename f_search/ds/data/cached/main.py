@@ -19,7 +19,8 @@ class DataCached(Generic[State], HasDataState[State]):
 
     def __init__(self,
                  dict_cached: dict[State, int] = None,
-                 dict_bounded: dict[State, int] = None) -> None:
+                 dict_bounded: dict[State, int] = None,
+                 dict_parent: dict[State, State] = None) -> None:
         """
         ====================================================================
          Init private Attributes.
@@ -27,6 +28,7 @@ class DataCached(Generic[State], HasDataState[State]):
         """
         self.dict_cached = dict_cached if dict_cached else dict()
         self.dict_bounded = dict_bounded if dict_bounded else dict()
+        self.dict_parent = dict_parent if dict_parent else dict()
 
     def data_state(self, state: State) -> dict[str, any]:
         """

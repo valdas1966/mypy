@@ -121,6 +121,12 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
             # Cached exact distances (always collected)
             cached = algo.distances_to_goal()
             self._data_cached.dict_cached.update(cached)
+            # Parent pointers for path reconstruction
+            path_states = algo._data.path_to(
+                state=backward_problem.goal).to_iterable()
+            for i in range(len(path_states) - 1):
+                self._data_cached.dict_parent[path_states[i]] \
+                    = path_states[i + 1]
             # Lower bounds (depth >= 0)
             if depth >= 0:
                 bounded = algo.propagate_bounds(depth=depth)

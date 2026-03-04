@@ -42,7 +42,7 @@ class Factory:
         """
         grid = Grid.Factory.six_with_obstacles()
         start = State(key=grid[0][0])
-        goal = State(key=grid[0][4])
+        goal = State(key=grid[0][5])
         return ProblemSPP(grid=grid, start=start, goal=goal)
 
     @staticmethod
