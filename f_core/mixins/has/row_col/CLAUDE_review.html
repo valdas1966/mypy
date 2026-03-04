@@ -125,55 +125,36 @@ footer {
 <!-- ======== 1. Correctness ======== -->
 <section>
     <h2>1. Correctness</h2>
-    <p class="note note-warn"><span class="v v-minor">MINOR</span></p>
+    <p class="note note-good">No change needed.</p>
     <ol>
-        <li>
-            <strong><span class="fr">main.py:63</span></strong>
-            &mdash; <code class="ic">neighbors()</code> creates
-            <code class="ic">HasRowCol</code> instances, not
-            <code class="ic">Self</code> &mdash; breaks subclass
-            polymorphism.
-        </li>
-        <li>
-            <strong><span class="fr">main.py:90</span></strong>
-            &mdash; <code class="ic">is_within()</code> assert uses
-            <code class="ic">all((row_min, col_min, ...))</code>
-            &mdash; fails when any bound is
-            <code class="ic">0</code> (falsy).
-        </li>
-        <li>
-            <strong><span class="fr">_tester.py:57</span></strong>
-            &mdash; <code class="ic">test_key_comparison</code>
-            calls <code class="ic">twelve.key()</code> with
-            parentheses &mdash;
-            <code class="ic">key</code> is a property, not a
-            method.
-        </li>
-        <li>
-            <strong><span class="fr">main.py:74</span></strong>
-            &mdash; <code class="ic">distance()</code> assert uses
-            <code class="ic">Self.__name__</code> &mdash;
-            <code class="ic">Self</code> is a type alias, use
-            <code class="ic">type(self).__name__</code>.
-        </li>
+        <li><code class="ic">neighbors()</code> uses
+            <code class="ic">type(self)(n[0], n[1])</code> &mdash;
+            subclass-safe.</li>
+        <li><code class="ic">is_within()</code> assertion uses
+            <code class="ic">all(v is not None for v in ...)</code>
+            &mdash; correctly handles zero bounds.</li>
+        <li><code class="ic">distance()</code> is straightforward
+            Manhattan distance &mdash; no edge cases.</li>
     </ol>
 </section>
 
 <!-- ======== 2. Readability / Naming ======== -->
 <section>
     <h2>2. Readability / Naming</h2>
+    <p class="note note-warn"><span class="v v-minor">MINOR</span></p>
     <ol>
         <li>
-            <strong><span class="fr">_factory.py:16</span></strong>
-            &mdash; <code class="ic">one()</code> docstring says
-            "row and col set to 1 and 2" but creates
-            <code class="ic">(1,1)</code>.
+            <strong><span class="fr">_factory.py:29</span></strong>
+            &mdash; <code class="ic">twelve()</code> docstring says
+            "row and col set to 12" but creates
+            <code class="ic">HasRowCol(row=1, col=2)</code>.
+            Should say "row set to 1 and col set to 2".
         </li>
         <li>
-            <strong><span class="fr">_factory.py:25</span></strong>
-            &mdash; Name <code class="ic">twelve()</code> is
-            ambiguous &mdash; could mean value 12. Consider
-            <code class="ic">r1c2()</code>.
+            <strong><span class="fr">_tester.py:55</span></strong>
+            &mdash; <code class="ic">test_key</code> docstring says
+            "Test the to_tuple() method" but tests the
+            <code class="ic">key</code> property.
         </li>
     </ol>
 </section>
@@ -181,17 +162,15 @@ footer {
 <!-- ======== 3. Design (OOP) ======== -->
 <section>
     <h2>3. Design (OOP)</h2>
+    <p class="note note-good">No change needed.</p>
     <ol>
-        <li>
-            <strong>Issue:</strong>
-            <code class="ic">neighbors()</code> hardcodes
-            <code class="ic">HasRowCol(...)</code>.
-            <strong>Evidence:</strong>
-            <span class="fr">main.py:63</span>.
-            <strong>Why:</strong> subclasses get base objects.
-            <strong>Fix:</strong>
-            <code class="ic">type(self)(n[0], n[1])</code>.
-        </li>
+        <li><code class="ic">neighbors()</code> uses
+            <code class="ic">type(self)(...)</code> &mdash;
+            preserves subclass polymorphism.</li>
+        <li>Mixin composition
+            (<code class="ic">Comparable</code> +
+            <code class="ic">Hashable</code>) follows framework
+            conventions.</li>
     </ol>
 </section>
 
@@ -210,20 +189,18 @@ footer {
 <!-- ======== 5. Typing ======== -->
 <section>
     <h2>5. Typing</h2>
+    <p class="note note-warn"><span class="v v-minor">MINOR</span></p>
     <ol>
         <li>
-            <strong><span class="fr">main.py:79-84</span></strong>
-            &mdash; <code class="ic">is_within()</code> params
-            default to <code class="ic">None</code> but typed as
-            <code class="ic">int</code> &mdash; should be
-            <code class="ic">int | None</code>.
-        </li>
-        <li>
-            <strong><span class="fr">main.py:80</span></strong>
-            &mdash; <code class="ic">rect</code> defaults to
-            <code class="ic">None</code> but typed as
-            <code class="ic">SupportsBounds</code> &mdash; should
-            be <code class="ic">SupportsBounds | None</code>.
+            <strong><span class="fr">main.py:77</span></strong>
+            &mdash; <code class="ic">rect</code> is typed as
+            <code class="ic">SupportsBounds | None</code> but
+            line 89 calls <code class="ic">rect.to_min_max()</code>.
+            The <code class="ic">SupportsBounds</code> protocol
+            defines only <code class="ic">bounds()</code>, not
+            <code class="ic">to_min_max()</code>. The actual
+            caller passes <code class="ic">Rect</code> which has
+            that method, but the type hint is too broad.
         </li>
     </ol>
 </section>
@@ -235,6 +212,7 @@ footer {
     <ol>
         <li>All public methods have docstrings following
             <code class="ic">====</code> separator convention.</li>
+        <li>Inline comments are short and descriptive.</li>
     </ol>
 </section>
 
@@ -245,6 +223,8 @@ footer {
     <ol>
         <li>Standard 4-file layout, all files short and
             focused.</li>
+        <li><code class="ic">_study.py</code> provides exploratory
+            script &mdash; separate from production code.</li>
     </ol>
 </section>
 
@@ -289,46 +269,33 @@ footer {
         <tbody>
             <tr>
                 <td>1</td>
-                <td>Fix <code class="ic">all((0,...))</code>
-                    falsiness bug in
-                    <code class="ic">is_within()</code></td>
-                <td><span class="fr">main.py:90</span></td>
-                <td><span class="v v-issue">BUG</span></td>
-                <td>Bounds check works when min is 0</td>
+                <td>Narrow <code class="ic">rect</code> type
+                    hint to match actual usage (needs
+                    <code class="ic">to_min_max()</code>),
+                    or call <code class="ic">rect.bounds()</code>
+                    and extract min/max from
+                    <code class="ic">Bounds</code></td>
+                <td><span class="fr">main.py:77,89</span></td>
+                <td>Low</td>
+                <td>Type hint matches runtime contract</td>
             </tr>
             <tr>
                 <td>2</td>
-                <td>Use <code class="ic">type(self)(...)</code>
-                    in <code class="ic">neighbors()</code></td>
-                <td><span class="fr">main.py:63</span></td>
-                <td>Low</td>
-                <td>Subclass polymorphism preserved</td>
+                <td>Fix <code class="ic">twelve()</code> docstring
+                    &mdash; says "set to 12" but creates
+                    <code class="ic">(1, 2)</code></td>
+                <td><span class="fr">_factory.py:29</span></td>
+                <td>None</td>
+                <td>Docstring matches behavior</td>
             </tr>
             <tr>
                 <td>3</td>
-                <td>Add <code class="ic">| None</code> to
-                    <code class="ic">is_within()</code>
-                    params</td>
-                <td><span class="fr">main.py:79-84</span></td>
+                <td>Fix <code class="ic">test_key</code> docstring
+                    &mdash; says "to_tuple()" but tests
+                    <code class="ic">key</code></td>
+                <td><span class="fr">_tester.py:55</span></td>
                 <td>None</td>
-                <td>Type hints match runtime behavior</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Fix <code class="ic">test_key_comparison</code>
-                    &mdash; remove <code class="ic">()</code> on
-                    property access</td>
-                <td><span class="fr">_tester.py:57</span></td>
-                <td>None</td>
-                <td>Test actually validates key</td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>Fix <code class="ic">one()</code> docstring
-                    to say "row and col set to 1"</td>
-                <td><span class="fr">_factory.py:16</span></td>
-                <td>None</td>
-                <td>Docstring matches behavior</td>
+                <td>Docstring matches test intent</td>
             </tr>
         </tbody>
     </table>
@@ -339,24 +306,24 @@ footer {
     <h2>Summary</h2>
     <ol>
         <li><span class="v v-minor">MINOR ISSUES</span>
-            Functional but has a falsiness bug in bounds
-            validation.</li>
-        <li><code class="ic">neighbors()</code> breaks subclass
-            polymorphism &mdash; fix with
-            <code class="ic">type(self)</code>.</li>
-        <li>Type hints on <code class="ic">is_within()</code>
-            don't reflect nullable defaults.</li>
-        <li>One test calls a property as a method.</li>
+            Functionally correct &mdash; previous bugs (falsiness,
+            hardcoded type, property-as-method) are all fixed.</li>
+        <li><code class="ic">is_within()</code> type-hints
+            <code class="ic">SupportsBounds</code> but calls
+            <code class="ic">to_min_max()</code> which is not on
+            that protocol.</li>
+        <li>Two docstring mismatches in factory and tester.</li>
         <li>Core design is solid &mdash; correct mixin
-            composition, clean key-based delegation.</li>
+            composition, subclass-safe neighbors, clean
+            key-based delegation.</li>
     </ol>
 </section>
 
 <footer>
     <ol>
-        <li>Review date: 2026-03-02</li>
+        <li>Review date: 2026-03-04</li>
         <li>Scope: <code class="ic">f_core.mixins.has.row_col</code>
-            (4 files)</li>
+            (5 files)</li>
     </ol>
 </footer>
 

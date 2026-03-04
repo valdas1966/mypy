@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Processes Package — Documentation</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+header {
+    background: var(--panel);
+    padding: 2rem 3rem;
+    border-bottom: 2px solid var(--accent2);
+}
+header h1 { color: #fff; font-size: 2.2rem; margin-bottom: 0.3rem; }
+header h1 span { color: var(--accent2); }
+.path { color: var(--faint); font-family: monospace; font-size: 0.9rem; }
+.container {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 2rem;
+    padding: 2rem 3rem;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+.toc {
+    position: sticky;
+    top: 1rem;
+    height: fit-content;
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 1.25rem;
+    border: 2px solid var(--border);
+}
+.toc h3 { color: var(--accent2); font-size: 1rem; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
+.toc ul { list-style: none; }
+.toc li { margin-bottom: 0.4rem; }
+.toc a { color: var(--faint); display: block; padding: 0.3rem 0.5rem; border-radius: 4px; font-size: 0.85rem; transition: all 0.15s; }
+.toc a:hover { color: var(--accent2); background: rgba(167, 139, 250, 0.1); text-decoration: none; }
+.toc .sub { padding-left: 1rem; font-size: 0.8rem; }
+.toc .ext { margin-top: 0.75rem; padding-top: 0.5rem; border-top: 2px solid var(--border); }
+.toc .ext a { color: var(--accent2); }
+.search-box {
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+}
+.search-box:focus { outline: 2px solid var(--accent2); border-color: var(--accent2); }
+.search-box::placeholder { color: var(--faint); }
+main { min-width: 0; }
+section {
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 2px solid var(--border);
+}
+section h2 { color: #fff; font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--border); }
+ol { padding-left: 1.5rem; margin: 0.5rem 0; }
+li { margin-bottom: 0.5rem; color: var(--muted); }
+li strong { color: var(--text); }
+details {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin: 0.75rem 0;
+}
+details summary { padding: 0.75rem 1rem; cursor: pointer; color: var(--text); font-weight: 600; font-size: 0.95rem; user-select: none; }
+details summary:hover { color: var(--accent2); }
+details summary:focus-visible { outline: 2px solid var(--accent2); outline-offset: -2px; }
+details[open] summary { border-bottom: 1px solid var(--border); }
+details .inner { padding: 1rem; }
+pre {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 0.75rem 0;
+}
+code { font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace; font-size: 0.9rem; color: var(--text); }
+pre code { display: block; line-height: 1.5; }
+.ic { background: var(--panel2); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.85rem; }
+table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; }
+th, td { padding: 0.6rem 0.75rem; text-align: left; border: 1px solid var(--border); }
+th { background: var(--panel2); color: #fff; font-weight: 600; font-size: 0.9rem; }
+td { background: var(--panel); color: var(--muted); font-size: 0.9rem; }
+.badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.75rem; font-weight: 600; }
+.badge-internal { background: rgba(96, 165, 250, 0.2); color: var(--accent); }
+.badge-stdlib { background: rgba(52, 211, 153, 0.2); color: var(--good); }
+.badge-level { background: rgba(167, 139, 250, 0.2); color: var(--accent2); }
+.back-top { display: block; text-align: right; font-size: 0.8rem; color: var(--faint); margin-top: 0.75rem; }
+.back-top:hover { color: var(--accent2); }
+.highlight-row td { background: var(--panel2); color: var(--text); font-weight: 600; }
+footer { margin: 2rem 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); color: var(--faint); font-size: 0.85rem; }
+@media (max-width: 768px) {
+    .container { grid-template-columns: 1fr; padding: 1rem; }
+    .toc { position: static; margin-bottom: 1rem; }
+    header { padding: 1.5rem; }
+    footer { margin: 1.5rem 1rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1><span>Processes</span> Package</h1>
+    <div class="path">f_core / processes</div>
+</header>
+
+<div class="container">
+<nav class="toc">
+    <h3>Contents</h3>
+    <input type="text" class="search-box" placeholder="Search..." oninput="filterSections(this.value)">
+    <ul>
+        <li><a href="#purpose">Purpose</a></li>
+        <li><a href="#modules">Modules</a></li>
+        <li><a href="#api">Package Exports</a></li>
+        <li><a href="#hierarchy">Hierarchy</a></li>
+        <li><a href="#lifecycle">Lifecycle</a></li>
+        <li><a href="#comparison">Comparison</a></li>
+        <li><a href="#deps">Dependencies</a></li>
+        <li><a href="#examples">Examples</a></li>
+        <li class="ext"><a href="i_0_base/claude.html">ProcessBase</a></li>
+        <li class="ext"><a href="i_1_input/claude.html">ProcessInput</a></li>
+        <li class="ext"><a href="i_1_output/claude.html">ProcessOutput</a></li>
+        <li class="ext"><a href="i_2_io/claude.html">ProcessIO</a></li>
+        <li class="ext"><a href="i_3_parallel/CLAUDE.html">ProcessParallel</a></li>
+    </ul>
+</nav>
+
+<main>
+
+<!-- Purpose -->
+<section id="purpose">
+    <h2>A. Purpose</h2>
+    <ol>
+        <li><strong>Process framework</strong> providing reusable base classes with Template Method lifecycle.</li>
+        <li>All processes share: <code class="ic">run()</code> entry point, automatic <code class="ic">elapsed</code> timing, <code class="ic">name</code>-based identity.</li>
+        <li>5 classes in a clean inheritance hierarchy, from abstract base to parallel execution.</li>
+    </ol>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Modules -->
+<section id="modules">
+    <h2>B. Modules</h2>
+
+    <details open>
+        <summary>Module Map</summary>
+        <div class="inner">
+            <pre><code>f_core/processes/
+├── __init__.py          exports ProcessIO, ProcessParallel
+├── i_0_base/            ProcessBase — ABC, lifecycle, timing
+├── i_1_input/           ProcessInput[Input] — adds input property
+├── i_1_output/          ProcessOutput[Output] — run() returns Output
+├── i_2_io/              ProcessIO[Input, Output] — input + output
+└── i_3_parallel/        ProcessParallel[Item, Output] — parallel chunks
+    └── benchmark/       Performance benchmarks + RESULTS.html</code></pre>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Module Summary</summary>
+        <div class="inner">
+            <table>
+                <tr><th>Module</th><th>Level</th><th>Class</th><th>Role</th></tr>
+                <tr>
+                    <td><code class="ic">i_0_base</code></td>
+                    <td><span class="badge badge-level">L0</span></td>
+                    <td><code class="ic">ProcessBase</code></td>
+                    <td>ABC with lifecycle, timing, lap timer</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">i_1_input</code></td>
+                    <td><span class="badge badge-level">L1</span></td>
+                    <td><code class="ic">ProcessInput[Input]</code></td>
+                    <td>Adds typed <code class="ic">input</code> property</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">i_1_output</code></td>
+                    <td><span class="badge badge-level">L1</span></td>
+                    <td><code class="ic">ProcessOutput[Output]</code></td>
+                    <td>Overrides <code class="ic">run()</code> to return output</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">i_2_io</code></td>
+                    <td><span class="badge badge-level">L2</span></td>
+                    <td><code class="ic">ProcessIO[Input, Output]</code></td>
+                    <td>Combines input + output via multiple inheritance</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">i_3_parallel</code></td>
+                    <td><span class="badge badge-level">L3</span></td>
+                    <td><code class="ic">ProcessParallel[Item, Output]</code></td>
+                    <td>Parallel chunked execution with error tolerance</td>
+                </tr>
+            </table>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Package Exports -->
+<section id="api">
+    <h2>C. Package Exports</h2>
+
+    <details open>
+        <summary>__init__.py</summary>
+        <div class="inner">
+            <pre><code>from f_core.processes import ProcessIO, ProcessParallel</code></pre>
+            <ol>
+                <li><strong><code class="ic">ProcessIO</code></strong> &mdash; the most common base class for transform processes.</li>
+                <li><strong><code class="ic">ProcessParallel</code></strong> &mdash; parallel execution with threads or processes.</li>
+                <li><code class="ic">ProcessBase</code>, <code class="ic">ProcessInput</code>, <code class="ic">ProcessOutput</code> must be imported from their submodules directly.</li>
+            </ol>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Hierarchy -->
+<section id="hierarchy">
+    <h2>D. Inheritance Hierarchy</h2>
+
+    <details open>
+        <summary>Full Inheritance Chain</summary>
+        <div class="inner">
+            <pre><code>Equatable
+ └── Comparable
+      └── HasName ─── name, str(), comparison, hash
+           └── ProcessBase ─── run(), elapsed, timing
+                │
+                ├── ProcessInput[Input] ─── input property
+                │
+                ├── ProcessOutput[Output] ─── run() -> Output
+                │
+                └── ProcessIO[Input, Output] ─── combines both
+                     │
+                     └── ProcessParallel[Item, Output] ─── parallel
+                          │
+                          └── ValidatableMutable ── __bool__()</code></pre>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Responsibility Table</summary>
+        <div class="inner">
+            <table>
+                <tr><th>#</th><th>Base</th><th>Contract</th></tr>
+                <tr><td>1</td><td><code class="ic">Equatable</code></td><td><code class="ic">__eq__</code>, <code class="ic">__hash__</code> via <code class="ic">key</code></td></tr>
+                <tr><td>2</td><td><code class="ic">Comparable</code></td><td><code class="ic">__lt__</code>, <code class="ic">__le__</code>, <code class="ic">__gt__</code>, <code class="ic">__ge__</code> via <code class="ic">key</code></td></tr>
+                <tr><td>3</td><td><code class="ic">HasName</code></td><td><code class="ic">name</code> as <code class="ic">key</code>, <code class="ic">__str__</code>, <code class="ic">__repr__</code></td></tr>
+                <tr><td>4</td><td><code class="ic">ValidatableMutable</code></td><td><code class="ic">__bool__</code>, mutable <code class="ic">_is_valid</code></td></tr>
+                <tr><td>5</td><td><code class="ic">ProcessBase</code></td><td>Template Method lifecycle, <code class="ic">elapsed</code>, lap timer</td></tr>
+                <tr><td>6</td><td><code class="ic">ProcessInput</code></td><td><code class="ic">input</code> property, generic <code class="ic">Input</code> type</td></tr>
+                <tr><td>7</td><td><code class="ic">ProcessOutput</code></td><td><code class="ic">run()</code> returns <code class="ic">Output</code></td></tr>
+                <tr><td>8</td><td><code class="ic">ProcessIO</code></td><td>Combines input + output capabilities</td></tr>
+                <tr><td>9</td><td><code class="ic">ProcessParallel</code></td><td>Chunking, thread/process pools, error tolerance</td></tr>
+            </table>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Lifecycle -->
+<section id="lifecycle">
+    <h2>E. Lifecycle</h2>
+
+    <details open>
+        <summary>Template Method Pattern</summary>
+        <div class="inner">
+            <ol>
+                <li><strong><code class="ic">run()</code></strong> &mdash; entry point, orchestrates the lifecycle.</li>
+                <li><strong><code class="ic">_run_pre()</code></strong> &mdash; resets <code class="ic">elapsed</code>, records start time.</li>
+                <li><strong><code class="ic">_run()</code></strong> &mdash; <strong>override this</strong> with process logic. Return output for IO/Parallel.</li>
+                <li><strong><code class="ic">_run_post()</code></strong> &mdash; records finish time, calculates <code class="ic">elapsed</code>.</li>
+            </ol>
+            <pre><code>def run(self) -> None | Output:
+    self._run_pre()        # reset timing
+    result = self._run()   # YOUR LOGIC HERE
+    self._run_post()       # calculate elapsed
+    return result          # (ProcessOutput and below)</code></pre>
+        </div>
+    </details>
+
+    <details>
+        <summary>What each level adds</summary>
+        <div class="inner">
+            <table>
+                <tr><th>Level</th><th>run() returns</th><th>_run() contract</th></tr>
+                <tr><td><code class="ic">ProcessBase</code></td><td><code class="ic">None</code></td><td>Side effects only</td></tr>
+                <tr><td><code class="ic">ProcessInput</code></td><td><code class="ic">None</code></td><td>Read <code class="ic">self.input</code>, side effects</td></tr>
+                <tr><td><code class="ic">ProcessOutput</code></td><td><code class="ic">Output</code></td><td>Must <strong>return</strong> the output</td></tr>
+                <tr><td><code class="ic">ProcessIO</code></td><td><code class="ic">Output</code></td><td>Read <code class="ic">self.input</code>, <strong>return</strong> output</td></tr>
+                <tr><td><code class="ic">ProcessParallel</code></td><td><code class="ic">list[Output|None]</code></td><td>Handled internally; pass <code class="ic">func</code></td></tr>
+            </table>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Comparison -->
+<section id="comparison">
+    <h2>F. Class Comparison</h2>
+
+    <details open>
+        <summary>Feature Matrix</summary>
+        <div class="inner">
+            <table>
+                <tr><th>Class</th><th>Type Params</th><th>Input</th><th>Output</th><th>Parallel</th><th>Use Case</th></tr>
+                <tr>
+                    <td><code class="ic">ProcessBase</code></td>
+                    <td>&mdash;</td><td>No</td><td>No</td><td>No</td>
+                    <td>Logging, cleanup, side effects</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">ProcessInput</code></td>
+                    <td><code class="ic">[Input]</code></td><td>Yes</td><td>No</td><td>No</td>
+                    <td>Consume data, no return value</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">ProcessOutput</code></td>
+                    <td><code class="ic">[Output]</code></td><td>No</td><td>Yes</td><td>No</td>
+                    <td>Generate data from nothing</td>
+                </tr>
+                <tr class="highlight-row">
+                    <td><code class="ic">ProcessIO</code></td>
+                    <td><code class="ic">[In, Out]</code></td><td>Yes</td><td>Yes</td><td>No</td>
+                    <td>Transform input to output</td>
+                </tr>
+                <tr class="highlight-row">
+                    <td><code class="ic">ProcessParallel</code></td>
+                    <td><code class="ic">[Item, Out]</code></td><td>Yes</td><td>Yes</td><td>Yes</td>
+                    <td>Distribute work across workers</td>
+                </tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Decision guide</summary>
+        <div class="inner">
+            <ol>
+                <li><strong>Need input + output?</strong> Use <code class="ic">ProcessIO</code> (most common).</li>
+                <li><strong>Need parallelism?</strong> Use <code class="ic">ProcessParallel</code> with a <code class="ic">func</code>.</li>
+                <li><strong>Only need input?</strong> Use <code class="ic">ProcessInput</code> (e.g., data loader).</li>
+                <li><strong>Only need output?</strong> Use <code class="ic">ProcessOutput</code> (e.g., generator).</li>
+                <li><strong>Just side effects?</strong> Use <code class="ic">ProcessBase</code> directly.</li>
+            </ol>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Dependencies -->
+<section id="deps">
+    <h2>G. Dependencies</h2>
+    <table>
+        <tr><th>#</th><th>Import</th><th>Category</th><th>Used For</th></tr>
+        <tr>
+            <td>1</td>
+            <td><code class="ic">f_core.mixins.has.HasName</code></td>
+            <td><span class="badge badge-internal">internal</span></td>
+            <td>Name-based identity, comparison, hash</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td><code class="ic">f_core.mixins.ValidatableMutable</code></td>
+            <td><span class="badge badge-internal">internal</span></td>
+            <td>Mutable validity via <code class="ic">__bool__</code></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td><code class="ic">f_ds.groups.Group</code></td>
+            <td><span class="badge badge-internal">internal</span></td>
+            <td>Chunking for ProcessParallel</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td><code class="ic">time.time</code></td>
+            <td><span class="badge badge-stdlib">stdlib</span></td>
+            <td>Wall-clock timing for elapsed and lap</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td><code class="ic">concurrent.futures</code></td>
+            <td><span class="badge badge-stdlib">stdlib</span></td>
+            <td>Thread/process pools for ProcessParallel</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td><code class="ic">typing.Generic, TypeVar</code></td>
+            <td><span class="badge badge-stdlib">stdlib</span></td>
+            <td>Generic class parameterization</td>
+        </tr>
+    </table>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Examples -->
+<section id="examples">
+    <h2>H. Usage Examples</h2>
+
+    <details open>
+        <summary>Transform (ProcessIO)</summary>
+        <div class="inner">
+            <pre><code>from f_core.processes import ProcessIO
+
+class Doubler(ProcessIO[int, int]):
+    def _run(self) -> int:
+        return self.input * 2
+
+result = Doubler(input=5, name='Doubler').run()
+print(result)         # 10
+print(proc.elapsed)   # 0 (seconds)</code></pre>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Parallel Execution (ProcessParallel)</summary>
+        <div class="inner">
+            <pre><code>from f_core.processes import ProcessParallel
+
+def square_chunk(chunk: list[int]) -> int:
+    return sum(x * x for x in chunk)
+
+proc = ProcessParallel(input=list(range(1, 13)),
+                       func=square_chunk,
+                       workers=3)
+output = proc.run()
+print(output)        # [14, 77, 194]
+print(proc.errors)   # []</code></pre>
+        </div>
+    </details>
+
+    <details>
+        <summary>Side-Effect Process (ProcessBase)</summary>
+        <div class="inner">
+            <pre><code>from f_core.processes.i_0_base import ProcessBase
+
+class Logger(ProcessBase):
+    def _run(self) -> None:
+        print(f'{self.name} executed')
+
+Logger(name='MyLogger').run()
+print(Logger.elapsed)  # 0</code></pre>
+        </div>
+    </details>
+
+    <details>
+        <summary>Generator (ProcessOutput)</summary>
+        <div class="inner">
+            <pre><code>from f_core.processes.i_1_output import ProcessOutput
+
+class RangeGen(ProcessOutput[list[int]]):
+    def _run(self) -> list[int]:
+        return list(range(10))
+
+result = RangeGen(name='Gen').run()
+print(result)  # [0, 1, 2, ..., 9]</code></pre>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+</main>
+</div>
+
+<footer>
+    <ol>
+        <li>Generated: 2026-03-04</li>
+        <li>Scope: <code class="ic">f_core.processes</code> (5 modules: i_0_base, i_1_input, i_1_output, i_2_io, i_3_parallel)</li>
+    </ol>
+</footer>
+
+<script>
+function filterSections(query) {
+    const q = query.toLowerCase();
+    document.querySelectorAll('main details').forEach(d => {
+        d.style.display = d.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+}
+</script>
+
+</body>
+</html>

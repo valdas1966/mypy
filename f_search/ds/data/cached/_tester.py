@@ -57,9 +57,9 @@ def test_data_state() -> None:
     s_01 = State(key=grid[0][1])
     s_11 = State(key=grid[1][1])
     data = DataCached.Factory.with_cached_and_bounded()
-    assert data.data_state(s_01) == {'key': s_01.key,
+    assert data.data_state(s_01) == {'key': str(s_01.key),
                                      'is_cached': True,
                                      'is_bounded': False}
-    assert data.data_state(s_11) == {'key': s_11.key,
+    assert data.data_state(s_11) == {'key': str(s_11.key),
                                      'is_cached': False,
                                      'is_bounded': True}

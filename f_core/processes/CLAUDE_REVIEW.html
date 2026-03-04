@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Review — Processes Package</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 2rem 3rem;
+    max-width: 960px;
+    margin: 0 auto;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); text-decoration: underline; }
+h1 { color: #fff; font-size: 2rem; margin-bottom: .3rem; }
+.path {
+    color: var(--faint);
+    font-family: monospace;
+    font-size: .9rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border);
+}
+h2 {
+    color: #fff;
+    font-size: 1.4rem;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: .4rem;
+    border-bottom: 2px solid var(--border);
+}
+h3 { color: var(--text); font-size: 1.1rem; margin: 1.5rem 0 .5rem; }
+ol { padding-left: 1.5rem; margin: .75rem 0; }
+li { margin-bottom: .6rem; color: var(--muted); }
+li strong { color: var(--text); }
+pre {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: .75rem 0;
+}
+code {
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace;
+    font-size: .9rem;
+    color: var(--text);
+}
+pre code { display: block; line-height: 1.5; }
+.ic { background: var(--panel2); padding: .15rem .4rem; border-radius: 3px; font-size: .85rem; }
+.v { display: inline-block; padding: .2rem .6rem; border-radius: 4px; font-size: .8rem; font-weight: 600; }
+.v-pass { background: var(--good); color: var(--bg); }
+.v-minor { background: var(--warn); color: var(--bg); }
+.fr { color: var(--accent); font-family: monospace; font-size: .85rem; }
+.note { background: var(--panel2); border-left: 3px solid var(--accent); padding: .75rem 1rem; margin: 1rem 0; color: var(--muted); font-size: .9rem; }
+.note-good { border-left-color: var(--good); }
+.note-warn { border-left-color: var(--warn); }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+th, td { padding: .75rem; text-align: left; border: 1px solid var(--border); }
+th { background: var(--panel2); color: #fff; font-weight: 600; }
+td { background: var(--panel); color: var(--muted); }
+footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); color: var(--faint); font-size: .85rem; }
+</style>
+</head>
+<body>
+
+<h1>Code + Design Review</h1>
+<div class="path">f_core / processes</div>
+<ol>
+    <li>Modules reviewed:
+        <code class="ic">i_0_base</code>,
+        <code class="ic">i_1_input</code>,
+        <code class="ic">i_1_output</code>,
+        <code class="ic">i_2_io</code>,
+        <code class="ic">i_3_parallel</code>,
+        <code class="ic">__init__.py</code>
+    </li>
+    <li>Deep-inspected:
+        <code class="ic">HasName</code>,
+        <code class="ic">ValidatableMutable</code>,
+        <code class="ic">Group</code>
+    </li>
+</ol>
+
+<!-- 1. Correctness -->
+<section>
+    <h2>1. Correctness</h2>
+    <div class="note note-good">No bugs found.</div>
+    <ol>
+        <li>
+            Template Method lifecycle is correct across all levels: <code class="ic">_run_pre</code> &rarr; <code class="ic">_run</code> &rarr; <code class="ic">_run_post</code>.
+        </li>
+        <li>
+            <code class="ic">ProcessIO.run()</code> explicitly delegates to <code class="ic">ProcessOutput.run(self)</code>, correctly resolving the MRO ambiguity.
+        </li>
+        <li>
+            <code class="ic">ProcessParallel</code> clamps workers, handles empty input, preserves chunk ordering, and collects errors correctly.
+        </li>
+        <li>
+            Timing attributes (<code class="ic">elapsed</code>, <code class="ic">_time_start</code>, <code class="ic">_time_finish</code>) are reset on each <code class="ic">run()</code> call.
+        </li>
+    </ol>
+</section>
+
+<!-- 2. Readability / Naming -->
+<section>
+    <h2>2. Readability / Naming</h2>
+    <div class="note note-good">No change needed.</div>
+    <ol>
+        <li>
+            Class names follow a clear progression: <code class="ic">Base</code> &rarr; <code class="ic">Input</code> &rarr; <code class="ic">Output</code> &rarr; <code class="ic">IO</code> &rarr; <code class="ic">Parallel</code>.
+        </li>
+        <li>
+            Folder naming (<code class="ic">i_0_</code>, <code class="ic">i_1_</code>, <code class="ic">i_2_</code>, <code class="ic">i_3_</code>) reflects inheritance depth accurately.
+        </li>
+        <li>
+            Lifecycle hook names (<code class="ic">_run_pre</code>, <code class="ic">_run</code>, <code class="ic">_run_post</code>) are intuitive and consistent.
+        </li>
+    </ol>
+</section>
+
+<!-- 3. Design (OOP) -->
+<section>
+    <h2>3. Design (OOP)</h2>
+    <div class="note note-good">Clean design.</div>
+    <ol>
+        <li>
+            <strong>Template Method</strong> pattern is correctly applied: base defines lifecycle, subclasses override <code class="ic">_run()</code>.
+        </li>
+        <li>
+            <strong>Multiple inheritance</strong> in <code class="ic">ProcessIO</code> cleanly combines orthogonal capabilities (input + output).
+        </li>
+        <li>
+            <strong>Composition over subclassing</strong> in <code class="ic">ProcessParallel</code>: users pass a <code class="ic">func</code> instead of subclassing.
+        </li>
+        <li>
+            <strong>Mixin use</strong> is appropriate: <code class="ic">HasName</code> and <code class="ic">ValidatableMutable</code> add focused capabilities.
+        </li>
+        <li>
+            <strong>Explicit parent calls</strong> (e.g., <code class="ic">ProcessInput.__init__</code>) are correct for diamond inheritance.
+        </li>
+    </ol>
+</section>
+
+<!-- 4. Performance -->
+<section>
+    <h2>4. Performance</h2>
+    <div class="note note-good">No change needed.</div>
+    <ol>
+        <li>
+            Base classes add negligible overhead (two <code class="ic">time()</code> calls per <code class="ic">run()</code>).
+        </li>
+        <li>
+            <code class="ic">ProcessParallel</code> correctly uses <code class="ic">forkserver</code> on Linux/macOS to avoid fork-safety issues.
+        </li>
+        <li>
+            Worker clamping prevents unnecessary thread/process creation.
+        </li>
+    </ol>
+</section>
+
+<!-- 5. Typing -->
+<section>
+    <h2>5. Typing</h2>
+    <div class="note note-warn">Minor issue found.</div>
+    <ol>
+        <li>
+            <strong><span class="fr">i_0_base/main.py:33</span></strong>
+            &mdash; <code class="ic">elapsed</code> property declares return type <code class="ic">int</code> but returns <code class="ic">None</code> before <code class="ic">run()</code> is called. Should be <code class="ic">int | None</code>.
+        </li>
+        <li>
+            All other type annotations are correct and complete across all modules.
+        </li>
+        <li>
+            Generic type parameters flow correctly through the inheritance chain.
+        </li>
+    </ol>
+</section>
+
+<!-- 6. Documentation -->
+<section>
+    <h2>6. Documentation</h2>
+    <div class="note note-good">No change needed.</div>
+    <ol>
+        <li>
+            All classes and methods have docstrings following the <code class="ic">====</code> separator convention.
+        </li>
+        <li>
+            Inline comments in <code class="ic">ProcessParallel._run()</code> clearly separate each phase.
+        </li>
+    </ol>
+</section>
+
+<!-- 7. Modularity -->
+<section>
+    <h2>7. Modularity</h2>
+    <div class="note note-good">No change needed.</div>
+    <ol>
+        <li>
+            Each class in its own folder with standard file layout (<code class="ic">main.py</code>, <code class="ic">_factory.py</code>, <code class="ic">_tester.py</code>, <code class="ic">__init__.py</code>).
+        </li>
+        <li>
+            Package <code class="ic">__init__.py</code> exports only the two most-used classes, keeping the API surface small.
+        </li>
+        <li>
+            Benchmarks isolated in <code class="ic">i_3_parallel/benchmark/</code> subfolder.
+        </li>
+    </ol>
+</section>
+
+<!-- 8. Architecture -->
+<section>
+    <h2>8. Architecture</h2>
+    <div class="note note-warn">Minor inconsistency.</div>
+    <ol>
+        <li>
+            <strong><span class="fr">i_0_base/__init__.py:1</span></strong>
+            &mdash; Imports <code class="ic">ProcessBase</code> from <code class="ic">_factory.py</code> instead of <code class="ic">main.py</code>.
+<pre><code># current
+from f_core.processes.i_0_base._factory import ProcessBase, Factory
+
+# convention
+from f_core.processes.i_0_base.main import ProcessBase
+from f_core.processes.i_0_base._factory import Factory</code></pre>
+        </li>
+        <li>
+            <strong><span class="fr">i_2_io/__init__.py:1</span></strong>
+            &mdash; Same pattern: imports <code class="ic">ProcessIO</code> from <code class="ic">_factory.py</code> instead of <code class="ic">main.py</code>.
+        </li>
+        <li>
+            <code class="ic">i_1_input</code> and <code class="ic">i_1_output</code> correctly import from <code class="ic">main.py</code>.
+        </li>
+        <li>
+            Both work correctly but deviate from the project convention documented in <code class="ic">CLAUDE.md</code>.
+        </li>
+    </ol>
+</section>
+
+<!-- 9. Usage & Usefulness -->
+<section>
+    <h2>9. Usage &amp; Usefulness</h2>
+    <ol>
+        <li>
+            <strong>How to use:</strong> pick the right level (Base/Input/Output/IO/Parallel), override <code class="ic">_run()</code>, call <code class="ic">run()</code>.
+        </li>
+        <li>
+            <strong>When useful:</strong> any task that benefits from lifecycle hooks, timing, or typed I/O contracts (ETL, transforms, algorithms, batch processing).
+        </li>
+        <li>
+            <strong>Overengineered?</strong> No. Each level adds exactly one capability. The hierarchy is shallow (4 levels max) and each class is small.
+        </li>
+        <li>
+            <strong>Design strength:</strong> consistent API across all levels &mdash; always call <code class="ic">run()</code>, always get <code class="ic">elapsed</code>.
+        </li>
+    </ol>
+</section>
+
+<!-- 10. Suggestions -->
+<section>
+    <h2>10. Suggestions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th><th>Item</th><th>Evidence</th>
+                <th>Risk</th><th>Benefit</th><th>Fix</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Fix <code class="ic">elapsed</code> return type</td>
+                <td><span class="fr">i_0_base/main.py:33</span></td>
+                <td>None</td>
+                <td>Accurate typing</td>
+                <td>Change to <code class="ic">int | None</code></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Import from <code class="ic">main.py</code> in <code class="ic">__init__.py</code></td>
+                <td><span class="fr">i_0_base/__init__.py</span>, <span class="fr">i_2_io/__init__.py</span></td>
+                <td>None</td>
+                <td>Consistent with convention</td>
+                <td>Split import into two lines</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- Summary -->
+<section>
+    <h2>Summary</h2>
+    <ol>
+        <li>
+            <span class="v v-minor">MINOR</span>
+            Well-designed process hierarchy. Two minor convention issues.
+        </li>
+        <li>
+            Template Method pattern correctly applied across all 5 levels.
+        </li>
+        <li>
+            Multiple inheritance in <code class="ic">ProcessIO</code> and composition in <code class="ic">ProcessParallel</code> are both clean.
+        </li>
+        <li>
+            One typing issue (<code class="ic">elapsed</code> return type) and two <code class="ic">__init__.py</code> import inconsistencies.
+        </li>
+        <li>
+            No bugs, no performance issues, good test coverage across all modules.
+        </li>
+    </ol>
+</section>
+
+<footer>
+    <ol>
+        <li>Review date: 2026-03-04</li>
+        <li>Scope: <code class="ic">f_core.processes</code>
+            (5 modules, 15+ files)</li>
+    </ol>
+</footer>
+
+</body>
+</html>

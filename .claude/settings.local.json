@@ -15,7 +15,9 @@
       "Bash(/Users/eyalberkovich/miniconda3/envs/mypy/bin/python:*)",
       "Bash(/mnt/f/mypy/.venv/bin/python:*)",
       "Bash(conda list:*)",
-      "Bash(test:*)"
+      "Bash(test:*)",
+      "Bash(git stash:*)",
+      "Bash(pip show:*)"
     ]
   }
 }

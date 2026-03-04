@@ -4,7 +4,6 @@ from f_search.problems.i_2_omspp import ProblemOMSPP
 import csv
 
 
-
 def _run_incremental(problem: ProblemOMSPP,
                      depth: int,
                      is_analytics: bool = False
@@ -23,14 +22,14 @@ def _run_incremental(problem: ProblemOMSPP,
     return sol.stats.explored, algo
 
 
-def _csv_analytics(algo: AStarIncrementalBackward,
-                   path: str) -> None:
+def _csv_explored(algo: AStarIncrementalBackward,
+                  path: str) -> None:
     """
     ========================================================================
-     Write explored States analytics to a CSV file.
+     Write explored States to a CSV file.
     ========================================================================
     """
-    rows = algo.analytics.list_explored
+    rows = algo.list_explored()
     if not rows:
         return
     fieldnames = ['depth'] + list(rows[0].keys())
@@ -57,19 +56,21 @@ def find(rows: int,
         problem = ProblemOMSPP.Factory.custom(rows=rows,
                                               pct_obstacles=pct_obstacles,
                                               k=n_goals)
-        algo_a = AStarIncrementalBackward(problem=problem,
-                                          depth_propagation=depth,
-                                          is_analytics=True)
-        sol_a = algo_a.run()
-        if not sol_a:
+        result_a = _run_incremental(problem=problem,
+                                    depth=depth,
+                                    is_analytics=True)
+        if not result_a:
             continue
-        algo_b = AStarIncrementalBackward(problem=problem,
-                                          depth_propagation=depth+1,
-                                          is_analytics=True)
-        sol_b = algo_b.run()
-        if sol_b.stats.explored < sol_a.stats.explored:
-            _csv_analytics(algo_a, path=csv_explored_a)
-            _csv_analytics(algo_b, path=csv_explored_b)
+        result_b = _run_incremental(problem=problem,
+                                    depth=depth + 1,
+                                    is_analytics=True)
+        if not result_b:
+            continue
+        explored_a, algo_a = result_a
+        explored_b, algo_b = result_b
+        if explored_b < explored_a:
+            _csv_explored(algo_a, path=csv_explored_a)
+            _csv_explored(algo_b, path=csv_explored_b)
             return problem
     return None
 

@@ -68,6 +68,14 @@ class AlgoBestFirst(Generic[Problem, Solution, State, Data],
                 continue
             self._handle_successor(succ=succ)
             
+    def list_explored(self) -> list[dict[str, any]]:
+        """
+        ====================================================================
+         Return a list of dicts with stored Data for each explored State.
+        ====================================================================
+        """
+        return self._data.list_explored()
+
     @abstractmethod
     def _handle_successor(self, succ: State) -> None:
         """

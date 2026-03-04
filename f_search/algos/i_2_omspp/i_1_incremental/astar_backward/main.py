@@ -3,7 +3,6 @@ from f_search.algos.i_1_spp.i_3_astar_cached import AStarCached
 from f_search.problems import ProblemSPP, ProblemOMSPP
 from f_search.solutions import SolutionSPP, SolutionOMSPP
 from f_search.ds.data import DataCached as Data
-from f_search.ds.data import DataCachedAnalytics as DataAnalytics
 from f_search.ds.state import StateBase
 from typing import Generic, TypeVar
 
@@ -43,20 +42,11 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
          Init private Attributes.
         ====================================================================
         """
-        super().__init__(problem=problem, name=name)
+        super().__init__(problem=problem, name=name,
+                         is_analytics=is_analytics)
         self._need_path = need_path
         self._depth_propagation = depth_propagation
         self._data_cached = Data[State]()
-        self._analytics = DataAnalytics[State]() if is_analytics else None
-
-    @property
-    def analytics(self) -> DataAnalytics[State] | None:
-        """
-        ====================================================================
-         Return the Analytics Data (None if is_analytics=False).
-        ====================================================================
-        """
-        return self._analytics
 
     def _run(self) -> SolutionOMSPP:
         """
@@ -107,12 +97,8 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
         if self._need_path:
             bwd_path = backward_solution.path
             fwd_path = bwd_path.reverse()
-        # Collect analytics (before accumulation mutates _data_cached)
-        if self._analytics:
-            self._analytics.collect(
-                goal_key=forward_problem.goal.key,
-                data=algo._data,
-                data_cached=self._data_cached)
+        # Collect explored data
+        self._collect_explored(goal=forward_problem.goal, algo=algo)
         # Accumulate heuristic info for future sub-searches
         # (only when goal was reached — early cached termination
         #  has no new path info to extract)

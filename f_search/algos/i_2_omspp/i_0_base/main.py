@@ -1,4 +1,5 @@
 from f_search.algos.i_0_base import AlgoSearch
+from f_search.algos.i_0_base.i_1_best_first import AlgoBestFirst
 from f_search.solutions import SolutionOMSPP, SolutionSPP
 from f_search.problems import ProblemOMSPP
 from f_search.ds.state import StateBase
@@ -21,6 +22,7 @@ class AlgoOMSPP(AlgoSearch[ProblemOMSPP, SolutionOMSPP],
     def __init__(self,
                  problem: ProblemOMSPP,
                  name: str = 'AlgoOMSPP',
+                 is_analytics: bool = False,
                  **kwargs) -> None:
         """
         ========================================================================
@@ -30,6 +32,7 @@ class AlgoOMSPP(AlgoSearch[ProblemOMSPP, SolutionOMSPP],
         AlgoSearch.__init__(self,
                             problem=problem,
                             name=name)
+        self._is_analytics = is_analytics
         self._goals_active: list[State]
         self._sub_solutions: list[SolutionSPP]
 
@@ -42,6 +45,29 @@ class AlgoOMSPP(AlgoSearch[ProblemOMSPP, SolutionOMSPP],
         AlgoSearch._run_pre(self)
         self._goals_active = list(self.problem.goals)
         self._sub_solutions = list()
+        self._list_explored: list[dict[str, any]] = list()
+
+    def list_explored(self) -> list[dict[str, any]]:
+        """
+        ====================================================================
+         Return accumulated explored State Data across all sub-searches.
+        ====================================================================
+        """
+        return self._list_explored
+
+    def _collect_explored(self,
+                          goal: State,
+                          algo: AlgoBestFirst) -> None:
+        """
+        ====================================================================
+         Collect explored State Data from a sub-search Algo.
+        ====================================================================
+        """
+        if not self._is_analytics:
+            return
+        for row in algo.list_explored():
+            row['goal'] = str(goal.key)
+            self._list_explored.append(row)
 
     def _create_solution(self) -> SolutionOMSPP:
         """

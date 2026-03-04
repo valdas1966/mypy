@@ -150,15 +150,15 @@ class AStarCached(Generic[State], AStarReusable[State]):
         """
         rows = []
         for state in self._data.explored:
-            data = self._data.data_state(state=state)
+            d = self._data.data_state(state=state)
             di = self._data_cached.data_state(state=state)
             rows.append({'row': state.key.row,
                          'col': state.key.col,
-                         'f': data['f'],
+                         'f': d['f'],
                          'is_cached': int(di['is_cached']),
                          'is_bounded': int(di['is_bounded']),
-                         'g': data['g'],
-                         'h': data['h']})
+                         'g': d['g'],
+                         'h': d['h']})
         return rows
 
     def _discover(self, state: State) -> None:

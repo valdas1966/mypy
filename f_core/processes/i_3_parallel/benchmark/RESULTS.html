@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benchmark Results — ProcessParallel</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+header {
+    background: var(--panel);
+    padding: 2rem 3rem;
+    border-bottom: 2px solid var(--accent2);
+}
+header h1 { color: #fff; font-size: 2.2rem; margin-bottom: 0.3rem; }
+header h1 span { color: var(--accent2); }
+.path { color: var(--faint); font-family: monospace; font-size: 0.9rem; }
+.container {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 2rem;
+    padding: 2rem 3rem;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+.toc {
+    position: sticky;
+    top: 1rem;
+    height: fit-content;
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 1.25rem;
+    border: 2px solid var(--border);
+}
+.toc h3 { color: var(--accent2); font-size: 1rem; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
+.toc ul { list-style: none; }
+.toc li { margin-bottom: 0.4rem; }
+.toc a { color: var(--faint); display: block; padding: 0.3rem 0.5rem; border-radius: 4px; font-size: 0.85rem; transition: all 0.15s; }
+.toc a:hover { color: var(--accent2); background: rgba(167, 139, 250, 0.1); text-decoration: none; }
+main { min-width: 0; }
+section {
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 2px solid var(--border);
+}
+section h2 { color: #fff; font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--border); }
+ol { padding-left: 1.5rem; margin: 0.5rem 0; }
+li { margin-bottom: 0.5rem; color: var(--muted); }
+li strong { color: var(--text); }
+details {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin: 0.75rem 0;
+}
+details summary { padding: 0.75rem 1rem; cursor: pointer; color: var(--text); font-weight: 600; font-size: 0.95rem; user-select: none; }
+details summary:hover { color: var(--accent2); }
+details summary:focus-visible { outline: 2px solid var(--accent2); outline-offset: -2px; }
+details[open] summary { border-bottom: 1px solid var(--border); }
+details .inner { padding: 1rem; }
+pre {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 0.75rem 0;
+}
+code { font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace; font-size: 0.9rem; color: var(--text); }
+pre code { display: block; line-height: 1.5; }
+.ic { background: var(--panel2); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.85rem; }
+table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; }
+th, td { padding: 0.6rem 0.75rem; text-align: left; border: 1px solid var(--border); }
+th { background: var(--panel2); color: #fff; font-weight: 600; font-size: 0.9rem; }
+td { background: var(--panel); color: var(--muted); font-size: 0.9rem; }
+td.num { text-align: right; font-family: monospace; }
+.badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.75rem; font-weight: 600; }
+.badge-good { background: rgba(52, 211, 153, 0.2); color: var(--good); }
+.badge-warn { background: rgba(251, 191, 36, 0.2); color: var(--warn); }
+.badge-bad { background: rgba(251, 113, 133, 0.2); color: var(--bad); }
+.badge-neutral { background: rgba(148, 163, 184, 0.2); color: var(--faint); }
+.back-top { display: block; text-align: right; font-size: 0.8rem; color: var(--faint); margin-top: 0.75rem; }
+.back-top:hover { color: var(--accent2); }
+.bar-container { display: flex; align-items: center; gap: 0.5rem; }
+.bar { height: 20px; border-radius: 3px; min-width: 2px; }
+.bar-seq { background: var(--faint); }
+.bar-threads { background: var(--warn); }
+.bar-procs { background: var(--good); }
+.bar-label { font-size: 0.8rem; color: var(--muted); white-space: nowrap; }
+.highlight-row td { background: var(--panel2); color: var(--text); font-weight: 600; }
+footer { margin: 2rem 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); color: var(--faint); font-size: 0.85rem; }
+@media (max-width: 768px) {
+    .container { grid-template-columns: 1fr; padding: 1rem; }
+    .toc { position: static; margin-bottom: 1rem; }
+    header { padding: 1.5rem; }
+    footer { margin: 1.5rem 1rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1><span>Benchmark</span> Results</h1>
+    <div class="path">f_core / processes / i_3_parallel / benchmark</div>
+</header>
+
+<div class="container">
+<nav class="toc">
+    <h3>Contents</h3>
+    <ul>
+        <li><a href="#setup">Setup</a></li>
+        <li><a href="#modes">Modes Comparison</a></li>
+        <li><a href="#scaling">Worker Scaling</a></li>
+        <li><a href="#insights">Insights</a></li>
+        <li><a href="#guidelines">Guidelines</a></li>
+    </ul>
+</nav>
+
+<main>
+
+<!-- Setup -->
+<section id="setup">
+    <h2>Setup</h2>
+    <ol>
+        <li><strong>Task:</strong> count primes in [1..2,000,000] &mdash; CPU-bound, pure Python.</li>
+        <li><strong>Hardware:</strong> 12-core CPU (WSL2, Linux 6.6).</li>
+        <li><strong>Baseline:</strong> sequential execution = <strong>4.16s</strong>.</li>
+        <li><strong>Scripts:</strong> <code class="ic">b_modes.py</code> (threads vs processes) and <code class="ic">b_workers.py</code> (scaling curve).</li>
+    </ol>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Modes Comparison -->
+<section id="modes">
+    <h2>Modes Comparison <span style="font-size:0.85rem;color:var(--faint);font-weight:400;">(b_modes.py)</span></h2>
+
+    <details open>
+        <summary>Results (4 workers)</summary>
+        <div class="inner">
+            <table>
+                <tr><th>Mode</th><th class="num">Elapsed</th><th class="num">Speedup</th><th>Verdict</th></tr>
+                <tr>
+                    <td>Sequential</td>
+                    <td class="num">4.162s</td>
+                    <td class="num">1.00x</td>
+                    <td><span class="badge badge-neutral">baseline</span></td>
+                </tr>
+                <tr>
+                    <td>Threads</td>
+                    <td class="num">4.312s</td>
+                    <td class="num">0.97x</td>
+                    <td><span class="badge badge-bad">no gain</span></td>
+                </tr>
+                <tr class="highlight-row">
+                    <td>Processes</td>
+                    <td class="num">2.366s</td>
+                    <td class="num">1.76x</td>
+                    <td><span class="badge badge-good">winner</span></td>
+                </tr>
+            </table>
+
+            <div style="margin-top:1rem;">
+                <div class="bar-container">
+                    <span class="bar-label" style="width:80px;">Sequential</span>
+                    <div class="bar bar-seq" style="width:260px;"></div>
+                    <span class="bar-label">4.16s</span>
+                </div>
+                <div class="bar-container" style="margin-top:0.4rem;">
+                    <span class="bar-label" style="width:80px;">Threads</span>
+                    <div class="bar bar-threads" style="width:270px;"></div>
+                    <span class="bar-label">4.31s</span>
+                </div>
+                <div class="bar-container" style="margin-top:0.4rem;">
+                    <span class="bar-label" style="width:80px;">Processes</span>
+                    <div class="bar bar-procs" style="width:148px;"></div>
+                    <span class="bar-label">2.37s</span>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Why threads fail here</summary>
+        <div class="inner">
+            <ol>
+                <li><strong>GIL blocks CPU parallelism.</strong> Python's Global Interpreter Lock allows only one thread to execute bytecode at a time.</li>
+                <li><strong>Threads add overhead without gain.</strong> Context switching + GIL contention makes threads slightly <em>slower</em> than sequential for CPU work.</li>
+                <li><strong>Processes bypass the GIL.</strong> Each process has its own interpreter and GIL, enabling true parallel execution.</li>
+            </ol>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Worker Scaling -->
+<section id="scaling">
+    <h2>Worker Scaling <span style="font-size:0.85rem;color:var(--faint);font-weight:400;">(b_workers.py)</span></h2>
+
+    <details open>
+        <summary>Results (processes, 1&ndash;24 workers)</summary>
+        <div class="inner">
+            <table>
+                <tr><th>Workers</th><th class="num">Elapsed</th><th class="num">Speedup</th><th>Note</th></tr>
+                <tr><td>1</td><td class="num">4.858s</td><td class="num">0.88x</td><td><span class="badge badge-bad">overhead only</span></td></tr>
+                <tr><td>2</td><td class="num">3.414s</td><td class="num">1.26x</td><td></td></tr>
+                <tr><td>4</td><td class="num">2.306s</td><td class="num">1.86x</td><td></td></tr>
+                <tr><td>6</td><td class="num">1.910s</td><td class="num">2.25x</td><td></td></tr>
+                <tr><td>8</td><td class="num">1.778s</td><td class="num">2.42x</td><td></td></tr>
+                <tr><td>10</td><td class="num">1.627s</td><td class="num">2.64x</td><td></td></tr>
+                <tr class="highlight-row"><td>12</td><td class="num">1.495s</td><td class="num">2.87x</td><td><span class="badge badge-good">peak = core count</span></td></tr>
+                <tr><td>14</td><td class="num">1.798s</td><td class="num">2.39x</td><td><span class="badge badge-warn">declining</span></td></tr>
+                <tr><td>16</td><td class="num">1.700s</td><td class="num">2.53x</td><td></td></tr>
+                <tr><td>20</td><td class="num">1.824s</td><td class="num">2.35x</td><td></td></tr>
+                <tr><td>24</td><td class="num">2.083s</td><td class="num">2.06x</td><td><span class="badge badge-bad">2x cores = wasteful</span></td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Scaling curve (visual)</summary>
+        <div class="inner">
+            <pre><code>Speedup
+  3.0x |
+       |                          * 12w (2.87x) &larr; PEAK
+  2.5x |              .   .  .  .     .   .
+       |         .                          .  .
+  2.0x |      .                                    .  .
+       |
+  1.5x |
+       |   .
+  1.0x |.
+       |
+  0.5x |
+       +------------------------------------------------------
+       1  2  3  4  5  6  7  8  9 10 11 12 13 14 16 18 20 22 24
+                                Workers</code></pre>
+        </div>
+    </details>
+
+    <details>
+        <summary>Why peak &lt; 12x on 12 cores</summary>
+        <div class="inner">
+            <ol>
+                <li><strong>Process spawn overhead.</strong> Creating 12 processes + pickling data costs ~0.5s.</li>
+                <li><strong>Uneven chunks.</strong> 2M items / 12 workers = 166,667 each, but prime density varies &mdash; some chunks finish faster.</li>
+                <li><strong>WSL2 overhead.</strong> Virtualization layer adds scheduling latency vs bare-metal Linux.</li>
+                <li><strong>Amdahl's Law.</strong> Sequential portions (splitting, collecting, summing) limit theoretical max speedup.</li>
+            </ol>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Insights -->
+<section id="insights">
+    <h2>Key Insights</h2>
+    <ol>
+        <li><strong>Threads are useless for CPU-bound Python.</strong> GIL prevents parallelism; threads add overhead (0.97x = slower than sequential).</li>
+        <li><strong>Processes give real speedup.</strong> 1.76x with 4 workers, 2.87x with 12 workers on CPU-bound work.</li>
+        <li><strong>Sweet spot = physical core count.</strong> Peak at 12 workers on 12 cores. Beyond that, OS scheduling overhead degrades performance.</li>
+        <li><strong>Diminishing returns after ~8 workers.</strong> Going from 8&rarr;12 workers gains only 0.45x more speedup (2.42x&rarr;2.87x).</li>
+        <li><strong>1 worker is worse than sequential.</strong> Process spawn + IPC overhead without parallelism benefit (0.88x).</li>
+        <li><strong>2x cores is wasteful.</strong> 24 workers = 2.06x, worse than 6 workers = 2.25x. More processes = more context switching.</li>
+        <li><strong>Threads are for I/O-bound work.</strong> Use <code class="ic">use_processes=False</code> only for network calls, file I/O, API requests.</li>
+    </ol>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Guidelines -->
+<section id="guidelines">
+    <h2>Practical Guidelines</h2>
+
+    <details open>
+        <summary>When to use what</summary>
+        <div class="inner">
+            <table>
+                <tr><th>Workload</th><th>Mode</th><th>Workers</th><th>Why</th></tr>
+                <tr>
+                    <td>CPU-bound (math, parsing, hashing)</td>
+                    <td><code class="ic">use_processes=True</code></td>
+                    <td><code class="ic">os.cpu_count()</code></td>
+                    <td>Bypasses GIL, true parallelism</td>
+                </tr>
+                <tr>
+                    <td>I/O-bound (HTTP, file, DB)</td>
+                    <td><code class="ic">use_processes=False</code></td>
+                    <td>10&ndash;50+</td>
+                    <td>GIL released during I/O waits</td>
+                </tr>
+                <tr>
+                    <td>Mixed (API call + parse response)</td>
+                    <td><code class="ic">use_processes=False</code></td>
+                    <td>2x&ndash;4x cores</td>
+                    <td>I/O dominates; threads are simpler</td>
+                </tr>
+                <tr>
+                    <td>Tiny input (&lt;100 items)</td>
+                    <td>Either</td>
+                    <td>2&ndash;4</td>
+                    <td>Overhead may exceed task time</td>
+                </tr>
+            </table>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Rule of thumb</summary>
+        <div class="inner">
+            <ol>
+                <li><strong>CPU-bound:</strong> <code class="ic">workers = os.cpu_count()</code>, <code class="ic">use_processes=True</code>.</li>
+                <li><strong>I/O-bound:</strong> <code class="ic">workers = 20</code> (adjust by latency), <code class="ic">use_processes=False</code>.</li>
+                <li><strong>Never exceed 2x cores</strong> for CPU-bound work &mdash; diminishing returns guaranteed.</li>
+                <li><strong>Always benchmark your specific workload.</strong> These numbers are for prime counting; your task may differ.</li>
+            </ol>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+</main>
+</div>
+
+<footer>
+    <ol>
+        <li>Benchmark date: 2026-03-04</li>
+        <li>Hardware: 12-core CPU, WSL2 (Linux 6.6.87.2)</li>
+        <li>Task: <code class="ic">count_primes([1..2,000,000])</code></li>
+        <li>Scripts: <code class="ic">b_modes.py</code>, <code class="ic">b_workers.py</code></li>
+    </ol>
+</footer>
+
+</body>
+</html>
