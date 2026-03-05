@@ -51,7 +51,7 @@ def test_is_within() -> None:
 def test_key() -> None:
     """
     ========================================================================
-     Test the to_tuple() method.
+     Test the key property.
     ========================================================================
     """
     twelve = HasRowCol.Factory.twelve()

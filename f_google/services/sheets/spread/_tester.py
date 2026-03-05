@@ -1,0 +1,45 @@
+from f_google.services.sheets.spread import Spread
+
+
+def test_name() -> None:
+    """
+    ========================================================================
+     Test that Spreadsheet name is returned.
+    ========================================================================
+    """
+    spread = Spread.Factory.valdas_test()
+    assert spread.name == 'Test'
+
+
+def test_sheets() -> None:
+    """
+    ========================================================================
+     Test that Worksheets are returned.
+    ========================================================================
+    """
+    spread = Spread.Factory.valdas_test()
+    sheets = spread.sheets
+    assert len(sheets) == 1
+
+
+def test_getitem_by_name() -> None:
+    """
+    ========================================================================
+     Test accessing a Sheet by name.
+    ========================================================================
+    """
+    spread = Spread.Factory.valdas_test()
+    name_sheet = spread.sheets[0].name
+    assert name_sheet == 'Sheet1'
+
+
+def test_cell_value() -> None:
+    """
+    ========================================================================
+     Test accessing a Cell value via Sheet -> Row -> Cell.
+    ========================================================================
+    """
+    spread = Spread.Factory.valdas_test()
+    sheet = spread.sheets[0]
+    cell = sheet[1][0]
+    assert cell.value == 'Hello2'

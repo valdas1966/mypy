@@ -152,7 +152,7 @@ footer { margin: 2rem 3rem; padding-top: 1.5rem; border-top: 2px solid var(--bor
         <li><a href="#hierarchy">Hierarchy</a></li>
         <li><a href="#deps">Dependencies</a></li>
         <li><a href="#examples">Examples</a></li>
-        <li class="ext"><a href="../../comparable/claude.html">Comparable</a></li>
+        <li class="ext"><a href="../../comparable/CLAUDE.html">Comparable</a></li>
         <li class="ext"><a href="../../hashable/CLAUDE.html">Hashable</a></li>
         <li class="ext"><a href="../../equatable/CLAUDE.html">Equatable</a></li>
     </ul>
@@ -240,7 +240,7 @@ def key(self) -> tuple[int, int]</code></pre>
         <summary>is_within()</summary>
         <div class="inner">
             <pre><code>def is_within(self,
-              rect: SupportsBounds | None = None,
+              rect: RectLike | None = None,
               row_min: int | None = None,
               col_min: int | None = None,
               row_max: int | None = None,
@@ -248,7 +248,6 @@ def key(self) -> tuple[int, int]</code></pre>
             <ol>
                 <li>Returns <code class="ic">True</code> if position is inside the given bounds.</li>
                 <li>Pass a <code class="ic">rect</code> (extracts bounds via <code class="ic">to_min_max()</code>) <strong>or</strong> all four explicit bounds.</li>
-                <li>Asserts that at least one mode is provided.</li>
             </ol>
         </div>
     </details>
@@ -287,11 +286,11 @@ def __repr__(self) -> str   # '&lt;HasRowCol: Row=1, Col=2&gt;'</code></pre>
         <summary>Inheritance Chain</summary>
         <div class="inner">
             <pre><code>SupportsEquality (Protocol)
- &boxur;&boxh; Equatable &boxh;&boxh;&boxh; __eq__ via key
-      &boxvr;&boxh;&boxh; Comparable &boxh;&boxh;&boxh; __lt__, __le__, __gt__, __ge__
-      &boxur;&boxh;&boxh; Hashable &boxh;&boxh;&boxh; __hash__ via key
-           &boxur;&boxh;&boxh; HasRowCol(Comparable, Hashable)
-                &boxur;&boxh;&boxh; key = (row, col)</code></pre>
+ └── Equatable ─── __eq__ via key
+      ├── Comparable (+ SupportsComparison) ─── __lt__, __le__, __gt__, __ge__
+      └── Hashable ─── __hash__ via key
+           └── HasRowCol(Comparable, Hashable)
+                └── key = (row, col)</code></pre>
         </div>
     </details>
 
@@ -313,7 +312,7 @@ def __repr__(self) -> str   # '&lt;HasRowCol: Row=1, Col=2&gt;'</code></pre>
             <ol>
                 <li><code class="ic">CellBase</code> &mdash; grid cell with row/col position.</li>
                 <li><code class="ic">CellMap</code> &mdash; map cell with walkability.</li>
-                <li>Graph grid nodes throughout the framework.</li>
+                <li>Graph grid nodes throughout the search framework.</li>
             </ol>
         </div>
     </details>
@@ -339,7 +338,7 @@ def __repr__(self) -> str   # '&lt;HasRowCol: Row=1, Col=2&gt;'</code></pre>
         </tr>
         <tr>
             <td>3</td>
-            <td><code class="ic">f_core.protocols.bounds.SupportsBounds</code></td>
+            <td><code class="ic">f_core.protocols.rect_like.RectLike</code></td>
             <td><span class="badge badge-internal">internal</span></td>
             <td>Protocol for <code class="ic">is_within()</code> rect param</td>
         </tr>
@@ -438,7 +437,7 @@ twelve = HasRowCol.Factory.twelve()  # (1,2)</code></pre>
 
 <footer>
     <ol>
-        <li>Generated: 2026-03-04</li>
+        <li>Generated: 2026-03-05</li>
         <li>Scope: <code class="ic">f_core.mixins.has.row_col</code> (5 files: main.py, _factory.py, _tester.py, _study.py, __init__.py)</li>
     </ol>
 </footer>

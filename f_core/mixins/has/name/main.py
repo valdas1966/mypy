@@ -17,7 +17,6 @@ class HasName:
          Init private attributes.
         ========================================================================
         """
-        assert isinstance(name, str), f'Name must be a string, got {type(name)}'
         self._name = name
 
     @property

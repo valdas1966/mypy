@@ -119,7 +119,8 @@ footer {
     <li>Deep-inspected:
         <code class="ic">Comparable</code>,
         <code class="ic">Hashable</code>,
-        <code class="ic">SupportsBounds</code></li>
+        <code class="ic">Equatable</code>,
+        <code class="ic">RectLike</code></li>
 </ol>
 
 <!-- ======== 1. Correctness ======== -->
@@ -130,9 +131,9 @@ footer {
         <li><code class="ic">neighbors()</code> uses
             <code class="ic">type(self)(n[0], n[1])</code> &mdash;
             subclass-safe.</li>
-        <li><code class="ic">is_within()</code> assertion uses
-            <code class="ic">all(v is not None for v in ...)</code>
-            &mdash; correctly handles zero bounds.</li>
+        <li><code class="ic">is_within()</code> delegates to
+            <code class="ic">RectLike.to_min_max()</code> &mdash;
+            type hint matches runtime contract.</li>
         <li><code class="ic">distance()</code> is straightforward
             Manhattan distance &mdash; no edge cases.</li>
     </ol>
@@ -141,21 +142,10 @@ footer {
 <!-- ======== 2. Readability / Naming ======== -->
 <section>
     <h2>2. Readability / Naming</h2>
-    <p class="note note-warn"><span class="v v-minor">MINOR</span></p>
+    <p class="note note-good">No change needed.</p>
     <ol>
-        <li>
-            <strong><span class="fr">_factory.py:29</span></strong>
-            &mdash; <code class="ic">twelve()</code> docstring says
-            "row and col set to 12" but creates
-            <code class="ic">HasRowCol(row=1, col=2)</code>.
-            Should say "row set to 1 and col set to 2".
-        </li>
-        <li>
-            <strong><span class="fr">_tester.py:55</span></strong>
-            &mdash; <code class="ic">test_key</code> docstring says
-            "Test the to_tuple() method" but tests the
-            <code class="ic">key</code> property.
-        </li>
+        <li>All docstrings match behavior.</li>
+        <li>Factory method names are clear and consistent.</li>
     </ol>
 </section>
 
@@ -183,25 +173,20 @@ footer {
             &mdash; minimal overhead per comparison.</li>
         <li><code class="ic">neighbors()</code> creates a fixed
             4-element list &mdash; O(1).</li>
+        <li><code class="ic">is_within()</code> has no redundant
+            assertions &mdash; clean hot path.</li>
     </ol>
 </section>
 
 <!-- ======== 5. Typing ======== -->
 <section>
     <h2>5. Typing</h2>
-    <p class="note note-warn"><span class="v v-minor">MINOR</span></p>
+    <p class="note note-good">No change needed.</p>
     <ol>
-        <li>
-            <strong><span class="fr">main.py:77</span></strong>
-            &mdash; <code class="ic">rect</code> is typed as
-            <code class="ic">SupportsBounds | None</code> but
-            line 89 calls <code class="ic">rect.to_min_max()</code>.
-            The <code class="ic">SupportsBounds</code> protocol
-            defines only <code class="ic">bounds()</code>, not
-            <code class="ic">to_min_max()</code>. The actual
-            caller passes <code class="ic">Rect</code> which has
-            that method, but the type hint is too broad.
-        </li>
+        <li><code class="ic">rect</code> is typed as
+            <code class="ic">RectLike | None</code> &mdash;
+            matches the <code class="ic">to_min_max()</code> call.</li>
+        <li>All public methods fully typed with return annotations.</li>
     </ol>
 </section>
 
@@ -221,8 +206,7 @@ footer {
     <h2>7. Modularity</h2>
     <p class="note note-good">No change needed.</p>
     <ol>
-        <li>Standard 4-file layout, all files short and
-            focused.</li>
+        <li>Standard 5-file layout, all files short and focused.</li>
         <li><code class="ic">_study.py</code> provides exploratory
             script &mdash; separate from production code.</li>
     </ol>
@@ -236,7 +220,7 @@ footer {
         <li>Correctly composes <code class="ic">Comparable</code> +
             <code class="ic">Hashable</code> &mdash; standard
             pattern for keyed domain objects.</li>
-        <li><code class="ic">SupportsBounds</code> import is
+        <li><code class="ic">RectLike</code> import is
             lightweight (protocol, no concrete dependency).</li>
     </ol>
 </section>
@@ -251,68 +235,26 @@ footer {
         <li><strong>When useful:</strong> grid cells, map tiles,
             search nodes &mdash; any 2D discrete position.</li>
         <li><strong>Overengineered?</strong> No &mdash; core
-            building block used across grids, graphs, and
-            search.</li>
+            building block used across grids, graphs, and search.</li>
     </ol>
 </section>
 
 <!-- ======== 10. Suggestions ======== -->
 <section>
     <h2>10. Suggestions</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>#</th><th>Item</th><th>Evidence</th>
-                <th>Risk</th><th>Benefit</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>Narrow <code class="ic">rect</code> type
-                    hint to match actual usage (needs
-                    <code class="ic">to_min_max()</code>),
-                    or call <code class="ic">rect.bounds()</code>
-                    and extract min/max from
-                    <code class="ic">Bounds</code></td>
-                <td><span class="fr">main.py:77,89</span></td>
-                <td>Low</td>
-                <td>Type hint matches runtime contract</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Fix <code class="ic">twelve()</code> docstring
-                    &mdash; says "set to 12" but creates
-                    <code class="ic">(1, 2)</code></td>
-                <td><span class="fr">_factory.py:29</span></td>
-                <td>None</td>
-                <td>Docstring matches behavior</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Fix <code class="ic">test_key</code> docstring
-                    &mdash; says "to_tuple()" but tests
-                    <code class="ic">key</code></td>
-                <td><span class="fr">_tester.py:55</span></td>
-                <td>None</td>
-                <td>Docstring matches test intent</td>
-            </tr>
-        </tbody>
-    </table>
+    <p class="note note-good">No improvements needed.</p>
 </section>
 
 <!-- ======== Summary ======== -->
 <section>
     <h2>Summary</h2>
     <ol>
-        <li><span class="v v-minor">MINOR ISSUES</span>
-            Functionally correct &mdash; previous bugs (falsiness,
-            hardcoded type, property-as-method) are all fixed.</li>
-        <li><code class="ic">is_within()</code> type-hints
-            <code class="ic">SupportsBounds</code> but calls
-            <code class="ic">to_min_max()</code> which is not on
-            that protocol.</li>
-        <li>Two docstring mismatches in factory and tester.</li>
+        <li><span class="v v-pass">PASS</span>
+            All previous issues resolved &mdash; no bugs or mismatches found.</li>
+        <li><code class="ic">is_within()</code> correctly typed with
+            <code class="ic">RectLike</code> protocol.</li>
+        <li>No redundant assertions &mdash; clean performance.</li>
+        <li>All docstrings accurate and consistent.</li>
         <li>Core design is solid &mdash; correct mixin
             composition, subclass-safe neighbors, clean
             key-based delegation.</li>
@@ -321,7 +263,7 @@ footer {
 
 <footer>
     <ol>
-        <li>Review date: 2026-03-04</li>
+        <li>Review date: 2026-03-05</li>
         <li>Scope: <code class="ic">f_core.mixins.has.row_col</code>
             (5 files)</li>
     </ol>

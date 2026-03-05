@@ -1,5 +1,5 @@
-from f_google.bigquery.main import BigQuery
-from f_google.auth import Auth
+from f_google.services.bigquery.main import BigQuery
+from f_google.creds.auth import Auth
 
 
 class Factory:

@@ -1,5 +1,5 @@
 from google.oauth2.service_account import Credentials as SACredentials
-from f_google.auth.main import Auth
+from f_google.creds.auth.main import Auth
 from pathlib import Path
 from os import environ
 import sys

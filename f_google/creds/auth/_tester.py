@@ -1,5 +1,5 @@
 from google.oauth2.service_account import Credentials as SACredentials
-from f_google.auth import Auth
+from f_google.creds.auth import Auth
 
 
 def test_rami() -> None:

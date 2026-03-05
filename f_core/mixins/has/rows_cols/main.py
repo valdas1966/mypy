@@ -1,23 +1,28 @@
 from __future__ import annotations
+from f_core.mixins.comparable import Comparable
+from f_core.mixins.hashable import Hashable
 
 
-class HasRowsCols:
+class HasRowsCols(Comparable, Hashable):
     """
     ============================================================================
      Mixin-Class for Objects with Rows and Cols.
     ============================================================================
     """
 
+    # Factory
+    Factory: type = None
+
     def __init__(self,
                  rows: int,
-                 cols: int = None) -> None:
+                 cols: int | None = None) -> None:
         """
         ========================================================================
          Init private attributes.
         ========================================================================
         """
         self._rows = rows
-        self._cols = cols if cols else rows
+        self._cols = cols if cols is not None else rows
 
     @property
     def rows(self) -> int:
@@ -54,14 +59,15 @@ class HasRowsCols:
         """
         return 0 <= row < self.rows and 0 <= col < self.cols
 
-    def key_comparison(self) -> list:
+    @property
+    def key(self) -> tuple[int, int]:
         """
         ========================================================================
          1. First comparison by the size of the shape.
          2. Second by the object's rows.
         ========================================================================
         """
-        return [len(self), self.rows]
+        return self.rows * self.cols, self.rows
 
     def __len__(self) -> int:
         """
@@ -79,11 +85,3 @@ class HasRowsCols:
         ========================================================================
         """
         return self.shape()
-
-    def __hash__(self) -> int:
-        """
-        ========================================================================
-         Compute Hash-Value by Object's Shape.
-        ========================================================================
-        """
-        return hash((self.rows, self.cols))

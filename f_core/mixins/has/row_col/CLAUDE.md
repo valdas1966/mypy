@@ -37,6 +37,7 @@ def neighbors(self) -> list[Self]
 ```
 Returns up to 4 neighbors in clockwise order (N, E, S, W).
 Filters out positions with negative row or col.
+Uses `type(self)` to create instances — subclass-safe.
 
 ```python
 def distance(self, other: Self) -> int
@@ -45,7 +46,7 @@ Returns Manhattan distance: `|row_diff| + |col_diff|`.
 
 ```python
 def is_within(self,
-              rect: SupportsBounds | None = None,
+              rect: RectLike | None = None,
               row_min: int | None = None,
               col_min: int | None = None,
               row_max: int | None = None,
@@ -77,7 +78,7 @@ All delegate to `self.key` — the `(row, col)` tuple.
 ```
 SupportsEquality (Protocol)
  └── Equatable ─── __eq__ via key
-      ├── Comparable ─── __lt__, __le__, __gt__, __ge__
+      ├── Comparable (+ SupportsComparison) ─── __lt__, __le__, __gt__, __ge__
       └── Hashable ─── __hash__ via key
            └── HasRowCol(Comparable, Hashable)
                 └── key = (row, col)
@@ -95,7 +96,7 @@ SupportsEquality (Protocol)
 |--------|---------|
 | `f_core.mixins.comparable.Comparable` | Base — ordering operators |
 | `f_core.mixins.hashable.Hashable` | Base — hashing |
-| `f_core.protocols.bounds.SupportsBounds` | Protocol for `is_within()` rect param |
+| `f_core.protocols.rect_like.RectLike` | Protocol for `is_within()` rect param |
 | `typing.Self` | Self-type for `neighbors()`, `distance()` |
 
 ## Usage Examples

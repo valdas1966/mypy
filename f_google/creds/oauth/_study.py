@@ -1,4 +1,4 @@
-from f_google.oauth import OAuth
+from f_google.creds.oauth import OAuth
 
 creds = OAuth.Factory.valdas()
 print(type(creds))

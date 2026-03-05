@@ -1,5 +1,5 @@
 from google.oauth2.credentials import Credentials as OAuthCredentials
-from f_google.oauth import OAuth
+from f_google.creds.oauth import OAuth
 
 
 def test_valdas() -> None:

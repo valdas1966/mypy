@@ -1,11 +1,15 @@
+from __future__ import annotations
 from google.oauth2.credentials import Credentials as OAuthCredentials
+from google.oauth2.service_account import Credentials as SACredentials
+from f_google.services.sheets.sheet import Sheet
+from f_core.mixins.has import HasName
 import gspread
 
 
-class Sheets:
+class Spread(HasName):
     """
     ============================================================================
-     Google Sheets Client.
+     Google Spreadsheet.
     ============================================================================
     """
 
@@ -13,30 +17,30 @@ class Sheets:
     Factory: type = None
 
     def __init__(self,
-                 creds: OAuthCredentials,
+                 creds: OAuthCredentials | SACredentials,
                  id_spread: str) -> None:
         """
         ====================================================================
-         Init Google Sheets Client and open a Spreadsheet by ID.
+         Init Google Spreadsheet Client and open by ID.
         ====================================================================
         """
-        client = gspread.authorize(creds)
-        self._spread = client.open_by_key(id_spread)
+        client: gspread.Client = gspread.authorize(creds)
+        self._spread: gspread.Spreadsheet = client.open_by_key(id_spread)
+        HasName.__init__(self, name=self._spread.title)
 
     @property
-    def name(self) -> str:
+    def sheets(self) -> list[Sheet]:
         """
         ====================================================================
-         Return the Spreadsheet name.
+         Return all Worksheets as Sheet objects.
         ====================================================================
         """
-        return self._spread.title
+        return [Sheet(ws=ws) for ws in self._spread.worksheets()]
 
-    @property
-    def sheet_names(self) -> list[str]:
+    def __getitem__(self, name: str) -> Sheet:
         """
         ====================================================================
-         Return a list of Worksheet names.
+         Return a Sheet by Name.
         ====================================================================
         """
-        return [ws.title for ws in self._spread.worksheets()]
+        return Sheet(ws=self._spread.worksheet(name))

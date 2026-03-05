@@ -1,7 +1,7 @@
 from __future__ import annotations
 from f_core.mixins.comparable import Comparable
 from f_core.mixins.hashable import Hashable
-from f_core.protocols.bounds import SupportsBounds
+from f_core.protocols.rect_like import RectLike
 from typing import Self
 
 
@@ -74,7 +74,7 @@ class HasRowCol(Comparable, Hashable):
         return dist_row + dist_col
 
     def is_within(self,
-                  rect: SupportsBounds | None = None,
+                  rect: RectLike | None = None,
                   row_min: int | None = None,
                   col_min: int | None = None,
                   row_max: int | None = None,
@@ -84,7 +84,6 @@ class HasRowCol(Comparable, Hashable):
          Return True if the object is within the given Rect or range.
         ========================================================================
         """
-        assert (rect is not None) or all(v is not None for v in (row_min, col_min, row_max, col_max)), f'Provide rect or all four bounds (row_min, col_min, row_max, col_max)'
         if rect:
             row_min, col_min, row_max, col_max = rect.to_min_max()
         row_valid: bool = row_min <= self.row <= row_max

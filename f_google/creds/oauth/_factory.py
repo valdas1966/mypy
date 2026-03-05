@@ -1,5 +1,5 @@
 from google.oauth2.credentials import Credentials as OAuthCredentials
-from f_google.oauth.main import OAuth
+from f_google.creds.oauth.main import OAuth
 from pathlib import Path
 from os import environ
 import sys
@@ -25,9 +25,9 @@ class Factory:
         ====================================================================
         """
         if sys.platform == 'darwin':
-            d = Path.home() / 'prof'
+            d = Path.home() / 'prof' / 'valdas'
             path_client = str(d / 'oauth_client.json')
-            path_token = str(d / 'valdas_token.json')
+            path_token = str(d / 'token.json')
         else:
             path_client = environ['OAUTH_CLIENT_JSON_PATH']
             path_token = environ['VALDAS_TOKEN_PATH']

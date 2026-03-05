@@ -1,4 +1,4 @@
-from f_google.bigquery import BigQuery
+from f_google.services.bigquery import BigQuery
 from f_core.processes.i_3_parallel import ProcessParallel
 from typing import Any, Callable
 

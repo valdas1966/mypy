@@ -25,7 +25,7 @@ class Factory:
     def twelve() -> HasRowCol:
         """
         ========================================================================
-         Return a HasRowCol object with row and col set to 12.
+         Return a HasRowCol object with row set to 1 and col set to 2.
         ========================================================================
         """
         return HasRowCol(row=1, col=2)

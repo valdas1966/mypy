@@ -1,4 +1,4 @@
-from f_google.bigquery import BigQuery
+from f_google.services.bigquery import BigQuery
 
 
 def test_big_query() -> None:
