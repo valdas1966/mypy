@@ -7,9 +7,11 @@ from f_search.algos.i_2_omspp import BFSIncremental
 from f_search.algos.i_2_omspp import AStarIncremental
 from f_search.algos.i_2_omspp import DijkstraIncremental
 from f_search.algos.i_2_omspp.i_1_aggregative import AStarAggregative
+from f_search.algos.i_2_omspp.i_1_incremental.astar_backward import AStarIncrementalBackward
 from f_search.solutions import SolutionOMSPP
 from f_ds.grids import GridMap as Grid
 from f_utils import u_pickle
+from typing import Any
 
 
 @log_2
@@ -35,7 +37,8 @@ def load_problems(pickle_problems: str) -> list[ProblemOMSPP]:
 @log_2
 def run_algos(type_algo: type[AlgoOMSPP],
               d_grids: dict[str, Grid],
-              problems: list[ProblemOMSPP]) -> list[SolutionOMSPP]:
+              problems: list[ProblemOMSPP],
+              **algo_kwargs: Any) -> list[SolutionOMSPP]:
     """
     ========================================================================
      Run the algorithms for the given problems.
@@ -43,10 +46,24 @@ def run_algos(type_algo: type[AlgoOMSPP],
     """
     solutions: list[SolutionOMSPP] = []
     for i, problem in enumerate(problems):
-        problem = problem.to_heavy(grids=d_grids)
-        solution = _run_problem(type_algo, problem, i)
+        problem.load_grid(grids=d_grids)
+        solution = _run_problem(type_algo, problem, i, **algo_kwargs)
         solutions.append(solution)
     return solutions
+
+
+@log_2
+def _run_problem(type_algo: type[AlgoOMSPP],
+                 problem: ProblemOMSPP,
+                 i: int,
+                 **algo_kwargs: Any) -> SolutionOMSPP:
+    """
+    ========================================================================
+     Run the algorithm for the given problem.
+    ========================================================================
+    """
+    algo = type_algo(problem=problem, **algo_kwargs)
+    return algo.run()
 
 @log_2
 def pickle_result(solutions: list[SolutionOMSPP], pickle_solutions: str) -> None:
@@ -56,19 +73,6 @@ def pickle_result(solutions: list[SolutionOMSPP], pickle_solutions: str) -> None
     ========================================================================
     """
     u_pickle.dump(obj=solutions, path=pickle_solutions)
-
-
-@log_2
-def _run_problem(type_algo: type[AlgoOMSPP],
-                 problem: ProblemOMSPP,
-                 i: int) -> SolutionOMSPP:
-    """
-    ========================================================================
-     Run the algorithm for the given problem.
-    ========================================================================
-    """
-    algo = type_algo(problem=problem)
-    return algo.run()
 
 
 """
@@ -83,12 +87,12 @@ def _run_problem(type_algo: type[AlgoOMSPP],
 set_debug(True)
 
 pickle_grids = 'f:\\paper\\i_1_grids\\grids.pkl'
-pickle_problems = 'f:\\paper\\i_3_problems\\problems.pkl'
+pickle_problems = 'f:\\temp\\2026\\03\\Exp Depth\\problems.pkl'
 
-algo = DijkstraIncremental
-pickle_solutions = f'f:\\paper\\i_4_solutions\\dijkstra.pkl'
+algo = AStarIncrementalBackward
+pickle_solutions = 'f:\\temp\\2026\\03\\Exp Depth\\back_depth_2.pkl'
 
 d_grids = load_grids(pickle_grids)
 problems = load_problems(pickle_problems)
-solutions = run_algos(algo, d_grids, problems)
+solutions = run_algos(algo, d_grids, problems, with_bounds=True)
 pickle_result(solutions, pickle_solutions)

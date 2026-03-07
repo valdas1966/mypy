@@ -6,7 +6,6 @@ from f_search.ds.data import DataHeuristics
 from f_search.ds.data.cached import DataCached
 from f_search.ds.path import Path
 from f_search.ds.priority import PriorityGHFlags as Priority
-from f_search.utils.propagation import Propagation
 from typing import Generic
 
 
@@ -122,24 +121,6 @@ class AStarCached(Generic[State], AStarReusable[State]):
         return {s: g_goal - self._data.dict_g[s]
                 for s in self._data.explored
                 if s not in path}
-
-    def propagate_bounds(self, depth: int) -> dict[State, int]:
-        """
-        ====================================================================
-         Propagate bounds to unvisited neighbors via multi-source BFS.
-        ====================================================================
-        """
-        bounds = self.bounds_to_goal()
-        if not depth:
-            return bounds
-        sources = {**bounds, **self.distances_to_goal()}
-        propagation = Propagation(sources=sources,
-                                  excluded=set(sources.keys()),
-                                  successors=self.problem.successors,
-                                  depth=depth,
-                                  prune=self._heuristics)
-        bounds.update(propagation.run())
-        return bounds
 
     def list_explored(self) -> list[dict[str, any]]:
         """

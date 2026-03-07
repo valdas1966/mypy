@@ -1,5 +1,8 @@
-from f_ds.geometry.bounds import Bounds
-from typing import Protocol, TypeVar, runtime_checkable
+from __future__ import annotations
+from typing import TYPE_CHECKING, Protocol, TypeVar, runtime_checkable
+
+if TYPE_CHECKING:
+    from f_ds.geometry.bounds import Bounds
 
 T = TypeVar('T', int, float)
 

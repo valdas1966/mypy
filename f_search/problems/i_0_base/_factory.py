@@ -1,5 +1,5 @@
 from f_search.problems.i_0_base.main import ProblemSearch
-from f_ds.grids.grid import GridBase as Grid
+from f_ds.grids.grid import GridMap as Grid
 
 
 class Factory:
@@ -10,11 +10,6 @@ class Factory:
     """
 
     @staticmethod
-    def grid_3x3() -> ProblemSearch:
-        """
-        ========================================================================
-         Return a ProblemSearch object with a 3x3 grid.
-        ========================================================================
-        """
-        grid = Grid.Factory.grid_3x3()
-        return ProblemSearch(grid=grid, name='3x3')
+    def four_with_obstacles() -> ProblemSearch:
+        grid = Grid.Factory.four_with_obstacles()
+        return ProblemSearch(grid=grid, name='Problem with Obstacles')

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Review Report — creds</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #111827;
+            --panel2: #0f172a;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --faint: #94a3b8;
+            --border: #334155;
+            --accent: #60a5fa;
+            --accent2: #a78bfa;
+            --good: #34d399;
+            --warn: #fbbf24;
+            --bad: #fb7185;
+            --code-bg: #0a1220;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 2rem 3rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; color: var(--accent2); }
+
+        h1 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .module-path {
+            font-family: monospace;
+            color: var(--faint);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-top: 2.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        section {
+            background: var(--panel);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        section h2 { margin-top: 0; }
+
+        .no-change {
+            color: var(--good);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.4rem; color: var(--muted); }
+        li strong { color: var(--text); }
+
+        pre {
+            background: var(--code-bg);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 0.75rem 0;
+        }
+
+        code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+
+        pre code { display: block; line-height: 1.5; }
+
+        .inline-code {
+            background: var(--panel2);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .severity-low {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            background: var(--faint);
+            color: var(--bg);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .severity-med {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            background: var(--warn);
+            color: var(--bg);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.75rem; text-align: left; border: 1px solid var(--border); }
+        th { background: var(--panel2); color: #fff; font-weight: 600; }
+        td { background: var(--panel); color: var(--muted); }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border);
+            color: var(--faint);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Module Review Report</h1>
+<div class="module-path">f_google/creds/</div>
+
+<section>
+    <h2>Summary</h2>
+    <ol>
+        <li>Clean re-export package (2 lines in <code class="inline-code">__init__.py</code>) grouping <code class="inline-code">Auth</code> and <code class="inline-code">OAuth</code>.</li>
+        <li>Both sub-modules are small static utilities with consistent structure.</li>
+        <li>Credential files stored outside the repo &mdash; not tracked by git.</li>
+        <li>Token file permissions are the only minor security consideration.</li>
+        <li>No correctness, design, or performance issues found.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>1. Correctness</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>2. Readability / Naming</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>3. Design (OOP)</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>4. Performance</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>5. Typing</h2>
+    <p class="no-change">No change needed.</p>
+    <ol>
+        <li>Re-export only &mdash; no type annotations required at this level.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>6. Documentation</h2>
+    <p class="no-change">No change needed.</p>
+</section>
+
+<section>
+    <h2>7. Modularity</h2>
+    <p class="no-change">No change needed.</p>
+    <ol>
+        <li>Clean separation: <code class="inline-code">auth/</code> for non-interactive SA auth, <code class="inline-code">oauth/</code> for interactive browser auth.</li>
+        <li>No shared code between them &mdash; appropriate since they use different Google auth mechanisms.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>8. Architecture</h2>
+    <p class="no-change">No change needed.</p>
+    <ol>
+        <li>Both <code class="inline-code">Auth</code> and <code class="inline-code">OAuth</code> are consumed by <code class="inline-code">f_google/services/</code> (BigQuery, Sheets).</li>
+        <li>Clean dependency direction: services &rarr; creds &rarr; google-auth SDK.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>9. Usage &amp; Usefulness</h2>
+    <ol>
+        <li><strong>How to use:</strong> Import <code class="inline-code">Auth</code> or <code class="inline-code">OAuth</code> from <code class="inline-code">f_google.creds</code>, call <code class="inline-code">Factory.rami()</code> or <code class="inline-code">Factory.valdas()</code>.</li>
+        <li><strong>When useful:</strong> Any code that needs Google API access &mdash; BigQuery, Sheets, Drive.</li>
+        <li><strong>Not overengineered:</strong> Thin wrappers over Google's auth SDK. Factory encapsulates path resolution.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>10. Suggestions</h2>
+    <ol>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong>OAuth token file permissions</strong> &mdash;
+            Evidence: <code class="inline-code">oauth/main.py:45</code> writes token via <code class="inline-code">open()</code> with default permissions.
+            Risk: Low on single-user machines. Token could be world-readable on shared systems.
+            Fix: Use <code class="inline-code">os.open(path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)</code>.
+            Not urgent for current single-user usage.
+        </li>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong>No <code class="inline-code">.gitignore</code> at repo root</strong> &mdash;
+            Evidence: No <code class="inline-code">.gitignore</code> found at <code class="inline-code">/mnt/f/mypy/</code>.
+            Risk: Low (credential files live outside the repo entirely).
+            Benefit: A root <code class="inline-code">.gitignore</code> with <code class="inline-code">*.json</code> patterns would add defense-in-depth.
+            Not required since keys are stored outside the repo tree.
+        </li>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong>Shared scopes constant</strong> &mdash;
+            Evidence: Both <code class="inline-code">auth/_factory.py:15</code> and <code class="inline-code">oauth/_factory.py:15</code> define identical <code class="inline-code">_SCOPES</code> lists.
+            Risk: None (duplication, not a bug).
+            Fix: Extract to a shared constant in <code class="inline-code">f_google/creds/__init__.py</code> or a <code class="inline-code">_constants.py</code>.
+            Low priority &mdash; only 2 occurrences, rarely changes.
+        </li>
+    </ol>
+</section>
+
+<footer>
+    <ol>
+        <li>Generated: 2026-03-06</li>
+        <li>Scope: f_google.creds &mdash; full code + design review</li>
+    </ol>
+</footer>
+
+</body>
+</html>

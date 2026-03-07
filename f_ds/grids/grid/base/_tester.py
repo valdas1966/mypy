@@ -71,3 +71,23 @@ def test_select_rect_around() -> None:
     cell = grid[1][1]
     rect = grid.select.rect_around(cell, distance=1)
     assert len(list(rect)) == 9
+
+
+def test_norm_distance() -> None:
+    """
+    ========================================================================
+     Test the norm_distance() method.
+    ========================================================================
+    """
+    # 3x3 grid: max Manhattan = 3+3-2 = 4
+    grid = GridBase.Factory.grid_3x3()
+    assert grid.norm_distance(distance=0) == 0.0
+    assert grid.norm_distance(distance=2) == 50.0
+    assert grid.norm_distance(distance=4) == 100.0
+    # 4x4 grid: max Manhattan = 4+4-2 = 6
+    grid_4 = GridBase.Factory.Grid_4x4()
+    assert grid_4.norm_distance(distance=3) == 50.0
+    assert grid_4.norm_distance(distance=6) == 100.0
+    # 1x1 grid: max Manhattan = 0 -> returns 0.0
+    grid_1 = GridBase(rows=1)
+    assert grid_1.norm_distance(distance=0) == 0.0

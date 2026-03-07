@@ -1,5 +1,6 @@
+from __future__ import annotations
 import gspread
-from f_google.services.sheets.row.main import Row
+from f_ds.range import Range
 
 
 class Sheet:
@@ -16,7 +17,7 @@ class Sheet:
         ====================================================================
         """
         self._ws = ws
-        self._rows: list[Row] | None = None
+        self._rows: list[list[str]] | None = None
 
     @property
     def name(self) -> str:
@@ -34,23 +35,53 @@ class Sheet:
         ====================================================================
         """
         if self._rows is None:
-            values = self._ws.get_all_values()
-            self._rows = [Row(values=row) for row in values]
+            self._rows = self._ws.get_all_values()
 
-    def __getitem__(self, row: int) -> Row:
+    def last_row(self) -> int:
         """
         ====================================================================
-         Return a Row by Index (0-based).
+         Return the index of the last row with a non-empty cell.
+         Returns -1 if all rows are empty.
         ====================================================================
         """
         self._load()
-        return self._rows[row]
+        for i in range(len(self._rows) - 1, -1, -1):
+            if any(cell for cell in self._rows[i]):
+                return i
+        return -1
 
-    def __len__(self) -> int:
+    def last_col(self) -> int:
         """
         ====================================================================
-         Return the number of Rows.
+         Return the index of the last column with a non-empty cell.
+         Returns -1 if all cells are empty.
         ====================================================================
         """
         self._load()
-        return len(self._rows)
+        result = -1
+        for row in self._rows:
+            for c in range(len(row) - 1, result, -1):
+                if row[c]:
+                    result = c
+                    break
+        return result
+
+    def to_range(self) -> Range:
+        """
+        ====================================================================
+         Return all data as a Range.
+        ====================================================================
+        """
+        self._load()
+        return Range(data=self._rows)
+
+    def __getitem__(self, key: int | slice) -> list[str] | Range:
+        """
+        ====================================================================
+         Return a Row by Index or a Range by Slice.
+        ====================================================================
+        """
+        self._load()
+        if isinstance(key, slice):
+            return Range(data=self._rows[key])
+        return self._rows[key]

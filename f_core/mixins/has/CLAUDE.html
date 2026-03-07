@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Has Mixins Package — Documentation</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+header {
+    background: var(--panel);
+    padding: 2rem 3rem;
+    border-bottom: 2px solid var(--accent2);
+}
+header h1 { color: #fff; font-size: 2.2rem; margin-bottom: 0.3rem; }
+header h1 span { color: var(--accent2); }
+.path { color: var(--faint); font-family: monospace; font-size: 0.9rem; }
+.container {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 2rem;
+    padding: 2rem 3rem;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+.toc {
+    position: sticky;
+    top: 1rem;
+    height: fit-content;
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 1.25rem;
+    border: 2px solid var(--border);
+}
+.toc h3 { color: var(--accent2); font-size: 1rem; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
+.toc ul { list-style: none; }
+.toc li { margin-bottom: 0.4rem; }
+.toc a { color: var(--faint); display: block; padding: 0.3rem 0.5rem; border-radius: 4px; font-size: 0.85rem; transition: all 0.15s; }
+.toc a:hover { color: var(--accent2); background: rgba(167, 139, 250, 0.1); text-decoration: none; }
+.toc .sub { padding-left: 1rem; font-size: 0.8rem; }
+.toc .ext { margin-top: 0.75rem; padding-top: 0.5rem; border-top: 2px solid var(--border); }
+.toc .ext a { color: var(--accent2); }
+.search-box {
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+}
+.search-box:focus { outline: 2px solid var(--accent2); border-color: var(--accent2); }
+.search-box::placeholder { color: var(--faint); }
+main { min-width: 0; }
+section {
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 2px solid var(--border);
+}
+section h2 { color: #fff; font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--border); }
+ol { padding-left: 1.5rem; margin: 0.5rem 0; }
+li { margin-bottom: 0.5rem; color: var(--muted); }
+li strong { color: var(--text); }
+details {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin: 0.75rem 0;
+}
+details summary { padding: 0.75rem 1rem; cursor: pointer; color: var(--text); font-weight: 600; font-size: 0.95rem; user-select: none; }
+details summary:hover { color: var(--accent2); }
+details summary:focus-visible { outline: 2px solid var(--accent2); outline-offset: -2px; }
+details[open] summary { border-bottom: 1px solid var(--border); }
+details .inner { padding: 1rem; }
+pre {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 0.75rem 0;
+}
+code { font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace; font-size: 0.9rem; color: var(--text); }
+pre code { display: block; line-height: 1.5; }
+.ic { background: var(--panel2); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.85rem; }
+table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; }
+th, td { padding: 0.6rem 0.75rem; text-align: left; border: 1px solid var(--border); }
+th { background: var(--panel2); color: #fff; font-weight: 600; font-size: 0.9rem; }
+td { background: var(--panel); color: var(--muted); font-size: 0.9rem; }
+.badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.75rem; font-weight: 600; }
+.badge-internal { background: rgba(96, 165, 250, 0.2); color: var(--accent); }
+.badge-stdlib { background: rgba(52, 211, 153, 0.2); color: var(--good); }
+.badge-level { background: rgba(167, 139, 250, 0.2); color: var(--accent2); }
+.back-top { display: block; text-align: right; font-size: 0.8rem; color: var(--faint); margin-top: 0.75rem; }
+.back-top:hover { color: var(--accent2); }
+footer { margin: 2rem 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); color: var(--faint); font-size: 0.85rem; }
+@media (max-width: 768px) {
+    .container { grid-template-columns: 1fr; padding: 1rem; }
+    .toc { position: static; margin-bottom: 1rem; }
+    header { padding: 1.5rem; }
+    footer { margin: 1.5rem 1rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1><span>Has</span> Mixins Package</h1>
+    <div class="path">f_core / mixins / has</div>
+</header>
+
+<div class="container">
+<nav class="toc">
+    <h3>Contents</h3>
+    <input type="text" class="search-box" placeholder="Search..." oninput="filterSections(this.value)">
+    <ul>
+        <li><a href="#purpose">Purpose</a></li>
+        <li><a href="#modules">Modules</a></li>
+        <li><a href="#api">Package Exports</a></li>
+        <li><a href="#hierarchy">Hierarchy</a></li>
+        <li><a href="#comparison">Comparison</a></li>
+        <li><a href="#deps">Dependencies</a></li>
+        <li><a href="#examples">Examples</a></li>
+        <li class="ext"><a href="children/CLAUDE.html">HasChildren</a></li>
+        <li class="ext"><a href="key/CLAUDE.html">HasKey</a></li>
+        <li class="ext"><a href="name/claude.html">HasName</a></li>
+        <li class="ext"><a href="parent/CLAUDE.html">HasParent</a></li>
+        <li class="ext"><a href="row_col/CLAUDE.html">HasRowCol</a></li>
+        <li class="ext"><a href="rows_cols/CLAUDE.html">HasRowsCols</a></li>
+    </ul>
+</nav>
+
+<main>
+
+<!-- Purpose -->
+<section id="purpose">
+    <h2>A. Purpose</h2>
+    <ol>
+        <li><strong>Collection of 6 mixin classes</strong> that inject common object properties via multiple inheritance.</li>
+        <li>Three categories: <strong>identity</strong> (key, name), <strong>structure</strong> (children, parent), <strong>2D positioning</strong> (row_col, rows_cols).</li>
+        <li>Each mixin is independently composable &mdash; mix any combination into a single class.</li>
+    </ol>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Modules -->
+<section id="modules">
+    <h2>B. Modules</h2>
+
+    <details open>
+        <summary>Module Map</summary>
+        <div class="inner">
+            <pre><code>f_core/mixins/has/
+├── __init__.py           exports HasKey, HasName, HasRowCol, HasRowsCols
+├── children/             HasChildren — children list + add_child()
+├── key/                  HasKey[Key] — generic typed key
+├── name/                 HasName — string name property
+├── parent/               HasParent — parent reference + path_from_root()
+├── row_col/              HasRowCol — 2D cell position (row, col)
+└── rows_cols/            HasRowsCols — 2D dimensions (rows, cols)</code></pre>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Module Summary</summary>
+        <div class="inner">
+            <table>
+                <tr><th>Module</th><th>Class</th><th>Bases</th><th>Key Capability</th></tr>
+                <tr>
+                    <td><code class="ic">children</code></td>
+                    <td><code class="ic">HasChildren</code></td>
+                    <td>(none)</td>
+                    <td>Children list, <code class="ic">add_child()</code></td>
+                </tr>
+                <tr>
+                    <td><code class="ic">key</code></td>
+                    <td><code class="ic">HasKey[Key]</code></td>
+                    <td><code class="ic">Comparable</code>, <code class="ic">Hashable</code>, <code class="ic">Generic[Key]</code></td>
+                    <td>Typed key as identity</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">name</code></td>
+                    <td><code class="ic">HasName</code></td>
+                    <td>(none)</td>
+                    <td>String name, <code class="ic">str()</code>, <code class="ic">repr()</code></td>
+                </tr>
+                <tr>
+                    <td><code class="ic">parent</code></td>
+                    <td><code class="ic">HasParent</code></td>
+                    <td>(none)</td>
+                    <td>Parent ref, <code class="ic">path_from_root()</code></td>
+                </tr>
+                <tr>
+                    <td><code class="ic">row_col</code></td>
+                    <td><code class="ic">HasRowCol</code></td>
+                    <td><code class="ic">Comparable</code>, <code class="ic">Hashable</code></td>
+                    <td>Cell position, neighbors, distance, bounds</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">rows_cols</code></td>
+                    <td><code class="ic">HasRowsCols</code></td>
+                    <td><code class="ic">Comparable</code>, <code class="ic">Hashable</code></td>
+                    <td>Shape dimensions, <code class="ic">is_within()</code>, <code class="ic">len()</code></td>
+                </tr>
+            </table>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Package Exports -->
+<section id="api">
+    <h2>C. Package Exports</h2>
+
+    <details open>
+        <summary>__init__.py</summary>
+        <div class="inner">
+            <pre><code>from f_core.mixins.has import HasKey, HasName, HasRowCol, HasRowsCols</code></pre>
+            <ol>
+                <li><strong><code class="ic">HasKey</code></strong> &mdash; generic typed key with comparison, hashing, str/repr.</li>
+                <li><strong><code class="ic">HasName</code></strong> &mdash; string name property with str/repr.</li>
+                <li><strong><code class="ic">HasRowCol</code></strong> &mdash; 2D cell position with neighbors, distance, bounds checking.</li>
+                <li><strong><code class="ic">HasRowsCols</code></strong> &mdash; 2D shape dimensions with length, bounds checking.</li>
+                <li><code class="ic">HasChildren</code> and <code class="ic">HasParent</code> must be imported from their submodules directly.</li>
+            </ol>
+        </div>
+    </details>
+
+    <details open>
+        <summary id="api-children">HasChildren</summary>
+        <div class="inner">
+            <pre><code>def __init__(self) -> None</code></pre>
+            <ol><li>Initializes an empty <code class="ic">_children</code> list.</li></ol>
+
+            <pre><code>@property
+def children(self) -> list[Self]</code></pre>
+            <ol><li>Returns the list of children.</li></ol>
+
+            <pre><code>def add_child(self, child: Self) -> None</code></pre>
+            <ol><li>Appends a child to the children list.</li></ol>
+        </div>
+    </details>
+
+    <details open>
+        <summary id="api-key">HasKey[Key]</summary>
+        <div class="inner">
+            <pre><code>def __init__(self, key: Key) -> None</code></pre>
+            <ol><li>Stores <code class="ic">key</code> as <code class="ic">_key</code>.</li></ol>
+
+            <pre><code>@property
+def key(self) -> Key</code></pre>
+            <ol><li>Returns the key. Satisfies the abstract <code class="ic">key</code> contract from <code class="ic">Equatable</code>.</li></ol>
+
+            <pre><code>def __str__(self) -> str    # str(key)
+def __repr__(self) -> str   # '&lt;ClassName: Key=value&gt;'</code></pre>
+            <ol><li>String representations based on key value.</li></ol>
+        </div>
+    </details>
+
+    <details open>
+        <summary id="api-name">HasName</summary>
+        <div class="inner">
+            <pre><code>def __init__(self, name: str = 'NoName') -> None</code></pre>
+            <ol><li>Stores <code class="ic">name</code> as <code class="ic">_name</code>. Default is <code class="ic">'NoName'</code>.</li></ol>
+
+            <pre><code>@property
+def name(self) -> str</code></pre>
+            <ol><li>Returns the object's name (read-only).</li></ol>
+
+            <pre><code>def __str__(self) -> str    # self.name
+def __repr__(self) -> str   # '&lt;ClassName: Name=value&gt;'</code></pre>
+            <ol><li>String representations based on name value.</li></ol>
+        </div>
+    </details>
+
+    <details open>
+        <summary id="api-parent">HasParent</summary>
+        <div class="inner">
+            <pre><code>def __init__(self, parent: Self = None) -> None</code></pre>
+            <ol><li>Stores <code class="ic">parent</code> as <code class="ic">_parent</code>.</li></ol>
+
+            <pre><code>@property
+def parent(self) -> HasParent | None</code></pre>
+            <ol><li>Returns the parent of the object (can be <code class="ic">None</code>).</li></ol>
+
+            <pre><code>def path_from_root(self) -> list[Self]</code></pre>
+            <ol><li>Walks up the parent chain, returns <code class="ic">[root, ..., self]</code>.</li></ol>
+        </div>
+    </details>
+
+    <details>
+        <summary id="api-row-col">HasRowCol</summary>
+        <div class="inner">
+            <pre><code>def __init__(self,
+             row: int | None = None,
+             col: int | None = None) -> None</code></pre>
+            <ol><li><code class="ic">row=None</code> defaults to <code class="ic">0</code>. <code class="ic">col=None</code> defaults to value of <code class="ic">row</code>.</li></ol>
+
+            <pre><code>@property
+def row(self) -> int
+
+@property
+def col(self) -> int
+
+@property
+def key(self) -> tuple[int, int]</code></pre>
+            <ol><li><code class="ic">key</code> returns <code class="ic">(row, col)</code> &mdash; row-major order for comparison/hashing.</li></ol>
+
+            <pre><code>def neighbors(self) -> list[Self]</code></pre>
+            <ol><li>Up to 4 neighbors in clockwise order (N, E, S, W). Filters out negatives.</li></ol>
+
+            <pre><code>def distance(self, other: Self) -> int</code></pre>
+            <ol><li>Manhattan distance: <code class="ic">|row_diff| + |col_diff|</code>.</li></ol>
+
+            <pre><code>def is_within(self,
+              rect: RectLike | None = None,
+              row_min: int | None = None,
+              col_min: int | None = None,
+              row_max: int | None = None,
+              col_max: int | None = None) -> bool</code></pre>
+            <ol><li>Bounds checking via <code class="ic">RectLike</code> or explicit min/max.</li></ol>
+        </div>
+    </details>
+
+    <details>
+        <summary id="api-rows-cols">HasRowsCols</summary>
+        <div class="inner">
+            <pre><code>def __init__(self,
+             rows: int,
+             cols: int | None = None) -> None</code></pre>
+            <ol><li><code class="ic">cols=None</code> defaults to value of <code class="ic">rows</code> (square shape).</li></ol>
+
+            <pre><code>@property
+def rows(self) -> int
+
+@property
+def cols(self) -> int
+
+@property
+def key(self) -> tuple[int, int]</code></pre>
+            <ol><li><code class="ic">key</code> returns <code class="ic">(rows*cols, rows)</code> &mdash; compare by area first, then rows.</li></ol>
+
+            <pre><code>def shape(self) -> str</code></pre>
+            <ol><li>Returns <code class="ic">'(rows,cols)'</code> string.</li></ol>
+
+            <pre><code>def is_within(self, row: int, col: int) -> bool</code></pre>
+            <ol><li>Returns <code class="ic">True</code> if <code class="ic">0 &lt;= row &lt; rows</code> and <code class="ic">0 &lt;= col &lt; cols</code>.</li></ol>
+
+            <pre><code>def __len__(self) -> int</code></pre>
+            <ol><li>Returns <code class="ic">rows * cols</code> (flat length).</li></ol>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Hierarchy -->
+<section id="hierarchy">
+    <h2>D. Inheritance Hierarchy</h2>
+
+    <details open>
+        <summary>Identity Mixins (HasKey, HasRowCol, HasRowsCols)</summary>
+        <div class="inner">
+            <pre><code>SupportsEquality (Protocol)
+ └── Equatable ─── __eq__ via key
+      ├── Comparable (+ SupportsComparison) ─── __lt__, __le__, __gt__, __ge__
+      └── Hashable ─── __hash__ via key
+           ├── HasKey[Key](Comparable, Hashable, Generic[Key])
+           │    └── key = constructor arg
+           ├── HasRowCol(Comparable, Hashable)
+           │    └── key = (row, col)
+           └── HasRowsCols(Comparable, Hashable)
+                └── key = (rows * cols, rows)</code></pre>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Standalone Mixins</summary>
+        <div class="inner">
+            <pre><code>HasChildren  ─── no bases, manages list[Self]
+HasName      ─── no bases, provides name + str/repr
+HasParent    ─── no bases, manages parent chain</code></pre>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Responsibility Table</summary>
+        <div class="inner">
+            <table>
+                <tr><th>#</th><th>Base</th><th>Contract</th></tr>
+                <tr><td>1</td><td><code class="ic">Equatable</code></td><td>Abstract <code class="ic">key</code>, concrete <code class="ic">__eq__</code></td></tr>
+                <tr><td>2</td><td><code class="ic">Comparable</code></td><td><code class="ic">@total_ordering</code>, <code class="ic">__lt__</code> via <code class="ic">key</code></td></tr>
+                <tr><td>3</td><td><code class="ic">Hashable</code></td><td><code class="ic">__hash__</code> via <code class="ic">hash(self.key)</code></td></tr>
+                <tr><td>4</td><td><code class="ic">HasKey</code></td><td>Stores generic typed key, provides <code class="ic">str</code>/<code class="ic">repr</code></td></tr>
+                <tr><td>5</td><td><code class="ic">HasName</code></td><td>Stores name string, provides <code class="ic">str</code>/<code class="ic">repr</code></td></tr>
+                <tr><td>6</td><td><code class="ic">HasRowCol</code></td><td>Position, neighbors, distance, bounds</td></tr>
+                <tr><td>7</td><td><code class="ic">HasRowsCols</code></td><td>Dimensions, shape, length, bounds</td></tr>
+                <tr><td>8</td><td><code class="ic">HasChildren</code></td><td>Mutable children list</td></tr>
+                <tr><td>9</td><td><code class="ic">HasParent</code></td><td>Parent reference, root path traversal</td></tr>
+            </table>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Comparison -->
+<section id="comparison">
+    <h2>E. Class Comparison</h2>
+
+    <details open>
+        <summary>Feature Matrix</summary>
+        <div class="inner">
+            <table>
+                <tr><th>Class</th><th>Comparable</th><th>Hashable</th><th>str/repr</th><th>Key Type</th><th>Use Case</th></tr>
+                <tr>
+                    <td><code class="ic">HasKey</code></td>
+                    <td>Yes</td><td>Yes</td><td>Yes</td>
+                    <td><code class="ic">Generic[Key]</code></td>
+                    <td>Generic identity objects</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">HasName</code></td>
+                    <td>No</td><td>No</td><td>Yes</td>
+                    <td><code class="ic">str</code></td>
+                    <td>Named objects (processes, components)</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">HasRowCol</code></td>
+                    <td>Yes</td><td>Yes</td><td>Yes</td>
+                    <td><code class="ic">tuple[int, int]</code></td>
+                    <td>Grid cells, 2D positions</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">HasRowsCols</code></td>
+                    <td>Yes</td><td>Yes</td><td>Yes</td>
+                    <td><code class="ic">tuple[int, int]</code></td>
+                    <td>Grid/matrix dimensions</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">HasChildren</code></td>
+                    <td>No</td><td>No</td><td>No</td>
+                    <td>&mdash;</td>
+                    <td>Tree nodes, containers</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">HasParent</code></td>
+                    <td>No</td><td>No</td><td>No</td>
+                    <td>&mdash;</td>
+                    <td>Tree nodes, path traversal</td>
+                </tr>
+            </table>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Dependencies -->
+<section id="deps">
+    <h2>F. Dependencies</h2>
+    <table>
+        <tr><th>#</th><th>Import</th><th>Category</th><th>Used By</th><th>Used For</th></tr>
+        <tr>
+            <td>1</td>
+            <td><code class="ic">f_core.mixins.comparable.Comparable</code></td>
+            <td><span class="badge badge-internal">internal</span></td>
+            <td>HasKey, HasRowCol, HasRowsCols</td>
+            <td>Ordering operators via key</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td><code class="ic">f_core.mixins.hashable.Hashable</code></td>
+            <td><span class="badge badge-internal">internal</span></td>
+            <td>HasKey, HasRowCol, HasRowsCols</td>
+            <td>Hash via key</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td><code class="ic">f_core.protocols.rect_like.RectLike</code></td>
+            <td><span class="badge badge-internal">internal</span></td>
+            <td>HasRowCol</td>
+            <td>Protocol for bounds checking</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td><code class="ic">typing.Generic, TypeVar</code></td>
+            <td><span class="badge badge-stdlib">stdlib</span></td>
+            <td>HasKey</td>
+            <td>Generic key type parameterization</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td><code class="ic">typing.Self</code></td>
+            <td><span class="badge badge-stdlib">stdlib</span></td>
+            <td>HasChildren, HasParent, HasRowCol</td>
+            <td>Self-referencing type annotations</td>
+        </tr>
+    </table>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Examples -->
+<section id="examples">
+    <h2>G. Usage Examples</h2>
+
+    <details open>
+        <summary>Identity via Key</summary>
+        <div class="inner">
+            <pre><code>from f_core.mixins.has.key import HasKey
+
+a = HasKey[str](key='A')
+b = HasKey[str](key='B')
+
+print(a.key)       # 'A'
+print(str(a))      # 'A'
+print(repr(a))     # '&lt;HasKey: Key=A&gt;'
+print(a &lt; b)       # True
+print(a == HasKey[str](key='A'))  # True
+print(hash(a))     # hash('A')</code></pre>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Name Property</summary>
+        <div class="inner">
+            <pre><code>from f_core.mixins.has.name import HasName
+
+obj = HasName(name='MyObject')
+print(str(obj))    # 'MyObject'
+print(repr(obj))   # '&lt;HasName: Name=MyObject&gt;'
+
+empty = HasName()
+print(str(empty))  # 'NoName'</code></pre>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Grid Positioning (HasRowCol)</summary>
+        <div class="inner">
+            <pre><code>from f_core.mixins.has.row_col import HasRowCol
+
+cell = HasRowCol(row=1, col=2)
+print(cell)                     # (1,2)
+print(cell.neighbors())        # [(0,2), (1,3), (2,2), (1,1)]
+print(cell.distance(HasRowCol(3, 4)))  # 4
+
+# Comparison and hashing
+a = HasRowCol(0, 0)
+b = HasRowCol(1, 1)
+print(a &lt; b)                   # True
+print({a, b, HasRowCol(0, 0)}) # {(0,0), (1,1)}</code></pre>
+        </div>
+    </details>
+
+    <details>
+        <summary>Shape Dimensions (HasRowsCols)</summary>
+        <div class="inner">
+            <pre><code>from f_core.mixins.has.rows_cols import HasRowsCols
+
+grid = HasRowsCols(rows=3, cols=4)
+print(grid.shape())             # '(3,4)'
+print(len(grid))                # 12
+print(grid.is_within(2, 3))     # True
+print(grid.is_within(3, 4))     # False
+
+square = HasRowsCols(rows=5)    # cols defaults to 5
+print(square.shape())           # '(5,5)'</code></pre>
+        </div>
+    </details>
+
+    <details>
+        <summary>Parent-Child Trees</summary>
+        <div class="inner">
+            <pre><code>from f_core.mixins.has.parent import HasParent
+from f_core.mixins.has.children import HasChildren
+
+# Parent chain
+a = HasParent.Factory.a()       # ParentWithName(name='A')
+b = HasParent.Factory.b()       # ParentWithName(name='B', parent=a)
+print(b.parent.name)            # 'A'
+print(len(b.path_from_root()))  # 2  (a -&gt; b)
+
+# Children list
+parent = HasChildren()
+parent.add_child(child=HasChildren())
+parent.add_child(child=HasChildren())
+print(len(parent.children))     # 2</code></pre>
+        </div>
+    </details>
+
+    <details>
+        <summary>Mixin Composition</summary>
+        <div class="inner">
+            <pre><code>from f_core.mixins.has.name import HasName
+from f_core.mixins.has.row_col import HasRowCol
+
+class Cell(HasRowCol, HasName):
+    def __init__(self, row: int, col: int, name: str) -> None:
+        HasRowCol.__init__(self, row=row, col=col)
+        HasName.__init__(self, name=name)
+
+cell = Cell(row=1, col=2, name='Start')
+print(cell.name)       # 'Start'
+print(cell.row)        # 1
+print(cell.key)        # (1, 2) — from HasRowCol</code></pre>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+</main>
+</div>
+
+<footer>
+    <ol>
+        <li>Generated: 2026-03-06</li>
+        <li>Scope: <code class="ic">f_core.mixins.has</code> (6 modules: children, key, name, parent, row_col, rows_cols)</li>
+    </ol>
+</footer>
+
+<script>
+function filterSections(query) {
+    const q = query.toLowerCase();
+    document.querySelectorAll('main details').forEach(d => {
+        d.style.display = d.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+}
+</script>
+
+</body>
+</html>

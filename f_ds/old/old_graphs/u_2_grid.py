@@ -23,7 +23,7 @@ class UGraphGrid(Generic[Node]):
          Return a generated GraphGrid by received parameters.
         ========================================================================
         """
-        grid = UGrid.gen(rows=rows, cols=cols, pct_valid=pct_valid)
+        grid = UGrid.without_header(rows=rows, cols=cols, pct_valid=pct_valid)
         return GraphGrid(grid=grid, name=name, type_node=type_node)
 
     @staticmethod

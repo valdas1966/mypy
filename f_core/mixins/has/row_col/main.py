@@ -85,7 +85,10 @@ class HasRowCol(Comparable, Hashable):
         ========================================================================
         """
         if rect:
-            row_min, col_min, row_max, col_max = rect.to_min_max()
+            row_min, col_min, row_max, col_max = rect.to_rect_coords()
+        if any(v is None for v in (row_min, col_min, row_max, col_max)):
+            raise ValueError('Provide rect or all of row_min, col_min, '
+                             'row_max, col_max')
         row_valid: bool = row_min <= self.row <= row_max
         col_valid: bool = col_min <= self.col <= col_max
         return row_valid and col_valid

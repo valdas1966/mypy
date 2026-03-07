@@ -79,7 +79,7 @@ class Rect(Shape, Generic[T]):
         """
         return self.top, self.left, self.width, self.height
 
-    def to_min_max(self) -> tuple[T, T, T, T]:
+    def to_rect_coords(self) -> tuple[T, T, T, T]:
         """
         ========================================================================
          Return the X-Min, Y-Min, X-Max, Y-Max values as a tuple.

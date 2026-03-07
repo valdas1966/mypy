@@ -57,7 +57,7 @@ class BarStacked(Chart):
             bar = plt.bar(x,
                           values[i],
                           bottom=bottom,
-                          color=self._d_stack[label].to_tuple(),
+                          color=self._d_stack[label].to.tuple(),
                           label=label)
             bottom += values[i]
             bars.append(bar)

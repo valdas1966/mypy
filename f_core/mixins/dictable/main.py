@@ -15,7 +15,7 @@ class Dictable(Sizable, Generic[K, V]):
     # Factory
     Factory: type = None
 
-    def __init__(self, data: dict[K, V] = None) -> None:
+    def __init__(self, data: dict[K, V] | None = None) -> None:
         """
         ========================================================================
          Initialize the internal dictionary.
@@ -47,7 +47,7 @@ class Dictable(Sizable, Generic[K, V]):
         """
         return list(self._data.items())
     
-    def get(self, key: K, default: V = None) -> V | None:
+    def get(self, key: K, default: V | None = None) -> V | None:
         """
         ========================================================================
          Get an item by key.

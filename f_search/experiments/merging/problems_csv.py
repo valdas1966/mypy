@@ -145,7 +145,7 @@ def problems_to_csv(problems: list[Problem],
         writer.writeheader()
 
         for i, problem in enumerate(problems):
-            grid_name = problem.grid if isinstance(problem.grid, str) else problem.grid.name
+            grid_name = problem.name_grid
             grid = grids[grid_name]
             row = problem_to_row(problem, grid)
             writer.writerow(row)

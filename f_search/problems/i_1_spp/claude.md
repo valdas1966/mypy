@@ -1,180 +1,135 @@
 # ProblemSPP - One-to-One Shortest Path Problem
 
-## Main Class
-`ProblemSPP(ProblemSearch, HasStart, HasGoal)`
-
-## Inheritance
-- **Base Classes:**
-  - `ProblemSearch` - Grid-based search problem
-  - `HasStart` - Provides start state
-  - `HasGoal` - Provides goal state
-
 ## Purpose
-Defines the One-to-One Shortest Path Problem: finding the optimal path from a single start state to a single goal state on a grid. This is the classic pathfinding problem.
+Defines a one-to-one shortest path problem on a grid: find the optimal path from a single start state to a single goal state. Composes grid search functionality with start and goal mixins. Supports pickling (grid excluded) and reversing (start/goal swap).
 
-## Functionality from Base Classes
+## Public API
 
-### From ProblemSearch
-- `grid` property - Access to GridMap
-- `successors(state)` - Generate neighbor states
-
-### From HasStart
-- `start` property - Access to start state
-- `_start` attribute - Start state storage
-
-### From HasGoal
-- `goal` property - Access to goal state
-- `_goal` attribute - Goal state storage
-
-## Specialized Functionality
-
-### Constructor (`__init__`)
-**Parameters:**
-- **grid**: `Grid` - The 2D grid map
-- **start**: `StateBase` - The start state
-- **goal**: `StateBase` - The goal state
-
-**Implementation:**
+### Constructor
 ```python
-ProblemSearch.__init__(self, grid=grid)
-HasStart.__init__(self, start=start)
-HasGoal.__init__(self, goal=goal)
+def __init__(self,
+             grid: Grid,
+             start: State,
+             goal: State,
+             name: str = 'ProblemSPP') -> None:
 ```
+Initializes grid (via ProblemSearch), start (via HasStart), and goal (via HasGoal).
 
-**Initializes:**
-1. Grid search space (via ProblemSearch)
-2. Start state (via HasStart)
-3. Goal state (via HasGoal)
+### `h_start -> int` (property)
+Returns the Manhattan distance between start and goal states. Delegates to `self.start.distance(other=self.goal)`.
 
-## Problem Specification
+### `norm_h_start -> float` (property)
+Returns the normalized distance in [0, 100]. Formula: `h_start / (rows + cols - 2) * 100`. Returns 0.0 for trivial grids.
 
-### Complete Definition
-A ProblemSPP fully specifies a pathfinding problem:
-1. **Search Space**: GridMap with obstacles
-2. **Initial StateBase**: Single start state
-3. **Goal Condition**: Reach specific goal state
-4. **Actions**: Move to neighboring cells
-5. **Objective**: Find optimal (shortest) path
+### `to_analytics(self) -> dict` (overrides ProblemSearch)
+Extends base dict with `h_start` (int) and `norm_h_start` (float). Inherited keys: `domain`, `map`, `rows`, `cols`, `cells`.
 
-### Problem Instance
+### `reverse(name: str = None) -> Self`
+Returns a new ProblemSPP with start and goal swapped. Same grid reference. Uses `name` if provided, otherwise keeps the current name.
+
+### Inherited from ProblemSearch
 ```python
-problem = ProblemSPP(
-    grid=grid_map,
-    start=StateBase(key=(0, 0)),
-    goal=StateBase(key=(10, 10))
-)
+@property
+def grid(self) -> Grid:
 ```
-
-## Mixin Composition
-
-Uses **compositional inheritance** via multiple mixins:
-
-```
-ProblemSPP
-    ├─ ProblemSearch (grid + successors)
-    ├─ HasStart (start property)
-    └─ HasGoal (goal property)
-```
-
-This design provides:
-- Clean separation of concerns
-- Reusable components
-- Flexible composition
-
-## Usage with Algorithms
-
-### Compatible Algorithms
-- **AStar**: Optimal informed search
-- **Dijkstra**: Optimal uninformed search
-- Any `AlgoSPP` subclass
-
-### Algorithm Integration
-```python
-problem = ProblemSPP(grid, start, goal)
-algorithm = AStar(problem=problem)
-solution = algorithm.run()
-```
-
-### Algorithm Queries
-Algorithms interact with problem via:
-- `problem.grid` - Access grid structure
-- `problem.start` - Get initial state
-- `problem.goal` - Get target state
-- `problem.successors(state)` - Get neighbors
-
-## Class Attribute
-- **Factory**: Type reference for factory pattern (set in `__init__.py`)
-
-## Factory Methods
-
-The Factory class provides methods for creating test problems:
-- `Factory.without_obstacles()` - Empty grid problems
-- `Factory.with_obstacles()` - Problems with obstacles
-- Other test case generators
-
-## Relationship to Other Components
-
-- **Algorithms**: `AlgoSPP` (AStar, Dijkstra)
-- **Solutions**: `SolutionSPP` (single path)
-- **Grid**: `GridMap` (search space)
-- **States**: `StateBase` (start, goal, path nodes)
-
-## Comparison with ProblemOMSPP
-
-| Aspect | ProblemSPP | ProblemOMSPP |
-|--------|-------------|-------------|
-| **Goals** | Single | Multiple |
-| **Mixin** | HasGoal | HasGoals |
-| **Property** | goal (StateBase) | goals (set[StateBase]) |
-| **Algorithms** | AStar, Dijkstra | KxAStar |
-| **Solutions** | SolutionSPP | SolutionOMSPP |
-| **Complexity** | Simpler | More complex |
-
-## Problem Invariants
-
-Valid ProblemSPP instances satisfy:
-1. Start state is valid (not obstacle, within bounds)
-2. Goal state is valid (not obstacle, within bounds)
-3. Grid is properly formed
-4. Start and goal are reachable (not guaranteed, but typical)
-
-## Example Usage
+Returns the grid. Raises `ValueError` if grid was excluded during pickling and not yet reloaded.
 
 ```python
-from f_ds.grids import GridMap
-from f_search.ds import StateBase
-from f_search.problems import ProblemSPP
-from f_search.algos import AStar
+@property
+def name_grid(self) -> str:
+```
+Returns the grid's name string.
 
-# Create grid
-grid = GridMap(width=20, height=20)
+```python
+def successors(self, state: State) -> list[State]:
+```
+Returns valid neighbor states from the grid.
 
-# Define start and goal
-start = StateBase(key=(0, 0))
-goal = StateBase(key=(19, 19))
+```python
+def load_grid(self, grids: dict[str, Grid]) -> None:
+```
+Reloads the grid from a name-keyed dictionary after unpickling.
 
-# Create problem
+```python
+def __getstate__(self) -> dict:
+```
+Excludes the heavy grid from pickle serialization.
+
+### Inherited from HasStart
+```python
+@property
+def start(self) -> State:
+```
+Returns the start state.
+
+### Inherited from HasGoal
+```python
+@property
+def goal(self) -> State:
+```
+Returns the goal state.
+
+### Class Attribute
+```python
+Factory: type = None
+```
+Wired to the Factory class in `__init__.py`.
+
+## Inheritance (Hierarchy)
+
+```
+ProblemAlgo
+  └── ProblemSearch          (grid, successors, __getstate__, load_grid)
+        └── ProblemSPP       (+ HasStart + HasGoal, reverse)
+```
+
+| Base | Responsibility |
+|------|----------------|
+| `ProblemAlgo` | Generic algorithm problem interface |
+| `ProblemSearch` | Grid storage, successor generation, pickle support |
+| `HasStart` | Single start state property |
+| `HasGoal` | Single goal state property |
+
+## Dependencies
+
+| Import | Purpose |
+|--------|---------|
+| `f_search.problems.ProblemSearch` | Base class for grid search problems |
+| `f_search.ds.state.StateCell` (as `State`) | State representation wrapping grid cells |
+| `f_ds.grids.GridMap` (as `Grid`) | 2D grid map defining the search space |
+| `f_search.problems.mixins.HasStart` | Mixin providing start state |
+| `f_search.problems.mixins.HasGoal` | Mixin providing goal state |
+| `typing.Self` | Return type for reverse() |
+
+## Usage Examples
+
+### Create via Factory
+```python
+from f_search.problems.i_1_spp import ProblemSPP
+
+problem = ProblemSPP.Factory.without_obstacles()
+print(problem.start)   # State at grid[0][0]
+print(problem.goal)    # State at grid[0][3]
+print(problem.grid)    # 4x4 GridMap
+```
+
+### Reverse a Problem
+```python
+problem = ProblemSPP.Factory.without_obstacles()
+reversed_problem = problem.reverse(name='Reversed')
+assert reversed_problem.start == problem.goal
+assert reversed_problem.goal == problem.start
+assert reversed_problem.grid is problem.grid
+```
+
+### Manual Construction
+```python
+from f_ds.grids import GridMap as Grid
+from f_search.ds.state import StateCell as State
+from f_search.problems.i_1_spp import ProblemSPP
+
+grid = Grid.Factory.four_without_obstacles()
+start = State(key=grid[0][0])
+goal = State(key=grid[0][3])
 problem = ProblemSPP(grid=grid, start=start, goal=goal)
-
-# Solve with A*
-astar = AStar(problem=problem)
-solution = astar.run()
-
-if solution.is_valid:
-    path = solution.path
-    print(f"Path found: {path}")
 ```
-
-## Design Rationale
-
-### Why Separate SPP?
-- Type safety: Algorithms can require specific problem type
-- Clarity: Distinct from multi-goal problems
-- Optimization: Algorithms can exploit single-goal structure
-- Simplicity: Simpler interface than multi-goal
-
-### Why Use Mixins?
-- Reusability: HasStart/HasGoal used by multiple problem types
-- Composition: Flexible feature combination
-- Single Responsibility: Each mixin has one purpose
-- Extensibility: Easy to add new mixins (e.g., HasConstraints)

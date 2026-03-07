@@ -27,7 +27,9 @@ Every class module contains a subset of these files:
 | `_factory.py` | If testable | Factory class for creating common instances |
 | `_tester.py` | If testable | pytest unit tests |
 | `_study.py` | No | Exploratory / research scripts |
-| `CLAUDE.md` | No | Module-specific docs for Claude Code |
+| `CLAUDE.md` | Yes | Module-specific docs for Claude Code |
+| `CLAUDE.html` | Yes | Dark-themed HTML docs with TOC/search |
+| `CLAUDE_REVIEW.html` | Yes | Code + design review (10 sections) |
 
 Files prefixed with `_` are internal/private and not imported externally.
 
@@ -269,3 +271,34 @@ Never put logic in `__init__.py`.
 - Logging: loguru
 - No linter config — follows PEP 8 by convention
 - Package name: `MyPy`
+
+---
+
+## CLAUDE Documentation Rule
+
+Every code change MUST update the 3 CLAUDE files in each folder that contains at least one changed file:
+1. `CLAUDE.md` — markdown documentation
+2. `CLAUDE.html` — dark-themed HTML documentation
+3. `CLAUDE_REVIEW.html` — code + design review
+
+If these files do not exist in the folder, create them.
+
+### Scope: Which folders get CLAUDE files
+CLAUDE files are required **only** for folders containing class modules or utility modules:
+- `main.py`, `__init__.py`, `_factory.py`, `_tester.py` — class modules
+- `u_*.py` — utility modules
+- `c_*.py` — component/service wrappers
+
+CLAUDE files are **NOT** required for folders that only contain scripts:
+- `_study.py`, `s_*.py` — study / exploratory scripts
+- `experiments/`, `benchmark/`, `scripts/` — experiment folders
+- `study/` — research folders
+
+### Instructions
+Follow the templates in `f_claude/instructions/`:
+- `for_claude_md.md` — instructions for generating `CLAUDE.md`
+- `for_claude_html.md` — instructions for generating `CLAUDE.html`
+- `for_claude_review.md` — instructions for generating `CLAUDE_REVIEW.html`
+
+### Review suggestions
+Suggestions from `CLAUDE_REVIEW.html` must be presented as a plan first. Only apply after explicit user approval.

@@ -1,151 +1,67 @@
 # SolutionSearch - Base Solution for Search Problems
 
-## Main Class
-`SolutionSearch[Stats](Generic[Stats], SolutionAlgo[Stats])`
-
-## Inheritance
-- **Base Classes:**
-  - `Generic[Stats]` - Generic type parameter
-  - `SolutionAlgo[Stats]` - Generic solution interface from f_cs
-
-- **Type Parameter:**
-  - `Stats` bounded to `StatsSearch`
-
 ## Purpose
-Provides the foundational structure for all search algorithm solutions. Defines the core components that every solution must have: validity status and performance statistics.
+Base solution class for all search algorithm results. Stores the algorithm name, problem reference, validity status, and performance statistics. The problem is stored as-is; pickle exclusion of heavy data (e.g., grid) is handled by the problem's own `__getstate__`.
 
-## Functionality from Base Classes
+## Public API
 
-### From SolutionAlgo
-- Generic solution interface
-- Solution lifecycle management
-- Base structure for algorithm results
+### `__init__(self, name_algo: str, problem: Problem, is_valid: bool, stats: Stats) -> None`
+Delegates to `SolutionAlgo.__init__` with all four parameters.
 
-## Specialized Functionality
+### `name_algo` (property) -> `str`
+Returns the algorithm's name (inherited from `SolutionAlgo`).
 
-### Constructor (`__init__`)
-**Parameters:**
-- **is_valid**: `bool` - Whether the solution is valid (goal(s) reached)
-- **stats**: `Stats` - Statistics object tracking performance
+### `problem` (property) -> `Problem`
+Returns the problem instance stored as-is (inherited from `SolutionAlgo`).
 
-**Implementation:**
-```python
-SolutionAlgo.__init__(self, is_valid=is_valid, stats=stats)
+### `stats` (property) -> `Stats`
+Returns the statistics object (inherited from `SolutionAlgo`).
+
+### `is_valid` (property) -> `bool`
+Returns whether the solution is valid (inherited from `Validatable` via `SolutionAlgo`).
+
+## Inheritance (Hierarchy)
+
+```
+Validatable
+  └── SolutionAlgo[Problem, Stats]
+        └── SolutionSearch[Problem, Stats]
 ```
 
-**Initializes:**
-1. Validity flag (via SolutionAlgo)
-2. Statistics object (via SolutionAlgo)
+| Base | Responsibility |
+|------|---------------|
+| `Validatable` | `is_valid` property and `__bool__` support |
+| `SolutionAlgo[Problem, Stats]` | `name_algo`, `problem`, `stats` storage and properties |
+| `SolutionSearch[Problem, Stats]` | Binds type bounds to `ProblemSearch` and `StatsSearch` |
 
-## Core Components
+### Type Parameters
+- `Problem` bounded to `ProblemSearch`
+- `Stats` bounded to `StatsSearch`
 
-### Validity Flag (`is_valid`)
-**Type:** `bool`
+## Dependencies
 
-**Meaning:**
-- `True`: Algorithm succeeded, goal(s) reached
-- `False`: Algorithm failed, no valid path found
+| Import | Used For |
+|--------|----------|
+| `f_cs.solution.SolutionAlgo` | Direct parent class |
+| `f_search.problems.ProblemSearch` | Type bound for `Problem` |
+| `f_search.stats.StatsSearch` | Type bound for `Stats` |
+| `typing.Generic`, `TypeVar` | Generic type parameterization |
 
-**Inherited from:** SolutionAlgo
-
-**Usage:**
-```python
-if solution.is_valid:
-    # Process successful solution
-else:
-    # Handle failure
-```
-
-### Statistics Object (`stats`)
-**Type:** `Stats` (generic, bounded to `StatsSearch`)
-
-**Contains:** Performance metrics from algorithm execution
-
-**Inherited from:** SolutionAlgo
-
-**Usage:**
-```python
-print(f"Generated: {solution.stats.generated}")
-print(f"Explored: {solution.stats.explored}")
-print(f"Time: {solution.stats.elapsed}s")
-```
-
-## Generic Type System
-
-### Type Parameter: Stats
-Bounded to `StatsSearch`, allows specialization:
-- `SolutionSPP` uses `StatsSPP`
-- `SolutionOMSPP` uses `StatsOMSPP`
-- Future solutions can use custom stats
-
-**Benefits:**
-- Type safety: Correct stats type guaranteed
-- Flexibility: Different problems can have different stats
-- Extensibility: Easy to add new stats types
-
-## Template for Specialization
-
-SolutionSearch provides minimal base:
-- Validity flag
-- Statistics object
-- Nothing more
-
-Subclasses add problem-specific components:
-- SPP: adds `path` (single Path)
-- OMSPP: adds `paths` (dict[StateBase, Path])
-
-## Design Philosophy
-
-### Minimal Base Class
-Provides only essential components:
-- Is the solution valid?
-- What were the performance metrics?
-
-Leaves path/result structure to subclasses.
-
-### Separation of Concerns
-- **SolutionSearch**: Validity + Statistics (generic)
-- **SolutionSPP**: + Single path (SPP-specific)
-- **SolutionOMSPP**: + Multiple paths (OMSPP-specific)
-
-### Immutability
-Solutions are immutable after creation:
-- Represents final algorithm result
-- No methods to modify validity or stats
-- Safe to share and cache
-
-## Relationship to Other Classes
-
-- **SolutionAlgo**: Base interface (from f_cs)
-- **StatsSearch**: Statistics base class
-- **SolutionSPP/OMSPP**: Concrete solution types
-- **Algorithms**: Produce solutions
-
-## Usage Context
-
-- **Direct instantiation**: Not typical (too generic, no paths)
-- **Specialization**: Extended by SolutionSPP, SolutionOMSPP
-- **Role in hierarchy**: Root solution class for search problems
-
-## Extension Pattern
-
-To create a new solution type:
+## Usage Example
 
 ```python
-class SolutionNewType(SolutionSearch[StatsNewType]):
-    def __init__(self, is_valid, stats, additional_data):
-        SolutionSearch.__init__(self, is_valid=is_valid, stats=stats)
-        self._additional_data = additional_data
+from f_search.solutions.i_0_base import SolutionSearch
+from f_search.stats import StatsSearch
 
-    @property
-    def additional_data(self):
-        return self._additional_data
+# Via Factory
+valid = SolutionSearch.Factory.zero_valid()
+invalid = SolutionSearch.Factory.zero_invalid()
+
+# Check result
+if valid.is_valid:
+    print(f"Algo: {valid.name_algo}")
+    print(f"Explored: {valid.stats.explored}")
 ```
 
-## Key Properties
-
-1. **Generic base**: Works with any StatsSearch subclass
-2. **Minimal interface**: Only validity and statistics
-3. **Template pattern**: Subclasses add specific data
-4. **Type safe**: Generic parameter ensures stats type correctness
-5. **Immutable**: No modification after creation
+### Key Design Note
+`SolutionSearch.__init__` stores the problem as-is (no `to_light()` call). The problem's `__getstate__` method handles excluding heavy data (like the grid) during pickle serialization.

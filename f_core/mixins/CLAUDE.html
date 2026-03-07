@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mixins Package — Documentation</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+header {
+    background: var(--panel);
+    padding: 2rem 3rem;
+    border-bottom: 2px solid var(--accent2);
+}
+header h1 { color: #fff; font-size: 2.2rem; margin-bottom: 0.3rem; }
+header h1 span { color: var(--accent2); }
+.path { color: var(--faint); font-family: monospace; font-size: 0.9rem; }
+.container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 2rem;
+    padding: 2rem 3rem;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+.toc {
+    position: sticky;
+    top: 1rem;
+    height: fit-content;
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 1.25rem;
+    border: 2px solid var(--border);
+}
+.toc h3 { color: var(--accent2); font-size: 1rem; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
+.toc ul { list-style: none; }
+.toc li { margin-bottom: 0.4rem; }
+.toc a { color: var(--faint); display: block; padding: 0.3rem 0.5rem; border-radius: 4px; font-size: 0.85rem; transition: all 0.15s; }
+.toc a:hover { color: var(--accent2); background: rgba(167, 139, 250, 0.1); text-decoration: none; }
+.toc .sub { padding-left: 1rem; font-size: 0.8rem; }
+.toc .ext { margin-top: 0.75rem; padding-top: 0.5rem; border-top: 2px solid var(--border); }
+.toc .ext a { color: var(--accent2); }
+.search-box {
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+}
+.search-box:focus { outline: 2px solid var(--accent2); border-color: var(--accent2); }
+.search-box::placeholder { color: var(--faint); }
+main { min-width: 0; }
+section {
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 2px solid var(--border);
+}
+section h2 { color: #fff; font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--border); }
+ol { padding-left: 1.5rem; margin: 0.5rem 0; }
+li { margin-bottom: 0.5rem; color: var(--muted); }
+li strong { color: var(--text); }
+details {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin: 0.75rem 0;
+}
+details summary { padding: 0.75rem 1rem; cursor: pointer; color: var(--text); font-weight: 600; font-size: 0.95rem; user-select: none; }
+details summary:hover { color: var(--accent2); }
+details summary:focus-visible { outline: 2px solid var(--accent2); outline-offset: -2px; }
+details[open] summary { border-bottom: 1px solid var(--border); }
+details .inner { padding: 1rem; }
+pre {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 0.75rem 0;
+}
+code { font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace; font-size: 0.9rem; color: var(--text); }
+pre code { display: block; line-height: 1.5; }
+.ic { background: var(--panel2); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.85rem; }
+table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; }
+th, td { padding: 0.6rem 0.75rem; text-align: left; border: 1px solid var(--border); }
+th { background: var(--panel2); color: #fff; font-weight: 600; font-size: 0.9rem; }
+td { background: var(--panel); color: var(--muted); font-size: 0.9rem; }
+.badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.75rem; font-weight: 600; }
+.badge-internal { background: rgba(96, 165, 250, 0.2); color: var(--accent); }
+.badge-stdlib { background: rgba(52, 211, 153, 0.2); color: var(--good); }
+.back-top { display: block; text-align: right; font-size: 0.8rem; color: var(--faint); margin-top: 0.75rem; }
+.back-top:hover { color: var(--accent2); }
+footer { margin: 2rem 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); color: var(--faint); font-size: 0.85rem; }
+@media (max-width: 768px) {
+    .container { grid-template-columns: 1fr; padding: 1rem; }
+    .toc { position: static; margin-bottom: 1rem; }
+    header { padding: 1.5rem; }
+    footer { margin: 1.5rem 1rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1><span>Mixins</span> Package</h1>
+    <div class="path">f_core / mixins</div>
+</header>
+
+<div class="container">
+<nav class="toc">
+    <h3>Contents</h3>
+    <input type="text" class="search-box" placeholder="Search..." oninput="filterSections(this.value)">
+    <ul>
+        <li><a href="#purpose">Purpose</a></li>
+        <li><a href="#modules">Modules</a></li>
+        <li><a href="#api">Package Exports</a></li>
+        <li><a href="#hierarchy">Hierarchy</a></li>
+        <li><a href="#comparison">Comparison</a></li>
+        <li><a href="#deps">Dependencies</a></li>
+        <li><a href="#examples">Examples</a></li>
+        <li class="ext"><a href="equatable/CLAUDE.html">Equatable</a></li>
+        <li class="ext"><a href="comparable/CLAUDE.html">Comparable</a></li>
+        <li class="ext"><a href="hashable/CLAUDE.html">Hashable</a></li>
+        <li class="ext"><a href="sizable/claude.html">Sizable</a></li>
+        <li class="ext"><a href="dictable/CLAUDE.html">Dictable</a></li>
+        <li class="ext"><a href="validatable/claude.html">Validatable</a></li>
+        <li class="ext"><a href="validatable_mutable/CLAUDE.html">ValidatableMutable</a></li>
+        <li class="ext"><a href="has/CLAUDE.html">Has* Mixins</a></li>
+    </ul>
+</nav>
+
+<main>
+
+<!-- Purpose -->
+<section id="purpose">
+    <h2>A. Purpose</h2>
+    <ol>
+        <li><strong>Library of 13 composable mixin classes</strong> that inject standard behaviors via multiple inheritance.</li>
+        <li>Three categories: <strong>equality/ordering</strong> (Equatable, Comparable, Hashable), <strong>size/validity</strong> (Sizable, Dictable, Validatable), <strong>property injection</strong> (Has* mixins).</li>
+        <li>Designed for composition &mdash; mix any combination into a single domain class.</li>
+    </ol>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Modules -->
+<section id="modules">
+    <h2>B. Modules</h2>
+
+    <details open>
+        <summary>Module Map</summary>
+        <div class="inner">
+            <pre><code>f_core/mixins/
+├── __init__.py                 re-exports 10 classes
+├── equatable/                  Equatable — __eq__ via abstract key
+├── comparable/                 Comparable — __lt__, __le__, __gt__, __ge__
+├── hashable/                   Hashable — __hash__ via key
+├── sizable/                    Sizable — __len__ + __bool__
+├── dictable/                   Dictable[K, V] — dict-like wrapper
+├── validatable/                Validatable — immutable __bool__
+├── validatable_mutable/        ValidatableMutable — mutable validity
+└── has/                        Has* property mixins (6 submodules)
+    ├── children/               HasChildren — children list
+    ├── key/                    HasKey[Key] — generic typed key
+    ├── name/                   HasName — string name
+    ├── parent/                 HasParent — parent reference
+    ├── row_col/                HasRowCol — 2D cell position
+    └── rows_cols/              HasRowsCols — 2D dimensions</code></pre>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Module Summary</summary>
+        <div class="inner">
+            <table>
+                <tr><th>Module</th><th>Class</th><th>Bases</th><th>Key Capability</th></tr>
+                <tr>
+                    <td><code class="ic">equatable</code></td>
+                    <td><code class="ic">Equatable</code></td>
+                    <td><code class="ic">SupportsEquality</code></td>
+                    <td><code class="ic">__eq__</code> via abstract <code class="ic">key</code></td>
+                </tr>
+                <tr>
+                    <td><code class="ic">comparable</code></td>
+                    <td><code class="ic">Comparable</code></td>
+                    <td><code class="ic">Equatable</code>, <code class="ic">SupportsComparison</code></td>
+                    <td><code class="ic">__lt__</code>, <code class="ic">__le__</code>, <code class="ic">__gt__</code>, <code class="ic">__ge__</code></td>
+                </tr>
+                <tr>
+                    <td><code class="ic">hashable</code></td>
+                    <td><code class="ic">Hashable</code></td>
+                    <td><code class="ic">Equatable</code></td>
+                    <td><code class="ic">__hash__</code> via <code class="ic">key</code></td>
+                </tr>
+                <tr>
+                    <td><code class="ic">sizable</code></td>
+                    <td><code class="ic">Sizable</code></td>
+                    <td><code class="ic">Sized</code></td>
+                    <td>Abstract <code class="ic">__len__</code>, concrete <code class="ic">__bool__</code></td>
+                </tr>
+                <tr>
+                    <td><code class="ic">dictable</code></td>
+                    <td><code class="ic">Dictable[K, V]</code></td>
+                    <td><code class="ic">Sizable</code>, <code class="ic">Generic[K, V]</code></td>
+                    <td>Dict wrapper with full dict API</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">validatable</code></td>
+                    <td><code class="ic">Validatable</code></td>
+                    <td>(none)</td>
+                    <td>Immutable <code class="ic">__bool__</code> from constructor</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">validatable_mutable</code></td>
+                    <td><code class="ic">ValidatableMutable</code></td>
+                    <td><code class="ic">Validatable</code></td>
+                    <td><code class="ic">set_valid()</code>, <code class="ic">set_invalid()</code></td>
+                </tr>
+                <tr>
+                    <td><code class="ic">has/key</code></td>
+                    <td><code class="ic">HasKey[Key]</code></td>
+                    <td><code class="ic">Comparable</code>, <code class="ic">Hashable</code></td>
+                    <td>Generic typed key identity</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">has/name</code></td>
+                    <td><code class="ic">HasName</code></td>
+                    <td>(none)</td>
+                    <td>String name + <code class="ic">str()</code>/<code class="ic">repr()</code></td>
+                </tr>
+                <tr>
+                    <td><code class="ic">has/row_col</code></td>
+                    <td><code class="ic">HasRowCol</code></td>
+                    <td><code class="ic">Comparable</code>, <code class="ic">Hashable</code></td>
+                    <td>Position, neighbors, distance, bounds</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">has/rows_cols</code></td>
+                    <td><code class="ic">HasRowsCols</code></td>
+                    <td><code class="ic">Comparable</code>, <code class="ic">Hashable</code></td>
+                    <td>Dimensions, shape, <code class="ic">len()</code>, bounds</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">has/children</code></td>
+                    <td><code class="ic">HasChildren</code></td>
+                    <td>(none)</td>
+                    <td>Children list, <code class="ic">add_child()</code></td>
+                </tr>
+                <tr>
+                    <td><code class="ic">has/parent</code></td>
+                    <td><code class="ic">HasParent</code></td>
+                    <td>(none)</td>
+                    <td>Parent ref, <code class="ic">path_from_root()</code></td>
+                </tr>
+            </table>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Package Exports -->
+<section id="api">
+    <h2>C. Package Exports</h2>
+
+    <details open>
+        <summary>__init__.py</summary>
+        <div class="inner">
+            <pre><code>from f_core.mixins import (
+    Sizable, Dictable, Equatable, Comparable,
+    Validatable, ValidatableMutable,
+    HasKey, HasName, HasRowCol, HasRowsCols
+)</code></pre>
+            <ol>
+                <li><strong>10 classes</strong> re-exported from the package <code class="ic">__init__.py</code>.</li>
+                <li><code class="ic">Hashable</code>, <code class="ic">HasChildren</code>, <code class="ic">HasParent</code> must be imported from their submodules directly.</li>
+            </ol>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Equality / Ordering Mixins</summary>
+        <div class="inner">
+            <pre><code># Equatable — abstract key, concrete __eq__
+@property
+@abstractmethod
+def key(self) -> SupportsEquality
+
+def __eq__(self, other: object) -> bool</code></pre>
+            <ol><li>Identity short-circuit: returns <code class="ic">True</code> if <code class="ic">other is self</code>.</li></ol>
+
+            <pre><code># Comparable — extends Equatable with ordering
+def __lt__(self, other: object) -> bool
+def __le__(self, other: object) -> bool
+def __gt__(self, other: object) -> bool
+def __ge__(self, other: object) -> bool</code></pre>
+            <ol><li>All operators delegate to <code class="ic">self.key</code> vs <code class="ic">other.key</code>.</li></ol>
+
+            <pre><code># Hashable — extends Equatable with hashing
+def __hash__(self) -> int</code></pre>
+            <ol><li>Returns <code class="ic">hash(self.key)</code>. Guarantees <code class="ic">a == b</code> implies <code class="ic">hash(a) == hash(b)</code>.</li></ol>
+        </div>
+    </details>
+
+    <details>
+        <summary>Size / Validity Mixins</summary>
+        <div class="inner">
+            <pre><code># Sizable — abstract __len__, concrete __bool__
+@abstractmethod
+def __len__(self) -> int
+
+def __bool__(self) -> bool  # True if non-empty</code></pre>
+
+            <pre><code># Dictable[K, V] — dict wrapper extending Sizable
+def __init__(self, data: dict[K, V] = None) -> None
+def keys(self) -> list[K]
+def values(self) -> list[V]
+def items(self) -> list[tuple[K, V]]
+def get(self, key: K, default: V = None) -> V | None
+def update(self, data: Self | dict[K, V]) -> None
+def __getitem__(self, key: K) -> V
+def __setitem__(self, key: K, value: V) -> None
+def __contains__(self, key: K) -> bool
+def __len__(self) -> int
+def __iter__(self) -> Iterator[K]
+def __eq__(self, other: object) -> bool</code></pre>
+
+            <pre><code># Validatable — immutable boolean state
+def __init__(self, is_valid: bool) -> None
+def __bool__(self) -> bool
+
+# ValidatableMutable — adds set_valid() / set_invalid()
+def __init__(self, is_valid: bool = False) -> None
+def set_valid(self) -> None
+def set_invalid(self) -> None</code></pre>
+        </div>
+    </details>
+
+    <details>
+        <summary>Has* Property Mixins</summary>
+        <div class="inner">
+            <ol>
+                <li><strong><code class="ic">HasKey[Key]</code></strong> &mdash; generic typed key with comparison, hashing, <code class="ic">str</code>/<code class="ic">repr</code>.</li>
+                <li><strong><code class="ic">HasName</code></strong> &mdash; string <code class="ic">name</code> property with <code class="ic">str</code>/<code class="ic">repr</code>.</li>
+                <li><strong><code class="ic">HasRowCol</code></strong> &mdash; <code class="ic">row</code>/<code class="ic">col</code> position with neighbors, distance, bounds.</li>
+                <li><strong><code class="ic">HasRowsCols</code></strong> &mdash; <code class="ic">rows</code>/<code class="ic">cols</code> dimensions with shape, length, bounds.</li>
+                <li><strong><code class="ic">HasChildren</code></strong> &mdash; children list + <code class="ic">add_child()</code>.</li>
+                <li><strong><code class="ic">HasParent</code></strong> &mdash; parent reference + <code class="ic">path_from_root()</code>.</li>
+            </ol>
+            <ol>
+                <li>See <a href="has/CLAUDE.html">has/CLAUDE.html</a> for full API details.</li>
+            </ol>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Hierarchy -->
+<section id="hierarchy">
+    <h2>D. Inheritance Hierarchy</h2>
+
+    <details open>
+        <summary>Full Inheritance Chain</summary>
+        <div class="inner">
+            <pre><code>SupportsEquality (Protocol)
+ └── Equatable ─── __eq__ via key
+      ├── Comparable (+ SupportsComparison) ─── __lt__, __le__, __gt__, __ge__
+      │    ├── HasKey[Key](+ Hashable) ─── generic key identity
+      │    ├── HasRowCol(+ Hashable) ─── (row, col) position
+      │    └── HasRowsCols(+ Hashable) ─── (rows, cols) dimensions
+      └── Hashable ─── __hash__ via key
+
+Sized (collections.abc)
+ └── Sizable ─── abstract __len__, __bool__
+      └── Dictable[K, V] ─── dict wrapper
+
+Validatable ─── immutable __bool__
+ └── ValidatableMutable ─── set_valid(), set_invalid()
+
+HasChildren ─── standalone (no bases)
+HasName ─── standalone (no bases)
+HasParent ─── standalone (no bases)</code></pre>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Responsibility Table</summary>
+        <div class="inner">
+            <table>
+                <tr><th>#</th><th>Class</th><th>Contract</th></tr>
+                <tr><td>1</td><td><code class="ic">Equatable</code></td><td>Abstract <code class="ic">key</code>, concrete <code class="ic">__eq__</code></td></tr>
+                <tr><td>2</td><td><code class="ic">Comparable</code></td><td>All 4 comparison operators via <code class="ic">key</code></td></tr>
+                <tr><td>3</td><td><code class="ic">Hashable</code></td><td><code class="ic">__hash__</code> via <code class="ic">hash(self.key)</code></td></tr>
+                <tr><td>4</td><td><code class="ic">Sizable</code></td><td>Abstract <code class="ic">__len__</code>, concrete <code class="ic">__bool__</code></td></tr>
+                <tr><td>5</td><td><code class="ic">Dictable</code></td><td>Full dict API over <code class="ic">_data</code></td></tr>
+                <tr><td>6</td><td><code class="ic">Validatable</code></td><td>Immutable <code class="ic">__bool__</code> from constructor</td></tr>
+                <tr><td>7</td><td><code class="ic">ValidatableMutable</code></td><td>Mutable validity state</td></tr>
+                <tr><td>8</td><td><code class="ic">HasKey</code></td><td>Generic typed key identity</td></tr>
+                <tr><td>9</td><td><code class="ic">HasName</code></td><td>String name + str/repr</td></tr>
+                <tr><td>10</td><td><code class="ic">HasRowCol</code></td><td>Position, neighbors, distance, bounds</td></tr>
+                <tr><td>11</td><td><code class="ic">HasRowsCols</code></td><td>Dimensions, shape, length, bounds</td></tr>
+                <tr><td>12</td><td><code class="ic">HasChildren</code></td><td>Mutable children list</td></tr>
+                <tr><td>13</td><td><code class="ic">HasParent</code></td><td>Parent reference, root path</td></tr>
+            </table>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Comparison -->
+<section id="comparison">
+    <h2>E. Class Comparison</h2>
+
+    <details open>
+        <summary>Feature Matrix</summary>
+        <div class="inner">
+            <table>
+                <tr><th>Class</th><th>__eq__</th><th>__lt__</th><th>__hash__</th><th>__len__</th><th>__bool__</th><th>str/repr</th></tr>
+                <tr>
+                    <td><code class="ic">Equatable</code></td>
+                    <td>Yes</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">Comparable</code></td>
+                    <td>Yes</td><td>Yes</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">Hashable</code></td>
+                    <td>Yes</td><td>&mdash;</td><td>Yes</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">Sizable</code></td>
+                    <td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>Abstract</td><td>Yes</td><td>&mdash;</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">Dictable</code></td>
+                    <td>Yes</td><td>&mdash;</td><td>&mdash;</td><td>Yes</td><td>Yes</td><td>Yes</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">Validatable</code></td>
+                    <td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>Yes</td><td>&mdash;</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">HasKey</code></td>
+                    <td>Yes</td><td>Yes</td><td>Yes</td><td>&mdash;</td><td>&mdash;</td><td>Yes</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">HasName</code></td>
+                    <td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>Yes</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">HasRowCol</code></td>
+                    <td>Yes</td><td>Yes</td><td>Yes</td><td>&mdash;</td><td>&mdash;</td><td>Yes</td>
+                </tr>
+                <tr>
+                    <td><code class="ic">HasRowsCols</code></td>
+                    <td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>&mdash;</td><td>Yes</td>
+                </tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Decision Guide</summary>
+        <div class="inner">
+            <ol>
+                <li><strong>Need equality only?</strong> Extend <code class="ic">Equatable</code>, implement <code class="ic">key</code>.</li>
+                <li><strong>Need sorting/ordering?</strong> Extend <code class="ic">Comparable</code>.</li>
+                <li><strong>Need sets/dicts?</strong> Extend <code class="ic">Hashable</code> (or <code class="ic">Comparable</code> + <code class="ic">Hashable</code>).</li>
+                <li><strong>Need len/bool?</strong> Extend <code class="ic">Sizable</code>, implement <code class="ic">__len__</code>.</li>
+                <li><strong>Need dict-like access?</strong> Extend <code class="ic">Dictable[K, V]</code>.</li>
+                <li><strong>Need validity flag?</strong> Use <code class="ic">Validatable</code> (immutable) or <code class="ic">ValidatableMutable</code> (mutable).</li>
+                <li><strong>Need identity from a value?</strong> Use <code class="ic">HasKey[Key]</code>.</li>
+                <li><strong>Need named objects?</strong> Use <code class="ic">HasName</code>.</li>
+                <li><strong>Need 2D position?</strong> Use <code class="ic">HasRowCol</code>.</li>
+                <li><strong>Need 2D dimensions?</strong> Use <code class="ic">HasRowsCols</code>.</li>
+            </ol>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Dependencies -->
+<section id="deps">
+    <h2>F. Dependencies</h2>
+    <table>
+        <tr><th>#</th><th>Import</th><th>Category</th><th>Used For</th></tr>
+        <tr>
+            <td>1</td>
+            <td><code class="ic">f_core.protocols.equality.SupportsEquality</code></td>
+            <td><span class="badge badge-internal">internal</span></td>
+            <td>Protocol for <code class="ic">__eq__</code> contract</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td><code class="ic">f_core.protocols.comparison.SupportsComparison</code></td>
+            <td><span class="badge badge-internal">internal</span></td>
+            <td>Protocol for <code class="ic">__lt__</code> contract</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td><code class="ic">f_core.protocols.rect_like.RectLike</code></td>
+            <td><span class="badge badge-internal">internal</span></td>
+            <td>Bounds checking in HasRowCol</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td><code class="ic">collections.abc.Sized</code></td>
+            <td><span class="badge badge-stdlib">stdlib</span></td>
+            <td>ABC for <code class="ic">__len__</code> in Sizable</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td><code class="ic">abc.abstractmethod</code></td>
+            <td><span class="badge badge-stdlib">stdlib</span></td>
+            <td>Abstract methods in Equatable, Comparable, Sizable</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td><code class="ic">typing.Generic, TypeVar, Self, Iterator</code></td>
+            <td><span class="badge badge-stdlib">stdlib</span></td>
+            <td>Generics across Dictable, HasKey, Has* mixins</td>
+        </tr>
+    </table>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Examples -->
+<section id="examples">
+    <h2>G. Usage Examples</h2>
+
+    <details open>
+        <summary>Equality and Comparison</summary>
+        <div class="inner">
+            <pre><code>from f_core.mixins import Comparable
+
+class Score(Comparable):
+    def __init__(self, points: int) -> None:
+        self.points = points
+
+    @property
+    def key(self) -> int:
+        return self.points
+
+s1, s2 = Score(100), Score(150)
+s1 &lt; s2              # True
+s1 == Score(100)      # True
+sorted([Score(50), Score(100), Score(75)])  # [50, 75, 100]</code></pre>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Dict-like Object</summary>
+        <div class="inner">
+            <pre><code>from f_core.mixins import Dictable
+
+d = Dictable(data={'a': 1, 'b': 2})
+d['c'] = 3
+print(len(d))          # 3
+print(bool(d))         # True
+print('a' in d)        # True
+print(d.get('z', 0))   # 0</code></pre>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Mutable Validity</summary>
+        <div class="inner">
+            <pre><code>from f_core.mixins import ValidatableMutable
+
+obj = ValidatableMutable(is_valid=True)
+if obj:                # True
+    obj.set_invalid()
+if not obj:            # True
+    obj.set_valid()</code></pre>
+        </div>
+    </details>
+
+    <details>
+        <summary>Mixin Composition</summary>
+        <div class="inner">
+            <pre><code>from f_core.mixins import HasRowCol, ValidatableMutable
+from f_core.mixins.has.name import HasName
+
+class Cell(HasRowCol, HasName, ValidatableMutable):
+    def __init__(self, row: int, col: int,
+                 name: str, is_valid: bool = True) -> None:
+        HasRowCol.__init__(self, row=row, col=col)
+        HasName.__init__(self, name=name)
+        ValidatableMutable.__init__(self, is_valid=is_valid)
+
+cell = Cell(row=1, col=2, name='Start')
+print(cell.name)       # 'Start'
+print(cell.key)        # (1, 2)
+print(bool(cell))      # True
+cell.set_invalid()
+print(bool(cell))      # False</code></pre>
+        </div>
+    </details>
+
+    <details>
+        <summary>Named Identity</summary>
+        <div class="inner">
+            <pre><code>from f_core.mixins.has.key import HasKey
+
+a = HasKey[str](key='A')
+b = HasKey[str](key='B')
+
+print(a &lt; b)          # True
+print(hash(a))         # hash('A')
+print({a, b, HasKey[str](key='A')})  # {A, B}</code></pre>
+        </div>
+    </details>
+    <a href="#" class="back-top">Back to top</a>
+</section>
+
+</main>
+</div>
+
+<footer>
+    <ol>
+        <li>Generated: 2026-03-06</li>
+        <li>Scope: <code class="ic">f_core.mixins</code> (8 submodules, 13 classes total)</li>
+    </ol>
+</footer>
+
+<script>
+function filterSections(query) {
+    const q = query.toLowerCase();
+    document.querySelectorAll('main details').forEach(d => {
+        d.style.display = d.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+}
+</script>
+
+</body>
+</html>

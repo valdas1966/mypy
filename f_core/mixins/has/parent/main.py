@@ -12,7 +12,7 @@ class HasParent:
     # Factory
     Factory: type = None
 
-    def __init__(self, parent: Self = None) -> None:
+    def __init__(self, parent: Self | None = None) -> None:
         """
         ========================================================================
          Init private attributes.

@@ -21,10 +21,26 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
       cached (exact) heuristics over bounded (lower-bound) over unbounded
       (Manhattan).
     ========================================================================
-     depth_propagation controls accumulated heuristic levels:
-       -1: cached exact distances only (from optimal path).
-        0: cached + lower bounds from explored states.
-       >0: cached + lower bounds + BFS propagation at given depth.
+     After each sub-search, two types of heuristic info are collected:
+    ------------------------------------------------------------------------
+     Cached (exact): for states on the optimal path.
+      g[X] + dist(X, goal) = g_goal, so dist = g_goal - g[X] is exact.
+    ------------------------------------------------------------------------
+     Bounded (lower bound): for explored states NOT on the optimal path.
+      A* guarantees g[X] is optimal from start, but going through X to
+      goal may cost more than g_goal (X is off-route).
+      By triangle inequality: dist(X, goal) >= g_goal - g[X].
+    ========================================================================
+     with_bounds controls bounded heuristic collection:
+    ------------------------------------------------------------------------
+      False: dict_cached = path states (exact).
+             dict_bounded = nothing.
+    ------------------------------------------------------------------------
+      True:  dict_cached = path states (exact).
+             dict_bounded = all explored non-path states.
+    ========================================================================
+     BFS propagation beyond explored states was proved to never beat
+      Manhattan heuristic on unit-cost graphs with consistent heuristics.
     ========================================================================
     """
 
@@ -33,7 +49,7 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
 
     def __init__(self,
                  problem: ProblemOMSPP,
-                 depth_propagation: int = 2,
+                 with_bounds: bool = True,
                  name: str = 'AStarIncrementalBackward',
                  need_path: bool = False,
                  is_analytics: bool = False) -> None:
@@ -45,7 +61,7 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
         super().__init__(problem=problem, name=name,
                          is_analytics=is_analytics)
         self._need_path = need_path
-        self._depth_propagation = depth_propagation
+        self._with_bounds = with_bounds
         self._data_cached = Data[State]()
 
     def _run(self) -> SolutionOMSPP:
@@ -103,7 +119,6 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
         # (only when goal was reached — early cached termination
         #  has no new path info to extract)
         if not is_last and algo.reached_goal:
-            depth = self._depth_propagation
             # Cached exact distances (always collected)
             cached = algo.distances_to_goal()
             self._data_cached.dict_cached.update(cached)
@@ -113,9 +128,13 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
             for i in range(len(path_states) - 1):
                 self._data_cached.dict_parent[path_states[i]] \
                     = path_states[i + 1]
-            # Lower bounds (depth >= 0)
-            if depth >= 0:
-                bounded = algo.propagate_bounds(depth=depth)
+            # Lower bounds from explored non-path states
+            if self._with_bounds:
+                bounded = algo.bounds_to_goal()
+                # Collect bounded per goal for analytics
+                if self._is_analytics and bounded:
+                    self._dict_bounded_per_goal[
+                        forward_problem.goal] = bounded
                 # Keep the tighter (max) lower bound per state
                 for state, value in bounded.items():
                     old = self._data_cached.dict_bounded.get(

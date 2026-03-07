@@ -1,9 +1,9 @@
 import heapq
 from typing import Generic, TypeVar,Iterable, Tuple
-from f_core.protocols.comparable import Comparable
+from f_core.protocols.comparison import SupportsComparison
 from f_ds.queues.i_0_base.main import QueueBase, Item
 
-Priority = TypeVar('Priority', bound=Comparable)
+Priority = TypeVar('Priority', bound=SupportsComparison)
 
 
 class QueuePriority(Generic[Item, Priority],
@@ -26,7 +26,7 @@ class QueuePriority(Generic[Item, Priority],
         ========================================================================
         """
         QueueBase.__init__(self, name=name)
-        self._heap: list[Tuple[Comparable, Item]] = []
+        self._heap: list[Tuple[SupportsComparison, Item]] = []
         self._counter = 0  # To handle items with equal priority (FIFO)
 
     def push(self, item: Item, priority: Priority = None) -> None:

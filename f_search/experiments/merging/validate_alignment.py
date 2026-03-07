@@ -16,13 +16,13 @@ def validate_alignment(path_problems: str, path_solutions: str) -> bool:
         return False
     for i, (problem, solution) in enumerate(zip(problems, solutions)):
         sol_problem = solution.problem
-        is_grid_equal = problem.grid == sol_problem.grid
+        is_grid_equal = problem.name_grid == sol_problem.name_grid
         is_start_equal = problem.start == sol_problem.start
         is_goals_equal = problem.goals == sol_problem.goals
         if not (is_grid_equal and is_start_equal and is_goals_equal):
             print(f'Mismatch at index {i}:')
             if not is_grid_equal:
-                print(f'  Grid: {problem.grid} != {sol_problem.grid}')
+                print(f'  Grid: {problem.name_grid} != {sol_problem.name_grid}')
             if not is_start_equal:
                 print(f'  Start: {problem.start} != {sol_problem.start}')
             if not is_goals_equal:

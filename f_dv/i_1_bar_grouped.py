@@ -1,7 +1,7 @@
 from f_dv.i_0_chart import Chart
 from matplotlib.ticker import FuncFormatter
 import matplotlib.pyplot as plt
-from f_color.u_color import RGB
+from f_color.rgb import RGB
 
 
 class BarGrouped(Chart):
@@ -31,7 +31,7 @@ class BarGrouped(Chart):
         self._labels = labels
         self._grouped_values = grouped_values
         self._group_names = group_names
-        self._group_colors = [rgb.to_tuple() for rgb in group_colors]
+        self._group_colors = [rgb.to.tuple() for rgb in group_colors]
         self._name_labels = name_labels
         self._name_values = name_values
         self._is_pct = is_pct

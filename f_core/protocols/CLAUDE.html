@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protocols Package — Documentation</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.container { display: flex; min-height: 100vh; }
+
+.sidebar {
+    width: 280px;
+    background: var(--panel);
+    border-right: 2px solid var(--border);
+    position: fixed;
+    top: 0; left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 1.5rem;
+}
+.sidebar h2 {
+    color: var(--text); font-size: 1rem; margin-bottom: 1rem;
+    padding-bottom: 0.5rem; border-bottom: 2px solid var(--border);
+}
+.sidebar ul { list-style: none; }
+.sidebar li { margin-bottom: 0.5rem; }
+.sidebar a {
+    display: block; padding: 0.4rem 0.6rem; border-radius: 4px;
+    color: var(--muted); font-size: 0.9rem;
+}
+.sidebar a:hover { background: var(--panel2); color: var(--text); text-decoration: none; }
+.sidebar .sub-item { padding-left: 1.5rem; font-size: 0.85rem; }
+.sidebar .sep { margin-top: 1rem; padding-top: 0.5rem; border-top: 2px solid var(--border); }
+.sidebar .sep a { color: var(--accent2); }
+
+.search-box { margin-bottom: 1rem; }
+.search-box input {
+    width: 100%; padding: 0.5rem 0.75rem;
+    background: var(--panel2); border: 2px solid var(--border);
+    border-radius: 4px; color: var(--text); font-size: 0.9rem;
+}
+.search-box input:focus { outline: none; border-color: var(--accent); }
+.search-box input::placeholder { color: var(--faint); }
+
+.main {
+    margin-left: 280px; flex: 1;
+    padding: 2rem 3rem; max-width: 960px;
+}
+
+header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
+header h1 { font-size: 2.2rem; color: #fff; margin-bottom: 0.3rem; }
+header h1 span { color: var(--accent2); }
+header .path { color: var(--faint); font-family: monospace; font-size: 0.9rem; }
+header .tag {
+    display: inline-block; margin-top: 0.5rem; padding: 0.25rem 0.75rem;
+    background: var(--accent2); color: var(--bg); border-radius: 4px;
+    font-size: 0.8rem; font-weight: 600;
+}
+
+section { margin-bottom: 2.5rem; }
+h2 { color: #fff; font-size: 1.4rem; margin-bottom: 1rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--border); }
+
+ol { padding-left: 1.5rem; margin: 0.5rem 0; }
+li { margin-bottom: 0.5rem; color: var(--muted); }
+li strong { color: var(--text); }
+
+pre { background: var(--code-bg); border: 2px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; margin: 0.75rem 0; }
+code { font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace; font-size: 0.9rem; color: var(--text); }
+pre code { display: block; line-height: 1.5; }
+.ic { background: var(--panel2); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.85rem; }
+
+details { background: var(--panel2); border: 1px solid var(--border); border-radius: 6px; margin: 0.75rem 0; }
+details summary { padding: 0.75rem 1rem; cursor: pointer; color: var(--text); font-weight: 600; font-size: 0.95rem; user-select: none; }
+details summary:hover { color: var(--accent2); }
+details[open] summary { border-bottom: 1px solid var(--border); }
+details .inner { padding: 1rem; }
+
+table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; }
+th, td { padding: 0.6rem 0.75rem; text-align: left; border: 1px solid var(--border); }
+th { background: var(--panel2); color: #fff; font-weight: 600; font-size: 0.9rem; }
+td { background: var(--panel); color: var(--muted); font-size: 0.9rem; }
+
+.badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.75rem; font-weight: 600; }
+.badge-stdlib { background: rgba(52, 211, 153, 0.2); color: var(--good); }
+.badge-internal { background: rgba(96, 165, 250, 0.2); color: var(--accent); }
+
+.back-top { display: block; text-align: right; font-size: 0.8rem; color: var(--faint); margin-top: 0.75rem; }
+.back-top:hover { color: var(--accent2); }
+
+footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); color: var(--faint); font-size: 0.85rem; }
+
+.hidden { display: none !important; }
+
+@media (max-width: 768px) {
+    .container { flex-direction: column; }
+    .sidebar { position: static; width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border); }
+    .main { margin-left: 0; padding: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<nav class="sidebar">
+    <div class="search-box">
+        <input type="text" id="search" placeholder="Search..." aria-label="Search documentation">
+    </div>
+    <h2>Contents</h2>
+    <ul>
+        <li><a href="#purpose">Purpose</a></li>
+        <li><a href="#api">Public API</a></li>
+        <li class="sub-item"><a href="#api-equality">SupportsEquality</a></li>
+        <li class="sub-item"><a href="#api-comparison">SupportsComparison</a></li>
+        <li class="sub-item"><a href="#api-bounds">SupportsBounds</a></li>
+        <li class="sub-item"><a href="#api-rectlike">RectLike</a></li>
+        <li><a href="#hierarchy">Hierarchy</a></li>
+        <li><a href="#matrix">Decision Matrix</a></li>
+        <li><a href="#deps">Dependencies</a></li>
+        <li><a href="#examples">Examples</a></li>
+        <li class="sep"><a href="equality/CLAUDE.html">SupportsEquality Docs</a></li>
+        <li class="sep" style="border:none;"><a href="comparison/CLAUDE.html">SupportsComparison Docs</a></li>
+        <li class="sep" style="border:none;"><a href="bounds/CLAUDE.html">SupportsBounds Docs</a></li>
+        <li class="sep" style="border:none;"><a href="rect_like/CLAUDE.html">RectLike Docs</a></li>
+    </ul>
+</nav>
+
+<main class="main">
+
+<header id="top">
+    <h1><span>Protocols</span> Package</h1>
+    <div class="path">f_core / protocols</div>
+    <span class="tag">4 PROTOCOLS</span>
+</header>
+
+<section id="purpose">
+    <h2>A. Purpose</h2>
+    <ol>
+        <li><strong>Structural typing contracts</strong> for equality, comparison, bounds, and rectangle conversion.</li>
+        <li><strong>All use <code class="ic">typing.Protocol</code></strong> &mdash; no runtime inheritance required.</li>
+        <li><strong>Foundation layer</strong> consumed by <code class="ic">f_core.mixins</code> and <code class="ic">f_ds</code>.</li>
+    </ol>
+    <a href="#top" class="back-top">Back to top</a>
+</section>
+
+<section id="api">
+    <h2>B. Public API</h2>
+
+    <details open id="api-equality">
+        <summary>SupportsEquality (Protocol)</summary>
+        <div class="inner">
+            <pre><code>def __eq__(self, other: object) -> bool</code></pre>
+            <ol>
+                <li>Contract for equality checks.</li>
+                <li><code class="ic">__ne__</code> omitted &mdash; Python derives it automatically.</li>
+            </ol>
+        </div>
+    </details>
+
+    <details open id="api-comparison">
+        <summary>SupportsComparison (SupportsEquality, Protocol)</summary>
+        <div class="inner">
+            <pre><code>def __lt__(self, other: object) -> bool</code></pre>
+            <ol>
+                <li>Contract for ordering operations (<code class="ic">&lt;</code>, <code class="ic">&gt;</code>, etc.).</li>
+                <li>Extends <code class="ic">SupportsEquality</code> to include comparison.</li>
+                <li>Concrete classes use <code class="ic">@total_ordering</code> to generate remaining operators.</li>
+            </ol>
+        </div>
+    </details>
+
+    <details open id="api-bounds">
+        <summary>SupportsBounds[T] (Protocol)</summary>
+        <div class="inner">
+            <pre><code>@property
+def bounds(self) -> Bounds[T]</code></pre>
+            <ol>
+                <li>Contract for objects that have rectangular bounds.</li>
+                <li><code class="ic">T</code> constrained to <code class="ic">int | float</code>.</li>
+                <li><code class="ic">@runtime_checkable</code> &mdash; supports <code class="ic">isinstance()</code> checks.</li>
+            </ol>
+        </div>
+    </details>
+
+    <details open id="api-rectlike">
+        <summary>RectLike (Protocol)</summary>
+        <div class="inner">
+            <pre><code>def to_rect_coords(self) -> tuple[int, int, int, int]</code></pre>
+            <ol>
+                <li>Contract for objects convertible to <code class="ic">(x_min, y_min, x_max, y_max)</code>.</li>
+                <li>Used by <code class="ic">HasRowCol.is_within()</code> for bounds checking.</li>
+            </ol>
+        </div>
+    </details>
+
+    <a href="#top" class="back-top">Back to top</a>
+</section>
+
+<section id="hierarchy">
+    <h2>C. Protocol Chain</h2>
+    <details open>
+        <summary>Hierarchy</summary>
+        <div class="inner">
+            <pre><code>Protocol
+ ├── SupportsEquality          __eq__
+ │    └── SupportsComparison   __lt__
+ ├── SupportsBounds[T]         bounds property
+ └── RectLike                  to_rect_coords()</code></pre>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Consumers (Implemented By)</summary>
+        <div class="inner">
+            <table>
+                <tr><th>Protocol</th><th>Implemented By</th></tr>
+                <tr><td><code class="ic">SupportsEquality</code></td><td><code class="ic">Equatable</code> (<code class="ic">f_core.mixins.equatable</code>)</td></tr>
+                <tr><td><code class="ic">SupportsComparison</code></td><td><code class="ic">Comparable</code> (<code class="ic">f_core.mixins.comparable</code>)</td></tr>
+                <tr><td><code class="ic">SupportsBounds</code></td><td>(no consumers yet)</td></tr>
+                <tr><td><code class="ic">RectLike</code></td><td><code class="ic">f_math.shapes.Rect</code></td></tr>
+            </table>
+        </div>
+    </details>
+    <a href="#top" class="back-top">Back to top</a>
+</section>
+
+<section id="matrix">
+    <h2>D. Decision Matrix</h2>
+    <table>
+        <tr><th>Need</th><th>Use Protocol</th></tr>
+        <tr><td>Accept any object with <code class="ic">==</code></td><td><code class="ic">SupportsEquality</code></td></tr>
+        <tr><td>Accept any orderable object</td><td><code class="ic">SupportsComparison</code></td></tr>
+        <tr><td>Accept any object with bounding box</td><td><code class="ic">SupportsBounds[T]</code></td></tr>
+        <tr><td>Accept any object with min/max rectangle</td><td><code class="ic">RectLike</code></td></tr>
+    </table>
+    <a href="#top" class="back-top">Back to top</a>
+</section>
+
+<section id="deps">
+    <h2>E. Dependencies</h2>
+    <table>
+        <tr><th>#</th><th>Import</th><th>Category</th><th>Used By</th></tr>
+        <tr>
+            <td>1</td>
+            <td><code class="ic">typing.Protocol</code></td>
+            <td><span class="badge badge-stdlib">stdlib</span></td>
+            <td>All 4 protocols</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td><code class="ic">typing.TypeVar</code></td>
+            <td><span class="badge badge-stdlib">stdlib</span></td>
+            <td><code class="ic">SupportsBounds</code></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td><code class="ic">typing.runtime_checkable</code></td>
+            <td><span class="badge badge-stdlib">stdlib</span></td>
+            <td><code class="ic">SupportsBounds</code></td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td><code class="ic">f_ds.geometry.bounds.Bounds</code></td>
+            <td><span class="badge badge-internal">internal</span></td>
+            <td><code class="ic">SupportsBounds</code> (TYPE_CHECKING only)</td>
+        </tr>
+    </table>
+    <a href="#top" class="back-top">Back to top</a>
+</section>
+
+<section id="examples">
+    <h2>F. Usage Examples</h2>
+
+    <details open>
+        <summary>Type hint for equality</summary>
+        <div class="inner">
+            <pre><code>from f_core.protocols import SupportsEquality
+
+
+def are_equal(a: SupportsEquality, b: SupportsEquality) -> bool:
+    return a == b
+
+
+are_equal("hello", "hello")  # True
+are_equal(1, 2)              # False</code></pre>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Type hint for ordering</summary>
+        <div class="inner">
+            <pre><code>from f_core.protocols import SupportsComparison
+
+
+def is_sorted(items: list[SupportsComparison]) -> bool:
+    return all(a &lt;= b for a, b in zip(items, items[1:]))
+
+
+is_sorted([1, 2, 3])    # True
+is_sorted(["c", "a"])   # False</code></pre>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Bounds checking with RectLike</summary>
+        <div class="inner">
+            <pre><code>from f_core.protocols.rect_like import RectLike
+
+
+def is_within(row: int, col: int, rect: RectLike) -> bool:
+    x_min, y_min, x_max, y_max = rect.to_rect_coords()
+    return x_min &lt;= row &lt;= x_max and y_min &lt;= col &lt;= y_max</code></pre>
+        </div>
+    </details>
+
+    <a href="#top" class="back-top">Back to top</a>
+</section>
+
+<footer>
+    <ol>
+        <li>Generated: 2026-03-06</li>
+        <li>Scope: <code class="ic">f_core.protocols</code> (4 protocols, 4 submodules)</li>
+    </ol>
+</footer>
+
+</main>
+</div>
+
+<script>
+const searchInput = document.getElementById('search');
+const searchableItems = document.querySelectorAll('details, tr');
+searchInput.addEventListener('input', function() {
+    const query = this.value.toLowerCase().trim();
+    if (query === '') { searchableItems.forEach(item => item.classList.remove('hidden')); return; }
+    searchableItems.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        if (text.includes(query)) { item.classList.remove('hidden'); }
+        else { item.classList.add('hidden'); }
+    });
+});
+</script>
+</body>
+</html>

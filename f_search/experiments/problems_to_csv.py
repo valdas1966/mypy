@@ -17,7 +17,7 @@ rows = []
 for idx, problem in enumerate(problems):
     row = {
         'index': idx,
-        'grid.name': problem.grid,
+        'grid.name': problem.name_grid,
         'start.row': problem.start.key.to_tuple()[0],
         'start.col': problem.start.key.to_tuple()[1]
     }

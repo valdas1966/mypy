@@ -24,7 +24,7 @@ def align_solutions(path_problems: str,
     aligned: list = []
     missing: list[int] = []
     for i, problem in enumerate(problems):
-        key = (problem.grid, problem.start, tuple(problem.goals))
+        key = (problem.name_grid, problem.start, tuple(problem.goals))
         if key in solution_map:
             aligned.append(solution_map[key])
         else:

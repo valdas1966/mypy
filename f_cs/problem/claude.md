@@ -1,88 +1,64 @@
-# ProblemAlgo Module
+# ProblemAlgo
 
-## Overview
+## Purpose
+Abstract base class representing a problem definition for an algorithm.
+Provides a named, equatable identity so problems can be compared and
+identified.
 
-**Location:** `f_cs/problem/main.py`
+## Public API
 
-**Purpose:** Abstract base class representing the problem definition that an algorithm will solve.
+### `__init__(self, name: str = 'ProblemAlgo') -> None`
+Initialize with a name (passed to `HasName`).
 
-| Aspect | Details |
-|--------|---------|
-| Class | `ProblemAlgo` |
-| Package | `f_cs.problem` |
-| Export | `from f_cs.problem import ProblemAlgo` |
-| Inherits | `HasName` |
+### `key -> SupportsEquality` (property)
+Abstract. Subclasses must return a value used for equality comparison.
+Raises `NotImplementedError`.
 
-## Architecture
+### Inherited from `HasName`
+- `name -> str` (property): the problem's name.
+
+### Inherited from `Equatable`
+- `__eq__(self, other: object) -> bool`
+- `__ne__(self, other: object) -> bool`
+- `__hash__(self) -> int`
+
+## Inheritance
 
 ```
-┌─────────────────────────────────────┐
-│            HasName                  │
-│         (f_core.mixins)             │
-└───────────────┬─────────────────────┘
-                │
-                ▼
-┌─────────────────────────────────────┐
-│          ProblemAlgo                │
-├─────────────────────────────────────┤
-│  _name: str (inherited)             │
-├─────────────────────────────────────┤
-│  + name (property, inherited)       │
-└─────────────────────────────────────┘
+HasName
+    \
+     ProblemAlgo
+    /
+Equatable
 ```
 
-## Components
+| Base | Responsibility |
+|------|---------------|
+| `HasName` | `name` property |
+| `Equatable` | `__eq__`, `__ne__`, `__hash__` via `key` |
 
-### ProblemAlgo
+## Dependencies
 
-Abstract base class for algorithm problems. Inherits naming capability from `HasName` mixin.
+| Import | Used For |
+|--------|----------|
+| `f_core.mixins.Equatable` | Equality based on `key` |
+| `f_core.mixins.has.name.HasName` | `name` property |
+| `f_core.protocols.equality.SupportsEquality` | Return type of `key` |
 
-**Constructor:**
-```python
-def __init__(self, name: str = 'ProblemAlgo') -> None
-```
-
-**Properties:**
-
-| Property | Type | Source | Description |
-|----------|------|--------|-------------|
-| `name` | `str` | `HasName` | Problem identifier/name |
-
-## Usage Examples
+## Usage Example
 
 ```python
 from f_cs.problem import ProblemAlgo
 
-# Subclass for specific problem
 class MyProblem(ProblemAlgo):
-    def __init__(self, data, name='MyProblem'):
+    def __init__(self, data: list, name: str = 'MyProblem') -> None:
         super().__init__(name=name)
-        self.data = data
+        self._data = data
 
-# Create problem instance
+    @property
+    def key(self) -> str:
+        return self.name
+
 problem = MyProblem(data=[1, 2, 3])
 print(problem.name)  # 'MyProblem'
 ```
-
-## Inheritance Hierarchy
-
-```
-HasName (f_core.mixins.has.name)
-    │
-    └── ProblemAlgo
-            │
-            └── (concrete problem implementations)
-```
-
-## Design Patterns
-
-| Pattern | Usage |
-|---------|-------|
-| Abstract Base Class | Defines interface for algorithm problems |
-| Mixin Inheritance | Uses HasName for naming functionality |
-
-## Dependencies
-
-| Dependency | Purpose |
-|------------|---------|
-| `f_core.mixins.has.name.HasName` | Provides name property mixin |

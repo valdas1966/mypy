@@ -85,10 +85,10 @@ def pickle_results(problems: dict[str, list[Problem]],
 """
 
 set_debug(True)
-pickle_diamonds = 'f:\\paper\\i_2_diamonds\\diamonds.pkl'
-pickle_problems = 'f:\\paper\\i_3_problems\\problems.pkl'
+pickle_diamonds = 'f:\\temp\\2026\\03\Exp Depth\\diamonds.pkl'
+pickle_problems = 'f:\\temp\\2026\\03\Exp Depth\\problems.pkl'
 
-k_values = [20, 40, 60, 80, 100]
+k_values = [2, 4, 6, 8, 10]
 
 
 def main() -> None:

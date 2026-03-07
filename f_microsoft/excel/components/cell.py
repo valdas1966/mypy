@@ -53,7 +53,7 @@ class Cell(HasRowCol):
         # return RGB.from_hex(hex)
         color = self._cell.fill.fgColor
         if color.rgb:  # Only use if explicitly set
-            return RGB.from_hex('#' + color.rgb[-6:])
+            return RGB.From.hex('#' + color.rgb[-6:])
 
     @background.setter
     def background(self,
@@ -68,7 +68,7 @@ class Cell(HasRowCol):
         fill_type = 'solid'
 
         # Start and End colors of the Cell's Background (it cannot be different)
-        argb = rgb.to_argb()
+        argb = rgb.to.argb()
         start_color = argb
         end_color = argb
 

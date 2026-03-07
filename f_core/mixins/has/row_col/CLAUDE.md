@@ -54,7 +54,7 @@ def is_within(self,
 ```
 Returns `True` if position is inside the given `rect` or explicit
 min/max bounds. If `rect` is provided, extracts bounds via
-`rect.to_min_max()`.
+`rect.to_rect_coords()`.
 
 ### Dunder Methods
 ```python

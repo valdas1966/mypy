@@ -28,7 +28,8 @@ class AStarAggregative(AlgoOMSPP[State, Data],
     def __init__(self,
                  problem: ProblemOMSPP,
                  name: str = 'AStarAggregative',
-                 need_path: bool = False) -> None:
+                 need_path: bool = False,
+                 is_analytics: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -36,7 +37,8 @@ class AStarAggregative(AlgoOMSPP[State, Data],
         """
         frontier = Frontier[State, Priority]()
         self._data = Data(frontier=frontier)
-        super().__init__(problem=problem, name=name)
+        super().__init__(problem=problem, name=name,
+                         is_analytics=is_analytics)
         self._need_path = need_path
         self._heuristics: HeuristicsAggregative[State] = None
         self._prev_explored: int = None
@@ -52,6 +54,7 @@ class AStarAggregative(AlgoOMSPP[State, Data],
         self._heuristics = HeuristicsAggregative(self._goals_active)
         self._prev_explored = 0
         self._prev_discovered = 0
+        self._explored_offset = 0
 
     def _run(self) -> SolutionOMSPP:
         """
@@ -95,6 +98,10 @@ class AStarAggregative(AlgoOMSPP[State, Data],
          On Goal Found.
         ========================================================================
         """
+        self._collect_explored(goal=self._data.best,
+                              algo=self,
+                              offset=self._explored_offset)
+        self._explored_offset = len(self._data.explored)
         self._goals_active.remove(self._data.best)
         self._append_sub_solution()
         if not self._can_terminate():

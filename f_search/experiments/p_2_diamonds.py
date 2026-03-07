@@ -121,16 +121,16 @@ def diamonds_to_pickle(diamonds: DictDiamonds, pickle_diamonds: str) -> None:
 
 set_debug(True)
 pickle_grids = 'f:\\paper\\i_1_grids\\grids.pkl'
-pickle_diamonds = 'f:\\paper\\i_2_diamonds\\diamonds.pkl'
+pickle_diamonds = 'f:\\temp\\2026\\03\\Exp Depth\\diamonds.pkl'
 
 # Number of Pairs to Generate for each Grid.
 n = 10
 # Minimum Distance between the Pairs.
 distance_min = 100
 # Radius of the Diamond
-steps_max = 15
+steps_max = 5
 # Minimum size of Cells in the Diamond
-size_min = 100
+size_min = 10
 
 
 @log_2

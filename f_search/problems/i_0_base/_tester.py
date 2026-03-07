@@ -1,3 +1,4 @@
+import pickle
 from f_search.problems.i_0_base.main import ProblemSearch
 from f_search.ds.state import StateBase
 
@@ -8,7 +9,7 @@ def test_successors() -> None:
      Test the successors() method.
     ========================================================================
     """
-    problem = ProblemSearch.Factory.grid_3x3()
+    problem = ProblemSearch.Factory.four_with_obstacles()
     cell_00 = problem.grid[0][0]
     cell_01 = problem.grid[0][1]
     cell_10 = problem.grid[1][0]
@@ -20,15 +21,37 @@ def test_successors() -> None:
     assert successors == successors_true
 
 
-def test_light_and_heavy() -> None:
+def test_pickle_excludes_grid() -> None:
     """
     ========================================================================
-     Test the light and heavy methods.
+     Test that pickle excludes the heavy Grid and load_grid restores it.
     ========================================================================
     """
-    problem = ProblemSearch.Factory.grid_3x3()
-    problem_light = problem.to_light()
-    assert problem_light.grid == '3x3'
-    grids = {problem.grid.name: problem.grid}
-    problem_heavy = problem_light.to_heavy(grids=grids)
-    assert problem_heavy.grid == problem.grid
+    problem = ProblemSearch.Factory.four_with_obstacles()
+    grid = problem.grid
+    # Pickle and unpickle
+    data = pickle.dumps(problem)
+    loaded = pickle.loads(data)
+    # Grid is None after unpickle
+    assert loaded._grid is None
+    # name_grid survives pickle
+    assert loaded.name_grid == 'Grid4x4Obstacles'
+    # Restore grid
+    grids = {grid.name: grid}
+    loaded.load_grid(grids=grids)
+    assert loaded.grid == grid
+
+
+def test_to_analytics() -> None:
+    """
+    ========================================================================
+     Test the to_analytics() method.
+    ========================================================================
+    """
+    problem = ProblemSearch.Factory.four_with_obstacles()
+    d = problem.to_analytics()
+    assert d['rows'] == 4
+    assert d['cols'] == 4
+    assert d['cells'] == 14
+    assert d['map'] == 'Grid4x4Obstacles'
+    assert 'domain' in d

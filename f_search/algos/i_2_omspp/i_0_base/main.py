@@ -5,6 +5,7 @@ from f_search.problems import ProblemOMSPP
 from f_search.ds.state import StateBase
 from f_search.ds.data import DataBestFirst
 from typing import Generic, TypeVar
+from itertools import islice
 from time import time
 
 State = TypeVar('State', bound=StateBase)
@@ -46,6 +47,8 @@ class AlgoOMSPP(AlgoSearch[ProblemOMSPP, SolutionOMSPP],
         self._goals_active = list(self.problem.goals)
         self._sub_solutions = list()
         self._list_explored: list[dict[str, any]] = list()
+        self._dict_bounded_per_goal: dict[State, dict[State, int]] \
+            = dict()
 
     def list_explored(self) -> list[dict[str, any]]:
         """
@@ -55,9 +58,18 @@ class AlgoOMSPP(AlgoSearch[ProblemOMSPP, SolutionOMSPP],
         """
         return self._list_explored
 
+    def dict_bounded_per_goal(self) -> dict[State, dict[State, int]]:
+        """
+        ====================================================================
+         Return lower bounds per Goal from bound propagation.
+        ====================================================================
+        """
+        return self._dict_bounded_per_goal
+
     def _collect_explored(self,
                           goal: State,
-                          algo: AlgoBestFirst) -> None:
+                          algo: AlgoBestFirst,
+                          offset: int = 0) -> None:
         """
         ====================================================================
          Collect explored State Data from a sub-search Algo.
@@ -65,9 +77,27 @@ class AlgoOMSPP(AlgoSearch[ProblemOMSPP, SolutionOMSPP],
         """
         if not self._is_analytics:
             return
-        for row in algo.list_explored():
-            row['goal'] = str(goal.key)
-            self._list_explored.append(row)
+        data = algo._data
+        data_cached = getattr(algo, '_data_cached', None)
+        dict_h = getattr(data, 'dict_h', None)
+        for state in islice(data.explored, offset, None):
+            g = data.dict_g.get(state, 0)
+            h = dict_h.get(state, 0) if dict_h else 0
+            cached = int(state in data_cached.dict_cached) \
+                if data_cached else 0
+            bounded = int(state in data_cached.dict_bounded) \
+                if data_cached else 0
+            self._list_explored.append({
+                'goal_row': goal.key.row,
+                'goal_col': goal.key.col,
+                'row': state.key.row,
+                'col': state.key.col,
+                'f': g + h,
+                'cached': cached,
+                'bounded': bounded,
+                'g': g,
+                'h': h
+            })
 
     def _create_solution(self) -> SolutionOMSPP:
         """

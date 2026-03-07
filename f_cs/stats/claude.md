@@ -1,79 +1,37 @@
-# StatsAlgo Module
+# StatsAlgo
 
-## Overview
+## Purpose
+Abstract base class for tracking algorithm execution statistics.
+Provides an `elapsed` time property that subclasses extend with
+algorithm-specific metrics.
 
-**Location:** `f_cs/stats/main.py`
+## Public API
 
-**Purpose:** Abstract base class for tracking algorithm execution statistics, primarily elapsed time.
+### `__init__(self, elapsed: int = 0) -> None`
+Initialize with elapsed time (default 0).
 
-| Aspect | Details |
-|--------|---------|
-| Class | `StatsAlgo` |
-| Package | `f_cs.stats` |
-| Export | `from f_cs.stats import StatsAlgo` |
+### `elapsed -> int` (property, read/write)
+Elapsed time in seconds. Getter and setter.
 
-## Architecture
+## Inheritance
 
 ```
-┌─────────────────────────────────────┐
-│           StatsAlgo                 │
-├─────────────────────────────────────┤
-│  _elapsed: int                      │
-├─────────────────────────────────────┤
-│  + elapsed (property)               │
-│  + elapsed.setter                   │
-└─────────────────────────────────────┘
+StatsAlgo (root)
+    └── StatsSearch, StatsSPP, StatsOMSPP, ...
 ```
 
-## Components
+No base classes — standalone root.
 
-### StatsAlgo
+## Dependencies
 
-Base class for algorithm statistics tracking.
+None. Self-contained module.
 
-**Constructor:**
-```python
-def __init__(self, elapsed: int = 0) -> None
-```
-
-**Properties:**
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `elapsed` | `int` | Elapsed time in seconds (read/write) |
-
-## Usage Examples
+## Usage Example
 
 ```python
 from f_cs.stats import StatsAlgo
 
-# Create stats instance
 stats = StatsAlgo()
-
-# Set elapsed time after algorithm runs
 stats.elapsed = 42
-
-# Read elapsed time
 print(stats.elapsed)  # 42
 ```
-
-## Inheritance Hierarchy
-
-```
-StatsAlgo
-    │
-    └── (subclasses for specific algorithm stats)
-```
-
-## Design Patterns
-
-| Pattern | Usage |
-|---------|-------|
-| Base Class | Provides foundation for algorithm-specific stats |
-| Property Pattern | Encapsulates _elapsed with getter/setter |
-
-## Dependencies
-
-| Dependency | Purpose |
-|------------|---------|
-| None | Self-contained module |

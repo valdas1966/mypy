@@ -7,12 +7,12 @@ from f_search.problems.i_2_omspp import ProblemOMSPP
 
 def test_stats() -> None:
     problem = ProblemOMSPP.Factory.for_cached()
-    algo = AStarIncrementalBackward(problem=problem, depth_propagation=-1)
+    algo = AStarIncrementalBackward(problem=problem, with_bounds=False)
     sol = algo.run()
     assert sol.stats.explored == 31
-    algo = AStarIncrementalBackward(problem=problem, depth_propagation=0)
+    algo = AStarIncrementalBackward(problem=problem, with_bounds=True)
     sol = algo.run()
-    assert sol.stats.explored == 29
+    assert sol.stats.explored == 25
 
 
 def test_path_start_and_goal() -> None:

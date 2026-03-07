@@ -17,7 +17,7 @@ class ProblemOMSPP(ProblemSearch, HasStart, HasGoals):
     Factory: type | None = None
 
     def __init__(self,
-                 grid: Grid | str,
+                 grid: Grid,
                  start: State,
                  goals: list[State],
                  name: str = 'ProblemOMSPP') -> None:
@@ -29,6 +29,62 @@ class ProblemOMSPP(ProblemSearch, HasStart, HasGoals):
         ProblemSearch.__init__(self, grid=grid, name=name)
         HasStart.__init__(self, start=start)
         HasGoals.__init__(self, goals=goals)
+
+    @property
+    def h_start(self) -> float:
+        """
+        ========================================================================
+         Return avg Manhattan distance from Start to Goals.
+        ========================================================================
+        """
+        goals = self.goals
+        return sum(self.start.distance(g) for g in goals) / len(goals)
+
+    @property
+    def norm_h_start(self) -> float:
+        """
+        ========================================================================
+         Return normalized h_start [0,100] relative to max Manhattan dist.
+        ========================================================================
+        """
+        return self.grid.norm_distance(distance=self.h_start)
+
+    @property
+    def h_goals(self) -> float:
+        """
+        ========================================================================
+         Return avg pairwise Manhattan distance between Goals.
+        ========================================================================
+        """
+        goals = self.goals
+        n = len(goals)
+        if n < 2:
+            return 0.0
+        total = sum(goals[i].distance(goals[j])
+                    for i in range(n) for j in range(i + 1, n))
+        return total / (n * (n - 1) / 2)
+
+    @property
+    def norm_h_goals(self) -> float:
+        """
+        ========================================================================
+         Return normalized h_goals [0,100] relative to max Manhattan dist.
+        ========================================================================
+        """
+        return self.grid.norm_distance(distance=self.h_goals)
+
+    def to_analytics(self) -> dict:
+        """
+        ========================================================================
+         Return a dict of analytic values for reporting.
+        ========================================================================
+        """
+        d = ProblemSearch.to_analytics(self)
+        d['h_start'] = self.h_start
+        d['norm_h_start'] = self.norm_h_start
+        d['h_goals'] = self.h_goals
+        d['norm_h_goals'] = self.norm_h_goals
+        return d
 
     def to_spps(self) -> list[ProblemSPP]:
         """
@@ -43,25 +99,3 @@ class ProblemOMSPP(ProblemSearch, HasStart, HasGoals):
                                      goal=goal)
             sub_problems.append(sub_problem)
         return sub_problems
-
-    def to_light(self) -> Self:
-        """
-        ========================================================================
-         Return a light object (Grid.Name instead of Grid object).
-        ========================================================================
-        """
-        return type(self)(grid=self.grid.name,
-                          start=self.start,
-                          goals=self.goals,
-                          name=self.name)
-
-    def to_heavy(self, grids: dict[str, Grid]) -> Self:
-        """
-        ========================================================================
-         Return a heavy object (Grid object instead of Grid.Name).
-        ========================================================================
-        """
-        return type(self)(grid=grids[self.grid],
-                          start=self.start,
-                          goals=self.goals,
-                          name=self.name)

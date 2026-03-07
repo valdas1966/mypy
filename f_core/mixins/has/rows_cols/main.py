@@ -1,9 +1,4 @@
-from __future__ import annotations
-from f_core.mixins.comparable import Comparable
-from f_core.mixins.hashable import Hashable
-
-
-class HasRowsCols(Comparable, Hashable):
+class HasRowsCols:
     """
     ============================================================================
      Mixin-Class for Objects with Rows and Cols.
@@ -42,14 +37,13 @@ class HasRowsCols(Comparable, Hashable):
         """
         return self._cols
 
-    def shape(self) -> str:
+    def shape(self) -> tuple[int, int]:
         """
         ========================================================================
-         Return STR-REPR of the Object's Shape.
-         Ex: '(1,2)'
+         Return the Shape as a tuple of (rows, cols).
         ========================================================================
         """
-        return f'({self.rows},{self.cols})'
+        return self._rows, self._cols
 
     def is_within(self, row: int, col: int) -> bool:
         """
@@ -58,16 +52,6 @@ class HasRowsCols(Comparable, Hashable):
         ========================================================================
         """
         return 0 <= row < self.rows and 0 <= col < self.cols
-
-    @property
-    def key(self) -> tuple[int, int]:
-        """
-        ========================================================================
-         1. First comparison by the size of the shape.
-         2. Second by the object's rows.
-        ========================================================================
-        """
-        return self.rows * self.cols, self.rows
 
     def __len__(self) -> int:
         """
@@ -81,7 +65,7 @@ class HasRowsCols(Comparable, Hashable):
         """
         ========================================================================
          Return STR-REPR of the Object's Shape.
-         Ex: '(1,2)'
+         Ex: '(5,10)'
         ========================================================================
         """
-        return self.shape()
+        return f'({self._rows},{self._cols})'

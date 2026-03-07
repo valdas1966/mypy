@@ -1,131 +1,95 @@
 # ProblemSearch - Base Class for Grid Search Problems
 
-## Main Class
-`ProblemSearch(ProblemAlgo)`
-
-## Inheritance
-- **Base Classes:** `ProblemAlgo` (from f_cs.problem)
-
 ## Purpose
-Provides the foundational framework for all search problems operating on 2D grid maps. Defines the search space (grid) and the fundamental operation of generating successor states (neighbors) for pathfinding algorithms.
+Base class for all search problems operating on 2D grid maps. Stores a grid
+reference and grid name, generates successor states via grid neighbors, and
+supports lightweight pickling by excluding the heavy grid object.
 
-## Functionality from Base Classes
-From `ProblemAlgo`:
-- Generic problem interface for algorithms
-- Problem lifecycle management
-- Abstract problem structure
+## Public API
 
-## Specialized Functionality
+### `__init__(self, grid: Grid, name: str = 'ProblemSearch') -> None`
+Initialize with a grid. Stores both `_grid` and `_name_grid` (grid's name).
 
-### Constructor (`__init__`)
-**Parameters:**
-- **grid**: `GridMap` - The 2D grid defining the search space
+### `grid -> Grid` (property)
+Return the problem's grid. Raises `ValueError` if grid is `None` (not loaded after unpickling).
 
-**Storage:**
-- `_grid`: Internal reference to the GridMap
+### `name_grid -> str` (property)
+Return the grid's name. Survives pickle (stored independently from the grid object).
 
-**Purpose:** Establishes the physical search space for pathfinding
+### `successors(self, state: State) -> list[State]`
+Return successor states by querying `grid.neighbors(cell=state.key)` and wrapping each neighbor cell as a `StateCell`.
 
-### Grid Access
+### `to_analytics(self) -> dict`
+Returns a dict with grid analytic values: `domain` (str), `map` (str), `rows` (int), `cols` (int), `cells` (int, valid only via `len(grid)`). Subclasses extend this dict with additional keys.
 
-#### `grid` property → `Grid`
-Returns the problem's GridMap.
+### `load_grid(self, grids: dict[str, Grid]) -> None`
+Restore the grid reference after unpickling. Looks up `_name_grid` in the provided dict.
 
-**Usage:** Algorithms access the grid to query structure, check obstacles, etc.
+### `__getstate__(self) -> dict`
+Custom pickle support. Returns a copy of `__dict__` with `_grid` set to `None`, excluding the heavy grid from serialization.
 
-### Successor Generation
+### Inherited from `ProblemAlgo`
+- `name -> str` (property): the problem's name.
+- `__eq__`, `__ne__`, `__hash__`: equality via `key`.
 
-#### `successors(state: StateBase)` → `list[StateBase]`
-Core method that defines the search space connectivity.
-
-**Purpose:** Returns all valid successor states from a given state
-
-**Implementation:**
-1. Extracts cell from state: `cell = state.key`
-2. Gets neighbors from grid: `cells = grid.neighbors(cell)`
-3. Wraps neighbors as States: `states = [StateBase(key=cell) for cell in cells]`
-4. Returns list of successor states
-
-**Behavior:**
-- Delegates to `GridMap.neighbors()` for actual neighbor computation
-- GridMap automatically filters out obstacles
-- Typically returns 4 neighbors (up, down, left, right) for 2D grids
-- Fewer neighbors at grid boundaries or near obstacles
-
-**Usage:**
+### Class Attribute
 ```python
-current_state = StateBase(key=cell_5_3)
-successors = problem.successors(current_state)
-# Returns: [StateBase((4,3)), StateBase((6,3)), StateBase((5,2)), StateBase((5,4))]
+Factory: type | None = None
 ```
 
-## Grid-Based Search Space
+## Inheritance (Hierarchy)
 
-### Search Space Definition
-- **States**: Grid cells wrapped as StateBase objects
-- **Actions**: Moves to neighboring cells
-- **Transitions**: StateBase → List[StateBase] via successors()
-- **Obstacles**: Automatically filtered by GridMap
+```
+HasName
+    \
+     ProblemAlgo (Equatable)
+    /
+Equatable
+    \
+     ProblemSearch
+```
 
-### StateBase Representation
-States are grid positions:
-- **Key**: Cell coordinates (e.g., (x, y))
-- **Validity**: Determined by GridMap (not obstacles)
-- **Connectivity**: Defined by grid neighbor structure
+| Base | Responsibility |
+|------|---------------|
+| `HasName` | `name` property and `__str__`/`__repr__` |
+| `Equatable` | `__eq__`, `__ne__`, `__hash__` via `key` |
+| `ProblemAlgo` | Abstract problem interface for algorithms |
 
-## Design Philosophy
+## Dependencies
 
-### Minimal Base Class
-ProblemSearch provides only essential grid functionality:
-- Grid storage and access
-- Successor generation
-- Leaves start/goal specification to subclasses
+| Import | Used For |
+|--------|----------|
+| `f_ds.grids.GridMap` (aliased `Grid`) | 2D grid search space |
+| `f_cs.problem.main.ProblemAlgo` | Base class for algorithm problems |
+| `f_search.ds.state.StateCell` (aliased `State`) | State wrapper for grid cells |
 
-### Delegation Pattern
-Core operations delegate to GridMap:
-- **Neighbor finding**: `grid.neighbors()`
-- **Obstacle checking**: Handled by GridMap
-- **Boundary checking**: Handled by GridMap
+## Usage Examples
 
-This keeps ProblemSearch simple and focused.
+### Creating and querying a problem
+```python
+from f_search.problems.i_0_base import ProblemSearch
 
-### Template for Specialization
-Subclasses add specific problem structure:
-- SPP: adds start + goal
-- OMSPP: adds start + goals
-- Future: could add starts + goals, constraints, etc.
+problem = ProblemSearch.Factory.grid_3x3()
+cell_00 = problem.grid[0][0]
+state = StateBase(key=cell_00)
+successors = problem.successors(state=state)
+# Returns neighbors of (0,0) as StateCell objects
+```
 
-## Relationship to Other Classes
+### Pickle round-trip with grid restoration
+```python
+import pickle
 
-- **GridMap**: Provides the physical search space
-- **StateBase**: Represents configurations (grid cells)
-- **AlgoSearch**: Consumes problems, calls successors()
-- **ProblemSPP/OMSPP**: Extend with start/goal(s)
+problem = ProblemSearch.Factory.grid_3x3()
+grid = problem.grid
 
-## Usage Context
+# Pickle excludes grid
+data = pickle.dumps(problem)
+loaded = pickle.loads(data)
+assert loaded._grid is None
+assert loaded.name_grid == '3x3'
 
-- **Direct instantiation**: Not typical (too generic)
-- **Specialization**: Extended by ProblemSPP, ProblemOMSPP
-- **Role in hierarchy**: Root problem class for grid search
-
-## Class Attribute
-- **Factory**: Type reference for factory pattern (set in `__init__.py`)
-
-## External Dependencies
-
-- **f_ds.grids**:
-  - `GridMap` (alias `Grid`) - 2D grid structure
-  - `CellMap` (alias `Cell`) - Grid cell coordinates
-- **f_cs.problem**:
-  - `ProblemAlgo` - Generic problem interface
-- **f_search.ds**:
-  - `StateBase` - StateBase wrapper
-
-## Key Properties
-
-1. **Grid-centric**: Everything revolves around the GridMap
-2. **StateBase abstraction**: Uses StateBase wrapper for grid cells
-3. **Neighbor-based**: Successors are grid neighbors
-4. **Obstacle-aware**: Invalid cells automatically filtered
-5. **Generic base**: Doesn't specify start/goal
-6. **Simple delegation**: Relies on GridMap for core operations
+# Restore grid from dict
+loaded.load_grid(grids={grid.name: grid})
+assert loaded.grid == grid
+```

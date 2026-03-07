@@ -40,14 +40,14 @@ def test_quarter():
     assert quarter.height == 25
 
 
-def test_to_min_max():
+def test_to_rect_coords():
     """
     ========================================================================
-     Test the to min max method.
+     Test the to_rect_coords() method.
     ========================================================================
     """
     rect = Rect.Factory.full()
-    assert rect.to_min_max() == (0, 0, 100, 100)
+    assert rect.to_rect_coords() == (0, 0, 100, 100)
 
 
 def test_from_center():

@@ -21,13 +21,13 @@ class Factory:
         return AStarIncrementalBackward(problem=problem)
 
     @staticmethod
-    def without_obstacles_with_propagation() -> AStarIncrementalBackward:
+    def without_obstacles_with_bounds() -> AStarIncrementalBackward:
         """
         ====================================================================
          AStarIncrementalBackward on a 4x4 grid without obstacles,
-          with depth_propagation=2.
+          with_bounds=True.
         ====================================================================
         """
         problem = ProblemOMSPP.Factory.without_obstacles()
         return AStarIncrementalBackward(problem=problem,
-                                        depth_propagation=2)
+                                        with_bounds=True)

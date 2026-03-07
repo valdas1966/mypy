@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Review — SupportsEquality</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 2rem 3rem;
+    max-width: 960px;
+    margin: 0 auto;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); text-decoration: underline; }
+h1 { color: #fff; font-size: 2rem; margin-bottom: .3rem; }
+.path { color: var(--faint); font-family: monospace; font-size: .9rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border); }
+h2 { color: #fff; font-size: 1.4rem; margin: 2.5rem 0 1rem; padding-bottom: .4rem; border-bottom: 2px solid var(--border); }
+ol { padding-left: 1.5rem; margin: .75rem 0; }
+li { margin-bottom: .6rem; color: var(--muted); }
+li strong { color: var(--text); }
+pre { background: var(--code-bg); border: 2px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; margin: .75rem 0; }
+code { font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace; font-size: .9rem; color: var(--text); }
+pre code { display: block; line-height: 1.5; }
+.ic { background: var(--panel2); padding: .15rem .4rem; border-radius: 3px; font-size: .85rem; }
+.v { display: inline-block; padding: .2rem .6rem; border-radius: 4px; font-size: .8rem; font-weight: 600; }
+.v-pass { background: var(--good); color: var(--bg); }
+.note { background: var(--panel2); border-left: 3px solid var(--accent); padding: .75rem 1rem; margin: 1rem 0; color: var(--muted); font-size: .9rem; }
+.note-good { border-left-color: var(--good); }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+th, td { padding: .75rem; text-align: left; border: 1px solid var(--border); }
+th { background: var(--panel2); color: #fff; font-weight: 600; }
+td { background: var(--panel); color: var(--muted); }
+footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); color: var(--faint); font-size: .85rem; }
+</style>
+</head>
+<body>
+
+<h1>Code + Design Review</h1>
+<div class="path">f_core / protocols / equality</div>
+<ol>
+    <li>Module reviewed: <code class="ic">main.py</code>, <code class="ic">__init__.py</code></li>
+</ol>
+
+<section>
+    <h2>1. Correctness</h2>
+    <div class="note note-good">No bugs found.</div>
+    <ol>
+        <li><code class="ic">__eq__</code> protocol method signature is correct: <code class="ic">other: object</code> matches Python convention.</li>
+        <li>Docstring correctly notes <code class="ic">__ne__</code> is omitted (Python derives it).</li>
+    </ol>
+</section>
+
+<section>
+    <h2>2. Readability / Naming</h2>
+    <div class="note note-good">No change needed.</div>
+    <ol>
+        <li><code class="ic">SupportsEquality</code> follows Python naming convention for protocols (<code class="ic">Supports*</code>).</li>
+    </ol>
+</section>
+
+<section>
+    <h2>3. Design (OOP)</h2>
+    <div class="note note-good">Clean design.</div>
+    <ol>
+        <li>Single-method protocol &mdash; minimal and focused.</li>
+        <li>Correctly used as base for <code class="ic">SupportsComparison</code> and <code class="ic">Equatable</code>.</li>
+    </ol>
+</section>
+
+<section><h2>4. Performance</h2><div class="note note-good">No change needed.</div><ol><li>Protocol &mdash; zero runtime cost.</li></ol></section>
+<section><h2>5. Typing</h2><div class="note note-good">No change needed.</div><ol><li>All types are correct and complete.</li></ol></section>
+<section><h2>6. Documentation</h2><div class="note note-good">No change needed.</div><ol><li>Docstrings follow convention.</li></ol></section>
+<section><h2>7. Modularity</h2><div class="note note-good">No change needed.</div><ol><li>Standard folder layout with <code class="ic">main.py</code> + <code class="ic">__init__.py</code>.</li></ol></section>
+<section><h2>8. Architecture</h2><div class="note note-good">No change needed.</div><ol><li>Clean leaf module with only stdlib imports.</li></ol></section>
+
+<section>
+    <h2>9. Usage &amp; Usefulness</h2>
+    <ol>
+        <li><strong>How to use:</strong> type hint for function params that need equality comparison.</li>
+        <li><strong>When useful:</strong> generic functions that compare objects for equality.</li>
+        <li><strong>Overengineered?</strong> No. 18 lines, single purpose.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>10. Suggestions</h2>
+    <div class="note note-good">No improvements needed.</div>
+</section>
+
+<section>
+    <h2>Summary</h2>
+    <ol>
+        <li><span class="v v-pass">PASS</span> Clean, minimal protocol. No issues found.</li>
+        <li>Single-method protocol correctly used as foundation for the equality/comparison chain.</li>
+    </ol>
+</section>
+
+<footer>
+    <ol>
+        <li>Review date: 2026-03-06</li>
+        <li>Scope: <code class="ic">f_core.protocols.equality</code> (1 class, 2 files)</li>
+    </ol>
+</footer>
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Review — Has Mixins Package</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 2rem 3rem;
+    max-width: 960px;
+    margin: 0 auto;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); text-decoration: underline; }
+h1 { color: #fff; font-size: 2rem; margin-bottom: .3rem; }
+.path {
+    color: var(--faint);
+    font-family: monospace;
+    font-size: .9rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border);
+}
+h2 {
+    color: #fff;
+    font-size: 1.4rem;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: .4rem;
+    border-bottom: 2px solid var(--border);
+}
+h3 { color: var(--text); font-size: 1.1rem; margin: 1.5rem 0 .5rem; }
+ol { padding-left: 1.5rem; margin: .75rem 0; }
+li { margin-bottom: .6rem; color: var(--muted); }
+li strong { color: var(--text); }
+pre {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: .75rem 0;
+}
+code {
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace;
+    font-size: .9rem;
+    color: var(--text);
+}
+pre code { display: block; line-height: 1.5; }
+.ic { background: var(--panel2); padding: .15rem .4rem; border-radius: 3px; font-size: .85rem; }
+.v { display: inline-block; padding: .2rem .6rem; border-radius: 4px; font-size: .8rem; font-weight: 600; }
+.v-pass { background: var(--good); color: var(--bg); }
+.v-minor { background: var(--warn); color: var(--bg); }
+.fr { color: var(--accent); font-family: monospace; font-size: .85rem; }
+.note { background: var(--panel2); border-left: 3px solid var(--accent); padding: .75rem 1rem; margin: 1rem 0; color: var(--muted); font-size: .9rem; }
+.note-good { border-left-color: var(--good); }
+.note-warn { border-left-color: var(--warn); }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+th, td { padding: .75rem; text-align: left; border: 1px solid var(--border); }
+th { background: var(--panel2); color: #fff; font-weight: 600; }
+td { background: var(--panel); color: var(--muted); }
+footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); color: var(--faint); font-size: .85rem; }
+</style>
+</head>
+<body>
+
+<h1>Code + Design Review</h1>
+<div class="path">f_core / mixins / has</div>
+<ol>
+    <li>Modules reviewed:
+        <code class="ic">children</code>,
+        <code class="ic">key</code>,
+        <code class="ic">name</code>,
+        <code class="ic">parent</code>,
+        <code class="ic">row_col</code>,
+        <code class="ic">rows_cols</code>,
+        <code class="ic">__init__.py</code>
+    </li>
+    <li>Deep-inspected:
+        <code class="ic">Comparable</code>,
+        <code class="ic">Hashable</code>,
+        <code class="ic">Equatable</code>,
+        <code class="ic">RectLike</code>
+    </li>
+</ol>
+
+<!-- 1. Correctness -->
+<section>
+    <h2>1. Correctness</h2>
+    <div class="note note-warn">Minor issue found.</div>
+    <ol>
+        <li>
+            <strong><span class="fr">parent/main.py:15</span></strong>
+            &mdash; <code class="ic">parent: Self = None</code> should be <code class="ic">parent: Self | None = None</code>. The current signature does not reflect that <code class="ic">None</code> is a valid default.
+        </li>
+        <li>
+            <strong><span class="fr">row_col/main.py:87-91</span></strong>
+            &mdash; <code class="ic">is_within()</code> will raise <code class="ic">TypeError</code> if called without <code class="ic">rect</code> and without all four min/max params, since <code class="ic">None &lt;= self.row</code> fails. No guard present.
+        </li>
+        <li>
+            All other methods are correct: <code class="ic">neighbors()</code> filters negatives, <code class="ic">distance()</code> uses abs, <code class="ic">path_from_root()</code> terminates on <code class="ic">None</code>.
+        </li>
+    </ol>
+</section>
+
+<!-- 2. Readability / Naming -->
+<section>
+    <h2>2. Readability / Naming</h2>
+    <div class="note note-good">No change needed.</div>
+    <ol>
+        <li>
+            Class names are clear adjective-style mixins: <code class="ic">HasKey</code>, <code class="ic">HasName</code>, <code class="ic">HasRowCol</code>, etc.
+        </li>
+        <li>
+            Property names match the mixin name: <code class="ic">HasKey.key</code>, <code class="ic">HasName.name</code>, <code class="ic">HasParent.parent</code>.
+        </li>
+        <li>
+            All docstrings follow the <code class="ic">====</code> separator convention consistently.
+        </li>
+    </ol>
+</section>
+
+<!-- 3. Design (OOP) -->
+<section>
+    <h2>3. Design (OOP)</h2>
+    <div class="note note-good">Clean design.</div>
+    <ol>
+        <li>
+            <strong>Mixin composition</strong> is the correct pattern &mdash; each mixin adds exactly one capability.
+        </li>
+        <li>
+            <strong>HasKey, HasRowCol, HasRowsCols</strong> correctly extend <code class="ic">Comparable</code> + <code class="ic">Hashable</code> and implement <code class="ic">key</code>.
+        </li>
+        <li>
+            <strong>HasChildren, HasName, HasParent</strong> are standalone &mdash; no unnecessary base classes.
+        </li>
+        <li>
+            <strong>HasName</strong> does not extend <code class="ic">Comparable</code>/<code class="ic">Hashable</code>, unlike <code class="ic">HasKey</code>. This is intentional &mdash; <code class="ic">HasName</code> is purely a property mixin, not an identity mixin.
+        </li>
+        <li>
+            <strong><span class="fr">parent/_factory.py:5</span></strong>
+            &mdash; <code class="ic">ParentWithName</code> helper class in <code class="ic">_factory.py</code> is a good pattern for testing mixins that need additional capabilities.
+        </li>
+    </ol>
+</section>
+
+<!-- 4. Performance -->
+<section>
+    <h2>4. Performance</h2>
+    <div class="note note-good">No change needed.</div>
+    <ol>
+        <li>
+            All mixins are lightweight property holders with O(1) access.
+        </li>
+        <li>
+            <code class="ic">HasRowCol.neighbors()</code> creates 4 objects per call &mdash; acceptable for grid traversal.
+        </li>
+        <li>
+            <code class="ic">HasParent.path_from_root()</code> is O(depth) &mdash; correct and unavoidable.
+        </li>
+    </ol>
+</section>
+
+<!-- 5. Typing -->
+<section>
+    <h2>5. Typing</h2>
+    <div class="note note-warn">Minor issues found.</div>
+    <ol>
+        <li>
+            <strong><span class="fr">parent/main.py:15</span></strong>
+            &mdash; <code class="ic">parent: Self = None</code> should be <code class="ic">parent: Self | None = None</code>.
+        </li>
+        <li>
+            <strong><span class="fr">parent/main.py:24</span></strong>
+            &mdash; Return type <code class="ic">HasParent | None</code> is correct but could use <code class="ic">Self | None</code> for consistency with the constructor.
+        </li>
+        <li>
+            <strong><span class="fr">name/main.py:14</span></strong>
+            &mdash; Default <code class="ic">'NoName'</code> in code vs <code class="ic">'None'</code> in some CLAUDE.md docs. Code is correct, docs should match.
+        </li>
+        <li>
+            All other type annotations are correct and complete across all modules.
+        </li>
+    </ol>
+</section>
+
+<!-- 6. Documentation -->
+<section>
+    <h2>6. Documentation</h2>
+    <div class="note note-good">No change needed.</div>
+    <ol>
+        <li>
+            All classes and methods have docstrings following the <code class="ic">====</code> separator convention.
+        </li>
+        <li>
+            Inline comments above properties (<code class="ic"># Object's Row</code>) are consistent.
+        </li>
+    </ol>
+</section>
+
+<!-- 7. Modularity -->
+<section>
+    <h2>7. Modularity</h2>
+    <div class="note note-good">No change needed.</div>
+    <ol>
+        <li>
+            Each mixin in its own folder with standard file layout (<code class="ic">main.py</code>, <code class="ic">_factory.py</code>, <code class="ic">_tester.py</code>, <code class="ic">__init__.py</code>).
+        </li>
+        <li>
+            Package <code class="ic">__init__.py</code> exports 4 most-used classes; 2 structural mixins require direct import.
+        </li>
+        <li>
+            No circular dependencies between the 6 submodules.
+        </li>
+    </ol>
+</section>
+
+<!-- 8. Architecture -->
+<section>
+    <h2>8. Architecture</h2>
+    <div class="note note-warn">Minor inconsistencies.</div>
+    <ol>
+        <li>
+            <strong><span class="fr">name/__init__.py:1</span></strong>
+            &mdash; Imports from <code class="ic">._factory</code> instead of <code class="ic">.main</code>. Convention is to import class from <code class="ic">main.py</code>.
+<pre><code># current
+from ._factory import HasName, Factory
+
+# convention
+from .main import HasName
+from ._factory import Factory</code></pre>
+        </li>
+        <li>
+            <strong><span class="fr">parent/__init__.py:1</span></strong>
+            &mdash; Same pattern: imports <code class="ic">HasParent</code> from <code class="ic">_factory.py</code> instead of <code class="ic">main.py</code>.
+        </li>
+        <li>
+            <code class="ic">children</code>, <code class="ic">key</code>, <code class="ic">row_col</code>, <code class="ic">rows_cols</code> correctly import from <code class="ic">main.py</code>.
+        </li>
+        <li>
+            <strong><span class="fr">__init__.py</span></strong>
+            &mdash; <code class="ic">HasChildren</code> and <code class="ic">HasParent</code> are not exported. This is a deliberate design choice (less commonly used), not a bug.
+        </li>
+    </ol>
+</section>
+
+<!-- 9. Usage & Usefulness -->
+<section>
+    <h2>9. Usage &amp; Usefulness</h2>
+    <ol>
+        <li>
+            <strong>How to use:</strong> inherit from one or more <code class="ic">Has*</code> mixins, call their <code class="ic">__init__</code> explicitly in your constructor.
+        </li>
+        <li>
+            <strong>When useful:</strong> any class needing standard identity, naming, positioning, or tree structure. Used extensively across <code class="ic">f_graph</code>, <code class="ic">f_ds</code>, <code class="ic">f_gui</code>, <code class="ic">f_search</code>.
+        </li>
+        <li>
+            <strong>Overengineered?</strong> No. Each mixin is 20-40 lines. No unnecessary abstraction.
+        </li>
+        <li>
+            <strong>Design strength:</strong> single-responsibility mixins that compose cleanly via multiple inheritance.
+        </li>
+    </ol>
+</section>
+
+<!-- 10. Suggestions -->
+<section>
+    <h2>10. Suggestions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th><th>Item</th><th>Evidence</th>
+                <th>Risk</th><th>Benefit</th><th>Fix</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Fix <code class="ic">parent</code> type hint</td>
+                <td><span class="fr">parent/main.py:15</span></td>
+                <td>None</td>
+                <td>Accurate typing</td>
+                <td>Change to <code class="ic">Self | None = None</code></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Import from <code class="ic">main.py</code> in <code class="ic">__init__.py</code></td>
+                <td><span class="fr">name/__init__.py</span>, <span class="fr">parent/__init__.py</span></td>
+                <td>None</td>
+                <td>Consistent with convention</td>
+                <td>Split import into two lines</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Guard <code class="ic">is_within()</code> None params</td>
+                <td><span class="fr">row_col/main.py:87-91</span></td>
+                <td>Low</td>
+                <td>Prevent runtime TypeError</td>
+                <td>Add early return or raise if no rect and missing bounds</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- Summary -->
+<section>
+    <h2>Summary</h2>
+    <ol>
+        <li>
+            <span class="v v-minor">MINOR</span>
+            Clean mixin collection. Three minor issues found.
+        </li>
+        <li>
+            All 6 mixins are well-designed single-responsibility classes.
+        </li>
+        <li>
+            Mixin composition pattern is correctly applied across the codebase.
+        </li>
+        <li>
+            One typing issue (<code class="ic">parent: Self</code>), two <code class="ic">__init__.py</code> import inconsistencies, one potential <code class="ic">TypeError</code> in <code class="ic">is_within()</code>.
+        </li>
+        <li>
+            No bugs in normal usage, good test coverage across all modules.
+        </li>
+    </ol>
+</section>
+
+<footer>
+    <ol>
+        <li>Review date: 2026-03-06</li>
+        <li>Scope: <code class="ic">f_core.mixins.has</code>
+            (6 modules, 24+ files)</li>
+    </ol>
+</footer>
+
+</body>
+</html>

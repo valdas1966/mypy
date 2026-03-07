@@ -1,397 +1,379 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HasRowsCols — Documentation</title>
-<style>
-:root {
-    --bg: #0b0f14;
-    --panel: #111827;
-    --panel2: #0f172a;
-    --text: #f8fafc;
-    --muted: #cbd5e1;
-    --faint: #94a3b8;
-    --border: #334155;
-    --accent: #60a5fa;
-    --accent2: #a78bfa;
-    --good: #34d399;
-    --warn: #fbbf24;
-    --bad: #fb7185;
-    --code-bg: #0a1220;
-}
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.7;
-}
-a { color: var(--accent); text-decoration: none; }
-a:hover { color: var(--accent2); text-decoration: underline; }
-a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-header {
-    background: var(--panel);
-    padding: 2rem 3rem;
-    border-bottom: 2px solid var(--accent2);
-}
-header h1 { color: #fff; font-size: 2.2rem; margin-bottom: 0.3rem; }
-header h1 span { color: var(--accent2); }
-.path { color: var(--faint); font-family: monospace; font-size: 0.9rem; }
-.container {
-    display: grid;
-    grid-template-columns: 240px 1fr;
-    gap: 2rem;
-    padding: 2rem 3rem;
-    max-width: 1300px;
-    margin: 0 auto;
-}
-.toc {
-    position: sticky;
-    top: 1rem;
-    height: fit-content;
-    background: var(--panel);
-    border-radius: 8px;
-    padding: 1.25rem;
-    border: 2px solid var(--border);
-}
-.toc h3 { color: var(--accent2); font-size: 1rem; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
-.toc ul { list-style: none; }
-.toc li { margin-bottom: 0.4rem; }
-.toc a { color: var(--faint); display: block; padding: 0.3rem 0.5rem; border-radius: 4px; font-size: 0.85rem; transition: all 0.15s; }
-.toc a:hover { color: var(--accent2); background: rgba(167, 139, 250, 0.1); text-decoration: none; }
-.toc .sub { padding-left: 1rem; font-size: 0.8rem; }
-.toc .ext { margin-top: 0.75rem; padding-top: 0.5rem; border-top: 2px solid var(--border); }
-.toc .ext a { color: var(--accent2); }
-.toc .ext a::before { content: '< '; }
-.search-box {
-    width: 100%;
-    padding: 0.4rem 0.6rem;
-    background: var(--panel2);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    color: var(--text);
-    font-size: 0.85rem;
-    margin-bottom: 0.75rem;
-}
-.search-box:focus { outline: 2px solid var(--accent2); border-color: var(--accent2); }
-.search-box::placeholder { color: var(--faint); }
-main { min-width: 0; }
-section {
-    background: var(--panel);
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    border: 2px solid var(--border);
-}
-section h2 { color: #fff; font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--border); }
-ol { padding-left: 1.5rem; margin: 0.5rem 0; }
-li { margin-bottom: 0.5rem; color: var(--muted); }
-li strong { color: var(--text); }
-details {
-    background: var(--panel2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    margin: 0.75rem 0;
-}
-details summary { padding: 0.75rem 1rem; cursor: pointer; color: var(--text); font-weight: 600; font-size: 0.95rem; user-select: none; }
-details summary:hover { color: var(--accent2); }
-details summary:focus-visible { outline: 2px solid var(--accent2); outline-offset: -2px; }
-details[open] summary { border-bottom: 1px solid var(--border); }
-details .inner { padding: 1rem; }
-pre {
-    background: var(--code-bg);
-    border: 2px solid var(--border);
-    border-radius: 6px;
-    padding: 1rem;
-    overflow-x: auto;
-    margin: 0.75rem 0;
-}
-code { font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace; font-size: 0.9rem; color: var(--text); }
-pre code { display: block; line-height: 1.5; }
-.ic { background: var(--panel2); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.85rem; }
-table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; }
-th, td { padding: 0.6rem 0.75rem; text-align: left; border: 1px solid var(--border); }
-th { background: var(--panel2); color: #fff; font-weight: 600; font-size: 0.9rem; }
-td { background: var(--panel); color: var(--muted); font-size: 0.9rem; }
-.badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.75rem; font-weight: 600; }
-.badge-internal { background: rgba(96, 165, 250, 0.2); color: var(--accent); }
-.badge-stdlib { background: rgba(52, 211, 153, 0.2); color: var(--good); }
-.back-top { display: block; text-align: right; font-size: 0.8rem; color: var(--faint); margin-top: 0.75rem; }
-.back-top:hover { color: var(--accent2); }
-footer { margin: 2rem 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); color: var(--faint); font-size: 0.85rem; }
-@media (max-width: 768px) {
-    .container { grid-template-columns: 1fr; padding: 1rem; }
-    .toc { position: static; margin-bottom: 1rem; }
-    header { padding: 1.5rem; }
-    footer { margin: 1.5rem 1rem; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HasRowsCols - Documentation</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #111827;
+            --panel2: #0f172a;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --faint: #94a3b8;
+            --border: #334155;
+            --accent: #60a5fa;
+            --accent2: #a78bfa;
+            --good: #34d399;
+            --warn: #fbbf24;
+            --bad: #fb7185;
+            --code-bg: #0a1220;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; color: var(--accent2); }
+        a:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+        .container { display: flex; min-height: 100vh; }
+
+        .sidebar {
+            width: 280px;
+            background: var(--panel);
+            border-right: 2px solid var(--border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .sidebar h2 {
+            color: var(--text);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .sidebar ul { list-style: none; }
+        .sidebar li { margin-bottom: 0.5rem; }
+
+        .sidebar a {
+            display: block;
+            padding: 0.4rem 0.6rem;
+            border-radius: 4px;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .sidebar a:hover { background: var(--panel2); color: var(--text); text-decoration: none; }
+        .sidebar .sub-item { padding-left: 1.5rem; font-size: 0.85rem; color: var(--faint); }
+
+        .sidebar .sep { margin-top: 1rem; padding-top: 0.5rem; border-top: 2px solid var(--border); }
+        .sidebar .sep a { color: var(--accent2); }
+
+        .search-box { margin-bottom: 1rem; }
+        .search-box input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            background: var(--panel2);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+        .search-box input:focus { outline: none; border-color: var(--accent); }
+        .search-box input::placeholder { color: var(--faint); }
+
+        .main { margin-left: 280px; flex: 1; padding: 2rem 3rem; max-width: 900px; }
+
+        header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
+        header h1 { font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; }
+        header .path { color: var(--faint); font-family: monospace; font-size: 0.9rem; }
+        header .tag {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--good);
+            color: var(--bg);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        section { margin-bottom: 3rem; }
+        h2 { color: #fff; font-size: 1.5rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
+        h3 { color: var(--text); font-size: 1.2rem; margin: 1.5rem 0 0.75rem; }
+        h4 { color: var(--muted); font-size: 1rem; margin: 1rem 0 0.5rem; }
+
+        pre { background: var(--code-bg); border: 2px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+        code { font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace; font-size: 0.9rem; color: var(--text); }
+        pre code { display: block; line-height: 1.5; }
+        .inline-code { background: var(--panel2); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.85rem; }
+
+        .panel { background: var(--panel); border: 2px solid var(--border); border-radius: 8px; margin: 1rem 0; overflow: hidden; }
+        .panel-header {
+            background: var(--panel2);
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #fff;
+        }
+        .panel-header:hover { background: var(--border); }
+        .panel-header:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+        .panel-header .arrow { transition: transform 0.2s; color: var(--faint); }
+        .panel.collapsed .panel-header .arrow { transform: rotate(-90deg); }
+        .panel-content { padding: 1rem; }
+        .panel.collapsed .panel-content { display: none; }
+
+        .api-item { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+        .api-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .api-signature { background: var(--code-bg); padding: 0.75rem 1rem; border-radius: 4px; margin-bottom: 0.5rem; border-left: 3px solid var(--accent); }
+        .api-signature.property { border-left-color: var(--good); }
+        .api-description { color: var(--muted); font-size: 0.95rem; padding-left: 0.5rem; }
+
+        .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-right: 0.5rem; }
+        .badge-property { background: var(--good); color: var(--bg); }
+
+        .hierarchy-tree { font-family: monospace; background: var(--code-bg); padding: 1rem; border-radius: 6px; border: 2px solid var(--border); }
+
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.75rem; text-align: left; border: 1px solid var(--border); }
+        th { background: var(--panel2); color: #fff; font-weight: 600; }
+        td { background: var(--panel); color: var(--muted); }
+
+        .back-to-top { display: inline-block; margin-top: 1rem; font-size: 0.85rem; color: var(--faint); }
+        .back-to-top:hover { color: var(--accent); }
+
+        footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); color: var(--faint); font-size: 0.85rem; }
+
+        @media (max-width: 900px) {
+            .sidebar { position: static; width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border); }
+            .main { margin-left: 0; padding: 1.5rem; }
+            .container { flex-direction: column; }
+        }
+        .hidden { display: none !important; }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="search-box">
+                <input type="text" id="search" placeholder="Search..." aria-label="Search documentation">
+            </div>
+            <h2>Contents</h2>
+            <ul>
+                <li><a href="#purpose">Purpose</a></li>
+                <li><a href="#public-api">Public API</a></li>
+                <li class="sub-item"><a href="#api-factory">Factory</a></li>
+                <li class="sub-item"><a href="#api-init">__init__()</a></li>
+                <li class="sub-item"><a href="#api-rows">rows</a></li>
+                <li class="sub-item"><a href="#api-cols">cols</a></li>
+                <li class="sub-item"><a href="#api-shape">shape()</a></li>
+                <li class="sub-item"><a href="#api-is-within">is_within()</a></li>
+                <li class="sub-item"><a href="#api-dunder">Dunder Methods</a></li>
+                <li><a href="#inheritance">Inheritance</a></li>
+                <li><a href="#dependencies">Dependencies</a></li>
+                <li><a href="#usage">Usage Examples</a></li>
+                <li class="sep"><a href="../row_col/CLAUDE.html">HasRowCol Docs</a></li>
+                <li class="sep" style="border:none;"><a href="../children/CLAUDE.html">HasChildren Docs</a></li>
+            </ul>
+        </nav>
 
-<header>
-    <h1><span>Has</span>RowsCols</h1>
-    <div class="path">f_core / mixins / has / rows_cols</div>
-</header>
+        <main class="main">
+            <header id="top">
+                <h1>HasRowsCols</h1>
+                <div class="path">f_core/mixins/has/rows_cols/</div>
+                <div class="tag">MIXIN</div>
+            </header>
 
-<div class="container">
-<nav class="toc">
-    <h3>Contents</h3>
-    <input type="text" class="search-box" placeholder="Search..." oninput="filterSections(this.value)">
-    <ul>
-        <li><a href="#purpose">Purpose</a></li>
-        <li><a href="#api">Public API</a></li>
-        <li class="sub"><a href="#api-constructor">Constructor</a></li>
-        <li class="sub"><a href="#api-properties">Properties</a></li>
-        <li class="sub"><a href="#api-shape">shape()</a></li>
-        <li class="sub"><a href="#api-is-within">is_within()</a></li>
-        <li class="sub"><a href="#api-dunder">Dunder Methods</a></li>
-        <li class="sub"><a href="#api-inherited">Inherited</a></li>
-        <li><a href="#hierarchy">Hierarchy</a></li>
-        <li><a href="#deps">Dependencies</a></li>
-        <li><a href="#examples">Examples</a></li>
-        <li class="ext"><a href="../row_col/CLAUDE.html">HasRowCol</a></li>
-        <li class="ext"><a href="../../comparable/CLAUDE.html">Comparable</a></li>
-        <li class="ext"><a href="../../hashable/CLAUDE.html">Hashable</a></li>
-    </ul>
-</nav>
+            <section id="purpose">
+                <h2>Purpose</h2>
+                <ol>
+                    <li>Mixin for objects with <code class="inline-code">rows</code> and <code class="inline-code">cols</code> dimensions representing a 2D shape.</li>
+                    <li>Provides shape tuple, bounds checking, and flat length (<code class="inline-code">rows * cols</code>).</li>
+                    <li>Standalone property mixin with no bases &mdash; like <code class="inline-code">HasName</code>, <code class="inline-code">HasChildren</code>, <code class="inline-code">HasParent</code>.</li>
+                </ol>
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
 
-<main>
+            <section id="public-api">
+                <h2>Public API</h2>
 
-<!-- Purpose -->
-<section id="purpose">
-    <h2>A. Purpose</h2>
-    <ol>
-        <li><strong>HasRowsCols</strong> is a mixin for objects with <code class="ic">rows</code> and <code class="ic">cols</code> dimensions representing a 2D shape.</li>
-        <li>Provides shape string, bounds checking, flat length (<code class="ic">rows * cols</code>), ordering, equality, and hashing.</li>
-        <li>Inherits from <code class="ic">Comparable</code> and <code class="ic">Hashable</code> &mdash; all operators delegate to the <code class="ic">key</code> tuple.</li>
-    </ol>
-    <a href="#" class="back-top">Back to top</a>
-</section>
+                <div class="panel">
+                    <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
+                        <span>class HasRowsCols</span>
+                        <span class="arrow">&#9660;</span>
+                    </div>
+                    <div class="panel-content">
+                        <div class="api-item" id="api-factory">
+                            <h4>Class Attribute</h4>
+                            <div class="api-signature">
+                                <code>Factory: type = None</code>
+                            </div>
+                            <ol class="api-description"><li>Factory for creating test instances. Wired via <code class="inline-code">__init__.py</code>.</li></ol>
+                        </div>
 
-<!-- Public API -->
-<section id="api">
-    <h2>B. Public API</h2>
-
-    <details open id="api-constructor">
-        <summary>Constructor</summary>
-        <div class="inner">
-            <pre><code>def __init__(self,
+                        <div class="api-item" id="api-init">
+                            <h4>Constructor</h4>
+                            <div class="api-signature">
+                                <code>def __init__(self,
              rows: int,
-             cols: int | None = None) -> None</code></pre>
-            <ol>
-                <li>Stores <code class="ic">rows</code> and <code class="ic">cols</code>.</li>
-                <li>If <code class="ic">cols</code> is <code class="ic">None</code>, defaults to the value of <code class="ic">rows</code> (square shape).</li>
-                <li><code class="ic">HasRowsCols(5)</code> creates a <code class="ic">(5, 5)</code> shape.</li>
-            </ol>
-            <table>
-                <tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr>
-                <tr><td><code class="ic">rows</code></td><td><code class="ic">int</code></td><td>required</td><td>Number of rows</td></tr>
-                <tr><td><code class="ic">cols</code></td><td><code class="ic">int | None</code></td><td><code class="ic">None</code> &rarr; rows</td><td>Number of columns</td></tr>
-            </table>
-        </div>
-    </details>
+             cols: int | None = None) -&gt; None</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Stores <code class="inline-code">rows</code> and <code class="inline-code">cols</code>.</li>
+                                <li>If <code class="inline-code">cols</code> is <code class="inline-code">None</code>, defaults to the value of <code class="inline-code">rows</code> (square shape).</li>
+                            </ol>
+                            <table>
+                                <tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr>
+                                <tr><td><code class="inline-code">rows</code></td><td><code class="inline-code">int</code></td><td>required</td><td>Number of rows</td></tr>
+                                <tr><td><code class="inline-code">cols</code></td><td><code class="inline-code">int | None</code></td><td><code class="inline-code">None</code> &rarr; rows</td><td>Number of columns</td></tr>
+                            </table>
+                        </div>
 
-    <details open id="api-properties">
-        <summary>Properties</summary>
-        <div class="inner">
-            <pre><code>@property
-def rows(self) -> int
+                        <div class="api-item" id="api-rows">
+                            <h4><span class="badge badge-property">PROPERTY</span> rows</h4>
+                            <div class="api-signature property">
+                                <code>@property<br>def rows(self) -&gt; int</code>
+                            </div>
+                            <ol class="api-description"><li>Returns the number of rows (read-only).</li></ol>
+                        </div>
 
-@property
-def cols(self) -> int
+                        <div class="api-item" id="api-cols">
+                            <h4><span class="badge badge-property">PROPERTY</span> cols</h4>
+                            <div class="api-signature property">
+                                <code>@property<br>def cols(self) -&gt; int</code>
+                            </div>
+                            <ol class="api-description"><li>Returns the number of columns (read-only).</li></ol>
+                        </div>
 
-@property
-def key(self) -> tuple[int, int]</code></pre>
-            <ol>
-                <li><code class="ic">rows</code> and <code class="ic">cols</code> are read-only.</li>
-                <li><code class="ic">key</code> returns <code class="ic">(rows * cols, rows)</code> &mdash; size first, then rows.</li>
-                <li><code class="ic">key</code> satisfies the abstract contract from <code class="ic">Comparable</code> and <code class="ic">Hashable</code>.</li>
-            </ol>
-        </div>
-    </details>
+                        <div class="api-item" id="api-shape">
+                            <h4>Method</h4>
+                            <div class="api-signature">
+                                <code>def shape(self) -&gt; tuple[int, int]</code>
+                            </div>
+                            <ol class="api-description"><li>Returns <code class="inline-code">(rows, cols)</code> as a tuple.</li></ol>
+                        </div>
 
-    <details open id="api-shape">
-        <summary>shape()</summary>
-        <div class="inner">
-            <pre><code>def shape(self) -> str</code></pre>
-            <ol>
-                <li>Returns <code class="ic">'(rows,cols)'</code> string representation.</li>
-            </ol>
-        </div>
-    </details>
+                        <div class="api-item" id="api-is-within">
+                            <h4>Method</h4>
+                            <div class="api-signature">
+                                <code>def is_within(self, row: int, col: int) -&gt; bool</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Returns <code class="inline-code">True</code> if <code class="inline-code">0 &lt;= row &lt; rows</code> and <code class="inline-code">0 &lt;= col &lt; cols</code>.</li>
+                                <li>Upper bounds are exclusive (zero-indexed grid).</li>
+                            </ol>
+                        </div>
 
-    <details id="api-is-within">
-        <summary>is_within()</summary>
-        <div class="inner">
-            <pre><code>def is_within(self, row: int, col: int) -> bool</code></pre>
-            <ol>
-                <li>Returns <code class="ic">True</code> if <code class="ic">0 &lt;= row &lt; rows</code> and <code class="ic">0 &lt;= col &lt; cols</code>.</li>
-                <li>Upper bounds are exclusive (zero-indexed grid).</li>
-            </ol>
-        </div>
-    </details>
+                        <div class="api-item" id="api-dunder">
+                            <h4>Dunder Methods</h4>
+                            <div class="api-signature">
+                                <code>def __len__(self) -&gt; int      # rows * cols
+def __str__(self) -&gt; str      # '(rows,cols)'</code>
+                            </div>
+                            <ol class="api-description">
+                                <li><code class="inline-code">__len__</code> returns flat length: <code class="inline-code">rows * cols</code>.</li>
+                                <li><code class="inline-code">__str__</code> returns <code class="inline-code">'(rows,cols)'</code> string.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
 
-    <details id="api-dunder">
-        <summary>Dunder Methods</summary>
-        <div class="inner">
-            <pre><code>def __len__(self) -> int      # rows * cols
-def __str__(self) -> str      # self.shape()</code></pre>
-            <ol>
-                <li><code class="ic">__len__</code> returns flat length: <code class="ic">rows * cols</code>.</li>
-                <li><code class="ic">__str__</code> delegates to <code class="ic">shape()</code>.</li>
-            </ol>
-        </div>
-    </details>
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
 
-    <details id="api-inherited">
-        <summary>Inherited API</summary>
-        <div class="inner">
-            <table>
-                <tr><th>Member</th><th>Source</th><th>Description</th></tr>
-                <tr><td><code class="ic">__eq__</code></td><td>Equatable</td><td>Equality via <code class="ic">key</code></td></tr>
-                <tr><td><code class="ic">__lt__</code>, <code class="ic">__le__</code>, <code class="ic">__gt__</code>, <code class="ic">__ge__</code></td><td>Comparable</td><td>Comparison via <code class="ic">key</code> (size, then rows)</td></tr>
-                <tr><td><code class="ic">__hash__</code></td><td>Hashable</td><td><code class="ic">hash((rows * cols, rows))</code></td></tr>
-            </table>
-        </div>
-    </details>
-    <a href="#" class="back-top">Back to top</a>
-</section>
+            <section id="inheritance">
+                <h2>Inheritance (Hierarchy)</h2>
 
-<!-- Hierarchy -->
-<section id="hierarchy">
-    <h2>C. Inheritance (Hierarchy)</h2>
+                <div class="hierarchy-tree">
+                    <div class="node"><strong>HasRowsCols</strong> &mdash; plain class, no mixin bases</div>
+                </div>
 
-    <details open>
-        <summary>Inheritance Chain</summary>
-        <div class="inner">
-            <pre><code>SupportsEquality (Protocol)
- └── Equatable ─── __eq__ via key
-      ├── Comparable (+ SupportsComparison) ─── __lt__, __le__, __gt__, __ge__
-      └── Hashable ─── __hash__ via key
-           └── HasRowsCols(Comparable, Hashable)
-                └── key = (rows * cols, rows)</code></pre>
-        </div>
-    </details>
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
 
-    <details open>
-        <summary>Responsibility Table</summary>
-        <div class="inner">
-            <table>
-                <tr><th>#</th><th>Base</th><th>Contract</th></tr>
-                <tr><td>1</td><td><code class="ic">Equatable</code></td><td>Abstract <code class="ic">key</code> property, concrete <code class="ic">__eq__</code></td></tr>
-                <tr><td>2</td><td><code class="ic">Comparable</code></td><td>Comparison operators via <code class="ic">key</code></td></tr>
-                <tr><td>3</td><td><code class="ic">Hashable</code></td><td><code class="ic">__hash__</code> via <code class="ic">hash(self.key)</code></td></tr>
-            </table>
-        </div>
-    </details>
-    <a href="#" class="back-top">Back to top</a>
-</section>
+            <section id="dependencies">
+                <h2>Dependencies</h2>
 
-<!-- Dependencies -->
-<section id="deps">
-    <h2>D. Dependencies</h2>
-    <table>
-        <tr><th>#</th><th>Import</th><th>Category</th><th>Used For</th></tr>
-        <tr>
-            <td>1</td>
-            <td><code class="ic">f_core.mixins.comparable.Comparable</code></td>
-            <td><span class="badge badge-internal">internal</span></td>
-            <td>Base &mdash; ordering operators</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td><code class="ic">f_core.mixins.hashable.Hashable</code></td>
-            <td><span class="badge badge-internal">internal</span></td>
-            <td>Base &mdash; hashing</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td><code class="ic">__future__.annotations</code></td>
-            <td><span class="badge badge-stdlib">stdlib</span></td>
-            <td>Postponed annotation evaluation</td>
-        </tr>
-    </table>
-    <a href="#" class="back-top">Back to top</a>
-</section>
+                <ol>
+                    <li>No external or internal dependencies.</li>
+                </ol>
 
-<!-- Examples -->
-<section id="examples">
-    <h2>E. Usage Examples</h2>
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
 
-    <details open>
-        <summary>Basic Usage</summary>
-        <div class="inner">
-            <pre><code>from f_core.mixins.has.rows_cols import HasRowsCols
+            <section id="usage">
+                <h2>Usage Examples</h2>
+
+                <div class="panel">
+                    <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
+                        <span>Example 1: Basic Usage</span>
+                        <span class="arrow">&#9660;</span>
+                    </div>
+                    <div class="panel-content">
+                        <pre><code>from f_core.mixins.has.rows_cols import HasRowsCols
 
 grid = HasRowsCols(rows=5, cols=10)
-print(grid.shape())           # '(5,10)'
+print(grid.shape())           # (5, 10)
 print(len(grid))              # 50
 print(grid.is_within(4, 9))   # True
-print(grid.is_within(5, 10))  # False</code></pre>
-        </div>
-    </details>
+print(grid.is_within(5, 10))  # False
 
-    <details open>
-        <summary>Comparison and Hashing</summary>
-        <div class="inner">
-            <pre><code>a = HasRowsCols(rows=3, cols=4)
-b = HasRowsCols(rows=3, cols=4)
-c = HasRowsCols(rows=4, cols=3)
+square = HasRowsCols(rows=3)  # cols defaults to 3
+print(square.shape())         # (3, 3)
+print(len(square))            # 9</code></pre>
+                    </div>
+                </div>
 
-a == b                # True (same key)
-a &lt; c                 # True — (12,3) &lt; (12,4)
-hash(a) == hash(b)    # True
-{a, b} == {a}         # True — dedup works</code></pre>
-        </div>
-    </details>
+                <div class="panel">
+                    <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
+                        <span>Example 2: Using the Factory</span>
+                        <span class="arrow">&#9660;</span>
+                    </div>
+                    <div class="panel-content">
+                        <pre><code>from f_core.mixins.has.rows_cols import HasRowsCols
 
-    <details>
-        <summary>Square Shape (Default cols)</summary>
-        <div class="inner">
-            <pre><code>square = HasRowsCols(rows=3)   # cols defaults to 3
-print(square.shape())          # '(3,3)'
-print(len(square))             # 9</code></pre>
-        </div>
-    </details>
+square  = HasRowsCols.Factory.square_3()          # (3, 3)
+rect    = HasRowsCols.Factory.rect_5_10()         # (5, 10)
+custom  = HasRowsCols.Factory.gen(rows=2, cols=7) # (2, 7)</code></pre>
+                        <table>
+                            <tr><th>Method</th><th>Rows</th><th>Cols</th><th>Len</th></tr>
+                            <tr><td><code class="inline-code">square_3()</code></td><td>3</td><td>3</td><td>9</td></tr>
+                            <tr><td><code class="inline-code">rect_5_10()</code></td><td>5</td><td>10</td><td>50</td></tr>
+                        </table>
+                    </div>
+                </div>
 
-    <details>
-        <summary>Factory</summary>
-        <div class="inner">
-            <pre><code>from f_core.mixins.has.rows_cols import HasRowsCols
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
 
-square  = HasRowsCols.Factory.square_3()          # (3,3)
-rect    = HasRowsCols.Factory.rect_5_10()         # (5,10)
-custom  = HasRowsCols.Factory.gen(rows=2, cols=7) # (2,7)</code></pre>
-            <table>
-                <tr><th>Method</th><th>Rows</th><th>Cols</th><th>Key</th></tr>
-                <tr><td><code class="ic">square_3()</code></td><td>3</td><td>3</td><td>(9, 3)</td></tr>
-                <tr><td><code class="ic">rect_5_10()</code></td><td>5</td><td>10</td><td>(50, 5)</td></tr>
-            </table>
-        </div>
-    </details>
-    <a href="#" class="back-top">Back to top</a>
-</section>
+            <footer>
+                <p>Generated: 2026-03-07</p>
+                <p>Scope: f_core.mixins.has.rows_cols package documentation</p>
+            </footer>
+        </main>
+    </div>
 
-</main>
-</div>
-
-<footer>
-    <ol>
-        <li>Generated: 2026-03-05</li>
-        <li>Scope: <code class="ic">f_core.mixins.has.rows_cols</code> (4 files: main.py, _factory.py, _tester.py, __init__.py)</li>
-    </ol>
-</footer>
-
-<script>
-function filterSections(query) {
-    const q = query.toLowerCase();
-    document.querySelectorAll('main details').forEach(d => {
-        d.style.display = d.textContent.toLowerCase().includes(q) ? '' : 'none';
-    });
-}
-</script>
-
+    <script>
+        function togglePanel(header) { header.parentElement.classList.toggle('collapsed'); }
+        function handlePanelKey(event, header) { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); togglePanel(header); } }
+        const searchInput = document.getElementById('search');
+        const searchableItems = document.querySelectorAll('.api-item, .panel');
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            if (query === '') { searchableItems.forEach(item => item.classList.remove('hidden')); return; }
+            searchableItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(query)) { item.classList.remove('hidden'); const panel = item.closest('.panel'); if (panel) panel.classList.remove('collapsed'); }
+                else { item.classList.add('hidden'); }
+            });
+        });
+    </script>
 </body>
 </html>

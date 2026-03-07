@@ -71,6 +71,17 @@ class GridBase(HasName,
                     for row in range(self.rows)
                 ]
 
+    def norm_distance(self, distance: int) -> float:
+        """
+        ========================================================================
+         Normalize a Manhattan distance to [0,100] relative to grid max.
+        ========================================================================
+        """
+        max_dist = self.rows + self.cols - 2
+        if max_dist == 0:
+            return 0.0
+        return distance / max_dist * 100
+
     def __len__(self) -> int:
         """
         ========================================================================

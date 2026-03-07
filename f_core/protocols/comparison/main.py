@@ -6,8 +6,7 @@ class SupportsComparison(SupportsEquality, Protocol):
     """
     ============================================================================
      1. Protocol that supports comparison operations (<, <=, >, >=).
-     2. @total_ordering decorator in concrete classes will automatically
-         generate the additional comparison methods to __lt__().
+     2. Concrete classes implement all operators explicitly via key.
     ============================================================================
     """
 

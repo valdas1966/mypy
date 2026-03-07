@@ -1,7 +1,7 @@
 import math
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
-from f_color.factories.f_rgb import FactoryRGB, RGB
+from f_color.rgb import RGB
 from f_dv.i_0_chart import Chart
 
 
@@ -47,7 +47,7 @@ class Bar(Chart):
         # Start and Finish RGBs
         rgb_a, rgb_b = RGB(name='GREEN'), RGB(name='RED')
         # Gradient RGBs Map (0-99 sequential RGBs)
-        gradient: list[RGB] = FactoryRGB.gradient(a=rgb_a, b=rgb_b, n=100)
+        gradient: list[RGB] = RGB.Factory.gradient(a=rgb_a, b=rgb_b, n=100)
         
         # Initialize the list of RGBs to return
         rgbs: list[RGB] = list()
@@ -91,7 +91,7 @@ class Bar(Chart):
         n = 3
 
         # Create the gradient
-        gradient = FactoryRGB.gradient_multi(stops=stops, n=n)        
+        gradient = RGB.Factory.gradient_multi(stops=stops, n=n)        
 
         # Initialize the list of RGBs to return
         rgbs: list[RGB] = list()
@@ -143,7 +143,7 @@ class Bar(Chart):
         plt.tight_layout()
         
         # Convert RGB objects to matplotlib color tuples
-        colors = [rgb.to_tuple() for rgb in self._rgb_bars]
+        colors = [rgb.to.tuple() for rgb in self._rgb_bars]
         
         # Create the bar chart with the gradient colors
         bars = plt.bar(self._x, self._y, color=colors, width=0.5)

@@ -1,271 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Code Review — HasRowsCols</title>
-<style>
-:root {
-    --bg: #0b0f14;
-    --panel: #111827;
-    --panel2: #0f172a;
-    --text: #f8fafc;
-    --muted: #cbd5e1;
-    --faint: #94a3b8;
-    --border: #334155;
-    --accent: #60a5fa;
-    --accent2: #a78bfa;
-    --good: #34d399;
-    --warn: #fbbf24;
-    --bad: #fb7185;
-    --code-bg: #0a1220;
-}
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.7;
-    padding: 2rem 3rem;
-    max-width: 960px;
-    margin: 0 auto;
-}
-a { color: var(--accent); text-decoration: none; }
-a:hover { color: var(--accent2); text-decoration: underline; }
-h1 { color: #fff; font-size: 2rem; margin-bottom: .3rem; }
-.path {
-    color: var(--faint);
-    font-family: monospace;
-    font-size: .9rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid var(--border);
-}
-h2 {
-    color: #fff;
-    font-size: 1.4rem;
-    margin: 2.5rem 0 1rem;
-    padding-bottom: .4rem;
-    border-bottom: 2px solid var(--border);
-}
-ol { padding-left: 1.5rem; margin: .75rem 0; }
-li { margin-bottom: .6rem; color: var(--muted); }
-li strong { color: var(--text); }
-pre {
-    background: var(--code-bg);
-    border: 2px solid var(--border);
-    border-radius: 6px;
-    padding: 1rem;
-    overflow-x: auto;
-    margin: .75rem 0;
-}
-code {
-    font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace;
-    font-size: .9rem;
-    color: var(--text);
-}
-pre code { display: block; line-height: 1.5; }
-.ic {
-    background: var(--panel2);
-    padding: .15rem .4rem;
-    border-radius: 3px;
-    font-size: .85rem;
-}
-.v {
-    display: inline-block;
-    padding: .2rem .6rem;
-    border-radius: 4px;
-    font-size: .8rem;
-    font-weight: 600;
-}
-.v-pass { background: var(--good); color: var(--bg); }
-.v-minor { background: var(--warn); color: var(--bg); }
-.v-issue { background: var(--bad); color: var(--bg); }
-.fr { color: var(--accent); font-family: monospace; font-size: .85rem; }
-.note {
-    background: var(--panel2);
-    border-left: 3px solid var(--accent);
-    padding: .75rem 1rem;
-    margin: 1rem 0;
-    color: var(--muted);
-    font-size: .9rem;
-}
-.note-good { border-left-color: var(--good); }
-.note-warn { border-left-color: var(--warn); }
-.note-bad { border-left-color: var(--bad); }
-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-th, td { padding: .75rem; text-align: left; border: 1px solid var(--border); }
-th { background: var(--panel2); color: #fff; font-weight: 600; }
-td { background: var(--panel); color: var(--muted); }
-footer {
-    margin-top: 3rem;
-    padding-top: 1.5rem;
-    border-top: 2px solid var(--border);
-    color: var(--faint);
-    font-size: .85rem;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Review Report — HasRowsCols</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #111827;
+            --panel2: #0f172a;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --faint: #94a3b8;
+            --border: #334155;
+            --accent: #60a5fa;
+            --accent2: #a78bfa;
+            --good: #34d399;
+            --warn: #fbbf24;
+            --bad: #fb7185;
+            --code-bg: #0a1220;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 2rem 3rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; color: var(--accent2); }
+
+        h1 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .module-path {
+            font-family: monospace;
+            color: var(--faint);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-top: 2.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        section {
+            background: var(--panel);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        section h2 { margin-top: 0; }
+
+        .no-change {
+            color: var(--good);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.6rem; color: var(--muted); }
+        li strong { color: var(--text); }
+
+        pre {
+            background: var(--code-bg);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 0.75rem 0;
+        }
+
+        code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+
+        pre code { display: block; line-height: 1.5; }
+
+        .inline-code {
+            background: var(--panel2);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border);
+            color: var(--faint);
+            font-size: 0.85rem;
+        }
+    </style>
 </head>
 <body>
 
-<h1>Code + Design Review</h1>
-<div class="path">f_core / mixins / has / rows_cols</div>
-<ol>
-    <li>Files reviewed:
-        <code class="ic">main.py</code>,
-        <code class="ic">_factory.py</code>,
-        <code class="ic">_tester.py</code>,
-        <code class="ic">__init__.py</code></li>
-    <li>Deep-inspected:
-        <code class="ic">Comparable</code>,
-        <code class="ic">Hashable</code>,
-        <code class="ic">Equatable</code></li>
-</ol>
+<h1>Module Review Report</h1>
+<div class="module-path">f_core/mixins/has/rows_cols/</div>
 
-<!-- ======== 1. Correctness ======== -->
+<section>
+    <h2>Summary</h2>
+    <ol>
+        <li>Clean, standalone property mixin providing 2D dimensions (<code class="inline-code">rows</code>, <code class="inline-code">cols</code>).</li>
+        <li>No inheritance &mdash; plain class with no mixin bases, consistent with <code class="inline-code">HasChildren</code> and <code class="inline-code">HasParent</code>.</li>
+        <li><code class="inline-code">cols=0</code> edge case handled correctly with <code class="inline-code">is not None</code> guard.</li>
+        <li><code class="inline-code">shape()</code> returns <code class="inline-code">tuple[int, int]</code> &mdash; usable for unpacking and comparison.</li>
+        <li>All typing fully annotated, all operations O(1).</li>
+    </ol>
+</section>
+
 <section>
     <h2>1. Correctness</h2>
-    <p class="note note-good">No change needed.</p>
+    <ol><li class="no-change">No change needed.</li></ol>
     <ol>
-        <li><code class="ic">cols</code> default uses
-            <code class="ic">is not None</code> &mdash;
-            <code class="ic">cols=0</code> is preserved correctly.</li>
-        <li><code class="ic">is_within()</code> uses exclusive upper
-            bounds &mdash; correct for zero-indexed grids.</li>
-        <li><code class="ic">key</code> returns
-            <code class="ic">(rows * cols, rows)</code> &mdash;
-            consistent ordering semantics.</li>
+        <li><code class="inline-code">cols</code> default uses <code class="inline-code">is not None</code> &mdash; <code class="inline-code">cols=0</code> is preserved correctly.</li>
+        <li><code class="inline-code">is_within()</code> uses exclusive upper bounds &mdash; correct for zero-indexed grids.</li>
+        <li><code class="inline-code">__len__</code> returns <code class="inline-code">rows * cols</code> &mdash; consistent with shape semantics.</li>
+        <li><code class="inline-code">shape()</code> returns <code class="inline-code">tuple[int, int]</code> &mdash; structured data, not a string.</li>
     </ol>
 </section>
 
-<!-- ======== 2. Readability / Naming ======== -->
 <section>
     <h2>2. Readability / Naming</h2>
-    <p class="note note-good">No change needed.</p>
+    <ol><li class="no-change">No change needed.</li></ol>
     <ol>
         <li>All method names are clear and descriptive.</li>
-        <li>Docstrings follow <code class="ic">====</code> separator convention.</li>
+        <li>Docstrings follow <code class="inline-code">====</code> separator convention.</li>
     </ol>
 </section>
 
-<!-- ======== 3. Design (OOP) ======== -->
 <section>
     <h2>3. Design (OOP)</h2>
-    <p class="note note-good">No change needed.</p>
+    <ol><li class="no-change">No change needed.</li></ol>
     <ol>
-        <li>Inherits <code class="ic">Comparable</code> +
-            <code class="ic">Hashable</code> &mdash; consistent
-            with <code class="ic">HasRowCol</code> and framework
-            conventions.</li>
-        <li><code class="ic">__eq__</code>, <code class="ic">__hash__</code>,
-            and all comparison operators come from mixins via
-            <code class="ic">key</code>.</li>
-        <li>Factory class follows standard
-            <code class="ic">Factory</code> pattern with static
-            methods.</li>
+        <li>Standalone mixin with no bases &mdash; consistent with other property mixins (<code class="inline-code">HasChildren</code>, <code class="inline-code">HasParent</code>).</li>
+        <li>Factory class follows standard <code class="inline-code">Factory</code> pattern with static methods.</li>
+        <li><code class="inline-code">shape()</code> returns a tuple &mdash; supports unpacking (<code class="inline-code">rows, cols = obj.shape()</code>) and comparison.</li>
+        <li><code class="inline-code">__str__</code> provides string formatting separately from <code class="inline-code">shape()</code> &mdash; clean separation.</li>
     </ol>
 </section>
 
-<!-- ======== 4. Performance ======== -->
 <section>
     <h2>4. Performance</h2>
-    <p class="note note-good">No change needed.</p>
+    <ol><li class="no-change">No change needed.</li></ol>
     <ol>
         <li>All operations are O(1).</li>
-        <li><code class="ic">__len__</code> is a single multiplication.</li>
-        <li><code class="ic">is_within()</code> is two comparisons.</li>
+        <li><code class="inline-code">__len__</code> is a single multiplication.</li>
+        <li><code class="inline-code">is_within()</code> is two comparisons.</li>
     </ol>
 </section>
 
-<!-- ======== 5. Typing ======== -->
 <section>
     <h2>5. Typing</h2>
-    <p class="note note-good">No change needed.</p>
+    <ol><li class="no-change">No change needed.</li></ol>
     <ol>
-        <li><code class="ic">cols: int | None = None</code> &mdash;
-            correctly typed.</li>
-        <li><code class="ic">key</code> returns
-            <code class="ic">tuple[int, int]</code> &mdash;
-            fully typed.</li>
+        <li><code class="inline-code">cols: int | None = None</code> &mdash; correctly typed.</li>
+        <li><code class="inline-code">shape()</code> returns <code class="inline-code">tuple[int, int]</code> &mdash; precise return type.</li>
         <li>All public methods have return type annotations.</li>
     </ol>
 </section>
 
-<!-- ======== 6. Documentation ======== -->
 <section>
     <h2>6. Documentation</h2>
-    <p class="note note-good">No change needed.</p>
+    <ol><li class="no-change">No change needed.</li></ol>
     <ol>
-        <li>All public methods have docstrings with separator convention.</li>
-        <li><code class="ic">key</code> docstring explains two-level
-            comparison strategy.</li>
+        <li>Class docstring follows <code class="inline-code">====</code> separator convention.</li>
     </ol>
 </section>
 
-<!-- ======== 7. Modularity ======== -->
 <section>
     <h2>7. Modularity</h2>
-    <p class="note note-good">No change needed.</p>
+    <ol><li class="no-change">No change needed.</li></ol>
     <ol>
         <li>Standard 4-file layout, all files short and focused.</li>
     </ol>
 </section>
 
-<!-- ======== 8. Architecture ======== -->
 <section>
     <h2>8. Architecture</h2>
-    <p class="note note-good">No change needed.</p>
+    <ol><li class="no-change">No change needed.</li></ol>
     <ol>
-        <li>Correctly composes <code class="ic">Comparable</code> +
-            <code class="ic">Hashable</code> &mdash; standard
-            pattern for keyed domain objects.</li>
-        <li>Consistent with sibling <code class="ic">HasRowCol</code>
-            architecture.</li>
+        <li>Standalone property mixin &mdash; composable via multiple inheritance without pulling in comparison or hashing chains.</li>
+        <li>Subclasses can add their own <code class="inline-code">__eq__</code>, <code class="inline-code">__hash__</code>, or <code class="inline-code">__lt__</code> as needed.</li>
     </ol>
 </section>
 
-<!-- ======== 9. Usage & Usefulness ======== -->
 <section>
     <h2>9. Usage &amp; Usefulness</h2>
+    <h3>A) How to use</h3>
     <ol>
-        <li><strong>How to use:</strong> inherit or compose
-            <code class="ic">HasRowsCols</code> &mdash; get shape
-            dimensions, bounds checking, flat length, ordering,
-            hashing.</li>
-        <li><strong>When useful:</strong> grids, matrices, game boards,
-            image dimensions &mdash; any 2D shape descriptor.</li>
-        <li><strong>Overengineered?</strong> No &mdash; lightweight
-            building block with minimal API.</li>
+        <li>Inherit from <code class="inline-code">HasRowsCols</code> to get dimension properties, shape tuple, bounds checking, and flat length.</li>
     </ol>
+<pre><code>from f_core.mixins.has.rows_cols import HasRowsCols
+
+grid = HasRowsCols(rows=5, cols=10)
+print(grid.shape())           # (5, 10)
+rows, cols = grid.shape()     # unpacking
+print(len(grid))              # 50
+print(grid.is_within(4, 9))   # True</code></pre>
+    <h3>B) When useful</h3>
+    <ol><li>Grids, matrices, game boards, image dimensions &mdash; any 2D shape descriptor.</li></ol>
+    <h3>C) When not useful</h3>
+    <ol><li>If you need comparison or hashing based on dimensions, compose with <code class="inline-code">Comparable</code> or <code class="inline-code">Hashable</code> separately.</li></ol>
+    <h3>D) Better design</h3>
+    <ol><li>No redesign needed.</li></ol>
 </section>
 
-<!-- ======== 10. Suggestions ======== -->
 <section>
     <h2>10. Suggestions</h2>
-    <p class="note note-good">No improvements needed.</p>
-</section>
-
-<!-- ======== Summary ======== -->
-<section>
-    <h2>Summary</h2>
-    <ol>
-        <li><span class="v v-pass">PASS</span>
-            All previous issues resolved &mdash; no bugs or mismatches found.</li>
-        <li>Now inherits <code class="ic">Comparable</code> +
-            <code class="ic">Hashable</code> &mdash; consistent
-            with framework conventions.</li>
-        <li><code class="ic">cols=0</code> edge case handled correctly
-            with <code class="ic">is not None</code> guard.</li>
-        <li>All typing issues resolved &mdash; fully annotated.</li>
-        <li>Factory class follows standard pattern with static methods.</li>
-    </ol>
+    <ol><li class="no-change">No improvements needed.</li></ol>
 </section>
 
 <footer>
     <ol>
-        <li>Review date: 2026-03-05</li>
-        <li>Scope: <code class="ic">f_core.mixins.has.rows_cols</code>
-            (4 files)</li>
+        <li>Generated: 2026-03-07</li>
+        <li>Scope: f_core.mixins.has.rows_cols &mdash; full code + design review</li>
     </ol>
 </footer>
 

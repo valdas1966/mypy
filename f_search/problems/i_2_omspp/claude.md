@@ -1,246 +1,109 @@
 # ProblemOMSPP - One-to-Many Shortest Path Problem
 
-## Main Class
-`ProblemOMSPP(ProblemSearch, HasStart, HasGoals)`
-
-## Inheritance
-- **Base Classes:**
-  - `ProblemSearch` - Grid-based search problem
-  - `HasStart` - Provides start state
-  - `HasGoals` - Provides multiple goal states (set)
-
 ## Purpose
-Defines the One-to-Many Shortest Path Problem: finding optimal paths from a single start state to multiple goal states on a grid. This represents multi-destination routing scenarios.
+Defines the One-to-Many Shortest Path Problem (OMSPP): finding optimal paths from a single start state to multiple goal states on a grid. Composes `ProblemSearch`, `HasStart`, and `HasGoals` mixins. Provides `to_spps()` decomposition into individual SPP sub-problems.
 
-## Functionality from Base Classes
+## Public API
 
-### From ProblemSearch
-- `grid` property - Access to GridMap
-- `successors(state)` - Generate neighbor states
+### `__init__(self, grid: Grid, start: State, goals: list[State], name: str = 'ProblemOMSPP') -> None`
+Initialize with a grid, a start state, and a list of goal states. Delegates to `ProblemSearch.__init__`, `HasStart.__init__`, and `HasGoals.__init__`.
 
-### From HasStart
-- `start` property - Access to start state
-- `_start` attribute - Start state storage
+### `grid -> Grid` (property, inherited from ProblemSearch)
+Return the problem's GridMap. Raises `ValueError` if the grid was excluded via pickle and not reloaded.
 
-### From HasGoals
-- `goals` property - Access to goal states (set)
-- `_goals` attribute - Goal states storage (set[StateBase])
+### `name_grid -> str` (property, inherited from ProblemSearch)
+Return the grid's name string.
 
-## Specialized Functionality
+### `start -> State` (property, inherited from HasStart)
+Return the start state.
 
-### Constructor (`__init__`)
-**Parameters:**
-- **grid**: `Grid` - The 2D grid map
-- **start**: `StateBase` - The single start state
-- **goals**: `Iterable[StateBase]` - Multiple goal states
+### `goals -> list[State]` (property, inherited from HasGoals)
+Return the list of goal states.
 
-**Implementation:**
+### `successors(self, state: State) -> list[State]` (inherited from ProblemSearch)
+Return valid neighbor states from the grid for the given state.
+
+### `h_start -> float` (property)
+Returns average Manhattan distance from start to all goals.
+
+### `norm_h_start -> float` (property)
+Returns normalized h_start in [0, 100]. Formula: `h_start / (rows + cols - 2) * 100`.
+
+### `h_goals -> float` (property)
+Returns average pairwise Manhattan distance between goals. Returns 0.0 if fewer than 2 goals.
+
+### `norm_h_goals -> float` (property)
+Returns normalized h_goals in [0, 100]. Formula: `h_goals / (rows + cols - 2) * 100`.
+
+### `to_analytics(self) -> dict` (overrides ProblemSearch)
+Extends base dict with `h_start`, `norm_h_start`, `h_goals`, `norm_h_goals`. Inherited keys: `domain`, `map`, `rows`, `cols`, `cells`.
+
+### `to_spps(self) -> list[ProblemSPP]`
+Convert this OMSPP into a list of ProblemSPP sub-problems, one per goal. Each sub-problem shares the same grid and start.
+
+### `load_grid(self, grids: dict[str, Grid]) -> None` (inherited from ProblemSearch)
+Reload the grid from a name-keyed dictionary after pickling.
+
+### `__getstate__(self) -> dict` (inherited from ProblemSearch)
+Exclude the heavy grid object from pickle serialization.
+
+## Inheritance (Hierarchy)
+
+```
+ProblemAlgo (f_cs)
+  └── ProblemSearch (i_0_base) + HasStart (mixin) + HasGoals (mixin)
+        └── ProblemOMSPP (i_2_omspp)
+```
+
+| Base | Responsibility |
+|------|----------------|
+| `ProblemAlgo` | Generic algorithm problem interface |
+| `ProblemSearch` | Grid storage, successor generation, pickle support |
+| `HasStart` | Single start state property |
+| `HasGoals` | Multiple goal states (list) property |
+
+## Dependencies
+
+| Import | Used For |
+|--------|----------|
+| `f_search.problems.ProblemSearch` | Base class for grid problems |
+| `f_search.problems.i_1_spp.main.ProblemSPP` | SPP sub-problem creation in `to_spps()` |
+| `f_search.problems.mixins.HasStart` | Start state mixin |
+| `f_search.problems.mixins.HasGoals` | Goals list mixin |
+| `f_search.ds.state.StateCell` (as `State`) | State representation |
+| `f_ds.grids.GridMap` (as `Grid`) | Grid map for the search space |
+
+## Usage Examples
+
+### Create and solve an OMSPP
 ```python
-ProblemSearch.__init__(self, grid=grid)
-HasStart.__init__(self, start=start)
-HasGoals.__init__(self, goals=goals)
-```
-
-**Note:** Goals are converted to a set by HasGoals mixin
-
-### Problem Decomposition
-
-#### `to_spps()` → `list[ProblemSPP]`
-Converts the OMSPP into multiple SPP sub-problems.
-
-**Purpose:** Enables decomposition-based solving strategies
-
-**Implementation:**
-- For each goal in `self.goals`:
-  - Creates `ProblemSPP(grid, start, goal)`
-  - Appends to list
-- Returns list of k sub-problems (k = number of goals)
-
-**Usage:**
-```python
-omspp = ProblemOMSPP(grid, start, {goal1, goal2, goal3})
-spps = omspp.to_spps()  # [SPP(→goal1), SPP(→goal2), SPP(→goal3)]
-```
-
-**Used by:** KxAStar algorithm for naive decomposition approach
-
-## Problem Specification
-
-### Complete Definition
-A ProblemOMSPP fully specifies a multi-goal pathfinding problem:
-1. **Search Space**: GridMap with obstacles
-2. **Initial StateBase**: Single start state
-3. **Goal Condition**: Reach all goal states
-4. **Actions**: Move to neighboring cells
-5. **Objective**: Find optimal paths to all goals
-
-### Problem Instance
-```python
-problem = ProblemOMSPP(
-    grid=grid_map,
-    start=StateBase(key=(0, 0)),
-    goals=[StateBase(key=(5, 5)), StateBase(key=(10, 10)), StateBase(key=(15, 15))]
-)
-```
-
-## Mixin Composition
-
-Uses **compositional inheritance** via multiple mixins:
-
-```
-ProblemOMSPP
-    ├─ ProblemSearch (grid + successors)
-    ├─ HasStart (start property)
-    └─ HasGoals (goals property - plural, set-based)
-```
-
-## Usage with Algorithms
-
-### Compatible Algorithms
-- **KxAStar**: Naive K×A* decomposition approach
-- Any `AlgoOMSPP` subclass
-
-### Algorithm Integration
-```python
-problem = ProblemOMSPP(grid, start, goals)
-algorithm = KxAStar(problem=problem)
-solution = algorithm.run()
-```
-
-### Algorithm Queries
-Algorithms interact with problem via:
-- `problem.grid` - Access grid structure
-- `problem.start` - Get initial state
-- `problem.goals` - Get all goal states (set)
-- `problem.successors(state)` - Get neighbors
-- `problem.to_spps()` - Decompose into SPP (KxAStar)
-
-## Goals as Set
-
-### Why Set Instead of List?
-- **No duplicates**: Each goal appears once
-- **Order-independent**: Goals have no inherent order
-- **Fast membership**: O(1) goal checking
-- **Set semantics**: Matches mathematical definition
-
-### Goal Operations
-```python
-# Check if state is a goal
-if state in problem.goals:
-    # Goal reached
-
-# Iterate goals
-for goal in problem.goals:
-    # Process each goal
-
-# Number of goals
-k = len(problem.goals)
-```
-
-## Class Attribute
-- **Factory**: Type reference for factory pattern (set in `__init__.py`)
-
-## Relationship to Other Components
-
-- **Algorithms**: `AlgoOMSPP` (KxAStar)
-- **Solutions**: `SolutionOMSPP` (multiple paths)
-- **Sub-problems**: Can convert to `ProblemSPP` list
-- **Grid**: `GridMap` (search space)
-- **States**: `StateBase` (start, goals, path nodes)
-
-## Comparison with ProblemSPP
-
-| Aspect | ProblemOMSPP | ProblemSPP |
-|--------|-------------|-------------|
-| **Goals** | Multiple (set) | Single |
-| **Mixin** | HasGoals | HasGoal |
-| **Property** | goals (set[StateBase]) | goal (StateBase) |
-| **Algorithms** | KxAStar | AStar, Dijkstra |
-| **Solutions** | SolutionOMSPP | SolutionSPP |
-| **Decomposition** | to_spps() | N/A |
-| **Complexity** | Higher | Lower |
-
-## Problem Challenges
-
-OMSPP introduces unique challenges:
-1. **Multiple objectives**: Must reach all goals
-2. **Exploration redundancy**: Paths may overlap
-3. **Solution structure**: Multiple paths vs single path
-4. **Algorithm complexity**: More states to explore
-
-## Problem Invariants
-
-Valid ProblemOMSPP instances satisfy:
-1. Start state is valid (not obstacle, within bounds)
-2. All goal states are valid
-3. Goals set is non-empty
-4. Grid is properly formed
-5. No goal equals start (typically)
-
-## Example Usage
-
-```python
-from f_ds.grids import GridMap
-from f_search.ds import StateBase
 from f_search.problems import ProblemOMSPP
-from f_search.algos import AStarRepeated
 
-# Create grid
-grid = GridMap(width=20, height=20)
+# Via Factory
+problem = ProblemOMSPP.Factory.without_obstacles()
 
-# Define start and multiple goals
-start = StateBase(key=(0, 0))
-goals = [
-    StateBase(key=(5, 5)),
-    StateBase(key=(15, 5)),
-    StateBase(key=(10, 15))
-]
-
-# Create problem
-problem = ProblemOMSPP(grid=grid, start=start, goals=goals)
-
-# Solve with KxAStar
-kx_astar = AStarRepeated(problem=problem)
-solution = kx_astar.run()
-
-if solution.is_valid:
-    for goal, path in solution.paths.items():
-        print(f"Path to {goal}: {path}")
+# Access properties
+print(problem.start)   # State at (0,0)
+print(problem.goals)   # [State at (0,3), State at (3,3)]
+print(problem.grid)    # 4x4 GridMap
 ```
 
-## Decomposition Example
-
+### Decompose into SPP sub-problems
 ```python
-# Convert to multiple SPP
-omspp = ProblemOMSPP(grid, start, {g1, g2, g3})
-spps = omspp.to_spps()
-
-# spps[0] = ProblemSPP(grid, start, g1)
-# spps[1] = ProblemSPP(grid, start, g2)
-# spps[2] = ProblemSPP(grid, start, g3)
-
-# Can solve each independently
-for spp in spps:
-    astar = AStar(problem=spp)
-    solution = astar.run()
+problem = ProblemOMSPP.Factory.with_obstacles()
+spps = problem.to_spps()
+# spps[0] = ProblemSPP(grid, start, goal_a)
+# spps[1] = ProblemSPP(grid, start, goal_b)
 ```
 
-## Design Rationale
+### Custom construction
+```python
+from f_ds.grids import GridMap as Grid
+from f_search.ds.state import StateCell as State
+from f_search.problems import ProblemOMSPP
 
-### Why Separate OMSPP?
-- **Different structure**: Multiple goals fundamentally different
-- **Different algorithms**: Require specialized approaches
-- **Different solutions**: Multiple paths vs single path
-- **Type safety**: Algorithms can require OMSPP specifically
-
-### Why Provide to_spps()?
-- **Enables decomposition**: Supports naive solving strategies
-- **Reuses SPP algorithms**: Leverage existing A* implementation
-- **Simplifies KxAStar**: Provides sub-problems directly
-- **Explicit conversion**: Clear transformation from OMSPP to SPP
-
-### Future Algorithm Opportunities
-- **Multi-goal A***: Single search tree for all goals
-- **Incremental search**: Build on previous solutions
-- **Cluster-based**: Group nearby goals
-- **Priority-based**: Visit important goals first
+grid = Grid(rows=10)
+start = State(key=grid[0][0])
+goals = [State(key=grid[0][9]), State(key=grid[9][9])]
+problem = ProblemOMSPP(grid=grid, start=start, goals=goals)
+```

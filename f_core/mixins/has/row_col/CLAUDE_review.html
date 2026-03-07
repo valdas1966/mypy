@@ -132,7 +132,7 @@ footer {
             <code class="ic">type(self)(n[0], n[1])</code> &mdash;
             subclass-safe.</li>
         <li><code class="ic">is_within()</code> delegates to
-            <code class="ic">RectLike.to_min_max()</code> &mdash;
+            <code class="ic">RectLike.to_rect_coords()</code> &mdash;
             type hint matches runtime contract.</li>
         <li><code class="ic">distance()</code> is straightforward
             Manhattan distance &mdash; no edge cases.</li>
@@ -185,7 +185,7 @@ footer {
     <ol>
         <li><code class="ic">rect</code> is typed as
             <code class="ic">RectLike | None</code> &mdash;
-            matches the <code class="ic">to_min_max()</code> call.</li>
+            matches the <code class="ic">to_rect_coords()</code> call.</li>
         <li>All public methods fully typed with return annotations.</li>
     </ol>
 </section>

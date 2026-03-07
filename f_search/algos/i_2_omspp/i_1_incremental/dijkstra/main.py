@@ -25,13 +25,15 @@ class DijkstraIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
                  problem: ProblemOMSPP,
                  data: Data[State] = None,
                  name: str = 'DijkstraIncremental',
-                 need_path: bool = False) -> None:
+                 need_path: bool = False,
+                 is_analytics: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        super().__init__(problem=problem, name=name)
+        super().__init__(problem=problem, name=name,
+                         is_analytics=is_analytics)
         self._need_path = need_path
         frontier = Frontier()
         self._data = data if data else Data(frontier=frontier)
@@ -58,12 +60,16 @@ class DijkstraIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
                 self._sub_solutions.append(solution)
                 continue
             # Run the sub-search (SPP) using Dijkstra.
+            offset = len(self._data.explored)
             algo = Dijkstra(problem=sub_problem,
                             data=self._data,
                             need_path=self._need_path)
             sub_solution = algo.run()
             if not sub_solution:
                 break
+            self._collect_explored(goal=sub_problem.goal,
+                                  algo=algo,
+                                  offset=offset)
             self._sub_solutions.append(sub_solution)
             priority = Priority(key=sub_problem.goal.key,
                                 g=self._data.dict_g[sub_problem.goal])

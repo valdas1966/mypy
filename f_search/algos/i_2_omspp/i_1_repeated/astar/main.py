@@ -22,7 +22,8 @@ class AStarRepeated(AlgoOMSPP):
     def __init__(self,
                  problem: ProblemOMSPP,
                  name: str = 'KxAStar',
-                 need_path: bool = False) -> None:
+                 need_path: bool = False,
+                 is_analytics: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -30,7 +31,8 @@ class AStarRepeated(AlgoOMSPP):
         """
         AlgoOMSPP.__init__(self,
                            problem=problem,
-                           name=name)
+                           name=name,
+                           is_analytics=is_analytics)
         self._need_path = need_path
 
     def _run(self) -> SolutionOMSPP:
@@ -52,6 +54,8 @@ class AStarRepeated(AlgoOMSPP):
             solution = astar.run()
             if not solution:
                 break
+            self._collect_explored(goal=sub_problem.goal,
+                                  algo=astar)
             self._goals_active.remove(sub_problem.goal)
             # Add a solution for the goals that are explored in current A*.
             for goal in self._goals_active:

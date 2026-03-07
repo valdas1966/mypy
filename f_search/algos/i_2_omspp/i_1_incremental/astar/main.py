@@ -27,13 +27,15 @@ class AStarIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
                  data: Data[State] = None,
                  heuristics: HeuristicsProtocol[State] = None,
                  name: str = 'AStarIncremental',
-                 need_path: bool = False) -> None:
+                 need_path: bool = False,
+                 is_analytics: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        super().__init__(problem=problem, name=name)
+        super().__init__(problem=problem, name=name,
+                         is_analytics=is_analytics)
         self._need_path = need_path
         self._data = data
         if not data:
@@ -56,9 +58,13 @@ class AStarIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
                 self._on_goal_already_explored(problem=sub_problem)
                 continue
             # Run the sub-search (SPP) using AStar.
+            offset = len(self._data.explored)
             sub_solution = self._run_sub_search(problem=sub_problem)
             if not sub_solution:
                 break
+            self._collect_explored(goal=sub_problem.goal,
+                                  algo=self._last_algo,
+                                  offset=offset)
             self._sub_solutions.append(sub_solution)
             priority = Priority[State](key=sub_problem.goal.key,
                                        g=self._data.dict_g[sub_problem.goal],
@@ -99,8 +105,8 @@ class AStarIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
                                        h=self._data.dict_h[state])
             self._data.frontier.update(state=state, priority=priority)
         # Run the Sub-Search using AStar.
-        algo = AStarReusable[State](problem=problem,
-                                    data=self._data,
-                                    heuristics=heuristics,
-                                    need_path=self._need_path)
-        return algo.run()
+        self._last_algo = AStarReusable[State](problem=problem,
+                                               data=self._data,
+                                               heuristics=heuristics,
+                                               need_path=self._need_path)
+        return self._last_algo.run()
