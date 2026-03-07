@@ -1,45 +1,54 @@
 from __future__ import annotations
-from f_ai.hs.nodes.i_0_g import NodeG
-from f_ai.hs.nodes.i_0_h import NodeH
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from f_color.rgb.main import RGB
 
 
-class NodeF(NodeG, NodeH):
+class To:
     """
     ============================================================================
-     Informed Node with F-Value (G + H).
+     Conversion methods for RGB color.
     ============================================================================
     """
 
-    def __init__(self,
-                 name: str = None,
-                 parent: NodeF = None) -> None:
+    def __init__(self, rgb: RGB) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        super().__init__(name=name, parent=parent)
+        self._rgb = rgb
 
-    def f(self) -> int:
+    def tuple(self,
+              to_int: bool = False
+              ) -> tuple[float, float, float]:
         """
         ========================================================================
-         Calculate the total Estimated Cost (G + H).
+         Return a Tuple-REPR of the RGB (used by matplotlib (floats)).
         ========================================================================
         """
-        return (self._g + self._h) if self._h is not None else None
+        r, g, b = self._rgb._r, self._rgb._g, self._rgb._b
+        if to_int:
+            return int(r * 255), int(g * 255), int(b * 255)
+        return r, g, b
 
-    def key_comparison(self) -> list:
+    def hex(self) -> str:
         """
         ========================================================================
-         If F-Values are equal, break ties on H-Value.
+         Return a Hex-String of the RGB.
         ========================================================================
         """
-        return [self.f(), NodeG.key_comparison(self)]
+        r, g, b = self.tuple(to_int=True)
+        return f'#{r:02X}{g:02X}{b:02X}'
 
-    def __repr__(self) -> str:
+    def argb(self,
+             alpha: int = 255
+             ) -> str:
         """
         ========================================================================
-         '<NodeF: Name> G=5, H=10, F=15'
+         Return an ARGB-String of the RGB.
         ========================================================================
         """
-        return f'{NodeG.__repr__(self)}, H={self.h}, F={self.f()}'
+        r, g, b = self.tuple(to_int=True)
+        return f'{alpha:02X}{r:02X}{g:02X}{b:02X}'

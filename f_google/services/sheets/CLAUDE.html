@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sheets — Documentation</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #111827;
+            --panel2: #0f172a;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --faint: #94a3b8;
+            --border: #334155;
+            --accent: #60a5fa;
+            --accent2: #a78bfa;
+            --good: #34d399;
+            --warn: #fbbf24;
+            --bad: #fb7185;
+            --code-bg: #0a1220;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; color: var(--accent2); }
+        a:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+        .container { display: flex; min-height: 100vh; }
+
+        .sidebar {
+            width: 280px;
+            background: var(--panel);
+            border-right: 2px solid var(--border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .sidebar h2 { color: var(--text); font-size: 1rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
+        .sidebar ul { list-style: none; }
+        .sidebar li { margin-bottom: 0.5rem; }
+        .sidebar a { display: block; padding: 0.4rem 0.6rem; border-radius: 4px; color: var(--muted); font-size: 0.9rem; }
+        .sidebar a:hover { background: var(--panel2); color: var(--text); text-decoration: none; }
+        .sidebar .sub-item { padding-left: 1.5rem; font-size: 0.85rem; color: var(--faint); }
+        .sidebar .sep { margin-top: 1rem; padding-top: 0.5rem; border-top: 2px solid var(--border); }
+        .sidebar .sep a { color: var(--accent2); }
+
+        .search-box { margin-bottom: 1rem; }
+        .search-box input { width: 100%; padding: 0.5rem 0.75rem; background: var(--panel2); border: 2px solid var(--border); border-radius: 4px; color: var(--text); font-size: 0.9rem; }
+        .search-box input:focus { outline: none; border-color: var(--accent); }
+        .search-box input::placeholder { color: var(--faint); }
+
+        .main { margin-left: 280px; flex: 1; padding: 2rem 3rem; max-width: 900px; }
+
+        header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
+        header h1 { font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; }
+        header .path { color: var(--faint); font-family: monospace; font-size: 0.9rem; }
+        header .tag { display: inline-block; margin-top: 0.5rem; padding: 0.25rem 0.75rem; background: var(--accent2); color: var(--bg); border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+
+        section { margin-bottom: 3rem; }
+        h2 { color: #fff; font-size: 1.5rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); }
+        h3 { color: var(--text); font-size: 1.2rem; margin: 1.5rem 0 0.75rem; }
+        h4 { color: var(--muted); font-size: 1rem; margin: 1rem 0 0.5rem; }
+
+        .note { background: var(--panel2); border-left: 3px solid var(--accent); padding: 0.75rem 1rem; margin: 1rem 0; color: var(--muted); font-size: 0.9rem; }
+        .note-warn { border-left-color: var(--warn); }
+        .note-good { border-left-color: var(--good); }
+
+        pre { background: var(--code-bg); border: 2px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+        code { font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace; font-size: 0.9rem; color: var(--text); }
+        pre code { display: block; line-height: 1.5; }
+        .inline-code { background: var(--panel2); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.85rem; }
+
+        .panel { background: var(--panel); border: 2px solid var(--border); border-radius: 8px; margin: 1rem 0; overflow: hidden; }
+        .panel-header { background: var(--panel2); padding: 0.75rem 1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #fff; }
+        .panel-header:hover { background: var(--border); }
+        .panel-header:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+        .panel-header .arrow { transition: transform 0.2s; color: var(--faint); }
+        .panel.collapsed .panel-header .arrow { transform: rotate(-90deg); }
+        .panel-content { padding: 1rem; }
+        .panel.collapsed .panel-content { display: none; }
+
+        .api-item { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+        .api-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .api-signature { background: var(--code-bg); padding: 0.75rem 1rem; border-radius: 4px; margin-bottom: 0.5rem; border-left: 3px solid var(--accent); }
+        .api-description ol { margin: 0.5rem 0 0 1.5rem; }
+        .api-description li { color: var(--muted); font-size: 0.95rem; }
+
+        .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-right: 0.5rem; }
+        .badge-stdlib { background: var(--good); color: var(--bg); }
+        .badge-internal { background: var(--accent2); color: var(--bg); }
+        .badge-third { background: var(--warn); color: var(--bg); }
+
+        .hierarchy-tree { font-family: monospace; background: var(--code-bg); padding: 1rem; border-radius: 6px; border: 2px solid var(--border); line-height: 1.8; }
+
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.75rem; text-align: left; border: 1px solid var(--border); }
+        th { background: var(--panel2); color: #fff; font-weight: 600; }
+        td { background: var(--panel); color: var(--muted); }
+
+        .back-to-top { display: inline-block; margin-top: 1rem; font-size: 0.85rem; color: var(--faint); }
+        .back-to-top:hover { color: var(--accent); }
+
+        footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); color: var(--faint); font-size: 0.85rem; }
+
+        @media (max-width: 900px) {
+            .sidebar { position: static; width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border); }
+            .main { margin-left: 0; padding: 1.5rem; }
+            .container { flex-direction: column; }
+        }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="search-box">
+                <input type="text" id="search" placeholder="Search..." aria-label="Search documentation">
+            </div>
+            <h2>Contents</h2>
+            <ul>
+                <li><a href="#purpose">Purpose</a></li>
+                <li><a href="#public-api">Public API</a></li>
+                <li class="sub-item"><a href="#api-spread">Spread</a></li>
+                <li class="sub-item"><a href="#api-sheet">Sheet</a></li>
+                <li><a href="#structure">Module Structure</a></li>
+                <li><a href="#dependencies">Dependencies</a></li>
+                <li><a href="#usage">Usage Examples</a></li>
+                <li class="sep"><a href="spread/CLAUDE.html">Spread Docs</a></li>
+                <li class="sep" style="border:none;"><a href="sheet/CLAUDE.html">Sheet Docs</a></li>
+            </ul>
+        </nav>
+
+        <main class="main">
+            <header id="top">
+                <h1>sheets</h1>
+                <div class="path">f_google/services/sheets/</div>
+                <div class="tag">SUB-PACKAGE</div>
+            </header>
+
+            <section id="purpose">
+                <h2>Purpose</h2>
+                <ol>
+                    <li>Sub-package grouping Google Sheets service wrappers.</li>
+                    <li>Re-exports <code class="inline-code">Spread</code> and <code class="inline-code">Sheet</code> for convenient access.</li>
+                    <li>Provides spreadsheet-level and worksheet-level access to Google Sheets via <code class="inline-code">gspread</code>.</li>
+                </ol>
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
+
+            <section id="public-api">
+                <h2>Public API (re-exports)</h2>
+
+                <div class="panel" id="api-spread">
+                    <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
+                        <span>Spread &mdash; Google Spreadsheet</span>
+                        <span class="arrow">&#9660;</span>
+                    </div>
+                    <div class="panel-content">
+                        <div class="api-item">
+                            <div class="api-signature">
+                                <code>def __init__(self,<br>             creds: OAuthCredentials | SACredentials,<br>             id_spread: str) -&gt; None</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Authorize via OAuth or SA credentials and open spreadsheet by ID.</li>
+                            </ol>
+                        </div>
+                        <div class="api-item">
+                            <div class="api-signature">
+                                <code>@property<br>def name(self) -&gt; str</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Return the spreadsheet title (inherited from <code class="inline-code">HasName</code>).</li>
+                            </ol>
+                        </div>
+                        <div class="api-item">
+                            <div class="api-signature">
+                                <code>@property<br>def sheets(self) -&gt; list[Sheet]</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Return all worksheets as <code class="inline-code">Sheet</code> objects.</li>
+                            </ol>
+                        </div>
+                        <div class="api-item">
+                            <div class="api-signature">
+                                <code>def __getitem__(self, name: str) -&gt; Sheet</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Return a worksheet by name.</li>
+                            </ol>
+                        </div>
+                        <div class="api-item">
+                            <div class="api-signature">
+                                <code>Factory.valdas(id_spread: str) -&gt; Spread<br>Factory.valdas_test() -&gt; Spread<br>Factory.rami(id_spread: str) -&gt; Spread</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Pre-configured spreadsheet clients for VALDAS (OAuth) and RAMI (SA).</li>
+                                <li><code class="inline-code">valdas_test()</code> opens a hardcoded test spreadsheet.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel" id="api-sheet">
+                    <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
+                        <span>Sheet &mdash; Google Worksheet</span>
+                        <span class="arrow">&#9660;</span>
+                    </div>
+                    <div class="panel-content">
+                        <div class="api-item">
+                            <div class="api-signature">
+                                <code>def __init__(self, ws: gspread.Worksheet) -&gt; None</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Wrap a live <code class="inline-code">gspread.Worksheet</code>. Rows are not fetched until first access.</li>
+                            </ol>
+                        </div>
+                        <div class="api-item">
+                            <div class="api-signature">
+                                <code>@property<br>def name(self) -&gt; str</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Return the worksheet title.</li>
+                            </ol>
+                        </div>
+                        <div class="api-item">
+                            <div class="api-signature">
+                                <code>def __getitem__(self, row: int) -&gt; list[str]</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Return row at the given index (0-based). Triggers lazy load on first call.</li>
+                            </ol>
+                        </div>
+                        <div class="api-item">
+                            <div class="api-signature">
+                                <code>def __len__(self) -&gt; int</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Return the number of rows. Triggers lazy load on first call.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
+
+            <section id="structure">
+                <h2>Module Structure</h2>
+
+                <div class="hierarchy-tree">
+                    <div>f_google/services/sheets/     (re-export package)</div>
+                    <div>&nbsp;&nbsp;&#9500;&#9472;&#9472; spread/Spread              (HasName)</div>
+                    <div>&nbsp;&nbsp;&#9492;&#9472;&#9472; sheet/Sheet                (standalone)</div>
+                </div>
+
+                <table>
+                    <thead><tr><th>Module</th><th>Class</th><th>Responsibility</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td><code class="inline-code"><a href="spread/CLAUDE.html">spread/</a></code></td>
+                            <td><code class="inline-code">Spread</code></td>
+                            <td>Google Spreadsheet wrapper with OAuth/SA auth and sheet access</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code"><a href="sheet/CLAUDE.html">sheet/</a></code></td>
+                            <td><code class="inline-code">Sheet</code></td>
+                            <td>Worksheet wrapper with lazy-loaded row access</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
+
+            <section id="dependencies">
+                <h2>Dependencies</h2>
+
+                <h3><span class="badge badge-internal">INTERNAL</span> Re-exports</h3>
+                <table>
+                    <thead><tr><th>Import</th><th>Used For</th></tr></thead>
+                    <tbody>
+                        <tr><td><code class="inline-code">f_google.services.sheets.spread.Spread</code></td><td>Re-exported as <code class="inline-code">Spread</code></td></tr>
+                        <tr><td><code class="inline-code">f_google.services.sheets.sheet.Sheet</code></td><td>Re-exported as <code class="inline-code">Sheet</code></td></tr>
+                    </tbody>
+                </table>
+
+                <h3><span class="badge badge-internal">INTERNAL</span> Framework (transitive)</h3>
+                <table>
+                    <thead><tr><th>Import</th><th>Used For</th></tr></thead>
+                    <tbody>
+                        <tr><td><code class="inline-code">f_core.mixins.has.HasName</code></td><td>Name mixin for Spread</td></tr>
+                        <tr><td><code class="inline-code">f_google.creds.oauth.OAuth</code></td><td>Factory: OAuth credentials</td></tr>
+                        <tr><td><code class="inline-code">f_google.creds.auth.Auth</code></td><td>Factory: SA credentials</td></tr>
+                    </tbody>
+                </table>
+
+                <h3><span class="badge badge-third">THIRD-PARTY</span> Google Sheets (transitive)</h3>
+                <table>
+                    <thead><tr><th>Package</th><th>Used For</th></tr></thead>
+                    <tbody>
+                        <tr><td><code class="inline-code">gspread</code></td><td>Google Sheets client (authorize, open_by_key, Worksheet)</td></tr>
+                        <tr><td><code class="inline-code">google-auth</code></td><td>OAuth and SA credential types</td></tr>
+                    </tbody>
+                </table>
+
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
+
+            <section id="usage">
+                <h2>Usage Examples</h2>
+
+                <div class="panel">
+                    <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
+                        <span>Example 1: Open and Read Spreadsheet</span>
+                        <span class="arrow">&#9660;</span>
+                    </div>
+                    <div class="panel-content">
+                        <pre><code>from f_google.services.sheets import Spread
+
+spread = Spread.Factory.valdas(id_spread='&lt;SPREADSHEET_ID&gt;')
+print(spread.name)        # spreadsheet title
+sheet = spread['Sheet1']
+print(len(sheet))         # number of rows
+print(sheet[0])           # first row as list[str]</code></pre>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
+                        <span>Example 2: Iterate All Sheets</span>
+                        <span class="arrow">&#9660;</span>
+                    </div>
+                    <div class="panel-content">
+                        <pre><code>from f_google.services.sheets import Spread
+
+spread = Spread.Factory.rami(id_spread='&lt;SPREADSHEET_ID&gt;')
+for sheet in spread.sheets:
+    print(f'{sheet.name}: {len(sheet)} rows')</code></pre>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
+                        <span>Example 3: Test Spreadsheet</span>
+                        <span class="arrow">&#9660;</span>
+                    </div>
+                    <div class="panel-content">
+                        <pre><code>from f_google.services.sheets import Spread
+
+spread = Spread.Factory.valdas_test()
+sheet = spread.sheets[0]
+print(sheet[0])           # first row of first sheet</code></pre>
+                    </div>
+                </div>
+
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
+
+            <footer>
+                <ol>
+                    <li>Generated: 2026-03-06</li>
+                    <li>Scope: f_google.services.sheets package documentation</li>
+                </ol>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function togglePanel(header) { header.parentElement.classList.toggle('collapsed'); }
+        function handlePanelKey(event, header) { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); togglePanel(header); } }
+        const searchInput = document.getElementById('search');
+        const searchableItems = document.querySelectorAll('.api-item, .panel');
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            if (query === '') { searchableItems.forEach(item => item.classList.remove('hidden')); return; }
+            searchableItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(query)) { item.classList.remove('hidden'); const panel = item.closest('.panel'); if (panel) panel.classList.remove('collapsed'); }
+                else { item.classList.add('hidden'); }
+            });
+        });
+    </script>
+</body>
+</html>

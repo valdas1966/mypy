@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAUDE - ProblemOMSPP</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    display: flex;
+    min-height: 100vh;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* TOC */
+nav {
+    position: sticky;
+    top: 0;
+    width: 240px;
+    min-width: 240px;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--panel);
+    border-right: 2px solid var(--border);
+    padding: 1.5rem 1rem;
+}
+nav h2 { font-size: 0.9rem; color: var(--faint); text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.05em; }
+nav ol { list-style: none; counter-reset: toc; }
+nav ol li { counter-increment: toc; margin-bottom: 0.5rem; }
+nav ol li::before { content: counter(toc) ". "; color: var(--faint); font-size: 0.85rem; }
+nav ol li a { font-size: 0.85rem; }
+nav .search-box { width: 100%; padding: 0.4rem 0.6rem; background: var(--panel2); border: 1px solid var(--border); border-radius: 4px; color: var(--text); font-size: 0.8rem; margin-bottom: 1rem; }
+nav .search-box::placeholder { color: var(--faint); }
+
+/* Main */
+main {
+    flex: 1;
+    max-width: 760px;
+    padding: 2rem 3rem;
+}
+h1 { font-size: 1.8rem; color: #fff; margin-bottom: 0.3rem; }
+.folder-path { color: var(--faint); font-size: 0.9rem; margin-bottom: 2rem; }
+section { margin-bottom: 2.5rem; }
+section h2 {
+    font-size: 1.3rem;
+    color: #fff;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.4rem;
+    margin-bottom: 1rem;
+}
+ol { padding-left: 1.5rem; }
+ol li { margin-bottom: 0.5rem; color: var(--text); }
+pre, code {
+    font-family: 'Consolas', 'Fira Code', monospace;
+    font-size: 0.85rem;
+}
+pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+}
+code { background: var(--code-bg); padding: 0.15rem 0.35rem; border-radius: 3px; }
+.back-top { font-size: 0.8rem; color: var(--faint); display: block; margin-top: 0.5rem; }
+details { margin-bottom: 1rem; }
+details summary {
+    cursor: pointer;
+    color: var(--accent);
+    font-weight: 600;
+    padding: 0.5rem 0.8rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+}
+details summary:hover { background: var(--panel2); }
+details[open] summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+details .panel-body {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    padding: 1rem;
+}
+table { width: 100%; border-collapse: collapse; margin: 0.5rem 0; }
+th, td { text-align: left; padding: 0.4rem 0.8rem; border: 1px solid var(--border); }
+th { background: var(--panel); color: #fff; font-size: 0.85rem; }
+td { font-size: 0.85rem; }
+.badge {
+    display: inline-block;
+    padding: 0.1rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.badge-internal { background: #1e3a5f; color: var(--accent); }
+footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--border);
+    color: var(--faint);
+    font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+    body { flex-direction: column; }
+    nav { position: static; width: 100%; height: auto; min-width: unset; border-right: none; border-bottom: 2px solid var(--border); }
+    main { padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+    <h2>Contents</h2>
+    <input type="text" class="search-box" id="search" placeholder="Filter..." oninput="filterItems()">
+    <ol>
+        <li><a href="#purpose">Purpose</a></li>
+        <li><a href="#api">Public API</a></li>
+        <li><a href="#hierarchy">Inheritance</a></li>
+        <li><a href="#deps">Dependencies</a></li>
+        <li><a href="#examples">Usage Examples</a></li>
+    </ol>
+</nav>
+
+<main>
+
+<h1>ProblemOMSPP</h1>
+<div class="folder-path">f_search/problems/i_2_omspp/</div>
+
+<!-- A. Purpose -->
+<section id="purpose">
+<h2>A. Purpose</h2>
+<ol>
+    <li>Defines the One-to-Many Shortest Path Problem: single start, multiple goals on a grid.</li>
+    <li>Composes <code>ProblemSearch</code>, <code>HasStart</code>, and <code>HasGoals</code> mixins; only adds <code>to_spps()</code>.</li>
+    <li>Constructor accepts <code>Grid</code> (not <code>Grid | str</code>); inherits <code>__getstate__</code>/<code>load_grid</code> pickle support from <code>ProblemSearch</code>.</li>
+</ol>
+<a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- B. Public API -->
+<section id="api">
+<h2>B. Public API</h2>
+
+<details open class="api-item">
+<summary>ProblemOMSPP</summary>
+<div class="panel-body">
+
+<div id="api-init">
+<ol><li>Constructor: initialize grid, start state, and goal states list.</li></ol>
+<pre>def __init__(self,
+             grid: Grid,
+             start: State,
+             goals: list[State],
+             name: str = 'ProblemOMSPP') -> None</pre>
+</div>
+
+<div id="api-grid">
+<ol><li>Return the grid. Raises <code>ValueError</code> if grid was excluded by pickle and not reloaded.</li></ol>
+<pre>@property
+def grid(self) -> Grid</pre>
+</div>
+
+<div id="api-name-grid">
+<ol><li>Return the grid's name string (survives pickling).</li></ol>
+<pre>@property
+def name_grid(self) -> str</pre>
+</div>
+
+<div id="api-start">
+<ol><li>Return the start state (from <code>HasStart</code> mixin).</li></ol>
+<pre>@property
+def start(self) -> State</pre>
+</div>
+
+<div id="api-goals">
+<ol><li>Return the list of goal states (from <code>HasGoals</code> mixin).</li></ol>
+<pre>@property
+def goals(self) -> list[State]</pre>
+</div>
+
+<div id="api-successors">
+<ol><li>Return valid neighbor states from the grid (inherited from <code>ProblemSearch</code>).</li></ol>
+<pre>def successors(self, state: State) -> list[State]</pre>
+</div>
+
+<div id="api-h-start">
+<ol><li>Average Manhattan distance from start to all goals.</li></ol>
+<pre>@property
+def h_start(self) -> float</pre>
+</div>
+
+<div id="api-norm-h-start">
+<ol><li>Normalized h_start in [0, 100]: <code>h_start / (rows + cols - 2) * 100</code>.</li></ol>
+<pre>@property
+def norm_h_start(self) -> float</pre>
+</div>
+
+<div id="api-h-goals">
+<ol><li>Average pairwise Manhattan distance between goals. Returns 0.0 if fewer than 2 goals.</li></ol>
+<pre>@property
+def h_goals(self) -> float</pre>
+</div>
+
+<div id="api-norm-h-goals">
+<ol><li>Normalized h_goals in [0, 100]: <code>h_goals / (rows + cols - 2) * 100</code>.</li></ol>
+<pre>@property
+def norm_h_goals(self) -> float</pre>
+</div>
+
+<div id="api-to-analytics">
+<ol><li>Extends base <code>ProblemSearch.to_analytics()</code> with <code>h_start</code>, <code>norm_h_start</code>, <code>h_goals</code>, <code>norm_h_goals</code>.</li></ol>
+<pre>def to_analytics(self) -> dict</pre>
+</div>
+
+<div id="api-to-spps">
+<ol><li>Decompose into a list of <code>ProblemSPP</code> sub-problems, one per goal.</li>
+<li>Each sub-problem shares the same grid and start state.</li></ol>
+<pre>def to_spps(self) -> list[ProblemSPP]</pre>
+</div>
+
+<div id="api-load-grid">
+<ol><li>Restore the grid reference after unpickling using a name-keyed dict.</li></ol>
+<pre>def load_grid(self, grids: dict[str, Grid]) -> None</pre>
+</div>
+
+<div id="api-getstate">
+<ol><li>Custom pickle: excludes the heavy grid object, keeps <code>_name_grid</code>.</li></ol>
+<pre>def __getstate__(self) -> dict</pre>
+</div>
+
+</div>
+</details>
+
+<a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- C. Inheritance -->
+<section id="hierarchy">
+<h2>C. Inheritance</h2>
+
+<details open>
+<summary>ProblemOMSPP Hierarchy</summary>
+<div class="panel-body">
+<pre>ProblemAlgo
+  └── ProblemSearch  +  HasStart  +  HasGoals
+        └── ProblemOMSPP</pre>
+
+<table>
+<tr><th>#</th><th>Base</th><th>Responsibility</th></tr>
+<tr><td>1</td><td><code>ProblemAlgo</code></td><td>Generic problem interface for algorithms (name, equality).</td></tr>
+<tr><td>2</td><td><code>ProblemSearch</code></td><td>Grid storage, successor generation, pickle support.</td></tr>
+<tr><td>3</td><td><code>HasStart</code></td><td>Single start state property.</td></tr>
+<tr><td>4</td><td><code>HasGoals</code></td><td>Multiple goal states (list) property.</td></tr>
+</table>
+</div>
+</details>
+
+<a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- D. Dependencies -->
+<section id="deps">
+<h2>D. Dependencies</h2>
+<table>
+<tr><th>#</th><th>Import</th><th>Used For</th></tr>
+<tr><td>1</td><td><span class="badge badge-internal">internal</span> <code>f_search.problems.ProblemSearch</code></td><td>Base class: grid + successors + pickle.</td></tr>
+<tr><td>2</td><td><span class="badge badge-internal">internal</span> <code>f_search.problems.i_1_spp.main.ProblemSPP</code></td><td>SPP sub-problem creation in <code>to_spps()</code>.</td></tr>
+<tr><td>3</td><td><span class="badge badge-internal">internal</span> <code>f_search.problems.mixins.HasStart</code></td><td>Start state mixin.</td></tr>
+<tr><td>4</td><td><span class="badge badge-internal">internal</span> <code>f_search.problems.mixins.HasGoals</code></td><td>Goals list mixin.</td></tr>
+<tr><td>5</td><td><span class="badge badge-internal">internal</span> <code>f_search.ds.state.StateCell</code></td><td>State representation (aliased as <code>State</code>).</td></tr>
+<tr><td>6</td><td><span class="badge badge-internal">internal</span> <code>f_ds.grids.GridMap</code></td><td>Grid map for the search space (aliased as <code>Grid</code>).</td></tr>
+</table>
+<a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- E. Usage Examples -->
+<section id="examples">
+<h2>E. Usage Examples</h2>
+
+<details open>
+<summary id="ex-factory">Example 1: Factory construction</summary>
+<div class="panel-body">
+<pre>from f_search.problems import ProblemOMSPP
+
+# Without obstacles (4x4 grid, start=(0,0), 2 goals)
+problem = ProblemOMSPP.Factory.without_obstacles()
+print(problem.start)   # State at (0,0)
+print(problem.goals)   # [State at (0,3), State at (3,3)]
+
+# With obstacles
+problem = ProblemOMSPP.Factory.with_obstacles()
+
+# Custom: random grid with obstacles
+problem = ProblemOMSPP.Factory.custom(rows=20, pct_obstacles=30, k=5)</pre>
+</div>
+</details>
+
+<details open>
+<summary id="ex-decompose">Example 2: Decompose to SPP sub-problems</summary>
+<div class="panel-body">
+<pre>problem = ProblemOMSPP.Factory.without_obstacles()
+spps = problem.to_spps()
+# spps[0] = ProblemSPP(grid, start, goal_a)
+# spps[1] = ProblemSPP(grid, start, goal_b)
+for spp in spps:
+    print(spp.start, '->', spp.goal)</pre>
+</div>
+</details>
+
+<details>
+<summary id="ex-manual">Example 3: Manual construction</summary>
+<div class="panel-body">
+<pre>from f_ds.grids import GridMap as Grid
+from f_search.ds.state import StateCell as State
+from f_search.problems import ProblemOMSPP
+
+grid = Grid(rows=10)
+start = State(key=grid[0][0])
+goals = [State(key=grid[0][9]), State(key=grid[9][9])]
+problem = ProblemOMSPP(grid=grid, start=start, goals=goals)</pre>
+</div>
+</details>
+
+<a href="#" class="back-top">Back to top</a>
+</section>
+
+<footer>
+    Generated: 2026-03-07 | Scope: <code>f_search/problems/i_2_omspp/</code> | Files: main.py, __init__.py, _factory.py
+</footer>
+
+</main>
+
+<script>
+function filterItems() {
+    const q = document.getElementById('search').value.toLowerCase();
+    document.querySelectorAll('.api-item, details').forEach(el => {
+        const text = el.textContent.toLowerCase();
+        el.style.display = text.includes(q) ? '' : 'none';
+    });
+}
+</script>
+
+</body>
+</html>

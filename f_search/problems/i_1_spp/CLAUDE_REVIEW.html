@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Review &mdash; ProblemSPP</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 2rem 3rem;
+    max-width: 960px;
+    margin: 0 auto;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); text-decoration: underline; }
+h1 { color: #fff; font-size: 2rem; margin-bottom: .3rem; }
+.path {
+    color: var(--faint);
+    font-family: monospace;
+    font-size: .9rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border);
+}
+h2 {
+    color: #fff;
+    font-size: 1.4rem;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: .4rem;
+    border-bottom: 2px solid var(--border);
+}
+h3 { color: var(--text); font-size: 1.1rem; margin: 1.5rem 0 .5rem; }
+ol { padding-left: 1.5rem; margin: .75rem 0; }
+li { margin-bottom: .6rem; color: var(--muted); }
+li strong { color: var(--text); }
+p { margin-bottom: .75rem; color: var(--muted); }
+pre {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: .75rem 0;
+}
+code {
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace;
+    font-size: .9rem;
+    color: var(--text);
+}
+pre code { display: block; line-height: 1.5; }
+.ic {
+    background: var(--panel2);
+    padding: .15rem .4rem;
+    border-radius: 3px;
+    font-size: .85rem;
+}
+.v {
+    display: inline-block;
+    padding: .2rem .6rem;
+    border-radius: 4px;
+    font-size: .8rem;
+    font-weight: 600;
+}
+.v-pass { background: var(--good); color: var(--bg); }
+.v-minor { background: var(--warn); color: var(--bg); }
+.fr { color: var(--accent); font-family: monospace; font-size: .85rem; }
+.note {
+    background: var(--panel2);
+    border-left: 3px solid var(--accent);
+    padding: .75rem 1rem;
+    margin: 1rem 0;
+    color: var(--muted);
+    font-size: .9rem;
+}
+.note-good { border-left-color: var(--good); }
+.note-warn { border-left-color: var(--warn); }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+th, td { padding: .75rem; text-align: left; border: 1px solid var(--border); }
+th { background: var(--panel2); color: #fff; font-weight: 600; }
+td { background: var(--panel); color: var(--muted); }
+footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--border);
+    color: var(--faint);
+    font-size: .85rem;
+}
+</style>
+</head>
+<body>
+
+<h1>Code + Design Review</h1>
+<div class="path">f_search / problems / i_1_spp</div>
+<p>
+    Files reviewed:
+    <code class="ic">main.py</code>,
+    <code class="ic">_factory.py</code>,
+    <code class="ic">_tester.py</code>,
+    <code class="ic">__init__.py</code>
+</p>
+<p>
+    Deep-inspected:
+    <code class="ic">ProblemSearch</code>,
+    <code class="ic">HasStart</code>,
+    <code class="ic">HasGoal</code>,
+    <code class="ic">ProblemAlgo</code>
+</p>
+
+<!-- ======== 1. Correctness ======== -->
+<section>
+    <h2>1. Correctness</h2>
+    <p class="note note-good">No change needed.</p>
+    <ol>
+        <li>
+            Constructor correctly chains all three base
+            <code class="ic">__init__</code> calls with explicit
+            keyword arguments.
+        </li>
+        <li>
+            <code class="ic">reverse()</code> uses
+            <code class="ic">type(self)</code> to construct the
+            returned instance, preserving subclass identity.
+        </li>
+        <li>
+            <code class="ic">__getstate__</code> and
+            <code class="ic">load_grid</code> are correctly inherited
+            from <code class="ic">ProblemSearch</code> &mdash; no
+            override needed since start/goal are lightweight.
+        </li>
+        <li>
+            <code class="ic">h_start</code> correctly delegates
+            to <code class="ic">start.distance(other=goal)</code>
+            (Manhattan distance).
+        </li>
+        <li>
+            <code class="ic">norm_h_start</code> correctly
+            normalizes by <code class="ic">(rows + cols - 2)</code>
+            with a zero-guard for trivial grids.
+        </li>
+        <li>
+            <code class="ic">to_analytics()</code> correctly extends
+            base dict via <code class="ic">ProblemSearch.to_analytics()</code>
+            and adds SPP-specific keys.
+        </li>
+    </ol>
+</section>
+
+<!-- ======== 2. Readability / Naming ======== -->
+<section>
+    <h2>2. Readability / Naming</h2>
+    <ol>
+        <li>
+            <strong><span class="fr">_factory.py:36-46</span></strong>
+            &mdash; <code class="ic">for_cached()</code> docstring says
+            "5x5 grid with wall at column 3" but creates a 6-column
+            grid via <code class="ic">Grid.Factory.six_with_obstacles()</code>.
+            Docstring should say "6x6 grid" to match.
+        </li>
+        <li>
+            <strong><span class="fr">main.py:32</span></strong>
+            &mdash; <code class="ic">name: str = None</code> should be
+            <code class="ic">name: str | None = None</code> for type
+            accuracy.
+        </li>
+    </ol>
+</section>
+
+<!-- ======== 3. Design (OOP) ======== -->
+<section>
+    <h2>3. Design (OOP)</h2>
+    <p class="note note-good">No change needed.</p>
+    <ol>
+        <li>
+            Mixin composition
+            (<code class="ic">ProblemSearch + HasStart + HasGoal</code>)
+            is clean and follows the project's compositional pattern.
+        </li>
+        <li>
+            <code class="ic">reverse()</code> uses
+            <code class="ic">type(self)(...)</code> &mdash; correctly
+            supports subclass polymorphism without
+            hard-coding the class name.
+        </li>
+        <li>
+            No <code class="ic">to_light()</code> /
+            <code class="ic">to_heavy()</code> overrides &mdash;
+            correctly delegates pickle behavior to base class.
+        </li>
+    </ol>
+</section>
+
+<!-- ======== 4. Performance ======== -->
+<section>
+    <h2>4. Performance</h2>
+    <p class="note note-good">No change needed.</p>
+    <ol>
+        <li>
+            <code class="ic">reverse()</code> shares the grid
+            reference (no copy) &mdash; correct for immutable grids.
+        </li>
+        <li>
+            Pickle excludes the heavy grid via inherited
+            <code class="ic">__getstate__</code> &mdash; optimal for
+            serialization of large problem batches.
+        </li>
+    </ol>
+</section>
+
+<!-- ======== 5. Typing ======== -->
+<section>
+    <h2>5. Typing</h2>
+    <ol>
+        <li>
+            <span class="v v-minor">MINOR</span>
+            <strong><span class="fr">main.py:32</span></strong>
+            &mdash; <code class="ic">name: str = None</code> accepts
+            <code class="ic">None</code> but is typed as
+            <code class="ic">str</code>.
+            Should be <code class="ic">str | None = None</code>.
+<pre><code># current
+def reverse(self, name: str = None) -&gt; Self:
+
+# fix
+def reverse(self, name: str | None = None) -&gt; Self:</code></pre>
+        </li>
+        <li>
+            All other public signatures are fully typed.
+            Constructor parameters and return types are correct.
+        </li>
+    </ol>
+</section>
+
+<!-- ======== 6. Documentation ======== -->
+<section>
+    <h2>6. Documentation</h2>
+    <p class="note note-good">No change needed.</p>
+    <ol>
+        <li>
+            Class and method docstrings follow the project's
+            <code class="ic">====</code> separator convention.
+        </li>
+        <li>
+            Factory method docstrings clearly describe grid size
+            and start/goal positions (with the minor inaccuracy
+            noted in section 2).
+        </li>
+    </ol>
+</section>
+
+<!-- ======== 7. Modularity ======== -->
+<section>
+    <h2>7. Modularity</h2>
+    <p class="note note-good">No change needed.</p>
+    <ol>
+        <li>
+            Standard 4-file layout: <code class="ic">main.py</code>,
+            <code class="ic">_factory.py</code>,
+            <code class="ic">_tester.py</code>,
+            <code class="ic">__init__.py</code>.
+            All files are short and focused.
+        </li>
+    </ol>
+</section>
+
+<!-- ======== 8. Architecture ======== -->
+<section>
+    <h2>8. Architecture</h2>
+    <p class="note note-good">No change needed.</p>
+    <ol>
+        <li>
+            Mixin hierarchy is flat and acyclic:
+            <code class="ic">HasStart</code> and
+            <code class="ic">HasGoal</code> are independent.
+            No diamond problem.
+        </li>
+        <li>
+            Pickle support is cleanly inherited &mdash; no duplication
+            of <code class="ic">__getstate__</code> /
+            <code class="ic">load_grid</code> logic.
+        </li>
+    </ol>
+</section>
+
+<!-- ======== 9. Usage & Usefulness ======== -->
+<section>
+    <h2>9. Usage &amp; Usefulness</h2>
+    <ol>
+        <li>
+            <strong>How to use:</strong> construct with
+            <code class="ic">ProblemSPP(grid, start, goal)</code>
+            or use <code class="ic">Factory.without_obstacles()</code>
+            for testing.
+        </li>
+        <li>
+            <strong>When useful:</strong> any one-to-one pathfinding
+            scenario on a grid (A*, Dijkstra, BFS).
+        </li>
+        <li>
+            <strong>Overengineered?</strong> No. Minimal class
+            (43 lines) with one own method
+            (<code class="ic">reverse</code>). Everything else
+            inherited.
+        </li>
+        <li>
+            <strong>Alternative:</strong> a plain dataclass with
+            <code class="ic">grid</code>, <code class="ic">start</code>,
+            <code class="ic">goal</code> fields would lose pickle
+            support and mixin composability. Current design is the
+            right fit.
+        </li>
+    </ol>
+</section>
+
+<!-- ======== 10. Suggestions ======== -->
+<section>
+    <h2>10. Suggestions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th><th>Item</th><th>Evidence</th>
+                <th>Risk</th><th>Benefit</th><th>Fix</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Type <code class="ic">name</code> param as
+                    <code class="ic">str | None</code> in
+                    <code class="ic">reverse()</code></td>
+                <td><span class="fr">main.py:32</span></td>
+                <td>None</td>
+                <td>Accurate type annotation; passes strict
+                    type checking</td>
+                <td>Change <code class="ic">str</code> to
+                    <code class="ic">str | None</code></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Fix <code class="ic">for_cached()</code> docstring
+                    grid size</td>
+                <td><span class="fr">_factory.py:39</span></td>
+                <td>None</td>
+                <td>Accurate documentation</td>
+                <td>Change "5x5" to match actual grid factory
+                    dimensions</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- ======== Summary ======== -->
+<section>
+    <h2>Summary</h2>
+    <ol>
+        <li>
+            <span class="v v-pass">CLEAN</span>
+            Code is correct, minimal, and well-composed via mixins.
+        </li>
+        <li>
+            One typing issue: <code class="ic">reverse()</code>
+            parameter <code class="ic">name</code> should be
+            <code class="ic">str | None</code>.
+        </li>
+        <li>
+            One docstring inaccuracy in
+            <code class="ic">for_cached()</code> about grid size.
+        </li>
+        <li>
+            No bugs, no performance concerns, no architectural issues.
+        </li>
+        <li>
+            Test coverage covers the one unique method
+            (<code class="ic">reverse</code>) with assertions on
+            name, start/goal swap, and grid identity.
+        </li>
+    </ol>
+</section>
+
+<footer>
+    <p>Review date: 2026-03-07</p>
+    <p>Scope: <code class="ic">f_search.problems.i_1_spp</code>
+       (4 files)</p>
+</footer>
+
+</body>
+</html>

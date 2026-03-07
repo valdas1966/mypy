@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAUDE REVIEW — f_cs/stats</title>
+<style>
+:root {
+  --bg: #0b0f14;
+  --panel: #111827;
+  --text: #f8fafc;
+  --muted: #cbd5e1;
+  --faint: #94a3b8;
+  --border: #334155;
+  --accent: #60a5fa;
+  --good: #34d399;
+  --warn: #fbbf24;
+  --bad: #fb7185;
+  --code-bg: #0a1220;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; max-width: 860px; margin: 0 auto; padding: 2rem 2.5rem; }
+h1 { font-size: 1.5rem; margin-bottom: .25rem; }
+.path { color: var(--faint); font-size: .85rem; margin-bottom: 2rem; }
+h2 { font-size: 1.1rem; color: var(--accent); margin: 2rem 0 .75rem; border-bottom: 2px solid var(--border); padding-bottom: .35rem; }
+section { margin-bottom: 1.5rem; }
+ol { padding-left: 1.4rem; margin: .5rem 0; }
+li { margin-bottom: .35rem; color: var(--muted); }
+code { background: var(--code-bg); padding: .15em .35em; border-radius: 3px; font-size: .9em; }
+pre { background: var(--code-bg); padding: 1rem; border-radius: 6px; overflow-x: auto; margin: .75rem 0; font-size: .85rem; color: var(--text); }
+.badge { display: inline-block; font-size: .7rem; padding: .15em .6em; border-radius: 3px; font-weight: 700; text-transform: uppercase; }
+.badge-ok { background: #064e3b; color: var(--good); }
+.badge-info { background: #1e3a5f; color: var(--accent); }
+</style>
+</head>
+<body>
+
+<h1>Code + Design Review</h1>
+<div class="path">f_cs/stats/ — StatsAlgo</div>
+
+<!-- 1 -->
+<section>
+<h2>1. Correctness</h2>
+<span class="badge badge-ok">No change needed</span>
+<ol>
+  <li>Simple property with getter/setter — no logic to be incorrect.</li>
+</ol>
+</section>
+
+<!-- 2 -->
+<section>
+<h2>2. Readability / Naming</h2>
+<span class="badge badge-ok">No change needed</span>
+<ol>
+  <li><code>StatsAlgo</code> clearly conveys "statistics for an algorithm".</li>
+  <li><code>elapsed</code> is a standard name for time tracking.</li>
+</ol>
+</section>
+
+<!-- 3 -->
+<section>
+<h2>3. Design (OOP)</h2>
+<span class="badge badge-info">Info</span>
+<ol>
+  <li><code>elapsed</code> type is <code>int</code> (seconds) — subclasses like <code>StatsSearch</code> may store float for sub-second precision.</li>
+  <li>No validation on setter — negative values accepted silently.</li>
+  <li>Both are acceptable for an internal base class.</li>
+</ol>
+</section>
+
+<!-- 4 -->
+<section>
+<h2>4. Performance</h2>
+<span class="badge badge-ok">No change needed</span>
+<ol>
+  <li>Trivial class — no performance concerns.</li>
+</ol>
+</section>
+
+<!-- 5 -->
+<section>
+<h2>5. Typing</h2>
+<span class="badge badge-ok">No change needed</span>
+<ol>
+  <li>All parameters and return types annotated.</li>
+</ol>
+</section>
+
+<!-- 6 -->
+<section>
+<h2>6. Documentation</h2>
+<span class="badge badge-ok">No change needed</span>
+<ol>
+  <li>Docstrings present on class, constructor, getter, and setter.</li>
+</ol>
+</section>
+
+<!-- 7 -->
+<section>
+<h2>7. Modularity</h2>
+<span class="badge badge-ok">No change needed</span>
+<ol>
+  <li>Single class, clean <code>__init__.py</code> export.</li>
+</ol>
+</section>
+
+<!-- 8 -->
+<section>
+<h2>8. Architecture</h2>
+<span class="badge badge-ok">No change needed</span>
+<ol>
+  <li>Standalone root with no dependencies — easy to extend.</li>
+  <li>Serves as base for <code>StatsSearch</code>, <code>StatsSPP</code>, <code>StatsOMSPP</code>.</li>
+</ol>
+</section>
+
+<!-- 9 -->
+<section>
+<h2>9. Usage &amp; Usefulness</h2>
+<ol>
+  <li><strong>When useful:</strong> as a base for any algorithm stats tracker.</li>
+  <li><strong>Not overengineered:</strong> 34 lines, one property, zero dependencies.</li>
+  <li>Used by every search algorithm in the framework.</li>
+</ol>
+</section>
+
+<!-- 10 -->
+<section>
+<h2>10. Suggestions</h2>
+<span class="badge badge-ok">No improvements needed</span>
+<ol>
+  <li>Class is minimal and fit for purpose.</li>
+</ol>
+</section>
+
+<!-- Summary -->
+<section>
+<h2>Summary</h2>
+<ol>
+  <li>Clean, minimal stats base class — 34 lines, zero dependencies.</li>
+  <li>Single read/write <code>elapsed</code> property, fully typed.</li>
+  <li>No bugs, no design issues.</li>
+</ol>
+</section>
+
+<footer style="margin-top:2rem;padding-top:1rem;border-top:1px solid var(--border);color:var(--faint);font-size:.75rem;">
+  Generated 2026-03-06. Scope: f_cs/stats/ (StatsAlgo class).
+</footer>
+
+</body>
+</html>

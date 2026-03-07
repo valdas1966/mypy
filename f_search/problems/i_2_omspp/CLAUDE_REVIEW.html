@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAUDE REVIEW - ProblemOMSPP</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 3rem;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1 { font-size: 1.8rem; color: #fff; margin-bottom: 0.3rem; }
+.folder-path { color: var(--faint); font-size: 0.9rem; margin-bottom: 2rem; }
+section { margin-bottom: 2.5rem; }
+section h2 {
+    font-size: 1.3rem;
+    color: #fff;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.4rem;
+    margin-bottom: 1rem;
+}
+ol { padding-left: 1.5rem; }
+ol li { margin-bottom: 0.5rem; color: var(--text); }
+pre, code {
+    font-family: 'Consolas', 'Fira Code', monospace;
+    font-size: 0.85rem;
+}
+pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+}
+code { background: var(--code-bg); padding: 0.15rem 0.35rem; border-radius: 3px; }
+.no-issue {
+    display: inline-block;
+    background: #064e3b;
+    color: var(--good);
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin: 0.3rem 0;
+}
+.severity-low { color: var(--warn); }
+.severity-info { color: var(--accent); }
+footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--border);
+    color: var(--faint);
+    font-size: 0.8rem;
+}
+</style>
+</head>
+<body>
+
+<h1>Code + Design Review: ProblemOMSPP</h1>
+<div class="folder-path">f_search/problems/i_2_omspp/</div>
+
+<!-- 1. Correctness -->
+<section>
+<h2>1. Correctness</h2>
+<ol>
+    <li><span class="severity-low">[Low]</span> <code>to_spps()</code> iterates <code>self.goals</code> and creates a new <code>ProblemSPP</code> per goal, passing the same <code>self.grid</code> reference. Correct, but if the grid is <code>None</code> (post-pickle, pre-reload), this will raise <code>ValueError</code> inside <code>ProblemSPP.__init__</code> when it accesses <code>grid.name</code>. Consider documenting this precondition.</li>
+    <li><span class="severity-info">[Info]</span> No validation that <code>goals</code> list is non-empty. An empty goals list produces an empty <code>to_spps()</code> result, which is logically consistent but may cause silent failures downstream.</li>
+    <li><span class="severity-info">[Info]</span> <code>h_start</code>, <code>h_goals</code>, <code>norm_h_start</code>, <code>norm_h_goals</code> correctly handle edge cases: zero-guard for trivial grids, 0.0 for single-goal <code>h_goals</code>. Pairwise enumeration in <code>h_goals</code> uses <code>i &lt; j</code> to avoid double-counting.</li>
+    <li><span class="severity-info">[Info]</span> <code>to_analytics()</code> correctly extends base dict via <code>ProblemSearch.to_analytics()</code>.</li>
+</ol>
+</section>
+
+<!-- 2. Readability / Naming -->
+<section>
+<h2>2. Readability / Naming</h2>
+<span class="no-issue">No change needed.</span>
+<ol>
+    <li>Class name <code>ProblemOMSPP</code> clearly conveys One-to-Many Shortest Path Problem.</li>
+    <li>Method <code>to_spps()</code> is concise and descriptive.</li>
+    <li>Constructor parameter names match the mixin expectations exactly.</li>
+</ol>
+</section>
+
+<!-- 3. Design (OOP) -->
+<section>
+<h2>3. Design (OOP)</h2>
+<ol>
+    <li><span class="severity-info">[Info]</span> Explicit base-class <code>__init__</code> calls (<code>ProblemSearch.__init__</code>, <code>HasStart.__init__</code>, <code>HasGoals.__init__</code>) instead of <code>super()</code>. Consistent with the project pattern and safe for the current flat mixin composition. No change needed unless cooperative <code>super()</code> is adopted project-wide.</li>
+    <li><span class="severity-info">[Info]</span> Good mixin composition: <code>ProblemSearch</code> + <code>HasStart</code> + <code>HasGoals</code> provides clear separation of concerns with no overlapping methods.</li>
+</ol>
+</section>
+
+<!-- 4. Performance -->
+<section>
+<h2>4. Performance</h2>
+<ol>
+    <li><span class="severity-info">[Info]</span> <code>to_spps()</code> creates <code>k</code> new <code>ProblemSPP</code> objects sharing the same grid reference. Memory-efficient since the grid is not copied. No concern.</li>
+</ol>
+</section>
+
+<!-- 5. Typing -->
+<section>
+<h2>5. Typing</h2>
+<ol>
+    <li><span class="severity-info">[Info]</span> The <code>Self</code> import from <code>typing</code> is unused in <code>main.py</code>. Can be removed for cleanliness.</li>
+    <li><span class="severity-info">[Info]</span> All public parameters and return types are fully annotated. Good.</li>
+</ol>
+</section>
+
+<!-- 6. Documentation -->
+<section>
+<h2>6. Documentation</h2>
+<span class="no-issue">No change needed.</span>
+<ol>
+    <li>Class docstring with <code>=</code> separators follows project convention.</li>
+    <li><code>to_spps()</code> docstring is clear and concise.</li>
+</ol>
+</section>
+
+<!-- 7. Modularity -->
+<section>
+<h2>7. Modularity</h2>
+<span class="no-issue">No change needed.</span>
+<ol>
+    <li>Single class in <code>main.py</code>, factory in <code>_factory.py</code>, exports in <code>__init__.py</code>.</li>
+    <li>Factory provides six well-structured methods: <code>without_obstacles</code>, <code>with_obstacles</code>, <code>all_goals</code>, <code>for_cached</code>, <code>custom</code>, plus two private helpers.</li>
+</ol>
+</section>
+
+<!-- 8. Architecture -->
+<section>
+<h2>8. Architecture</h2>
+<ol>
+    <li><span class="severity-info">[Info]</span> The class correctly inherits <code>__getstate__</code> and <code>load_grid</code> from <code>ProblemSearch</code> without overriding. Clean removal of the previous <code>to_light()</code>/<code>to_heavy()</code> pattern.</li>
+    <li><span class="severity-info">[Info]</span> Constructor only accepts <code>Grid</code> (not <code>Grid | str</code>), which simplifies the API. Grid loading after pickle is handled by the inherited <code>load_grid()</code> method.</li>
+</ol>
+</section>
+
+<!-- 9. Usage & Usefulness -->
+<section>
+<h2>9. Usage & Usefulness</h2>
+<ol>
+    <li><strong>When useful:</strong> Multi-destination routing on grids; decomposition into SPP sub-problems for algorithms like KxAStar.</li>
+    <li><strong>How to use:</strong> Construct with <code>Grid</code>, <code>State</code>, <code>list[State]</code>, then pass to an OMSPP algorithm or call <code>to_spps()</code> for decomposition.</li>
+    <li><strong>Not overengineered:</strong> Only 46 lines; adds exactly one method (<code>to_spps</code>) beyond what the mixins provide.</li>
+    <li><strong>Factory coverage:</strong> Six factory methods cover common test scenarios (no obstacles, obstacles, all goals, cached, custom).</li>
+</ol>
+</section>
+
+<!-- 10. Suggestions -->
+<section>
+<h2>10. Suggestions</h2>
+<ol>
+    <li><strong>Remove unused import:</strong> <code>Self</code> from <code>typing</code> in <code>main.py</code> line 6 is not used. Zero risk.</li>
+    <li><strong>Add <code>_tester.py</code>:</strong> No unit tests exist for <code>ProblemOMSPP</code>. Minimal tests for <code>to_spps()</code> and property access would add safety. Low risk.</li>
+    <li><strong>Document pickle precondition:</strong> Add a note to <code>to_spps()</code> docstring that grid must be loaded (not <code>None</code>) before calling. Zero risk.</li>
+</ol>
+</section>
+
+<footer>
+    Generated: 2026-03-07 | Scope: <code>f_search/problems/i_2_omspp/</code> | Files reviewed: main.py, __init__.py, _factory.py
+</footer>
+
+</body>
+</html>

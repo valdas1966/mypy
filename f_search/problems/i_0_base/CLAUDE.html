@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProblemSearch — Documentation</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; color: var(--accent2); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.container { display: flex; min-height: 100vh; }
+
+/* ---- Sidebar ---- */
+.sidebar {
+    width: 260px;
+    background: var(--panel);
+    border-right: 2px solid var(--border);
+    position: fixed;
+    top: 0; left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 1.5rem;
+}
+.sidebar h2 {
+    color: var(--text);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: .5rem;
+    border-bottom: 2px solid var(--border);
+}
+.sidebar ul { list-style: none; }
+.sidebar li { margin-bottom: .5rem; }
+.sidebar a {
+    display: block;
+    padding: .4rem .6rem;
+    border-radius: 4px;
+    color: var(--muted);
+    font-size: .9rem;
+}
+.sidebar a:hover { background: var(--panel2); color: var(--text); text-decoration: none; }
+.sidebar .sub { padding-left: 1.5rem; font-size: .85rem; color: var(--faint); }
+
+.search-box { margin-bottom: 1rem; }
+.search-box input {
+    width: 100%;
+    padding: .5rem .75rem;
+    background: var(--panel2);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-size: .9rem;
+}
+.search-box input:focus { outline: none; border-color: var(--accent); }
+.search-box input::placeholder { color: var(--faint); }
+
+/* ---- Main content ---- */
+.main {
+    margin-left: 260px;
+    padding: 2rem 3rem;
+    max-width: 900px;
+    flex: 1;
+}
+
+h1 { color: #fff; font-size: 2rem; margin-bottom: .3rem; }
+.path {
+    color: var(--faint);
+    font-family: monospace;
+    font-size: .9rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border);
+}
+h2 {
+    color: #fff;
+    font-size: 1.4rem;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: .4rem;
+    border-bottom: 2px solid var(--border);
+}
+h3 { color: var(--text); font-size: 1.1rem; margin: 1.5rem 0 .5rem; }
+ol { padding-left: 1.5rem; margin: .75rem 0; }
+li { margin-bottom: .6rem; color: var(--muted); }
+li strong { color: var(--text); }
+
+pre {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    font-size: .85rem;
+    color: var(--text);
+    margin: .75rem 0;
+}
+code {
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: .85rem;
+    background: var(--code-bg);
+    padding: .15rem .35rem;
+    border-radius: 3px;
+}
+pre code { background: none; padding: 0; }
+
+details {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    margin: 1rem 0;
+}
+summary {
+    padding: .75rem 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text);
+}
+summary:hover { color: var(--accent); }
+details[open] summary { border-bottom: 2px solid var(--border); }
+.detail-body { padding: 1rem; }
+
+.badge {
+    display: inline-block;
+    padding: .15rem .5rem;
+    border-radius: 4px;
+    font-size: .75rem;
+    font-weight: 600;
+    vertical-align: middle;
+}
+.badge-internal { background: #1e3a5f; color: var(--accent); }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: .75rem 0;
+}
+th, td {
+    padding: .5rem .75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+}
+th { color: var(--text); font-weight: 600; }
+
+.back-top { display: inline-block; margin-top: 1rem; font-size: .85rem; }
+
+@media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Sidebar -->
+<nav class="sidebar">
+    <div class="search-box"><input type="text" id="search" placeholder="Search..."></div>
+    <h2>Contents</h2>
+    <ul>
+        <li><a href="#purpose">Purpose</a></li>
+        <li><a href="#api">Public API</a></li>
+        <li class="sub"><a href="#api-init">__init__</a></li>
+        <li class="sub"><a href="#api-grid">grid</a></li>
+        <li class="sub"><a href="#api-name-grid">name_grid</a></li>
+        <li class="sub"><a href="#api-successors">successors</a></li>
+        <li class="sub"><a href="#api-analytics">to_analytics</a></li>
+        <li class="sub"><a href="#api-load-grid">load_grid</a></li>
+        <li class="sub"><a href="#api-getstate">__getstate__</a></li>
+        <li><a href="#hierarchy">Inheritance</a></li>
+        <li><a href="#deps">Dependencies</a></li>
+        <li><a href="#examples">Usage Examples</a></li>
+    </ul>
+</nav>
+
+<!-- Main -->
+<div class="main">
+
+<h1>ProblemSearch</h1>
+<div class="path">f_search/problems/i_0_base/</div>
+
+<!-- Purpose -->
+<h2 id="purpose">A. Purpose</h2>
+<ol>
+    <li>Base class for all grid-based search problems.</li>
+    <li>Stores a grid reference and a pickle-safe grid name (<code>_name_grid</code>).</li>
+    <li>Generates successor states via <code>grid.neighbors()</code>; supports lightweight pickling by excluding the heavy grid.</li>
+</ol>
+<a class="back-top" href="#">Back to top</a>
+
+<!-- Public API -->
+<h2 id="api">B. Public API</h2>
+
+<details open>
+<summary>ProblemSearch</summary>
+<div class="detail-body">
+
+<!-- __init__ -->
+<h3 id="api-init">__init__</h3>
+<pre><code>def __init__(self,
+             grid: Grid,
+             name: str = 'ProblemSearch') -> None</code></pre>
+<ol>
+    <li>Accepts a <code>Grid</code> (GridMap) and an optional name string.</li>
+    <li>Stores <code>_grid</code> and <code>_name_grid</code> (grid's name) for pickle safety.</li>
+</ol>
+
+<!-- grid -->
+<h3 id="api-grid">grid (property)</h3>
+<pre><code>@property
+def grid(self) -> Grid</code></pre>
+<ol>
+    <li>Returns the problem's grid.</li>
+    <li>Raises <code>ValueError</code> if grid is <code>None</code> (not yet restored after unpickling).</li>
+</ol>
+
+<!-- name_grid -->
+<h3 id="api-name-grid">name_grid (property)</h3>
+<pre><code>@property
+def name_grid(self) -> str</code></pre>
+<ol>
+    <li>Returns the grid's name string.</li>
+    <li>Survives pickle; stored independently from the grid object.</li>
+</ol>
+
+<!-- successors -->
+<h3 id="api-successors">successors</h3>
+<pre><code>def successors(self, state: State) -> list[State]</code></pre>
+<ol>
+    <li>Returns valid successor states from the given state.</li>
+    <li>Delegates to <code>grid.neighbors(cell=state.key)</code>.</li>
+    <li>Wraps each neighbor cell as a <code>StateCell</code>.</li>
+</ol>
+
+<!-- to_analytics -->
+<h3 id="api-analytics">to_analytics</h3>
+<pre><code>def to_analytics(self) -> dict</code></pre>
+<ol>
+    <li>Returns a dict of grid analytic values for reporting.</li>
+    <li>Keys: <code>domain</code> (str), <code>map</code> (str), <code>rows</code> (int), <code>cols</code> (int), <code>cells</code> (int, valid only).</li>
+    <li>Subclasses extend the returned dict with additional keys.</li>
+</ol>
+
+<!-- load_grid -->
+<h3 id="api-load-grid">load_grid</h3>
+<pre><code>def load_grid(self, grids: dict[str, Grid]) -> None</code></pre>
+<ol>
+    <li>Restores the grid reference after unpickling.</li>
+    <li>Looks up <code>_name_grid</code> in the provided dict of grids.</li>
+</ol>
+
+<!-- __getstate__ -->
+<h3 id="api-getstate">__getstate__</h3>
+<pre><code>def __getstate__(self) -> dict</code></pre>
+<ol>
+    <li>Custom pickle hook; copies <code>__dict__</code> with <code>_grid</code> set to <code>None</code>.</li>
+    <li>Keeps <code>_name_grid</code> intact so the grid can be restored later.</li>
+</ol>
+
+</div>
+</details>
+<a class="back-top" href="#">Back to top</a>
+
+<!-- Inheritance -->
+<h2 id="hierarchy">C. Inheritance</h2>
+<details open>
+<summary>ProblemSearch chain</summary>
+<div class="detail-body">
+<pre><code>HasName ──┐
+          ├── ProblemAlgo
+Equatable ┘
+              │
+              └── ProblemSearch</code></pre>
+<table>
+    <tr><th>#</th><th>Base</th><th>Responsibility</th></tr>
+    <tr><td>1</td><td><code>HasName</code></td><td><code>name</code> property, <code>__str__</code>/<code>__repr__</code></td></tr>
+    <tr><td>2</td><td><code>Equatable</code></td><td><code>__eq__</code>, <code>__ne__</code>, <code>__hash__</code> via <code>key</code></td></tr>
+    <tr><td>3</td><td><code>ProblemAlgo</code></td><td>Abstract problem interface for algorithms</td></tr>
+</table>
+</div>
+</details>
+<a class="back-top" href="#">Back to top</a>
+
+<!-- Dependencies -->
+<h2 id="deps">D. Dependencies</h2>
+<table>
+    <tr><th>#</th><th>Import</th><th>Used For</th></tr>
+    <tr>
+        <td>1</td>
+        <td><code>f_ds.grids.GridMap</code> <span class="badge badge-internal">internal</span></td>
+        <td>2D grid search space (aliased as <code>Grid</code>)</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td><code>f_cs.problem.main.ProblemAlgo</code> <span class="badge badge-internal">internal</span></td>
+        <td>Base class providing named, equatable problem identity</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td><code>f_search.ds.state.StateCell</code> <span class="badge badge-internal">internal</span></td>
+        <td>State wrapper for grid cells (aliased as <code>State</code>)</td>
+    </tr>
+</table>
+<a class="back-top" href="#">Back to top</a>
+
+<!-- Usage Examples -->
+<h2 id="examples">E. Usage Examples</h2>
+
+<details open>
+<summary id="ex-successors">Successor generation</summary>
+<div class="detail-body">
+<pre><code>from f_search.problems.i_0_base import ProblemSearch
+from f_search.ds.state import StateBase
+
+problem = ProblemSearch.Factory.grid_3x3()
+cell_00 = problem.grid[0][0]
+state_00 = StateBase(key=cell_00)
+successors = problem.successors(state=state_00)
+# Returns neighbors of (0,0) as StateCell objects</code></pre>
+</div>
+</details>
+
+<details open>
+<summary id="ex-pickle">Pickle round-trip with grid restoration</summary>
+<div class="detail-body">
+<pre><code>import pickle
+from f_search.problems.i_0_base import ProblemSearch
+
+problem = ProblemSearch.Factory.grid_3x3()
+grid = problem.grid
+
+# Pickle excludes the heavy grid
+data = pickle.dumps(problem)
+loaded = pickle.loads(data)
+assert loaded._grid is None
+assert loaded.name_grid == '3x3'
+
+# Restore grid from a name-keyed dict
+loaded.load_grid(grids={grid.name: grid})
+assert loaded.grid == grid</code></pre>
+</div>
+</details>
+<a class="back-top" href="#">Back to top</a>
+
+<hr style="border-color: var(--border); margin-top: 3rem;">
+<p style="color: var(--faint); font-size: .8rem;">
+    Generated 2026-03-07 &mdash; Scope: <code>f_search/problems/i_0_base/</code> (ProblemSearch base class).
+</p>
+
+</div><!-- /main -->
+</div><!-- /container -->
+
+<script>
+document.getElementById('search').addEventListener('input', function() {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('details').forEach(d => {
+        const text = d.textContent.toLowerCase();
+        d.style.display = q && !text.includes(q) ? 'none' : '';
+    });
+    document.querySelectorAll('.sidebar li').forEach(li => {
+        const text = li.textContent.toLowerCase();
+        li.style.display = q && !text.includes(q) ? 'none' : '';
+    });
+});
+</script>
+</body>
+</html>

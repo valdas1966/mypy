@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAUDE REVIEW - AStarCached</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 3rem;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1 { font-size: 1.8rem; color: #fff; margin-bottom: 0.3rem; }
+.folder-path { color: var(--faint); font-size: 0.9rem; margin-bottom: 2rem; }
+section { margin-bottom: 2.5rem; }
+section h2 {
+    font-size: 1.3rem;
+    color: #fff;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.4rem;
+    margin-bottom: 1rem;
+}
+ol { padding-left: 1.5rem; }
+ol li { margin-bottom: 0.5rem; color: var(--text); }
+pre, code {
+    font-family: 'Consolas', 'Fira Code', monospace;
+    font-size: 0.85rem;
+}
+pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+}
+code { background: var(--code-bg); padding: 0.15rem 0.35rem; border-radius: 3px; }
+.no-issue {
+    display: inline-block;
+    background: #064e3b;
+    color: var(--good);
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin: 0.3rem 0;
+}
+.severity-low { color: var(--warn); }
+.severity-info { color: var(--accent); }
+footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--border);
+    color: var(--faint);
+    font-size: 0.8rem;
+}
+</style>
+</head>
+<body>
+
+<h1>Code + Design Review: AStarCached</h1>
+<div class="folder-path">f_search/algos/i_1_spp/i_3_astar_cached/</div>
+
+<!-- 1. Correctness -->
+<section>
+<h2>1. Correctness</h2>
+<ol>
+    <li><span class="severity-low">[Low]</span> In <code>_run()</code>, <code>self._data.frontier</code> is checked before <code>_discover()</code>, but the frontier may be empty on a fresh instance. The guard correctly handles this, but the condition <code>if not self._data.frontier</code> relies on frontier's truthiness being empty-check. Verify <code>FrontierPriority.__bool__</code> returns <code>False</code> when empty.</li>
+    <li><span class="severity-low">[Low]</span> <code>distances_to_goal()</code> and <code>bounds_to_goal()</code> assume the goal was reached and is present in <code>dict_g</code>. Calling these after an invalid solution (no path) would raise <code>KeyError</code>. Consider a guard or documenting the precondition.</li>
+    <li><span class="severity-low">[Low]</span> In <code>_run()</code> line 91-94, the cached parent chain extension builds an <code>extension</code> list and creates a new <code>Path</code>. If <code>dict_parent</code> has no entry for <code>best</code>, the extension is empty, which is correct but results in an unnecessary <code>Path(states=[])</code> concatenation.</li>
+</ol>
+</section>
+
+<!-- 2. Readability / Naming -->
+<section>
+<h2>2. Readability / Naming</h2>
+<ol>
+    <li><span class="severity-info">[Info]</span> Local alias <code>di</code> (for <code>self._data_cached</code>) is used in <code>_discover</code>, <code>_relax</code>, and <code>list_explored</code>. A more descriptive alias like <code>dc</code> or <code>cached</code> would improve readability.</li>
+    <li><span class="severity-info">[Info]</span> The docstring for <code>_run()</code> says "Run the Algorithm and return the Solution" but does not mention the cached early-termination behavior, which is the key differentiator.</li>
+</ol>
+</section>
+
+<!-- 3. Design (OOP) -->
+<section>
+<h2>3. Design (OOP)</h2>
+<ol>
+    <li><span class="severity-info">[Info]</span> <code>AStarCached.__init__</code> calls <code>AStarReusable.__init__</code> directly instead of <code>super().__init__</code>. This is consistent with the parent class pattern but makes MRO fragile if mixins are added later. Current design is fine for single inheritance.</li>
+    <li><span class="severity-info">[Info]</span> The <code>_discover</code> and <code>_relax</code> methods share identical flag-determination logic (lines 158-166 and 189-194). This could be extracted to a private method <code>_get_flags(state) -> tuple[bool, bool]</code> to reduce duplication.</li>
+</ol>
+</section>
+
+<!-- 4. Performance -->
+<section>
+<h2>4. Performance</h2>
+<ol>
+    <li><span class="severity-info">[Info]</span> <code>bounds_to_goal()</code> calls <code>self._data.path_to()</code> and then converts to a set. If <code>path_to</code> is expensive, caching the path after <code>_run()</code> could avoid recomputation. Minor concern for typical grid sizes.</li>
+</ol>
+</section>
+
+<!-- 5. Typing -->
+<section>
+<h2>5. Typing</h2>
+<ol>
+    <li><span class="severity-low">[Low]</span> <code>list_explored()</code> returns <code>list[dict[str, any]]</code>. The lowercase <code>any</code> should be <code>Any</code> from <code>typing</code>, or use a <code>TypedDict</code> for the row schema to provide better type safety.</li>
+    <li><span class="severity-info">[Info]</span> <code>heuristics</code> and <code>data_heuristics</code> parameters default to <code>None</code> but are typed without <code>| None</code>. Should be <code>HeuristicsProtocol[State] | None = None</code>.</li>
+</ol>
+</section>
+
+<!-- 6. Documentation -->
+<section>
+<h2>6. Documentation</h2>
+<ol>
+    <li><span class="severity-info">[Info]</span> Class docstring clearly explains the tiebreaking priority: cached > bounded > unbounded. Well written.</li>
+    <li><span class="severity-info">[Info]</span> <code>_discover</code> and <code>_relax</code> docstrings mention "flag-aware Priority" which is accurate and helpful.</li>
+</ol>
+</section>
+
+<!-- 7. Modularity -->
+<section>
+<h2>7. Modularity</h2>
+<span class="no-issue">No change needed.</span>
+<ol>
+    <li>Single class per file, clear separation between main, factory, and tester.</li>
+    <li>Factory provides five well-named scenarios covering the spectrum from no-cache to deep-bounded.</li>
+</ol>
+</section>
+
+<!-- 8. Architecture -->
+<section>
+<h2>8. Architecture</h2>
+<ol>
+    <li><span class="severity-info">[Info]</span> The inheritance chain is 5 levels deep (AlgoSearch > AlgoSPP > AStar > AStarReusable > AStarCached). This is acceptable given the clear single-responsibility at each level, but adding further specializations should be done cautiously.</li>
+    <li><span class="severity-info">[Info]</span> <code>DataCached</code> is a separate data object composed into AStarCached. Good use of composition alongside the inherited <code>_data</code>.</li>
+</ol>
+</section>
+
+<!-- 9. Usage & Usefulness -->
+<section>
+<h2>9. Usage & Usefulness</h2>
+<ol>
+    <li><strong>When useful:</strong> Research into cached heuristic search; reusing exact distances from prior searches to accelerate subsequent ones.</li>
+    <li><strong>How to use:</strong> Create a <code>ProblemSPP</code>, optionally populate a <code>DataCached</code> with known distances, pass to <code>AStarCached</code>, call <code>run()</code>.</li>
+    <li><strong>Not overengineered:</strong> Tests show clear improvement (22 > 10 > 8 > 5 > 4 explored states) as more cached data is provided.</li>
+    <li>The <code>list_explored()</code> method is a practical diagnostic tool for analyzing search behavior.</li>
+</ol>
+</section>
+
+<!-- 10. Suggestions -->
+<section>
+<h2>10. Suggestions</h2>
+<ol>
+    <li><strong>Extract flag logic:</strong> Create <code>_get_flags(state) -> tuple[bool, bool]</code> to deduplicate <code>_discover</code> and <code>_relax</code>. Low risk, ~5 lines saved.</li>
+    <li><strong>Add <code>| None</code> to optional params:</strong> <code>heuristics: HeuristicsProtocol[State] | None = None</code> for type correctness. Zero risk.</li>
+    <li><strong>Guard <code>distances_to_goal</code>:</strong> Return empty dict if solution is invalid, or raise <code>ValueError</code> with clear message. Low risk.</li>
+    <li><strong>Rename <code>di</code> alias:</strong> Use <code>cached</code> or <code>dc</code> for clarity. Zero risk, cosmetic.</li>
+</ol>
+</section>
+
+<footer>
+    Generated: 2026-03-06 | Scope: <code>f_search/algos/i_1_spp/i_3_astar_cached/</code> | Files reviewed: main.py, __init__.py, _factory.py, _tester.py
+</footer>
+
+</body>
+</html>

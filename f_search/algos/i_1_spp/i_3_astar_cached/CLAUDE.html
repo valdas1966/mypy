@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAUDE - AStarCached</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    display: flex;
+    min-height: 100vh;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* TOC */
+nav {
+    position: sticky;
+    top: 0;
+    width: 240px;
+    min-width: 240px;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--panel);
+    border-right: 2px solid var(--border);
+    padding: 1.5rem 1rem;
+}
+nav h2 { font-size: 0.9rem; color: var(--faint); text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.05em; }
+nav ol { list-style: none; counter-reset: toc; }
+nav ol li { counter-increment: toc; margin-bottom: 0.5rem; }
+nav ol li::before { content: counter(toc) ". "; color: var(--faint); font-size: 0.85rem; }
+nav ol li a { font-size: 0.9rem; }
+
+/* Search */
+#search {
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    margin-bottom: 1rem;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-size: 0.85rem;
+}
+#search:focus { border-color: var(--accent); outline: none; }
+
+/* Main */
+main {
+    flex: 1;
+    max-width: 900px;
+    padding: 2rem 3rem;
+}
+h1 { font-size: 1.8rem; color: #fff; margin-bottom: 0.3rem; }
+.folder-path { color: var(--faint); font-size: 0.9rem; margin-bottom: 2rem; }
+section { margin-bottom: 2.5rem; }
+section h2 {
+    font-size: 1.3rem;
+    color: #fff;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.4rem;
+    margin-bottom: 1rem;
+}
+ol { padding-left: 1.5rem; }
+ol li { margin-bottom: 0.4rem; color: var(--text); }
+.back-top { font-size: 0.8rem; color: var(--faint); margin-top: 0.8rem; display: inline-block; }
+
+/* Collapsible */
+details {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    padding: 0;
+}
+details summary {
+    cursor: pointer;
+    padding: 0.8rem 1rem;
+    font-weight: 600;
+    color: var(--accent2);
+    list-style: none;
+}
+details summary::-webkit-details-marker { display: none; }
+details summary::before { content: "\25B6  "; font-size: 0.7rem; }
+details[open] summary::before { content: "\25BC  "; }
+details summary:hover { background: var(--panel2); }
+details summary:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+details > div { padding: 0.5rem 1rem 1rem; }
+
+/* Code */
+pre, code {
+    font-family: 'Consolas', 'Fira Code', monospace;
+    font-size: 0.85rem;
+}
+pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+}
+code { background: var(--code-bg); padding: 0.15rem 0.35rem; border-radius: 3px; }
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.5rem 0;
+}
+th, td {
+    text-align: left;
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--border);
+}
+th { background: var(--panel2); color: var(--accent); font-size: 0.85rem; }
+td { font-size: 0.85rem; }
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.badge-internal { background: #1e3a5f; color: var(--accent); }
+
+/* Footer */
+footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--border);
+    color: var(--faint);
+    font-size: 0.8rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body { flex-direction: column; }
+    nav { position: static; width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border); }
+    main { padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+    <input type="text" id="search" placeholder="Search..." aria-label="Search API">
+    <h2>Contents</h2>
+    <ol>
+        <li><a href="#purpose">Purpose</a></li>
+        <li><a href="#api">Public API</a></li>
+        <li><a href="#hierarchy">Inheritance</a></li>
+        <li><a href="#deps">Dependencies</a></li>
+        <li><a href="#examples">Usage Examples</a></li>
+    </ol>
+</nav>
+
+<main>
+<h1>AStarCached</h1>
+<div class="folder-path">f_search/algos/i_1_spp/i_3_astar_cached/</div>
+
+<!-- Purpose -->
+<section id="purpose">
+<h2>1. Purpose</h2>
+<ol>
+    <li>A* variant that prioritizes states with cached (exact) heuristics over bounded and unbounded ones.</li>
+    <li>Uses <code>PriorityGHFlags</code> for flag-aware frontier ordering and early termination.</li>
+    <li>Extends <code>AStarReusable</code>; adds <code>DataCached</code> for cached/bounded heuristic storage.</li>
+</ol>
+<a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Public API -->
+<section id="api">
+<h2>2. Public API</h2>
+
+<details open>
+<summary>AStarCached</summary>
+<div>
+
+<div id="api-init">
+<pre>def __init__(self,
+             problem: Problem,
+             heuristics: HeuristicsProtocol[State] = None,
+             data_heuristics: DataHeuristics[State] = None,
+             data_cached: DataCached[State] = None,
+             need_path: bool = False,
+             name: str = 'AStarCached') -&gt; None</pre>
+<ol>
+    <li>Initialize with an SPP problem and optional cached/bounded data.</li>
+    <li>Falls back to empty <code>DataCached()</code> if none provided.</li>
+</ol>
+</div>
+
+<div id="api-reached-goal">
+<pre>@property
+def reached_goal(self) -&gt; bool</pre>
+<ol>
+    <li>Returns <code>True</code> if search terminated at the actual goal state.</li>
+    <li>Returns <code>False</code> if terminated early via cached heuristic hit.</li>
+</ol>
+</div>
+
+<div id="api-run">
+<pre>def _run(self) -&gt; SolutionSPP</pre>
+<ol>
+    <li>Overrides the run logic; terminates on goal or cached-heuristic state.</li>
+    <li>Reconstructs path through cached parent chain if terminated early.</li>
+    <li>Returns <code>SolutionSPP</code> with validity, path, and stats.</li>
+</ol>
+</div>
+
+<div id="api-distances">
+<pre>def distances_to_goal(self) -&gt; dict[State, int]</pre>
+<ol>
+    <li>Returns exact distances to goal for states on the optimal path.</li>
+    <li>Computed as <code>g(goal) - g(state)</code>.</li>
+</ol>
+</div>
+
+<div id="api-bounds">
+<pre>def bounds_to_goal(self) -&gt; dict[State, int]</pre>
+<ol>
+    <li>Returns lower bounds on distance to goal for explored non-path states.</li>
+</ol>
+</div>
+
+<div id="api-list-explored">
+<pre>def list_explored(self) -&gt; list[dict[str, any]]</pre>
+<ol>
+    <li>Returns list of dicts per explored state: row, col, f, is_cached, is_bounded, g, h.</li>
+    <li>Useful for analysis and visualization of search behavior.</li>
+</ol>
+</div>
+
+</div>
+</details>
+
+<a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Inheritance -->
+<section id="hierarchy">
+<h2>3. Inheritance</h2>
+
+<details open>
+<summary>AStarCached Hierarchy</summary>
+<div>
+<pre>AlgoSearch
+  &gt; AlgoSPP
+      &gt; AStar
+          &gt; AStarReusable
+              &gt; AStarCached</pre>
+
+<table>
+    <tr><th>#</th><th>Base</th><th>Responsibility</th></tr>
+    <tr><td>1</td><td><code>AlgoSearch</code></td><td>Core data structures, lifecycle hooks, stats tracking</td></tr>
+    <tr><td>2</td><td><code>AlgoSPP</code></td><td>SPP solution creation, stats specialization</td></tr>
+    <tr><td>3</td><td><code>AStar</code></td><td>A* loop: discover, explore, relax, Manhattan heuristic</td></tr>
+    <tr><td>4</td><td><code>AStarReusable</code></td><td>External data/heuristics injection for chaining</td></tr>
+    <tr><td>5</td><td><code>AStarCached</code></td><td>Flag-aware priority, cached early termination</td></tr>
+</table>
+</div>
+</details>
+
+<a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Dependencies -->
+<section id="deps">
+<h2>4. Dependencies</h2>
+
+<table>
+    <tr><th>#</th><th>Import</th><th>Type</th><th>Used For</th></tr>
+    <tr><td>1</td><td><code>AStarReusable</code></td><td><span class="badge badge-internal">internal</span></td><td>Parent class with reusable A* infrastructure</td></tr>
+    <tr><td>2</td><td><code>ProblemSPP</code></td><td><span class="badge badge-internal">internal</span></td><td>One-to-one shortest path problem definition</td></tr>
+    <tr><td>3</td><td><code>SolutionSPP</code></td><td><span class="badge badge-internal">internal</span></td><td>Solution container with path and stats</td></tr>
+    <tr><td>4</td><td><code>HeuristicsProtocol</code></td><td><span class="badge badge-internal">internal</span></td><td>Protocol for heuristic callables</td></tr>
+    <tr><td>5</td><td><code>DataHeuristics</code></td><td><span class="badge badge-internal">internal</span></td><td>Core search data (frontier, g/h dicts, parent)</td></tr>
+    <tr><td>6</td><td><code>DataCached</code></td><td><span class="badge badge-internal">internal</span></td><td>Cached/bounded heuristic dicts and parent chain</td></tr>
+    <tr><td>7</td><td><code>Path</code></td><td><span class="badge badge-internal">internal</span></td><td>Ordered sequence of states forming a path</td></tr>
+    <tr><td>8</td><td><code>PriorityGHFlags</code></td><td><span class="badge badge-internal">internal</span></td><td>Priority with is_cached/is_bounded tiebreaking flags</td></tr>
+    <tr><td>9</td><td><code>Generic</code></td><td><span class="badge" style="background:#2d3748;color:var(--good)">stdlib</span></td><td>Parameterized type for State</td></tr>
+</table>
+
+<a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- Examples -->
+<section id="examples">
+<h2>5. Usage Examples</h2>
+
+<details open>
+<summary id="ex-no-cache">Without Cache (standard A* behavior)</summary>
+<div>
+<pre>from f_search.algos.i_1_spp.i_3_astar_cached import AStarCached
+from f_search.problems import ProblemSPP
+
+problem = ProblemSPP.Factory.for_cached()
+algo = AStarCached(problem=problem)
+sol = algo.run()
+# sol.stats.explored == 22</pre>
+<ol>
+    <li>No cached data provided; behaves like standard A*.</li>
+</ol>
+</div>
+</details>
+
+<details open>
+<summary id="ex-cached">With Cached Exact Distances</summary>
+<div>
+<pre>from f_search.algos.i_1_spp.i_3_astar_cached import AStarCached
+from f_search.problems import ProblemSPP
+from f_search.ds.data.cached import DataCached
+
+problem = ProblemSPP.Factory.for_cached()
+data_cached = DataCached.Factory.six_cached()
+algo = AStarCached(problem=problem, data_cached=data_cached)
+sol = algo.run()
+# sol.stats.explored == 10  (fewer states explored)</pre>
+<ol>
+    <li>Cached heuristics enable early termination, reducing explored states from 22 to 10.</li>
+</ol>
+</div>
+</details>
+
+<details open>
+<summary id="ex-bounded">With Bounded Heuristics</summary>
+<div>
+<pre>problem = ProblemSPP.Factory.for_cached()
+data_cached = DataCached.Factory.six_bounded()
+algo = AStarCached(problem=problem, data_cached=data_cached)
+sol = algo.run()
+# sol.stats.explored == 8</pre>
+<ol>
+    <li>Bounded heuristics further improve frontier ordering, reducing explored states to 8.</li>
+</ol>
+</div>
+</details>
+
+<a href="#" class="back-top">Back to top</a>
+</section>
+
+<footer>
+    Generated: 2026-03-06 | Scope: <code>f_search/algos/i_1_spp/i_3_astar_cached/</code>
+</footer>
+</main>
+
+<script>
+document.getElementById('search').addEventListener('input', function() {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('details').forEach(d => {
+        const text = d.textContent.toLowerCase();
+        d.style.display = text.includes(q) || q === '' ? '' : 'none';
+    });
+});
+</script>
+</body>
+</html>

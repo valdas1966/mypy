@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Review Report — Spread</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #111827;
+            --panel2: #0f172a;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --faint: #94a3b8;
+            --border: #334155;
+            --accent: #60a5fa;
+            --accent2: #a78bfa;
+            --good: #34d399;
+            --warn: #fbbf24;
+            --bad: #fb7185;
+            --code-bg: #0a1220;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 2rem 3rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; color: var(--accent2); }
+
+        h1 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .module-path {
+            font-family: monospace;
+            color: var(--faint);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-top: 2.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        section {
+            background: var(--panel);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        section h2 { margin-top: 0; }
+
+        .no-change {
+            color: var(--good);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.4rem; color: var(--muted); }
+        li strong { color: var(--text); }
+
+        pre {
+            background: var(--code-bg);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 0.75rem 0;
+        }
+
+        code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+
+        pre code { display: block; line-height: 1.5; }
+
+        .inline-code {
+            background: var(--panel2);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .severity-low {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            background: var(--faint);
+            color: var(--bg);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .severity-med {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            background: var(--warn);
+            color: var(--bg);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.75rem; text-align: left; border: 1px solid var(--border); }
+        th { background: var(--panel2); color: #fff; font-weight: 600; }
+        td { background: var(--panel); color: var(--muted); }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border);
+            color: var(--faint);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Module Review Report</h1>
+<div class="module-path">f_google/services/sheets/spread/</div>
+
+<section>
+    <h2>Summary</h2>
+    <ol>
+        <li>Clean wrapper over <code class="inline-code">gspread.Spreadsheet</code> with minimal surface area.</li>
+        <li>Correctly extends <code class="inline-code">HasName</code> to expose the spreadsheet title.</li>
+        <li>Factory provides pre-configured credential shortcuts (OAuth and SA).</li>
+        <li>The <code class="inline-code">sheets</code> property rebuilds <code class="inline-code">Sheet</code> objects on every call &mdash; minor performance consideration.</li>
+        <li>Tests cover name, sheets listing, subscript access, and cell value retrieval.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>1. Correctness</h2>
+    <p class="no-change">No change needed.</p>
+    <ol>
+        <li>Constructor correctly authorizes via <code class="inline-code">gspread.authorize()</code> and opens by key.</li>
+        <li><code class="inline-code">__getitem__</code> correctly delegates to <code class="inline-code">gspread.Spreadsheet.worksheet()</code>.</li>
+        <li>Tests verify name, sheet count, sheet name, and cell value.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>2. Readability / Naming</h2>
+    <p class="no-change">No change needed.</p>
+    <ol>
+        <li>Class name <code class="inline-code">Spread</code> is concise and consistent with the project abbreviation style.</li>
+        <li>Parameter <code class="inline-code">id_spread</code> follows the project convention of prefixed identifiers.</li>
+        <li>Factory method names (<code class="inline-code">valdas</code>, <code class="inline-code">rami</code>) match credential naming in <code class="inline-code">f_google.creds</code>.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>3. Design (OOP)</h2>
+    <p class="no-change">No change needed.</p>
+    <ol>
+        <li>Single-responsibility: wraps one <code class="inline-code">gspread.Spreadsheet</code> and delegates sheet access.</li>
+        <li>Mixin composition via <code class="inline-code">HasName</code> follows the project pattern.</li>
+        <li>Factory pattern correctly wired in <code class="inline-code">__init__.py</code>.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>4. Performance</h2>
+    <ol>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong>sheets property creates new Sheet objects on every call</strong> &mdash;
+            Evidence: <code class="inline-code">main.py:22</code> builds <code class="inline-code">[Sheet(ws=ws) for ws in self._spread.worksheets()]</code> each time.
+            Risk: Minor &mdash; each call triggers a network request to list worksheets.
+            Fix: Cache the result and invalidate on mutation, or document the behavior.
+            Not urgent for current usage patterns.
+        </li>
+    </ol>
+</section>
+
+<section>
+    <h2>5. Typing</h2>
+    <p class="no-change">No change needed.</p>
+    <ol>
+        <li>All parameters and return types are fully annotated.</li>
+        <li>Union type <code class="inline-code">OAuthCredentials | SACredentials</code> uses modern syntax.</li>
+        <li><code class="inline-code">Factory: type = None</code> follows the project convention.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>6. Documentation</h2>
+    <p class="no-change">No change needed.</p>
+    <ol>
+        <li>Class docstring uses the <code class="inline-code">===</code> separator convention.</li>
+        <li>Docstring is brief and descriptive.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>7. Modularity</h2>
+    <p class="no-change">No change needed.</p>
+    <ol>
+        <li>Clean separation: <code class="inline-code">Spread</code> handles spreadsheet-level access, <code class="inline-code">Sheet</code> handles worksheet-level.</li>
+        <li>Credentials are injected &mdash; no hard coupling to a specific auth method.</li>
+        <li>Factory isolates credential construction from the core class.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>8. Architecture</h2>
+    <p class="no-change">No change needed.</p>
+    <ol>
+        <li>Dependency direction: <code class="inline-code">Spread</code> &rarr; <code class="inline-code">Sheet</code> &rarr; <code class="inline-code">gspread.Worksheet</code>.</li>
+        <li>Credentials flow: <code class="inline-code">Factory</code> &rarr; <code class="inline-code">f_google.creds</code> &rarr; <code class="inline-code">google-auth</code>.</li>
+        <li>Fits cleanly within the <code class="inline-code">f_google/services/sheets/</code> hierarchy.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>9. Usage &amp; Usefulness</h2>
+    <ol>
+        <li><strong>How to use:</strong> Call <code class="inline-code">Spread.Factory.valdas(id_spread=...)</code> or <code class="inline-code">Spread.Factory.rami(id_spread=...)</code>, then access sheets via <code class="inline-code">spread['SheetName']</code> or <code class="inline-code">spread.sheets</code>.</li>
+        <li><strong>When useful:</strong> Any code that reads or writes Google Sheets data.</li>
+        <li><strong>Not overengineered:</strong> Thin wrapper &mdash; delegates to <code class="inline-code">gspread</code> for all Sheets API operations.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>10. Suggestions</h2>
+    <ol>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong>Cache worksheets list</strong> &mdash;
+            Evidence: <code class="inline-code">main.py:22</code> calls <code class="inline-code">self._spread.worksheets()</code> on every <code class="inline-code">sheets</code> access.
+            Risk: Low &mdash; repeated network calls on frequent access.
+            Fix: Cache the result in <code class="inline-code">__init__</code> or use a lazy-cached property.
+            Not urgent for current usage patterns.
+        </li>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong>Test docstrings</strong> &mdash;
+            Evidence: <code class="inline-code">_tester.py</code> test functions lack docstrings with <code class="inline-code">===</code> separators.
+            Risk: None (style only).
+            Fix: Add docstrings following the project convention for test functions.
+            Low priority &mdash; tests are clear from their names.
+        </li>
+        <li>
+            <span class="severity-low">LOW</span>
+            <strong>Test fixture reuse</strong> &mdash;
+            Evidence: <code class="inline-code">_tester.py</code> creates <code class="inline-code">Spread.Factory.valdas_test()</code> in each test function.
+            Risk: None (duplication, not a bug). Each test makes a separate API call.
+            Fix: Use a pytest fixture to share the <code class="inline-code">Spread</code> instance across tests.
+            Low priority &mdash; tests are integration tests that may benefit from isolation.
+        </li>
+    </ol>
+</section>
+
+<footer>
+    <ol>
+        <li>Generated: 2026-03-06</li>
+        <li>Scope: f_google.services.sheets.spread &mdash; full code + design review</li>
+    </ol>
+</footer>
+
+</body>
+</html>

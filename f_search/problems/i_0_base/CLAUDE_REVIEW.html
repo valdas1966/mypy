@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Review — ProblemSearch</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 2rem 3rem;
+    max-width: 960px;
+    margin: 0 auto;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); text-decoration: underline; }
+h1 { color: #fff; font-size: 2rem; margin-bottom: .3rem; }
+.path {
+    color: var(--faint);
+    font-family: monospace;
+    font-size: .9rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border);
+}
+h2 {
+    color: #fff;
+    font-size: 1.4rem;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: .4rem;
+    border-bottom: 2px solid var(--border);
+}
+h3 { color: var(--text); font-size: 1.1rem; margin: 1.5rem 0 .5rem; }
+ol { padding-left: 1.5rem; margin: .75rem 0; }
+li { margin-bottom: .6rem; color: var(--muted); }
+li strong { color: var(--text); }
+pre {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    font-size: .85rem;
+    color: var(--text);
+    margin: .75rem 0;
+}
+code {
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: .85rem;
+    background: var(--code-bg);
+    padding: .15rem .35rem;
+    border-radius: 3px;
+}
+pre code { background: none; padding: 0; }
+.badge-ok {
+    display: inline-block;
+    background: #064e3b;
+    color: var(--good);
+    padding: .2rem .6rem;
+    border-radius: 4px;
+    font-size: .8rem;
+    font-weight: 600;
+}
+section { margin-bottom: 2rem; }
+</style>
+</head>
+<body>
+
+<h1>Code Review &mdash; ProblemSearch</h1>
+<div class="path">f_search/problems/i_0_base/</div>
+
+<!-- Summary -->
+<section>
+<h2>Summary</h2>
+<ol>
+    <li><strong>ProblemSearch</strong> is a clean base class for grid-based search problems.</li>
+    <li>Pickle support via <code>__getstate__</code> + <code>load_grid</code> is well-designed and tested.</li>
+    <li><code>to_analytics()</code> provides a clean extension point for subclass-specific analytic values.</li>
+    <li>The <code>_name_grid</code> field provides a reliable key for grid restoration after deserialization.</li>
+    <li>Factory uses <code>GridBase.Factory</code> (not <code>GridMap.Factory</code>), which may be intentional for simpler test grids.</li>
+    <li>Overall: solid, focused, minimal code with clear responsibilities.</li>
+</ol>
+</section>
+
+<!-- 1. Correctness -->
+<section>
+<h2>1. Correctness</h2>
+<ol>
+    <li><strong><code>load_grid</code> raises <code>KeyError</code> if grid name missing.</strong>
+        <code>grids[self._name_grid]</code> will throw a raw <code>KeyError</code>.
+        The <code>grid</code> property already has a nice <code>ValueError</code> message.
+        Consider wrapping with a descriptive error or documenting the contract.</li>
+    <li><strong><code>successors</code> uses <code>StateCell</code> alias <code>State</code>.</strong>
+        The import is <code>StateCell as State</code>, but tester creates <code>StateBase</code> objects and compares them to the output.
+        This works because <code>StateBase.__eq__</code> compares by key. No bug, but the type mismatch is subtle.</li>
+</ol>
+</section>
+
+<!-- 2. Readability / Naming -->
+<section>
+<h2>2. Readability / Naming</h2>
+<ol>
+    <li><strong><code>_name_grid</code> vs <code>_grid_name</code></strong> &mdash; English word order favors <code>grid_name</code>, but codebase convention is <code>name_X</code>. Consistent with project style; no change needed.</li>
+    <li><strong>Factory imports <code>GridBase as Grid</code></strong> while main.py imports <code>GridMap as Grid</code>. Both aliased to <code>Grid</code> but from different modules. Could confuse readers. Consider aligning the factory import.</li>
+</ol>
+</section>
+
+<!-- 3. Design (OOP) -->
+<section>
+<h2>3. Design (OOP)</h2>
+<ol>
+    <li><strong>Explicit <code>ProblemAlgo.__init__</code> call instead of <code>super()</code>.</strong>
+        This is safe here (single inheritance from <code>ProblemAlgo</code>), but in subclasses that use MRO with mixins (<code>ProblemSPP(ProblemSearch, HasStart, HasGoal)</code>), explicit base calls are the correct pattern. Consistent with framework style.</li>
+    <li><strong>No <code>__setstate__</code> defined.</strong>
+        Python's default <code>__setstate__</code> just assigns the dict. Since <code>__getstate__</code> returns a normal dict with <code>_grid=None</code>, this works correctly. No issue.</li>
+</ol>
+<span class="badge-ok">No change needed.</span>
+</section>
+
+<!-- 4. Performance -->
+<section>
+<h2>4. Performance</h2>
+<ol>
+    <li><strong><code>successors()</code> creates a new list of <code>State</code> objects on every call.</strong>
+        Each call wraps neighbor cells into <code>StateCell</code> objects. For hot-path search loops this is allocation-heavy. Potential optimization: reuse state objects or yield lazily. However, this is a base class concern and algorithms may need the full list. Acceptable for now.</li>
+</ol>
+<span class="badge-ok">No change needed.</span>
+</section>
+
+<!-- 5. Typing -->
+<section>
+<h2>5. Typing</h2>
+<ol>
+    <li><strong>Return type of <code>__getstate__</code> is <code>dict</code>.</strong>
+        Could be more precise as <code>dict[str, any]</code>, but <code>dict</code> is the standard pickle protocol signature. Acceptable.</li>
+    <li><strong>All public methods and properties are fully typed.</strong> No leaking <code>Any</code>.</li>
+</ol>
+<span class="badge-ok">No change needed.</span>
+</section>
+
+<!-- 6. Documentation -->
+<section>
+<h2>6. Documentation</h2>
+<ol>
+    <li><strong>All methods have docstrings with separator style.</strong> Matches project conventions.</li>
+    <li><strong>Class docstring describes purpose clearly.</strong></li>
+</ol>
+<span class="badge-ok">No change needed.</span>
+</section>
+
+<!-- 7. Modularity -->
+<section>
+<h2>7. Modularity</h2>
+<ol>
+    <li><strong>Clean 4-file structure</strong>: <code>main.py</code>, <code>_factory.py</code>, <code>_tester.py</code>, <code>__init__.py</code>. Follows the standard module layout.</li>
+    <li><strong><code>__init__.py</code> exports <code>Grid</code> and <code>State</code></strong> from main.py &mdash; convenient for downstream consumers.</li>
+</ol>
+<span class="badge-ok">No change needed.</span>
+</section>
+
+<!-- 8. Architecture -->
+<section>
+<h2>8. Architecture</h2>
+<ol>
+    <li><strong>Factory imports <code>GridBase</code> while main.py uses <code>GridMap</code>.</strong>
+        <code>_factory.py</code> imports <code>f_ds.grids.grid.GridBase</code> and calls <code>GridBase.Factory.grid_3x3()</code>.
+        <code>main.py</code> imports <code>f_ds.grids.GridMap</code>.
+        The factory creates a <code>GridBase</code> which is a superclass of <code>GridMap</code>.
+        The constructor type hint expects <code>GridMap</code>.
+        If <code>GridBase.Factory.grid_3x3()</code> returns a <code>GridBase</code> (not a <code>GridMap</code>), the type contract is violated at runtime even though it may work due to duck typing.
+        <strong>Fix:</strong> align the factory to import and use <code>GridMap.Factory</code> instead of <code>GridBase.Factory</code>.</li>
+</ol>
+</section>
+
+<!-- 9. Usage & Usefulness -->
+<section>
+<h2>9. Usage &amp; Usefulness</h2>
+<ol>
+    <li><strong>When to use:</strong> extend this class for any grid-based search problem (SPP, OMSPP, custom).</li>
+    <li><strong>When useful:</strong> pickle-heavy workflows where many problems share grids (e.g., batch experiments). Store problems as lightweight pickles, restore grids from a shared dict.</li>
+    <li><strong>Not overengineered:</strong> the pickle/load_grid pattern solves a real serialization problem with minimal code.</li>
+    <li><strong>Direct instantiation:</strong> possible via <code>Factory.grid_3x3()</code> for testing, but typically extended by <code>ProblemSPP</code>/<code>ProblemOMSPP</code>.</li>
+</ol>
+</section>
+
+<!-- 10. Suggestions -->
+<section>
+<h2>10. Suggestions</h2>
+<ol>
+    <li><strong>[Low risk]</strong> Align factory import: change <code>_factory.py</code> to import <code>GridMap</code> instead of <code>GridBase</code> to match the type hint in <code>main.py</code>.</li>
+    <li><strong>[Low risk]</strong> Add a guard in <code>load_grid</code> for missing grid name:
+<pre><code>def load_grid(self, grids: dict[str, Grid]) -> None:
+    if self._name_grid not in grids:
+        raise ValueError(
+            f'Grid not found: {self._name_grid}')
+    self._grid = grids[self._name_grid]</code></pre>
+    </li>
+    <li><strong>[Informational]</strong> The tester creates <code>StateBase</code> objects but <code>successors()</code> returns <code>StateCell</code> objects. The equality check works via key comparison. Consider adding a comment in the test to clarify this cross-type comparison is intentional.</li>
+</ol>
+</section>
+
+<hr style="border-color: var(--border); margin-top: 3rem;">
+<p style="color: var(--faint); font-size: .8rem;">
+    Generated 2026-03-07 &mdash; Scope: <code>f_search/problems/i_0_base/</code> (ProblemSearch base class).
+</p>
+
+</body>
+</html>

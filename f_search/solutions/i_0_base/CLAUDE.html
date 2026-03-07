@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAUDE — SolutionSearch (i_0_base)</title>
+<style>
+:root {
+  --bg: #0b0f14;
+  --panel: #111827;
+  --panel2: #0f172a;
+  --text: #f8fafc;
+  --muted: #cbd5e1;
+  --faint: #94a3b8;
+  --border: #334155;
+  --accent: #60a5fa;
+  --accent2: #a78bfa;
+  --good: #34d399;
+  --warn: #fbbf24;
+  --bad: #fb7185;
+  --code-bg: #0a1220;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1 { font-size: 1.6rem; color: #fff; font-weight: 700; margin-bottom: .25rem; }
+h2 { font-size: 1.25rem; color: #fff; font-weight: 600; border-bottom: 2px solid var(--border); padding-bottom: .4rem; margin: 1.5rem 0 .75rem; }
+h3 { font-size: 1.05rem; color: var(--accent2); font-weight: 600; margin: 1rem 0 .5rem; }
+ol { padding-left: 1.5rem; margin: .5rem 0; }
+li { margin: .3rem 0; color: var(--text); }
+code { font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: .88rem; background: var(--code-bg); padding: .15rem .35rem; border-radius: 3px; }
+pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; margin: .5rem 0; font-size: .85rem; line-height: 1.5; color: var(--text); }
+pre code { background: none; padding: 0; }
+table { border-collapse: collapse; width: 100%; margin: .5rem 0; }
+th, td { border: 1px solid var(--border); padding: .45rem .65rem; text-align: left; font-size: .9rem; }
+th { background: var(--panel2); color: #fff; font-weight: 600; }
+td { background: var(--panel); }
+.badge { display: inline-block; font-size: .75rem; padding: .1rem .5rem; border-radius: 10px; font-weight: 600; }
+.badge-int { background: var(--accent); color: #000; }
+.badge-std { background: var(--good); color: #000; }
+
+/* Layout */
+.wrapper { display: flex; min-height: 100vh; }
+nav.toc { position: sticky; top: 0; width: 220px; height: 100vh; overflow-y: auto; background: var(--panel); border-right: 2px solid var(--border); padding: 1rem; flex-shrink: 0; }
+nav.toc h2 { font-size: 1rem; border: none; margin: 0 0 .75rem; }
+nav.toc ol { padding-left: 1.1rem; }
+nav.toc li { font-size: .85rem; margin: .35rem 0; }
+main { flex: 1; max-width: 860px; padding: 1.5rem 2rem 3rem; }
+
+/* Search */
+#search { width: 100%; padding: .4rem .6rem; margin-bottom: .75rem; background: var(--panel2); color: var(--text); border: 1px solid var(--border); border-radius: 4px; font-size: .85rem; }
+#search:focus { outline: 2px solid var(--accent); }
+
+/* Collapsible */
+details { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; margin: .6rem 0; }
+details > summary { cursor: pointer; padding: .55rem .75rem; font-weight: 600; color: var(--accent); font-size: .95rem; list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before { content: '\25b6  '; font-size: .7rem; }
+details[open] > summary::before { content: '\25bc  '; }
+details > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+details > .inner { padding: .5rem .75rem 1rem; }
+
+.subtitle { color: var(--muted); font-size: .9rem; }
+.back-top { display: inline-block; font-size: .8rem; margin-top: .5rem; color: var(--faint); }
+.back-top:hover { color: var(--accent); }
+
+@media (max-width: 768px) {
+  .wrapper { flex-direction: column; }
+  nav.toc { position: static; width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border); }
+  main { padding: 1rem; }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+<!-- TOC -->
+<nav class="toc" aria-label="Table of Contents">
+  <h2>Contents</h2>
+  <input type="text" id="search" placeholder="Search..." aria-label="Search">
+  <ol>
+    <li><a href="#purpose">Purpose</a></li>
+    <li><a href="#api">Public API</a></li>
+    <li><a href="#hierarchy">Inheritance</a></li>
+    <li><a href="#deps">Dependencies</a></li>
+    <li><a href="#examples">Usage Examples</a></li>
+  </ol>
+</nav>
+
+<!-- Main content -->
+<main>
+
+<h1 id="top">SolutionSearch</h1>
+<p class="subtitle">f_search/solutions/i_0_base/</p>
+
+<!-- ─── Purpose ─── -->
+<h2 id="purpose">A. Purpose</h2>
+<ol>
+  <li>Base solution class for all search algorithm results on grid problems.</li>
+  <li>Stores algorithm name, problem reference, validity flag, and performance stats.</li>
+  <li>Problem is stored as-is; pickle exclusion of heavy grid data is the problem's responsibility via its own <code>__getstate__</code>.</li>
+</ol>
+<a class="back-top" href="#top">Back to top</a>
+
+<!-- ─── Public API ─── -->
+<h2 id="api">B. Public API</h2>
+
+<details open>
+  <summary>SolutionSearch[Problem, Stats]</summary>
+  <div class="inner">
+
+    <h3 id="api-init">__init__</h3>
+    <pre><code>def __init__(self,
+             name_algo: str,
+             problem: Problem,
+             is_valid: bool,
+             stats: Stats) -> None</code></pre>
+    <ol>
+      <li>Delegates entirely to <code>SolutionAlgo.__init__</code> with all four parameters.</li>
+      <li><code>Problem</code> is bounded to <code>ProblemSearch</code>; <code>Stats</code> is bounded to <code>StatsSearch</code>.</li>
+    </ol>
+
+    <h3 id="api-name-algo">name_algo (property)</h3>
+    <pre><code>@property
+def name_algo(self) -> str</code></pre>
+    <ol>
+      <li>Returns the algorithm's name string (inherited from <code>SolutionAlgo</code>).</li>
+    </ol>
+
+    <h3 id="api-problem">problem (property)</h3>
+    <pre><code>@property
+def problem(self) -> Problem</code></pre>
+    <ol>
+      <li>Returns the problem instance, stored as-is (no <code>to_light()</code> transformation).</li>
+      <li>Inherited from <code>SolutionAlgo</code>.</li>
+    </ol>
+
+    <h3 id="api-stats">stats (property)</h3>
+    <pre><code>@property
+def stats(self) -> Stats</code></pre>
+    <ol>
+      <li>Returns the performance statistics object (inherited from <code>SolutionAlgo</code>).</li>
+    </ol>
+
+    <h3 id="api-is-valid">is_valid (property)</h3>
+    <pre><code>@property
+def is_valid(self) -> bool</code></pre>
+    <ol>
+      <li>Returns whether the solution is valid (inherited from <code>Validatable</code>).</li>
+      <li>Supports <code>bool(solution)</code> via <code>__bool__</code>.</li>
+    </ol>
+
+  </div>
+</details>
+
+<details open>
+  <summary>Factory</summary>
+  <div class="inner">
+
+    <h3 id="api-factory-zero-valid">Factory.zero_valid()</h3>
+    <pre><code>@staticmethod
+def zero_valid() -> SolutionSearch</code></pre>
+    <ol>
+      <li>Creates a valid solution with linear test stats and <code>name_algo='TestAlgo'</code>.</li>
+    </ol>
+
+    <h3 id="api-factory-zero-invalid">Factory.zero_invalid()</h3>
+    <pre><code>@staticmethod
+def zero_invalid() -> SolutionSearch</code></pre>
+    <ol>
+      <li>Creates an invalid solution with linear test stats and <code>name_algo='TestAlgo'</code>.</li>
+    </ol>
+
+  </div>
+</details>
+<a class="back-top" href="#top">Back to top</a>
+
+<!-- ─── Inheritance ─── -->
+<h2 id="hierarchy">C. Inheritance</h2>
+
+<details open>
+  <summary>SolutionSearch Hierarchy</summary>
+  <div class="inner">
+    <pre><code>Validatable
+  └── SolutionAlgo[Problem, Stats]
+        └── SolutionSearch[Problem, Stats]</code></pre>
+
+    <table>
+      <tr><th>#</th><th>Base</th><th>Responsibility</th></tr>
+      <tr><td>1</td><td><code>Validatable</code></td><td><code>is_valid</code> property, <code>__bool__</code> support</td></tr>
+      <tr><td>2</td><td><code>SolutionAlgo[Problem, Stats]</code></td><td><code>name_algo</code>, <code>problem</code>, <code>stats</code> storage and properties</td></tr>
+      <tr><td>3</td><td><code>SolutionSearch[Problem, Stats]</code></td><td>Binds type bounds to <code>ProblemSearch</code> and <code>StatsSearch</code></td></tr>
+    </table>
+
+    <h3>Type Parameters</h3>
+    <ol>
+      <li><code>Problem</code> — bounded to <code>ProblemSearch</code>.</li>
+      <li><code>Stats</code> — bounded to <code>StatsSearch</code>.</li>
+    </ol>
+  </div>
+</details>
+<a class="back-top" href="#top">Back to top</a>
+
+<!-- ─── Dependencies ─── -->
+<h2 id="deps">D. Dependencies</h2>
+<table>
+  <tr><th>#</th><th>Import</th><th>Category</th><th>Used For</th></tr>
+  <tr>
+    <td>1</td>
+    <td><code>f_cs.solution.SolutionAlgo</code></td>
+    <td><span class="badge badge-int">internal</span></td>
+    <td>Direct parent class providing name_algo, problem, stats</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td><code>f_search.problems.ProblemSearch</code></td>
+    <td><span class="badge badge-int">internal</span></td>
+    <td>Type bound for <code>Problem</code> TypeVar</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td><code>f_search.stats.StatsSearch</code></td>
+    <td><span class="badge badge-int">internal</span></td>
+    <td>Type bound for <code>Stats</code> TypeVar</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td><code>typing.Generic</code>, <code>TypeVar</code></td>
+    <td><span class="badge badge-std">stdlib</span></td>
+    <td>Generic type parameterization</td>
+  </tr>
+</table>
+<a class="back-top" href="#top">Back to top</a>
+
+<!-- ─── Usage Examples ─── -->
+<h2 id="examples">E. Usage Examples</h2>
+
+<details open>
+  <summary id="ex-factory">Via Factory</summary>
+  <div class="inner">
+<pre><code>from f_search.solutions.i_0_base import SolutionSearch
+
+# Create valid / invalid test solutions
+valid = SolutionSearch.Factory.zero_valid()
+invalid = SolutionSearch.Factory.zero_invalid()
+
+assert valid.is_valid is True
+assert invalid.is_valid is False
+print(valid.name_algo)       # 'TestAlgo'
+print(valid.stats.explored)  # stats metric</code></pre>
+  </div>
+</details>
+
+<details open>
+  <summary id="ex-design">Design Note — Problem Storage</summary>
+  <div class="inner">
+    <ol>
+      <li><code>SolutionSearch.__init__</code> stores the problem as-is (no <code>to_light()</code> call).</li>
+      <li>The problem's <code>__getstate__</code> handles excluding heavy grid data during pickle.</li>
+      <li>After unpickling, call <code>problem.load_grid(grids)</code> to restore the grid reference.</li>
+    </ol>
+  </div>
+</details>
+<a class="back-top" href="#top">Back to top</a>
+
+<!-- Footer -->
+<hr style="border-color: var(--border); margin: 2rem 0 1rem;">
+<p style="color: var(--faint); font-size: .8rem;">
+  Generated: 2026-03-07 &mdash; Scope: <code>f_search/solutions/i_0_base/</code> (SolutionSearch base class)
+</p>
+
+</main>
+</div>
+
+<script>
+document.getElementById('search').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('main details').forEach(d => {
+    d.style.display = d.textContent.toLowerCase().includes(q) || q === '' ? '' : 'none';
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAUDE REVIEW — ProblemNeighborhood</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 2rem 3rem; max-width: 960px; margin: 0 auto; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1 { font-size: 1.5rem; color: #fff; margin-bottom: .3rem; }
+.subtitle { color: var(--faint); font-size: .9rem; margin-bottom: 2rem; }
+h2 { font-size: 1.15rem; color: #fff; border-bottom: 2px solid var(--border); padding-bottom: .4rem; margin: 2rem 0 .8rem; }
+ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+ol li { margin-bottom: .4rem; color: var(--text); }
+code { background: var(--code-bg); padding: .12rem .35rem; border-radius: 3px; font-size: .88rem; color: var(--good); }
+pre { background: var(--code-bg); border: 2px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; margin: .5rem 0 1rem; font-size: .85rem; line-height: 1.5; color: var(--text); }
+.no-issue { display: inline-block; background: #064e3b; color: var(--good); padding: .25rem .7rem; border-radius: 4px; font-size: .85rem; font-weight: 600; margin-bottom: .5rem; }
+section { margin-bottom: 1.5rem; }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 2px solid var(--border); color: var(--faint); font-size: .8rem; }
+</style>
+</head>
+<body>
+
+<h1>Code + Design Review: ProblemNeighborhood</h1>
+<div class="subtitle">f_search/problems/i_1_neighborhood/ &mdash; 2026-03-07</div>
+
+<!-- Summary -->
+<section>
+<h2>Summary</h2>
+<ol>
+    <li><code>ProblemNeighborhood</code> is a clean, minimal subclass composing grid search with a start state and step limit.</li>
+    <li>No bugs found; the class correctly delegates to its bases via explicit <code>__init__</code> calls.</li>
+    <li>Inherits <code>__getstate__</code>/<code>load_grid</code> from <code>ProblemSearch</code> without redundant overrides.</li>
+    <li>Constructor now correctly requires <code>Grid</code> only (not <code>Grid | str</code>).</li>
+    <li>One minor naming inconsistency noted; otherwise solid design.</li>
+</ol>
+</section>
+
+<!-- 1. Correctness -->
+<section>
+<h2>1. Correctness</h2>
+<span class="no-issue">No change needed.</span>
+<ol>
+    <li>Constructor correctly initializes all three bases: <code>ProblemSearch</code>, <code>HasStart</code>, and private <code>_steps_max</code>.</li>
+    <li><code>steps_max</code> property correctly returns the stored value.</li>
+    <li>No logic bugs or edge-case issues detected.</li>
+</ol>
+</section>
+
+<!-- 2. Readability / Naming -->
+<section>
+<h2>2. Readability / Naming</h2>
+<ol>
+    <li>Factory method parameter is <code>max_step</code> (singular) but constructor param is <code>steps_max</code> (plural). Align to <code>steps_max</code> in factory for consistency.</li>
+</ol>
+<pre># _factory.py line 22 — currently:
+max_step = 1
+return ProblemNeighborhood(grid=grid, start=start, steps_max=max_step)
+
+# Suggested:
+steps_max = 1
+return ProblemNeighborhood(grid=grid, start=start, steps_max=steps_max)</pre>
+</section>
+
+<!-- 3. Design (OOP) -->
+<section>
+<h2>3. Design (OOP)</h2>
+<span class="no-issue">No change needed.</span>
+<ol>
+    <li>Mixin composition is clean: <code>ProblemSearch</code> + <code>HasStart</code> + own <code>steps_max</code>.</li>
+    <li>Explicit base <code>__init__</code> calls avoid MRO surprises with multiple inheritance.</li>
+    <li>No removed overrides (<code>to_light</code>/<code>to_heavy</code>) remain; the class is correctly minimal.</li>
+</ol>
+</section>
+
+<!-- 4. Performance -->
+<section>
+<h2>4. Performance</h2>
+<span class="no-issue">No change needed.</span>
+<ol>
+    <li>Class is a thin data holder; no hot paths or algorithmic concerns.</li>
+    <li>Pickle support inherited from base excludes heavy grid as expected.</li>
+</ol>
+</section>
+
+<!-- 5. Typing -->
+<section>
+<h2>5. Typing</h2>
+<span class="no-issue">No change needed.</span>
+<ol>
+    <li>All constructor parameters are fully typed: <code>grid: Grid</code>, <code>start: State</code>, <code>steps_max: int</code>.</li>
+    <li>Return type <code>-> int</code> on <code>steps_max</code> property is correct.</li>
+    <li><code>Factory: type | None = None</code> uses modern union syntax.</li>
+</ol>
+</section>
+
+<!-- 6. Documentation -->
+<section>
+<h2>6. Documentation</h2>
+<span class="no-issue">No change needed.</span>
+<ol>
+    <li>Class and method docstrings follow project convention with <code>=</code> separators.</li>
+    <li>Docstrings are concise and accurate.</li>
+</ol>
+</section>
+
+<!-- 7. Modularity -->
+<section>
+<h2>7. Modularity</h2>
+<span class="no-issue">No change needed.</span>
+<ol>
+    <li>Single class per module; <code>main.py</code>, <code>__init__.py</code>, <code>_factory.py</code> are correctly separated.</li>
+    <li>No <code>_tester.py</code> exists; one could be added for direct unit testing.</li>
+</ol>
+</section>
+
+<!-- 8. Architecture -->
+<section>
+<h2>8. Architecture</h2>
+<span class="no-issue">No change needed.</span>
+<ol>
+    <li>Fits cleanly into the <code>i_1_*</code> inheritance level pattern alongside <code>i_1_spp</code> and <code>i_1_omspp</code>.</li>
+    <li>No cross-module coupling beyond expected base imports.</li>
+</ol>
+</section>
+
+<!-- 9. Usage & Usefulness -->
+<section>
+<h2>9. Usage &amp; Usefulness</h2>
+<ol>
+    <li><strong>How to use:</strong> construct with a grid, start state, and step limit; pass to a neighborhood search algorithm.</li>
+    <li><strong>When useful:</strong> bounded exploration from a point (e.g., reachability within N steps).</li>
+    <li><strong>Overengineered?</strong> No. The class is minimal (39 lines) and adds exactly one concept (<code>steps_max</code>) over its bases.</li>
+    <li><strong>Better design:</strong> None identified. The mixin composition is appropriate and lean.</li>
+</ol>
+</section>
+
+<!-- 10. Suggestions -->
+<section>
+<h2>10. Suggestions</h2>
+<ol>
+    <li><strong>Add <code>_tester.py</code></strong>: a simple test file verifying <code>steps_max</code> property and inherited <code>start</code>/<code>grid</code> properties would improve coverage. Low risk, high benefit.</li>
+    <li><strong>Rename factory local variable</strong>: <code>max_step</code> &rarr; <code>steps_max</code> for naming consistency with the constructor parameter.</li>
+</ol>
+</section>
+
+<footer>
+    Generated: 2026-03-07 | Scope: f_search/problems/i_1_neighborhood/ (main.py, __init__.py, _factory.py)
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAUDE — ProblemNeighborhood</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Layout */
+.wrapper { display: flex; min-height: 100vh; }
+nav.toc { position: sticky; top: 0; width: 240px; height: 100vh; overflow-y: auto; background: var(--panel); border-right: 2px solid var(--border); padding: 1.2rem; flex-shrink: 0; }
+nav.toc h2 { font-size: .95rem; color: var(--accent); margin-bottom: .8rem; }
+nav.toc ol { list-style: none; padding: 0; }
+nav.toc li { margin-bottom: .4rem; }
+nav.toc a { color: var(--muted); font-size: .85rem; }
+nav.toc a:hover { color: var(--text); }
+main { flex: 1; max-width: 900px; padding: 2rem 2.5rem; }
+
+/* Search */
+#search { width: 100%; padding: .45rem .6rem; background: var(--panel2); border: 2px solid var(--border); color: var(--text); border-radius: 4px; margin-bottom: 1rem; font-size: .85rem; }
+#search:focus { border-color: var(--accent); outline: none; }
+
+/* Sections */
+section { margin-bottom: 2.5rem; }
+h1 { font-size: 1.6rem; color: #fff; margin-bottom: .2rem; }
+.subtitle { color: var(--faint); font-size: .9rem; margin-bottom: 2rem; }
+h2 { font-size: 1.2rem; color: #fff; border-bottom: 2px solid var(--border); padding-bottom: .4rem; margin-bottom: 1rem; }
+h3 { font-size: 1rem; color: var(--accent2); margin-bottom: .5rem; }
+
+/* Lists */
+ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+ol li { margin-bottom: .35rem; color: var(--text); }
+
+/* Code */
+code { background: var(--code-bg); padding: .15rem .4rem; border-radius: 3px; font-size: .88rem; color: var(--good); }
+pre { background: var(--code-bg); border: 2px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; margin-bottom: 1rem; font-size: .85rem; line-height: 1.5; color: var(--text); }
+
+/* Panels */
+details { background: var(--panel); border: 2px solid var(--border); border-radius: 6px; margin-bottom: 1rem; }
+details > summary { padding: .7rem 1rem; cursor: pointer; font-weight: 600; color: var(--text); list-style: none; }
+details > summary:hover { background: var(--panel2); }
+details > summary::before { content: '\25B6  '; color: var(--accent); font-size: .75rem; }
+details[open] > summary::before { content: '\25BC  '; }
+details .panel-body { padding: .5rem 1rem 1rem; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+th, td { text-align: left; padding: .5rem .7rem; border-bottom: 1px solid var(--border); }
+th { color: var(--accent); font-size: .85rem; }
+td { color: var(--muted); font-size: .88rem; }
+
+/* Badges */
+.badge { display: inline-block; padding: .15rem .5rem; border-radius: 3px; font-size: .75rem; font-weight: 600; }
+.badge-int { background: #1e3a5f; color: var(--accent); }
+
+/* Back to top */
+.back-top { display: inline-block; margin-top: .5rem; font-size: .8rem; color: var(--faint); }
+.back-top:hover { color: var(--accent); }
+
+/* Footer */
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 2px solid var(--border); color: var(--faint); font-size: .8rem; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .wrapper { flex-direction: column; }
+    nav.toc { position: static; width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border); }
+    main { padding: 1.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+<!-- TOC -->
+<nav class="toc">
+    <h2>Contents</h2>
+    <input type="text" id="search" placeholder="Search...">
+    <ol>
+        <li><a href="#purpose">Purpose</a></li>
+        <li><a href="#api">Public API</a></li>
+        <li><a href="#hierarchy">Inheritance</a></li>
+        <li><a href="#deps">Dependencies</a></li>
+        <li><a href="#examples">Usage Examples</a></li>
+    </ol>
+</nav>
+
+<!-- Main -->
+<main>
+
+<h1>ProblemNeighborhood</h1>
+<div class="subtitle">f_search/problems/i_1_neighborhood/</div>
+
+<!-- Purpose -->
+<section id="purpose">
+<h2>A. Purpose</h2>
+<ol>
+    <li>Defines a grid-based search problem that explores states within a bounded step count from a start.</li>
+    <li>Composes <code>ProblemSearch</code> (grid + successors) with <code>HasStart</code> (start state) and adds <code>steps_max</code>.</li>
+    <li>Constructor accepts only <code>Grid</code> (not <code>Grid | str</code>); inherits pickle support from <code>ProblemSearch</code>.</li>
+</ol>
+<a class="back-top" href="#">&uarr; top</a>
+</section>
+
+<!-- Public API -->
+<section id="api">
+<h2>B. Public API</h2>
+
+<details open>
+<summary>ProblemNeighborhood</summary>
+<div class="panel-body">
+
+<h3 id="api-init">__init__</h3>
+<pre>def __init__(self,
+             grid: Grid,
+             start: State,
+             steps_max: int,
+             name: str = 'ProblemNeighborhood') -> None</pre>
+<ol>
+    <li>Initializes the neighborhood problem with grid, start state, and max steps.</li>
+    <li>Calls <code>ProblemSearch.__init__</code> and <code>HasStart.__init__</code> explicitly.</li>
+</ol>
+
+<h3 id="api-steps-max">steps_max (property)</h3>
+<pre>@property
+def steps_max(self) -> int</pre>
+<ol>
+    <li>Returns the maximum number of steps allowed from start.</li>
+</ol>
+
+<h3 id="api-grid">grid (property) &mdash; inherited</h3>
+<pre>@property
+def grid(self) -> Grid</pre>
+<ol>
+    <li>Returns the grid; raises <code>ValueError</code> if not loaded.</li>
+</ol>
+
+<h3 id="api-name-grid">name_grid (property) &mdash; inherited</h3>
+<pre>@property
+def name_grid(self) -> str</pre>
+<ol>
+    <li>Returns the grid's name string.</li>
+</ol>
+
+<h3 id="api-successors">successors &mdash; inherited</h3>
+<pre>def successors(self, state: State) -> list[State]</pre>
+<ol>
+    <li>Returns valid neighbor states via <code>grid.neighbors()</code>.</li>
+</ol>
+
+<h3 id="api-load-grid">load_grid &mdash; inherited</h3>
+<pre>def load_grid(self, grids: dict[str, Grid]) -> None</pre>
+<ol>
+    <li>Reloads the grid from a name-keyed dict after deserialization.</li>
+</ol>
+
+<h3 id="api-getstate">__getstate__ &mdash; inherited</h3>
+<pre>def __getstate__(self) -> dict</pre>
+<ol>
+    <li>Excludes the heavy grid from pickle serialization.</li>
+</ol>
+
+<h3 id="api-start">start (property) &mdash; inherited</h3>
+<pre>@property
+def start(self) -> State</pre>
+<ol>
+    <li>Returns the start state (from <code>HasStart</code> mixin).</li>
+</ol>
+
+</div>
+</details>
+
+<a class="back-top" href="#">&uarr; top</a>
+</section>
+
+<!-- Hierarchy -->
+<section id="hierarchy">
+<h2>C. Inheritance</h2>
+
+<details open>
+<summary>Inheritance Tree</summary>
+<div class="panel-body">
+<pre>
+HasName + Equatable
+        |
+    ProblemAlgo
+        |
+    ProblemSearch     HasStart
+         \              /
+      ProblemNeighborhood
+</pre>
+
+<table>
+<thead><tr><th>#</th><th>Base</th><th>Responsibility</th></tr></thead>
+<tbody>
+    <tr><td>1</td><td><code>ProblemAlgo</code></td><td>Named, equatable problem identity</td></tr>
+    <tr><td>2</td><td><code>ProblemSearch</code></td><td>Grid storage, successors, pickle support, grid reload</td></tr>
+    <tr><td>3</td><td><code>HasStart</code></td><td>Single start state property</td></tr>
+</tbody>
+</table>
+</div>
+</details>
+
+<a class="back-top" href="#">&uarr; top</a>
+</section>
+
+<!-- Dependencies -->
+<section id="deps">
+<h2>D. Dependencies</h2>
+
+<table>
+<thead><tr><th>#</th><th>Import</th><th>Category</th><th>Used For</th></tr></thead>
+<tbody>
+    <tr><td>1</td><td><code>f_search.problems.i_0_base.ProblemSearch</code></td><td><span class="badge badge-int">internal</span></td><td>Base class for grid search problems</td></tr>
+    <tr><td>2</td><td><code>f_search.ds.state.StateCell</code></td><td><span class="badge badge-int">internal</span></td><td>State representation (aliased as State)</td></tr>
+    <tr><td>3</td><td><code>f_ds.grids.GridMap</code></td><td><span class="badge badge-int">internal</span></td><td>2D grid search space (aliased as Grid)</td></tr>
+    <tr><td>4</td><td><code>f_search.problems.mixins.HasStart</code></td><td><span class="badge badge-int">internal</span></td><td>Start state mixin</td></tr>
+</tbody>
+</table>
+
+<a class="back-top" href="#">&uarr; top</a>
+</section>
+
+<!-- Usage Examples -->
+<section id="examples">
+<h2>E. Usage Examples</h2>
+
+<details open>
+<summary id="ex-factory">Example 1 &mdash; Via Factory</summary>
+<div class="panel-body">
+<pre>from f_search.problems.i_1_neighborhood import ProblemNeighborhood
+
+problem = ProblemNeighborhood.Factory.without_obstacles()
+print(problem.start)       # StateCell at grid[0][0]
+print(problem.steps_max)   # 1
+print(problem.grid)        # 4x4 grid without obstacles</pre>
+</div>
+</details>
+
+<details open>
+<summary id="ex-direct">Example 2 &mdash; Direct Construction</summary>
+<div class="panel-body">
+<pre>from f_ds.grids import GridMap as Grid
+from f_search.ds.state import StateCell as State
+from f_search.problems.i_1_neighborhood import ProblemNeighborhood
+
+grid = Grid.Factory.four_without_obstacles()
+start = State(key=grid[0][0])
+problem = ProblemNeighborhood(grid=grid, start=start, steps_max=3)
+
+successors = problem.successors(start)  # neighbor states</pre>
+</div>
+</details>
+
+<a class="back-top" href="#">&uarr; top</a>
+</section>
+
+<!-- Footer -->
+<footer>
+    Generated: 2026-03-07 | Scope: f_search/problems/i_1_neighborhood/ (ProblemNeighborhood class)
+</footer>
+
+</main>
+</div>
+
+<script>
+document.getElementById('search').addEventListener('input', function() {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('details').forEach(d => {
+        const text = d.textContent.toLowerCase();
+        d.style.display = text.includes(q) ? '' : 'none';
+    });
+});
+</script>
+</body>
+</html>
