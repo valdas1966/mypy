@@ -89,7 +89,7 @@ footer {
 <ol>
     <li><span class="severity-low">[Low]</span> In <code>_run()</code>, <code>self._data.frontier</code> is checked before <code>_discover()</code>, but the frontier may be empty on a fresh instance. The guard correctly handles this, but the condition <code>if not self._data.frontier</code> relies on frontier's truthiness being empty-check. Verify <code>FrontierPriority.__bool__</code> returns <code>False</code> when empty.</li>
     <li><span class="severity-low">[Low]</span> <code>distances_to_goal()</code> and <code>bounds_to_goal()</code> assume the goal was reached and is present in <code>dict_g</code>. Calling these after an invalid solution (no path) would raise <code>KeyError</code>. Consider a guard or documenting the precondition.</li>
-    <li><span class="severity-low">[Low]</span> In <code>_run()</code> line 91-94, the cached parent chain extension builds an <code>extension</code> list and creates a new <code>Path</code>. If <code>dict_parent</code> has no entry for <code>best</code>, the extension is empty, which is correct but results in an unnecessary <code>Path(states=[])</code> concatenation.</li>
+    <li><span class="severity-info">[Info]</span> <code>g_goal</code> computation in <code>_run()</code> correctly handles both cases: direct goal reach (<code>dict_g[best]</code>) and cached early termination (<code>dict_g[best] + dict_cached[best]</code>). The single <code>best</code> variable is reused cleanly for both g_goal and path reconstruction.</li>
 </ol>
 </section>
 
@@ -98,7 +98,7 @@ footer {
 <h2>2. Readability / Naming</h2>
 <ol>
     <li><span class="severity-info">[Info]</span> Local alias <code>di</code> (for <code>self._data_cached</code>) is used in <code>_discover</code>, <code>_relax</code>, and <code>list_explored</code>. A more descriptive alias like <code>dc</code> or <code>cached</code> would improve readability.</li>
-    <li><span class="severity-info">[Info]</span> The docstring for <code>_run()</code> says "Run the Algorithm and return the Solution" but does not mention the cached early-termination behavior, which is the key differentiator.</li>
+    <li><span class="severity-info">[Info]</span> The docstring for <code>_run()</code> says "Run the Algorithm and return the Solution" but does not mention the <code>g_goal</code> computation or cached early-termination behavior, which are the key differentiators.</li>
 </ol>
 </section>
 
@@ -116,6 +116,7 @@ footer {
 <h2>4. Performance</h2>
 <ol>
     <li><span class="severity-info">[Info]</span> <code>bounds_to_goal()</code> calls <code>self._data.path_to()</code> and then converts to a set. If <code>path_to</code> is expensive, caching the path after <code>_run()</code> could avoid recomputation. Minor concern for typical grid sizes.</li>
+    <li><span class="severity-info">[Info]</span> The <code>_run()</code> method cleanly reuses a single <code>best</code> variable for both <code>g_goal</code> and path reconstruction, avoiding a redundant <code>self._data.best</code> access.</li>
 </ol>
 </section>
 
@@ -134,6 +135,7 @@ footer {
 <ol>
     <li><span class="severity-info">[Info]</span> Class docstring clearly explains the tiebreaking priority: cached > bounded > unbounded. Well written.</li>
     <li><span class="severity-info">[Info]</span> <code>_discover</code> and <code>_relax</code> docstrings mention "flag-aware Priority" which is accurate and helpful.</li>
+    <li><span class="severity-info">[Info]</span> The <code>_run()</code> docstring could mention the <code>g_goal</code> computation logic as it is a key behavioral detail of this override.</li>
 </ol>
 </section>
 
@@ -153,6 +155,7 @@ footer {
 <ol>
     <li><span class="severity-info">[Info]</span> The inheritance chain is 5 levels deep (AlgoSearch > AlgoSPP > AStar > AStarReusable > AStarCached). This is acceptable given the clear single-responsibility at each level, but adding further specializations should be done cautiously.</li>
     <li><span class="severity-info">[Info]</span> <code>DataCached</code> is a separate data object composed into AStarCached. Good use of composition alongside the inherited <code>_data</code>.</li>
+    <li><span class="severity-info">[Info]</span> The <code>g_goal</code> computation being inside <code>_run()</code> keeps the solution-creation logic self-contained, passing the computed value directly to <code>SolutionSPP</code>.</li>
 </ol>
 </section>
 
@@ -161,9 +164,9 @@ footer {
 <h2>9. Usage & Usefulness</h2>
 <ol>
     <li><strong>When useful:</strong> Research into cached heuristic search; reusing exact distances from prior searches to accelerate subsequent ones.</li>
-    <li><strong>How to use:</strong> Create a <code>ProblemSPP</code>, optionally populate a <code>DataCached</code> with known distances, pass to <code>AStarCached</code>, call <code>run()</code>.</li>
+    <li><strong>How to use:</strong> Create a <code>ProblemSPP</code>, optionally populate a <code>DataCached</code> with known distances, pass to <code>AStarCached</code>, call <code>run()</code>. Access <code>sol.g_goal</code> for the computed goal distance.</li>
     <li><strong>Not overengineered:</strong> Tests show clear improvement (22 > 10 > 8 > 5 > 4 explored states) as more cached data is provided.</li>
-    <li>The <code>list_explored()</code> method is a practical diagnostic tool for analyzing search behavior.</li>
+    <li>The <code>g_goal</code> computation enables downstream use (e.g., suboptimality ratio) without requiring the goal to be explicitly reached.</li>
 </ol>
 </section>
 
@@ -175,11 +178,12 @@ footer {
     <li><strong>Add <code>| None</code> to optional params:</strong> <code>heuristics: HeuristicsProtocol[State] | None = None</code> for type correctness. Zero risk.</li>
     <li><strong>Guard <code>distances_to_goal</code>:</strong> Return empty dict if solution is invalid, or raise <code>ValueError</code> with clear message. Low risk.</li>
     <li><strong>Rename <code>di</code> alias:</strong> Use <code>cached</code> or <code>dc</code> for clarity. Zero risk, cosmetic.</li>
+    <li><strong>Enrich <code>_run()</code> docstring:</strong> Mention <code>g_goal</code> computation and the two termination cases. Zero risk, improves re-entry speed.</li>
 </ol>
 </section>
 
 <footer>
-    Generated: 2026-03-06 | Scope: <code>f_search/algos/i_1_spp/i_3_astar_cached/</code> | Files reviewed: main.py, __init__.py, _factory.py, _tester.py
+    Generated: 2026-03-08 | Scope: <code>f_search/algos/i_1_spp/i_3_astar_cached/</code> | Files reviewed: main.py, __init__.py, _factory.py, _tester.py
 </footer>
 
 </body>
