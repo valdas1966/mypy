@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SolutionSPP — Code + Design Review</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; max-width: 900px; margin: 0 auto; padding: 1.5rem 2rem 3rem; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1 { font-size: 1.6rem; font-weight: 700; color: #fff; margin-bottom: .2rem; }
+h2 { font-size: 1.25rem; font-weight: 700; color: #fff; margin: 1.5rem 0 .5rem; border-bottom: 2px solid var(--border); padding-bottom: .3rem; }
+h3 { font-size: 1rem; color: var(--accent); margin: .8rem 0 .3rem; }
+ol { padding-left: 1.6rem; margin: .4rem 0; }
+li { margin: .25rem 0; }
+code, .ic { font-family: 'Fira Code', 'Consolas', monospace; font-size: .9em; background: var(--code-bg); padding: .1em .35em; border-radius: 3px; color: var(--accent); }
+pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 6px; padding: .8rem; overflow-x: auto; font-size: .85rem; color: var(--text); margin: .5rem 0; font-family: 'Fira Code', 'Consolas', monospace; }
+.badge { display: inline-block; font-size: .75rem; padding: .15em .5em; border-radius: 4px; font-weight: 600; }
+.badge-ok { background: var(--good); color: #000; }
+.badge-warn { background: var(--warn); color: #000; }
+.badge-issue { background: var(--bad); color: #000; }
+.severity-ok { color: var(--good); font-weight: 600; }
+.severity-warn { color: var(--warn); font-weight: 600; }
+.severity-issue { color: var(--bad); font-weight: 600; }
+section { background: var(--panel); border: 2px solid var(--border); border-radius: 6px; padding: 1rem 1.2rem; margin: .8rem 0; }
+.path-label { font-size: .85rem; color: var(--faint); margin-bottom: .2rem; }
+footer { margin-top: 2rem; padding-top: .6rem; border-top: 2px solid var(--border); font-size: .8rem; color: var(--faint); }
+</style>
+</head>
+<body>
+
+<div class="path-label">f_search/solutions/i_1_spp/</div>
+<h1>SolutionSPP — Code + Design Review</h1>
+
+<!-- Summary -->
+<section>
+<h2>Summary</h2>
+<ol>
+    <li>Clean, focused solution container with three new SPP-specific properties.</li>
+    <li>One potential correctness issue in <code>quality_h</code> around falsy-zero handling.</li>
+    <li>Factory methods are missing the <code>problem</code> parameter required by <code>__init__</code>.</li>
+    <li>Minor typing improvement possible for <code>path</code> return type.</li>
+    <li>Overall design is solid and follows project conventions well.</li>
+</ol>
+</section>
+
+<!-- 1. Correctness -->
+<section>
+<h2>1. Correctness</h2>
+<ol>
+    <li><span class="severity-warn">[Warn]</span> <code>quality_h</code> uses <code>not self._g_goal</code> which treats <code>g_goal=0</code> and <code>g_goal=None</code> identically. This is correct for avoiding division by zero, but a <code>g_goal</code> of 0 means start equals goal — the guard is intentional. Document this edge case.</li>
+    <li><span class="severity-issue">[Issue]</span> <code>_factory.py</code>: both <code>valid()</code> and <code>invalid()</code> call <code>SolutionSPP()</code> without passing the required <code>problem</code> parameter. This will raise <code>TypeError</code> at runtime since <code>problem</code> has no default value. Fix: pass a <code>ProblemSPP</code> factory instance.</li>
+</ol>
+</section>
+
+<!-- 2. Readability / Naming -->
+<section>
+<h2>2. Readability / Naming</h2>
+<ol>
+    <li><span class="severity-ok">[OK]</span> Property names <code>g_goal</code> and <code>quality_h</code> follow domain conventions (g-cost, h-heuristic).</li>
+    <li><span class="severity-ok">[OK]</span> Docstrings follow project <code>====</code> separator convention consistently.</li>
+</ol>
+</section>
+
+<!-- 3. Design (OOP) -->
+<section>
+<h2>3. Design (OOP)</h2>
+<ol>
+    <li><span class="severity-ok">[OK]</span> Clean single-responsibility: <code>SolutionSPP</code> adds only SPP-specific data to the base solution.</li>
+    <li><span class="severity-ok">[OK]</span> <code>quality_h</code> correctly accesses <code>self.problem.h_start</code> — the problem owns domain knowledge.</li>
+    <li><span class="severity-ok">[OK]</span> Immutable design: properties only, no setters.</li>
+</ol>
+</section>
+
+<!-- 4. Performance -->
+<section>
+<h2>4. Performance</h2>
+<ol>
+    <li>No change needed. All properties are O(1) attribute lookups or simple division.</li>
+</ol>
+</section>
+
+<!-- 5. Typing -->
+<section>
+<h2>5. Typing</h2>
+<ol>
+    <li><span class="severity-warn">[Warn]</span> <code>path</code> property returns <code>Path</code> but <code>__init__</code> accepts <code>Path = None</code>. Return type should be <code>Path | None</code> for accuracy.</li>
+    <li><span class="severity-ok">[OK]</span> <code>g_goal</code> and <code>quality_h</code> correctly typed with <code>| None</code> union.</li>
+    <li><span class="severity-ok">[OK]</span> All parameters and return types are fully annotated.</li>
+</ol>
+</section>
+
+<!-- 6. Documentation -->
+<section>
+<h2>6. Documentation</h2>
+<ol>
+    <li><span class="severity-ok">[OK]</span> Every method and property has a docstring with separator convention.</li>
+    <li><span class="severity-warn">[Warn]</span> <code>_factory.py</code>: <code>invalid()</code> docstring says "Factory of a valid solution" — should say "invalid".</li>
+</ol>
+</section>
+
+<!-- 7. Modularity -->
+<section>
+<h2>7. Modularity</h2>
+<ol>
+    <li>No change needed. Module is well-scoped with standard file layout.</li>
+</ol>
+</section>
+
+<!-- 8. Architecture -->
+<section>
+<h2>8. Architecture</h2>
+<ol>
+    <li><span class="severity-ok">[OK]</span> <code>quality_h</code> couples to <code>ProblemSPP.h_start</code> — acceptable since <code>SolutionSPP</code> is typed for <code>ProblemSPP</code> problems.</li>
+    <li><span class="severity-ok">[OK]</span> No cross-module issues. Clean dependency chain: solution depends on problem and stats.</li>
+</ol>
+</section>
+
+<!-- 9. Usage & Usefulness -->
+<section>
+<h2>9. Usage & Usefulness</h2>
+<ol>
+    <li><strong>When useful:</strong> evaluating A* results — <code>quality_h</code> measures how close the heuristic is to perfect.</li>
+    <li><strong>When useful:</strong> storing <code>g_goal</code> separately from path avoids recomputing cost from path.</li>
+    <li><strong>Not overengineered:</strong> three simple properties with clear semantics.</li>
+    <li><strong>Usage:</strong> algorithms create <code>SolutionSPP</code> in <code>_create_solution()</code>; callers read properties.</li>
+</ol>
+</section>
+
+<!-- 10. Suggestions -->
+<section>
+<h2>10. Suggestions</h2>
+<ol>
+    <li><span class="badge badge-issue">high</span> Fix <code>_factory.py</code>: pass <code>problem</code> parameter to <code>SolutionSPP()</code> in both factory methods. Without it, the factory is broken at runtime.</li>
+    <li><span class="badge badge-warn">medium</span> Change <code>path</code> property return type from <code>Path</code> to <code>Path | None</code> to match the <code>None</code> default in <code>__init__</code>.</li>
+    <li><span class="badge badge-warn">low</span> Fix <code>invalid()</code> docstring in <code>_factory.py</code>: "valid" should be "invalid".</li>
+</ol>
+</section>
+
+<footer>
+    Generated: 2026-03-08 | Scope: <code>f_search/solutions/i_1_spp/</code> — SolutionSPP code + design review.
+</footer>
+
+</body>
+</html>
