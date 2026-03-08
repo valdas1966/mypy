@@ -62,12 +62,7 @@ class ProblemSearch(ProblemAlgo):
          Return a dict of analytic values for reporting.
         ========================================================================
         """
-        grid = self.grid
-        return dict(domain=getattr(grid, 'domain', None),
-                    map=grid.name,
-                    rows=grid.rows,
-                    cols=grid.cols,
-                    cells=len(grid))
+        return self.grid.to_analytics()
 
     def load_grid(self, grids: dict[str, Grid]) -> None:
         """

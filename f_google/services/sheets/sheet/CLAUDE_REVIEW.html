@@ -153,9 +153,9 @@
 <section>
     <h2>Summary</h2>
     <ol>
-        <li>Small wrapper class (30 lines in <code class="inline-code">main.py</code>) around <code class="inline-code">gspread.Worksheet</code>.</li>
+        <li>Wrapper class (~70 lines in <code class="inline-code">main.py</code>) around <code class="inline-code">gspread.Worksheet</code>.</li>
         <li>Lazy-loading pattern caches rows on first access via <code class="inline-code">_load()</code>.</li>
-        <li>Clean dunder methods provide intuitive index and length access.</li>
+        <li>Provides <code class="inline-code">last_row()</code> and <code class="inline-code">last_col()</code> with 1-based indexing matching Google Sheets convention.</li>
         <li>No Factory or Tester &mdash; tested through <code class="inline-code">Spread</code>'s tester (appropriate for a live-API dependency).</li>
         <li>No correctness or design issues found.</li>
     </ol>
@@ -224,9 +224,9 @@
 <section>
     <h2>9. Usage &amp; Usefulness</h2>
     <ol>
-        <li><strong>How to use:</strong> Obtain via <code class="inline-code">Spread.__getitem__()</code>, then access rows by index or query length.</li>
+        <li><strong>How to use:</strong> Obtain via <code class="inline-code">Spread.__getitem__()</code>, then access rows by index, query bounds via <code class="inline-code">last_row()</code>/<code class="inline-code">last_col()</code>.</li>
         <li><strong>When useful:</strong> Reading Google Sheets worksheet data row-by-row without manual API management.</li>
-        <li><strong>Not overengineered:</strong> Minimal wrapper adding only lazy-loading and index access. Appropriate scope.</li>
+        <li><strong>Not overengineered:</strong> Minimal wrapper adding lazy-loading, index access, and 1-based bounds. Appropriate scope.</li>
     </ol>
 </section>
 
@@ -253,7 +253,7 @@
 
 <footer>
     <ol>
-        <li>Generated: 2026-03-06</li>
+        <li>Generated: 2026-03-08</li>
         <li>Scope: f_google.services.sheets.sheet &mdash; full code + design review</li>
     </ol>
 </footer>

@@ -25,7 +25,9 @@
       "Bash(~/.bashrc:*)",
       "Bash(export:*)",
       "Bash(PYTHONPATH=/mnt/f/mypy python3:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(open:*)",
+      "WebSearch"
     ]
   }
 }

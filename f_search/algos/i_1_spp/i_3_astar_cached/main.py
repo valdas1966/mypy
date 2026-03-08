@@ -82,21 +82,29 @@ class AStarCached(Generic[State], AStarReusable[State]):
             self._explore_best()
         is_valid = self._can_terminate()
         path = None
-        if self._need_path and is_valid:
+        g_goal = None
+        if is_valid:
             best = self._data.best
-            path = self._data.path_to(state=best)
-            # Extend path through cached parents to the goal
-            if best != self.problem.goal:
-                extension = []
-                cur = self._data_cached.dict_parent.get(best)
-                while cur is not None:
-                    extension.append(cur)
-                    cur = self._data_cached.dict_parent.get(cur)
-                path = path + Path(states=extension)
+            if best == self.problem.goal:
+                g_goal = self._data.dict_g[best]
+            else:
+                g_goal = (self._data.dict_g[best]
+                          + self._data_cached.dict_cached[best])
+            if self._need_path:
+                path = self._data.path_to(state=best)
+                # Extend path through cached parents to the goal
+                if best != self.problem.goal:
+                    extension = []
+                    cur = self._data_cached.dict_parent.get(best)
+                    while cur is not None:
+                        extension.append(cur)
+                        cur = self._data_cached.dict_parent.get(cur)
+                    path = path + Path(states=extension)
         return SolutionSPP(name_algo=self.name,
                            problem=self.problem,
                            is_valid=is_valid,
                            path=path,
+                           g_goal=g_goal,
                            stats=self._stats)
 
     def distances_to_goal(self) -> dict[State, int]:

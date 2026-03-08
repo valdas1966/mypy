@@ -1,53 +1,71 @@
-# AlgoSPP - One-to-One Shortest Path Problem Base Algorithm
-
-## Main Class
-`AlgoSPP[Problem, Solution]`
-
-## Inheritance
-- **Base Classes:** `Generic[Problem, Solution]`, `AlgoSearch[Problem, Solution]`
-- **Type Bounds:**
-  - `Problem` bounded to `ProblemSPP`
-  - `Solution` bounded to `SolutionSPP`
+# AlgoSPP - Base for One-to-One Shortest Path Problem Algorithms
 
 ## Purpose
-Specializes the general search algorithm framework for One-to-One Shortest Path Problems (SPP). This class serves as the base for all algorithms that find the shortest path from a single start state to a single goal state on a grid.
+Abstract base class for algorithms solving One-to-One Shortest Path Problems (SPP). Specializes `AlgoBestFirst` with `ProblemSPP` and `SolutionSPP` types, and implements the core `_run()` loop with goal-cost extraction via `g_goal`.
 
-## Functionality from Base Classes
-From `AlgoSearch[Problem, Solution]`:
-- Core data structures: `_generated`, `_explored`, `_parent`, `_g`, `_h`, `_cost`, `_best`
-- Data structure initialization via `_run_pre()`
-- Algorithm lifecycle management
-- Generic search framework
+## Public API
 
-## Specialized Functionality
+### Constructor
+```python
+def __init__(self,
+             problem: ProblemSPP,
+             data: Data,
+             name: str = 'AlgoSPP') -> None:
+```
+Initializes with an SPP problem, a best-first data structure, and an optional name.
 
-### Statistics Type Refinement
-The primary specialization in this class is the refinement of the statistics type:
-- Narrows `_stats` from generic `StatsSearch` to `StatsSPP`
-- Provides type safety for single-goal pathfinding statistics
+### `_run(self) -> SolutionSPP`
+Runs the best-first search loop:
+1. Discovers the start state if the frontier is empty.
+2. Loops: selects best, checks termination, explores best.
+3. On valid termination, extracts `g_goal = self._data.dict_g[self.problem.goal]`.
+4. If `_need_path` is set, reconstructs the path via `self._data.path_to(state=goal)`.
+5. Returns `SolutionSPP` with `name_algo`, `problem`, `is_valid`, `path`, `g_goal`, and `stats`.
 
-### Key Methods
+### `_can_terminate(self) -> bool`
+Returns `True` when the current best state equals the problem's goal.
 
-#### `_run_pre()`
-Extends the parent's initialization:
-- Calls `super()._run_pre()` to initialize all base data structures
-- Sets `_stats` to `StatsSPP` type for SPP-specific metrics
+## Inheritance (Hierarchy)
 
-### Domain Constraint
-By constraining the Problem type to `ProblemSPP`, this class ensures that algorithms inheriting from it will work with problems that have:
-- A single start state (via `HasStart` mixin)
-- A single goal state (via `HasGoal` mixin)
-- Grid-based search space (via `ProblemSearch`)
+```
+Algo
+  └── AlgoSearch
+        └── AlgoBestFirst[Problem, Solution, State, Data]
+              └── AlgoSPP[State, Data]
+```
 
-## Usage Context
-- Direct instantiation: Not intended (abstract base class)
-- Specialization: Extended by concrete SPP algorithms like `AStar` and `Dijkstra`
-- Role in hierarchy: Bridges the generic search framework and concrete single-goal algorithms
+| Base | Responsibility |
+|------|----------------|
+| `Algo` | Generic algorithm lifecycle (`run`, `_pre_run`, `_post_run`) |
+| `AlgoSearch` | Search-specific base (`_need_path`, `cls_stats`) |
+| `AlgoBestFirst` | Best-first infrastructure (`_data`, `_should_continue`, `_select_best`, `_explore_best`) |
+| `AlgoSPP` | SPP-specific `_run()` loop, `_can_terminate()`, constructs `SolutionSPP` with `g_goal` |
 
-## Design Rationale
-This intermediate class provides a clear separation between:
-1. Generic search algorithms (any problem type)
-2. Single-goal search algorithms (SPP problems)
-3. Concrete algorithm implementations (A*, Dijkstra, etc.)
+## Dependencies
 
-This design allows for future expansion to other problem types (e.g., One-to-Many) while maintaining clean type boundaries.
+| Import | Purpose |
+|--------|---------|
+| `f_search.algos.i_0_base.AlgoBestFirst` | Parent class providing best-first search infrastructure |
+| `f_search.ds.state.StateBase` | Bound for the `State` type variable |
+| `f_search.ds.data.DataBestFirst` | Bound for the `Data` type variable; holds `dict_g`, `frontier`, `path_to()` |
+| `f_search.problems.ProblemSPP` | Problem type with `start`, `goal` properties |
+| `f_search.solutions.SolutionSPP` | Solution type accepting `path`, `g_goal`, `stats` |
+
+## Usage Example
+
+```python
+from f_search.algos.i_1_spp.i_1_astar import AStar
+from f_search.problems import ProblemSPP
+
+# Create a problem
+problem = ProblemSPP.Factory.without_obstacles()
+
+# Run an SPP algorithm (AStar extends AlgoSPP)
+astar = AStar(problem=problem)
+solution = astar.run()
+
+# Access results
+if solution.is_valid:
+    print(solution.g_goal)   # Optimal cost to reach goal
+    print(solution.path)     # Path from start to goal
+```

@@ -1,7 +1,7 @@
 # AStarCached - A* with Cached/Bounded Heuristic Tiebreaking
 
 ## Purpose
-Extends `AStarReusable` to prioritize states with cached (exact) heuristic values over bounded (lower-bound) and unbounded (Manhattan) heuristics. Uses `PriorityGHFlags` for flag-aware frontier ordering, enabling early termination when a state with a cached heuristic is selected as best.
+Extends `AStarReusable` to prioritize states with cached (exact) heuristic values over bounded (lower-bound) and unbounded (Manhattan) heuristics. Uses `PriorityGHFlags` for flag-aware frontier ordering and early termination when a state with a cached heuristic is selected as best.
 
 ## Public API
 
@@ -23,6 +23,9 @@ Return a list of dicts for each explored state containing: `row`, `col`, `f`, `i
 ### `run(self) -> SolutionSPP` (inherited, calls `_run`)
 Execute the algorithm and return the solution.
 
+### `_run(self) -> SolutionSPP` (override)
+Run the search loop. Terminates when the best state is the goal or has a cached (exact) heuristic. On valid termination, computes `g_goal`: if `best == goal`, uses `dict_g[best]`; if terminated via cached heuristic (`best != goal`), computes `g_goal = dict_g[best] + dict_cached[best]`. Optionally reconstructs the path through cached parent chain. Returns `SolutionSPP` with validity, path, `g_goal`, and stats.
+
 ## Inheritance (Hierarchy)
 
 ```
@@ -39,7 +42,7 @@ AlgoSearch
 | `AlgoSPP` | SPP-specific solution creation, stats specialization |
 | `AStar` | A* loop: discover, explore, relax, Manhattan heuristic |
 | `AStarReusable` | Allows external data/heuristics injection for chaining |
-| `AStarCached` | Flag-aware priority (cached > bounded > unbounded), early termination on cached hit |
+| `AStarCached` | Flag-aware priority (cached > bounded > unbounded), early termination on cached hit, g_goal computation |
 
 ## Dependencies
 
@@ -47,7 +50,7 @@ AlgoSearch
 |--------|---------|
 | `AStarReusable` | Parent class providing reusable A* infrastructure |
 | `ProblemSPP` | One-to-one shortest path problem definition |
-| `SolutionSPP` | Solution container with path and stats |
+| `SolutionSPP` | Solution container with path, g_goal, and stats |
 | `HeuristicsProtocol` | Protocol for heuristic callables |
 | `DataHeuristics` | Core search data (frontier, g/h dicts, parent) |
 | `DataCached` | Cached/bounded heuristic dictionaries and parent chain |
@@ -78,6 +81,7 @@ data_cached = DataCached.Factory.six_cached()
 algo = AStarCached(problem=problem, data_cached=data_cached)
 sol = algo.run()
 # sol.stats.explored == 10  (fewer states explored)
+# sol.g_goal contains the computed goal distance
 ```
 
 ### With bounded heuristics (even fewer explorations)

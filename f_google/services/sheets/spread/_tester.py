@@ -1,79 +1,87 @@
+import pytest
 from f_google.services.sheets.spread import Spread
+from f_google.services.sheets.sheet import Sheet
 
 
-def test_name_spread() -> None:
+@pytest.fixture(scope='module')
+def spread() -> Spread:
+    """
+    ========================================================================
+     Create a test Spread (loaded once per module).
+    ========================================================================
+    """
+    return Spread.Factory.valdas_test()
+
+
+@pytest.fixture(scope='module')
+def sheet(spread: Spread) -> Sheet:
+    """
+    ========================================================================
+     Get the first Sheet from the test Spread.
+    ========================================================================
+    """
+    return spread.sheets[0]
+
+
+def test_name_spread(spread: Spread) -> None:
     """
     ========================================================================
      Test that Spreadsheet name is returned.
     ========================================================================
     """
-    spread = Spread.Factory.valdas_test()
     assert spread.name == 'Test'
 
 
-def test_len_sheets() -> None:
+def test_len_sheets(spread: Spread) -> None:
     """
     ========================================================================
      Test that Worksheets are returned.
     ========================================================================
     """
-    spread = Spread.Factory.valdas_test()
-    sheets = spread.sheets
-    assert len(sheets) == 1
+    assert len(spread.sheets) == 1
 
 
-def test_name_sheet() -> None:
+def test_name_sheet(sheet: Sheet) -> None:
     """
     ========================================================================
      Test accessing a Sheet by name.
     ========================================================================
     """
-    spread = Spread.Factory.valdas_test()
-    name_sheet = spread.sheets[0].name
-    assert name_sheet == 'Sheet1'
+    assert sheet.name == 'Sheet1'
 
 
-def test_cell_value() -> None:
+def test_cell_value(sheet: Sheet) -> None:
     """
     ========================================================================
      Test accessing a Cell value via Sheet[row][col].
     ========================================================================
     """
-    spread = Spread.Factory.valdas_test()
-    sheet = spread.sheets[0]
-    value = sheet[1][0]
-    assert value == 'Hello2'
+    assert sheet[1][0] == 'Hello2'
 
 
-def test_last_row() -> None:
+def test_last_row(sheet: Sheet) -> None:
     """
     ========================================================================
      Test Sheet last_row().
     ========================================================================
     """
-    spread = Spread.Factory.valdas_test()
-    sheet = spread.sheets[0]
-    assert sheet.last_row() >= 0
+    assert sheet.last_row() == 3
 
 
-def test_last_col() -> None:
+def test_last_col(sheet: Sheet) -> None:
     """
     ========================================================================
      Test Sheet last_col().
     ========================================================================
     """
-    spread = Spread.Factory.valdas_test()
-    sheet = spread.sheets[0]
-    assert sheet.last_col() >= 0
+    assert sheet.last_col() == 4
 
 
-def test_to_range() -> None:
+def test_to_range(sheet: Sheet) -> None:
     """
     ========================================================================
      Test Sheet to_range() returns a Range with correct shape.
     ========================================================================
     """
-    spread = Spread.Factory.valdas_test()
-    sheet = spread.sheets[0]
     r = sheet.to_range()
     assert r[1][0] == 'Hello2'

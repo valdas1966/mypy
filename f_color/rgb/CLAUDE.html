@@ -189,16 +189,12 @@ RGB.From.hex(hex_str: str) -> RGB</code></pre>
     </details>
 
     <details open id="api-factory">
-        <summary>Factory (presets + generation &mdash; RGB.Factory.*)</summary>
+        <summary>Factory (generation &mdash; RGB.Factory.*)</summary>
         <div class="inner">
-            <pre><code>Factory.black() -> RGB
-Factory.white() -> RGB
-Factory.red() -> RGB
-Factory.gradient(a: RGB, b: RGB, n: int) -> list[RGB]
+            <pre><code>Factory.gradient(a: RGB, b: RGB, n: int) -> list[RGB]
 Factory.gradient_multi(stops: list[RGB], n: int) -> list[RGB]
 Factory.random(n: int) -> list[RGB]</code></pre>
             <ol>
-                <li><code class="ic">black()</code>, <code class="ic">white()</code>, <code class="ic">red()</code> &mdash; common color presets.</li>
                 <li><code class="ic">gradient()</code> &mdash; linear interpolation between two colors.</li>
                 <li><code class="ic">gradient_multi()</code> &mdash; smooth gradient over multiple stops.</li>
                 <li><code class="ic">random()</code> &mdash; generates n random colors.</li>
@@ -214,7 +210,7 @@ Factory.random(n: int) -> list[RGB]</code></pre>
     <table>
         <tr><th>Tier</th><th>Purpose</th><th>Access</th></tr>
         <tr><td><code class="ic">From</code></td><td>Parse external formats into RGB</td><td><code class="ic">RGB.From.hex('#FF0000')</code></td></tr>
-        <tr><td><code class="ic">Factory</code></td><td>Presets and generation</td><td><code class="ic">RGB.Factory.gradient(a, b, n)</code></td></tr>
+        <tr><td><code class="ic">Factory</code></td><td>Generation (gradients, random)</td><td><code class="ic">RGB.Factory.gradient(a, b, n)</code></td></tr>
         <tr><td><code class="ic">To</code></td><td>Serialize RGB to external formats</td><td><code class="ic">rgb.to.hex()</code></td></tr>
     </table>
     <a href="#top" class="back-top">Back to top</a>
@@ -249,8 +245,9 @@ Factory.random(n: int) -> list[RGB]</code></pre>
         <tr><th>#</th><th>Import</th><th>Category</th><th>Used For</th></tr>
         <tr><td>1</td><td><code class="ic">f_core.mixins.comparable.Comparable</code></td><td><span class="badge badge-internal">internal</span></td><td>Ordering operators</td></tr>
         <tr><td>2</td><td><code class="ic">f_core.mixins.has.name.HasName</code></td><td><span class="badge badge-internal">internal</span></td><td>Name property</td></tr>
-        <tr><td>3</td><td><code class="ic">matplotlib.colors</code></td><td><span class="badge badge-third">third-party</span></td><td>Color name &rarr; RGB conversion</td></tr>
-        <tr><td>4</td><td><code class="ic">numpy</code></td><td><span class="badge badge-third">third-party</span></td><td>Gradient generation (Factory)</td></tr>
+        <tr><td>3</td><td><code class="ic">f_color.rgb._colors._CUSTOM</code></td><td><span class="badge badge-internal">internal</span></td><td>Custom color palette</td></tr>
+        <tr><td>4</td><td><code class="ic">matplotlib.colors</code></td><td><span class="badge badge-third">third-party</span></td><td>Color name &rarr; RGB conversion</td></tr>
+        <tr><td>5</td><td><code class="ic">numpy</code></td><td><span class="badge badge-third">third-party</span></td><td>Gradient generation (Factory)</td></tr>
     </table>
     <a href="#top" class="back-top">Back to top</a>
 </section>
@@ -292,7 +289,7 @@ gradient = RGB.Factory.gradient(a=black, b=white, n=5)
 <footer>
     <ol>
         <li>Generated: 2026-03-07</li>
-        <li>Scope: <code class="ic">f_color.rgb</code> (1 class, 5 files)</li>
+        <li>Scope: <code class="ic">f_color.rgb</code> (1 class, 6 files)</li>
     </ol>
 </footer>
 

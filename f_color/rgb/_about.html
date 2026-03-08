@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RGB — What Is It?</title>
+<style>
+:root { --bg: #0b0f14; --panel: #111827; --border: #334155; --text: #f8fafc; --muted: #94a3b8; --accent: #60a5fa; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; padding: 2rem; max-width: 820px; margin: 0 auto; }
+h1 { font-size: 2.4rem; text-align: center; margin-bottom: .3rem; }
+h1 .r { color: #ff4444; } h1 .g { color: #44cc44; } h1 .b { color: #4488ff; }
+.subtitle { text-align: center; color: var(--muted); margin-bottom: 2.5rem; font-size: 1rem; }
+section { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem; }
+h2 { font-size: 1.15rem; margin-bottom: .8rem; color: var(--accent); }
+
+/* The Idea */
+.channels { display: flex; gap: 1rem; margin: 1rem 0; }
+.ch { flex: 1; text-align: center; border-radius: 8px; padding: .8rem .5rem; }
+.ch-r { background: rgba(255,0,0,.15); border: 1px solid #ff4444; }
+.ch-g { background: rgba(0,200,0,.12); border: 1px solid #44cc44; }
+.ch-b { background: rgba(0,100,255,.15); border: 1px solid #4488ff; }
+.ch .val { font-size: 1.6rem; font-weight: 700; }
+.ch .lbl { font-size: .8rem; color: var(--muted); }
+.arrow { font-size: 1.8rem; text-align: center; margin: .5rem 0; color: var(--muted); }
+.math { text-align: center; font-family: monospace; font-size: 1rem; color: var(--muted); margin-top: .5rem; }
+
+/* Mixer */
+.mixer { display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap; }
+.sliders { flex: 1; min-width: 280px; }
+.slider-row { display: flex; align-items: center; gap: .8rem; margin-bottom: .8rem; }
+.slider-row label { width: 18px; font-weight: 700; font-size: 1.1rem; }
+.slider-row label.lr { color: #ff4444; } .slider-row label.lg { color: #44cc44; } .slider-row label.lb { color: #4488ff; }
+input[type=range] { flex: 1; height: 6px; -webkit-appearance: none; background: #1e293b; border-radius: 3px; outline: none; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; cursor: pointer; }
+#sr::-webkit-slider-thumb { background: #ff4444; } #sg::-webkit-slider-thumb { background: #44cc44; } #sb::-webkit-slider-thumb { background: #4488ff; }
+.slider-row .num { width: 36px; text-align: right; font-family: monospace; font-size: .95rem; }
+.preview-box { width: 160px; height: 160px; border-radius: 12px; border: 2px solid var(--border); transition: background .05s; flex-shrink: 0; }
+.codes { font-family: monospace; font-size: .85rem; color: var(--muted); margin-top: .6rem; }
+.codes span { display: block; margin-bottom: .2rem; }
+
+/* Spectrum */
+.spectrum { height: 32px; border-radius: 6px; margin: .6rem 0; }
+.spectrum-r { background: linear-gradient(to right, rgb(0,0,0), rgb(255,0,0)); }
+.spectrum-g { background: linear-gradient(to right, rgb(0,0,0), rgb(0,255,0)); }
+.spectrum-b { background: linear-gradient(to right, rgb(0,0,0), rgb(0,0,255)); }
+.spectrum-all { height: 20px; background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); margin-top: .8rem; }
+
+/* Facts */
+.facts { list-style: none; }
+.facts li { padding: .6rem 0; border-bottom: 1px solid var(--border); font-size: .92rem; color: var(--muted); }
+.facts li:last-child { border: none; }
+.facts .year { color: var(--accent); font-weight: 600; font-family: monospace; margin-right: .4rem; }
+.facts .tag { display: inline-block; background: rgba(96,165,250,.15); color: var(--accent); font-size: .7rem; padding: .1rem .45rem; border-radius: 3px; margin-right: .3rem; font-weight: 600; text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<h1><span class="r">R</span><span class="g">G</span><span class="b">B</span></h1>
+<div class="subtitle">Three numbers. 16.7 million colors.</div>
+
+<!-- The Idea -->
+<section>
+    <h2>The Idea</h2>
+    <p>Every color on your screen is a mix of <strong style="color:#ff4444">Red</strong>, <strong style="color:#44cc44">Green</strong>, and <strong style="color:#4488ff">Blue</strong> light.
+    Each channel is an integer from <strong>0</strong> (off) to <strong>255</strong> (full blast).</p>
+    <div class="channels">
+        <div class="ch ch-r"><div class="val">R</div><div class="lbl">0 &ndash; 255</div></div>
+        <div class="ch ch-g"><div class="val">G</div><div class="lbl">0 &ndash; 255</div></div>
+        <div class="ch ch-b"><div class="val">B</div><div class="lbl">0 &ndash; 255</div></div>
+    </div>
+    <div class="math">256 &times; 256 &times; 256 = <strong style="color:var(--text)">16,777,216</strong> colors</div>
+</section>
+
+<!-- Key Combos -->
+<section>
+    <h2>Key Combos</h2>
+    <p style="color:var(--muted); margin-bottom:.6rem;">RGB is <em>additive</em> &mdash; you add light, not paint. Mixing all three at full gives white, not brown.</p>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:.6rem; text-align:center; font-family:monospace; font-size:.85rem;">
+        <div style="background:#000;color:#fff;padding:.5rem;border-radius:6px;border:1px solid #333">(0, 0, 0)<br><b>Black</b></div>
+        <div style="background:#fff;color:#000;padding:.5rem;border-radius:6px">(255, 255, 255)<br><b>White</b></div>
+        <div style="background:#ff0000;padding:.5rem;border-radius:6px">(255, 0, 0)<br><b>Red</b></div>
+        <div style="background:#00ff00;color:#000;padding:.5rem;border-radius:6px">(0, 255, 0)<br><b>Green</b></div>
+        <div style="background:#0000ff;padding:.5rem;border-radius:6px">(0, 0, 255)<br><b>Blue</b></div>
+        <div style="background:#ffff00;color:#000;padding:.5rem;border-radius:6px">(255, 255, 0)<br><b>Yellow</b></div>
+        <div style="background:#00ffff;color:#000;padding:.5rem;border-radius:6px">(0, 255, 255)<br><b>Cyan</b></div>
+        <div style="background:#ff00ff;padding:.5rem;border-radius:6px">(255, 0, 255)<br><b>Magenta</b></div>
+        <div style="background:#808080;padding:.5rem;border-radius:6px">(128, 128, 128)<br><b>Gray</b></div>
+    </div>
+</section>
+
+<!-- Mixer -->
+<section>
+    <h2>Mix It Yourself</h2>
+    <div class="mixer">
+        <div class="sliders">
+            <div class="slider-row"><label class="lr">R</label><input type="range" id="sr" min="0" max="255" value="60"><span class="num" id="nr">60</span></div>
+            <div class="slider-row"><label class="lg">G</label><input type="range" id="sg" min="0" max="255" value="165"><span class="num" id="ng">165</span></div>
+            <div class="slider-row"><label class="lb">B</label><input type="range" id="sb" min="0" max="255" value="250"><span class="num" id="nb">250</span></div>
+            <div class="codes">
+                <span id="c-rgb"></span>
+                <span id="c-hex"></span>
+            </div>
+        </div>
+        <div class="preview-box" id="preview"></div>
+    </div>
+</section>
+
+<!-- Each Channel -->
+<section>
+    <h2>Each Channel Alone</h2>
+    <p style="font-size:.85rem;color:var(--muted);margin-bottom:.4rem;">Drag the channel from 0 (black) to 255 (pure color):</p>
+    <div class="spectrum spectrum-r"></div>
+    <div class="spectrum spectrum-g"></div>
+    <div class="spectrum spectrum-b"></div>
+    <div class="spectrum spectrum-all"></div>
+    <p style="font-size:.8rem;color:var(--muted);margin-top:.3rem;">Full visible spectrum (hue rotation).</p>
+</section>
+
+<!-- Facts -->
+<section>
+    <h2>Facts & Trivia</h2>
+    <ul class="facts">
+        <li><span class="year">1861</span> James Clerk Maxwell produced the first color photograph using red, green, and blue filters &mdash; proving that three primaries are enough to reproduce any color the eye can see.</li>
+        <li><span class="year">1931</span> The CIE formally defined human color vision with three components, confirming what Maxwell demonstrated: we have three types of cone cells (L, M, S) roughly tuned to red, green, and blue.</li>
+        <li><span class="year">1953</span> RCA demonstrated the first practical RGB color TV. Before that, CBS tried a mechanical spinning-disk system &mdash; it was incompatible with existing black-and-white TVs and quietly died.</li>
+        <li><span class="tag">Why 256?</span> 1 byte = 8 bits = 2<sup>8</sup> = 256 values. Three bytes per pixel was the sweet spot between visual quality and memory in early hardware. Below 256 steps per channel, you get visible banding.</li>
+        <li><span class="tag">Additive vs. Subtractive</span> RGB is additive (light). Printers use CMYK (subtractive, ink). Mix all RGB light = white. Mix all CMYK ink = muddy black. That's why your printed photos never look quite like your screen.</li>
+        <li><span class="tag">Not all RGB is equal</span> sRGB, Adobe RGB, Display P3 &mdash; they all use "RGB" but define different gamuts. A red of (255, 0, 0) looks different on each. Web browsers default to sRGB.</li>
+        <li><span class="tag">Fun</span> The human eye can distinguish roughly 10 million colors &mdash; so 16.7M RGB values slightly overkill the eye, but not by much. Some values are perceptually identical.</li>
+        <li><span class="tag">Fun</span> "Chucknorris" is a valid CSS color. Browsers parse unknown color strings by keeping only hex digits and padding &mdash; <code>chucknorris</code> becomes <code>#c00000</code> (a dark red). Chuck Norris is red, obviously.</li>
+    </ul>
+</section>
+
+<script>
+const sr = document.getElementById('sr'), sg = document.getElementById('sg'), sb = document.getElementById('sb');
+const nr = document.getElementById('nr'), ng = document.getElementById('ng'), nb = document.getElementById('nb');
+const preview = document.getElementById('preview');
+const cRgb = document.getElementById('c-rgb'), cHex = document.getElementById('c-hex');
+function update() {
+    const r = +sr.value, g = +sg.value, b = +sb.value;
+    nr.textContent = r; ng.textContent = g; nb.textContent = b;
+    preview.style.background = `rgb(${r},${g},${b})`;
+    cRgb.textContent = `rgb(${r}, ${g}, ${b})`;
+    cHex.textContent = '#' + [r,g,b].map(v => v.toString(16).padStart(2,'0').toUpperCase()).join('');
+}
+sr.addEventListener('input', update); sg.addEventListener('input', update); sb.addEventListener('input', update);
+update();
+</script>
+</body>
+</html>

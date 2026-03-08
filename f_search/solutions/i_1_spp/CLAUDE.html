@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SolutionSPP — CLAUDE.html</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; color: var(--accent2); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1 { font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: .3rem; }
+h2 { font-size: 1.35rem; font-weight: 700; color: #fff; margin: 1.5rem 0 .6rem; border-bottom: 2px solid var(--border); padding-bottom: .3rem; }
+h3 { font-size: 1.1rem; font-weight: 600; color: var(--accent); margin: 1rem 0 .4rem; }
+ol { padding-left: 1.6rem; margin: .4rem 0; }
+li { margin: .25rem 0; color: var(--text); }
+code, .ic { font-family: 'Fira Code', 'Consolas', monospace; font-size: .92em; background: var(--code-bg); padding: .1em .35em; border-radius: 3px; color: var(--accent); }
+pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; font-size: .88rem; color: var(--text); margin: .6rem 0; font-family: 'Fira Code', 'Consolas', monospace; }
+table { border-collapse: collapse; width: 100%; margin: .6rem 0; }
+th, td { border: 1px solid var(--border); padding: .45rem .7rem; text-align: left; }
+th { background: var(--panel2); color: #fff; font-weight: 600; }
+td { background: var(--panel); }
+.badge { display: inline-block; font-size: .75rem; padding: .15em .5em; border-radius: 4px; font-weight: 600; margin-right: .3rem; }
+.badge-int { background: var(--accent2); color: #fff; }
+.badge-std { background: var(--faint); color: #000; }
+details { background: var(--panel); border: 2px solid var(--border); border-radius: 6px; margin: .6rem 0; }
+details > summary { cursor: pointer; padding: .6rem 1rem; font-weight: 600; color: #fff; user-select: none; }
+details > summary:hover { background: var(--panel2); }
+details[open] > summary { border-bottom: 2px solid var(--border); }
+.detail-body { padding: .8rem 1rem; }
+.path-label { font-size: .85rem; color: var(--faint); margin-bottom: .2rem; }
+.back-top { display: inline-block; margin-top: .6rem; font-size: .85rem; }
+
+/* Layout */
+.wrapper { display: flex; min-height: 100vh; }
+nav.toc { position: sticky; top: 0; width: 220px; min-width: 180px; height: 100vh; overflow-y: auto; background: var(--panel); border-right: 2px solid var(--border); padding: 1rem .8rem; flex-shrink: 0; }
+nav.toc h2 { font-size: 1rem; margin: 0 0 .6rem; border: none; }
+nav.toc ol { padding-left: 1.2rem; }
+nav.toc li { font-size: .88rem; margin: .2rem 0; }
+nav.toc li.sub { margin-left: .8rem; font-size: .82rem; }
+main { flex: 1; max-width: 880px; padding: 1.5rem 2rem 3rem; }
+#search-box { width: 100%; padding: .35rem .5rem; margin-bottom: .8rem; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; color: var(--text); font-size: .88rem; }
+#search-box:focus { outline: 2px solid var(--accent); }
+footer { margin-top: 2.5rem; padding-top: .8rem; border-top: 2px solid var(--border); font-size: .8rem; color: var(--faint); }
+@media (max-width: 768px) {
+    .wrapper { flex-direction: column; }
+    nav.toc { position: static; width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border); }
+    main { padding: 1rem; }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+<!-- TOC -->
+<nav class="toc" id="toc">
+    <h2>Contents</h2>
+    <input type="text" id="search-box" placeholder="Search..." aria-label="Search API items">
+    <ol>
+        <li><a href="#purpose">Purpose</a></li>
+        <li><a href="#api">Public API</a></li>
+        <li class="sub"><a href="#api-init">__init__</a></li>
+        <li class="sub"><a href="#api-path">path</a></li>
+        <li class="sub"><a href="#api-g-goal">g_goal</a></li>
+        <li class="sub"><a href="#api-quality-h">quality_h</a></li>
+        <li class="sub"><a href="#api-inherited">Inherited</a></li>
+        <li><a href="#hierarchy">Inheritance</a></li>
+        <li><a href="#deps">Dependencies</a></li>
+        <li><a href="#examples">Usage Examples</a></li>
+    </ol>
+</nav>
+
+<!-- Main Content -->
+<main>
+
+<div class="path-label">f_search/solutions/i_1_spp/</div>
+<h1 id="top">SolutionSPP</h1>
+
+<!-- A. Purpose -->
+<h2 id="purpose">A. Purpose</h2>
+<ol>
+    <li>Solution container for One-to-One Shortest Path Problem results.</li>
+    <li>Extends <code>SolutionSearch</code> with path, optimal goal cost, and heuristic quality metric.</li>
+    <li>Immutable after creation; represents a final algorithm result.</li>
+</ol>
+<a class="back-top" href="#top">Back to top</a>
+
+<!-- B. Public API -->
+<h2 id="api">B. Public API</h2>
+
+<details open>
+<summary>SolutionSPP</summary>
+<div class="detail-body">
+
+<h3 id="api-init">__init__</h3>
+<pre>def __init__(self,
+             name_algo: str,
+             problem: Problem,
+             is_valid: bool,
+             path: Path = None,
+             g_goal: int = None,
+             stats: StatsSearch = None) -> None</pre>
+<ol>
+    <li>Delegates <code>name_algo</code>, <code>problem</code>, <code>is_valid</code>, <code>stats</code> to <code>SolutionSearch</code>.</li>
+    <li>Defaults <code>stats</code> to a fresh <code>StatsSearch()</code> if not provided.</li>
+    <li>Stores <code>path</code> and <code>g_goal</code> as private attributes.</li>
+</ol>
+
+<h3 id="api-path">path</h3>
+<pre>@property
+def path(self) -> Path</pre>
+<ol>
+    <li>Returns the solution path from start to goal.</li>
+</ol>
+
+<h3 id="api-g-goal">g_goal</h3>
+<pre>@property
+def g_goal(self) -> int | None</pre>
+<ol>
+    <li>Returns the optimal cost to reach the goal.</li>
+    <li><code>None</code> if not set.</li>
+</ol>
+
+<h3 id="api-quality-h">quality_h</h3>
+<pre>@property
+def quality_h(self) -> float | None</pre>
+<ol>
+    <li>Returns heuristic quality as <code>h(start) / g(goal)</code> in [0, 1].</li>
+    <li>Returns <code>None</code> if solution is invalid or <code>g_goal</code> is 0 or <code>None</code>.</li>
+    <li>Uses <code>self.problem.h_start</code> for the heuristic estimate.</li>
+</ol>
+
+<h3 id="api-inherited">Inherited Properties</h3>
+<pre>@property name_algo -> str        # from SolutionAlgo
+@property problem -> Problem      # from SolutionAlgo
+@property is_valid -> bool        # from Validatable
+@property stats -> StatsSearch    # from SolutionAlgo</pre>
+<ol>
+    <li><code>name_algo</code>: algorithm name string.</li>
+    <li><code>problem</code>: the <code>ProblemSPP</code> instance.</li>
+    <li><code>is_valid</code>: whether the goal was reached.</li>
+    <li><code>stats</code>: performance statistics (<code>StatsSearch</code>).</li>
+</ol>
+
+</div>
+</details>
+<a class="back-top" href="#top">Back to top</a>
+
+<!-- C. Inheritance -->
+<h2 id="hierarchy">C. Inheritance</h2>
+<details open>
+<summary>SolutionSPP Hierarchy</summary>
+<div class="detail-body">
+<pre>Validatable
+  └── SolutionAlgo[Problem, Stats]
+        └── SolutionSearch[Problem, Stats]
+              └── SolutionSPP</pre>
+<table>
+    <tr><th>#</th><th>Base</th><th>Responsibility</th></tr>
+    <tr><td>1</td><td><code>Validatable</code></td><td><code>is_valid</code> property and <code>__bool__</code> support.</td></tr>
+    <tr><td>2</td><td><code>SolutionAlgo</code></td><td><code>name_algo</code>, <code>problem</code>, <code>stats</code> storage and properties.</td></tr>
+    <tr><td>3</td><td><code>SolutionSearch</code></td><td>Binds type bounds to <code>ProblemSearch</code> and <code>StatsSearch</code>.</td></tr>
+    <tr><td>4</td><td><code>SolutionSPP</code></td><td>Adds <code>path</code>, <code>g_goal</code>, and <code>quality_h</code> for SPP results.</td></tr>
+</table>
+</div>
+</details>
+<a class="back-top" href="#top">Back to top</a>
+
+<!-- D. Dependencies -->
+<h2 id="deps">D. Dependencies</h2>
+<table>
+    <tr><th>#</th><th>Category</th><th>Import</th><th>Used For</th></tr>
+    <tr><td>1</td><td><span class="badge badge-int">internal</span></td><td><code>f_search.solutions.i_0_base.SolutionSearch</code></td><td>Direct parent class.</td></tr>
+    <tr><td>2</td><td><span class="badge badge-int">internal</span></td><td><code>f_search.problems.ProblemSPP</code></td><td>Problem type (aliased as <code>Problem</code>).</td></tr>
+    <tr><td>3</td><td><span class="badge badge-int">internal</span></td><td><code>f_search.stats.StatsSearch</code></td><td>Default statistics type.</td></tr>
+    <tr><td>4</td><td><span class="badge badge-int">internal</span></td><td><code>f_search.ds.path.Path</code></td><td>Solution path data structure.</td></tr>
+</table>
+<a class="back-top" href="#top">Back to top</a>
+
+<!-- E. Usage Examples -->
+<h2 id="examples">E. Usage Examples</h2>
+
+<details open>
+<summary id="ex-factory">Factory Usage</summary>
+<div class="detail-body">
+<pre>from f_search.solutions.i_1_spp import SolutionSPP
+
+# Create via Factory
+valid = SolutionSPP.Factory.valid()
+invalid = SolutionSPP.Factory.invalid()
+
+# Check result
+if valid.is_valid:
+    print(f"Path: {valid.path}")
+    print(f"Goal cost: {valid.g_goal}")
+    print(f"Heuristic quality: {valid.quality_h}")
+    print(f"Explored: {valid.stats.explored}")</pre>
+</div>
+</details>
+
+<details open>
+<summary id="ex-direct">Direct Construction</summary>
+<div class="detail-body">
+<pre>from f_search.solutions.i_1_spp.main import SolutionSPP
+from f_search.ds.path import Path
+from f_search.stats import StatsSearch
+
+solution = SolutionSPP(
+    name_algo='AStar',
+    problem=problem,
+    is_valid=True,
+    path=path,
+    g_goal=42,
+    stats=stats
+)
+
+# Heuristic quality: h(start) / g(goal)
+print(solution.quality_h)  # float in [0, 1]</pre>
+</div>
+</details>
+<a class="back-top" href="#top">Back to top</a>
+
+<footer>
+    Generated: 2026-03-08 | Scope: <code>f_search/solutions/i_1_spp/</code> — SolutionSPP module.
+</footer>
+
+</main>
+</div>
+
+<script>
+document.getElementById('search-box').addEventListener('input', function() {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('details').forEach(d => {
+        const text = d.textContent.toLowerCase();
+        d.style.display = text.includes(q) || q === '' ? '' : 'none';
+    });
+    document.querySelectorAll('nav.toc li').forEach(li => {
+        const text = li.textContent.toLowerCase();
+        li.style.display = text.includes(q) || q === '' ? '' : 'none';
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAUDE — AlgoSPP (i_0_base)</title>
+<style>
+:root {
+  --bg: #0b0f14;
+  --panel: #111827;
+  --panel2: #0f172a;
+  --text: #f8fafc;
+  --muted: #cbd5e1;
+  --faint: #94a3b8;
+  --border: #334155;
+  --accent: #60a5fa;
+  --accent2: #a78bfa;
+  --good: #34d399;
+  --warn: #fbbf24;
+  --bad: #fb7185;
+  --code-bg: #0a1220;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1 { font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: .4rem; }
+h2 { font-size: 1.35rem; font-weight: 700; color: #fff; margin: 1.6rem 0 .6rem; border-bottom: 2px solid var(--border); padding-bottom: .3rem; }
+h3 { font-size: 1.1rem; font-weight: 600; color: var(--accent2); margin: 1rem 0 .4rem; }
+ol { padding-left: 1.4rem; margin: .4rem 0; }
+li { margin-bottom: .3rem; color: var(--text); }
+code { background: var(--code-bg); padding: 2px 6px; border-radius: 3px; font-size: .92em; color: var(--good); }
+pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; font-size: .88em; line-height: 1.5; color: var(--text); margin: .6rem 0; }
+table { width: 100%; border-collapse: collapse; margin: .6rem 0; }
+th { background: var(--panel2); color: var(--accent); text-align: left; padding: .45rem .6rem; border: 1px solid var(--border); font-size: .9em; }
+td { padding: .4rem .6rem; border: 1px solid var(--border); font-size: .9em; color: var(--muted); }
+.badge { display: inline-block; padding: 1px 8px; border-radius: 4px; font-size: .78em; font-weight: 600; margin-right: 4px; }
+.badge-int { background: #1e3a5f; color: var(--accent); }
+.badge-std { background: #1a2e1a; color: var(--good); }
+
+/* Layout */
+.wrapper { display: flex; min-height: 100vh; }
+nav.toc { position: sticky; top: 0; width: 220px; height: 100vh; overflow-y: auto; background: var(--panel); border-right: 2px solid var(--border); padding: 1.2rem .8rem; flex-shrink: 0; }
+nav.toc h2 { font-size: 1rem; margin: 0 0 .6rem; border: none; }
+nav.toc ol { padding-left: 1rem; }
+nav.toc li { margin-bottom: .35rem; font-size: .88em; }
+main { flex: 1; max-width: 860px; padding: 2rem 2.4rem; }
+.path { color: var(--faint); font-size: .85em; margin-bottom: 1rem; }
+.back-top { display: inline-block; margin-top: .6rem; font-size: .82em; color: var(--faint); }
+
+/* Collapsible */
+details { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; margin: .6rem 0; }
+details > summary { padding: .6rem .8rem; cursor: pointer; font-weight: 600; color: var(--accent); list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before { content: "\25B6  "; font-size: .7em; }
+details[open] > summary::before { content: "\25BC  "; }
+details > .panel-body { padding: .4rem .8rem 1rem; }
+
+/* Search */
+#search { width: 100%; padding: .4rem .6rem; background: var(--panel2); border: 1px solid var(--border); border-radius: 4px; color: var(--text); font-size: .88em; margin-bottom: .8rem; }
+#search:focus { outline: 2px solid var(--accent); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .wrapper { flex-direction: column; }
+  nav.toc { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 2px solid var(--border); }
+  main { padding: 1.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+<!-- TOC -->
+<nav class="toc">
+  <h2>Contents</h2>
+  <input type="text" id="search" placeholder="Filter..." aria-label="Filter sections">
+  <ol>
+    <li><a href="#purpose">Purpose</a></li>
+    <li><a href="#api">Public API</a></li>
+    <li><a href="#hierarchy">Inheritance</a></li>
+    <li><a href="#deps">Dependencies</a></li>
+    <li><a href="#examples">Usage Examples</a></li>
+  </ol>
+</nav>
+
+<!-- Main content -->
+<main>
+<h1>AlgoSPP</h1>
+<div class="path">f_search/algos/i_1_spp/i_0_base/</div>
+
+<!-- Purpose -->
+<section id="purpose">
+<h2>A. Purpose</h2>
+<ol>
+  <li>Abstract base for One-to-One Shortest-Path-Problem algorithms.</li>
+  <li>Implements <code>_run()</code> loop: discover start, select-best, terminate-or-explore, return <code>SolutionSPP</code>.</li>
+  <li>Extracts <code>g_goal</code> (optimal cost to goal) from <code>dict_g</code> on valid termination and passes it to the solution.</li>
+</ol>
+<a class="back-top" href="#">&uarr; top</a>
+</section>
+
+<!-- Public API -->
+<section id="api">
+<h2>B. Public API</h2>
+
+<details open>
+<summary>AlgoSPP[State, Data]</summary>
+<div class="panel-body">
+
+<h3 id="api-init">__init__</h3>
+<pre>def __init__(self,
+             problem: ProblemSPP,
+             data: Data,
+             name: str = 'AlgoSPP') -> None:</pre>
+<ol>
+  <li>Delegates to <code>AlgoBestFirst.__init__</code> with problem, data, and name.</li>
+</ol>
+
+<h3 id="api-run">_run</h3>
+<pre>def _run(self) -> SolutionSPP:</pre>
+<ol>
+  <li>Discovers start state if frontier is empty.</li>
+  <li>Loops: selects best state, checks termination, explores best.</li>
+  <li>On valid solution, computes <code>g_goal = self._data.dict_g[self.problem.goal]</code>.</li>
+  <li>Optionally reconstructs path via <code>self._data.path_to(state=goal)</code>.</li>
+  <li>Returns <code>SolutionSPP(name_algo, problem, is_valid, path, g_goal, stats)</code>.</li>
+</ol>
+
+<h3 id="api-can-terminate">_can_terminate</h3>
+<pre>def _can_terminate(self) -> bool:</pre>
+<ol>
+  <li>Returns <code>True</code> when <code>self._data.best == self.problem.goal</code>.</li>
+</ol>
+
+</div>
+</details>
+
+<a class="back-top" href="#">&uarr; top</a>
+</section>
+
+<!-- Inheritance -->
+<section id="hierarchy">
+<h2>C. Inheritance</h2>
+
+<details open>
+<summary>AlgoSPP Hierarchy</summary>
+<div class="panel-body">
+<pre>Algo
+  &rarr; AlgoSearch[Problem, Solution]
+      &rarr; AlgoBestFirst[Problem, Solution, State, Data]
+            &rarr; AlgoSPP[State, Data]</pre>
+
+<table>
+<tr><th>#</th><th>Base</th><th>Responsibility</th></tr>
+<tr><td>1</td><td><code>Algo</code></td><td>Generic algorithm lifecycle (<code>run</code>, hooks)</td></tr>
+<tr><td>2</td><td><code>AlgoSearch</code></td><td>Search base: <code>_need_path</code>, <code>cls_stats</code></td></tr>
+<tr><td>3</td><td><code>AlgoBestFirst</code></td><td>Best-first infrastructure: <code>_data</code>, frontier loop helpers</td></tr>
+<tr><td>4</td><td><code>AlgoSPP</code></td><td>SPP <code>_run()</code> loop, <code>_can_terminate()</code>, builds <code>SolutionSPP</code> with <code>g_goal</code></td></tr>
+</table>
+
+<h3>Type Parameters</h3>
+<ol>
+  <li><code>State</code> bounded to <code>StateBase</code>.</li>
+  <li><code>Data</code> bounded to <code>DataBestFirst</code>.</li>
+</ol>
+</div>
+</details>
+
+<a class="back-top" href="#">&uarr; top</a>
+</section>
+
+<!-- Dependencies -->
+<section id="deps">
+<h2>D. Dependencies</h2>
+
+<table>
+<tr><th>#</th><th>Category</th><th>Import</th><th>Used For</th></tr>
+<tr><td>1</td><td><span class="badge badge-int">internal</span></td><td><code>f_search.algos.i_0_base.AlgoBestFirst</code></td><td>Parent class with best-first loop helpers</td></tr>
+<tr><td>2</td><td><span class="badge badge-int">internal</span></td><td><code>f_search.ds.state.StateBase</code></td><td>Bound for State type variable</td></tr>
+<tr><td>3</td><td><span class="badge badge-int">internal</span></td><td><code>f_search.ds.data.DataBestFirst</code></td><td>Bound for Data type variable; holds dict_g, frontier, path_to()</td></tr>
+<tr><td>4</td><td><span class="badge badge-int">internal</span></td><td><code>f_search.problems.ProblemSPP</code></td><td>Problem type with start and goal</td></tr>
+<tr><td>5</td><td><span class="badge badge-int">internal</span></td><td><code>f_search.solutions.SolutionSPP</code></td><td>Solution type accepting path, g_goal, stats</td></tr>
+<tr><td>6</td><td><span class="badge badge-std">stdlib</span></td><td><code>typing.Generic, TypeVar</code></td><td>Generic class parameterization</td></tr>
+</table>
+
+<a class="back-top" href="#">&uarr; top</a>
+</section>
+
+<!-- Usage Examples -->
+<section id="examples">
+<h2>E. Usage Examples</h2>
+
+<h3 id="ex-astar">Running an SPP Algorithm (A*)</h3>
+<pre>from f_search.algos.i_1_spp.i_1_astar import AStar
+from f_search.problems import ProblemSPP
+
+problem = ProblemSPP.Factory.without_obstacles()
+astar = AStar(problem=problem)
+solution = astar.run()
+
+if solution.is_valid:
+    print(solution.g_goal)   # Optimal cost to reach goal
+    print(solution.path)     # Path from start to goal</pre>
+<ol>
+  <li><code>AStar</code> extends <code>AlgoSPP</code>; its <code>run()</code> calls <code>_run()</code>.</li>
+  <li><code>solution.g_goal</code> contains the optimal path cost extracted from <code>dict_g</code>.</li>
+  <li><code>solution.path</code> is reconstructed only if <code>_need_path</code> is set.</li>
+</ol>
+
+<a class="back-top" href="#">&uarr; top</a>
+</section>
+
+<footer style="margin-top:2.4rem; padding-top:.8rem; border-top:1px solid var(--border); color:var(--faint); font-size:.8em;">
+  Generated 2026-03-08 &mdash; Scope: f_search/algos/i_1_spp/i_0_base/ (AlgoSPP class module)
+</footer>
+</main>
+</div>
+
+<script>
+document.getElementById('search').addEventListener('input', function(e) {
+  const q = e.target.value.toLowerCase();
+  document.querySelectorAll('main section, main details').forEach(el => {
+    const text = el.textContent.toLowerCase();
+    el.style.display = (!q || text.includes(q)) ? '' : 'none';
+  });
+});
+</script>
+</body>
+</html>

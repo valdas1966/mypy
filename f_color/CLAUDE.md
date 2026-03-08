@@ -19,7 +19,9 @@ from f_color.u_color import UColor   # visualization utility
 f_color/
 ├── __init__.py        re-exports RGB
 ├── rgb/               RGB color class (main module)
-│   ├── main.py        RGB class + _To helper
+│   ├── main.py        RGB class
+│   ├── _colors.py     Custom color palette dict
+│   ├── _to.py         To class (serialize to external formats)
 │   ├── _from.py       From class (parse external formats)
 │   ├── _factory.py    Factory (presets, gradients, random)
 │   ├── _tester.py     11 pytest tests
@@ -39,7 +41,7 @@ f_color/
 | Tier | Purpose | Example |
 |------|---------|---------|
 | `From` | Parse external formats | `RGB.From.hex('#FF0000')` |
-| `Factory` | Presets + generation | `RGB.Factory.gradient(a, b, n)` |
+| `Factory` | Generation (gradients, random) | `RGB.Factory.gradient(a, b, n)` |
 | `To` | Serialize to external formats | `rgb.to.hex()` |
 
 ## Dependencies

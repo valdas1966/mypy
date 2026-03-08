@@ -84,6 +84,18 @@ class GridMap(GridBase[Cell]):
         for cell in cells:
             cell.set_invalid()
 
+    def to_analytics(self) -> dict:
+        """
+        ========================================================================
+         Return a dict of analytic values for reporting.
+        ========================================================================
+        """
+        return dict(domain=self.domain,
+                    map=self.name,
+                    rows=self.rows,
+                    cols=self.cols,
+                    cells=len(self))
+
     def print(self) -> str:
         """
         ========================================================================

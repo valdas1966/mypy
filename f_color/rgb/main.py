@@ -1,6 +1,7 @@
 from f_core.mixins.comparable import Comparable
 from f_core.mixins.has.name import HasName
 from f_color.rgb._to import To
+from f_color.rgb._colors import _CUSTOM
 import matplotlib.colors as mcolors
 
 
@@ -13,15 +14,6 @@ class RGB(HasName, Comparable):
 
     Factory: type = None
     From: type = None
-
-    # Custom Colors that are commonly used.
-    _CUSTOM = {'MY_CYAN': (0, 55, 110),
-               'LIGHT_RED': (200, 110, 110),
-               'LIGHT_YELLOW': (220, 200, 110),
-               'LIGHT_GREEN': (120, 190, 120),
-               'MATTE_GREEN': (80, 160, 80),
-               'MATTE_YELLOW': (200, 200, 100),
-               'MATTE_RED': (180, 80, 80)}
 
     def __init__(self,
                  name: str | None = None,
@@ -36,8 +28,8 @@ class RGB(HasName, Comparable):
         """
         HasName.__init__(self, name=name)
         if name:
-            if name in RGB._CUSTOM:
-                (r, g, b) = (x/255 for x in RGB._CUSTOM[name])
+            if name in _CUSTOM:
+                (r, g, b) = (x/255 for x in _CUSTOM[name])
             else:
                 (r, g, b) = mcolors.to_rgb(name)
         self._r, self._g, self._b = (r, g, b)

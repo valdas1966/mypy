@@ -40,28 +40,28 @@ class Sheet:
     def last_row(self) -> int:
         """
         ====================================================================
-         Return the index of the last row with a non-empty cell.
-         Returns -1 if all rows are empty.
+         Return the 1-based index of the last row with a non-empty cell.
+         Returns 0 if all rows are empty.
         ====================================================================
         """
         self._load()
         for i in range(len(self._rows) - 1, -1, -1):
             if any(cell for cell in self._rows[i]):
-                return i
-        return -1
+                return i + 1
+        return 0
 
     def last_col(self) -> int:
         """
         ====================================================================
-         Return the index of the last column with a non-empty cell.
-         Returns -1 if all cells are empty.
+         Return the 1-based index of the last column with a non-empty
+         cell. Returns 0 if all cells are empty.
         ====================================================================
         """
         self._load()
-        result = -1
+        result = 0
         for row in self._rows:
-            for c in range(len(row) - 1, result, -1):
-                if row[c]:
+            for c in range(len(row), result, -1):
+                if row[c - 1]:
                     result = c
                     break
         return result

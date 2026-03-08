@@ -45,11 +45,8 @@ RGB.From.ints(r: int, g: int, b: int) -> RGB
 RGB.From.hex(hex_str: str) -> RGB
 ```
 
-### Factory (presets + generation — RGB.Factory.*)
+### Factory (generation — RGB.Factory.*)
 ```python
-RGB.Factory.black() -> RGB
-RGB.Factory.white() -> RGB
-RGB.Factory.red() -> RGB
 RGB.Factory.gradient(a: RGB, b: RGB, n: int) -> list[RGB]
 RGB.Factory.gradient_multi(stops: list[RGB], n: int) -> list[RGB]
 RGB.Factory.random(n: int) -> list[RGB]
@@ -59,7 +56,7 @@ RGB.Factory.random(n: int) -> list[RGB]
 | Tier | Purpose | Access |
 |------|---------|--------|
 | `From` | Parse external formats into RGB | `RGB.From.hex('#FF0000')` |
-| `Factory` | Presets and generation | `RGB.Factory.gradient(a, b, n)` |
+| `Factory` | Generation (gradients, random) | `RGB.Factory.gradient(a, b, n)` |
 | `To` | Serialize RGB to external formats | `rgb.to.hex()` |
 
 ## Inheritance (Hierarchy)
@@ -79,12 +76,23 @@ SupportsEquality (Protocol)
 | `HasName` | String name property |
 | `Comparable` | Comparison operators via `key` |
 
+## Internal Files
+
+| File | Purpose |
+|------|---------|
+| `_colors.py` | Custom color palette dict (`_CUSTOM`) |
+| `_from.py` | `From` class (parse external formats) |
+| `_to.py` | `To` class (serialize to external formats) |
+| `_factory.py` | `Factory` class (presets, gradients, random) |
+| `_tester.py` | pytest unit tests |
+
 ## Dependencies
 
 | Import | Purpose |
 |--------|---------|
 | `f_core.mixins.comparable.Comparable` | Base — ordering operators |
 | `f_core.mixins.has.name.HasName` | Base — name property |
+| `f_color.rgb._colors._CUSTOM` | Custom color palette |
 | `matplotlib.colors` | Color name -> RGB conversion |
 | `numpy` | Gradient generation (Factory) |
 

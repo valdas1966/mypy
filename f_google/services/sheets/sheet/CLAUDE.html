@@ -133,8 +133,10 @@
                 <li><a href="#public-api">Public API</a></li>
                 <li class="sub-item"><a href="#api-init">__init__()</a></li>
                 <li class="sub-item"><a href="#api-name">name</a></li>
+                <li class="sub-item"><a href="#api-last-row">last_row()</a></li>
+                <li class="sub-item"><a href="#api-last-col">last_col()</a></li>
+                <li class="sub-item"><a href="#api-to-range">to_range()</a></li>
                 <li class="sub-item"><a href="#api-getitem">__getitem__()</a></li>
-                <li class="sub-item"><a href="#api-len">__len__()</a></li>
                 <li><a href="#inheritance">Inheritance</a></li>
                 <li><a href="#dependencies">Dependencies</a></li>
                 <li><a href="#usage">Usage Examples</a></li>
@@ -189,24 +191,45 @@
                             </ol>
                         </div>
 
-                        <div class="api-item" id="api-getitem">
-                            <h4>Dunder Method</h4>
+                        <div class="api-item" id="api-last-row">
+                            <h4>Method</h4>
                             <div class="api-signature">
-                                <code>def __getitem__(self, row: int) -&gt; list[str]</code>
+                                <code>def last_row(self) -&gt; int</code>
                             </div>
                             <ol class="api-description">
-                                <li>Return the row at the given index (0-based) as a list of strings.</li>
-                                <li>Triggers lazy load via <code class="inline-code">_load()</code> on first call.</li>
+                                <li>Return the 1-based index of the last row with a non-empty cell.</li>
+                                <li>Returns 0 if all rows are empty.</li>
                             </ol>
                         </div>
 
-                        <div class="api-item" id="api-len">
-                            <h4>Dunder Method</h4>
+                        <div class="api-item" id="api-last-col">
+                            <h4>Method</h4>
                             <div class="api-signature">
-                                <code>def __len__(self) -&gt; int</code>
+                                <code>def last_col(self) -&gt; int</code>
                             </div>
                             <ol class="api-description">
-                                <li>Return the number of rows in the worksheet.</li>
+                                <li>Return the 1-based index of the last column with a non-empty cell.</li>
+                                <li>Returns 0 if all cells are empty.</li>
+                            </ol>
+                        </div>
+
+                        <div class="api-item" id="api-to-range">
+                            <h4>Method</h4>
+                            <div class="api-signature">
+                                <code>def to_range(self) -&gt; Range</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Return all worksheet data as a <code class="inline-code">Range</code> object.</li>
+                            </ol>
+                        </div>
+
+                        <div class="api-item" id="api-getitem">
+                            <h4>Dunder Method</h4>
+                            <div class="api-signature">
+                                <code>def __getitem__(self, key: int | slice) -&gt; list[str] | Range</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Return a row by index (0-based) or a <code class="inline-code">Range</code> by slice.</li>
                                 <li>Triggers lazy load via <code class="inline-code">_load()</code> on first call.</li>
                             </ol>
                         </div>
@@ -246,6 +269,14 @@
                     <thead><tr><th>Import</th><th>Used For</th></tr></thead>
                     <tbody>
                         <tr><td><code class="inline-code">gspread</code></td><td><code class="inline-code">Worksheet</code> type annotation and <code class="inline-code">.title</code> / <code class="inline-code">.get_all_values()</code> access</td></tr>
+                    </tbody>
+                </table>
+
+                <h3><span class="badge badge-internal">INTERNAL</span> f_ds</h3>
+                <table>
+                    <thead><tr><th>Import</th><th>Used For</th></tr></thead>
+                    <tbody>
+                        <tr><td><code class="inline-code">f_ds.range.Range</code></td><td><code class="inline-code">Range</code> data structure for <code class="inline-code">to_range()</code> and slice access</td></tr>
                     </tbody>
                 </table>
 
@@ -294,7 +325,7 @@ print(sheet[0])       # first row as list[str]</code></pre>
 
             <footer>
                 <ol>
-                    <li>Generated: 2026-03-06</li>
+                    <li>Generated: 2026-03-08</li>
                     <li>Scope: f_google.services.sheets.sheet package documentation</li>
                 </ol>
             </footer>

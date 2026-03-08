@@ -226,8 +226,9 @@ def reached_goal(self) -&gt; bool</pre>
 <pre>def _run(self) -&gt; SolutionSPP</pre>
 <ol>
     <li>Overrides the run logic; terminates on goal or cached-heuristic state.</li>
-    <li>Reconstructs path through cached parent chain if terminated early.</li>
-    <li>Returns <code>SolutionSPP</code> with validity, path, and stats.</li>
+    <li>Computes <code>g_goal</code> on valid termination: if <code>best == goal</code>, uses <code>dict_g[best]</code>; if terminated via cached heuristic, computes <code>g_goal = dict_g[best] + dict_cached[best]</code>.</li>
+    <li>Optionally reconstructs path through cached parent chain if terminated early.</li>
+    <li>Returns <code>SolutionSPP</code> with validity, path, <code>g_goal</code>, and stats.</li>
 </ol>
 </div>
 
@@ -279,7 +280,7 @@ def reached_goal(self) -&gt; bool</pre>
     <tr><td>2</td><td><code>AlgoSPP</code></td><td>SPP solution creation, stats specialization</td></tr>
     <tr><td>3</td><td><code>AStar</code></td><td>A* loop: discover, explore, relax, Manhattan heuristic</td></tr>
     <tr><td>4</td><td><code>AStarReusable</code></td><td>External data/heuristics injection for chaining</td></tr>
-    <tr><td>5</td><td><code>AStarCached</code></td><td>Flag-aware priority, cached early termination</td></tr>
+    <tr><td>5</td><td><code>AStarCached</code></td><td>Flag-aware priority, cached early termination, g_goal computation</td></tr>
 </table>
 </div>
 </details>
@@ -295,7 +296,7 @@ def reached_goal(self) -&gt; bool</pre>
     <tr><th>#</th><th>Import</th><th>Type</th><th>Used For</th></tr>
     <tr><td>1</td><td><code>AStarReusable</code></td><td><span class="badge badge-internal">internal</span></td><td>Parent class with reusable A* infrastructure</td></tr>
     <tr><td>2</td><td><code>ProblemSPP</code></td><td><span class="badge badge-internal">internal</span></td><td>One-to-one shortest path problem definition</td></tr>
-    <tr><td>3</td><td><code>SolutionSPP</code></td><td><span class="badge badge-internal">internal</span></td><td>Solution container with path and stats</td></tr>
+    <tr><td>3</td><td><code>SolutionSPP</code></td><td><span class="badge badge-internal">internal</span></td><td>Solution container with path, g_goal, and stats</td></tr>
     <tr><td>4</td><td><code>HeuristicsProtocol</code></td><td><span class="badge badge-internal">internal</span></td><td>Protocol for heuristic callables</td></tr>
     <tr><td>5</td><td><code>DataHeuristics</code></td><td><span class="badge badge-internal">internal</span></td><td>Core search data (frontier, g/h dicts, parent)</td></tr>
     <tr><td>6</td><td><code>DataCached</code></td><td><span class="badge badge-internal">internal</span></td><td>Cached/bounded heuristic dicts and parent chain</td></tr>
@@ -320,9 +321,11 @@ from f_search.problems import ProblemSPP
 problem = ProblemSPP.Factory.for_cached()
 algo = AStarCached(problem=problem)
 sol = algo.run()
-# sol.stats.explored == 22</pre>
+# sol.stats.explored == 22
+# sol.g_goal contains goal distance (direct from dict_g)</pre>
 <ol>
     <li>No cached data provided; behaves like standard A*.</li>
+    <li><code>g_goal</code> is computed as <code>dict_g[goal]</code> since best equals goal.</li>
 </ol>
 </div>
 </details>
@@ -338,9 +341,11 @@ problem = ProblemSPP.Factory.for_cached()
 data_cached = DataCached.Factory.six_cached()
 algo = AStarCached(problem=problem, data_cached=data_cached)
 sol = algo.run()
-# sol.stats.explored == 10  (fewer states explored)</pre>
+# sol.stats.explored == 10  (fewer states explored)
+# sol.g_goal == dict_g[best] + dict_cached[best] (early termination)</pre>
 <ol>
     <li>Cached heuristics enable early termination, reducing explored states from 22 to 10.</li>
+    <li><code>g_goal</code> computed via <code>dict_g[best] + dict_cached[best]</code> when best != goal.</li>
 </ol>
 </div>
 </details>
@@ -363,7 +368,7 @@ sol = algo.run()
 </section>
 
 <footer>
-    Generated: 2026-03-06 | Scope: <code>f_search/algos/i_1_spp/i_3_astar_cached/</code>
+    Generated: 2026-03-08 | Scope: <code>f_search/algos/i_1_spp/i_3_astar_cached/</code>
 </footer>
 </main>
 

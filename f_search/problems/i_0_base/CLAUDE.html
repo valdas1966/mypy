@@ -260,8 +260,7 @@ def name_grid(self) -> str</code></pre>
 <h3 id="api-analytics">to_analytics</h3>
 <pre><code>def to_analytics(self) -> dict</code></pre>
 <ol>
-    <li>Returns a dict of grid analytic values for reporting.</li>
-    <li>Keys: <code>domain</code> (str), <code>map</code> (str), <code>rows</code> (int), <code>cols</code> (int), <code>cells</code> (int, valid only).</li>
+    <li>Delegates to <code>self.grid.to_analytics()</code> and returns the resulting dict.</li>
     <li>Subclasses extend the returned dict with additional keys.</li>
 </ol>
 
@@ -368,7 +367,7 @@ assert loaded.grid == grid</code></pre>
 
 <hr style="border-color: var(--border); margin-top: 3rem;">
 <p style="color: var(--faint); font-size: .8rem;">
-    Generated 2026-03-07 &mdash; Scope: <code>f_search/problems/i_0_base/</code> (ProblemSearch base class).
+    Generated 2026-03-08 &mdash; Scope: <code>f_search/problems/i_0_base/</code> (ProblemSearch base class).
 </p>
 
 </div><!-- /main -->

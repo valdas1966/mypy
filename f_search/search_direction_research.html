@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search Direction Research — Forward vs Backward in Heuristic Search</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; color: var(--accent2); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.container { display: flex; min-height: 100vh; }
+
+/* ---- Sidebar ---- */
+.sidebar {
+    width: 260px;
+    background: var(--panel);
+    border-right: 2px solid var(--border);
+    position: fixed;
+    top: 0; left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 1.5rem;
+}
+.sidebar h2 {
+    color: var(--text);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: .5rem;
+    border-bottom: 2px solid var(--border);
+}
+.sidebar ul { list-style: none; }
+.sidebar li { margin-bottom: .5rem; }
+.sidebar a {
+    display: block;
+    padding: .4rem .6rem;
+    border-radius: 4px;
+    color: var(--muted);
+    font-size: .9rem;
+}
+.sidebar a:hover { background: var(--panel2); color: var(--text); text-decoration: none; }
+.sidebar .sub { padding-left: 1.5rem; font-size: .85rem; color: var(--faint); }
+
+.search-box { margin-bottom: 1rem; }
+.search-box input {
+    width: 100%;
+    padding: .5rem .75rem;
+    background: var(--panel2);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-size: .9rem;
+}
+.search-box input:focus { outline: none; border-color: var(--accent); }
+.search-box input::placeholder { color: var(--faint); }
+
+/* ---- Main content ---- */
+.main {
+    margin-left: 260px;
+    padding: 2rem 3rem;
+    max-width: 960px;
+    flex: 1;
+}
+
+h1 { color: #fff; font-size: 2rem; margin-bottom: .3rem; }
+.subtitle {
+    color: var(--accent2);
+    font-size: 1.1rem;
+    margin-bottom: .5rem;
+}
+.path {
+    color: var(--faint);
+    font-family: monospace;
+    font-size: .9rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border);
+}
+h2 {
+    color: #fff;
+    font-size: 1.4rem;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: .4rem;
+    border-bottom: 2px solid var(--border);
+}
+h3 { color: var(--text); font-size: 1.1rem; margin: 1.5rem 0 .5rem; }
+p { color: var(--muted); margin: .75rem 0; }
+ul, ol { padding-left: 1.5rem; margin: .75rem 0; }
+li { margin-bottom: .6rem; color: var(--muted); }
+li strong { color: var(--text); }
+
+pre {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    font-size: .85rem;
+    color: var(--text);
+    margin: .75rem 0;
+}
+code {
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: .85rem;
+    background: var(--code-bg);
+    padding: .15rem .35rem;
+    border-radius: 3px;
+}
+pre code { background: none; padding: 0; }
+
+details {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    margin: 1rem 0;
+}
+summary {
+    padding: .75rem 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text);
+}
+summary:hover { color: var(--accent); }
+details[open] summary { border-bottom: 2px solid var(--border); }
+.detail-body { padding: 1rem; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: .75rem 0;
+}
+th, td {
+    padding: .5rem .75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+}
+th { color: var(--text); font-weight: 600; }
+
+.badge {
+    display: inline-block;
+    padding: .15rem .5rem;
+    border-radius: 4px;
+    font-size: .75rem;
+    font-weight: 600;
+    vertical-align: middle;
+}
+.badge-key { background: #1e3a5f; color: var(--accent); }
+.badge-gap { background: #3b1f1f; color: var(--bad); }
+.badge-sota { background: #1a3a2a; color: var(--good); }
+.badge-warn { background: #3b2f1a; color: var(--warn); }
+
+.highlight-box {
+    background: var(--panel);
+    border-left: 4px solid var(--accent);
+    padding: 1rem 1.25rem;
+    border-radius: 0 6px 6px 0;
+    margin: 1rem 0;
+}
+.highlight-box.gap {
+    border-left-color: var(--bad);
+}
+.highlight-box.good {
+    border-left-color: var(--good);
+}
+
+.paper-card {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    margin: .75rem 0;
+    transition: border-color .2s;
+}
+.paper-card:hover { border-color: var(--accent); }
+.paper-card .title { color: var(--text); font-weight: 600; font-size: 1rem; }
+.paper-card .authors { color: var(--faint); font-size: .85rem; margin: .25rem 0; }
+.paper-card .venue { color: var(--accent); font-size: .85rem; }
+.paper-card .desc { color: var(--muted); font-size: .9rem; margin-top: .5rem; }
+
+.back-top { display: inline-block; margin-top: 1rem; font-size: .85rem; }
+
+.diagram {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: .85rem;
+    line-height: 1.5;
+    overflow-x: auto;
+    color: var(--muted);
+}
+.diagram .highlight { color: var(--accent); }
+.diagram .highlight2 { color: var(--accent2); }
+.diagram .good { color: var(--good); }
+.diagram .bad { color: var(--bad); }
+.diagram .warn { color: var(--warn); }
+
+@media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Sidebar -->
+<nav class="sidebar">
+    <div class="search-box"><input type="text" id="search" placeholder="Search..."></div>
+    <h2>Contents</h2>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#core-question">Core Question</a></li>
+        <li><a href="#theoretical">Theoretical Background</a></li>
+        <li class="sub"><a href="#symmetry">Symmetry Theorem</a></li>
+        <li class="sub"><a href="#branching">Branching Factor</a></li>
+        <li class="sub"><a href="#heuristic-quality">Heuristic Quality</a></li>
+        <li><a href="#factors">Factors Affecting Direction</a></li>
+        <li><a href="#bidirectional">Bidirectional Algorithms</a></li>
+        <li class="sub"><a href="#mm">MM</a></li>
+        <li class="sub"><a href="#nbs">NBS</a></li>
+        <li class="sub"><a href="#bae">BAE*</a></li>
+        <li class="sub"><a href="#sfbds">SFBDS</a></li>
+        <li><a href="#most-relevant">Most Relevant Paper</a></li>
+        <li><a href="#sota">State of the Art</a></li>
+        <li><a href="#research-gap">Research Gap</a></li>
+        <li><a href="#papers">Key Papers</a></li>
+        <li><a href="#summary">Summary</a></li>
+    </ul>
+</nav>
+
+<!-- Main Content -->
+<div class="main">
+
+<h1>Search Direction in Heuristic Search</h1>
+<div class="subtitle">Forward vs Backward on 2D Grids</div>
+<div class="path">f_search/search_direction_research.html &mdash; Literature Survey (March 2026)</div>
+
+<!-- ====== Overview ====== -->
+<h2 id="overview">Overview</h2>
+<p>
+    This document surveys the academic literature on a fundamental question in
+    heuristic search: <strong>given a start and goal on a 2D grid, is it better
+    to search from start-to-goal or from goal-to-start?</strong>
+</p>
+<div class="highlight-box gap">
+    <strong>Key Finding:</strong> There is <strong>no standalone paper</strong>
+    that solves the problem of choosing forward vs. backward for unidirectional
+    A* on 2D grids. This is an <span class="badge badge-gap">Open Research Gap</span>.
+</div>
+
+<!-- ====== Core Question ====== -->
+<h2 id="core-question">Core Question</h2>
+<div class="diagram">
+<span class="highlight">Forward Search:</span>   Start &rarr; &rarr; &rarr; &rarr; &rarr; Goal
+<span class="highlight2">Backward Search:</span>  Start &larr; &larr; &larr; &larr; &larr; Goal
+
+<span class="warn">Question:</span> Which direction expands fewer nodes?
+<span class="warn">Answer:</span>  Depends on local obstacle structure &mdash; but no published method exists.
+</div>
+
+<!-- ====== Theoretical Background ====== -->
+<h2 id="theoretical">Theoretical Background</h2>
+
+<h3 id="symmetry">Symmetry Theorem (Dechter &amp; Pearl)</h3>
+<p>
+    On <strong>undirected</strong> 2D grids with <strong>consistent heuristics</strong>
+    (Manhattan/Octile), forward and backward A* are <strong>provably equivalent</strong>
+    in terms of necessarily expanded nodes. The f-value distribution is symmetric,
+    so the academic community has largely treated the direction question as moot
+    for symmetric grids.
+</p>
+
+<h3 id="branching">Branching Factor Principle</h3>
+<div class="highlight-box">
+    <strong>Classic Result (Poole &amp; Mackworth):</strong> Search in the direction
+    with the <strong>smaller branching factor</strong>. On uniform grids without
+    obstacles, branching factors are symmetric (~4 or ~8 neighbors), so neither
+    direction is favored.
+</div>
+
+<h3 id="heuristic-quality">Heuristic Quality Asymmetry</h3>
+<p>
+    If the forward heuristic <code>h<sub>F</sub></code> (state &rarr; goal) is
+    more informed than the backward heuristic <code>h<sub>B</sub></code>
+    (state &rarr; start), or vice versa, the direction with the better heuristic
+    will expand fewer nodes. On 2D grids with Manhattan or Octile distance, both
+    directions use the same heuristic quality, so this factor is typically
+    <strong>neutral</strong>.
+</p>
+
+<!-- ====== Factors ====== -->
+<h2 id="factors">Factors Affecting Direction</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Factor</th>
+            <th>Effect</th>
+            <th>2D Grid Impact</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Branching Factor Asymmetry</strong></td>
+            <td>Search in the direction with fewer successors</td>
+            <td>Symmetric on uniform grids; varies with obstacles</td>
+        </tr>
+        <tr>
+            <td><strong>Heuristic Quality Asymmetry</strong></td>
+            <td>Better heuristic &rarr; fewer expansions</td>
+            <td>Neutral (Manhattan/Octile symmetric)</td>
+        </tr>
+        <tr>
+            <td><strong>Local Topology (Obstacles)</strong></td>
+            <td>Tight corridors near start/goal affect effective branching</td>
+            <td><span class="badge badge-gap">Not formalized</span></td>
+        </tr>
+        <tr>
+            <td><strong>Dead Ends &amp; Local Minima</strong></td>
+            <td>Direction with fewer dead ends is more efficient</td>
+            <td>Studied by Hoffmann (2001, 2005) for planning</td>
+        </tr>
+        <tr>
+            <td><strong>Directed Edges</strong></td>
+            <td>Forward and backward have different successor sets</td>
+            <td>N/A for standard undirected grids</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="diagram">
+<span class="warn">Example: Obstacle Impact on Effective Branching</span>
+
+  <span class="highlight">Start in open area:</span>          <span class="highlight2">Goal in corridor:</span>
+  . . . . . .                  # # # # # #
+  . . <span class="good">S</span> . . .                  # . <span class="bad">G</span> . . #
+  . . . . . .                  # # # # . #
+  . . . . . .                  # # # # . #
+
+  Branching &asymp; 8                   Branching &asymp; 2
+  <span class="bad">&rarr; Backward from Goal may be more focused</span>
+</div>
+
+<!-- ====== Bidirectional ====== -->
+<h2 id="bidirectional">Bidirectional Search Algorithms</h2>
+<p>
+    Rather than choosing one direction, bidirectional search sidesteps the problem
+    by searching in <strong>both directions simultaneously</strong>. The major
+    algorithms developed by the Holte/Felner/Sturtevant research group:
+</p>
+
+<h3 id="mm">MM &mdash; Meet in the Middle <span class="badge badge-sota">AAAI 2016</span></h3>
+<div class="paper-card">
+    <div class="title">Bidirectional Search That Is Guaranteed to Meet in the Middle</div>
+    <div class="authors">Holte, Felner, Sharon, Sturtevant</div>
+    <div class="venue">AAAI 2016</div>
+    <div class="desc">
+        The first bidirectional heuristic search algorithm <strong>guaranteed to
+        meet in the middle</strong> &mdash; it never expands a node beyond the
+        solution midpoint. Uses front-to-end heuristics.
+    </div>
+</div>
+
+<h3 id="nbs">NBS &mdash; Near-Optimal Bidirectional Search <span class="badge badge-sota">IJCAI 2017</span></h3>
+<div class="paper-card">
+    <div class="title">Front-to-End Bidirectional Heuristic Search with Near-Optimal Node Expansions</div>
+    <div class="authors">Chen, Holte, Sturtevant, Felner</div>
+    <div class="venue">IJCAI 2017</div>
+    <div class="desc">
+        Derives a lower bound <code>VC</code> on the minimum necessary expansions
+        for any bidirectional search with consistent heuristics, and guarantees
+        expanding at most <code>2&times;VC</code> nodes. Proven to be near-optimal
+        (no admissible front-to-end algorithm has a worst case better than
+        <code>2&times;VC</code>).
+    </div>
+</div>
+
+<h3 id="bae">BAE* &mdash; Bidirectional A* <span class="badge badge-sota">SOCS 2025</span></h3>
+<div class="paper-card">
+    <div class="title">Position Paper: On the Impact of Direction-Selection in BAE*</div>
+    <div class="authors">Shperberg, Siag, Sturtevant, Felner</div>
+    <div class="venue">SOCS 2025</div>
+    <div class="desc">
+        Reviews <strong>direction-selection strategies</strong> in BAE*
+        (Bidirectional A* with consistent heuristics), analyzing how the choice
+        of which direction to expand next impacts performance. Presents a fix to
+        prevent expanding nodes with <code>f &gt; C*</code> across all
+        direction-selection strategies.
+    </div>
+</div>
+
+<h3 id="sfbds">SFBDS &mdash; Single-Frontier Bidirectional Search <span class="badge badge-sota">AAAI 2020</span></h3>
+<div class="paper-card">
+    <div class="title">Single-Frontier Bidirectional Search</div>
+    <div class="authors">Moldenhauer, Felner</div>
+    <div class="venue">AAAI 2020</div>
+    <div class="desc">
+        Uses a single open list containing pairs <code>(s, g)</code> representing
+        subproblems, and recursively decides whether to expand from the start or
+        goal side. <strong>Exploits irregularities in branching factor</strong>
+        to reduce total work. Closest existing work to per-node direction
+        selection.
+    </div>
+</div>
+
+<!-- ====== Most Relevant Paper ====== -->
+<h2 id="most-relevant">Most Relevant Paper</h2>
+<div class="paper-card" style="border-color: var(--accent);">
+    <div class="title" style="color: var(--accent);">
+        Predicting the Effectiveness of Bidirectional Heuristic Search
+    </div>
+    <div class="authors">Sturtevant, Shperberg, Felner, Chen</div>
+    <div class="venue">ICAPS 2020</div>
+    <div class="desc">
+        Directly addresses <strong>when bidirectional search outperforms
+        unidirectional A*</strong>. Identifies <strong>"critical states"</strong>
+        in the state space as the primary factor &mdash; states that one direction
+        must expand but the other need not. Proposes two simple, computationally
+        inexpensive measurements:
+    </div>
+</div>
+<ul>
+    <li><strong>M1:</strong> Performs a backward Dijkstra from the goal to a
+        limited distance and counts states seen</li>
+    <li><strong>M2:</strong> Samples random states and checks heuristic values</li>
+</ul>
+<div class="highlight-box good">
+    <strong>Why it matters:</strong> This paper provides a practical,
+    computationally cheap way to predict whether searching in both directions
+    will help &mdash; the closest published work to "which direction is better?"
+</div>
+
+<!-- ====== State of the Art ====== -->
+<h2 id="sota">Current State of the Art</h2>
+
+<h3>For Undirected 2D Grids (Consistent Heuristics)</h3>
+<p>
+    Forward and backward A* are <strong>provably equivalent</strong> in terms
+    of necessarily expanded nodes. The choice does not matter theoretically.
+    <strong>Bidirectional algorithms (NBS, MM) can outperform unidirectional
+    A*</strong>, but only when there exist "critical states."
+</p>
+
+<h3>For Domains with Asymmetric Branching</h3>
+<p>
+    Search in the direction with lower branching factor, or use bidirectional
+    search. <strong>BAE*</strong> with appropriate direction-selection policies
+    (per the 2025 SOCS paper) is the current best framework.
+</p>
+
+<h3>Practical Recommendation</h3>
+<div class="highlight-box">
+    On standard grid-based pathfinding, <strong>unidirectional A* with JPS</strong>
+    (Jump Point Search) remains highly competitive. Bidirectional search helps
+    most when heuristics are weak relative to true distance. When heuristics are
+    strong (octile on grids), the savings from bidirectional search are
+    <strong>modest</strong>.
+</div>
+
+<!-- ====== Research Gap ====== -->
+<h2 id="research-gap">Research Gap</h2>
+<div class="highlight-box gap">
+    <strong>Open Problem:</strong> The specific question "given a start and goal
+    on a 2D grid with obstacles, should I search forward or backward?" has
+    <strong>not been answered in a standalone paper</strong>.
+</div>
+<p>The existing literature either:</p>
+<ol>
+    <li>Assumes symmetric undirected graphs where the question is moot, or</li>
+    <li>Studies bidirectional search, which sidesteps the question by searching
+        in both directions simultaneously</li>
+</ol>
+<div class="highlight-box good">
+    <strong>Novel Contribution Opportunity:</strong> A paper that analyzes
+    <strong>local obstacle structure</strong> around start/goal to predict which
+    unidirectional direction will expand fewer nodes would be novel. The closest
+    existing work is SFBDS, which makes per-node decisions about which direction
+    to expand in a bidirectional framework.
+</div>
+
+<!-- ====== Key Papers ====== -->
+<h2 id="papers">Key Papers (Recommended Reading Order)</h2>
+
+<div class="paper-card">
+    <div class="title">1. Predicting the Effectiveness of Bidirectional Heuristic Search</div>
+    <div class="authors">Sturtevant, Shperberg, Felner, Chen</div>
+    <div class="venue">ICAPS 2020 &mdash; <em>When is bidirectional better?</em></div>
+</div>
+
+<div class="paper-card">
+    <div class="title">2. Bidirectional Search That Is Guaranteed to Meet in the Middle</div>
+    <div class="authors">Holte, Felner, Sharon, Sturtevant</div>
+    <div class="venue">AAAI 2016 &mdash; <em>The MM algorithm</em></div>
+</div>
+
+<div class="paper-card">
+    <div class="title">3. Front-to-End Bidirectional Heuristic Search with Near-Optimal Node Expansions</div>
+    <div class="authors">Chen, Holte, Sturtevant, Felner</div>
+    <div class="venue">IJCAI 2017 &mdash; <em>The NBS algorithm</em></div>
+</div>
+
+<div class="paper-card">
+    <div class="title">4. A Brief History and Recent Achievements in Bidirectional Search</div>
+    <div class="authors">Sturtevant</div>
+    <div class="venue">AAAI 2018 &mdash; <em>Survey / tutorial</em></div>
+</div>
+
+<div class="paper-card">
+    <div class="title">5. Position Paper: On the Impact of Direction-Selection in BAE*</div>
+    <div class="authors">Shperberg, Siag, Sturtevant, Felner</div>
+    <div class="venue">SOCS 2025 &mdash; <em>Direction-selection policies</em></div>
+</div>
+
+<div class="paper-card">
+    <div class="title">6. Single-Frontier Bidirectional Search</div>
+    <div class="authors">Moldenhauer, Felner</div>
+    <div class="venue">AAAI 2020 &mdash; <em>Per-node direction decisions</em></div>
+</div>
+
+<!-- ====== Summary ====== -->
+<h2 id="summary">Summary</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Aspect</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Forward vs Backward unidirectional on 2D grids</td>
+            <td><span class="badge badge-gap">Open Gap</span> &mdash; no published solution</td>
+        </tr>
+        <tr>
+            <td>Theoretical equivalence (symmetric, consistent)</td>
+            <td><span class="badge badge-sota">Proven</span> &mdash; Dechter &amp; Pearl</td>
+        </tr>
+        <tr>
+            <td>Bidirectional vs unidirectional prediction</td>
+            <td><span class="badge badge-sota">Solved</span> &mdash; ICAPS 2020 (M1, M2)</td>
+        </tr>
+        <tr>
+            <td>Best bidirectional algorithm</td>
+            <td><span class="badge badge-sota">NBS</span> &mdash; near-optimal guarantees</td>
+        </tr>
+        <tr>
+            <td>Direction selection within bidirectional</td>
+            <td><span class="badge badge-warn">Active</span> &mdash; BAE* (SOCS 2025)</td>
+        </tr>
+        <tr>
+            <td>Per-node direction decisions</td>
+            <td><span class="badge badge-warn">Emerging</span> &mdash; SFBDS (AAAI 2020)</td>
+        </tr>
+        <tr>
+            <td>Obstacle-aware direction prediction</td>
+            <td><span class="badge badge-gap">Novel opportunity</span></td>
+        </tr>
+        <tr>
+            <td>Practical grid pathfinding SOTA</td>
+            <td><span class="badge badge-sota">A* + JPS</span></td>
+        </tr>
+    </tbody>
+</table>
+
+<a href="#overview" class="back-top">&uarr; Back to top</a>
+
+</div><!-- .main -->
+</div><!-- .container -->
+
+<!-- Search functionality -->
+<script>
+document.getElementById('search').addEventListener('input', function () {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('.sidebar ul a').forEach(function (link) {
+        const li = link.closest('li');
+        li.style.display = link.textContent.toLowerCase().includes(q) || !q ? '' : 'none';
+    });
+});
+</script>
+
+</body>
+</html>

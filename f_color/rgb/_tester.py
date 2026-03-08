@@ -69,7 +69,7 @@ def test_eq() -> None:
      Test the __eq__() method.
     ========================================================================
     """
-    black = RGB.Factory.black()
+    black = RGB(name='BLACK')
     assert black == RGB(r=0, g=0, b=0)
 
 
@@ -79,8 +79,8 @@ def test_lt() -> None:
      Test the __lt__() method.
     ========================================================================
     """
-    black = RGB.Factory.black()
-    white = RGB.Factory.white()
+    black = RGB(name='BLACK')
+    white = RGB(name='WHITE')
     assert black < white
     assert not (white < black)
 

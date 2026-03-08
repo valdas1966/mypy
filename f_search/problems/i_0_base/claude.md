@@ -20,7 +20,7 @@ Return the grid's name. Survives pickle (stored independently from the grid obje
 Return successor states by querying `grid.neighbors(cell=state.key)` and wrapping each neighbor cell as a `StateCell`.
 
 ### `to_analytics(self) -> dict`
-Returns a dict with grid analytic values: `domain` (str), `map` (str), `rows` (int), `cols` (int), `cells` (int, valid only via `len(grid)`). Subclasses extend this dict with additional keys.
+Delegates to `self.grid.to_analytics()` and returns the resulting dict. Subclasses extend this dict with additional keys.
 
 ### `load_grid(self, grids: dict[str, Grid]) -> None`
 Restore the grid reference after unpickling. Looks up `_name_grid` in the provided dict.

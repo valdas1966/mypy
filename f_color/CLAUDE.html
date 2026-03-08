@@ -58,7 +58,9 @@ footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--bord
     <pre><code>f_color/
 ├── __init__.py        re-exports RGB
 ├── rgb/               RGB color class
-│   ├── main.py        RGB class + _To helper
+│   ├── main.py        RGB class
+│   ├── _colors.py     Custom color palette dict
+│   ├── _to.py         To class (serialize)
 │   ├── _from.py       From class (parse external formats)
 │   ├── _factory.py    Factory (presets, gradients, random)
 │   ├── _tester.py     11 pytest tests
@@ -76,7 +78,7 @@ footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--bord
                 <li><strong>Properties:</strong> <code class="ic">r</code>, <code class="ic">g</code>, <code class="ic">b</code>, <code class="ic">key</code>.</li>
                 <li><strong>To:</strong> <code class="ic">rgb.to.tuple()</code>, <code class="ic">rgb.to.hex()</code>, <code class="ic">rgb.to.argb()</code>.</li>
                 <li><strong>From:</strong> <code class="ic">RGB.From.hex()</code>, <code class="ic">RGB.From.ints()</code>.</li>
-                <li><strong>Factory:</strong> <code class="ic">black()</code>, <code class="ic">white()</code>, <code class="ic">gradient()</code>, <code class="ic">random()</code>.</li>
+                <li><strong>Factory:</strong> <code class="ic">gradient()</code>, <code class="ic">gradient_multi()</code>, <code class="ic">random()</code>.</li>
                 <li><strong>Mixins:</strong> <code class="ic">Comparable</code> + <code class="ic">HasName</code> &mdash; supports <code class="ic">==</code>, <code class="ic">&lt;</code>, <code class="ic">hash()</code>.</li>
             </ol>
         </div>

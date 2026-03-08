@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Review — f_ds/grids/grid/map</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #111827;
+            --panel2: #0f172a;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --faint: #94a3b8;
+            --border: #334155;
+            --accent: #60a5fa;
+            --accent2: #a78bfa;
+            --good: #34d399;
+            --warn: #fbbf24;
+            --bad: #fb7185;
+            --code-bg: #0a1220;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem 3rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        h1 { color: #fff; font-size: 2rem; margin-bottom: 0.25rem; }
+        .path { color: var(--faint); font-family: monospace; font-size: 0.9rem; margin-bottom: 2rem; }
+        h2 {
+            color: #fff;
+            font-size: 1.3rem;
+            margin-top: 2.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--border);
+        }
+        h3 { color: var(--muted); font-size: 1.05rem; margin: 1rem 0 0.5rem; }
+        ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+        li { margin-bottom: 0.5rem; color: var(--muted); font-size: 0.95rem; }
+        pre {
+            background: var(--code-bg);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+            overflow-x: auto;
+            margin: 0.5rem 0 1rem;
+        }
+        code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+        .inline-code {
+            background: var(--panel2);
+            padding: 0.12rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+        .tag {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.4rem;
+        }
+        .tag-bug { background: var(--bad); color: var(--bg); }
+        .tag-fix { background: var(--warn); color: var(--bg); }
+        .tag-ok { background: var(--good); color: var(--bg); }
+        section { margin-bottom: 1.5rem; }
+        .summary {
+            background: var(--panel);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin: 2rem 0;
+        }
+        .summary h2 { margin-top: 0; }
+        footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--border);
+            color: var(--faint);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Code + Design Review</h1>
+<div class="path">f_ds/grids/grid/map/</div>
+
+<div class="summary">
+    <h2>Summary</h2>
+    <ol>
+        <li><span class="tag tag-fix">FIX</span> <code class="inline-code">to_analytics()</code> return type should be <code class="inline-code">dict[str, str | int | None]</code> not bare <code class="inline-code">dict</code>.</li>
+        <li><span class="tag tag-fix">FIX</span> <code class="inline-code">neighbors()</code> constructs typed list with invalid syntax <code class="inline-code">list[Cell]()</code>.</li>
+        <li><span class="tag tag-fix">FIX</span> <code class="inline-code">print()</code> shadows the built-in <code class="inline-code">print</code> function name.</li>
+        <li><span class="tag tag-ok">OK</span> Clean module structure with Factory, From, and Random companions.</li>
+        <li><span class="tag tag-ok">OK</span> <code class="inline-code">to_analytics()</code> provides useful reporting dict for data pipelines.</li>
+    </ol>
+</div>
+
+<section>
+    <h2>1. Correctness</h2>
+    <ol>
+        <li><span class="tag tag-fix">FIX</span> <code class="inline-code">main.py:72</code> &mdash; <code class="inline-code">list[Cell]()</code> is invalid at runtime in Python 3.13. Should be <code class="inline-code">list()</code> or <code class="inline-code">[]</code>.</li>
+    </ol>
+    <h3>Fix</h3>
+<pre><code># main.py:72 — change to:
+li: list[Cell] = []</code></pre>
+</section>
+
+<section>
+    <h2>2. Readability / Naming</h2>
+    <ol>
+        <li><code class="inline-code">main.py:99</code> &mdash; Method named <code class="inline-code">print()</code> shadows the built-in. Consider <code class="inline-code">to_str_matrix()</code> or <code class="inline-code">format_grid()</code>.</li>
+        <li><code class="inline-code">main.py:64</code> &mdash; <code class="inline-code">cells_valid()</code> rebuilds list on every call. Name does not signal cost; consider caching or documenting O(n).</li>
+        <li><code class="inline-code">_factory.py:53</code> &mdash; <code class="inline-code">six_with_obstacles</code> docstring says "6x6" but name says "Grid5x5WithObstacles". Mismatch.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>3. Design (OOP)</h2>
+    <ol>
+        <li><strong>Random coupling</strong> &mdash; <code class="inline-code">GridMap.__init__</code> always creates a <code class="inline-code">Random</code> instance even if never used. Consider lazy initialization via property.</li>
+        <li><strong>Iteration contract</strong> &mdash; <code class="inline-code">__iter__</code> yields only valid cells but <code class="inline-code">GridBase.__iter__</code> yields all. Overriding changes the contract silently. Document clearly.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>4. Performance</h2>
+    <ol>
+        <li><code class="inline-code">__len__</code> calls <code class="inline-code">cells_valid()</code> which iterates all cells every time. <code class="inline-code">to_analytics()</code> calls <code class="inline-code">len(self)</code>, so each analytics call also pays this cost. For large grids, consider caching valid count and invalidating on <code class="inline-code">set_invalid()</code>.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>5. Typing</h2>
+    <ol>
+        <li><code class="inline-code">to_analytics()</code> returns bare <code class="inline-code">dict</code>. Should be <code class="inline-code">dict[str, str | int | None]</code> to document the key-value contract.</li>
+        <li><code class="inline-code">domain</code> property returns <code class="inline-code">str</code> but can be <code class="inline-code">None</code> (default). Should be <code class="inline-code">str | None</code>.</li>
+        <li><code class="inline-code">cols</code> parameter typed as <code class="inline-code">int</code> but defaults to <code class="inline-code">None</code>. Should be <code class="inline-code">int | None</code>.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>6. Documentation</h2>
+    <ol>
+        <li><code class="inline-code">to_analytics()</code> docstring is clear. Could list the returned keys for quick reference.</li>
+        <li><code class="inline-code">print()</code> docstring has an extra closing bracket in the format example.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>7. Modularity</h2>
+    <ol>
+        <li>Clean split: <code class="inline-code">main.py</code>, <code class="inline-code">_factory.py</code>, <code class="inline-code">_from.py</code>, <code class="inline-code">_random.py</code>, <code class="inline-code">_tester.py</code>, <code class="inline-code">__init__.py</code>.</li>
+        <li>No change needed.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>8. Architecture</h2>
+    <ol>
+        <li><strong>No test for <code class="inline-code">to_analytics()</code></strong> &mdash; New public method lacks a test in <code class="inline-code">_tester.py</code>. Add <code class="inline-code">test_to_analytics()</code> to verify the dict keys and values.</li>
+    </ol>
+    <h3>Suggested test</h3>
+<pre><code>def test_to_analytics() -> None:
+    grid = GridMap(rows=3, name='Test', domain='test')
+    result = grid.to_analytics()
+    assert result == dict(domain='test',
+                          map='Test',
+                          rows=3,
+                          cols=3,
+                          cells=9)</code></pre>
+</section>
+
+<section>
+    <h2>9. Usage &amp; Usefulness</h2>
+    <h3>How to use</h3>
+<pre><code>from f_ds.grids.grid.map import GridMap
+
+grid = GridMap(rows=4, cols=4, name='Arena', domain='game')
+grid.invalidate([grid[0][2], grid[1][2]])
+
+# Get analytics for reporting
+analytics = grid.to_analytics()
+# {'domain': 'game', 'map': 'Arena', 'rows': 4, 'cols': 4, 'cells': 14}</code></pre>
+    <h3>When useful</h3>
+    <ol>
+        <li>Pathfinding benchmarks where grid metadata needs to be logged.</li>
+        <li>Batch experiment pipelines that collect grid stats into DataFrames.</li>
+        <li>Any reporting scenario needing grid dimensions and valid cell counts.</li>
+    </ol>
+    <h3>When overengineered</h3>
+    <ol>
+        <li>Not overengineered. <code class="inline-code">to_analytics()</code> is a simple dict constructor with no unnecessary abstractions.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>10. Suggestions</h2>
+    <ol>
+        <li><strong>Fix <code class="inline-code">list[Cell]()</code> syntax</strong> &mdash; Risk: runtime error. Benefit: correctness. Change: <code class="inline-code">li: list[Cell] = []</code> in <code class="inline-code">main.py:72</code>.</li>
+        <li><strong>Type <code class="inline-code">to_analytics()</code> return</strong> &mdash; Risk: none. Benefit: explicit contract. Change: <code class="inline-code">-> dict[str, str | int | None]</code>.</li>
+        <li><strong>Type <code class="inline-code">domain</code> as <code class="inline-code">str | None</code></strong> &mdash; Risk: none. Benefit: accurate type. Change: property return type.</li>
+        <li><strong>Add <code class="inline-code">test_to_analytics()</code></strong> &mdash; Risk: none. Benefit: regression coverage. Change: new test in <code class="inline-code">_tester.py</code>.</li>
+        <li><strong>Fix factory name mismatch</strong> &mdash; Risk: none. Benefit: clarity. Change: rename <code class="inline-code">'Grid5x5WithObstacles'</code> to <code class="inline-code">'Grid6x6WithObstacles'</code> in <code class="inline-code">_factory.py:54</code>.</li>
+    </ol>
+</section>
+
+<footer>
+    <ol>
+        <li>Review scope: f_ds/grids/grid/map/ (main.py, _factory.py, _from.py, _tester.py, __init__.py)</li>
+        <li>Generated: 2026-03-08</li>
+    </ol>
+</footer>
+
+</body>
+</html>

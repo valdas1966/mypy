@@ -19,6 +19,7 @@ class SolutionSPP(SolutionSearch[Problem, StatsSearch]):
                  problem: Problem,
                  is_valid: bool,
                  path: Path = None,
+                 g_goal: int = None,
                  stats: StatsSearch = None) -> None:
         """
         ========================================================================
@@ -32,7 +33,8 @@ class SolutionSPP(SolutionSearch[Problem, StatsSearch]):
                                 is_valid=is_valid,
                                 stats=stats)
         self._path = path
-    
+        self._g_goal = g_goal
+
     @property
     def path(self) -> Path:
         """
@@ -41,3 +43,23 @@ class SolutionSPP(SolutionSearch[Problem, StatsSearch]):
         ========================================================================
         """
         return self._path
+
+    @property
+    def g_goal(self) -> int | None:
+        """
+        ========================================================================
+         Return the optimal cost to reach the Goal.
+        ========================================================================
+        """
+        return self._g_goal
+
+    @property
+    def quality_h(self) -> float | None:
+        """
+        ========================================================================
+         Return Heuristic Quality as h(start) / g(goal) in [0, 1].
+        ========================================================================
+        """
+        if not self.is_valid or not self._g_goal:
+            return None
+        return self.problem.h_start / self._g_goal

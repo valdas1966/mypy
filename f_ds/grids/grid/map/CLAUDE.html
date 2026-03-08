@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GridMap - Documentation</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #111827;
+            --panel2: #0f172a;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --faint: #94a3b8;
+            --border: #334155;
+            --accent: #60a5fa;
+            --accent2: #a78bfa;
+            --good: #34d399;
+            --warn: #fbbf24;
+            --bad: #fb7185;
+            --code-bg: #0a1220;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; color: var(--accent2); }
+        a:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+        .container { display: flex; min-height: 100vh; }
+
+        .sidebar {
+            width: 280px;
+            background: var(--panel);
+            border-right: 2px solid var(--border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .sidebar h2 {
+            color: var(--text);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .sidebar ul { list-style: none; }
+        .sidebar li { margin-bottom: 0.5rem; }
+
+        .sidebar a {
+            display: block;
+            padding: 0.4rem 0.6rem;
+            border-radius: 4px;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .sidebar a:hover {
+            background: var(--panel2);
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .sidebar .sub-item { padding-left: 1.5rem; font-size: 0.85rem; color: var(--faint); }
+
+        .search-box { margin-bottom: 1rem; }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            background: var(--panel2);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+
+        .search-box input:focus { outline: none; border-color: var(--accent); }
+        .search-box input::placeholder { color: var(--faint); }
+
+        .main {
+            margin-left: 280px;
+            flex: 1;
+            padding: 2rem 3rem;
+            max-width: 900px;
+        }
+
+        header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        header h1 { font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; }
+        header .path { color: var(--faint); font-family: monospace; font-size: 0.9rem; }
+        header .tag {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        .tag-grid { background: var(--good); color: var(--bg); }
+        .tag-generic { background: var(--accent); color: var(--bg); }
+        .tag-map { background: var(--accent2); color: var(--bg); }
+
+        section { margin-bottom: 3rem; }
+
+        h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 { color: var(--text); font-size: 1.2rem; margin: 1.5rem 0 0.75rem; }
+        h4 { color: var(--muted); font-size: 1rem; margin: 1rem 0 0.5rem; }
+
+        ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+        li { margin-bottom: 0.5rem; color: var(--muted); font-size: 0.95rem; }
+
+        .note {
+            background: var(--panel2);
+            border-left: 3px solid var(--accent);
+            padding: 0.75rem 1rem;
+            margin: 1rem 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        pre {
+            background: var(--code-bg);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        pre code { display: block; line-height: 1.5; }
+
+        .inline-code {
+            background: var(--panel2);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: var(--panel2);
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .panel-header:hover { background: var(--border); }
+        .panel-header:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+        .panel-header .arrow { transition: transform 0.2s; color: var(--faint); }
+        .panel.collapsed .panel-header .arrow { transform: rotate(-90deg); }
+        .panel-content { padding: 1rem; }
+        .panel.collapsed .panel-content { display: none; }
+
+        .api-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .api-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+        .api-signature {
+            background: var(--code-bg);
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            border-left: 3px solid var(--accent);
+        }
+
+        .api-description { color: var(--muted); font-size: 0.95rem; padding-left: 0.5rem; }
+
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .badge-internal { background: var(--accent2); color: var(--bg); }
+        .badge-stdlib { background: var(--accent); color: var(--bg); }
+
+        .hierarchy-tree {
+            font-family: monospace;
+            background: var(--code-bg);
+            padding: 1rem;
+            border-radius: 6px;
+            border: 2px solid var(--border);
+        }
+
+        .hierarchy-tree .level { padding-left: 1.5rem; position: relative; }
+
+        .hierarchy-tree .level::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0.5rem;
+            border-left: 2px solid var(--border);
+        }
+
+        .hierarchy-tree .node { position: relative; padding: 0.25rem 0; }
+
+        .hierarchy-tree .node::before {
+            content: '';
+            position: absolute;
+            left: -1rem;
+            top: 50%;
+            width: 0.75rem;
+            border-top: 2px solid var(--border);
+        }
+
+        .hierarchy-tree .root::before { display: none; }
+
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.75rem; text-align: left; border: 1px solid var(--border); }
+        th { background: var(--panel2); color: #fff; font-weight: 600; }
+        td { background: var(--panel); color: var(--muted); }
+
+        .back-to-top { display: inline-block; margin-top: 1rem; font-size: 0.85rem; color: var(--faint); }
+        .back-to-top:hover { color: var(--accent); }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border);
+            color: var(--faint);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 900px) {
+            .sidebar { position: static; width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border); }
+            .main { margin-left: 0; padding: 1.5rem; }
+            .container { flex-direction: column; }
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="search-box">
+                <input type="text" id="search" placeholder="Search..." aria-label="Search documentation">
+            </div>
+            <h2>Contents</h2>
+            <ul>
+                <li><a href="#purpose">Purpose</a></li>
+                <li><a href="#public-api">Public API</a></li>
+                <li class="sub-item"><a href="#api-constructor">__init__</a></li>
+                <li class="sub-item"><a href="#api-domain">domain</a></li>
+                <li class="sub-item"><a href="#api-random">random</a></li>
+                <li class="sub-item"><a href="#api-cells-valid">cells_valid()</a></li>
+                <li class="sub-item"><a href="#api-neighbors">neighbors()</a></li>
+                <li class="sub-item"><a href="#api-invalidate">invalidate()</a></li>
+                <li class="sub-item"><a href="#api-to-analytics">to_analytics()</a></li>
+                <li class="sub-item"><a href="#api-print">print()</a></li>
+                <li class="sub-item"><a href="#api-len">__len__</a></li>
+                <li class="sub-item"><a href="#api-str">__str__ / __repr__</a></li>
+                <li class="sub-item"><a href="#api-iter">__iter__</a></li>
+                <li><a href="#inheritance">Inheritance</a></li>
+                <li><a href="#dependencies">Dependencies</a></li>
+                <li><a href="#usage">Usage Examples</a></li>
+            </ul>
+        </nav>
+
+        <main class="main">
+            <header id="top">
+                <h1>GridMap</h1>
+                <div class="path">f_ds/grids/grid/map/</div>
+                <span class="tag tag-grid">2D GRID</span>
+                <span class="tag tag-generic">GENERIC[CellMap]</span>
+                <span class="tag tag-map">MAP / OBSTACLES</span>
+            </header>
+
+            <section id="purpose">
+                <h2>Purpose</h2>
+                <ol>
+                    <li>2D grid of <code class="inline-code">CellMap</code> cells where each cell can be valid or invalid (obstacle).</li>
+                    <li>Extends <code class="inline-code">GridBase[CellMap]</code> with map-specific operations: valid-cell filtering, validity-aware neighbors, random sampling, obstacle invalidation, and analytic reporting.</li>
+                    <li>Companion classes: <code class="inline-code">Factory</code> (preset grids), <code class="inline-code">From</code> (construct from files/arrays), <code class="inline-code">Random</code> (cell sampling).</li>
+                </ol>
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
+
+            <section id="public-api">
+                <h2>Public API</h2>
+
+                <div class="panel" id="api-gridmap-class">
+                    <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
+                        <span>class GridMap(GridBase[CellMap])</span>
+                        <span class="arrow">&#9660;</span>
+                    </div>
+                    <div class="panel-content">
+
+                        <div class="api-item" id="api-constructor">
+                            <h4>Constructor</h4>
+                            <div class="api-signature">
+                                <code>def __init__(self, rows: int, cols: int = None, name: str = 'GridMap', domain: str = None) -> None</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Creates a grid with the given dimensions; square if <code class="inline-code">cols</code> is <code class="inline-code">None</code>.</li>
+                                <li>Optionally assigns a <code class="inline-code">domain</code> label for analytic grouping.</li>
+                            </ol>
+                        </div>
+
+                        <div class="api-item" id="api-domain">
+                            <h4>domain (property)</h4>
+                            <div class="api-signature">
+                                <code>@property def domain(self) -> str</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Returns the domain label of the grid.</li>
+                            </ol>
+                        </div>
+
+                        <div class="api-item" id="api-random">
+                            <h4>random (property)</h4>
+                            <div class="api-signature">
+                                <code>@property def random(self) -> Random</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Returns the <code class="inline-code">Random</code> helper for sampling cells from this grid.</li>
+                            </ol>
+                        </div>
+
+                        <div class="api-item" id="api-cells-valid">
+                            <h4>cells_valid()</h4>
+                            <div class="api-signature">
+                                <code>def cells_valid(self) -> list[Cell]</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Returns a list of all valid (truthy) cells in the grid.</li>
+                            </ol>
+                        </div>
+
+                        <div class="api-item" id="api-neighbors">
+                            <h4>neighbors()</h4>
+                            <div class="api-signature">
+                                <code>def neighbors(self, cell: Cell) -> list[Cell]</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Returns valid neighbors of the given cell.</li>
+                                <li>Filters out invalid (obstacle) cells from the base neighbor list.</li>
+                            </ol>
+                        </div>
+
+                        <div class="api-item" id="api-invalidate">
+                            <h4>invalidate()</h4>
+                            <div class="api-signature">
+                                <code>def invalidate(self, cells: list[Cell]) -> None</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Marks the given cells as invalid (obstacles).</li>
+                            </ol>
+                        </div>
+
+                        <div class="api-item" id="api-to-analytics">
+                            <h4>to_analytics()</h4>
+                            <div class="api-signature">
+                                <code>def to_analytics(self) -> dict</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Returns a dict with keys: <code class="inline-code">domain</code>, <code class="inline-code">map</code>, <code class="inline-code">rows</code>, <code class="inline-code">cols</code>, <code class="inline-code">cells</code>.</li>
+                                <li><code class="inline-code">map</code> is the grid name; <code class="inline-code">cells</code> is the count of valid cells.</li>
+                            </ol>
+                        </div>
+
+                        <div class="api-item" id="api-print">
+                            <h4>print()</h4>
+                            <div class="api-signature">
+                                <code>def print(self) -> str</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Returns string representation in <code class="inline-code">[0,1]</code> 2D-bool format with title header.</li>
+                            </ol>
+                        </div>
+
+                        <div class="api-item" id="api-len">
+                            <h4>__len__</h4>
+                            <div class="api-signature">
+                                <code>def __len__(self) -> int</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Returns the total number of valid cells in the grid.</li>
+                            </ol>
+                        </div>
+
+                        <div class="api-item" id="api-str">
+                            <h4>__str__ / __repr__</h4>
+                            <div class="api-signature">
+                                <code>def __str__(self) -> str
+def __repr__(self) -> str</code>
+                            </div>
+                            <ol class="api-description">
+                                <li><code class="inline-code">__str__</code> returns <code class="inline-code">'GridMap(3x3, 5)'</code> &mdash; name, shape, valid count.</li>
+                                <li><code class="inline-code">__repr__</code> returns <code class="inline-code">'&lt;GridMap: Name=GridMap, Shape=3x3, Cells=5&gt;'</code>.</li>
+                            </ol>
+                        </div>
+
+                        <div class="api-item" id="api-iter">
+                            <h4>__iter__</h4>
+                            <div class="api-signature">
+                                <code>def __iter__(self) -> Iterator[Cell]</code>
+                            </div>
+                            <ol class="api-description">
+                                <li>Iterates over valid cells only (skips invalid/obstacle cells).</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
+
+            <section id="inheritance">
+                <h2>Inheritance (Hierarchy)</h2>
+
+                <div class="hierarchy-tree">
+                    <div class="node root">HasName, HasRowsCols, Iterable, Generic[Cell]</div>
+                    <div class="level">
+                        <div class="node">GridBase[Cell]</div>
+                        <div class="level">
+                            <div class="node"><strong>GridMap</strong> (Cell = CellMap)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <table>
+                    <thead><tr><th>Base</th><th>Responsibility</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td><code class="inline-code">HasName</code></td>
+                            <td>Provides <code class="inline-code">name</code> property</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">HasRowsCols</code></td>
+                            <td>Provides <code class="inline-code">rows</code>, <code class="inline-code">cols</code> properties</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">Iterable</code></td>
+                            <td>Makes the grid iterable</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">GridBase[Cell]</code></td>
+                            <td>2D cell storage, indexing, base neighbor logic, <code class="inline-code">shape()</code>, <code class="inline-code">select</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
+
+            <section id="dependencies">
+                <h2>Dependencies</h2>
+
+                <h3><span class="badge badge-internal">INTERNAL</span> Project Imports</h3>
+                <table>
+                    <thead><tr><th>Import</th><th>Used For</th></tr></thead>
+                    <tbody>
+                        <tr><td><code class="inline-code">f_ds.grids.grid.base.main.GridBase</code></td><td>Base grid implementation with 2D cell storage</td></tr>
+                        <tr><td><code class="inline-code">f_ds.grids.cell.CellMap</code></td><td>Cell type with valid/invalid state</td></tr>
+                        <tr><td><code class="inline-code">f_ds.grids.grid.map._random.Random</code></td><td>Random cell sampling helper</td></tr>
+                    </tbody>
+                </table>
+
+                <h3><span class="badge badge-stdlib">STDLIB</span> Standard Library</h3>
+                <table>
+                    <thead><tr><th>Import</th><th>Used For</th></tr></thead>
+                    <tbody>
+                        <tr><td><code class="inline-code">typing.Iterator</code></td><td>Type hint for <code class="inline-code">__iter__</code> return type</td></tr>
+                    </tbody>
+                </table>
+
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
+
+            <section id="usage">
+                <h2>Usage Examples</h2>
+
+                <div class="panel">
+                    <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
+                        <span>Example 1: Factory presets and basic queries</span>
+                        <span class="arrow">&#9660;</span>
+                    </div>
+                    <div class="panel-content">
+                        <pre><code>from f_ds.grids.grid.map import GridMap
+
+# Create a 3x3 X-shaped grid (5 valid cells)
+grid = GridMap.Factory.x()
+print(str(grid))                   # GridMap(3x3, 5)
+print(repr(grid))                  # &lt;GridMap: Name=GridMap, Shape=3x3, Cells=5&gt;
+print(len(grid))                   # 5
+print(len(grid.cells_valid()))     # 5
+print(len(grid.neighbors(grid[1][1])))  # valid neighbors of center</code></pre>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header" tabindex="0" onclick="togglePanel(this)" onkeydown="handlePanelKey(event, this)">
+                        <span>Example 2: Analytics reporting</span>
+                        <span class="arrow">&#9660;</span>
+                    </div>
+                    <div class="panel-content">
+                        <pre><code>from f_ds.grids.grid.map import GridMap
+
+grid = GridMap(rows=4, cols=4, name='Arena', domain='game')
+analytics = grid.to_analytics()
+# {'domain': 'game', 'map': 'Arena', 'rows': 4, 'cols': 4, 'cells': 16}</code></pre>
+                    </div>
+                </div>
+
+                <a href="#top" class="back-to-top">Back to top</a>
+            </section>
+
+            <footer>
+                <ol>
+                    <li>Generated: 2026-03-08</li>
+                    <li>Scope: f_ds/grids/grid/map/ package documentation</li>
+                </ol>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function togglePanel(header) { header.parentElement.classList.toggle('collapsed'); }
+        function handlePanelKey(event, header) { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); togglePanel(header); } }
+        const searchInput = document.getElementById('search');
+        const searchableItems = document.querySelectorAll('.api-item, .panel');
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            if (query === '') { searchableItems.forEach(item => item.classList.remove('hidden')); return; }
+            searchableItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(query)) { item.classList.remove('hidden'); const panel = item.closest('.panel'); if (panel) panel.classList.remove('collapsed'); }
+                else { item.classList.add('hidden'); }
+            });
+        });
+    </script>
+</body>
+</html>

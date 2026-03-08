@@ -43,7 +43,7 @@ footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--bord
 <section><h2>4. Performance</h2><div class="note note-good">No change needed.</div><ol><li>Simple float arithmetic. No hot paths.</li></ol></section>
 <section><h2>5. Typing</h2><div class="note note-good">No change needed.</div><ol><li>All params use modern <code class="ic">type | None</code> syntax.</li></ol></section>
 <section><h2>6. Documentation</h2><div class="note note-good">No change needed.</div><ol><li>All methods have docstrings following convention.</li></ol></section>
-<section><h2>7. Modularity</h2><div class="note note-good">No change needed.</div><ol><li>Refactored from 4 scattered folders to standard <code class="ic">rgb/</code> layout.</li><li>Clean separation: <code class="ic">_from.py</code>, <code class="ic">_factory.py</code>, <code class="ic">main.py</code> (<code class="ic">_To</code>).</li></ol></section>
+<section><h2>7. Modularity</h2><div class="note note-good">No change needed.</div><ol><li>Refactored from 4 scattered folders to standard <code class="ic">rgb/</code> layout.</li><li>Clean separation: <code class="ic">_colors.py</code> (palette), <code class="ic">_to.py</code>, <code class="ic">_from.py</code>, <code class="ic">_factory.py</code>, <code class="ic">main.py</code>.</li></ol></section>
 <section><h2>8. Architecture</h2><div class="note note-good">No change needed.</div><ol><li>All external consumers use <code class="ic">from f_color.rgb import RGB</code> &mdash; stable path.</li><li>All consumers migrated to <code class="ic">RGB.From.*</code> and <code class="ic">rgb.to.*</code> API.</li></ol></section>
 
 <section>

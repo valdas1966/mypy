@@ -93,7 +93,7 @@ section { margin-bottom: 2rem; }
 <ol>
     <li><strong>ProblemSearch</strong> is a clean base class for grid-based search problems.</li>
     <li>Pickle support via <code>__getstate__</code> + <code>load_grid</code> is well-designed and tested.</li>
-    <li><code>to_analytics()</code> provides a clean extension point for subclass-specific analytic values.</li>
+    <li><code>to_analytics()</code> delegates to <code>self.grid.to_analytics()</code>, keeping the method thin and DRY.</li>
     <li>The <code>_name_grid</code> field provides a reliable key for grid restoration after deserialization.</li>
     <li>Factory uses <code>GridBase.Factory</code> (not <code>GridMap.Factory</code>), which may be intentional for simpler test grids.</li>
     <li>Overall: solid, focused, minimal code with clear responsibilities.</li>
@@ -219,7 +219,7 @@ section { margin-bottom: 2rem; }
 
 <hr style="border-color: var(--border); margin-top: 3rem;">
 <p style="color: var(--faint); font-size: .8rem;">
-    Generated 2026-03-07 &mdash; Scope: <code>f_search/problems/i_0_base/</code> (ProblemSearch base class).
+    Generated 2026-03-08 &mdash; Scope: <code>f_search/problems/i_0_base/</code> (ProblemSearch base class).
 </p>
 
 </body>

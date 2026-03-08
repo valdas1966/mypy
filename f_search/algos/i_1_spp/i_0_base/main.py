@@ -46,12 +46,16 @@ class AlgoSPP(Generic[State, Data],
         # Construct and return the Solution
         is_valid = self._can_terminate()
         path = None
-        if self._need_path and is_valid:
-            path = self._data.path_to(state=self.problem.goal)
+        g_goal = None
+        if is_valid:
+            g_goal = self._data.dict_g[self.problem.goal]
+            if self._need_path:
+                path = self._data.path_to(state=self.problem.goal)
         return SolutionSPP(name_algo=self.name,
                            problem=self.problem,
                            is_valid=is_valid,
                            path=path,
+                           g_goal=g_goal,
                            stats=self._stats)
 
     def _can_terminate(self) -> bool:
