@@ -1,7 +1,7 @@
 from old_old_f_google.services.big_query.client import BigQuery
 from old_f_google.services.storage import Storage
 from datetime import datetime
-from f_http.url import URL
+from f_proj.noteret.tiktok.url import URL
 import time
 
 

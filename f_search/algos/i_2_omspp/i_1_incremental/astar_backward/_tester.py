@@ -67,3 +67,15 @@ def test_path_length() -> None:
             n_valid += 1
     # Ensure enough valid instances were tested
     assert n_valid >= 500
+
+
+def test_quality_h() -> None:
+    """
+    ========================================================================
+     Test quality_h for backward incremental A*.
+    ========================================================================
+    """
+    problem = ProblemOMSPP.Factory.for_cached()
+    algo = AStarIncrementalBackward(problem=problem)
+    sol = algo.run()
+    assert sol.quality_h == ((4/12) + (5/13)) / 2

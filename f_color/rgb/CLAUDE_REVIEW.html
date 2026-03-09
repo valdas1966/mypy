@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Code Review — RGB</title>
+<title>Code Review — f_color/rgb</title>
 <style>
 :root {
     --bg: #0b0f14;
@@ -42,10 +42,7 @@ pre code { display: block; line-height: 1.5; }
 .v-pass { background: var(--good); color: var(--bg); }
 .note { background: var(--panel2); border-left: 3px solid var(--accent); padding: .75rem 1rem; margin: 1rem 0; color: var(--muted); font-size: .9rem; }
 .note-good { border-left-color: var(--good); }
-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-th, td { padding: .75rem; text-align: left; border: 1px solid var(--border); }
-th { background: var(--panel2); color: #fff; font-weight: 600; }
-td { background: var(--panel); color: var(--muted); }
+.note-warn { border-left-color: var(--warn); }
 footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); color: var(--faint); font-size: .85rem; }
 </style>
 </head>
@@ -54,18 +51,18 @@ footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--bord
 <h1>Code + Design Review</h1>
 <div class="path">f_color / rgb</div>
 <ol>
-    <li>Module reviewed: <code class="ic">main.py</code>, <code class="ic">_colors.py</code>, <code class="ic">_from.py</code>, <code class="ic">_to.py</code>, <code class="ic">_factory.py</code>, <code class="ic">_tester.py</code>, <code class="ic">__init__.py</code>.</li>
-    <li>Checked consumers: <code class="ic">f_dv</code>, <code class="ic">f_microsoft.excel</code>, <code class="ic">f_gui_old</code>.</li>
+    <li>Files reviewed: <code class="ic">main.py</code>, <code class="ic">_colors.py</code>, <code class="ic">_from.py</code>, <code class="ic">_to.py</code>, <code class="ic">_factory.py</code>, <code class="ic">_tester.py</code>, <code class="ic">__init__.py</code>.</li>
 </ol>
 
 <section>
     <h2>1. Correctness</h2>
     <div class="note note-good">No bugs found.</div>
     <ol>
-        <li>All conversions (float &harr; int &harr; hex) are correct.</li>
-        <li><code class="ic">key</code> is a <code class="ic">@property</code> &mdash; satisfies <code class="ic">Comparable</code> contract.</li>
+        <li>All conversions (float &harr; int &harr; hex) are mathematically correct.</li>
+        <li><code class="ic">key</code> property satisfies <code class="ic">Comparable</code> / <code class="ic">Hashable</code> contracts.</li>
         <li><code class="ic">From.hex()</code> correctly strips <code class="ic">#</code> prefix and delegates to <code class="ic">From.ints()</code>.</li>
-        <li><code class="ic">_To</code> helper correctly references parent RGB instance.</li>
+        <li><code class="ic">To</code> helper correctly references parent RGB via <code class="ic">self._rgb</code>.</li>
+        <li><code class="ic">gradient()</code> handles edge cases: <code class="ic">n=1</code> returns <code class="ic">[a]</code>, <code class="ic">n=2</code> returns <code class="ic">[a, b]</code>.</li>
     </ol>
 </section>
 
@@ -74,7 +71,8 @@ footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--bord
     <div class="note note-good">No change needed.</div>
     <ol>
         <li><code class="ic">From</code> / <code class="ic">To</code> pattern reads naturally: <code class="ic">RGB.From.hex()</code>, <code class="ic">rgb.to.hex()</code>.</li>
-        <li>Factory method names are descriptive: <code class="ic">gradient</code>, <code class="ic">gradient_multi</code>.</li>
+        <li>Factory method names are clear: <code class="ic">gradient</code>, <code class="ic">gradient_multi</code>, <code class="ic">random</code>.</li>
+        <li>File names map directly to responsibilities: <code class="ic">_to.py</code>, <code class="ic">_from.py</code>, <code class="ic">_factory.py</code>.</li>
     </ol>
 </section>
 
@@ -82,41 +80,75 @@ footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--bord
     <h2>3. Design (OOP)</h2>
     <div class="note note-good">Clean design.</div>
     <ol>
-        <li>Three-tier pattern: <code class="ic">From</code> (parse) / <code class="ic">Factory</code> (presets) / <code class="ic">To</code> (serialize).</li>
-        <li><code class="ic">_To</code> is a private helper in <code class="ic">main.py</code>; <code class="ic">From</code> is wired in <code class="ic">__init__.py</code>.</li>
-        <li>Factory wired via <code class="ic">RGB.Factory = Factory</code> in <code class="ic">__init__.py</code>.</li>
-        <li>Mixin composition: <code class="ic">HasName</code> + <code class="ic">Comparable</code>.</li>
+        <li><strong>Three-tier pattern:</strong> <code class="ic">From</code> (parse) / <code class="ic">Factory</code> (generate) / <code class="ic">To</code> (serialize).</li>
+        <li><code class="ic">To</code> is instantiated per-RGB in <code class="ic">__init__</code>; <code class="ic">From</code> and <code class="ic">Factory</code> are wired as class-level attrs in <code class="ic">__init__.py</code>.</li>
+        <li>Mixin composition: <code class="ic">HasName</code> + <code class="ic">Comparable</code> &mdash; minimal, purposeful.</li>
+        <li><code class="ic">_CUSTOM</code> dict in <code class="ic">_colors.py</code> isolates palette from class logic.</li>
     </ol>
 </section>
 
-<section><h2>4. Performance</h2><div class="note note-good">No change needed.</div><ol><li>Simple float arithmetic. No hot paths.</li></ol></section>
+<section>
+    <h2>4. Performance</h2>
+    <div class="note note-good">No change needed.</div>
+    <ol>
+        <li>Simple float arithmetic. No hot paths.</li>
+        <li><code class="ic">numpy.linspace</code> used for gradient &mdash; efficient for any <code class="ic">n</code>.</li>
+    </ol>
+</section>
 
 <section>
     <h2>5. Typing</h2>
     <div class="note note-good">No change needed.</div>
     <ol>
-        <li>All params use <code class="ic">type | None</code> syntax.</li>
-        <li>Return types are fully annotated.</li>
+        <li>All params use modern <code class="ic">type | None</code> syntax.</li>
+        <li>Return types fully annotated on all public and private methods.</li>
+        <li><code class="ic">_to.py</code> uses <code class="ic">TYPE_CHECKING</code> guard to avoid circular import.</li>
     </ol>
 </section>
 
-<section><h2>6. Documentation</h2><div class="note note-good">No change needed.</div><ol><li>All methods have docstrings following <code class="ic">=</code> separator convention.</li></ol></section>
-<section><h2>7. Modularity</h2><div class="note note-good">No change needed.</div><ol><li>Standard folder layout: <code class="ic">main.py</code> + <code class="ic">_colors.py</code> + <code class="ic">_to.py</code> + <code class="ic">_from.py</code> + <code class="ic">_factory.py</code> + <code class="ic">_tester.py</code>.</li><li>Clean separation: custom palette (<code class="ic">_colors</code>), construction (<code class="ic">From</code>), presets (<code class="ic">Factory</code>), conversion (<code class="ic">To</code>).</li></ol></section>
-<section><h2>8. Architecture</h2><div class="note note-good">No change needed.</div><ol><li>External consumers import <code class="ic">from f_color.rgb import RGB</code> &mdash; stable path via <code class="ic">__init__.py</code>.</li><li>All consumers migrated to <code class="ic">RGB.From.*</code> and <code class="ic">rgb.to.*</code> API.</li></ol></section>
+<section>
+    <h2>6. Documentation</h2>
+    <div class="note note-good">No change needed.</div>
+    <ol>
+        <li>All methods have docstrings following <code class="ic">====</code> separator convention.</li>
+        <li>Class docstring is concise and accurate.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>7. Modularity</h2>
+    <div class="note note-good">No change needed.</div>
+    <ol>
+        <li>Standard folder layout: <code class="ic">main.py</code> + <code class="ic">_colors.py</code> + <code class="ic">_to.py</code> + <code class="ic">_from.py</code> + <code class="ic">_factory.py</code> + <code class="ic">_tester.py</code>.</li>
+        <li>Clean separation: palette (<code class="ic">_colors</code>), parsing (<code class="ic">From</code>), generation (<code class="ic">Factory</code>), serialization (<code class="ic">To</code>).</li>
+        <li>No dead files &mdash; <code class="ic">u_color.py</code> and <code class="ic">_study.py</code> previously removed.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>8. Architecture</h2>
+    <div class="note note-good">No change needed.</div>
+    <ol>
+        <li>Stable import path: <code class="ic">from f_color.rgb import RGB</code> via <code class="ic">__init__.py</code>.</li>
+        <li>Package re-export: <code class="ic">from f_color import RGB</code> also works.</li>
+    </ol>
+</section>
 
 <section>
     <h2>9. Usage &amp; Usefulness</h2>
     <ol>
         <li><strong>How to use:</strong> <code class="ic">RGB(name='RED')</code>, <code class="ic">RGB.From.hex('#FF0000')</code>, <code class="ic">rgb.to.hex()</code>.</li>
-        <li><strong>When useful:</strong> data visualization, Excel cell formatting, GUI components.</li>
-        <li><strong>Overengineered?</strong> No. Three-tier adds clarity without complexity. 7 external consumers.</li>
+        <li><strong>When useful:</strong> data visualization, Excel formatting, GUI components, gradient generation.</li>
+        <li><strong>Overengineered?</strong> No. Three-tier adds clarity without complexity; each tier is a single small file.</li>
     </ol>
 </section>
 
 <section>
     <h2>10. Suggestions</h2>
-    <div class="note note-good">No improvements needed.</div>
+    <div class="note note-warn">Minor observations &mdash; no action required.</div>
     <ol>
+        <li><code class="ic">To.tuple()</code> return type says <code class="ic">tuple[float, float, float]</code> but returns ints when <code class="ic">to_int=True</code> &mdash; consider <code class="ic">@overload</code> for precise typing.</li>
+        <li><code class="ic">_CUSTOM</code> keys are uppercase; <code class="ic">__init__</code> does case-sensitive lookup &mdash; document that names are case-sensitive.</li>
         <li>From/To pattern is a good candidate for adoption across other classes (e.g., <code class="ic">Rect</code>).</li>
     </ol>
 </section>
@@ -124,16 +156,17 @@ footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--bord
 <section>
     <h2>Summary</h2>
     <ol>
-        <li><span class="v v-pass">PASS</span> Clean, well-structured module with From/To pattern.</li>
-        <li>Three-tier design: <code class="ic">From</code> (parse) / <code class="ic">Factory</code> (presets) / <code class="ic">To</code> (serialize).</li>
-        <li>All 11 tests pass. All external consumers updated.</li>
+        <li><span class="v v-pass">PASS</span> Clean, well-structured module with From/To/Factory pattern.</li>
+        <li>Three-tier design keeps parsing, generation, and serialization separated.</li>
+        <li>All 11 tests cover construction, conversion, comparison, and gradient generation.</li>
+        <li>No dead code, no unnecessary dependencies.</li>
     </ol>
 </section>
 
 <footer>
     <ol>
-        <li>Review date: 2026-03-07</li>
-        <li>Scope: <code class="ic">f_color.rgb</code> (1 class, 6 files, 11 tests)</li>
+        <li>Review date: 2026-03-09</li>
+        <li>Scope: <code class="ic">f_color/rgb</code> &mdash; 1 class, 6 files, 11 tests</li>
     </ol>
 </footer>
 </body>

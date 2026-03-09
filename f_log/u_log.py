@@ -7,7 +7,41 @@ from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from typing import Literal
 
+from f_log.color_log import ColorLog
+
 Sink = Literal["console", "file", "both"]
+
+
+class _ColorFormatter(logging.Formatter):
+    """
+    ========================================================================
+     Formatter that auto-colors log metadata for console output.
+    ========================================================================
+    """
+
+    def format(self, record: logging.LogRecord) -> str:
+        """
+        ========================================================================
+         Format log record with colored metadata.
+        ========================================================================
+        """
+        msg = super().format(record)
+        level = record.levelname
+        # Color the [LEVEL] tag
+        plain_tag = f'[{level}]'
+        colored_tag = ColorLog.dim(f'[') + \
+            ColorLog.label(level) + \
+            ColorLog.dim(f']')
+        msg = msg.replace(plain_tag, colored_tag, 1)
+        # Color the [timestamp]
+        ts = self.formatTime(record, self.datefmt)
+        plain_ts = f'[{ts}]'
+        colored_ts = ColorLog.dim(f'[') + \
+            ColorLog.time(ts) + \
+            ColorLog.dim(f']')
+        msg = msg.replace(plain_ts, colored_ts, 1)
+        return msg
+
 
 @dataclass(frozen=True)
 class Settings:
@@ -70,7 +104,8 @@ def setup_log(
     if s.sink in ("console", "both"):
         ch = logging.StreamHandler(sys.stdout)
         ch.setLevel(s.level)
-        ch.setFormatter(logging.Formatter(s.console_fmt, datefmt=s.date_fmt))
+        ch.setFormatter(_ColorFormatter(s.console_fmt,
+                                        datefmt=s.date_fmt))
         root.addHandler(ch)
 
     if s.sink in ("file", "both"):

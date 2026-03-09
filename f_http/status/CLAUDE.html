@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAUDE — f_http/status</title>
+<style>
+:root {
+  --bg: #0b0f14;
+  --panel: #111827;
+  --panel2: #0f172a;
+  --text: #f8fafc;
+  --muted: #cbd5e1;
+  --faint: #94a3b8;
+  --border: #334155;
+  --accent: #60a5fa;
+  --accent2: #a78bfa;
+  --good: #34d399;
+  --warn: #fbbf24;
+  --bad: #fb7185;
+  --code-bg: #0a1220;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  display: flex;
+  min-height: 100vh;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; color: var(--accent2); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* --- TOC --- */
+nav.toc {
+  position: sticky;
+  top: 0;
+  width: 220px;
+  min-width: 220px;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--panel);
+  border-right: 2px solid var(--border);
+  padding: 1.2rem 1rem;
+  flex-shrink: 0;
+}
+nav.toc h2 { font-size: 1rem; color: var(--accent); margin-bottom: .8rem; }
+nav.toc ol { list-style: decimal; padding-left: 1.2rem; }
+nav.toc li { margin-bottom: .45rem; font-size: .88rem; color: var(--muted); }
+nav.toc li a { color: var(--muted); }
+nav.toc li a:hover { color: var(--accent); }
+
+/* --- MAIN --- */
+main {
+  flex: 1;
+  max-width: 860px;
+  padding: 2rem 2.5rem 3rem;
+}
+header h1 { font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: .2rem; }
+header .path { font-size: .85rem; color: var(--faint); margin-bottom: 1.5rem; }
+
+section { margin-bottom: 2.2rem; }
+section h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: .35rem;
+  margin-bottom: .9rem;
+}
+ol { padding-left: 1.5rem; }
+ol li { margin-bottom: .4rem; color: var(--text); font-size: .93rem; }
+
+/* --- Collapsible --- */
+details {
+  background: var(--panel2);
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: .8rem;
+}
+details summary {
+  cursor: pointer;
+  padding: .6rem .9rem;
+  font-weight: 600;
+  color: var(--accent);
+  font-size: .95rem;
+}
+details summary:hover { color: var(--accent2); }
+details summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+details[open] summary { border-bottom: 1px solid var(--border); }
+details .inner { padding: .8rem 1rem; }
+
+/* --- Code --- */
+pre, code.block {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--good);
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: .84rem;
+  overflow-x: auto;
+}
+pre { padding: .8rem 1rem; margin: .5rem 0 .8rem; }
+code { font-family: 'Fira Code', 'Consolas', monospace; font-size: .84rem; color: var(--accent); }
+
+/* --- Table --- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: .5rem 0 .8rem;
+  font-size: .88rem;
+}
+th, td { padding: .45rem .7rem; text-align: left; border: 1px solid var(--border); }
+th { background: var(--panel); color: var(--accent); font-weight: 600; }
+td { color: var(--text); }
+
+.badge {
+  display: inline-block;
+  padding: .1rem .5rem;
+  border-radius: 3px;
+  font-size: .78rem;
+  font-weight: 600;
+}
+.badge-stdlib { background: #1e3a5f; color: var(--accent); }
+.badge-internal { background: #1a2e1a; color: var(--good); }
+
+.back-top { display: block; text-align: right; font-size: .82rem; margin-top: .3rem; }
+footer { margin-top: 3rem; font-size: .78rem; color: var(--faint); border-top: 1px solid var(--border); padding-top: .8rem; }
+
+/* --- Search --- */
+.search-box {
+  width: 100%;
+  padding: .4rem .6rem;
+  margin-bottom: 1rem;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: .85rem;
+}
+.search-box:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
+
+@media (max-width: 768px) {
+  body { flex-direction: column; }
+  nav.toc { position: static; width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border); }
+  main { padding: 1.2rem 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOC -->
+<nav class="toc">
+  <h2>Contents</h2>
+  <input type="text" class="search-box" id="search" placeholder="Search..." aria-label="Search documentation">
+  <ol>
+    <li><a href="#purpose">Purpose</a></li>
+    <li><a href="#api">Public API</a></li>
+    <li><a href="#inheritance">Inheritance</a></li>
+    <li><a href="#dependencies">Dependencies</a></li>
+    <li><a href="#usage">Usage Examples</a></li>
+  </ol>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+<header>
+  <h1>Status</h1>
+  <div class="path">f_http/status/</div>
+</header>
+
+<!-- PURPOSE -->
+<section id="purpose">
+  <h2>1. Purpose</h2>
+  <ol>
+    <li>Wraps Python's <code>http.HTTPStatus</code> with validation and a readable name.</li>
+    <li>A Status is truthy only when the code is in the 2xx range (200-299).</li>
+    <li>Unknown codes resolve to name <code>'UNKNOWN'</code> and are invalid.</li>
+  </ol>
+  <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- PUBLIC API -->
+<section id="api">
+  <h2>2. Public API</h2>
+
+  <details open>
+    <summary>Status</summary>
+    <div class="inner">
+
+      <div id="api-init">
+        <pre>Status(code: int) -&gt; None</pre>
+        <ol>
+          <li>Wraps an HTTP status code with validation.</li>
+          <li>Sets <code>is_valid=True</code> for codes 200-299.</li>
+          <li>Resolves name via <code>HTTPStatus</code>; falls back to <code>'UNKNOWN'</code>.</li>
+        </ol>
+      </div>
+
+      <div id="api-code">
+        <pre>@property
+code -&gt; int</pre>
+        <ol>
+          <li>Returns the raw HTTP status code (may be <code>None</code>).</li>
+        </ol>
+      </div>
+
+      <div id="api-name">
+        <pre>@property
+name -&gt; str</pre>
+        <ol>
+          <li>Human-readable name from <code>HTTPStatus</code> enum.</li>
+          <li>Returns <code>'UNKNOWN'</code> for unrecognized codes.</li>
+        </ol>
+      </div>
+
+      <div id="api-is_valid">
+        <pre>@property
+is_valid -&gt; bool</pre>
+        <ol>
+          <li>Inherited from <code>Validatable</code>.</li>
+          <li><code>True</code> when code is in range 200-299.</li>
+        </ol>
+      </div>
+
+      <div id="api-bool">
+        <pre>__bool__() -&gt; bool</pre>
+        <ol>
+          <li>Delegates to <code>is_valid</code>; inherited from <code>Validatable</code>.</li>
+        </ol>
+      </div>
+
+      <div id="api-str">
+        <pre>__str__() -&gt; str</pre>
+        <ol>
+          <li>Returns <code>'Code=200, Name=OK'</code> format.</li>
+        </ol>
+      </div>
+
+      <div id="api-repr">
+        <pre>__repr__() -&gt; str</pre>
+        <ol>
+          <li>Returns <code>'&lt;Status: Name=OK&gt;'</code>; inherited from <code>HasName</code>.</li>
+        </ol>
+      </div>
+
+    </div>
+  </details>
+
+  <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- INHERITANCE -->
+<section id="inheritance">
+  <h2>3. Inheritance</h2>
+
+  <details open>
+    <summary>Inheritance Chain</summary>
+    <div class="inner">
+      <pre>Status
+├── HasName       (name property, __repr__)
+└── Validatable   (is_valid property, __bool__)</pre>
+
+      <table>
+        <thead><tr><th>#</th><th>Base</th><th>Provides</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><code>HasName</code></td><td><code>name</code> property and <code>__repr__</code></td></tr>
+          <tr><td>2</td><td><code>Validatable</code></td><td><code>is_valid</code> property and <code>__bool__</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- DEPENDENCIES -->
+<section id="dependencies">
+  <h2>4. Dependencies</h2>
+  <table>
+    <thead><tr><th>#</th><th>Import</th><th>Category</th><th>Used For</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>http.HTTPStatus</code></td><td><span class="badge badge-stdlib">stdlib</span></td><td>Resolves integer code to standard name</td></tr>
+      <tr><td>2</td><td><code>f_core.mixins.validatable</code></td><td><span class="badge badge-internal">internal</span></td><td>Boolean validity via <code>is_valid</code> and <code>__bool__</code></td></tr>
+      <tr><td>3</td><td><code>f_core.mixins.has.name</code></td><td><span class="badge badge-internal">internal</span></td><td><code>name</code> property and <code>__repr__</code></td></tr>
+    </tbody>
+  </table>
+  <a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- USAGE -->
+<section id="usage">
+  <h2>5. Usage Examples</h2>
+
+  <details open>
+    <summary id="ex-ok">Example 1 — Valid Status (200 OK)</summary>
+    <div class="inner">
+<pre>from f_http.status import Status
+
+status = Status(code=200)
+assert status                          # True (2xx)
+assert status.code == 200
+assert status.name == 'OK'
+assert str(status) == 'Code=200, Name=OK'
+assert repr(status) == '&lt;Status: Name=OK&gt;'</pre>
+    </div>
+  </details>
+
+  <details open>
+    <summary id="ex-invalid">Example 2 — Invalid Status (404 Not Found)</summary>
+    <div class="inner">
+<pre>from f_http.status import Status
+
+status = Status(code=404)
+assert not status                      # False (not 2xx)
+assert status.name == 'NOT_FOUND'
+assert str(status) == 'Code=404, Name=NOT_FOUND'</pre>
+    </div>
+  </details>
+
+  <details open>
+    <summary id="ex-unknown">Example 3 — Unknown Status (None)</summary>
+    <div class="inner">
+<pre>from f_http.status import Status
+
+status = Status(code=None)
+assert not status
+assert status.name == 'UNKNOWN'
+assert str(status) == 'Code=None, Name=UNKNOWN'</pre>
+    </div>
+  </details>
+
+  <a href="#" class="back-top">Back to top</a>
+</section>
+
+<footer>
+  Generated: 2026-03-09 &mdash; Scope: <code>f_http/status/</code> (Status class).
+</footer>
+
+</main>
+
+<script>
+document.getElementById('search').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('main section details').forEach(d => {
+    const text = d.textContent.toLowerCase();
+    d.style.display = q && !text.includes(q) ? 'none' : '';
+  });
+});
+</script>
+
+</body>
+</html>

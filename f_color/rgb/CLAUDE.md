@@ -15,49 +15,56 @@ def __init__(self,
              g: float | None = None,
              b: float | None = None) -> None
 ```
-Accepts a color name (matplotlib or custom) or raw r/g/b float values.
+Accepts a color name (matplotlib or custom palette) or raw r/g/b float values (0-1).
 
 ### Properties
 ```python
 @property
-def r(self) -> float       # Red value (0-1)
+def r(self) -> float       # Red channel (0-1)
 
 @property
-def g(self) -> float       # Green value (0-1)
+def g(self) -> float       # Green channel (0-1)
 
 @property
-def b(self) -> float       # Blue value (0-1)
+def b(self) -> float       # Blue channel (0-1)
 
 @property
-def key(self) -> tuple[float, float, float]  # (r, g, b) for comparison
+def key(self) -> tuple[float, float, float]  # (r, g, b) — used for eq/lt/hash
 ```
 
-### To (instance conversion — rgb.to.*)
+### Dunder Methods
+```python
+def __str__(self) -> str
+```
+- Named: `'RED(255, 0, 0)'`
+- Unnamed: `'(127, 127, 127)'`
+
+```python
+def __eq__(self, other) -> bool   # via Equatable (compares key)
+def __lt__(self, other) -> bool   # via Comparable (compares key)
+def __hash__(self) -> int         # via Hashable (hashes key)
+```
+
+### To (instance conversion — `rgb.to.*`)
 ```python
 rgb.to.tuple(to_int: bool = False) -> tuple[float, float, float]
 rgb.to.hex() -> str                    # '#FF0000'
 rgb.to.argb(alpha: int = 255) -> str   # 'FFFF0000'
+rgb.to.ansi() -> str                   # '\033[38;2;255;0;0m'
 ```
 
-### From (static constructors — RGB.From.*)
+### From (static constructors — `RGB.From.*`)
 ```python
 RGB.From.ints(r: int, g: int, b: int) -> RGB
 RGB.From.hex(hex_str: str) -> RGB
 ```
 
-### Factory (generation — RGB.Factory.*)
+### Factory (generation — `RGB.Factory.*`)
 ```python
 RGB.Factory.gradient(a: RGB, b: RGB, n: int) -> list[RGB]
 RGB.Factory.gradient_multi(stops: list[RGB], n: int) -> list[RGB]
 RGB.Factory.random(n: int) -> list[RGB]
 ```
-
-## Three-Tier Pattern: From / Factory / To
-| Tier | Purpose | Access |
-|------|---------|--------|
-| `From` | Parse external formats into RGB | `RGB.From.hex('#FF0000')` |
-| `Factory` | Generation (gradients, random) | `RGB.Factory.gradient(a, b, n)` |
-| `To` | Serialize RGB to external formats | `rgb.to.hex()` |
 
 ## Inheritance (Hierarchy)
 
@@ -73,18 +80,10 @@ SupportsEquality (Protocol)
 
 | Base | Responsibility |
 |------|----------------|
-| `HasName` | String name property |
-| `Comparable` | Comparison operators via `key` |
-
-## Internal Files
-
-| File | Purpose |
-|------|---------|
-| `_colors.py` | Custom color palette dict (`_CUSTOM`) |
-| `_from.py` | `From` class (parse external formats) |
-| `_to.py` | `To` class (serialize to external formats) |
-| `_factory.py` | `Factory` class (presets, gradients, random) |
-| `_tester.py` | pytest unit tests |
+| `HasName` | String name property, `__str__`/`__repr__` |
+| `Comparable` | Ordering operators via `key` |
+| `Hashable` | `__hash__` via `key` |
+| `Equatable` | `__eq__` via `key` |
 
 ## Dependencies
 
@@ -92,16 +91,16 @@ SupportsEquality (Protocol)
 |--------|---------|
 | `f_core.mixins.comparable.Comparable` | Base — ordering operators |
 | `f_core.mixins.has.name.HasName` | Base — name property |
-| `f_color.rgb._colors._CUSTOM` | Custom color palette |
-| `matplotlib.colors` | Color name -> RGB conversion |
-| `numpy` | Gradient generation (Factory) |
+| `f_color.rgb._colors._CUSTOM` | Custom color palette (13 colors) |
+| `matplotlib.colors` | Color name → RGB float conversion |
+| `numpy` | Gradient interpolation (Factory) |
 
 ## Usage Examples
 
 ```python
 from f_color.rgb import RGB
 
-# From name or values
+# From name or raw values
 red = RGB(name='RED')
 gray = RGB(r=0.5, g=0.5, b=0.5)
 
@@ -113,14 +112,17 @@ rgb = RGB.From.ints(r=255, g=0, b=0)
 red.to.hex()                # '#FF0000'
 red.to.tuple(to_int=True)   # (255, 0, 0)
 red.to.argb()               # 'FFFF0000'
+red.to.ansi()               # '\033[38;2;255;0;0m'
 
 # Comparison
-RGB(name='BLACK') < RGB(name='WHITE')  # True
+assert RGB(name='BLACK') < RGB(name='WHITE')
+assert RGB(name='BLACK') == RGB(r=0, g=0, b=0)
 
 # Gradient
 gradient = RGB.Factory.gradient(
-    a=RGB(name='BLACK'),
-    b=RGB(name='WHITE'),
+    a=RGB(name='WHITE'),
+    b=RGB(name='BLACK'),
     n=5
 )
+assert gradient[2] == RGB(r=0.5, g=0.5, b=0.5)
 ```

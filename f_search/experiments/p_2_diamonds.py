@@ -1,11 +1,15 @@
-from f_log.old.utils import set_debug, log_1, log_2
+from f_log import setup_log, get_log
 from f_search.ds.state import StateCell as State
 from f_search.algos.i_1_neighborhood import BFSNeighborhood
 from f_search.problems import ProblemNeighborhood
 from f_ds.grids import GridMap as Grid, CellMap as Cell
 from f_search.algos.i_1_spp.utils import are_reachable
 from f_utils import u_pickle, u_iter
+import logging
 import random
+
+setup_log(sink='console', level=logging.DEBUG)
+log = get_log(__name__)
 
 PairCells = tuple[Cell, Cell]
 Diamond = list[State]
@@ -13,17 +17,18 @@ PairDiamonds = tuple[Diamond, Diamond]
 DictDiamonds = dict[str, list[PairDiamonds]]
 
 
-@log_2
 def load_grids(pickle_grids: str) -> dict[str, Grid]:
     """
     ============================================================================
      Load the grids from the pickle file.
     ============================================================================
     """
-    return u_pickle.load(path=pickle_grids)
+    log.debug(f'load_grids({pickle_grids})')
+    grids = u_pickle.load(path=pickle_grids)
+    log.debug(f'load_grids -> {len(grids)} grids')
+    return grids
 
 
-@log_1
 def get_pair_cells(grid: Grid, distance_min: int) -> PairCells:
     """
     ========================================================================
@@ -32,15 +37,16 @@ def get_pair_cells(grid: Grid, distance_min: int) -> PairCells:
      3. The cells are reachable to each other.
     ========================================================================
     """
+    log.debug(f'get_pair_cells(grid={grid.name}, distance_min={distance_min})')
     p_1 = lambda a, b: a.distance(other=b) >= distance_min
     p_2 = lambda a, b: are_reachable(grid, a, b)
     predicate = lambda a, b: p_1(a, b) and p_2(a, b)
     pair = u_iter.pairs(items=grid.cells_valid(),
                          size=1,
                          predicate=predicate)[0]
+    log.debug(f'get_pair_cells -> {pair}')
     return pair
 
-@log_2
 def get_pair_diamonds(grid: Grid,
                       distance_min: int,
                       steps_max: int,
@@ -51,6 +57,7 @@ def get_pair_diamonds(grid: Grid,
      2. The diamonds have at least size_min cells.
     ========================================================================
     """
+    log.debug(f'get_pair_diamonds(grid={grid.name})')
     while True:
         pair_cells = get_pair_cells(grid=grid, distance_min=distance_min)
         cell_a, cell_b = pair_cells
@@ -67,9 +74,9 @@ def get_pair_diamonds(grid: Grid,
         if len(diamond_b) < size_min:
             continue
         random.shuffle(diamond_b)
+        log.debug(f'get_pair_diamonds -> ({len(diamond_a)}, {len(diamond_b)})')
         return diamond_a, diamond_b
 
-@log_2
 def get_diamonds(grid: Grid,
                  distance_min: int,
                  steps_max: int,
@@ -80,10 +87,13 @@ def get_diamonds(grid: Grid,
      Get n-pairs of diamonds from the grid.
     ========================================================================
     """
+    log.debug(f'get_diamonds(grid={grid.name}, n={n})')
     func = lambda: get_pair_diamonds(grid, distance_min, steps_max, size_min)
-    return [func() for _ in range(n)]
-    
-@log_2
+    result = [func() for _ in range(n)]
+    log.debug(f'get_diamonds -> {len(result)} pairs')
+    return result
+
+
 def diamonds_from_grids(grids: dict[str, Grid],
                         distance_min: int,
                         steps_max: int,
@@ -94,20 +104,25 @@ def diamonds_from_grids(grids: dict[str, Grid],
      Get n-pairs of diamonds from the grids.
     ========================================================================
     """
+    log.debug(f'diamonds_from_grids({len(grids)} grids, n={n})')
     d: dict[str, list[PairDiamonds]] = dict()
     for grid in grids.values():
         diamonds = get_diamonds(grid, distance_min, steps_max, size_min, n)
         d[grid.name] = diamonds
+    log.debug(f'diamonds_from_grids -> {len(d)} entries')
     return d
 
-@log_2
-def diamonds_to_pickle(diamonds: DictDiamonds, pickle_diamonds: str) -> None:
+
+def diamonds_to_pickle(diamonds: DictDiamonds,
+                       pickle_diamonds: str) -> None:
     """
     ========================================================================
      Pickle the DictDiamonds to the given path.
     ========================================================================
     """
+    log.debug(f'diamonds_to_pickle({pickle_diamonds})')
     u_pickle.dump(obj=diamonds, path=pickle_diamonds)
+    log.debug('diamonds_to_pickle -> done')
 
         
 """
@@ -119,9 +134,8 @@ def diamonds_to_pickle(diamonds: DictDiamonds, pickle_diamonds: str) -> None:
 ===============================================================================
 """
 
-set_debug(True)
 pickle_grids = 'f:\\paper\\i_1_grids\\grids.pkl'
-pickle_diamonds = 'f:\\temp\\2026\\03\\Exp Depth\\diamonds.pkl'
+pickle_diamonds = 'f:\\temp\\2026\\03\\Forward vs Backward\\diamonds.pkl'
 
 # Number of Pairs to Generate for each Grid.
 n = 10
@@ -133,7 +147,6 @@ steps_max = 5
 size_min = 10
 
 
-@log_2
 def main(pickle_grids: str,
          pickle_diamonds: str,
          distance_min: int,
@@ -144,7 +157,8 @@ def main(pickle_grids: str,
     ========================================================================
      Main
     ========================================================================
-    """    
+    """
+    log.info('main started')
     grids = load_grids(pickle_grids)
     diamonds = diamonds_from_grids(grids,
                                    distance_min,
@@ -152,6 +166,7 @@ def main(pickle_grids: str,
                                    size_min,
                                    n)
     diamonds_to_pickle(diamonds, pickle_diamonds)
+    log.info('main finished')
 
 
 main(pickle_grids, pickle_diamonds, distance_min, steps_max, size_min, n)

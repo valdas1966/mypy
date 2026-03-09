@@ -124,10 +124,12 @@ class AStarAggregative(AlgoOMSPP[State, Data],
         path = None
         if self._need_path:
             path = self._data.path_to(state=self._data.best)
+        g_goal = self._data.dict_g[self._data.best]
         solution = SolutionSPP(name_algo=self.name,
                                problem=problem,
                                is_valid=True,
                                path=path,
+                               g_goal=g_goal,
                                stats=stats)
         self._sub_solutions.append(solution)
 

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABOUT — Algorithm Stats</title>
+<style>
+:root {
+  --bg: #0b0f14;
+  --panel: #111827;
+  --panel2: #0f172a;
+  --text: #f8fafc;
+  --muted: #cbd5e1;
+  --faint: #94a3b8;
+  --border: #334155;
+  --accent: #60a5fa;
+  --accent2: #a78bfa;
+  --good: #34d399;
+  --warn: #fbbf24;
+  --bad: #fb7185;
+  --code-bg: #0a1220;
+  --glow: rgba(96, 165, 250, 0.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; display: flex; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+nav { position: sticky; top: 0; width: 220px; height: 100vh; overflow-y: auto; padding: 1.5rem 1rem; border-right: 2px solid var(--border); background: var(--panel2); flex-shrink: 0; }
+nav h2 { font-size: .85rem; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); margin-bottom: .75rem; }
+nav ol { list-style: none; counter-reset: toc; }
+nav li { counter-increment: toc; margin-bottom: .4rem; }
+nav li::before { content: counter(toc) ". "; color: var(--faint); font-size: .8rem; }
+nav a { font-size: .85rem; }
+
+main { flex: 1; max-width: 860px; padding: 2rem 2.5rem; }
+h1 { font-size: 1.8rem; margin-bottom: .15rem; }
+.subtitle { color: var(--accent2); font-size: 1rem; font-weight: 400; margin-bottom: 2rem; }
+.path { color: var(--faint); font-size: .85rem; margin-bottom: .3rem; }
+h2 { font-size: 1.15rem; color: var(--accent); margin: 2.5rem 0 .75rem; border-bottom: 2px solid var(--border); padding-bottom: .35rem; }
+h3 { font-size: 1rem; color: var(--accent2); margin: 1.2rem 0 .5rem; }
+section { margin-bottom: 1.5rem; }
+
+p { color: var(--muted); margin: .5rem 0; }
+ol, ul { padding-left: 1.4rem; margin: .5rem 0; }
+li { margin-bottom: .4rem; color: var(--muted); }
+
+code { background: var(--code-bg); padding: .15em .35em; border-radius: 3px; font-size: .9em; }
+pre { background: var(--code-bg); padding: 1rem; border-radius: 6px; overflow-x: auto; margin: .75rem 0; font-size: .85rem; line-height: 1.5; color: var(--text); }
+
+table { width: 100%; border-collapse: collapse; margin: .75rem 0; font-size: .85rem; }
+th { text-align: left; color: var(--faint); border-bottom: 2px solid var(--border); padding: .5rem .6rem; }
+td { border-bottom: 1px solid var(--border); padding: .5rem .6rem; color: var(--muted); }
+
+.card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem 1.4rem; margin: .75rem 0; }
+.card h3 { margin-top: 0; }
+.card-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+.card-row .card { flex: 1; min-width: 220px; }
+
+.highlight { color: var(--accent); font-weight: 600; }
+.good { color: var(--good); }
+.warn { color: var(--warn); }
+.bad { color: var(--bad); }
+
+.big-number { font-size: 2.4rem; font-weight: 700; color: var(--accent); line-height: 1.1; }
+.big-label { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--faint); }
+
+.icon { font-size: 1.3rem; margin-right: .3rem; vertical-align: middle; }
+
+.visual-pipe { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin: 1rem 0; }
+.pipe-box { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: .6rem 1rem; text-align: center; min-width: 100px; }
+.pipe-box .label { font-size: .7rem; text-transform: uppercase; color: var(--faint); }
+.pipe-box .val { font-size: 1rem; font-weight: 600; color: var(--accent); }
+.pipe-arrow { color: var(--faint); font-size: 1.2rem; }
+
+.timeline { border-left: 3px solid var(--border); margin: 1rem 0 1rem 1rem; padding-left: 1.2rem; }
+.timeline-item { margin-bottom: 1rem; position: relative; }
+.timeline-item::before { content: ''; position: absolute; left: -1.55rem; top: .55rem; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; }
+.timeline-year { font-size: .8rem; color: var(--accent2); font-weight: 600; }
+.timeline-text { color: var(--muted); font-size: .9rem; }
+
+.back-top { font-size: .8rem; color: var(--faint); margin-top: .5rem; display: inline-block; }
+
+@media (max-width: 700px) {
+  body { flex-direction: column; }
+  nav { position: static; width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border); }
+  .card-row { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <h2>TOC</h2>
+  <ol>
+    <li><a href="#what">What Are Stats</a></li>
+    <li><a href="#why">Why They Matter</a></li>
+    <li><a href="#pipeline">The Stats Pipeline</a></li>
+    <li><a href="#model">Our Model</a></li>
+    <li><a href="#catalog">Stats Catalog</a></li>
+    <li><a href="#relations">Key Relations</a></li>
+    <li><a href="#facts">Fun Facts</a></li>
+    <li><a href="#timeline">Historical Timeline</a></li>
+  </ol>
+</nav>
+
+<main>
+<h1>Algorithm Stats</h1>
+<div class="subtitle">What they are, why they matter, and what we track</div>
+<div class="path">f_cs/stats/</div>
+
+<!-- ====================================================================== -->
+<section id="what">
+<h2>1. What Are Algorithm Stats?</h2>
+
+<p>
+  Every algorithm does <span class="highlight">work</span>.
+  Stats are the <span class="highlight">receipt</span>.
+</p>
+
+<div class="card">
+  <p>Algorithm stats are <strong>quantitative measurements</strong> captured during
+     an algorithm's execution that answer three questions:</p>
+  <ol>
+    <li><strong>How long?</strong> &mdash; Wall-clock time consumed</li>
+    <li><strong>How much?</strong> &mdash; Resources spent (nodes, memory, operations)</li>
+    <li><strong>How good?</strong> &mdash; Quality of the result (optimality, accuracy)</li>
+  </ol>
+</div>
+
+<p>Without stats, two algorithms that return the same answer look identical.
+   <em>With</em> stats, one might be 100x faster or explore 1/10th the nodes.</p>
+
+<a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- ====================================================================== -->
+<section id="why">
+<h2>2. Why They Matter</h2>
+
+<div class="card-row">
+  <div class="card">
+    <h3>Compare</h3>
+    <p>A* vs Dijkstra on the same grid?<br>
+       Stats tell you which wins &mdash; and <em>why</em>.</p>
+  </div>
+  <div class="card">
+    <h3>Diagnose</h3>
+    <p>Explored 50,000 nodes for a 20-step path?<br>
+       Your heuristic needs work.</p>
+  </div>
+  <div class="card">
+    <h3>Publish</h3>
+    <p>Research papers live and die by<br>
+       <code>explored</code>, <code>elapsed</code>, and
+       <code>quality_h</code>.</p>
+  </div>
+</div>
+
+<a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- ====================================================================== -->
+<section id="pipeline">
+<h2>3. The Stats Pipeline</h2>
+
+<p>Stats flow through the algorithm lifecycle:</p>
+
+<div class="visual-pipe">
+  <div class="pipe-box">
+    <div class="label">Start</div>
+    <div class="val">t = 0</div>
+  </div>
+  <div class="pipe-arrow">&rarr;</div>
+  <div class="pipe-box">
+    <div class="label">Discover</div>
+    <div class="val">discovered++</div>
+  </div>
+  <div class="pipe-arrow">&rarr;</div>
+  <div class="pipe-box">
+    <div class="label">Relax</div>
+    <div class="val">relaxed++</div>
+  </div>
+  <div class="pipe-arrow">&rarr;</div>
+  <div class="pipe-box">
+    <div class="label">Explore</div>
+    <div class="val">explored++</div>
+  </div>
+  <div class="pipe-arrow">&rarr;</div>
+  <div class="pipe-box">
+    <div class="label">Done</div>
+    <div class="val">elapsed = t</div>
+  </div>
+</div>
+
+<p>Each counter increments at a specific moment.
+   At the end, <code>elapsed</code> captures total wall-clock time.</p>
+
+<a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- ====================================================================== -->
+<section id="model">
+<h2>4. Our Model</h2>
+
+<p>Two-layer design &mdash; generic base, domain-specific extension:</p>
+
+<pre>
+StatsAlgo                 # Layer 1: Any algorithm
+    elapsed                  time consumed
+
+    +-- StatsSearch          # Layer 2: Search algorithms
+           discovered           states added to frontier
+           relaxed              states updated with better cost
+           explored             states fully expanded
+</pre>
+
+<div class="card">
+  <h3>Design Decisions</h3>
+  <ul>
+    <li><strong>Mutable:</strong> counters increment during the run via setters</li>
+    <li><strong>Flat:</strong> no SPP/OMSPP stats subclasses &mdash;
+        <code>StatsSearch</code> serves both; solutions handle aggregation</li>
+    <li><strong>Minimal:</strong> only 4 fields &mdash; just enough to compare any two search algorithms</li>
+  </ul>
+</div>
+
+<h3>What This Enables</h3>
+<table>
+  <tr><th>Capability</th><th>How</th></tr>
+  <tr><td>Compare A* vs Dijkstra</td><td><code>explored</code> count</td></tr>
+  <tr><td>Measure heuristic quality</td><td><code>h(start) / g(goal)</code> in SolutionSPP</td></tr>
+  <tr><td>Profile multi-goal search</td><td>Per-goal stats in SolutionOMSPP</td></tr>
+  <tr><td>Benchmark across grids</td><td>Same <code>StatsSearch</code> object everywhere</td></tr>
+</table>
+
+<a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- ====================================================================== -->
+<section id="catalog">
+<h2>5. Stats Catalog</h2>
+
+<p>Every search algorithm stats object should carry these metrics:</p>
+
+<table>
+  <tr>
+    <th>#</th><th>Stat</th><th>Type</th><th>Unit</th><th>Meaning</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td><code>elapsed</code></td>
+    <td>int</td>
+    <td>seconds</td>
+    <td>Wall-clock time from start to finish</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td><code>discovered</code></td>
+    <td>int</td>
+    <td>count</td>
+    <td>States added to the open list (frontier)</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td><code>relaxed</code></td>
+    <td>int</td>
+    <td>count</td>
+    <td>States updated with a shorter path (re-prioritized)</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td><code>explored</code></td>
+    <td>int</td>
+    <td>count</td>
+    <td>States popped from frontier and fully expanded</td>
+  </tr>
+</table>
+
+<h3>Invariants</h3>
+<div class="card">
+<pre>explored  &le;  discovered      # can't explore what wasn't found
+relaxed   &le;  discovered      # relaxation is a subset of discovery
+explored  +  frontier.size  =  discovered - duplicates</pre>
+</div>
+
+<h3>Derived Metrics (computed in Solution, not in Stats)</h3>
+<table>
+  <tr><th>Metric</th><th>Formula</th><th>Range</th><th>Meaning</th></tr>
+  <tr>
+    <td><code>quality_h</code></td>
+    <td><code>h(start) / g(goal)</code></td>
+    <td>[0, 1]</td>
+    <td>1.0 = perfect heuristic; lower = less informed</td>
+  </tr>
+  <tr>
+    <td><code>branching_eff</code></td>
+    <td><code>discovered / explored</code></td>
+    <td>&ge; 1</td>
+    <td>Average successors per expansion</td>
+  </tr>
+  <tr>
+    <td><code>relaxation_rate</code></td>
+    <td><code>relaxed / discovered</code></td>
+    <td>[0, 1]</td>
+    <td>Fraction of states that needed re-ordering</td>
+  </tr>
+</table>
+
+<a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- ====================================================================== -->
+<section id="relations">
+<h2>6. Key Relations</h2>
+
+<p>How stats connect to algorithmic concepts:</p>
+
+<div class="card">
+<pre>
+   <span class="good">discovered</span>          All states the algorithm has seen.
+       |                The "frontier" is the set of discovered
+       |                but not yet explored states.
+       v
+   <span class="warn">relaxed</span>             A discovered state got a better path.
+       |                Its priority in the queue changes.
+       |                Good heuristics &rarr; fewer relaxations.
+       v
+   <span class="bad">explored</span>            A state is popped, expanded, done.
+       |                This is the main cost driver.
+       |                A* explores fewer than Dijkstra.
+       v
+   <span class="highlight">elapsed</span>             The bottom line. Everything above
+                        contributes to this number.
+</pre>
+</div>
+
+<h3>What Each Stat Tells You</h3>
+<table>
+  <tr><th>If this is high...</th><th>It means...</th></tr>
+  <tr><td><code>explored</code></td><td>Algorithm searches too broadly; heuristic is weak</td></tr>
+  <tr><td><code>relaxed</code></td><td>Many paths compete; graph has lots of similar-cost routes</td></tr>
+  <tr><td><code>discovered</code></td><td>Large frontier; high branching factor</td></tr>
+  <tr><td><code>elapsed</code></td><td>Time to optimize (better heuristic, pruning, caching)</td></tr>
+</table>
+
+<a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- ====================================================================== -->
+<section id="facts">
+<h2>7. Fun Facts</h2>
+
+<div class="card">
+  <h3>The First "Stats"</h3>
+  <p>When Edsger Dijkstra published his shortest-path algorithm in 1959,
+     the paper was <strong>3 pages long</strong> and contained
+     <strong>zero performance measurements</strong>.
+     He just proved it was correct and moved on.</p>
+</div>
+
+<div class="card">
+  <h3>The A* Asterisk</h3>
+  <p>The * in A* stands for "optimal among all algorithms using the same
+     heuristic." Hart, Nilsson & Raphael (1968) proved that
+     <strong>no other algorithm can explore fewer nodes</strong>
+     than A* with a consistent heuristic &mdash; making <code>explored</code>
+     the perfect stat to compare against.</p>
+</div>
+
+<div class="card">
+  <h3>10x vs 10,000x</h3>
+  <p>On a 1000&times;1000 grid, Dijkstra explores roughly
+     <strong>500,000 nodes</strong>.
+     A* with Manhattan distance? About <strong>5,000</strong>.
+     Same answer, 100x less work.
+     That ratio <em>is</em> the stats.</p>
+</div>
+
+<div class="card">
+  <h3>The "Explored" Paradox</h3>
+  <p>An algorithm that explores fewer states isn't always faster.
+     If each exploration involves an expensive heuristic calculation,
+     <code>elapsed</code> can go <em>up</em> while <code>explored</code>
+     goes <em>down</em>. Stats never lie &mdash; but you need
+     <strong>all of them</strong> to see the truth.</p>
+</div>
+
+<div class="card">
+  <h3>Knuth's Estimate</h3>
+  <p>In 1975, Donald Knuth proposed estimating a search tree's total size
+     by <strong>random sampling</strong> &mdash; essentially predicting
+     <code>explored</code> before the search even runs.
+     The technique is still used in SAT solvers today.</p>
+</div>
+
+<div class="card">
+  <h3>NASA Uses These Exact Stats</h3>
+  <p>Mars rover path planning uses A* on terrain grids and logs
+     <code>discovered</code>, <code>explored</code>, and
+     <code>elapsed</code> &mdash; because when you're 225 million km
+     from the nearest debugger, stats are all you have.</p>
+</div>
+
+<a href="#" class="back-top">Back to top</a>
+</section>
+
+<!-- ====================================================================== -->
+<section id="timeline">
+<h2>8. Historical Timeline</h2>
+
+<div class="timeline">
+  <div class="timeline-item">
+    <div class="timeline-year">1959</div>
+    <div class="timeline-text">
+      <strong>Dijkstra's Algorithm</strong> &mdash; First systematic shortest-path
+      algorithm. No stats recorded; correctness was the only metric that mattered.
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-year">1968</div>
+    <div class="timeline-text">
+      <strong>A* Published</strong> &mdash; Hart, Nilsson & Raphael introduce
+      heuristic search. The paper compares algorithms by
+      <em>number of nodes expanded</em> &mdash; the birth of <code>explored</code>
+      as a standard metric.
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-year">1975</div>
+    <div class="timeline-text">
+      <strong>Knuth's Tree Estimation</strong> &mdash; Predicting search tree size
+      via random walks. Early recognition that stats can be
+      <em>estimated</em>, not just <em>measured</em>.
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-year">1985</div>
+    <div class="timeline-text">
+      <strong>IDA*</strong> (Korf) &mdash; Iterative-deepening A*. Introduced
+      the trade-off: more <code>explored</code> nodes, but near-zero memory.
+      Stats now needed to capture <em>space</em> alongside time.
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-year">1992</div>
+    <div class="timeline-text">
+      <strong>DIMACS Challenges</strong> &mdash; Standardized benchmarks for
+      graph algorithms. For the first time, researchers compared stats
+      across implementations on <em>identical</em> inputs.
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-year">2004</div>
+    <div class="timeline-text">
+      <strong>Moving AI Benchmarks</strong> &mdash; Nathan Sturtevant's
+      grid-based pathfinding benchmarks become standard. Every paper
+      now reports <code>explored</code> and <code>elapsed</code>
+      on the same maps.
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-year">2026</div>
+    <div class="timeline-text">
+      <strong>This Framework</strong> &mdash; <code>StatsAlgo</code> and
+      <code>StatsSearch</code> capture the essential metrics in a clean,
+      extensible two-layer model. Four fields. Zero waste.
+    </div>
+  </div>
+</div>
+
+<a href="#" class="back-top">Back to top</a>
+</section>
+
+<footer style="margin-top:2rem;padding-top:1rem;border-top:1px solid var(--border);color:var(--faint);font-size:.75rem;">
+  Generated 2026-03-09. Scope: f_cs/stats/ &mdash; Algorithm Statistics explained.
+</footer>
+</main>
+
+</body>
+</html>

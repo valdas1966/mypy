@@ -1,4 +1,4 @@
-from ._internal.factory import FactoryResponse
-from .response import Response
+from .main import Response
+from ._factory import Factory
 
-Response.Factory = FactoryResponse
+Response.Factory = Factory

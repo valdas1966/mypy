@@ -14,8 +14,8 @@ Returns the algorithm's name (inherited from `SolutionAlgo`).
 ### `problem` (property) -> `Problem`
 Returns the problem instance (inherited from `SolutionAlgo`).
 
-### `is_valid` (property) -> `bool`
-Returns whether the solution is valid (inherited from `Validatable`).
+### `__bool__` -> `bool`
+Returns whether the solution is valid (inherited from `Validatable`). Use `if solution:` or `bool(solution)`.
 
 ### `stats` (property) -> `StatsSearch`
 Returns the performance statistics (inherited from `SolutionAlgo`).
@@ -40,7 +40,7 @@ Validatable
 
 | Base | Responsibility |
 |------|---------------|
-| `Validatable` | `is_valid` property and `__bool__` support |
+| `Validatable` | `__bool__` support (validity via truthiness) |
 | `SolutionAlgo[Problem, Stats]` | `name_algo`, `problem`, `stats` storage and properties |
 | `SolutionSearch[Problem, Stats]` | Binds type bounds to `ProblemSearch` and `StatsSearch` |
 | `SolutionSPP` | Adds `path`, `g_goal`, and `quality_h` for SPP results |
@@ -68,7 +68,7 @@ valid = SolutionSPP.Factory.valid()
 invalid = SolutionSPP.Factory.invalid()
 
 # Check result and access path
-if valid.is_valid:
+if valid:
     print(f"Path: {valid.path}")
     print(f"Goal cost: {valid.g_goal}")
     print(f"Heuristic quality: {valid.quality_h}")

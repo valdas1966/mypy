@@ -1,7 +1,21 @@
-from f_const.enums.types import TypeComparison
+from enum import Enum
 from f_psl.pandas.u_series import USeries
 from itertools import product
 import pandas as pd
+
+
+class TypeComparison(Enum):
+    """
+    ========================================================================
+     Type of Comparison.
+    ========================================================================
+    """
+    GREATER = 'GREATER'
+    EQUAL = 'EQUAL'
+    LESS = 'LESS'
+    GREATER_EQUAL = 'GREATER_EQUAL'
+    LESS_EQUAL = 'LESS_EQUAL'
+    NOT_EQUAL = 'NOT_EQUAL'
 
 
 class TypeAgg:

@@ -43,3 +43,25 @@ def test_with_obstacles() -> None:
     assert cells_generated == cells_generated_true
     assert solution.stats.discovered == 13
     assert solution.stats.explored == 8
+
+
+def test_quality_h_without_obstacles() -> None:
+    """
+    ========================================================================
+     Test the quality_h property without obstacles.
+    ========================================================================
+    """
+    astar = AStar.Factory.without_obstacles()
+    solution = astar.run()
+    assert solution.quality_h == 1.0
+
+
+def test_quality_h_with_obstacles() -> None:
+    """
+    ========================================================================
+     Test the quality_h property with obstacles.
+    ========================================================================
+    """
+    astar = AStar.Factory.with_obstacles()
+    solution = astar.run()
+    assert solution.quality_h == 3 / 7

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — HTTP Response &amp; f_http/response</title>
+<style>
+:root {
+  --bg: #0b0f14;
+  --panel: #111827;
+  --text: #f0f4f8;
+  --muted: #94a3b8;
+  --border: #1e293b;
+  --accent: #60a5fa;
+  --accent2: #a78bfa;
+  --good: #34d399;
+  --warn: #fbbf24;
+  --bad: #fb7185;
+  --code-bg: #0a1220;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 4rem;
+}
+
+/* ── Hero ── */
+.hero {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid var(--border);
+}
+.hero h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.4rem;
+}
+.hero .sub {
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+/* ── Sections ── */
+h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 2.8rem 0 1rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid var(--border);
+}
+h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 1.5rem 0 0.5rem;
+}
+
+/* ── Anatomy diagram ── */
+.anatomy {
+  background: var(--panel);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 1.4rem 1.6rem;
+  margin: 1.2rem 0 1.5rem;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  overflow-x: auto;
+}
+.anatomy .line { display: flex; gap: 0; }
+.anatomy .key { color: var(--accent); min-width: 180px; }
+.anatomy .val { color: var(--good); }
+.anatomy .dim { color: var(--muted); }
+.anatomy .sep {
+  border-top: 1px dashed var(--border);
+  margin: 0.5rem 0;
+}
+
+/* ── Parts cards ── */
+.parts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin: 1.2rem 0;
+}
+.part {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  border-top: 3px solid;
+}
+.part .num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  margin-bottom: 0.1rem;
+}
+.part .name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+.part .desc {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.part.p-status { border-color: var(--accent); }
+.part.p-status .num, .part.p-status .name { color: var(--accent); }
+.part.p-body { border-color: var(--good); }
+.part.p-body .num, .part.p-body .name { color: var(--good); }
+.part.p-headers { border-color: var(--accent2); }
+.part.p-headers .num, .part.p-headers .name { color: var(--accent2); }
+.part.p-time { border-color: var(--warn); }
+.part.p-time .num, .part.p-time .name { color: var(--warn); }
+
+/* ── Flow ── */
+.flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+.flow-step {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  text-align: center;
+  min-width: 120px;
+}
+.flow-step .top {
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.flow-step .mid {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  font-family: 'Fira Code', 'Consolas', monospace;
+}
+.flow-step .bot {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+.flow-arrow {
+  font-size: 1.3rem;
+  color: var(--accent);
+  padding: 0 0.35rem;
+  flex-shrink: 0;
+}
+
+/* ── Contrib cards ── */
+.contrib {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.8rem;
+  margin: 1.2rem 0;
+}
+.contrib-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+.contrib-card .icon { font-size: 1.6rem; margin-bottom: 0.3rem; }
+.contrib-card .title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+.contrib-card .detail {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* ── Tables ── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.85rem;
+}
+th {
+  text-align: left;
+  padding: 0.55rem 0.8rem;
+  background: var(--panel);
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--border);
+}
+td {
+  padding: 0.5rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+tr:last-child td { border-bottom: none; }
+
+code {
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.84rem;
+  color: var(--accent);
+}
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.82rem;
+  color: #34d399;
+  padding: 1rem 1.2rem;
+  margin: 0.8rem 0;
+  overflow-x: auto;
+  line-height: 1.55;
+}
+.comment { color: #64748b; }
+
+/* ── Fun facts ── */
+.facts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin: 1.2rem 0;
+}
+.fact {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+}
+.fact .badge {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+.fact .body {
+  flex: 1;
+}
+.fact .body .title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.15rem;
+}
+.fact .body .text {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.badge-blue { background: #1e3a5f; color: var(--accent); }
+.badge-green { background: #064e3b; color: var(--good); }
+.badge-purple { background: #2e1065; color: var(--accent2); }
+.badge-red { background: #4c0519; color: var(--bad); }
+.badge-yellow { background: #422006; color: var(--warn); }
+
+/* ── Footer ── */
+footer {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════ HERO ════════════════════════ -->
+<div class="hero">
+  <h1>HTTP Response</h1>
+  <div class="sub">The server's answer to every question you ask</div>
+</div>
+
+<!-- ════════════════════════ PART 1: WHAT IS IT ════════════════════════ -->
+<h2>1. What is an HTTP Response?</h2>
+
+<p style="color:var(--muted); font-size:0.9rem; margin-bottom:1.2rem;">
+  When a client sends an HTTP request, the server replies with a <strong style="color:#fff;">response</strong> &mdash;
+  a structured message containing everything the client needs: did it work? what data came back? how long did it take?
+</p>
+
+<h3>Anatomy of a Raw HTTP Response</h3>
+
+<div class="anatomy">
+  <div class="line"><span class="key">HTTP/1.1 200 OK</span><span class="dim">&larr; status line</span></div>
+  <div class="sep"></div>
+  <div class="line"><span class="key">Content-Type:</span><span class="val"> application/json</span></div>
+  <div class="line"><span class="key">Content-Length:</span><span class="val"> 247</span></div>
+  <div class="line"><span class="key">X-Response-Time:</span><span class="val"> 42ms</span></div>
+  <div class="sep"></div>
+  <div class="line"><span class="val">{"id": 1, "title": "Hello World"}</span><span class="dim">  &larr; body</span></div>
+</div>
+
+<h3>The 4 Parts That Matter</h3>
+
+<div class="parts">
+  <div class="part p-status">
+    <div class="num">1</div>
+    <div class="name">Status</div>
+    <div class="desc">3-digit code + name. Did it succeed? Fail? Redirect?</div>
+  </div>
+  <div class="part p-body">
+    <div class="num">2</div>
+    <div class="name">Body</div>
+    <div class="desc">The actual payload &mdash; JSON, HTML, image, or nothing.</div>
+  </div>
+  <div class="part p-headers">
+    <div class="num">3</div>
+    <div class="name">Headers</div>
+    <div class="desc">Metadata: content type, caching, cookies, auth tokens.</div>
+  </div>
+  <div class="part p-time">
+    <div class="num">4</div>
+    <div class="name">Timing</div>
+    <div class="desc">Round-trip time &mdash; how long the server took to answer.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════ PART 2: THE PROBLEM ════════════════════════ -->
+<h2>2. The Problem with Raw Responses</h2>
+
+<pre><span class="comment"># Typical raw handling — scattered, fragile</span>
+response = requests.get(url)
+if response.status_code == 200:          <span class="comment"># magic number</span>
+    data = response.json()               <span class="comment"># might crash</span>
+    elapsed = response.elapsed.seconds   <span class="comment"># separate access</span>
+else:
+    data = None                          <span class="comment"># manual None</span>
+    error = "something went wrong"       <span class="comment"># vague</span></pre>
+
+<table>
+  <tr><th>Problem</th><th>Consequence</th></tr>
+  <tr><td>Status check is manual</td><td>Easy to forget edge cases (201, 204, 500)</td></tr>
+  <tr><td>JSON parsing can throw</td><td>Unhandled <code>JSONDecodeError</code> crashes your code</td></tr>
+  <tr><td>No single "is valid?" check</td><td>Validity logic repeated everywhere</td></tr>
+  <tr><td>Error info scattered</td><td>Status, data, timing, exception in different places</td></tr>
+</table>
+
+<!-- ════════════════════════ PART 3: THE MODULE ════════════════════════ -->
+<h2>3. What <code>f_http/response</code> Adds</h2>
+
+<div class="contrib">
+  <div class="contrib-card">
+    <div class="icon">&#x1F4E6;</div>
+    <div class="title">One Object</div>
+    <div class="detail">Status + data + elapsed + exception bundled in a single immutable <code>Response</code></div>
+  </div>
+  <div class="contrib-card">
+    <div class="icon">&#x2714;</div>
+    <div class="title">Smart Validity</div>
+    <div class="detail"><code>if response:</code> checks both 2xx status <em>and</em> data presence in one shot</div>
+  </div>
+  <div class="contrib-card">
+    <div class="icon">&#x1F6E1;</div>
+    <div class="title">Error Capture</div>
+    <div class="detail">Connection failures and JSON parse errors stored in <code>.exception</code>, never raised</div>
+  </div>
+</div>
+
+<h3>How It Flows</h3>
+
+<div class="flow">
+  <div class="flow-step">
+    <div class="top">Client</div>
+    <div class="mid">GET /api</div>
+    <div class="bot">sends request</div>
+  </div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">
+    <div class="top">Server</div>
+    <div class="mid">200 + JSON</div>
+    <div class="bot">raw response</div>
+  </div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">
+    <div class="top">Wrap</div>
+    <div class="mid">Response</div>
+    <div class="bot">status + data + time</div>
+  </div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">
+    <div class="top">Check</div>
+    <div class="mid">if response:</div>
+    <div class="bot">True &rarr; use data</div>
+  </div>
+</div>
+
+<h3>Before vs. After</h3>
+<table>
+  <tr><th></th><th>Raw <code>requests</code></th><th><code>Response</code></th></tr>
+  <tr><td>Success check</td><td><code>r.status_code == 200</code></td><td><code>if response:</code></td></tr>
+  <tr><td>Get data</td><td><code>r.json()</code> (may throw)</td><td><code>response.data</code> (safe)</td></tr>
+  <tr><td>Get timing</td><td><code>r.elapsed.total_seconds()</code></td><td><code>response.elapsed</code></td></tr>
+  <tr><td>Error info</td><td>Catch <code>Exception</code> yourself</td><td><code>response.exception</code></td></tr>
+  <tr><td>Validity</td><td>Multi-line if/else</td><td><code>bool(response)</code> &mdash; one expression</td></tr>
+</table>
+
+<h3>Usage</h3>
+<pre><span class="comment"># Clean, safe, one object</span>
+from f_http import Client
+
+response = Client.get_json(url='https://api.example.com/posts/1')
+
+if response:
+    print(response.data)        <span class="comment"># {'id': 1, 'title': '...'}</span>
+    print(response.elapsed)     <span class="comment"># 0.15</span>
+else:
+    print(response.status.code) <span class="comment"># 404</span>
+    print(response.exception)   <span class="comment"># None or error message</span></pre>
+
+<!-- ════════════════════════ PART 4: FUN FACTS ════════════════════════ -->
+<h2>4. Fun &amp; Curious Facts</h2>
+
+<div class="facts">
+
+  <div class="fact">
+    <div class="badge badge-red">418</div>
+    <div class="body">
+      <div class="title">I'm a Teapot</div>
+      <div class="text">
+        RFC 2324 (1998) defined status <strong>418</strong> as an April Fools' joke for the
+        "Hyper Text Coffee Pot Control Protocol." It stuck. Google's teapot page
+        (<code>google.com/teapot</code>) returned 418 for years. In 2017, a campaign to remove it
+        from real HTTP specs failed &mdash; the internet voted to keep the teapot.
+      </div>
+    </div>
+  </div>
+
+  <div class="fact">
+    <div class="badge badge-blue">0.6</div>
+    <div class="body">
+      <div class="title">The First HTTP Had No Status Codes</div>
+      <div class="text">
+        HTTP/0.9 (1991) had only one method (<code>GET</code>) and no status codes at all.
+        The server simply returned the HTML document or closed the connection.
+        Status codes arrived with HTTP/1.0 in 1996 &mdash; five years later.
+      </div>
+    </div>
+  </div>
+
+  <div class="fact">
+    <div class="badge badge-purple">451</div>
+    <div class="body">
+      <div class="title">Fahrenheit 451</div>
+      <div class="text">
+        Status <strong>451 Unavailable For Legal Reasons</strong> (RFC 7725, 2016) was named
+        after Ray Bradbury's novel about censorship. It's used when content is blocked
+        by government order. The number was chosen as a direct literary reference.
+      </div>
+    </div>
+  </div>
+
+  <div class="fact">
+    <div class="badge badge-green">204</div>
+    <div class="body">
+      <div class="title">The Invisible Success</div>
+      <div class="text">
+        <strong>204 No Content</strong> means "success, but I have nothing to say."
+        It's the HTTP equivalent of a thumbs-up with no words. Used heavily for
+        DELETE operations and tracking pixels &mdash; billions served daily, zero bytes of body.
+      </div>
+    </div>
+  </div>
+
+  <div class="fact">
+    <div class="badge badge-yellow">301</div>
+    <div class="body">
+      <div class="title">The Most Expensive Redirect</div>
+      <div class="text">
+        When a site moves from <code>http://</code> to <code>https://</code>, every single page
+        returns <strong>301 Moved Permanently</strong>. Google estimated that
+        globally, 301 redirects add ~100ms per request. Across billions of daily
+        requests, that's thousands of human-years of waiting &mdash; per year.
+      </div>
+    </div>
+  </div>
+
+  <div class="fact">
+    <div class="badge badge-red">404</div>
+    <div class="body">
+      <div class="title">The Most Famous Error</div>
+      <div class="text">
+        <strong>404 Not Found</strong> is the only HTTP status code that became part of everyday
+        language. Urban legend says it was named after room 404 at CERN where the
+        first web servers lived &mdash; the room where requests "got lost."
+        (The real origin is just the 4xx client-error numbering scheme, but the myth persists.)
+      </div>
+    </div>
+  </div>
+
+  <div class="fact">
+    <div class="badge badge-blue">&#x221E;</div>
+    <div class="body">
+      <div class="title">The Response That Never Ends</div>
+      <div class="text">
+        With <strong>Transfer-Encoding: chunked</strong>, a server can send a response
+        that technically never finishes. Twitter's old streaming API did this &mdash;
+        a single HTTP response that stayed open for hours, streaming tweets as
+        chunks. One request, one response, millions of tweets.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Generated: 2026-03-09 &mdash; <code>f_http/response/</code>
+</footer>
+
+</body>
+</html>

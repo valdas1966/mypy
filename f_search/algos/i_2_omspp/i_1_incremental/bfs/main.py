@@ -51,10 +51,12 @@ class BFSIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
                 path = None
                 if self._need_path:
                     path = self._data.path_to(state=sub_problem.goal)
+                g_goal = self._data.dict_g[sub_problem.goal]
                 solution = SolutionSPP(name_algo=self.name,
                                        problem=sub_problem,
                                        is_valid=True,
-                                       path=path)
+                                       path=path,
+                                       g_goal=g_goal)
                 self._sub_solutions.append(solution)
                 continue
             # Run the sub-search (SPP) using BFS.

@@ -147,4 +147,5 @@ class AStarIncrementalBackward(AlgoOMSPP, Generic[State]):
                            problem=forward_problem,
                            is_valid=True,
                            path=fwd_path,
+                           g_goal=backward_solution.g_goal,
                            stats=backward_solution.stats)

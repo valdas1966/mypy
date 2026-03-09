@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About CS Problems — f_cs/problem</title>
+<style>
+:root {
+  --bg: #0b0f14;
+  --panel: #111827;
+  --panel2: #0f172a;
+  --text: #f8fafc;
+  --muted: #cbd5e1;
+  --faint: #94a3b8;
+  --border: #334155;
+  --accent: #60a5fa;
+  --accent2: #a78bfa;
+  --good: #34d399;
+  --warn: #fbbf24;
+  --bad: #fb7185;
+  --code-bg: #0a1220;
+  --orange: #fb923c;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.7;
+  padding: 2.5rem; max-width: 1100px; margin: 0 auto;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); text-decoration: underline; }
+
+/* --- HERO --- */
+.hero {
+  text-align: center;
+  padding: 3rem 1rem 2rem;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 3rem;
+}
+.hero h1 { font-size: 3rem; color: #fff; letter-spacing: -1px; margin-bottom: .3rem; }
+.hero h1 span { color: var(--accent2); }
+.hero .tagline { color: var(--faint); font-size: 1.15rem; margin-top: .5rem; }
+
+/* --- SECTIONS --- */
+h2 {
+  font-size: 1.5rem; color: #fff; margin: 2.5rem 0 1.2rem;
+  padding-bottom: .5rem; border-bottom: 2px solid var(--border);
+}
+h2 .num { color: var(--accent2); margin-right: .4rem; }
+h3 { font-size: 1.1rem; color: var(--accent); margin: 1.5rem 0 .6rem; }
+
+code {
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace;
+  font-size: .85rem;
+}
+.ic {
+  background: var(--code-bg); padding: .15rem .4rem; border-radius: 3px;
+  font-size: .85rem; color: var(--accent);
+}
+pre {
+  background: var(--code-bg); border: 1px solid var(--border); border-radius: 6px;
+  padding: .8rem 1rem; font-size: .85rem; overflow-x: auto; margin: .6rem 0;
+  line-height: 1.5;
+}
+ol, ul { padding-left: 1.5rem; color: var(--muted); margin: .5rem 0; }
+li { margin-bottom: .35rem; }
+li strong { color: var(--text); }
+
+/* --- ANALOGY --- */
+.analogy {
+  background: var(--panel2);
+  border-left: 4px solid var(--warn);
+  border-radius: 0 8px 8px 0;
+  padding: 1.2rem 1.5rem;
+  margin: 1.5rem 0;
+  color: var(--muted);
+}
+.analogy .emoji { font-size: 1.4rem; margin-right: .5rem; }
+
+/* --- CONCEPT GRID --- */
+.concept-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.2rem; margin: 1.5rem 0;
+}
+.concept-card {
+  background: var(--panel); border: 2px solid var(--border); border-radius: 10px;
+  padding: 1.3rem; text-align: center;
+}
+.concept-card .icon { font-size: 2.2rem; margin-bottom: .5rem; }
+.concept-card .label { color: #fff; font-weight: 700; font-size: 1rem; margin-bottom: .3rem; }
+.concept-card .desc { color: var(--muted); font-size: .85rem; }
+
+/* --- FLOW DIAGRAM --- */
+.flow {
+  display: flex; align-items: center; justify-content: center;
+  gap: .5rem; margin: 2rem 0; flex-wrap: wrap;
+}
+.flow-box {
+  background: var(--panel); border: 2px solid var(--border); border-radius: 8px;
+  padding: .8rem 1.2rem; text-align: center; min-width: 140px;
+}
+.flow-box .f-label { color: #fff; font-weight: 700; font-size: .95rem; }
+.flow-box .f-sub { color: var(--faint); font-size: .78rem; margin-top: .2rem; }
+.flow-box.highlight { border-color: var(--accent2); }
+.flow-arrow { color: var(--accent); font-size: 1.6rem; font-weight: 700; }
+
+/* --- MODULE CARD --- */
+.module-box {
+  background: var(--panel); border: 2px solid var(--accent2); border-radius: 10px;
+  padding: 1.5rem 2rem; margin: 1.5rem 0;
+}
+.module-box h3 { color: var(--accent2); margin-top: 0; }
+.module-box .sig {
+  background: var(--code-bg); border-radius: 4px; padding: .3rem .6rem;
+  font-size: .8rem; color: var(--faint); display: inline-block; margin-top: .3rem;
+}
+
+/* --- HIERARCHY TREE --- */
+.tree-box {
+  background: var(--code-bg); border: 2px solid var(--border); border-radius: 8px;
+  padding: 1.5rem 2rem; margin: 1.5rem 0; overflow-x: auto;
+  font-family: 'SF Mono', Monaco, Consolas, monospace; font-size: .88rem;
+  line-height: 1.7; color: var(--muted);
+}
+.tree-box .cls { color: var(--accent); font-weight: 600; }
+.tree-box .tag { color: var(--good); font-size: .8rem; }
+.tree-box .domain { color: var(--orange); font-size: .8rem; }
+
+/* --- FAMOUS PROBLEMS --- */
+.problems-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem; margin: 1.5rem 0;
+}
+.problem-card {
+  background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+  padding: 1.2rem 1.4rem; transition: border-color .2s;
+}
+.problem-card:hover { border-color: var(--accent); }
+.problem-card .p-icon { font-size: 1.8rem; margin-bottom: .4rem; }
+.problem-card .p-name { color: #fff; font-weight: 700; font-size: 1rem; margin-bottom: .3rem; }
+.problem-card .p-year { color: var(--accent2); font-size: .78rem; margin-bottom: .4rem; }
+.problem-card .p-text { color: var(--muted); font-size: .85rem; }
+.problem-card .p-status {
+  display: inline-block; margin-top: .5rem; padding: .15rem .5rem;
+  border-radius: 10px; font-size: .75rem; font-weight: 600;
+}
+.solved { background: rgba(52, 211, 153, .2); color: var(--good); }
+.open { background: rgba(251, 191, 36, .2); color: var(--warn); }
+.np { background: rgba(251, 113, 133, .2); color: var(--bad); }
+
+/* --- FACTS --- */
+.facts-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem; margin: 1.5rem 0;
+}
+.fact-card {
+  background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+  padding: 1.2rem 1.4rem;
+}
+.fact-card .fact-icon { font-size: 1.8rem; margin-bottom: .5rem; }
+.fact-card .fact-title { color: #fff; font-weight: 700; font-size: .95rem; margin-bottom: .4rem; }
+.fact-card .fact-text { color: var(--muted); font-size: .88rem; }
+
+/* --- FOOTER --- */
+footer {
+  margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border);
+  color: var(--faint); font-size: .85rem; text-align: center;
+}
+
+@media (max-width: 700px) {
+  .concept-grid { grid-template-columns: 1fr; }
+  .problems-grid { grid-template-columns: 1fr; }
+  .facts-grid { grid-template-columns: 1fr; }
+  .flow { flex-direction: column; }
+  .flow-arrow { transform: rotate(90deg); }
+  body { padding: 1rem; }
+  .hero h1 { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ======================== HERO ======================== -->
+<div class="hero">
+  <h1>What is a CS <span>Problem</span>?</h1>
+  <div class="tagline">Every algorithm starts with a question. The Problem is that question — formalized.</div>
+</div>
+
+<!-- ======================== CONCEPT ======================== -->
+<h2><span class="num">1.</span> The Idea</h2>
+
+<div class="analogy">
+  <span class="emoji">🧾</span>
+  <strong>Think of a restaurant order.</strong> The Problem is the order slip — it tells the kitchen
+  <em>what</em> to cook (inputs, constraints, goal), but not <em>how</em> to cook it.
+  The Algorithm is the chef. The Solution is the plate that comes out.
+</div>
+
+<div class="concept-grid">
+  <div class="concept-card">
+    <div class="icon">📋</div>
+    <div class="label">Problem</div>
+    <div class="desc"><strong>What</strong> to solve.<br>Inputs, constraints, goal.</div>
+  </div>
+  <div class="concept-card">
+    <div class="icon">⚙️</div>
+    <div class="label">Algorithm</div>
+    <div class="desc"><strong>How</strong> to solve it.<br>Step-by-step procedure.</div>
+  </div>
+  <div class="concept-card">
+    <div class="icon">✅</div>
+    <div class="label">Solution</div>
+    <div class="desc"><strong>The answer.</strong><br>Valid or not, with stats.</div>
+  </div>
+</div>
+
+<h3>The 3 Parts of Any CS Problem</h3>
+<ol>
+  <li><strong>Input</strong> — the data you start with (a graph, a list, a grid, a number).</li>
+  <li><strong>Constraints</strong> — the rules (edges have weights, items have sizes, cells are blocked).</li>
+  <li><strong>Objective</strong> — what "solved" means (shortest path, minimum cost, valid assignment).</li>
+</ol>
+
+<!-- ======================== DATA FLOW ======================== -->
+<h2><span class="num">2.</span> The Flow: Problem → Algorithm → Solution</h2>
+
+<div class="flow">
+  <div class="flow-box highlight">
+    <div class="f-label">Problem</div>
+    <div class="f-sub">defines the question</div>
+  </div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-box">
+    <div class="f-label">Algorithm</div>
+    <div class="f-sub">runs the search</div>
+  </div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-box">
+    <div class="f-label">Solution</div>
+    <div class="f-sub">answer + stats</div>
+  </div>
+</div>
+
+<pre><code><span style="color: var(--faint);"># The universal pattern in this codebase:</span>
+problem  = ProblemSPP(grid=grid, start=a, goal=b)
+algo     = AStar(problem=problem)
+solution = algo.run()
+
+solution.is_valid     <span style="color: var(--faint);"># did it find a path?</span>
+solution.problem      <span style="color: var(--faint);"># the original problem</span>
+solution.stats.elapsed  <span style="color: var(--faint);"># how long it took</span></code></pre>
+
+<!-- ======================== THIS MODULE ======================== -->
+<h2><span class="num">3.</span> This Module: ProblemAlgo</h2>
+
+<div class="module-box">
+  <h3>ProblemAlgo — the abstract root</h3>
+  <ol>
+    <li><strong>29 lines of code.</strong> Intentionally minimal.</li>
+    <li><strong>Defines the contract:</strong> every problem has a <code class="ic">name</code> and a <code class="ic">key</code> for identity.</li>
+    <li><strong>Never instantiated directly</strong> — always subclassed with domain-specific details.</li>
+    <li><strong>Domain-agnostic:</strong> works for pathfinding, scheduling, constraint satisfaction, anything.</li>
+  </ol>
+  <pre><code>class ProblemAlgo(HasName, Equatable):
+
+    def __init__(self, name: str = 'ProblemAlgo') -> None:
+        super().__init__(name)
+
+    @property
+    def key(self) -> SupportsEquality:
+        raise NotImplementedError</code></pre>
+  <div class="sig">HasName → name, __str__ &nbsp;|&nbsp; Equatable → __eq__, __hash__ via key</div>
+</div>
+
+<h3>How Subclasses Extend It</h3>
+
+<div class="tree-box">
+<span class="cls">ProblemAlgo</span> <span class="tag">── name + equality</span>
+ └── <span class="cls">ProblemSearch</span> <span class="tag">── adds: grid, successors</span> <span class="domain">[f_search]</span>
+      ├── <span class="cls">ProblemSPP</span> <span class="tag">── adds: start, goal</span> <span class="domain">[shortest path]</span>
+      │    └── <span class="cls">ProblemSPPLookup</span> <span class="tag">── adds: cached distances</span>
+      └── <span class="cls">ProblemOMSPP</span> <span class="tag">── adds: start, goals[]</span> <span class="domain">[one-to-many]</span>
+</div>
+
+<ol>
+  <li><strong>ProblemAlgo</strong> says: "I have a name and can be compared."</li>
+  <li><strong>ProblemSearch</strong> says: "I also have a grid to search on."</li>
+  <li><strong>ProblemSPP</strong> says: "I also have a start and a goal."</li>
+  <li>Each layer adds exactly what it needs — nothing more.</li>
+</ol>
+
+<!-- ======================== FAMOUS PROBLEMS ======================== -->
+<h2><span class="num">4.</span> Hall of Fame: Legendary CS Problems</h2>
+
+<div class="problems-grid">
+
+  <div class="problem-card">
+    <div class="p-icon">🗺️</div>
+    <div class="p-name">Shortest Path Problem</div>
+    <div class="p-year">Dijkstra, 1956</div>
+    <div class="p-text">Find the cheapest route between two nodes in a graph. GPS navigation, network routing, and game AI all depend on it. Dijkstra solved it while drinking coffee at a cafe in Amsterdam — on paper, in 20 minutes.</div>
+    <div class="p-status solved">O(E log V) — solved</div>
+  </div>
+
+  <div class="problem-card">
+    <div class="p-icon">🧳</div>
+    <div class="p-name">Travelling Salesman (TSP)</div>
+    <div class="p-year">Formalized 1930s</div>
+    <div class="p-text">Visit every city exactly once and return home, minimizing total distance. Sounds simple — but with 20 cities there are 60 quadrillion possible routes. The poster child of NP-hard problems.</div>
+    <div class="p-status np">NP-hard</div>
+  </div>
+
+  <div class="problem-card">
+    <div class="p-icon">👸</div>
+    <div class="p-name">N-Queens Problem</div>
+    <div class="p-year">Max Bezzel, 1848</div>
+    <div class="p-text">Place N queens on an N×N chessboard so none threaten each other. Originally a chess puzzle from 1848 — became a benchmark for backtracking algorithms. For N=8, there are 92 solutions.</div>
+    <div class="p-status solved">backtracking — solved</div>
+  </div>
+
+  <div class="problem-card">
+    <div class="p-icon">🎒</div>
+    <div class="p-name">Knapsack Problem</div>
+    <div class="p-year">Tobias Dantzig, 1897</div>
+    <div class="p-text">Pack the most value into a bag with a weight limit. The 0/1 version is NP-complete; the fractional version is greedy-solvable. Used in resource allocation, finance, and cargo loading.</div>
+    <div class="p-status np">NP-complete (0/1)</div>
+  </div>
+
+  <div class="problem-card">
+    <div class="p-icon">⏱️</div>
+    <div class="p-name">P vs NP</div>
+    <div class="p-year">Cook & Levin, 1971</div>
+    <div class="p-text">Can every problem whose solution is quick to verify also be quick to solve? The biggest open question in CS. A $1,000,000 Millennium Prize awaits whoever cracks it. Most experts believe P ≠ NP.</div>
+    <div class="p-status open">$1M prize — open</div>
+  </div>
+
+  <div class="problem-card">
+    <div class="p-icon">🛑</div>
+    <div class="p-name">Halting Problem</div>
+    <div class="p-year">Alan Turing, 1936</div>
+    <div class="p-text">Can a program decide if another program will halt or loop forever? Turing proved it's impossible — the first undecidability result. This proof also gave us the concept of the Turing Machine itself.</div>
+    <div class="p-status np">undecidable</div>
+  </div>
+
+  <div class="problem-card">
+    <div class="p-icon">🔀</div>
+    <div class="p-name">Sorting</div>
+    <div class="p-year">~1945 onwards</div>
+    <div class="p-text">Arrange items in order. Seems trivial, but it drove decades of algorithm design: Quicksort, Mergesort, Heapsort, Timsort. The proven lower bound is O(n log n) for comparison-based sorts.</div>
+    <div class="p-status solved">Ω(n log n) — solved</div>
+  </div>
+
+  <div class="problem-card">
+    <div class="p-icon">🌉</div>
+    <div class="p-name">Seven Bridges of Königsberg</div>
+    <div class="p-year">Euler, 1736</div>
+    <div class="p-text">Cross all 7 bridges exactly once and return. Euler proved it's impossible — and accidentally invented graph theory. This is the problem that started it all: the very first CS problem, 200 years before computers.</div>
+    <div class="p-status solved">impossible — proved 1736</div>
+  </div>
+
+</div>
+
+<!-- ======================== FUN FACTS ======================== -->
+<h2><span class="num">5.</span> Fun Facts</h2>
+
+<div class="facts-grid">
+
+  <div class="fact-card">
+    <div class="fact-icon">☕</div>
+    <div class="fact-title">Dijkstra's 20-Minute Algorithm</div>
+    <div class="fact-text">
+      Edsger Dijkstra invented his shortest-path algorithm in 1956 while sitting at a cafe
+      with his fiancée in Amsterdam. He designed it in 20 minutes on paper — no computer.
+      He didn't publish it until 1959 because he thought it was "too simple" for a paper.
+    </div>
+  </div>
+
+  <div class="fact-card">
+    <div class="fact-icon">🐜</div>
+    <div class="fact-title">Ants Solve TSP</div>
+    <div class="fact-text">
+      Ant Colony Optimization (1992) solves the Travelling Salesman Problem using virtual ants
+      that leave pheromone trails. Shorter paths get more pheromones, attracting more ants.
+      Real ants actually do this — computer scientists copied them.
+    </div>
+  </div>
+
+  <div class="fact-card">
+    <div class="fact-icon">🃏</div>
+    <div class="fact-title">Sorting a Deck: Bogosort</div>
+    <div class="fact-text">
+      The worst sorting algorithm: shuffle randomly, check if sorted, repeat.
+      Expected time: O(n × n!). For 52 cards, you'd need about 10<sup>68</sup> shuffles
+      on average. The universe will end first. It exists purely as a joke — and an exam question.
+    </div>
+  </div>
+
+  <div class="fact-card">
+    <div class="fact-icon">💰</div>
+    <div class="fact-title">Million-Dollar Problems</div>
+    <div class="fact-text">
+      The Clay Mathematics Institute offers $1,000,000 each for 7 Millennium Prize Problems.
+      P vs NP is one. So far only one has been solved: the Poincaré Conjecture (Grigori Perelman, 2003).
+      Perelman declined the money.
+    </div>
+  </div>
+
+  <div class="fact-card">
+    <div class="fact-icon">📦</div>
+    <div class="fact-title">NP-Hard in Real Life</div>
+    <div class="fact-text">
+      Every time a delivery company routes its trucks, it's solving a variant of TSP.
+      UPS saved $400 million per year by using heuristic algorithms that produce
+      "good enough" solutions to NP-hard routing problems. Perfection isn't required — just close.
+    </div>
+  </div>
+
+  <div class="fact-card">
+    <div class="fact-icon">🧬</div>
+    <div class="fact-title">DNA is a CS Problem</div>
+    <div class="fact-text">
+      Genome assembly (piecing together DNA from fragments) is equivalent to finding an
+      Eulerian path in a de Bruijn graph — connecting directly back to Euler's bridge
+      problem from 1736. Biology and CS are running the same algorithms.
+    </div>
+  </div>
+
+</div>
+
+<!-- ======================== FOOTER ======================== -->
+<footer>
+  <div>f_cs/problem — ProblemAlgo: 29 lines that define the contract for every algorithm in the framework</div>
+  <div style="margin-top: .3rem;">Generated 2026-03-09</div>
+</footer>
+
+</body>
+</html>

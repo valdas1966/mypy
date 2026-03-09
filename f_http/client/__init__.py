@@ -1,4 +1,4 @@
-from .client import Client
-from ._internal.factory import FactoryClientHttp
+from .main import Client
+from ._factory import Factory
 
-Client.Factory = FactoryClientHttp
+Client.Factory = Factory

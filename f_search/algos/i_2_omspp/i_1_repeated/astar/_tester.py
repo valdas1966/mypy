@@ -34,3 +34,25 @@ def test_with_obstacles():
     solution = algo.run()
     assert solution.stats.explored == 8 + 6
     assert solution.stats.discovered == 13 + 12
+
+
+def test_quality_h_without_obstacles() -> None:
+    """
+    ========================================================================
+     Test quality_h without obstacles (perfect heuristic).
+    ========================================================================
+    """
+    algo = AStarRepeated.Factory.without_obstacles()
+    solution = algo.run()
+    assert solution.quality_h == 1.0
+
+
+def test_quality_h_with_obstacles() -> None:
+    """
+    ========================================================================
+     Test quality_h with obstacles.
+    ========================================================================
+    """
+    algo = AStarRepeated.Factory.with_obstacles()
+    solution = algo.run()
+    assert solution.quality_h == (3 / 7 + 1.0) / 2

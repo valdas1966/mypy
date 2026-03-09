@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — HTTP Status &amp; f_http/status</title>
+<style>
+:root {
+  --bg: #0b0f14;
+  --panel: #111827;
+  --text: #f0f4f8;
+  --muted: #94a3b8;
+  --border: #1e293b;
+  --accent: #60a5fa;
+  --code-bg: #0a1220;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 4rem;
+}
+
+/* ── Header ── */
+.hero {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid var(--border);
+}
+.hero h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.4rem;
+}
+.hero .sub {
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+/* ── Section titles ── */
+h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 2.5rem 0 1rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid var(--border);
+}
+h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 1.5rem 0 0.5rem;
+}
+
+/* ── Status family cards ── */
+.families {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin: 1.2rem 0 1.5rem;
+}
+.family {
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  border-left: 4px solid;
+}
+.family .range {
+  font-size: 1.4rem;
+  font-weight: 800;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  margin-bottom: 0.15rem;
+}
+.family .label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.35rem;
+}
+.family .desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.family.f1xx { background: #0c1a2e; border-color: #7dd3fc; }
+.family.f1xx .range, .family.f1xx .label { color: #7dd3fc; }
+.family.f2xx { background: #052e16; border-color: #34d399; }
+.family.f2xx .range, .family.f2xx .label { color: #34d399; }
+.family.f3xx { background: #1a1520; border-color: #c084fc; }
+.family.f3xx .range, .family.f3xx .label { color: #c084fc; }
+.family.f4xx { background: #2a1215; border-color: #fb7185; }
+.family.f4xx .range, .family.f4xx .label { color: #fb7185; }
+.family.f5xx { background: #271a0a; border-color: #fbbf24; }
+.family.f5xx .range, .family.f5xx .label { color: #fbbf24; }
+
+/* ── Flow diagram ── */
+.flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+.flow-step {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7rem 1.1rem;
+  text-align: center;
+  min-width: 130px;
+}
+.flow-step .top {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.flow-step .mid {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  font-family: 'Fira Code', 'Consolas', monospace;
+}
+.flow-step .bot {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.flow-arrow {
+  font-size: 1.3rem;
+  color: var(--accent);
+  padding: 0 0.4rem;
+  flex-shrink: 0;
+}
+
+/* ── Comparison table ── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.88rem;
+}
+th {
+  text-align: left;
+  padding: 0.55rem 0.8rem;
+  background: var(--panel);
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--border);
+}
+td {
+  padding: 0.5rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+tr:last-child td { border-bottom: none; }
+
+code {
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.84rem;
+  color: var(--accent);
+}
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.82rem;
+  color: #34d399;
+  padding: 1rem 1.2rem;
+  margin: 0.8rem 0;
+  overflow-x: auto;
+  line-height: 1.55;
+}
+.comment { color: #64748b; }
+
+/* ── Contribution section ── */
+.contrib {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.8rem;
+  margin: 1.2rem 0;
+}
+.contrib-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+.contrib-card .icon {
+  font-size: 1.6rem;
+  margin-bottom: 0.3rem;
+}
+.contrib-card .title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+.contrib-card .detail {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* ── Footer ── */
+footer {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════ HERO ════════════════════════ -->
+<div class="hero">
+  <h1>HTTP Status Codes</h1>
+  <div class="sub">What they are &mdash; and what <code>f_http/status</code> adds</div>
+</div>
+
+<!-- ════════════════════════ PART 1: THE CONCEPT ════════════════════════ -->
+<h2>1. What is an HTTP Status Code?</h2>
+
+<p style="color:var(--muted); font-size:0.9rem; margin-bottom:1rem;">
+  Every HTTP response carries a 3-digit integer that tells the client what happened.
+</p>
+
+<div class="families">
+  <div class="family f1xx">
+    <div class="range">1xx</div>
+    <div class="label">Informational</div>
+    <div class="desc">Request received, processing continues.</div>
+  </div>
+  <div class="family f2xx">
+    <div class="range">2xx</div>
+    <div class="label">Success</div>
+    <div class="desc">Request was received, understood, accepted.</div>
+  </div>
+  <div class="family f3xx">
+    <div class="range">3xx</div>
+    <div class="label">Redirection</div>
+    <div class="desc">Further action needed to complete request.</div>
+  </div>
+  <div class="family f4xx">
+    <div class="range">4xx</div>
+    <div class="label">Client Error</div>
+    <div class="desc">Bad syntax or request cannot be fulfilled.</div>
+  </div>
+  <div class="family f5xx">
+    <div class="range">5xx</div>
+    <div class="label">Server Error</div>
+    <div class="desc">Server failed to fulfill a valid request.</div>
+  </div>
+</div>
+
+<h3>Common Codes</h3>
+<table>
+  <tr><th>Code</th><th>Name</th><th>Meaning</th></tr>
+  <tr><td><code>200</code></td><td>OK</td><td>Standard success</td></tr>
+  <tr><td><code>201</code></td><td>Created</td><td>Resource created</td></tr>
+  <tr><td><code>204</code></td><td>No Content</td><td>Success, empty body</td></tr>
+  <tr><td><code>301</code></td><td>Moved Permanently</td><td>URL changed forever</td></tr>
+  <tr><td><code>400</code></td><td>Bad Request</td><td>Malformed request</td></tr>
+  <tr><td><code>401</code></td><td>Unauthorized</td><td>Auth required</td></tr>
+  <tr><td><code>403</code></td><td>Forbidden</td><td>Auth insufficient</td></tr>
+  <tr><td><code>404</code></td><td>Not Found</td><td>Resource doesn't exist</td></tr>
+  <tr><td><code>429</code></td><td>Too Many Requests</td><td>Rate limited</td></tr>
+  <tr><td><code>500</code></td><td>Internal Server Error</td><td>Unhandled server error</td></tr>
+</table>
+
+<!-- ════════════════════════ PART 2: THE PROBLEM ════════════════════════ -->
+<h2>2. The Problem with Raw Codes</h2>
+
+<pre><span class="comment"># Raw integer — no context, no safety</span>
+status_code = response.status_code     <span class="comment"># 404</span>
+if status_code == 200:                 <span class="comment"># Magic number</span>
+    data = response.json()             <span class="comment"># Might crash</span></pre>
+
+<table>
+  <tr><th>Problem</th><th>Consequence</th></tr>
+  <tr><td>Just an <code>int</code></td><td>No name, no context, no self-documentation</td></tr>
+  <tr><td>Manual range checks</td><td>Easy to forget 201, 204, etc.</td></tr>
+  <tr><td>No truthiness</td><td>Can't use <code>if status:</code> idiom</td></tr>
+  <tr><td>No type safety</td><td>Any integer passes — no validation</td></tr>
+</table>
+
+<!-- ════════════════════════ PART 3: THE MODULE ════════════════════════ -->
+<h2>3. What <code>f_http/status</code> Adds</h2>
+
+<div class="contrib">
+  <div class="contrib-card">
+    <div class="icon">&#x2714;</div>
+    <div class="title">Validation</div>
+    <div class="detail"><code>bool(status)</code> is <code>True</code> for 2xx, <code>False</code> for everything else</div>
+  </div>
+  <div class="contrib-card">
+    <div class="icon">&#x1F3F7;</div>
+    <div class="title">Naming</div>
+    <div class="detail"><code>status.name</code> resolves <code>404</code> to <code>'NOT_FOUND'</code> automatically</div>
+  </div>
+  <div class="contrib-card">
+    <div class="icon">&#x1F9E9;</div>
+    <div class="title">Composable</div>
+    <div class="detail">Plugs into <code>Response</code> via mixins: <code>HasName</code> + <code>Validatable</code></div>
+  </div>
+</div>
+
+<h3>How it works</h3>
+
+<div class="flow">
+  <div class="flow-step">
+    <div class="top">Input</div>
+    <div class="mid">404</div>
+    <div class="bot">raw int</div>
+  </div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">
+    <div class="top">Status()</div>
+    <div class="mid">Status</div>
+    <div class="bot">wraps code</div>
+  </div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">
+    <div class="top">HTTPStatus</div>
+    <div class="mid">NOT_FOUND</div>
+    <div class="bot">resolves name</div>
+  </div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">
+    <div class="top">Validatable</div>
+    <div class="mid">False</div>
+    <div class="bot">not 2xx</div>
+  </div>
+</div>
+
+<h3>Before vs. After</h3>
+<table>
+  <tr><th></th><th>Raw <code>int</code></th><th><code>Status</code></th></tr>
+  <tr><td>Success check</td><td><code>200 &lt;= code &lt; 300</code></td><td><code>if status:</code></td></tr>
+  <tr><td>Name lookup</td><td>Manual dict / <code>HTTPStatus</code></td><td><code>status.name</code></td></tr>
+  <tr><td>Display</td><td><code>f'{code}'</code></td><td><code>str(status)</code> &rarr; <code>'Code=404, Name=NOT_FOUND'</code></td></tr>
+  <tr><td>Type safety</td><td>None</td><td>Typed class with <code>int | None</code></td></tr>
+  <tr><td>Composability</td><td>None</td><td>Mixin-based, plugs into <code>Response</code></td></tr>
+</table>
+
+<h3>Usage</h3>
+<pre><span class="comment"># Clean, self-documenting</span>
+from f_http.status import Status
+
+status = Status(code=200)
+if status:                              <span class="comment"># True (2xx)</span>
+    print(status.name)                  <span class="comment"># 'OK'</span>
+    print(status)                       <span class="comment"># 'Code=200, Name=OK'</span>
+
+status = Status(code=404)
+if not status:                          <span class="comment"># True (not 2xx)</span>
+    print(status.name)                  <span class="comment"># 'NOT_FOUND'</span></pre>
+
+<footer>
+  Generated: 2026-03-09 &mdash; <code>f_http/status/</code>
+</footer>
+
+</body>
+</html>

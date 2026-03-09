@@ -67,11 +67,13 @@ class AStarRepeated(AlgoOMSPP):
                     path = None
                     if self._need_path:
                         path = astar._data.path_to(state=goal)
+                    g_goal = astar._data.dict_g[goal]
                     solution_by_the_way = SolutionSPP(
                         name_algo=self.name,
                         problem=problem_by_the_way,
                         is_valid=True,
                         path=path,
+                        g_goal=g_goal,
                         stats=Stats())
                     self._sub_solutions.append(solution_by_the_way)
                     self._goals_active.remove(goal)

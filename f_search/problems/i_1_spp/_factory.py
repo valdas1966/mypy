@@ -37,7 +37,7 @@ class Factory:
         """
         ========================================================================
          Return a ProblemSPP on a 5x5 grid with a wall at column 3.
-         Start=(0,0), Goal=(0,4). Path must detour through row 4.
+         Start=(0,0), Goal=(0,5). Path must detour through row 4.
         ========================================================================
         """
         grid = Grid.Factory.six_with_obstacles()

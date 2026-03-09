@@ -47,7 +47,7 @@ class AlgoSPP(Generic[State, Data],
         is_valid = self._can_terminate()
         path = None
         g_goal = None
-        if is_valid:
+        if is_valid and self.problem.goal in self._data.dict_g:
             g_goal = self._data.dict_g[self.problem.goal]
             if self._need_path:
                 path = self._data.path_to(state=self.problem.goal)

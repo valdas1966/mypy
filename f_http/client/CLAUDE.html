@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client - Documentation</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #111827;
+            --panel2: #0f172a;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --faint: #94a3b8;
+            --border: #334155;
+            --accent: #60a5fa;
+            --accent2: #a78bfa;
+            --good: #34d399;
+            --warn: #fbbf24;
+            --bad: #fb7185;
+            --code-bg: #0a1220;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; color: var(--accent2); }
+        a:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+        .container { display: flex; min-height: 100vh; }
+
+        /* Sidebar / TOC */
+        .sidebar {
+            width: 260px;
+            background: var(--panel);
+            border-right: 2px solid var(--border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .sidebar h2 {
+            color: var(--text);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .sidebar ul { list-style: none; }
+        .sidebar li { margin-bottom: 0.5rem; }
+
+        .sidebar a {
+            display: block;
+            padding: 0.4rem 0.6rem;
+            border-radius: 4px;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .sidebar a:hover { background: var(--panel2); color: var(--text); text-decoration: none; }
+        .sidebar .sub-item { padding-left: 1.5rem; font-size: 0.85rem; color: var(--faint); }
+
+        .search-box { margin-bottom: 1rem; }
+        .search-box input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            background: var(--panel2);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            color: var(--text);
+            font-size: 0.85rem;
+        }
+        .search-box input::placeholder { color: var(--faint); }
+        .search-box input:focus { outline: none; border-color: var(--accent); }
+
+        /* Main content */
+        .main {
+            margin-left: 260px;
+            padding: 2rem 3rem;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .header h1 { font-size: 1.8rem; color: #fff; }
+        .header .path { color: var(--faint); font-size: 0.9rem; margin-top: 0.3rem; font-family: monospace; }
+
+        section { margin-bottom: 2.5rem; }
+        section h2 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+        ol li { margin-bottom: 0.4rem; color: var(--muted); }
+
+        /* Collapsible panels */
+        details {
+            background: var(--panel);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        summary {
+            cursor: pointer;
+            padding: 0.8rem 1rem;
+            font-weight: 600;
+            color: var(--text);
+            user-select: none;
+        }
+
+        summary:hover { background: var(--panel2); }
+        summary:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+        details .content { padding: 0.5rem 1rem 1rem; }
+
+        /* Code blocks */
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 1rem;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0.5rem 0 1rem;
+        }
+
+        code {
+            font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+            color: var(--accent);
+        }
+
+        pre code { color: var(--text); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.5rem 0 1rem;
+        }
+
+        th, td {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border);
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        th { background: var(--panel2); color: var(--text); font-weight: 600; }
+        td { color: var(--muted); }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-internal { background: #1e3a5f; color: var(--accent); }
+        .badge-thirdparty { background: #3b1f4e; color: var(--accent2); }
+        .badge-stdlib { background: #1a3330; color: var(--good); }
+
+        .back-to-top { display: inline-block; margin-top: 0.5rem; font-size: 0.8rem; color: var(--faint); }
+
+        .footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--border);
+            color: var(--faint);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { position: static; width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border); }
+            .main { margin-left: 0; padding: 1rem; }
+            .container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar TOC -->
+        <nav class="sidebar">
+            <h2>Client</h2>
+            <div class="search-box">
+                <input type="text" id="search" placeholder="Search..." oninput="filterSections()">
+            </div>
+            <ul>
+                <li><a href="#purpose">Purpose</a></li>
+                <li><a href="#api">Public API</a></li>
+                <li class="sub-item"><a href="#api-get-json">get_json()</a></li>
+                <li><a href="#inheritance">Inheritance</a></li>
+                <li><a href="#dependencies">Dependencies</a></li>
+                <li><a href="#usage">Usage Examples</a></li>
+                <li class="sub-item"><a href="#usage-valid">Valid Request</a></li>
+                <li class="sub-item"><a href="#usage-invalid">Invalid Request</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main">
+            <div class="header">
+                <h1>Client</h1>
+                <div class="path">f_http/client/</div>
+            </div>
+
+            <!-- Purpose -->
+            <section id="purpose" class="searchable" data-terms="purpose client http get request response">
+                <h2>Purpose</h2>
+                <ol>
+                    <li>Static HTTP client that sends GET requests and returns parsed <code>Response</code> objects.</li>
+                    <li>Separates connection errors from JSON parse errors to preserve status and elapsed time.</li>
+                    <li>All methods are <code>@staticmethod</code> &mdash; no instance state needed.</li>
+                </ol>
+                <a href="#" class="back-to-top">Back to top</a>
+            </section>
+
+            <!-- Public API -->
+            <section id="api" class="searchable" data-terms="api get_json public method static response">
+                <h2>Public API</h2>
+                <details open>
+                    <summary>Client</summary>
+                    <div class="content">
+                        <h3 id="api-get-json"><code>get_json</code></h3>
+<pre><code>@staticmethod
+def get_json(url: str,
+             params: dict[str, Any] = None,
+             headers: dict[str, str] = None) -> Response</code></pre>
+                        <ol>
+                            <li>Sends an HTTP GET request to the given URL.</li>
+                            <li>Returns a <code>Response</code> with status, data, elapsed, and exception fields.</li>
+                            <li>On connection error: all fields are <code>None</code> except <code>exception</code>.</li>
+                            <li>On JSON parse error: preserves <code>status</code> and <code>elapsed</code>, sets <code>data</code> to <code>None</code>.</li>
+                            <li>On success: all four fields are populated.</li>
+                        </ol>
+
+                        <h3 id="api-factory"><code>Factory</code></h3>
+<pre><code>Factory: type = None</code></pre>
+                        <ol>
+                            <li>Class attribute wired to <code>Factory</code> in <code>__init__.py</code>.</li>
+                            <li>Provides <code>valid()</code> and <code>invalid()</code> for testing.</li>
+                        </ol>
+                    </div>
+                </details>
+                <a href="#" class="back-to-top">Back to top</a>
+            </section>
+
+            <!-- Inheritance -->
+            <section id="inheritance" class="searchable" data-terms="inheritance hierarchy base class">
+                <h2>Inheritance</h2>
+<pre><code>Client  (standalone static class, no base class)</code></pre>
+                <ol>
+                    <li><code>Client</code> has no base class &mdash; it is a standalone utility class.</li>
+                    <li>All functionality is via <code>@staticmethod</code> methods.</li>
+                </ol>
+                <a href="#" class="back-to-top">Back to top</a>
+            </section>
+
+            <!-- Dependencies -->
+            <section id="dependencies" class="searchable" data-terms="dependencies imports requests response status">
+                <h2>Dependencies</h2>
+                <table>
+                    <thead>
+                        <tr><th>#</th><th>Import</th><th>Category</th><th>Used For</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><code>requests</code></td>
+                            <td><span class="badge badge-thirdparty">third-party</span></td>
+                            <td>HTTP GET request execution</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><code>f_http.response.Response</code></td>
+                            <td><span class="badge badge-internal">internal</span></td>
+                            <td>Return type wrapping status, data, elapsed, exception</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><code>f_http.status.Status</code></td>
+                            <td><span class="badge badge-internal">internal</span></td>
+                            <td>Wraps HTTP status code with 2xx validation</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><code>typing.Any</code></td>
+                            <td><span class="badge badge-stdlib">stdlib</span></td>
+                            <td>Type hints for dict values</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a href="#" class="back-to-top">Back to top</a>
+            </section>
+
+            <!-- Usage Examples -->
+            <section id="usage" class="searchable" data-terms="usage example factory valid invalid">
+                <h2>Usage Examples</h2>
+
+                <h3 id="usage-valid">Valid Request (200 OK)</h3>
+<pre><code>from f_http.client import Client
+
+response = Client.get_json(url="https://jsonplaceholder.typicode.com/posts/1")
+assert response                    # True (status 200, data present)
+assert response.status.code == 200
+assert response.status.name == 'OK'
+assert response.data               # parsed JSON dict</code></pre>
+                <ol>
+                    <li>Returns a truthy <code>Response</code> with 200 status and populated data.</li>
+                </ol>
+
+                <h3 id="usage-invalid">Invalid Request (404 Not Found)</h3>
+<pre><code>from f_http.client import Client
+
+response = Client.get_json(url="https://jsonplaceholder.typicode.com/posts/999")
+assert not response                 # False (status 404)
+assert response.status.code == 404
+assert response.status.name == 'NOT_FOUND'
+assert not response.data            # empty dict for 404</code></pre>
+                <ol>
+                    <li>Returns a falsy <code>Response</code> with 404 status.</li>
+                </ol>
+
+                <h3>Using Factory</h3>
+<pre><code>from f_http.client import Client
+
+valid   = Client.Factory.valid()    # 200 response
+invalid = Client.Factory.invalid()  # 404 response</code></pre>
+                <ol>
+                    <li>Factory provides pre-built test fixtures via jsonplaceholder API.</li>
+                </ol>
+                <a href="#" class="back-to-top">Back to top</a>
+            </section>
+
+            <!-- Footer -->
+            <div class="footer">
+                <ol>
+                    <li>Generated: 2026-03-09</li>
+                    <li>Scope: <code>f_http/client/</code> &mdash; Client class with Factory and tests.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function filterSections() {
+            const query = document.getElementById('search').value.toLowerCase();
+            document.querySelectorAll('.searchable').forEach(section => {
+                const terms = (section.getAttribute('data-terms') || '') + ' ' + section.textContent;
+                section.style.display = terms.toLowerCase().includes(query) ? '' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>

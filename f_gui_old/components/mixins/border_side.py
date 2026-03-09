@@ -1,5 +1,16 @@
+from enum import Enum, auto
 from f_color.rgb import RGB
-from f_const.u_enum import Thickness
+
+
+class Thickness(Enum):
+    """
+    ============================================================================
+     Thickness of a line.
+    ============================================================================
+    """
+    THIN = auto()
+    MEDIUM = auto()
+    THICK = auto()
 
 
 class BorderSide:

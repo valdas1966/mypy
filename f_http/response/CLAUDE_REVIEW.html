@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAUDE REVIEW - Response</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 3rem;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1 { font-size: 1.8rem; color: #fff; margin-bottom: 0.3rem; }
+.folder-path { color: var(--faint); font-size: 0.9rem; margin-bottom: 2rem; }
+section { margin-bottom: 2.5rem; }
+section h2 {
+    font-size: 1.3rem;
+    color: #fff;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.4rem;
+    margin-bottom: 1rem;
+}
+ol { padding-left: 1.5rem; }
+ol li { margin-bottom: 0.5rem; color: var(--text); }
+pre, code {
+    font-family: 'Consolas', 'Fira Code', monospace;
+    font-size: 0.85rem;
+}
+pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+}
+code { background: var(--code-bg); padding: 0.15rem 0.35rem; border-radius: 3px; }
+.no-issue {
+    display: inline-block;
+    background: #064e3b;
+    color: var(--good);
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin: 0.3rem 0;
+}
+.severity-low { color: var(--warn); }
+.severity-info { color: var(--accent); }
+footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--border);
+    color: var(--faint);
+    font-size: 0.8rem;
+}
+</style>
+</head>
+<body>
+
+<h1>Code + Design Review: Response</h1>
+<div class="folder-path">f_http/response/</div>
+
+<!-- 1. Correctness -->
+<section>
+<h2>1. Correctness</h2>
+<ol>
+    <li><span class="severity-low">[Low]</span> <code>Response.__init__</code> — <code>exception: str = None</code> defaults to <code>None</code> but type hint says <code>str</code>. Should be <code>str | None = None</code>. Same for the <code>exception</code> property return type.</li>
+    <li><span class="severity-info">[Info]</span> Validity logic <code>bool(self._status) and (data is not None)</code> is correct: <code>Status.__bool__</code> returns <code>True</code> only for 2xx, and <code>data is not None</code> guards against missing body.</li>
+    <li><span class="severity-info">[Info]</span> <code>Factory.not_found()</code> passes <code>data=None</code>; validity correctly evaluates to <code>False</code> because both status (404) and data (<code>None</code>) fail their checks independently.</li>
+</ol>
+</section>
+
+<!-- 2. Readability / Naming -->
+<section>
+<h2>2. Readability / Naming</h2>
+<ol>
+    <li><span class="severity-info">[Info]</span> Property names (<code>status</code>, <code>data</code>, <code>elapsed</code>, <code>exception</code>) are clear and standard HTTP vocabulary.</li>
+    <li><span class="severity-info">[Info]</span> Factory method names (<code>ok</code>, <code>not_found</code>, <code>unknown</code>) directly mirror HTTP semantics. Easy to scan.</li>
+</ol>
+</section>
+
+<!-- 3. Design (OOP) -->
+<section>
+<h2>3. Design (OOP)</h2>
+<ol>
+    <li><span class="severity-info">[Info]</span> <code>Response</code> calls <code>Validatable.__init__</code> explicitly rather than <code>super().__init__</code>. Consistent with project convention and safe for single inheritance from <code>Validatable</code>.</li>
+    <li><span class="severity-info">[Info]</span> Response is effectively immutable: all properties are read-only, no setters. Good design for a result object.</li>
+</ol>
+</section>
+
+<!-- 4. Performance -->
+<section>
+<h2>4. Performance</h2>
+<span class="no-issue">No change needed.</span>
+<ol>
+    <li>Class is a thin data wrapper with O(1) construction and property access.</li>
+    <li>No hot paths or algorithmic concerns.</li>
+</ol>
+</section>
+
+<!-- 5. Typing -->
+<section>
+<h2>5. Typing</h2>
+<ol>
+    <li><span class="severity-low">[Low]</span> <code>main.py</code> — <code>exception</code> parameter typed as <code>str</code> but defaults to <code>None</code>. Fix: <code>exception: str | None = None</code>.</li>
+    <li><span class="severity-low">[Low]</span> <code>main.py</code> — <code>exception</code> property return type is <code>str</code> but can return <code>None</code>. Fix: <code>-> str | None</code>.</li>
+    <li><span class="severity-low">[Low]</span> <code>main.py</code> — <code>data</code> property return type is <code>dict</code> (bare) but constructor accepts <code>dict[str, Any]</code>. Fix: <code>-> dict[str, Any] | None</code> since data can be <code>None</code>.</li>
+    <li><span class="severity-low">[Low]</span> <code>main.py</code> — <code>data</code> parameter typed as <code>dict[str, Any]</code> but <code>None</code> is passed in factory. Fix: <code>data: dict[str, Any] | None</code>.</li>
+</ol>
+</section>
+
+<!-- 6. Documentation -->
+<section>
+<h2>6. Documentation</h2>
+<span class="no-issue">No change needed.</span>
+<ol>
+    <li>Class docstring lists all four properties with types. Clear and complete.</li>
+    <li>Each property and <code>__init__</code> has a docstring with separator lines per project convention.</li>
+    <li>Factory methods each have descriptive docstrings.</li>
+</ol>
+</section>
+
+<!-- 7. Modularity -->
+<section>
+<h2>7. Modularity</h2>
+<span class="no-issue">No change needed.</span>
+<ol>
+    <li>Single class in <code>main.py</code>, factory in <code>_factory.py</code>, tests in <code>_tester.py</code>.</li>
+    <li>Clean <code>__init__.py</code> wiring with no logic.</li>
+</ol>
+</section>
+
+<!-- 8. Architecture -->
+<section>
+<h2>8. Architecture</h2>
+<span class="no-issue">No change needed.</span>
+<ol>
+    <li><code>Response</code> composes <code>Status</code> rather than inheriting from it. Correct use of composition.</li>
+    <li>Fits cleanly in the <code>f_http</code> package alongside <code>Client</code>, <code>Status</code>, and <code>Url</code>.</li>
+</ol>
+</section>
+
+<!-- 9. Usage & Usefulness -->
+<section>
+<h2>9. Usage & Usefulness</h2>
+<ol>
+    <li><strong>How to use:</strong> Receive from <code>Client.get_json()</code>; check truthiness with <code>if response:</code>; access <code>.data</code>, <code>.status</code>, <code>.elapsed</code>, <code>.exception</code>.</li>
+    <li><strong>When useful:</strong> Any HTTP client call where you need structured result inspection with validity semantics.</li>
+    <li><strong>Not overengineered:</strong> Four properties and one validity check. Minimal surface area for its purpose.</li>
+    <li><strong>Potential extension:</strong> Could add <code>__str__</code> or <code>__repr__</code> for debugging, but not required for current usage.</li>
+</ol>
+</section>
+
+<!-- 10. Suggestions -->
+<section>
+<h2>10. Suggestions</h2>
+<ol>
+    <li><strong>Fix nullable types:</strong> <code>exception: str | None = None</code> in constructor and property. <code>data: dict[str, Any] | None</code> in constructor and property. Zero risk, aligns types with actual behavior.</li>
+    <li><strong>Add <code>__str__</code>:</strong> Return <code>f'Response(status={self._status}, data={self._data is not None})'</code> for debugging. Low risk, follows <code>Status.__str__</code> pattern.</li>
+</ol>
+</section>
+
+<!-- Summary -->
+<section>
+<h2>Summary</h2>
+<ol>
+    <li>Clean, minimal result object with correct validity logic and immutable design.</li>
+    <li>Main issue: nullable types (<code>exception</code>, <code>data</code>) not reflected in type hints.</li>
+    <li>Factory and tests cover all three scenarios (ok, not_found, unknown) thoroughly.</li>
+    <li>No architectural or performance concerns.</li>
+</ol>
+</section>
+
+<footer>
+    Generated: 2026-03-09 | Scope: <code>f_http/response/</code> | Files reviewed: main.py, __init__.py, _factory.py, _tester.py
+</footer>
+
+</body>
+</html>

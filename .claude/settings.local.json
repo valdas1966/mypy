@@ -27,7 +27,8 @@
       "Bash(PYTHONPATH=/mnt/f/mypy python3:*)",
       "Bash(grep:*)",
       "Bash(open:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(rm:*)"
     ]
   }
 }

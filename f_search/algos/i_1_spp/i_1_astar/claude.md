@@ -118,5 +118,14 @@ Uses counter system to track:
 - Heuristic: Manhattan distance (L1 norm)
 - Optimality: Guaranteed for grid-based pathfinding
 
+## Tests (`_tester.py`)
+
+| Test | Description |
+|------|-------------|
+| `test_without_obstacles` | Path, explored, generated, stats on obstacle-free grid |
+| `test_with_obstacles` | Path, explored, generated, stats on grid with obstacles |
+| `test_quality_h_without_obstacles` | `quality_h == 1.0` (perfect heuristic, no detour) |
+| `test_quality_h_with_obstacles` | `quality_h == 3/7` (heuristic vs actual cost with detour) |
+
 ## Class Attribute
 - **Factory**: Type reference for factory pattern (set in `__init__.py`)

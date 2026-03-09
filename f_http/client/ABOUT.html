@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — HTTP Client &amp; f_http/client</title>
+<style>
+:root {
+  --bg: #0b0f14;
+  --panel: #111827;
+  --text: #f0f4f8;
+  --muted: #94a3b8;
+  --border: #1e293b;
+  --accent: #60a5fa;
+  --accent2: #a78bfa;
+  --good: #34d399;
+  --warn: #fbbf24;
+  --bad: #fb7185;
+  --code-bg: #0a1220;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 4rem;
+}
+
+/* ── Hero ── */
+.hero {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid var(--border);
+}
+.hero h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.4rem;
+}
+.hero .sub {
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+/* ── Sections ── */
+h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 2.8rem 0 1rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid var(--border);
+}
+h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 1.5rem 0 0.5rem;
+}
+
+/* ── Client-Server diagram ── */
+.cs-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 1.5rem 0 2rem;
+  flex-wrap: wrap;
+}
+.cs-box {
+  background: var(--panel);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 1.2rem 1.6rem;
+  text-align: center;
+  min-width: 160px;
+}
+.cs-box .icon { font-size: 2rem; margin-bottom: 0.3rem; }
+.cs-box .label {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+}
+.cs-box .detail {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.15rem;
+}
+.cs-box.client-box { border-color: var(--accent); }
+.cs-box.client-box .label { color: var(--accent); }
+.cs-box.server-box { border-color: var(--good); }
+.cs-box.server-box .label { color: var(--good); }
+.cs-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0.6rem;
+  gap: 0.3rem;
+}
+.cs-arrow .arr {
+  font-size: 1.1rem;
+  font-family: 'Fira Code', monospace;
+  font-weight: 700;
+}
+.cs-arrow .arr-label {
+  font-size: 0.68rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.arr-req { color: var(--accent); }
+.arr-res { color: var(--good); }
+
+/* ── Timeline ── */
+.timeline {
+  position: relative;
+  margin: 1.5rem 0 1.5rem 1.2rem;
+  padding-left: 1.8rem;
+  border-left: 2px solid var(--border);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 1.3rem;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -2.18rem;
+  top: 0.45rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: var(--bg);
+}
+.timeline-item .year {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent);
+  font-family: 'Fira Code', monospace;
+}
+.timeline-item .event {
+  font-size: 0.85rem;
+  color: var(--text);
+  font-weight: 600;
+}
+.timeline-item .desc {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+/* ── Cards ── */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.8rem;
+  margin: 1.2rem 0;
+}
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+.card .icon { font-size: 1.6rem; margin-bottom: 0.3rem; }
+.card .title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+.card .detail {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* ── HTTP methods grid ── */
+.methods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin: 1rem 0 1.5rem;
+}
+.method {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.7rem 0.9rem;
+  border-left: 3px solid;
+}
+.method .verb {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+.method .meaning {
+  font-size: 0.74rem;
+  color: var(--muted);
+}
+.method.m-get { border-color: var(--good); }
+.method.m-get .verb { color: var(--good); }
+.method.m-post { border-color: var(--accent); }
+.method.m-post .verb { color: var(--accent); }
+.method.m-put { border-color: var(--warn); }
+.method.m-put .verb { color: var(--warn); }
+.method.m-delete { border-color: var(--bad); }
+.method.m-delete .verb { color: var(--bad); }
+.method.m-patch { border-color: var(--accent2); }
+.method.m-patch .verb { color: var(--accent2); }
+.method.m-head { border-color: var(--muted); }
+.method.m-head .verb { color: var(--muted); }
+
+/* ── Tables ── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.85rem;
+}
+th {
+  text-align: left;
+  padding: 0.55rem 0.8rem;
+  background: var(--panel);
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--border);
+}
+td {
+  padding: 0.5rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+tr:last-child td { border-bottom: none; }
+
+/* ── Code ── */
+code {
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.84rem;
+  color: var(--accent);
+}
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.82rem;
+  color: #34d399;
+  padding: 1rem 1.2rem;
+  margin: 0.8rem 0;
+  overflow-x: auto;
+  line-height: 1.55;
+}
+.comment { color: #64748b; }
+
+/* ── Fun facts ── */
+.facts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin: 1.2rem 0;
+}
+.fact {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+}
+.fact .badge {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+.fact .body { flex: 1; }
+.fact .body .title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.15rem;
+}
+.fact .body .text {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.badge-blue { background: #1e3a5f; color: var(--accent); }
+.badge-green { background: #064e3b; color: var(--good); }
+.badge-purple { background: #2e1065; color: var(--accent2); }
+.badge-red { background: #4c0519; color: var(--bad); }
+.badge-yellow { background: #422006; color: var(--warn); }
+
+/* ── Flow ── */
+.flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+.flow-step {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.65rem 0.9rem;
+  text-align: center;
+  min-width: 110px;
+}
+.flow-step .top {
+  font-size: 0.68rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.flow-step .mid {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  font-family: 'Fira Code', monospace;
+}
+.flow-step .bot {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+.flow-arrow {
+  font-size: 1.2rem;
+  color: var(--accent);
+  padding: 0 0.3rem;
+  flex-shrink: 0;
+}
+
+/* ── Etymology box ── */
+.etymology {
+  background: var(--panel);
+  border: 2px solid var(--accent2);
+  border-radius: 10px;
+  padding: 1.3rem 1.5rem;
+  margin: 1.2rem 0;
+}
+.etymology .ety-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--accent2);
+  margin-bottom: 0.6rem;
+}
+.etymology .ety-chain {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.8rem;
+}
+.etymology .ety-word {
+  background: #1a1030;
+  border: 1px solid var(--accent2);
+  border-radius: 6px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.82rem;
+  color: var(--accent2);
+  font-weight: 600;
+}
+.etymology .ety-arrow {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.etymology .ety-text {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+footer {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════ HERO ════════════════════════ -->
+<div class="hero">
+  <h1>HTTP Client</h1>
+  <div class="sub">The one who asks &mdash; and waits for an answer</div>
+</div>
+
+<!-- ════════════════════════ PART 1: WHAT IS IT ════════════════════════ -->
+<h2>1. What is an HTTP Client?</h2>
+
+<p style="color:var(--muted); font-size:0.9rem; margin-bottom:1.2rem;">
+  An HTTP client is any program that sends requests to a server and receives responses.
+  Your browser, <code>curl</code>, a Python script &mdash; all are HTTP clients.
+</p>
+
+<div class="cs-diagram">
+  <div class="cs-box client-box">
+    <div class="icon">&#x1F4BB;</div>
+    <div class="label">Client</div>
+    <div class="detail">initiates request</div>
+  </div>
+  <div class="cs-arrow">
+    <div class="arr arr-req">&xrarr; GET /api/data</div>
+    <div class="arr-label">request</div>
+    <div style="height:0.3rem"></div>
+    <div class="arr arr-res">&xlarr; 200 OK + JSON</div>
+    <div class="arr-label">response</div>
+  </div>
+  <div class="cs-box server-box">
+    <div class="icon">&#x1F5A5;</div>
+    <div class="label">Server</div>
+    <div class="detail">processes &amp; replies</div>
+  </div>
+</div>
+
+<h3>The Client's Job</h3>
+<table>
+  <tr><th>Step</th><th>Action</th></tr>
+  <tr><td>1. Build</td><td>Compose URL, headers, parameters, body</td></tr>
+  <tr><td>2. Send</td><td>Open TCP connection, transmit HTTP request</td></tr>
+  <tr><td>3. Wait</td><td>Block (or async) until server responds</td></tr>
+  <tr><td>4. Parse</td><td>Read status code, headers, body</td></tr>
+  <tr><td>5. Return</td><td>Deliver structured result to caller</td></tr>
+</table>
+
+<h3>HTTP Methods &mdash; What Clients Can Ask</h3>
+<div class="methods">
+  <div class="method m-get"><div class="verb">GET</div><div class="meaning">Read a resource</div></div>
+  <div class="method m-post"><div class="verb">POST</div><div class="meaning">Create a resource</div></div>
+  <div class="method m-put"><div class="verb">PUT</div><div class="meaning">Replace a resource</div></div>
+  <div class="method m-delete"><div class="verb">DELETE</div><div class="meaning">Remove a resource</div></div>
+  <div class="method m-patch"><div class="verb">PATCH</div><div class="meaning">Partial update</div></div>
+  <div class="method m-head"><div class="verb">HEAD</div><div class="meaning">GET without body</div></div>
+</div>
+
+<!-- ════════════════════════ PART 2: ETYMOLOGY ════════════════════════ -->
+<h2>2. Where Does the Name Come From?</h2>
+
+<div class="etymology">
+  <div class="ety-title">Etymology of "Client"</div>
+  <div class="ety-chain">
+    <span class="ety-word">Latin: cliēns</span>
+    <span class="ety-arrow">&rarr;</span>
+    <span class="ety-word">one who leans on another</span>
+    <span class="ety-arrow">&rarr;</span>
+    <span class="ety-word">dependent, follower</span>
+  </div>
+  <div class="ety-text">
+    In ancient Rome, a <em>cliēns</em> was a citizen who depended on a <em>patrōnus</em> (patron)
+    for protection and services. The patron held the resources; the client made requests.
+    <br><br>
+    In 1960s computing, Xerox PARC and MIT adopted the term for the
+    <strong>client-server model</strong>: the program that <em>requests</em> a service
+    (client) vs. the program that <em>provides</em> it (server). The metaphor is perfect &mdash;
+    the client depends on the server, just as the Roman citizen depended on his patron.
+  </div>
+</div>
+
+<h3>Timeline: Client-Server in Computing</h3>
+<div class="timeline">
+  <div class="timeline-item">
+    <div class="year">1960s</div>
+    <div class="event">Client-server model coined</div>
+    <div class="desc">Emerged from time-sharing systems at MIT and Xerox PARC. Terminals (clients) requested computation from mainframes (servers).</div>
+  </div>
+  <div class="timeline-item">
+    <div class="year">1991</div>
+    <div class="event">First HTTP client: WorldWideWeb browser</div>
+    <div class="desc">Tim Berners-Lee wrote the first web browser at CERN. It was both client and editor &mdash; you could browse and edit pages.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="year">1996</div>
+    <div class="event">HTTP/1.0 formalized</div>
+    <div class="desc">RFC 1945 defined GET, POST, HEAD. Clients now spoke a standard protocol with status codes and headers.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="year">1998</div>
+    <div class="event">XMLHttpRequest (XHR) born</div>
+    <div class="desc">Microsoft created XHR for Outlook Web Access. Later adopted by all browsers, enabling AJAX &mdash; clients that update without full page reloads.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="year">2011</div>
+    <div class="event">Python <code>requests</code> library released</div>
+    <div class="desc">Kenneth Reitz released "HTTP for Humans." Became the most downloaded Python package. Our <code>Client</code> class wraps it.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="year">2015</div>
+    <div class="event">HTTP/2 &mdash; multiplexed clients</div>
+    <div class="desc">Single TCP connection, multiple parallel requests. Clients got dramatically faster without code changes.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════ PART 3: THE MODULE ════════════════════════ -->
+<h2>3. What <code>f_http/client</code> Adds</h2>
+
+<div class="cards">
+  <div class="card">
+    <div class="icon">&#x1F6E1;</div>
+    <div class="title">Error Safety</div>
+    <div class="detail">Connection errors and JSON parse errors caught separately. Never raises &mdash; always returns a <code>Response</code>.</div>
+  </div>
+  <div class="card">
+    <div class="icon">&#x23F1;</div>
+    <div class="title">Timeout Guard</div>
+    <div class="detail">Default 30s timeout prevents indefinite hangs on unresponsive servers.</div>
+  </div>
+  <div class="card">
+    <div class="icon">&#x1F4E6;</div>
+    <div class="title">Structured Result</div>
+    <div class="detail">Returns <code>Response</code> with status, data, elapsed, and exception in one object.</div>
+  </div>
+</div>
+
+<h3>How It Flows</h3>
+<div class="flow">
+  <div class="flow-step">
+    <div class="top">Caller</div>
+    <div class="mid">get_json()</div>
+    <div class="bot">url + params</div>
+  </div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">
+    <div class="top">requests</div>
+    <div class="mid">GET</div>
+    <div class="bot">HTTP call</div>
+  </div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">
+    <div class="top">Parse</div>
+    <div class="mid">Status</div>
+    <div class="bot">code + name</div>
+  </div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">
+    <div class="top">Parse</div>
+    <div class="mid">.json()</div>
+    <div class="bot">safe, separate</div>
+  </div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">
+    <div class="top">Return</div>
+    <div class="mid">Response</div>
+    <div class="bot">all-in-one</div>
+  </div>
+</div>
+
+<h3>Before vs. After</h3>
+<table>
+  <tr><th></th><th>Raw <code>requests</code></th><th><code>Client</code></th></tr>
+  <tr><td>Call</td><td><code>requests.get(url, ...)</code></td><td><code>Client.get_json(url=...)</code></td></tr>
+  <tr><td>Error handling</td><td>Try/except around every call</td><td>Automatic &mdash; errors in <code>.exception</code></td></tr>
+  <tr><td>JSON parsing</td><td><code>r.json()</code> may throw</td><td>Safe &mdash; preserves status on parse failure</td></tr>
+  <tr><td>Timeout</td><td>None by default (hangs forever)</td><td>30s default, configurable</td></tr>
+  <tr><td>Result</td><td>Raw <code>requests.Response</code></td><td>Typed <code>Response</code> with <code>if response:</code></td></tr>
+</table>
+
+<h3>Usage</h3>
+<pre><span class="comment"># One call, one object, no exceptions</span>
+from f_http.client import Client
+
+response = Client.get_json(url='https://api.example.com/data')
+
+if response:
+    print(response.data)           <span class="comment"># parsed JSON dict</span>
+    print(response.elapsed)        <span class="comment"># 0.23 seconds</span>
+else:
+    print(response.status.code)    <span class="comment"># 404</span>
+    print(response.exception)      <span class="comment"># error message or None</span></pre>
+
+<!-- ════════════════════════ PART 4: FUN FACTS ════════════════════════ -->
+<h2>4. Fun &amp; Curious Facts</h2>
+
+<div class="facts">
+
+  <div class="fact">
+    <div class="badge badge-blue">&#x1F30D;</div>
+    <div class="body">
+      <div class="title">The First HTTP Client Was Also an Editor</div>
+      <div class="text">
+        Tim Berners-Lee's "WorldWideWeb" (1990) wasn't just a browser &mdash; it could
+        edit pages too. The web was designed to be read-write from day one.
+        We lost that vision and got read-only browsers. It took until
+        Web 2.0 (2004+) to get writing back via JavaScript and APIs.
+      </div>
+    </div>
+  </div>
+
+  <div class="fact">
+    <div class="badge badge-green">&#x1F4E6;</div>
+    <div class="body">
+      <div class="title">requests: 300 Million Downloads/Month</div>
+      <div class="text">
+        Python's <code>requests</code> library (which our <code>Client</code> wraps) is
+        downloaded ~300 million times per month. Kenneth Reitz wrote it in 2011
+        because <code>urllib2</code> was "a work of insanity." Its tagline:
+        <em>"HTTP for Humans."</em> The first commit was 131 lines.
+      </div>
+    </div>
+  </div>
+
+  <div class="fact">
+    <div class="badge badge-yellow">&#x26A1;</div>
+    <div class="body">
+      <div class="title">curl: The Swiss Army Knife</div>
+      <div class="text">
+        <code>curl</code> (1998) is the most widely deployed HTTP client in history &mdash;
+        installed on virtually every Linux, macOS, and Windows 10+ machine.
+        Daniel Stenberg has maintained it for 26+ years as a solo project.
+        It supports 28 protocols, but started as a tool to fetch currency exchange rates.
+      </div>
+    </div>
+  </div>
+
+  <div class="fact">
+    <div class="badge badge-purple">&#x1F916;</div>
+    <div class="body">
+      <div class="title">Most HTTP Clients Aren't Human</div>
+      <div class="text">
+        Over 60% of all HTTP traffic comes from bots, crawlers, and automated clients.
+        Googlebot alone makes billions of requests daily. Your API wrapper script
+        is in good company &mdash; most of the web is machines talking to machines.
+      </div>
+    </div>
+  </div>
+
+  <div class="fact">
+    <div class="badge badge-red">&#x1F525;</div>
+    <div class="body">
+      <div class="title">The Timeout That Broke the Internet</div>
+      <div class="text">
+        In 2017, an Amazon S3 outage cascaded because HTTP clients across the internet
+        had no timeouts or excessively long retry loops. Services waited forever for S3
+        to respond, exhausting their own connection pools. Half the internet went down
+        because clients didn't know when to give up. (Our <code>Client</code> defaults to 30s.)
+      </div>
+    </div>
+  </div>
+
+  <div class="fact">
+    <div class="badge badge-blue">&#x1F4DC;</div>
+    <div class="body">
+      <div class="title">User-Agent: A History in One Header</div>
+      <div class="text">
+        Every HTTP client sends a <code>User-Agent</code> header identifying itself.
+        Modern Chrome sends: <em>"Mozilla/5.0 ... Chrome/120 ... Safari/537.36"</em> &mdash;
+        pretending to be Mozilla, Chrome, AND Safari simultaneously. This absurd
+        string exists because servers in the 1990s served different content based on
+        the browser name, so every new browser had to lie about being the old ones too.
+      </div>
+    </div>
+  </div>
+
+  <div class="fact">
+    <div class="badge badge-green">&#x1F504;</div>
+    <div class="body">
+      <div class="title">Keep-Alive: The Optimization Nobody Sees</div>
+      <div class="text">
+        HTTP/1.0 opened a new TCP connection for <em>every single request</em>.
+        Loading a page with 50 images meant 50 separate TCP handshakes.
+        HTTP/1.1 (1997) added <code>Keep-Alive</code> to reuse connections.
+        HTTP/2 (2015) went further with multiplexing &mdash; many requests, one connection.
+        HTTP/3 (2022) switched to QUIC, eliminating TCP entirely.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Generated: 2026-03-09 &mdash; <code>f_http/client/</code>
+</footer>
+
+</body>
+</html>

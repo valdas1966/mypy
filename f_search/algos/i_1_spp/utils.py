@@ -48,7 +48,7 @@ def are_within_distance(grid: Grid,
     for cell_b in cells_b:
         path = len_path(grid=grid, start=cell_a, goal=cell_b)
         if path > distance:
-            return False 
+            return False
     return True
 
 
@@ -61,7 +61,7 @@ def random_cells_up_to_distance(grid: Grid,
     ========================================================================
      Return the cells up to a given distance.
     ========================================================================
-    """    
+    """
     for i in range(tries):
         print(f'Try={i+1}')
         cells_random = random.sample(population=cells, k=k)
@@ -70,20 +70,3 @@ def random_cells_up_to_distance(grid: Grid,
                                distance=distance):
             return cells_random
     return None
-
-
-def cells_reachable(grid: Grid,
-                    cell: Cell,
-                    steps_max: int) -> list[Cell]:
-    """
-    ========================================================================
-     Return the cells reachable from a given cell up to a
-      given maximum number of steps (using Dijkstra).
-    ========================================================================
-    """
-    start = State(key=cell)
-    problem = ProblemSPP.Factory.fictive_goal(grid=grid, start=start)
-    dijkstra = DijkstraNeighborhood(problem=problem, steps=steps_max)
-    dijkstra.run()
-    cells = [state.key for state in dijkstra.data.explored]
-    return list(sorted(cells))

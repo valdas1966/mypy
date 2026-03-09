@@ -1,4 +1,4 @@
-from ._internal.factory import FactoryStatus
-from .status import Status
+from .main import Status
+from ._factory import Factory
 
-Status.Factory = FactoryStatus
+Status.Factory = Factory

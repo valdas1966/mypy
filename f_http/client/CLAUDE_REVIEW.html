@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client - Code Review</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #111827;
+            --panel2: #0f172a;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --faint: #94a3b8;
+            --border: #334155;
+            --accent: #60a5fa;
+            --accent2: #a78bfa;
+            --good: #34d399;
+            --warn: #fbbf24;
+            --bad: #fb7185;
+            --code-bg: #0a1220;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem 3rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; color: var(--accent2); }
+        a:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+        h1 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .path { color: var(--faint); font-size: 0.9rem; font-family: monospace; margin-bottom: 2rem; }
+
+        section {
+            margin-bottom: 2rem;
+            background: var(--panel);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1.2rem 1.5rem;
+        }
+
+        section h2 {
+            font-size: 1.15rem;
+            color: #fff;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-num {
+            color: var(--accent);
+            font-weight: 700;
+            margin-right: 0.3rem;
+        }
+
+        ol { padding-left: 1.5rem; margin-bottom: 0.5rem; }
+        ol li { margin-bottom: 0.4rem; color: var(--muted); }
+
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.8rem 1rem;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0.5rem 0 0.8rem;
+        }
+
+        code {
+            font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+            color: var(--accent);
+        }
+
+        pre code { color: var(--text); }
+
+        .badge-ok {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: #1a3330;
+            color: var(--good);
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .summary-section {
+            background: var(--panel2);
+            border: 2px solid var(--accent);
+        }
+
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--border);
+            color: var(--faint);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Client &mdash; Code &amp; Design Review</h1>
+    <div class="path">f_http/client/</div>
+
+    <!-- 1. Correctness -->
+    <section>
+        <h2><span class="section-num">1.</span> Correctness</h2>
+        <ol>
+            <li><code>main.py:get_json</code> &mdash; <code>params</code> and <code>headers</code> default to <code>None</code>, which is safe because <code>requests.get</code> accepts <code>None</code> for both.</li>
+            <li><code>main.py:44</code> &mdash; condition <code>if status and exception is None</code> correctly gates JSON parsing only when the HTTP call succeeded.</li>
+            <li><code>main.py:46</code> &mdash; <code>response</code> variable is only referenced inside the <code>if</code> block that guarantees the <code>try</code> succeeded, so no <code>UnboundLocalError</code>.</li>
+            <li>404 responses from jsonplaceholder return a JSON body (<code>{}</code>), so <code>data</code> is an empty dict, not <code>None</code>. The <code>Response</code> validity check uses <code>data is not None</code>, meaning a 404 with <code>{}</code> would be valid if status were 2xx. Current behavior is correct because <code>Status(404)</code> is falsy.</li>
+        </ol>
+        <span class="badge-ok">No bugs found</span>
+    </section>
+
+    <!-- 2. Readability / Naming -->
+    <section>
+        <h2><span class="section-num">2.</span> Readability / Naming</h2>
+        <ol>
+            <li><code>Client</code> &mdash; clear name, but <code>HttpClient</code> would disambiguate from non-HTTP clients. Low priority.</li>
+            <li><code>get_json</code> &mdash; accurate name: sends GET and parses JSON. Good.</li>
+            <li>Inline comments in <code>main.py</code> are clear and follow project conventions.</li>
+            <li><code>_factory.py</code> methods <code>valid()</code> and <code>invalid()</code> are descriptive and consistent with other Factory classes.</li>
+        </ol>
+        <span class="badge-ok">No change needed</span>
+    </section>
+
+    <!-- 3. Design (OOP) -->
+    <section>
+        <h2><span class="section-num">3.</span> Design (OOP)</h2>
+        <ol>
+            <li><strong>Issue:</strong> <code>Client</code> is a class with only <code>@staticmethod</code> methods and no state.</li>
+            <li><strong>Evidence:</strong> <code>main.py</code> &mdash; no <code>__init__</code>, no instance attributes, single static method.</li>
+            <li><strong>Why acceptable:</strong> Follows project pattern of <code>ClassName.Factory</code> wiring. A bare module function would lose the Factory attachment point.</li>
+            <li><strong>Verdict:</strong> Design is justified by the Factory pattern convention. No change needed.</li>
+        </ol>
+        <span class="badge-ok">No change needed</span>
+    </section>
+
+    <!-- 4. Performance -->
+    <section>
+        <h2><span class="section-num">4.</span> Performance</h2>
+        <ol>
+            <li><code>get_json</code> is I/O-bound (network request). CPU overhead is negligible.</li>
+            <li>No connection pooling &mdash; each call creates a new TCP connection via <code>requests.get</code>.</li>
+            <li>For high-throughput use, a <code>requests.Session</code> could reuse connections. Low priority unless batch calls are needed.</li>
+        </ol>
+        <span class="badge-ok">No change needed</span>
+    </section>
+
+    <!-- 5. Typing -->
+    <section>
+        <h2><span class="section-num">5.</span> Typing</h2>
+        <ol>
+            <li><code>get_json</code> &mdash; all parameters and return type are fully annotated. Good.</li>
+            <li><code>params: dict[str, Any] = None</code> &mdash; technically should be <code>dict[str, Any] | None = None</code> per strict typing.</li>
+            <li><code>headers: dict[str, str] = None</code> &mdash; same: should be <code>dict[str, str] | None = None</code>.</li>
+            <li><strong>Fix:</strong> Add <code>| None</code> to both parameter types for full correctness.</li>
+        </ol>
+<pre><code># Current
+params: dict[str, Any] = None
+headers: dict[str, str] = None
+
+# Suggested
+params: dict[str, Any] | None = None
+headers: dict[str, str] | None = None</code></pre>
+    </section>
+
+    <!-- 6. Documentation -->
+    <section>
+        <h2><span class="section-num">6.</span> Documentation</h2>
+        <ol>
+            <li>Class docstring in <code>main.py</code> follows project separator convention. Good.</li>
+            <li>Method docstring for <code>get_json</code> is concise and accurate.</li>
+            <li>Inline parameter comments provide clear documentation without cluttering signatures.</li>
+            <li>Factory docstrings follow the same convention. Good.</li>
+        </ol>
+        <span class="badge-ok">No change needed</span>
+    </section>
+
+    <!-- 7. Modularity -->
+    <section>
+        <h2><span class="section-num">7.</span> Modularity</h2>
+        <ol>
+            <li>Clean four-file structure: <code>main.py</code>, <code>_factory.py</code>, <code>_tester.py</code>, <code>__init__.py</code>.</li>
+            <li>Single responsibility: <code>Client</code> sends requests, <code>Response</code>/<code>Status</code> handle data modeling.</li>
+            <li>No split needed &mdash; the module is small and focused.</li>
+        </ol>
+        <span class="badge-ok">No change needed</span>
+    </section>
+
+    <!-- 8. Architecture -->
+    <section>
+        <h2><span class="section-num">8.</span> Architecture</h2>
+        <ol>
+            <li><code>Client</code> depends on <code>Response</code> and <code>Status</code> from sibling modules. Clean layering.</li>
+            <li><code>Factory</code> depends on a live external API (jsonplaceholder). Tests will fail offline.</li>
+            <li><strong>Consideration:</strong> If offline testing is ever needed, mock <code>requests.get</code> in tests. Not urgent for current use.</li>
+        </ol>
+        <span class="badge-ok">No change needed</span>
+    </section>
+
+    <!-- 9. Usage & Usefulness -->
+    <section>
+        <h2><span class="section-num">9.</span> Usage &amp; Usefulness</h2>
+        <ol>
+            <li><strong>How to use:</strong> Call <code>Client.get_json(url=...)</code> and check the <code>Response</code> with <code>if response:</code>.</li>
+            <li><strong>When useful:</strong> Simple JSON API consumption where you need status + data + error in one object.</li>
+            <li><strong>When overengineered:</strong> Not overengineered &mdash; minimal wrapper with clear error separation.</li>
+            <li><strong>Limitation:</strong> Only supports GET. POST/PUT/DELETE would require new methods or a verb parameter.</li>
+            <li><strong>Limitation:</strong> No timeout parameter &mdash; <code>requests.get</code> can hang indefinitely on unresponsive servers.</li>
+        </ol>
+    </section>
+
+    <!-- 10. Suggestions -->
+    <section>
+        <h2><span class="section-num">10.</span> Suggestions</h2>
+        <ol>
+            <li><strong>P3 (low):</strong> Add <code>| None</code> to <code>params</code> and <code>headers</code> type hints. <em>Evidence:</em> <code>main.py:18-23</code>. <em>Risk:</em> none. <em>Benefit:</em> strict type-checker compliance.</li>
+            <li><strong>P3 (low):</strong> Add a <code>timeout</code> parameter defaulting to e.g. 10 seconds. <em>Evidence:</em> <code>main.py:36</code> calls <code>requests.get</code> without timeout. <em>Risk:</em> none. <em>Benefit:</em> prevents indefinite hangs.</li>
+            <li><strong>P4 (optional):</strong> Use <code>requests.Session</code> for connection reuse in batch scenarios. <em>Evidence:</em> each <code>get_json</code> call opens a new connection. <em>Risk:</em> API change. <em>Benefit:</em> only matters for high-throughput use.</li>
+        </ol>
+    </section>
+
+    <!-- Summary -->
+    <section class="summary-section">
+        <h2>Summary</h2>
+        <ol>
+            <li>Clean, minimal HTTP GET client with proper error separation and project-consistent design.</li>
+            <li>No bugs found; correctness is solid with two-phase error handling (connection then JSON).</li>
+            <li>Only typing improvement suggested: add <code>| None</code> to optional parameter annotations.</li>
+            <li>Consider adding a <code>timeout</code> parameter to guard against unresponsive servers.</li>
+            <li>Architecture and modularity are well-suited for the project's scope.</li>
+        </ol>
+    </section>
+
+    <div class="footer">
+        <ol>
+            <li>Generated: 2026-03-09</li>
+            <li>Scope: <code>f_http/client/</code> &mdash; main.py, _factory.py, _tester.py, __init__.py</li>
+        </ol>
+    </div>
+</body>
+</html>

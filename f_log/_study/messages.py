@@ -1,4 +1,3 @@
-import logging
 from f_log import setup_log, get_log
 
 setup_log()

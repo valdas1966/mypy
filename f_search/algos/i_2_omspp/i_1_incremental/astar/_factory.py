@@ -18,3 +18,8 @@ class Factory:
         """
         problem = ProblemOMSPP.Factory.without_obstacles()
         return AStarIncremental(problem=problem)
+
+    @staticmethod
+    def for_cached() -> AStarIncremental:
+        problem = ProblemOMSPP.Factory.for_cached()
+        return AStarIncremental(problem=problem)

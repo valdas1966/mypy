@@ -77,4 +77,7 @@ class RGB(HasName, Comparable):
          Return a STR-REPR of the RGB.
         ========================================================================
         """
-        return str(self.to.tuple())
+        t = self.to.tuple(to_int=True)
+        if self._name:
+            return f'{self._name}{t}'
+        return str(t)

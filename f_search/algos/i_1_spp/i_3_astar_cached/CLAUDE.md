@@ -92,3 +92,17 @@ algo = AStarCached(problem=problem, data_cached=data_cached)
 sol = algo.run()
 # sol.stats.explored == 8
 ```
+
+## Tests (`_tester.py`)
+
+| Test | Description |
+|------|-------------|
+| `test_without_cache` | Explored count without cache (22) |
+| `test_with_cache` | Explored count with cached heuristics (10) |
+| `test_with_bounded` | Explored count with bounded heuristics (8) |
+| `test_with_bounded_depth_1` | Explored count with depth-1 bounds (5) |
+| `test_with_bounded_depth_2` | Explored count with depth-2 bounds (4) |
+| `test_g_goal_without_cache` | `g_goal == 13` when goal reached directly |
+| `test_g_goal_with_cache` | `g_goal == 13` via cached early termination |
+| `test_g_goal_with_bounded` | `g_goal == 13` via bounded early termination |
+| `test_quality_h` | `quality_h == 5/13` consistent across all cache variants |

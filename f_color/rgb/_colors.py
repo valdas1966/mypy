@@ -4,4 +4,10 @@ _CUSTOM = {'MY_CYAN': (0, 55, 110),
            'LIGHT_GREEN': (120, 190, 120),
            'MATTE_GREEN': (80, 160, 80),
            'MATTE_YELLOW': (200, 200, 100),
-           'MATTE_RED': (180, 80, 80)}
+           'MATTE_RED': (180, 80, 80),
+           'LOG_LABEL': (100, 200, 220),
+           'LOG_VALUE': (120, 200, 120),
+           'LOG_TIME': (220, 190, 90),
+           'LOG_PATH': (180, 150, 230),
+           'LOG_WARN': (220, 110, 110),
+           'LOG_DIM': (140, 140, 140)}

@@ -60,6 +60,6 @@ class SolutionSPP(SolutionSearch[Problem, StatsSearch]):
          Return Heuristic Quality as h(start) / g(goal) in [0, 1].
         ========================================================================
         """
-        if not self.is_valid or not self._g_goal:
+        if not self or not self._g_goal:
             return None
         return self.problem.h_start / self._g_goal

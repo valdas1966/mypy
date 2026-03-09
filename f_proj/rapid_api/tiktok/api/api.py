@@ -1,4 +1,4 @@
-from f_http.client.client import Client, Response, Status
+from f_http import Client, Response, Status
 from f_proj.rapid_api.tiktok.batch import Batch
 from f_utils import u_file
 from f_psl.sys import utils

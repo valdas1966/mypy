@@ -26,3 +26,14 @@ def test_dijkstra_incremental() -> None:
     assert solution.subs[0].stats.discovered == 10
     assert solution.subs[1].stats.explored == 9
     assert solution.subs[1].stats.discovered == 6
+
+
+def test_quality_h() -> None:
+    """
+    ========================================================================
+     Test quality_h without obstacles (perfect heuristic).
+    ========================================================================
+    """
+    algo = DijkstraIncremental.Factory.without_obstacles()
+    solution = algo.run()
+    assert solution.quality_h == 1.0

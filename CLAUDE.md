@@ -28,8 +28,8 @@ Every class module contains a subset of these files:
 | `_tester.py` | If testable | pytest unit tests |
 | `_study.py` | No | Exploratory / research scripts |
 | `CLAUDE.md` | Yes | Module-specific docs for Claude Code |
-| `CLAUDE.html` | Yes | Dark-themed HTML docs with TOC/search |
-| `CLAUDE_REVIEW.html` | Yes | Code + design review (10 sections) |
+| `CLAUDE.html` | On demand | Dark-themed HTML docs with TOC/search |
+| `CLAUDE_REVIEW.html` | On demand | Code + design review (10 sections) |
 
 Files prefixed with `_` are internal/private and not imported externally.
 
@@ -276,12 +276,15 @@ Never put logic in `__init__.py`.
 
 ## CLAUDE Documentation Rule
 
-Every code change MUST update the 3 CLAUDE files in each folder that contains at least one changed file:
-1. `CLAUDE.md` — markdown documentation
-2. `CLAUDE.html` — dark-themed HTML documentation
-3. `CLAUDE_REVIEW.html` — code + design review
+### Auto-update: CLAUDE.md
+Every code change MUST update the `CLAUDE.md` file in each folder that contains at least one changed file. Follow the template in `f_claude/instructions/for_claude_md.md`. If `CLAUDE.md` does not exist in the folder, create it.
 
-If these files do not exist in the folder, create them.
+### On demand: CLAUDE.html and CLAUDE_REVIEW.html
+`CLAUDE.html` and `CLAUDE_REVIEW.html` are generated **only when the user explicitly requests** them. These files are for human reading — Claude reads only `CLAUDE.md`.
+
+Follow the templates in `f_claude/instructions/`:
+- `for_claude_html.md` — instructions for generating `CLAUDE.html`
+- `for_claude_review.md` — instructions for generating `CLAUDE_REVIEW.html`
 
 ### Scope: Which folders get CLAUDE files
 CLAUDE files are required **only** for folders containing class modules or utility modules:
@@ -293,12 +296,6 @@ CLAUDE files are **NOT** required for folders that only contain scripts:
 - `_study.py`, `s_*.py` — study / exploratory scripts
 - `experiments/`, `benchmark/`, `scripts/` — experiment folders
 - `study/` — research folders
-
-### Instructions
-Follow the templates in `f_claude/instructions/`:
-- `for_claude_md.md` — instructions for generating `CLAUDE.md`
-- `for_claude_html.md` — instructions for generating `CLAUDE.html`
-- `for_claude_review.md` — instructions for generating `CLAUDE_REVIEW.html`
 
 ### Review suggestions
 Suggestions from `CLAUDE_REVIEW.html` must be presented as a plan first. Only apply after explicit user approval.

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Mixins — f_core/mixins</title>
+<style>
+:root {
+  --bg: #0b0f14;
+  --panel: #111827;
+  --panel2: #0f172a;
+  --text: #f8fafc;
+  --muted: #cbd5e1;
+  --faint: #94a3b8;
+  --border: #334155;
+  --accent: #60a5fa;
+  --accent2: #a78bfa;
+  --good: #34d399;
+  --warn: #fbbf24;
+  --bad: #fb7185;
+  --code-bg: #0a1220;
+  --orange: #fb923c;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.7;
+  padding: 2.5rem; max-width: 1100px; margin: 0 auto;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); text-decoration: underline; }
+
+/* --- HEADER --- */
+.hero {
+  text-align: center;
+  padding: 3rem 1rem 2rem;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 3rem;
+}
+.hero h1 {
+  font-size: 3rem; color: #fff; margin-bottom: .3rem;
+  letter-spacing: -1px;
+}
+.hero h1 span { color: var(--accent2); }
+.hero .tagline { color: var(--faint); font-size: 1.15rem; margin-top: .5rem; }
+
+/* --- SECTIONS --- */
+h2 {
+  font-size: 1.5rem; color: #fff; margin: 2.5rem 0 1.2rem;
+  padding-bottom: .5rem; border-bottom: 2px solid var(--border);
+}
+h2 .num { color: var(--accent2); margin-right: .4rem; }
+h3 { font-size: 1.1rem; color: var(--accent); margin: 1.5rem 0 .6rem; }
+
+/* --- VISUAL: WHAT IS A MIXIN --- */
+.concept-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+.concept-card {
+  background: var(--panel);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+.concept-card.bad { border-color: var(--bad); }
+.concept-card.good { border-color: var(--good); }
+.concept-card h3 { margin-top: 0; }
+.concept-card h3.bad-title { color: var(--bad); }
+.concept-card h3.good-title { color: var(--good); }
+.concept-card pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .8rem 1rem;
+  font-size: .85rem;
+  overflow-x: auto;
+  margin: .6rem 0;
+}
+code {
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace;
+  font-size: .85rem;
+}
+.ic {
+  background: var(--code-bg);
+  padding: .15rem .4rem;
+  border-radius: 3px;
+  font-size: .85rem;
+  color: var(--accent);
+}
+
+/* --- ANALOGY BOX --- */
+.analogy {
+  background: var(--panel2);
+  border-left: 4px solid var(--warn);
+  border-radius: 0 8px 8px 0;
+  padding: 1.2rem 1.5rem;
+  margin: 1.5rem 0;
+  color: var(--muted);
+  font-size: 1rem;
+}
+.analogy .emoji { font-size: 1.4rem; margin-right: .5rem; }
+
+/* --- MIXIN CATALOG --- */
+.catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.mixin-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.2rem 1.4rem;
+  transition: border-color .2s;
+}
+.mixin-card:hover { border-color: var(--accent); }
+.mixin-card .name {
+  font-size: 1.1rem; font-weight: 700; color: #fff;
+  margin-bottom: .3rem;
+}
+.mixin-card .gives {
+  color: var(--good); font-size: .85rem; font-weight: 600;
+  margin-bottom: .4rem;
+}
+.mixin-card .desc { color: var(--muted); font-size: .88rem; }
+.mixin-card .sig {
+  background: var(--code-bg);
+  border-radius: 4px;
+  padding: .3rem .6rem;
+  margin-top: .5rem;
+  font-size: .8rem;
+  color: var(--faint);
+  display: inline-block;
+}
+.group-label {
+  grid-column: 1 / -1;
+  color: var(--accent2);
+  font-size: 1rem;
+  font-weight: 700;
+  padding: .8rem 0 0;
+  border-top: 1px solid var(--border);
+  margin-top: .5rem;
+}
+.group-label:first-child { border-top: none; margin-top: 0; }
+
+/* --- INHERITANCE TREE --- */
+.tree-box {
+  background: var(--code-bg);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: .88rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.tree-box .cls { color: var(--accent); font-weight: 600; }
+.tree-box .proto { color: var(--accent2); }
+.tree-box .gives-tag { color: var(--good); font-size: .8rem; }
+
+/* --- FACTS --- */
+.facts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.fact-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.2rem 1.4rem;
+}
+.fact-card .fact-icon {
+  font-size: 1.8rem;
+  margin-bottom: .5rem;
+}
+.fact-card .fact-title {
+  color: #fff; font-weight: 700; font-size: .95rem;
+  margin-bottom: .4rem;
+}
+.fact-card .fact-text {
+  color: var(--muted); font-size: .88rem;
+}
+
+/* --- COMPOSITION EXAMPLE --- */
+.compose-box {
+  background: var(--panel);
+  border: 2px solid var(--accent2);
+  border-radius: 10px;
+  padding: 1.5rem 2rem;
+  margin: 1.5rem 0;
+}
+.compose-box h3 { color: var(--accent2); margin-top: 0; }
+.compose-box pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem;
+  margin: .8rem 0;
+  overflow-x: auto;
+}
+.compose-arrow {
+  text-align: center;
+  color: var(--accent2);
+  font-size: 1.5rem;
+  padding: .3rem 0;
+}
+.compose-result {
+  color: var(--good);
+  font-weight: 600;
+  font-size: .92rem;
+  margin-top: .5rem;
+}
+
+/* --- FOOTER --- */
+footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--border);
+  color: var(--faint);
+  font-size: .85rem;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .concept-grid { grid-template-columns: 1fr; }
+  .catalog { grid-template-columns: 1fr; }
+  .facts-grid { grid-template-columns: 1fr; }
+  body { padding: 1rem; }
+  .hero h1 { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ======================== HERO ======================== -->
+<div class="hero">
+  <h1>What is a <span>Mixin</span>?</h1>
+  <div class="tagline">A small, focused class that adds one capability — mix it in, get superpowers.</div>
+</div>
+
+<!-- ======================== CONCEPT ======================== -->
+<h2><span class="num">1.</span> The Idea</h2>
+
+<div class="analogy">
+  <span class="emoji">🧩</span>
+  <strong>Think LEGO.</strong> A mixin is a single LEGO piece. It doesn't build a house on its own —
+  but snap a few together, and you get exactly the house you need. No more, no less.
+</div>
+
+<div class="concept-grid">
+  <div class="concept-card bad">
+    <h3 class="bad-title">Without mixins: deep inheritance</h3>
+    <pre><code>class Animal:
+    ...
+class FlyingAnimal(Animal):
+    ...
+class SwimmingFlyingAnimal(FlyingAnimal):
+    ...  # where does it end?</code></pre>
+    <div style="color: var(--bad); font-size: .88rem; margin-top: .5rem;">
+      Each new combo = a new class in an ever-deeper tree.
+    </div>
+  </div>
+  <div class="concept-card good">
+    <h3 class="good-title">With mixins: flat composition</h3>
+    <pre><code>class CanFly:
+    def fly(self): ...
+
+class CanSwim:
+    def swim(self): ...
+
+class Duck(CanFly, CanSwim):
+    ...  # done.</code></pre>
+    <div style="color: var(--good); font-size: .88rem; margin-top: .5rem;">
+      Pick capabilities. Compose. Ship.
+    </div>
+  </div>
+</div>
+
+<h3>The 3 Rules of a Mixin</h3>
+<ol style="padding-left: 1.5rem; color: var(--muted); margin: .5rem 0 1.5rem;">
+  <li><strong style="color: var(--text);">Single responsibility</strong> — does exactly one thing.</li>
+  <li><strong style="color: var(--text);">No standalone use</strong> — meaningless alone, powerful when composed.</li>
+  <li><strong style="color: var(--text);">No __init__ side effects</strong> — plugs into any constructor cleanly.</li>
+</ol>
+
+<!-- ======================== INHERITANCE TREE ======================== -->
+<h2><span class="num">2.</span> How They Connect</h2>
+
+<div class="tree-box">
+<span class="proto">SupportsEquality</span> <span class="gives-tag">(Protocol)</span>
+ └── <span class="cls">Equatable</span> <span class="gives-tag">── gives: __eq__</span>
+      ├── <span class="cls">Comparable</span> <span class="gives-tag">── gives: __lt__ __le__ __gt__ __ge__</span>
+      │    ├── <span class="cls">HasKey[Key]</span> <span class="gives-tag">── gives: typed key property</span>
+      │    └── <span class="cls">HasRowCol</span> <span class="gives-tag">── gives: row, col, neighbors(), distance()</span>
+      │
+      └── <span class="cls">Hashable</span> <span class="gives-tag">── gives: __hash__</span>
+           ├── <span class="cls">HasKey[Key]</span> <span class="gives-tag">(+ Comparable)</span>
+           └── <span class="cls">HasRowCol</span> <span class="gives-tag">(+ Comparable)</span>
+
+<span style="color: var(--faint);">collections.abc.</span><span class="proto">Sized</span>
+ └── <span class="cls">Sizable</span> <span class="gives-tag">── gives: __bool__ via __len__</span>
+      └── <span class="cls">Dictable[K, V]</span> <span class="gives-tag">── gives: dict-like access</span>
+
+<span class="cls">Validatable</span> <span class="gives-tag">── gives: __bool__ via is_valid</span>
+ └── <span class="cls">ValidatableMutable</span> <span class="gives-tag">── gives: set_valid(), set_invalid()</span>
+
+<span style="color: var(--faint);">standalone:</span>
+  <span class="cls">HasName</span> <span class="gives-tag">── gives: name property, __str__</span>
+  <span class="cls">HasRowsCols</span> <span class="gives-tag">── gives: rows, cols, shape(), is_within()</span>
+  <span class="cls">HasChildren</span> <span class="gives-tag">── gives: children list, add_child()</span>
+  <span class="cls">HasParent</span> <span class="gives-tag">── gives: parent ref, path_from_root()</span>
+</div>
+
+<!-- ======================== CATALOG ======================== -->
+<h2><span class="num">3.</span> The Catalog — 13 Mixins</h2>
+
+<div class="catalog">
+
+  <div class="group-label">Equality &amp; Ordering</div>
+
+  <div class="mixin-card">
+    <div class="name">Equatable</div>
+    <div class="gives">gives: __eq__</div>
+    <div class="desc">Equality via abstract <code class="ic">key</code> property. Two objects are equal if their keys are equal.</div>
+    <div class="sig">key → SupportsEquality</div>
+  </div>
+
+  <div class="mixin-card">
+    <div class="name">Comparable</div>
+    <div class="gives">gives: __lt__ __le__ __gt__ __ge__</div>
+    <div class="desc">Full ordering. Extends Equatable — one <code class="ic">key</code> property drives all 5 operators.</div>
+    <div class="sig">key → SupportsComparison</div>
+  </div>
+
+  <div class="mixin-card">
+    <div class="name">Hashable</div>
+    <div class="gives">gives: __hash__</div>
+    <div class="desc">Enables sets and dict keys. Reuses the same <code class="ic">key</code> from Equatable — guarantees <code class="ic">a == b → hash(a) == hash(b)</code>.</div>
+    <div class="sig">__hash__ = hash(self.key)</div>
+  </div>
+
+  <div class="group-label">Size &amp; Validity</div>
+
+  <div class="mixin-card">
+    <div class="name">Sizable</div>
+    <div class="gives">gives: __bool__ via __len__</div>
+    <div class="desc">Truthiness from size. Non-empty = truthy. Subclass implements <code class="ic">__len__</code>.</div>
+    <div class="sig">__bool__ → len(self) &gt; 0</div>
+  </div>
+
+  <div class="mixin-card">
+    <div class="name">Dictable[K, V]</div>
+    <div class="gives">gives: dict-like interface</div>
+    <div class="desc">Wraps a dict with <code class="ic">__getitem__</code>, <code class="ic">__setitem__</code>, <code class="ic">__contains__</code>, <code class="ic">__iter__</code>, <code class="ic">keys()</code>, <code class="ic">values()</code>, <code class="ic">items()</code>.</div>
+    <div class="sig">extends Sizable</div>
+  </div>
+
+  <div class="mixin-card">
+    <div class="name">Validatable</div>
+    <div class="gives">gives: __bool__ via is_valid</div>
+    <div class="desc">Immutable validity flag set at construction. <code class="ic">if obj:</code> checks validity.</div>
+    <div class="sig">__bool__ → self._is_valid</div>
+  </div>
+
+  <div class="mixin-card">
+    <div class="name">ValidatableMutable</div>
+    <div class="gives">gives: set_valid(), set_invalid()</div>
+    <div class="desc">Extends Validatable with mutation. Objects can flip validity at runtime.</div>
+    <div class="sig">extends Validatable</div>
+  </div>
+
+  <div class="group-label">Has* — Property Injection</div>
+
+  <div class="mixin-card">
+    <div class="name">HasKey[Key]</div>
+    <div class="gives">gives: typed generic key</div>
+    <div class="desc">Generic identity. Provides concrete <code class="ic">key</code> property that satisfies Comparable + Hashable.</div>
+    <div class="sig">extends Comparable, Hashable</div>
+  </div>
+
+  <div class="mixin-card">
+    <div class="name">HasName</div>
+    <div class="gives">gives: name, __str__</div>
+    <div class="desc">String name as identity label. Default <code class="ic">'NoName'</code>. String representation returns the name.</div>
+    <div class="sig">name → str</div>
+  </div>
+
+  <div class="mixin-card">
+    <div class="name">HasRowCol</div>
+    <div class="gives">gives: row, col, neighbors(), distance()</div>
+    <div class="desc">2D grid position. Key is <code class="ic">(row, col)</code> for row-major ordering. Manhattan distance and 4-neighbor discovery.</div>
+    <div class="sig">extends Comparable, Hashable</div>
+  </div>
+
+  <div class="mixin-card">
+    <div class="name">HasRowsCols</div>
+    <div class="gives">gives: rows, cols, shape(), is_within()</div>
+    <div class="desc">2D dimensions. Represents grid shape. <code class="ic">__len__</code> returns area (rows × cols).</div>
+    <div class="sig">shape() → (rows, cols)</div>
+  </div>
+
+  <div class="mixin-card">
+    <div class="name">HasChildren</div>
+    <div class="gives">gives: children list, add_child()</div>
+    <div class="desc">One-to-many parent→child relationship. Maintains a list of children.</div>
+    <div class="sig">children → list[Self]</div>
+  </div>
+
+  <div class="mixin-card">
+    <div class="name">HasParent</div>
+    <div class="gives">gives: parent ref, path_from_root()</div>
+    <div class="desc">Child→parent link. Walks up the chain to reconstruct the full path from root.</div>
+    <div class="sig">path_from_root() → list[Self]</div>
+  </div>
+
+</div>
+
+<!-- ======================== COMPOSITION EXAMPLE ======================== -->
+<h2><span class="num">4.</span> Composition in Action</h2>
+
+<div class="compose-box">
+  <h3>How RGB uses mixins</h3>
+  <pre><code>class RGB(<span style="color: var(--accent);">HasName</span>, <span style="color: var(--accent);">Comparable</span>):
+
+    @property
+    def key(self) -> tuple[float, float, float]:
+        return (self.r, self.g, self.b)</code></pre>
+  <div class="compose-arrow">↓</div>
+  <div class="compose-result">
+    Result: RGB gets <code class="ic">name</code>, <code class="ic">__str__</code>, <code class="ic">__eq__</code>,
+    <code class="ic">__lt__</code>, <code class="ic">__le__</code>, <code class="ic">__gt__</code>,
+    <code class="ic">__ge__</code> — all from 2 lines of inheritance + 1 property.
+  </div>
+</div>
+
+<div class="compose-box">
+  <h3>How CellMap uses mixins</h3>
+  <pre><code>class CellBase(<span style="color: var(--accent);">HasRowCol</span>, <span style="color: var(--accent);">HasName</span>):
+    ...
+
+class CellMap(CellBase, <span style="color: var(--accent);">ValidatableMutable</span>):
+    ...</code></pre>
+  <div class="compose-arrow">↓</div>
+  <div class="compose-result">
+    Result: CellMap gets <code class="ic">row</code>, <code class="ic">col</code>,
+    <code class="ic">neighbors()</code>, <code class="ic">distance()</code>,
+    <code class="ic">name</code>, <code class="ic">__eq__</code>, <code class="ic">__hash__</code>,
+    all comparison operators, and mutable validity — from 3 mixins.
+  </div>
+</div>
+
+<!-- ======================== FACTS ======================== -->
+<h2><span class="num">5.</span> Fun Facts &amp; History</h2>
+
+<div class="facts-grid">
+
+  <div class="fact-card">
+    <div class="fact-icon">🍦</div>
+    <div class="fact-title">Named After Ice Cream</div>
+    <div class="fact-text">
+      The term "mixin" comes from Steve's Ice Cream Parlor in Somerville, Massachusetts (1973).
+      Customers chose a base ice cream flavor, then "mixed in" toppings like nuts, cookies, or candy.
+      Gilad Bracha and William Cook borrowed the metaphor for OOP in their 1990 paper.
+      Pick a base class, mix in capabilities.
+    </div>
+  </div>
+
+  <div class="fact-card">
+    <div class="fact-icon">🏛️</div>
+    <div class="fact-title">Born in Lisp (1974)</div>
+    <div class="fact-text">
+      Mixins first appeared in Flavors, an early object system for Lisp at MIT.
+      Flavors literally named classes after ice cream flavors — you'd combine
+      "vanilla" with "chocolate-chip" and "nut" flavors to build your object.
+      The joke stuck; the pattern survived.
+    </div>
+  </div>
+
+  <div class="fact-card">
+    <div class="fact-icon">💎</div>
+    <div class="fact-title">The Diamond Problem</div>
+    <div class="fact-text">
+      Multiple inheritance creates the "diamond problem" — if A inherits from B and C,
+      and both B and C inherit from D, which D does A get?
+      Python solves this with <strong>MRO</strong> (Method Resolution Order) using the C3 linearization algorithm.
+      Mixins sidestep the issue by being thin and non-overlapping.
+    </div>
+  </div>
+
+  <div class="fact-card">
+    <div class="fact-icon">🔑</div>
+    <div class="fact-title">One Property to Rule Them All</div>
+    <div class="fact-text">
+      In this codebase, a single abstract <code class="ic">key</code> property unlocks
+      5 operators (<code class="ic">==</code>, <code class="ic">&lt;</code>, <code class="ic">&le;</code>,
+      <code class="ic">&gt;</code>, <code class="ic">&ge;</code>) + hashing.
+      Define <code class="ic">key</code> once → get Equatable + Comparable + Hashable for free.
+      That's the power of mixin composition.
+    </div>
+  </div>
+
+  <div class="fact-card">
+    <div class="fact-icon">🌍</div>
+    <div class="fact-title">Mixins Are Everywhere</div>
+    <div class="fact-text">
+      Ruby uses mixins as its primary code reuse mechanism (modules).
+      Dart, Scala, Kotlin, and Swift all support mixin-like traits.
+      Even JavaScript got in on it — ES6 class expressions enable mixin patterns.
+      Python's <code class="ic">collections.abc</code> module is essentially a mixin library.
+    </div>
+  </div>
+
+  <div class="fact-card">
+    <div class="fact-icon">⚖️</div>
+    <div class="fact-title">Mixin vs. Trait vs. Interface</div>
+    <div class="fact-text">
+      <strong>Interface</strong> = contract only (no code). <strong>Trait</strong> = contract + code (Rust, Scala).
+      <strong>Mixin</strong> = trait + state. Python mixins can carry instance data, making them more powerful
+      than traits — but also more dangerous if you break the single-responsibility rule.
+    </div>
+  </div>
+
+</div>
+
+<!-- ======================== FOOTER ======================== -->
+<footer>
+  <div>f_core/mixins — 13 mixin classes across 14 files</div>
+  <div style="margin-top: .3rem;">Generated 2026-03-09</div>
+</footer>
+
+</body>
+</html>

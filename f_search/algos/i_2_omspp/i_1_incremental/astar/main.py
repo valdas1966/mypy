@@ -82,10 +82,12 @@ class AStarIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
         path = None
         if self._need_path:
             path = self._data.path_to(state=problem.goal)
+        g_goal = self._data.dict_g[problem.goal]
         solution = SolutionSPP(name_algo=self.name,
                                problem=problem,
                                is_valid=True,
-                               path=path)
+                               path=path,
+                               g_goal=g_goal)
         self._sub_solutions.append(solution)
 
     def _run_sub_search(self, problem: ProblemSPP) -> SolutionSPP:

@@ -52,3 +52,12 @@ class To:
         """
         r, g, b = self.tuple(to_int=True)
         return f'{alpha:02X}{r:02X}{g:02X}{b:02X}'
+
+    def ansi(self) -> str:
+        """
+        ========================================================================
+         Return an ANSI 24-bit foreground escape code.
+        ========================================================================
+        """
+        r, g, b = self.tuple(to_int=True)
+        return f'\033[38;2;{r};{g};{b}m'

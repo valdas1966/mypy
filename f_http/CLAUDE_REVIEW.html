@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAUDE REVIEW — f_http</title>
+<style>
+:root {
+  --bg: #0b0f14;
+  --panel: #111827;
+  --panel2: #0f172a;
+  --text: #f8fafc;
+  --muted: #cbd5e1;
+  --faint: #94a3b8;
+  --border: #334155;
+  --accent: #60a5fa;
+  --accent2: #a78bfa;
+  --good: #34d399;
+  --warn: #fbbf24;
+  --bad: #fb7185;
+  --code-bg: #0a1220;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0; padding: 2rem 2.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg); color: var(--text);
+  line-height: 1.6; max-width: 900px; margin: 0 auto;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1 { font-size: 1.5rem; color: #fff; border-bottom: 2px solid var(--border); padding-bottom: .5rem; }
+h2 { font-size: 1.15rem; color: var(--accent); margin-top: 2rem; }
+ol { padding-left: 1.4rem; }
+ol li { margin-bottom: .35rem; font-size: .92rem; }
+pre {
+  background: var(--code-bg); border: 1px solid var(--border);
+  border-radius: 4px; padding: .7rem 1rem;
+  overflow-x: auto; font-size: .83rem; color: var(--good);
+}
+code { font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: .87rem; }
+li code { background: var(--code-bg); padding: .1rem .3rem; border-radius: 3px; color: var(--accent2); }
+section { margin-bottom: 1.5rem; }
+.no-issue { color: var(--good); font-weight: 600; font-size: .9rem; }
+.severity-high { color: var(--bad); }
+.severity-med { color: var(--warn); }
+.severity-low { color: var(--faint); }
+hr { border-color: var(--border); margin: 2rem 0; }
+</style>
+</head>
+<body>
+
+<h1>Code + Design Review: f_http (Package)</h1>
+<ol>
+  <li>Scope: all 4 sub-modules (client, status, response, url) and package <code>__init__.py</code>.</li>
+  <li>Files reviewed: 12 Python files across 4 sub-modules.</li>
+</ol>
+
+<!-- ─── 1. CORRECTNESS ─── -->
+<section>
+<h2>1. Correctness</h2>
+<ol>
+  <li class="severity-high"><strong>Bug:</strong> <code>Status.__init__</code> accepts <code>code: int</code> but <code>Factory.none()</code> passes <code>code=None</code>. The <code>200 &lt;= code &lt; 300</code> comparison will raise <code>TypeError</code> in Python 3.13 when <code>code is None</code>. <em>Evidence:</em> <code>status/main.py:28</code>, <code>status/_factory.py:45</code>. <em>Fix:</em> guard with <code>code is not None and 200 &lt;= code &lt; 300</code> (already present but the type hint <code>int</code> is misleading; should be <code>int | None</code>).</li>
+  <li class="severity-med"><strong>Bug:</strong> <code>Response.is_valid</code> uses <code>bool(self._status)</code> which calls <code>Status.__bool__</code> (2xx check). A 404 response with JSON data would be marked invalid, which is intentional. However, if <code>status</code> is <code>None</code> (connection failure), <code>bool(None)</code> returns <code>False</code>, which works correctly.</li>
+  <li class="severity-med"><strong>Bug:</strong> <code>Client.get_json</code> checks <code>if status and exception is None</code> before parsing JSON. If the server returns non-JSON content with 200, the exception is captured but <code>data</code> stays <code>None</code>. The response is then invalid (2xx but no data). This is correct behavior but undocumented.</li>
+  <li class="severity-low"><strong>Edge case:</strong> <code>URL.suffix()</code> returns <code>None</code> for URLs with no path and no query. This is correct.</li>
+</ol>
+</section>
+
+<!-- ─── 2. READABILITY / NAMING ─── -->
+<section>
+<h2>2. Readability / Naming</h2>
+<ol>
+  <li><code>Client.get_json</code> is clear and descriptive; no rename needed.</li>
+  <li><code>Status.code</code> and <code>Status.name</code> are standard HTTP terminology; good naming.</li>
+  <li><code>Response.elapsed</code> is clear; unit (seconds) documented in docstring.</li>
+  <li><code>URL.suffix()</code> is a method but reads like a property; consider <code>@property</code> for consistency with <code>Status.code</code>. <em>Evidence:</em> <code>url/main.py:23</code>.</li>
+  <li><code>Client</code> class has no <code>__init__</code> or instance methods; the name suggests instantiation. The all-static design is fine but could also be a module of functions. Current approach is consistent with codebase style.</li>
+  <li>Inline comments in <code>Client.get_json</code> are helpful and follow project style.</li>
+  <li><code>Factory.none()</code> in <code>status/_factory.py</code> is slightly ambiguous; <code>unknown()</code> would match the <code>'UNKNOWN'</code> name. <em>Evidence:</em> <code>status/_factory.py:39</code>.</li>
+</ol>
+</section>
+
+<!-- ─── 3. DESIGN (OOP) ─── -->
+<section>
+<h2>3. Design (OOP)</h2>
+<ol>
+  <li><strong>Issue:</strong> <code>Response</code> validity couples status validity with data presence. <strong>Evidence:</strong> <code>response/main.py:42</code>. <strong>Why:</strong> a valid 204 No Content response has no data but is successful. <strong>Fix:</strong> consider <code>is_valid = bool(status) and status.is_valid</code> without requiring data, or document the current choice as intentional for JSON-only use.</li>
+  <li><strong>Issue:</strong> <code>Client</code> only supports GET. <strong>Evidence:</strong> <code>client/main.py:17</code>. <strong>Why:</strong> package is named <code>f_http</code> suggesting general HTTP. <strong>Fix:</strong> no change needed now; name <code>get_json</code> already scopes it. Add <code>post_json</code> when needed.</li>
+  <li><strong>Issue:</strong> <code>URL</code> does not extend any mixin. <strong>Evidence:</strong> <code>url/main.py:5</code>. <strong>Why:</strong> it could benefit from <code>HasName</code> or <code>Validatable</code> for consistency. <strong>Fix:</strong> no change needed; class is simple enough.</li>
+  <li><strong>Issue:</strong> <code>Response</code> does not have <code>__str__</code> or <code>__repr__</code>. <strong>Evidence:</strong> <code>response/main.py</code>. <strong>Why:</strong> debugging requires inspecting individual properties. <strong>Fix:</strong> add <code>__str__</code> returning status code and data presence.</li>
+</ol>
+</section>
+
+<!-- ─── 4. PERFORMANCE ─── -->
+<section>
+<h2>4. Performance</h2>
+<ol>
+  <li><code>Client.get_json</code> is I/O-bound (network). No CPU optimization needed.</li>
+  <li><code>URL.suffix()</code> parses URL on every call. If called repeatedly, the parsed result could be cached. <em>Evidence:</em> <code>url/main.py:29</code>. <em>Fix:</em> cache <code>urlparse</code> result in <code>__init__</code> if suffix is called often.</li>
+  <li>No hot loops or algorithmic concerns in this package.</li>
+</ol>
+</section>
+
+<!-- ─── 5. TYPING ─── -->
+<section>
+<h2>5. Typing</h2>
+<ol>
+  <li class="severity-med"><code>Status.__init__</code> type hint says <code>code: int</code> but <code>Factory.none()</code> passes <code>None</code>. Should be <code>code: int | None</code>. <em>Evidence:</em> <code>status/main.py:15</code>.</li>
+  <li class="severity-med"><code>Response.data</code> return type is <code>dict</code> but should be <code>dict[str, Any] | None</code> since it can be <code>None</code>. <em>Evidence:</em> <code>response/main.py:55</code>.</li>
+  <li class="severity-med"><code>Response.elapsed</code> return type is <code>float</code> but can be <code>None</code>. Should be <code>float | None</code>. <em>Evidence:</em> <code>response/main.py:63</code>.</li>
+  <li class="severity-med"><code>Response.exception</code> return type is <code>str</code> but can be <code>None</code>. Should be <code>str | None</code>. <em>Evidence:</em> <code>response/main.py:71</code>.</li>
+  <li class="severity-med"><code>Response.status</code> return type is <code>Status</code> but can be <code>None</code>. Should be <code>Status | None</code>. <em>Evidence:</em> <code>response/main.py:47</code>.</li>
+  <li class="severity-low"><code>Client.get_json</code> params default to <code>None</code> but type hint is <code>dict[str, Any]</code>, not <code>dict[str, Any] | None</code>. <em>Evidence:</em> <code>client/main.py:21-23</code>.</li>
+  <li><code>URL.suffix</code> return type <code>str | None</code> is correctly annotated.</li>
+</ol>
+</section>
+
+<!-- ─── 6. DOCUMENTATION ─── -->
+<section>
+<h2>6. Documentation</h2>
+<ol>
+  <li>All classes have separator-style docstrings following project convention.</li>
+  <li>All public methods and properties have docstrings.</li>
+  <li><code>Response</code> class docstring includes a property list, which is helpful.</li>
+  <li><code>URL</code> class docstring says "Utils class" which is vague; could say "URL metadata extractor". <em>Evidence:</em> <code>url/main.py:8</code>.</li>
+  <li>Inline comments in <code>Client.get_json</code> explain the two-phase error handling well.</li>
+</ol>
+</section>
+
+<!-- ─── 7. MODULARITY ─── -->
+<section>
+<h2>7. Modularity</h2>
+<ol>
+  <li>Clean separation: each class in its own sub-folder with standard files.</li>
+  <li>Each sub-module has <code>main.py</code>, <code>__init__.py</code>, <code>_factory.py</code>, <code>_tester.py</code>.</li>
+  <li>No split needed; current granularity is appropriate.</li>
+</ol>
+<span class="no-issue">No change needed.</span>
+</section>
+
+<!-- ─── 8. ARCHITECTURE ─── -->
+<section>
+<h2>8. Architecture</h2>
+<ol>
+  <li><strong>Dependency direction is clean:</strong> <code>Client</code> depends on <code>Response</code> and <code>Status</code>; <code>Response</code> depends on <code>Status</code>; <code>URL</code> is independent. No circular imports.</li>
+  <li><strong>Cross-module coupling:</strong> <code>Client</code> imports from <code>.main</code> modules directly (e.g., <code>f_http.response.main</code>) rather than from <code>__init__</code> packages. This bypasses Factory wiring but avoids circular imports. Consistent pattern across all sub-modules.</li>
+  <li><strong>URL isolation:</strong> <code>URL</code> has no connection to the HTTP client pipeline. It could live outside <code>f_http</code> but grouping by domain (URLs are HTTP) is reasonable.</li>
+  <li><strong>No timeout support:</strong> <code>Client.get_json</code> does not pass a <code>timeout</code> to <code>requests.get()</code>. This means requests can hang indefinitely. <em>Evidence:</em> <code>client/main.py:36-38</code>. <em>Fix:</em> add <code>timeout: float = 10.0</code> parameter.</li>
+</ol>
+</section>
+
+<!-- ─── 9. USAGE & USEFULNESS ─── -->
+<section>
+<h2>9. Usage &amp; Usefulness</h2>
+<ol>
+  <li><strong>How to use:</strong> import <code>Client</code> from <code>f_http</code>, call <code>Client.get_json(url)</code>, check response truthiness, access <code>.data</code>.</li>
+  <li><strong>When useful:</strong> simple REST API consumption where you need structured error handling and status validation.</li>
+  <li><strong>When overengineered:</strong> the <code>Status</code> wrapper adds a layer over <code>HTTPStatus</code> that is thin. However, the <code>Validatable</code> mixin enables boolean checks (<code>if response:</code>), which is the key value proposition.</li>
+  <li><strong>Simplification path:</strong> if <code>Status</code> were removed, <code>Response</code> could store <code>status_code: int</code> directly. But the current design enables <code>response.status.name</code> which is useful for logging.</li>
+  <li><strong>Real usage:</strong> <code>f_proj/rapid_api/tiktok/</code> uses this package for TikTok API calls. The <code>URL</code> class is used for extracting media file types from CDN URLs.</li>
+</ol>
+</section>
+
+<!-- ─── 10. SUGGESTIONS ─── -->
+<section>
+<h2>10. Suggestions</h2>
+<ol>
+  <li><strong>[High]</strong> Fix type hint <code>Status.__init__(code: int)</code> to <code>code: int | None</code>. <em>Evidence:</em> <code>status/main.py:15</code> vs <code>status/_factory.py:45</code>. <em>Risk:</em> none. <em>Fix:</em> one-line change.</li>
+  <li><strong>[High]</strong> Fix return type hints on <code>Response</code> properties to include <code>| None</code>. <em>Evidence:</em> <code>response/main.py:47,55,63,71</code>. <em>Risk:</em> none. <em>Fix:</em> four one-line changes.</li>
+  <li><strong>[High]</strong> Add <code>timeout</code> parameter to <code>Client.get_json()</code> to prevent indefinite hangs. <em>Evidence:</em> <code>client/main.py:36</code>. <em>Risk:</em> low (backward compatible with default). <em>Fix:</em> add <code>timeout: float = 10.0</code> param, pass to <code>requests.get()</code>.</li>
+  <li><strong>[Medium]</strong> Add <code>__str__</code> to <code>Response</code> for debugging. <em>Evidence:</em> <code>response/main.py</code> has no string representation. <em>Fix:</em> add 3-line <code>__str__</code> method.</li>
+  <li><strong>[Medium]</strong> Make <code>URL.suffix</code> a <code>@property</code> instead of a method for consistency. <em>Evidence:</em> <code>url/main.py:23</code>. <em>Risk:</em> breaking change for callers using <code>url.suffix()</code>.</li>
+  <li><strong>[Low]</strong> Rename <code>Status.Factory.none()</code> to <code>unknown()</code> to match the <code>'UNKNOWN'</code> name. <em>Evidence:</em> <code>status/_factory.py:39</code>. <em>Risk:</em> low, test-only usage.</li>
+  <li><strong>[Low]</strong> Cache <code>urlparse</code> result in <code>URL.__init__</code> for repeated <code>suffix()</code> calls. <em>Evidence:</em> <code>url/main.py:29</code>. <em>Risk:</em> none.</li>
+</ol>
+</section>
+
+<hr>
+
+<!-- ─── SUMMARY ─── -->
+<section>
+<h2>Summary</h2>
+<ol>
+  <li>The <code>f_http</code> package is well-structured with clean dependency flow: <code>Client &rarr; Response &rarr; Status</code>, plus standalone <code>URL</code>.</li>
+  <li>Primary concern: several <code>| None</code> return types are missing from type hints, which will cause false confidence in type checkers.</li>
+  <li>Adding a <code>timeout</code> parameter to <code>Client.get_json()</code> is the most impactful functional improvement.</li>
+  <li>The boolean validity pattern (<code>if response:</code>) via <code>Validatable</code> is the key design win; it makes error handling clean at call sites.</li>
+  <li>Overall quality is good; all suggestions are incremental improvements, not structural changes.</li>
+</ol>
+</section>
+
+<hr style="border-color: var(--border);">
+<ol style="color: var(--faint); font-size: .8rem;">
+  <li>Generated: 2026-03-09</li>
+  <li>Scope: package-level review for <code>f_http/</code> (4 sub-modules, 12 source files)</li>
+</ol>
+
+</body>
+</html>

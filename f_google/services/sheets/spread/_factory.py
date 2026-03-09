@@ -21,8 +21,13 @@ class Factory:
         return Spread(creds=creds, id_spread=id_spread)
 
     @staticmethod
-    def valdas_test() -> Spread:
+    def test() -> Spread:
         id_spread = '1LqiT2mBYlo1i2M6tabj8s9kiEHngffg4dYY7-amPbgw'
+        return Factory.valdas(id_spread=id_spread)
+
+    @staticmethod
+    def questions() -> Spread:
+        id_spread = '1_aKGiiAdxVqZwXiTjiX4FAqCl0g3sCL7gSJg9ro06tU'
         return Factory.valdas(id_spread=id_spread)
 
     @staticmethod

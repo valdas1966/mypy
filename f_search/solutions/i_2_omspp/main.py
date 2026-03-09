@@ -55,3 +55,18 @@ class SolutionOMSPP(SolutionSearch[ProblemOMSPP, StatsSearch]):
         ========================================================================
         """
         return self._subs
+
+    @property
+    def quality_h(self) -> float | None:
+        """
+        ========================================================================
+         Return avg Heuristic Quality across Sub-Solutions.
+        ========================================================================
+        """
+        if not self:
+            return None
+        qualities = [sub.quality_h for sub in self._subs
+                     if sub.quality_h is not None]
+        if not qualities:
+            return None
+        return sum(qualities) / len(qualities)

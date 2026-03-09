@@ -50,7 +50,9 @@ def test_str() -> None:
     ========================================================================
     """
     rgb = RGB(r=0.5, g=0.5, b=0.5)
-    assert str(rgb) == '(0.5, 0.5, 0.5)'
+    assert str(rgb) == '(127, 127, 127)'
+    red = RGB(name='RED')
+    assert str(red) == 'RED(255, 0, 0)'
 
 
 def test_key() -> None:
@@ -103,6 +105,16 @@ def test_from_hex() -> None:
     """
     rgb = RGB.From.hex('#000000')
     assert rgb == RGB(r=0, g=0, b=0)
+
+
+def test_to_ansi() -> None:
+    """
+    ========================================================================
+     Test the to.ansi() method.
+    ========================================================================
+    """
+    rgb = RGB(r=1.0, g=0.0, b=0.0)
+    assert rgb.to.ansi() == '\033[38;2;255;0;0m'
 
 
 def test_gradient() -> None:
