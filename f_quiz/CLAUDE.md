@@ -9,7 +9,8 @@ models them as Question objects, and runs interactive exams.
 | Path | Purpose |
 |------|---------|
 | `question/` | Question class (text + answer) |
-| `exam/` | Exam class (interactive quiz runner) |
+| `exam/` | Exam class (terminal quiz runner) |
+| `exam_gui/` | ExamGui class (tkinter GUI quiz runner) |
 | `loaders/` | Load questions from external sources |
 
 ## Dependencies

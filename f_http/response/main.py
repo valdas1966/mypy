@@ -23,11 +23,11 @@ class Response(Validatable):
 
     def __init__(self,
                  # Response's status
-                 status: Status,
+                 status: Status | None,
                  # Response's data
                  data: dict[str, Any] | None,
                  # Response's elapsed time (in seconds)
-                 elapsed: float,
+                 elapsed: float | None,
                  # Response's exception message (if failed)
                  exception: str | None = None) -> None:
         """
@@ -43,7 +43,7 @@ class Response(Validatable):
         Validatable.__init__(self, is_valid=is_valid)
 
     @property
-    def status(self) -> Status:
+    def status(self) -> Status | None:
         """
         ========================================================================
          Get the status code of the response.
@@ -61,7 +61,7 @@ class Response(Validatable):
         return self._data
 
     @property
-    def elapsed(self) -> float:
+    def elapsed(self) -> float | None:
         """
         ========================================================================
          Get the elapsed time of the response.
@@ -77,3 +77,13 @@ class Response(Validatable):
         ========================================================================
         """
         return self._exception
+
+    def __str__(self) -> str:
+        """
+        ========================================================================
+         Return the string representation of the response.
+        ========================================================================
+        """
+        code = self._status.code if self._status else None
+        has_data = self._data is not None
+        return f'Code={code}, Data={has_data}, Elapsed={self._elapsed}'

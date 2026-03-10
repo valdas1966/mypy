@@ -286,6 +286,18 @@ Follow the templates in `f_claude/instructions/`:
 - `for_claude_html.md` — instructions for generating `CLAUDE.html`
 - `for_claude_review.md` — instructions for generating `CLAUDE_REVIEW.html`
 
+### Visual HTML Files
+All generated HTML files (`CLAUDE.html`, `CLAUDE_REVIEW.html`) should be **as visual as possible** — not just text walls. Use diagrams, colored sections, icons, visual hierarchies, and illustrations to make the content engaging and easy to scan.
+
+**AI-Generated Images Workflow:**
+When generating HTML files, if an image or illustration would significantly enhance the documentation (e.g., architecture diagrams, class hierarchy visuals, concept illustrations), Claude should:
+1. Pause the HTML generation.
+2. Provide the user with a clear image-generation prompt (suitable for ChatGPT, Google Gemini, or NanoBanana).
+3. Wait for the user to upload the generated image(s).
+4. Embed the image(s) into the HTML file (using base64 inline or relative paths).
+
+The user has subscriptions to **ChatGPT**, **Google Gemini**, and **NanoBanana** for image generation.
+
 ### Scope: Which folders get CLAUDE files
 CLAUDE files are required **only** for folders containing class modules or utility modules:
 - `main.py`, `__init__.py`, `_factory.py`, `_tester.py` — class modules

@@ -7,12 +7,13 @@ Immutable result object returned by `Client.get_json()`. Wraps the HTTP status, 
 
 | Signature | Behavior |
 |-----------|----------|
-| `Response(status: Status, data: dict[str, Any], elapsed: float, exception: str = None) -> None` | Create a response. Valid when `bool(status)` is `True` and `data` is not `None`. |
-| `status -> Status` | The HTTP status wrapper. |
-| `data -> dict` | Parsed JSON body (or `None` on failure). |
-| `elapsed -> float` | Request round-trip time in seconds. |
-| `exception -> str` | Error message if the request failed (or `None`). |
+| `Response(status: Status \| None, data: dict[str, Any] \| None, elapsed: float \| None, exception: str \| None = None) -> None` | Create a response. Valid when `bool(status)` is `True` and `data` is not `None`. |
+| `status -> Status \| None` | The HTTP status wrapper (or `None` on connection failure). |
+| `data -> dict[str, Any] \| None` | Parsed JSON body (or `None` on failure). |
+| `elapsed -> float \| None` | Request round-trip time in seconds (or `None` on failure). |
+| `exception -> str \| None` | Error message if the request failed (or `None`). |
 | `__bool__() -> bool` | `True` if status is 2xx and data is not `None`. Inherited from `Validatable`. |
+| `__str__() -> str` | `'Code=200, Data=True, Elapsed=0.1'` |
 
 ## Inheritance
 

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABOUT — f_http</title>
+<style>
+:root {
+  --bg: #0b0f14;
+  --panel: #111827;
+  --panel2: #0f172a;
+  --card: #1e293b;
+  --text: #f8fafc;
+  --muted: #cbd5e1;
+  --faint: #94a3b8;
+  --border: #334155;
+  --accent: #60a5fa;
+  --accent2: #a78bfa;
+  --good: #34d399;
+  --warn: #fbbf24;
+  --bad: #fb7185;
+  --orange: #fb923c;
+  --code-bg: #0a1220;
+  --grad1: #1e3a5f;
+  --grad2: #0f172a;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg); color: var(--text);
+  line-height: 1.6; max-width: 960px; margin: 0 auto; padding: 2rem;
+}
+a { color: var(--accent); text-decoration: none; }
+
+/* ─── HERO ─── */
+.hero {
+  text-align: center; padding: 3rem 2rem 2rem;
+  background: linear-gradient(135deg, var(--grad1), var(--grad2));
+  border: 1px solid var(--border); border-radius: 12px;
+  margin-bottom: 2.5rem; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: -60px; right: -60px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: rgba(96,165,250,0.08);
+}
+.hero::after {
+  content: ''; position: absolute; bottom: -40px; left: -40px;
+  width: 150px; height: 150px; border-radius: 50%;
+  background: rgba(167,139,250,0.06);
+}
+.hero h1 { font-size: 2rem; margin-bottom: .3rem; letter-spacing: -.5px; }
+.hero h1 span { color: var(--accent); }
+.hero p { color: var(--muted); font-size: 1rem; }
+.hero-icon { font-size: 3.5rem; margin-bottom: .8rem; }
+
+/* ─── TOC ─── */
+.toc {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 8px; padding: 1.2rem 1.5rem; margin-bottom: 2.5rem;
+}
+.toc h3 { font-size: .85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--faint); margin-bottom: .6rem; }
+.toc ol { padding-left: 1.3rem; columns: 2; column-gap: 2rem; }
+.toc li { font-size: .9rem; margin-bottom: .3rem; }
+
+/* ─── SECTIONS ─── */
+section { margin-bottom: 2.5rem; }
+section > h2 {
+  font-size: 1.2rem; color: var(--accent);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: .4rem; margin-bottom: 1rem;
+}
+section > h3 { font-size: 1rem; color: var(--accent2); margin: 1.2rem 0 .6rem; }
+p, li { font-size: .92rem; color: var(--muted); }
+p { margin-bottom: .7rem; }
+
+/* ─── CARDS ─── */
+.card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+.card-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; padding: 1rem 1.2rem;
+  transition: border-color .2s;
+}
+.card:hover { border-color: var(--accent); }
+.card .icon { font-size: 1.5rem; margin-bottom: .4rem; }
+.card h4 { font-size: .95rem; color: #fff; margin-bottom: .3rem; }
+.card p { font-size: .82rem; margin: 0; }
+.card code {
+  background: var(--code-bg); padding: .1rem .3rem;
+  border-radius: 3px; font-size: .8rem; color: var(--accent2);
+  font-family: 'Cascadia Code', 'Fira Code', monospace;
+}
+
+/* ─── DIAGRAM ─── */
+.diagram {
+  background: var(--panel2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 1.5rem; margin: 1.2rem 0;
+  font-family: 'Cascadia Code', 'Fira Code', monospace;
+  font-size: .82rem; line-height: 1.8; overflow-x: auto;
+  color: var(--muted);
+}
+.diagram .hl { color: var(--accent); font-weight: 600; }
+.diagram .hl2 { color: var(--accent2); font-weight: 600; }
+.diagram .g { color: var(--good); }
+.diagram .w { color: var(--warn); }
+.diagram .b { color: var(--bad); }
+.diagram .o { color: var(--orange); }
+
+/* ─── TIMELINE ─── */
+.timeline { position: relative; padding-left: 2rem; margin: 1rem 0; }
+.timeline::before {
+  content: ''; position: absolute; left: 6px; top: 4px; bottom: 4px;
+  width: 2px; background: var(--border);
+}
+.timeline .event {
+  position: relative; margin-bottom: 1rem; padding-left: .8rem;
+}
+.timeline .event::before {
+  content: ''; position: absolute; left: -1.8rem; top: 6px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--bg);
+}
+.timeline .year {
+  font-size: .78rem; color: var(--accent); font-weight: 600;
+  display: inline-block; min-width: 3.5rem;
+}
+.timeline .desc { font-size: .85rem; color: var(--muted); }
+
+/* ─── TABLE ─── */
+table {
+  width: 100%; border-collapse: collapse;
+  margin: .8rem 0; font-size: .85rem;
+}
+th {
+  text-align: left; padding: .5rem .7rem;
+  background: var(--panel2); color: var(--accent);
+  border-bottom: 2px solid var(--border); font-weight: 600;
+}
+td {
+  padding: .45rem .7rem; border-bottom: 1px solid var(--border);
+  color: var(--muted);
+}
+td code {
+  background: var(--code-bg); padding: .1rem .3rem;
+  border-radius: 3px; font-size: .8rem; color: var(--accent2);
+  font-family: 'Cascadia Code', 'Fira Code', monospace;
+}
+
+/* ─── STATUS BADGE ─── */
+.badge {
+  display: inline-block; padding: .15rem .5rem;
+  border-radius: 4px; font-size: .78rem; font-weight: 600;
+}
+.badge-1xx { background: #1e3a5f; color: var(--accent); }
+.badge-2xx { background: #064e3b; color: var(--good); }
+.badge-3xx { background: #422006; color: var(--warn); }
+.badge-4xx { background: #4c0519; color: var(--bad); }
+.badge-5xx { background: #3b0764; color: var(--accent2); }
+
+/* ─── METHOD PILL ─── */
+.method-row { display: flex; align-items: center; gap: .6rem; margin-bottom: .5rem; }
+.pill {
+  display: inline-block; padding: .2rem .6rem;
+  border-radius: 4px; font-size: .78rem; font-weight: 700;
+  font-family: 'Cascadia Code', 'Fira Code', monospace;
+  min-width: 4.5rem; text-align: center;
+}
+.pill-get { background: #064e3b; color: var(--good); }
+.pill-post { background: #1e3a5f; color: var(--accent); }
+.pill-put { background: #422006; color: var(--warn); }
+.pill-patch { background: #422006; color: var(--orange); }
+.pill-delete { background: #4c0519; color: var(--bad); }
+.pill-head { background: #1e1b4b; color: var(--accent2); }
+.pill-options { background: #1a1a2e; color: var(--faint); }
+.method-desc { font-size: .85rem; color: var(--muted); }
+
+/* ─── STAT STRIP ─── */
+.stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem;
+  margin: 1rem 0;
+}
+.stat {
+  text-align: center; background: var(--panel2);
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: .8rem .5rem;
+}
+.stat .num { font-size: 1.4rem; font-weight: 700; color: #fff; }
+.stat .label { font-size: .75rem; color: var(--faint); text-transform: uppercase; letter-spacing: .5px; }
+
+/* ─── FLOW STRIP ─── */
+.flow {
+  display: flex; align-items: center; gap: .4rem;
+  margin: 1rem 0; flex-wrap: wrap; justify-content: center;
+}
+.flow-box {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 6px; padding: .5rem .8rem;
+  font-size: .82rem; text-align: center; color: #fff;
+  min-width: 6rem;
+}
+.flow-box small { display: block; font-size: .72rem; color: var(--faint); }
+.flow-arrow { color: var(--faint); font-size: 1.1rem; }
+
+/* ─── FOOTER ─── */
+footer {
+  text-align: center; padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--faint); font-size: .78rem;
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════ HERO ════════════════════════ -->
+<div class="hero">
+  <div class="hero-icon">&#127760;</div>
+  <h1><span>f_http</span> &mdash; HTTP for Humans</h1>
+  <p>A visual guide to HTTP, status codes, and how f_http wraps it all.</p>
+</div>
+
+<!-- ════════════════════════ TOC ════════════════════════ -->
+<nav class="toc">
+  <h3>Contents</h3>
+  <ol>
+    <li><a href="#what-is-http">What is HTTP?</a></li>
+    <li><a href="#brief-history">Brief History</a></li>
+    <li><a href="#request-response">Request &amp; Response Cycle</a></li>
+    <li><a href="#methods">HTTP Methods</a></li>
+    <li><a href="#status-codes">Status Codes</a></li>
+    <li><a href="#headers">Headers</a></li>
+    <li><a href="#versions">HTTP Versions</a></li>
+    <li><a href="#f-http-modules">f_http Modules</a></li>
+    <li><a href="#f-http-flow">f_http Data Flow</a></li>
+    <li><a href="#fun-facts">Fun Facts</a></li>
+  </ol>
+</nav>
+
+<!-- ════════════════════════ 1. WHAT IS HTTP ════════════════════════ -->
+<section id="what-is-http">
+<h2>1. What is HTTP?</h2>
+<p>
+  <strong>HTTP</strong> (HyperText Transfer Protocol) is the application-layer
+  protocol that powers the World Wide Web. Every time you open a webpage, call
+  a REST API, or stream a video, HTTP is the language your client speaks with
+  the server.
+</p>
+<div class="card-grid">
+  <div class="card">
+    <div class="icon">&#128225;</div>
+    <h4>Request / Response</h4>
+    <p>Client sends a <strong>request</strong>, server returns a <strong>response</strong>. Stateless &mdash; each exchange is independent.</p>
+  </div>
+  <div class="card">
+    <div class="icon">&#128220;</div>
+    <h4>Text-Based</h4>
+    <p>HTTP messages are human-readable text (headers + body). Even binary payloads ride on top of text-framed envelopes.</p>
+  </div>
+  <div class="card">
+    <div class="icon">&#128274;</div>
+    <h4>HTTPS</h4>
+    <p>HTTP + TLS encryption. All modern traffic should be HTTPS &mdash; the "S" stands for <em>Secure</em>.</p>
+  </div>
+  <div class="card">
+    <div class="icon">&#127757;</div>
+    <h4>Universal</h4>
+    <p>Runs on TCP port 80 (or 443 for HTTPS). Supported by every browser, every server, every language.</p>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════ 2. HISTORY ════════════════════════ -->
+<section id="brief-history">
+<h2>2. Brief History</h2>
+<div class="timeline">
+  <div class="event">
+    <span class="year">1989</span>
+    <span class="desc">Tim Berners-Lee proposes the World Wide Web at CERN.</span>
+  </div>
+  <div class="event">
+    <span class="year">1991</span>
+    <span class="desc"><strong>HTTP/0.9</strong> &mdash; one-line protocol. GET only. No headers, no status codes.</span>
+  </div>
+  <div class="event">
+    <span class="year">1996</span>
+    <span class="desc"><strong>HTTP/1.0</strong> (RFC 1945) &mdash; headers, status codes, POST, Content-Type.</span>
+  </div>
+  <div class="event">
+    <span class="year">1997</span>
+    <span class="desc"><strong>HTTP/1.1</strong> (RFC 2068) &mdash; persistent connections, chunked transfer, Host header.</span>
+  </div>
+  <div class="event">
+    <span class="year">2015</span>
+    <span class="desc"><strong>HTTP/2</strong> (RFC 7540) &mdash; binary framing, multiplexing, header compression, server push.</span>
+  </div>
+  <div class="event">
+    <span class="year">2022</span>
+    <span class="desc"><strong>HTTP/3</strong> (RFC 9114) &mdash; runs over QUIC (UDP), 0-RTT handshake, eliminates head-of-line blocking.</span>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════ 3. REQUEST / RESPONSE ════════════════════════ -->
+<section id="request-response">
+<h2>3. Request &amp; Response Cycle</h2>
+<div class="diagram">
+<span class="hl">CLIENT</span>                                          <span class="hl2">SERVER</span>
+  &boxdr;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxdl;
+  &boxv; <span class="g">GET</span> /api/posts/1 HTTP/1.1 &boxv;
+  &boxv; Host: api.example.com   &boxv;  &boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&#9654;   &#128187;
+  &boxv; Accept: application/json &boxv;              &boxv;
+  &boxur;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxul;              &boxv;
+                                               &boxv;
+  &boxdr;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxdl;              &boxv;
+  &boxv; <span class="g">HTTP/1.1</span> <span class="w">200 OK</span>       &boxv;  &#9668;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;
+  &boxv; Content-Type: json     &boxv;
+  &boxv;                        &boxv;
+  &boxv; {"id":1,"title":"..."}  &boxv;
+  &boxur;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxul;
+</div>
+<p>
+  The client opens a TCP connection, sends a <strong>request line</strong> (method + path + version),
+  followed by <strong>headers</strong> and an optional <strong>body</strong>.
+  The server processes it and returns a <strong>status line</strong>, headers, and body.
+</p>
+</section>
+
+<!-- ════════════════════════ 4. METHODS ════════════════════════ -->
+<section id="methods">
+<h2>4. HTTP Methods</h2>
+<div class="method-row"><span class="pill pill-get">GET</span><span class="method-desc">Retrieve a resource. Safe, idempotent. <em>Most common method.</em></span></div>
+<div class="method-row"><span class="pill pill-post">POST</span><span class="method-desc">Create a resource or submit data. Not idempotent.</span></div>
+<div class="method-row"><span class="pill pill-put">PUT</span><span class="method-desc">Replace an entire resource. Idempotent.</span></div>
+<div class="method-row"><span class="pill pill-patch">PATCH</span><span class="method-desc">Partially update a resource.</span></div>
+<div class="method-row"><span class="pill pill-delete">DELETE</span><span class="method-desc">Remove a resource. Idempotent.</span></div>
+<div class="method-row"><span class="pill pill-head">HEAD</span><span class="method-desc">Like GET but response has no body. Useful for checking existence.</span></div>
+<div class="method-row"><span class="pill pill-options">OPTIONS</span><span class="method-desc">Describe communication options. Used in CORS preflight.</span></div>
+</section>
+
+<!-- ════════════════════════ 5. STATUS CODES ════════════════════════ -->
+<section id="status-codes">
+<h2>5. Status Codes</h2>
+<p>Every HTTP response carries a 3-digit status code grouped into five families:</p>
+
+<table>
+<tr>
+  <th>Range</th><th>Family</th><th>Meaning</th><th>Examples</th>
+</tr>
+<tr>
+  <td><span class="badge badge-1xx">1xx</span></td>
+  <td>Informational</td>
+  <td>Request received, continuing</td>
+  <td><code>100 Continue</code>, <code>101 Switching Protocols</code></td>
+</tr>
+<tr>
+  <td><span class="badge badge-2xx">2xx</span></td>
+  <td>Success</td>
+  <td>Request succeeded</td>
+  <td><code>200 OK</code>, <code>201 Created</code>, <code>204 No Content</code></td>
+</tr>
+<tr>
+  <td><span class="badge badge-3xx">3xx</span></td>
+  <td>Redirection</td>
+  <td>Further action needed</td>
+  <td><code>301 Moved Permanently</code>, <code>304 Not Modified</code></td>
+</tr>
+<tr>
+  <td><span class="badge badge-4xx">4xx</span></td>
+  <td>Client Error</td>
+  <td>Bad request from client</td>
+  <td><code>400 Bad Request</code>, <code>401</code>, <code>403</code>, <code>404</code>, <code>429</code></td>
+</tr>
+<tr>
+  <td><span class="badge badge-5xx">5xx</span></td>
+  <td>Server Error</td>
+  <td>Server failed to fulfill</td>
+  <td><code>500 Internal</code>, <code>502 Bad Gateway</code>, <code>503 Unavailable</code></td>
+</tr>
+</table>
+
+<h3>Famous Status Codes</h3>
+<div class="card-grid three">
+  <div class="card">
+    <h4><span class="badge badge-2xx">200</span> OK</h4>
+    <p>The golden standard. Everything worked.</p>
+  </div>
+  <div class="card">
+    <h4><span class="badge badge-3xx">301</span> Moved</h4>
+    <p>Resource permanently relocated. Browsers follow automatically.</p>
+  </div>
+  <div class="card">
+    <h4><span class="badge badge-4xx">404</span> Not Found</h4>
+    <p>The most famous error on the internet. Resource doesn't exist.</p>
+  </div>
+  <div class="card">
+    <h4><span class="badge badge-4xx">418</span> Teapot</h4>
+    <p>RFC 2324 joke: "I'm a teapot". A real code since 1998.</p>
+  </div>
+  <div class="card">
+    <h4><span class="badge badge-4xx">429</span> Too Many</h4>
+    <p>Rate limit hit. Slow down your requests.</p>
+  </div>
+  <div class="card">
+    <h4><span class="badge badge-5xx">503</span> Unavailable</h4>
+    <p>Server overloaded or in maintenance. Try again later.</p>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════ 6. HEADERS ════════════════════════ -->
+<section id="headers">
+<h2>6. Headers</h2>
+<p>Headers carry metadata about the request or response. Key-value pairs separated by <code>:</code>.</p>
+
+<table>
+<tr><th>Header</th><th>Direction</th><th>Purpose</th></tr>
+<tr><td><code>Content-Type</code></td><td>Both</td><td>MIME type of the body (<code>application/json</code>, <code>text/html</code>)</td></tr>
+<tr><td><code>Authorization</code></td><td>Request</td><td>Credentials (<code>Bearer &lt;token&gt;</code>, <code>Basic &lt;b64&gt;</code>)</td></tr>
+<tr><td><code>Accept</code></td><td>Request</td><td>Client tells server what formats it can handle</td></tr>
+<tr><td><code>Cache-Control</code></td><td>Both</td><td>Caching directives (<code>max-age=3600</code>, <code>no-cache</code>)</td></tr>
+<tr><td><code>User-Agent</code></td><td>Request</td><td>Identifies the client software</td></tr>
+<tr><td><code>Set-Cookie</code></td><td>Response</td><td>Server asks client to store a cookie</td></tr>
+<tr><td><code>X-RateLimit-*</code></td><td>Response</td><td>API rate limit info (remaining, reset time)</td></tr>
+</table>
+</section>
+
+<!-- ════════════════════════ 7. VERSIONS ════════════════════════ -->
+<section id="versions">
+<h2>7. HTTP Versions Compared</h2>
+<table>
+<tr>
+  <th>Feature</th><th>HTTP/1.1</th><th>HTTP/2</th><th>HTTP/3</th>
+</tr>
+<tr>
+  <td>Transport</td><td>TCP</td><td>TCP</td><td>QUIC (UDP)</td>
+</tr>
+<tr>
+  <td>Format</td><td>Text</td><td>Binary frames</td><td>Binary frames</td>
+</tr>
+<tr>
+  <td>Multiplexing</td><td>No (1 req/conn)</td><td>Yes</td><td>Yes</td>
+</tr>
+<tr>
+  <td>Header compression</td><td>No</td><td>HPACK</td><td>QPACK</td>
+</tr>
+<tr>
+  <td>Encryption</td><td>Optional (TLS)</td><td>Practically required</td><td>Built-in (TLS 1.3)</td>
+</tr>
+<tr>
+  <td>Head-of-line blocking</td><td>Yes</td><td>At TCP level</td><td>Eliminated</td>
+</tr>
+<tr>
+  <td>Connection setup</td><td>1-3 RTT</td><td>1-3 RTT</td><td>0-1 RTT</td>
+</tr>
+</table>
+</section>
+
+<!-- ════════════════════════ 8. f_http MODULES ════════════════════════ -->
+<section id="f-http-modules">
+<h2>8. f_http Modules</h2>
+<p>
+  The <code>f_http</code> package wraps Python's <code>requests</code> library into
+  three structured classes, turning raw HTTP into typed, validatable objects.
+</p>
+
+<div class="stats">
+  <div class="stat"><div class="num">3</div><div class="label">Classes</div></div>
+  <div class="stat"><div class="num">3</div><div class="label">Factories</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Source files</div></div>
+  <div class="stat"><div class="num">1</div><div class="label">Public method</div></div>
+</div>
+
+<div class="card-grid three">
+  <div class="card" style="border-top: 3px solid var(--good);">
+    <div class="icon">&#128225;</div>
+    <h4>Client</h4>
+    <p>Static HTTP GET client. Single method: <code>get_json()</code>. Handles connection errors and JSON parse errors separately. Logs every call with colored output.</p>
+  </div>
+  <div class="card" style="border-top: 3px solid var(--accent);">
+    <div class="icon">&#127919;</div>
+    <h4>Status</h4>
+    <p>Wraps an HTTP status code. Truthy for 2xx only. Resolves human-readable name via <code>HTTPStatus</code>. Mixins: <code>HasName</code>, <code>Validatable</code>.</p>
+  </div>
+  <div class="card" style="border-top: 3px solid var(--accent2);">
+    <div class="icon">&#128230;</div>
+    <h4>Response</h4>
+    <p>Immutable result from <code>get_json()</code>. Holds status, data, elapsed time, exception. Valid when 2xx <em>and</em> data exists. Mixin: <code>Validatable</code>.</p>
+  </div>
+</div>
+
+<h3>Key Design Decisions</h3>
+<table>
+<tr><th>Decision</th><th>Why</th></tr>
+<tr>
+  <td>Boolean validity via <code>Validatable</code></td>
+  <td>Enables clean <code>if response:</code> checks at call sites</td>
+</tr>
+<tr>
+  <td>Separate error handling (connection vs JSON)</td>
+  <td>Preserves status &amp; elapsed even when JSON parsing fails</td>
+</tr>
+<tr>
+  <td>Static client (no instantiation)</td>
+  <td>Simple utility &mdash; no state to manage</td>
+</tr>
+<tr>
+  <td>Status wraps <code>HTTPStatus</code></td>
+  <td>Adds validation layer + readable name without reinventing the enum</td>
+</tr>
+<tr>
+  <td>Response requires 2xx + data for validity</td>
+  <td>Designed for JSON APIs where a body is always expected</td>
+</tr>
+</table>
+</section>
+
+<!-- ════════════════════════ 9. DATA FLOW ════════════════════════ -->
+<section id="f-http-flow">
+<h2>9. f_http Data Flow</h2>
+<div class="flow">
+  <div class="flow-box" style="border-color: var(--good);">
+    <strong>Client.get_json()</strong>
+    <small>url, params, headers</small>
+  </div>
+  <span class="flow-arrow">&#10132;</span>
+  <div class="flow-box">
+    <strong>requests.get()</strong>
+    <small>network call</small>
+  </div>
+  <span class="flow-arrow">&#10132;</span>
+  <div class="flow-box" style="border-color: var(--accent);">
+    <strong>Status</strong>
+    <small>code &rarr; 2xx?</small>
+  </div>
+  <span class="flow-arrow">&#10132;</span>
+  <div class="flow-box" style="border-color: var(--accent2);">
+    <strong>Response</strong>
+    <small>status + data + elapsed</small>
+  </div>
+</div>
+
+<div class="diagram">
+<span class="hl">Client.get_json(url)</span>
+  &boxv;
+  &boxvr;&boxh;&boxh; try: <span class="g">requests.get(url, params, headers, timeout)</span>
+  &boxv;     &boxv;
+  &boxv;     &boxvr;&boxh;&boxh; <span class="hl2">Status</span>(code=response.status_code)
+  &boxv;     &boxur;&boxh;&boxh; elapsed = response.elapsed.total_seconds()
+  &boxv;
+  &boxvr;&boxh;&boxh; except: <span class="b">exception</span> = str(e)
+  &boxv;
+  &boxvr;&boxh;&boxh; if status and no exception:
+  &boxv;     &boxvr;&boxh;&boxh; try: <span class="g">data</span> = response.json()
+  &boxv;     &boxur;&boxh;&boxh; except: <span class="b">exception</span> = str(e)
+  &boxv;
+  &boxur;&boxh;&boxh; return <span class="hl2">Response</span>(status, data, elapsed, exception)
+         &boxv;
+         &boxur;&boxh;&boxh; <span class="w">is_valid</span> = bool(status) and data is not None
+</div>
+</section>
+
+<!-- ════════════════════════ 10. FUN FACTS ════════════════════════ -->
+<section id="fun-facts">
+<h2>10. Fun Facts</h2>
+<div class="card-grid">
+  <div class="card">
+    <div class="icon">&#9749;</div>
+    <h4>418 I'm a Teapot</h4>
+    <p>An April Fools' RFC from 1998 (RFC 2324) defined the "Hyper Text Coffee Pot Control Protocol". Google's teapot at <em>google.com/teapot</em> still returns 418.</p>
+  </div>
+  <div class="card">
+    <div class="icon">&#128640;</div>
+    <h4>HTTP/3 runs on UDP</h4>
+    <p>After 30 years on TCP, HTTP/3 switched to QUIC (UDP-based). Connection setup dropped from 3 round-trips to 0&ndash;1.</p>
+  </div>
+  <div class="card">
+    <div class="icon">&#128176;</div>
+    <h4>402 Payment Required</h4>
+    <p>"Reserved for future use" since 1997. Nearly 30 years later, it's still not officially standardized. Some APIs use it anyway.</p>
+  </div>
+  <div class="card">
+    <div class="icon">&#128200;</div>
+    <h4>~80% of all web traffic</h4>
+    <p>HTTP carries roughly 80% of all internet traffic. The remaining 20% includes email (SMTP), DNS, gaming, and VoIP protocols.</p>
+  </div>
+  <div class="card">
+    <div class="icon">&#128221;</div>
+    <h4>The first HTTP request</h4>
+    <p>The first-ever webpage (info.cern.ch) was served in 1991 using HTTP/0.9 &mdash; a one-line protocol with no headers at all.</p>
+  </div>
+  <div class="card">
+    <div class="icon">&#128272;</div>
+    <h4>HTTPS overtook HTTP in 2017</h4>
+    <p>Chrome started marking HTTP sites as "Not Secure" in 2017. By 2024, over 95% of Chrome page loads use HTTPS.</p>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════ FOOTER ════════════════════════ -->
+<footer>
+  Generated: 2026-03-10 &nbsp;&bull;&nbsp; Scope: f_http package overview &nbsp;&bull;&nbsp; MyPy Framework
+</footer>
+
+</body>
+</html>

@@ -28,7 +28,16 @@
       "Bash(grep:*)",
       "Bash(open:*)",
       "WebSearch",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(find /Users/eyalberkovich/mypy -name \"*url*\" -type f 2>/dev/null | grep -E \"\\\\.\\(py|md\\)$\")",
+      "WebFetch(domain:cdn.aaai.org)",
+      "WebFetch(domain:escholarship.org)",
+      "WebFetch(domain:ojs.aaai.org)",
+      "WebFetch(domain:link.springer.com)",
+      "WebFetch(domain:www.cs.du.edu)",
+      "WebFetch(domain:classpages.cselabs.umn.edu)",
+      "WebFetch(domain:webdocs.cs.ualberta.ca)",
+      "WebFetch(domain:ar5iv.labs.arxiv.org)"
     ]
   }
 }

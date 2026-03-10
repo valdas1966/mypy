@@ -1,59 +1,49 @@
 from f_quiz.question import Question
-from f_quiz.loaders.u_gsheet import load
-from f_quiz.exam.main import Exam
+from f_quiz.exam_gui.runner.main import ExamRunner
 
 
 class Factory:
     """
     ========================================================================
-     Factory for Exam.
+     Factory for ExamRunner.
     ========================================================================
     """
 
     @staticmethod
-    def two_capitals() -> Exam:
+    def two_capitals() -> ExamRunner:
         """
         ====================================================================
-         Create an Exam with two capital city Questions.
-        ====================================================================
-        """
-        questions = [
-            Question.Factory.capital_of_france(),
-            Question.Factory.capital_of_germany()
-        ]
-        return Exam(questions=questions)
-
-    @staticmethod
-    def two_capitals_random() -> Exam:
-        """
-        ====================================================================
-         Create a randomized Exam with two capital city Questions.
+         Create an ExamRunner with two capital city Questions.
         ====================================================================
         """
         questions = [
             Question.Factory.capital_of_france(),
             Question.Factory.capital_of_germany()
         ]
-        return Exam(questions=questions, is_random=True)
+        return ExamRunner(questions=questions)
 
     @staticmethod
-    def two_capitals_n(n_questions: int) -> Exam:
+    def two_capitals_random() -> ExamRunner:
         """
         ====================================================================
-         Create an Exam with limited number of Questions.
+         Create a randomized ExamRunner with two capital city Questions.
         ====================================================================
         """
         questions = [
             Question.Factory.capital_of_france(),
             Question.Factory.capital_of_germany()
         ]
-        return Exam(questions=questions, n_questions=n_questions)
+        return ExamRunner(questions=questions, is_random=True)
 
     @staticmethod
-    def hebrew() -> Exam:
+    def two_capitals_n(n_questions: int) -> ExamRunner:
         """
         ====================================================================
-         Create an Exam from the Hebrew Google Sheet.
+         Create an ExamRunner limited to N Questions.
         ====================================================================
         """
-        return Exam(questions=load(sheet_name='Hebrew'))
+        questions = [
+            Question.Factory.capital_of_france(),
+            Question.Factory.capital_of_germany()
+        ]
+        return ExamRunner(questions=questions, n_questions=n_questions)
