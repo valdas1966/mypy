@@ -44,7 +44,7 @@ class ProblemOMSPP(ProblemSearch, HasStart, HasGoals):
     def norm_h_start(self) -> float:
         """
         ========================================================================
-         Return normalized h_start [0,100] relative to max Manhattan dist.
+         Return normalized h_start [0,1] relative to max Manhattan dist.
         ========================================================================
         """
         return self.grid.norm_distance(distance=self.h_start)
@@ -68,7 +68,7 @@ class ProblemOMSPP(ProblemSearch, HasStart, HasGoals):
     def norm_h_goals(self) -> float:
         """
         ========================================================================
-         Return normalized h_goals [0,100] relative to max Manhattan dist.
+         Return normalized h_goals [0,1] relative to max Manhattan dist.
         ========================================================================
         """
         return self.grid.norm_distance(distance=self.h_goals)

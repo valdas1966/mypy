@@ -1,0 +1,34 @@
+% ==========================================================================
+%  Table: Explored Nodes by K
+% ==========================================================================
+%  Required: \usepackage{booktabs}  \usepackage{siunitx}
+% ==========================================================================
+
+\begin{table}[t]
+\centering
+\caption{Mean number of explored nodes per goal count~$k$, averaged
+over all benchmark maps.}
+\label{tab:explored_by_k}
+\begin{tabular}{r
+  S[table-format=6.0, group-separator={,}, group-minimum-digits=4]
+  S[table-format=6.0, group-separator={,}, group-minimum-digits=4]
+  S[table-format=6.0, group-separator={,}, group-minimum-digits=4]}
+\toprule
+{$k$} & {Iterative-$k$A*} & {Aggregative-$k$A*} & {$k$Dijkstra} \\
+\midrule
+10  & 42198  & 42093  & 170558 \\
+20  & 36559  & 36447  & 161641 \\
+30  & 39757  & 39629  & 159601 \\
+40  & 38802  & 38715  & 164805 \\
+50  & 40630  & 40539  & 154560 \\
+60  & 40240  & 40156  & 161557 \\
+70  & 42157  & 42116  & 164951 \\
+80  & 40174  & 40066  & 162752 \\
+90  & 44994  & 44920  & 167716 \\
+100 & 40633  & 40573  & 165513 \\
+\midrule
+\multicolumn{4}{l}{\footnotesize Mean ratio to Aggregative-$k$A*:
+\quad Iter: $1.00{\times}$ \quad Dij: $4.0{\times}$} \\
+\bottomrule
+\end{tabular}
+\end{table}

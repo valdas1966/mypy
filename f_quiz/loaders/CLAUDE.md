@@ -16,9 +16,10 @@ Load quiz questions from external sources into DataFrames.
 
 ```python
 def load(sheet_name: str = 'Hebrew') -> list[Question]
+def load_options(sheet_name: str = 'Options') -> list[QuestionOptions]
 ```
 Reads the questions spreadsheet via `Spread.Factory.questions()`,
-treats the first row as headers, returns a list of Question objects.
+treats the first row as headers.
 
 ## Dependencies
 
@@ -26,3 +27,4 @@ treats the first row as headers, returns a list of Question objects.
 |--------|---------|
 | `f_google.services.sheets.Spread` | Google Sheets access |
 | `f_quiz.question.Question` | Question class |
+| `f_quiz.question_options.QuestionOptions` | Two-option question |

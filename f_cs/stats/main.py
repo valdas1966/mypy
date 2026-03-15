@@ -6,7 +6,7 @@ class StatsAlgo:
     ============================================================================
     """
 
-    def __init__(self, elapsed: int = 0) -> None:
+    def __init__(self, elapsed: float = 0) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -15,7 +15,7 @@ class StatsAlgo:
         self._elapsed = elapsed
 
     @property
-    def elapsed(self) -> int:
+    def elapsed(self) -> float:
         """
         ========================================================================
          Return the elapsed time in seconds.
@@ -24,7 +24,7 @@ class StatsAlgo:
         return self._elapsed
 
     @elapsed.setter
-    def elapsed(self, elapsed: int) -> None:
+    def elapsed(self, elapsed: float) -> None:
         """
         ========================================================================
          Set the elapsed time in seconds.

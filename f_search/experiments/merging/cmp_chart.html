@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Algorithm Comparison — By h_start</title>
+<script src="https://cdn.plot.ly/plotly-2.35.0.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0d1117;
+    color: #e6edf3;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    padding: 30px 40px;
+  }
+  h1 {
+    font-size: 32px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 15px;
+    color: #8b949e;
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  #chart-elapsed { width: 100%; height: 520px; }
+  .chart-title {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 30px 0 8px;
+    letter-spacing: -0.3px;
+  }
+  #chart-explored { width: 100%; height: 520px; }
+
+  .table-wrap { margin-top: 20px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #161b22;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #30363d;
+  }
+  th {
+    background: #1c2129;
+    padding: 12px 14px;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #8b949e;
+    text-align: center;
+  }
+  th.sep { border-left: 2px solid #30363d; }
+  td {
+    padding: 10px 14px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    border-top: 1px solid #21262d;
+    color: #c9d1d9;
+  }
+  td.sep { border-left: 2px solid #30363d; }
+  td.proj { font-style: italic; color: #8b949e; }
+
+  .footer {
+    text-align: center;
+    margin-top: 24px;
+    color: #484f58;
+    font-size: 13px;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<h1>Algorithm Comparison</h1>
+<p class="subtitle">Dijkstra vs. Aggregative vs. Incremental &mdash; 5,000 instances &bull; 25 maps &bull; x-axis = normalized avg distance from start to goals</p>
+
+<div id="chart-elapsed"></div>
+
+<div class="chart-title">Explored Nodes</div>
+<div id="chart-explored"></div>
+
+<div class="table-wrap">
+  <table>
+    <tr>
+      <th rowspan="2">K</th>
+      <th colspan="3">Elapsed (s)</th>
+      <th colspan="3" class="sep">Explored (nodes)</th>
+    </tr>
+    <tr>
+      <th>Dijkstra</th>
+      <th>Aggregative</th>
+      <th>Incremental</th>
+      <th class="sep">Dijkstra</th>
+      <th>Aggregative</th>
+      <th>Incremental</th>
+    </tr>
+    <tr>
+      <td><strong>20</strong></td>
+      <td>9.78</td><td>4.43</td><td>2.65</td>
+      <td class="sep">162,924</td><td>40,399</td><td>40,540</td>
+    </tr>
+    <tr>
+      <td><strong>40</strong></td>
+      <td>9.76</td><td>6.69</td><td>2.96</td>
+      <td class="sep">163,199</td><td>41,453</td><td>41,574</td>
+    </tr>
+    <tr>
+      <td><strong>60</strong></td>
+      <td>9.79</td><td>9.18</td><td>3.21</td>
+      <td class="sep">163,293</td><td>41,981</td><td>42,078</td>
+    </tr>
+    <tr>
+      <td><strong>80</strong></td>
+      <td>9.81</td><td>11.77</td><td>3.45</td>
+      <td class="sep">163,334</td><td>42,252</td><td>42,316</td>
+    </tr>
+    <tr>
+      <td><strong>100</strong></td>
+      <td>9.82</td><td>14.60</td><td>3.64</td>
+      <td class="sep">163,363</td><td>42,485</td><td>42,526</td>
+    </tr>
+    <tr>
+      <td class="proj"><strong>200*</strong></td>
+      <td class="proj">~9.9</td><td class="proj">~27.1</td><td class="proj">~4.9</td>
+      <td class="sep proj">~163,932</td><td class="proj">~45,194</td><td class="proj">~45,107</td>
+    </tr>
+  </table>
+</div>
+
+<p class="footer">Data: 5,000 instances &bull; 25 maps &bull; K &isin; {20, 40, 60, 80, 100} &bull; *projected via linear regression &bull; binned by normalized h_start (10 bins)</p>
+
+<script>
+// h_start = normalized avg distance from start to goals (binned, 10 bins)
+const hX = [10.17, 17.34, 25.05, 33.09, 41.03, 48.49, 56.64, 64.53, 72.01, 80.97];
+
+// Elapsed (averaged per bin)
+const dElap = [2.72, 4.15, 7.49, 10.12, 12.09, 13.83, 17.32, 18.94, 12.50, 15.59];
+const aElap = [3.34, 4.29, 5.64, 7.77, 10.32, 16.58, 17.74, 20.48, 13.70, 18.31];
+const iElap = [0.93, 1.17, 1.77, 2.54, 3.42, 5.72, 6.64, 7.99, 5.30, 7.11];
+
+// Explored (averaged per bin)
+const dExpl = [53025, 76092, 126511, 166088, 200023, 226943, 282016, 304015, 211658, 258566];
+const aExpl = [16040, 20745, 26047, 34156, 46087, 77342, 77434, 85378, 56503, 67654];
+const iExpl = [16048, 20795, 26119, 34249, 46169, 77481, 77629, 85612, 56630, 67709];
+
+const C = { d:'#e74c3c', a:'#f39c12', i:'#2ecc71' };
+const dark = { paper:'#0d1117', plot:'#0d1117', grid:'#21262d', line:'#30363d' };
+const cfg = { responsive:true, displaylogo:false, modeBarButtonsToRemove:['lasso2d','select2d'] };
+
+function mkLine(x, y, name, color, symbol, unit) {
+  return {
+    x:x, y:y, name:name, mode:'lines+markers',
+    line:{color:color, width:3},
+    marker:{size:8, symbol:symbol},
+    hovertemplate:'<b>'+name+'</b><br>h_start=%{x:.0f}<br>%{y:,.1f}'+unit+'<extra></extra>'
+  };
+}
+
+function mkLayout(yTitle, yMax, xTitle, annotations) {
+  return {
+    paper_bgcolor:dark.paper, plot_bgcolor:dark.plot,
+    font:{color:'#e6edf3', family:'Segoe UI, system-ui, sans-serif', size:14},
+    xaxis: {
+      title:{text:'<b>'+xTitle+'</b>', font:{size:15}},
+      gridcolor:dark.grid, linecolor:dark.line,
+      tickfont:{size:13, color:'#c9d1d9'}, zeroline:false
+    },
+    yaxis: {
+      title:{text:'<b>'+yTitle+'</b>', font:{size:16}},
+      gridcolor:dark.grid, linecolor:dark.line,
+      tickfont:{size:13, color:'#c9d1d9'},
+      rangemode:'tozero', range:[0,yMax], zeroline:false
+    },
+    legend:{font:{size:14}, bgcolor:'#161b22', bordercolor:dark.line, borderwidth:1, x:0.02, y:0.98},
+    margin:{t:16, b:56, l:76, r:28},
+    annotations: annotations || [],
+    hovermode:'x unified'
+  };
+}
+
+// ═══════════════════════════════════
+//  ELAPSED CHART
+// ═══════════════════════════════════
+Plotly.newPlot('chart-elapsed', [
+  mkLine(hX, dElap, 'Dijkstra', C.d, 'circle', 's'),
+  mkLine(hX, aElap, 'Aggregative', C.a, 'square', 's'),
+  mkLine(hX, iElap, 'Incremental', C.i, 'triangle-up', 's')
+], mkLayout('Elapsed Time (seconds)', 23,
+  'h_start — Normalized Avg Distance from Start to Goals', [
+  { x:55, y:21.5, text:'<b>Gap widens with distance: 2.4s → 12.5s</b>', showarrow:false, font:{color:'#c9d1d9', size:13} },
+  { x:55, y:19.8, text:'<b>Incremental 2.6x–3.6x faster than Aggregative</b>', showarrow:false, font:{color:C.i, size:13} }
+]), cfg);
+
+// ═══════════════════════════════════
+//  EXPLORED CHART
+// ═══════════════════════════════════
+Plotly.newPlot('chart-explored', [
+  mkLine(hX, dExpl, 'Dijkstra', C.d, 'circle', ''),
+  mkLine(hX, aExpl, 'Aggregative', C.a, 'square', ''),
+  mkLine(hX, iExpl, 'Incremental', C.i, 'triangle-up', '')
+], mkLayout('Explored Nodes', 340000,
+  'h_start — Normalized Avg Distance from Start to Goals', [
+  { x:40, y:70000, text:'<b>Agg ≈ Inc explored (same nodes, different speed)</b>', showarrow:false, font:{color:'#8b949e', size:13} }
+]), cfg);
+</script>
+
+</body>
+</html>

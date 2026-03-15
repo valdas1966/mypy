@@ -3,6 +3,8 @@
 ## Purpose
 GUI exam application using tkinter. Displays questions one at a time,
 accepts answers via text entry, and shows feedback with score.
+Wrong answers show the correct answer and loop on the same question.
+Uses a dark calm theme (Catppuccin Mocha palette).
 
 ## Structure
 

@@ -32,7 +32,7 @@ class ExamGui:
         self._root = tk.Tk()
         self._root.title('Exam')
         self._root.attributes('-fullscreen', True)
-        self._root.configure(bg='white')
+        self._root.configure(bg='#1e1e2e')
         # Escape to exit fullscreen
         self._root.bind('<Escape>', lambda e: self._root.destroy())
         # Widgets
@@ -64,7 +64,6 @@ class ExamGui:
         if self._runner.is_finished:
             self._root.destroy()
             return
-        # Get current question before advancing
         q = self._runner.current
         is_correct = self._runner.check(
             answer=self._w_answer.text
@@ -72,19 +71,22 @@ class ExamGui:
         # Update status
         if is_correct:
             self._w_status.set_correct()
+            self._w_status.set_score(score=self._runner.score,
+                                     total=self._runner.total)
+            # Next question or finish
+            if self._runner.is_finished:
+                self._w_status.set_finished(
+                    score=self._runner.score,
+                    total=self._runner.total
+                )
+                self._w_answer.clear()
+            else:
+                self._show_question()
         else:
+            # Show correct answer, re-ask same question
             self._w_status.set_wrong(answer=q.answer)
-        self._w_status.set_score(score=self._runner.score,
-                                 total=self._runner.total)
-        # Next question or finish
-        if self._runner.is_finished:
-            self._w_status.set_finished(
-                score=self._runner.score,
-                total=self._runner.total
-            )
             self._w_answer.clear()
-        else:
-            self._show_question()
+            self._w_answer.focus()
 
     def _show_question(self) -> None:
         """

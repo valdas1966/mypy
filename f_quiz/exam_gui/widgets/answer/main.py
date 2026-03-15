@@ -17,12 +17,19 @@ class WidgetAnswer(tk.Frame):
          Init with a parent Widget.
         ====================================================================
         """
-        super().__init__(master=master, bg='white')
+        super().__init__(master=master, bg='#1e1e2e')
         self._entry = tk.Entry(self,
-                               font=('Arial', 30, 'bold'),
+                               font=('Arial', 54, 'bold'),
                                justify='center',
-                               width=25)
-        self._entry.pack(pady=20)
+                               width=25,
+                               bg='#313244',
+                               fg='white',
+                               insertbackground='white',
+                               relief='flat',
+                               highlightthickness=2,
+                               highlightcolor='#89b4fa',
+                               highlightbackground='#45475a')
+        self._entry.pack(pady=20, ipady=20)
 
     @property
     def text(self) -> str:

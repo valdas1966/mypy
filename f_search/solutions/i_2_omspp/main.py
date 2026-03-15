@@ -17,7 +17,7 @@ class SolutionOMSPP(SolutionSearch[ProblemOMSPP, StatsSearch]):
                  name_algo: str,
                  problem: ProblemOMSPP,
                  subs: list[SolutionSPP],
-                 elapsed: int) -> None:
+                 elapsed: float) -> None:
         """
         ========================================================================
          Init private Attributes.

@@ -9,7 +9,7 @@ class StatsSearch(StatsAlgo):
     """
 
     def __init__(self,
-                 elapsed: int = 0,
+                 elapsed: float = 0,
                  discovered: int = 0,
                  relaxed: int = 0,
                  explored: int = 0) -> None:

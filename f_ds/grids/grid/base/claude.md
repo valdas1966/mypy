@@ -10,7 +10,7 @@ This module provides the foundational `GridBase` class - a generic 2D grid data 
 - **Key Features**:
   - Iterable (flattens grid when iterating)
   - Indexable via `grid[row][col]` syntax
-  - `norm_distance(distance)` — normalize a Manhattan distance to [0, 100] relative to max `(rows + cols - 2)`
+  - `norm_distance(distance)` — normalize a Manhattan distance to [0, 1] relative to max `(rows + cols - 2)`
   - Supports naming and has rows/cols properties
   - Uses Factory pattern for common configurations
 

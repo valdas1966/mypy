@@ -38,6 +38,7 @@ def load_problems(pickle_problems: str) -> list[ProblemOMSPP]:
     """
     log.debug(f'load_problems({pickle_problems})')
     problems = u_pickle.load(path=pickle_problems)
+    problems = list(reversed(problems))
     log.debug(f'load_problems -> {len(problems)} problems')
     return problems
 
@@ -97,15 +98,18 @@ def pickle_result(solutions: list[SolutionOMSPP],
 """
 
 pickle_grids = 'f:\\paper\\i_1_grids\\grids.pkl'
-folder = 'f:\\temp\\2026\\03\\Forward vs Backward'
+folder = 'f:\\temp\\2026\\03\\incremental'
 pickle_problems = f'{folder}\\problems.pkl'
-pickle_solutions = f'{folder}\\forward.pkl'
+pickle_solutions = f'{folder}\\repeated_reverse.pkl'
 
-algo = AStarIncremental
+algo = AStarRepeated
+#algo = DijkstraIncremental
+#algo = AStarAggregative
+#algo = AStarIncremental
 #algo = AStarIncrementalBackward
 
 d_grids = load_grids(pickle_grids)
 problems = load_problems(pickle_problems)
 # solutions = run_algos(algo, d_grids, problems, with_bounds=True, need_path=True)
-solutions = run_algos(algo, d_grids, problems, need_path=True)
+solutions = run_algos(algo, d_grids, problems, need_path=False)
 pickle_result(solutions, pickle_solutions)

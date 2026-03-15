@@ -1,0 +1,37 @@
+% ==========================================================================
+%  Paragraph: Runtime Scalability Analysis
+% ==========================================================================
+
+\paragraph{Runtime Scalability}
+Figure~\ref{fig:elapsed_by_k} and Table~\ref{tab:elapsed_by_k}
+present the mean elapsed time of the three algorithms as a function
+of the goal count~$k$, averaged over all 2{,}500 problem instances.
+
+Iterative-$k$A* is the fastest algorithm across the entire range of
+$k$-values, with near-constant runtime between 1.6--2.5\,s
+(slope $= 0.009$\,s per $k$-unit; growth factor $1.3{\times}$ from
+$k{=}10$ to $k{=}100$). This confirms that sharing and reusing the
+search effort across successive goal queries effectively amortizes
+the per-goal cost.
+
+In contrast, Aggregative-$k$A* exhibits strictly linear growth
+(slope $= 0.082$\,s per $k$-unit), rising from 2.4\,s at $k{=}10$ to
+9.3\,s at $k{=}100$ --- a $3.9{\times}$ increase. Since this approach
+solves all goals in a single unified search, every additional goal
+expands the open list and increases the overall exploration cost
+proportionally.
+
+$k$Dijkstra serves as an uninformed baseline with essentially
+constant runtime (${\approx}6.4$\,s, slope $\approx 0$), as it
+explores the entire reachable graph regardless of the number of goals.
+
+A notable crossover occurs at $k \approx 65$
+(Figure~\ref{fig:elapsed_by_k}): below this threshold,
+Aggregative-$k$A* outperforms $k$Dijkstra by leveraging heuristic
+guidance on a relatively small goal set; above it, the overhead of
+managing a large aggregated open list exceeds the benefit of heuristic
+pruning, and the uninformed exhaustive search of $k$Dijkstra becomes
+preferable. At $k{=}100$, Iterative-$k$A* achieves a $3.9{\times}$
+speedup over Aggregative-$k$A* and a $2.7{\times}$ speedup over
+$k$Dijkstra, demonstrating that the iterative reuse strategy scales
+gracefully where both alternatives degrade or stagnate.

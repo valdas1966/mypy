@@ -2,7 +2,8 @@
 
 ## Purpose
 Pure exam logic with no GUI dependency. Manages question sequence,
-answer checking, and score tracking.
+answer checking, and score tracking. Wrong answers do not advance —
+the same question is repeated until answered correctly.
 
 ## Public API
 

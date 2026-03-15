@@ -1,0 +1,35 @@
+% ==========================================================================
+%  Paragraph: Exploration Efficiency Analysis
+% ==========================================================================
+
+\paragraph{Exploration Efficiency}
+Table~\ref{tab:explored_by_k} reports the mean number of explored
+(fully expanded) nodes for each algorithm across all $k$-values.
+Two key observations emerge.
+
+First, Iterative-$k$A* and Aggregative-$k$A* explore virtually
+identical numbers of nodes (${\approx}40{,}000$), differing by less
+than $0.3\%$ at every $k$-value. Both counts remain constant as $k$
+increases, confirming that heuristic-guided search prunes the same
+fraction of the graph regardless of the goal count. Coupled with the
+runtime results in Table~\ref{tab:elapsed_by_k}, this reveals that
+the $3.9{\times}$ elapsed-time gap between the two algorithms at
+$k{=}100$ is \emph{not} caused by differences in search
+efficiency, but rather by \emph{per-node computational overhead}:
+Aggregative-$k$A* maintains a single open list whose management cost
+grows with $k$ (priority-queue operations over an increasingly
+populated frontier), whereas Iterative-$k$A* processes each goal
+with a compact, reusable data structure whose per-node cost remains
+fixed.
+
+Second, $k$Dijkstra explores approximately $4{\times}$ more nodes
+(${\approx}162{,}000$) than either heuristic algorithm, confirming
+the pruning power of heuristic guidance. Despite this larger search
+space, $k$Dijkstra's per-node cost is minimal --- no heuristic
+evaluation, no multi-goal bookkeeping --- which explains why its
+total runtime (${\approx}6.4$\,s) remains moderate and constant.
+
+Together, the elapsed-time and explored-node analyses provide a
+complete picture: Iterative-$k$A* matches the search efficiency of
+Aggregative-$k$A* while avoiding its growing per-node overhead,
+and achieves $4{\times}$ better pruning than $k$Dijkstra.

@@ -22,18 +22,18 @@ class ProcessBase(HasName, ValidatableMutable):
         HasName.__init__(self, name=name)
         ValidatableMutable.__init__(self)
         # Init Time Attributes
-        self._elapsed: int | None = None
+        self._elapsed: float | None = None
         self._time_start: float | None = None
         self._time_finish: float | None = None
         
         # Lap timer (seconds since previous call)
-        self._time_lap_prev: int | None = None
+        self._time_lap_prev: float | None = None
 
     @property
-    def elapsed(self) -> int:
+    def elapsed(self) -> float:
         return self._elapsed
 
-    def seconds_since_last_call(self) -> int:
+    def seconds_since_last_call(self) -> float:
         """
         ========================================================================
          Return seconds elapsed since the previous call to this method.
@@ -43,7 +43,7 @@ class ProcessBase(HasName, ValidatableMutable):
         if self._time_lap_prev is None:
             self._time_lap_prev = now
             return 0
-        delta = int(now - self._time_lap_prev)
+        delta = now - self._time_lap_prev
         self._time_lap_prev = now
         return delta
 
@@ -81,4 +81,4 @@ class ProcessBase(HasName, ValidatableMutable):
         ========================================================================
         """
         self._time_finish = time()
-        self._elapsed = int(self._time_finish - self._time_start)
+        self._elapsed = self._time_finish - self._time_start

@@ -2,7 +2,8 @@
 
 ## Purpose
 Tkinter Frame widget with an Entry for user answer input.
-Supports Enter key binding and text retrieval.
+Supports Enter key binding and text retrieval. Uses large
+bold font (Arial 44) with extra height (ipady=15).
 
 ## Public API
 

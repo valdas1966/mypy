@@ -2,7 +2,8 @@
 
 ## Purpose
 Tkinter Frame widget that displays a question counter
-and question text.
+and question text. Uses large bold font (Arial 52) with
+1200px wraplength for fullscreen readability.
 
 ## Public API
 

@@ -105,7 +105,7 @@ class AlgoOMSPP(AlgoSearch[ProblemOMSPP, SolutionOMSPP],
          Construct and return the OMSPP Solution.
         ========================================================================
         """
-        elapsed = int(time() - self._time_start)
+        elapsed = time() - self._time_start
         return SolutionOMSPP(name_algo=self.name,
                              problem=self.problem,
                              subs=self._sub_solutions,

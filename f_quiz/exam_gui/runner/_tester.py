@@ -72,12 +72,12 @@ def test_check_correct(runner: ExamRunner) -> None:
 def test_check_wrong(runner: ExamRunner) -> None:
     """
     ========================================================================
-     Test check() with a wrong Answer.
+     Test check() with a wrong Answer (stays on same Question).
     ========================================================================
     """
     assert runner.check(answer='London') is False
     assert runner.score == 0
-    assert runner.number == 2
+    assert runner.number == 1
 
 
 def test_full_run(runner: ExamRunner) -> None:
@@ -105,6 +105,19 @@ def test_n_questions() -> None:
     assert runner.is_finished
 
 
+def test_check_wrong_then_correct(runner: ExamRunner) -> None:
+    """
+    ========================================================================
+     Test wrong Answer then correct — scores as mistake (0 points).
+    ========================================================================
+    """
+    runner.check(answer='London')
+    assert runner.number == 1
+    runner.check(answer='Paris')
+    assert runner.number == 2
+    assert runner.score == 0
+
+
 def test_is_random() -> None:
     """
     ========================================================================
@@ -112,7 +125,10 @@ def test_is_random() -> None:
     ========================================================================
     """
     runner = ExamRunner.Factory.two_capitals_random()
-    texts = {runner.current.text}
-    runner.check(answer='skip')
-    texts.add(runner.current.text)
-    assert texts == {'Capital of France', 'Capital of Germany'}
+    first = runner.current.text
+    # Answer correctly to advance
+    answer = 'Paris' if first == 'Capital of France' else 'Berlin'
+    runner.check(answer=answer)
+    second = runner.current.text
+    assert {first, second} == {'Capital of France',
+                                'Capital of Germany'}

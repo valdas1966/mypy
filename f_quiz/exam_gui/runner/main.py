@@ -27,6 +27,7 @@ class ExamRunner:
         self._questions = self._prepare_questions()
         self._index = 0
         self._score = 0
+        self._has_mistake = False
 
     @property
     def current(self) -> Question | None:
@@ -78,14 +79,18 @@ class ExamRunner:
     def check(self, answer: str) -> bool:
         """
         ====================================================================
-         Check the Answer, update score, and advance to next Question.
+         Check the Answer. Advance only if correct.
         ====================================================================
         """
         q = self.current
         is_correct = answer.strip().lower() == q.answer.lower()
         if is_correct:
-            self._score += 1
-        self._index += 1
+            if not self._has_mistake:
+                self._score += 1
+            self._has_mistake = False
+            self._index += 1
+        else:
+            self._has_mistake = True
         return is_correct
 
     def _prepare_questions(self) -> list[Question]:

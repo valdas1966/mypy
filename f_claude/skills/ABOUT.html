@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code Skills — What, Why, Pros & Cons</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2333;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-dim: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --orange: #d29922;
+    --purple: #bc8cff;
+    --cyan: #39d2c0;
+    --pink: #f778ba;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ── HEADER ─────────────────────────────────────────────── */
+  .hero {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, #1a1e2e 0%, #0d1117 50%, #1a1528 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at 30% 40%, rgba(88,166,255,0.06) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(188,140,255,0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero .subtitle {
+    font-size: 1.1rem;
+    color: var(--text-dim);
+    position: relative;
+  }
+
+  /* ── SECTION ────────────────────────────────────────────── */
+  section {
+    margin-bottom: 2.5rem;
+  }
+  section > h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  section > h2 .icon {
+    font-size: 1.3rem;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  /* ── WHAT IS CARD ───────────────────────────────────────── */
+  .what-is {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+  .what-is p {
+    font-size: 1.05rem;
+    color: var(--text);
+    margin-bottom: 0.8rem;
+  }
+  .what-is p:last-child { margin-bottom: 0; }
+  .what-is strong { color: var(--accent); }
+  .what-is .one-liner {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--cyan);
+    border-left: 3px solid var(--cyan);
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  /* ── FLOW DIAGRAM ───────────────────────────────────────── */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    padding: 1.5rem 0;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .flow-step {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.7rem 1rem;
+    text-align: center;
+    min-width: 130px;
+    font-size: 0.85rem;
+    position: relative;
+  }
+  .flow-step .step-num {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.2rem;
+  }
+  .flow-step .step-label {
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .flow-arrow {
+    color: var(--text-dim);
+    font-size: 1.4rem;
+    padding: 0 0.3rem;
+    flex-shrink: 0;
+  }
+
+  /* ── STRUCTURE TABLE ────────────────────────────────────── */
+  .structure {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 700px) {
+    .structure { grid-template-columns: 1fr; }
+  }
+  .struct-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.2rem;
+  }
+  .struct-card h3 {
+    font-size: 0.95rem;
+    color: var(--purple);
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .struct-card .tree {
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+    white-space: pre;
+  }
+  .struct-card .tree .file { color: var(--green); }
+  .struct-card .tree .required { color: var(--accent); font-weight: 600; }
+
+  /* ── FRONTMATTER TABLE ──────────────────────────────────── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    margin-bottom: 1rem;
+  }
+  th {
+    background: var(--surface2);
+    text-align: left;
+    padding: 0.7rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--border);
+  }
+  tr:last-child td { border-bottom: none; }
+  td code {
+    background: var(--surface2);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.82rem;
+    color: var(--cyan);
+  }
+
+  /* ── PROS / CONS ────────────────────────────────────────── */
+  .pros-cons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  @media (max-width: 700px) {
+    .pros-cons { grid-template-columns: 1fr; }
+  }
+  .pros-col, .cons-col {
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid;
+  }
+  .pros-col {
+    background: rgba(63, 185, 80, 0.05);
+    border-color: rgba(63, 185, 80, 0.2);
+  }
+  .cons-col {
+    background: rgba(248, 81, 73, 0.05);
+    border-color: rgba(248, 81, 73, 0.2);
+  }
+  .pros-col h3 {
+    color: var(--green);
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .cons-col h3 {
+    color: var(--red);
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .point {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 0.8rem;
+    align-items: flex-start;
+  }
+  .point:last-child { margin-bottom: 0; }
+  .point .bullet {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-top: 2px;
+  }
+  .pros-col .bullet {
+    background: rgba(63, 185, 80, 0.15);
+    color: var(--green);
+  }
+  .cons-col .bullet {
+    background: rgba(248, 81, 73, 0.15);
+    color: var(--red);
+  }
+  .point .text {
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+  .point .text strong {
+    display: block;
+    margin-bottom: 0.1rem;
+  }
+  .pros-col .text strong { color: var(--green); }
+  .cons-col .text strong { color: var(--red); }
+  .point .text .detail { color: var(--text-dim); font-size: 0.85rem; }
+
+  /* ── COMPARISON MATRIX ──────────────────────────────────── */
+  .matrix td:first-child {
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .matrix .yes {
+    color: var(--green);
+    font-weight: 600;
+  }
+  .matrix .no {
+    color: var(--text-dim);
+  }
+  .matrix .partial {
+    color: var(--orange);
+  }
+  .matrix th:not(:first-child),
+  .matrix td:not(:first-child) {
+    text-align: center;
+  }
+
+  /* ── LOCATION CARDS ─────────────────────────────────────── */
+  .locations {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .loc-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .loc-card .loc-path {
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.8rem;
+    color: var(--cyan);
+    background: var(--surface2);
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
+  .loc-card .loc-scope {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+  .loc-card .loc-label {
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+  }
+
+  /* ── BUILT-IN LIST ──────────────────────────────────────── */
+  .builtin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  .builtin-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+  }
+  .builtin-card .cmd {
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.9rem;
+    color: var(--purple);
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+  .builtin-card .desc {
+    font-size: 0.83rem;
+    color: var(--text-dim);
+  }
+
+  /* ── VERDICT ────────────────────────────────────────────── */
+  .verdict {
+    background: linear-gradient(135deg, rgba(88,166,255,0.08), rgba(188,140,255,0.08));
+    border: 1px solid rgba(88,166,255,0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 0.5rem;
+  }
+  .verdict h3 {
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+  }
+  .verdict-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+  .verdict-item {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+  .verdict-item .v-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .verdict-item .v-text {
+    font-size: 0.9rem;
+  }
+  .verdict-item .v-text strong { color: var(--accent); }
+
+  /* ── CODE BLOCK ─────────────────────────────────────────── */
+  pre {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+  }
+  pre .kw { color: var(--purple); }
+  pre .str { color: var(--green); }
+  pre .cm { color: #484f58; }
+
+  /* ── FOOTER ─────────────────────────────────────────────── */
+  footer {
+    text-align: center;
+    padding: 2rem 0 1rem;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="hero">
+  <h1>Claude Code <span>Skills</span></h1>
+  <div class="subtitle">Reusable prompt-based task instructions invoked via /slash-commands</div>
+</div>
+
+<!-- ═══════════════════ WHAT IS ═══════════════════ -->
+<section>
+  <h2><span class="icon" style="background:rgba(88,166,255,0.12); color:var(--accent);">?</span> What Are Skills?</h2>
+  <div class="what-is">
+    <p class="one-liner">Skills are packaged prompts that teach Claude how to do specific tasks.</p>
+    <p>Each skill is a <strong>SKILL.md</strong> file (YAML frontmatter + markdown instructions) stored in a <code>.claude/skills/</code> directory. When invoked via <code>/slash-command</code> or auto-triggered by Claude, the skill's content loads into context and Claude follows the instructions using its tools.</p>
+    <p>They are <strong>not code execution</strong> &mdash; they are instructions that guide Claude's reasoning and tool use. Think of them as reusable playbooks.</p>
+  </div>
+
+  <!-- Flow Diagram -->
+  <div class="flow">
+    <div class="flow-step">
+      <span class="step-num">Step 1</span>
+      <span class="step-label">/skill-name arg</span>
+    </div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">
+      <span class="step-num">Step 2</span>
+      <span class="step-label">Resolve SKILL.md</span>
+    </div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">
+      <span class="step-num">Step 3</span>
+      <span class="step-label">!`cmd` Preprocess</span>
+    </div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">
+      <span class="step-num">Step 4</span>
+      <span class="step-label">$ARGS Substitution</span>
+    </div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">
+      <span class="step-num">Step 5</span>
+      <span class="step-label">Claude Executes</span>
+    </div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">
+      <span class="step-num">Step 6</span>
+      <span class="step-label">Result Returned</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ STRUCTURE ═══════════════════ -->
+<section>
+  <h2><span class="icon" style="background:rgba(188,140,255,0.12); color:var(--purple);">&lt;/&gt;</span> Anatomy of a Skill</h2>
+
+  <div class="structure">
+    <div class="struct-card">
+      <h3>Directory Layout</h3>
+      <div class="tree"><span class="file">.claude/skills/deploy/</span>
+  <span class="required">SKILL.md</span>          <span style="color:var(--orange);"># Required</span>
+  template.md        <span style="color:#484f58;"># Optional</span>
+  examples/
+    sample.md        <span style="color:#484f58;"># Optional</span>
+  scripts/
+    helper.py        <span style="color:#484f58;"># Optional</span></div>
+    </div>
+    <div class="struct-card">
+      <h3>Minimal SKILL.md</h3>
+      <div class="tree"><span style="color:var(--orange);">---</span>
+<span style="color:var(--purple);">name:</span> <span style="color:var(--green);">deploy</span>
+<span style="color:var(--purple);">description:</span> <span style="color:var(--green);">Deploy the app to staging or prod</span>
+<span style="color:var(--orange);">---</span>
+
+Deploy <span style="color:var(--cyan);">$0</span> environment.
+Run <span style="color:var(--cyan);">!`git log -1 --oneline`</span>
+to confirm the latest commit...</div>
+    </div>
+  </div>
+
+  <!-- Frontmatter Fields -->
+  <table>
+    <thead>
+      <tr><th>Field</th><th>Type</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>name</code></td><td>string</td><td>Becomes the <code>/slash-command</code></td></tr>
+      <tr><td><code>description</code></td><td>string</td><td>When to auto-trigger; shown in menu</td></tr>
+      <tr><td><code>disable-model-invocation</code></td><td>bool</td><td><code>true</code> = only user can invoke, not Claude</td></tr>
+      <tr><td><code>allowed-tools</code></td><td>string[]</td><td>Tools Claude can use without permission prompts</td></tr>
+      <tr><td><code>model</code></td><td>string</td><td>Override model (e.g., <code>claude-opus</code>)</td></tr>
+      <tr><td><code>context</code></td><td>string</td><td><code>fork</code> = run in isolated subagent</td></tr>
+      <tr><td><code>argument-hint</code></td><td>string</td><td>Autocomplete hint: <code>[env] [flags]</code></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════════════ LOCATIONS ═══════════════════ -->
+<section>
+  <h2><span class="icon" style="background:rgba(57,210,192,0.12); color:var(--cyan);">@</span> Where Skills Live</h2>
+  <div class="locations">
+    <div class="loc-card">
+      <div class="loc-label">Personal</div>
+      <div class="loc-path">~/.claude/skills/&lt;name&gt;/</div>
+      <div class="loc-scope">All your projects &bull; Not shared</div>
+    </div>
+    <div class="loc-card">
+      <div class="loc-label">Project</div>
+      <div class="loc-path">.claude/skills/&lt;name&gt;/</div>
+      <div class="loc-scope">Current repo &bull; Shared via git</div>
+    </div>
+    <div class="loc-card">
+      <div class="loc-label">Plugin</div>
+      <div class="loc-path">skills/&lt;name&gt;/</div>
+      <div class="loc-scope">Namespaced &bull; <code>plugin:skill</code></div>
+    </div>
+    <div class="loc-card">
+      <div class="loc-label">Nested (Monorepo)</div>
+      <div class="loc-path">packages/foo/.claude/skills/</div>
+      <div class="loc-scope">Auto-discovered per subdirectory</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ BUILT-IN ═══════════════════ -->
+<section>
+  <h2><span class="icon" style="background:rgba(210,153,34,0.12); color:var(--orange);">*</span> Built-in Skills</h2>
+  <div class="builtin-grid">
+    <div class="builtin-card">
+      <div class="cmd">/batch</div>
+      <div class="desc">Decompose large changes into 5-30 parallel agents, each opens a PR</div>
+    </div>
+    <div class="builtin-card">
+      <div class="cmd">/simplify</div>
+      <div class="desc">Review recent changes: spawns 3 review agents, aggregates findings</div>
+    </div>
+    <div class="builtin-card">
+      <div class="cmd">/debug</div>
+      <div class="desc">Troubleshoot by reading the debug log, optionally focused</div>
+    </div>
+    <div class="builtin-card">
+      <div class="cmd">/loop</div>
+      <div class="desc">Run a prompt on a recurring interval (e.g., <code>/loop 5m ...</code>)</div>
+    </div>
+    <div class="builtin-card">
+      <div class="cmd">/claude-api</div>
+      <div class="desc">Load Claude API reference for your project's language</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ PROS & CONS ═══════════════════ -->
+<section>
+  <h2><span class="icon" style="background:rgba(63,185,80,0.12); color:var(--green);">~</span> Pros & Cons</h2>
+  <div class="pros-cons">
+
+    <!-- PROS -->
+    <div class="pros-col">
+      <h3>+ Pros</h3>
+
+      <div class="point">
+        <div class="bullet">1</div>
+        <div class="text">
+          <strong>Reusable Workflows</strong>
+          <span class="detail">Package deploy, review, migrate as /commands. Write once, use everywhere.</span>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="bullet">2</div>
+        <div class="text">
+          <strong>On-Demand Loading</strong>
+          <span class="detail">Only descriptions stay in context. Full skill loads only when invoked &mdash; saves context budget.</span>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="bullet">3</div>
+        <div class="text">
+          <strong>Auto-Activation</strong>
+          <span class="detail">Claude can trigger a skill when your request matches its description. Zero friction.</span>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="bullet">4</div>
+        <div class="text">
+          <strong>Isolated Execution</strong>
+          <span class="detail"><code>context: fork</code> runs in a subagent &mdash; no conversation pollution.</span>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="bullet">5</div>
+        <div class="text">
+          <strong>Dynamic Context Injection</strong>
+          <span class="detail"><code>!`gh pr diff`</code> injects live data before Claude sees the prompt.</span>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="bullet">6</div>
+        <div class="text">
+          <strong>Tool Gating</strong>
+          <span class="detail"><code>allowed-tools</code> grants specific permissions per skill. Safe read-only modes possible.</span>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="bullet">7</div>
+        <div class="text">
+          <strong>Team Shareable</strong>
+          <span class="detail">Project-level skills commit to git. Everyone gets them automatically.</span>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="bullet">8</div>
+        <div class="text">
+          <strong>Model Override</strong>
+          <span class="detail">Use Opus for complex analysis, Haiku for quick checks &mdash; per skill.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONS -->
+    <div class="cons-col">
+      <h3>&minus; Cons</h3>
+
+      <div class="point">
+        <div class="bullet">1</div>
+        <div class="text">
+          <strong>Not Enforced</strong>
+          <span class="detail">Skills are instructions, not rules. Claude tries to follow them but may deviate. No guarantees.</span>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="bullet">2</div>
+        <div class="text">
+          <strong>Context Cost</strong>
+          <span class="detail">Descriptions consume ~2% of context. Many skills may be excluded at budget limits.</span>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="bullet">3</div>
+        <div class="text">
+          <strong>Static Dynamic Data</strong>
+          <span class="detail"><code>!`cmd`</code> runs once before Claude sees the prompt. No live updates during execution.</span>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="bullet">4</div>
+        <div class="text">
+          <strong>No Skill Chaining</strong>
+          <span class="detail">A skill cannot invoke another skill. Must chain manually or use subagents.</span>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="bullet">5</div>
+        <div class="text">
+          <strong>No State Persistence</strong>
+          <span class="detail">Each invocation starts fresh. No memory between runs unless you write to disk.</span>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="bullet">6</div>
+        <div class="text">
+          <strong>Unreliable Auto-Trigger</strong>
+          <span class="detail">Description-based activation is heuristic. Claude may or may not fire the skill.</span>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="bullet">7</div>
+        <div class="text">
+          <strong>Fork Loses History</strong>
+          <span class="detail"><code>context: fork</code> runs without conversation history. Only sees skill content.</span>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="bullet">8</div>
+        <div class="text">
+          <strong>Scope Conflicts</strong>
+          <span class="detail">Same-named skills at multiple levels: higher priority wins. No merging or inheritance.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ COMPARISON ═══════════════════ -->
+<section>
+  <h2><span class="icon" style="background:rgba(247,120,186,0.12); color:var(--pink);">=</span> Skills vs. Other Mechanisms</h2>
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Skills</th>
+        <th>Hooks</th>
+        <th>CLAUDE.md</th>
+        <th>MCP</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Prompt-based</td>
+        <td class="yes">Yes</td>
+        <td class="no">No</td>
+        <td class="yes">Yes</td>
+        <td class="no">No</td>
+      </tr>
+      <tr>
+        <td>Auto-enforcement</td>
+        <td class="no">No</td>
+        <td class="yes">Yes</td>
+        <td class="partial">Advisory</td>
+        <td class="no">No</td>
+      </tr>
+      <tr>
+        <td>On-demand loading</td>
+        <td class="yes">Yes</td>
+        <td class="no">Event-driven</td>
+        <td class="no">Always loaded</td>
+        <td class="no">Always available</td>
+      </tr>
+      <tr>
+        <td>Subagent isolation</td>
+        <td class="yes">Yes</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
+      </tr>
+      <tr>
+        <td>External tool integration</td>
+        <td class="partial">Via Bash</td>
+        <td class="yes">Direct</td>
+        <td class="no">No</td>
+        <td class="yes">Native</td>
+      </tr>
+      <tr>
+        <td>Persistent context</td>
+        <td class="no">Per-invocation</td>
+        <td class="no">Per-event</td>
+        <td class="yes">Yes</td>
+        <td class="no">No</td>
+      </tr>
+      <tr>
+        <td>Model override</td>
+        <td class="yes">Yes</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
+      </tr>
+      <tr>
+        <td>Team shareable via git</td>
+        <td class="yes">Yes</td>
+        <td class="yes">Yes</td>
+        <td class="yes">Yes</td>
+        <td class="yes">Yes</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════════════ VERDICT ═══════════════════ -->
+<section>
+  <div class="verdict">
+    <h3>When to Use What</h3>
+    <div class="verdict-grid">
+      <div class="verdict-item">
+        <span class="v-icon" style="color:var(--accent);">&rarr;</span>
+        <div class="v-text"><strong>Skills</strong> &mdash; Reusable workflows, task playbooks, model overrides, parameterized commands</div>
+      </div>
+      <div class="verdict-item">
+        <span class="v-icon" style="color:var(--green);">&rarr;</span>
+        <div class="v-text"><strong>Hooks</strong> &mdash; Automatic deterministic enforcement (format on save, lint on edit)</div>
+      </div>
+      <div class="verdict-item">
+        <span class="v-icon" style="color:var(--purple);">&rarr;</span>
+        <div class="v-text"><strong>CLAUDE.md</strong> &mdash; Persistent team conventions, coding standards, architecture rules</div>
+      </div>
+      <div class="verdict-item">
+        <span class="v-icon" style="color:var(--cyan);">&rarr;</span>
+        <div class="v-text"><strong>MCP Servers</strong> &mdash; Native integration with external APIs (GitHub, Slack, databases)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Generated by Claude Code &bull; 2026-03-14
+</footer>
+
+</body>
+</html>

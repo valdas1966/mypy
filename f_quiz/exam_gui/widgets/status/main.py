@@ -16,18 +16,18 @@ class WidgetStatus(tk.Frame):
          Init with a parent Widget.
         ====================================================================
         """
-        super().__init__(master=master, bg='white')
+        super().__init__(master=master, bg='#1e1e2e')
         # Feedback label
         self._label_feedback = tk.Label(self,
                                         font=('Arial', 28, 'bold'),
-                                        bg='white',
+                                        bg='#1e1e2e',
                                         text='')
         self._label_feedback.pack(pady=10)
         # Score label
         self._label_score = tk.Label(self,
                                      font=('Arial', 22),
-                                     fg='#888888',
-                                     bg='white',
+                                     fg='#6c7086',
+                                     bg='#1e1e2e',
                                      text='')
         self._label_score.pack(pady=10)
 
@@ -37,7 +37,7 @@ class WidgetStatus(tk.Frame):
          Display 'Correct!' feedback.
         ====================================================================
         """
-        self._label_feedback.config(text='Correct!', fg='green')
+        self._label_feedback.config(text='Correct!', fg='#a6e3a1')
 
     def set_wrong(self, answer: str) -> None:
         """
@@ -47,7 +47,7 @@ class WidgetStatus(tk.Frame):
         """
         self._label_feedback.config(
             text=f'Wrong! Correct answer: {answer}',
-            fg='red'
+            fg='#f38ba8'
         )
 
     def set_score(self, score: int, total: int) -> None:
@@ -66,7 +66,7 @@ class WidgetStatus(tk.Frame):
         """
         self._label_feedback.config(
             text=f'Exam Finished! {score}/{total}',
-            fg='blue',
+            fg='#89b4fa',
             font=('Arial', 36, 'bold')
         )
         self._label_score.config(text='')
