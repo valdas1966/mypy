@@ -5,81 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_claude/skills/ABOUT.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/sheets/cell/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/sheets/cell/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/sheets/cell/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/pandas/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/pandas/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/pandas/csv/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/pandas/csv/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/pandas/csv/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/pandas/csv/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/pandas/df/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/pandas/df/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/pandas/df/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_psl/pandas/df/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/exam_gui/widgets/options/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/exam_gui/widgets/options/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/exam_gui/widgets/options/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/exam_gui_options/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/exam_gui_options/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/exam_gui_options/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/exam_gui_options/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/question_options/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/question_options/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/question_options/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/question_options/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/question_options/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/scripts/generate_options.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/scripts/run_options.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar_backward/PROOF_BOUNDED_HEURISTIC.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/latex/fig_elapsed_by_k.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/latex/par_elapsed_by_k.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/latex/par_explored_by_k.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/latex/tab_elapsed_by_k.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/latex/tab_explored_by_k.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/merging/cmp_chart.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/merging/cmp_chart.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/p_3_problems_intra.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/p_5_analytics_forward.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/p_7_chart_elapsed_by_k.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/problems_to_analytics.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fix_bidi_docx.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.claude/settings.local.json" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_claude/hooks/ABOUT.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_quiz/exam_gui_combined/CLAUDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_quiz/exam_gui_combined/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_quiz/exam_gui_combined/_factory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_quiz/exam_gui_combined/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_quiz/scripts/run_combined.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/experiments/p_6_distributions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/processes/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/processes/i_0_base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_cs/stats/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_cs/stats/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/base/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/base/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/base/claude.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/base/claude.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/grid/base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/grid/base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/sheets/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/sheets/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/sheets/sheet/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/sheets/sheet/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/sheets/sheet/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/sheets/sheet/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/sheets/spread/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/sheets/spread/_tester.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_quiz/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_quiz/exam_gui/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/exam_gui/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_quiz/exam_gui/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/exam_gui/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_quiz/exam_gui/runner/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/exam_gui/runner/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_quiz/exam_gui/runner/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/exam_gui/runner/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_quiz/exam_gui/runner/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/exam_gui/runner/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_quiz/exam_gui/widgets/answer/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/exam_gui/widgets/answer/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_quiz/exam_gui/widgets/answer/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/exam_gui/widgets/answer/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_quiz/exam_gui/widgets/question/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/exam_gui/widgets/question/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_quiz/exam_gui/widgets/question/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/exam_gui/widgets/question/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_quiz/exam_gui/widgets/status/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/exam_gui/widgets/status/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_quiz/loaders/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/loaders/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_quiz/loaders/u_gsheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/loaders/u_gsheet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_0_base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_2_diamonds.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_2_diamonds.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_5_analytics.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_5_analytics_forward_backward.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/problems/i_1_spp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/i_1_spp/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/problems/i_2_omspp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/i_2_omspp/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/solutions/i_2_omspp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/solutions/i_2_omspp/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/stats/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/stats/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_5_analytics_forward.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_5_analytics_forward.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1149,7 +1084,7 @@
       <recent name="F:\mypy\f_core" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.run_options">
+  <component name="RunManager" selected="Python.p_6_distributions">
     <configuration name="generate_options" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -1172,7 +1107,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="p_6_distribution_elapsed_by_k" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="p_5_analytics_forward" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -1185,7 +1120,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_6_distribution_elapsed_by_k.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_5_analytics_forward.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1349,18 +1284,18 @@
     </configuration>
     <list>
       <item itemvalue="Python.generate_options" />
-      <item itemvalue="Python.p_6_distribution_elapsed_by_k" />
+      <item itemvalue="Python.p_5_analytics_forward" />
       <item itemvalue="Python.p_6_distributions" />
       <item itemvalue="Python.p_7_chart_elapsed_by_k" />
       <item itemvalue="Python.run_options" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.p_6_distributions" />
+        <item itemvalue="Python.p_5_analytics_forward" />
         <item itemvalue="Python.run_options" />
         <item itemvalue="Python.generate_options" />
-        <item itemvalue="Python.p_6_distributions" />
         <item itemvalue="Python.p_7_chart_elapsed_by_k" />
-        <item itemvalue="Python.p_6_distribution_elapsed_by_k" />
       </list>
     </recent_temporary>
   </component>
@@ -1439,14 +1374,6 @@
       <workItem from="1770540816637" duration="6873000" />
       <workItem from="1770703006670" duration="7888000" />
       <workItem from="1770804142876" duration="9603000" />
-    </task>
-    <task id="LOCAL-00287" summary="h">
-      <option name="closed" value="true" />
-      <created>1764857219751</created>
-      <option name="number" value="00287" />
-      <option name="presentableId" value="LOCAL-00287" />
-      <option name="project" value="LOCAL" />
-      <updated>1764857219751</updated>
     </task>
     <task id="LOCAL-00288" summary="h">
       <option name="closed" value="true" />
@@ -1832,7 +1759,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772973798375</updated>
     </task>
-    <option name="localTasksCounter" value="336" />
+    <task id="LOCAL-00336" summary="h">
+      <option name="closed" value="true" />
+      <created>1773556031932</created>
+      <option name="number" value="00336" />
+      <option name="presentableId" value="LOCAL-00336" />
+      <option name="project" value="LOCAL" />
+      <updated>1773556031933</updated>
+    </task>
+    <option name="localTasksCounter" value="337" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

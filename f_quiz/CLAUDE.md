@@ -13,6 +13,7 @@ models them as Question objects, and runs interactive exams.
 | `exam/` | Exam class (terminal quiz runner) |
 | `exam_gui/` | ExamGui class (tkinter GUI quiz runner) |
 | `exam_gui_options/` | ExamGuiOptions (two-option GUI quiz) |
+| `exam_gui_combined/` | ExamGuiCombined (mixed text + options GUI) |
 | `loaders/` | Load questions from external sources |
 
 ## Dependencies
