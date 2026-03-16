@@ -67,35 +67,21 @@ class ExamGuiOptions:
         if self._runner.is_finished:
             self._root.destroy()
             return
-        q: QuestionOptions = self._runner.current
         answer = self._w_options.get(key=key)
         is_correct = self._runner.check(answer=answer)
-        # Find which key has the correct answer
-        correct_key = (1 if self._w_options.get(key=1)
-                       == q.answer else 2)
         if is_correct:
-            self._w_options.highlight_correct(key=key)
             self._w_status.set_correct()
             self._w_status.set_score(score=self._runner.score,
                                      total=self._runner.total)
-            # Schedule next question
             if self._runner.is_finished:
-                self._root.after(
-                    1000,
-                    lambda: self._finish()
-                )
+                self._finish()
             else:
-                self._root.after(1000,
-                                 lambda: self._show_question())
+                self._show_question()
         else:
-            self._w_options.highlight_wrong(key=key)
-            self._w_options.highlight_correct(key=correct_key)
-            self._w_status.set_wrong(answer=q.answer)
-            # Re-show same question after delay
-            self._root.after(
-                2000,
-                lambda: self._show_question()
+            self._w_status.set_wrong(
+                answer=self._runner.current.answer
             )
+            self._show_question()
 
     def _show_question(self) -> None:
         """
