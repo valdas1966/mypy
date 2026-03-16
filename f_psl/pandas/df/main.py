@@ -58,3 +58,32 @@ class UDf:
         return (df
                 .groupby(col_a, as_index=False)
                 .agg({col: agg for col in col_b}))
+
+    @staticmethod
+    def add_comparing_cols(df: pd.DataFrame,
+                     col_a: str,
+                     col_b: str) -> pd.DataFrame:
+        """
+        ====================================================================
+         Compare two columns row-by-row.
+        --------------------------------------------------------------------
+         Adds three columns:
+         1) 'min'    — name of the column with the lower value
+                        ('equals' if both are equal).
+         2) 'pct'    — how much less the min is than the max [0, 1].
+                        Formula: (max - min) / max.
+         3) 'oracle' — the minimum value of the two columns.
+        ====================================================================
+        """
+        val_a = df[col_a]
+        val_b = df[col_b]
+        # Min column name
+        df['min'] = 'equals'
+        df.loc[val_a < val_b, 'min'] = col_a
+        df.loc[val_b < val_a, 'min'] = col_b
+        # Oracle
+        df['oracle'] = df[[col_a, col_b]].min(axis=1)
+        # Percentage savings
+        max_val = df[[col_a, col_b]].max(axis=1)
+        df['pct'] = ((max_val - df['oracle']) / max_val).fillna(0)
+        return df

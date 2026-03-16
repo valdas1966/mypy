@@ -23,3 +23,18 @@ class UCsv:
         df = UDf.read(path=path_input)
         df = UDf.group(df=df, col_a=col_a, col_b=col_b, agg=agg)
         UDf.write(df=df, path=path_output)
+
+    @staticmethod
+    def add_comparing_cols(path: str,
+                     col_a: str,
+                     col_b: str) -> None:
+        """
+        ====================================================================
+         Read CSV, compare two columns, and write result back.
+        --------------------------------------------------------------------
+         Adds 'min', 'pct', and 'oracle' columns to the CSV.
+        ====================================================================
+        """
+        df = UDf.read(path=path)
+        df = UDf.add_comparing_cols(df=df, col_a=col_a, col_b=col_b)
+        UDf.write(df=df, path=path)

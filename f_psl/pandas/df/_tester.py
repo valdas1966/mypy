@@ -81,3 +81,32 @@ def test_group_multi_cols():
     assert list(result['a']) == [1, 2]
     assert list(result['b']) == [15.0, 35.0]
     assert list(result['c']) == [150.0, 350.0]
+
+
+def test_add_comparing_cols(tmp_path):
+    """
+    ========================================================================
+     Test add_comparing_cols() with two columns.
+    ========================================================================
+    """
+    df = pd.DataFrame({'astar': [100, 50, 80],
+                       'dijkstra': [80, 50, 100]})
+    result = UDf.add_comparing_cols(df=df, col_a='astar', col_b='dijkstra')
+    assert list(result['min']) == ['dijkstra', 'equals', 'astar']
+    assert list(result['oracle']) == [80, 50, 80]
+    assert result['pct'].iloc[0] == 0.2
+    assert result['pct'].iloc[1] == 0.0
+    assert result['pct'].iloc[2] == 0.2
+
+
+def test_add_comparing_cols_zeros():
+    """
+    ========================================================================
+     Test add_comparing_cols() when both values are zero.
+    ========================================================================
+    """
+    df = pd.DataFrame({'a': [0, 10], 'b': [0, 5]})
+    result = UDf.add_comparing_cols(df=df, col_a='a', col_b='b')
+    assert result['min'].iloc[0] == 'equals'
+    assert result['pct'].iloc[0] == 0.0
+    assert result['oracle'].iloc[0] == 0
