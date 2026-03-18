@@ -10,10 +10,13 @@ from f_psl.pandas.csv import UCsv
 ===============================================================================
 """
 
-# path = '/Users/eyalberkovich/temp/2026/03/Forward and Backward/analytics.csv'
-path = 'f:\\temp\\2026\\03\\Forward vs Backward\\results.csv'
+path = '/Users/eyalberkovich/temp/2026/03/Forward and Backward/results.csv'
+# path = 'f:\\temp\\2026\\03\\Forward vs Backward\\results.csv'
 
-col_forward = 'explored_forward'
-col_backward = 'explored_backward'
+metric = 'explored'
+col_forward = f'{metric}_forward'
+col_backward = f'{metric}_backward'
+cols = [col_forward, col_backward]
+col = f'{metric}_oracle'
 
-UCsv.add_comparing_cols(path=path, col_a=col_forward, col_b=col_backward)
+UCsv.add_col_agg(path=path, cols=cols, col=col, func=min)

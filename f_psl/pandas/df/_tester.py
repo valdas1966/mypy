@@ -83,30 +83,19 @@ def test_group_multi_cols():
     assert list(result['c']) == [150.0, 350.0]
 
 
-def test_add_comparing_cols(tmp_path):
+def test_add_col_agg():
     """
     ========================================================================
-     Test add_comparing_cols() with two columns.
+     Test add_col_agg() with min, max, and sum functions.
     ========================================================================
     """
-    df = pd.DataFrame({'astar': [100, 50, 80],
-                       'dijkstra': [80, 50, 100]})
-    result = UDf.add_comparing_cols(df=df, col_a='astar', col_b='dijkstra')
-    assert list(result['min']) == ['dijkstra', 'equals', 'astar']
-    assert list(result['oracle']) == [80, 50, 80]
-    assert result['pct'].iloc[0] == 0.2
-    assert result['pct'].iloc[1] == 0.0
-    assert result['pct'].iloc[2] == 0.2
-
-
-def test_add_comparing_cols_zeros():
-    """
-    ========================================================================
-     Test add_comparing_cols() when both values are zero.
-    ========================================================================
-    """
-    df = pd.DataFrame({'a': [0, 10], 'b': [0, 5]})
-    result = UDf.add_comparing_cols(df=df, col_a='a', col_b='b')
-    assert result['min'].iloc[0] == 'equals'
-    assert result['pct'].iloc[0] == 0.0
-    assert result['oracle'].iloc[0] == 0
+    df = pd.DataFrame({'a': [1, 5, 3], 'b': [4, 2, 6], 'c': [10, 20, 30]})
+    # Min
+    UDf.add_col_agg(df=df, cols=['a', 'b'], col='min', func=min)
+    assert list(df['min']) == [1, 2, 3]
+    # Max
+    UDf.add_col_agg(df=df, cols=['a', 'b'], col='max', func=max)
+    assert list(df['max']) == [4, 5, 6]
+    # Sum across 3 columns
+    UDf.add_col_agg(df=df, cols=['a', 'b', 'c'], col='total', func=sum)
+    assert list(df['total']) == [15, 27, 39]

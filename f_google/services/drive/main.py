@@ -1,6 +1,9 @@
+import io
+import os
 from google.oauth2.credentials import Credentials as OAuthCredentials
 from google.oauth2.service_account import Credentials as SACredentials
 from googleapiclient.discovery import build
+from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 
 
 class Drive:
@@ -14,6 +17,18 @@ class Drive:
     Factory: type = None
 
     _FOLDER = 'application/vnd.google-apps.folder'
+
+    _EXPORT_MIMES = {
+        'application/vnd.google-apps.document':
+            ('application/pdf', '.pdf'),
+        'application/vnd.google-apps.spreadsheet':
+            ('application/vnd.openxmlformats-officedocument'
+             '.spreadsheetml.sheet', '.xlsx'),
+        'application/vnd.google-apps.presentation':
+            ('application/pdf', '.pdf'),
+        'application/vnd.google-apps.drawing':
+            ('application/pdf', '.pdf'),
+    }
 
     def __init__(self,
                  creds: OAuthCredentials | SACredentials) -> None:
@@ -95,6 +110,184 @@ class Drive:
                     parent_id=current_id,
                     name=part
                 )
+
+    def download(self,
+                 path_src: str,
+                 path_dest: str) -> None:
+        """
+        ====================================================================
+         Download a file or folder from Drive to a local path.
+         Creates parent directories locally if needed.
+         Google-native docs are exported to suitable formats.
+        ====================================================================
+        """
+        file_id = self._resolve(path=path_src)
+        meta = self._service.files().get(
+            fileId=file_id,
+            fields='mimeType'
+        ).execute()
+        mime = meta['mimeType']
+        if mime == self._FOLDER:
+            self._download_folder(folder_id=file_id,
+                                  path_local=path_dest)
+        else:
+            os.makedirs(os.path.dirname(path_dest), exist_ok=True)
+            self._download_file(file_id=file_id,
+                                mime=mime,
+                                path_local=path_dest)
+
+    def upload(self,
+               path_src: str,
+               path_dest: str) -> None:
+        """
+        ====================================================================
+         Upload a local file or folder to Drive at the given path.
+         Creates parent folders on Drive if needed.
+         Overwrites silently if a file already exists.
+        ====================================================================
+        """
+        parts = path_dest.strip('/').split('/')
+        # Ensure parent folders exist on Drive
+        parent_id = self._ensure_parents(parts=parts[:-1])
+        name = parts[-1]
+        if os.path.isdir(path_src):
+            self._upload_folder(path_local=path_src,
+                                parent_id=parent_id,
+                                name=name)
+        else:
+            self._upload_file(path_local=path_src,
+                              parent_id=parent_id,
+                              name=name)
+
+    def _download_file(self,
+                       file_id: str,
+                       mime: str,
+                       path_local: str) -> None:
+        """
+        ====================================================================
+         Download a single file from Drive. Export if Google-native.
+        ====================================================================
+        """
+        if mime in self._EXPORT_MIMES:
+            export_mime, ext = self._EXPORT_MIMES[mime]
+            # Append export extension if not already present
+            if not path_local.endswith(ext):
+                path_local += ext
+            request = self._service.files().export_media(
+                fileId=file_id,
+                mimeType=export_mime
+            )
+        else:
+            request = self._service.files().get_media(
+                fileId=file_id
+            )
+        fh = io.FileIO(path_local, 'wb')
+        downloader = MediaIoBaseDownload(fh, request)
+        done = False
+        while not done:
+            _, done = downloader.next_chunk()
+        fh.close()
+
+    def _download_folder(self,
+                         folder_id: str,
+                         path_local: str) -> None:
+        """
+        ====================================================================
+         Recursively download a folder from Drive to a local path.
+        ====================================================================
+        """
+        os.makedirs(path_local, exist_ok=True)
+        query = (f"'{folder_id}' in parents and "
+                 f"trashed = false")
+        response = self._service.files().list(
+            q=query,
+            fields='files(id, name, mimeType)'
+        ).execute()
+        for item in response.get('files', []):
+            child_path = os.path.join(path_local, item['name'])
+            if item['mimeType'] == self._FOLDER:
+                self._download_folder(folder_id=item['id'],
+                                      path_local=child_path)
+            else:
+                self._download_file(file_id=item['id'],
+                                    mime=item['mimeType'],
+                                    path_local=child_path)
+
+    def _upload_file(self,
+                     path_local: str,
+                     parent_id: str,
+                     name: str) -> None:
+        """
+        ====================================================================
+         Upload a single file to Drive. Overwrites if exists.
+        ====================================================================
+        """
+        # Check if file already exists
+        child_id = self._find_child(parent_id=parent_id,
+                                    name=name)
+        media = MediaFileUpload(path_local)
+        if child_id is not None:
+            self._service.files().update(
+                fileId=child_id,
+                media_body=media
+            ).execute()
+        else:
+            body = {'name': name, 'parents': [parent_id]}
+            self._service.files().create(
+                body=body,
+                media_body=media
+            ).execute()
+
+    def _upload_folder(self,
+                       path_local: str,
+                       parent_id: str,
+                       name: str) -> None:
+        """
+        ====================================================================
+         Recursively upload a local folder to Drive.
+        ====================================================================
+        """
+        # Create or overwrite the folder on Drive
+        child_id = self._find_child(parent_id=parent_id,
+                                    name=name)
+        if child_id is not None:
+            self._service.files().delete(
+                fileId=child_id
+            ).execute()
+        folder_id = self._create_single_folder(
+            parent_id=parent_id,
+            name=name
+        )
+        for entry in os.listdir(path_local):
+            entry_path = os.path.join(path_local, entry)
+            if os.path.isdir(entry_path):
+                self._upload_folder(path_local=entry_path,
+                                    parent_id=folder_id,
+                                    name=entry)
+            else:
+                self._upload_file(path_local=entry_path,
+                                  parent_id=folder_id,
+                                  name=entry)
+
+    def _ensure_parents(self, parts: list[str]) -> str:
+        """
+        ====================================================================
+         Ensure all parent folders exist on Drive (mkdir -p).
+         Returns the ID of the deepest parent.
+        ====================================================================
+        """
+        current_id = 'root'
+        for part in parts:
+            child_id = self._find_child(parent_id=current_id,
+                                        name=part)
+            if child_id is not None:
+                current_id = child_id
+            else:
+                current_id = self._create_single_folder(
+                    parent_id=current_id,
+                    name=part
+                )
+        return current_id
 
     def _resolve(self, path: str = None) -> str:
         """

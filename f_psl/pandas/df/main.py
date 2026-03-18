@@ -1,3 +1,5 @@
+from collections.abc import Callable
+
 import pandas as pd
 
 
@@ -60,30 +62,28 @@ class UDf:
                 .agg({col: agg for col in col_b}))
 
     @staticmethod
-    def add_comparing_cols(df: pd.DataFrame,
-                     col_a: str,
-                     col_b: str) -> pd.DataFrame:
+    def add_col_agg(df: pd.DataFrame,
+                    cols: list[str],
+                    col: str,
+                    func: Callable) -> pd.DataFrame:
         """
         ====================================================================
-         Compare two columns row-by-row.
+         Add a column by aggregating values across specified columns
+         per row using the given function.
         --------------------------------------------------------------------
-         Adds three columns:
-         1) 'min'    — name of the column with the lower value
-                        ('equals' if both are equal).
-         2) 'pct'    — how much less the min is than the max [0, 1].
-                        Formula: (max - min) / max.
-         3) 'oracle' — the minimum value of the two columns.
+         Input:
+        --------------------------------------------------------------------
+         df = pd.DataFrame({'a': [1, 5, 3], 'b': [4, 2, 6]})
+         UDf.add_col_agg(df=df, cols=['a', 'b'], col='min', func=min)
+        --------------------------------------------------------------------
+         Output:
+        --------------------------------------------------------------------
+         a  b  min
+         1  4    1
+         5  2    2
+         3  6    3
         ====================================================================
         """
-        val_a = df[col_a]
-        val_b = df[col_b]
-        # Min column name
-        df['min'] = 'equals'
-        df.loc[val_a < val_b, 'min'] = col_a
-        df.loc[val_b < val_a, 'min'] = col_b
-        # Oracle
-        df['oracle'] = df[[col_a, col_b]].min(axis=1)
-        # Percentage savings
-        max_val = df[[col_a, col_b]].max(axis=1)
-        df['pct'] = ((max_val - df['oracle']) / max_val).fillna(0)
+        df[col] = df[cols].apply(func=func, axis=1)
         return df
+

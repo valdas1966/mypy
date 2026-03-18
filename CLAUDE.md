@@ -1,5 +1,8 @@
 # MyPy Framework — Coding Conventions
 
+## Clarify Before Acting
+Before starting any task, if the prompt is ambiguous, underspecified, or open to multiple interpretations, ask clarifying questions first. Do not assume intent — confirm it. This applies to every prompt, no matter how simple it appears.
+
 ## Project Structure
 
 ### Top-Level Modules

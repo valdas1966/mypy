@@ -39,3 +39,17 @@ def test_csv_group_default_cols(tmp_path):
     result = UDf.read(path=path_output)
     assert list(result['a']) == [1, 2]
     assert list(result['b']) == [30, 70]
+
+
+def test_csv_add_col_agg(tmp_path):
+    """
+    ========================================================================
+     Test UCsv.add_col_agg() end-to-end (read, add column, write).
+    ========================================================================
+    """
+    path = str(tmp_path / 'data.csv')
+    df = pd.DataFrame({'a': [1, 5, 3], 'b': [4, 2, 6]})
+    UDf.write(df=df, path=path)
+    UCsv.add_col_agg(path=path, cols=['a', 'b'], col='min', func=min)
+    result = UDf.read(path=path)
+    assert list(result['min']) == [1, 2, 3]

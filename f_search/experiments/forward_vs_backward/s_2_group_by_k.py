@@ -10,18 +10,21 @@ from f_psl.pandas.csv import UCsv
 ===============================================================================
 """
 
-#folder = '/Users/eyalberkovich/temp/2026/03/Forward and Backward'
-#path_input = f'{folder}/analytics.csv'
-#path_output = f'{folder}/grouped_by_k.csv'
-folder = 'f:\\temp\\2026\\03\\Forward vs Backward'
-path_input = f'{folder}\\results.csv'
-path_output = f'{folder}\\grouped_by_k.csv'
+key = 'h_goals'
+metric = 'explored'
 
-col_group = 'k'
-cols_value = ['explored_forward', 'explored_backward', 'oracle']
+folder = '/Users/eyalberkovich/temp/2026/03/Forward and Backward'
+path_input = f'{folder}/analytics.csv'
+path_output = f'{folder}/{metric}_grouped_by_{key}.csv'
+
+# folder = 'f:\\temp\\2026\\03\\Forward vs Backward'
+# path_input = f'{folder}\\results.csv'
+# path_output = f'{folder}\\elapsed_grouped_by_k.csv'
+
+cols_value = [f'{metric}_forward', f'{metric}_backward', f'{metric}_oracle']
 
 UCsv.group(path_input=path_input,
            path_output=path_output,
-           col_a=col_group,
+           col_a=key,
            col_b=cols_value,
            agg='mean')

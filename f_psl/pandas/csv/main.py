@@ -1,3 +1,5 @@
+from collections.abc import Callable
+
 from f_psl.pandas.df import UDf
 
 
@@ -25,16 +27,16 @@ class UCsv:
         UDf.write(df=df, path=path_output)
 
     @staticmethod
-    def add_comparing_cols(path: str,
-                     col_a: str,
-                     col_b: str) -> None:
+    def add_col_agg(path: str,
+                    cols: list[str],
+                    col: str,
+                    func: Callable) -> None:
         """
         ====================================================================
-         Read CSV, compare two columns, and write result back.
-        --------------------------------------------------------------------
-         Adds 'min', 'pct', and 'oracle' columns to the CSV.
+         Read CSV, add a column by aggregating values across specified
+         columns per row, and write result back.
         ====================================================================
         """
         df = UDf.read(path=path)
-        df = UDf.add_comparing_cols(df=df, col_a=col_a, col_b=col_b)
+        UDf.add_col_agg(df=df, cols=cols, col=col, func=func)
         UDf.write(df=df, path=path)
