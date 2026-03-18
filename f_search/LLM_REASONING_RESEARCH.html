@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM Reasoning × Heuristic Search — Research Roadmap</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --bg3: #1c2333;
+    --accent: #58a6ff;
+    --accent2: #7ee787;
+    --accent3: #d2a8ff;
+    --accent4: #ffa657;
+    --accent5: #ff7b72;
+    --text: #e6edf3;
+    --dim: #8b949e;
+    --border: #30363d;
+    --glow: rgba(88, 166, 255, 0.15);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 600px 400px at 30% 40%, rgba(88,166,255,0.08), transparent),
+      radial-gradient(ellipse 500px 500px at 70% 60%, rgba(210,168,255,0.06), transparent);
+  }
+  .hero-tag {
+    display: inline-block;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 6px 18px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.15;
+    max-width: 900px;
+    position: relative;
+  }
+  .hero h1 .hl { color: var(--accent); }
+  .hero h1 .hl2 { color: var(--accent3); }
+  .hero h1 .hl3 { color: var(--accent2); }
+  .hero-sub {
+    margin-top: 1.2rem;
+    font-size: 1.15rem;
+    color: var(--dim);
+    max-width: 680px;
+    position: relative;
+  }
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    animation: bounce 2s infinite;
+    color: var(--dim);
+    font-size: 1.4rem;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+  }
+
+  /* ── Sections ── */
+  section { max-width: 1100px; margin: 0 auto; padding: 4rem 2rem; }
+  .section-num {
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: var(--accent2);
+  }
+  p { color: var(--dim); margin-bottom: 1rem; }
+  p strong, li strong { color: var(--text); }
+
+  /* ── Cards ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.8rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 30px var(--glow);
+  }
+  .card-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .card h3 { color: var(--text); }
+  .card p { font-size: 0.92rem; }
+
+  /* ── Diagram Blocks ── */
+  .diagram-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2.5rem;
+    margin: 2rem 0;
+    overflow-x: auto;
+  }
+  .diagram-box pre {
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--dim);
+    white-space: pre;
+  }
+  .diagram-box pre .hl { color: var(--accent); font-weight: 700; }
+  .diagram-box pre .hl2 { color: var(--accent3); }
+  .diagram-box pre .hl3 { color: var(--accent2); }
+  .diagram-box pre .hl4 { color: var(--accent4); }
+  .diagram-box pre .hl5 { color: var(--accent5); }
+
+  /* ── Comparison Table ── */
+  .cmp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.9rem;
+  }
+  .cmp-table th {
+    text-align: left;
+    padding: 12px 16px;
+    background: var(--bg3);
+    border-bottom: 2px solid var(--accent);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .cmp-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--dim);
+  }
+  .cmp-table tr:hover td { background: var(--bg2); }
+
+  /* ── Pillars ── */
+  .pillar-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  .pillar {
+    text-align: center;
+    padding: 2rem 1.2rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--bg2);
+  }
+  .pillar-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-weight: 800;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  .pillar:nth-child(1) .pillar-num { background: rgba(88,166,255,0.15); color: var(--accent); }
+  .pillar:nth-child(2) .pillar-num { background: rgba(210,168,255,0.15); color: var(--accent3); }
+  .pillar:nth-child(3) .pillar-num { background: rgba(126,231,135,0.15); color: var(--accent2); }
+
+  /* ── Idea Cards ── */
+  .idea {
+    background: var(--bg2);
+    border-left: 4px solid var(--accent3);
+    border-radius: 0 12px 12px 0;
+    padding: 1.8rem 2rem;
+    margin: 1.5rem 0;
+  }
+  .idea.green { border-left-color: var(--accent2); }
+  .idea.blue { border-left-color: var(--accent); }
+  .idea.orange { border-left-color: var(--accent4); }
+  .idea.red { border-left-color: var(--accent5); }
+  .idea h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+  }
+  .idea ul { padding-left: 1.3rem; margin-top: 0.5rem; }
+  .idea li { color: var(--dim); margin-bottom: 0.3rem; font-size: 0.9rem; }
+
+  /* ── Venue Tags ── */
+  .venue {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .venue.top { background: rgba(255,123,114,0.15); color: var(--accent5); }
+  .venue.good { background: rgba(255,166,87,0.15); color: var(--accent4); }
+  .venue.solid { background: rgba(126,231,135,0.15); color: var(--accent2); }
+
+  /* ── Timeline ── */
+  .timeline {
+    position: relative;
+    padding-left: 3rem;
+    margin: 2rem 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent3), var(--accent2));
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -2.35rem;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+  .tl-item:nth-child(2)::before { background: var(--accent3); }
+  .tl-item:nth-child(3)::before { background: var(--accent4); }
+  .tl-item:nth-child(4)::before { background: var(--accent2); }
+  .tl-label {
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  /* ── Callout ── */
+  .callout {
+    background: linear-gradient(135deg, rgba(88,166,255,0.08), rgba(210,168,255,0.08));
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem 2.5rem;
+    margin: 2rem 0;
+    text-align: center;
+  }
+  .callout p { color: var(--text); font-size: 1.05rem; }
+  .callout .big {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--dim);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .pillar-row { grid-template-columns: 1fr; }
+    .card-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<!-- HERO                                                                    -->
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<div class="hero">
+  <span class="hero-tag">Research Roadmap 2026</span>
+  <h1>
+    <span class="hl">LLM Reasoning</span> Meets<br>
+    <span class="hl2">Heuristic Search</span>
+  </h1>
+  <p class="hero-sub">
+    Why the next frontier in AI reasoning belongs to people who understand
+    search — and how your A*, SPP &amp; OMSPP expertise maps directly
+    onto the hottest open problems in LLM research.
+  </p>
+  <div class="scroll-hint">&#8595;</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1: What IS LLM Reasoning?                                       -->
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="section-num">01 — The Concept</div>
+  <h2>What Is LLM Reasoning?</h2>
+  <p>
+    LLMs generate text token-by-token. <strong>Reasoning</strong> is the
+    ability to produce <strong>multi-step, logically coherent chains of
+    thought</strong> before arriving at an answer — rather than
+    pattern-matching to the most likely next word.
+  </p>
+
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-icon">🔗</span>
+      <h3>Chain-of-Thought (CoT)</h3>
+      <p>
+        The model generates intermediate steps — "Let me think step by
+        step…" — before the final answer. This alone boosts accuracy on
+        math, logic, and coding by <strong>20-40%</strong>.
+      </p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🌳</span>
+      <h3>Tree-of-Thought (ToT)</h3>
+      <p>
+        Instead of a single chain, the model <strong>branches</strong>:
+        explores multiple reasoning paths, evaluates them, and
+        backtracks. Directly analogous to <strong>tree search</strong>.
+      </p>
+    </div>
+    <div class="card">
+      <span class="card-icon">⚡</span>
+      <h3>Test-Time Compute</h3>
+      <p>
+        OpenAI's o1/o3, DeepSeek-R1: spend more compute <strong>at
+        inference</strong> to "think longer." The model searches
+        internally over reasoning traces before committing to an answer.
+      </p>
+    </div>
+  </div>
+
+  <div class="diagram-box">
+    <pre>
+  <span class="hl">Standard LLM</span>                          <span class="hl2">Reasoning LLM</span>
+
+  Prompt ──→ Answer                     Prompt ──→ <span class="hl3">Think</span> ──→ <span class="hl3">Think</span> ──→ <span class="hl3">Think</span> ──→ Answer
+                                                    │          │
+  One forward pass.                                 ├── <span class="hl5">Backtrack</span>
+  No deliberation.                                  │
+  Pattern matching.                                 └── <span class="hl4">Evaluate & Branch</span>
+
+  <span class="dim">Like greedy best-first:</span>               <span class="dim">Like A* with heuristic evaluation:</span>
+  <span class="dim">take the first "good" move.</span>           <span class="dim">explore, evaluate, prune, find optimal.</span>
+    </pre>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 2: Why It Matters                                               -->
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="section-num">02 — The Stakes</div>
+  <h2>Why LLM Reasoning Is <span style="color:var(--accent5)">THE</span> Problem</h2>
+  <p>
+    Reasoning is the <strong>single biggest bottleneck</strong> between
+    current LLMs and truly general AI. Every frontier lab — OpenAI,
+    Google, Anthropic, DeepSeek — is racing to crack it.
+  </p>
+
+  <div class="pillar-row">
+    <div class="pillar">
+      <div class="pillar-num">$</div>
+      <h3>Economics</h3>
+      <p style="font-size:0.88rem;">
+        Better reasoning = fewer tokens to solve a problem.
+        <strong>Test-time search is expensive.</strong>
+        Efficient search saves millions in compute.
+      </p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">!</div>
+      <h3>Correctness</h3>
+      <p style="font-size:0.88rem;">
+        Hallucinations are failures of reasoning.
+        <strong>Verified reasoning chains</strong> are the path to
+        trustworthy AI in medicine, law, science.
+      </p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">∞</div>
+      <h3>Scaling</h3>
+      <p style="font-size:0.88rem;">
+        Pre-training scaling is hitting diminishing returns.
+        <strong>Test-time compute scaling</strong> via search is the
+        new frontier. Reasoning IS the scaling law.
+      </p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="big">The Core Insight</div>
+    <p>
+      LLM reasoning <strong>IS</strong> search over a state space of
+      partial reasoning traces.<br>
+      The field desperately needs people who <em>actually understand search</em>.
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3: The Deep Parallel                                            -->
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="section-num">03 — The Connection</div>
+  <h2>Heuristic Search ↔ LLM Reasoning: A Perfect Map</h2>
+  <p>
+    Every concept you know from A*, SPP, and OMSPP has a direct
+    counterpart in LLM reasoning. This isn't metaphor — it's
+    <strong>the same math</strong>.
+  </p>
+
+  <table class="cmp-table">
+    <thead>
+      <tr>
+        <th>Heuristic Search (Your Expertise)</th>
+        <th>LLM Reasoning (The Frontier)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>State</strong> — node in the graph</td>
+        <td><strong>Partial reasoning trace</strong> — tokens generated so far</td>
+      </tr>
+      <tr>
+        <td><strong>Successor generation</strong> — expand neighbors</td>
+        <td><strong>Token/step generation</strong> — LLM proposes next reasoning steps</td>
+      </tr>
+      <tr>
+        <td><strong>g(n)</strong> — cost from start</td>
+        <td><strong>Reasoning effort</strong> — compute/tokens spent so far</td>
+      </tr>
+      <tr>
+        <td><strong>h(n)</strong> — heuristic estimate to goal</td>
+        <td><strong>Value function</strong> — estimated quality of partial solution</td>
+      </tr>
+      <tr>
+        <td><strong>f(n) = g + h</strong> — evaluation function</td>
+        <td><strong>Search priority</strong> — which reasoning branch to explore next</td>
+      </tr>
+      <tr>
+        <td><strong>Admissibility</strong> — h never overestimates</td>
+        <td><strong>Optimality guarantee</strong> — search won't miss the best answer</td>
+      </tr>
+      <tr>
+        <td><strong>Frontier / Open list</strong></td>
+        <td><strong>Active reasoning branches</strong> (beam candidates)</td>
+      </tr>
+      <tr>
+        <td><strong>Closed / Explored set</strong></td>
+        <td><strong>Already-evaluated reasoning paths</strong></td>
+      </tr>
+      <tr>
+        <td><strong>OMSPP</strong> — one start, many goals</td>
+        <td><strong>Multi-answer / multi-task reasoning</strong></td>
+      </tr>
+      <tr>
+        <td><strong>Cached heuristics</strong> — exact distances from prior runs</td>
+        <td><strong>Learned value models</strong> — trained on past reasoning traces</td>
+      </tr>
+      <tr>
+        <td><strong>Bounded heuristics</strong> — lower bounds via triangle inequality</td>
+        <td><strong>Confidence bounds</strong> — guaranteed quality thresholds</td>
+      </tr>
+      <tr>
+        <td><strong>Priority(f, cached, bounded, g, key)</strong></td>
+        <td><strong>Multi-criterion beam ranking</strong> — quality-aware branch selection</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4: YOUR Research Ideas                                          -->
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="section-num">04 — The Opportunities</div>
+  <h2>5 Research Ideas That Could Land in Top Venues</h2>
+  <p>
+    Each idea directly leverages <strong>your existing codebase and expertise</strong>
+    in heuristic search algorithms.
+  </p>
+
+  <!-- IDEA 1 -->
+  <div class="idea blue">
+    <h4>
+      <span class="venue top">NeurIPS</span>
+      <span class="venue top">ICML</span>
+      1. A* Reasoning — Admissible Heuristics for LLM Search
+    </h4>
+    <p>
+      <strong>The problem:</strong> Current LLM search (ToT, beam search)
+      uses ad-hoc scoring. There's no optimality guarantee — you might
+      spend 10× compute and still miss the best answer.
+    </p>
+    <p>
+      <strong>Your angle:</strong> Define formal admissibility for LLM
+      value functions. Train a value model that provably never
+      overestimates "remaining reasoning difficulty." Then run
+      <strong>actual A*</strong> over the reasoning tree with
+      <strong>guaranteed optimal solutions</strong> in minimum node expansions.
+    </p>
+    <ul>
+      <li>Your <code>PriorityGHFlags</code> tiebreaking → multi-criterion beam ranking (quality-aware)</li>
+      <li>Your cached/bounded/unbounded heuristic tiers → hierarchical value models</li>
+      <li>Prove: <em>A*-guided reasoning finds correct answers with fewer LLM calls than beam search</em></li>
+    </ul>
+  </div>
+
+  <!-- IDEA 2 -->
+  <div class="idea green">
+    <h4>
+      <span class="venue top">ICLR</span>
+      <span class="venue top">NeurIPS</span>
+      2. Incremental Reasoning — Reusing Solutions Across Sub-Problems
+    </h4>
+    <p>
+      <strong>The problem:</strong> When an LLM solves multi-step problems,
+      each reasoning attempt starts from scratch. Prior failed or partial
+      attempts are wasted.
+    </p>
+    <p>
+      <strong>Your angle:</strong> Apply your
+      <code>AStarIncrementalBackward</code> idea: each completed
+      reasoning sub-problem generates <strong>cached exact values</strong>
+      and <strong>bounded lower bounds</strong> that accelerate the next
+      sub-problem. Failed reasoning paths aren't wasted — they become
+      heuristic information.
+    </p>
+    <ul>
+      <li>Your backward-search accumulation → "learn from failed reasoning chains"</li>
+      <li>Your triangle inequality bounds → "if this path cost X, nearby paths cost at least Y"</li>
+      <li>Prove: <em>incremental reasoning solves K sub-questions in less total compute than K independent attempts</em></li>
+    </ul>
+  </div>
+
+  <!-- IDEA 3 -->
+  <div class="idea orange">
+    <h4>
+      <span class="venue top">ICML</span>
+      <span class="venue good">AAAI</span>
+      3. Aggregative Reasoning — Multi-Goal Thought Trees
+    </h4>
+    <p>
+      <strong>The problem:</strong> Complex questions require satisfying
+      multiple constraints simultaneously (math proofs with multiple
+      lemmas, code with multiple requirements). Current methods solve
+      each independently.
+    </p>
+    <p>
+      <strong>Your angle:</strong> Your <code>AStarAggregative</code>
+      OMSPP algorithm uses <code>h(n) = min(distance to any active goal)</code>
+      with a single unified search tree. Apply this to LLM reasoning:
+      <strong>one reasoning tree that satisfies all constraints</strong>,
+      with the heuristic dynamically tightening as constraints are met.
+    </p>
+    <ul>
+      <li>Analogous to constraint satisfaction via unified search</li>
+      <li>Dynamic heuristic adjustment as goals are resolved — no redundant exploration</li>
+      <li>Prove: <em>unified multi-constraint reasoning is cheaper than sequential constraint solving</em></li>
+    </ul>
+  </div>
+
+  <!-- IDEA 4 -->
+  <div class="idea red">
+    <h4>
+      <span class="venue top">NeurIPS</span>
+      <span class="venue good">JAIR</span>
+      4. Heuristic Quality Tiers for Test-Time Compute Allocation
+    </h4>
+    <p>
+      <strong>The problem:</strong> Test-time compute (o1/o3-style
+      "thinking") is expensive. How much should the model think?
+      Currently: fixed budget or crude early-stopping.
+    </p>
+    <p>
+      <strong>Your angle:</strong> Your 3-tier heuristic system
+      (cached → bounded → unbounded) is exactly a
+      <strong>confidence-stratified compute allocation</strong> scheme.
+      States with cached (high-confidence) values need zero additional
+      compute. Bounded states need little. Unbounded states need full
+      exploration.
+    </p>
+    <ul>
+      <li>Map <code>is_cached / is_bounded</code> flags → confidence levels of partial reasoning</li>
+      <li>Allocate more test-time tokens only to low-confidence branches</li>
+      <li>Prove: <em>confidence-aware compute allocation achieves same accuracy with 40-60% fewer tokens</em></li>
+    </ul>
+  </div>
+
+  <!-- IDEA 5 -->
+  <div class="idea">
+    <h4>
+      <span class="venue top">ICLR</span>
+      <span class="venue top">ICML</span>
+      5. Bidirectional Reasoning — Search from Both Ends
+    </h4>
+    <p>
+      <strong>The problem:</strong> Forward-only reasoning (start → answer)
+      often gets lost in the middle. Backward reasoning (answer → verify)
+      is powerful but underused.
+    </p>
+    <p>
+      <strong>Your angle:</strong> Your <code>AStarIncrementalBackward</code>
+      reverses the problem direction. In LLM reasoning: run a
+      <strong>forward generator</strong> (propose steps) and a
+      <strong>backward verifier</strong> (check from the answer back)
+      simultaneously, meeting in the middle.
+    </p>
+    <ul>
+      <li>Forward search: "given premises, what follows?"</li>
+      <li>Backward search: "given desired conclusion, what's needed?"</li>
+      <li>Meet-in-the-middle: verify when forward and backward chains connect</li>
+      <li>Prove: <em>bidirectional reasoning exponentially reduces search space on structured problems</em></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 5: Your Codebase Advantage                                      -->
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="section-num">05 — Your Edge</div>
+  <h2>What You Already Have (That Others Don't)</h2>
+
+  <div class="diagram-box">
+    <pre>
+  <span class="hl">YOUR CODEBASE</span>                              <span class="hl2">DIRECT RESEARCH ASSET</span>
+
+  <span class="hl3">AlgoSPP / AStar</span>                           Baseline for A*-guided reasoning
+  ├── Manhattan heuristic                   → Admissible value function template
+  ├── f = g + h priority                    → Optimal search over reasoning traces
+  └── Explored / Generated tracking         → Compute budget analytics
+
+  <span class="hl3">AStarCached + PriorityGHFlags</span>              Multi-criterion reasoning branch selection
+  ├── 5-tuple: (f, cached, bounded, -g, k)  → Quality-aware beam ranking
+  ├── Cached exact heuristics               → High-confidence reasoning shortcuts
+  └── Bounded lower-bound heuristics        → Certified quality thresholds
+
+  <span class="hl3">AStarIncrementalBackward</span>                   Cross-problem learning for LLM chains
+  ├── Backward search accumulation          → Learn from partial/failed reasoning
+  ├── Triangle inequality bounds            → Transfer bounds across problems
+  └── Problem reversal (OMSPP → MOSPP)      → Bidirectional reasoning framework
+
+  <span class="hl3">AStarAggregative (OMSPP)</span>                   Multi-constraint reasoning
+  ├── h = min(dist to active goals)         → Unified constraint satisfaction
+  ├── Dynamic goal removal                  → Progressive constraint resolution
+  └── Single search tree                    → No redundant reasoning branches
+
+  <span class="hl3">Factory + Tester framework</span>                 Rapid experimentation
+  ├── Reproducible benchmarks               → Rigorous empirical evaluation
+  └── Grid-based testbed                    → Controlled reasoning complexity
+    </pre>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 6: Roadmap                                                      -->
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="section-num">06 — The Plan</div>
+  <h2>90-Day Research Sprint</h2>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-label">Weeks 1–3 — Foundation</div>
+      <h3>A* Over LLM Reasoning Trees</h3>
+      <p>
+        Build a minimal prototype: use your <code>AlgoSPP</code> to search
+        over reasoning traces generated by an open LLM (Llama, Mistral).
+        States = partial traces. Successors = LLM-generated next steps.
+        h(n) = simple trained value model. Compare vs. greedy decoding
+        and beam search on GSM8K (math) benchmarks.
+      </p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-label">Weeks 4–6 — The Hook</div>
+      <h3>Admissible Value Functions</h3>
+      <p>
+        Train a value model with admissibility constraints (calibrated to
+        never overestimate remaining difficulty). Prove that A* with this
+        value model finds optimal reasoning paths. This is your
+        <strong>core theoretical contribution</strong>.
+      </p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-label">Weeks 7–9 — The Wow</div>
+      <h3>Multi-Tier Heuristics + Incremental Learning</h3>
+      <p>
+        Port your <code>PriorityGHFlags</code> and
+        <code>AStarIncrementalBackward</code> ideas. Show that
+        cached/bounded/unbounded confidence tiers reduce test-time compute
+        by 40–60%. Show that failed reasoning attempts provide useful
+        bounds for subsequent attempts.
+      </p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-label">Weeks 10–12 — The Paper</div>
+      <h3>Write, Benchmark, Submit</h3>
+      <p>
+        Comprehensive evaluation on GSM8K, MATH, ARC, HumanEval.
+        Compare: greedy, beam search, ToT, MCTS, <strong>your A*
+        variants</strong>. Frame it as: "Classical search theory provides
+        the missing formalism for LLM reasoning." Target:
+        <strong>NeurIPS 2026 / ICML 2027</strong>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 7: Why YOU                                                      -->
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="section-num">07 — The Edge</div>
+  <h2>Why This Is Your Unfair Advantage</h2>
+
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-icon">🎯</span>
+      <h3>Most LLM Researchers Don't Know Search</h3>
+      <p>
+        They use beam search because it's simple. They don't know
+        admissibility, consistency, or multi-tier heuristics. They
+        reinvent A* poorly. <strong>You know the real thing.</strong>
+      </p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🔬</span>
+      <h3>Most Search Researchers Don't Know LLMs</h3>
+      <p>
+        Classical AI/search people often haven't worked with transformers
+        or modern ML. <strong>You sit at the intersection</strong> — rare
+        and valuable.
+      </p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🏗️</span>
+      <h3>You Have Working Code</h3>
+      <p>
+        Not toy demos — a <strong>production-quality framework</strong> with
+        A*, Dijkstra, cached A*, incremental backward A*, aggregative
+        OMSPP, all tested and benchmarked. Months of head start.
+      </p>
+    </div>
+    <div class="card">
+      <span class="card-icon">💡</span>
+      <h3>Novel Primitives Ready to Transfer</h3>
+      <p>
+        <code>PriorityGHFlags</code>, cached/bounded tiers, incremental
+        backward accumulation — these ideas <strong>don't exist yet</strong>
+        in the LLM reasoning literature. They're yours to introduce.
+      </p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="big">The Pitch in One Line</div>
+    <p>
+      "We bring <strong>50 years of search theory</strong> to a field that's been
+      reinventing it ad-hoc for 2 years — and we prove it works better."
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 8: Key Papers to Build On                                       -->
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="section-num">08 — The Literature</div>
+  <h2>Key Papers to Position Against</h2>
+
+  <table class="cmp-table">
+    <thead>
+      <tr>
+        <th>Paper</th>
+        <th>What They Did</th>
+        <th>What's Missing (Your Opening)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Tree of Thoughts</strong> (Yao et al., 2023)</td>
+        <td>BFS/DFS over reasoning trees with LLM self-evaluation</td>
+        <td>No heuristic theory. No admissibility. No optimality guarantee.</td>
+      </tr>
+      <tr>
+        <td><strong>RAP</strong> (Hao et al., 2023)</td>
+        <td>MCTS for LLM reasoning with world model</td>
+        <td>MCTS needs many rollouts. A* with good heuristic needs far fewer.</td>
+      </tr>
+      <tr>
+        <td><strong>Quiet-STaR</strong> (Zelikman et al., 2024)</td>
+        <td>LLM learns to reason internally at every token</td>
+        <td>No search structure. Greedy internal monologue. No backtracking.</td>
+      </tr>
+      <tr>
+        <td><strong>DeepSeek-R1</strong> (2025)</td>
+        <td>RL-trained long chain-of-thought reasoning</td>
+        <td>Fixed compute budget. No adaptive search. No heuristic guidance.</td>
+      </tr>
+      <tr>
+        <td><strong>STILL-2</strong> (Google, 2025)</td>
+        <td>Adaptive token budget for test-time compute</td>
+        <td>Budget heuristic is crude. Your 3-tier confidence is much richer.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<!-- FOOTER                                                                  -->
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<footer>
+  <p>LLM Reasoning × Heuristic Search — Research Roadmap</p>
+  <p style="margin-top:0.5rem;">
+    Generated for MyPy Framework &middot; f_search &middot; March 2026
+  </p>
+</footer>
+
+</body>
+</html>

@@ -42,7 +42,7 @@ def elapsed_by_k() -> None:
     dist(path_input=path_input,
          path_output=f'{folder}\\dist_elapsed_by_k.csv',
          col_group='k',
-         cols_value=['elapsed_agg', 'elapsed_inc',
+         cols_value=['explored_forward', 'explored_backward',
                      'elapsed_dij', 'elapsed_rep'])
 
 

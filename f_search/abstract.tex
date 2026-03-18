@@ -1,0 +1,23 @@
+\begin{abstract}
+Finding shortest paths from a single source to $k$ goals is well studied
+in the algorithms literature but has received comparatively little attention
+in heuristic search. $k$A$^*$ addresses this by performing a single search
+toward all $k$ goals, aggregating heuristic values to guide exploration.
+However, every generated node must be evaluated against all remaining goals,
+making aggregation a bottleneck as $k$ grows. We present
+iterative-$k$A$^*$, which solves goals sequentially while reusing a shared
+open list and previously computed $g$-values, reducing heuristic computations
+by up to a factor of $k$. We prove that, up to tie-breaking,
+iterative-$k$A$^*$ expands the same set of nodes as
+aggregative-$k$A$^*$. We further introduce a backward-search framework that
+reverses the problem into many-to-one shortest paths, where each
+goal-to-source search yields exact suffix costs that serve as
+cached perfect heuristics for subsequent searches. When exact costs are
+unavailable, the framework derives lower bounds from previously solved goals
+and propagates them to tighten guidance and reduce expansions.
+Experiments on 2,500 Moving AI 4-connected grid instances with Manhattan
+heuristics show that iterative-$k$A$^*$ matches aggregative-$k$A$^*$ in
+node expansions while achieving the lowest runtime among all variants. The
+backward framework helps on some instances, though forward search dominates
+overall - increasingly so as $k$ grows.
+\end{abstract}

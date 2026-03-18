@@ -72,7 +72,7 @@ def problems_to_csv(problems: list[Problem],
 """
 
 pickle_grids = 'f:\\paper\\i_1_grids\\grids.pkl'
-pickle_problems = 'f:\\temp\\2026\\03\\incremental\\problems.pkl'
+pickle_problems = 'f:\\temp\\2026\\03\\forward vs backward\\problems.pkl'
 path_csv = pickle_problems.replace('.pkl', '.csv')
 
 

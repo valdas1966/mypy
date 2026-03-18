@@ -5,19 +5,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/forward_vs_backward/fig_explored_by_k.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/forward_vs_backward/s_1_compare_explored.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/forward_vs_backward/s_2_group_by_k.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_google/services/drive/CLAUDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_google/services/drive/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_google/services/drive/_factory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_google/services/drive/_tester.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_google/services/drive/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_quiz/scripts/fill_wrong.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/LLM_FOR_SEARCH_PEOPLE.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/LLM_REASONING_RESEARCH.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/abstract.tex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/experiments/p_6_distributions_forward_backward.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.claude/settings.local.json" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_psl/pandas/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/pandas/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_psl/pandas/csv/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/pandas/csv/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_psl/pandas/csv/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/pandas/csv/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_psl/pandas/df/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/pandas/df/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_psl/pandas/df/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/pandas/df/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_psl/pandas/df/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/pandas/df/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_google/services/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/check_problems.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/forward_vs_backward/s_1_compare_explored.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/forward_vs_backward/s_1_compare_explored.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/forward_vs_backward/s_2_group_by_k.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/forward_vs_backward/s_2_group_by_k.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_2_diamonds.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_2_diamonds.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_3_problems.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_3_problems.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_3_problems_intra.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_3_problems_mirror.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_5_analytics_forward.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_5_results_forward.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_5_analytics_forward_backward.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_5_results_forward_backward.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_6_distributions.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_6_distributions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/problems_to_analytics.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/problems_to_analytics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/experiments/problems_to_csv.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,12 +57,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "a1e5e179-580e-4572-8eba-3d60343860e3"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
+    &quot;accountId&quot;: &quot;0f4621b9-87f9-4a4a-9ceb-401ed7593bcc&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../miniconda3/envs/mypy/lib/python3.13/typing.py" root0="SKIP_INSPECTION" />
   </component>
@@ -863,6 +879,8 @@
     "Python.p_4_solutions.executor": "Run",
     "Python.p_5_analytics.executor": "Run",
     "Python.p_5_analytics_forward.executor": "Run",
+    "Python.p_5_results_forward.executor": "Run",
+    "Python.p_5_results_forward_backward.executor": "Run",
     "Python.p_6_distribution_elapsed_by_k.executor": "Run",
     "Python.p_6_distributions.executor": "Run",
     "Python.p_7_chart_elapsed_by_k.executor": "Run",
@@ -902,6 +920,7 @@
     "Python.s_0_gui.executor": "Run",
     "Python.s_0_text.executor": "Run",
     "Python.s_0_uid.executor": "Run",
+    "Python.s_1_compare_explored.executor": "Run",
     "Python.s_1_explored (1).executor": "Run",
     "Python.s_1_explored.executor": "Run",
     "Python.s_1_fifo.executor": "Run",
@@ -1063,7 +1082,7 @@
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "git-widget-placeholder": "main",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "F:/mypy/f_search/problems",
+    "last_opened_file_path": "F:/mypy/f_search/experiments",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -1077,11 +1096,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\mypy\f_search\experiments" />
       <recent name="F:\mypy\f_search\problems" />
       <recent name="F:\mypy\f_core\processes" />
       <recent name="F:\mypy\f_core\mixins" />
       <recent name="F:\mypy\f_core\mixins\has" />
-      <recent name="G:\mypy\f_search\ds\states\i_1_cell" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\mypy\f_core\mixins\has" />
@@ -1091,8 +1110,8 @@
       <recent name="F:\mypy\f_core" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_2_group_by_k">
-    <configuration name="_study" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests in _tester.py">
+    <configuration name="p_2_diamonds" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -1101,12 +1120,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/creds/oauth" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/experiments" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/creds/oauth/_study.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_2_diamonds.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1115,7 +1133,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="compare_explored" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="p_4_solutions (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -1124,12 +1142,33 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/experiments/forward_vs_backward" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/experiments" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/forward_vs_backward/compare_explored.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="p_5_results_forward" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/experiments" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_5_results_forward.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1151,7 +1190,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/forward_vs_backward/s_2_group_by_k.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1161,22 +1199,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for f_psl.pandas.df._tester.test_compare_zeros" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;f_psl.pandas.df._tester.test_compare_zeros&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
     <configuration name="Python tests in _tester.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -1187,87 +1209,32 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_psl/pandas/df/_tester.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in _tester.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/geometry/bounds/_tester.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="RUN_TOOL" value="" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/_tester.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest in _tester.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="RUN_TOOL" value="" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/ds/frontier/i_1_fifo/_tester.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_google/services/drive/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python._study" />
-      <item itemvalue="Python.compare_explored" />
+      <item itemvalue="Python.p_2_diamonds" />
+      <item itemvalue="Python.p_4_solutions (1)" />
+      <item itemvalue="Python.p_5_results_forward" />
       <item itemvalue="Python.s_2_group_by_k" />
-      <item itemvalue="Python tests.Python tests for f_psl.pandas.df._tester.test_compare_zeros" />
       <item itemvalue="Python tests.Python tests in _tester.py" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.s_2_group_by_k" />
-        <item itemvalue="Python.compare_explored" />
         <item itemvalue="Python tests.Python tests in _tester.py" />
-        <item itemvalue="Python tests.Python tests for f_psl.pandas.df._tester.test_compare_zeros" />
-        <item itemvalue="Python._study" />
+        <item itemvalue="Python.p_5_results_forward" />
+        <item itemvalue="Python.p_2_diamonds" />
+        <item itemvalue="Python.p_4_solutions (1)" />
+        <item itemvalue="Python.s_2_group_by_k" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-ca5e2b39c7df-6e1f45a539f7-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.29346.308" />
+        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
       </set>
     </attachedChunks>
   </component>

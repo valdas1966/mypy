@@ -10,7 +10,8 @@ from f_psl.pandas.csv import UCsv
 ===============================================================================
 """
 
-path = '/Users/eyalberkovich/temp/2026/03/Forward and Backward/analytics.csv'
+# path = '/Users/eyalberkovich/temp/2026/03/Forward and Backward/analytics.csv'
+path = 'f:\\temp\\2026\\03\\Forward vs Backward\\results.csv'
 
 col_forward = 'explored_forward'
 col_backward = 'explored_backward'

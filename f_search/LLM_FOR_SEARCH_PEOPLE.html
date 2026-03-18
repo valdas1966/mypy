@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How LLMs Think — Explained for Search People</title>
+<style>
+  :root {
+    --bg: #0d1117; --bg2: #161b22; --bg3: #1c2333;
+    --blue: #58a6ff; --green: #7ee787; --purple: #d2a8ff;
+    --orange: #ffa657; --red: #ff7b72; --yellow: #e3b341;
+    --text: #e6edf3; --dim: #8b949e; --border: #30363d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.7;
+  }
+
+  /* ── Layout ── */
+  section {
+    max-width: 1000px; margin: 0 auto;
+    padding: 3.5rem 2rem;
+  }
+  .sep {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    max-width: 600px; margin: 0 auto;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    text-align: center; padding: 5rem 2rem 4rem;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    font-weight: 800; line-height: 1.2;
+    max-width: 750px; margin: 0 auto 1rem;
+  }
+  .hero .sub {
+    color: var(--dim); font-size: 1.1rem;
+    max-width: 550px; margin: 0 auto;
+  }
+  .hl { color: var(--blue); }
+  .hlg { color: var(--green); }
+  .hlp { color: var(--purple); }
+  .hlo { color: var(--orange); }
+  .hlr { color: var(--red); }
+  .hly { color: var(--yellow); }
+
+  /* ── Step Labels ── */
+  .step-label {
+    display: inline-block;
+    background: var(--bg3); border: 1px solid var(--border);
+    padding: 4px 14px; border-radius: 999px;
+    font-size: 0.75rem; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--blue);
+    margin-bottom: 1rem;
+  }
+  h2 {
+    font-size: 1.8rem; font-weight: 700;
+    margin-bottom: 1.2rem;
+  }
+  h3 { font-size: 1.15rem; margin-bottom: 0.6rem; }
+  p { color: var(--dim); margin-bottom: 1rem; }
+  p strong { color: var(--text); }
+
+  /* ── Visual Box ── */
+  .vbox {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 14px; padding: 2rem; margin: 1.5rem 0;
+    overflow-x: auto;
+  }
+  .vbox.accent { border-color: var(--blue); }
+  .vbox.green-b { border-color: var(--green); }
+  .vbox.red-b { border-color: var(--red); }
+  .vbox.purple-b { border-color: var(--purple); }
+  .vbox-title {
+    font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  /* ── Token Strip ── */
+  .tokens {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    align-items: center; margin: 1rem 0;
+  }
+  .tok {
+    display: inline-block;
+    background: var(--bg3); border: 1px solid var(--border);
+    padding: 6px 12px; border-radius: 8px;
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.85rem;
+  }
+  .tok.done { border-color: var(--green); color: var(--green); }
+  .tok.next {
+    border-color: var(--orange); color: var(--orange);
+    animation: pulse 1.5s infinite;
+  }
+  .tok.wrong { border-color: var(--red); color: var(--red); opacity: 0.7; }
+  .tok.dim { opacity: 0.4; }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,166,87,0.3); }
+    50% { box-shadow: 0 0 12px 4px rgba(255,166,87,0.15); }
+  }
+
+  /* ── Probability Bars ── */
+  .prob-row {
+    display: flex; align-items: center; gap: 10px;
+    margin: 6px 0; font-size: 0.85rem;
+  }
+  .prob-word {
+    width: 70px; text-align: right;
+    font-family: monospace; font-weight: 600;
+  }
+  .prob-bar-bg {
+    flex: 1; height: 24px; background: var(--bg3);
+    border-radius: 6px; position: relative; max-width: 300px;
+  }
+  .prob-bar {
+    height: 100%; border-radius: 6px;
+    display: flex; align-items: center;
+    padding-left: 8px; font-size: 0.75rem; font-weight: 600;
+  }
+  .prob-pct { color: var(--dim); width: 42px; font-size: 0.8rem; }
+
+  /* ── Tree Diagram ── */
+  .tree { margin: 1.5rem 0; }
+  .tree pre {
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.78rem; line-height: 1.5;
+    white-space: pre; color: var(--dim);
+  }
+
+  /* ── Side by Side ── */
+  .side {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; margin: 1.5rem 0;
+  }
+  @media (max-width: 700px) { .side { grid-template-columns: 1fr; } }
+
+  /* ── Analogy Box ── */
+  .analogy {
+    display: grid; grid-template-columns: 1fr auto 1fr;
+    align-items: center; gap: 1rem; margin: 1.5rem 0;
+    text-align: center;
+  }
+  .analogy-item {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.5rem;
+  }
+  .analogy-arrow {
+    font-size: 1.5rem; color: var(--blue);
+  }
+  .analogy-item .big {
+    font-size: 2rem; margin-bottom: 0.5rem;
+  }
+
+  /* ── Node (circle) ── */
+  .node-row {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    justify-content: center; margin: 1rem 0;
+  }
+  .node {
+    width: 60px; height: 60px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 700; text-align: center;
+    border: 2px solid var(--border);
+  }
+  .node.start { border-color: var(--blue); color: var(--blue); }
+  .node.good { border-color: var(--green); color: var(--green); background: rgba(126,231,135,0.08); }
+  .node.bad { border-color: var(--red); color: var(--red); opacity: 0.5; }
+  .node.maybe { border-color: var(--orange); color: var(--orange); }
+  .node.skip { border-color: var(--border); color: var(--dim); opacity: 0.3; }
+
+  /* ── Callout ── */
+  .callout {
+    background: linear-gradient(135deg, rgba(88,166,255,0.07), rgba(126,231,135,0.07));
+    border: 1px solid var(--border); border-radius: 14px;
+    padding: 2rem; text-align: center; margin: 2rem 0;
+  }
+  .callout .big {
+    font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;
+  }
+  .callout p { color: var(--text); }
+
+  /* ── Prompt Box ── */
+  .prompt-box {
+    background: var(--bg3);
+    border: 1px solid var(--blue);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin: 1.5rem 0;
+    font-size: 1rem;
+    position: relative;
+  }
+  .prompt-box::before {
+    content: 'PROMPT';
+    position: absolute; top: -10px; left: 16px;
+    background: var(--bg); padding: 0 8px;
+    font-size: 0.7rem; color: var(--blue);
+    letter-spacing: 2px; font-weight: 700;
+  }
+
+  /* ── Comparison Table ── */
+  .cmp { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9rem; }
+  .cmp th {
+    text-align: left; padding: 10px 14px;
+    background: var(--bg3); color: var(--blue);
+    border-bottom: 2px solid var(--blue); font-weight: 600;
+  }
+  .cmp td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--dim); }
+  .cmp td:first-child { color: var(--text); font-weight: 500; }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center; padding: 2.5rem; color: var(--dim);
+    font-size: 0.8rem; border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════ HERO ═══ -->
+<div class="hero">
+  <h1>
+    How <span class="hl">LLMs</span> Think<br>
+    <span style="font-size:0.6em; color:var(--dim)">Explained for people who know <span class="hlg">A*</span></span>
+  </h1>
+  <p class="sub">
+    You know search. You write prompts. But what happens
+    <strong>inside</strong> the model? It's simpler than you think —
+    and it has a <span class="hlr">big problem</span> you know how to fix.
+  </p>
+</div>
+<div class="sep"></div>
+
+<!-- ════════════════════════════════════════════ STEP 1: WHAT IS AN LLM ═══ -->
+<section>
+  <span class="step-label">Step 1</span>
+  <h2>An LLM is a <span class="hl">Next-Word Machine</span></h2>
+  <p>
+    That's it. An LLM reads all the words so far, and predicts
+    <strong>the next word</strong>. Then it adds that word, and predicts
+    the next one. And again. And again.
+  </p>
+
+  <div class="vbox accent">
+    <div class="vbox-title" style="color:var(--blue)">How it generates a response</div>
+
+    <p style="margin-bottom:0.5rem"><strong>You type:</strong> "What is 2 + 3?"</p>
+    <p style="margin-bottom:1rem"><strong>The LLM builds its answer one word at a time:</strong></p>
+
+    <div class="tokens">
+      <span class="tok done">The</span>
+      <span class="tok done">answer</span>
+      <span class="tok done">is</span>
+      <span class="tok next">???</span>
+      <span class="tok dim">???</span>
+    </div>
+
+    <p style="margin:1rem 0 0.5rem"><strong>It picks the next word by probability:</strong></p>
+
+    <div class="prob-row">
+      <span class="prob-word" style="color:var(--green)">5</span>
+      <div class="prob-bar-bg">
+        <div class="prob-bar" style="width:85%; background:rgba(126,231,135,0.25); color:var(--green);">■■■■■■■■■</div>
+      </div>
+      <span class="prob-pct">85%</span>
+    </div>
+    <div class="prob-row">
+      <span class="prob-word">4</span>
+      <div class="prob-bar-bg">
+        <div class="prob-bar" style="width:5%; background:rgba(139,148,158,0.2);"></div>
+      </div>
+      <span class="prob-pct">5%</span>
+    </div>
+    <div class="prob-row">
+      <span class="prob-word">six</span>
+      <div class="prob-bar-bg">
+        <div class="prob-bar" style="width:3%; background:rgba(139,148,158,0.2);"></div>
+      </div>
+      <span class="prob-pct">3%</span>
+    </div>
+    <div class="prob-row">
+      <span class="prob-word">...</span>
+      <div class="prob-bar-bg">
+        <div class="prob-bar" style="width:7%; background:rgba(139,148,158,0.15);"></div>
+      </div>
+      <span class="prob-pct">7%</span>
+    </div>
+
+    <div style="margin-top:1.2rem">
+      <div class="tokens">
+        <span class="tok done">The</span>
+        <span class="tok done">answer</span>
+        <span class="tok done">is</span>
+        <span class="tok done">5</span>
+        <span class="tok next">???</span>
+      </div>
+    </div>
+    <p style="font-size:0.85rem; margin-top:0.8rem">
+      It picked "5" (highest probability) → added it → now predicts the next word → picks "." → done.
+    </p>
+  </div>
+
+  <div class="callout">
+    <div class="big">Think of it as <span class="hlg">Greedy Best-First Search</span></div>
+    <p>
+      At every step, pick the single best-looking option. No backtracking.
+      No lookahead. Just <strong>greedy, one step at a time</strong>.
+    </p>
+  </div>
+</section>
+<div class="sep"></div>
+
+<!-- ════════════════════════════════════════════ STEP 2: THE HARD PROBLEM ══ -->
+<section>
+  <span class="step-label">Step 2</span>
+  <h2>Easy questions work. <span class="hlr">Hard questions break</span>.</h2>
+  <p>
+    "2 + 3" is easy — the LLM "knows" the answer instantly.
+    But what about problems that need <strong>multiple steps of thinking</strong>?
+  </p>
+
+  <div class="prompt-box">
+    A farmer has <strong>15 apples</strong>.
+    He gives <strong>⅓</strong> to his neighbor.
+    Then he buys <strong>double</strong> what he has left.
+    How many apples does he have now?
+  </div>
+
+  <p>
+    This needs 3 steps: (1) find ⅓ of 15 → (2) subtract → (3) double.
+    Each step depends on the previous one. <strong>One wrong step ruins everything.</strong>
+  </p>
+
+  <div class="side">
+    <!-- LEFT: Without reasoning -->
+    <div class="vbox red-b">
+      <div class="vbox-title" style="color:var(--red)">❌ Without reasoning (greedy)</div>
+      <div class="tokens">
+        <span class="tok">The</span>
+        <span class="tok">farmer</span>
+        <span class="tok">has</span>
+        <span class="tok wrong">25</span>
+        <span class="tok">apples</span>
+      </div>
+      <p style="font-size:0.85rem; margin-top:1rem">
+        The LLM jumps straight to an answer.<br>
+        Picks the "most likely looking" number.<br>
+        <strong style="color:var(--red)">Wrong.</strong> No work shown. No way to check.
+      </p>
+    </div>
+
+    <!-- RIGHT: With chain-of-thought -->
+    <div class="vbox green-b">
+      <div class="vbox-title" style="color:var(--green)">✓ With reasoning (chain of thought)</div>
+      <div class="tokens" style="font-size:0.82rem">
+        <span class="tok done">⅓ of 15 = 5</span>
+      </div>
+      <div class="tokens" style="font-size:0.82rem">
+        <span class="tok done">15 - 5 = 10</span>
+      </div>
+      <div class="tokens" style="font-size:0.82rem">
+        <span class="tok done">10 × 2 = 20</span>
+      </div>
+      <div class="tokens" style="font-size:0.82rem; margin-top:0.5rem">
+        <span class="tok" style="border-color:var(--green); color:var(--green);">Answer: 20 ✓</span>
+      </div>
+      <p style="font-size:0.85rem; margin-top:0.8rem">
+        The LLM generates <strong>thinking steps</strong> before answering.
+        Each step is a new "word" it predicts.
+      </p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="big">
+      "Reasoning" = generating <span class="hlp">thinking tokens</span> before the answer
+    </div>
+    <p>
+      The LLM literally writes "⅓ of 15 = 5" as output tokens —
+      it <strong>thinks by writing</strong>. Each thinking step
+      is just more next-word prediction.
+    </p>
+  </div>
+</section>
+<div class="sep"></div>
+
+<!-- ════════════════════════════════════════════ STEP 3: THE PROBLEM ═══════ -->
+<section>
+  <span class="step-label">Step 3</span>
+  <h2>The <span class="hlr">Big Problem</span>: Greedy Reasoning Gets Lost</h2>
+  <p>
+    Even with step-by-step thinking, <strong>the LLM still picks each step greedily</strong>.
+    If it makes a wrong choice at step 2, everything after is garbage.
+    <strong>It can't backtrack</strong>.
+  </p>
+
+  <div class="vbox red-b">
+    <div class="vbox-title" style="color:var(--red)">Harder prompt where greedy fails</div>
+    <div class="prompt-box" style="border-color:var(--orange); font-size:0.9rem">
+      A bat and ball cost $1.10 together. The bat costs $1.00 more than the ball. How much does the ball cost?
+    </div>
+
+    <p style="margin-top:1rem"><strong>The greedy LLM "reasons":</strong></p>
+    <div class="tree"><pre>
+   <span class="hlr">Step 1:</span>  "The bat costs $1.00"              ← <span class="hlr">Feels right, but WRONG framing</span>
+      │
+   <span class="hlr">Step 2:</span>  "The ball costs $1.10 - $1.00 = $0.10"  ← <span class="hlr">Follows logically from wrong step</span>
+      │
+   <span class="hlr">Answer:</span> "$0.10"                             ← <span class="hlr">WRONG</span> (correct: $0.05)
+    </pre></div>
+
+    <p style="font-size:0.88rem">
+      The first step <em>looked</em> right (high probability), so the LLM committed to it.
+      It can't go back and try a different first step. <strong>Sound familiar?</strong>
+    </p>
+  </div>
+
+  <div class="callout">
+    <div class="big">This is <span class="hlr">Greedy Best-First</span> without a heuristic</div>
+    <p>
+      You already know this problem! It's a search that always picks the
+      locally-best node but <strong>never backtracks and has no h(n)</strong>.
+    </p>
+  </div>
+
+  <!-- The analogy -->
+  <div class="analogy">
+    <div class="analogy-item">
+      <div class="big">🗺️</div>
+      <h3 style="color:var(--blue)">Grid Search</h3>
+      <p style="font-size:0.85rem">
+        Greedy picks the cell that<br>
+        <em>looks</em> closest to goal.<br>
+        <strong>Walks into walls.</strong>
+      </p>
+    </div>
+    <div class="analogy-arrow">=</div>
+    <div class="analogy-item">
+      <div class="big">🤖</div>
+      <h3 style="color:var(--purple)">LLM Reasoning</h3>
+      <p style="font-size:0.85rem">
+        Greedy picks the step that<br>
+        <em>looks</em> most correct.<br>
+        <strong>Walks into wrong answers.</strong>
+      </p>
+    </div>
+  </div>
+</section>
+<div class="sep"></div>
+
+<!-- ════════════════════════════════════════════ STEP 4: THE SEARCH TREE ═══ -->
+<section>
+  <span class="step-label">Step 4</span>
+  <h2>LLM Reasoning IS a <span class="hl">Search Tree</span></h2>
+  <p>
+    What if, instead of committing to one reasoning path, the LLM
+    <strong>generates multiple possible next steps</strong> and explores them
+    like a tree? This is exactly what new models (o1, o3, DeepSeek-R1) do.
+  </p>
+
+  <div class="vbox accent">
+    <div class="vbox-title" style="color:var(--blue)">The bat-and-ball reasoning tree</div>
+    <div class="tree"><pre>
+                            <span class="hl">[ Prompt: bat & ball ]</span>
+                           ╱               ╲
+                 <span class="hlr">Step A:</span>                     <span class="hlg">Step B:</span>
+          <span class="hlr">"bat = $1.00"</span>             <span class="hlg">"let ball = x,</span>
+                 │                      <span class="hlg"> bat = x + $1.00"</span>
+                 │                              │
+          <span class="hlr">Step A2:</span>                      <span class="hlg">Step B2:</span>
+    <span class="hlr">"ball = $0.10"</span>              <span class="hlg">"x + (x+1) = 1.10"</span>
+                 │                              │
+          <span class="hlr">Answer:</span>                        <span class="hlg">Step B3:</span>
+        <span class="hlr">"$0.10" ✗</span>                    <span class="hlg">"2x = 0.10"</span>
+                                                │
+                                         <span class="hlg">Answer:</span>
+                                       <span class="hlg">"$0.05" ✓</span>
+    </pre></div>
+
+    <p style="font-size:0.88rem; margin-top:1rem">
+      Two branches. <span class="hlr">Path A</span> looks easier (high probability at step 1)
+      but leads to the wrong answer.
+      <span class="hlg">Path B</span> looks harder (algebra) but reaches the correct answer.
+    </p>
+  </div>
+
+  <p style="margin-top:1.5rem"><strong>Now here's the key question:</strong></p>
+
+  <div class="callout" style="border-color:var(--orange)">
+    <div class="big" style="color:var(--orange)">Which branch should we explore first?</div>
+    <p>And how do we know when to <strong>stop exploring</strong> and <strong>trust the answer</strong>?</p>
+  </div>
+</section>
+<div class="sep"></div>
+
+<!-- ═══════════════════════════════════ STEP 5: CURRENT BAD APPROACHES ════ -->
+<section>
+  <span class="step-label">Step 5</span>
+  <h2>How They Search <span class="hlr">Today</span> (Badly)</h2>
+
+  <div class="side">
+    <div class="vbox" style="border-color:var(--orange)">
+      <div class="vbox-title" style="color:var(--orange)">Beam Search</div>
+      <p style="font-size:0.85rem">
+        Keep the top-K "most likely" branches. Drop the rest.
+      </p>
+      <div class="tree"><pre>
+  <span class="hl">[Start]</span>
+   ├─ <span class="hlo">A (prob: 0.7)</span> ← keep
+   ├─ <span class="hlo">B (prob: 0.2)</span> ← keep
+   └─ <span class="hlr">C (prob: 0.1)</span> ← DROP
+      </pre></div>
+      <p style="font-size:0.82rem; color:var(--red)">
+        <strong>Problem:</strong> "Most likely" ≠ "most correct."
+        Drops good paths that look unlikely.
+        No h(n). No optimality. Just probability.
+      </p>
+    </div>
+
+    <div class="vbox" style="border-color:var(--orange)">
+      <div class="vbox-title" style="color:var(--orange)">MCTS (Monte Carlo Tree Search)</div>
+      <p style="font-size:0.85rem">
+        Randomly sample many complete paths. Pick the best one.
+      </p>
+      <div class="tree"><pre>
+  <span class="hl">[Start]</span>
+   ├─ A → A2 → <span class="hlr">wrong</span>
+   ├─ A → A3 → <span class="hlr">wrong</span>
+   ├─ B → B2 → <span class="hlg">right!</span>
+   ├─ A → A2 → <span class="hlr">wrong</span>  ← wasted
+   └─ A → A4 → <span class="hlr">wrong</span>  ← wasted
+      </pre></div>
+      <p style="font-size:0.82rem; color:var(--red)">
+        <strong>Problem:</strong> Random = wasteful. Explores
+        many bad paths. Each "rollout" costs real
+        LLM tokens = real money. No guidance.
+      </p>
+    </div>
+  </div>
+
+  <table class="cmp">
+    <thead>
+      <tr>
+        <th>Method</th>
+        <th>In Search Terms</th>
+        <th>Optimality?</th>
+        <th>Efficiency?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:var(--dim)">Greedy</td>
+        <td>Greedy best-first, b=1</td>
+        <td style="color:var(--red)">None</td>
+        <td>Fast but wrong</td>
+      </tr>
+      <tr>
+        <td style="color:var(--dim)">Beam (K)</td>
+        <td>Greedy best-first, b=K</td>
+        <td style="color:var(--red)">None</td>
+        <td>K× cost, still no guarantee</td>
+      </tr>
+      <tr>
+        <td style="color:var(--dim)">MCTS</td>
+        <td>Random sampling</td>
+        <td style="color:var(--orange)">Statistical</td>
+        <td style="color:var(--red)">Very expensive (many rollouts)</td>
+      </tr>
+      <tr>
+        <td style="color:var(--green)"><strong>A*</strong></td>
+        <td><strong>Best-first with h(n)</strong></td>
+        <td style="color:var(--green)"><strong>Guaranteed*</strong></td>
+        <td style="color:var(--green)"><strong>Minimum expansions*</strong></td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size:0.8rem; text-align:center">
+    * With an admissible heuristic — this is the part that needs research!
+  </p>
+</section>
+<div class="sep"></div>
+
+<!-- ═══════════════════════════════════ STEP 6: HOW A* FIXES IT ═══════════ -->
+<section>
+  <span class="step-label">Step 6</span>
+  <h2>How <span class="hlg">A*</span> Fixes LLM Reasoning</h2>
+  <p>
+    Apply the same A* you use on grids — but on the <strong>tree of reasoning steps</strong>.
+  </p>
+
+  <div class="vbox green-b">
+    <div class="vbox-title" style="color:var(--green)">A* on the bat-and-ball reasoning tree</div>
+
+    <table class="cmp" style="font-size:0.85rem">
+      <thead>
+        <tr>
+          <th>Node</th>
+          <th>g (effort)</th>
+          <th>h (estimated quality)</th>
+          <th>f = g + h</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="hl">[Start]</span></td>
+          <td>0</td>
+          <td>—</td>
+          <td>—</td>
+          <td>Expand → A, B</td>
+        </tr>
+        <tr>
+          <td><span class="hlo">Step A</span> "bat=$1"</td>
+          <td>1</td>
+          <td style="color:var(--red)">3.0 (looks easy but smells wrong)</td>
+          <td>4.0</td>
+          <td style="color:var(--dim)">In frontier</td>
+        </tr>
+        <tr>
+          <td><span class="hlg">Step B</span> "let ball=x"</td>
+          <td>1</td>
+          <td style="color:var(--green)">1.5 (structured, algebraic)</td>
+          <td style="color:var(--green)"><strong>2.5 ← lower!</strong></td>
+          <td style="color:var(--green)"><strong>Expand first!</strong></td>
+        </tr>
+        <tr>
+          <td><span class="hlg">Step B2</span> "x+(x+1)=1.10"</td>
+          <td>2</td>
+          <td style="color:var(--green)">0.5</td>
+          <td>2.5</td>
+          <td style="color:var(--green)">Expand → B3</td>
+        </tr>
+        <tr>
+          <td><span class="hlg">Step B3</span> "$0.05"</td>
+          <td>3</td>
+          <td>0</td>
+          <td>3.0</td>
+          <td style="color:var(--green)"><strong>✓ Goal reached!</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:1.2rem; font-size:0.88rem">
+      <strong>Result:</strong> A* found the correct answer by expanding only
+      <strong>4 nodes</strong>. It <strong>never even explored</strong> the wrong
+      branch A — because h(n) told it that branch was less promising.
+    </p>
+  </div>
+
+  <!-- VISUAL: greedy vs A* side by side -->
+  <div class="side" style="margin-top:2rem">
+    <div style="text-align:center">
+      <h3 style="color:var(--red)">Greedy / Beam</h3>
+      <div class="node-row"><div class="node start">Start</div></div>
+      <div style="color:var(--dim)">↓ picks "most likely"</div>
+      <div class="node-row">
+        <div class="node bad" style="border-width:3px">A 👈</div>
+        <div class="node skip">B</div>
+      </div>
+      <div style="color:var(--dim)">↓ committed</div>
+      <div class="node-row">
+        <div class="node bad" style="border-width:3px">A2</div>
+      </div>
+      <div style="color:var(--dim)">↓ can't go back</div>
+      <div class="node-row">
+        <div class="node bad" style="border-width:3px; background:rgba(255,123,114,0.1)">$0.10 ✗</div>
+      </div>
+      <p style="font-size:0.82rem; margin-top:1rem; color:var(--red)">
+        3 nodes expanded.<br>Wrong answer. No recovery.
+      </p>
+    </div>
+
+    <div style="text-align:center">
+      <h3 style="color:var(--green)">A* with h(n)</h3>
+      <div class="node-row"><div class="node start">Start</div></div>
+      <div style="color:var(--dim)">↓ evaluates both with f = g + h</div>
+      <div class="node-row">
+        <div class="node maybe">A<br><small>f=4.0</small></div>
+        <div class="node good" style="border-width:3px">B 👈<br><small>f=2.5</small></div>
+      </div>
+      <div style="color:var(--dim)">↓ B has lower f → expand B</div>
+      <div class="node-row">
+        <div class="node maybe" style="opacity:0.4">A</div>
+        <div class="node good" style="border-width:3px">B2<br><small>f=2.5</small></div>
+      </div>
+      <div style="color:var(--dim)">↓ still best</div>
+      <div class="node-row">
+        <div class="node good" style="border-width:3px; background:rgba(126,231,135,0.12)">$0.05 ✓</div>
+      </div>
+      <p style="font-size:0.82rem; margin-top:1rem; color:var(--green)">
+        4 nodes expanded.<br>Correct answer. Branch A never explored.
+      </p>
+    </div>
+  </div>
+</section>
+<div class="sep"></div>
+
+<!-- ═══════════════════════════════════ STEP 7: MAPPING ═══════════════════ -->
+<section>
+  <span class="step-label">Step 7</span>
+  <h2>The <span class="hlp">Dictionary</span>: Search ↔ LLM</h2>
+  <p>
+    Everything you know maps directly. Here's your translation guide:
+  </p>
+
+  <div class="vbox purple-b">
+    <table class="cmp" style="margin:0">
+      <thead>
+        <tr>
+          <th style="color:var(--green)">You Know This (Search)</th>
+          <th style="color:var(--purple)">Same Thing in LLM World</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>State (node in graph)</td><td>Partial reasoning (tokens so far)</td></tr>
+        <tr><td>Start node</td><td>The user's question</td></tr>
+        <tr><td>Goal node</td><td>A correct final answer</td></tr>
+        <tr><td>Expand a node → neighbors</td><td>Ask LLM "what's the next step?" → get candidates</td></tr>
+        <tr><td>g(n) = cost from start</td><td>How many tokens/steps spent so far</td></tr>
+        <tr><td>h(n) = estimated cost to goal</td><td>"How good does this partial solution look?"</td></tr>
+        <tr><td>f(n) = g + h</td><td>Total priority: effort + estimated remaining quality</td></tr>
+        <tr><td>Admissible h</td><td>Never says a path is better than it really is</td></tr>
+        <tr><td>Open list / Frontier</td><td>Reasoning branches we haven't fully explored yet</td></tr>
+        <tr><td>Closed list / Explored</td><td>Reasoning branches we already evaluated</td></tr>
+        <tr><td>Backtracking</td><td>Abandoning a wrong reasoning path, trying another</td></tr>
+        <tr><td>Optimal path found</td><td>Best answer found with fewest LLM calls</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<div class="sep"></div>
+
+<!-- ═══════════════════════════════════ STEP 8: SUMMARY ═══════════════════ -->
+<section>
+  <span class="step-label">Step 8</span>
+  <h2>The Whole Picture in <span class="hl">30 Seconds</span></h2>
+
+  <div class="vbox" style="padding:2.5rem">
+    <div class="tree"><pre>
+  <span class="hl">1.</span>  LLM = a machine that predicts the <span class="hl">next word</span>.
+
+  <span class="hl">2.</span>  "Reasoning" = the LLM writes <span class="hlp">thinking steps</span> as output words
+      before giving the final answer.
+
+  <span class="hl">3.</span>  Each thinking step is chosen <span class="hlr">greedily</span> — highest probability.
+      No backtracking. No lookahead.
+
+  <span class="hl">4.</span>  This is exactly like <span class="hlr">greedy best-first search without h(n)</span>.
+      It works on easy problems. It fails on hard ones.
+
+  <span class="hl">5.</span>  Current fixes (beam search, MCTS) are like <span class="hlo">BFS or random walks</span>.
+      Expensive. No optimality guarantee.
+
+  <span class="hl">6.</span>  <span class="hlg">A* with a good heuristic</span> would find correct reasoning paths
+      with <span class="hlg">minimum LLM calls</span> (= minimum cost).
+
+  <span class="hl">7.</span>  <strong>The open research problem:</strong> how to build a good <span class="hlg">h(n)</span>
+      for reasoning trees. This is where <strong>you</strong> come in.
+    </pre></div>
+  </div>
+
+  <div class="callout" style="margin-top:2rem">
+    <div class="big">
+      LLM reasoning has a search problem.<br>
+      <span style="color:var(--green)">You are a search person.</span>
+    </div>
+    <p style="margin-top:0.5rem; color:var(--dim)">
+      The entire AI field is trying to make LLMs reason better.
+      They're reinventing search — poorly. You know the real thing.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <p>How LLMs Think — Explained for Search People</p>
+  <p style="margin-top:0.4rem">f_search &middot; March 2026</p>
+</footer>
+
+</body>
+</html>

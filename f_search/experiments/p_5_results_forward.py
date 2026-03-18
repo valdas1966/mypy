@@ -35,17 +35,27 @@ def load_solutions(pickle_path: str) -> list[SolutionOMSPP]:
 
 
 def to_rows(grids: dict[str, Grid],
-            sols_fwd: list[SolutionOMSPP],
-            sols_bwd: list[SolutionOMSPP]) -> list[dict]:
+            sols_agg: list[SolutionOMSPP],
+            sols_inc: list[SolutionOMSPP],
+            sols_dij: list[SolutionOMSPP],
+            sols_rep: list[SolutionOMSPP],
+            sols_bfs: list[SolutionOMSPP]) -> list[dict]:
     """
     ========================================================================
-     Merge forward and backward solutions into rows for CSV.
+     Merge aggregative, incremental, dijkstra and repeated solutions.
     ========================================================================
     """
-    log.debug(f'to_rows({len(sols_fwd)} forward, {len(sols_bwd)} backward)')
+    log.debug(f'to_rows({len(sols_agg)} agg, '
+              f'{len(sols_inc)} inc, '
+              f'{len(sols_dij)} dij, '
+              f'{len(sols_rep)} rep)')
     rows: list[dict] = []
-    for i, (fwd, bwd) in enumerate(zip(sols_fwd, sols_bwd)):
-        problem: ProblemOMSPP = fwd.problem
+    for i, (agg, inc, dij, rep, bfs) in enumerate(zip(sols_agg,
+                                                   sols_inc,
+                                                   sols_dij,
+                                                   sols_rep,
+                                                 sols_bfs)):
+        problem: ProblemOMSPP = agg.problem
         problem.load_grid(grids=grids)
         analytics = problem.to_analytics()
         row = dict(
@@ -60,12 +70,16 @@ def to_rows(grids: dict[str, Grid],
             norm_h_start=analytics['norm_h_start'],
             h_goals=analytics['h_goals'],
             norm_h_goals=analytics['norm_h_goals'],
-            quality_h_forward=fwd.quality_h,
-            quality_h_backward=bwd.quality_h,
-            explored_forward=fwd.stats.explored,
-            explored_backward=bwd.stats.explored,
-            elapsed_forward=fwd.stats.elapsed,
-            elapsed_backward=bwd.stats.elapsed,
+            explored_agg=agg.stats.explored,
+            explored_inc=inc.stats.explored,
+            explored_dij=dij.stats.explored,
+            explored_rep=rep.stats.explored,
+            explored_bfs=bfs.stats.explored,
+            elapsed_agg=agg.stats.elapsed,
+            elapsed_inc=inc.stats.elapsed,
+            elapsed_dij=dij.stats.elapsed,
+            elapsed_rep=rep.stats.elapsed,
+            elapsed_bfs=bfs.stats.elapsed
         )
         rows.append(row)
     log.debug(f'to_rows -> {len(rows)} rows')
@@ -89,26 +103,32 @@ def to_csv(rows: list[dict], path_csv: str) -> None:
 
 """
 ===============================================================================
- Main - Merge forward and backward solutions into a CSV.
+ Main - Merge aggregative, incremental, dijkstra and repeated solutions.
 -------------------------------------------------------------------------------
- Input: Pickle of grids, forward solutions, backward solutions.
+ Input: Pickle of grids, aggregative, incremental, dijkstra and repeated.
  Output: CSV with merged analytics.
 ===============================================================================
 """
 
 pickle_grids = 'f:\\paper\\i_1_grids\\grids.pkl'
-folder = 'f:\\temp\\2026\\03\\Forward vs Backward'
-pickle_forward = f'{folder}\\forward.pkl'
-pickle_backward = f'{folder}\\backward.pkl'
-path_csv = f'{folder}\\analytics.csv'
+folder = 'f:\\temp\\2026\\03\\incremental'
+pickle_agg = f'{folder}\\aggregative.pkl'
+pickle_inc = f'{folder}\\incremental.pkl'
+pickle_dij = f'{folder}\\dijkstra.pkl'
+pickle_rep = f'{folder}\\repeated.pkl'
+pickle_bfs = f'{folder}\\bfs.pkl'
+path_csv = f'{folder}\\results.csv'
 
 
 def main() -> None:
     log.info('main started')
     grids = load_grids(pickle_grids)
-    sols_fwd = load_solutions(pickle_forward)
-    sols_bwd = load_solutions(pickle_backward)
-    rows = to_rows(grids, sols_fwd, sols_bwd)
+    sols_agg = load_solutions(pickle_agg)
+    sols_inc = load_solutions(pickle_inc)
+    sols_dij = load_solutions(pickle_dij)
+    sols_rep = load_solutions(pickle_rep)
+    sols_bfs = load_solutions(pickle_bfs)
+    rows = to_rows(grids, sols_agg, sols_inc, sols_dij, sols_rep, sols_bfs)
     to_csv(rows, path_csv)
     log.info(f'main finished -> {path_csv}')
 

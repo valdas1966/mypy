@@ -184,7 +184,7 @@ def diamonds_to_pickle(diamonds: DictDiamonds,
 """
 
 pickle_grids = 'f:\\paper\\i_1_grids\\grids.pkl'
-pickle_diamonds = 'f:\\temp\\2026\\03\\incremental\\diamonds.pkl'
+pickle_diamonds = 'f:\\temp\\2026\\03\\incremental 200\\diamonds.pkl'
 
 # Number of Pairs to Generate for each Grid.
 n = 100
@@ -194,8 +194,8 @@ distance_min = 100
 steps_max_a = 0
 size_min_a = 1
 # Diamond B Configuration
-steps_max_b = 15
-size_min_b = 100
+steps_max_b = 20
+size_min_b = 200
 
 
 def main(pickle_grids: str,
