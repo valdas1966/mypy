@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LaTeX Overview — OverLeaf</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a2e; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; padding: 40px; line-height: 1.7; }
+  h1 { color: #e94560; font-size: 2.4em; margin-bottom: 5px; }
+  .subtitle { color: #8888aa; font-size: 1.1em; margin-bottom: 40px; }
+  code { background: #0f3460; color: #4ecca3; padding: 3px 8px; border-radius: 4px; font-family: 'Consolas', monospace; }
+
+  .minimal { background: #0d1b2a; border-radius: 12px; padding: 25px 30px; margin: 0 0 40px; border: 1px solid #1a3a5c; }
+  .minimal-title { color: #4ecca3; font-size: 1.1em; font-weight: bold; margin-bottom: 12px; }
+  .minimal-code { font-family: 'Consolas', monospace; color: #4ecca3; font-size: 1.05em; line-height: 2; }
+  .minimal-code .comment { color: #555; }
+  .minimal-code .link-color { color: #e94560; text-decoration: none; border-bottom: 1px dashed #e94560; }
+  .minimal-code .link-color:hover { color: #ff6b81; border-bottom-color: #ff6b81; }
+
+  .cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 25px; margin: 30px 0; }
+  .card { background: #16213e; border-radius: 14px; padding: 30px; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s; border-top: 4px solid #e94560; display: flex; flex-direction: column; }
+  .card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+  .card:nth-child(2) { border-top-color: #4ecca3; }
+  .card:nth-child(3) { border-top-color: #0f3460; }
+  .card-icon { font-size: 2.5em; margin-bottom: 15px; }
+  .card-title { color: #4ecca3; font-family: 'Consolas', monospace; font-size: 1.3em; margin-bottom: 10px; }
+  .card-desc { color: #999; font-size: 0.9em; flex-grow: 1; }
+  .card-link { color: #e94560; font-size: 0.85em; margin-top: 15px; font-weight: bold; }
+
+  .flow { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 30px 0; flex-wrap: wrap; }
+  .flow-step { background: #16213e; border-radius: 10px; padding: 15px 22px; text-align: center; }
+  .flow-step .num { color: #e94560; font-size: 1.4em; font-weight: bold; }
+  .flow-step .label { color: #8888aa; font-size: 0.8em; margin-top: 4px; }
+  .flow-arrow { color: #4ecca3; font-size: 1.8em; }
+
+  h2 { color: #0f3460; background: #e94560; display: inline-block; padding: 6px 18px; border-radius: 6px; font-size: 1.1em; margin: 30px 0 15px; }
+
+  @media (max-width: 800px) { .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<h1>LaTeX Overview</h1>
+<div class="subtitle">A quick guide to the building blocks of every LaTeX document</div>
+
+<h2>Minimal Document</h2>
+<div class="minimal">
+  <div class="minimal-title">main.tex — the simplest valid LaTeX file</div>
+  <div class="minimal-code">
+    <a class="link-color" href="about_documentclass.html">\documentclass</a>{<a class="link-color" href="about_classes.html">article</a>}<br>
+    <a class="link-color" href="about_environments.html">\begin{document}</a><br>
+    <a class="link-color" href="about_environments.html">\end{document}</a>
+  </div>
+</div>
+
+<h2>How It Works</h2>
+<div class="flow">
+  <div class="flow-step">
+    <div class="num">1</div>
+    <div class="label">\documentclass</div>
+  </div>
+  <span class="flow-arrow">&rarr;</span>
+  <div class="flow-step">
+    <div class="num">2</div>
+    <div class="label">Preamble</div>
+  </div>
+  <span class="flow-arrow">&rarr;</span>
+  <div class="flow-step">
+    <div class="num">3</div>
+    <div class="label">\begin{document}</div>
+  </div>
+  <span class="flow-arrow">&rarr;</span>
+  <div class="flow-step">
+    <div class="num">4</div>
+    <div class="label">Content</div>
+  </div>
+  <span class="flow-arrow">&rarr;</span>
+  <div class="flow-step">
+    <div class="num">5</div>
+    <div class="label">\end{document}</div>
+  </div>
+</div>
+
+<h2>Learn Each Term</h2>
+<div class="cards">
+
+  <a class="card" href="about_documentclass.html">
+    <div class="card-icon">\</div>
+    <div class="card-title">\documentclass</div>
+    <div class="card-desc">The mandatory first command. Tells LaTeX what type of document you're creating and sets all the defaults.</div>
+    <div class="card-link">Learn more &rarr;</div>
+  </a>
+
+  <a class="card" href="about_classes.html">
+    <div class="card-icon">{}</div>
+    <div class="card-title">{article}, {book}, ...</div>
+    <div class="card-desc">Document classes — the templates that define structure. Article for papers, book for books, beamer for slides, and more.</div>
+    <div class="card-link">Compare all classes &rarr;</div>
+  </a>
+
+  <a class="card" href="about_environments.html">
+    <div class="card-icon">&lt;/&gt;</div>
+    <div class="card-title">\begin{} ... \end{}</div>
+    <div class="card-desc">Environments — blocks that apply specific formatting. The document environment wraps all content; others handle lists, math, figures.</div>
+    <div class="card-link">See all environments &rarr;</div>
+  </a>
+
+</div>
+
+</body>
+</html>

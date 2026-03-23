@@ -52,7 +52,17 @@
       "Read(//Users/eyalberkovich/temp/2026/03/Forward and Backward/**)",
       "Read(//Users/eyalberkovich/temp/2026/03/**)",
       "Bash(find:*)",
-      "Bash(brew install:*)"
+      "Bash(brew install:*)",
+      "Read(//home/**)",
+      "Read(//mnt/**)",
+      "WebFetch(domain:u.cs.biu.ac.il)",
+      "WebFetch(domain:cris.bgu.ac.il)",
+      "WebFetch(domain:www.semanticscholar.org)",
+      "WebFetch(domain:www.cs.cmu.edu)",
+      "WebFetch(domain:www.researchgate.net)",
+      "WebFetch(domain:aaai.org)",
+      "WebFetch(domain:movingai.com)",
+      "WebFetch(domain:arxiv.org)"
     ]
   }
 }

@@ -44,7 +44,7 @@ Returns `self.name`.
 ```python
 def __repr__(self) -> str
 ```
-Returns `<ClassName: Name=value>`. Uses `type(self).__name__`, so subclasses show their own class name.
+Inherited from `HasRepr`. Returns `<ClassName: str(self)>`.
 
 ## Inheritance (Hierarchy)
 
@@ -66,8 +66,7 @@ Equatable (abstract key, __eq__)
 | Import | Purpose |
 |--------|---------|
 | `__future__.annotations` | Postponed evaluation of annotations |
-| `f_core.mixins.comparable.Comparable` | Base — ordering operators |
-| `f_core.mixins.hashable.Hashable` | Base — hashing |
+| `f_core.mixins.has.repr.HasRepr` | Base — standardized repr |
 
 ## Usage Example
 
@@ -79,7 +78,7 @@ b = HasName.Factory.b()   # HasName(name='B')
 
 print(a.name)      # 'A'
 print(str(a))      # 'A'
-print(repr(a))     # '<HasName: Name=A>'
+print(repr(a))     # '<HasName: A>'
 print(a == HasName.Factory.a())  # True
 print(a < b)       # True
 print(hash(a))     # hash('A')

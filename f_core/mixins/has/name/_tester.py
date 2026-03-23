@@ -20,8 +20,8 @@ def test_repr() -> None:
     =======================================================================
     """
     a = HasName.Factory.a()
-    assert repr(a) == '<HasName: Name=A>'
+    assert repr(a) == '<HasName: A>'
     class Test(HasName):
         pass
     t = Test(name='T')
-    assert repr(t) == '<Test: Name=T>'
+    assert repr(t) == '<Test: T>'

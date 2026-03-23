@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FileBase — f_psl/file</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a2e; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; padding: 40px; line-height: 1.7; }
+  h1 { color: #e94560; font-size: 2.2em; margin-bottom: 5px; }
+  h2 { color: #0f3460; background: #e94560; display: inline-block; padding: 6px 18px; border-radius: 6px; font-size: 1.1em; margin: 30px 0 15px; }
+  .subtitle { color: #8888aa; font-size: 1.1em; margin-bottom: 35px; }
+  code { background: #0f3460; color: #4ecca3; padding: 3px 8px; border-radius: 4px; font-family: 'Consolas', monospace; }
+  .card { background: #16213e; border-radius: 12px; padding: 25px 30px; margin: 20px 0; border-left: 4px solid #e94560; }
+  .card-green { border-left-color: #4ecca3; }
+  .code-block { background: #0d1b2a; border-radius: 8px; padding: 20px 25px; margin: 15px 0; font-family: 'Consolas', monospace; color: #4ecca3; font-size: 0.95em; line-height: 1.8; border: 1px solid #1a3a5c; }
+  .code-block .comment { color: #555; }
+  .code-block .kw { color: #e94560; }
+  .code-block .cls { color: #4ecca3; }
+  .code-block .str { color: #f0c040; }
+
+  /* Hierarchy tree */
+  .tree { margin: 25px 0; }
+  .tree-node { display: flex; align-items: stretch; margin: 8px 0; }
+  .tree-connector { width: 30px; display: flex; flex-direction: column; align-items: center; position: relative; }
+  .tree-connector .line { width: 2px; background: #2a4a6e; flex-grow: 1; }
+  .tree-connector .dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .tree-card { flex-grow: 1; background: #16213e; border-radius: 10px; padding: 15px 20px; margin-left: 10px; border-left: 3px solid #2a4a6e; }
+  .tree-card.root { border-left-color: #e94560; }
+  .tree-card.txt { border-left-color: #4ecca3; }
+  .tree-card.leaf { border-left-color: #0f3460; }
+  .tree-name { font-family: 'Consolas', monospace; font-weight: bold; font-size: 1.1em; }
+  .tree-name.root-color { color: #e94560; }
+  .tree-name.txt-color { color: #4ecca3; }
+  .tree-name.leaf-color { color: #6688cc; }
+  .tree-desc { color: #999; font-size: 0.85em; margin-top: 4px; }
+  .tree-features { margin-top: 8px; }
+  .tree-feature { display: inline-block; background: #0f3460; color: #8888cc; font-size: 0.75em; padding: 2px 10px; border-radius: 10px; margin: 2px 3px 2px 0; }
+  .indent-1 { margin-left: 40px; }
+  .indent-2 { margin-left: 80px; }
+
+  /* API table */
+  .api-section { background: #16213e; border-radius: 12px; padding: 25px 30px; margin: 20px 0; }
+  .api-group { color: #e94560; font-size: 0.8em; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; margin: 20px 0 10px; }
+  .api-group:first-child { margin-top: 0; }
+  .api-row { display: flex; align-items: baseline; padding: 8px 0; border-bottom: 1px solid #1a2a4e; }
+  .api-row:last-child { border-bottom: none; }
+  .api-name { font-family: 'Consolas', monospace; color: #4ecca3; width: 200px; flex-shrink: 0; }
+  .api-type { font-family: 'Consolas', monospace; color: #6688cc; width: 100px; flex-shrink: 0; font-size: 0.9em; }
+  .api-desc { color: #bbb; font-size: 0.9em; }
+
+  /* Lifecycle diagram */
+  .lifecycle { display: flex; align-items: center; justify-content: center; gap: 0; margin: 25px 0; flex-wrap: wrap; }
+  .lc-step { background: #16213e; border-radius: 10px; padding: 18px 22px; text-align: center; min-width: 130px; }
+  .lc-step .icon { font-size: 1.8em; margin-bottom: 8px; }
+  .lc-step .label { color: #4ecca3; font-family: 'Consolas', monospace; font-size: 0.9em; }
+  .lc-step .detail { color: #888; font-size: 0.75em; margin-top: 4px; }
+  .lc-arrow { color: #e94560; font-size: 1.5em; padding: 0 8px; }
+  .lc-step.active { border: 2px solid #4ecca3; }
+  .lc-step.inactive { border: 2px solid #2a2a4e; }
+</style>
+</head>
+<body>
+
+<h1>FileBase</h1>
+<div class="subtitle">Base class for all file types — file-system operations on a single file</div>
+
+<!-- ================================================================ -->
+<h2>What It Does</h2>
+<div class="card">
+  <p><code>FileBase</code> wraps a <strong>file path</strong> and provides common file-system operations. On creation, it <strong>auto-creates</strong> the file (and parent directories) if they don't exist. This guarantees that every <code>FileBase</code> instance points to a real file.</p>
+  <p style="margin-top:12px;">It serves as the <strong>foundation</strong> for all specialized file types in the framework.</p>
+</div>
+
+<!-- ================================================================ -->
+<h2>Lifecycle</h2>
+<div class="lifecycle">
+  <div class="lc-step active">
+    <div class="icon">&#128194;</div>
+    <div class="label">__init__(path)</div>
+    <div class="detail">Create if not exists</div>
+  </div>
+  <div class="lc-arrow">&rarr;</div>
+  <div class="lc-step inactive">
+    <div class="icon">&#128269;</div>
+    <div class="label">exists()</div>
+    <div class="detail">Check presence</div>
+  </div>
+  <div class="lc-arrow">&rarr;</div>
+  <div class="lc-step inactive">
+    <div class="icon">&#128200;</div>
+    <div class="label">.name .size</div>
+    <div class="detail">Inspect properties</div>
+  </div>
+  <div class="lc-arrow">&rarr;</div>
+  <div class="lc-step inactive">
+    <div class="icon">&#128465;</div>
+    <div class="label">delete()</div>
+    <div class="detail">Remove safely</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<h2>API Reference</h2>
+<div class="api-section">
+
+  <div class="api-group">Constructor</div>
+  <div class="api-row">
+    <span class="api-name">__init__(path)</span>
+    <span class="api-type">None</span>
+    <span class="api-desc">Store path, create parent dirs and empty file if not exists</span>
+  </div>
+
+  <div class="api-group">Properties</div>
+  <div class="api-row">
+    <span class="api-name">.path</span>
+    <span class="api-type">Path</span>
+    <span class="api-desc">Full file path (pathlib.Path object)</span>
+  </div>
+  <div class="api-row">
+    <span class="api-name">.name</span>
+    <span class="api-type">str</span>
+    <span class="api-desc">File name with extension (e.g., <code>main.tex</code>)</span>
+  </div>
+  <div class="api-row">
+    <span class="api-name">.stem</span>
+    <span class="api-type">str</span>
+    <span class="api-desc">File name without extension (e.g., <code>main</code>)</span>
+  </div>
+  <div class="api-row">
+    <span class="api-name">.suffix</span>
+    <span class="api-type">str</span>
+    <span class="api-desc">File extension (e.g., <code>.tex</code>)</span>
+  </div>
+  <div class="api-row">
+    <span class="api-name">.size</span>
+    <span class="api-type">int</span>
+    <span class="api-desc">File size in bytes</span>
+  </div>
+
+  <div class="api-group">Methods</div>
+  <div class="api-row">
+    <span class="api-name">exists()</span>
+    <span class="api-type">bool</span>
+    <span class="api-desc">True if the file exists on disk</span>
+  </div>
+  <div class="api-row">
+    <span class="api-name">delete()</span>
+    <span class="api-type">None</span>
+    <span class="api-desc">Delete the file; silently ignores if already gone</span>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<h2>Inheritance Hierarchy</h2>
+
+<div class="tree">
+
+  <div class="tree-node">
+    <div class="tree-connector"><div class="dot" style="background:#e94560;"></div><div class="line"></div></div>
+    <div class="tree-card root">
+      <div class="tree-name root-color">FileBase</div>
+      <div class="tree-desc">Base file — path, existence, deletion, size</div>
+      <div class="tree-features">
+        <span class="tree-feature">path</span>
+        <span class="tree-feature">exists</span>
+        <span class="tree-feature">delete</span>
+        <span class="tree-feature">size</span>
+        <span class="tree-feature">name</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tree-node indent-1">
+    <div class="tree-connector"><div class="dot" style="background:#4ecca3;"></div><div class="line"></div></div>
+    <div class="tree-card txt">
+      <div class="tree-name txt-color">FileTxt</div>
+      <div class="tree-desc">Text file — read/write text content, line operations</div>
+      <div class="tree-features">
+        <span class="tree-feature">text</span>
+        <span class="tree-feature">lines</span>
+        <span class="tree-feature">write</span>
+        <span class="tree-feature">read</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tree-node indent-2">
+    <div class="tree-connector"><div class="dot" style="background:#6688cc;"></div></div>
+    <div class="tree-card leaf">
+      <div class="tree-name leaf-color">FileTex</div>
+      <div class="tree-desc">LaTeX file — sections, packages, document structure</div>
+      <div class="tree-features">
+        <span class="tree-feature">add_section</span>
+        <span class="tree-feature">add_package</span>
+        <span class="tree-feature">sections</span>
+        <span class="tree-feature">packages</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tree-node indent-1">
+    <div class="tree-connector"><div class="dot" style="background:#4ecca3;"></div><div class="line"></div></div>
+    <div class="tree-card txt">
+      <div class="tree-name txt-color">FileCsv</div>
+      <div class="tree-desc">CSV file — rows, columns, structured tabular data</div>
+      <div class="tree-features">
+        <span class="tree-feature">rows</span>
+        <span class="tree-feature">columns</span>
+        <span class="tree-feature">headers</span>
+        <span class="tree-feature">to_df</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tree-node indent-1">
+    <div class="tree-connector"><div class="dot" style="background:#4ecca3;"></div><div class="line"></div></div>
+    <div class="tree-card txt">
+      <div class="tree-name txt-color">FileJson</div>
+      <div class="tree-desc">JSON file — load, dump, key-value access</div>
+      <div class="tree-features">
+        <span class="tree-feature">load</span>
+        <span class="tree-feature">dump</span>
+        <span class="tree-feature">get</span>
+        <span class="tree-feature">set</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tree-node indent-1">
+    <div class="tree-connector"><div class="dot" style="background:#e94560;"></div></div>
+    <div class="tree-card root">
+      <div class="tree-name" style="color:#cc6644;">FileImage</div>
+      <div class="tree-desc">Image file — dimensions, format, binary content</div>
+      <div class="tree-features">
+        <span class="tree-feature">width</span>
+        <span class="tree-feature">height</span>
+        <span class="tree-feature">format</span>
+        <span class="tree-feature">resize</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================================================================ -->
+<h2>Usage Examples</h2>
+
+<div class="code-block">
+<span class="comment"># Create or open a file</span><br>
+<span class="kw">from</span> <span class="cls">f_psl.file.i_0_base</span> <span class="kw">import</span> <span class="cls">FileBase</span><br>
+<br>
+<span class="comment"># Auto-creates if not exists</span><br>
+f = <span class="cls">FileBase</span>(path=<span class="str">'data/output.tmp'</span>)<br>
+<br>
+<span class="comment"># Inspect</span><br>
+<span class="kw">print</span>(f.name)      <span class="comment"># 'output.tmp'</span><br>
+<span class="kw">print</span>(f.stem)      <span class="comment"># 'output'</span><br>
+<span class="kw">print</span>(f.suffix)    <span class="comment"># '.tmp'</span><br>
+<span class="kw">print</span>(f.size)      <span class="comment"># 0</span><br>
+<span class="kw">print</span>(f.exists())  <span class="comment"># True</span><br>
+<br>
+<span class="comment"># Clean up</span><br>
+f.delete()<br>
+<span class="kw">print</span>(f.exists())  <span class="comment"># False</span><br>
+f.delete()          <span class="comment"># no error</span>
+</div>
+
+<div class="card card-green" style="margin-top:30px;">
+  <p><strong>Design principle:</strong> <code>FileBase</code> handles <em>file-system</em> concerns only — existence, path, size, deletion. Content operations (read/write text, parse structure) belong to subclasses like <code>FileTxt</code> and <code>FileTex</code>.</p>
+</div>
+
+</body>
+</html>
