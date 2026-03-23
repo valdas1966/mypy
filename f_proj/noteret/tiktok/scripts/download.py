@@ -1,7 +1,7 @@
 from old_old_f_google.services.big_query.client import BigQuery
 from old_f_google.services.storage import Storage
 from datetime import datetime
-from f_proj.noteret.tiktok.url import URL
+from f_http.url import UUrl
 import time
 
 
@@ -17,7 +17,7 @@ for index, row in df.iterrows():
     start = time.time() 
     id = row['id']
     url = row['url']
-    name = f'{id}.{URL(url=url).suffix()}'
+    name = f'{id}.{UUrl.suffix(url=url)}'
     blob = bucket.upload_from_url(name=name, url=url)
     size = blob.size if blob else 0
     finish = time.time()

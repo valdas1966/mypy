@@ -1,42 +1,50 @@
-# Overleaf
+# OverLeaf
 
 ## Purpose
-Client wrapper for Overleaf (online LaTeX editor).
-Provides project listing via pyoverleaf.
+Client wrapper for OverLeaf (online LaTeX editor).
+Inherits from `Dictable[str, ProjectOverLeaf]` — projects are
+accessed by name via `overleaf['Project Name']`.
 
 ## Public API
 
 ### `__init__(api: pyoverleaf.Api) -> None`
-Create an Overleaf client with an authenticated pyoverleaf Api.
+Create an OverLeaf client with an authenticated pyoverleaf Api.
+Eagerly loads all projects into the internal dict.
 
-### `projects() -> list[str]`
-Return names of all projects for the authenticated user.
+### Inherited from Dictable
+- `overleaf['Name']` — get project by name
+- `overleaf.keys()` — all project names
+- `overleaf.values()` — all ProjectOverLeaf objects
+- `len(overleaf)` — number of projects
+- `'Name' in overleaf` — check if project exists
 
 ## Inheritance (Hierarchy)
 ```
-Overleaf (no base class)
+Sizable
+ └── Dictable[str, ProjectOverLeaf]
+      └── OverLeaf
 ```
-No inheritance. Standalone client wrapper.
 
 ## Factory
 
-### `Factory.gmail() -> Overleaf`
-Create client using browser cookies (user logged into Overleaf
-via Gmail in their browser).
-
-### `Factory.token(cookies: dict[str, str]) -> Overleaf`
-Create client using provided session cookies directly.
+### `Factory.valdas() -> OverLeaf`
+Create client using Valdas session cookies stored in
+`F:/jsons/valdas/overleaf.json`.
 
 ## Dependencies
 
 | Import | Purpose |
 |--------|---------|
-| `pyoverleaf` | Python Overleaf API |
+| `pyoverleaf` | Python OverLeaf API |
+| `f_core.mixins.dictable.Dictable` | Dict-like base class |
+| `f_overleaf.project.ProjectOverLeaf` | Project data class |
+| `json` | Read cookie JSON file |
+| `pathlib.Path` | Cookie file path |
 
 ## Usage Example
 ```python
-from f_overleaf import Overleaf
+from f_overleaf import OverLeaf
 
-overleaf = Overleaf.Factory.gmail()
-names = overleaf.projects()
+overleaf = OverLeaf.Factory.valdas()
+project = overleaf['Test']  # ProjectOverLeaf
 ```

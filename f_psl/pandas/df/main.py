@@ -2,6 +2,8 @@ from collections.abc import Callable
 
 import pandas as pd
 
+from f_psl.f_numpy.u_array import UArray
+
 
 class UDf:
     """
@@ -85,5 +87,49 @@ class UDf:
         ====================================================================
         """
         df[col] = df[cols].apply(func=func, axis=1)
+        return df
+
+    @staticmethod
+    def union(df_1: pd.DataFrame,
+              df_2: pd.DataFrame) -> pd.DataFrame:
+        """
+        ====================================================================
+         Union two DataFrames with the same columns (UNION ALL).
+        ====================================================================
+        """
+        return pd.concat(objs=[df_1, df_2], ignore_index=True)
+
+    @staticmethod
+    def add_col_bins(df: pd.DataFrame,
+                 col: str,
+                 bins: list[int] = None,
+                 n: int = None) -> pd.DataFrame:
+        """
+        ====================================================================
+         Add a 'binned_{col}' column by snapping each value to the
+         nearest bin. Provide either explicit bins or n to auto-generate.
+        --------------------------------------------------------------------
+         Input:
+        --------------------------------------------------------------------
+         df = pd.DataFrame({'a': [1, 2, 3, 4, 5, 6]})
+         UDf.add_col_bins(df=df, col='a', bins=[2, 4, 6])
+        --------------------------------------------------------------------
+         Output:
+        --------------------------------------------------------------------
+         a  binned_a
+         1         2
+         2         2
+         3         2
+         4         4
+         5         4
+         6         6
+        ====================================================================
+        """
+        if n is not None:
+            bins = UArray.generate_bins(values=df[col].tolist(),
+                                        n=n)
+        df[f'binned_{col}'] = UArray.snap_to_bins(
+                                  values=df[col].values,
+                                  bins=bins)
         return df
 

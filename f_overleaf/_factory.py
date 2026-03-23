@@ -1,32 +1,27 @@
+import json
+from pathlib import Path
 import pyoverleaf
-from f_overleaf.main import Overleaf
+from f_overleaf.main import OverLeaf
+
+
+_PATH_COOKIES = Path('F:/jsons/valdas/overleaf.json')
 
 
 class Factory:
     """
     ========================================================================
-     Factory for Overleaf Client.
+     Factory for OverLeaf Client.
     ========================================================================
     """
 
     @staticmethod
-    def gmail() -> Overleaf:
+    def valdas() -> OverLeaf:
         """
         ====================================================================
-         Return an Overleaf Client using browser cookies (Gmail login).
+         Return an OverLeaf Client using Valdas session cookies.
         ====================================================================
         """
-        api = pyoverleaf.Api()
-        api.login_from_browser()
-        return Overleaf(api=api)
-
-    @staticmethod
-    def token(cookies: dict[str, str]) -> Overleaf:
-        """
-        ====================================================================
-         Return an Overleaf Client using provided session cookies.
-        ====================================================================
-        """
+        cookies = json.loads(_PATH_COOKIES.read_text())
         api = pyoverleaf.Api()
         api.login_from_cookies(cookies=cookies)
-        return Overleaf(api=api)
+        return OverLeaf(api=api)

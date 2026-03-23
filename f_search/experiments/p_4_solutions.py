@@ -3,6 +3,7 @@ from f_search.algos.i_1_spp import Dijkstra
 from f_search.problems import ProblemOMSPP
 from f_search.algos.i_2_omspp import AlgoOMSPP
 from f_search.algos.i_2_omspp import AStarRepeated
+from f_search.algos.i_2_omspp import AStarRepeatedBackward
 from f_search.algos.i_2_omspp import BFSIncremental
 from f_search.algos.i_2_omspp import AStarIncremental
 from f_search.algos.i_2_omspp import DijkstraIncremental
@@ -98,19 +99,20 @@ def pickle_result(solutions: list[SolutionOMSPP],
 """
 
 pickle_grids = 'f:\\paper\\i_1_grids\\grids.pkl'
-folder = 'f:\\temp\\2026\\03\\incremental'
+folder = 'f:\\temp\\2026\\03\\forward vs backward'
 pickle_problems = f'{folder}\\problems.pkl'
-pickle_solutions = f'{folder}\\bfs.pkl'
+pickle_solutions = f'{folder}\\backward_without_cached.pkl'
 
 #algo = AStarRepeated
-#algo = DijkstraIncremental
-#algo = AStarAggregative
-#algo = AStarIncremental
+# algo = DijkstraIncremental
+# algo = AStarAggregative
+# algo = AStarIncremental
 # algo = AStarIncrementalBackward
-algo = BFSIncremental
+algo = AStarRepeatedBackward
+# algo = BFSIncremental
 
 d_grids = load_grids(pickle_grids)
 problems = load_problems(pickle_problems)
-# solutions = run_algos(algo, d_grids, problems, with_bounds=True, need_path=True)
-solutions = run_algos(algo, d_grids, problems, need_path=False)
+# solutions = run_algos(algo, d_grids, problems, with_bounds=False, need_path=True)
+solutions = run_algos(algo, d_grids, problems, need_path=True)
 pickle_result(solutions, pickle_solutions)

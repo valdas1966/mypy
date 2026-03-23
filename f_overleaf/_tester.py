@@ -1,24 +1,34 @@
-from f_overleaf import Overleaf
+from f_overleaf import OverLeaf
+from f_overleaf.project import ProjectOverLeaf
 import pytest
 
 
 @pytest.fixture(scope='module')
-def overleaf() -> Overleaf:
+def overleaf() -> OverLeaf:
     """
     ========================================================================
-     Create an Overleaf Client with Gmail browser cookies.
+     Create an OverLeaf Client with Valdas session cookies.
     ========================================================================
     """
-    return Overleaf.Factory.gmail()
+    return OverLeaf.Factory.valdas()
 
 
-def test_projects(overleaf: Overleaf) -> None:
+def test_len(overleaf: OverLeaf) -> None:
     """
     ========================================================================
-     Test projects() returns a non-empty list of project names.
+     Test that OverLeaf contains at least one project.
     ========================================================================
     """
-    names = overleaf.projects()
-    assert isinstance(names, list)
-    assert len(names) > 0
-    assert all(isinstance(n, str) for n in names)
+    assert len(overleaf) > 0
+
+
+def test_getitem(overleaf: OverLeaf) -> None:
+    """
+    ========================================================================
+     Test that getitem returns a ProjectOverLeaf.
+    ========================================================================
+    """
+    name = overleaf.keys()[0]
+    project = overleaf[name]
+    assert isinstance(project, ProjectOverLeaf)
+    assert project.name == name

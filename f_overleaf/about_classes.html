@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document Classes — LaTeX</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a2e; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; padding: 40px; line-height: 1.7; }
+  h1 { color: #e94560; font-size: 2.2em; margin-bottom: 10px; }
+  h2 { color: #0f3460; background: #e94560; display: inline-block; padding: 6px 18px; border-radius: 6px; font-size: 1.1em; margin: 30px 0 15px; }
+  .subtitle { color: #8888aa; font-size: 1.1em; margin-bottom: 30px; }
+  code { background: #0f3460; color: #4ecca3; padding: 3px 8px; border-radius: 4px; font-family: 'Consolas', monospace; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+  .class-card { background: #16213e; border-radius: 12px; padding: 25px; border-top: 4px solid #e94560; transition: transform 0.2s; }
+  .class-card:hover { transform: translateY(-3px); }
+  .class-card.recommended { border-top-color: #4ecca3; }
+  .class-name { font-family: 'Consolas', monospace; color: #4ecca3; font-size: 1.4em; font-weight: bold; }
+  .class-use { color: #e94560; font-size: 0.85em; font-weight: bold; margin: 8px 0; text-transform: uppercase; letter-spacing: 1px; }
+  .class-desc { color: #bbb; font-size: 0.95em; }
+  .features { margin-top: 12px; }
+  .feature { display: inline-block; background: #0f3460; color: #8888cc; font-size: 0.8em; padding: 3px 10px; border-radius: 12px; margin: 3px 3px 3px 0; }
+  .feature.yes { color: #4ecca3; }
+  .feature.no { color: #e94560; }
+  .comparison { background: #16213e; border-radius: 12px; padding: 25px 30px; margin: 20px 0; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #0f3460; color: #4ecca3; padding: 10px 15px; text-align: left; font-size: 0.9em; }
+  td { padding: 10px 15px; border-bottom: 1px solid #2a2a4e; font-size: 0.9em; }
+  .yes-mark { color: #4ecca3; font-weight: bold; }
+  .no-mark { color: #555; }
+  .back-link { display: inline-block; margin-top: 30px; color: #4ecca3; text-decoration: none; font-size: 0.95em; }
+  .back-link:hover { text-decoration: underline; }
+  .badge { display: inline-block; background: #4ecca3; color: #1a1a2e; font-size: 0.7em; padding: 2px 8px; border-radius: 10px; margin-left: 8px; font-weight: bold; vertical-align: middle; }
+  @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<h1>Document Classes</h1>
+<div class="subtitle">The argument inside <code>\documentclass{...}</code> — what type of document you're building</div>
+
+<h2>Standard Classes</h2>
+<div class="grid">
+
+  <div class="class-card recommended">
+    <div class="class-name">article <span class="badge">MOST COMMON</span></div>
+    <div class="class-use">Papers, short documents</div>
+    <div class="class-desc">The go-to class for academic papers, homework, short reports, and documentation. No chapters — uses sections as the top-level heading.</div>
+    <div class="features">
+      <span class="feature yes">sections</span>
+      <span class="feature no">no chapters</span>
+      <span class="feature yes">single-sided</span>
+      <span class="feature yes">abstract</span>
+    </div>
+  </div>
+
+  <div class="class-card">
+    <div class="class-name">report</div>
+    <div class="class-use">Long documents, theses</div>
+    <div class="class-desc">Like article but with chapters. Good for theses, technical reports, and longer structured documents. Title page on its own page.</div>
+    <div class="features">
+      <span class="feature yes">chapters</span>
+      <span class="feature yes">sections</span>
+      <span class="feature yes">single-sided</span>
+      <span class="feature yes">abstract</span>
+    </div>
+  </div>
+
+  <div class="class-card">
+    <div class="class-name">book</div>
+    <div class="class-use">Full books</div>
+    <div class="class-desc">Designed for full books with parts, chapters, front/back matter. Two-sided by default (different left/right margins for binding).</div>
+    <div class="features">
+      <span class="feature yes">parts</span>
+      <span class="feature yes">chapters</span>
+      <span class="feature yes">two-sided</span>
+      <span class="feature no">no abstract</span>
+    </div>
+  </div>
+
+  <div class="class-card">
+    <div class="class-name">letter</div>
+    <div class="class-use">Formal letters</div>
+    <div class="class-desc">For writing formal letters with sender/recipient addresses, date, signature, and enclosures. Very specific layout commands.</div>
+    <div class="features">
+      <span class="feature yes">address</span>
+      <span class="feature yes">signature</span>
+      <span class="feature no">no sections</span>
+      <span class="feature no">no abstract</span>
+    </div>
+  </div>
+
+</div>
+
+<h2>Popular Extended Classes</h2>
+<div class="grid">
+
+  <div class="class-card recommended">
+    <div class="class-name">beamer <span class="badge">PRESENTATIONS</span></div>
+    <div class="class-use">Slides, presentations</div>
+    <div class="class-desc">Creates presentation slides with frames, transitions, and themes. The LaTeX alternative to PowerPoint. Supports overlays and animations.</div>
+    <div class="features">
+      <span class="feature yes">frames</span>
+      <span class="feature yes">themes</span>
+      <span class="feature yes">overlays</span>
+      <span class="feature yes">handouts</span>
+    </div>
+  </div>
+
+  <div class="class-card">
+    <div class="class-name">standalone</div>
+    <div class="class-use">Single figures, TikZ</div>
+    <div class="class-desc">Minimal class that crops the page to fit the content. Perfect for creating standalone figures, diagrams, or TikZ pictures for inclusion elsewhere.</div>
+    <div class="features">
+      <span class="feature yes">auto-crop</span>
+      <span class="feature yes">minimal</span>
+      <span class="feature no">no pages</span>
+    </div>
+  </div>
+
+  <div class="class-card">
+    <div class="class-name">memoir</div>
+    <div class="class-use">Flexible, all-purpose</div>
+    <div class="class-desc">A powerful class that combines features of article, report, and book. Highly customizable with many built-in tools for typography and layout.</div>
+    <div class="features">
+      <span class="feature yes">chapters</span>
+      <span class="feature yes">sections</span>
+      <span class="feature yes">customizable</span>
+      <span class="feature yes">all-in-one</span>
+    </div>
+  </div>
+
+  <div class="class-card">
+    <div class="class-name">IEEEtran</div>
+    <div class="class-use">IEEE journal papers</div>
+    <div class="class-desc">Formatted specifically for IEEE journal and conference submissions. Two-column layout, specific citation style, and IEEE-compliant formatting.</div>
+    <div class="features">
+      <span class="feature yes">two-column</span>
+      <span class="feature yes">IEEE format</span>
+      <span class="feature yes">bibliography</span>
+    </div>
+  </div>
+
+</div>
+
+<h2>Comparison Table</h2>
+<div class="comparison">
+<table>
+  <tr>
+    <th>Feature</th>
+    <th>article</th>
+    <th>report</th>
+    <th>book</th>
+    <th>beamer</th>
+  </tr>
+  <tr>
+    <td>\part</td>
+    <td class="no-mark">—</td>
+    <td class="yes-mark">Yes</td>
+    <td class="yes-mark">Yes</td>
+    <td class="no-mark">—</td>
+  </tr>
+  <tr>
+    <td>\chapter</td>
+    <td class="no-mark">—</td>
+    <td class="yes-mark">Yes</td>
+    <td class="yes-mark">Yes</td>
+    <td class="no-mark">—</td>
+  </tr>
+  <tr>
+    <td>\section</td>
+    <td class="yes-mark">Yes</td>
+    <td class="yes-mark">Yes</td>
+    <td class="yes-mark">Yes</td>
+    <td class="yes-mark">Yes</td>
+  </tr>
+  <tr>
+    <td>\abstract</td>
+    <td class="yes-mark">Yes</td>
+    <td class="yes-mark">Yes</td>
+    <td class="no-mark">—</td>
+    <td class="no-mark">—</td>
+  </tr>
+  <tr>
+    <td>Two-sided</td>
+    <td class="no-mark">No</td>
+    <td class="no-mark">No</td>
+    <td class="yes-mark">Default</td>
+    <td class="no-mark">No</td>
+  </tr>
+  <tr>
+    <td>Title page</td>
+    <td>Inline</td>
+    <td>Separate</td>
+    <td>Separate</td>
+    <td>Frame</td>
+  </tr>
+</table>
+</div>
+
+<a class="back-link" href="ABOUT.html">&larr; Back to LaTeX Overview</a>
+
+</body>
+</html>

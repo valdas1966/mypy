@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>\documentclass — LaTeX</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a2e; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; padding: 40px; line-height: 1.7; }
+  h1 { color: #e94560; font-size: 2.2em; margin-bottom: 10px; }
+  h2 { color: #0f3460; background: #e94560; display: inline-block; padding: 6px 18px; border-radius: 6px; font-size: 1.1em; margin: 30px 0 15px; }
+  .subtitle { color: #8888aa; font-size: 1.1em; margin-bottom: 30px; }
+  .card { background: #16213e; border-radius: 12px; padding: 25px 30px; margin: 20px 0; border-left: 4px solid #e94560; }
+  .card-blue { border-left-color: #0f3460; }
+  .card-green { border-left-color: #4ecca3; }
+  code { background: #0f3460; color: #4ecca3; padding: 3px 8px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 0.95em; }
+  .code-block { background: #0d1b2a; border-radius: 8px; padding: 20px 25px; margin: 15px 0; font-family: 'Consolas', monospace; color: #4ecca3; font-size: 1em; line-height: 1.8; border: 1px solid #1a3a5c; }
+  .syntax-box { display: flex; align-items: center; gap: 15px; margin: 20px 0; flex-wrap: wrap; }
+  .syntax-part { background: #0f3460; border-radius: 8px; padding: 12px 20px; text-align: center; }
+  .syntax-part .label { font-size: 0.75em; color: #8888aa; display: block; margin-bottom: 4px; }
+  .syntax-part .value { color: #4ecca3; font-family: 'Consolas', monospace; font-size: 1.2em; }
+  .arrow { color: #e94560; font-size: 1.5em; }
+  .analogy { background: linear-gradient(135deg, #16213e, #1a1a3e); border-radius: 12px; padding: 25px; margin: 20px 0; border: 1px solid #2a2a4e; }
+  .analogy-title { color: #e94560; font-weight: bold; margin-bottom: 10px; font-size: 1.1em; }
+  .back-link { display: inline-block; margin-top: 30px; color: #4ecca3; text-decoration: none; font-size: 0.95em; }
+  .back-link:hover { text-decoration: underline; }
+  .highlight { color: #e94560; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h1>\documentclass</h1>
+<div class="subtitle">The very first command in every LaTeX document</div>
+
+<h2>What Is It?</h2>
+<div class="card">
+  <p><code>\documentclass</code> is a <span class="highlight">mandatory command</span> that must appear as the very first line of any LaTeX file. It tells LaTeX what <em>type</em> of document you're creating.</p>
+  <p style="margin-top:12px;">It controls: page size, font size defaults, heading styles, margins, available commands, and overall layout structure.</p>
+</div>
+
+<h2>Syntax</h2>
+<div class="syntax-box">
+  <div class="syntax-part">
+    <span class="label">Command</span>
+    <span class="value">\documentclass</span>
+  </div>
+  <div class="syntax-part">
+    <span class="label">Options (optional)</span>
+    <span class="value">[12pt, a4paper]</span>
+  </div>
+  <div class="syntax-part">
+    <span class="label">Class name</span>
+    <span class="value">{article}</span>
+  </div>
+</div>
+
+<div class="code-block">
+\documentclass{article}              <span style="color:#555">% simplest form</span><br>
+\documentclass[12pt]{article}        <span style="color:#555">% with font size option</span><br>
+\documentclass[12pt,a4paper]{report} <span style="color:#555">% multiple options</span>
+</div>
+
+<h2>Common Options</h2>
+<div class="card card-blue">
+  <table style="width:100%; border-collapse:collapse;">
+    <tr style="border-bottom:1px solid #2a2a4e;">
+      <td style="padding:8px; color:#e94560; font-weight:bold; width:35%;">10pt, 11pt, 12pt</td>
+      <td style="padding:8px;">Base font size (default: 10pt)</td>
+    </tr>
+    <tr style="border-bottom:1px solid #2a2a4e;">
+      <td style="padding:8px; color:#e94560; font-weight:bold;">a4paper, letterpaper</td>
+      <td style="padding:8px;">Paper size</td>
+    </tr>
+    <tr style="border-bottom:1px solid #2a2a4e;">
+      <td style="padding:8px; color:#e94560; font-weight:bold;">twocolumn</td>
+      <td style="padding:8px;">Two-column layout</td>
+    </tr>
+    <tr style="border-bottom:1px solid #2a2a4e;">
+      <td style="padding:8px; color:#e94560; font-weight:bold;">landscape</td>
+      <td style="padding:8px;">Landscape orientation</td>
+    </tr>
+    <tr>
+      <td style="padding:8px; color:#e94560; font-weight:bold;">draft</td>
+      <td style="padding:8px;">Draft mode (shows overfull boxes, skips images)</td>
+    </tr>
+  </table>
+</div>
+
+<h2>Analogy</h2>
+<div class="analogy">
+  <div class="analogy-title">Think of it like choosing a template in Word or Google Docs</div>
+  <p>When you open Word and select "Blank Document" vs "Report" vs "Resume" — that's what <code>\documentclass</code> does. It picks the overall template that defines how your document looks and behaves before you write a single word.</p>
+</div>
+
+<h2>Where It Fits</h2>
+<div class="code-block">
+<span style="color:#e94560;">\documentclass{article}</span>     <span style="color:#555">% &larr; FIRST LINE</span><br>
+<br>
+<span style="color:#888">% === PREAMBLE ===</span><br>
+<span style="color:#888">% packages, settings, macros go here</span><br>
+\usepackage{graphicx}<br>
+<br>
+<span style="color:#888">% === CONTENT ===</span><br>
+\begin{document}<br>
+&nbsp;&nbsp;Your content here...<br>
+\end{document}
+</div>
+
+<a class="back-link" href="ABOUT.html">&larr; Back to LaTeX Overview</a>
+
+</body>
+</html>

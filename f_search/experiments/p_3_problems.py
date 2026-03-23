@@ -135,12 +135,13 @@ def pickle_results(problems: list[Problem],
 """
 
 pickle_grids = 'f:\\paper\\i_1_grids\\grids.pkl'
-folder = 'f:\\temp\\2026\\03\\forward vs backward'
+folder = 'f:\\temp\\2026\\03\\incremental 200'
 pickle_diamonds = f'{folder}\\diamonds.pkl'
 pickle_problems = f'{folder}\\problems.pkl'
 
 # values_k = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-values_k = [2, 4, 6, 8, 10]
+# values_k = [2, 4, 6, 8, 10]
+values_k = [110, 120, 130, 140, 150, 160, 170, 180, 190, 200]
 
 
 def main() -> None:

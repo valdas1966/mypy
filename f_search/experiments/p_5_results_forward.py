@@ -38,7 +38,6 @@ def to_rows(grids: dict[str, Grid],
             sols_agg: list[SolutionOMSPP],
             sols_inc: list[SolutionOMSPP],
             sols_dij: list[SolutionOMSPP],
-            sols_rep: list[SolutionOMSPP],
             sols_bfs: list[SolutionOMSPP]) -> list[dict]:
     """
     ========================================================================
@@ -48,12 +47,11 @@ def to_rows(grids: dict[str, Grid],
     log.debug(f'to_rows({len(sols_agg)} agg, '
               f'{len(sols_inc)} inc, '
               f'{len(sols_dij)} dij, '
-              f'{len(sols_rep)} rep)')
+              f'{len(sols_bfs)} bfs)')
     rows: list[dict] = []
-    for i, (agg, inc, dij, rep, bfs) in enumerate(zip(sols_agg,
+    for i, (agg, inc, dij, bfs) in enumerate(zip(sols_agg,
                                                    sols_inc,
                                                    sols_dij,
-                                                   sols_rep,
                                                  sols_bfs)):
         problem: ProblemOMSPP = agg.problem
         problem.load_grid(grids=grids)
@@ -73,12 +71,10 @@ def to_rows(grids: dict[str, Grid],
             explored_agg=agg.stats.explored,
             explored_inc=inc.stats.explored,
             explored_dij=dij.stats.explored,
-            explored_rep=rep.stats.explored,
             explored_bfs=bfs.stats.explored,
             elapsed_agg=agg.stats.elapsed,
             elapsed_inc=inc.stats.elapsed,
             elapsed_dij=dij.stats.elapsed,
-            elapsed_rep=rep.stats.elapsed,
             elapsed_bfs=bfs.stats.elapsed
         )
         rows.append(row)
@@ -105,17 +101,16 @@ def to_csv(rows: list[dict], path_csv: str) -> None:
 ===============================================================================
  Main - Merge aggregative, incremental, dijkstra and repeated solutions.
 -------------------------------------------------------------------------------
- Input: Pickle of grids, aggregative, incremental, dijkstra and repeated.
+ Input: Pickle of grids, aggregative, incremental, dijkstra and bfs.
  Output: CSV with merged analytics.
 ===============================================================================
 """
 
 pickle_grids = 'f:\\paper\\i_1_grids\\grids.pkl'
-folder = 'f:\\temp\\2026\\03\\incremental'
+folder = 'f:\\temp\\2026\\03\\incremental 200'
 pickle_agg = f'{folder}\\aggregative.pkl'
 pickle_inc = f'{folder}\\incremental.pkl'
 pickle_dij = f'{folder}\\dijkstra.pkl'
-pickle_rep = f'{folder}\\repeated.pkl'
 pickle_bfs = f'{folder}\\bfs.pkl'
 path_csv = f'{folder}\\results.csv'
 
@@ -126,9 +121,8 @@ def main() -> None:
     sols_agg = load_solutions(pickle_agg)
     sols_inc = load_solutions(pickle_inc)
     sols_dij = load_solutions(pickle_dij)
-    sols_rep = load_solutions(pickle_rep)
     sols_bfs = load_solutions(pickle_bfs)
-    rows = to_rows(grids, sols_agg, sols_inc, sols_dij, sols_rep, sols_bfs)
+    rows = to_rows(grids, sols_agg, sols_inc, sols_dij, sols_bfs)
     to_csv(rows, path_csv)
     log.info(f'main finished -> {path_csv}')
 

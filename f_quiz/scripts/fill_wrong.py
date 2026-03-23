@@ -42,6 +42,22 @@ _OPPOSITES: dict[str, str] = {
     'white': 'black',
     'classic': 'modern',
     'example': 'exception',
+    'must': 'might',
+    'have': 'lack',
+    'truth': 'false',
+    'value': 'label',
+    'Proposition': 'Assumption',
+    'comes': 'differs',
+    'from': 'into',
+    'Latin': 'Greek',
+    'propositio': 'praedicatio',
+    'proponere': 'praedicare',
+    'to': 'for',
+    'put': 'take',
+    'forward': 'backward',
+    'The': 'A',
+    'formulas': 'sentences',
+    'express': 'conceal',
 }
 
 

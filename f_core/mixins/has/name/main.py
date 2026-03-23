@@ -1,7 +1,8 @@
 from __future__ import annotations
+from f_core.mixins.has.repr import HasRepr
 
 
-class HasName:
+class HasName(HasRepr):
     """
     ============================================================================
      Mixin with Name property (Default='None').
@@ -37,10 +38,3 @@ class HasName:
         """
         return self.name
 
-    def __repr__(self) -> str:
-        """
-        ========================================================================
-         Return object representation.
-        ========================================================================
-        """
-        return f'<{type(self).__name__}: Name={self.name}>'

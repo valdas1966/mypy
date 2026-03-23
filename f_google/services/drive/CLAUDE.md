@@ -1,9 +1,9 @@
 # Drive
 
 ## Purpose
-Client wrapper for Google Drive API v3.
-Provides path-based navigation, folder management, file/folder
-listing, upload, download, and permanent delete support.
+Facade wrapper for Google Drive API v3.
+Delegates to single-purpose internal helpers for navigation,
+folder management, download, upload, and in-memory reading.
 
 ## Public API
 
@@ -25,65 +25,51 @@ Return True if a file or folder exists at the given path.
 Permanently delete a file or folder (recursive for folders).
 
 ### `create_folder(path: str) -> None`
-Create a folder at the given path. Creates intermediate folders
-if needed (mkdir -p). If the target folder already exists, deletes
-and re-creates it (override behavior).
+Create a folder at the given path (mkdir -p).
+If the target folder already exists, deletes and re-creates it.
 
 ### `download(path_src: str, path_dest: str) -> None`
 Download a file or folder from Drive to a local path.
-- `path_src`: full Drive path (file or folder)
-- `path_dest`: full local path
-- Creates parent directories locally if needed
-- Google-native docs exported to suitable formats
-  (Docs/Drawings -> PDF, Sheets -> XLSX, Slides -> PDF)
-- Folders are downloaded recursively, preserving structure
+Google-native docs exported to suitable formats.
+Folders are downloaded recursively.
 
 ### `upload(path_src: str, path_dest: str) -> None`
-Upload a local file or folder to Drive at the given path.
-- `path_src`: full local path (file or folder)
-- `path_dest`: full Drive path
-- Creates parent folders on Drive if needed (mkdir -p)
-- Overwrites silently if a file already exists
-- Folders are uploaded recursively, preserving structure
+Upload a local file or folder to Drive.
+Creates parent folders if needed. Overwrites silently.
+Folders are uploaded recursively.
+
+### `read(path: str, encoding: str = 'utf-8') -> _ReadResponse`
+Read a file from Drive into memory (no disk writes).
+- `.txt`, `.csv`: decoded text using the specified encoding
+- `.pdf`: markdown text + rendered page images (delegates to `f_pdf`)
+- Returns `_ReadResponse` with `.text` and `.pages` properties
 
 ## Inheritance (Hierarchy)
 ```
 Drive (no base class)
 ```
-No inheritance. Standalone client wrapper.
+Standalone facade. Composes internal helpers.
 
-## Internal Methods
+## Internal Architecture
+```
+Drive (facade)
+├── _Nav       — path resolution, listing, existence checks
+├── _Folders   — create, delete, ensure parents
+├── _Download  — download files/folders to disk
+├── _Upload    — upload files/folders from disk
+└── _Read      — read files into memory (uses f_pdf for PDFs)
+```
 
-### `_resolve(path: str = None) -> str`
-Resolve a path string to a Drive folder/file ID.
-Walks the folder tree segment by segment.
-`None` resolves to `'root'`.
+All helpers live in `_internal/`:
 
-### `_find_child(parent_id: str, name: str) -> str | None`
-Find a child ID by name within a parent folder.
-Returns None if not found. Raises ValueError on duplicates.
-
-### `_list_children(parent_id, mime_type, mime_type_exclude) -> list[str]`
-List child names with optional MIME type filtering.
-
-### `_create_single_folder(parent_id: str, name: str) -> str`
-Create one folder and return its ID.
-
-### `_download_file(file_id, mime, path_local) -> None`
-Download a single file. Exports Google-native docs.
-
-### `_download_folder(folder_id, path_local) -> None`
-Recursively download a folder from Drive.
-
-### `_upload_file(path_local, parent_id, name) -> None`
-Upload a single file. Overwrites if exists via update.
-
-### `_upload_folder(path_local, parent_id, name) -> None`
-Recursively upload a local folder to Drive.
-
-### `_ensure_parents(parts: list[str]) -> str`
-Ensure all parent folders exist on Drive (mkdir -p).
-Returns the ID of the deepest parent.
+| File | Class | Purpose |
+|------|-------|---------|
+| `_internal/_nav.py` | `_Nav` | resolve, find_child, list_children |
+| `_internal/_folders.py` | `_Folders` | create, delete, ensure_parents |
+| `_internal/_download.py` | `_Download` | download file/folder to disk |
+| `_internal/_upload.py` | `_Upload` | upload file/folder from disk |
+| `_internal/_read.py` | `_Read` | read to memory, delegate to f_pdf |
+| `_internal/_read_response.py` | `_ReadResponse` | return type for read() |
 
 ## Path Semantics
 - Separator: `/`
@@ -98,7 +84,7 @@ Returns the ID of the deepest parent.
 | `google.oauth2.credentials.Credentials` | OAuth credentials |
 | `google.oauth2.service_account.Credentials` | SA credentials |
 | `googleapiclient.discovery` | Drive API v3 client |
-| `googleapiclient.http` | MediaFileUpload, MediaIoBaseDownload |
+| `f_pdf.UPdf` | PDF parsing (used by _Read) |
 
 ## Usage Example
 ```python
@@ -108,7 +94,6 @@ drive = Drive.Factory.valdas()
 folders = drive.folders(path='projects/2024')
 drive.create_folder(path='projects/2025/data')
 drive.delete(path='projects/old')
-exists = drive.is_exists(path='projects/2025')
 
 # Download a file
 drive.download(path_src='projects/report.pdf',
@@ -117,4 +102,15 @@ drive.download(path_src='projects/report.pdf',
 # Upload a folder
 drive.upload(path_src='/local/data',
              path_dest='projects/2025/data')
+
+# Read a text file into memory (no disk writes)
+response = drive.read(path='projects/notes.txt')
+print(response.text)
+
+# Read a PDF — get text + page images
+response = drive.read(path='papers/attention.pdf')
+print(response.text)        # markdown with tables
+for i, page in enumerate(response.pages):
+    with open(f'/tmp/page_{i}.png', 'wb') as f:
+        f.write(page)       # save for visual inspection
 ```
