@@ -52,25 +52,7 @@
       "Read(//Users/eyalberkovich/temp/2026/03/Forward and Backward/**)",
       "Read(//Users/eyalberkovich/temp/2026/03/**)",
       "Bash(find:*)",
-      "Bash(brew install:*)",
-      "Read(//home/**)",
-      "Read(//mnt/**)",
-      "WebFetch(domain:u.cs.biu.ac.il)",
-      "WebFetch(domain:cris.bgu.ac.il)",
-      "WebFetch(domain:www.semanticscholar.org)",
-      "WebFetch(domain:www.cs.cmu.edu)",
-      "WebFetch(domain:www.researchgate.net)",
-      "WebFetch(domain:aaai.org)",
-      "WebFetch(domain:movingai.com)",
-      "WebFetch(domain:arxiv.org)",
-      "Bash(find / -path \"*/temp/2026/03/p.pdf\")",
-      "Bash(find / -name \"p.pdf\" -path \"*/2026*\")",
-      "Read(//private/tmp/**)",
-      "Read(//Users/eyalberkovich/Downloads/**)",
-      "Read(//Users/eyalberkovich/Desktop/**)",
-      "Bash(conda install:*)",
-      "Bash(pdftotext:*)",
-      "Bash(cd:*)"
+      "Bash(brew install:*)"
     ]
   }
 }
