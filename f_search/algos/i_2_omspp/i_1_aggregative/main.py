@@ -2,9 +2,9 @@ from f_search.algos.i_0_base import AlgoBestFirst
 from f_search.algos.i_2_omspp import AlgoOMSPP
 from f_search.problems import ProblemOMSPP, ProblemSPP
 from f_search.solutions import SolutionOMSPP, SolutionSPP
-from f_search.heuristics import HeuristicsAggregative
+from f_search.heuristics.phi import UPhi, PhiFunc
 from f_search.ds.state import StateBase
-from f_search.ds.data import DataHeuristics as Data
+from f_search.ds.data.i_2_heuristics_vector import DataHeuristicsVector as Data
 from f_search.ds.frontier import FrontierPriority as Frontier
 from f_search.ds.priority import PriorityGH as Priority
 from f_search.stats import StatsSearch
@@ -14,11 +14,12 @@ State = TypeVar('State', bound=StateBase)
 
 
 class AStarAggregative(AlgoOMSPP[State, Data],
-                       AlgoBestFirst[ProblemOMSPP, SolutionOMSPP, State, Data],
+                       AlgoBestFirst[ProblemOMSPP, SolutionOMSPP,
+                                     State, Data],
                        Generic[State]):
     """
     ============================================================================
-     Aggregative A* Algorithm.
+     Aggregative A* Algorithm (Eager kA*).
     ============================================================================
     """
 
@@ -27,6 +28,7 @@ class AStarAggregative(AlgoOMSPP[State, Data],
 
     def __init__(self,
                  problem: ProblemOMSPP,
+                 phi: PhiFunc = UPhi.min,
                  name: str = 'AStarAggregative',
                  need_path: bool = False,
                  is_analytics: bool = False) -> None:
@@ -39,8 +41,10 @@ class AStarAggregative(AlgoOMSPP[State, Data],
         self._data = Data(frontier=frontier)
         super().__init__(problem=problem, name=name,
                          is_analytics=is_analytics)
+        self._phi = phi
         self._need_path = need_path
-        self._heuristics: HeuristicsAggregative[State] = None
+        self._all_goals: list[State] = None
+        self._active_indices: list[int] = None
         self._prev_explored: int = None
         self._prev_discovered: int = None
 
@@ -51,9 +55,11 @@ class AStarAggregative(AlgoOMSPP[State, Data],
         ========================================================================
         """
         super()._run_pre()
-        self._heuristics = HeuristicsAggregative(self._goals_active)
+        self._all_goals = list(self.problem.goals)
+        self._active_indices = list(range(len(self._all_goals)))
         self._prev_explored = 0
         self._prev_discovered = 0
+        self._prev_heuristic_calcs = 0
         self._explored_offset = 0
 
     def _run(self) -> SolutionOMSPP:
@@ -67,29 +73,35 @@ class AStarAggregative(AlgoOMSPP[State, Data],
             self._select_best()
             if self._data.best in self._goals_active:
                 self._on_goal_found()
-            if self._can_terminate():
-                break
+                if self._can_terminate():
+                    break
+                continue
             self._explore_best()
         return self._create_solution()
 
     def _discover(self, state: State) -> None:
         """
         ========================================================================
-            Discover the given State.
+         Discover the given State.
         ========================================================================
         """
         self._stats.discovered += 1
+        self._stats.heuristic_calcs += len(self._active_indices)
         # Aliases
         data = self._data
         # Set State's Parent
         data.set_best_to_be_parent_of(state=state)
-        # Calculate the heuristic distance from state to goal
-        data.dict_h[state] = self._heuristics(state=state)
-        # Calculate the priority of the State (in the Frontier)
-        priority = Priority[State](key=state.key,
-                                    g=data.dict_g[state],
-                                    h=data.dict_h[state])
+        # Compute heuristic vector (only for active goals)
+        h_vec = [0] * len(self._all_goals)
+        for i in self._active_indices:
+            h_vec[i] = state.distance(other=self._all_goals[i])
+        data.dict_h[state] = h_vec
+        # Aggregate for priority
+        h_agg = self._phi(h_vec, self._active_indices)
         # Push State to Frontier
+        priority = Priority[State](key=state.key,
+                                   g=data.dict_g[state],
+                                   h=h_agg)
         data.frontier.push(state=state, priority=priority)
 
     def _on_goal_found(self) -> None:
@@ -99,13 +111,27 @@ class AStarAggregative(AlgoOMSPP[State, Data],
         ========================================================================
         """
         self._collect_explored(goal=self._data.best,
-                              algo=self,
-                              offset=self._explored_offset)
+                               algo=self,
+                               offset=self._explored_offset)
         self._explored_offset = len(self._data.explored)
-        self._goals_active.remove(self._data.best)
+        # Remove goal from active sets
+        goal = self._data.best
+        idx = self._all_goals.index(goal)
+        self._goals_active.remove(goal)
+        self._active_indices.remove(idx)
+        # Append sub-solution
         self._append_sub_solution()
+        # Re-aggregate F values for remaining active goals
         if not self._can_terminate():
             self._update_h()
+            # Push goal back to frontier for future expansion
+            h_agg = self._phi(self._data.dict_h[goal],
+                              self._active_indices)
+            priority = Priority[State](key=goal.key,
+                                       g=self._data.dict_g[goal],
+                                       h=h_agg)
+            self._data.frontier.push(state=goal,
+                                     priority=priority)
 
     def _append_sub_solution(self) -> None:
         """
@@ -116,11 +142,15 @@ class AStarAggregative(AlgoOMSPP[State, Data],
         problem = ProblemSPP(grid=self.problem.grid,
                              start=self.problem.start,
                              goal=self._data.best)
-        stats = StatsSearch(explored=self._stats.explored-self._prev_explored,
-                            discovered=self._stats.discovered-self._prev_discovered,
-                            elapsed=self.seconds_since_last_call())
+        stats = StatsSearch(
+            explored=self._stats.explored - self._prev_explored,
+            discovered=self._stats.discovered - self._prev_discovered,
+            heuristic_calcs=(self._stats.heuristic_calcs
+                             - self._prev_heuristic_calcs),
+            elapsed=self.seconds_since_last_call())
         self._prev_explored = self._stats.explored
         self._prev_discovered = self._stats.discovered
+        self._prev_heuristic_calcs = self._stats.heuristic_calcs
         path = None
         if self._need_path:
             path = self._data.path_to(state=self._data.best)
@@ -136,16 +166,15 @@ class AStarAggregative(AlgoOMSPP[State, Data],
     def _update_h(self) -> None:
         """
         ========================================================================
-         Update the Heuristics.
+         Re-aggregate heuristic values for all Frontier states.
         ========================================================================
         """
-        # Update states in Frontier with new heuristics
         for state in self._data.frontier:
-            # Update each state each time
-            self._data.dict_h[state] = self._heuristics(state=state)
+            h_vec = self._data.dict_h[state]
+            h_agg = self._phi(h_vec, self._active_indices)
             priority = Priority[State](key=state.key,
                                        g=self._data.dict_g[state],
-                                       h=self._data.dict_h[state])
+                                       h=h_agg)
             self._data.frontier.update(state=state, priority=priority)
 
     def _can_terminate(self) -> bool:
@@ -172,10 +201,9 @@ class AStarAggregative(AlgoOMSPP[State, Data],
         """
         ========================================================================
          Return True if through Best-State, the Succ can be reached with a
-          lower cost through its current parent.
+          lower cost than its current parent.
         ========================================================================
         """
-        # Aliases
         g_succ = self._data.dict_g[succ]
         g_best = self._data.dict_g[self._data.best]
         return g_succ > g_best + 1
@@ -191,7 +219,10 @@ class AStarAggregative(AlgoOMSPP[State, Data],
         data = self._data
         # Set the Successor's Parent to the Best-State
         data.set_best_to_be_parent_of(state=succ)
+        # Recompute aggregated h from stored vector
+        h_agg = self._phi(data.dict_h[succ],
+                          self._active_indices)
         priority = Priority[State](key=succ.key,
                                    g=data.dict_g[succ],
-                                   h=data.dict_h[succ])
+                                   h=h_agg)
         data.frontier.update(state=succ, priority=priority)

@@ -99,9 +99,11 @@ class AStarIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
         # Update the Heuristics to next goal
         heuristics = self._heuristics(goal=problem.goal)
         # Update states in Frontier with new heuristics
+        h_calcs = 0
         for state in self._data.frontier:
             # Update each state each time
             self._data.dict_h[state] = heuristics(state)
+            h_calcs += 1
             priority = Priority[State](key=state.key,
                                        g=self._data.dict_g[state],
                                        h=self._data.dict_h[state])
@@ -111,4 +113,8 @@ class AStarIncremental(AlgoOMSPP[State, Data[State]], Generic[State]):
                                                data=self._data,
                                                heuristics=heuristics,
                                                need_path=self._need_path)
-        return self._last_algo.run()
+        sub_solution = self._last_algo.run()
+        # Count h-calcs: frontier updates + new discoveries
+        h_calcs += sub_solution.stats.discovered
+        sub_solution.stats.heuristic_calcs = h_calcs
+        return sub_solution

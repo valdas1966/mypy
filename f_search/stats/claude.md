@@ -26,6 +26,7 @@ Provides core performance metrics for all search algorithms:
 - **generated**: Number of states added to open queue
 - **updated**: Number of states updated with better cost
 - **explored**: Number of states fully expanded
+- **heuristic_calcs**: Number of heuristic (distance) calculations
 
 ### Metric Meanings
 

@@ -12,7 +12,8 @@ class StatsSearch(StatsAlgo):
                  elapsed: float = 0,
                  discovered: int = 0,
                  relaxed: int = 0,
-                 explored: int = 0) -> None:
+                 explored: int = 0,
+                 heuristic_calcs: int = 0) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -25,6 +26,8 @@ class StatsSearch(StatsAlgo):
         self._relaxed = relaxed
         # Number of state fully expanded (moved to closed list)
         self._explored = explored
+        # Number of heuristic (distance) calculations
+        self._heuristic_calcs = heuristic_calcs
 
     @property
     def discovered(self) -> int:
@@ -79,3 +82,21 @@ class StatsSearch(StatsAlgo):
         ========================================================================
         """
         self._explored = explored
+
+    @property
+    def heuristic_calcs(self) -> int:
+        """
+        ========================================================================
+         Return the number of heuristic calculations.
+        ========================================================================
+        """
+        return self._heuristic_calcs
+
+    @heuristic_calcs.setter
+    def heuristic_calcs(self, heuristic_calcs: int) -> None:
+        """
+        ========================================================================
+         Set the number of heuristic calculations.
+        ========================================================================
+        """
+        self._heuristic_calcs = heuristic_calcs

@@ -14,6 +14,17 @@ def test_astar_incremental():
     assert stats.discovered == 11
 
 
+def test_heuristic_calcs() -> None:
+    """
+    ========================================================================
+     Test heuristic_calcs counting (frontier updates + discoveries).
+    ========================================================================
+    """
+    algo = AStarIncremental.Factory.without_obstacles()
+    solution = algo.run()
+    assert solution.stats.heuristic_calcs == 15
+
+
 def test_quality_h() -> None:
     """
     ========================================================================

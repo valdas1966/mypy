@@ -26,10 +26,13 @@ class SolutionOMSPP(SolutionSearch[ProblemOMSPP, StatsSearch]):
         """
         discovered = sum(sub.stats.discovered for sub in subs)
         explored = sum(sub.stats.explored for sub in subs)
+        heuristic_calcs = sum(sub.stats.heuristic_calcs
+                              for sub in subs)
         is_valid = all(sub for sub in subs) and len(subs) == len(problem.goals)
         stats = StatsSearch(elapsed=elapsed,
                             discovered=discovered,
-                            explored=explored)
+                            explored=explored,
+                            heuristic_calcs=heuristic_calcs)
         SolutionSearch.__init__(self,
                                 name_algo=name_algo,
                                 problem=problem,
