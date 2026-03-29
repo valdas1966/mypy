@@ -21,7 +21,7 @@ class ExamGuiCombined:
 
 ```python
 Factory.test() -> ExamGuiCombined        # 2 text + 2 options
-Factory.combined(is_random, n_questions)  # Hebrew + Options sheets
+Factory.combined(is_random, n_questions)  # Hebrew + Options + YesNo sheets
 ```
 
 ## Reused Components

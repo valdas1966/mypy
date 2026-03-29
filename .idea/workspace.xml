@@ -5,171 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_google/services/drive/_internal/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/drive/_internal/_download.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/drive/_internal/_folders.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/drive/_internal/_nav.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/drive/_internal/_read.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/drive/_internal/_read_response.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/drive/_internal/_upload.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/gemini/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/gemini/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/gemini/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/gemini/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/gemini/comparing/_study.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/gemini/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/gemini/response/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/gemini/response/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/gemini/response/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/gemini/response/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_http/url/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_http/url/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_http/url/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_http/url/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_http/url/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_pdf/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_pdf/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_pdf/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_pdf/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_pdf/response/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_pdf/response/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_pdf/response/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_pdf/response/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/bq/fields.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/bq/schemas.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/bq/tables.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/pipeline/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/pipeline/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/pipeline/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/pipeline/_insert_parallel.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/pipeline/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/pipeline/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert_run.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_0_base/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_0_base/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_0_base/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_comments_by_video/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_comments_by_video/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_comments_by_video/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_followers_by_user/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_followers_by_user/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_followers_by_user/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_hashtags_by_keyword/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_hashtags_by_keyword/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_hashtags_by_keyword/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_music_by_id/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_music_by_id/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_music_by_id/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_users_by_id/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_users_by_id/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_users_by_id/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_users_by_id_unique/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_users_by_id_unique/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_users_by_id_unique/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_videos_by_hashtag/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_videos_by_hashtag/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_videos_by_hashtag/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_videos_by_music/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_videos_by_music/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_videos_by_music/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_videos_by_user/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_videos_by_user/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_videos_by_user/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_videos_new_by_user/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_videos_new_by_user/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/endpoints/i_1_videos_new_by_user/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/fetch/i_0_base/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/fetch/i_0_base/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/fetch/i_0_base/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/fetch/i_0_base/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/fetch/i_0_base/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/fetch/i_1_multi/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/fetch/i_1_multi/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/fetch/i_1_multi/_batch.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/fetch/i_1_multi/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/fetch/i_1_single/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/fetch/i_1_single/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/fetch/i_1_single/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_quiz/sheets/fill_wrong.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.claude/settings.local.json" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/drive/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/drive/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/drive/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/drive/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/blocks/i_0_base.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/exams/i_0_base.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/exams/i_1_random.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/exams/study/s_0_base.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/exams/u_0_base.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/exams/u_1_random.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/exams/u_2_combine.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/generators/exam.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/generators/inner/exam/cs.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/generators/inner/exam/english.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/generators/study/s_exam.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/cs/i_0_cs.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/cs/study/s_0_cs.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/english/i_0_english.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/english/i_1_definitions.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/english/i_1_phrases.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/english/i_1_words.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/english/study/s_1_phrases.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/english/study/s_1_words.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/english/study/s_definitions.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/i_0_base.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/i_1_group.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/processes/nest_tuples_to_questions.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gsheets/study/s_open_spread.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gui/i_0_qa.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/gui/inner/container_qa.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/managers/exam/i_0_gui.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/managers/exam/i_0_prompt.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/managers/exam/study/s_0_gui.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/managers/exam/study/s_0_text.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/managers/question/i_0_gui.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/managers/question/i_0_prompt.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/managers/question/study/s_0_text.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/questions/i_0_base.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/questions/i_1_text.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/questions/i_2_mask.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/questions/i_3_mask_one_token.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/questions/i_3_mask_one_word.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/questions/study/s_1_text.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/questions/study/s_2_mask.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/questions/testers/t_1_text.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/questions/testers/t_2_mask.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/questions/testers/t_3_mask_one_word.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/myq/scripts/run_exam.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/fields.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/schemas.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/create_tables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/download.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/download.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/followers.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/old/followers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/followers_todo.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/old/followers_todo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/_insert_parallel.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/insert/run.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/keywords_to_hashtags.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/old/keywords_to_hashtags.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/users_alias_to_id.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_proj/noteret/tiktok/scripts/old/users_alias_to_id.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/study/s_schemas.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/tables.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/url/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/url/_factory.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/url/_tester.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/noteret/tiktok/url/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/api/api.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/batch/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/batch/batch.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/requests/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_proj/rapid_api/tiktok/requests/requests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_quiz/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_quiz/exam_gui_combined/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/exam_gui_combined/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_quiz/exam_gui_combined/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/exam_gui_combined/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_quiz/exam_gui_options/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/exam_gui_options/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_quiz/exam_gui_options/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/exam_gui_options/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_quiz/loaders/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/loaders/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_quiz/loaders/u_gsheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/loaders/u_gsheet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_quiz/scripts/fill_wrong.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,7 +42,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
-    &quot;accountId&quot;: &quot;a1e5e179-580e-4572-8eba-3d60343860e3&quot;
+    &quot;accountId&quot;: &quot;0f4621b9-87f9-4a4a-9ceb-401ed7593bcc&quot;
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
@@ -1257,7 +1103,29 @@
       <recent name="F:\mypy\f_google\services\sheets" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in _tester.py (3)">
+  <component name="RunManager" selected="Python.generate_options">
+    <configuration name="generate_options" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_quiz/scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_quiz/scripts/generate_options.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="p_4_solutions" type="PythonConfigurationType" factoryName="Python" singleton="false" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -1271,31 +1139,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="s_3_group_by (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/experiments/mospp" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/mospp/s_3_group_by.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1314,7 +1158,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_proj/noteret/tiktok/pipeline/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -1330,7 +1173,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_google/services/gemini/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -1346,7 +1188,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_proj/rapid_api/tiktok/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -1362,7 +1203,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_pdf/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -1386,7 +1226,7 @@
     </configuration>
     <list>
       <item itemvalue="Python.p_4_solutions" />
-      <item itemvalue="Python.s_3_group_by (1)" />
+      <item itemvalue="Python.generate_options" />
       <item itemvalue="Python tests.Python tests in _tester.py (1)" />
       <item itemvalue="Python tests.Python tests in _tester.py (2)" />
       <item itemvalue="Python tests.Python tests in _tester.py (3)" />
@@ -1394,18 +1234,18 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.generate_options" />
         <item itemvalue="Python tests.Python tests in _tester.py (3)" />
         <item itemvalue="Python tests.Python tests in _tester.py (2)" />
         <item itemvalue="Python tests.Python tests in _tester.py (1)" />
         <item itemvalue="Python tests.Python tests in _tester.py (1)" />
-        <item itemvalue="Python tests.Python tests in _tester.py" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-ca5e2b39c7df-6e1f45a539f7-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.29346.308" />
+        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
       </set>
     </attachedChunks>
   </component>

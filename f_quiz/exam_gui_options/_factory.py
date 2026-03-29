@@ -1,6 +1,6 @@
 from f_quiz.exam_gui_options.main import ExamGuiOptions
 from f_quiz.question_options import QuestionOptions
-from f_quiz.loaders.u_gsheet import load_options
+from f_quiz.loaders.u_gsheet import load_options, load_yes_no
 
 
 class Factory:
@@ -34,6 +34,20 @@ class Factory:
         """
         return ExamGuiOptions(
             questions=load_options(sheet_name=sheet_name),
+            is_random=is_random,
+            n_questions=n_questions
+        )
+
+    @staticmethod
+    def yes_no(is_random: bool = True,
+               n_questions: int | None = None) -> ExamGuiOptions:
+        """
+        ====================================================================
+         Create an ExamGuiOptions from the YesNo Google Sheet.
+        ====================================================================
+        """
+        return ExamGuiOptions(
+            questions=load_yes_no(),
             is_random=is_random,
             n_questions=n_questions
         )

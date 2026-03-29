@@ -20,6 +20,8 @@ class ExamGuiOptions:
 
 ```python
 Factory.logic() -> ExamGuiOptions
+Factory.options(sheet_name, is_random, n_questions) -> ExamGuiOptions
+Factory.yes_no(is_random, n_questions) -> ExamGuiOptions
 ```
 
 ## Reused Components

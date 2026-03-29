@@ -10,11 +10,13 @@ models them as Question objects, and runs interactive exams.
 |------|---------|
 | `question/` | Question class (text + answer) |
 | `question_options/` | QuestionOptions(Question) — two-option answer |
+| `question_yes_no/` | QuestionYesNo(QuestionOptions) — fixed Yes/No |
 | `exam/` | Exam class (terminal quiz runner) |
 | `exam_gui/` | ExamGui class (tkinter GUI quiz runner) |
 | `exam_gui_options/` | ExamGuiOptions (two-option GUI quiz) |
 | `exam_gui_combined/` | ExamGuiCombined (mixed text + options GUI) |
 | `loaders/` | Load questions from external sources |
+| `sheets/` | Instructions for Claude Code (sheet tasks) |
 
 ## Dependencies
 
