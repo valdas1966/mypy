@@ -31,11 +31,12 @@ def run() -> None:
     spread = Spread.Factory.questions()
     sheet = spread['Options']
     last_row = sheet.last_row()
-    # Count existing rows per Full sentence
+    # Count existing expanded rows per Full sentence
     existing: dict[str, int] = {}
     for i in range(1, last_row):
         full = str(sheet[i][0]).strip()
-        if full:
+        question = str(sheet[i][1]).strip()
+        if full and question:
             existing[full] = existing.get(full, 0) + 1
     # Find sentences that need expansion
     to_expand: list[tuple[int, str]] = []
