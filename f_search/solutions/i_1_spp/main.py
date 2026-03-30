@@ -63,3 +63,18 @@ class SolutionSPP(SolutionSearch[Problem, StatsSearch]):
         if not self or not self._g_goal:
             return None
         return self.problem.h_start / self._g_goal
+
+    @property
+    def efficiency(self) -> float | None:
+        """
+        ========================================================================
+         Return Search Efficiency as len(path) / explored.
+        ========================================================================
+        """
+        if not self or not self.stats.explored:
+            return None
+        if self._path:
+            return len(self._path) / self.stats.explored
+        if self._g_goal is not None:
+            return (self._g_goal + 1) / self.stats.explored
+        return None

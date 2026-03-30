@@ -73,3 +73,18 @@ class SolutionOMSPP(SolutionSearch[ProblemOMSPP, StatsSearch]):
         if not qualities:
             return None
         return sum(qualities) / len(qualities)
+
+    @property
+    def efficiency(self) -> float | None:
+        """
+        ========================================================================
+         Return avg Search Efficiency across Sub-Solutions.
+        ========================================================================
+        """
+        if not self:
+            return None
+        efficiencies = [sub.efficiency for sub in self._subs
+                        if sub.efficiency is not None]
+        if not efficiencies:
+            return None
+        return sum(efficiencies) / len(efficiencies)

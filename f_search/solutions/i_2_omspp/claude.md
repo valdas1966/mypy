@@ -62,6 +62,11 @@ Returns the average heuristic quality across all sub-solutions.
 Computed as `mean(sub.quality_h for sub in subs)`, filtering out `None` values.
 Returns `None` if the solution is invalid or no sub has a valid `quality_h`.
 
+#### `efficiency` property → `float | None`
+Returns the average search efficiency across all sub-solutions.
+Computed as `mean(sub.efficiency for sub in subs)`, filtering out `None` values.
+Returns `None` if the solution is invalid or no sub has a valid `efficiency`.
+
 ## Complete Solution Structure
 
 A SolutionOMSPP contains:

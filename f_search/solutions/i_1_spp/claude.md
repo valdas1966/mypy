@@ -29,6 +29,9 @@ Returns the optimal cost to reach the goal. `None` if not set.
 ### `quality_h` (property) -> `float | None`
 Returns heuristic quality as `h(start) / g(goal)` in [0, 1]. Returns `None` if the solution is invalid or `g_goal` is 0 or `None`.
 
+### `efficiency` (property) -> `float | None`
+Returns search efficiency as `len(path) / explored`. Uses `path` length if available, otherwise falls back to `g_goal + 1` (node count on unit-cost grids). Returns `None` if the solution is invalid or `explored` is 0.
+
 ## Inheritance (Hierarchy)
 
 ```

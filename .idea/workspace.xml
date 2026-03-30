@@ -5,11 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/claude.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/claude.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/solutions/i_1_spp/claude.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/solutions/i_1_spp/claude.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/solutions/i_1_spp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/solutions/i_1_spp/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/solutions/i_2_omspp/claude.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/solutions/i_2_omspp/claude.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/solutions/i_2_omspp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/solutions/i_2_omspp/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,12 +35,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "0f4621b9-87f9-4a4a-9ceb-401ed7593bcc"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
+    &quot;accountId&quot;: &quot;0f4621b9-87f9-4a4a-9ceb-401ed7593bcc&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../miniconda3/envs/mypy/lib/python3.13/typing.py" root0="SKIP_INSPECTION" />
   </component>
@@ -1195,7 +1197,22 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in _tester.py (4)" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in _tester.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/_tester.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in _tester.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -1303,14 +1320,6 @@
       <workItem from="1770540816637" duration="6873000" />
       <workItem from="1770703006670" duration="7888000" />
       <workItem from="1770804142876" duration="9603000" />
-    </task>
-    <task id="LOCAL-00289" summary="h">
-      <option name="closed" value="true" />
-      <created>1765095067637</created>
-      <option name="number" value="00289" />
-      <option name="presentableId" value="LOCAL-00289" />
-      <option name="project" value="LOCAL" />
-      <updated>1765095067637</updated>
     </task>
     <task id="LOCAL-00290" summary="h">
       <option name="closed" value="true" />
@@ -1696,7 +1705,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773578561098</updated>
     </task>
-    <option name="localTasksCounter" value="338" />
+    <task id="LOCAL-00338" summary="h">
+      <option name="closed" value="true" />
+      <created>1774863190179</created>
+      <option name="number" value="00338" />
+      <option name="presentableId" value="LOCAL-00338" />
+      <option name="project" value="LOCAL" />
+      <updated>1774863190179</updated>
+    </task>
+    <option name="localTasksCounter" value="339" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

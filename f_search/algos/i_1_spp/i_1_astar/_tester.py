@@ -65,3 +65,25 @@ def test_quality_h_with_obstacles() -> None:
     astar = AStar.Factory.with_obstacles()
     solution = astar.run()
     assert solution.quality_h == 3 / 7
+
+
+def test_efficiency_without_obstacles() -> None:
+    """
+    ========================================================================
+     Test the efficiency property without obstacles.
+    ========================================================================
+    """
+    astar = AStar.Factory.without_obstacles()
+    solution = astar.run()
+    assert solution.efficiency == 4 / 3
+
+
+def test_efficiency_with_obstacles() -> None:
+    """
+    ========================================================================
+     Test the efficiency property with obstacles.
+    ========================================================================
+    """
+    astar = AStar.Factory.with_obstacles()
+    solution = astar.run()
+    assert solution.efficiency == 8 / 8
