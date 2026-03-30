@@ -23,7 +23,11 @@ def test_heuristic_calcs() -> None:
     algo = AStarIncremental.Factory.without_obstacles()
     solution = algo.run()
     assert solution.stats.heuristic_calcs == 15
-
+    algo = AStarIncremental.Factory.with_obstacles()
+    solution = algo.run()
+    assert solution.stats.explored == 8
+    assert solution.stats.discovered == 13
+    assert solution.stats.heuristic_calcs == 18
 
 def test_quality_h() -> None:
     """

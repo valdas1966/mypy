@@ -20,6 +20,11 @@ class Factory:
         return AStarIncremental(problem=problem)
 
     @staticmethod
+    def with_obstacles() -> AStarIncremental:
+        problem = ProblemOMSPP.Factory.with_obstacles()
+        return AStarIncremental(problem=problem)
+
+    @staticmethod
     def for_cached() -> AStarIncremental:
         problem = ProblemOMSPP.Factory.for_cached()
         return AStarIncremental(problem=problem)
