@@ -19,16 +19,6 @@ Both files are located at Drive path `2026/03`:
 ### How to Read the Papers
 
 ```python
-import sys, types
-
-# Stub vertexai (not installed locally)
-vertexai = types.ModuleType('vertexai')
-vertexai.init = lambda **kw: None
-sys.modules['vertexai'] = vertexai
-gen_models = types.ModuleType('vertexai.generative_models')
-gen_models.GenerativeModel = type('GenerativeModel', (), {})
-sys.modules['vertexai.generative_models'] = gen_models
-
 from f_google.services.drive import Drive
 
 drive = Drive.Factory.valdas()

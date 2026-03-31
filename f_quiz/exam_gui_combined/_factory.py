@@ -41,9 +41,9 @@ class Factory:
         pool_options = load_options()
         pool_yes_no = load_yes_no()
         questions = _sample_by_ratio(
-            pools=[(pool_yes_no, 0.7),
-                   (pool_options, 0.2),
-                   (pool_hebrew, 0.1)],
+            pools=[(pool_yes_no, 0.85),
+                   (pool_options, 0.1),
+                   (pool_hebrew, 0.05)],
             n=n_questions)
         return ExamGuiCombined(questions=questions,
                                is_random=is_random,
