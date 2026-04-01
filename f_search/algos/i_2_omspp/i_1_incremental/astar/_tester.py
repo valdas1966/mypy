@@ -29,6 +29,17 @@ def test_heuristic_calcs() -> None:
     assert solution.stats.discovered == 13
     assert solution.stats.heuristic_calcs == 18
 
+def test_for_node_categories() -> None:
+    """
+    ========================================================================
+     Test IncrementalKA* on the node-categories OMSPP problem.
+    ========================================================================
+    """
+    algo = AStarIncremental.Factory.for_node_categories()
+    solution = algo.run()
+    assert solution
+
+
 def test_quality_h() -> None:
     """
     ========================================================================

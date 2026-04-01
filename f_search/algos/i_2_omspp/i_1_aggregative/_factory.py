@@ -24,3 +24,8 @@ class Factory:
     def with_obstacles() -> AStarAggregative:
         problem = ProblemOMSPP.Factory.with_obstacles()
         return AStarAggregative(problem=problem, phi=UPhi.min)
+
+    @staticmethod
+    def for_node_categories() -> AStarAggregative:
+        problem = ProblemOMSPP.Factory.for_node_categories()
+        return AStarAggregative(problem=problem, phi=UPhi.min)

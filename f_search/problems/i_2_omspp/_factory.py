@@ -59,6 +59,24 @@ class Factory:
         return ProblemOMSPP(grid=grid, start=start, goals=goals)
 
     @staticmethod
+    def for_node_categories() -> ProblemOMSPP:
+        """
+        ====================================================================
+         Return a ProblemOMSPP on a 5x5 grid with 3 obstacles and 2
+         goals. Designed to demonstrate node-category asymmetry
+         (surely-expanded, borderline, surplus) across goals.
+        ====================================================================
+        """
+        grid = Grid(rows=5)
+        grid[0][1].set_invalid()
+        grid[0][3].set_invalid()
+        grid[1][1].set_invalid()
+        start = State(key=grid[0][2])
+        goals = [State(key=grid[0][0]),
+                 State(key=grid[0][4])]
+        return ProblemOMSPP(grid=grid, start=start, goals=goals)
+
+    @staticmethod
     def custom(rows: int,
                pct_obstacles: int,
                k: int) -> ProblemOMSPP:

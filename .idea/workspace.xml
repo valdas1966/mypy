@@ -5,15 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_search/discs/inc_vs_agg/SURELY_EXPANDED_NODE.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/discs/inc_vs_agg/SURELY_EXPANDED_NODE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/discs/inc_vs_agg/SURPLUS_NODE.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/discs/inc_vs_agg/SURPLUS_NODE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.claude/settings.local.json" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/discs/inc_vs_agg/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/discs/inc_vs_agg/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_quiz/exam_gui_combined/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/exam_gui_combined/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_quiz/scripts/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/scripts/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/claude.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/claude.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_aggregative/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_aggregative/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_aggregative/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_aggregative/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_aggregative/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_aggregative/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/discs/inc_vs_agg/ARTICLE_JOURNAL.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/discs/inc_vs_agg/ARTICLE_JOURNAL.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/problems/i_2_omspp/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/i_2_omspp/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_search/problems/i_2_omspp/claude.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_search/problems/i_2_omspp/claude.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +49,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "0f4621b9-87f9-4a4a-9ceb-401ed7593bcc"
+    "accountId": "a1e5e179-580e-4572-8eba-3d60343860e3"
   }
 }]]></component>
   <component name="HighlightingSettingsPerFile">
@@ -1116,6 +1125,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_aggregative/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1138,6 +1148,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_quiz/scripts/generate_options.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1160,6 +1171,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1201,6 +1213,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;f_search.algos.i_2_omspp.i_1_aggregative._tester.test_aggregative&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
@@ -1216,6 +1229,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -1271,7 +1285,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
+        <option value="bundled-python-sdk-ca5e2b39c7df-6e1f45a539f7-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.29346.308" />
       </set>
     </attachedChunks>
   </component>

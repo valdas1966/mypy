@@ -68,4 +68,8 @@ solution = algo.run()
 # Custom problem
 algo = AStarAggregative(problem=problem, phi=UPhi.mean)
 solution = algo.run()
+
+# Node-categories problem (asymmetric detours)
+algo = AStarAggregative.Factory.for_node_categories()
+solution = algo.run()
 ```

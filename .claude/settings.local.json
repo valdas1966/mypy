@@ -53,7 +53,25 @@
       "Read(//Users/eyalberkovich/temp/2026/03/**)",
       "Bash(find:*)",
       "Bash(brew install:*)",
-      "WebFetch(domain:docs.google.com)"
+      "WebFetch(domain:docs.google.com)",
+      "WebFetch(domain:scholar.google.com)",
+      "WebFetch(domain:api.semanticscholar.org)",
+      "WebFetch(domain:dl.acm.org)",
+      "WebFetch(domain:www.ics.uci.edu)",
+      "Bash(pdflatex --version)",
+      "Bash(brew list:*)",
+      "Bash(mactex)",
+      "Read(//Library/**)",
+      "Read(//usr/local/**)",
+      "Bash(conda install:*)",
+      "Bash(tectonic node_categories.tex)",
+      "Bash(PYTHONPATH=/Users/eyalberkovich/mypy python3 /tmp/create_gslides.py 2>&1)",
+      "Bash(PYTHONPATH=/Users/eyalberkovich/mypy python3 -c \"\nfrom f_google.creds.oauth import OAuth\nfrom googleapiclient.discovery import build\ncreds = OAuth.Factory.valdas\\(\\)\ndrive = build\\('drive', 'v3', credentials=creds\\)\ndrive.files\\(\\).delete\\(fileId='1VqC2iyC9ClDTrEterBRUj5by3Q8CUbe9x6Hixu7PKd4'\\).execute\\(\\)\nprint\\('Deleted orphaned presentation'\\)\n\")",
+      "Bash(PYTHONPATH=/Users/eyalberkovich/mypy python3:*)",
+      "Bash(ping:*)",
+      "Bash(ping -c 2 www.googleapis.com)",
+      "Bash(curl -s --max-time 5 https://www.googleapis.com)",
+      "Bash(tectonic node_categories_omspp.tex)"
     ]
   }
 }

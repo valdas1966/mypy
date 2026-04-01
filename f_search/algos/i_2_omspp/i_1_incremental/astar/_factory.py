@@ -28,3 +28,8 @@ class Factory:
     def for_cached() -> AStarIncremental:
         problem = ProblemOMSPP.Factory.for_cached()
         return AStarIncremental(problem=problem)
+
+    @staticmethod
+    def for_node_categories() -> AStarIncremental:
+        problem = ProblemOMSPP.Factory.for_node_categories()
+        return AStarIncremental(problem=problem)

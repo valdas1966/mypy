@@ -81,6 +81,26 @@ class AStar(Generic[State], AlgoSPP[State, Data]):
         g_best = self._data.dict_g[self._data.best]
         return g_succ > g_best + 1
 
+    def closed_categories(self) -> dict[str, list]:
+        """
+        ========================================================================
+         Return the CLOSED-list nodes categorized into Surely-Expanded
+          and Borderline based on their f-values relative to C*.
+        ========================================================================
+        """
+        data = self._data
+        c_star = data.dict_g[self.problem.goal]
+        surely = list()
+        borderline = list()
+        for state in data.explored:
+            f = data.dict_g[state] + data.dict_h[state]
+            if f < c_star:
+                surely.append(state)
+            else:
+                borderline.append(state)
+        return {'Surely Expanded': surely,
+                'Borderline': borderline}
+
     def _relax(self, succ: State) -> None:
         """
         ========================================================================

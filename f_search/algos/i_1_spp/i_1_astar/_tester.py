@@ -87,3 +87,37 @@ def test_efficiency_with_obstacles() -> None:
     astar = AStar.Factory.with_obstacles()
     solution = astar.run()
     assert solution.efficiency == 8 / 8
+
+
+def test_closed_categories_without_obstacles() -> None:
+    """
+    ========================================================================
+     Test closed_categories() without obstacles (perfect heuristic).
+    ========================================================================
+    """
+    astar = AStar.Factory.without_obstacles()
+    astar.run()
+    categories = astar.closed_categories()
+    grid = astar.problem.grid
+    surely = {s.key for s in categories['Surely Expanded']}
+    borderline = {s.key for s in categories['Borderline']}
+    assert surely == set()
+    assert borderline == {grid[0][0], grid[0][1], grid[0][2]}
+
+
+def test_closed_categories_with_obstacles() -> None:
+    """
+    ========================================================================
+     Test closed_categories() with obstacles.
+    ========================================================================
+    """
+    astar = AStar.Factory.with_obstacles()
+    astar.run()
+    categories = astar.closed_categories()
+    grid = astar.problem.grid
+    surely = {s.key for s in categories['Surely Expanded']}
+    borderline = {s.key for s in categories['Borderline']}
+    assert surely == {grid[0][0], grid[0][1],
+                      grid[1][0], grid[1][1]}
+    assert borderline == {grid[2][1], grid[2][2],
+                          grid[2][3], grid[1][3]}

@@ -21,6 +21,17 @@ def test_aggregative() -> None:
     assert stats.heuristic_calcs == 25
 
 
+def test_for_node_categories() -> None:
+    """
+    ========================================================================
+     Test AggregativeKA* on the node-categories OMSPP problem.
+    ========================================================================
+    """
+    algo = AStarAggregative.Factory.for_node_categories()
+    solution = algo.run()
+    assert solution
+
+
 def test_quality_h() -> None:
     """
     ========================================================================

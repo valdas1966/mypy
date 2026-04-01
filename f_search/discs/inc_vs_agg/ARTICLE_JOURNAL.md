@@ -1,3 +1,5 @@
+
+
 # ARTICLE_JOURNAL.md - Heuristic Search for One-to-Many Shortest Path Queries
 
 **Authors**: Roni Stern, Meir Goldenberg, Abdallah Saffidine, Ariel Felner

@@ -96,6 +96,14 @@ spps = problem.to_spps()
 # spps[1] = ProblemSPP(grid, start, goal_b)
 ```
 
+### Node-categories toy problem
+```python
+problem = ProblemOMSPP.Factory.for_node_categories()
+# 5x5 grid, obstacles at (0,1),(0,3),(1,1)
+# Start: (0,2), Goals: [(0,0), (0,4)]
+# C*_1 = 6, C*_2 = 4 — asymmetric detours
+```
+
 ### Custom construction
 ```python
 from f_ds.grids import GridMap as Grid

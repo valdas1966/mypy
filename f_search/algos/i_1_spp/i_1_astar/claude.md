@@ -99,6 +99,14 @@ Uses counter system to track:
 - **UPDATED**: Number of states re-added with better cost
 - **EXPLORED**: Number of states fully expanded
 
+### Node Category Analysis
+
+#### `closed_categories() -> dict[str, list]`
+Classifies CLOSED-list nodes into Surely Expanded (f < C*) and Borderline
+(f = C*) based on Dechter & Pearl (1985). Returns dict with keys
+`'Surely Expanded'` and `'Borderline'`, each mapping to a list of states.
+Must be called after `run()`.
+
 ## Specialties of A* Algorithm
 
 1. **Informed Search:** Uses heuristic to guide search toward goal
@@ -128,6 +136,8 @@ Uses counter system to track:
 | `test_quality_h_with_obstacles` | `quality_h == 3/7` (heuristic vs actual cost with detour) |
 | `test_efficiency_without_obstacles` | `efficiency == 4/3` (4 path nodes, 3 explored) |
 | `test_efficiency_with_obstacles` | `efficiency == 1.0` (8 path nodes, 8 explored) |
+| `test_closed_categories_without_obstacles` | All explored are Borderline (perfect h) |
+| `test_closed_categories_with_obstacles` | 4 Surely Expanded + 4 Borderline |
 
 ## Class Attribute
 - **Factory**: Type reference for factory pattern (set in `__init__.py`)
