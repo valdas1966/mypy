@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surely Expanded Nodes — Visual Explainer</title>
+<style>
+  :root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+    --surely: #34d399;
+    --borderline: #fbbf24;
+    --surplus: #fb7185;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    padding: 0;
+  }
+
+  /* ── Hero Banner ── */
+  .hero {
+    background: linear-gradient(135deg, #064e3b 0%, #0f172a 50%, #1e3a5f 100%);
+    border-bottom: 3px solid var(--surely);
+    padding: 48px 40px 40px;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  .hero h1 .hl { color: var(--surely); }
+  .hero .subtitle {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .hero .paper-ref {
+    margin-top: 16px;
+    font-size: 0.85rem;
+    color: var(--faint);
+    font-style: italic;
+  }
+
+  /* ── Container ── */
+  .container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── Section ── */
+  section {
+    margin: 48px 0;
+  }
+  section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  section h2 .icon {
+    font-size: 1.3rem;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  /* ── TL;DR Card ── */
+  .tldr {
+    background: linear-gradient(135deg, #064e3b, #0f2027);
+    border: 2px solid var(--surely);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin: 36px 0;
+    text-align: center;
+  }
+  .tldr .label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--surely);
+    margin-bottom: 8px;
+  }
+  .tldr .content {
+    font-size: 1.2rem;
+    color: #fff;
+    font-weight: 600;
+  }
+  .tldr .content .hl-good { color: var(--good); }
+  .tldr .content .hl-bad { color: var(--bad); }
+  .tldr .content .hl-warn { color: var(--warn); }
+
+  /* ── Spectrum ── */
+  .spectrum-wrap {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 24px;
+    margin: 24px 0;
+  }
+  .spectrum-label {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .spectrum {
+    display: flex;
+    height: 72px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid var(--border);
+  }
+  .spectrum .zone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-weight: 700;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    transition: flex 0.3s;
+  }
+  .spectrum .zone small {
+    font-weight: 400;
+    font-size: 0.72rem;
+    opacity: 0.85;
+  }
+  .zone-surely {
+    background: rgba(52, 211, 153, 0.25);
+    color: var(--surely);
+    flex: 4;
+    border-right: 3px solid var(--borderline);
+  }
+  .zone-border {
+    background: rgba(251, 191, 36, 0.15);
+    color: var(--borderline);
+    flex: 1.5;
+    border-right: 3px solid var(--surplus);
+  }
+  .zone-surplus {
+    background: rgba(251, 113, 133, 0.15);
+    color: var(--surplus);
+    flex: 4;
+  }
+  .spectrum-formula {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 0.82rem;
+    color: var(--faint);
+    font-family: 'Courier New', monospace;
+  }
+
+  /* ── Arrows ── */
+  .arrow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 16px 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .arrow-row .arrow {
+    font-size: 1.4rem;
+    color: var(--surely);
+  }
+
+  /* ── Grid Diagram ── */
+  .grid-diagram {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 24px;
+    margin: 24px 0;
+  }
+  .grid-diagram h3 {
+    text-align: center;
+    color: var(--accent);
+    margin-bottom: 6px;
+    font-size: 1.05rem;
+  }
+  .grid-diagram .grid-subtitle {
+    text-align: center;
+    color: var(--faint);
+    font-size: 0.82rem;
+    margin-bottom: 18px;
+  }
+
+  .grid-visual {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    max-width: 340px;
+    margin: 0 auto 20px;
+  }
+  .grid-visual .cell {
+    aspect-ratio: 1;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border: 2px solid rgba(255,255,255,0.06);
+    position: relative;
+    min-height: 72px;
+  }
+  .cell .cell-label {
+    font-size: 0.6rem;
+    font-weight: 400;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+  .cell .cell-f {
+    font-size: 1.1rem;
+    font-weight: 800;
+  }
+  .cell .cell-coord {
+    font-size: 0.55rem;
+    font-weight: 400;
+    opacity: 0.5;
+    position: absolute;
+    bottom: 3px;
+    right: 5px;
+  }
+
+  .cell-wall {
+    background: #1e293b;
+    border-color: #374151 !important;
+  }
+  .cell-wall::after {
+    content: "WALL";
+    font-size: 0.6rem;
+    color: #4b5563;
+    letter-spacing: 1px;
+  }
+
+  .cell-surely {
+    background: rgba(52, 211, 153, 0.2);
+    color: var(--surely);
+    border-color: rgba(52, 211, 153, 0.4) !important;
+    box-shadow: inset 0 0 12px rgba(52, 211, 153, 0.1);
+  }
+  .cell-borderline {
+    background: rgba(251, 191, 36, 0.12);
+    color: var(--borderline);
+    border-color: rgba(251, 191, 36, 0.3) !important;
+  }
+  .cell-surplus {
+    background: rgba(251, 113, 133, 0.12);
+    color: var(--surplus);
+    border-color: rgba(251, 113, 133, 0.25) !important;
+  }
+  .cell-start {
+    background: var(--accent) !important;
+    color: #fff !important;
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 14px rgba(96, 165, 250, 0.5);
+  }
+  .cell-goal {
+    background: var(--accent2) !important;
+    color: #fff !important;
+    border-color: var(--accent2) !important;
+    box-shadow: 0 0 14px rgba(167, 139, 250, 0.5);
+  }
+
+  .grid-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .grid-legend .leg {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .grid-legend .swatch {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* ── Breakdown Table ── */
+  .breakdown-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .bk-card {
+    border-radius: 10px;
+    padding: 18px 16px;
+    text-align: center;
+  }
+  .bk-card .bk-count {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .bk-card .bk-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .bk-card .bk-cells {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    font-family: 'Courier New', monospace;
+  }
+  .bk-surely {
+    background: rgba(52, 211, 153, 0.15);
+    border: 2px solid rgba(52, 211, 153, 0.35);
+    color: var(--surely);
+  }
+  .bk-borderline {
+    background: rgba(251, 191, 36, 0.1);
+    border: 2px solid rgba(251, 191, 36, 0.3);
+    color: var(--borderline);
+  }
+  .bk-surplus {
+    background: rgba(251, 113, 133, 0.1);
+    border: 2px solid rgba(251, 113, 133, 0.25);
+    color: var(--surplus);
+  }
+
+  /* ── Definition Cards ── */
+  .def-card {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin: 20px 0;
+  }
+  .def-card.card-surely { border-left: 5px solid var(--surely); }
+  .def-card.card-surplus { border-left: 5px solid var(--surplus); }
+  .def-card.card-omspp { border-left: 5px solid var(--accent2); }
+  .def-card.card-efficiency { border-left: 5px solid var(--accent); }
+
+  .def-card .card-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .def-card .card-title .badge {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .badge-def { background: rgba(96, 165, 250, 0.2); color: var(--accent); }
+  .badge-thm { background: rgba(167, 139, 250, 0.2); color: var(--accent2); }
+
+  .formula-box {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    color: var(--accent);
+    margin: 12px 0;
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+
+  .intuition-box {
+    background: rgba(52, 211, 153, 0.08);
+    border: 1px solid rgba(52, 211, 153, 0.25);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+  .intuition-box strong { color: var(--surely); }
+
+  .intuition-box-warn {
+    background: rgba(251, 191, 36, 0.08);
+    border: 1px solid rgba(251, 191, 36, 0.25);
+  }
+  .intuition-box-warn strong { color: var(--warn); }
+
+  .intuition-box-bad {
+    background: rgba(251, 113, 133, 0.08);
+    border: 1px solid rgba(251, 113, 133, 0.25);
+  }
+  .intuition-box-bad strong { color: var(--bad); }
+
+  /* ── Comparison Table ── */
+  .cmp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.85rem;
+  }
+  .cmp-table th {
+    background: var(--panel2);
+    color: #fff;
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+    font-weight: 700;
+  }
+  .cmp-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .cmp-table tr:hover td {
+    background: rgba(96, 165, 250, 0.05);
+  }
+  .cmp-table .col-surely { color: var(--surely); font-weight: 600; }
+  .cmp-table .col-surplus { color: var(--surplus); font-weight: 600; }
+
+  /* ── OMSPP Two-Column ── */
+  .omspp-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .omspp-card {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .omspp-card h4 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+  }
+  .omspp-card .goal-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  /* ── Venn Diagram ── */
+  .venn-wrap {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 24px;
+    margin: 24px 0;
+    text-align: center;
+  }
+  .venn-wrap h3 {
+    color: var(--accent2);
+    margin-bottom: 16px;
+    font-size: 1rem;
+  }
+  .venn-svg {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* ── Efficiency Meter ── */
+  .meter-wrap {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .meter-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--faint);
+    margin-bottom: 8px;
+  }
+  .meter-bar {
+    height: 28px;
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    border: 1px solid var(--border);
+  }
+  .meter-bar .seg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .meter-caption {
+    font-size: 0.78rem;
+    color: var(--faint);
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  /* ── Phi Cards ── */
+  .phi-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .phi-card {
+    border-radius: 10px;
+    padding: 22px 20px;
+    text-align: center;
+  }
+  .phi-card h4 {
+    margin-bottom: 8px;
+    font-size: 1rem;
+  }
+  .phi-card .verdict {
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+  }
+  .phi-min {
+    background: rgba(52, 211, 153, 0.1);
+    border: 2px solid rgba(52, 211, 153, 0.35);
+  }
+  .phi-min h4 { color: var(--surely); }
+  .phi-min .verdict {
+    background: rgba(52, 211, 153, 0.2);
+    color: var(--surely);
+  }
+  .phi-other {
+    background: rgba(251, 113, 133, 0.08);
+    border: 2px solid rgba(251, 113, 133, 0.25);
+  }
+  .phi-other h4 { color: var(--surplus); }
+  .phi-other .verdict {
+    background: rgba(251, 113, 133, 0.2);
+    color: var(--surplus);
+  }
+
+  /* ── Takeaways ── */
+  .takeaways {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 24px 0;
+  }
+  .takeaway {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .takeaway .tk-num {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 28px;
+  }
+  .takeaway .tk-text {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .takeaway .tk-text strong { color: #fff; }
+
+  /* ── Flowchart ── */
+  .flowchart {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 24px;
+    margin: 24px 0;
+    text-align: center;
+  }
+  .flowchart h3 {
+    color: var(--accent);
+    margin-bottom: 20px;
+    font-size: 1rem;
+  }
+  .flow-steps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .flow-node {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    min-width: 260px;
+  }
+  .flow-diamond {
+    background: var(--panel2);
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    transform: none;
+    padding: 14px 20px;
+    min-width: 280px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+  }
+  .flow-result-surely {
+    background: rgba(52, 211, 153, 0.15);
+    border: 2px solid rgba(52, 211, 153, 0.4);
+    color: var(--surely);
+  }
+  .flow-result-border {
+    background: rgba(251, 191, 36, 0.12);
+    border: 2px solid rgba(251, 191, 36, 0.35);
+    color: var(--borderline);
+  }
+  .flow-result-surplus {
+    background: rgba(251, 113, 133, 0.12);
+    border: 2px solid rgba(251, 113, 133, 0.3);
+    color: var(--surplus);
+  }
+  .flow-arrow {
+    font-size: 1.2rem;
+    color: var(--faint);
+    padding: 4px 0;
+  }
+  .flow-branch {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 4px 0;
+  }
+  .flow-branch-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 4px;
+  }
+  .flow-yes { background: rgba(52, 211, 153, 0.2); color: var(--surely); }
+  .flow-no { background: rgba(251, 113, 133, 0.15); color: var(--surplus); }
+  .flow-eq { background: rgba(251, 191, 36, 0.15); color: var(--borderline); }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding: 32px 0 48px;
+    font-size: 0.75rem;
+    color: var(--faint);
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 700px) {
+    .hero h1 { font-size: 1.8rem; }
+    .breakdown-grid { grid-template-columns: 1fr; }
+    .omspp-cols { grid-template-columns: 1fr; }
+    .phi-cards { grid-template-columns: 1fr; }
+    .takeaways { grid-template-columns: 1fr; }
+    .grid-visual { max-width: 280px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="hero">
+  <h1>The <span class="hl">Surely Expanded</span> Node</h1>
+  <div class="subtitle">
+    The irreducible core of search work — nodes that every optimal algorithm <strong>must</strong> expand.
+    No shortcut, no trick, no aggregation function can avoid them.
+  </div>
+  <div class="paper-ref">
+    Definition 11 — "Heuristic Search for One-to-Many Shortest Path Queries"
+    (Stern, Goldenberg, Saffidine, Felner)
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════ TL;DR ═══════════════════ -->
+<div class="tldr">
+  <div class="label">TL;DR</div>
+  <div class="content">
+    A surely expanded node has <span class="hl-good">f(n) &lt; optimal cost</span> —
+    <strong>every</strong> optimal algorithm must expand it.
+    It defines the <span class="hl-good">minimum work</span> any search can do.
+  </div>
+</div>
+
+<!-- ═══════════════════ 1. THE SPECTRUM ═══════════════════ -->
+<section>
+  <h2>
+    <span class="icon" style="background:rgba(96,165,250,0.15); color:var(--accent);">&#9670;</span>
+    The Node Classification Spectrum
+  </h2>
+
+  <div class="spectrum-wrap">
+    <div class="spectrum-label">Every node falls into one of three zones based on f(n) vs d(s, t)</div>
+    <div class="spectrum">
+      <div class="zone zone-surely">
+        <span>SURELY EXPANDED</span>
+        <small>f(n) &lt; d(s,t)</small>
+      </div>
+      <div class="zone zone-border">
+        <span>BORDERLINE</span>
+        <small>f(n) = d(s,t)</small>
+      </div>
+      <div class="zone zone-surplus">
+        <span>SURPLUS</span>
+        <small>f(n) &gt; d(s,t)</small>
+      </div>
+    </div>
+    <div class="spectrum-formula">
+      <span>← MUST expand</span>
+      <span>f(n) = d(s,n) + h(n)</span>
+      <span>WASTE to expand →</span>
+    </div>
+  </div>
+
+  <div class="arrow-row">
+    <span class="arrow">▼</span>
+    <span>Where does each node in a real grid fall?</span>
+    <span class="arrow">▼</span>
+  </div>
+</section>
+
+<!-- ═══════════════════ 2. SPP GRID EXAMPLE ═══════════════════ -->
+<section>
+  <h2>
+    <span class="icon" style="background:rgba(96,165,250,0.15); color:var(--accent);">&#9632;</span>
+    SPP Grid Example
+  </h2>
+
+  <div class="grid-diagram">
+    <h3>ProblemSPP.Factory.with_obstacles()</h3>
+    <div class="grid-subtitle">
+      4×4 grid &nbsp;|&nbsp; Obstacles at (0,2) and (1,2) &nbsp;|&nbsp;
+      S = (0,0) &nbsp;→&nbsp; T = (0,3) &nbsp;|&nbsp;
+      h = Manhattan distance &nbsp;|&nbsp; <strong style="color:var(--accent)">d(s, t) = 7</strong>
+    </div>
+
+    <div class="grid-visual">
+      <!-- Row 0 -->
+      <div class="cell cell-start">
+        <div class="cell-f">S</div>
+        <div class="cell-label">f=3</div>
+        <div class="cell-coord">0,0</div>
+      </div>
+      <div class="cell cell-surely">
+        <div class="cell-f">3</div>
+        <div class="cell-label">f&lt;7</div>
+        <div class="cell-coord">0,1</div>
+      </div>
+      <div class="cell cell-wall"></div>
+      <div class="cell cell-goal">
+        <div class="cell-f">T</div>
+        <div class="cell-label">f=7</div>
+        <div class="cell-coord">0,3</div>
+      </div>
+
+      <!-- Row 1 -->
+      <div class="cell cell-surely">
+        <div class="cell-f">5</div>
+        <div class="cell-label">f&lt;7</div>
+        <div class="cell-coord">1,0</div>
+      </div>
+      <div class="cell cell-surely">
+        <div class="cell-f">5</div>
+        <div class="cell-label">f&lt;7</div>
+        <div class="cell-coord">1,1</div>
+      </div>
+      <div class="cell cell-wall"></div>
+      <div class="cell cell-borderline">
+        <div class="cell-f">7</div>
+        <div class="cell-label">f=7</div>
+        <div class="cell-coord">1,3</div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="cell cell-borderline">
+        <div class="cell-f">7</div>
+        <div class="cell-label">f=7</div>
+        <div class="cell-coord">2,0</div>
+      </div>
+      <div class="cell cell-borderline">
+        <div class="cell-f">7</div>
+        <div class="cell-label">f=7</div>
+        <div class="cell-coord">2,1</div>
+      </div>
+      <div class="cell cell-borderline">
+        <div class="cell-f">7</div>
+        <div class="cell-label">f=7</div>
+        <div class="cell-coord">2,2</div>
+      </div>
+      <div class="cell cell-borderline">
+        <div class="cell-f">7</div>
+        <div class="cell-label">f=7</div>
+        <div class="cell-coord">2,3</div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="cell cell-surplus">
+        <div class="cell-f">9</div>
+        <div class="cell-label">f&gt;7</div>
+        <div class="cell-coord">3,0</div>
+      </div>
+      <div class="cell cell-surplus">
+        <div class="cell-f">9</div>
+        <div class="cell-label">f&gt;7</div>
+        <div class="cell-coord">3,1</div>
+      </div>
+      <div class="cell cell-surplus">
+        <div class="cell-f">9</div>
+        <div class="cell-label">f&gt;7</div>
+        <div class="cell-coord">3,2</div>
+      </div>
+      <div class="cell cell-surplus">
+        <div class="cell-f">9</div>
+        <div class="cell-label">f&gt;7</div>
+        <div class="cell-coord">3,3</div>
+      </div>
+    </div>
+
+    <div class="grid-legend">
+      <div class="leg">
+        <div class="swatch" style="background:var(--accent);"></div> Start S
+      </div>
+      <div class="leg">
+        <div class="swatch" style="background:var(--accent2);"></div> Goal T
+      </div>
+      <div class="leg">
+        <div class="swatch" style="background:rgba(52,211,153,0.3); border-color:rgba(52,211,153,0.5);"></div> Surely Expanded (f&lt;7)
+      </div>
+      <div class="leg">
+        <div class="swatch" style="background:rgba(251,191,36,0.2); border-color:rgba(251,191,36,0.4);"></div> Borderline (f=7)
+      </div>
+      <div class="leg">
+        <div class="swatch" style="background:rgba(251,113,133,0.2); border-color:rgba(251,113,133,0.4);"></div> Surplus (f&gt;7)
+      </div>
+      <div class="leg">
+        <div class="swatch" style="background:#1e293b; border-color:#374151;"></div> Wall
+      </div>
+    </div>
+  </div>
+
+  <!-- Breakdown Cards -->
+  <div class="breakdown-grid">
+    <div class="bk-card bk-surely">
+      <div class="bk-count">4</div>
+      <div class="bk-label">Surely Expanded</div>
+      <div class="bk-cells">(0,0) (0,1) (1,0) (1,1)</div>
+    </div>
+    <div class="bk-card bk-borderline">
+      <div class="bk-count">6</div>
+      <div class="bk-label">Borderline</div>
+      <div class="bk-cells">(0,3) (1,3) row 2</div>
+    </div>
+    <div class="bk-card bk-surplus">
+      <div class="bk-count">4</div>
+      <div class="bk-label">Surplus</div>
+      <div class="bk-cells">(3,0) (3,1) (3,2) (3,3)</div>
+    </div>
+  </div>
+
+  <div class="intuition-box">
+    <strong>Why are (0,0) and (0,1) surely expanded?</strong><br>
+    Their f-values are 3 — far below d(s,t) = 7. A* pops the lowest-f node first.
+    These nodes will be popped and expanded <em>before</em> A* can possibly reach the goal.
+    No algorithm can skip them and still guarantee optimality.
+  </div>
+
+  <div class="intuition-box intuition-box-bad">
+    <strong>Why is the bottom row surplus?</strong><br>
+    Every cell in row 3 has f = 9 &gt; 7. By the time A* would consider expanding them,
+    it has already found the optimal path. Expanding them is pure waste — they contribute
+    nothing to proving optimality.
+  </div>
+</section>
+
+<!-- ═══════════════════ 3. FORMAL DEFINITION ═══════════════════ -->
+<section>
+  <h2>
+    <span class="icon" style="background:rgba(52,211,153,0.15); color:var(--surely);">&#9733;</span>
+    Formal Definition
+  </h2>
+
+  <div class="def-card card-surely">
+    <div class="card-title">
+      <span style="color:var(--surely);">Surely Expanded Node</span>
+      <span class="badge badge-def">DEF 11</span>
+    </div>
+    <p style="color:var(--muted); font-size:0.88rem; margin-bottom:12px;">
+      A node <strong style="color:#fff;">n</strong> is <strong style="color:var(--surely);">surely expanded</strong>
+      w.r.t. heuristic h and goal t if there exists a path from s to n where
+      <em>all</em> nodes n' on that path (except s, including n) satisfy:
+    </p>
+    <div class="formula-box">
+      d(s, n') + h(n') &lt; d(s, t)
+    </div>
+    <div class="intuition-box">
+      <strong>Simplified (consistent heuristics):</strong>&nbsp;
+      n is surely expanded &nbsp;⟺&nbsp; <code style="color:var(--surely);">d(s, n) + h(n) &lt; d(s, t)</code>
+    </div>
+    <p style="color:var(--muted); font-size:0.85rem; margin-top:12px;">
+      <strong style="color:#fff;">Any</strong> correct best-first search algorithm
+      <strong style="color:var(--surely);">must expand</strong> these nodes
+      to guarantee optimality — there is no way to certify the optimal cost
+      without looking at every node that appears cheaper.
+    </p>
+  </div>
+
+  <div class="def-card card-surplus">
+    <div class="card-title">
+      <span style="color:var(--surplus);">Surplus Node (contrast)</span>
+      <span class="badge badge-def">DEF 11</span>
+    </div>
+    <div class="formula-box" style="color:var(--surplus);">
+      d(s, n) + h(n) &gt; d(s, t) &nbsp; → &nbsp; n is surplus (can be skipped)
+    </div>
+    <p style="color:var(--muted); font-size:0.85rem; margin-top:8px;">
+      The best possible cost through n exceeds the optimal cost.
+      No algorithm <em>needs</em> to expand it.
+      See <a href="SURPLUS_NODE.html" style="color:var(--surplus);">SURPLUS_NODE.html</a> for full details.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════ 4. CLASSIFICATION FLOWCHART ═══════════════════ -->
+<section>
+  <h2>
+    <span class="icon" style="background:rgba(167,139,250,0.15); color:var(--accent2);">&#9881;</span>
+    Classification Flowchart
+  </h2>
+
+  <div class="flowchart">
+    <h3>How to classify any node n</h3>
+    <div class="flow-steps">
+      <div class="flow-node" style="background:var(--panel2); border:2px solid var(--faint); color:var(--muted); font-size:0.8rem;">
+        Compute f(n) = d(s, n) + h(n) and compare to d(s, t)
+      </div>
+      <div class="flow-arrow">▼</div>
+      <div class="flow-node flow-diamond">f(n) &lt; d(s, t) ?</div>
+
+      <div class="flow-branch">
+        <div>
+          <div class="flow-branch-label flow-yes">YES</div>
+          <div class="flow-arrow">▼</div>
+          <div class="flow-node flow-result-surely">SURELY EXPANDED<br><small style="font-weight:400;">Must expand — necessary work</small></div>
+        </div>
+        <div>
+          <div class="flow-branch-label flow-no">NO</div>
+          <div class="flow-arrow">▼</div>
+          <div class="flow-node flow-diamond" style="min-width:240px;">f(n) = d(s, t) ?</div>
+          <div style="display:flex; gap:16px; justify-content:center; margin-top:4px;">
+            <div style="text-align:center;">
+              <div class="flow-branch-label flow-eq">YES</div>
+              <div class="flow-arrow">▼</div>
+              <div class="flow-node flow-result-border" style="min-width:130px;">BORDERLINE<br><small style="font-weight:400;">May expand</small></div>
+            </div>
+            <div style="text-align:center;">
+              <div class="flow-branch-label flow-no">NO</div>
+              <div class="flow-arrow">▼</div>
+              <div class="flow-node flow-result-surplus" style="min-width:130px;">SURPLUS<br><small style="font-weight:400;">Waste</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ 5. OMSPP EXAMPLE ═══════════════════ -->
+<section>
+  <h2>
+    <span class="icon" style="background:rgba(167,139,250,0.15); color:var(--accent2);">&#9670;</span>
+    OMSPP: What Happens with Multiple Goals?
+  </h2>
+
+  <div class="def-card card-omspp">
+    <div class="card-title">
+      <span style="color:var(--accent2);">Extension to k × A*</span>
+      <span class="badge badge-thm">DEF 12</span>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:12px 0;">
+      <div class="formula-box" style="border-color:rgba(52,211,153,0.3);">
+        <div style="color:var(--surely); font-size:0.75rem; margin-bottom:4px;">SURELY EXPANDED</div>
+        SE for <strong>at least 1</strong> of k goals
+      </div>
+      <div class="formula-box" style="border-color:rgba(251,113,133,0.3);">
+        <div style="color:var(--surplus); font-size:0.75rem; margin-bottom:4px;">SURPLUS</div>
+        Surplus for <strong>ALL k</strong> goals
+      </div>
+    </div>
+    <div class="intuition-box intuition-box-warn">
+      <strong>Key asymmetry:</strong> One goal can force a node to be surely expanded.
+      But ALL goals must agree a node is useless before it counts as surplus.
+      Adding more goals makes it <em>harder</em> for nodes to be surplus.
+    </div>
+  </div>
+
+  <div class="grid-diagram">
+    <h3>ProblemOMSPP.Factory.with_obstacles()</h3>
+    <div class="grid-subtitle">
+      Same 4×4 grid &nbsp;|&nbsp; S = (0,0) &nbsp;→&nbsp; T₁ = (0,3) &amp; T₂ = (3,3)
+    </div>
+
+    <div class="omspp-cols">
+      <!-- Goal T1 -->
+      <div class="omspp-card">
+        <div class="goal-badge" style="background:rgba(167,139,250,0.2); color:var(--accent2);">
+          Goal T₁ = (0,3) &nbsp;|&nbsp; d(s, t₁) = 7
+        </div>
+        <div class="grid-visual" style="max-width:200px; margin:0 auto;">
+          <!-- Row 0 -->
+          <div class="cell cell-surely" style="min-height:44px; font-size:0.6rem;">
+            <div class="cell-f" style="font-size:0.85rem;">3</div>
+          </div>
+          <div class="cell cell-surely" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">3</div>
+          </div>
+          <div class="cell cell-wall" style="min-height:44px;"></div>
+          <div class="cell cell-borderline" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">7</div>
+          </div>
+          <!-- Row 1 -->
+          <div class="cell cell-surely" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">5</div>
+          </div>
+          <div class="cell cell-surely" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">5</div>
+          </div>
+          <div class="cell cell-wall" style="min-height:44px;"></div>
+          <div class="cell cell-borderline" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">7</div>
+          </div>
+          <!-- Row 2 -->
+          <div class="cell cell-borderline" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">7</div>
+          </div>
+          <div class="cell cell-borderline" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">7</div>
+          </div>
+          <div class="cell cell-borderline" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">7</div>
+          </div>
+          <div class="cell cell-borderline" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">7</div>
+          </div>
+          <!-- Row 3 -->
+          <div class="cell cell-surplus" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">9</div>
+          </div>
+          <div class="cell cell-surplus" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">9</div>
+          </div>
+          <div class="cell cell-surplus" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">9</div>
+          </div>
+          <div class="cell cell-surplus" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">9</div>
+          </div>
+        </div>
+        <div style="font-size:0.75rem; color:var(--faint); text-align:center; margin-top:8px;">
+          <span style="color:var(--surely);">4 surely</span> &nbsp;|&nbsp;
+          <span style="color:var(--borderline);">6 borderline</span> &nbsp;|&nbsp;
+          <span style="color:var(--surplus);">4 surplus</span>
+        </div>
+      </div>
+
+      <!-- Goal T2 -->
+      <div class="omspp-card">
+        <div class="goal-badge" style="background:rgba(167,139,250,0.2); color:var(--accent2);">
+          Goal T₂ = (3,3) &nbsp;|&nbsp; d(s, t₂) = 6
+        </div>
+        <div class="grid-visual" style="max-width:200px; margin:0 auto;">
+          <!-- Row 0 -->
+          <div class="cell cell-borderline" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">6</div>
+          </div>
+          <div class="cell cell-borderline" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">6</div>
+          </div>
+          <div class="cell cell-wall" style="min-height:44px;"></div>
+          <div class="cell cell-surplus" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">13</div>
+          </div>
+          <!-- Row 1 -->
+          <div class="cell cell-borderline" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">6</div>
+          </div>
+          <div class="cell cell-borderline" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">6</div>
+          </div>
+          <div class="cell cell-wall" style="min-height:44px;"></div>
+          <div class="cell cell-surplus" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">8</div>
+          </div>
+          <!-- Row 2 -->
+          <div class="cell cell-borderline" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">6</div>
+          </div>
+          <div class="cell cell-borderline" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">6</div>
+          </div>
+          <div class="cell cell-borderline" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">6</div>
+          </div>
+          <div class="cell cell-borderline" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">6</div>
+          </div>
+          <!-- Row 3 -->
+          <div class="cell cell-borderline" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">6</div>
+          </div>
+          <div class="cell cell-borderline" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">6</div>
+          </div>
+          <div class="cell cell-borderline" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">6</div>
+          </div>
+          <div class="cell cell-borderline" style="min-height:44px;">
+            <div class="cell-f" style="font-size:0.85rem;">6</div>
+          </div>
+        </div>
+        <div style="font-size:0.75rem; color:var(--faint); text-align:center; margin-top:8px;">
+          <span style="color:var(--surely);">0 surely</span> &nbsp;|&nbsp;
+          <span style="color:var(--borderline);">12 borderline</span> &nbsp;|&nbsp;
+          <span style="color:var(--surplus);">2 surplus</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Combined k×A* result -->
+  <div class="venn-wrap">
+    <h3>Combined k × A* Classification (Definition 12)</h3>
+
+    <svg class="venn-svg" viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Background -->
+      <rect x="0" y="0" width="480" height="200" fill="transparent"/>
+
+      <!-- Surplus circles -->
+      <ellipse cx="160" cy="100" rx="110" ry="70" fill="rgba(251,113,133,0.1)" stroke="#fb7185" stroke-width="2" stroke-dasharray="6,3"/>
+      <ellipse cx="320" cy="100" rx="110" ry="70" fill="rgba(251,113,133,0.1)" stroke="#fb7185" stroke-width="2" stroke-dasharray="6,3"/>
+
+      <!-- Labels -->
+      <text x="100" y="60" fill="#fb7185" font-size="11" font-weight="700">Surplus for T₁</text>
+      <text x="290" y="60" fill="#fb7185" font-size="11" font-weight="700">Surplus for T₂</text>
+
+      <!-- T1 surplus cells -->
+      <text x="110" y="90" fill="#cbd5e1" font-size="10">(3,0) (3,1)</text>
+      <text x="110" y="106" fill="#cbd5e1" font-size="10">(3,2) (3,3)</text>
+
+      <!-- T2 surplus cells -->
+      <text x="310" y="90" fill="#cbd5e1" font-size="10">(0,3)</text>
+      <text x="310" y="106" fill="#cbd5e1" font-size="10">(1,3)</text>
+
+      <!-- Intersection zone -->
+      <text x="205" y="100" fill="#fbbf24" font-size="13" font-weight="800" text-anchor="middle">EMPTY</text>
+      <text x="205" y="118" fill="#94a3b8" font-size="9" text-anchor="middle">No overlap = 0 surplus for k×A*</text>
+
+      <!-- Bottom label -->
+      <rect x="100" y="160" width="280" height="30" rx="6" fill="rgba(52,211,153,0.15)" stroke="rgba(52,211,153,0.4)" stroke-width="1.5"/>
+      <text x="240" y="180" fill="#34d399" font-size="12" font-weight="700" text-anchor="middle">
+        Surely Expanded for k×A*: (0,0) (0,1) (1,0) (1,1) — from T₁
+      </text>
+    </svg>
+
+    <div class="intuition-box" style="max-width:600px; margin:16px auto 0;">
+      <strong>Adding T₂ eliminates ALL surplus!</strong>
+      The bottom row was surplus for T₁ but borderline for T₂.
+      Cells (0,3) and (1,3) were surplus for T₂ but borderline for T₁.
+      <em>No cell is wasted for both goals simultaneously.</em>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ 6. COMPARISON TABLE ═══════════════════ -->
+<section>
+  <h2>
+    <span class="icon" style="background:rgba(251,191,36,0.15); color:var(--warn);">&#9878;</span>
+    Surely Expanded vs Surplus — Side by Side
+  </h2>
+
+  <table class="cmp-table">
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th class="col-surely">Surely Expanded</th>
+        <th class="col-surplus">Surplus</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:#fff; font-weight:600;">Condition</td>
+        <td class="col-surely">f(n) &lt; d(s, t)</td>
+        <td class="col-surplus">f(n) &gt; d(s, t)</td>
+      </tr>
+      <tr>
+        <td style="color:#fff; font-weight:600;">Meaning</td>
+        <td class="col-surely">Must expand for optimality</td>
+        <td class="col-surplus">Can safely skip</td>
+      </tr>
+      <tr>
+        <td style="color:#fff; font-weight:600;">For k × A*</td>
+        <td class="col-surely">SE for ≥ 1 goal</td>
+        <td class="col-surplus">Surplus for ALL k goals</td>
+      </tr>
+      <tr>
+        <td style="color:#fff; font-weight:600;">Category</td>
+        <td class="col-surely">Necessary work (lower bound)</td>
+        <td class="col-surplus">Wasted work (overhead)</td>
+      </tr>
+      <tr>
+        <td style="color:#fff; font-weight:600;">A* behavior</td>
+        <td class="col-surely">Always popped before goal</td>
+        <td class="col-surplus">Never reached by perfect search</td>
+      </tr>
+      <tr>
+        <td style="color:#fff; font-weight:600;">Phi = min</td>
+        <td class="col-surely">Expands all of them (must)</td>
+        <td class="col-surplus">Expands none (Thm 7)</td>
+      </tr>
+      <tr>
+        <td style="color:#fff; font-weight:600;">Phi ≠ min</td>
+        <td class="col-surely">Expands all (still must)</td>
+        <td class="col-surplus">May expand some (waste)</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════════════ 7. EFFICIENCY ═══════════════════ -->
+<section>
+  <h2>
+    <span class="icon" style="background:rgba(96,165,250,0.15); color:var(--accent);">&#9776;</span>
+    Measuring Algorithm Efficiency
+  </h2>
+
+  <div class="def-card card-efficiency">
+    <div class="card-title">
+      <span style="color:var(--accent);">Expansion Efficiency</span>
+    </div>
+    <div class="formula-box">
+      efficiency ≈ |surely expanded| / |total expanded|
+    </div>
+    <p style="color:var(--muted); font-size:0.85rem; margin-top:8px;">
+      Ratio of 1.0 = perfect (only necessary + borderline nodes expanded).
+      Ratio &lt;&lt; 1.0 = algorithm wastes effort on surplus nodes.
+    </p>
+  </div>
+
+  <!-- Phi=min meter -->
+  <div class="meter-wrap">
+    <div style="font-weight:700; color:#fff; margin-bottom:12px;">Phi = min (A* example: SPP grid above)</div>
+    <div class="meter-label">
+      <span>Surely Expanded: 4</span>
+      <span>Total Expanded: 4 + borderline</span>
+    </div>
+    <div class="meter-bar">
+      <div class="seg" style="flex:4; background:rgba(52,211,153,0.3); color:var(--surely);">4 surely</div>
+      <div class="seg" style="flex:6; background:rgba(251,191,36,0.2); color:var(--borderline);">≤6 borderline</div>
+      <div class="seg" style="flex:0; background:rgba(251,113,133,0.2); color:var(--surplus);"></div>
+    </div>
+    <div class="meter-caption" style="color:var(--surely);">
+      Zero surplus expansions — optimal efficiency (Theorem 7)
+    </div>
+  </div>
+
+  <!-- Phi≠min meter -->
+  <div class="meter-wrap">
+    <div style="font-weight:700; color:#fff; margin-bottom:12px;">Phi ≠ min (e.g. projection, mean)</div>
+    <div class="meter-label">
+      <span>Surely Expanded: 4</span>
+      <span>Total Expanded: 4 + borderline + surplus</span>
+    </div>
+    <div class="meter-bar">
+      <div class="seg" style="flex:4; background:rgba(52,211,153,0.3); color:var(--surely);">4 surely</div>
+      <div class="seg" style="flex:6; background:rgba(251,191,36,0.2); color:var(--borderline);">≤6 border</div>
+      <div class="seg" style="flex:3; background:rgba(251,113,133,0.25); color:var(--surplus);">+surplus</div>
+    </div>
+    <div class="meter-caption" style="color:var(--surplus);">
+      May expand surplus nodes — wasted work pushes bar wider
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ 8. PHI IMPACT ═══════════════════ -->
+<section>
+  <h2>
+    <span class="icon" style="background:rgba(167,139,250,0.15); color:var(--accent2);">&#10024;</span>
+    Impact of Aggregation Function (Phi)
+  </h2>
+
+  <div class="phi-cards">
+    <div class="phi-card phi-min">
+      <h4>Phi = min</h4>
+      <div style="color:var(--muted); font-size:0.85rem; margin:8px 0;">
+        Expands <strong style="color:var(--surely);">all surely expanded</strong> nodes (must).<br>
+        Expands <strong style="color:var(--surely);">zero surplus</strong> nodes (Theorem 7, Part 1).<br>
+        Total = surely expanded + some borderline.
+      </div>
+      <div class="verdict">OPTIMAL EFFICIENCY</div>
+    </div>
+    <div class="phi-card phi-other">
+      <h4>Phi ≠ min</h4>
+      <div style="color:var(--muted); font-size:0.85rem; margin:8px 0;">
+        Expands <strong style="color:var(--surplus);">all surely expanded</strong> nodes (must).<br>
+        <strong style="color:var(--surplus);">May also expand surplus</strong> nodes (Thm 7, Part 2).<br>
+        Total = surely + borderline + surplus waste.
+      </div>
+      <div class="verdict">MAY WASTE WORK</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ 9. KEY TAKEAWAYS ═══════════════════ -->
+<section>
+  <h2>
+    <span class="icon" style="background:rgba(52,211,153,0.15); color:var(--surely);">&#10003;</span>
+    Key Takeaways
+  </h2>
+
+  <div class="takeaways">
+    <div class="takeaway">
+      <div class="tk-num">1</div>
+      <div class="tk-text">
+        <strong>Surely expanded = irreducible minimum.</strong>
+        Every optimal algorithm must expand these nodes. They define the
+        theoretical lower bound on node expansions.
+      </div>
+    </div>
+    <div class="takeaway">
+      <div class="tk-num">2</div>
+      <div class="tk-text">
+        <strong>Simple test with consistent h:</strong>
+        If <code style="color:var(--surely);">d(s,n) + h(n) &lt; d(s,t)</code>, the node is surely expanded.
+        Compare f-value to optimal cost.
+      </div>
+    </div>
+    <div class="takeaway">
+      <div class="tk-num">3</div>
+      <div class="tk-text">
+        <strong>OMSPP: one goal is enough.</strong>
+        A node is surely expanded for k×A* if it's surely expanded for
+        <em>at least one</em> of the k goals.
+      </div>
+    </div>
+    <div class="takeaway">
+      <div class="tk-num">4</div>
+      <div class="tk-text">
+        <strong>Phi = min is optimal.</strong>
+        It's the only admissible aggregation that expands exactly
+        surely expanded + borderline, with zero surplus waste.
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- .container -->
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<div class="footer">
+  <div class="container">
+    Source: Definition 11 &amp; 12 — Stern, Goldenberg, Saffidine, Felner
+    &nbsp;|&nbsp; Grid: <code>ProblemSPP.Factory.with_obstacles()</code>
+    &amp; <code>ProblemOMSPP.Factory.with_obstacles()</code>
+    &nbsp;|&nbsp; Generated 2026-04-01
+  </div>
+</div>
+
+</body>
+</html>

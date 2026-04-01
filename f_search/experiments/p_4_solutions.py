@@ -99,20 +99,20 @@ def pickle_result(solutions: list[SolutionOMSPP],
 """
 
 pickle_grids = 'f:\\paper\\i_1_grids\\grids.pkl'
-folder = 'f:\\temp\\2026\\03\\forward vs backward'
+folder = 'f:\\temp\\2026\\03\\calch'
 pickle_problems = f'{folder}\\problems.pkl'
-pickle_solutions = f'{folder}\\backward_without_cached.pkl'
+pickle_solutions = f'{folder}\\aggregative.pkl'
 
 #algo = AStarRepeated
 # algo = DijkstraIncremental
-# algo = AStarAggregative
+algo = AStarAggregative
 # algo = AStarIncremental
 # algo = AStarIncrementalBackward
-algo = AStarRepeatedBackward
+# algo = AStarRepeatedBackward
 # algo = BFSIncremental
 
 d_grids = load_grids(pickle_grids)
 problems = load_problems(pickle_problems)
 # solutions = run_algos(algo, d_grids, problems, with_bounds=False, need_path=True)
-solutions = run_algos(algo, d_grids, problems, need_path=True)
+solutions = run_algos(algo, d_grids, problems, need_path=False)
 pickle_result(solutions, pickle_solutions)

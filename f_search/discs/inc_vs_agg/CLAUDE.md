@@ -168,3 +168,15 @@ Key comparison axes for analyzing the two algorithms:
 - `f_search/experiments/cmp_agg_inc.py` — comparison script
 - `f_search/experiments/cmp_agg_inc_detailed.py` — detailed analysis
 - `f_search/discs/inc_vs_agg/expansion/` — expansion analysis
+
+---
+
+## Key Concept Files
+
+| File | Topic | Format |
+|------|-------|--------|
+| `SURELY_EXPANDED_NODE.md` | Surely expanded nodes (Def 11) | Claude (md) |
+| `SURELY_EXPANDED_NODE.html` | Surely expanded nodes — visual | Human (html) |
+| `SURPLUS_NODE.md` | Surplus nodes (Def 11) | Claude (md) |
+| `SURPLUS_NODE.html` | Surplus nodes — visual | Human (html) |
+| `ARTICLE_JOURNAL.md` | Full journal paper summary | Claude (md) |
