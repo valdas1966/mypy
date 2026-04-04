@@ -4,7 +4,9 @@ import pyoverleaf
 from f_overleaf.main import OverLeaf
 
 
-_PATH_COOKIES = Path('F:/jsons/valdas/overleaf.json')
+_PATH_WIN = Path('F:/jsons/valdas/overleaf.json')
+_PATH_WSL = Path('/mnt/f/jsons/valdas/overleaf.json')
+_PATH_COOKIES = _PATH_WIN if _PATH_WIN.exists() else _PATH_WSL
 
 
 class Factory:

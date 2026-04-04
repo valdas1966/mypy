@@ -16,14 +16,15 @@ class ProcessInput(ProcessBase, Generic[Input]):
 
     def __init__(self,
                  input: Input,
-                 name: str = 'Process Input') -> None:
+                 name: str = 'Process Input',
+                 is_recording: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         self._input = input
-        ProcessBase.__init__(self, name=name)
+        ProcessBase.__init__(self, name=name, is_recording=is_recording)
 
     @property
     def input(self) -> Input:

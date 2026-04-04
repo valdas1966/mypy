@@ -60,6 +60,69 @@ def test_heuristic_calcs() -> None:
     assert solution.stats.heuristic_calcs == 25
 
 
+def test_closed_categories_without_obstacles() -> None:
+    """
+    ========================================================================
+     Test closed_categories without obstacles (perfect heuristic).
+    ========================================================================
+    """
+    algo = AStarAggregative.Factory.without_obstacles()
+    algo.run()
+    cats = algo.closed_categories()
+    surely = {s.key for s in cats['Surely Expanded']}
+    borderline = {s.key for s in cats['Borderline']}
+    surplus = {s.key for s in cats['Surplus']}
+    assert surely == set()
+    grid = algo.problem.grid
+    assert borderline == {grid[0][0], grid[0][1],
+                          grid[0][2], grid[0][3],
+                          grid[1][3], grid[2][3]}
+    assert surplus == set()
+
+
+def test_closed_categories_with_obstacles() -> None:
+    """
+    ========================================================================
+     Test closed_categories with obstacles.
+    ========================================================================
+    """
+    algo = AStarAggregative.Factory.with_obstacles()
+    algo.run()
+    cats = algo.closed_categories()
+    surely = {s.key for s in cats['Surely Expanded']}
+    borderline = {s.key for s in cats['Borderline']}
+    surplus = {s.key for s in cats['Surplus']}
+    grid = algo.problem.grid
+    assert surely == {grid[0][0], grid[0][1],
+                      grid[1][0], grid[1][1]}
+    assert borderline == {grid[2][1], grid[2][2],
+                          grid[2][3], grid[1][3]}
+    assert surplus == set()
+
+
+def test_closed_categories_for_node_categories() -> None:
+    """
+    ========================================================================
+     Test closed_categories on node-categories OMSPP problem.
+    ========================================================================
+    """
+    algo = AStarAggregative.Factory.for_node_categories()
+    algo.run()
+    cats = algo.closed_categories()
+    surely = {s.key for s in cats['Surely Expanded']}
+    borderline = {s.key for s in cats['Borderline']}
+    surplus = {s.key for s in cats['Surplus']}
+    grid = algo.problem.grid
+    assert surely == {grid[0][2], grid[1][2]}
+    assert borderline == {grid[1][0], grid[1][3],
+                          grid[1][4], grid[2][0],
+                          grid[2][1], grid[2][2]}
+    assert surplus == set()
+    # Verify union == explored
+    total = len(surely) + len(borderline) + len(surplus)
+    assert total == len(algo._data.explored)
+
+
 def test_phi_max() -> None:
     """
     ========================================================================

@@ -48,7 +48,6 @@ def __str__(self) -> str
 def __eq__(self, other: object) -> bool
 def __lt__(self, other: object) -> bool
 def __hash__(self) -> int
-def __bool__(self) -> bool
 ```
 
 ### Subclass Contract
@@ -60,7 +59,7 @@ Not intended for subclassing. Pass a `func` callable instead.
 Equatable
  └── Comparable
       └── HasName
-           └── ProcessBase ─── run(), elapsed, timing
+           └── ProcessBase ─── run(), elapsed, recorder, timing
                 ├── ProcessInput[list[Item]] ─── input property
                 ├── ProcessOutput[list[Output | None]] ─── run() -> Output
                 └── ProcessIO[list[Item], list[Output | None]]
@@ -72,9 +71,8 @@ Equatable
 | `ProcessIO` | Combines input + output, lifecycle |
 | `ProcessInput` | `input` property |
 | `ProcessOutput` | `run()` returns output |
-| `ProcessBase` | Template Method lifecycle, timing |
+| `ProcessBase` | Template Method lifecycle, timing, recording |
 | `HasName` | `name` as `key`, comparison, hash |
-| `ValidatableMutable` | `__bool__`, mutable `_is_valid` |
 
 ## Dependencies
 

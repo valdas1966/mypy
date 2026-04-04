@@ -99,6 +99,40 @@ class AlgoOMSPP(AlgoSearch[ProblemOMSPP, SolutionOMSPP],
                 'h': h
             })
 
+    def closed_categories(self) -> dict[str, list]:
+        """
+        ========================================================================
+         Return CLOSED-list nodes categorized into Surely-Expanded,
+          Borderline, and Surplus based on per-goal f-values vs C*_i.
+        ========================================================================
+        """
+        data = self._data
+        goals = self.problem.goals
+        c_stars = [data.dict_g[goal] for goal in goals]
+        surely = list()
+        borderline = list()
+        surplus = list()
+        for state in data.explored:
+            g = data.dict_g[state]
+            has_surely = False
+            all_surplus = True
+            for i, goal in enumerate(goals):
+                f_i = g + state.distance(other=goal)
+                if f_i < c_stars[i]:
+                    has_surely = True
+                    break
+                if f_i == c_stars[i]:
+                    all_surplus = False
+            if has_surely:
+                surely.append(state)
+            elif all_surplus:
+                surplus.append(state)
+            else:
+                borderline.append(state)
+        return {'Surely Expanded': surely,
+                'Borderline': borderline,
+                'Surplus': surplus}
+
     def _create_solution(self) -> SolutionOMSPP:
         """
         ========================================================================

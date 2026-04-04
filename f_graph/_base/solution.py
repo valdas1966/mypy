@@ -1,4 +1,4 @@
-from f_cs.solution.main import SolutionAlgo, StatsAlgo
+from old_f_cs.solution.main import SolutionAlgo, StatsAlgo
 from typing import TypeVar, Generic
 
 Stats = TypeVar('Stats', bound=StatsAlgo)

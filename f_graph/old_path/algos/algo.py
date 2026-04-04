@@ -1,4 +1,4 @@
-from f_cs.mixins.has_eager import HasEager
+from old_f_cs.mixins.has_eager import HasEager
 from f_graph._base.algo import AlgoGraph
 from f_graph.old_path.core.problem import ProblemPath
 from f_graph.old_path.core.solution import SolutionPath

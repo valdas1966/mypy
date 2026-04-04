@@ -105,8 +105,8 @@ pickle_solutions = f'{folder}\\aggregative.pkl'
 
 #algo = AStarRepeated
 # algo = DijkstraIncremental
-algo = AStarAggregative
-# algo = AStarIncremental
+# algo = AStarAggregative
+algo = AStarIncremental
 # algo = AStarIncrementalBackward
 # algo = AStarRepeatedBackward
 # algo = BFSIncremental

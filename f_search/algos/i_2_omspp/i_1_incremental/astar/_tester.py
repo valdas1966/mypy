@@ -29,15 +29,28 @@ def test_heuristic_calcs() -> None:
     assert solution.stats.discovered == 13
     assert solution.stats.heuristic_calcs == 18
 
-def test_for_node_categories() -> None:
+
+def test_closed_categories_for_node_categories() -> None:
     """
     ========================================================================
-     Test IncrementalKA* on the node-categories OMSPP problem.
+     Test closed_categories on node-categories OMSPP problem.
     ========================================================================
     """
     algo = AStarIncremental.Factory.for_node_categories()
-    solution = algo.run()
-    assert solution
+    algo.run()
+    cats = algo.closed_categories()
+    surely = {s.key for s in cats['Surely Expanded']}
+    borderline = {s.key for s in cats['Borderline']}
+    surplus = {s.key for s in cats['Surplus']}
+    grid = algo.problem.grid
+    assert surely == {grid[0][2], grid[1][2]}
+    assert borderline == {grid[1][0], grid[1][3],
+                          grid[1][4], grid[2][0],
+                          grid[2][1], grid[2][2]}
+    assert surplus == set()
+    # Verify union == explored
+    total = len(surely) + len(borderline) + len(surplus)
+    assert total == len(algo._data.explored)
 
 
 def test_quality_h() -> None:

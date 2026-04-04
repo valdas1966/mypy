@@ -34,6 +34,14 @@ Extends the parent's initialization:
 - Calls `super()._run_pre()` to initialize all base data structures
 - Sets `_stats` to `StatsOMSPP` type for OMSPP-specific metrics
 
+#### `closed_categories() -> dict[str, list]`
+Classifies CLOSED-list nodes into three OMSPP categories based on
+per-goal f-values vs C*_i. For each explored node, computes
+`f_i(n) = g(n) + h_i(n)` for every goal i (h recomputed via Manhattan
+distance). Returns dict with keys `'Surely Expanded'` (exists i:
+f_i < C*_i), `'Borderline'` (else), and `'Surplus'` (forall i:
+f_i > C*_i). Must be called after `run()`.
+
 ### Domain Constraint
 By constraining the Problem type to `ProblemOMSPP`, this class ensures that algorithms inheriting from it will work with problems that have:
 - A single start state (via `HasStart` mixin)

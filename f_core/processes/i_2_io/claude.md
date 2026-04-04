@@ -18,7 +18,8 @@ Output = TypeVar('Output')
 ```python
 def __init__(self,
              input: Input,
-             name: str = 'ProcessIO') -> None
+             name: str = 'ProcessIO',
+             is_recording: bool = False) -> None
 ```
 Delegates to `ProcessInput.__init__` and `ProcessOutput.__init__`.
 
@@ -46,16 +47,17 @@ def input(self) -> Input
 def _run(self) -> Output        # override this — return output
 def _run_pre(self) -> None
 def _run_post(self) -> None
-def seconds_since_last_call(self) -> int
+def seconds_since_last_call(self) -> float
 @property
-def elapsed(self) -> int
+def elapsed(self) -> float
+@property
+def recorder(self) -> Recorder
 @property
 def name(self) -> str
 def __str__(self) -> str
 def __eq__(self, other: object) -> bool
 def __lt__(self, other: object) -> bool
 def __hash__(self) -> int
-def __bool__(self) -> bool
 ```
 
 ## Inheritance (Hierarchy)
@@ -64,24 +66,21 @@ def __bool__(self) -> bool
 Equatable
  └── Comparable
       └── HasName
-           └── ProcessBase ─── run() -> None, elapsed, timing
+           └── ProcessBase ─── run() -> None, elapsed, recorder, timing
                 │
                 ├── ProcessInput[Input] ─── input property
                 │
                 ├── ProcessOutput[Output] ─── run() -> Output
                 │
                 └── ProcessIO[Input, Output] ─── combines both
-                     │
-                     └── ValidatableMutable ── __bool__()
 ```
 
 | Base | Responsibility |
 |------|----------------|
 | `ProcessInput` | `input` property, generic `Input` type |
 | `ProcessOutput` | `run()` returns `Output`, `_output` attribute |
-| `ProcessBase` | Template Method lifecycle, timing |
+| `ProcessBase` | Template Method lifecycle, timing, recording |
 | `HasName` | `name` as `key`, `str`, comparison, hash |
-| `ValidatableMutable` | `__bool__`, mutable `_is_valid` |
 
 ## Dependencies
 
@@ -104,33 +103,4 @@ class Doubler(ProcessIO[int, int]):
 
 result = Doubler(input=5, name='Doubler').run()
 print(result)  # 10
-```
-
-### String Transformation
-```python
-class UpperCase(ProcessIO[str, str]):
-    def _run(self) -> str:
-        return self.input.upper()
-
-result = UpperCase(input='hello', name='Upper').run()
-print(result)  # 'HELLO'
-```
-
-### Different Input/Output Types
-```python
-class Parser(ProcessIO[str, list[int]]):
-    def _run(self) -> list[int]:
-        return [int(x) for x in self.input.split(',')]
-
-result = Parser(input='1,2,3', name='Parser').run()
-print(result)  # [1, 2, 3]
-```
-
-### Factory
-```python
-from f_core.processes.i_2_io import ProcessIO
-
-Square = ProcessIO.Factory.square()
-result = Square(input=4).run()
-print(result)  # 16
 ```

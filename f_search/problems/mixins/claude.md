@@ -6,8 +6,9 @@ Provides reusable mixin classes that add specific features to problem definition
 ## Structure
 
 - **has_start/** - `HasStart` - Provides single start state
+- **has_starts/** - `HasStarts` - Provides multiple start states
 - **has_goal/** - `HasGoal` - Provides single goal state
-- **has_goals/** - `HasGoals` - Provides multiple goal states (set)
+- **has_goals/** - `HasGoals` - Provides multiple goal states
 
 ## Mixin Pattern
 

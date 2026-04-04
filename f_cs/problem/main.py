@@ -22,7 +22,7 @@ class ProblemAlgo(HasName, Equatable):
     def key(self) -> SupportsEquality:
         """
         ========================================================================
-         Return the Problem's Name.
+         Return the Problem's Key for Equality.
         ========================================================================
         """
         raise NotImplementedError

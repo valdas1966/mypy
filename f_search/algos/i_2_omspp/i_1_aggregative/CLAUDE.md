@@ -11,6 +11,9 @@ Initialize with an OMSPP problem and an aggregation function. Default Phi is min
 ### `run() -> SolutionOMSPP`
 Execute the algorithm and return solution with paths to all goals.
 
+### Inherited from `AlgoOMSPP`:
+- `closed_categories() -> dict[str, list]` — OMSPP node categories (Surely/Borderline/Surplus)
+
 ### Inherited from `AlgoSearch`:
 - `name -> str`
 - `problem -> ProblemOMSPP`

@@ -1,9 +1,9 @@
-from f_core.mixins import ValidatableMutable
 from f_core.mixins.has import HasName
+from f_core.recorder import Recorder
 from time import time
 
 
-class ProcessBase(HasName, ValidatableMutable):
+class ProcessBase(HasName):
     """
     ============================================================================
      ABC of Process-Classes.
@@ -13,25 +13,36 @@ class ProcessBase(HasName, ValidatableMutable):
     # Factory
     Factory = None
 
-    def __init__(self, name: str = 'ProcessABC') -> None:
+    def __init__(self,
+                 name: str = 'ProcessABC',
+                 is_recording: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         HasName.__init__(self, name=name)
-        ValidatableMutable.__init__(self)
+        # Recorder
+        self._recorder: Recorder = Recorder(is_active=is_recording)
         # Init Time Attributes
         self._elapsed: float | None = None
         self._time_start: float | None = None
         self._time_finish: float | None = None
-        
         # Lap timer (seconds since previous call)
         self._time_lap_prev: float | None = None
 
     @property
     def elapsed(self) -> float:
         return self._elapsed
+
+    @property
+    def recorder(self) -> Recorder:
+        """
+        ========================================================================
+         Return the Process's Recorder.
+        ========================================================================
+        """
+        return self._recorder
 
     def seconds_since_last_call(self) -> float:
         """

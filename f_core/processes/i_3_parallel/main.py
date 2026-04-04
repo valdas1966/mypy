@@ -25,13 +25,15 @@ class ProcessParallel(Generic[Item, Output],
                  func: Callable[[list[Item]], Output | None],
                  workers: int,
                  use_processes: bool = False,
-                 name: str = 'ProcessParallel') -> None:
+                 name: str = 'ProcessParallel',
+                 is_recording: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        ProcessIO.__init__(self, input=input, name=name)
+        ProcessIO.__init__(self, input=input, name=name,
+                           is_recording=is_recording)
         self._func = func
         self._workers = min(workers, len(input)) if input else 0
         self._use_processes = use_processes

@@ -34,7 +34,7 @@ f_core/processes/
 Equatable
  └── Comparable
       └── HasName ─── name, str(), comparison, hash
-           └── ProcessBase ─── run(), elapsed, timing
+           └── ProcessBase ─── run(), elapsed, recorder, timing
                 │
                 ├── ProcessInput[Input] ─── input property
                 │
@@ -68,7 +68,7 @@ All processes share the same Template Method lifecycle:
 | Import | Purpose |
 |--------|---------|
 | `f_core.mixins.has.HasName` | Name-based identity and comparison |
-| `f_core.mixins.ValidatableMutable` | `__bool__`, mutable validity |
+| `f_core.recorder.Recorder` | Structured event recording |
 | `f_ds.groups.Group` | Chunking for ProcessParallel |
 | `concurrent.futures` | Thread/process pools for ProcessParallel |
 

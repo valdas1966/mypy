@@ -15,14 +15,15 @@ class ProcessOutput(ProcessBase, Generic[Output]):
     Factory = None
 
     def __init__(self,
-                 name: str = 'ProcessOutput') -> None:
+                 name: str = 'ProcessOutput',
+                 is_recording: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
         self._output: Output | None = None
-        ProcessBase.__init__(self, name=name)
+        ProcessBase.__init__(self, name=name, is_recording=is_recording)
 
     def run(self) -> Output:
         """

@@ -15,7 +15,8 @@ Output = TypeVar('Output')
 
 ### Constructor
 ```python
-def __init__(self, name: str = 'ProcessOutput') -> None
+def __init__(self, name: str = 'ProcessOutput',
+             is_recording: bool = False) -> None
 ```
 Initializes `_output` to `None`, then delegates to
 `ProcessBase.__init__`.
@@ -34,12 +35,6 @@ def _run_post(self) -> None
 ```
 Overrides to call `ProcessBase._run_post(self)` explicitly.
 
-### Private Attributes
-```python
-_output: Output | None = None
-```
-Set by `run()` from `_run()`'s return value. Returned by `run()`.
-
 ### Subclass Contract
 Subclasses **must** override `_run()` and **return** the output.
 `run()` captures the return value into `_output` and returns it.
@@ -48,16 +43,17 @@ Subclasses **must** override `_run()` and **return** the output.
 ```python
 def _run(self) -> Output        # override this — return output
 def _run_pre(self) -> None
-def seconds_since_last_call(self) -> int
+def seconds_since_last_call(self) -> float
 @property
-def elapsed(self) -> int
+def elapsed(self) -> float
+@property
+def recorder(self) -> Recorder
 @property
 def name(self) -> str
 def __str__(self) -> str
 def __eq__(self, other: object) -> bool
 def __lt__(self, other: object) -> bool
 def __hash__(self) -> int
-def __bool__(self) -> bool
 ```
 
 ## Inheritance (Hierarchy)
@@ -66,18 +62,15 @@ def __bool__(self) -> bool
 Equatable
  └── Comparable
       └── HasName
-           └── ProcessBase ─── run() -> None, elapsed, timing
+           └── ProcessBase ─── run() -> None, elapsed, recorder, timing
                 │
                 └── ProcessOutput[Output] ─── run() -> Output
-                     │
-                     └── ValidatableMutable ── __bool__()
 ```
 
 | Base | Responsibility |
 |------|----------------|
-| `ProcessBase` | Template Method lifecycle, timing |
+| `ProcessBase` | Template Method lifecycle, timing, recording |
 | `HasName` | `name` as `key`, `str`, comparison, hash |
-| `ValidatableMutable` | `__bool__`, mutable `_is_valid` |
 
 ## Dependencies
 
@@ -99,27 +92,4 @@ class Generator(ProcessOutput[list[int]]):
 
 result = Generator(name='Gen').run()
 print(result)  # [1, 2, 3, 4, 5]
-```
-
-### With String Output
-```python
-class Greeter(ProcessOutput[str]):
-    def __init__(self, greeting: str):
-        self._greeting = greeting
-        super().__init__(name='Greeter')
-
-    def _run(self) -> str:
-        return f'Hello, {self._greeting}!'
-
-message = Greeter(greeting='World').run()
-print(message)  # "Hello, World!"
-```
-
-### Factory
-```python
-from f_core.processes.i_1_output import ProcessOutput
-
-proc = ProcessOutput.Factory.a()
-result = proc.run()
-print(result)  # 1
 ```

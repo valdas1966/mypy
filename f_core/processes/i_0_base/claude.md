@@ -3,26 +3,33 @@
 ## Purpose
 Abstract base class for all process classes. Provides a Template Method
 lifecycle (`_run_pre` -> `_run` -> `_run_post`), execution timing via
-`elapsed`, and a lap timer via `seconds_since_last_call()`. Inherits
-name-based identity/comparison from `HasName` and mutable validity
-from `ValidatableMutable`.
+`elapsed`, event recording via `recorder`, and a lap timer via
+`seconds_since_last_call()`. Inherits name-based identity/comparison
+from `HasName`.
 
 ## Public API
 
 ### Constructor
 ```python
-def __init__(self, name: str = 'ProcessBase') -> None
+def __init__(self, name: str = 'ProcessBase',
+             is_recording: bool = False) -> None
 ```
 Initializes timing attributes (`_elapsed`, `_time_start`,
-`_time_finish`) to `None` and sets up the lap timer checkpoint.
+`_time_finish`) to `None`, sets up the lap timer checkpoint,
+and creates a `Recorder` (active when `is_recording=True`).
 
 ### Properties
 ```python
 @property
-def elapsed(self) -> int
+def elapsed(self) -> float
 ```
-Total execution time in seconds (truncated to int).
-`None` before `run()` completes.
+Total execution time in seconds. `None` before `run()` completes.
+
+```python
+@property
+def recorder(self) -> Recorder
+```
+The process's `Recorder` for structured event recording.
 
 ### Methods
 
@@ -32,7 +39,7 @@ def run(self) -> None
 Entry point. Orchestrates `_run_pre()` -> `_run()` -> `_run_post()`.
 
 ```python
-def seconds_since_last_call(self) -> int
+def seconds_since_last_call(self) -> float
 ```
 Returns seconds elapsed since the previous call to this method.
 First call returns `0` and stores a checkpoint.
@@ -67,12 +74,6 @@ def __hash__(self) -> int
 ```
 All comparisons delegate to `name`.
 
-### Inherited (from ValidatableMutable)
-```python
-def __bool__(self) -> bool
-```
-Returns mutable `_is_valid` flag.
-
 ## Inheritance (Hierarchy)
 
 ```
@@ -80,9 +81,7 @@ Equatable
  └── Comparable
       └── HasName ─────────── name, str(), comparison, hash
            │
-           └── ProcessBase ─── run(), elapsed, timing
-                │
-                └── ValidatableMutable ── __bool__(), _is_valid
+           └── ProcessBase ─── run(), elapsed, recorder, timing
 ```
 
 | Base | Responsibility |
@@ -90,14 +89,13 @@ Equatable
 | `Equatable` | `__eq__`, `__hash__` via `key` |
 | `Comparable` | `__lt__`, `__le__`, `__gt__`, `__ge__` via `key` |
 | `HasName` | `name` property as `key`, `__str__`, `__repr__` |
-| `ValidatableMutable` | `__bool__`, mutable `_is_valid` flag |
 
 ## Dependencies
 
 | Import | Purpose |
 |--------|---------|
-| `f_core.mixins.ValidatableMutable` | Mutable validity mixin |
 | `f_core.mixins.has.HasName` | Name-based identity and comparison |
+| `f_core.recorder.Recorder` | Structured event recording |
 | `time.time` | Wall-clock timing for elapsed and lap |
 
 ## Usage Examples
@@ -136,14 +134,4 @@ class TimedSteps(ProcessBase):
 
 
 TimedSteps(name='Steps').run()
-```
-
-### Factory
-
-```python
-from f_core.processes.i_0_base import ProcessBase
-
-nested = ProcessBase.Factory.nested()
-nested.run()
-print(nested.elapsed)
 ```

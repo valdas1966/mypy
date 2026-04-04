@@ -1,13 +1,12 @@
 from f_core.mixins.validatable.main import Validatable
+from f_core.recorder import Recorder
 from f_cs.problem.main import ProblemAlgo
-from f_cs.stats.main import StatsAlgo
 from typing import Generic, TypeVar
 
 Problem = TypeVar('Problem', bound=ProblemAlgo)
-Stats = TypeVar('Stats', bound=StatsAlgo)
 
 
-class SolutionAlgo(Generic[Problem, Stats], Validatable):
+class SolutionAlgo(Generic[Problem], Validatable):
     """
     ============================================================================
      ABC for Algorithm's Solution.
@@ -18,7 +17,8 @@ class SolutionAlgo(Generic[Problem, Stats], Validatable):
                  name_algo: str,
                  problem: Problem,
                  is_valid: bool,
-                 stats: Stats) -> None:
+                 elapsed: float = 0,
+                 recorder: Recorder | None = None) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -26,8 +26,10 @@ class SolutionAlgo(Generic[Problem, Stats], Validatable):
         """
         Validatable.__init__(self, is_valid=is_valid)
         self._name_algo: str = name_algo
-        self._stats: Stats = stats
         self._problem: Problem = problem
+        self._elapsed: float = elapsed
+        self._recorder: Recorder = (recorder if recorder
+                                    else Recorder())
 
     @property
     def name_algo(self) -> str:
@@ -39,15 +41,6 @@ class SolutionAlgo(Generic[Problem, Stats], Validatable):
         return self._name_algo
 
     @property
-    def stats(self) -> Stats:
-        """
-        ========================================================================
-         Return the Algorithm's Stats.
-        ========================================================================
-        """
-        return self._stats
-
-    @property
     def problem(self) -> Problem:
         """
         ========================================================================
@@ -55,4 +48,21 @@ class SolutionAlgo(Generic[Problem, Stats], Validatable):
         ========================================================================
         """
         return self._problem
-    
+
+    @property
+    def elapsed(self) -> float:
+        """
+        ========================================================================
+         Return the elapsed time in seconds.
+        ========================================================================
+        """
+        return self._elapsed
+
+    @property
+    def recorder(self) -> Recorder:
+        """
+        ========================================================================
+         Return the Recorder with recorded Events.
+        ========================================================================
+        """
+        return self._recorder

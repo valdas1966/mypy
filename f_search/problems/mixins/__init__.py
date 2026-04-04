@@ -1,3 +1,4 @@
 from f_search.problems.mixins.has_start import HasStart
+from f_search.problems.mixins.has_starts import HasStarts
 from f_search.problems.mixins.has_goal import HasGoal
 from f_search.problems.mixins.has_goals import HasGoals

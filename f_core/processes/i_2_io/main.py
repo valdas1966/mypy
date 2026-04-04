@@ -17,14 +17,17 @@ class ProcessIO(Generic[Input, Output],
 
     def __init__(self,
                  input: Input,
-                 name: str = 'ProcessIO') -> None:
+                 name: str = 'ProcessIO',
+                 is_recording: bool = False) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        ProcessInput.__init__(self, input=input, name=name)
-        ProcessOutput.__init__(self, name=name)
+        ProcessInput.__init__(self, input=input, name=name,
+                              is_recording=is_recording)
+        ProcessOutput.__init__(self, name=name,
+                               is_recording=is_recording)
 
     def run(self) -> Output:
         """
