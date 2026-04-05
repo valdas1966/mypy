@@ -5,34 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_claude/instructions/for_tex.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/problem/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/problem/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/problem/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/addition/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/addition/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/counting/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/counting/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/shared/animals.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/shared/audio.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/shared/effects.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/shared/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/shared/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.claude/settings.local.json" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_cs/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_cs/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_cs/solution/claude.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_cs/solution/claude.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_cs/solution/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_cs/solution/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/_design_analysis.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +34,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "a1e5e179-580e-4572-8eba-3d60343860e3"
+    "accountId": "0f4621b9-87f9-4a4a-9ceb-401ed7593bcc"
   }
 }]]></component>
   <component name="HighlightingSettingsPerFile">
@@ -1122,7 +1097,29 @@
       <recent name="F:\mypy\f_google\services\sheets" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.run_discovered">
+  <component name="RunManager" selected="Python tests.Python tests in _tester.py">
+    <configuration name="_study" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/services/drive" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/services/drive/_study.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="group" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -1136,7 +1133,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/04/closed_categories/group.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1159,31 +1155,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="run" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_search/experiments/04/closed_categories" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/04/closed_categories/run.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1205,7 +1177,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/04/closed_categories/run_discovered.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1225,7 +1196,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -1241,9 +1211,8 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/algos/i_2_omspp/i_1_incremental/astar/_tester.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/f_gui/elements/i_0_element/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -1280,26 +1249,26 @@
     </configuration>
     <list>
       <item itemvalue="Python.p_4_solutions" />
+      <item itemvalue="Python._study" />
       <item itemvalue="Python.group" />
-      <item itemvalue="Python.run" />
       <item itemvalue="Python.run_discovered" />
       <item itemvalue="Python tests.Python tests in _tester.py (1)" />
       <item itemvalue="Python tests.Python tests in _tester.py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests in _tester.py" />
+        <item itemvalue="Python._study" />
         <item itemvalue="Python.run_discovered" />
         <item itemvalue="Python.group" />
         <item itemvalue="Python tests.Python tests in _tester.py (1)" />
-        <item itemvalue="Python.run" />
-        <item itemvalue="Python tests.Python tests in _tester.py" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-ca5e2b39c7df-6e1f45a539f7-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.29346.308" />
+        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
       </set>
     </attachedChunks>
   </component>
