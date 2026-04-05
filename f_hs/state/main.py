@@ -1,17 +1,20 @@
-from f_core.mixins.validatable.main import Validatable
+from f_core.mixins.has.key import HasKey
+from typing import Generic, TypeVar
+
+Key = TypeVar('Key')
 
 
-class SolutionAlgo(Validatable):
+class StateBase(Generic[Key], HasKey[Key]):
     """
     ============================================================================
-     ABC for Algorithm's Solution.
+     Configuration in a Search-Space.
     ============================================================================
     """
 
-    def __init__(self, is_valid: bool) -> None:
+    def __init__(self, key: Key) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        Validatable.__init__(self, is_valid=is_valid)
+        HasKey.__init__(self, key=key)

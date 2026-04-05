@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Add the Animals!</title>
+<link rel="stylesheet" href="../shared/styles.css">
+</head>
+<body>
+
+<!-- ===== WELCOME ===== -->
+<div id="welcome-screen" class="screen">
+    <div class="welcome-title" id="welcome-title"></div>
+    <div class="welcome-animals" id="welcome-animals"></div>
+    <button class="play-btn" id="play-btn">PLAY!</button>
+</div>
+
+<!-- ===== GAME ===== -->
+<div id="game-screen" class="screen hidden">
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <a class="home-btn" href="../" title="Menu">&#127968;</a>
+            <span class="stars-display" id="stars-display">&#11088; 0</span>
+        </div>
+        <span class="level-display" id="level-display">Level 1</span>
+        <button class="mute-btn" id="mute-btn">&#128264;</button>
+    </div>
+    <div class="candy-bar" id="candy-bar"></div>
+    <div class="game-area">
+        <div class="animal-field" id="animal-field"></div>
+        <div class="question-text" id="question-text"></div>
+        <div class="number-grid" id="number-grid"></div>
+    </div>
+</div>
+
+<!-- ===== CHAMPION ===== -->
+<div id="champion-screen" class="screen hidden">
+    <div class="trophy">&#127942;</div>
+    <div class="champion-title">MATH CHAMPION!</div>
+    <div class="welcome-animals" id="champion-animals"></div>
+    <button class="play-again-btn" id="play-again-btn">Play Again!</button>
+</div>
+
+<!-- ===== FEEDBACK ===== -->
+<div class="feedback" id="feedback"></div>
+
+<script src="../shared/audio.js"></script>
+<script src="../shared/animals.js"></script>
+<script src="../shared/effects.js"></script>
+<script src="../shared/game.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

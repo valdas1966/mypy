@@ -3,7 +3,6 @@
 ## Purpose
 Core abstractions for algorithms: Problem → Algorithm → Solution.
 Provides lifecycle management, timing, and event recording.
-No statistics classes — counters belong in domain-specific Recorders.
 
 ## Package Exports
 ```python
@@ -12,16 +11,16 @@ from f_cs import Algo, ProblemAlgo, SolutionAlgo
 
 ## Architecture
 ```
-ProblemAlgo          Algo[Problem, Solution]          SolutionAlgo[Problem]
+ProblemAlgo          Algo[Problem, Solution]          SolutionAlgo
 (HasName,            (ProcessIO[Problem, Solution])   (Validatable)
- Equatable)                    │                             │
-    │                 ┌────────┴────────┐              ┌─────┴──────┐
-    │                 │ problem         │              │ name_algo  │
-    │                 │ elapsed         │              │ problem    │
-    │                 │ recorder        │              │ elapsed    │
-    │                 │ name            │              │ recorder   │
-    │                 │ run() → Solution│              │ is_valid   │
-    └─────────────────┴─────────────────┘              └────────────┘
+ Equatable)                    │                          │
+    │                 ┌────────┴────────┐            ┌────┴─────┐
+    │                 │ problem         │            │ is_valid │
+    │                 │ elapsed         │            └──────────┘
+    │                 │ recorder        │
+    │                 │ name            │
+    │                 │ run() → Solution│
+    └─────────────────┴─────────────────┘
 ```
 
 ## Flow
@@ -29,9 +28,9 @@ ProblemAlgo          Algo[Problem, Solution]          SolutionAlgo[Problem]
 1. problem = MyProblem(...)
 2. algo = MyAlgo(problem, is_recording=True)
 3. solution = algo.run()
-4. solution.elapsed           # execution time
-5. solution.recorder.events   # recorded events
-6. bool(solution)             # is_valid
+4. bool(solution)             # is_valid
+5. algo.elapsed               # execution time
+6. algo.recorder.events       # recorded events
 ```
 
 ## Module Structure
@@ -40,13 +39,15 @@ f_cs/
 ├── __init__.py        Algo, ProblemAlgo, SolutionAlgo
 ├── algo/              Algo — base algorithm with lifecycle
 ├── problem/           ProblemAlgo — named, equatable problem
-└── solution/          SolutionAlgo — result with elapsed + recorder
+└── solution/          SolutionAlgo — minimal validity contract
 ```
 
 ## Design Decisions
-- **No StatsAlgo** — `elapsed` is a direct property on SolutionAlgo.
-  Counters are tracked by Recorder, not a separate Stats class.
+- **Minimal SolutionAlgo** — only `is_valid` is universal to all
+  algorithm outputs. Domain-specific data (problem, path, stats)
+  belongs on subclasses. Execution metadata (elapsed, recorder)
+  stays on `Algo` via `ProcessBase`.
 - **Recorder on ProcessBase** — every process (including algorithms)
   has an opt-in event recorder via `is_recording` parameter.
-- **elapsed flows naturally** — ProcessBase tracks it, algorithm
-  passes `self.elapsed` when constructing the Solution.
+- **Separation of concerns** — the Solution answers "what was the
+  result?", the Algo answers "how did the execution go?".

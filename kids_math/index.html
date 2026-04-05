@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Kids Math Games</title>
+<link rel="stylesheet" href="shared/styles.css">
+</head>
+<body>
+
+<div class="hub-bg">
+    <div class="hub-title">Kids Math</div>
+    <div class="hub-animals" id="hub-animals"></div>
+
+    <div class="hub-grid">
+        <a class="hub-card" href="counting/">
+            <div class="hub-card-icon">&#129518;</div>
+            <div class="hub-card-title">Counting</div>
+            <div class="hub-card-desc">
+                Count animals from 1 to 10
+            </div>
+        </a>
+        <a class="hub-card" href="addition/">
+            <div class="hub-card-icon">&#10133;</div>
+            <div class="hub-card-title">Addition</div>
+            <div class="hub-card-desc">
+                Add two groups (sums up to 10)
+            </div>
+        </a>
+    </div>
+</div>
+
+<script src="shared/animals.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const el = document.getElementById('hub-animals');
+    animalFns.forEach(fn => {
+        const w = document.createElement('div');
+        w.innerHTML = fn();
+        el.appendChild(w.firstElementChild);
+    });
+});
+</script>
+</body>
+</html>

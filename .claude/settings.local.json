@@ -85,7 +85,20 @@
       "Bash(tectonic node_expansion_guarantees_omspp.tex)",
       "Bash(git push:*)",
       "Bash(git config:*)",
-      "Bash(tectonic closed_categories.tex)"
+      "Bash(tectonic closed_categories.tex)",
+      "Bash(wc:*)",
+      "Bash(pdflatex -interaction=nonstopmode closed_categories.tex)",
+      "Bash(mactex --version)",
+      "Bash(/opt/homebrew/bin/brew --version)",
+      "Bash(/usr/local/bin/brew --version)",
+      "Read(//private/tmp/**)",
+      "Bash(pdflatex -interaction=nonstopmode node_expansion_guarantees_omspp.tex)",
+      "Bash(tectonic kids_math_session.tex)",
+      "Bash(tectonic --version)",
+      "Bash(tectonic f_cs_f_hs_framework_redesign.tex)",
+      "Bash(tectonic For_Session_Summary.tex)",
+      "Bash(tectonic omspp_node_expansion_session.tex)",
+      "Bash(tectonic session_closed_categories_omspp.tex)"
     ]
   }
 }

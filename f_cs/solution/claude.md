@@ -1,43 +1,35 @@
 # SolutionAlgo
 
 ## Purpose
-Abstract base class for algorithm solutions. Packages the result
-of an algorithm execution: validity, elapsed time, problem reference,
-and optional recorded events.
+Minimal base class for algorithm solutions. Serves as a type marker
+and validity contract — domain subclasses add domain-specific data
+(problem, path, stats, etc.).
 
 ## Public API
 
 ### Constructor
 ```python
-def __init__(self,
-             name_algo: str,
-             problem: Problem,
-             is_valid: bool,
-             elapsed: float = 0,
-             recorder: Recorder | None = None) -> None
+def __init__(self, is_valid: bool) -> None
 ```
 
-### Properties
-| Property | Type | Description |
-|----------|------|-------------|
-| `name_algo` | `str` | Name of the algorithm that produced this |
-| `problem` | `Problem` | The problem this solution solves |
-| `elapsed` | `float` | Execution time in seconds |
-| `recorder` | `Recorder` | Recorded events (empty if not recording) |
-
 ### Inherited
+- `is_valid` property (from Validatable)
 - `__bool__` returns `is_valid` (from Validatable)
-
-## Type Parameters
-- `Problem` — bounded by `ProblemAlgo`
 
 ## Inheritance
 ```
-Validatable + Generic[Problem]
+Validatable
     └── SolutionAlgo
 ```
 
+## Design Decisions
+- **Minimal by design** — only `is_valid` is universal to all
+  algorithm solutions. Properties like `problem`, `elapsed`,
+  `recorder`, and `name_algo` belong on domain-specific subclasses
+  or on the `Algo` object itself (via `ProcessBase`).
+- **Type marker** — exists as a bound for `Algo[Problem, Solution]`
+  generic parameter, distinguishing algorithm outputs from any
+  other `Validatable` object.
+
 ## Dependencies
 - `f_core.mixins.validatable.Validatable`
-- `f_core.recorder.Recorder`
-- `f_cs.problem.ProblemAlgo`
