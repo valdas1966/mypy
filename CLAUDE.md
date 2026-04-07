@@ -314,3 +314,125 @@ CLAUDE files are **NOT** required for folders that only contain scripts:
 
 ### Review suggestions
 Suggestions from `CLAUDE_REVIEW.html` must be presented as a plan first. Only apply after explicit user approval.
+
+---
+
+## Google Drive
+
+### How to Open Google Drive
+
+Connect to our Google Drive using the VALDAS OAuth credentials:
+```python
+from f_google.services.drive import Drive
+drive = Drive.Factory.valdas()
+```
+
+### Common Operations
+
+**List folders and files:**
+```python
+folders = drive.folders(path='Projects/2026')   # list subfolder names
+files = drive.files(path='Projects/2026')       # list file names
+folders = drive.folders()                       # root-level folders
+```
+
+**Read a file into memory (no local save):**
+```python
+response = drive.read(path='Papers/Topic/Paper.pdf')
+print(response.text)       # text content (markdown for PDFs)
+print(response.pages)      # list[bytes] — PNG pages (PDFs only)
+```
+
+**Check existence:**
+```python
+if drive.is_exists(path='2026/04/07/session.md'):
+    ...
+```
+
+**Upload (auto-creates parent folders, overwrites if exists):**
+```python
+drive.upload(path_src='/tmp/file.md',
+             path_dest='2026/04/07/file.md')
+```
+
+**Download to local disk:**
+```python
+drive.download(path_src='Papers/Topic/Paper.pdf',
+               path_dest='/tmp/Paper.pdf')
+```
+
+**Create folder / delete:**
+```python
+drive.create_folder(path='2026/04/07')
+drive.delete(path='2026/04/07/old_file.md')
+```
+
+### Drive-Only Workflow
+
+- **Never save Drive files locally** in the project directory.
+- Use `/tmp/` for all intermediate work (compile, edit, etc.).
+- Upload results back to Drive.
+- Do **not** auto-open files — the user views them on Drive.
+
+### Drive Instructions
+
+At the start of each session that involves Google Drive work, read
+all `.md` files from the `Instructions/` folder on Drive:
+```python
+drive = Drive.Factory.valdas()
+for f in drive.files(path='Instructions'):
+    if f.endswith('.md'):
+        print(drive.read(path=f'Instructions/{f}').text)
+```
+
+These instruction files define formats and workflows for:
+- **Session summaries** — `For_Session_Summary.md`
+- **Paper summaries** — `For_Summary.md`
+- **LaTeX documents** — `For_Tex.md`
+
+Always follow the latest version on Drive (not cached copies).
+
+---
+
+## Session Management
+
+### Starting a New Session
+
+When the user announces a new session (e.g., "new session: kids_math"
+or "opening session: drive_refactor"), do the following **immediately**:
+
+1. **Acknowledge** the session name.
+2. **Read Drive instructions** — read all `.md` files from the
+   `Instructions/` folder on Drive to load the latest workflows.
+3. **If continuing a previous session** — read the previous session
+   summary from Drive to restore context.
+4. **Create the session folder and skeleton file on Drive**:
+   - Write a skeleton `.md` to `/tmp/<name>_session.md` with the
+     title, date, project path, and purpose filled in.
+   - Upload to `YYYY/MM/DD/<name>_session.md` on Drive.
+   This marks that a session started on this date and gives a file
+   to build on throughout the session.
+5. **Track** important information throughout the session:
+   - Key decisions and their reasoning.
+   - What was built (deliverables, files, features).
+   - Architecture and design choices.
+   - Unresolved issues and next steps.
+
+### Ending a Session
+
+When the user asks to save/close/summarize the session, or when a
+meaningful chunk of work is complete:
+
+1. Write the full session summary to `/tmp/<name>_session.md`
+   following the format in `Instructions/For_Session_Summary.md`
+   on Drive.
+2. Convert to LaTeX at `/tmp/<name>_session.tex` using the template
+   from the same instructions.
+3. Compile to PDF: `cd /tmp && tectonic <name>_session.tex`.
+4. Upload all three files (`.md`, `.tex`, `.pdf`) to Drive at:
+   ```
+   YYYY/MM/DD/<name>_session.md
+   YYYY/MM/DD/<name>_session.tex
+   YYYY/MM/DD/<name>_session.pdf
+   ```
+5. No local saves — `/tmp/` only. Do not auto-open the PDF.

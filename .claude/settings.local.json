@@ -98,7 +98,8 @@
       "Bash(tectonic f_cs_f_hs_framework_redesign.tex)",
       "Bash(tectonic For_Session_Summary.tex)",
       "Bash(tectonic omspp_node_expansion_session.tex)",
-      "Bash(tectonic session_closed_categories_omspp.tex)"
+      "Bash(tectonic session_closed_categories_omspp.tex)",
+      "Bash(curl:*)"
     ]
   }
 }

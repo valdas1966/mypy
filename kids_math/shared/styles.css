@@ -415,6 +415,47 @@ body.level-4 .question-text {
 }
 
 /* =================================================================
+   Subtraction-game specific
+   ================================================================= */
+.sub-animal {
+    position: relative;
+    display: inline-flex;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.sub-animal svg {
+    width: clamp(50px, 13vw, 80px);
+    height: clamp(50px, 13vw, 80px);
+    animation: animalAppear 0.5s
+               cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    filter: drop-shadow(2px 4px 3px rgba(0,0,0,0.15));
+}
+.sub-animal.leaving {
+    opacity: 0.25;
+    transform: scale(0.85);
+}
+.sub-animal.leaving::after {
+    content: '\2716';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(2rem, 7vw, 3.5rem);
+    color: #FF1744;
+    font-weight: 900;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    animation: xAppear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    pointer-events: none;
+}
+@keyframes xAppear {
+    0%   { transform: translate(-50%, -50%) scale(0) rotate(-30deg);
+           opacity: 0; }
+    100% { transform: translate(-50%, -50%) scale(1) rotate(0);
+           opacity: 1; }
+}
+.animal-field.happy .sub-animal:not(.leaving) svg {
+    animation: happyJump 0.5s ease infinite alternate;
+}
+
+/* =================================================================
    Hub / main menu styles
    ================================================================= */
 .hub-bg {
