@@ -99,7 +99,15 @@
       "Bash(tectonic For_Session_Summary.tex)",
       "Bash(tectonic omspp_node_expansion_session.tex)",
       "Bash(tectonic session_closed_categories_omspp.tex)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(tectonic report_omspp.tex)",
+      "Bash(git log:*)",
+      "Bash(tectonic report_mmspp.tex)",
+      "Bash(tectonic MOSPP.tex)",
+      "Bash(tectonic f_hs_session.tex)",
+      "Bash(tectonic report_mmspp_session.tex)",
+      "Bash(tectonic report_omspp_session.tex)",
+      "Bash(tectonic report_mospp_session.tex)"
     ]
   }
 }

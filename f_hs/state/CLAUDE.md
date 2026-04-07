@@ -1,45 +1,19 @@
-# StateBase
+# f_hs/state — Search States
 
 ## Purpose
-Base class for configurations in a search space. Wraps a generic
-key with identity (equality, hashing) and ordering (comparison)
-via HasKey. Domain subclasses add domain-specific behavior.
+State classes representing configurations in a search space.
 
-## Public API
-
-### Constructor
-```python
-def __init__(self, key: Key) -> None
+## Module Structure
 ```
-
-### Inherited from HasKey
-| Member | Type | Description |
-|--------|------|-------------|
-| `key` | `Key` | The wrapped identifier |
-| `__eq__` | | Equality via key |
-| `__lt__` | | Ordering via key |
-| `__hash__` | | Hashing via key |
-| `__str__` | | `str(key)` |
-| `__repr__` | | `<StateBase: Key=...>` |
-
-## Type Parameters
-- `Key` — any hashable, comparable type
+state/
+├── __init__.py         StateBase, StateCell
+├── i_0_base/           StateBase[Key] — generic base
+└── i_1_cell/           StateCell — CellMap for 2D grids
+```
 
 ## Inheritance
 ```
-Equatable
-  ├── Comparable (@total_ordering)
-  └── Hashable
-       └── HasKey[Key]
-            └── StateBase[Key]
+HasKey[Key]
+  └── StateBase[Key]
+        └── StateCell (Key=CellMap)
 ```
-
-## Domain Subclasses (Examples)
-| Subclass | Key Type | Domain |
-|----------|----------|--------|
-| `StateCell` | `CellMap` | 2D grid pathfinding |
-| `StatePuzzle` | `tuple[int, ...]` | Sliding puzzles |
-| `StateGraph` | `str` / `int` | Toy graphs |
-
-## Dependencies
-- `f_core.mixins.has.key.HasKey`
