@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let needTens = false;
     let pendingPrize = false;
     let showingResult = false;
+    let lastProbA = -1, lastProbB = -1;
 
     GameEngine.init({
 
@@ -85,18 +86,23 @@ document.addEventListener('DOMContentLoaded', () => {
         let a, b;
         for (let i = 0; i < 200; i++) {
             a = lv.minNum + Math.floor(
-                Math.random() * (lv.maxNum - lv.minNum + 1)
-            );
+                Math.random()
+                * (lv.maxNum - lv.minNum + 1));
             b = lv.minNum + Math.floor(
-                Math.random() * (lv.maxNum - lv.minNum + 1)
-            );
+                Math.random()
+                * (lv.maxNum - lv.minNum + 1));
             if (a + b > 99) continue;
             const aO = a % 10, bO = b % 10;
             const hasCarry = aO + bO >= 10;
-            if (lv.carryMode === 'never' && hasCarry) continue;
-            if (lv.carryMode === 'always' && !hasCarry) continue;
+            if (lv.carryMode === 'never'
+                && hasCarry) continue;
+            if (lv.carryMode === 'always'
+                && !hasCarry) continue;
+            if (a === lastProbA
+                && b === lastProbB) continue;
             break;
         }
+        lastProbA = a; lastProbB = b;
         const aOnes = a % 10, aTens = Math.floor(a / 10);
         const bOnes = b % 10, bTens = Math.floor(b / 10);
         const onesSum = aOnes + bOnes;

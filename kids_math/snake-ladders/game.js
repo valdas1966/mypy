@@ -1,5 +1,5 @@
 // =========================================================================
-//  Snakes & Ladders — Player vs Computer
+//  Snakes & Ladders — Player vs Computer, configurable operations
 // =========================================================================
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -11,13 +11,134 @@ document.addEventListener('DOMContentLoaded', () => {
     const ANIMALS = ['🐱','🐰','🦊','🐻','🐸',
                      '🦄','🐶','🐼'];
 
-    // ---- State ---
+    // =================================================================
+    //  Operation definitions
+    // =================================================================
+    const OPS = [
+        { id: 'add2_10',  icon: '+', cls: 'op-add',
+          label: 'a + b = ?',   range: 'result 0 – 10',
+          maxAns: 10,
+          gen: () => {
+              const a = rand(0, 10);
+              const b = rand(0, 10 - a);
+              return { display: `${a} + ${b}`,
+                       answer: a + b };
+          }},
+        { id: 'add3_10',  icon: '+', cls: 'op-add',
+          label: 'a + b + c = ?', range: 'result 0 – 10',
+          maxAns: 10,
+          gen: () => {
+              const a = rand(0, 8);
+              const b = rand(0, Math.min(8, 10 - a));
+              const c = rand(0, 10 - a - b);
+              return { display: `${a} + ${b} + ${c}`,
+                       answer: a + b + c };
+          }},
+        { id: 'add2_20',  icon: '+', cls: 'op-add',
+          label: 'a + b = ?',   range: 'result 0 – 20',
+          maxAns: 20,
+          gen: () => {
+              const a = rand(0, 20);
+              const b = rand(0, 20 - a);
+              return { display: `${a} + ${b}`,
+                       answer: a + b };
+          }},
+        { id: 'add3_20',  icon: '+', cls: 'op-add',
+          label: 'a + b + c = ?', range: 'result 0 – 20',
+          maxAns: 20,
+          gen: () => {
+              const a = rand(0, 15);
+              const b = rand(0, Math.min(15, 20 - a));
+              const c = rand(0, 20 - a - b);
+              return { display: `${a} + ${b} + ${c}`,
+                       answer: a + b + c };
+          }},
+        { id: 'add2_30',  icon: '+', cls: 'op-add',
+          label: 'a + b = ?',   range: 'result 0 – 30',
+          maxAns: 30,
+          gen: () => {
+              const a = rand(0, 30);
+              const b = rand(0, 30 - a);
+              return { display: `${a} + ${b}`,
+                       answer: a + b };
+          }},
+        { id: 'mul2_10',  icon: '×', cls: 'op-mul',
+          label: 'a × b = ?',  range: 'result 0 – 10',
+          maxAns: 10,
+          gen: () => {
+              const a = rand(0, 10);
+              const bMax = a === 0
+                  ? 10 : Math.floor(10 / a);
+              const b = rand(0, bMax);
+              return { display: `${a} × ${b}`,
+                       answer: a * b };
+          }},
+        { id: 'mul2_20',  icon: '×', cls: 'op-mul',
+          label: 'a × b = ?',  range: 'result 0 – 20',
+          maxAns: 20,
+          gen: () => {
+              const a = rand(0, 10);
+              const bMax = a === 0
+                  ? 10 : Math.floor(20 / a);
+              const b = rand(0, Math.min(10, bMax));
+              return { display: `${a} × ${b}`,
+                       answer: a * b };
+          }},
+        { id: 'mul2_30',  icon: '×', cls: 'op-mul',
+          label: 'a × b = ?',  range: 'result 0 – 30',
+          maxAns: 30,
+          gen: () => {
+              const a = rand(0, 10);
+              const bMax = a === 0
+                  ? 10 : Math.floor(30 / a);
+              const b = rand(0, Math.min(10, bMax));
+              return { display: `${a} × ${b}`,
+                       answer: a * b };
+          }},
+        { id: 'sub_10',   icon: '−', cls: 'op-sub',
+          label: 'a − b = ?',  range: 'numbers 0 – 10',
+          maxAns: 10,
+          gen: () => {
+              const a = rand(0, 10);
+              const b = rand(0, a);
+              return { display: `${a} − ${b}`,
+                       answer: a - b };
+          }},
+        { id: 'sub_20',   icon: '−', cls: 'op-sub',
+          label: 'a − b = ?',  range: 'numbers 0 – 20',
+          maxAns: 20,
+          gen: () => {
+              const a = rand(0, 20);
+              const b = rand(0, a);
+              return { display: `${a} − ${b}`,
+                       answer: a - b };
+          }},
+        { id: 'div_10',   icon: '÷', cls: 'op-div',
+          label: 'a ÷ b = ?',  range: 'numbers 0 – 10',
+          maxAns: 10,
+          gen: () => {
+              const b = rand(1, 10);
+              const c = rand(0, Math.floor(10 / b));
+              const a = b * c;
+              return { display: `${a} ÷ ${b}`,
+                       answer: c };
+          }},
+    ];
+
+    function rand(lo, hi) {
+        return lo + Math.floor(
+            Math.random() * (hi - lo + 1));
+    }
+
+    // --- State ---
     let playerAnimal = '', computerAnimal = '';
     let playerPos = 0, computerPos = 0;
-    let turn = 'player'; // 'player' | 'computer'
+    let turn = 'player';
     let streak = 0;
     let answering = false;
     let currentProblem = null;
+    let lastDisplay = '';
+    let selectedOp = null;
 
     // --- DOM refs ---
     const boardEl     = document.getElementById('sl-board');
@@ -78,45 +199,82 @@ document.addEventListener('DOMContentLoaded', () => {
             'sl-vs-label');
         const compPreview = document.getElementById(
             'sl-computer-preview');
-        const startBtn = document.getElementById(
+        const nextBtn = document.getElementById(
             'start-btn');
 
         grid.innerHTML = '';
         vsLabel.textContent = '';
         compPreview.textContent = '';
-        startBtn.classList.add('hidden');
+        nextBtn.classList.add('hidden');
         playerAnimal = '';
-        computerAnimal = '';
 
         ANIMALS.forEach(a => {
             const btn = document.createElement('button');
             btn.className = 'sl-animal-btn';
             btn.textContent = a;
             btn.addEventListener('click', () => {
-                // Deselect all
                 grid.querySelectorAll('.sl-animal-btn')
                     .forEach(b =>
                         b.classList.remove('selected'));
                 btn.classList.add('selected');
                 playerAnimal = a;
                 sfxPop();
-
-                // Pick different animal for computer
                 const others = ANIMALS.filter(
                     x => x !== a);
                 computerAnimal = others[
                     Math.floor(Math.random()
                         * others.length)];
-
                 vsLabel.textContent = 'VS';
                 compPreview.textContent = computerAnimal;
-                startBtn.classList.remove('hidden');
+                nextBtn.classList.remove('hidden');
             });
             grid.appendChild(btn);
         });
 
-        startBtn.onclick = () => {
-            if (playerAnimal) startGame();
+        nextBtn.onclick = () => {
+            if (playerAnimal) showOpsScreen();
+        };
+    }
+
+    // =================================================================
+    //  Operation selection screen
+    // =================================================================
+    function showOpsScreen() {
+        showScreen('ops-screen');
+        const grid = document.getElementById(
+            'sl-ops-grid');
+        const goBtn = document.getElementById(
+            'ops-go-btn');
+        grid.innerHTML = '';
+        goBtn.classList.add('hidden');
+        selectedOp = null;
+
+        OPS.forEach(op => {
+            const btn = document.createElement('button');
+            btn.className = 'sl-op-btn';
+            btn.innerHTML = `
+                <div class="sl-op-icon ${op.cls}">
+                    ${op.icon}</div>
+                <div>
+                    <div class="sl-op-label">
+                        ${op.label}</div>
+                    <div class="sl-op-range">
+                        ${op.range}</div>
+                </div>`;
+            btn.addEventListener('click', () => {
+                grid.querySelectorAll('.sl-op-btn')
+                    .forEach(b =>
+                        b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedOp = op;
+                sfxPop();
+                goBtn.classList.remove('hidden');
+            });
+            grid.appendChild(btn);
+        });
+
+        goBtn.onclick = () => {
+            if (selectedOp) startGame();
         };
     }
 
@@ -129,6 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
         streak = 0;
         answering = false;
         turn = 'player';
+        lastDisplay = '';
 
         pTokenEl.textContent = playerAnimal;
         cTokenEl.textContent = computerAnimal;
@@ -171,7 +330,6 @@ document.addEventListener('DOMContentLoaded', () => {
         numGrid.innerHTML = '';
         updateTurnDisplay();
 
-        // Computer "thinks", then rolls
         setTimeout(() => {
             const roll = 1 + Math.floor(
                 Math.random() * 3);
@@ -197,7 +355,6 @@ document.addEventListener('DOMContentLoaded', () => {
         turnEl.textContent = isP
             ? `Your turn! ${playerAnimal}`
             : `Computer... ${computerAnimal}`;
-
         const sp = document.getElementById('score-player');
         const sc = document.getElementById('score-computer');
         sp.className = 'sl-score-item'
@@ -211,18 +368,16 @@ document.addEventListener('DOMContentLoaded', () => {
             playerPos;
         document.getElementById('sc-sq').textContent =
             computerPos;
-        // Background by leader
         const best = Math.max(playerPos, computerPos);
         const pct = best / TOTAL;
-        if (pct > 0.75) {
+        if (pct > 0.75)
             document.body.className = 'level-4';
-        } else if (pct > 0.5) {
+        else if (pct > 0.5)
             document.body.className = 'level-3';
-        } else if (pct > 0.25) {
+        else if (pct > 0.25)
             document.body.className = 'level-2';
-        } else {
+        else
             document.body.className = 'level-1';
-        }
     }
 
     // =================================================================
@@ -230,53 +385,38 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================
     function renderStreak() {
         for (let i = 0; i < STREAK_NEEDED; i++) {
-            if (i < streak) {
-                streakDots[i].classList.add('filled');
-            } else {
-                streakDots[i].classList.remove('filled');
-            }
+            streakDots[i].classList.toggle(
+                'filled', i < streak);
         }
     }
 
     // =================================================================
-    //  New round — generate addition problem
+    //  Problem generation — uses selected operation
     // =================================================================
+    function generateProblem() {
+        let prob;
+        for (let t = 0; t < 30; t++) {
+            prob = selectedOp.gen();
+            if (prob.display !== lastDisplay) break;
+        }
+        lastDisplay = prob.display;
+        return prob;
+    }
+
     function newRound() {
         currentProblem = generateProblem();
         qText.innerHTML =
-            `${currentProblem.a} + ${currentProblem.b}`
-            + ` = <b>?</b>`;
-        renderButtons(currentProblem.sum);
-        // Re-position both tokens after layout change
+            `${currentProblem.display} = <b>?</b>`;
+        renderButtons(currentProblem.answer);
         requestAnimationFrame(() => positionTokens());
         answering = true;
     }
 
-    function generateProblem() {
-        const pos = playerPos;
-        let minA, maxA, maxSum;
-        if (pos <= 10) {
-            minA = 0; maxA = 5; maxSum = 10;
-        } else if (pos <= 20) {
-            minA = 1; maxA = 7; maxSum = 14;
-        } else if (pos <= 30) {
-            minA = 2; maxA = 9; maxSum = 18;
-        } else {
-            minA = 3; maxA = 10; maxSum = 20;
-        }
-        const a = minA + Math.floor(
-            Math.random() * (maxA - minA + 1));
-        const bMax = Math.min(maxA, maxSum - a);
-        const b = minA + Math.floor(
-            Math.random()
-            * Math.max(bMax - minA + 1, 1));
-        return { a, b, sum: a + b };
-    }
-
     function renderButtons(correct) {
         numGrid.innerHTML = '';
+        const max = selectedOp.maxAns;
         const lo = Math.max(0, correct - 5);
-        const hi = Math.min(20,
+        const hi = Math.min(max,
             Math.max(correct + 5, lo + 9));
         for (let i = lo; i <= hi; i++) {
             const btn = document.createElement('button');
@@ -296,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!answering || turn !== 'player') return;
         answering = false;
         initAudio();
-        if (num === currentProblem.sum) {
+        if (num === currentProblem.answer) {
             onCorrect(btn);
         } else {
             onWrong(btn);
@@ -315,7 +455,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 'correct', 1000);
             setTimeout(() => newRound(), 1200);
         } else {
-            // 3 in a row — roll!
             streak = 0;
             renderStreak();
             showFeedback('Move!', 'levelup', 1400);
@@ -377,9 +516,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ? pTokenEl : cTokenEl;
         const curPos = who === 'player'
             ? playerPos : computerPos;
-
         if (curPos === 0) {
-            // First appearance
             tokenEl.style.transition = 'none';
             setPos(who, 1);
             positionTokens();
@@ -412,7 +549,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateScoreboard();
         positionTokens();
         sfxPop();
-
         const pos = who === 'player'
             ? playerPos : computerPos;
         if (pos >= TOTAL) {
@@ -428,16 +564,12 @@ document.addEventListener('DOMContentLoaded', () => {
         else computerPos = val;
     }
 
-    function getPos(who) {
-        return who === 'player'
-            ? playerPos : computerPos;
-    }
-
     // =================================================================
     //  Check for snake / ladder
     // =================================================================
     function checkSquare(who, cb) {
-        const pos = getPos(who);
+        const pos = who === 'player'
+            ? playerPos : computerPos;
         const tokenEl = who === 'player'
             ? pTokenEl : cTokenEl;
         const emoji = who === 'player'
@@ -445,8 +577,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (LADDERS[pos]) {
             const dest = LADDERS[pos];
-            showEvent(
-                `${emoji} 🪜 → ${dest}`,
+            showEvent(`${emoji} 🪜 → ${dest}`,
                 'sl-ladder-event');
             if (who === 'player') sfxLevelUp();
             else sfxPop();
@@ -463,8 +594,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 600);
         } else if (SNAKES[pos]) {
             const dest = SNAKES[pos];
-            showEvent(
-                `${emoji} 🐍 → ${dest}`,
+            showEvent(`${emoji} 🐍 → ${dest}`,
                 'sl-snake-event');
             sfxWrong();
             tokenEl.classList.add('sl-slide');
@@ -499,19 +629,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // =================================================================
-    //  Position BOTH tokens (offset when same square)
+    //  Position BOTH tokens
     // =================================================================
     function positionTokens() {
         const same = playerPos === computerPos
             && playerPos > 0;
-        if (playerPos > 0) {
+        if (playerPos > 0)
             positionSingle(pTokenEl, playerPos,
                 same ? -0.22 : 0);
-        }
-        if (computerPos > 0) {
+        if (computerPos > 0)
             positionSingle(cTokenEl, computerPos,
                 same ? 0.22 : 0);
-        }
     }
 
     function positionSingle(el, sq, offsetFrac) {

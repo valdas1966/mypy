@@ -3,6 +3,8 @@
 // =========================================================================
 document.addEventListener('DOMContentLoaded', () => {
 
+    let lastTotal = -1, lastSub = -1;
+
     GameEngine.init({
 
         title: 'Subtract the<br>Animals!',
@@ -16,14 +18,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Show animals, then some "walk away" (fade + red X)
         onNewRound(lv) {
-            // Pick total and subtract amounts
-            const total = lv.minTotal + Math.floor(
-                Math.random() * (lv.maxTotal - lv.minTotal + 1)
-            );
-            const maxSub = Math.min(lv.maxSub, total);
-            const sub = lv.minSub + Math.floor(
-                Math.random() * (Math.max(maxSub - lv.minSub + 1, 1))
-            );
+            let total, sub;
+            for (let t = 0; t < 20; t++) {
+                total = lv.minTotal + Math.floor(
+                    Math.random()
+                    * (lv.maxTotal - lv.minTotal + 1));
+                const maxS = Math.min(lv.maxSub, total);
+                sub = lv.minSub + Math.floor(
+                    Math.random()
+                    * Math.max(maxS - lv.minSub + 1, 1));
+                if (total !== lastTotal
+                    || sub !== lastSub) break;
+            }
+            lastTotal = total; lastSub = sub;
             const result = total - sub;
 
             // Pick one animal type

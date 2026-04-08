@@ -3,6 +3,8 @@
 // =========================================================================
 document.addEventListener('DOMContentLoaded', () => {
 
+    let lastA = -1, lastB = -1, lastC = -1;
+
     GameEngine.init({
 
         title: 'Add Three<br>Groups!',
@@ -15,14 +17,17 @@ document.addEventListener('DOMContentLoaded', () => {
         ],
 
         onNewRound(lv) {
-            // Pick three numbers within range
             let a, b, c;
-            do {
+            for (let t = 0; t < 50; t++) {
                 a = randRange(lv.minNum, lv.maxNum);
                 b = randRange(lv.minNum, lv.maxNum);
                 c = randRange(lv.minNum, lv.maxNum);
-            } while (a + b + c > lv.maxSum ||
-                     a + b + c < 1);
+                if (a + b + c > lv.maxSum
+                    || a + b + c < 1) continue;
+                if (a !== lastA || b !== lastB
+                    || c !== lastC) break;
+            }
+            lastA = a; lastB = b; lastC = c;
             const sum = a + b + c;
 
             // Pick a different animal type per group

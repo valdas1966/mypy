@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let needTens = false;
     let pendingPrize = false;
     let showingResult = false;
+    let lastProbA = -1, lastProbB = -1;
 
     GameEngine.init({
 
@@ -84,19 +85,23 @@ document.addEventListener('DOMContentLoaded', () => {
         let a, b;
         for (let i = 0; i < 200; i++) {
             a = lv.minA + Math.floor(
-                Math.random() * (lv.maxA - lv.minA + 1)
-            );
+                Math.random()
+                * (lv.maxA - lv.minA + 1));
             b = lv.minB + Math.floor(
-                Math.random() * (lv.maxB - lv.minB + 1)
-            );
+                Math.random()
+                * (lv.maxB - lv.minB + 1));
             if (b >= a) continue;
             const aO = a % 10, bO = b % 10;
             const needs = aO < bO;
-            if (lv.borrowMode === 'never' && needs) continue;
-            if (lv.borrowMode === 'always' && !needs)
-                continue;
+            if (lv.borrowMode === 'never'
+                && needs) continue;
+            if (lv.borrowMode === 'always'
+                && !needs) continue;
+            if (a === lastProbA
+                && b === lastProbB) continue;
             break;
         }
+        lastProbA = a; lastProbB = b;
         const aOnes = a % 10, aTens = Math.floor(a / 10);
         const bOnes = b % 10, bTens = Math.floor(b / 10);
         const borrow = aOnes < bOnes ? 1 : 0;

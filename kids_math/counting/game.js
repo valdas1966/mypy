@@ -3,6 +3,8 @@
 // =========================================================================
 document.addEventListener('DOMContentLoaded', () => {
 
+    let lastCount = -1;
+
     GameEngine.init({
 
         title: 'Count the<br>Animals!',
@@ -16,8 +18,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Render animals and return the correct count
         onNewRound(lv) {
-            const count =
-                lv.min + Math.floor(Math.random() * (lv.max - lv.min + 1));
+            let count;
+            for (let t = 0; t < 20; t++) {
+                count = lv.min + Math.floor(
+                    Math.random() * (lv.max - lv.min + 1));
+                if (count !== lastCount) break;
+            }
+            lastCount = count;
             const field = document.getElementById('animal-field');
             field.innerHTML = '';
             field.classList.remove('happy');

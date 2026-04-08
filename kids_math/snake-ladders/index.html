@@ -52,6 +52,63 @@
     text-align: center; margin-bottom: 16px;
 }
 
+/* --- Operation selection screen --- */
+.sl-ops-title {
+    font-size: clamp(1.2rem, 5vw, 2rem);
+    font-weight: 900; color: #E65100;
+    text-shadow: 2px 2px 0 #FFCC80;
+    text-align: center; margin-bottom: 10px;
+}
+.sl-ops-grid {
+    display: flex; flex-direction: column;
+    gap: 8px; width: 100%;
+    max-width: 380px; margin: 0 auto 16px;
+    padding: 0 8px; box-sizing: border-box;
+    max-height: 55vh; overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.sl-ops-grid::-webkit-scrollbar { width: 4px; }
+.sl-ops-grid::-webkit-scrollbar-thumb {
+    background: #CCC; border-radius: 4px; }
+.sl-op-btn {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px;
+    border-radius: 14px; border: 3px solid #E0E0E0;
+    background: #FFF; cursor: pointer;
+    transition: transform 0.15s, border-color 0.2s,
+                box-shadow 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    text-align: left;
+}
+.sl-op-btn:active { transform: scale(0.97); }
+.sl-op-btn.selected {
+    border-color: #FFD700;
+    box-shadow: 0 0 14px rgba(255,215,0,0.4);
+    background: #FFF8E1;
+}
+.sl-op-icon {
+    flex-shrink: 0;
+    width: clamp(38px, 10vw, 50px);
+    height: clamp(38px, 10vw, 50px);
+    border-radius: 50%;
+    display: flex; align-items: center;
+    justify-content: center;
+    font-size: clamp(1.2rem, 4vw, 1.7rem);
+    font-weight: 900; color: #FFF;
+}
+.sl-op-icon.op-add { background: #43A047; }
+.sl-op-icon.op-sub { background: #E53935; }
+.sl-op-icon.op-mul { background: #FB8C00; }
+.sl-op-icon.op-div { background: #5C6BC0; }
+.sl-op-label {
+    font-size: clamp(0.85rem, 3vw, 1.05rem);
+    font-weight: 700; color: #333;
+}
+.sl-op-range {
+    font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+    color: #888; font-weight: 600;
+}
+
 /* --- Layout --- */
 .sl-layout {
     display: flex; flex-direction: column;
@@ -300,7 +357,16 @@
     <div class="sl-computer-preview"
          id="sl-computer-preview"></div>
     <button class="play-btn hidden"
-            id="start-btn">GO!</button>
+            id="start-btn">NEXT</button>
+</div>
+
+<!-- ===== OPERATION SELECT ===== -->
+<div id="ops-screen" class="screen hidden">
+    <div class="sl-ops-title">
+        Choose operation!</div>
+    <div class="sl-ops-grid" id="sl-ops-grid"></div>
+    <button class="play-btn hidden"
+            id="ops-go-btn">GO!</button>
 </div>
 
 <!-- ===== GAME ===== -->

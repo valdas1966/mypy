@@ -3,6 +3,8 @@
 // =========================================================================
 document.addEventListener('DOMContentLoaded', () => {
 
+    let lastA = -1, lastB = -1;
+
     GameEngine.init({
 
         title: 'Add the<br>Animals!',
@@ -16,15 +18,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Render two groups of animals with + and return the sum
         onNewRound(lv) {
-            // Pick two numbers whose sum is within range
-            const a = lv.minNum + Math.floor(
-                Math.random() * (lv.maxNum - lv.minNum + 1)
-            );
-            const bMax = Math.min(lv.maxNum, lv.maxSum - a);
-            const bMin = lv.minNum;
-            const b = bMin + Math.floor(
-                Math.random() * (Math.max(bMax - bMin + 1, 1))
-            );
+            let a, b;
+            for (let t = 0; t < 20; t++) {
+                a = lv.minNum + Math.floor(
+                    Math.random()
+                    * (lv.maxNum - lv.minNum + 1));
+                const bMax = Math.min(
+                    lv.maxNum, lv.maxSum - a);
+                b = lv.minNum + Math.floor(
+                    Math.random()
+                    * Math.max(bMax - lv.minNum + 1, 1));
+                if (a !== lastA || b !== lastB) break;
+            }
+            lastA = a; lastB = b;
             const sum = a + b;
 
             // Pick a different animal type for each group
