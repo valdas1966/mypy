@@ -18,20 +18,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Show animals, then some "walk away" (fade + red X)
         onNewRound(lv) {
-            let total, sub;
+            // Pick answer first for uniform distribution
+            let total, sub, result;
+            const minResult = Math.max(0,
+                lv.minTotal - lv.maxSub);
+            const maxResult = lv.maxTotal - lv.minSub;
             for (let t = 0; t < 20; t++) {
-                total = lv.minTotal + Math.floor(
+                result = minResult + Math.floor(
                     Math.random()
-                    * (lv.maxTotal - lv.minTotal + 1));
-                const maxS = Math.min(lv.maxSub, total);
-                sub = lv.minSub + Math.floor(
-                    Math.random()
-                    * Math.max(maxS - lv.minSub + 1, 1));
+                    * (maxResult - minResult + 1));
+                const sLo = Math.max(lv.minSub,
+                    lv.minTotal - result);
+                const sHi = Math.min(lv.maxSub,
+                    lv.maxTotal - result);
+                sub = sLo + Math.floor(Math.random()
+                    * (sHi - sLo + 1));
+                total = result + sub;
                 if (total !== lastTotal
                     || sub !== lastSub) break;
             }
             lastTotal = total; lastSub = sub;
-            const result = total - sub;
 
             // Pick one animal type
             const animalIdx = Math.floor(

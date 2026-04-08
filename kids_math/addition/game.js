@@ -18,20 +18,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Render two groups of animals with + and return the sum
         onNewRound(lv) {
-            let a, b;
+            // Pick answer first for uniform distribution
+            let a, b, sum;
+            const minSum = lv.minNum * 2;
             for (let t = 0; t < 20; t++) {
-                a = lv.minNum + Math.floor(
-                    Math.random()
-                    * (lv.maxNum - lv.minNum + 1));
-                const bMax = Math.min(
-                    lv.maxNum, lv.maxSum - a);
-                b = lv.minNum + Math.floor(
-                    Math.random()
-                    * Math.max(bMax - lv.minNum + 1, 1));
+                sum = minSum + Math.floor(Math.random()
+                    * (lv.maxSum - minSum + 1));
+                const aLo = Math.max(lv.minNum,
+                    sum - lv.maxNum);
+                const aHi = Math.min(lv.maxNum,
+                    sum - lv.minNum);
+                a = aLo + Math.floor(Math.random()
+                    * (aHi - aLo + 1));
+                b = sum - a;
                 if (a !== lastA || b !== lastB) break;
             }
             lastA = a; lastB = b;
-            const sum = a + b;
 
             // Pick a different animal type for each group
             const idxA = Math.floor(Math.random() * animalFns.length);

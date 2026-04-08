@@ -14,116 +14,151 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================
     //  Operation definitions
     // =================================================================
+    // ---------------------------------------------------------
+    //  Generators use "pick answer first" for uniform
+    //  distribution. Each gen(max) takes an effective max
+    //  that scales with board position (easy → hard).
+    // ---------------------------------------------------------
     const OPS = [
         { id: 'add2_10',  icon: '+', cls: 'op-add',
           label: 'a + b = ?',   range: 'result 0 – 10',
           maxAns: 10,
-          gen: () => {
-              const a = rand(0, 10);
-              const b = rand(0, 10 - a);
-              return { display: `${a} + ${b}`,
-                       answer: a + b };
+          gen(m) {
+              const s = rand(0, m);
+              const a = rand(0, s);
+              return { display: `${a} + ${s - a}`,
+                       answer: s };
           }},
         { id: 'add3_10',  icon: '+', cls: 'op-add',
           label: 'a + b + c = ?', range: 'result 0 – 10',
           maxAns: 10,
-          gen: () => {
-              const a = rand(0, 8);
-              const b = rand(0, Math.min(8, 10 - a));
-              const c = rand(0, 10 - a - b);
-              return { display: `${a} + ${b} + ${c}`,
-                       answer: a + b + c };
+          gen(m) {
+              const s = rand(0, m);
+              const a = rand(0, s);
+              const b = rand(0, s - a);
+              return { display: `${a} + ${b} + ${s-a-b}`,
+                       answer: s };
           }},
         { id: 'add2_20',  icon: '+', cls: 'op-add',
           label: 'a + b = ?',   range: 'result 0 – 20',
           maxAns: 20,
-          gen: () => {
-              const a = rand(0, 20);
-              const b = rand(0, 20 - a);
-              return { display: `${a} + ${b}`,
-                       answer: a + b };
+          gen(m) {
+              const s = rand(0, m);
+              const a = rand(0, s);
+              return { display: `${a} + ${s - a}`,
+                       answer: s };
           }},
         { id: 'add3_20',  icon: '+', cls: 'op-add',
           label: 'a + b + c = ?', range: 'result 0 – 20',
           maxAns: 20,
-          gen: () => {
-              const a = rand(0, 15);
-              const b = rand(0, Math.min(15, 20 - a));
-              const c = rand(0, 20 - a - b);
-              return { display: `${a} + ${b} + ${c}`,
-                       answer: a + b + c };
+          gen(m) {
+              const s = rand(0, m);
+              const a = rand(0, s);
+              const b = rand(0, s - a);
+              return { display: `${a} + ${b} + ${s-a-b}`,
+                       answer: s };
           }},
         { id: 'add2_30',  icon: '+', cls: 'op-add',
           label: 'a + b = ?',   range: 'result 0 – 30',
           maxAns: 30,
-          gen: () => {
-              const a = rand(0, 30);
-              const b = rand(0, 30 - a);
-              return { display: `${a} + ${b}`,
-                       answer: a + b };
+          gen(m) {
+              const s = rand(0, m);
+              const a = rand(0, s);
+              return { display: `${a} + ${s - a}`,
+                       answer: s };
           }},
         { id: 'mul2_10',  icon: '×', cls: 'op-mul',
           label: 'a × b = ?',  range: 'result 0 – 10',
           maxAns: 10,
-          gen: () => {
-              const a = rand(0, 10);
-              const bMax = a === 0
-                  ? 10 : Math.floor(10 / a);
-              const b = rand(0, bMax);
-              return { display: `${a} × ${b}`,
-                       answer: a * b };
-          }},
+          gen(m) { return genMul(m, 10); } },
         { id: 'mul2_20',  icon: '×', cls: 'op-mul',
           label: 'a × b = ?',  range: 'result 0 – 20',
           maxAns: 20,
-          gen: () => {
-              const a = rand(0, 10);
-              const bMax = a === 0
-                  ? 10 : Math.floor(20 / a);
-              const b = rand(0, Math.min(10, bMax));
-              return { display: `${a} × ${b}`,
-                       answer: a * b };
-          }},
+          gen(m) { return genMul(m, 10); } },
         { id: 'mul2_30',  icon: '×', cls: 'op-mul',
           label: 'a × b = ?',  range: 'result 0 – 30',
           maxAns: 30,
-          gen: () => {
-              const a = rand(0, 10);
-              const bMax = a === 0
-                  ? 10 : Math.floor(30 / a);
-              const b = rand(0, Math.min(10, bMax));
-              return { display: `${a} × ${b}`,
-                       answer: a * b };
-          }},
+          gen(m) { return genMul(m, 10); } },
         { id: 'sub_10',   icon: '−', cls: 'op-sub',
           label: 'a − b = ?',  range: 'numbers 0 – 10',
           maxAns: 10,
-          gen: () => {
-              const a = rand(0, 10);
-              const b = rand(0, a);
-              return { display: `${a} − ${b}`,
-                       answer: a - b };
+          gen(m) {
+              const d = rand(0, m);
+              const b = rand(0, m - d);
+              return { display: `${d + b} − ${b}`,
+                       answer: d };
           }},
         { id: 'sub_20',   icon: '−', cls: 'op-sub',
           label: 'a − b = ?',  range: 'numbers 0 – 20',
           maxAns: 20,
-          gen: () => {
-              const a = rand(0, 20);
-              const b = rand(0, a);
-              return { display: `${a} − ${b}`,
-                       answer: a - b };
+          gen(m) {
+              const d = rand(0, m);
+              const b = rand(0, m - d);
+              return { display: `${d + b} − ${b}`,
+                       answer: d };
           }},
         { id: 'div_10',   icon: '÷', cls: 'op-div',
           label: 'a ÷ b = ?',  range: 'numbers 0 – 10',
           maxAns: 10,
-          gen: () => {
-              const b = rand(1, 10);
-              const c = rand(0, Math.floor(10 / b));
-              const a = b * c;
-              return { display: `${a} ÷ ${b}`,
+          gen(m) {
+              const c = rand(0, m);
+              if (c === 0) {
+                  const b = rand(1, Math.max(1, m));
+                  return { display: `0 ÷ ${b}`,
+                           answer: 0 };
+              }
+              const bMax = Math.floor(m / c);
+              if (bMax < 1)
+                  return { display: '0 ÷ 1', answer: 0 };
+              const b = rand(1, bMax);
+              return { display: `${b * c} ÷ ${b}`,
                        answer: c };
           }},
     ];
+
+    // Multiplication helper: pick product uniformly,
+    // then find valid factor pair.
+    function genMul(maxP, maxF) {
+        for (let t = 0; t < 40; t++) {
+            const p = rand(0, maxP);
+            if (p === 0) {
+                const a = rand(0, maxF);
+                const b = a === 0 ? rand(1, maxF) : 0;
+                return { display: `${a} × ${b}`,
+                         answer: 0 };
+            }
+            const pairs = [];
+            for (let a = 1; a <= maxF; a++) {
+                if (p % a === 0) {
+                    const b = p / a;
+                    if (b >= 1 && b <= maxF)
+                        pairs.push([a, b]);
+                }
+            }
+            if (pairs.length > 0) {
+                const [a, b] = pairs[
+                    rand(0, pairs.length - 1)];
+                return { display: `${a} × ${b}`,
+                         answer: p };
+            }
+        }
+        return { display: '1 × 1', answer: 1 };
+    }
+
+    // Compute effective max based on board position.
+    // 4 tiers: ~30%, ~50%, ~80%, 100% of the op's max.
+    function effectiveMax() {
+        const zone = Math.min(3,
+            Math.floor(playerPos / 10));
+        const full = selectedOp.maxAns;
+        const tiers = [
+            Math.max(2, Math.round(full * 0.3)),
+            Math.max(4, Math.round(full * 0.5)),
+            Math.max(7, Math.round(full * 0.8)),
+            full,
+        ];
+        return tiers[zone];
+    }
 
     function rand(lo, hi) {
         return lo + Math.floor(
@@ -393,10 +428,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================
     //  Problem generation — uses selected operation
     // =================================================================
+    let curMax = 10; // current effective max for buttons
+
     function generateProblem() {
+        curMax = effectiveMax();
         let prob;
         for (let t = 0; t < 30; t++) {
-            prob = selectedOp.gen();
+            prob = selectedOp.gen(curMax);
             if (prob.display !== lastDisplay) break;
         }
         lastDisplay = prob.display;
@@ -414,7 +452,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderButtons(correct) {
         numGrid.innerHTML = '';
-        const max = selectedOp.maxAns;
+        const max = curMax;
         const lo = Math.max(0, correct - 5);
         const hi = Math.min(max,
             Math.max(correct + 5, lo + 9));

@@ -17,18 +17,24 @@ document.addEventListener('DOMContentLoaded', () => {
         ],
 
         onNewRound(lv) {
-            let a, b, c;
+            // Pick answer first for uniform distribution
+            let a, b, c, sum;
+            const minSum = Math.max(1, lv.minNum * 3);
             for (let t = 0; t < 50; t++) {
-                a = randRange(lv.minNum, lv.maxNum);
-                b = randRange(lv.minNum, lv.maxNum);
-                c = randRange(lv.minNum, lv.maxNum);
-                if (a + b + c > lv.maxSum
-                    || a + b + c < 1) continue;
+                sum = randRange(minSum, lv.maxSum);
+                const aHi = Math.min(lv.maxNum,
+                    sum - lv.minNum * 2);
+                a = randRange(lv.minNum, aHi);
+                const bHi = Math.min(lv.maxNum,
+                    sum - a - lv.minNum);
+                b = randRange(lv.minNum, bHi);
+                c = sum - a - b;
+                if (c < lv.minNum || c > lv.maxNum)
+                    continue;
                 if (a !== lastA || b !== lastB
                     || c !== lastC) break;
             }
             lastA = a; lastB = b; lastC = c;
-            const sum = a + b + c;
 
             // Pick a different animal type per group
             const idxs = pickDistinct(3, animalFns.length);
