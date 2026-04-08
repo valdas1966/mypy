@@ -240,7 +240,7 @@ body.level-4 {
 }
 
 .question-text {
-    font-size: clamp(1.6rem, 7vw, 2.8rem);
+    font-size: clamp(2.6rem, 11vw, 4.5rem);
     font-weight: 800; color: #333;
     text-align: center; margin: 8px 0;
     text-shadow: 1px 1px 0 rgba(255,255,255,0.8);

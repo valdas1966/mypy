@@ -5,70 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_base/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_base/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_base/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_astar/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_astar/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_astar/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_astar/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_astar/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_bfs/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_bfs/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_bfs/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_bfs/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_bfs/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_2_dijkstra/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_2_dijkstra/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_2_dijkstra/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_2_dijkstra/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_2_dijkstra/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/problem/i_0_base/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/problem/i_0_base/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/problem/i_0_base/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/problem/i_0_base/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/problem/i_0_base/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/problem/i_1_grid/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/problem/i_1_grid/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/problem/i_1_grid/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/problem/i_1_grid/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/problem/i_1_grid/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/solution/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/solution/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/solution/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/solution/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/solution/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/i_0_base/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/i_0_base/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/i_0_base/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/i_0_base/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/i_0_base/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/i_1_cell/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/i_1_cell/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/i_1_cell/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/i_1_cell/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/i_1_cell/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/column-addition/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/column-addition/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/column-subtraction/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/column-subtraction/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/shared/ice-cream.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/triple-addition/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/triple-addition/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kids_math/shared/dress-up.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kids_math/shared/prizes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.claude/settings.local.json" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/problem/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/problem/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/problem/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/problem/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/problem/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/state/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/state/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/state/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/state/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/state/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/kids_math/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kids_math/addition/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/kids_math/addition/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kids_math/column-addition/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/kids_math/column-addition/game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kids_math/column-addition/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/kids_math/column-addition/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kids_math/column-subtraction/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/kids_math/column-subtraction/game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kids_math/column-subtraction/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/kids_math/column-subtraction/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kids_math/counting/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/kids_math/counting/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kids_math/shared/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/kids_math/shared/game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kids_math/shared/ice-cream.js" beforeDir="false" afterPath="$PROJECT_DIR$/kids_math/shared/ice-cream.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kids_math/shared/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/kids_math/shared/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kids_math/subtraction/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/kids_math/subtraction/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kids_math/triple-addition/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/kids_math/triple-addition/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +48,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "a1e5e179-580e-4572-8eba-3d60343860e3"
+    "accountId": "0f4621b9-87f9-4a4a-9ceb-401ed7593bcc"
   }
 }]]></component>
   <component name="HighlightingSettingsPerFile">
@@ -1172,7 +1125,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/services/drive/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1195,7 +1147,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/04/closed_categories/group.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1218,7 +1169,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1241,7 +1191,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/04/closed_categories/run_discovered.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1261,7 +1210,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_search/algos/i_1_spp/i_1_astar/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -1277,7 +1225,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_gui/elements/i_0_element/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -1335,7 +1282,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-ca5e2b39c7df-6e1f45a539f7-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.29346.308" />
+        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
       </set>
     </attachedChunks>
   </component>

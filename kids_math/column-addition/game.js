@@ -6,15 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let step = 'ones';
     let prob = null;
     let needTens = false;
-    let completed = 0;
     let pendingPrize = false;
     let showingResult = false;
-
-    const ICE_CREAM_EVERY = 3;
 
     GameEngine.init({
 
         title: '!חיבור<br>בטור',
+        prizeMode: 'manual',
 
         levels: [
             { minNum: 11, maxNum: 29, carryMode: 'never'  },
@@ -55,14 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pendingPrize) {
                 pendingPrize = false;
             } else if (prob !== null) {
-                // Previous full problem completed
-                completed++;
-                if (completed % ICE_CREAM_EVERY === 0) {
+                if (PrizeManager.check(() => {
+                    GameEngine.newRound();
+                })) {
                     pendingPrize = true;
                     GameEngine.state.answering = false;
-                    showIceCreamPrize(() => {
-                        GameEngine.newRound();
-                    });
                     return -1;
                 }
             }
@@ -219,5 +214,5 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('number-grid').innerHTML = '';
     }
 
-    // Ice cream prize uses shared/ice-cream.js
+    // Prizes use shared/prizes.js (random type + interval)
 });

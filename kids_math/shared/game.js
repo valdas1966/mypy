@@ -69,6 +69,9 @@ const GameEngine = {
             correctAnswer: 0,
             answering: true,
         };
+        if (typeof PrizeManager !== 'undefined') {
+            PrizeManager.init();
+        }
         this._updateBodyLevel();
         this._renderStars();
         this._renderLevel();
@@ -151,9 +154,9 @@ const GameEngine = {
                 showFeedback('Level Up!', 'levelup', 2200);
                 spawnConfetti(30);
             }, 800);
-            setTimeout(() => this.newRound(), 3200);
+            setTimeout(() => this._maybeShowPrize(), 3200);
         } else {
-            setTimeout(() => this.newRound(), 1400);
+            setTimeout(() => this._maybeShowPrize(), 1400);
         }
     },
 
@@ -174,6 +177,21 @@ const GameEngine = {
             btn.classList.remove('shake');
             this.state.answering = true;
         }, 800);
+    },
+
+    // =====================================================================
+    //  Prize check — auto-trigger for simple games
+    // =====================================================================
+    _maybeShowPrize() {
+        if (this.config.prizeMode === 'manual') {
+            this.newRound();
+            return;
+        }
+        if (typeof PrizeManager !== 'undefined' &&
+            PrizeManager.check(() => this.newRound())) {
+            return;
+        }
+        this.newRound();
     },
 
     // =====================================================================

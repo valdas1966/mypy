@@ -6,15 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let step = 'ones';
     let prob = null;
     let needTens = false;
-    let completed = 0;
     let pendingPrize = false;
     let showingResult = false;
-
-    const ICE_CREAM_EVERY = 3;
 
     GameEngine.init({
 
         title: '!חיסור<br>בטור',
+        prizeMode: 'manual',
 
         levels: [
             { minA: 15, maxA: 30, minB: 10, maxB: 20,
@@ -58,13 +56,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pendingPrize) {
                 pendingPrize = false;
             } else if (prob !== null) {
-                completed++;
-                if (completed % ICE_CREAM_EVERY === 0) {
+                if (PrizeManager.check(() => {
+                    GameEngine.newRound();
+                })) {
                     pendingPrize = true;
                     GameEngine.state.answering = false;
-                    showIceCreamPrize(() => {
-                        GameEngine.newRound();
-                    });
                     return -1;
                 }
             }
@@ -277,5 +273,5 @@ document.addEventListener('DOMContentLoaded', () => {
             '';
     }
 
-    // Ice cream prize uses shared/ice-cream.js
+    // Prizes use shared/prizes.js (random type + interval)
 });
