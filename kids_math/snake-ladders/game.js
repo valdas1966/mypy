@@ -1,5 +1,5 @@
 // =========================================================================
-//  Snakes & Ladders — addition board game
+//  Snakes & Ladders — 3 correct in a row to move
 // =========================================================================
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -7,23 +7,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const COLS = 8;
     const ROWS = 5;
     const TOTAL = COLS * ROWS; // 40
+    const STREAK_NEEDED = 3;
 
     const LADDERS = { 4: 14, 9: 22, 20: 29, 28: 36 };
     const SNAKES  = { 17: 7, 26: 12, 31: 19, 38: 24 };
-
-    const ROW_COLORS = [
-        '#E1BEE7', '#FFF9C4', '#F8BBD0',
-        '#BBDEFB', '#C8E6C9',
-    ];
 
     const TOKENS = ['🐱', '🐰', '🦊', '🐻', '🐸',
                     '🦄', '🐶', '🐼'];
 
     // --- State ---
     let position = 0;
+    let streak = 0;
     let answering = false;
     let currentProblem = null;
-    let correctCount = 0;
     let tokenEmoji = '🐱';
 
     // --- DOM refs ---
@@ -35,6 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const qText     = document.getElementById('question-text');
     const numGrid   = document.getElementById('number-grid');
     const linesEl   = document.getElementById('sl-lines');
+    const streakDots = [
+        document.getElementById('sd-1'),
+        document.getElementById('sd-2'),
+        document.getElementById('sd-3'),
+    ];
 
     // =================================================================
     //  Welcome / Champion screens
@@ -53,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     // =================================================================
-    //  Build board (once)
+    //  Build board
     // =================================================================
     function buildBoard() {
         boardEl.innerHTML = '';
@@ -93,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================
     function drawLines() {
         let svg = '';
-        // Ladders — golden dashed
         for (const [from, to] of Object.entries(LADDERS)) {
             const p1 = squareToCenter(+from);
             const p2 = squareToCenter(+to);
@@ -102,10 +102,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 stroke="#FFD700" stroke-width="6"
                 stroke-dasharray="12,6"
                 stroke-linecap="round" opacity="0.7"/>`;
-            // Rungs
             const dx = p2.x - p1.x, dy = p2.y - p1.y;
             const len = Math.sqrt(dx * dx + dy * dy);
-            const nx = -dy / len * 12, ny = dx / len * 12;
+            const nx = -dy / len * 12,
+                  ny =  dx / len * 12;
             const steps = Math.max(2,
                 Math.round(len / 40));
             for (let i = 1; i < steps; i++) {
@@ -120,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     opacity="0.5"/>`;
             }
         }
-        // Snakes — red wavy
         for (const [from, to] of Object.entries(SNAKES)) {
             const p1 = squareToCenter(+from);
             const p2 = squareToCenter(+to);
@@ -132,23 +131,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 stroke="#EF5350" stroke-width="6"
                 fill="none" stroke-linecap="round"
                 opacity="0.65"/>`;
-            // Snake head dot
             svg += `<circle cx="${p1.x}" cy="${p1.y}"
                 r="6" fill="#D32F2F" opacity="0.7"/>`;
         }
         linesEl.innerHTML = svg;
     }
 
-    // Map visual grid position to square number
     function gridToSquare(vr, vc) {
-        const row = ROWS - 1 - vr; // bottom row = 0
+        const row = ROWS - 1 - vr;
         const ltr = row % 2 === 0;
         const col = ltr ? vc : COLS - 1 - vc;
         return row * COLS + col + 1;
     }
 
-    // Map square number to SVG viewBox coordinates
-    // (viewBox is 800 x 500)
     function squareToCenter(sq) {
         const row = Math.floor((sq - 1) / COLS);
         const col = (sq - 1) % COLS;
@@ -167,11 +162,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function startGame() {
         initAudio();
         position = 0;
-        correctCount = 0;
+        streak = 0;
         answering = false;
         tokenEmoji = TOKENS[
             Math.floor(Math.random() * TOKENS.length)];
-        PrizeManager.init();
         buildBoard();
         showScreen('game-screen');
         document.body.className = 'level-1';
@@ -180,7 +174,21 @@ document.addEventListener('DOMContentLoaded', () => {
         tokenEl.style.display = 'none';
         diceEl.textContent = '';
         updatePosDisplay();
+        renderStreak();
         setTimeout(() => newRound(), 500);
+    }
+
+    // =================================================================
+    //  Streak display
+    // =================================================================
+    function renderStreak() {
+        for (let i = 0; i < STREAK_NEEDED; i++) {
+            if (i < streak) {
+                streakDots[i].classList.add('filled');
+            } else {
+                streakDots[i].classList.remove('filled');
+            }
+        }
     }
 
     // =================================================================
@@ -192,6 +200,10 @@ document.addEventListener('DOMContentLoaded', () => {
             `${currentProblem.a} + ${currentProblem.b}`
             + ` = <b>?</b>`;
         renderButtons(currentProblem.sum);
+        if (position > 0) {
+            requestAnimationFrame(() =>
+                positionToken(position));
+        }
         answering = true;
     }
 
@@ -252,41 +264,55 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // =================================================================
+    //  Correct — increment streak, move on 3
+    // =================================================================
     function onCorrect(btn) {
-        correctCount++;
+        streak++;
+        renderStreak();
         sfxCorrect();
         btn.classList.add('correct-flash');
-        showFeedback(
-            ['Great!','Awesome!','Super!','Yay!','Wow!'][
-                Math.floor(Math.random() * 5)],
-            'correct', 1000);
 
-        // Roll dice after short delay
-        setTimeout(() => {
-            const roll = 1 + Math.floor(
-                Math.random() * 3);
-            showDice(roll, () => {
-                moveToken(roll, () => {
-                    // Check prize
-                    if (position < TOTAL &&
-                        PrizeManager.check(
-                            () => newRound())) {
-                        return;
-                    }
-                    if (position < TOTAL) {
-                        newRound();
-                    }
+        if (streak < STREAK_NEEDED) {
+            // Not enough yet — praise and next question
+            showFeedback(
+                `${streak} / ${STREAK_NEEDED} ⭐`,
+                'correct', 1000);
+            setTimeout(() => newRound(), 1200);
+
+        } else {
+            // 3 in a row! Roll dice and move
+            streak = 0;
+            renderStreak();
+            showFeedback('Move!', 'levelup', 1400);
+            sfxLevelUp();
+
+            setTimeout(() => {
+                const roll = 1 + Math.floor(
+                    Math.random() * 3);
+                showDice(roll, () => {
+                    moveToken(roll, () => {
+                        if (position < TOTAL) {
+                            newRound();
+                        }
+                    });
                 });
-            });
-        }, 800);
+            }, 1000);
+        }
     }
 
+    // =================================================================
+    //  Wrong — reset streak
+    // =================================================================
     function onWrong(btn) {
         sfxWrong();
         btn.classList.add('shake');
+        const hadStreak = streak > 0;
+        streak = 0;
+        renderStreak();
         showFeedback(
-            ['Try again!','Almost!','One more try!'][
-                Math.floor(Math.random() * 3)],
+            hadStreak ? 'Oops! Start over!'
+                      : 'Try again!',
             'wrong', 1000);
         setTimeout(() => {
             btn.classList.remove('shake');
@@ -302,9 +328,13 @@ document.addEventListener('DOMContentLoaded', () => {
         numGrid.innerHTML = '';
         diceEl.textContent = '🎲 ' + roll;
         diceEl.classList.remove('sl-roll');
-        void diceEl.offsetWidth; // reflow
+        void diceEl.offsetWidth;
         diceEl.classList.add('sl-roll');
         sfxPop();
+        if (position > 0) {
+            requestAnimationFrame(() =>
+                positionToken(position));
+        }
         setTimeout(cb, 900);
     }
 
@@ -314,14 +344,30 @@ document.addEventListener('DOMContentLoaded', () => {
     function moveToken(steps, cb) {
         diceEl.textContent = '';
         if (position === 0) {
+            tokenEl.style.transition = 'none';
+            position = 1;
+            positionToken(position);
             tokenEl.style.display = 'flex';
+            updatePosDisplay();
+            sfxPop();
+            highlightCell(position);
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    tokenEl.style.transition = '';
+                    if (steps > 1) {
+                        moveStep(steps - 1, cb);
+                    } else {
+                        checkSquare(cb);
+                    }
+                });
+            });
+            return;
         }
         moveStep(steps, cb);
     }
 
     function moveStep(remaining, cb) {
         if (remaining <= 0) {
-            // Check snake or ladder
             checkSquare(cb);
             return;
         }
@@ -407,7 +453,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let prevHighlight = null;
 
     function highlightCell(sq) {
-        // Clear previous highlight
         if (prevHighlight) {
             prevHighlight.style.boxShadow = '';
         }
@@ -450,7 +495,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function updatePosDisplay() {
         posEl.textContent =
             `Square ${position} / ${TOTAL}`;
-        // Update background based on progress
         const pct = position / TOTAL;
         if (pct > 0.75) {
             document.body.className = 'level-4';
@@ -470,7 +514,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .classList.remove('hidden');
     }
 
-    // Reposition token on window resize
     window.addEventListener('resize', () => {
         if (position > 0) {
             tokenEl.style.transition = 'none';

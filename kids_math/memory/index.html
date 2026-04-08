@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Memory — Hebrew Letters!</title>
+<link rel="stylesheet" href="../shared/styles.css">
+<style>
+/* ===============================================================
+   Memory Game — Hebrew Letters
+   =============================================================== */
+.mem-layout {
+    display: flex; flex-direction: column;
+    align-items: center;
+    min-height: 100vh; padding: 8px;
+    box-sizing: border-box;
+}
+.mem-top-bar {
+    display: flex; justify-content: space-between;
+    align-items: center; width: 100%;
+    max-width: 440px; padding: 4px 8px;
+    font-weight: 800;
+    font-size: clamp(0.85rem, 3vw, 1.1rem);
+}
+.mem-top-bar .home-btn {
+    text-decoration: none; font-size: 1.5em;
+}
+.mem-level {
+    color: #E65100; background: rgba(255,255,255,0.8);
+    border-radius: 12px; padding: 2px 10px;
+}
+.mem-moves {
+    color: #555; background: rgba(255,255,255,0.7);
+    border-radius: 12px; padding: 2px 10px;
+}
+.mem-mute-btn {
+    background: none; border: none;
+    font-size: 1.3em; cursor: pointer;
+}
+
+/* --- Peek banner --- */
+.mem-peek {
+    font-size: clamp(1.2rem, 5vw, 2rem);
+    font-weight: 900; color: #E65100;
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.8);
+    min-height: 1.5em; text-align: center;
+    animation: peekPulse 0.8s ease-in-out infinite
+               alternate;
+}
+@keyframes peekPulse {
+    0%   { transform: scale(1); }
+    100% { transform: scale(1.08); }
+}
+
+/* --- Card grid --- */
+.mem-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--mem-cols, 2), 1fr);
+    gap: clamp(6px, 2vw, 10px);
+    width: 100%; max-width: 440px;
+    margin: 8px auto;
+    justify-items: center;
+}
+
+/* --- Card --- */
+.mem-card {
+    width: 100%; aspect-ratio: 1;
+    perspective: 800px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.mem-card-inner {
+    position: relative;
+    width: 100%; height: 100%;
+    transition: transform 0.45s ease;
+    transform-style: preserve-3d;
+}
+.mem-card.flipped .mem-card-inner,
+.mem-card.matched .mem-card-inner {
+    transform: rotateY(180deg);
+}
+
+/* Card back */
+.mem-card-back {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: clamp(8px, 3vw, 14px);
+    background: linear-gradient(135deg,
+        #667eea 0%, #764ba2 100%);
+    display: flex; align-items: center;
+    justify-content: center;
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    color: rgba(255,255,255,0.35);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    user-select: none;
+}
+.mem-card-back::before {
+    content: '⭐';
+}
+
+/* Card front */
+.mem-card-front {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: rotateY(180deg);
+    border-radius: clamp(8px, 3vw, 14px);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    gap: 2px;
+    user-select: none;
+}
+.mem-char {
+    font-size: clamp(1.6rem, 8vw, 3.2rem);
+    font-weight: 900; color: #FFF;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+    line-height: 1.1;
+}
+.mem-name {
+    font-size: clamp(0.55rem, 2.2vw, 0.85rem);
+    color: rgba(255,255,255,0.85);
+    font-weight: 700;
+}
+
+/* Matched state */
+.mem-card.matched {
+    cursor: default;
+}
+.mem-card.matched .mem-card-inner {
+    transform: rotateY(180deg) scale(0.92);
+    transition: transform 0.4s ease;
+}
+.mem-card.matched .mem-card-front {
+    box-shadow: 0 0 16px rgba(255,215,0,0.5);
+    border: 3px solid rgba(255,215,0,0.6);
+}
+
+/* No-match shake */
+.mem-card.no-match .mem-card-inner {
+    animation: cardShake 0.4s ease;
+}
+@keyframes cardShake {
+    0%, 100% { transform: rotateY(180deg)
+               translateX(0); }
+    25%      { transform: rotateY(180deg)
+               translateX(-6px); }
+    75%      { transform: rotateY(180deg)
+               translateX(6px); }
+}
+
+/* Level complete bounce */
+.mem-card.bounce .mem-card-inner {
+    animation: cardBounce 0.5s ease;
+}
+@keyframes cardBounce {
+    0%, 100% { transform: rotateY(180deg) scale(0.92); }
+    50%      { transform: rotateY(180deg) scale(1.05); }
+}
+
+/* --- Pairs-left display --- */
+.mem-pairs-left {
+    font-size: clamp(0.8rem, 3vw, 1.1rem);
+    font-weight: 700; color: #666;
+    text-align: center; min-height: 1.4em;
+    margin-top: 4px;
+}
+</style>
+</head>
+<body>
+
+<!-- ===== WELCOME ===== -->
+<div id="welcome-screen" class="screen">
+    <div class="welcome-title" id="welcome-title">
+        !משחק זיכרון<br>אותיות
+    </div>
+    <div class="welcome-animals" id="welcome-animals"></div>
+    <button class="play-btn" id="play-btn">!שחקו</button>
+</div>
+
+<!-- ===== GAME ===== -->
+<div id="game-screen" class="screen hidden">
+    <div class="mem-layout">
+        <div class="mem-top-bar">
+            <a class="home-btn" href="../"
+               title="Menu">&#127968;</a>
+            <span class="mem-level"
+                  id="mem-level">שלב 1</span>
+            <span class="mem-moves"
+                  id="mem-moves">0 מהלכים</span>
+            <button class="mem-mute-btn"
+                    id="mem-mute">&#128264;</button>
+        </div>
+        <div class="mem-peek" id="mem-peek"></div>
+        <div class="mem-grid" id="mem-grid"></div>
+        <div class="mem-pairs-left"
+             id="mem-pairs-left"></div>
+    </div>
+</div>
+
+<!-- ===== CHAMPION ===== -->
+<div id="champion-screen" class="screen hidden">
+    <div class="trophy">&#127942;</div>
+    <div class="champion-title">!אלוף הזיכרון</div>
+    <div class="welcome-animals"
+         id="champion-animals"></div>
+    <button class="play-again-btn"
+            id="play-again-btn">!שחקו שוב</button>
+</div>
+
+<!-- ===== FEEDBACK ===== -->
+<div class="feedback" id="feedback"></div>
+
+<script src="../shared/audio.js"></script>
+<script src="../shared/animals.js"></script>
+<script src="../shared/effects.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
