@@ -108,7 +108,8 @@
       "Bash(tectonic report_mmspp_session.tex)",
       "Bash(tectonic report_omspp_session.tex)",
       "Bash(tectonic report_mospp_session.tex)",
-      "Bash(node -e ':*)"
+      "Bash(node -e ':*)",
+      "Bash(read id:*)"
     ]
   }
 }

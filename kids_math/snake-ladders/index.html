@@ -11,6 +11,48 @@
 /* ===============================================================
    Snakes & Ladders — game-specific styles
    =============================================================== */
+
+/* --- Selection screen --- */
+.sl-select-title {
+    font-size: clamp(1.4rem, 6vw, 2.5rem);
+    font-weight: 900; color: #E65100;
+    text-shadow: 2px 2px 0 #FFCC80;
+    text-align: center; margin-bottom: 12px;
+}
+.sl-animal-grid {
+    display: flex; flex-wrap: wrap;
+    justify-content: center; gap: 12px;
+    max-width: 340px; margin: 0 auto 20px;
+}
+.sl-animal-btn {
+    width: clamp(56px, 16vw, 76px);
+    height: clamp(56px, 16vw, 76px);
+    border-radius: 50%; border: 4px solid #E0E0E0;
+    background: #FFF; font-size: clamp(1.8rem, 8vw, 2.8rem);
+    display: flex; align-items: center;
+    justify-content: center; cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s,
+                box-shadow 0.2s;
+    -webkit-tap-highlight-color: transparent;
+}
+.sl-animal-btn:active { transform: scale(0.93); }
+.sl-animal-btn.selected {
+    border-color: #FFD700;
+    box-shadow: 0 0 18px rgba(255,215,0,0.5);
+    transform: scale(1.12);
+    background: #FFF8E1;
+}
+.sl-vs-label {
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    font-weight: 800; color: #555;
+    text-align: center; margin: 10px 0;
+}
+.sl-computer-preview {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+    text-align: center; margin-bottom: 16px;
+}
+
+/* --- Layout --- */
 .sl-layout {
     display: flex; flex-direction: column;
     align-items: center;
@@ -21,21 +63,35 @@
     display: flex; justify-content: space-between;
     align-items: center; width: 100%;
     max-width: 440px; padding: 4px 8px;
-    font-weight: 800; font-size: clamp(0.9rem, 3vw, 1.2rem);
+    font-weight: 800;
+    font-size: clamp(0.8rem, 2.8vw, 1.05rem);
 }
 .sl-top-bar .home-btn {
-    text-decoration: none; font-size: 1.5em;
-}
-.sl-pos-display {
-    color: #E65100; background: rgba(255,255,255,0.8);
-    border-radius: 12px; padding: 2px 10px;
+    text-decoration: none; font-size: 1.4em;
 }
 .sl-mute-btn {
     background: none; border: none;
     font-size: 1.3em; cursor: pointer;
 }
+.sl-scoreboard {
+    display: flex; gap: 8px; align-items: center;
+}
+.sl-score-item {
+    display: flex; align-items: center; gap: 3px;
+    padding: 2px 8px; border-radius: 10px;
+    background: rgba(255,255,255,0.7);
+    transition: background 0.3s, box-shadow 0.3s;
+}
+.sl-score-item.active-player {
+    background: rgba(255,152,0,0.25);
+    box-shadow: 0 0 8px rgba(255,152,0,0.3);
+}
+.sl-score-item.active-computer {
+    background: rgba(92,107,192,0.2);
+    box-shadow: 0 0 8px rgba(92,107,192,0.3);
+}
 
-/* --- Board --- */
+/* --- Board ---- */
 .sl-board-wrap {
     position: relative; width: 100%;
     max-width: 440px; margin: 4px auto;
@@ -44,11 +100,8 @@
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(5, 1fr);
-    gap: 3px;
-    width: 100%;
-    aspect-ratio: 8 / 5;
-    border-radius: 12px;
-    padding: 4px;
+    gap: 3px; width: 100%; aspect-ratio: 8 / 5;
+    border-radius: 12px; padding: 4px;
     background: rgba(255,255,255,0.35);
     box-shadow: 0 4px 18px rgba(0,0,0,0.12);
 }
@@ -57,20 +110,12 @@
     align-items: center; justify-content: center;
     border-radius: 6px;
     font-size: clamp(0.65rem, 2.4vw, 0.95rem);
-    font-weight: 700;
-    position: relative;
+    font-weight: 700; position: relative;
     transition: box-shadow 0.3s;
-    line-height: 1.1;
-    user-select: none;
+    line-height: 1.1; user-select: none;
 }
-.sl-cell-num {
-    opacity: 0.7;
-    font-size: 0.85em;
-}
-.sl-cell-icon {
-    font-size: 1.2em;
-    line-height: 1;
-}
+.sl-cell-num { opacity: 0.7; font-size: 0.85em; }
+.sl-cell-icon { font-size: 1.2em; line-height: 1; }
 .sl-cell.sl-ladder {
     box-shadow: inset 0 0 0 2.5px #FFD700,
                 0 0 8px rgba(255,215,0,0.4);
@@ -84,52 +129,91 @@
         #FFD700, #FFA000) !important;
     box-shadow: 0 0 12px rgba(255,215,0,0.6);
 }
-
-/* Row colors */
 .sl-row-0 { background: #E1BEE7; }
 .sl-row-1 { background: #FFF9C4; }
 .sl-row-2 { background: #F8BBD0; }
 .sl-row-3 { background: #BBDEFB; }
 .sl-row-4 { background: #C8E6C9; }
 
-/* --- Token --- */
+/* --- Tokens --- */
 .sl-token {
     position: absolute;
-    width: clamp(28px, 8vw, 44px);
-    height: clamp(28px, 8vw, 44px);
+    width: clamp(24px, 7vw, 38px);
+    height: clamp(24px, 7vw, 38px);
     border-radius: 50%;
-    background: #FF6F00;
     border: 3px solid #FFF;
     box-shadow: 0 3px 8px rgba(0,0,0,0.3);
     display: flex; align-items: center;
     justify-content: center;
-    font-size: clamp(16px, 5vw, 26px);
+    font-size: clamp(13px, 4.2vw, 22px);
     z-index: 5;
-    transition: left 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
-                top 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: left 0.5s cubic-bezier(0.34,1.56,0.64,1),
+                top 0.5s cubic-bezier(0.34,1.56,0.64,1);
     pointer-events: none;
 }
 .sl-token.sl-slide {
     transition: left 0.8s ease-in-out,
                 top 0.8s ease-in-out;
 }
+#sl-token-player  { background: #FF6F00; z-index: 6; }
+#sl-token-computer { background: #5C6BC0; z-index: 5; }
+
+/* --- Turn indicator --- */
+.sl-turn-banner {
+    font-size: clamp(0.85rem, 3.2vw, 1.15rem);
+    font-weight: 800; text-align: center;
+    padding: 3px 14px; border-radius: 12px;
+    min-height: 1.5em;
+    transition: background 0.3s, color 0.3s;
+}
+.sl-turn-banner.player-turn {
+    background: rgba(255,152,0,0.2);
+    color: #E65100;
+}
+.sl-turn-banner.computer-turn {
+    background: rgba(92,107,192,0.2);
+    color: #3949AB;
+}
+
+/* --- Streak --- */
+.sl-streak {
+    display: flex; justify-content: center;
+    gap: 8px; margin: 4px 0;
+}
+.sl-streak-dot {
+    width: clamp(20px, 5.5vw, 30px);
+    height: clamp(20px, 5.5vw, 30px);
+    border-radius: 50%; border: 3px solid #FFB300;
+    background: transparent;
+    display: flex; align-items: center;
+    justify-content: center;
+    font-size: clamp(11px, 3vw, 18px);
+    transition: background 0.3s, transform 0.3s,
+                border-color 0.3s;
+}
+.sl-streak-dot.filled {
+    background: #FFD600; border-color: #FF8F00;
+    transform: scale(1.15);
+    box-shadow: 0 0 8px rgba(255,214,0,0.5);
+}
+.sl-streak-dot.filled::after { content: '⭐'; }
 
 /* --- Dice --- */
 .sl-dice {
-    font-size: clamp(2.5rem, 10vw, 4.5rem);
-    font-weight: 900;
-    color: #E65100;
+    font-size: clamp(2.2rem, 9vw, 4rem);
+    font-weight: 900; color: #E65100;
     text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
-    min-height: 1.2em;
-    text-align: center;
-    animation: none;
+    min-height: 1.2em; text-align: center;
 }
+.sl-dice.computer-dice { color: #3949AB; }
 .sl-dice.sl-roll {
     animation: diceRoll 0.6s ease-out;
 }
 @keyframes diceRoll {
-    0%   { transform: scale(0.2) rotate(-180deg); opacity: 0; }
-    60%  { transform: scale(1.3) rotate(10deg); opacity: 1; }
+    0%   { transform: scale(0.2) rotate(-180deg);
+           opacity: 0; }
+    60%  { transform: scale(1.3) rotate(10deg);
+           opacity: 1; }
     100% { transform: scale(1) rotate(0deg); }
 }
 
@@ -138,25 +222,20 @@
     width: 100%; max-width: 440px;
     text-align: center;
 }
-.sl-question-area .question-text {
-    margin: 2px 0;
-}
-.sl-question-area .number-grid {
-    margin-top: 4px;
-}
+.sl-question-area .question-text { margin: 2px 0; }
+.sl-question-area .number-grid { margin-top: 4px; }
 
 /* --- Event banner --- */
 .sl-event {
     position: fixed; top: 50%; left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    font-size: clamp(1.5rem, 7vw, 3rem);
+    transform: translate(-50%,-50%) scale(0);
+    font-size: clamp(1.3rem, 6vw, 2.6rem);
     font-weight: 900; color: #FFF;
-    padding: 16px 32px; border-radius: 20px;
+    padding: 14px 28px; border-radius: 20px;
     z-index: 20;
     text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
     animation: eventPop 1.8s ease-out forwards;
-    pointer-events: none;
-    white-space: nowrap;
+    pointer-events: none; white-space: nowrap;
 }
 .sl-event.sl-ladder-event {
     background: linear-gradient(135deg, #FFD700, #FFA000);
@@ -165,49 +244,38 @@
     background: linear-gradient(135deg, #FF5252, #D32F2F);
 }
 @keyframes eventPop {
-    0%   { transform: translate(-50%, -50%) scale(0) rotate(-10deg); }
-    15%  { transform: translate(-50%, -50%) scale(1.2) rotate(5deg); }
-    30%  { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
-    80%  { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
-    100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+    0%   { transform: translate(-50%,-50%)
+           scale(0) rotate(-10deg); }
+    15%  { transform: translate(-50%,-50%)
+           scale(1.2) rotate(5deg); }
+    30%  { transform: translate(-50%,-50%)
+           scale(1) rotate(0deg); }
+    80%  { transform: translate(-50%,-50%)
+           scale(1) rotate(0deg); opacity: 1; }
+    100% { transform: translate(-50%,-50%)
+           scale(0.8); opacity: 0; }
 }
 
-/* --- Streak indicator (3 correct = 1 move) --- */
-.sl-streak {
-    display: flex; justify-content: center;
-    gap: 8px; margin: 4px 0;
-}
-.sl-streak-dot {
-    width: clamp(22px, 6vw, 34px);
-    height: clamp(22px, 6vw, 34px);
-    border-radius: 50%;
-    border: 3px solid #FFB300;
-    background: transparent;
-    display: flex; align-items: center;
-    justify-content: center;
-    font-size: clamp(12px, 3.5vw, 20px);
-    transition: background 0.3s, transform 0.3s,
-                border-color 0.3s;
-}
-.sl-streak-dot.filled {
-    background: #FFD600;
-    border-color: #FF8F00;
-    transform: scale(1.15);
-    box-shadow: 0 0 8px rgba(255,214,0,0.5);
-}
-.sl-streak-dot.filled::after {
-    content: '⭐';
-}
-.sl-streak-label {
-    font-size: clamp(0.7rem, 2.5vw, 0.95rem);
-    font-weight: 700; color: #666;
-    text-align: center;
-}
-
-/* --- SVG overlay for snakes & ladders lines --- */
+/* --- SVG overlay --- */
 .sl-lines-svg {
     position: absolute; inset: 4px;
     pointer-events: none; z-index: 2;
+}
+
+/* --- Computer-wins screen --- */
+.sl-lose-emoji {
+    font-size: clamp(4rem, 15vw, 7rem);
+    text-align: center; margin-bottom: 0.2em;
+}
+.sl-lose-title {
+    font-size: clamp(1.4rem, 6vw, 2.5rem);
+    font-weight: 900; color: #5C6BC0;
+    text-align: center; margin-bottom: 0.3em;
+}
+.sl-lose-subtitle {
+    font-size: clamp(1rem, 4vw, 1.4rem);
+    color: #666; text-align: center;
+    margin-bottom: 1em;
 }
 </style>
 </head>
@@ -215,54 +283,98 @@
 
 <!-- ===== WELCOME ===== -->
 <div id="welcome-screen" class="screen">
-    <div class="welcome-title" id="welcome-title">
+    <div class="welcome-title">
         Snakes &amp;<br>Ladders!
     </div>
     <div class="welcome-animals" id="welcome-animals"></div>
     <button class="play-btn" id="play-btn">PLAY!</button>
 </div>
 
+<!-- ===== ANIMAL SELECT ===== -->
+<div id="select-screen" class="screen hidden">
+    <div class="sl-select-title">
+        Choose your animal!</div>
+    <div class="sl-animal-grid" id="sl-animal-grid">
+    </div>
+    <div class="sl-vs-label" id="sl-vs-label"></div>
+    <div class="sl-computer-preview"
+         id="sl-computer-preview"></div>
+    <button class="play-btn hidden"
+            id="start-btn">GO!</button>
+</div>
+
 <!-- ===== GAME ===== -->
 <div id="game-screen" class="screen hidden">
     <div class="sl-layout">
         <div class="sl-top-bar">
-            <a class="home-btn" href="../" title="Menu">&#127968;</a>
-            <span class="sl-pos-display" id="sl-pos">
-                Square 0 / 40</span>
-            <button class="sl-mute-btn" id="sl-mute">
-                &#128264;</button>
+            <a class="home-btn" href="../"
+               title="Menu">&#127968;</a>
+            <div class="sl-scoreboard">
+                <span class="sl-score-item"
+                      id="score-player">
+                    <span id="sp-emoji"></span>
+                    <span id="sp-sq">0</span>
+                </span>
+                <span style="color:#999">vs</span>
+                <span class="sl-score-item"
+                      id="score-computer">
+                    <span id="sc-emoji"></span>
+                    <span id="sc-sq">0</span>
+                </span>
+            </div>
+            <button class="sl-mute-btn"
+                    id="sl-mute">&#128264;</button>
         </div>
+        <div class="sl-turn-banner"
+             id="sl-turn"></div>
         <div class="sl-board-wrap" id="sl-board-wrap">
             <div class="sl-board" id="sl-board"></div>
             <svg class="sl-lines-svg" id="sl-lines"
                  viewBox="0 0 800 500"
                  preserveAspectRatio="none"></svg>
-            <div class="sl-token" id="sl-token">&#128049;
+            <div class="sl-token" id="sl-token-player">
+            </div>
+            <div class="sl-token" id="sl-token-computer">
             </div>
         </div>
         <div class="sl-question-area">
             <div class="sl-streak" id="sl-streak">
-                <div class="sl-streak-dot" id="sd-1"></div>
-                <div class="sl-streak-dot" id="sd-2"></div>
-                <div class="sl-streak-dot" id="sd-3"></div>
+                <div class="sl-streak-dot" id="sd-1">
+                </div>
+                <div class="sl-streak-dot" id="sd-2">
+                </div>
+                <div class="sl-streak-dot" id="sd-3">
+                </div>
             </div>
-            <div class="sl-streak-label">
-                3 correct in a row to move!</div>
             <div class="sl-dice" id="sl-dice"></div>
-            <div class="question-text" id="question-text">
-            </div>
-            <div class="number-grid" id="number-grid"></div>
+            <div class="question-text"
+                 id="question-text"></div>
+            <div class="number-grid"
+                 id="number-grid"></div>
         </div>
     </div>
 </div>
 
-<!-- ===== CHAMPION ===== -->
+<!-- ===== PLAYER WINS ===== -->
 <div id="champion-screen" class="screen hidden">
     <div class="trophy">&#127942;</div>
     <div class="champion-title">YOU WIN!</div>
-    <div class="welcome-animals" id="champion-animals"></div>
-    <button class="play-again-btn" id="play-again-btn">
-        Play Again!</button>
+    <div class="welcome-animals"
+         id="champion-animals"></div>
+    <button class="play-again-btn"
+            id="play-again-btn">Play Again!</button>
+</div>
+
+<!-- ===== COMPUTER WINS ===== -->
+<div id="lose-screen" class="screen hidden">
+    <div class="sl-lose-emoji" id="lose-emoji"></div>
+    <div class="sl-lose-title">Computer wins!</div>
+    <div class="sl-lose-subtitle">
+        Great effort — try again!</div>
+    <div class="welcome-animals"
+         id="lose-animals"></div>
+    <button class="play-again-btn"
+            id="retry-btn">Try Again!</button>
 </div>
 
 <!-- ===== FEEDBACK ===== -->
