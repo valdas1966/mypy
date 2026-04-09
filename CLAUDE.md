@@ -1,7 +1,11 @@
 # MyPy Framework — Coding Conventions
 
 ## Clarify Before Acting
-Before starting any task, if the prompt is ambiguous, underspecified, or open to multiple interpretations, ask clarifying questions first. Do not assume intent — confirm it. This applies to every prompt, no matter how simple it appears.
+Before starting a task that involves code changes or design decisions, if
+the prompt is ambiguous, underspecified, or open to multiple
+interpretations, ask clarifying questions first. Do not assume intent —
+confirm it. For straightforward operational tasks (run tests, commit,
+format, etc.) proceed directly without asking.
 
 ## Project Structure
 
@@ -30,9 +34,13 @@ Every class module contains a subset of these files:
 | `_factory.py` | If testable | Factory class for creating common instances |
 | `_tester.py` | If testable | pytest unit tests |
 | `_study.py` | No | Exploratory / research scripts |
+| `_run_tests.py` | No | Batch runner for all `_tester.py` in subtree |
+| `_from.py` | No | Static constructors from external formats |
+| `_to.py` | No | Instance conversion methods to external formats |
 | `CLAUDE.md` | Yes | Module-specific docs for Claude Code |
 | `CLAUDE.html` | On demand | Dark-themed HTML docs with TOC/search |
 | `CLAUDE_REVIEW.html` | On demand | Code + design review (10 sections) |
+| `ABOUT.html` | On demand | Visual overview for human reading |
 
 Files prefixed with `_` are internal/private and not imported externally.
 
@@ -70,7 +78,8 @@ Files prefixed with `_` are internal/private and not imported externally.
 - **Instance attributes**: `self._name` (single `_` for protected)
 - **Local aliases**: short names in method bodies — `data = self._data`
 - **Dict attributes**: descriptive prefixed names — `dict_g`, `dict_h`
-- **Constants**: `_UPPER_CASE` — `_SCOPES = [...]`
+- **Module-level constants**: `_UPPER_CASE` (private) — `_SCOPES = [...]`
+- **Class-level constants**: `UPPER_CASE` (public) — `Factory: type = None`
 
 ### Type Variables
 - PascalCase, descriptive, with bound:
@@ -84,8 +93,15 @@ Item = TypeVar('Item')
 
 ## Docstring Conventions
 
+### Separator Width Rule
+The `=` count adjusts to keep total line width at 80 characters:
+| Context | Indentation | `=` count |
+|---------|-------------|-----------|
+| Module-level | 0 spaces | 80 |
+| Class docstring | 4 spaces | 76 |
+| Method docstring | 8 spaces | 72 |
+
 ### Class Docstrings
-Wrapped in `=` separator lines (until max-width of 80 chars per line):
 ```python
 class AStar(Generic[State], AlgoSPP[State, DataHeuristics]):
     """
@@ -96,7 +112,6 @@ class AStar(Generic[State], AlgoSPP[State, DataHeuristics]):
 ```
 
 ### Method Docstrings
-Same separator style, brief single-line description:
 ```python
 def _discover(self, state: State) -> None:
     """
@@ -123,7 +138,7 @@ data.set_best_to_be_parent_of(state=state)
 - Annotate all function parameters and return types.
 - Use `-> None` for methods that return nothing.
 - Use modern union syntax: `type | None` (not `Optional`).
-- Use lowercase generics: `dict[str, any]`, `tuple[int, int]`, `list[str]`.
+- Use lowercase generics: `dict[str, Any]`, `tuple[int, int]`, `list[str]`.
 
 ```python
 def __init__(self,
@@ -209,6 +224,32 @@ class Comparable(Equatable):
         return self.key < other.key
 ```
 
+### Dataclasses vs Manual `__init__`
+Use `@dataclass` for **data-holder classes** with no business logic:
+```python
+@dataclass
+class ResultTest:
+    passed: int = 0
+    failed: int = 0
+    failures: list[str] = field(default_factory=list)
+```
+Use **manual `__init__`** for behavior-rich classes (mixins, algorithms,
+domain objects). Do not use `attrs`.
+
+### Error Handling
+No custom exception classes — use built-in exceptions (`ValueError`,
+`FileNotFoundError`, `TypeError`). For operations that can fail
+partially, capture the error as a string:
+```python
+try:
+    response = requests.get(url=url, timeout=timeout)
+except Exception as e:
+    exception = str(e)
+```
+
+### Async
+Not used. The entire codebase is synchronous.
+
 ---
 
 ## Testing Conventions
@@ -242,9 +283,37 @@ def test_lt(a: Comparable, b: Comparable) -> None:
 
 ---
 
-## __init__.py Convention
+## Import Conventions
 
-Public exports and Factory wiring only:
+### Direct Imports (Preferred)
+Always import from the **specific module**, not from aggregator packages:
+```python
+# GOOD — direct import, no cascade risk
+from f_google.services.drive import Drive
+from f_core.mixins.comparable import Comparable
+from f_search.algos.i_1_spp.i_1_astar import AStar
+
+# AVOID — triggers lazy loading through aggregator __init__.py
+from f_google import Drive
+from f_core.mixins import Comparable
+from f_search.algos.i_1_spp import AStar
+```
+Both forms work, but direct imports are faster and immune to
+dependency failures in sibling packages (e.g., importing `Drive`
+won't fail if `vertexai` for `Gemini` is broken).
+
+### Import Order (PEP 8)
+1. Standard library (`os`, `typing`, `abc`, `collections`)
+2. Third-party (`pytest`, `loguru`, `google.auth`)
+3. Framework (`f_core`, `f_ds`, `f_search`, `f_google`)
+
+Separate groups with a blank line. Use absolute imports throughout.
+
+### __init__.py Convention
+
+Two types of `__init__.py` in this codebase:
+
+**Leaf modules** — Factory wiring (eager imports):
 ```python
 from f_class.main import MyClass
 from f_class._factory import Factory
@@ -252,7 +321,30 @@ from f_class._factory import Factory
 MyClass.Factory = Factory
 ```
 
-Never put logic in `__init__.py`.
+**Aggregator packages** — lazy re-exports (PEP 562 `__getattr__`):
+```python
+__all__ = ['ClassA', 'ClassB']
+
+
+def __getattr__(name: str):
+    _lazy = {
+        'ClassA': 'f_pkg.sub_a',
+        'ClassB': 'f_pkg.sub_b',
+    }
+    if name in _lazy:
+        from importlib import import_module
+        mod = import_module(_lazy[name])
+        val = getattr(mod, name)
+        globals()[name] = val
+        return val
+    raise AttributeError(
+        f"module {__name__!r} has no attribute {name!r}"
+    )
+```
+Lazy aggregators prevent cascade failures: importing one class
+won't trigger loading all sibling packages.
+
+Never put business logic in `__init__.py`.
 
 ---
 
@@ -262,8 +354,13 @@ Never put logic in `__init__.py`.
 |-------------|---------|
 | SPP | Shortest Path Problem (one-to-one) |
 | OMSPP | One-to-Many Shortest Path Problem |
+| MMSPP | Many-to-Many Shortest Path Problem |
+| BFS | Breadth-First Search |
+| HS | Heuristic Search |
 | DS | Data Structures |
 | CS | Computer Science |
+| PSL | Python Standard Library (wrappers) |
+| GUI | Graphical User Interface |
 
 ---
 
@@ -271,9 +368,20 @@ Never put logic in `__init__.py`.
 
 - Python 3.13+ (Conda)
 - Testing: pytest
-- Logging: loguru
+- Logging: `f_log` (wrapper around Python `logging` + `ColorLog`)
 - No linter config — follows PEP 8 by convention
 - Package name: `MyPy`
+
+### Logging Convention
+```python
+from f_log import get_log
+
+_log = get_log(__name__)
+_log.info(f'{cl.label("GET")} {cl.path(url)} {cl.time(elapsed)}')
+```
+Use module-level `_log = get_log(__name__)`. Use standard levels
+(`debug`, `info`, `warning`, `error`). Use `ColorLog` helpers
+for formatted output.
 
 ---
 
@@ -374,24 +482,6 @@ drive.delete(path='2026/04/07/old_file.md')
 - Upload results back to Drive.
 - Do **not** auto-open files — the user views them on Drive.
 
-### Drive Instructions
-
-At the start of each session that involves Google Drive work, read
-all `.md` files from the `Instructions/` folder on Drive:
-```python
-drive = Drive.Factory.valdas()
-for f in drive.files(path='Instructions'):
-    if f.endswith('.md'):
-        print(drive.read(path=f'Instructions/{f}').text)
-```
-
-These instruction files define formats and workflows for:
-- **Session summaries** — `For_Session_Summary.md`
-- **Paper summaries** — `For_Summary.md`
-- **LaTeX documents** — `For_Tex.md`
-
-Always follow the latest version on Drive (not cached copies).
-
 ---
 
 ## Session Management
@@ -404,6 +494,11 @@ or "opening session: drive_refactor"), do the following **immediately**:
 1. **Acknowledge** the session name.
 2. **Read Drive instructions** — read all `.md` files from the
    `Instructions/` folder on Drive to load the latest workflows.
+   These instruction files define formats and workflows for:
+   - **Session summaries** — `For_Session_Summary.md`
+   - **Paper summaries** — `For_Summary.md`
+   - **LaTeX documents** — `For_Tex.md`
+   Always follow the latest version on Drive (not cached copies).
 3. **If continuing a previous session** — read the previous session
    summary from Drive to restore context.
 4. **Create the session folder and skeleton file on Drive**:

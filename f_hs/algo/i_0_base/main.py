@@ -3,6 +3,7 @@ from f_hs.problem.i_0_base.main import ProblemSPP
 from f_hs.solution.main import SolutionSPP
 from f_hs.state.i_0_base.main import StateBase
 from typing import Generic, TypeVar
+from time import time
 
 State = TypeVar('State', bound=StateBase)
 
@@ -44,10 +45,22 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         while self._has_open():
             state = self._pop()
             if state in self._closed:
+                self._record_event(type='pop',
+                                   state=state,
+                                   g=self._g[state],
+                                   skipped=True)
                 continue
+            self._record_event(type='pop',
+                               state=state,
+                               g=self._g[state],
+                               skipped=False)
             if self._is_goal(state):
                 self._goal_reached = state
-                return SolutionSPP(cost=self._g[state])
+                cost = self._g[state]
+                self._record_event(type='goal_found',
+                                   state=state,
+                                   cost=cost)
+                return SolutionSPP(cost=cost)
             self._close(state)
             for child in self.problem.successors(state):
                 self._handle_child(parent=state, child=child)
@@ -68,10 +81,15 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         self._closed.clear()
         self._goal_reached = None
         self._goals_set = set(self.problem.goals)
+        self._recorder.clear()
         for start in self.problem.starts:
             self._g[start] = 0.0
             self._parent[start] = None
             self._push(state=start)
+            self._record_event(type='push',
+                               state=start,
+                               g=0.0,
+                               parent=None)
 
     # ──────────────────────────────────────────────────────
     #  Core Operations
@@ -102,14 +120,47 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         ====================================================================
         """
         if child in self._closed:
+            self._record_event(type='generate',
+                               parent=parent,
+                               child=child,
+                               relaxed=False)
             return
-        new_g = self._g[parent] + self._edge_cost(
-            parent=parent, child=child
-        )
-        if child not in self._g or new_g < self._g[child]:
+        edge_cost = self._edge_cost(parent=parent, child=child)
+        new_g = self._g[parent] + edge_cost
+        old_g = self._g.get(child, float('inf'))
+        if child not in self._g or new_g < old_g:
             self._g[child] = new_g
             self._parent[child] = parent
             self._push(state=child)
+            self._record_event(type='generate',
+                               parent=parent,
+                               child=child,
+                               edge_cost=edge_cost,
+                               new_g=new_g,
+                               old_g=old_g,
+                               relaxed=True)
+            self._record_event(type='push',
+                               state=child,
+                               g=new_g,
+                               parent=parent)
+        else:
+            self._record_event(type='generate',
+                               parent=parent,
+                               child=child,
+                               edge_cost=edge_cost,
+                               new_g=new_g,
+                               old_g=old_g,
+                               relaxed=False)
+
+    def _record_event(self, **kwargs) -> None:
+        """
+        ====================================================================
+         Record a Search Event with Elapsed Time.
+        ====================================================================
+        """
+        if self._recorder:
+            kwargs['elapsed'] = time() - self._time_start
+            self._recorder.record(kwargs)
 
     def _edge_cost(self,
                    parent: State,
@@ -161,6 +212,7 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
          Reconstruct the Path from Start to Goal.
         ====================================================================
         """
+        t_start = time()
         target = goal if goal is not None else self._goal_reached
         if target is None:
             return list()
@@ -170,4 +222,11 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
             path.append(current)
             current = self._parent.get(current)
         path.reverse()
+        if self._recorder:
+            self._recorder.record(
+                dict(type='reconstruct_path',
+                     goal=target,
+                     path_length=len(path),
+                     elapsed=time() - t_start)
+            )
         return path

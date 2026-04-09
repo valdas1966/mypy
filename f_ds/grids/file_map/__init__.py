@@ -1,1 +1,16 @@
-from .u_file_map import UFileMap
+__all__ = ['UFileMap']
+
+
+def __getattr__(name: str):
+    _lazy = {
+        'UFileMap': '.u_file_map',
+    }
+    if name in _lazy:
+        from importlib import import_module
+        mod = import_module(_lazy[name], __package__)
+        val = getattr(mod, name)
+        globals()[name] = val
+        return val
+    raise AttributeError(
+        f"module {__name__!r} has no attribute {name!r}"
+    )

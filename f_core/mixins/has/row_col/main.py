@@ -94,13 +94,22 @@ class HasRowCol(Comparable, Hashable):
         return row_valid and col_valid
 
     @property
+    def rc(self) -> tuple[int, int]:
+        """
+        ========================================================================
+         Return (Row, Col) as a Tuple.
+        ========================================================================
+        """
+        return self.row, self.col
+
+    @property
     def key(self) -> tuple[int, int]:
         """
         ========================================================================
          Prioritize Row over the Col in Comparisons (Clock-Wise Order).
         ========================================================================
         """
-        return self.row, self.col
+        return self.rc
 
     def __str__(self) -> str:
         """

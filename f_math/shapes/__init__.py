@@ -1,1 +1,16 @@
-from f_math.shapes.rect import Rect
+__all__ = ['Rect']
+
+
+def __getattr__(name: str):
+    _lazy = {
+        'Rect': 'f_math.shapes.rect',
+    }
+    if name in _lazy:
+        from importlib import import_module
+        mod = import_module(_lazy[name])
+        val = getattr(mod, name)
+        globals()[name] = val
+        return val
+    raise AttributeError(
+        f"module {__name__!r} has no attribute {name!r}"
+    )

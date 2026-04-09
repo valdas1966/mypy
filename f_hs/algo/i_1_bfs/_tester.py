@@ -1,5 +1,6 @@
 import pytest
 from f_hs.algo.i_1_bfs import BFS
+from f_hs.problem import ProblemSPP
 
 
 @pytest.fixture
@@ -95,6 +96,40 @@ def test_diamond(diamond: BFS) -> None:
     assert len(path) == 3
     assert path[0].key == 'A'
     assert path[-1].key == 'D'
+
+
+def test_recording() -> None:
+    """
+    ========================================================================
+     Test that events are recorded when is_recording=True.
+    ========================================================================
+    """
+    problem = ProblemSPP.Factory.graph_abc()
+    algo = BFS(problem=problem, is_recording=True)
+    solution = algo.run()
+    path = algo.reconstruct_path()
+    events = algo.recorder.events
+    types = [e['type'] for e in events]
+    assert 'push' in types
+    assert 'pop' in types
+    assert 'generate' in types
+    assert 'goal_found' in types
+    assert 'reconstruct_path' in types
+    for e in events:
+        assert 'elapsed' in e
+        assert e['elapsed'] >= 0
+
+
+def test_no_recording() -> None:
+    """
+    ========================================================================
+     Test that no events are recorded when is_recording=False.
+    ========================================================================
+    """
+    problem = ProblemSPP.Factory.graph_abc()
+    algo = BFS(problem=problem, is_recording=False)
+    algo.run()
+    assert len(algo.recorder) == 0
 
 
 def test_elapsed(abc: BFS) -> None:

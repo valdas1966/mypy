@@ -1,2 +1,17 @@
-from f_search.heuristics.phi.main import UPhi
-from f_search.heuristics.phi.main import PhiFunc
+__all__ = ['UPhi', 'PhiFunc']
+
+
+def __getattr__(name: str):
+    _lazy = {
+        'UPhi': 'f_search.heuristics.phi.main',
+        'PhiFunc': 'f_search.heuristics.phi.main',
+    }
+    if name in _lazy:
+        from importlib import import_module
+        mod = import_module(_lazy[name])
+        val = getattr(mod, name)
+        globals()[name] = val
+        return val
+    raise AttributeError(
+        f"module {__name__!r} has no attribute {name!r}"
+    )

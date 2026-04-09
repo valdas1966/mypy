@@ -110,7 +110,11 @@
       "Bash(tectonic report_mospp_session.tex)",
       "Bash(node -e ':*)",
       "Bash(read id:*)",
-      "Bash(tectonic f_quiz_session.tex)"
+      "Bash(tectonic f_quiz_session.tex)",
+      "Bash(tectonic OMSPP.tex)",
+      "Read(//mnt/f/mypy/**)",
+      "Read(//mnt/f/mypy/=== kA* /**)",
+      "Bash(xargs cat:*)"
     ]
   }
 }

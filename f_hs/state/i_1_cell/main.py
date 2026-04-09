@@ -17,6 +17,15 @@ class StateCell(StateBase[CellMap]):
         """
         StateBase.__init__(self, key=key)
 
+    @property
+    def rc(self) -> tuple[int, int]:
+        """
+        ====================================================================
+         Return (Row, Col) of the underlying Cell.
+        ====================================================================
+        """
+        return self.key.rc
+
     def distance(self, other: 'StateCell') -> int:
         """
         ====================================================================

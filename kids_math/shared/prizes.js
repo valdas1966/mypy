@@ -12,7 +12,7 @@ const PrizeManager = {
     },
 
     _rollNext() {
-        this._nextAt = 1 + Math.floor(Math.random() * 5);
+        this._nextAt = 5 + Math.floor(Math.random() * 8);
     },
 
     // Increment counter. If threshold reached, show a random

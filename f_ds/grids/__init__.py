@@ -1,3 +1,18 @@
-from f_ds.grids.grid import GridBase
-from f_ds.grids.grid import GridMap
-from f_ds.grids.cell import CellMap
+__all__ = ['GridBase', 'GridMap', 'CellMap']
+
+
+def __getattr__(name: str):
+    _lazy = {
+        'GridBase': 'f_ds.grids.grid',
+        'GridMap': 'f_ds.grids.grid',
+        'CellMap': 'f_ds.grids.cell',
+    }
+    if name in _lazy:
+        from importlib import import_module
+        mod = import_module(_lazy[name])
+        val = getattr(mod, name)
+        globals()[name] = val
+        return val
+    raise AttributeError(
+        f"module {__name__!r} has no attribute {name!r}"
+    )

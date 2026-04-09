@@ -1,4 +1,24 @@
-from f_google.services.bigquery import BigQuery
-from f_google.services.drive import Drive
-from f_google.services.gemini import Gemini
-from f_google.services.sheets import Spread
+__all__ = [
+    'BigQuery',
+    'Drive',
+    'Gemini',
+    'Spread',
+]
+
+
+def __getattr__(name: str):
+    _lazy = {
+        'BigQuery': 'f_google.services.bigquery',
+        'Drive': 'f_google.services.drive',
+        'Gemini': 'f_google.services.gemini',
+        'Spread': 'f_google.services.sheets',
+    }
+    if name in _lazy:
+        from importlib import import_module
+        mod = import_module(_lazy[name])
+        val = getattr(mod, name)
+        globals()[name] = val
+        return val
+    raise AttributeError(
+        f"module {__name__!r} has no attribute {name!r}"
+    )

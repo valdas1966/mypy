@@ -15,6 +15,11 @@ def __init__(self,
              is_recording: bool = False) -> None
 ```
 
+## Tie-Breaking
+Heap entries are `(f, -g, counter, state)`:
+- **-g**: prefer higher g (deeper nodes, closer to goal)
+- **counter**: unique int, avoids state comparisons entirely
+
 ## Factory
 | Method | Returns | Description |
 |--------|---------|-------------|

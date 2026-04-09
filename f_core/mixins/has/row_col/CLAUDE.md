@@ -26,10 +26,14 @@ def row(self) -> int
 def col(self) -> int
 
 @property
+def rc(self) -> tuple[int, int]
+
+@property
 def key(self) -> tuple[int, int]
 ```
-`key` returns `(row, col)` — row-major order. Satisfies the
-abstract `key` contract from `Comparable` and `Hashable`.
+`rc` returns `(row, col)` as a tuple. `key` delegates to `rc` —
+row-major order. Satisfies the abstract `key` contract from
+`Comparable` and `Hashable`.
 
 ### Methods
 ```python

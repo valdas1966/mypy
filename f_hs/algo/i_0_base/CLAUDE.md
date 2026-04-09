@@ -2,7 +2,8 @@
 
 ## Purpose
 Abstract base class for SPP search algorithms. Implements the
-common search loop. Subclasses provide frontier management.
+common search loop with event recording. Subclasses provide
+frontier management.
 
 ## Public API
 
@@ -26,6 +27,19 @@ def __init__(self,
 | `problem` | `ProblemSPP` | The input problem |
 | `elapsed` | `float` | Execution time (seconds) |
 | `recorder` | `Recorder` | Event recorder |
+
+## Event Recording
+When `is_recording=True`, the recorder captures these events:
+
+| Event | Details | Elapsed |
+|-------|---------|---------|
+| `push` | state, g, parent | since run start |
+| `pop` | state, g, skipped | since run start |
+| `generate` | parent, child, edge_cost, new_g, old_g, relaxed | since run start |
+| `goal_found` | state, cost | since run start |
+| `reconstruct_path` | goal, path_length | own duration |
+
+Events are dicts stored via `Recorder`. No-op when inactive.
 
 ## Internal Data
 | Attribute | Type | Description |

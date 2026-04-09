@@ -1,1 +1,16 @@
-from .main import EndpointVideosByMusic
+__all__ = ['EndpointVideosByMusic']
+
+
+def __getattr__(name: str):
+    _lazy = {
+        'EndpointVideosByMusic': '.main',
+    }
+    if name in _lazy:
+        from importlib import import_module
+        mod = import_module(_lazy[name], __package__)
+        val = getattr(mod, name)
+        globals()[name] = val
+        return val
+    raise AttributeError(
+        f"module {__name__!r} has no attribute {name!r}"
+    )

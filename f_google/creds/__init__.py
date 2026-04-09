@@ -1,2 +1,17 @@
-from f_google.creds.auth import Auth
-from f_google.creds.oauth import OAuth
+__all__ = ['Auth', 'OAuth']
+
+
+def __getattr__(name: str):
+    _lazy = {
+        'Auth': 'f_google.creds.auth',
+        'OAuth': 'f_google.creds.oauth',
+    }
+    if name in _lazy:
+        from importlib import import_module
+        mod = import_module(_lazy[name])
+        val = getattr(mod, name)
+        globals()[name] = val
+        return val
+    raise AttributeError(
+        f"module {__name__!r} has no attribute {name!r}"
+    )

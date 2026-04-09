@@ -1,2 +1,17 @@
-from f_psl.pandas.df import UDf
-from f_psl.pandas.csv import UCsv
+__all__ = ['UDf', 'UCsv']
+
+
+def __getattr__(name: str):
+    _lazy = {
+        'UDf': 'f_psl.pandas.df',
+        'UCsv': 'f_psl.pandas.csv',
+    }
+    if name in _lazy:
+        from importlib import import_module
+        mod = import_module(_lazy[name])
+        val = getattr(mod, name)
+        globals()[name] = val
+        return val
+    raise AttributeError(
+        f"module {__name__!r} has no attribute {name!r}"
+    )

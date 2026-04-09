@@ -11,6 +11,11 @@ Adds Manhattan distance calculation.
 def __init__(self, key: CellMap) -> None
 ```
 
+### Properties
+| Property | Type | Description |
+|----------|------|-------------|
+| `rc` | `tuple[int, int]` | (row, col) of the underlying cell |
+
 ### Methods
 | Method | Signature | Description |
 |--------|-----------|-------------|
