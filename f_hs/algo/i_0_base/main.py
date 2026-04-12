@@ -3,7 +3,6 @@ from f_hs.problem.i_0_base.main import ProblemSPP
 from f_hs.solution.main import SolutionSPP
 from f_hs.state.i_0_base.main import StateBase
 from typing import Generic, TypeVar
-from time import time
 
 State = TypeVar('State', bound=StateBase)
 
@@ -31,9 +30,9 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         self._closed: set[State] = set()
         self._goal_reached: State | None = None
 
-    # ──────────────────────────────────────────────────────
-    #  The Search Loop
-    # ──────────────────────────────────────────────────────
+    # ──────────────────────────────────────────────────
+    #  The Search Loop (Classical A* Pseudocode)
+    # ──────────────────────────────────────────────────
 
     def _run(self) -> SolutionSPP:
         """
@@ -44,31 +43,19 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         self._init_search()
         while self._has_open():
             state = self._pop()
-            if state in self._closed:
-                self._record_event(type='pop',
-                                   state=state,
-                                   g=self._g[state],
-                                   skipped=True)
-                continue
-            self._record_event(type='pop',
-                               state=state,
-                               g=self._g[state],
-                               skipped=False)
+            self._record_event(type='pop', state=state)
             if self._is_goal(state):
                 self._goal_reached = state
-                cost = self._g[state]
-                self._record_event(type='goal_found',
-                                   state=state,
-                                   cost=cost)
-                return SolutionSPP(cost=cost)
+                return SolutionSPP(cost=self._g[state])
             self._close(state)
             for child in self.problem.successors(state):
-                self._handle_child(parent=state, child=child)
+                self._handle_child(parent=state,
+                                   child=child)
         return SolutionSPP(cost=float('inf'))
 
-    # ──────────────────────────────────────────────────────
+    # ──────────────────────────────────────────────────
     #  Search Initialization
-    # ──────────────────────────────────────────────────────
+    # ──────────────────────────────────────────────────
 
     def _init_search(self) -> None:
         """
@@ -87,13 +74,11 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
             self._parent[start] = None
             self._push(state=start)
             self._record_event(type='push',
-                               state=start,
-                               g=0.0,
-                               parent=None)
+                               state=start)
 
-    # ──────────────────────────────────────────────────────
+    # ──────────────────────────────────────────────────
     #  Core Operations
-    # ──────────────────────────────────────────────────────
+    # ──────────────────────────────────────────────────
 
     def _is_goal(self, state: State) -> bool:
         """
@@ -117,54 +102,59 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         """
         ====================================================================
          Handle a Child State discovered from Parent.
+         Follows classical pseudocode:
+           if child in CLOSED: skip
+           if child not in OPEN: insert
+           else if new_g < g(child): decrease_g
         ====================================================================
         """
         if child in self._closed:
-            self._record_event(type='generate',
-                               parent=parent,
-                               child=child,
-                               relaxed=False)
             return
-        edge_cost = self._edge_cost(parent=parent, child=child)
-        new_g = self._g[parent] + edge_cost
-        old_g = self._g.get(child, float('inf'))
-        if child not in self._g or new_g < old_g:
+        w = self._w(parent=parent, child=child)
+        new_g = self._g[parent] + w
+        if not self._in_open(state=child):
+            # New node — insert
             self._g[child] = new_g
             self._parent[child] = parent
             self._push(state=child)
-            self._record_event(type='generate',
-                               parent=parent,
-                               child=child,
-                               edge_cost=edge_cost,
-                               new_g=new_g,
-                               old_g=old_g,
-                               relaxed=True)
             self._record_event(type='push',
-                               state=child,
-                               g=new_g,
-                               parent=parent)
-        else:
-            self._record_event(type='generate',
-                               parent=parent,
-                               child=child,
-                               edge_cost=edge_cost,
-                               new_g=new_g,
-                               old_g=old_g,
-                               relaxed=False)
+                               state=child)
+        elif new_g < self._g[child]:
+            # Better path — decrease g
+            self._g[child] = new_g
+            self._parent[child] = parent
+            self._decrease_g(state=child)
+            self._record_event(type='decrease_g',
+                               state=child)
 
-    def _record_event(self, **kwargs) -> None:
+    # ──────────────────────────────────────────────────
+    #  Event Recording
+    # ──────────────────────────────────────────────────
+
+    def _record_event(self,
+                      type: str,
+                      state: State) -> None:
         """
         ====================================================================
-         Record a Search Event with Elapsed Time.
+         Record a Search Event. Auto-populates g, parent,
+         and w from the Algorithm's internal state.
         ====================================================================
         """
-        if self._recorder:
-            kwargs['elapsed'] = time() - self._time_start
-            self._recorder.record(kwargs)
+        if not self._recorder:
+            return
+        event = dict(type=type,
+                     state=state,
+                     g=self._g[state])
+        if type in ('push', 'decrease_g'):
+            parent = self._parent[state]
+            event['parent'] = parent
+            if parent is not None:
+                event['w'] = self._g[state] - self._g[parent]
+        super()._record_event(**event)
 
-    def _edge_cost(self,
-                   parent: State,
-                   child: State) -> float:
+    def _w(self,
+           parent: State,
+           child: State) -> float:
         """
         ====================================================================
          Return the Edge Cost from Parent to Child.
@@ -172,9 +162,9 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         """
         return 1.0
 
-    # ──────────────────────────────────────────────────────
+    # ──────────────────────────────────────────────────
     #  Frontier (subclass must implement)
-    # ──────────────────────────────────────────────────────
+    # ──────────────────────────────────────────────────
 
     def _push(self, state: State) -> None:
         """
@@ -200,9 +190,25 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         """
         raise NotImplementedError
 
-    # ──────────────────────────────────────────────────────
+    def _in_open(self, state: State) -> bool:
+        """
+        ====================================================================
+         Return True if the State is in the Frontier.
+        ====================================================================
+        """
+        return False
+
+    def _decrease_g(self, state: State) -> None:
+        """
+        ====================================================================
+         Update the Priority of a State in the Frontier.
+        ====================================================================
+        """
+        pass
+
+    # ──────────────────────────────────────────────────
     #  Path Reconstruction
-    # ──────────────────────────────────────────────────────
+    # ──────────────────────────────────────────────────
 
     def reconstruct_path(self,
                          goal: State | None = None
@@ -212,7 +218,6 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
          Reconstruct the Path from Start to Goal.
         ====================================================================
         """
-        t_start = time()
         target = goal if goal is not None else self._goal_reached
         if target is None:
             return list()
@@ -222,11 +227,4 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
             path.append(current)
             current = self._parent.get(current)
         path.reverse()
-        if self._recorder:
-            self._recorder.record(
-                dict(type='reconstruct_path',
-                     goal=target,
-                     path_length=len(path),
-                     elapsed=time() - t_start)
-            )
         return path

@@ -59,6 +59,19 @@ def _run_post(self) -> None
 ```
 Records `_time_finish` and calculates `_elapsed`. Override rarely.
 
+```python
+def _record_event(self, **kwargs) -> None
+```
+Record a dict event with `duration` in nanoseconds (time since
+previous event, via `perf_counter_ns`). No-op when recorder is
+inactive. Calls `_enrich_event` before recording.
+
+```python
+def _enrich_event(self, event: dict) -> None
+```
+No-op hook. Override in subclass to add details to events
+(e.g., A* adds h and f values).
+
 ### Inherited (from HasName)
 ```python
 @property

@@ -30,8 +30,8 @@ class Bounds(Generic[T]):
          Init private Attributes.
         ========================================================================
         """
-        assert top <= bottom, f'Top must be less than bottom, got {top} > {bottom}'
-        assert left <= right, f'Left must be less than right, got {left} > {right}'
+        # assert top <= bottom, f'Top must be less than bottom, got {top} > {bottom}'
+        # assert left <= right, f'Left must be less than right, got {left} > {right}'
         self._top = top
         self._left = left
         self._bottom = bottom

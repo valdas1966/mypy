@@ -14,6 +14,7 @@ class GridMap(GridBase[Cell]):
     # Static Classes
     Factory = None
     From = None
+    To = None
 
     def __init__(self,
                  # Number of Rows in the Grid
@@ -36,6 +37,7 @@ class GridMap(GridBase[Cell]):
                           type_cell=Cell)
         self._random = Random(grid=self)
         self._domain = domain
+        self.to = GridMap.To(grid=self) if GridMap.To else None
         
     @property
     def domain(self) -> str:

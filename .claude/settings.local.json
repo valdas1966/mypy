@@ -114,7 +114,9 @@
       "Bash(tectonic OMSPP.tex)",
       "Read(//mnt/f/mypy/**)",
       "Read(//mnt/f/mypy/=== kA* /**)",
-      "Bash(xargs cat:*)"
+      "Bash(xargs cat:*)",
+      "Bash(tectonic instructions_session.tex)",
+      "Bash(tectonic f_search_session.tex)"
     ]
   }
 }

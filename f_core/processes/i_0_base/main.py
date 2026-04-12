@@ -1,6 +1,6 @@
 from f_core.mixins.has import HasName
 from f_core.recorder import Recorder
-from time import time
+from time import time, perf_counter_ns
 
 
 class ProcessBase(HasName):
@@ -76,6 +76,7 @@ class ProcessBase(HasName):
         """
         self._elapsed = None
         self._time_start = time()
+        self._event_prev_ns = perf_counter_ns()
 
     def _run(self) -> None:
         """
@@ -93,3 +94,24 @@ class ProcessBase(HasName):
         """
         self._time_finish = time()
         self._elapsed = self._time_finish - self._time_start
+
+    def _record_event(self, **kwargs) -> None:
+        """
+        ========================================================================
+         Record an Event with Duration (nanoseconds).
+        ========================================================================
+        """
+        if self._recorder:
+            now = perf_counter_ns()
+            kwargs['duration'] = now - self._event_prev_ns
+            self._event_prev_ns = now
+            self._enrich_event(kwargs)
+            self._recorder.record(kwargs)
+
+    def _enrich_event(self, event: dict) -> None:
+        """
+        ========================================================================
+         Enrich Event with Subclass-Specific Details.
+        ========================================================================
+        """
+        pass

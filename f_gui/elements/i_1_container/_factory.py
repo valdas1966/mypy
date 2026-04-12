@@ -25,5 +25,4 @@ class Factory:
          Generate a centered half-size Container (25, 25, 75, 75).
         ========================================================================
         """
-        bounds = Bounds(top=25, left=25, bottom=75, right=75)
-        return Container(bounds=bounds)
+        return Container(bounds=Bounds.Factory.half())

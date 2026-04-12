@@ -1,57 +1,46 @@
-import pytest
 from f_gui.elements.i_1_label.main import Label
 
 
-@pytest.fixture
-def hello() -> Label:
-    """
-    ========================================================================
-     Create a Label with 'Hello' text.
-    ========================================================================
-    """
-    return Label.Factory.hello()
-
-
-def test_text(hello: Label) -> None:
+def test_text() -> None:
     """
     ========================================================================
      Test the text property.
     ========================================================================
     """
-    assert hello.text == 'Hello'
+    assert Label.Factory.hello().text == 'Hello'
 
 
-def test_bounds(hello: Label) -> None:
+def test_bounds() -> None:
     """
     ========================================================================
      Test the bounds property.
     ========================================================================
     """
-    assert hello.bounds.to_tuple() == (0, 0, 100, 100)
+    assert Label.Factory.hello().bounds.to_tuple() == (0, 0, 100, 100)
 
 
-def test_name(hello: Label) -> None:
+def test_name() -> None:
     """
     ========================================================================
      Test the default name.
     ========================================================================
     """
-    assert hello.name == 'Label'
+    assert Label.Factory.hello().name == 'Label'
 
 
-def test_str(hello: Label) -> None:
+def test_str() -> None:
     """
     ========================================================================
      Test the string representation.
     ========================================================================
     """
-    assert str(hello) == 'Label[Hello](0, 0, 100, 100)'
+    assert str(Label.Factory.hello()) == 'Label[Hello](0, 0, 100, 100)'
 
 
-def test_parent(hello: Label) -> None:
+def test_parent() -> None:
     """
     ========================================================================
      Test that parent is None by default.
     ========================================================================
     """
-    assert hello.parent is None
+    assert Label.Factory.hello().parent is None

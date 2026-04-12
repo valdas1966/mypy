@@ -1,4 +1,4 @@
-from heapq import heappush, heappop
+from f_ds.queues.i_1_indexed import QueueIndexed
 from f_hs.algo.i_0_base.main import AlgoSPP
 from f_hs.problem.i_0_base.main import ProblemSPP
 from f_hs.state.i_0_base.main import StateBase
@@ -30,8 +30,9 @@ class AStar(Generic[State], AlgoSPP[State]):
         AlgoSPP.__init__(self, problem=problem, name=name,
                          is_recording=is_recording)
         self._h = h
-        self._open: list[tuple[float, float, int, State]] = list()
-        self._counter: int = 0
+        self._open: QueueIndexed[State, tuple] = (
+            QueueIndexed()
+        )
 
     def _init_search(self) -> None:
         """
@@ -40,20 +41,18 @@ class AStar(Generic[State], AlgoSPP[State]):
         ====================================================================
         """
         self._open.clear()
-        self._counter = 0
         super()._init_search()
 
     def _push(self, state: State) -> None:
         """
         ====================================================================
          Push State into the Priority Queue (by f = g + h).
-         Tie-breaking: prefer higher g (deeper), then FIFO.
+         Tie-breaking: prefer higher g (deeper node).
         ====================================================================
         """
         g = self._g[state]
         f = g + self._h(state)
-        self._counter += 1
-        heappush(self._open, (f, -g, self._counter, state))
+        self._open.push(item=state, priority=(f, -g))
 
     def _pop(self) -> State:
         """
@@ -61,7 +60,7 @@ class AStar(Generic[State], AlgoSPP[State]):
          Pop the State with lowest f-value.
         ====================================================================
         """
-        return heappop(self._open)[3]
+        return self._open.pop()
 
     def _has_open(self) -> bool:
         """
@@ -69,4 +68,35 @@ class AStar(Generic[State], AlgoSPP[State]):
          Return True if the Priority Queue is not empty.
         ====================================================================
         """
-        return len(self._open) > 0
+        return bool(self._open)
+
+    def _in_open(self, state: State) -> bool:
+        """
+        ====================================================================
+         Return True if the State is in the Open List.
+        ====================================================================
+        """
+        return state in self._open
+
+    def _decrease_g(self, state: State) -> None:
+        """
+        ====================================================================
+         Update the Priority of a State in the Open List.
+        ====================================================================
+        """
+        g = self._g[state]
+        f = g + self._h(state)
+        self._open.decrease_key(item=state,
+                                priority=(f, -g))
+
+    def _enrich_event(self, event: dict) -> None:
+        """
+        ====================================================================
+         Add h and f values to Search Events.
+        ====================================================================
+        """
+        t = event.get('type')
+        if t in ('push', 'pop', 'decrease_g'):
+            h = self._h(event['state'])
+            event['h'] = h
+            event['f'] = event['g'] + h

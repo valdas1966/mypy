@@ -1,88 +1,73 @@
-import pytest
 from f_gui.elements.i_2_window.main import Window
 from f_gui.elements.i_1_container.main import Container
 from f_gui.elements.i_1_label.main import Label
 from f_ds.geometry.bounds import Bounds
 
 
-@pytest.fixture
-def win() -> Window:
-    """
-    ========================================================================
-     Create a default Window.
-    ========================================================================
-    """
-    return Window.Factory.default()
-
-
-def test_bounds(win: Window) -> None:
+def test_bounds() -> None:
     """
     ========================================================================
      Test that Window has full bounds (0, 0, 100, 100).
     ========================================================================
     """
-    assert win.bounds.to_tuple() == (0, 0, 100, 100)
+    assert Window.Factory.default().bounds.to_tuple() == (0, 0, 100, 100)
 
 
-def test_name(win: Window) -> None:
+def test_name() -> None:
     """
     ========================================================================
      Test the default name.
     ========================================================================
     """
-    assert win.name == 'Window'
+    assert Window.Factory.default().name == 'Window'
 
 
-def test_is_container(win: Window) -> None:
+def test_is_container() -> None:
     """
     ========================================================================
      Test that Window is a Container.
     ========================================================================
     """
-    assert isinstance(win, Container)
+    assert isinstance(Window.Factory.default(), Container)
 
 
-def test_add_container(win: Window) -> None:
+def test_add_container() -> None:
     """
     ========================================================================
      Test adding a Container to a Window.
     ========================================================================
     """
-    bounds = Bounds(top=30, left=50, bottom=50, right=70)
-    container = Container(bounds=bounds)
+    win = Window.Factory.default()
+    container = Container(bounds=Bounds(top=30, left=50, bottom=50, right=70))
     win.add_child(child=container)
     assert len(win.children) == 1
     assert container.parent is win
 
 
-def test_nested_layout(win: Window) -> None:
+def test_nested_layout() -> None:
     """
     ========================================================================
      Test the full nested layout: Window > Container > Label.
     ========================================================================
     """
-    # Add Container to Window
-    bounds_c = Bounds(top=30, left=50, bottom=50, right=70)
-    container = Container(bounds=bounds_c)
+    win = Window.Factory.default()
+    container = Container(bounds=Bounds(top=30, left=50, bottom=50, right=70))
+    label = Label(bounds=Bounds(top=20, left=10, bottom=40, right=30),
+                  text='Hello')
     win.add_child(child=container)
-    # Add Label to Container
-    bounds_l = Bounds(top=20, left=10, bottom=40, right=30)
-    label = Label(bounds=bounds_l, text='Hello')
     container.add_child(child=label)
-    # Verify hierarchy
     assert label.parent is container
     assert container.parent is win
     assert win.parent is None
-    # Verify children
     assert len(win.children) == 1
     assert len(container.children) == 1
     assert label.text == 'Hello'
 
 
-def test_str(win: Window) -> None:
+def test_str() -> None:
     """
     ========================================================================
      Test the string representation.
     ========================================================================
     """
-    assert str(win) == 'Window(0, 0, 100, 100)'
+    assert str(Window.Factory.default()) == 'Window(0, 0, 100, 100)'

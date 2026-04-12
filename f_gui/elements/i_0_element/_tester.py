@@ -1,67 +1,46 @@
-import pytest
 from f_gui.elements.i_0_element.main import Element
 
 
-@pytest.fixture
-def full() -> Element:
-    """
-    ========================================================================
-     Create a full-size Element.
-    ========================================================================
-    """
-    return Element.Factory.full()
-
-
-@pytest.fixture
-def half() -> Element:
-    """
-    ========================================================================
-     Create a centered half-size Element.
-    ========================================================================
-    """
-    return Element.Factory.half()
-
-
-def test_bounds(full: Element) -> None:
+def test_bounds() -> None:
     """
     ========================================================================
      Test the bounds property.
     ========================================================================
     """
-    assert full.bounds.to_tuple() == (0, 0, 100, 100)
+    assert Element.Factory.full().bounds.to_tuple() == (0, 0, 100, 100)
 
 
-def test_bounds_half(half: Element) -> None:
+def test_bounds_half() -> None:
     """
     ========================================================================
      Test the bounds of a half-size Element.
     ========================================================================
     """
-    assert half.bounds.to_tuple() == (25, 25, 75, 75)
+    assert Element.Factory.half().bounds.to_tuple() == (25, 25, 75, 75)
 
 
-def test_parent(full: Element) -> None:
+def test_parent() -> None:
     """
     ========================================================================
      Test that parent is None by default.
     ========================================================================
     """
-    assert full.parent is None
+    assert Element.Factory.full().parent is None
 
 
-def test_name(full: Element) -> None:
+def test_name() -> None:
     """
     ========================================================================
      Test the default name.
     ========================================================================
     """
-    assert full.name == 'Element'
+    assert Element.Factory.full().name == 'Element'
 
 
-def test_str(full: Element) -> None:
+def test_str() -> None:
     """
     ========================================================================
      Test the string representation.
     ========================================================================
     """
-    assert str(full) == 'Element(0, 0, 100, 100)'
+    assert str(Element.Factory.full()) == 'Element(0, 0, 100, 100)'

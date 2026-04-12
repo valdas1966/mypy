@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>HS GAME — Heuristic Search Node Categories</title>
+<style>
+  :root {
+    --bg:        #0f1419;
+    --panel:    #1a2029;
+    --border:   #2a3340;
+    --text:     #e6edf3;
+    --muted:    #8b98a5;
+    --accent:   #1e5aa0;
+
+    --surely:      #228b22;   /* f < C*  */
+    --surely-bg:   #e8f5e8;
+    --borderline:  #b48200;   /* f = C*  */
+    --borderline-bg:#fff8e1;
+    --surplus:     #c82828;   /* f > C*  */
+    --surplus-bg:  #ffe8e8;
+
+    --start:    #1e5aa0;
+    --goal:     #6a1b9a;
+    --obstacle: #0a0a0a;
+    --unreach:  #4a5560;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, sans-serif;
+    font-size: 14px;
+  }
+  header {
+    padding: 14px 20px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 17px;
+    color: #fff;
+    letter-spacing: 0.5px;
+  }
+  header h1 small {
+    color: var(--muted);
+    font-weight: normal;
+    font-size: 12px;
+    margin-left: 8px;
+  }
+  .controls {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .controls label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+  }
+  .controls input[type=number] {
+    width: 50px;
+    background: #0b1117;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 6px;
+    font-size: 13px;
+  }
+  .tool-btn, .action-btn {
+    background: #0b1117;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .tool-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .tool-btn:hover, .action-btn:hover { border-color: #4a7dc0; }
+
+  main {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+    padding: 20px;
+    align-items: start;
+  }
+  .left-panel, .right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .panel-title {
+    font-size: 13px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .legend {
+    background: var(--panel);
+    padding: 12px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 12px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .sw {
+    width: 16px; height: 16px;
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.2);
+  }
+
+  /* Grids */
+  .grid {
+    display: grid;
+    gap: 1px;
+    background: var(--border);
+    padding: 1px;
+    border-radius: 4px;
+    user-select: none;
+  }
+  .cell {
+    background: #e9edf1;
+    min-width: 32px; min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #222;
+    cursor: pointer;
+    position: relative;
+  }
+  .main-grid .cell:hover { outline: 2px solid var(--accent); z-index: 1; }
+
+  .cat-S { background: var(--surely-bg); }
+  .cat-B { background: var(--borderline-bg); }
+  .cat-P { background: var(--surplus-bg); }
+  .cat-U { background: var(--unreach); color: #9aa5b1; }
+  .cat-O { background: var(--obstacle); color: #fff; }
+  .cell.start {
+    background: var(--start) !important;
+    color: #fff;
+  }
+  .cell.goal {
+    background: var(--goal) !important;
+    color: #fff;
+  }
+  .cell.obstacle {
+    background: var(--obstacle) !important;
+    color: #fff;
+  }
+  /* k-grid markers: keep category bg; mark s / goals via outline */
+  .k-card .cell.is-start {
+    box-shadow: inset 0 0 0 2px var(--start);
+  }
+  .k-card .cell.is-goal {
+    box-shadow: inset 0 0 0 2px var(--goal);
+  }
+  .k-card .cell.is-goal-k {
+    box-shadow: inset 0 0 0 3px var(--goal);
+  }
+  .k-card .cell .tag {
+    position: absolute;
+    top: 1px; left: 2px;
+    font-size: 8px;
+    font-weight: 700;
+    color: #333;
+    opacity: 0.65;
+    letter-spacing: 0;
+    line-height: 1;
+  }
+  .k-card .cell .fv {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+  .k-card .cell.cat-U .fv,
+  .k-card .cell.cat-O .fv { display: none; }
+
+  .k-grids {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .k-card {
+    background: var(--panel);
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  .k-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+  .k-title .goals {
+    color: var(--muted);
+    font-weight: normal;
+    margin-left: 6px;
+  }
+  .k-stats {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 11px;
+  }
+  .stat {
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .stat.S { background: var(--surely-bg); color: var(--surely); }
+  .stat.B { background: var(--borderline-bg);
+            color: var(--borderline); }
+  .stat.P { background: var(--surplus-bg); color: var(--surplus); }
+  .k-cstar {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+  }
+  .warning {
+    background: #3a2a0f;
+    color: #f5c67a;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid #6a4e1a;
+    font-size: 13px;
+  }
+  .math {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    color: var(--muted);
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>HS GAME
+    <small>Heuristic Search — Node Categories on OMSPP grids</small>
+  </h1>
+  <div class="controls">
+    <label>rows
+      <input id="rows" type="number" min="2" max="10" value="6">
+    </label>
+    <label>cols
+      <input id="cols" type="number" min="2" max="10" value="8">
+    </label>
+    <button class="tool-btn active" data-tool="start">Start</button>
+    <button class="tool-btn" data-tool="goal">Goal</button>
+    <button class="tool-btn" data-tool="obstacle">Obstacle</button>
+    <button class="tool-btn" data-tool="erase">Erase</button>
+    <button class="action-btn" id="clear">Clear all</button>
+  </div>
+</header>
+
+<main>
+  <div class="left-panel">
+    <div class="panel-title">Editable grid</div>
+    <div id="mainGrid" class="grid main-grid"></div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <div class="sw" style="background:var(--start)"></div>Start (s)
+      </div>
+      <div class="legend-item">
+        <div class="sw" style="background:var(--goal)"></div>Goal (tᵢ)
+      </div>
+      <div class="legend-item">
+        <div class="sw" style="background:var(--obstacle)"></div>Obstacle
+      </div>
+      <div class="legend-item">
+        <div class="sw" style="background:var(--surely-bg);
+             border:1px solid var(--surely)"></div>
+        Surely <span class="math">(f&lt;C*)</span>
+      </div>
+      <div class="legend-item">
+        <div class="sw" style="background:var(--borderline-bg);
+             border:1px solid var(--borderline)"></div>
+        Borderline <span class="math">(f=C*)</span>
+      </div>
+      <div class="legend-item">
+        <div class="sw" style="background:var(--surplus-bg);
+             border:1px solid var(--surplus)"></div>
+        Surplus <span class="math">(f&gt;C*)</span>
+      </div>
+      <div class="legend-item">
+        <div class="sw" style="background:var(--unreach)"></div>
+        Unreachable
+      </div>
+    </div>
+
+    <div id="warnings"></div>
+  </div>
+
+  <div class="right-panel">
+    <div class="panel-title">Category grids — k = 1 … K</div>
+    <div id="kGrids" class="k-grids"></div>
+  </div>
+</main>
+
+<script>
+"use strict";
+
+// ─────────────────── state ───────────────────
+const state = {
+  rows: 6,
+  cols: 8,
+  tool: "start",
+  start: null,           // [r,c] or null
+  goals: [],             // array of [r,c] in placement order
+  obstacles: new Set(),  // "r,c" keys
+};
+
+const CELL_SIZE = 32;  // px
+
+// ─────────────────── helpers ───────────────────
+const key = (r, c) => `${r},${c}`;
+const inBounds = (r, c) =>
+  r >= 0 && r < state.rows && c >= 0 && c < state.cols;
+
+function isStart(r, c) {
+  return state.start && state.start[0] === r && state.start[1] === c;
+}
+function isGoal(r, c) {
+  return state.goals.some(([gr, gc]) => gr === r && gc === c);
+}
+function isObstacle(r, c) { return state.obstacles.has(key(r, c)); }
+
+function clearCell(r, c) {
+  if (isStart(r, c)) state.start = null;
+  state.goals = state.goals.filter(([gr, gc]) => !(gr === r && gc === c));
+  state.obstacles.delete(key(r, c));
+}
+
+// ─────────────────── BFS from start ───────────────────
+// Returns 2D grid of g*(n), Infinity if unreachable / obstacle.
+function bfsFromStart() {
+  const g = Array.from({ length: state.rows }, () =>
+    new Array(state.cols).fill(Infinity));
+  if (!state.start) return g;
+  const [sr, sc] = state.start;
+  if (isObstacle(sr, sc)) return g;
+  g[sr][sc] = 0;
+  const q = [[sr, sc]];
+  const dirs = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+  let head = 0;
+  while (head < q.length) {
+    const [r, c] = q[head++];
+    for (const [dr, dc] of dirs) {
+      const nr = r + dr, nc = c + dc;
+      if (!inBounds(nr, nc)) continue;
+      if (isObstacle(nr, nc)) continue;
+      if (g[nr][nc] > g[r][c] + 1) {
+        g[nr][nc] = g[r][c] + 1;
+        q.push([nr, nc]);
+      }
+    }
+  }
+  return g;
+}
+
+// ─────────────────── categorize for first k goals ───────────────
+// For each cell n (non-obstacle, reachable):
+//   f_i(n) = g*(n) + |n - t_i|_1      (Manhattan, consistent)
+//   C*_i   = g*(t_i)
+// Category: Surely if ∃ i: f_i < C*_i;
+//           else Borderline if ∃ i: f_i = C*_i;
+//           else Surplus.
+function categorize(g, kGoals) {
+  const { rows, cols } = state;
+  const cat = Array.from({ length: rows }, () =>
+    new Array(cols).fill("P"));
+  const cstar = kGoals.map(([gr, gc]) => g[gr][gc]);
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (isObstacle(r, c)) { cat[r][c] = "O"; continue; }
+      if (g[r][c] === Infinity) { cat[r][c] = "U"; continue; }
+      let best = "P";
+      for (let i = 0; i < kGoals.length; i++) {
+        const Ci = cstar[i];
+        if (!isFinite(Ci)) continue;
+        const [gr, gc] = kGoals[i];
+        const h = Math.abs(r - gr) + Math.abs(c - gc);
+        const f = g[r][c] + h;
+        if (f < Ci) { best = "S"; break; }
+        if (f === Ci && best === "P") best = "B";
+      }
+      cat[r][c] = best;
+    }
+  }
+  return cat;
+}
+
+// ─────────────────── render ───────────────────
+function renderMainGrid() {
+  const el = document.getElementById("mainGrid");
+  el.style.gridTemplateColumns =
+    `repeat(${state.cols}, ${CELL_SIZE}px)`;
+  el.style.gridTemplateRows =
+    `repeat(${state.rows}, ${CELL_SIZE}px)`;
+  el.innerHTML = "";
+  for (let r = 0; r < state.rows; r++) {
+    for (let c = 0; c < state.cols; c++) {
+      const d = document.createElement("div");
+      d.className = "cell";
+      d.dataset.r = r; d.dataset.c = c;
+      if (isObstacle(r, c)) {
+        d.classList.add("obstacle");
+      } else if (isStart(r, c)) {
+        d.classList.add("start"); d.textContent = "s";
+      } else if (isGoal(r, c)) {
+        d.classList.add("goal");
+        const idx = state.goals.findIndex(([gr, gc]) =>
+          gr === r && gc === c);
+        d.textContent = `t${idx + 1}`;
+      }
+      d.addEventListener("click", () => onCellClick(r, c));
+      el.appendChild(d);
+    }
+  }
+}
+
+function renderKGrids() {
+  const host = document.getElementById("kGrids");
+  host.innerHTML = "";
+  const warnings = document.getElementById("warnings");
+  warnings.innerHTML = "";
+
+  if (!state.start) {
+    warnings.innerHTML =
+      `<div class="warning">Place a <b>Start</b> cell to begin.</div>`;
+    return;
+  }
+  if (state.goals.length === 0) {
+    warnings.innerHTML =
+      `<div class="warning">Place at least one <b>Goal</b>
+       to see category grids.</div>`;
+    return;
+  }
+
+  const g = bfsFromStart();
+  const unreachable = state.goals
+    .map((t, i) => [t, i])
+    .filter(([[gr, gc]]) => !isFinite(g[gr][gc]));
+  if (unreachable.length) {
+    const names = unreachable
+      .map(([, i]) => `t${i + 1}`).join(", ");
+    warnings.innerHTML =
+      `<div class="warning">Unreachable goals: ${names}
+       (ignored in their k grids).</div>`;
+  }
+
+  for (let k = 1; k <= state.goals.length; k++) {
+    const kGoals = state.goals.slice(0, k);
+    const cat = categorize(g, kGoals);
+    host.appendChild(buildKCard(k, kGoals, cat, g));
+  }
+}
+
+function buildKCard(k, kGoals, cat, g) {
+  const card = document.createElement("div");
+  card.className = "k-card";
+
+  const header = document.createElement("div");
+  header.className = "k-title";
+  const gNames = kGoals.map((_, i) => `t${i + 1}`).join(", ");
+  header.innerHTML =
+    `k = ${k} <span class="goals">goals: { ${gNames} }
+       · f = g + h(·, t${k})</span>`;
+  card.appendChild(header);
+
+  // f-value reference = the k-th goal (newly added at this step)
+  const [tkR, tkC] = kGoals[k - 1];
+
+  const grid = document.createElement("div");
+  grid.className = "grid";
+  grid.style.gridTemplateColumns =
+    `repeat(${state.cols}, ${CELL_SIZE}px)`;
+  grid.style.gridTemplateRows =
+    `repeat(${state.rows}, ${CELL_SIZE}px)`;
+
+  let counts = { S: 0, B: 0, P: 0, U: 0, O: 0 };
+  for (let r = 0; r < state.rows; r++) {
+    for (let c = 0; c < state.cols; c++) {
+      const d = document.createElement("div");
+      const cc = cat[r][c];
+      counts[cc] = (counts[cc] || 0) + 1;
+      d.className = "cell cat-" + cc;
+
+      // outline markers for start / goals
+      if (isStart(r, c)) d.classList.add("is-start");
+      const gIdx = state.goals.findIndex(([gr, gc]) =>
+        gr === r && gc === c);
+      if (gIdx >= 0 && gIdx < k) {
+        d.classList.add(gIdx === k - 1 ? "is-goal-k" : "is-goal");
+      }
+
+      // tag: s / tN
+      let tag = "";
+      if (isStart(r, c)) tag = "s";
+      else if (gIdx >= 0 && gIdx < k) tag = `t${gIdx + 1}`;
+
+      // f value (for t_k)
+      let fv = "";
+      if (cc === "S" || cc === "B" || cc === "P") {
+        const h = Math.abs(r - tkR) + Math.abs(c - tkC);
+        fv = String(g[r][c] + h);
+      }
+
+      if (tag) {
+        d.innerHTML =
+          `<span class="tag">${tag}</span>` +
+          `<span class="fv">${fv}</span>`;
+      } else if (fv) {
+        d.innerHTML = `<span class="fv">${fv}</span>`;
+      }
+      grid.appendChild(d);
+    }
+  }
+  card.appendChild(grid);
+
+  // C* list
+  const cstar = document.createElement("div");
+  cstar.className = "k-cstar";
+  cstar.textContent = kGoals.map(([gr, gc], i) => {
+    const v = g[gr][gc];
+    return `C*(t${i + 1}) = ${isFinite(v) ? v : "∞"}`;
+  }).join("   ");
+  card.appendChild(cstar);
+
+  // stats
+  const total = counts.S + counts.B + counts.P;
+  const pct = (n) =>
+    total > 0 ? Math.round((100 * n) / total) : 0;
+  const stats = document.createElement("div");
+  stats.className = "k-stats";
+  stats.innerHTML =
+    `<span class="stat S">S ${counts.S} (${pct(counts.S)}%)</span>
+     <span class="stat B">B ${counts.B} (${pct(counts.B)}%)</span>
+     <span class="stat P">P ${counts.P} (${pct(counts.P)}%)</span>`;
+  card.appendChild(stats);
+
+  return card;
+}
+
+function renderAll() {
+  renderMainGrid();
+  renderKGrids();
+}
+
+// ─────────────────── interaction ───────────────────
+function onCellClick(r, c) {
+  const t = state.tool;
+  if (t === "start") {
+    if (isStart(r, c)) { state.start = null; }
+    else {
+      clearCell(r, c);
+      state.start = [r, c];
+    }
+  } else if (t === "goal") {
+    if (isGoal(r, c)) {
+      state.goals = state.goals.filter(
+        ([gr, gc]) => !(gr === r && gc === c));
+    } else {
+      clearCell(r, c);
+      state.goals.push([r, c]);
+    }
+  } else if (t === "obstacle") {
+    if (isObstacle(r, c)) state.obstacles.delete(key(r, c));
+    else {
+      clearCell(r, c);
+      state.obstacles.add(key(r, c));
+    }
+  } else if (t === "erase") {
+    clearCell(r, c);
+  }
+  renderAll();
+}
+
+function resizeGrid() {
+  const clamp = (v) => Math.max(2, Math.min(10, v | 0));
+  state.rows = clamp(document.getElementById("rows").value);
+  state.cols = clamp(document.getElementById("cols").value);
+  // drop out-of-bounds entities
+  if (state.start &&
+      (state.start[0] >= state.rows || state.start[1] >= state.cols))
+    state.start = null;
+  state.goals = state.goals.filter(
+    ([r, c]) => r < state.rows && c < state.cols);
+  state.obstacles = new Set(
+    [...state.obstacles].filter((k) => {
+      const [r, c] = k.split(",").map(Number);
+      return r < state.rows && c < state.cols;
+    }));
+  renderAll();
+}
+
+function setTool(t) {
+  state.tool = t;
+  document.querySelectorAll(".tool-btn").forEach((b) =>
+    b.classList.toggle("active", b.dataset.tool === t));
+}
+
+function clearAll() {
+  state.start = null;
+  state.goals = [];
+  state.obstacles = new Set();
+  renderAll();
+}
+
+// ─────────────────── bootstrap ───────────────────
+document.querySelectorAll(".tool-btn").forEach((b) =>
+  b.addEventListener("click", () => setTool(b.dataset.tool)));
+document.getElementById("rows").addEventListener("input", resizeGrid);
+document.getElementById("cols").addEventListener("input", resizeGrid);
+document.getElementById("clear").addEventListener("click", clearAll);
+
+// demo preset
+state.start = [0, 0];
+state.goals = [[5, 7]];
+renderAll();
+
+</script>
+</body>
+</html>

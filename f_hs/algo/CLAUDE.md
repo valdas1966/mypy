@@ -2,13 +2,14 @@
 
 ## Purpose
 Search algorithms for Shortest-Path-Problem. Built on top of
-AlgoSPP base class which provides the common search loop.
+AlgoSPP base class which provides the classical search loop
+with eager deletion.
 
 ## Architecture
 ```
 AlgoSPP (abstract: loop + data + path reconstruction)
 ├── BFS (FIFO deque frontier)
-└── AStar (heapq priority frontier, f = g + h)
+└── AStar (QueueIndexed, f = g + h)
     └── Dijkstra (h = 0)
 ```
 
@@ -22,21 +23,23 @@ algo/
 └── i_2_dijkstra/        Dijkstra — A* with h=0
 ```
 
-## Common Search Loop (in AlgoSPP)
+## Classical Search Loop (in AlgoSPP)
 ```
-1. Init: g(start)=0, push start to frontier
-2. While frontier not empty:
-   a. Pop best state
-   b. Skip if closed (lazy deletion)
-   c. If goal → return SolutionSPP(cost)
-   d. Close state
-   e. For each successor: relax and push if improved
-3. Return SolutionSPP(cost=inf)
+OPEN ← {start}
+while OPEN not empty:
+    n ← OPEN.pop_min()
+    if n is goal: return cost
+    CLOSED ← CLOSED ∪ {n}
+    for each child of n:
+        if child in CLOSED: skip
+        if child not in OPEN: insert
+        else if new_g < g(child): decrease_key
 ```
 
 ## Subclass Differences
 | | BFS | A* | Dijkstra |
 |--|-----|-----|----------|
-| Frontier | deque (FIFO) | heapq (by f) | heapq (by g) |
-| Priority | insertion order | g + h | g |
+| Frontier | deque (FIFO) | QueueIndexed (by f) | QueueIndexed (by g) |
+| Priority | insertion order | f = g + h | f = g |
 | Heuristic | none | provided | h=0 |
+| decrease_key | not needed | via QueueIndexed | via QueueIndexed |

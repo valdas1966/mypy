@@ -2,7 +2,7 @@
 
 ## Purpose
 Abstract base class for SPP search algorithms. Implements the
-common search loop with event recording. Subclasses provide
+classical search loop with eager deletion. Subclasses provide
 frontier management.
 
 ## Public API
@@ -27,19 +27,33 @@ def __init__(self,
 | `problem` | `ProblemSPP` | The input problem |
 | `elapsed` | `float` | Execution time (seconds) |
 | `recorder` | `Recorder` | Event recorder |
+| `_record_event` | method | Inherited from ProcessBase |
+| `_enrich_event` | method | Override hook (AStar adds h/f) |
+
+## Search Loop (Classical Pseudocode)
+```
+OPEN ← {start}
+while OPEN not empty:
+    n ← OPEN.pop_min()
+    if n is goal: return cost
+    CLOSED ← CLOSED ∪ {n}
+    for each child of n:
+        if child in CLOSED: skip
+        if child not in OPEN: insert
+        else if new_g < g(child): decrease_key
+```
 
 ## Event Recording
-When `is_recording=True`, the recorder captures these events:
+When `is_recording=True`, the recorder captures:
 
 | Event | Details | Elapsed |
 |-------|---------|---------|
-| `push` | state, g, parent | since run start |
-| `pop` | state, g, skipped | since run start |
-| `generate` | parent, child, edge_cost, new_g, old_g, relaxed | since run start |
-| `goal_found` | state, cost | since run start |
-| `reconstruct_path` | goal, path_length | own duration |
-
-Events are dicts stored via `Recorder`. No-op when inactive.
+| `push` | state, g, parent | nanoseconds |
+| `pop` | state, g | nanoseconds |
+| `generate` | parent, child, edge_cost, new_g, old_g, relaxed | nanoseconds |
+| `decrease_key` | state, g, parent | nanoseconds |
+| `goal_found` | state, cost | nanoseconds |
+| `reconstruct_path` | goal, path_length | nanoseconds |
 
 ## Internal Data
 | Attribute | Type | Description |
@@ -56,6 +70,8 @@ Events are dicts stored via `Recorder`. No-op when inactive.
 | `_push(state)` | Yes | Add to frontier |
 | `_pop()` | Yes | Get next from frontier |
 | `_has_open()` | Yes | Frontier not empty? |
+| `_in_open(state)` | No (default=False) | State in frontier? |
+| `_decrease_key(state)` | No (default=no-op) | Update priority |
 | `_edge_cost(p, c)` | No (default=1) | Edge weight |
 | `_is_goal(state)` | No | Goal check |
 | `_init_search()` | No | Override to clear frontier |

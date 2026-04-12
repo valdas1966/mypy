@@ -1,5 +1,6 @@
 import pytest
 from f_hs.algo.i_1_astar import AStar
+from f_hs.problem import ProblemSPP
 
 
 @pytest.fixture
@@ -95,6 +96,33 @@ def test_diamond(diamond: AStar) -> None:
     assert len(path) == 3
     assert path[0].key == 'A'
     assert path[-1].key == 'D'
+
+
+def test_recording_h_values() -> None:
+    """
+    ========================================================================
+     Test that A* events include h and f values.
+    ========================================================================
+    """
+    h_map = {'A': 2.0, 'B': 1.0, 'C': 0.0}
+    algo = AStar(
+        problem=ProblemSPP.Factory.graph_abc(),
+        h=lambda s: h_map.get(s.key, 0.0),
+        is_recording=True
+    )
+    algo.run()
+    events = algo.recorder.events
+    pushes = [e for e in events if e['type'] == 'push']
+    pops = [e for e in events if e['type'] == 'pop']
+    for e in pushes:
+        assert 'h' in e
+        assert 'f' in e
+        assert e['f'] == e['g'] + e['h']
+    for e in pops:
+        assert 'h' in e
+        assert 'f' in e
+    # Last pop is the goal — h should be 0
+    assert pops[-1]['h'] == 0.0
 
 
 def test_elapsed(abc: AStar) -> None:

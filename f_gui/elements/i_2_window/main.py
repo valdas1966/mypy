@@ -18,3 +18,12 @@ class Window(Container):
         ========================================================================
         """
         Container.__init__(self, name=name)
+
+    def to_html(self, path: str, size: int = 600) -> None:
+        """
+        ========================================================================
+         Render this Window (and its descendants) to a standalone HTML file.
+        ========================================================================
+        """
+        from f_gui.render.html import RenderHtml
+        RenderHtml.to_file(root=self, path=path, size=size)

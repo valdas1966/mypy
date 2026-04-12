@@ -31,6 +31,11 @@ Returns the parent of the object (can be `None`).
 ### Methods
 
 ```python
+def _set_parent(self, parent: Self | None) -> None
+```
+Protected helper for friend-classes (e.g. a sibling `HasChildren`-based container) to mutate the parent pointer without reaching into `_parent` directly. Call this instead of assigning `obj._parent = ...`.
+
+```python
 def path_from_root(self) -> list[HasParent]
 ```
 Walks up the parent chain, then reverses to return root-first order. Returns `[root, ..., self]`.

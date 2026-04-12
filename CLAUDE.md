@@ -53,6 +53,7 @@ Files prefixed with `_` are internal/private and not imported externally.
 |--------|---------|---------|
 | `f_` | Framework module | `f_search`, `f_core`, `f_google` |
 | `i_X_` | Inheritance level X | `i_0_base`, `i_1_astar`, `i_2_dijkstra` |
+| `_internal/` | Private helper classes | `drive/_internal/` |
 | (none) | Domain grouping | `algos/`, `problems/`, `solutions/`, `ds/` |
 
 ### Files
@@ -213,15 +214,19 @@ class AlgoSearch(Generic[Problem, Solution], Algo[Problem, Solution]):
 class AStar(Generic[State], AlgoSPP[State, DataHeuristics]):
 ```
 
-### Total Ordering
-For comparable classes, only implement `__lt__` with `@total_ordering`:
+### Comparison Operators
+For comparable classes, implement all four operators explicitly for
+performance (no `@total_ordering` overhead). Delegate to `key`:
 ```python
-@total_ordering
 class Comparable(Equatable):
     def __lt__(self, other: object) -> bool:
-        if not isinstance(other, Comparable):
-            return NotImplemented
         return self.key < other.key
+    def __le__(self, other: object) -> bool:
+        return self.key <= other.key
+    def __gt__(self, other: object) -> bool:
+        return self.key > other.key
+    def __ge__(self, other: object) -> bool:
+        return self.key >= other.key
 ```
 
 ### Dataclasses vs Manual `__init__`
@@ -280,6 +285,38 @@ def test_lt(a: Comparable, b: Comparable) -> None:
 - Test functions: `test_<method_name>()`.
 - Fixtures: short names matching Factory methods (`a`, `b`, `gen`).
 - Each test has a docstring with `=` separators.
+
+### Prefer `Factory` over `@pytest.fixture`
+
+Do **not** wrap a `Factory` call in a `@pytest.fixture` when the
+Factory method alone is enough. Fixtures add indirection and hide
+where the object comes from — if the test just needs a canonical
+instance, call `MyClass.Factory.a()` directly inside the test:
+
+```python
+# GOOD — Factory is the single source of canonical test objects
+def test_lt() -> None:
+    """
+    ========================================================================
+     Test the __lt__() method.
+    ========================================================================
+    """
+    a = Comparable.Factory.a()
+    b = Comparable.Factory.b()
+    assert a < b
+
+# AVOID — fixture duplicates Factory, adds no value
+@pytest.fixture
+def a() -> Comparable:
+    return Comparable.Factory.a()
+```
+
+Use `@pytest.fixture` **only** when it adds real value beyond what
+`Factory` provides — e.g., shared setup/teardown, parametrization,
+scope (`scope='module'`), or an object built from multiple Factory
+calls with non-trivial wiring. When in doubt, prefer `Factory`:
+it's more explicit and keeps the test's inputs visible in the test
+body.
 
 ---
 
@@ -427,6 +464,43 @@ Suggestions from `CLAUDE_REVIEW.html` must be presented as a plan first. Only ap
 
 ## Google Drive
 
+### Read Drive Instructions First
+
+Before performing **any** Google Drive operation (session work,
+summaries, reports, LaTeX, uploads, reads, deletes, folder listings,
+etc.), **always read the relevant file(s) from the Drive
+`Instructions/` folder first**. This folder holds the authoritative,
+up-to-date workflows — the local `CLAUDE.md` is only a pointer.
+
+```python
+from f_google.services.drive import Drive
+drive = Drive.Factory.valdas()
+
+# 1) Discover what instructions exist:
+for f in drive.files(path='Instructions'):
+    print(f)
+
+# 2) Read the relevant one(s) for the task at hand:
+print(drive.read(path='Instructions/For_Session_Summary.md').text)
+print(drive.read(path='Instructions/For_Report.md').text)
+print(drive.read(path='Instructions/For_Summary.md').text)
+print(drive.read(path='Instructions/For_Tex.md').text)
+```
+
+Rules:
+- **Never cache** these instructions across sessions — always re-read
+  from Drive, since they may have been updated.
+- Map task → instruction file:
+  - Session start / session summary → `For_Session_Summary.md`
+  - Paper / project reports → `For_Report.md`
+  - Paper summaries → `For_Summary.md`
+  - LaTeX, TikZ, graphs, figures → `For_Tex.md`
+- If no dedicated instruction file matches the task, list
+  `Instructions/` anyway and confirm — new instruction files may
+  have been added.
+- Follow the Drive instruction verbatim; if it conflicts with this
+  local `CLAUDE.md`, **the Drive instruction wins**.
+
 ### How to Open Google Drive
 
 Connect to our Google Drive using the VALDAS OAuth credentials:
@@ -481,6 +555,19 @@ drive.delete(path='2026/04/07/old_file.md')
 - Use `/tmp/` for all intermediate work (compile, edit, etc.).
 - Upload results back to Drive.
 - Do **not** auto-open files — the user views them on Drive.
+
+### LaTeX / Report / Graph Work
+
+When the user asks to create or edit **LaTeX documents**, **reports**,
+**TikZ figures**, or **graph diagrams** — even outside a named session
+— read `Instructions/For_Tex.md` from Drive first:
+```python
+drive = Drive.Factory.valdas()
+print(drive.read(path='Instructions/For_Tex.md').text)
+```
+This file contains mandatory conventions for colors, section styling,
+enumerated sentences, TikZ graph diagrams (node colors by search
+status, edge label positioning, layout rules), and compilation.
 
 ---
 

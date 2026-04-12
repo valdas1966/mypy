@@ -36,3 +36,12 @@ class HasChildren:
         ========================================================================
         """
         self._children.append(child)
+
+    def remove_child(self, child: Self) -> None:
+        """
+        ========================================================================
+         Remove a child from the children list.
+         Raises ValueError if the child is not present.
+        ========================================================================
+        """
+        self._children.remove(child)

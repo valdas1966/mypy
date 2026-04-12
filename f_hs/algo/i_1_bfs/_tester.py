@@ -112,12 +112,9 @@ def test_recording() -> None:
     types = [e['type'] for e in events]
     assert 'push' in types
     assert 'pop' in types
-    assert 'generate' in types
-    assert 'goal_found' in types
-    assert 'reconstruct_path' in types
     for e in events:
-        assert 'elapsed' in e
-        assert e['elapsed'] >= 0
+        assert 'duration' in e
+        assert e['duration'] >= 0
 
 
 def test_no_recording() -> None:

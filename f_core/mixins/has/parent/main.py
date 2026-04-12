@@ -29,6 +29,14 @@ class HasParent:
         """
         return self._parent
 
+    def _set_parent(self, parent: Self | None) -> None:
+        """
+        ========================================================================
+         Set the Parent of the object (protected helper for friend-classes).
+        ========================================================================
+        """
+        self._parent = parent
+
     def path_from_root(self) -> list[Self]:
         """
         ========================================================================

@@ -32,6 +32,12 @@ def add_child(self, child: Self) -> None
 ```
 1. Appends a child to the children list.
 
+```python
+def remove_child(self, child: Self) -> None
+```
+1. Removes the child from the children list.
+2. Raises `ValueError` if the child is not present.
+
 ## Inheritance (Hierarchy)
 
 ```

@@ -29,6 +29,7 @@ class BFS(Generic[State], AlgoSPP[State]):
         AlgoSPP.__init__(self, problem=problem, name=name,
                          is_recording=is_recording)
         self._open: deque[State] = deque()
+        self._open_set: set[State] = set()
 
     def _init_search(self) -> None:
         """
@@ -37,6 +38,7 @@ class BFS(Generic[State], AlgoSPP[State]):
         ====================================================================
         """
         self._open.clear()
+        self._open_set.clear()
         super()._init_search()
 
     def _push(self, state: State) -> None:
@@ -46,6 +48,7 @@ class BFS(Generic[State], AlgoSPP[State]):
         ====================================================================
         """
         self._open.append(state)
+        self._open_set.add(state)
 
     def _pop(self) -> State:
         """
@@ -53,7 +56,9 @@ class BFS(Generic[State], AlgoSPP[State]):
          Pop the next State from the Frontier (FIFO).
         ====================================================================
         """
-        return self._open.popleft()
+        state = self._open.popleft()
+        self._open_set.discard(state)
+        return state
 
     def _has_open(self) -> bool:
         """
@@ -62,3 +67,11 @@ class BFS(Generic[State], AlgoSPP[State]):
         ====================================================================
         """
         return len(self._open) > 0
+
+    def _in_open(self, state: State) -> bool:
+        """
+        ====================================================================
+         Return True if the State is in the Frontier.
+        ====================================================================
+        """
+        return state in self._open_set

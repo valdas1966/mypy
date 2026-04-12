@@ -1,8 +1,9 @@
 # AStar
 
 ## Purpose
-A* Search Algorithm. Uses priority queue ordered by f = g + h.
-Heuristic function provided as a callable parameter.
+A* Search Algorithm using QueueIndexed (indexed min-heap with
+decrease_key). Matches classical textbook pseudocode — no lazy
+deletion, each state appears at most once in OPEN.
 
 ## Public API
 
@@ -16,9 +17,9 @@ def __init__(self,
 ```
 
 ## Tie-Breaking
-Heap entries are `(f, -g, counter, state)`:
-- **-g**: prefer higher g (deeper nodes, closer to goal)
-- **counter**: unique int, avoids state comparisons entirely
+Priority is `(f, -g)`:
+- **f = g + h**: total estimated cost
+- **-g**: prefer deeper nodes (closer to goal)
 
 ## Factory
 | Method | Returns | Description |
@@ -37,3 +38,4 @@ AlgoSPP[State]
 
 ## Dependencies
 - `f_hs.algo.i_0_base.AlgoSPP`
+- `f_ds.queues.i_1_indexed.QueueIndexed`

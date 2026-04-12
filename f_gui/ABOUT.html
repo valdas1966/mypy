@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>f_gui — Architecture Overview</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#30363d;
+    --fg:#e6edf3; --muted:#8b949e; --accent:#ff8c42; --accent2:#ffb07a;
+    --green:#3fb950; --blue:#58a6ff; --purple:#bc8cff; --yellow:#f0c36d;
+    --red:#f85149;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,sans-serif;
+       background:var(--bg);color:var(--fg);line-height:1.55}
+  header{padding:40px 32px 24px;border-bottom:1px solid var(--border);
+         background:linear-gradient(135deg,#1a1005 0%,#0d1117 70%)}
+  header h1{margin:0;font-size:42px;
+            background:linear-gradient(90deg,var(--accent),var(--accent2));
+            -webkit-background-clip:text;background-clip:text;color:transparent}
+  header .sub{color:var(--muted);margin-top:6px;font-size:15px}
+  main{max-width:1180px;margin:0 auto;padding:24px 32px 80px}
+  section{margin:36px 0}
+  h2{color:var(--accent);font-size:24px;border-bottom:1px solid var(--border);
+     padding-bottom:8px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+  h2 .ic{font-size:22px}
+  h3{color:var(--accent2);font-size:18px;margin:18px 0 8px}
+  .grid{display:grid;gap:16px}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--border);
+        border-radius:10px;padding:16px}
+  .card h4{margin:0 0 8px;color:var(--fg);font-size:16px;display:flex;
+           align-items:center;gap:8px}
+  .badge{display:inline-block;padding:2px 8px;border-radius:10px;
+         font-size:11px;font-weight:600;background:var(--panel2);
+         border:1px solid var(--border);color:var(--muted)}
+  .b-base{background:#2d1f0a;color:var(--accent);border-color:#5a3d14}
+  .b-mid{background:#0b2540;color:var(--blue);border-color:#1c4a7a}
+  .b-leaf{background:#1f0b2d;color:var(--purple);border-color:#4a1c7a}
+  .b-root{background:#0c2b14;color:var(--green);border-color:#1e5c2f}
+  .b-new{background:#2d1a08;color:var(--yellow);border-color:#5a3e14}
+  pre{background:#0a0d12;border:1px solid var(--border);border-radius:8px;
+      padding:14px;overflow:auto;font-size:13px;line-height:1.5;margin:8px 0}
+  code{font-family:'JetBrains Mono',Consolas,monospace}
+  .kw{color:#ff7b72}.st{color:#a5d6ff}.co{color:#8b949e;font-style:italic}
+  .fn{color:#d2a8ff}.cl{color:#ffa657}.num{color:#79c0ff}
+  table{width:100%;border-collapse:collapse;margin:8px 0}
+  th,td{padding:9px 12px;border:1px solid var(--border);text-align:left;
+        font-size:14px;vertical-align:top}
+  th{background:var(--panel2);color:var(--accent2)}
+  tr:nth-child(even) td{background:#11161d}
+  .note{background:#1d1408;border-left:3px solid var(--accent);
+        padding:12px 16px;border-radius:6px;margin:12px 0}
+  .good{border-left-color:var(--green);background:#0a1a0f}
+  .warn{border-left-color:var(--yellow);background:#1a1508}
+  .bad{border-left-color:var(--red);background:#1a0a0a}
+  .diagram{background:var(--panel);border:1px solid var(--border);
+           border-radius:10px;padding:16px;overflow-x:auto}
+  svg{display:block;margin:0 auto}
+  .demo{position:relative;width:100%;aspect-ratio:1/1;max-width:420px;
+        margin:0 auto;background:#0a0d12;border:2px solid var(--accent);
+        border-radius:6px}
+  .demo .ctn{position:absolute;border:2px dashed var(--blue);
+             background:rgba(88,166,255,.08)}
+  .demo .lbl{position:absolute;border:2px solid var(--purple);
+             background:rgba(188,140,255,.15);color:var(--purple);
+             font-size:12px;display:flex;align-items:center;
+             justify-content:center;border-radius:4px}
+  .tag{position:absolute;top:-10px;left:6px;background:var(--bg);
+       padding:0 6px;font-size:11px}
+  .t-win{color:var(--accent)}.t-ctn{color:var(--blue)}.t-lbl{color:var(--purple)}
+  .pill{display:inline-flex;gap:6px;align-items:center;padding:3px 10px;
+        border-radius:12px;background:var(--panel2);border:1px solid var(--border);
+        font-size:12px;margin:2px}
+  .pill.n{background:#2d1a08;border-color:#5a3e14;color:var(--yellow)}
+  .stat{display:flex;justify-content:space-between;padding:8px 0;
+        border-bottom:1px dashed var(--border)}
+  .stat:last-child{border:0}
+  .stat b{color:var(--accent2)}
+  .pros li{color:#c7e5d0;margin:4px 0}
+  .cons li{color:#f0c9c9;margin:4px 0}
+  .chg{background:#0a1a0f;border-left:3px solid var(--green);
+       padding:10px 14px;border-radius:6px;margin:6px 0;font-size:14px}
+  .chg b{color:var(--green)}
+  .hl{background:#2d1a08;color:var(--yellow);padding:1px 5px;border-radius:3px;
+      font-family:monospace;font-size:12px}
+  .flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .flow .step{background:var(--panel2);border:1px solid var(--border);
+              padding:6px 12px;border-radius:6px;font-family:monospace;
+              font-size:12px}
+  .flow .arr{color:var(--accent);font-weight:700}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🖼️ f_gui</h1>
+  <div class="sub">Lightweight, bounds-based GUI scene-graph — built on the MyPy framework's mixin + factory conventions.</div>
+  <div style="margin-top:12px">
+    <span class="pill">📦 1 package · 2 sub-packages</span>
+    <span class="pill">🧩 4 element classes</span>
+    <span class="pill">✅ 25 tests passing</span>
+    <span class="pill">🐍 Python 3.13</span>
+    <span class="pill n">♻️ v2 — reparent-safe</span>
+  </div>
+</header>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h2><span class="ic">✨</span> What's New in v2</h2>
+  <p>Four review items from the prior pass were applied — the scene-graph
+     is now encapsulation-clean and reparent-safe.</p>
+  <div class="grid g2">
+    <div class="chg"><b>① Back-door parent mutation — fixed.</b><br>
+      Added <span class="hl">HasParent._set_parent(parent)</span> in
+      <code>f_core</code>. <code>Container</code> no longer writes
+      <code>child._parent</code> directly.
+    </div>
+    <div class="chg"><b>② Reparenting / remove_child — added.</b><br>
+      <span class="hl">HasChildren.remove_child()</span> mirrors
+      <code>add_child</code>. <code>Container.add_child</code> auto-detaches
+      from old parent; re-adding an owned child is a no-op.
+    </div>
+    <div class="chg"><b>③ Factory <code>half()</code> duplication — fixed.</b><br>
+      <code>Container.Factory.half()</code> now delegates to
+      <span class="hl">Bounds.Factory.half()</span>.
+    </div>
+    <div class="chg"><b>④ Missing <code>CLAUDE.md</code> — created.</b><br>
+      New at <code>f_gui/</code>, <code>f_gui/elements/</code>,
+      <code>f_gui/elements/i_1_container/</code>. Mixin docs updated.
+    </div>
+  </div>
+  <div class="chg" style="margin-top:10px">
+    <b>Bonus:</b> pytest fixtures removed from every <code>_tester.py</code>
+    — tests now call <code>Class.Factory.xxx()</code> directly (no
+    one-line passthrough fixtures).
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h2><span class="ic">🗂️</span> Folder Structure</h2>
+  <pre><code>f_gui/
+├── __init__.py              <span class="co"># lazy aggregator (PEP 562)</span>
+├── CLAUDE.md                <span class="co"># ★ new — package-level docs</span>
+├── ABOUT.html               <span class="co"># this file</span>
+├── _run_tests.py            <span class="co"># runs every _tester.py in subtree</span>
+└── elements/
+    ├── __init__.py          <span class="co"># lazy aggregator</span>
+    ├── CLAUDE.md            <span class="co"># ★ new — aggregator docs</span>
+    ├── i_0_element/         <span class="cl">Element</span>   <span class="co"># base</span>
+    ├── i_1_container/       <span class="cl">Container</span> <span class="co"># ★ updated — remove/reparent</span>
+    │   └── CLAUDE.md        <span class="co"># ★ new</span>
+    ├── i_1_label/           <span class="cl">Label</span>     <span class="co"># leaf + text</span>
+    └── i_2_window/          <span class="cl">Window</span>    <span class="co"># root container</span></code></pre>
+  <div class="note">
+    The <code>i_<b>X</b>_name</code> prefix encodes <b>inheritance depth</b>:
+    <code>i_0_</code> is the base, <code>i_1_</code> direct subclasses,
+    <code>i_2_</code> extends an <code>i_1_</code> sibling.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h2><span class="ic">🧬</span> Class Hierarchy</h2>
+  <div class="diagram">
+    <svg viewBox="0 0 900 360" width="100%" style="max-width:900px">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="10" refY="5"
+                markerWidth="8" markerHeight="8" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/>
+        </marker>
+      </defs>
+
+      <g>
+        <rect x="20"  y="20" width="160" height="44" rx="8"
+              fill="#1a1005" stroke="#5a3d14"/>
+        <text x="100" y="40" fill="#ffb07a" text-anchor="middle"
+              font-family="monospace" font-size="13">HasName</text>
+        <text x="100" y="56" fill="#8b949e" text-anchor="middle"
+              font-size="10">name</text>
+
+        <rect x="200" y="20" width="160" height="44" rx="8"
+              fill="#1a1005" stroke="#5a3d14"/>
+        <text x="280" y="38" fill="#ffb07a" text-anchor="middle"
+              font-family="monospace" font-size="13">HasParent</text>
+        <text x="280" y="55" fill="#8b949e" text-anchor="middle"
+              font-size="10">parent · _set_parent ★</text>
+
+        <rect x="380" y="20" width="170" height="44" rx="8"
+              fill="#1a1005" stroke="#5a3d14"/>
+        <text x="465" y="38" fill="#ffb07a" text-anchor="middle"
+              font-family="monospace" font-size="13">HasChildren</text>
+        <text x="465" y="55" fill="#8b949e" text-anchor="middle"
+              font-size="10">add · remove_child ★</text>
+
+        <rect x="570" y="20" width="170" height="44" rx="8"
+              fill="#1a1005" stroke="#5a3d14"/>
+        <text x="655" y="40" fill="#ffb07a" text-anchor="middle"
+              font-family="monospace" font-size="13">Bounds (f_ds)</text>
+        <text x="655" y="56" fill="#8b949e" text-anchor="middle"
+              font-size="10">top/left/bottom/right</text>
+
+        <text x="870" y="46" fill="#8b949e" font-size="12"
+              text-anchor="end">mixins · deps</text>
+      </g>
+
+      <rect x="340" y="120" width="220" height="56" rx="10"
+            fill="#2d1f0a" stroke="#ff8c42" stroke-width="2"/>
+      <text x="450" y="145" fill="#ff8c42" text-anchor="middle"
+            font-family="monospace" font-size="18" font-weight="700">Element</text>
+      <text x="450" y="165" fill="#8b949e" text-anchor="middle"
+            font-size="11">i_0_element · base</text>
+
+      <rect x="140" y="240" width="220" height="56" rx="10"
+            fill="#0b2540" stroke="#58a6ff" stroke-width="2"/>
+      <text x="250" y="265" fill="#58a6ff" text-anchor="middle"
+            font-family="monospace" font-size="16" font-weight="700">Container</text>
+      <text x="250" y="283" fill="#8b949e" text-anchor="middle"
+            font-size="11">i_1_container · add/remove/reparent</text>
+
+      <rect x="540" y="240" width="220" height="56" rx="10"
+            fill="#1f0b2d" stroke="#bc8cff" stroke-width="2"/>
+      <text x="650" y="265" fill="#bc8cff" text-anchor="middle"
+            font-family="monospace" font-size="16" font-weight="700">Label</text>
+      <text x="650" y="283" fill="#8b949e" text-anchor="middle"
+            font-size="11">i_1_label · leaf · text</text>
+
+      <rect x="140" y="310" width="220" height="40" rx="10"
+            fill="#0c2b14" stroke="#3fb950" stroke-width="2"/>
+      <text x="250" y="336" fill="#3fb950" text-anchor="middle"
+            font-family="monospace" font-size="15" font-weight="700">Window</text>
+
+      <line x1="100" y1="64"  x2="410" y2="120" stroke="#8b949e"
+            stroke-dasharray="4 4" marker-end="url(#arr)"/>
+      <line x1="280" y1="64"  x2="440" y2="120" stroke="#8b949e"
+            stroke-dasharray="4 4" marker-end="url(#arr)"/>
+      <line x1="465" y1="64"  x2="290" y2="240" stroke="#8b949e"
+            stroke-dasharray="4 4" marker-end="url(#arr)"/>
+      <line x1="655" y1="64"  x2="660" y2="240" stroke="#8b949e"
+            stroke-dasharray="4 4" marker-end="url(#arr)"/>
+
+      <line x1="420" y1="176" x2="280" y2="240" stroke="#ff8c42"
+            stroke-width="2" marker-end="url(#arr)"/>
+      <line x1="480" y1="176" x2="620" y2="240" stroke="#ff8c42"
+            stroke-width="2" marker-end="url(#arr)"/>
+      <line x1="250" y1="296" x2="250" y2="310" stroke="#58a6ff"
+            stroke-width="2" marker-end="url(#arr)"/>
+    </svg>
+  </div>
+  <div class="grid g4" style="margin-top:14px">
+    <div class="card"><h4><span class="badge b-base">i_0</span> Element</h4>
+      <div style="color:var(--muted);font-size:13px">
+        Bounds + name + parent pointer. Every node IS-A Element.</div></div>
+    <div class="card"><h4><span class="badge b-mid">i_1</span> Container</h4>
+      <div style="color:var(--muted);font-size:13px">
+        Holds children. Owns parent/children invariants.</div></div>
+    <div class="card"><h4><span class="badge b-leaf">i_1</span> Label</h4>
+      <div style="color:var(--muted);font-size:13px">
+        Leaf with text. No children.</div></div>
+    <div class="card"><h4><span class="badge b-root">i_2</span> Window</h4>
+      <div style="color:var(--muted);font-size:13px">
+        Root container with implicit full bounds.</div></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h2><span class="ic">📐</span> Bounds Coordinate System</h2>
+  <p>All positions are <b>relative to the parent</b> in a normalized
+     <b>0-100</b> space — resolution-independent.</p>
+  <div class="grid g2">
+    <div class="card">
+      <h3>Example Layout</h3>
+      <div class="demo">
+        <span class="tag t-win">Window (0,0,100,100)</span>
+        <div class="ctn" style="top:30%;left:50%;bottom:50%;right:30%">
+          <span class="tag t-ctn">Container (30,50,50,70)</span>
+          <div class="lbl" style="top:20%;left:10%;bottom:40%;right:30%">
+            Label[Hello]
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Tuple format</h3>
+<pre><code><span class="fn">bounds.to_tuple()</span> <span class="co"># (top, left, bottom, right)</span>
+
+<span class="cl">Window</span>    → (0,  0,  100, 100)
+<span class="cl">Container</span> → (30, 50, 50,  70)  <span class="co"># inside Window</span>
+<span class="cl">Label</span>     → (20, 10, 40,  30)  <span class="co"># inside Container</span></code></pre>
+      <div class="note">
+        <b>Child bounds are local.</b> The label at (20,10,40,30) means
+        "20-40% from the Container's top, 10-30% from its left" —
+        <i>not</i> window coordinates.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h2><span class="ic">🌳</span> Tree-Mutation Semantics (★ new)</h2>
+  <table>
+    <tr><th style="width:34%">Operation</th><th>Result</th></tr>
+    <tr>
+      <td><code>container.add_child(child)</code><br>
+          <span class="muted">— fresh child</span></td>
+      <td>Sets <code>child.parent = container</code> via
+          <code>_set_parent()</code>; appends to <code>children</code>.</td>
+    </tr>
+    <tr>
+      <td><code>container.add_child(child)</code><br>
+          <span class="muted">— child owned by another parent</span></td>
+      <td>Detaches from old parent first
+          (<code>old.remove_child(child)</code>), then attaches here.
+          No orphaned entries.</td>
+    </tr>
+    <tr>
+      <td><code>container.add_child(child)</code><br>
+          <span class="muted">— child already owned by <i>this</i> container</span></td>
+      <td><b>No-op.</b> Prevents duplicate entries in <code>children</code>.</td>
+    </tr>
+    <tr>
+      <td><code>container.remove_child(child)</code></td>
+      <td>Drops from <code>children</code> and clears
+          <code>child.parent</code> via <code>_set_parent(None)</code>.
+          Raises <code>ValueError</code> if not present.</td>
+    </tr>
+  </table>
+
+  <h3>Reparent Flow</h3>
+  <div class="flow">
+    <span class="step">old.children = [child]</span>
+    <span class="arr">→</span>
+    <span class="step">new.add_child(child)</span>
+    <span class="arr">→</span>
+    <span class="step">old.remove_child(child)</span>
+    <span class="arr">→</span>
+    <span class="step">child._set_parent(new)</span>
+    <span class="arr">→</span>
+    <span class="step">new._children.append(child)</span>
+  </div>
+
+  <div class="note good">
+    <b>Invariant preserved:</b> every child appears in exactly one
+    <code>children</code> list, and <code>child.parent.children</code>
+    always contains <code>child</code>.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h2><span class="ic">🔌</span> Component Interaction Flow</h2>
+  <div class="diagram">
+    <svg viewBox="0 0 900 260" width="100%" style="max-width:900px">
+      <defs>
+        <marker id="arr2" viewBox="0 0 10 10" refX="10" refY="5"
+                markerWidth="9" markerHeight="9" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#ff8c42"/>
+        </marker>
+      </defs>
+
+      <rect x="20" y="20" width="160" height="50" rx="10"
+            fill="#161b22" stroke="#30363d"/>
+      <text x="100" y="42" fill="#e6edf3" text-anchor="middle"
+            font-size="13">User code</text>
+      <text x="100" y="58" fill="#8b949e" text-anchor="middle"
+            font-family="monospace" font-size="11">Window.Factory.default()</text>
+
+      <rect x="230" y="20" width="160" height="50" rx="10"
+            fill="#2d1f0a" stroke="#ff8c42"/>
+      <text x="310" y="42" fill="#ff8c42" text-anchor="middle"
+            font-size="13">Factory</text>
+      <text x="310" y="58" fill="#8b949e" text-anchor="middle"
+            font-family="monospace" font-size="11">_factory.py</text>
+
+      <rect x="440" y="20" width="160" height="50" rx="10"
+            fill="#0b2540" stroke="#58a6ff"/>
+      <text x="520" y="42" fill="#58a6ff" text-anchor="middle"
+            font-size="13">Element class</text>
+      <text x="520" y="58" fill="#8b949e" text-anchor="middle"
+            font-family="monospace" font-size="11">main.py</text>
+
+      <rect x="650" y="20" width="220" height="50" rx="10"
+            fill="#1a1005" stroke="#5a3d14"/>
+      <text x="760" y="42" fill="#ffb07a" text-anchor="middle"
+            font-size="13">Mixins (f_core)</text>
+      <text x="760" y="58" fill="#8b949e" text-anchor="middle"
+            font-family="monospace" font-size="11">HasName · HasParent · HasChildren</text>
+
+      <line x1="180" y1="45" x2="230" y2="45" stroke="#ff8c42" stroke-width="2"
+            marker-end="url(#arr2)"/>
+      <line x1="390" y1="45" x2="440" y2="45" stroke="#ff8c42" stroke-width="2"
+            marker-end="url(#arr2)"/>
+      <line x1="600" y1="45" x2="650" y2="45" stroke="#ff8c42" stroke-width="2"
+            marker-end="url(#arr2)"/>
+
+      <rect x="340" y="130" width="220" height="50" rx="10"
+            fill="#0c2b14" stroke="#3fb950"/>
+      <text x="450" y="152" fill="#3fb950" text-anchor="middle"
+            font-size="14">Window (root)</text>
+      <text x="450" y="170" fill="#8b949e" text-anchor="middle"
+            font-family="monospace" font-size="11">add_child / remove_child</text>
+
+      <rect x="140" y="210" width="200" height="40" rx="10"
+            fill="#0b2540" stroke="#58a6ff"/>
+      <text x="240" y="235" fill="#58a6ff" text-anchor="middle"
+            font-family="monospace" font-size="13">Container</text>
+
+      <rect x="560" y="210" width="200" height="40" rx="10"
+            fill="#1f0b2d" stroke="#bc8cff"/>
+      <text x="660" y="235" fill="#bc8cff" text-anchor="middle"
+            font-family="monospace" font-size="13">Label</text>
+
+      <line x1="400" y1="180" x2="260" y2="210" stroke="#3fb950"
+            stroke-width="2" marker-end="url(#arr2)"/>
+      <line x1="500" y1="180" x2="640" y2="210" stroke="#3fb950"
+            stroke-width="2" marker-end="url(#arr2)"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h2><span class="ic">🧪</span> Test Suite</h2>
+  <div class="grid g2">
+    <div class="card">
+      <h3>Run all tests</h3>
+<pre><code><span class="co"># from project root</span>
+python -m f_gui._run_tests</code></pre>
+      <div class="note good">
+        <b>✅ 25 passed · 0 failed · 0 errors</b> — 4 <code>_tester.py</code> files.
+      </div>
+      <h3>Style</h3>
+      <p style="margin:6px 0;font-size:14px">
+        No fixtures — each test calls
+        <code>Class.Factory.xxx()</code> directly. Fewer indirections,
+        easier to read.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Per-module coverage</h3>
+      <div class="stat"><span>Element</span><b>5 tests</b></div>
+      <div class="stat"><span>Container</span><b>9 tests <span class="pill n">+3</span></b></div>
+      <div class="stat"><span>Label</span><b>5 tests</b></div>
+      <div class="stat"><span>Window</span><b>6 tests</b></div>
+      <h3>New Container tests</h3>
+      <div class="stat"><span>test_remove_child</span><b>✓</b></div>
+      <div class="stat"><span>test_reparent</span><b>✓</b></div>
+      <div class="stat"><span>test_add_same_parent_is_noop</span><b>✓</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h2><span class="ic">💡</span> Usage Examples</h2>
+
+  <h3>1 · Create a simple element</h3>
+<pre><code><span class="kw">from</span> f_gui.elements.i_0_element <span class="kw">import</span> Element
+
+e = Element.Factory.full()           <span class="co"># bounds (0, 0, 100, 100)</span>
+<span class="kw">print</span>(e)                             <span class="co"># Element(0, 0, 100, 100)</span>
+<span class="kw">print</span>(e.bounds.to_tuple())           <span class="co"># (0, 0, 100, 100)</span></code></pre>
+
+  <h3>2 · Build a Window → Container → Label tree</h3>
+<pre><code><span class="kw">from</span> f_gui.elements.i_2_window    <span class="kw">import</span> Window
+<span class="kw">from</span> f_gui.elements.i_1_container <span class="kw">import</span> Container
+<span class="kw">from</span> f_gui.elements.i_1_label     <span class="kw">import</span> Label
+<span class="kw">from</span> f_ds.geometry.bounds         <span class="kw">import</span> Bounds
+
+win   = Window.Factory.default()
+panel = Container(bounds=Bounds(top=<span class="num">30</span>, left=<span class="num">50</span>,
+                                bottom=<span class="num">50</span>, right=<span class="num">70</span>))
+hello = Label(bounds=Bounds(top=<span class="num">20</span>, left=<span class="num">10</span>,
+                            bottom=<span class="num">40</span>, right=<span class="num">30</span>),
+              text=<span class="st">'Hello'</span>)
+
+win.add_child(child=panel)
+panel.add_child(child=hello)
+
+<span class="kw">assert</span> hello.parent <span class="kw">is</span> panel
+<span class="kw">assert</span> panel.parent <span class="kw">is</span> win
+<span class="kw">assert</span> win.parent   <span class="kw">is</span> <span class="kw">None</span></code></pre>
+
+  <h3>3 · Reparent a child (★ new behavior)</h3>
+<pre><code>old = Container.Factory.full()
+new = Container.Factory.half()
+lbl = Label.Factory.hello()
+
+old.add_child(child=lbl)
+<span class="kw">assert</span> old.children == [lbl]
+
+<span class="co"># Moving the label to `new` auto-detaches it from `old`.</span>
+new.add_child(child=lbl)
+<span class="kw">assert</span> lbl.parent   <span class="kw">is</span> new
+<span class="kw">assert</span> old.children == []
+<span class="kw">assert</span> new.children == [lbl]</code></pre>
+
+  <h3>4 · Remove a child (★ new)</h3>
+<pre><code>panel.remove_child(child=hello)
+<span class="kw">assert</span> hello.parent <span class="kw">is</span> <span class="kw">None</span>
+<span class="kw">assert</span> panel.children == []</code></pre>
+
+  <h3>5 · Walk the tree from a leaf back to the root</h3>
+<pre><code><span class="co"># path_from_root() is inherited from HasParent</span>
+<span class="kw">for</span> node <span class="kw">in</span> hello.path_from_root():
+    <span class="kw">print</span>(node.name)
+<span class="co"># Window → Container → Label</span></code></pre>
+
+  <h3>6 · Use ready-made Factory presets</h3>
+<pre><code>Element.Factory.full()       <span class="co"># (0, 0, 100, 100)</span>
+Element.Factory.half()       <span class="co"># (25, 25, 75, 75) centered</span>
+Container.Factory.full()     <span class="co"># full-parent container</span>
+Container.Factory.half()     <span class="co"># ★ now reuses Bounds.Factory.half()</span>
+Label.Factory.hello()        <span class="co"># Label[Hello]</span>
+Label.Factory.title()        <span class="co"># top 10% title bar</span>
+Window.Factory.default()     <span class="co"># root window</span></code></pre>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h2><span class="ic">🛠️</span> Implementation Sketch</h2>
+
+  <h3><code>HasParent</code> — protected setter</h3>
+<pre><code><span class="kw">def</span> <span class="fn">_set_parent</span>(self, parent: Self | <span class="kw">None</span>) -> <span class="kw">None</span>:
+    <span class="st">"""Protected helper for friend-classes."""</span>
+    self._parent = parent</code></pre>
+
+  <h3><code>HasChildren</code> — remove counterpart</h3>
+<pre><code><span class="kw">def</span> <span class="fn">remove_child</span>(self, child: Self) -> <span class="kw">None</span>:
+    <span class="co"># Raises ValueError if not present.</span>
+    self._children.remove(child)</code></pre>
+
+  <h3><code>Container</code> — orchestrates invariants</h3>
+<pre><code><span class="kw">def</span> <span class="fn">add_child</span>(self, child: Element) -> <span class="kw">None</span>:
+    old_parent = child.parent
+    <span class="kw">if</span> old_parent <span class="kw">is not</span> <span class="kw">None</span>:
+        <span class="kw">if</span> old_parent <span class="kw">is</span> self:
+            <span class="kw">return</span>                             <span class="co"># no-op</span>
+        old_parent.remove_child(child=child)    <span class="co"># detach</span>
+    child._set_parent(parent=self)              <span class="co"># encapsulated</span>
+    HasChildren.add_child(self, child=child)
+
+<span class="kw">def</span> <span class="fn">remove_child</span>(self, child: Element) -> <span class="kw">None</span>:
+    HasChildren.remove_child(self, child=child)
+    child._set_parent(parent=<span class="kw">None</span>)</code></pre>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h2><span class="ic">🧠</span> Design Review — v2</h2>
+  <div class="grid g2">
+    <div class="card">
+      <h3 style="color:var(--green)">✅ Strengths</h3>
+      <ul class="pros">
+        <li><b>Framework-idiomatic.</b> <code>i_X_</code> folders,
+            Factory wiring, mixin composition, <code>=</code>-docstrings —
+            all per <code>CLAUDE.md</code>.</li>
+        <li><b>Encapsulation is clean.</b> Parent mutation flows through
+            <code>_set_parent()</code>; no consumer pokes private state.</li>
+        <li><b>Reparent-safe.</b> Moving a child between containers
+            never leaves dangling references; duplicate adds are a no-op.</li>
+        <li><b>Resolution-independent bounds</b> (0-100 relative space).</li>
+        <li><b>Lazy aggregator <code>__init__.py</code>.</b> No cascade
+            imports — importing <code>Label</code> doesn't load the rest.</li>
+        <li><b>Tests are direct.</b> No fixture ceremony for
+            one-line passthroughs; each test is self-contained.</li>
+        <li><b>Complete <code>CLAUDE.md</code> coverage</b> at every
+            level of the package.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--yellow)">⚠️ Remaining / Future work</h3>
+      <ul class="cons">
+        <li><b>No rendering layer.</b> This is a scene graph, not a
+            renderer. Document this clearly if third parties consume it.</li>
+        <li><b>No visibility / z-order / enabled flags</b> — expected
+            next mixins (<code>HasVisible</code>, <code>HasZOrder</code>).</li>
+        <li><b>No hit-testing / coordinate-resolution helpers.</b>
+            A <code>bounds_in_root()</code> that composes the parent
+            chain would be useful.</li>
+        <li><b><code>Window.__init__</code> drops <code>bounds</code>.</b>
+            Still implicit — consider an explicit
+            <code>bounds=Bounds.Factory.full()</code> default.</li>
+        <li><b>No event / observer hooks</b> (<code>on_child_added</code>,
+            <code>on_removed</code>) — needed once a renderer plugs in.</li>
+        <li><b>Integrity checks (cycles, orphans, etc.) live out-of-band.</b>
+            Kept out of the hot path by design — validated by a separate
+            debugging tool, not inline guards.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note good">
+    <b>Bottom line.</b> v2 closes the encapsulation and lifecycle gaps
+    called out in v1. The package is a solid, minimal foundation for a
+    retained-mode scene graph — next moves are visibility, hit-testing,
+    and a rendering adapter.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h2><span class="ic">🗺️</span> At-a-glance Summary</h2>
+  <table>
+    <tr><th>Aspect</th><th>v1</th><th>v2</th></tr>
+    <tr><td>Framework conventions</td>
+        <td style="color:var(--green)">✅</td>
+        <td style="color:var(--green)">✅</td></tr>
+    <tr><td>Factory pattern wiring</td>
+        <td style="color:var(--green)">✅</td>
+        <td style="color:var(--green)">✅</td></tr>
+    <tr><td>Mixin composition</td>
+        <td style="color:var(--green)">✅</td>
+        <td style="color:var(--green)">✅</td></tr>
+    <tr><td>Encapsulated parent pointer</td>
+        <td style="color:var(--yellow)">⚠️ direct write</td>
+        <td style="color:var(--green)">✅ <code>_set_parent()</code></td></tr>
+    <tr><td>Remove / reparent</td>
+        <td style="color:var(--red)">❌</td>
+        <td style="color:var(--green)">✅ auto-detach + no-op guard</td></tr>
+    <tr><td>Factory duplication (Container.half)</td>
+        <td style="color:var(--yellow)">⚠️</td>
+        <td style="color:var(--green)">✅ delegates to Bounds.half()</td></tr>
+    <tr><td>CLAUDE.md coverage</td>
+        <td style="color:var(--yellow)">⚠️ gaps</td>
+        <td style="color:var(--green)">✅ every folder</td></tr>
+    <tr><td>Test suite</td>
+        <td>22/22</td>
+        <td style="color:var(--green)">25/25 (+3 for new behavior)</td></tr>
+    <tr><td>Test style</td>
+        <td>fixtures</td>
+        <td style="color:var(--green)">direct Factory calls</td></tr>
+    <tr><td>Rendering layer</td>
+        <td style="color:var(--muted)">— out of scope</td>
+        <td style="color:var(--muted)">— out of scope</td></tr>
+  </table>
+</section>
+
+<footer style="text-align:center;color:var(--muted);margin-top:40px;
+               padding-top:20px;border-top:1px solid var(--border);font-size:12px">
+  Generated for <code>f_gui</code> v2 · MyPy framework · 2026-04-12
+</footer>
+
+</main>
+</body>
+</html>
