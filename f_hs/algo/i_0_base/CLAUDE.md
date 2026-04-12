@@ -2,8 +2,8 @@
 
 ## Purpose
 Abstract base class for SPP search algorithms. Implements the
-classical search loop with eager deletion. Subclasses provide
-frontier management.
+classical search loop with eager deletion. Recording is automatic
+inside `_push`, `_pop`, and `_decrease_g`.
 
 ## Public API
 
@@ -32,28 +32,30 @@ def __init__(self,
 
 ## Search Loop (Classical Pseudocode)
 ```
-OPEN ← {start}
-while OPEN not empty:
-    n ← OPEN.pop_min()
+FRONTIER ← {start}
+while FRONTIER not empty:
+    n ← FRONTIER.pop_min()
     if n is goal: return cost
     CLOSED ← CLOSED ∪ {n}
     for each child of n:
         if child in CLOSED: skip
-        if child not in OPEN: insert
-        else if new_g < g(child): decrease_key
+        w ← problem.w(n, child)
+        if child not in FRONTIER: insert
+        else if new_g < g(child): decrease_g
 ```
 
 ## Event Recording
-When `is_recording=True`, the recorder captures:
+Recording is automatic inside `_push`, `_pop`, `_decrease_g`.
+Three event types, duration in nanoseconds:
 
-| Event | Details | Elapsed |
-|-------|---------|---------|
-| `push` | state, g, parent | nanoseconds |
-| `pop` | state, g | nanoseconds |
-| `generate` | parent, child, edge_cost, new_g, old_g, relaxed | nanoseconds |
-| `decrease_key` | state, g, parent | nanoseconds |
-| `goal_found` | state, cost | nanoseconds |
-| `reconstruct_path` | goal, path_length | nanoseconds |
+| Event | Details |
+|-------|---------|
+| `push` | state, g, parent, w |
+| `pop` | state, g |
+| `decrease_g` | state, g, parent, w |
+
+`g`, `parent`, `w` are auto-populated from internal state.
+AStar enriches with `h` and `f`.
 
 ## Internal Data
 | Attribute | Type | Description |
@@ -64,15 +66,14 @@ When `is_recording=True`, the recorder captures:
 | `_goal_reached` | `State\|None` | Goal found |
 | `_goals_set` | `set[State]` | Goal set for lookup |
 
-## Hooks for Subclasses
+## Frontier Hooks (subclass must implement)
 | Hook | Must Override | Description |
 |------|---------------|-------------|
-| `_push(state)` | Yes | Add to frontier |
-| `_pop()` | Yes | Get next from frontier |
-| `_has_open()` | Yes | Frontier not empty? |
-| `_in_open(state)` | No (default=False) | State in frontier? |
-| `_decrease_key(state)` | No (default=no-op) | Update priority |
-| `_edge_cost(p, c)` | No (default=1) | Edge weight |
+| `_frontier_push(state)` | Yes | Add to frontier |
+| `_frontier_pop()` | Yes | Get next from frontier |
+| `_has_frontier()` | Yes | Frontier not empty? |
+| `_in_frontier(state)` | No (default=False) | State in frontier? |
+| `_frontier_decrease(state)` | No (default=no-op) | Update priority |
 | `_is_goal(state)` | No | Goal check |
 | `_init_search()` | No | Override to clear frontier |
 

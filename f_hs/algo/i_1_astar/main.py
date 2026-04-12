@@ -30,7 +30,7 @@ class AStar(Generic[State], AlgoSPP[State]):
         AlgoSPP.__init__(self, problem=problem, name=name,
                          is_recording=is_recording)
         self._h = h
-        self._open: QueueIndexed[State, tuple] = (
+        self._frontier: QueueIndexed[State, tuple] = (
             QueueIndexed()
         )
 
@@ -40,54 +40,55 @@ class AStar(Generic[State], AlgoSPP[State]):
          Initialize the Search.
         ====================================================================
         """
-        self._open.clear()
+        self._frontier.clear()
         super()._init_search()
 
-    def _push(self, state: State) -> None:
+    def _frontier_push(self, state: State) -> None:
         """
         ====================================================================
-         Push State into the Priority Queue (by f = g + h).
+         Push State into the Priority Queue (f = g + h).
          Tie-breaking: prefer higher g (deeper node).
         ====================================================================
         """
         g = self._g[state]
         f = g + self._h(state)
-        self._open.push(item=state, priority=(f, -g))
+        self._frontier.push(item=state,
+                            priority=(f, -g))
 
-    def _pop(self) -> State:
+    def _frontier_pop(self) -> State:
         """
         ====================================================================
          Pop the State with lowest f-value.
         ====================================================================
         """
-        return self._open.pop()
+        return self._frontier.pop()
 
-    def _has_open(self) -> bool:
+    def _has_frontier(self) -> bool:
         """
         ====================================================================
          Return True if the Priority Queue is not empty.
         ====================================================================
         """
-        return bool(self._open)
+        return bool(self._frontier)
 
-    def _in_open(self, state: State) -> bool:
+    def _in_frontier(self, state: State) -> bool:
         """
         ====================================================================
-         Return True if the State is in the Open List.
+         Return True if the State is in the Frontier.
         ====================================================================
         """
-        return state in self._open
+        return state in self._frontier
 
-    def _decrease_g(self, state: State) -> None:
+    def _frontier_decrease(self, state: State) -> None:
         """
         ====================================================================
-         Update the Priority of a State in the Open List.
+         Update the Priority of a State in the Frontier.
         ====================================================================
         """
         g = self._g[state]
         f = g + self._h(state)
-        self._open.decrease_key(item=state,
-                                priority=(f, -g))
+        self._frontier.decrease_key(item=state,
+                                    priority=(f, -g))
 
     def _enrich_event(self, event: dict) -> None:
         """

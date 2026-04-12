@@ -31,7 +31,7 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         self._goal_reached: State | None = None
 
     # ──────────────────────────────────────────────────
-    #  The Search Loop (Classical A* Pseudocode)
+    #  The Search Loop (Classical Pseudocode)
     # ──────────────────────────────────────────────────
 
     def _run(self) -> SolutionSPP:
@@ -41,9 +41,8 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         ====================================================================
         """
         self._init_search()
-        while self._has_open():
+        while self._has_frontier():
             state = self._pop()
-            self._record_event(type='pop', state=state)
             if self._is_goal(state):
                 self._goal_reached = state
                 return SolutionSPP(cost=self._g[state])
@@ -73,8 +72,6 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
             self._g[start] = 0.0
             self._parent[start] = None
             self._push(state=start)
-            self._record_event(type='push',
-                               state=start)
 
     # ──────────────────────────────────────────────────
     #  Core Operations
@@ -102,30 +99,54 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         """
         ====================================================================
          Handle a Child State discovered from Parent.
-         Follows classical pseudocode:
-           if child in CLOSED: skip
-           if child not in OPEN: insert
-           else if new_g < g(child): decrease_g
         ====================================================================
         """
         if child in self._closed:
             return
-        w = self._w(parent=parent, child=child)
-        new_g = self._g[parent] + w
-        if not self._in_open(state=child):
-            # New node — insert
+        new_g = (self._g[parent]
+                 + self.problem.w(parent=parent,
+                                  child=child))
+        if not self._in_frontier(state=child):
             self._g[child] = new_g
             self._parent[child] = parent
             self._push(state=child)
-            self._record_event(type='push',
-                               state=child)
         elif new_g < self._g[child]:
-            # Better path — decrease g
             self._g[child] = new_g
             self._parent[child] = parent
             self._decrease_g(state=child)
-            self._record_event(type='decrease_g',
-                               state=child)
+
+    # ──────────────────────────────────────────────────
+    #  Frontier Operations (with recording)
+    # ──────────────────────────────────────────────────
+
+    def _push(self, state: State) -> None:
+        """
+        ====================================================================
+         Push a State into the Frontier and record.
+        ====================================================================
+        """
+        self._frontier_push(state=state)
+        self._record_event(type='push', state=state)
+
+    def _pop(self) -> State:
+        """
+        ====================================================================
+         Pop the next State from the Frontier and record.
+        ====================================================================
+        """
+        state = self._frontier_pop()
+        self._record_event(type='pop', state=state)
+        return state
+
+    def _decrease_g(self, state: State) -> None:
+        """
+        ====================================================================
+         Update Priority and record.
+        ====================================================================
+        """
+        self._frontier_decrease(state=state)
+        self._record_event(type='decrease_g',
+                           state=state)
 
     # ──────────────────────────────────────────────────
     #  Event Recording
@@ -149,24 +170,15 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
             parent = self._parent[state]
             event['parent'] = parent
             if parent is not None:
-                event['w'] = self._g[state] - self._g[parent]
+                event['w'] = (self._g[state]
+                              - self._g[parent])
         super()._record_event(**event)
-
-    def _w(self,
-           parent: State,
-           child: State) -> float:
-        """
-        ====================================================================
-         Return the Edge Cost from Parent to Child.
-        ====================================================================
-        """
-        return 1.0
 
     # ──────────────────────────────────────────────────
     #  Frontier (subclass must implement)
     # ──────────────────────────────────────────────────
 
-    def _push(self, state: State) -> None:
+    def _frontier_push(self, state: State) -> None:
         """
         ====================================================================
          Push a State into the Frontier.
@@ -174,7 +186,7 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         """
         raise NotImplementedError
 
-    def _pop(self) -> State:
+    def _frontier_pop(self) -> State:
         """
         ====================================================================
          Pop the next State from the Frontier.
@@ -182,7 +194,7 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         """
         raise NotImplementedError
 
-    def _has_open(self) -> bool:
+    def _has_frontier(self) -> bool:
         """
         ====================================================================
          Return True if the Frontier is not empty.
@@ -190,7 +202,7 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         """
         raise NotImplementedError
 
-    def _in_open(self, state: State) -> bool:
+    def _in_frontier(self, state: State) -> bool:
         """
         ====================================================================
          Return True if the State is in the Frontier.
@@ -198,7 +210,7 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         """
         return False
 
-    def _decrease_g(self, state: State) -> None:
+    def _frontier_decrease(self, state: State) -> None:
         """
         ====================================================================
          Update the Priority of a State in the Frontier.

@@ -2,8 +2,8 @@
 
 ## Purpose
 A* Search Algorithm using QueueIndexed (indexed min-heap with
-decrease_key). Matches classical textbook pseudocode — no lazy
-deletion, each state appears at most once in OPEN.
+decrease_key). Matches classical textbook pseudocode — eager
+deletion, each state appears at most once in FRONTIER.
 
 ## Public API
 
@@ -20,6 +20,10 @@ def __init__(self,
 Priority is `(f, -g)`:
 - **f = g + h**: total estimated cost
 - **-g**: prefer deeper nodes (closer to goal)
+
+## Event Enrichment
+AStar overrides `_enrich_event` to add `h` and `f` to all
+push, pop, and decrease_g events.
 
 ## Factory
 | Method | Returns | Description |

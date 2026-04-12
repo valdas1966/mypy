@@ -61,6 +61,14 @@ class ProblemSPP(ProblemAlgo, Generic[State]):
         """
         return self._goals[0]
 
+    def w(self, parent: State, child: State) -> float:
+        """
+        ========================================================================
+         Return the Edge Cost from Parent to Child.
+        ========================================================================
+        """
+        return 1.0
+
     def successors(self, state: State) -> list[State]:
         """
         ========================================================================
