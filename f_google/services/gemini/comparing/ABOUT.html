@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemini Benchmark: ask() vs ask_str()</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2333;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text2: #8b949e;
+    --accent-ask: #58a6ff;
+    --accent-ask-bg: rgba(88,166,255,0.12);
+    --accent-str: #f78166;
+    --accent-str-bg: rgba(247,129,102,0.12);
+    --green: #3fb950;
+    --green-bg: rgba(63,185,80,0.10);
+    --yellow: #d29922;
+    --yellow-bg: rgba(210,153,34,0.10);
+    --red: #f85149;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    padding: 40px 20px;
+  }
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header h1 {
+    font-size: 2.4em;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-ask), var(--accent-str));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .header .subtitle { color: var(--text2); font-size: 1.1em; }
+  .header .meta {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .meta-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.85em;
+    color: var(--text2);
+  }
+  .meta-chip b { color: var(--text); }
+
+  /* Verdict banner */
+  .verdict {
+    background: var(--green-bg);
+    border: 1px solid var(--green);
+    border-radius: 12px;
+    padding: 24px 32px;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  .verdict h2 {
+    color: var(--green);
+    font-size: 1.5em;
+    margin-bottom: 8px;
+  }
+  .verdict p { color: var(--text2); font-size: 1.05em; line-height: 1.7; }
+  .verdict .highlight { color: var(--text); font-weight: 600; }
+
+  /* Cards grid */
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .card h3 {
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text2);
+    margin-bottom: 16px;
+  }
+  .card.ask { border-top: 3px solid var(--accent-ask); }
+  .card.str { border-top: 3px solid var(--accent-str); }
+  .card .big-num {
+    font-size: 2.8em;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .card .big-unit { font-size: 0.35em; color: var(--text2); font-weight: 400; }
+  .card .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-top: 1px solid var(--border);
+    font-size: 0.9em;
+  }
+  .card .stat-row:first-of-type { border-top: none; margin-top: 12px; }
+  .stat-label { color: var(--text2); }
+
+  /* Full-width card */
+  .card-full {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+  }
+  .card-full h3 {
+    font-size: 1.15em;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Bar chart */
+  .bar-chart { display: flex; flex-direction: column; gap: 12px; }
+  .bar-row { display: flex; align-items: center; gap: 12px; }
+  .bar-label { width: 80px; font-size: 0.85em; color: var(--text2); text-align: right; }
+  .bar-track {
+    flex: 1;
+    height: 32px;
+    background: var(--surface2);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    font-size: 0.8em;
+    font-weight: 600;
+    transition: width 1s ease;
+  }
+  .bar-fill.ask { background: var(--accent-ask); color: #0d1117; }
+  .bar-fill.str { background: var(--accent-str); color: #0d1117; }
+  .bar-value { width: 70px; font-size: 0.85em; text-align: left; color: var(--text); }
+
+  /* Timeline chart */
+  .timeline-chart {
+    position: relative;
+    height: 260px;
+    margin-top: 12px;
+  }
+  .timeline-chart canvas { width: 100%; height: 100%; }
+
+  /* Distribution visualization */
+  .distro-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .distro-label { width: 80px; font-size: 0.85em; color: var(--text2); text-align: right; }
+  .distro-box {
+    flex: 1;
+    height: 48px;
+    position: relative;
+  }
+  .distro-whisker {
+    position: absolute;
+    top: 50%;
+    height: 2px;
+    transform: translateY(-50%);
+  }
+  .distro-box-rect {
+    position: absolute;
+    top: 8px;
+    height: 32px;
+    border-radius: 4px;
+    border: 2px solid;
+  }
+  .distro-median {
+    position: absolute;
+    top: 4px;
+    height: 40px;
+    width: 3px;
+    border-radius: 2px;
+  }
+  .distro-dot {
+    position: absolute;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .distro-scale {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 96px;
+    font-size: 0.75em;
+    color: var(--text2);
+    margin-top: 4px;
+  }
+
+  /* Comparison table */
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92em;
+  }
+  .comp-table th {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--border);
+    color: var(--text2);
+    font-weight: 600;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .comp-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table .winner { color: var(--green); font-weight: 600; }
+  .comp-table .loser { color: var(--text2); }
+  .comp-table .tie { color: var(--yellow); }
+
+  /* Insight boxes */
+  .insights { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+  .insight {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    border-left: 3px solid;
+  }
+  .insight.info { border-left-color: var(--accent-ask); }
+  .insight.warn { border-left-color: var(--yellow); }
+  .insight.good { border-left-color: var(--green); }
+  .insight .insight-icon { font-size: 1.5em; margin-bottom: 8px; }
+  .insight h4 { font-size: 0.95em; margin-bottom: 6px; }
+  .insight p { font-size: 0.82em; color: var(--text2); line-height: 1.5; }
+
+  /* Code diff */
+  .code-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .code-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .code-block .code-header {
+    padding: 8px 16px;
+    font-size: 0.8em;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+  }
+  .code-block.ask .code-header { background: var(--accent-ask-bg); color: var(--accent-ask); }
+  .code-block.str .code-header { background: var(--accent-str-bg); color: var(--accent-str); }
+  .code-block pre {
+    padding: 16px;
+    font-size: 0.82em;
+    line-height: 1.6;
+    overflow-x: auto;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  }
+  .code-block .hl { color: var(--yellow); }
+  .code-block .cm { color: var(--text2); }
+  .code-block .kw { color: #ff7b72; }
+  .code-block .fn { color: #d2a8ff; }
+  .code-block .st { color: #a5d6ff; }
+
+  /* Heatmap */
+  .heatmap {
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    gap: 3px;
+    margin-top: 8px;
+  }
+  .hm-cell {
+    aspect-ratio: 1;
+    border-radius: 3px;
+    position: relative;
+    cursor: default;
+  }
+  .hm-cell:hover::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    white-space: nowrap;
+    z-index: 10;
+    color: var(--text);
+  }
+  .hm-legend {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    font-size: 0.75em;
+    color: var(--text2);
+  }
+  .hm-legend-grad {
+    width: 120px;
+    height: 12px;
+    border-radius: 3px;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--text2);
+    font-size: 0.82em;
+  }
+
+  @media (max-width: 768px) {
+    .cards, .code-compare, .insights { grid-template-columns: 1fr; }
+    .header h1 { font-size: 1.6em; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>ask() vs ask_str()</h1>
+    <div class="subtitle">Gemini API Runtime Benchmark</div>
+    <div class="meta">
+      <span class="meta-chip"><b>100</b> calls per method</span>
+      <span class="meta-chip">Prompt: <b>"Reply with only the number: 2+2="</b></span>
+      <span class="meta-chip">Model: <b>gemini-2.5-flash</b></span>
+      <span class="meta-chip">Factory: <b>rami</b> (Service Account)</span>
+    </div>
+  </div>
+
+  <!-- Verdict -->
+  <div class="verdict">
+    <h2>Verdict: No Meaningful Difference</h2>
+    <p>
+      Over 100 calls each, <span class="highlight">ask()</span> averaged
+      <span class="highlight">0.825s</span> and <span class="highlight">ask_str()</span>
+      averaged <span class="highlight">0.814s</span> &mdash; a difference of just
+      <span class="highlight">11ms</span> (1.3%).
+      The ResponseGemini construction overhead is negligible compared to network latency.
+    </p>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="cards">
+    <div class="card ask">
+      <h3>ask() &mdash; Structured Response</h3>
+      <div class="big-num" style="color:var(--accent-ask)">0.825<span class="big-unit">s mean</span></div>
+      <div class="stat-row"><span class="stat-label">Median</span><span>0.754s</span></div>
+      <div class="stat-row"><span class="stat-label">Std Dev</span><span>0.252s</span></div>
+      <div class="stat-row"><span class="stat-label">Min</span><span>0.556s</span></div>
+      <div class="stat-row"><span class="stat-label">Max</span><span>2.596s</span></div>
+      <div class="stat-row"><span class="stat-label">P10 / P90</span><span>0.633s / 1.040s</span></div>
+      <div class="stat-row"><span class="stat-label">Outliers (&gt;1.5s)</span><span>2</span></div>
+    </div>
+    <div class="card str">
+      <h3>ask_str() &mdash; Raw Text</h3>
+      <div class="big-num" style="color:var(--accent-str)">0.814<span class="big-unit">s mean</span></div>
+      <div class="stat-row"><span class="stat-label">Median</span><span>0.757s</span></div>
+      <div class="stat-row"><span class="stat-label">Std Dev</span><span>0.205s</span></div>
+      <div class="stat-row"><span class="stat-label">Min</span><span>0.550s</span></div>
+      <div class="stat-row"><span class="stat-label">Max</span><span>1.872s</span></div>
+      <div class="stat-row"><span class="stat-label">P10 / P90</span><span>0.616s / 1.035s</span></div>
+      <div class="stat-row"><span class="stat-label">Outliers (&gt;1.5s)</span><span>1</span></div>
+    </div>
+  </div>
+
+  <!-- Code Comparison -->
+  <div class="card-full">
+    <h3>What's the Difference?</h3>
+    <div class="code-compare">
+      <div class="code-block ask">
+        <div class="code-header">ask(prompt) &rarr; ResponseGemini</div>
+        <pre><span class="kw">def</span> <span class="fn">ask</span>(self, prompt: <span class="st">str</span>) -> ResponseGemini:
+    started = datetime.now()
+    t_start = time.perf_counter()
+    response = self._model.<span class="fn">generate_content</span>(prompt)
+    elapsed = time.perf_counter() - t_start
+    usage = response.usage_metadata
+    <span class="kw">return</span> ResponseGemini(
+        text=response.text,
+        model=self._model_name,
+        <span class="hl">input_tokens</span>=usage.prompt_token_count,
+        <span class="hl">output_tokens</span>=usage.candidates_token_count,
+        <span class="hl">finish_reason</span>=response.candidates[0]
+                      .finish_reason.name,
+        <span class="hl">started</span>=started,
+        <span class="hl">elapsed</span>=elapsed
+    )</pre>
+      </div>
+      <div class="code-block str">
+        <div class="code-header">ask_str(prompt) &rarr; str</div>
+        <pre><span class="kw">def</span> <span class="fn">ask_str</span>(self, prompt: <span class="st">str</span>) -> str:
+    response = self._model.<span class="fn">generate_content</span>(prompt)
+    <span class="kw">return</span> response.text
+
+
+<span class="cm"># No timing</span>
+<span class="cm"># No token counting</span>
+<span class="cm"># No metadata extraction</span>
+<span class="cm"># No ResponseGemini construction</span>
+<span class="cm">#</span>
+<span class="cm"># Just the raw text back</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison Table -->
+  <div class="card-full">
+    <h3>Head-to-Head Comparison</h3>
+    <table class="comp-table">
+      <thead>
+        <tr><th>Metric</th><th>ask()</th><th>ask_str()</th><th>Delta</th><th>Winner</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Mean</td><td>0.825s</td><td>0.814s</td><td>+11ms</td>
+          <td class="tie">Tie (&lt;2%)</td>
+        </tr>
+        <tr>
+          <td>Median</td><td>0.754s</td><td>0.757s</td><td>-3ms</td>
+          <td class="tie">Tie (&lt;1%)</td>
+        </tr>
+        <tr>
+          <td>Std Dev</td><td>0.252s</td><td>0.205s</td><td>+47ms</td>
+          <td class="winner">ask_str()</td>
+        </tr>
+        <tr>
+          <td>Min</td><td>0.556s</td><td>0.550s</td><td>+6ms</td>
+          <td class="tie">Tie</td>
+        </tr>
+        <tr>
+          <td>Max</td><td>2.596s</td><td>1.872s</td><td>+724ms</td>
+          <td class="winner">ask_str()</td>
+        </tr>
+        <tr>
+          <td>P10</td><td>0.633s</td><td>0.616s</td><td>+17ms</td>
+          <td class="tie">Tie</td>
+        </tr>
+        <tr>
+          <td>P90</td><td>1.040s</td><td>1.035s</td><td>+5ms</td>
+          <td class="tie">Tie</td>
+        </tr>
+        <tr>
+          <td>Outliers (&gt;1.5s)</td><td>2</td><td>1</td><td>+1</td>
+          <td class="tie">Tie</td>
+        </tr>
+        <tr>
+          <td>Mean (warm, no 1st call)</td><td>0.807s</td><td>0.815s</td><td>-8ms</td>
+          <td class="tie">Tie</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Bar Chart: Percentiles -->
+  <div class="card-full">
+    <h3>Percentile Comparison</h3>
+    <div class="bar-chart">
+      <div class="bar-row">
+        <div class="bar-label">P10</div>
+        <div class="bar-track">
+          <div class="bar-fill ask" style="width:24.3%">ask</div>
+        </div>
+        <div class="bar-value">0.633s</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"></div>
+        <div class="bar-track">
+          <div class="bar-fill str" style="width:23.7%">ask_str</div>
+        </div>
+        <div class="bar-value">0.616s</div>
+      </div>
+      <div style="height:8px"></div>
+      <div class="bar-row">
+        <div class="bar-label">P25</div>
+        <div class="bar-track">
+          <div class="bar-fill ask" style="width:26.5%">ask</div>
+        </div>
+        <div class="bar-value">0.690s</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"></div>
+        <div class="bar-track">
+          <div class="bar-fill str" style="width:26.5%">ask_str</div>
+        </div>
+        <div class="bar-value">0.690s</div>
+      </div>
+      <div style="height:8px"></div>
+      <div class="bar-row">
+        <div class="bar-label">Median</div>
+        <div class="bar-track">
+          <div class="bar-fill ask" style="width:29.0%">ask</div>
+        </div>
+        <div class="bar-value">0.754s</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"></div>
+        <div class="bar-track">
+          <div class="bar-fill str" style="width:29.1%">ask_str</div>
+        </div>
+        <div class="bar-value">0.757s</div>
+      </div>
+      <div style="height:8px"></div>
+      <div class="bar-row">
+        <div class="bar-label">P75</div>
+        <div class="bar-track">
+          <div class="bar-fill ask" style="width:33.9%">ask</div>
+        </div>
+        <div class="bar-value">0.881s</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"></div>
+        <div class="bar-track">
+          <div class="bar-fill str" style="width:34.7%">ask_str</div>
+        </div>
+        <div class="bar-value">0.901s</div>
+      </div>
+      <div style="height:8px"></div>
+      <div class="bar-row">
+        <div class="bar-label">P90</div>
+        <div class="bar-track">
+          <div class="bar-fill ask" style="width:40.0%">ask</div>
+        </div>
+        <div class="bar-value">1.040s</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"></div>
+        <div class="bar-track">
+          <div class="bar-fill str" style="width:39.8%">ask_str</div>
+        </div>
+        <div class="bar-value">1.035s</div>
+      </div>
+      <div style="height:8px"></div>
+      <div class="bar-row">
+        <div class="bar-label">Max</div>
+        <div class="bar-track">
+          <div class="bar-fill ask" style="width:100%">ask</div>
+        </div>
+        <div class="bar-value">2.596s</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"></div>
+        <div class="bar-track">
+          <div class="bar-fill str" style="width:72.1%">ask_str</div>
+        </div>
+        <div class="bar-value">1.872s</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Box Plot -->
+  <div class="card-full">
+    <h3>Distribution (Box Plot)</h3>
+    <div style="margin-bottom:8px">
+      <!-- ask() box plot -->
+      <div class="distro-row">
+        <div class="distro-label" style="color:var(--accent-ask)">ask()</div>
+        <div class="distro-box">
+          <!-- Whisker: min to max, scale 0.5s - 2.6s => 0% to 100% -->
+          <!-- scale: 0.5 to 2.7, range=2.2 -->
+          <!-- min=0.556 => (0.556-0.5)/2.2 = 2.5%, max=2.596 => (2.596-0.5)/2.2 = 95.3% -->
+          <div class="distro-whisker" style="left:2.5%;width:92.8%;background:var(--accent-ask);opacity:0.4"></div>
+          <!-- Q1=0.690 => 8.6%, Q3=0.881 => 17.3% -->
+          <div class="distro-box-rect" style="left:8.6%;width:8.7%;background:var(--accent-ask-bg);border-color:var(--accent-ask)"></div>
+          <!-- Median=0.754 => 11.5% -->
+          <div class="distro-median" style="left:11.5%;background:var(--accent-ask)"></div>
+          <!-- Outliers -->
+          <div class="distro-dot" style="left:69.8%;background:var(--accent-ask)" data-tip="1.51s"></div>
+          <div class="distro-dot" style="left:95.3%;background:var(--accent-ask)" data-tip="2.60s (cold start)"></div>
+        </div>
+      </div>
+      <!-- ask_str() box plot -->
+      <div class="distro-row">
+        <div class="distro-label" style="color:var(--accent-str)">ask_str()</div>
+        <div class="distro-box">
+          <!-- min=0.550 => 2.3%, max=1.872 => 62.4% -->
+          <div class="distro-whisker" style="left:2.3%;width:60.1%;background:var(--accent-str);opacity:0.4"></div>
+          <!-- Q1=0.690 => 8.6%, Q3=0.901 => 18.2% -->
+          <div class="distro-box-rect" style="left:8.6%;width:9.6%;background:var(--accent-str-bg);border-color:var(--accent-str)"></div>
+          <!-- Median=0.757 => 11.7% -->
+          <div class="distro-median" style="left:11.7%;background:var(--accent-str)"></div>
+          <!-- Outlier -->
+          <div class="distro-dot" style="left:62.4%;background:var(--accent-str)" data-tip="1.87s"></div>
+        </div>
+      </div>
+    </div>
+    <div class="distro-scale">
+      <span>0.5s</span><span>1.0s</span><span>1.5s</span><span>2.0s</span><span>2.5s</span>
+    </div>
+  </div>
+
+  <!-- Heatmaps -->
+  <div class="card-full">
+    <h3>Per-Call Latency Heatmap</h3>
+    <p style="color:var(--text2);font-size:0.85em;margin-bottom:12px">
+      Each cell = 1 API call (left to right, top to bottom). Color intensity = latency. Hover for value.
+    </p>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <span style="color:var(--accent-ask);font-weight:600;font-size:0.85em">ask()</span>
+    </div>
+    <div class="heatmap" id="hm-ask"></div>
+    <div style="height:16px"></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <span style="color:var(--accent-str);font-weight:600;font-size:0.85em">ask_str()</span>
+    </div>
+    <div class="heatmap" id="hm-str"></div>
+    <div class="hm-legend">
+      <span>Fast (0.5s)</span>
+      <div class="hm-legend-grad" id="legend-grad"></div>
+      <span>Slow (2.6s)</span>
+    </div>
+  </div>
+
+  <!-- Timeline chart -->
+  <div class="card-full">
+    <h3>Latency Over Time (100 Calls)</h3>
+    <canvas id="timeline" width="1040" height="260"></canvas>
+  </div>
+
+  <!-- Insights -->
+  <div class="insights">
+    <div class="insight good">
+      <div class="insight-icon">&#x2705;</div>
+      <h4>Use ask() Freely</h4>
+      <p>The ResponseGemini wrapper adds <b>zero measurable overhead</b>. The ~11ms mean difference is within noise. You get tokens, timing, and finish_reason for free.</p>
+    </div>
+    <div class="insight warn">
+      <div class="insight-icon">&#x26A0;&#xFE0F;</div>
+      <h4>Cold Start Penalty</h4>
+      <p>The first call to <b>ask()</b> took <b>2.6s</b> (vs 0.7s typical). This is likely Vertex AI session initialization, not the method itself &mdash; ask() ran first in the benchmark.</p>
+    </div>
+    <div class="insight info">
+      <div class="insight-icon">&#x1F4CA;</div>
+      <h4>Variance is Network</h4>
+      <p>Both methods show similar variance (~0.2-0.25s stdev). The spread comes from <b>network + Gemini server latency</b>, not local Python code. P10-P90 ranges nearly overlap.</p>
+    </div>
+  </div>
+
+  <!-- Recommendation -->
+  <div class="card-full" style="border-left:3px solid var(--green)">
+    <h3 style="color:var(--green)">Recommendation</h3>
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:12px 20px;font-size:0.92em">
+      <div style="color:var(--accent-ask);font-weight:600">ask()</div>
+      <div>Default choice. Returns <code>ResponseGemini</code> with full metadata (tokens, timing, finish reason). No performance penalty.</div>
+      <div style="color:var(--accent-str);font-weight:600">ask_str()</div>
+      <div>Use when you <i>only</i> need the text and want the simplest possible interface. Saves ~5 lines of wrapper code, but gives up observability.</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Benchmark: 100 calls &times; 2 methods &bull; Prompt: "2+2=" &bull; Model: gemini-2.5-flash &bull; Generated 2026-04-13
+  </div>
+
+</div>
+
+<script>
+// Data
+const askData = [2.596,0.750,0.745,0.633,0.647,0.799,0.774,0.676,0.715,1.422,0.649,1.049,0.704,0.690,1.177,0.861,0.630,0.738,0.584,0.745,0.754,0.693,1.082,0.690,0.891,0.662,0.959,1.002,1.011,0.757,0.916,0.556,0.876,0.639,0.705,0.780,0.716,0.664,0.812,0.603,0.814,0.782,0.709,0.811,0.615,1.040,0.772,0.971,0.639,1.002,0.881,0.738,0.757,0.760,1.097,0.749,0.764,0.605,0.742,0.689,0.609,0.727,0.731,1.510,0.837,0.968,0.864,0.720,0.641,0.699,0.754,0.910,1.026,0.745,0.711,0.689,0.917,0.753,0.777,0.666,0.732,0.811,0.671,1.453,1.158,0.714,0.896,0.751,1.041,0.630,0.607,0.891,0.816,0.830,0.715,1.024,0.877,0.680,0.809,0.845];
+const strData = [0.695,0.824,0.741,0.921,1.146,0.706,1.086,0.659,0.951,0.698,0.672,1.015,0.695,0.776,1.256,0.652,0.725,0.983,0.596,0.809,1.007,0.759,0.766,0.707,0.701,0.901,0.733,0.572,1.035,0.654,0.812,0.677,0.746,0.788,0.833,0.754,0.742,1.034,0.645,1.026,1.872,1.234,0.692,0.629,0.676,1.338,0.819,0.728,0.835,0.718,0.608,0.890,0.679,1.228,0.760,0.816,0.747,0.762,0.636,0.596,0.897,0.861,0.772,0.989,0.783,1.182,0.805,0.700,0.743,0.745,0.787,0.700,0.936,1.259,1.008,0.590,0.755,0.849,0.624,0.550,0.832,0.743,0.619,0.939,0.724,0.741,0.616,0.963,0.619,0.594,0.638,0.997,0.575,0.690,0.554,0.772,0.692,1.064,0.762,0.968];
+
+const maxVal = 2.6;
+const minVal = 0.5;
+const range = maxVal - minVal;
+
+// Heatmaps
+function buildHeatmap(containerId, data, hue) {
+  const container = document.getElementById(containerId);
+  data.forEach((v, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'hm-cell';
+    const norm = Math.min(1, (v - minVal) / range);
+    // Interpolate from dim to bright
+    const alpha = 0.15 + norm * 0.85;
+    cell.style.background = hue.replace('ALPHA', alpha.toFixed(2));
+    cell.setAttribute('data-tip', `#${i}: ${v.toFixed(3)}s`);
+    container.appendChild(cell);
+  });
+}
+buildHeatmap('hm-ask', askData, 'rgba(88,166,255,ALPHA)');
+buildHeatmap('hm-str', strData, 'rgba(247,129,102,ALPHA)');
+
+// Legend gradient
+const legendGrad = document.getElementById('legend-grad');
+legendGrad.style.background = 'linear-gradient(to right, rgba(150,150,150,0.2), rgba(150,150,150,1))';
+
+// Timeline canvas
+const canvas = document.getElementById('timeline');
+const ctx = canvas.getContext('2d');
+const W = canvas.width;
+const H = canvas.height;
+const padL = 50, padR = 20, padT = 20, padB = 30;
+const plotW = W - padL - padR;
+const plotH = H - padT - padB;
+
+// Grid
+ctx.strokeStyle = '#30363d';
+ctx.lineWidth = 0.5;
+const yTicks = [0.5, 1.0, 1.5, 2.0, 2.5];
+yTicks.forEach(v => {
+  const y = padT + plotH - ((v - minVal) / range) * plotH;
+  ctx.beginPath();
+  ctx.moveTo(padL, y);
+  ctx.lineTo(W - padR, y);
+  ctx.stroke();
+  ctx.fillStyle = '#8b949e';
+  ctx.font = '11px -apple-system, sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText(v.toFixed(1) + 's', padL - 8, y + 4);
+});
+
+// X axis labels
+ctx.fillStyle = '#8b949e';
+ctx.textAlign = 'center';
+[0, 25, 50, 75, 99].forEach(i => {
+  const x = padL + (i / 99) * plotW;
+  ctx.fillText('#' + i, x, H - 6);
+});
+
+function drawLine(data, color) {
+  ctx.beginPath();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1.8;
+  ctx.globalAlpha = 0.8;
+  data.forEach((v, i) => {
+    const x = padL + (i / 99) * plotW;
+    const y = padT + plotH - ((v - minVal) / range) * plotH;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  ctx.globalAlpha = 1;
+}
+
+// Draw area fills
+function drawArea(data, color) {
+  ctx.beginPath();
+  ctx.globalAlpha = 0.08;
+  ctx.fillStyle = color;
+  data.forEach((v, i) => {
+    const x = padL + (i / 99) * plotW;
+    const y = padT + plotH - ((v - minVal) / range) * plotH;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.lineTo(padL + plotW, padT + plotH);
+  ctx.lineTo(padL, padT + plotH);
+  ctx.closePath();
+  ctx.fill();
+  ctx.globalAlpha = 1;
+}
+
+drawArea(askData, '#58a6ff');
+drawArea(strData, '#f78166');
+drawLine(askData, '#58a6ff');
+drawLine(strData, '#f78166');
+
+// Legend on canvas
+ctx.globalAlpha = 1;
+ctx.fillStyle = '#58a6ff';
+ctx.fillRect(padL + 10, padT + 5, 14, 3);
+ctx.fillStyle = '#e6edf3';
+ctx.font = '12px -apple-system, sans-serif';
+ctx.textAlign = 'left';
+ctx.fillText('ask()', padL + 30, padT + 11);
+
+ctx.fillStyle = '#f78166';
+ctx.fillRect(padL + 90, padT + 5, 14, 3);
+ctx.fillStyle = '#e6edf3';
+ctx.fillText('ask_str()', padL + 110, padT + 11);
+</script>
+</body>
+</html>

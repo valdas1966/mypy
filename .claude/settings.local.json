@@ -118,7 +118,13 @@
       "Bash(tectonic instructions_session.tex)",
       "Bash(tectonic f_search_session.tex)",
       "Bash(tectonic Instructions_session.tex)",
-      "Bash(tectonic hs_game_session.tex)"
+      "Bash(tectonic hs_game_session.tex)",
+      "Bash(tectonic google_session.tex)",
+      "Bash(tectonic hs_session.tex)",
+      "Bash(tectonic OMSPP_session.tex)",
+      "Bash(awk:*)",
+      "Bash(tectonic OMSPP_session.tex --print)",
+      "Bash(tectonic MOSPP_session.tex)"
     ]
   }
 }

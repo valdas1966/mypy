@@ -15,7 +15,8 @@ Dataclass holding a Gemini API response — generated text and metadata
 | `output_tokens: int` | Number of output (response) tokens. |
 | `finish_reason: str` | Why generation stopped (e.g. `STOP`). |
 | `total_tokens -> int` | Computed property: `input_tokens + output_tokens`. |
-| `__repr__() -> str` | `'ResponseGemini(model=..., tokens=30, finish=STOP)'` |
+| `cost -> float \| None` | Cost in dollars based on model pricing. `None` if model unknown. |
+| `__repr__() -> str` | `'ResponseGemini(model=..., in=10, out=20, ..., cost=$0.000015)'` |
 
 ## Inheritance (Hierarchy)
 ```

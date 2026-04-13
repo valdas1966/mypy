@@ -10,8 +10,8 @@ import time
 from f_google.services.gemini import Gemini
 
 PROMPT = 'Reply with only the number: 2+2='
-N_MAX = 1000
-CSV_PATH = 'f_google/services/gemini/comparing/benchmark.csv'
+N_MAX = 100
+CSV_PATH = 'benchmark.csv'
 
 gemini = Gemini.Factory.rami()
 
@@ -28,7 +28,7 @@ for method_name in ['ask', 'ask_str']:
         rows.append({'method': method_name,
                      'index': i,
                      'elapsed': elapsed})
-        if (i + 1) % 100 == 0:
+        if (i + 1) % 10 == 0:
             print(f'  {i + 1}/{N_MAX} done')
 
 # Save to CSV
