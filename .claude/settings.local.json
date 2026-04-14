@@ -124,7 +124,9 @@
       "Bash(tectonic OMSPP_session.tex)",
       "Bash(awk:*)",
       "Bash(tectonic OMSPP_session.tex --print)",
-      "Bash(tectonic MOSPP_session.tex)"
+      "Bash(tectonic MOSPP_session.tex)",
+      "Bash(tectonic MMSPP_session.tex)",
+      "Bash(tectonic quiz_session.tex)"
     ]
   }
 }
