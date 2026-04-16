@@ -26,9 +26,10 @@ def __init__(self, grid: GridMap, start: CellMap,
 | Method | Description |
 |--------|-------------|
 | `grid_3x3()` | Open 3x3, (0,0)->(2,2), cost 4 |
-| `grid_3x3_obstacle()` | Obstacle at (1,1) |
+| `grid_3x3_obstacle()` | Obstacle at (1,1), cost 4 |
 | `grid_3x3_no_path()` | Wall across middle row |
 | `grid_3x3_start_is_goal()` | Start == Goal |
+| `grid_4x4_obstacle()` | 2-cell wall at (0,2),(1,2); (0,0)->(0,3), cost 7 |
 
 ## Dependencies
 - `f_hs.problem.i_0_base.ProblemSPP`

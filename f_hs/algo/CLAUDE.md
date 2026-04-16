@@ -2,15 +2,17 @@
 
 ## Purpose
 Search algorithms for Shortest-Path-Problem. Built on top of
-AlgoSPP base class which provides the classical search loop
-with eager deletion and automatic event recording.
+`AlgoSPP`, which owns the classical search loop and composes a
+`FrontierBase` via constructor injection. Subclasses pick a
+frontier (`FrontierFIFO` for BFS, `FrontierPriority` for A*) and
+override `_priority(state)` if needed.
 
 ## Architecture
 ```
-AlgoSPP (abstract: loop + data + recording + path)
-├── BFS (FIFO deque frontier)
-└── AStar (QueueIndexed, f = g + h)
-    └── Dijkstra (h = 0)
+AlgoSPP (loop + data + recording + path + Frontier)
+├── BFS                                      — FrontierFIFO
+└── AStar (_priority → (f, -g))              — FrontierPriority
+    └── Dijkstra (h = 0)                     — inherits AStar
 ```
 
 ## Module Structure
@@ -26,7 +28,7 @@ algo/
 ## Classical Search Loop (in AlgoSPP)
 ```
 FRONTIER ← {start}
-while FRONTIER not empty:
+while FRONTIER:
     n ← FRONTIER.pop_min()
     if n is goal: return cost
     CLOSED ← CLOSED ∪ {n}
@@ -34,17 +36,16 @@ while FRONTIER not empty:
         if child in CLOSED: skip
         w ← problem.w(n, child)
         if child not in FRONTIER: insert
-        else if new_g < g(child): decrease_g
+        else if new_g < g(child): decrease
 ```
 
 ## Subclass Differences
 | | BFS | A* | Dijkstra |
 |--|-----|-----|----------|
-| Frontier | deque (FIFO) | QueueIndexed (by f) | QueueIndexed (by g) |
-| Priority | insertion order | f = g + h | f = g |
+| Frontier | FrontierFIFO | FrontierPriority | FrontierPriority |
+| `_priority(state)` | None (default) | `(g+h, -g)` | `(g, 0)` |
 | Heuristic | none | provided | h=0 |
-| decrease_g | not needed | via QueueIndexed | via QueueIndexed |
 
 ## Edge Costs
 `problem.w(parent, child)` returns the edge cost. Default 1.0.
-Subclasses of ProblemSPP override for weighted graphs.
+Subclasses of `ProblemSPP` override for weighted graphs.

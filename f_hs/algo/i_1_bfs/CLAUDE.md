@@ -2,7 +2,8 @@
 
 ## Purpose
 Breadth-First Search. Optimal for unit-cost edges.
-Uses FIFO deque as frontier.
+Composes a `FrontierFIFO` and inherits everything else from
+`AlgoSPP` — no overrides needed beyond the constructor.
 
 ## Public API
 
@@ -13,6 +14,9 @@ def __init__(self,
              name: str = 'BFS',
              is_recording: bool = False) -> None
 ```
+Injects `FrontierFIFO[State]()` into `AlgoSPP`. No frontier
+hooks to override — `_priority` defaults to `None` (ignored
+by FIFO), `_frontier.{push,pop,...}` are used directly.
 
 ## Factory
 | Method | Returns | Description |
@@ -21,6 +25,11 @@ def __init__(self,
 | `graph_no_path()` | `BFS` | No path to goal |
 | `graph_start_is_goal()` | `BFS` | Start == Goal |
 | `graph_diamond()` | `BFS` | Diamond graph |
+| `grid_3x3()` | `BFS` | Open 3x3 grid |
+| `grid_3x3_obstacle()` | `BFS` | Grid with obstacle |
+| `grid_3x3_no_path()` | `BFS` | Grid with wall |
+| `grid_3x3_start_is_goal()` | `BFS` | Grid where start == goal |
+| `grid_4x4_obstacle()` | `BFS` | 4x4 grid with vertical wall, cost 7 |
 
 ## Inheritance
 ```
@@ -28,5 +37,24 @@ AlgoSPP[State]
     └── BFS[State]
 ```
 
+## Tests
+Split into three files by concern. No `@pytest.fixture` — each
+test calls `BFS.Factory.*` directly (per the Factory-over-fixture
+rule).
+
+| File | Scope | Count |
+|------|-------|-------|
+| `_tester.py` | Graph problems + lifecycle | 5 |
+| `_tester_grid.py` | Grid problems | 4 |
+| `_tester_recording.py` | Full event-sequence assertion | 3 |
+
+Run all three explicitly:
+```
+pytest f_hs/algo/i_1_bfs/_tester.py \
+       f_hs/algo/i_1_bfs/_tester_grid.py \
+       f_hs/algo/i_1_bfs/_tester_recording.py
+```
+
 ## Dependencies
 - `f_hs.algo.i_0_base.AlgoSPP`
+- `f_hs.frontier.i_1_fifo.FrontierFIFO`

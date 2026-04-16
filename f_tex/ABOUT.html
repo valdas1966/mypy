@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>f_tex — What is a LaTeX Compiler?</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+* { box-sizing: border-box; }
+html, body {
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Inter, Roboto, system-ui, sans-serif;
+    line-height: 1.6; font-size: 15px;
+}
+.wrap {
+    max-width: 1100px; margin: 0 auto;
+    padding: 32px 28px 60px;
+}
+code, pre, .mono {
+    font-family: "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: 13.5px;
+}
+code {
+    background: var(--code-bg);
+    padding: 1px 6px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+}
+pre {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    margin: 10px 0;
+    color: var(--text);
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---------- Hero ---------- */
+.hero {
+    text-align: center;
+    padding: 36px 16px 20px;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 32px;
+}
+.hero h1 {
+    font-size: 42px; margin: 0;
+    color: white; letter-spacing: -0.02em;
+    font-weight: 800;
+}
+.hero h1 .accent { color: var(--accent); }
+.hero .tag {
+    color: var(--muted);
+    font-size: 16px;
+    margin-top: 10px;
+}
+.hero .path {
+    color: var(--faint); font-family: monospace;
+    font-size: 13px; margin-top: 6px;
+}
+
+/* ---------- Section headings ---------- */
+h2.sect {
+    font-size: 24px; color: white;
+    margin: 40px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+}
+h3.sub {
+    font-size: 18px; color: var(--muted);
+    margin: 22px 0 10px;
+}
+
+/* ---------- Analogy box ---------- */
+.analogy {
+    background: var(--panel);
+    border-left: 6px solid var(--accent);
+    border-top: 2px solid var(--border);
+    border-right: 2px solid var(--border);
+    border-bottom: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin: 16px 0;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+.analogy .emoji {
+    font-size: 36px; line-height: 1;
+}
+.analogy h3 {
+    margin: 0 0 4px;
+    color: white;
+    font-size: 18px;
+}
+.analogy p {
+    margin: 0; color: var(--muted);
+}
+
+/* ---------- Compare cards (without / with) ---------- */
+.compare {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    margin: 16px 0;
+}
+.compare .card {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+}
+.compare .card.no  { border-left: 6px solid var(--bad);  }
+.compare .card.yes { border-left: 6px solid var(--good); }
+.compare .card h4 {
+    margin: 0 0 8px;
+    color: white; font-size: 16px;
+}
+.compare .card .label {
+    font-size: 11px; letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 8px;
+}
+.card.no  .label { background: var(--bad);  color: #0b0f14; }
+.card.yes .label { background: var(--good); color: #0b0f14; }
+.compare ul { padding-left: 20px; margin: 0; color: var(--muted); }
+.compare ul li { margin: 4px 0; }
+
+/* ---------- Concept grid (3-col) ---------- */
+.grid3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 16px 0;
+}
+.grid3 .tile {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-align: center;
+}
+.grid3 .tile .icon {
+    font-size: 28px; margin-bottom: 8px;
+}
+.grid3 .tile h4 {
+    margin: 0 0 4px;
+    color: white; font-size: 15px;
+}
+.grid3 .tile p {
+    margin: 0; color: var(--muted); font-size: 13.5px;
+}
+
+/* ---------- Rules list ---------- */
+.rules {
+    background: var(--panel2);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 22px;
+    margin: 16px 0;
+}
+.rules ol {
+    padding-left: 22px; margin: 0;
+    color: var(--text);
+}
+.rules ol li { margin: 6px 0; }
+
+/* ---------- Flow diagram ---------- */
+.flow {
+    display: flex; align-items: center;
+    flex-wrap: wrap; gap: 8px;
+    margin: 16px 0;
+    justify-content: center;
+}
+.flow .step {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    min-width: 130px; text-align: center;
+    color: white;
+}
+.flow .step .kind {
+    font-size: 11px; letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 2px;
+}
+.flow .step.input   { border-color: var(--accent); }
+.flow .step.engine  { border-color: var(--accent2); }
+.flow .step.output  { border-color: var(--good);   }
+.flow .arrow {
+    color: var(--accent);
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* ---------- Module highlight box ---------- */
+.module-box {
+    background: var(--panel);
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin: 16px 0;
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.12);
+}
+.module-box h3 {
+    margin: 0 0 8px;
+    color: var(--accent);
+    font-size: 18px;
+}
+
+/* ---------- Tree ---------- */
+.tree {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-family: monospace;
+    color: var(--muted);
+    white-space: pre;
+    margin: 10px 0;
+}
+
+/* ---------- Cards / facts ---------- */
+.facts {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 14px; margin: 16px 0;
+}
+.facts .fact {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex; gap: 14px;
+    align-items: flex-start;
+}
+.facts .fact .emoji {
+    font-size: 28px; line-height: 1;
+}
+.facts .fact h4 {
+    margin: 0 0 6px;
+    color: white; font-size: 15px;
+}
+.facts .fact p {
+    margin: 0; color: var(--muted);
+    font-size: 13.5px;
+}
+
+/* ---------- Catalog cards ---------- */
+.catalog {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 12px; margin: 16px 0;
+}
+.catalog .item {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+}
+.catalog .item h5 {
+    margin: 0 0 4px;
+    color: white; font-size: 14px;
+}
+.catalog .item p {
+    margin: 0; color: var(--muted); font-size: 13px;
+}
+.badge {
+    display: inline-block;
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 2px 7px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    margin-left: 6px;
+}
+.badge.live    { background: var(--good);   color: #0b0f14; }
+.badge.legacy  { background: var(--warn);   color: #0b0f14; }
+.badge.modern  { background: var(--accent); color: #0b0f14; }
+
+/* ---------- Footer ---------- */
+footer {
+    margin-top: 50px; padding-top: 14px;
+    border-top: 2px solid var(--border);
+    color: var(--faint); font-size: 13px;
+}
+
+@media (max-width: 780px) {
+    .compare, .grid3, .catalog, .facts { grid-template-columns: 1fr; }
+    .flow { flex-direction: column; }
+    .flow .arrow { transform: rotate(90deg); }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+<h1>What is a <span class="accent">LaTeX Compiler</span>?</h1>
+<div class="tag">
+Source code for documents.
+You write meaning; the compiler designs the page.
+</div>
+<div class="path">/mnt/f/mypy/f_tex/ — ABOUT.html</div>
+</header>
+
+<!-- ================= THE IDEA ================= -->
+<h2 class="sect">The Idea</h2>
+
+<div class="analogy">
+<div class="emoji">🖨️</div>
+<div>
+<h3>Think of it like a C compiler — but for pages.</h3>
+<p>You write <code>.tex</code> source describing <em>what</em> the
+document means (a section, a theorem, a figure). The compiler decides
+<em>how</em> it looks — fonts, kerning, hyphenation, page breaks,
+floats, references. Same source, same PDF, forever. It doesn't matter
+what laptop you compile it on.</p>
+</div>
+</div>
+
+<div class="compare">
+<div class="card no">
+<h4><span class="label">WYSIWYG</span>Word / Docs</h4>
+<ul>
+<li>You arrange pixels by hand.</li>
+<li>Break if the font changes.</li>
+<li>Hard to diff, hard to version.</li>
+<li>"Looks fine" is the quality bar.</li>
+</ul>
+</div>
+<div class="card yes">
+<h4><span class="label">WYSIWYM</span>LaTeX</h4>
+<ul>
+<li>You declare structure, not position.</li>
+<li>Re-flows automatically on any medium.</li>
+<li>Plain text — git-diff friendly.</li>
+<li>The engine is responsible for typography.</li>
+</ul>
+</div>
+</div>
+
+<div class="grid3">
+<div class="tile">
+<div class="icon">📝</div>
+<h4>Source (.tex)</h4>
+<p>Plain-text markup of meaning.</p>
+</div>
+<div class="tile">
+<div class="icon">⚙️</div>
+<h4>Engine</h4>
+<p>TeX / pdfTeX / XeTeX / LuaTeX / tectonic.</p>
+</div>
+<div class="tile">
+<div class="icon">📄</div>
+<h4>PDF</h4>
+<p>Deterministic, print-quality output.</p>
+</div>
+</div>
+
+<h3 class="sub">Rules of the game</h3>
+<div class="rules">
+<ol>
+<li><b>Semantic markup.</b> You mark <code>\section</code>, not
+"bold 18pt, 12pt space above."</li>
+<li><b>Reproducible.</b> Same source + same engine + same packages →
+byte-identical PDF.</li>
+<li><b>Templates are code.</b> Preambles, macros and classes <em>are</em>
+the stylesheet — and they compose.</li>
+<li><b>Floats and references are a mini-language.</b> You label;
+the engine places and numbers.</li>
+<li><b>The compiler is slow because it thinks.</b> Line-breaking is
+a constrained optimization over the whole paragraph (Knuth–Plass).</li>
+</ol>
+</div>
+
+<!-- ================= HOW THEY CONNECT ================= -->
+<h2 class="sect">How the Pipeline Connects</h2>
+
+<div class="flow">
+<div class="step input">
+<div class="kind">Source</div>
+<b>.tex</b>
+</div>
+<div class="arrow">→</div>
+<div class="step engine">
+<div class="kind">Engine</div>
+<b>tectonic</b>
+</div>
+<div class="arrow">→</div>
+<div class="step output">
+<div class="kind">Artifact</div>
+<b>.pdf</b>
+</div>
+</div>
+
+<p style="color: var(--muted);
+   margin: 6px 0 0;">
+<b>tectonic</b> additionally resolves missing packages from CTAN on
+demand and caches them locally — no manual
+<code>tlmgr install &lt;pkg&gt;</code> ever.</p>
+
+<!-- ================= THIS MODULE ================= -->
+<h2 class="sect">This Module's Contribution</h2>
+
+<div class="module-box">
+<h3>f_tex / Tex</h3>
+<p style="color: var(--muted); margin: 0 0 10px;">
+A 3-method facade over the compile pipeline, plus one opinionated
+session-summary template.
+</p>
+<pre><code>class Tex:
+    def compile(self, src: str) -> bytes: ...
+    def compile_file(self,
+                     path_src: str,
+                     path_dest: str | None = None) -> bytes: ...
+
+class Templates:         # separate class in _templates.py
+    @staticmethod
+    def session_summary(
+        project_name: str,
+        date: str,
+        project_path: str,
+        body: str,
+    ) -> str: ...</code></pre>
+</div>
+
+<h3 class="sub">What <code>compile()</code> actually does</h3>
+<div class="rules">
+<ol>
+<li>Opens a <code>tempfile.TemporaryDirectory</code>.</li>
+<li>Writes the source string to <code>main.tex</code>.</li>
+<li>Spawns <code>tectonic --chatter=minimal main.tex</code>.</li>
+<li>Reads <code>main.pdf</code> back as bytes.</li>
+<li>Lets the temp dir self-destruct on exit — no junk left behind.</li>
+</ol>
+</div>
+
+<h3 class="sub">File layout</h3>
+<div class="tree">f_tex/
+├── main.py         # Tex class + LaTeX template
+├── _factory.py     # Factory.a() → default Tex()
+├── _tester.py      # 7 pytest tests
+├── __init__.py     # exports + wires Factory
+├── CLAUDE.md       # machine-readable spec
+├── CLAUDE.html     # dark-theme API docs
+└── ABOUT.html      # this file</div>
+
+<!-- ================= ENGINE GALLERY ================= -->
+<h2 class="sect">The LaTeX Engine Family</h2>
+
+<div class="catalog">
+<div class="item">
+<h5>TeX <span class="badge legacy">1978</span></h5>
+<p>The original. Knuth. Still runs. Defines the algorithms.</p>
+</div>
+<div class="item">
+<h5>pdfTeX <span class="badge live">1997</span></h5>
+<p>TeX that writes PDF directly (no DVI step). The default on most
+distros.</p>
+</div>
+<div class="item">
+<h5>XeTeX <span class="badge live">2004</span></h5>
+<p>Unicode + system fonts. If you want Arabic, Chinese, or OpenType
+features, use this.</p>
+</div>
+<div class="item">
+<h5>LuaTeX <span class="badge live">2007</span></h5>
+<p>Embeds Lua. Programmable typesetting. Successor heir-apparent.</p>
+</div>
+<div class="item">
+<h5>ConTeXt <span class="badge live">1996</span></h5>
+<p>Alternative macro layer. Different philosophy from LaTeX — full
+document class replacement.</p>
+</div>
+<div class="item">
+<h5>tectonic <span class="badge modern">2016+</span></h5>
+<p>Rust rewrite of XeTeX. Self-contained. Auto-fetches packages.
+<b>The default for <code>f_tex</code>.</b></p>
+</div>
+</div>
+
+<!-- ================= FUN FACTS ================= -->
+<h2 class="sect">Fun Facts &amp; History</h2>
+
+<div class="facts">
+<div class="fact">
+<div class="emoji">📐</div>
+<div>
+<h4>Born from Knuth's frustration</h4>
+<p>Donald Knuth began TeX in 1977 because the galley proofs of his
+book <i>The Art of Computer Programming</i> looked bad after the
+publisher switched to photo-typesetting. He took a "one-year"
+detour to build better typesetting. It took ten.</p>
+</div>
+</div>
+
+<div class="fact">
+<div class="emoji">💰</div>
+<div>
+<h4>The $2.56 bug bounty</h4>
+<p>Knuth pays <b>$2.56</b> for every TeX bug reported — "one
+hexadecimal dollar" (256 cents). The amount doubled yearly early
+on, reaching $327.68. Most recipients frame the check instead of
+cashing it.</p>
+</div>
+</div>
+
+<div class="fact">
+<div class="emoji">🥧</div>
+<div>
+<h4>TeX's version number converges to π</h4>
+<p>TeX versions add a decimal digit: 3.14 → 3.141 → 3.1415 →
+3.14159265. Knuth declared that upon his death the version freezes
+at π and any remaining bugs become features.
+METAFONT's version converges to <i>e</i> similarly.</p>
+</div>
+</div>
+
+<div class="fact">
+<div class="emoji">🔠</div>
+<div>
+<h4>It's "LAH-tek," not "LAY-tex"</h4>
+<p>The X is the Greek letter <b>χ</b> (chi) — so the final sound is
+"k," not "x." Knuth and Lamport insist on either "LAH-tek" or
+"LAY-tek." The rubber material has nothing to do with it.</p>
+</div>
+</div>
+
+<div class="fact">
+<div class="emoji">🧠</div>
+<div>
+<h4>TeX is Turing-complete</h4>
+<p>People have implemented Conway's Game of Life, a Lisp interpreter,
+even a TCP client — entirely in TeX macros. Your preamble is, in
+principle, a programming environment. In practice, please don't.</p>
+</div>
+</div>
+
+<div class="fact">
+<div class="emoji">📏</div>
+<div>
+<h4>Line-breaking is an optimization problem</h4>
+<p>TeX's paragraph builder (the Knuth–Plass algorithm) solves
+<i>global</i> line-breaking via dynamic programming — minimising
+total "badness." That's why the same paragraph can look markedly
+better in TeX than in editors that break greedily, line-by-line.</p>
+</div>
+</div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+<b>f_tex / ABOUT.html</b> — concept background for the MyPy LaTeX module.
+Sources: Knuth, <i>The TeXbook</i> (1984); Lamport, <i>LaTeX: A
+Document Preparation System</i> (1986); Tectonic project docs.
+Generated 2026-04-16.
+</footer>
+
+</div>
+</body>
+</html>

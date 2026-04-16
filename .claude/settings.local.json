@@ -1,6 +1,12 @@
 {
   "permissions": {
+    "defaultMode": "acceptEdits",
     "allow": [
+      "Bash",
+      "Write",
+      "Edit",
+      "Write(/tmp/**)",
+      "Edit(/tmp/**)",
       "Bash(python:*)",
       "Bash(python3:*)",
       "Bash(conda run:*)",
@@ -126,7 +132,8 @@
       "Bash(tectonic OMSPP_session.tex --print)",
       "Bash(tectonic MOSPP_session.tex)",
       "Bash(tectonic MMSPP_session.tex)",
-      "Bash(tectonic quiz_session.tex)"
+      "Bash(tectonic quiz_session.tex)",
+      "Skill(update-config)"
     ]
   }
 }

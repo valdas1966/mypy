@@ -738,8 +738,13 @@ body.level-4 .question-text {
 .hub-bg {
     background: linear-gradient(180deg,
         #FFE082 0%, #FFF8E1 40%, #A5D6A7 65%, #66BB6A 100%);
-    min-height: 100vh; padding: 20px;
-    overflow: auto;
+    height: 100vh;
+    height: 100dvh;
+    padding: 20px 20px
+            calc(20px + env(safe-area-inset-bottom, 0px)) 20px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
 }
 .hub-title {
     font-size: clamp(1.8rem, 7vw, 3.5rem);

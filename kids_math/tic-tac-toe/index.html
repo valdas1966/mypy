@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Tic Tac Toe — Kids Math</title>
+<link rel="stylesheet" href="../shared/styles.css">
+<style>
+/* =================================================================
+   Tic Tac Toe — game-specific styles
+   ================================================================= */
+
+/* --- Difficulty selection (welcome screen) --- */
+.ttt-diff-grid {
+    display: flex; flex-direction: column;
+    gap: 14px; padding: 0 20px;
+    width: 100%; max-width: 320px;
+    margin: 1.2em auto 0;
+}
+.ttt-diff-btn {
+    padding: 14px 22px;
+    border-radius: 18px;
+    border: 4px solid #E0E0E0;
+    background: #FFF;
+    font-size: clamp(1.2rem, 4.5vw, 1.6rem);
+    font-weight: 800; color: #333;
+    cursor: pointer;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 12px;
+    box-shadow: 0 5px 0 rgba(0,0,0,0.1),
+                0 8px 18px rgba(0,0,0,0.12);
+    transition: transform 0.12s, box-shadow 0.12s;
+    -webkit-tap-highlight-color: transparent;
+}
+.ttt-diff-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+}
+.ttt-diff-btn.easy   { border-color: #66BB6A; }
+.ttt-diff-btn.medium { border-color: #FFB74D; }
+.ttt-diff-btn.hard   { border-color: #EF5350; }
+.ttt-diff-stars {
+    color: #FF6F00; letter-spacing: 3px;
+    font-size: 1.1em;
+}
+
+/* --- Board --- */
+.ttt-game-area {
+    flex: 1; width: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: clamp(8px, 2vw, 16px); padding: 10px;
+}
+.ttt-status {
+    font-size: clamp(1rem, 4vw, 1.4rem);
+    font-weight: 800; color: #333;
+    text-align: center;
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.7);
+    min-height: 1.4em;
+    padding: 6px 14px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 14px;
+}
+body.level-3 .ttt-status,
+body.level-4 .ttt-status {
+    color: #FFF;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.25);
+}
+.ttt-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    width: clamp(260px, 84vw, 360px);
+    height: clamp(260px, 84vw, 360px);
+    gap: clamp(6px, 2vw, 10px);
+    padding: clamp(8px, 2.5vw, 14px);
+    background: rgba(255,255,255,0.85);
+    border-radius: 24px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+.ttt-cell {
+    background: #FFF8E1;
+    border: 3px solid #FFE0B2;
+    border-radius: 14px;
+    display: flex; align-items: center;
+    justify-content: center;
+    font-size: clamp(2.4rem, 11vw, 3.8rem);
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s, transform 0.1s,
+                border-color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    padding: 0;
+}
+.ttt-cell:active:not(.played) {
+    transform: scale(0.93);
+    background: #FFECB3;
+}
+.ttt-cell.played {
+    background: #FFF;
+    cursor: default;
+}
+.ttt-cell.win {
+    background: #C8E6C9;
+    border-color: #4CAF50;
+    animation: tttWinPulse 0.6s ease infinite alternate;
+}
+.ttt-cell.lose {
+    background: #FFCDD2;
+    border-color: #E57373;
+}
+@keyframes tttWinPulse {
+    0%   { transform: scale(1);
+           box-shadow: 0 0 0 rgba(76,175,80,0); }
+    100% { transform: scale(1.06);
+           box-shadow: 0 0 18px rgba(76,175,80,0.6); }
+}
+.ttt-piece {
+    display: inline-block;
+    animation: tttPiecePop 0.35s
+               cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes tttPiecePop {
+    0%   { transform: scale(0) rotate(-30deg); opacity: 0; }
+    100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+/* --- Legend (who is who) --- */
+.ttt-legend {
+    display: flex; align-items: center;
+    justify-content: center; gap: 18px;
+    font-size: clamp(0.9rem, 3.2vw, 1.15rem);
+    font-weight: 700; color: #555;
+    background: rgba(255,255,255,0.7);
+    padding: 6px 14px; border-radius: 14px;
+}
+.ttt-legend-item {
+    display: flex; align-items: center; gap: 6px;
+}
+.ttt-legend-piece {
+    font-size: 1.4em; line-height: 1;
+}
+body.level-3 .ttt-legend,
+body.level-4 .ttt-legend {
+    color: #FFF; background: rgba(0,0,0,0.25);
+}
+</style>
+</head>
+<body>
+
+<!-- ======================== Welcome ======================== -->
+<div class="screen" id="welcome-screen">
+    <div class="welcome-title">&#11093; Tic Tac Toe</div>
+    <div class="welcome-animals" id="welcome-animals"></div>
+    <div class="ttt-diff-grid">
+        <button class="ttt-diff-btn easy" data-diff="easy">
+            <span>Easy</span>
+            <span class="ttt-diff-stars">&#9733;&#9734;&#9734;</span>
+        </button>
+        <button class="ttt-diff-btn medium" data-diff="medium">
+            <span>Medium</span>
+            <span class="ttt-diff-stars">&#9733;&#9733;&#9734;</span>
+        </button>
+        <button class="ttt-diff-btn hard" data-diff="hard">
+            <span>Hard</span>
+            <span class="ttt-diff-stars">&#9733;&#9733;&#9733;</span>
+        </button>
+    </div>
+</div>
+
+<!-- ======================== Game =========================== -->
+<div class="screen hidden" id="game-screen">
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <a class="home-btn"
+               href="../menus/snakes.html"
+               title="Menu">&#127968;</a>
+            <span class="stars-display"
+                  id="stars-display">&#11088; 0</span>
+            <span class="level-display"
+                  id="level-display">Easy</span>
+        </div>
+        <button class="mute-btn"
+                id="mute-btn">&#128264;</button>
+    </div>
+    <div class="candy-bar" id="candy-bar"></div>
+    <div class="game-area">
+        <div class="ttt-game-area">
+            <div class="ttt-status" id="ttt-status">
+                Your turn!
+            </div>
+            <div class="ttt-board" id="ttt-board"></div>
+            <div class="ttt-legend">
+                <span class="ttt-legend-item">
+                    <span class="ttt-legend-piece">
+                        &#128049;</span> You
+                </span>
+                <span class="ttt-legend-item">
+                    <span class="ttt-legend-piece">
+                        &#128054;</span> Computer
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ======================== Champion ======================= -->
+<div class="screen hidden" id="champion-screen">
+    <div class="trophy">&#127942;</div>
+    <div class="champion-title">CHAMPION!</div>
+    <div class="welcome-animals" id="champion-animals"></div>
+    <button class="play-again-btn" id="play-again-btn">
+        Play Again!
+    </button>
+</div>
+
+<!-- ======================== Feedback ======================= -->
+<div class="feedback" id="feedback"></div>
+
+<!-- ======================== Scripts ======================== -->
+<script src="../shared/audio.js"></script>
+<script src="../shared/animals.js"></script>
+<script src="../shared/effects.js"></script>
+<script src="../shared/prizes.js"></script>
+<script src="../shared/ice-cream.js"></script>
+<script src="../shared/dress-up.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

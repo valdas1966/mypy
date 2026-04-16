@@ -105,12 +105,15 @@ class TestRunner:
 
     @staticmethod
     def run(path_folder: str = None,
-            pattern: str = '_tester.py',
+            pattern: str = '_tester*.py',
             verbose: bool = False) -> ResultTest:
         """
         ====================================================================
          Run all pytest files matching pattern in the folder tree.
          If path_folder is None, auto-detects the caller's directory.
+         Default pattern '_tester*.py' picks up both the base
+         '_tester.py' file and any concern-split siblings like
+         '_tester_grid.py' or '_tester_recording.py'.
         ====================================================================
         """
         if path_folder is None:

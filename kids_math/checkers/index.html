@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Checkers — Kids Math</title>
+<link rel="stylesheet" href="../shared/styles.css">
+<style>
+/* =================================================================
+   Checkers — game-specific styles
+   ================================================================= */
+
+/* --- PC count selection (welcome screen) --- */
+.ck-pc-prompt {
+    font-size: clamp(1rem, 4vw, 1.4rem);
+    font-weight: 800; color: #5D4037;
+    text-align: center; padding: 0 16px;
+    margin-top: 0.6em;
+}
+.ck-pc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px; padding: 0 20px;
+    width: 100%; max-width: 360px;
+    margin: 1em auto 0;
+}
+.ck-pc-btn {
+    padding: 14px 12px;
+    border-radius: 18px;
+    border: 4px solid #E0E0E0;
+    background: #FFF;
+    font-size: clamp(1.1rem, 4vw, 1.4rem);
+    font-weight: 800; color: #333;
+    cursor: pointer;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 4px;
+    box-shadow: 0 5px 0 rgba(0,0,0,0.1),
+                0 8px 18px rgba(0,0,0,0.12);
+    transition: transform 0.12s, box-shadow 0.12s;
+    -webkit-tap-highlight-color: transparent;
+}
+.ck-pc-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+}
+.ck-pc-btn[data-pc="1"] { border-color: #66BB6A; }
+.ck-pc-btn[data-pc="2"] { border-color: #FFEE58; }
+.ck-pc-btn[data-pc="3"] { border-color: #FFB74D; }
+.ck-pc-btn[data-pc="4"] { border-color: #EF5350; }
+.ck-pc-num {
+    font-size: 1.4em;
+    color: #E65100;
+    line-height: 1;
+}
+.ck-pc-dogs {
+    font-size: clamp(1.1rem, 3.8vw, 1.4rem);
+    line-height: 1.1; letter-spacing: 1px;
+}
+
+/* --- Game area --- */
+.ck-game-area {
+    flex: 1; width: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: clamp(6px, 1.5vw, 12px); padding: 6px;
+}
+.ck-status {
+    font-size: clamp(0.95rem, 3.8vw, 1.3rem);
+    font-weight: 800; color: #333;
+    text-align: center;
+    padding: 5px 14px;
+    background: rgba(255,255,255,0.75);
+    border-radius: 14px;
+    min-height: 1.4em;
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.6);
+}
+body.level-3 .ck-status,
+body.level-4 .ck-status {
+    color: #FFF; background: rgba(0,0,0,0.3);
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+}
+
+/* --- Board --- */
+.ck-board {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    width: clamp(280px, 92vw, 420px);
+    aspect-ratio: 1 / 1;
+    border: 5px solid #5D4037;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    background: #5D4037;
+}
+.ck-cell {
+    position: relative;
+    display: flex; align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+}
+.ck-cell.light { background: #FFE0B2; }
+.ck-cell.dark  { background: #8D6E63; }
+.ck-cell.dark { cursor: default; }
+
+.ck-piece {
+    width: 78%; height: 78%;
+    border-radius: 50%;
+    border: 3px solid;
+    display: flex; align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.35),
+                inset 0 -3px 0 rgba(0,0,0,0.18),
+                inset 0 3px 0 rgba(255,255,255,0.18);
+    transition: transform 0.18s ease,
+                box-shadow 0.18s ease;
+    position: relative;
+    animation: ckAppear 0.25s
+               cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes ckAppear {
+    0%   { transform: scale(0); }
+    100% { transform: scale(1); }
+}
+.ck-piece.player {
+    background: radial-gradient(circle at 35% 30%,
+        #64B5F6, #1976D2 70%);
+    border-color: #0D47A1;
+}
+.ck-piece.ai {
+    background: radial-gradient(circle at 35% 30%,
+        #EF9A9A, #C62828 70%);
+    border-color: #B71C1C;
+}
+.ck-cell.selected .ck-piece {
+    transform: scale(1.12);
+    box-shadow: 0 0 0 4px #FFD700,
+                0 0 18px rgba(255,215,0,0.7),
+                inset 0 -3px 0 rgba(0,0,0,0.18);
+}
+.ck-crown {
+    font-size: 60%;
+    line-height: 1;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.4));
+}
+
+/* --- Move targets --- */
+.ck-cell.move-target {
+    cursor: pointer;
+}
+.ck-cell.move-target::after {
+    content: '';
+    position: absolute;
+    width: 32%; height: 32%;
+    border-radius: 50%;
+    background: rgba(76,175,80,0.65);
+    box-shadow: 0 0 10px rgba(76,175,80,0.5);
+    pointer-events: none;
+    animation: ckTargetPulse 1s ease-in-out infinite alternate;
+}
+.ck-cell.capture-target {
+    cursor: pointer;
+}
+.ck-cell.capture-target::after {
+    content: '';
+    position: absolute;
+    width: 70%; height: 70%;
+    border-radius: 50%;
+    border: 4px dashed #FF1744;
+    background: rgba(255, 23, 68, 0.12);
+    box-sizing: border-box;
+    pointer-events: none;
+    animation: ckTargetPulse 0.7s
+               ease-in-out infinite alternate;
+}
+@keyframes ckTargetPulse {
+    0%   { opacity: 0.55; transform: scale(0.95); }
+    100% { opacity: 1;    transform: scale(1.05); }
+}
+
+/* --- Captured-piece flash (briefly before removal) --- */
+.ck-piece.captured {
+    animation: ckCapture 0.45s ease forwards;
+}
+@keyframes ckCapture {
+    0%   { transform: scale(1); opacity: 1; }
+    50%  { transform: scale(1.3) rotate(20deg);
+           filter: brightness(1.5) saturate(2); }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+/* --- Score panel --- */
+.ck-tally {
+    display: flex; align-items: center;
+    justify-content: center; gap: 14px;
+    font-size: clamp(0.85rem, 3.2vw, 1.05rem);
+    font-weight: 700; color: #555;
+    background: rgba(255,255,255,0.7);
+    padding: 4px 12px; border-radius: 12px;
+}
+body.level-3 .ck-tally,
+body.level-4 .ck-tally {
+    color: #FFF; background: rgba(0,0,0,0.25);
+}
+.ck-tally-side {
+    display: flex; align-items: center; gap: 4px;
+}
+</style>
+</head>
+<body>
+
+<!-- ======================== Welcome ======================== -->
+<div class="screen" id="welcome-screen">
+    <div class="welcome-title">&#9823; Checkers</div>
+    <div class="welcome-animals" id="welcome-animals"></div>
+    <div class="ck-pc-prompt">
+        How many warriors will the<br>
+        computer have?
+    </div>
+    <div class="ck-pc-grid">
+        <button class="ck-pc-btn" data-pc="1">
+            <span class="ck-pc-num">1</span>
+            <span class="ck-pc-dogs">&#128054;</span>
+        </button>
+        <button class="ck-pc-btn" data-pc="2">
+            <span class="ck-pc-num">2</span>
+            <span class="ck-pc-dogs">&#128054;&#128054;</span>
+        </button>
+        <button class="ck-pc-btn" data-pc="3">
+            <span class="ck-pc-num">3</span>
+            <span class="ck-pc-dogs">&#128054;&#128054;&#128054;</span>
+        </button>
+        <button class="ck-pc-btn" data-pc="4">
+            <span class="ck-pc-num">4</span>
+            <span class="ck-pc-dogs">&#128054;&#128054;&#128054;&#128054;</span>
+        </button>
+    </div>
+</div>
+
+<!-- ======================== Game =========================== -->
+<div class="screen hidden" id="game-screen">
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <a class="home-btn"
+               href="../menus/snakes.html"
+               title="Menu">&#127968;</a>
+            <span class="stars-display"
+                  id="stars-display">&#11088; 0</span>
+            <span class="level-display"
+                  id="level-display">PC: 1</span>
+        </div>
+        <button class="mute-btn"
+                id="mute-btn">&#128264;</button>
+    </div>
+    <div class="candy-bar" id="candy-bar"></div>
+    <div class="game-area">
+        <div class="ck-game-area">
+            <div class="ck-status" id="ck-status">
+                Your turn!
+            </div>
+            <div class="ck-board" id="ck-board"></div>
+            <div class="ck-tally" id="ck-tally">
+                <span class="ck-tally-side">
+                    &#128049; <span id="ck-tally-p">4</span>
+                </span>
+                <span class="ck-tally-side">
+                    &#128054; <span id="ck-tally-a">1</span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ======================== Champion ======================= -->
+<div class="screen hidden" id="champion-screen">
+    <div class="trophy">&#127942;</div>
+    <div class="champion-title">CHAMPION!</div>
+    <div class="welcome-animals" id="champion-animals"></div>
+    <button class="play-again-btn" id="play-again-btn">
+        Play Again!
+    </button>
+</div>
+
+<!-- ======================== Feedback ======================= -->
+<div class="feedback" id="feedback"></div>
+
+<!-- ======================== Scripts ======================== -->
+<script src="../shared/audio.js"></script>
+<script src="../shared/animals.js"></script>
+<script src="../shared/effects.js"></script>
+<script src="../shared/prizes.js"></script>
+<script src="../shared/ice-cream.js"></script>
+<script src="../shared/dress-up.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

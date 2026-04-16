@@ -89,3 +89,14 @@ class Factory:
         return BFS(
             problem=ProblemGrid.Factory.grid_3x3_start_is_goal()
         )
+
+    @staticmethod
+    def grid_4x4_obstacle() -> BFS:
+        """
+        ====================================================================
+         BFS on 4x4 Grid with a wall at (0,2), (1,2). Cost 7.
+        ====================================================================
+        """
+        return BFS(
+            problem=ProblemGrid.Factory.grid_4x4_obstacle()
+        )

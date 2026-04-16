@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>f_tex — CLAUDE.html</title>
+<style>
+:root {
+    --bg: #0b0f14;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --faint: #94a3b8;
+    --border: #334155;
+    --accent: #60a5fa;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #fb7185;
+    --code-bg: #0a1220;
+}
+* { box-sizing: border-box; }
+html, body {
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Inter, Roboto, system-ui, sans-serif;
+    font-size: 15px; line-height: 1.6;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px; border-radius: 3px;
+}
+code, pre, kbd {
+    font-family: "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: 13.5px;
+}
+code {
+    background: var(--code-bg);
+    color: var(--text);
+    padding: 1px 6px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+}
+pre {
+    background: var(--code-bg);
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    margin: 10px 0;
+}
+pre code {
+    background: transparent; border: 0; padding: 0;
+}
+.layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 28px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 28px;
+}
+aside.toc {
+    position: sticky; top: 18px;
+    align-self: start;
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    max-height: calc(100vh - 36px);
+    overflow-y: auto;
+}
+aside.toc h2 {
+    font-size: 13px; letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 10px;
+}
+aside.toc ol {
+    padding-left: 20px; margin: 0;
+    color: var(--muted);
+}
+aside.toc ol li { margin: 3px 0; }
+aside.toc ol ol { padding-left: 18px; }
+aside.toc a { color: var(--muted); }
+aside.toc a:hover { color: var(--text); }
+#search {
+    width: 100%;
+    background: var(--panel2);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 10px;
+    color: var(--text);
+    margin-bottom: 10px;
+    font-size: 13.5px;
+}
+#search:focus {
+    outline: 2px solid var(--accent); border-color: var(--accent);
+}
+header.hero {
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 16px; margin-bottom: 22px;
+}
+header.hero h1 {
+    margin: 0; font-size: 30px; color: white;
+    letter-spacing: -0.01em;
+}
+header.hero .path {
+    color: var(--faint); font-family: monospace; font-size: 14px;
+    margin-top: 6px;
+}
+section { margin-bottom: 36px; scroll-margin-top: 20px; }
+section h2 {
+    font-size: 22px; color: white;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 8px; margin: 0 0 14px;
+}
+section h3 {
+    font-size: 17px; color: white;
+    margin: 18px 0 8px;
+}
+ol.numbered { padding-left: 22px; margin: 6px 0; }
+ol.numbered > li { margin: 5px 0; color: var(--text); }
+.back-to-top {
+    display: inline-block; margin-top: 8px;
+    font-size: 12.5px; color: var(--faint);
+}
+.panel {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    margin: 10px 0 14px;
+    overflow: hidden;
+}
+.panel > summary {
+    padding: 10px 14px;
+    cursor: pointer;
+    font-weight: 600;
+    color: white;
+    background: var(--panel2);
+    border-bottom: 2px solid var(--border);
+    list-style: none;
+    display: flex; align-items: center; gap: 10px;
+    user-select: none;
+}
+.panel > summary::-webkit-details-marker { display: none; }
+.panel > summary::before {
+    content: "▸"; color: var(--accent); font-size: 12px;
+    transition: transform 0.15s;
+}
+.panel[open] > summary::before { transform: rotate(90deg); }
+.panel > summary:hover { background: #17213a; }
+.panel .body { padding: 14px 16px; }
+.sig {
+    display: block;
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 5px;
+    padding: 9px 12px;
+    color: var(--text);
+    font-family: "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: 13.5px;
+    margin: 0 0 8px;
+    overflow-x: auto;
+    white-space: pre;
+}
+.api-item {
+    margin: 14px 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+    scroll-margin-top: 20px;
+}
+.api-item:last-child { border-bottom: 0; }
+.api-item h4 {
+    margin: 0 0 6px;
+    font-size: 15px;
+    color: var(--accent);
+}
+.api-item h4 a {
+    color: inherit; text-decoration: none;
+}
+.api-item h4 a:hover { text-decoration: underline; }
+.chip {
+    display: inline-block;
+    font-size: 11px; font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--panel2);
+    border: 2px solid var(--border);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-right: 6px;
+}
+.chip.stdlib { color: var(--good); border-color: var(--good); }
+.chip.third  { color: var(--accent2); border-color: var(--accent2); }
+.chip.intern { color: var(--accent); border-color: var(--accent); }
+.chip.note   { color: var(--warn); border-color: var(--warn); }
+table {
+    width: 100%; border-collapse: collapse; margin: 8px 0 12px;
+}
+th, td {
+    text-align: left; padding: 8px 10px;
+    border-bottom: 2px solid var(--border);
+    vertical-align: top;
+}
+th {
+    color: var(--muted); font-weight: 600;
+    font-size: 12.5px; letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: var(--panel2);
+}
+.tree {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-family: monospace;
+    color: var(--muted);
+    white-space: pre;
+    margin: 6px 0 12px;
+}
+footer {
+    margin-top: 40px; padding-top: 14px;
+    border-top: 2px solid var(--border);
+    color: var(--faint); font-size: 13px;
+}
+@media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; padding: 16px; }
+    aside.toc { position: static; max-height: none; }
+}
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<aside class="toc" aria-label="Contents">
+<h2>Contents</h2>
+<input id="search" type="search"
+       placeholder="Filter API..."
+       aria-label="Filter API items">
+<ol>
+<li><a href="#purpose">Purpose</a></li>
+<li><a href="#api">Public API</a>
+    <ol>
+    <li><a href="#Tex">Tex</a>
+        <ol>
+        <li><a href="#Tex-__init__">__init__</a></li>
+        <li><a href="#Tex-engine">engine</a></li>
+        <li><a href="#Tex-compile">compile</a></li>
+        <li><a href="#Tex-compile_file">compile_file</a></li>
+        <li><a href="#Tex-__repr__">__repr__</a></li>
+        </ol>
+    </li>
+    <li><a href="#Templates">Templates</a>
+        <ol>
+        <li><a href="#Templates-session_summary">session_summary</a></li>
+        </ol>
+    </li>
+    </ol>
+</li>
+<li><a href="#hier">Inheritance</a></li>
+<li><a href="#deps">Dependencies</a></li>
+<li><a href="#usage">Usage examples</a></li>
+</ol>
+</aside>
+
+<main>
+
+<header class="hero">
+<h1>f_tex — Tex</h1>
+<div class="path">/mnt/f/mypy/f_tex/</div>
+</header>
+
+<section id="purpose">
+<h2>A. Purpose</h2>
+<ol class="numbered">
+<li>Thin facade around a local LaTeX engine (<code>tectonic</code> by default)
+that compiles <code>.tex</code> source or files into PDF bytes.</li>
+<li>Ships one opinionated template — <code>template_session_summary</code> —
+matching the Drive <code>For_Session_Summary.md</code> conventions
+(orange accent, fancyhdr header, <code>\unchecked</code> command).</li>
+<li>Designed to compose with <code>f_google.services.drive</code>: read
+<code>.tex</code> from Drive, compile locally, upload the PDF back.</li>
+</ol>
+<a class="back-to-top" href="#">↑ back to top</a>
+</section>
+
+<section id="api">
+<h2>B. Public API</h2>
+
+<details class="panel" open data-api-class="Tex">
+<summary id="Tex">class Tex</summary>
+<div class="body">
+
+<div class="api-item" data-api-name="__init__">
+<h4><a id="Tex-__init__" href="#Tex-__init__">__init__</a>
+    <span class="chip">constructor</span></h4>
+<pre class="sig">__init__(self, engine: str = 'tectonic') -> None</pre>
+<ol class="numbered">
+<li>Bind the compiler to a LaTeX engine binary resolvable on <code>PATH</code>.</li>
+<li>Default <code>tectonic</code>; pass another engine name to override.</li>
+</ol>
+</div>
+
+<div class="api-item" data-api-name="engine">
+<h4><a id="Tex-engine" href="#Tex-engine">engine</a>
+    <span class="chip">property</span></h4>
+<pre class="sig">engine: str</pre>
+<ol class="numbered">
+<li>Returns the engine binary name (e.g. <code>'tectonic'</code>).</li>
+</ol>
+</div>
+
+<div class="api-item" data-api-name="compile">
+<h4><a id="Tex-compile" href="#Tex-compile">compile</a>
+    <span class="chip intern">method</span></h4>
+<pre class="sig">compile(self, src: str) -> bytes</pre>
+<ol class="numbered">
+<li>Compiles a <code>.tex</code> source string and returns the PDF as bytes.</li>
+<li>Runs the engine inside a <code>tempfile.TemporaryDirectory</code>.</li>
+<li>No artifacts left on disk after return.</li>
+<li>Raises <code>RuntimeError</code> with engine stderr on compile failure.</li>
+<li>Raises <code>RuntimeError</code> if the engine binary is missing from <code>PATH</code>.</li>
+</ol>
+</div>
+
+<div class="api-item" data-api-name="compile_file">
+<h4><a id="Tex-compile_file" href="#Tex-compile_file">compile_file</a>
+    <span class="chip intern">method</span></h4>
+<pre class="sig">compile_file(self,
+             path_src: str,
+             path_dest: str | None = None) -> bytes</pre>
+<ol class="numbered">
+<li>Compiles a <code>.tex</code> file on disk; returns PDF bytes.</li>
+<li><code>\input{..}</code> and relative image paths resolve from
+<code>path_src</code>'s directory (multi-file projects work).</li>
+<li>Writes the PDF to <code>path_dest</code> if given; pure read otherwise.</li>
+<li>Raises <code>FileNotFoundError</code> if <code>path_src</code> does not exist.</li>
+<li>Raises <code>RuntimeError</code> on compile failure.</li>
+</ol>
+</div>
+
+<div class="api-item" data-api-name="__repr__">
+<h4><a id="Tex-__repr__" href="#Tex-__repr__">__repr__</a>
+    <span class="chip">dunder</span></h4>
+<pre class="sig">__repr__(self) -> str</pre>
+<ol class="numbered">
+<li>Returns <code>Tex(engine='tectonic')</code>-style repr.</li>
+</ol>
+</div>
+
+</div>
+</details>
+
+<details class="panel" open data-api-class="Templates">
+<summary id="Templates">class Templates
+    <span class="chip" style="margin-left: 8px;">static</span></summary>
+<div class="body">
+
+<ol class="numbered">
+<li>Static <code>.tex</code> source builders — no state, no instance.</li>
+<li>Separate from <code>Tex</code> to keep the compiler
+single-responsibility.</li>
+<li>Lives in <code>_templates.py</code>; re-exported by
+<code>__init__.py</code>.</li>
+</ol>
+
+<div class="api-item" data-api-name="session_summary">
+<h4><a id="Templates-session_summary" href="#Templates-session_summary">session_summary</a>
+    <span class="chip">static</span></h4>
+<pre class="sig">session_summary(project_name: str,
+                date: str,
+                project_path: str,
+                body: str) -> str</pre>
+<ol class="numbered">
+<li>Returns a complete <code>.tex</code> source for a session summary.</li>
+<li><code>body</code> is raw LaTeX injected after the title block.</li>
+<li>Template matches Drive <code>For_Session_Summary.md</code>: orange
+accent (<code>#E65100</code>), fancyhdr header, <code>\unchecked</code> command.</li>
+<li>Placeholders <code>__PROJECT_NAME__</code>, <code>__DATE__</code>,
+<code>__PROJECT_PATH__</code>, <code>__BODY__</code> are substituted verbatim.</li>
+</ol>
+</div>
+
+</div>
+</details>
+
+<a class="back-to-top" href="#">↑ back to top</a>
+</section>
+
+<section id="hier">
+<h2>C. Inheritance (Hierarchy)</h2>
+<div class="tree">Tex  (no base class)</div>
+<ol class="numbered">
+<li>Standalone class — no mixin composition, no generics.</li>
+<li>Single responsibility, narrow surface area; inheritance not needed for v1.</li>
+<li>A future multi-engine refactor would move to <code>i_0_base/</code>
++ <code>i_1_tectonic/</code>; out of scope now.</li>
+</ol>
+<a class="back-to-top" href="#">↑ back to top</a>
+</section>
+
+<section id="deps">
+<h2>D. Dependencies</h2>
+<table>
+<thead><tr><th>Import</th><th>Category</th><th>Used For</th></tr></thead>
+<tbody>
+<tr><td><code>subprocess</code></td>
+    <td><span class="chip stdlib">stdlib</span></td>
+    <td>Invoking the engine binary.</td></tr>
+<tr><td><code>tempfile.TemporaryDirectory</code></td>
+    <td><span class="chip stdlib">stdlib</span></td>
+    <td>Isolated compile workspace; auto-cleanup.</td></tr>
+<tr><td><code>pathlib.Path</code></td>
+    <td><span class="chip stdlib">stdlib</span></td>
+    <td>File I/O, path composition.</td></tr>
+<tr><td><code>pytest</code></td>
+    <td><span class="chip third">third-party</span></td>
+    <td><code>_tester.py</code> only.</td></tr>
+</tbody>
+</table>
+<ol class="numbered">
+<li>External precondition — a LaTeX engine binary must exist on <code>PATH</code>.</li>
+<li>Default <code>tectonic</code> is bundled with the project's Conda environment.</li>
+<li>No framework-internal dependencies (<code>f_core</code>,
+<code>f_google</code>, etc.) — the module stands alone.</li>
+</ol>
+<a class="back-to-top" href="#">↑ back to top</a>
+</section>
+
+<section id="usage">
+<h2>E. Usage examples</h2>
+
+<details class="panel" open>
+<summary>Example 1 — Source string → PDF bytes</summary>
+<div class="body">
+<ol class="numbered">
+<li>One-line compile, bytes in memory, no disk artifacts.</li>
+</ol>
+<pre><code>from f_tex import Tex
+
+tex = Tex.Factory.a()
+pdf = tex.compile(src=r'''
+\documentclass{article}
+\begin{document} Hello. \end{document}
+''')
+assert pdf[:4] == b'%PDF'</code></pre>
+</div>
+</details>
+
+<details class="panel">
+<summary>Example 2 — Compile a file and write the PDF</summary>
+<div class="body">
+<ol class="numbered">
+<li>Same as running <code>tectonic</code> locally, minus the cwd dance.</li>
+</ol>
+<pre><code>from f_tex import Tex
+
+tex = Tex.Factory.a()
+tex.compile_file(
+    path_src='/tmp/paper.tex',
+    path_dest='/tmp/paper.pdf',
+)</code></pre>
+</div>
+</details>
+
+<details class="panel">
+<summary>Example 3 — Round-trip through Google Drive</summary>
+<div class="body">
+<ol class="numbered">
+<li>Read source from Drive, compile locally, upload the PDF.</li>
+<li>This is the composition pattern <code>f_tex</code> exists to enable.</li>
+</ol>
+<pre><code>from f_google.services.drive import Drive
+from f_tex import Tex
+
+drive = Drive.Factory.valdas()
+tex   = Tex.Factory.a()
+
+src = drive.read(path='2026/04/16/drive_session.tex').text
+pdf = tex.compile(src=src)
+
+open('/tmp/drive_session.pdf', 'wb').write(pdf)
+drive.upload(
+    path_src='/tmp/drive_session.pdf',
+    path_dest='2026/04/16/drive_session.pdf',
+)</code></pre>
+</div>
+</details>
+
+<details class="panel">
+<summary>Example 4 — Session-summary template</summary>
+<div class="body">
+<ol class="numbered">
+<li>Generates the boilerplate preamble and title block.</li>
+<li>The caller supplies only the body — sections and next-steps.</li>
+</ol>
+<pre><code>from f_tex import Tex, Templates
+
+body = (
+    r'\section{Purpose} Scaffolding session.'
+    '\n'
+    r'\section{Next Steps} \unchecked Ship it.'
+)
+src = Templates.session_summary(
+    project_name='Drive',
+    date='2026-04-16',
+    project_path='/mnt/f/mypy',
+    body=body,
+)
+pdf = Tex.Factory.a().compile(src=src)</code></pre>
+</div>
+</details>
+
+<a class="back-to-top" href="#">↑ back to top</a>
+</section>
+
+<footer>
+Generated 2026-04-16 — f_tex scope: LaTeX compile + templates.
+Reads <code>CLAUDE.md</code> for machine context, <code>ABOUT.html</code>
+for concept background.
+</footer>
+
+</main>
+</div>
+
+<script>
+(function () {
+    var input = document.getElementById('search');
+    if (!input) return;
+    input.addEventListener('input', function () {
+        var q = input.value.trim().toLowerCase();
+        document.querySelectorAll('[data-api-name]').forEach(function (el) {
+            var name = (el.getAttribute('data-api-name') || '').toLowerCase();
+            el.classList.toggle('hidden', q && name.indexOf(q) === -1);
+        });
+        document.querySelectorAll('[data-api-class]').forEach(function (el) {
+            var any = el.querySelectorAll(
+                '[data-api-name]:not(.hidden)'
+            ).length;
+            el.classList.toggle('hidden', q && any === 0);
+        });
+    });
+}());
+</script>
+
+</body>
+</html>

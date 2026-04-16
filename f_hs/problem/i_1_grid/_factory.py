@@ -35,6 +35,22 @@ class Factory:
                            goal=grid[2][2])
 
     @staticmethod
+    def grid_4x4_obstacle() -> ProblemGrid:
+        """
+        ====================================================================
+         4x4 Grid with a vertical 2-cell wall at (0,2) and (1,2).
+         Start (0,0), Goal (0,3). The wall forces a detour through
+         row 2 — optimal cost is 7 (vs. 3 without obstacles).
+        ====================================================================
+        """
+        grid = GridMap(rows=4)
+        grid[0][2].set_invalid()
+        grid[1][2].set_invalid()
+        return ProblemGrid(grid=grid,
+                           start=grid[0][0],
+                           goal=grid[0][3])
+
+    @staticmethod
     def grid_3x3_no_path() -> ProblemGrid:
         """
         ====================================================================

@@ -1,9 +1,10 @@
 # AStar
 
 ## Purpose
-A* Search Algorithm using QueueIndexed (indexed min-heap with
-decrease_key). Matches classical textbook pseudocode — eager
-deletion, each state appears at most once in FRONTIER.
+A* Search Algorithm using `FrontierPriority` (backed by
+`QueueIndexed` — indexed min-heap with decrease_key). Matches
+classical textbook pseudocode — eager deletion, each state
+appears at most once in FRONTIER.
 
 ## Public API
 
@@ -15,9 +16,14 @@ def __init__(self,
              name: str = 'AStar',
              is_recording: bool = False) -> None
 ```
+Injects `FrontierPriority[State]()` into `AlgoSPP` and stores `h`.
 
-## Tie-Breaking
-Priority is `(f, -g)`:
+## Priority / Tie-Breaking
+```python
+def _priority(self, state: State) -> tuple:
+    g = self._g[state]
+    return (g + self._h(state), -g)
+```
 - **f = g + h**: total estimated cost
 - **-g**: prefer deeper nodes (closer to goal)
 
@@ -32,6 +38,10 @@ push, pop, and decrease_g events.
 | `graph_no_path()` | `AStar` | No path, h=0 |
 | `graph_start_is_goal()` | `AStar` | Start == Goal, h=0 |
 | `graph_diamond()` | `AStar` | Diamond graph, admissible h |
+| `grid_3x3()` | `AStar` | Open grid, Manhattan h |
+| `grid_3x3_obstacle()` | `AStar` | Grid with obstacle |
+| `grid_3x3_no_path()` | `AStar` | Grid with wall |
+| `grid_3x3_start_is_goal()` | `AStar` | Grid where start == goal |
 
 ## Inheritance
 ```
@@ -42,4 +52,4 @@ AlgoSPP[State]
 
 ## Dependencies
 - `f_hs.algo.i_0_base.AlgoSPP`
-- `f_ds.queues.i_1_indexed.QueueIndexed`
+- `f_hs.frontier.i_1_priority.FrontierPriority`
