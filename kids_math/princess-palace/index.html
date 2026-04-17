@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Princess Palace &mdash; Kids Math</title>
+<link rel="stylesheet" href="../shared/styles.css">
+<style>
+/* =================================================================
+   Princess Palace &mdash; game-specific styles
+   ================================================================= */
+
+/* --- Welcome screen --- */
+#welcome-screen {
+    background: linear-gradient(180deg,
+        #FFD1DC 0%, #FFE4EC 35%,
+        #E1BEE7 65%, #B39DDB 100%);
+}
+.pp-welcome-title {
+    font-size: clamp(2rem, 8vw, 4rem);
+    font-weight: 900;
+    background: linear-gradient(135deg,
+        #E91E63 0%, #AB47BC 50%, #7E57C2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center; margin-bottom: 0.1em;
+    animation: titleBounce 2s ease-in-out infinite;
+}
+.pp-welcome-sub {
+    font-size: clamp(1rem, 3.5vw, 1.3rem);
+    font-weight: 700; color: #7B1FA2;
+    text-align: center; margin-bottom: 1em;
+}
+.pp-princess-row {
+    display: flex; gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.2em;
+    padding: 0 10px;
+}
+.pp-princess-chip {
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    background: #FFF;
+    border-radius: 50%;
+    width: clamp(42px, 10vw, 58px);
+    height: clamp(42px, 10vw, 58px);
+    display: flex; align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(156,39,176,0.25);
+    animation: ppChipFloat 2.5s ease-in-out infinite;
+}
+.pp-princess-chip:nth-child(2) { animation-delay: 0.2s; }
+.pp-princess-chip:nth-child(3) { animation-delay: 0.4s; }
+.pp-princess-chip:nth-child(4) { animation-delay: 0.6s; }
+.pp-princess-chip:nth-child(5) { animation-delay: 0.8s; }
+.pp-princess-chip:nth-child(6) { animation-delay: 1.0s; }
+.pp-princess-chip:nth-child(7) { animation-delay: 1.2s; }
+@keyframes ppChipFloat {
+    0%, 100% { transform: translateY(0)    rotate(-4deg); }
+    50%      { transform: translateY(-8px) rotate(4deg);  }
+}
+.pp-lvl-prompt {
+    font-size: clamp(1rem, 3.8vw, 1.3rem);
+    font-weight: 800; color: #6A1B9A;
+    text-align: center;
+    margin-bottom: 0.6em;
+}
+.pp-lvl-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    width: 100%; max-width: 340px;
+    padding: 0 16px;
+}
+.pp-lvl-btn {
+    padding: 14px 18px;
+    border-radius: 22px;
+    border: 4px solid #FFF;
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    font-weight: 900;
+    color: #FFF; cursor: pointer;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 10px;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.1),
+                0 8px 18px rgba(156,39,176,0.3);
+    transition: transform 0.12s, box-shadow 0.12s;
+    -webkit-tap-highlight-color: transparent;
+}
+.pp-lvl-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0 rgba(0,0,0,0.1);
+}
+.pp-lvl-btn[data-lvl="1"] {
+    background: linear-gradient(135deg, #F06292, #E91E63);
+}
+.pp-lvl-btn[data-lvl="2"] {
+    background: linear-gradient(135deg, #BA68C8, #8E24AA);
+}
+.pp-lvl-btn[data-lvl="3"] {
+    background: linear-gradient(135deg, #7E57C2, #4527A0);
+}
+.pp-lvl-label {
+    font-size: 1.2em;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.15);
+}
+.pp-lvl-range {
+    background: rgba(255,255,255,0.25);
+    border-radius: 14px;
+    padding: 4px 12px;
+    font-size: 0.85em;
+    letter-spacing: 1px;
+}
+.pp-continue-btn {
+    margin-top: 14px;
+    padding: 12px 28px;
+    border-radius: 22px;
+    border: none;
+    font-size: clamp(1rem, 3.5vw, 1.2rem);
+    font-weight: 900; color: #FFF;
+    background: linear-gradient(135deg, #FFB74D, #F57C00);
+    box-shadow: 0 5px 0 #E65100,
+                0 8px 18px rgba(0,0,0,0.2);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.pp-continue-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 #E65100;
+}
+.pp-continue-btn.hidden { display: none; }
+
+/* --- Top bar additions --- */
+.pp-counter {
+    background: #F8BBD0;
+    color: #C2185B;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.85em; font-weight: 900;
+    letter-spacing: 0.5px;
+}
+.pp-counter.pp-flash {
+    animation: ppCounterFlash 0.5s ease;
+}
+@keyframes ppCounterFlash {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.3);
+               background: #FFD54F;
+               color: #E65100; }
+}
+.top-bar-right {
+    display: flex; gap: 6px;
+    align-items: center;
+}
+.pp-reset-btn {
+    background: none; border: none;
+    font-size: 1.2em; cursor: pointer;
+    padding: 4px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* --- Game stage layout --- */
+.pp-game-area {
+    position: fixed;
+    top: 90px; left: 0; right: 0; bottom: 0;
+    display: flex; flex-direction: row;
+    padding: 0; z-index: 1;
+    overflow: hidden;
+}
+@media (max-aspect-ratio: 1/1) {
+    /* Portrait: palette on bottom */
+    .pp-game-area {
+        flex-direction: column;
+    }
+}
+
+/* --- Palette --- */
+.pp-palette {
+    display: flex; flex-direction: column;
+    width: clamp(80px, 18vw, 130px);
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 2px 0 10px rgba(0,0,0,0.08);
+    z-index: 5;
+    flex-shrink: 0;
+}
+@media (max-aspect-ratio: 1/1) {
+    .pp-palette {
+        width: 100%; height: 38%;
+        flex-direction: column;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+    }
+}
+.pp-tabs {
+    display: flex; flex-direction: row;
+    justify-content: space-around;
+    padding: 6px 4px;
+    background: rgba(255,240,245,0.9);
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+.pp-tab {
+    font-size: clamp(1.1rem, 3.2vw, 1.4rem);
+    background: rgba(255,255,255,0.7);
+    border: 2px solid transparent;
+    border-radius: 50%;
+    width: clamp(34px, 6.5vw, 44px);
+    height: clamp(34px, 6.5vw, 44px);
+    display: flex; align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    -webkit-tap-highlight-color: transparent;
+    padding: 0;
+}
+.pp-tab.active {
+    background: linear-gradient(135deg, #F8BBD0, #E1BEE7);
+    border-color: #CE93D8;
+    transform: scale(1.12);
+    box-shadow: 0 3px 8px rgba(156,39,176,0.25);
+}
+.pp-items {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 8px 6px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+@media (max-aspect-ratio: 1/1) {
+    .pp-items {
+        grid-template-columns:
+            repeat(auto-fill, minmax(60px, 1fr));
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+}
+.pp-item {
+    background: linear-gradient(135deg,
+        var(--pp-c1, #FFF), var(--pp-c2, #F5F5F5));
+    border: 3px solid var(--pp-border, #E0E0E0);
+    border-radius: 16px;
+    padding: 8px 4px 4px;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 2px;
+    cursor: grab;
+    font-size: clamp(1.4rem, 4vw, 1.8rem);
+    line-height: 1;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    transition: transform 0.15s, box-shadow 0.15s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+}
+.pp-item:active {
+    cursor: grabbing;
+    transform: scale(0.92);
+}
+.pp-item-label {
+    font-size: clamp(0.55rem, 1.8vw, 0.75rem);
+    font-weight: 800;
+    color: var(--pp-label, #555);
+    text-align: center;
+    line-height: 1.1;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* --- Scene --- */
+.pp-scene-wrap {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    touch-action: none;
+}
+.pp-scene {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+.pp-bg-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+}
+
+/* --- Scene items --- */
+.pp-placed {
+    position: absolute;
+    width: clamp(38px, 7vw, 60px);
+    height: clamp(38px, 7vw, 60px);
+    transform: translate(-50%, -50%) var(--pp-flip, scale(1));
+    display: flex; align-items: center;
+    justify-content: center;
+    font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+    line-height: 1;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+    filter: drop-shadow(1px 3px 3px rgba(0,0,0,0.25));
+    animation: ppPlacedAppear 0.4s
+        cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    transition: filter 0.2s;
+    z-index: 2;
+}
+@keyframes ppPlacedAppear {
+    0%   { transform: translate(-50%, -50%)
+                      scale(0) rotate(-15deg); }
+    100% { transform: translate(-50%, -50%)
+                      scale(1) rotate(0); }
+}
+.pp-placed.pp-dragging {
+    filter: drop-shadow(2px 6px 8px rgba(0,0,0,0.45))
+            brightness(1.05);
+    z-index: 1000;
+    transition: none;
+    animation: none;
+}
+.pp-placed.pp-flipped {
+    --pp-flip: scaleX(-1);
+}
+.pp-placed.pp-big {
+    width: clamp(52px, 9vw, 80px);
+    height: clamp(52px, 9vw, 80px);
+    font-size: clamp(2.2rem, 6vw, 3.4rem);
+}
+.pp-placed.pp-huge {
+    width: clamp(62px, 11vw, 96px);
+    height: clamp(62px, 11vw, 96px);
+    font-size: clamp(2.6rem, 7.5vw, 4rem);
+}
+
+/* --- Drag ghost (follows pointer) --- */
+.pp-ghost {
+    position: fixed;
+    pointer-events: none;
+    font-size: clamp(2rem, 6vw, 3rem);
+    z-index: 2000;
+    transform: translate(-50%, -50%);
+    filter: drop-shadow(2px 6px 10px rgba(0,0,0,0.4))
+            brightness(1.08);
+    transition: none;
+}
+
+/* --- Trash bin --- */
+.pp-trash {
+    position: fixed;
+    right: 16px; bottom: 16px;
+    width: clamp(54px, 12vw, 80px);
+    height: clamp(54px, 12vw, 80px);
+    border-radius: 50%;
+    background: linear-gradient(135deg, #EF5350, #B71C1C);
+    color: #FFF;
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    display: none; align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 14px rgba(183,28,28,0.45);
+    z-index: 1500;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;
+    transform: scale(0.8);
+}
+.pp-trash.pp-show {
+    display: flex;
+    opacity: 0.95;
+    transform: scale(1);
+    pointer-events: none;
+}
+.pp-trash.pp-hover {
+    background: linear-gradient(135deg, #FF1744, #7F0000);
+    transform: scale(1.2) rotate(-10deg);
+    box-shadow: 0 0 30px rgba(255,23,68,0.7);
+}
+
+/* --- Sparkle particle (on drop) --- */
+.pp-sparkle {
+    position: absolute;
+    pointer-events: none;
+    font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+    animation: ppSparkleFly 0.9s ease-out forwards;
+    z-index: 1100;
+}
+@keyframes ppSparkleFly {
+    0%   { transform: translate(-50%, -50%) scale(0.3);
+           opacity: 0; }
+    30%  { transform: translate(calc(-50% + var(--sx, 0px)),
+                                calc(-50% + var(--sy, 0px)))
+                      scale(1.2); opacity: 1; }
+    100% { transform: translate(calc(-50% + var(--sx, 0px)),
+                                calc(-50% + var(--sy, 0px) - 24px))
+                      scale(0.4); opacity: 0; }
+}
+
+/* --- Math gate modal --- */
+.pp-math-overlay {
+    position: fixed; inset: 0; z-index: 40;
+    background: radial-gradient(circle at center,
+        rgba(156,39,176,0.35),
+        rgba(26,35,126,0.7));
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex; align-items: center;
+    justify-content: center;
+    padding: 16px;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+}
+.pp-math-overlay.pp-show {
+    opacity: 1;
+    pointer-events: auto;
+}
+.pp-math-card {
+    background: linear-gradient(180deg,
+        #FFF8FA 0%, #FCE4EC 60%, #F8BBD0 100%);
+    border: 5px solid #FFF;
+    border-radius: 32px;
+    padding: 18px 20px 22px;
+    width: 100%; max-width: 380px;
+    box-shadow: 0 16px 36px rgba(26,35,126,0.4),
+                0 0 0 4px rgba(255,255,255,0.4);
+    text-align: center;
+    transform: scale(0.7) translateY(20px);
+    transition: transform 0.4s
+        cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.pp-math-overlay.pp-show .pp-math-card {
+    transform: scale(1) translateY(0);
+}
+.pp-fairy {
+    font-size: clamp(3rem, 10vw, 4.5rem);
+    line-height: 1;
+    animation: ppFairyFloat 2s ease-in-out infinite;
+    display: inline-block;
+}
+@keyframes ppFairyFloat {
+    0%, 100% { transform: translateY(0)    rotate(-5deg); }
+    50%      { transform: translateY(-10px) rotate(5deg);  }
+}
+.pp-math-prompt {
+    font-size: clamp(1rem, 3.5vw, 1.3rem);
+    font-weight: 800; color: #AD1457;
+    margin: 2px 0 8px;
+}
+.pp-math-q {
+    font-size: clamp(2.4rem, 10vw, 3.6rem);
+    font-weight: 900; color: #4A148C;
+    text-shadow: 2px 2px 0 #FFF,
+                 4px 4px 0 rgba(156,39,176,0.15);
+    letter-spacing: 2px;
+    margin: 6px 0 14px;
+}
+.pp-math-choices {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+.pp-choice {
+    padding: 14px 8px;
+    border: 4px solid #FFF;
+    border-radius: 22px;
+    font-size: clamp(1.4rem, 6vw, 2rem);
+    font-weight: 900; color: #FFF;
+    cursor: pointer;
+    box-shadow: 0 5px 0 rgba(0,0,0,0.15),
+                0 8px 16px rgba(0,0,0,0.15);
+    transition: transform 0.1s, box-shadow 0.1s;
+    -webkit-tap-highlight-color: transparent;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+}
+.pp-choice:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.15);
+}
+.pp-choice:nth-child(1) {
+    background: linear-gradient(135deg, #EC407A, #AD1457);
+}
+.pp-choice:nth-child(2) {
+    background: linear-gradient(135deg, #AB47BC, #6A1B9A);
+}
+.pp-choice:nth-child(3) {
+    background: linear-gradient(135deg, #5C6BC0, #283593);
+}
+.pp-choice:nth-child(4) {
+    background: linear-gradient(135deg, #42A5F5, #1565C0);
+}
+.pp-choice.pp-shake { animation: shake 0.4s ease; }
+.pp-choice.pp-correct {
+    animation: ppChoiceCorrect 0.7s
+        cubic-bezier(0.34, 1.56, 0.64, 1);
+    background: linear-gradient(135deg,
+        #66BB6A, #2E7D32) !important;
+}
+@keyframes ppChoiceCorrect {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.35);
+           box-shadow: 0 0 30px rgba(76,175,80,0.8); }
+    100% { transform: scale(1); }
+}
+
+/* --- Champion --- */
+#champion-screen {
+    background: linear-gradient(180deg,
+        #FFD1DC 0%, #FFE4EC 30%,
+        #F8BBD0 60%, #E1BEE7 100%);
+}
+.pp-champion-crown {
+    font-size: clamp(4rem, 14vw, 7rem);
+    animation: ppCrownSpin 2s ease-in-out infinite;
+    margin: 0.2em 0;
+}
+@keyframes ppCrownSpin {
+    0%, 100% { transform: rotate(-8deg) scale(1); }
+    50%      { transform: rotate(8deg) scale(1.12); }
+}
+.pp-champion-msg {
+    font-size: clamp(1.1rem, 4vw, 1.5rem);
+    font-weight: 800; color: #AD1457;
+    margin: 0.5em 1em;
+    text-align: center;
+}
+
+/* --- Reset confirm modal --- */
+.pp-confirm-overlay {
+    position: fixed; inset: 0; z-index: 50;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    display: none; align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.pp-confirm-overlay.pp-show { display: flex; }
+.pp-confirm-card {
+    background: #FFF;
+    border-radius: 24px;
+    padding: 22px 20px;
+    max-width: 340px; text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.pp-confirm-title {
+    font-size: clamp(1.2rem, 4.5vw, 1.6rem);
+    font-weight: 900; color: #C2185B;
+    margin-bottom: 8px;
+}
+.pp-confirm-msg {
+    font-size: clamp(0.9rem, 3.2vw, 1.1rem);
+    color: #555;
+    margin-bottom: 16px;
+}
+.pp-confirm-btns {
+    display: flex; gap: 10px;
+    justify-content: center;
+}
+.pp-confirm-btn {
+    padding: 10px 22px;
+    border: none; border-radius: 18px;
+    font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+    font-weight: 900; color: #FFF;
+    cursor: pointer;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+    -webkit-tap-highlight-color: transparent;
+}
+.pp-confirm-btn.pp-yes {
+    background: linear-gradient(135deg, #EF5350, #C62828);
+}
+.pp-confirm-btn.pp-no {
+    background: linear-gradient(135deg, #78909C, #455A64);
+}
+.pp-confirm-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.15);
+}
+
+/* --- Responsive tweaks --- */
+@media (max-aspect-ratio: 1/1) {
+    .pp-game-area { top: 84px; }
+    .pp-items { padding: 6px 8px; }
+    .pp-tabs { padding: 4px 6px; }
+}
+@media (max-width: 420px) {
+    .pp-palette { width: 72px; }
+    .pp-item { padding: 6px 2px 2px; }
+    .pp-item-label { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ======================== Welcome ========================= -->
+<div class="screen" id="welcome-screen">
+    <div class="pp-welcome-title">&#127984; Princess Palace</div>
+    <div class="pp-welcome-sub">
+        Decorate your royal palace!
+    </div>
+    <div class="pp-princess-row">
+        <div class="pp-princess-chip"
+             title="Elsa">&#10052;&#65039;</div>
+        <div class="pp-princess-chip"
+             title="Anna">&#127801;</div>
+        <div class="pp-princess-chip"
+             title="Belle">&#128218;</div>
+        <div class="pp-princess-chip"
+             title="Cinderella">&#128097;</div>
+        <div class="pp-princess-chip"
+             title="Rapunzel">&#129512;</div>
+        <div class="pp-princess-chip"
+             title="Ariel">&#129500;</div>
+        <div class="pp-princess-chip"
+             title="Moana">&#127802;</div>
+    </div>
+    <div class="pp-lvl-prompt">
+        Choose your math level
+    </div>
+    <div class="pp-lvl-grid">
+        <button class="pp-lvl-btn" data-lvl="1">
+            <span class="pp-lvl-label">&#127881; Easy</span>
+            <span class="pp-lvl-range">sums 10-12</span>
+        </button>
+        <button class="pp-lvl-btn" data-lvl="2">
+            <span class="pp-lvl-label">&#127800; Medium</span>
+            <span class="pp-lvl-range">sums 13-16</span>
+        </button>
+        <button class="pp-lvl-btn" data-lvl="3">
+            <span class="pp-lvl-label">&#128142; Hard</span>
+            <span class="pp-lvl-range">sums 17-20</span>
+        </button>
+    </div>
+    <button class="pp-continue-btn hidden"
+            id="pp-continue-btn">
+        &#128737;&#65039; Continue my palace
+    </button>
+</div>
+
+<!-- ======================== Game ============================ -->
+<div class="screen hidden" id="game-screen">
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <a class="home-btn"
+               href="../menus/imagination.html"
+               title="Menu">&#127968;</a>
+            <span class="stars-display"
+                  id="stars-display">&#11088; 0</span>
+            <span class="level-display"
+                  id="level-display">Easy</span>
+            <span class="pp-counter"
+                  id="pp-counter">0/3</span>
+        </div>
+        <div class="top-bar-right">
+            <button class="pp-reset-btn"
+                    id="pp-reset-btn"
+                    title="Reset palace">&#128465;&#65039;</button>
+            <button class="mute-btn"
+                    id="mute-btn">&#128264;</button>
+        </div>
+    </div>
+    <div class="candy-bar" id="candy-bar"></div>
+
+    <div class="pp-game-area">
+        <div class="pp-palette" id="pp-palette">
+            <div class="pp-tabs" id="pp-tabs">
+                <button class="pp-tab active"
+                        data-tab="princesses"
+                        title="Princesses">&#128120;</button>
+                <button class="pp-tab"
+                        data-tab="royals"
+                        title="Royal family">&#128081;</button>
+                <button class="pp-tab"
+                        data-tab="pets"
+                        title="Pets">&#128049;</button>
+                <button class="pp-tab"
+                        data-tab="furniture"
+                        title="Furniture">&#128719;</button>
+                <button class="pp-tab"
+                        data-tab="decor"
+                        title="Decor">&#127801;</button>
+                <button class="pp-tab"
+                        data-tab="magic"
+                        title="Magic">&#10024;</button>
+            </div>
+            <div class="pp-items" id="pp-items"></div>
+        </div>
+
+        <div class="pp-scene-wrap" id="pp-scene-wrap">
+            <svg class="pp-bg-svg" viewBox="0 0 900 600"
+                 preserveAspectRatio="xMidYMid slice"
+                 aria-hidden="true">
+                <defs>
+                    <linearGradient id="pp-sky"
+                        x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%"
+                              stop-color="#FFD1DC"/>
+                        <stop offset="35%"
+                              stop-color="#FFE4EC"/>
+                        <stop offset="75%"
+                              stop-color="#E1BEE7"/>
+                        <stop offset="100%"
+                              stop-color="#B39DDB"/>
+                    </linearGradient>
+                    <linearGradient id="pp-ground"
+                        x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%"
+                              stop-color="#81C784"/>
+                        <stop offset="100%"
+                              stop-color="#4CAF50"/>
+                    </linearGradient>
+                    <linearGradient id="pp-stone"
+                        x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%"
+                              stop-color="#FFE0B2"/>
+                        <stop offset="100%"
+                              stop-color="#BCAAA4"/>
+                    </linearGradient>
+                    <linearGradient id="pp-roof"
+                        x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%"
+                              stop-color="#EC407A"/>
+                        <stop offset="100%"
+                              stop-color="#880E4F"/>
+                    </linearGradient>
+                    <linearGradient id="pp-room-bedroom"
+                        x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%"
+                              stop-color="#FFF3E0"/>
+                        <stop offset="100%"
+                              stop-color="#FFCCBC"/>
+                    </linearGradient>
+                    <linearGradient id="pp-room-throne"
+                        x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%"
+                              stop-color="#F3E5F5"/>
+                        <stop offset="100%"
+                              stop-color="#CE93D8"/>
+                    </linearGradient>
+                    <linearGradient id="pp-room-ballroom"
+                        x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%"
+                              stop-color="#E1F5FE"/>
+                        <stop offset="100%"
+                              stop-color="#81D4FA"/>
+                    </linearGradient>
+                </defs>
+
+                <!-- Sky -->
+                <rect x="0" y="0" width="900" height="460"
+                      fill="url(#pp-sky)"/>
+                <!-- Ground -->
+                <rect x="0" y="460" width="900" height="140"
+                      fill="url(#pp-ground)"/>
+
+                <!-- Distant hills -->
+                <ellipse cx="150" cy="470" rx="200" ry="40"
+                         fill="#A5D6A7" opacity="0.7"/>
+                <ellipse cx="700" cy="465" rx="240" ry="45"
+                         fill="#A5D6A7" opacity="0.65"/>
+
+                <!-- Path from castle -->
+                <path d="M 320,595 Q 400,540 450,490
+                         Q 500,540 580,595 Z"
+                      fill="#D7CCC8" opacity="0.7"/>
+
+                <!-- Castle body (left-center cutaway) -->
+                <g id="pp-castle">
+                    <!-- Main keep back wall -->
+                    <rect x="230" y="200"
+                          width="440" height="260"
+                          fill="url(#pp-stone)"
+                          stroke="#8D6E63"
+                          stroke-width="3"/>
+                    <!-- Cutaway rooms -->
+                    <rect x="250" y="215"
+                          width="400" height="78"
+                          fill="url(#pp-room-bedroom)"/>
+                    <rect x="250" y="298"
+                          width="400" height="78"
+                          fill="url(#pp-room-throne)"/>
+                    <rect x="250" y="381"
+                          width="400" height="78"
+                          fill="url(#pp-room-ballroom)"/>
+                    <!-- Room dividers -->
+                    <line x1="250" y1="293"
+                          x2="650" y2="293"
+                          stroke="#8D6E63" stroke-width="4"/>
+                    <line x1="250" y1="376"
+                          x2="650" y2="376"
+                          stroke="#8D6E63" stroke-width="4"/>
+                    <!-- Floor stripes -->
+                    <rect x="250" y="453" width="400"
+                          height="6" fill="#6D4C41"/>
+
+                    <!-- Pink roof -->
+                    <polygon points="215,200 450,110 685,200"
+                             fill="url(#pp-roof)"
+                             stroke="#4A0E2A"
+                             stroke-width="3"/>
+                    <polygon points="215,200 450,110 450,145"
+                             fill="rgba(0,0,0,0.12)"/>
+                    <circle cx="450" cy="108" r="6"
+                            fill="#FFD700"
+                            stroke="#C17900"
+                            stroke-width="1.5"/>
+                    <polygon points="450,108 450,85 458,96
+                             450,94" fill="#FFD700"/>
+
+                    <!-- Left tower -->
+                    <rect x="160" y="230" width="80"
+                          height="230"
+                          fill="url(#pp-stone)"
+                          stroke="#8D6E63"
+                          stroke-width="3"/>
+                    <polygon points="150,230 200,140 250,230"
+                             fill="url(#pp-roof)"
+                             stroke="#4A0E2A" stroke-width="3"/>
+                    <circle cx="200" cy="138" r="4"
+                            fill="#FFD700"/>
+                    <!-- Tower windows -->
+                    <rect x="182" y="270" width="36" height="30"
+                          rx="18 18 0 0"
+                          fill="#5D4037"/>
+                    <rect x="185" y="273" width="30" height="27"
+                          rx="15 15 0 0"
+                          fill="#FFE082"/>
+                    <rect x="182" y="330" width="36" height="30"
+                          rx="18 18 0 0"
+                          fill="#5D4037"/>
+                    <rect x="185" y="333" width="30" height="27"
+                          rx="15 15 0 0"
+                          fill="#FFE082"/>
+
+                    <!-- Right tower -->
+                    <rect x="660" y="230" width="80"
+                          height="230"
+                          fill="url(#pp-stone)"
+                          stroke="#8D6E63"
+                          stroke-width="3"/>
+                    <polygon points="650,230 700,140 750,230"
+                             fill="url(#pp-roof)"
+                             stroke="#4A0E2A" stroke-width="3"/>
+                    <circle cx="700" cy="138" r="4"
+                            fill="#FFD700"/>
+                    <rect x="682" y="270" width="36" height="30"
+                          rx="18 18 0 0"
+                          fill="#5D4037"/>
+                    <rect x="685" y="273" width="30" height="27"
+                          rx="15 15 0 0"
+                          fill="#FFE082"/>
+                    <rect x="682" y="330" width="36" height="30"
+                          rx="18 18 0 0"
+                          fill="#5D4037"/>
+                    <rect x="685" y="333" width="30" height="27"
+                          rx="15 15 0 0"
+                          fill="#FFE082"/>
+
+                    <!-- Big arched castle door -->
+                    <rect x="420" y="395" width="60" height="64"
+                          fill="#4E342E"/>
+                    <path d="M 420,410 Q 450,380 480,410
+                             L 480,459 L 420,459 Z"
+                          fill="#6D4C41"
+                          stroke="#3E2723"
+                          stroke-width="2"/>
+                    <circle cx="440" cy="435" r="2.5"
+                            fill="#FFD700"/>
+                    <circle cx="460" cy="435" r="2.5"
+                            fill="#FFD700"/>
+                </g>
+
+                <!-- Sun -->
+                <g id="pp-sun">
+                    <circle cx="820" cy="90" r="38"
+                            fill="#FFD54F"/>
+                    <circle cx="820" cy="90" r="28"
+                            fill="#FFF176"/>
+                </g>
+
+                <!-- Tiny distant clouds -->
+                <g opacity="0.85" fill="#FFF">
+                    <ellipse cx="80" cy="90" rx="40" ry="14"/>
+                    <ellipse cx="60" cy="80" rx="22" ry="13"/>
+                    <ellipse cx="105" cy="82" rx="26" ry="14"/>
+                </g>
+                <g opacity="0.8" fill="#FFF">
+                    <ellipse cx="530" cy="60" rx="34" ry="11"/>
+                    <ellipse cx="515" cy="53" rx="18" ry="10"/>
+                    <ellipse cx="548" cy="55" rx="20" ry="10"/>
+                </g>
+            </svg>
+            <div class="pp-scene" id="pp-scene"></div>
+        </div>
+    </div>
+
+    <div class="pp-trash" id="pp-trash">&#128465;&#65039;</div>
+</div>
+
+<!-- ======================== Math gate ======================= -->
+<div class="pp-math-overlay" id="pp-math-overlay">
+    <div class="pp-math-card">
+        <div class="pp-fairy">&#129730;</div>
+        <div class="pp-math-prompt"
+             id="pp-math-prompt">Help me, princess!</div>
+        <div class="pp-math-q" id="pp-math-q">? + ? = ?</div>
+        <div class="pp-math-choices" id="pp-math-choices"></div>
+    </div>
+</div>
+
+<!-- ======================== Reset confirm =================== -->
+<div class="pp-confirm-overlay" id="pp-confirm-overlay">
+    <div class="pp-confirm-card">
+        <div class="pp-confirm-title">
+            Start a new palace?
+        </div>
+        <div class="pp-confirm-msg">
+            This will clear everything you decorated.
+        </div>
+        <div class="pp-confirm-btns">
+            <button class="pp-confirm-btn pp-no"
+                    id="pp-confirm-no">No, keep it</button>
+            <button class="pp-confirm-btn pp-yes"
+                    id="pp-confirm-yes">Yes, reset</button>
+        </div>
+    </div>
+</div>
+
+<!-- ======================== Champion ======================== -->
+<div class="screen hidden" id="champion-screen">
+    <div class="pp-champion-crown">&#128081;</div>
+    <div class="champion-title">QUEEN OF THE PALACE!</div>
+    <div class="pp-champion-msg">
+        You filled 5 candy jars &mdash; the kingdom
+        cheers for you!
+    </div>
+    <button class="play-again-btn" id="play-again-btn">
+        Keep Playing!
+    </button>
+</div>
+
+<!-- ======================== Feedback ======================== -->
+<div class="feedback" id="feedback"></div>
+
+<!-- ======================== Scripts ========================= -->
+<script src="../shared/audio.js"></script>
+<script src="../shared/effects.js"></script>
+<script src="../shared/prizes.js"></script>
+<script src="../shared/ice-cream.js"></script>
+<script src="../shared/dress-up.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

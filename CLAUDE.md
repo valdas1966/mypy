@@ -7,6 +7,41 @@ interpretations, ask clarifying questions first. Do not assume intent —
 confirm it. For straightforward operational tasks (run tests, commit,
 format, etc.) proceed directly without asking.
 
+## Response Style
+
+Text replies to the user must be **concise, structured, and
+enumerated**. Favor lists over prose.
+
+1. **Concise sentences.** Every sentence carries unique
+   information. Cut filler, hedging, preamble, and restatement
+   of the user's request. Prefer short sentences; split long
+   ones.
+
+2. **Structured layout.** Group related points. For any reply
+   with more than one piece of information, use either:
+   - a numbered list, or
+   - the `DONE / QUESTIONS / NOTES` delimiters defined in the
+     Drive `Instructions/For_Tex.md` "Reporting Back to the
+     User" section — these apply to **all** task reports, not
+     just tex work.
+
+3. **Enumerate points.** When a reply covers multiple items,
+   present them as a numbered list. One idea per item.
+
+4. **Inner enumeration when nested.** If a numbered item has
+   sub-points, nest a second level using bullets (`-`) or
+   letters (`a./b./c.`). Two levels is usually enough; avoid
+   deeper nesting.
+
+5. **No narration of diffs or tool calls.** The tools, files,
+   and session `.md` carry the evidence. Do not rehearse the
+   user's request.
+
+6. **Long explanations go into the session `.md`, not chat.**
+   When a detailed rationale is warranted, write it to the
+   session summary on Drive and link to it from a one-line
+   chat note.
+
 ## Project Structure
 
 ### Top-Level Modules
@@ -575,10 +610,12 @@ status, edge label positioning, layout rules), and compilation.
 
 ### Starting a New Session
 
-When the user announces a new session (e.g., "new session: kids_math"
-or "opening session: drive_refactor"), do the following **immediately**:
+When the user announces a new session (e.g., "new session: kids_math",
+"opening session: drive_refactor", or "start session 'instructions'"),
+do the following **immediately**:
 
 1. **Acknowledge** the session name.
+
 2. **Read Drive instructions** — read all `.md` files from the
    `Instructions/` folder on Drive to load the latest workflows.
    These instruction files define formats and workflows for:
@@ -586,14 +623,39 @@ or "opening session: drive_refactor"), do the following **immediately**:
    - **Paper summaries** — `For_Summary.md`
    - **LaTeX documents** — `For_Tex.md`
    Always follow the latest version on Drive (not cached copies).
-3. **If continuing a previous session** — read the previous session
-   summary from Drive to restore context.
-4. **Create the session folder and skeleton file on Drive**:
+
+3. **Look up prior sessions with the same name** on Drive. The
+   user's default intent when starting a named session is to
+   **continue the most recent session with that name**. Search
+   across year folders for files matching
+   `YYYY/MM/DD/<name>_session.md` (case-insensitive) and branch
+   on the result:
+
+   - **Exact name match exists** → continue automatically:
+     read the most recent `<name>_session.md` from Drive to
+     restore context, and announce which date you are continuing
+     from (e.g., "continuing `instructions` session from
+     2026-04-10"). Today's work goes under today's date folder
+     with the same name.
+   - **No exact match, but a similar name exists** (substring
+     match or obvious typo, case-insensitive — e.g.,
+     `instruction` vs. `instructions`, `kids_math` vs.
+     `kids_maths`) → **ask the user** whether to continue that
+     session. Do not assume — wait for confirmation. If they
+     decline, proceed as a fresh session.
+   - **No match at all** → proceed as a fresh session.
+
+4. **Create the session file on Drive for today's date**:
    - Write a skeleton `.md` to `/tmp/<name>_session.md` with the
-     title, date, project path, and purpose filled in.
-   - Upload to `YYYY/MM/DD/<name>_session.md` on Drive.
-   This marks that a session started on this date and gives a file
-   to build on throughout the session.
+     title, date, project path, and purpose filled in. If
+     continuing, seed Purpose / What We Built / Next Steps from
+     the prior summary.
+   - Upload to `YYYY/MM/DD/<name>_session.md` on Drive (today's
+     date, even when continuing — the prior date's file stays
+     intact as a historical record).
+   - **`.md` only** — do not generate `.tex` or `.pdf` at session
+     start.
+
 5. **Track** important information throughout the session:
    - Key decisions and their reasoning.
    - What was built (deliverables, files, features).
@@ -608,13 +670,10 @@ meaningful chunk of work is complete:
 1. Write the full session summary to `/tmp/<name>_session.md`
    following the format in `Instructions/For_Session_Summary.md`
    on Drive.
-2. Convert to LaTeX at `/tmp/<name>_session.tex` using the template
-   from the same instructions.
-3. Compile to PDF: `cd /tmp && tectonic <name>_session.tex`.
-4. Upload all three files (`.md`, `.tex`, `.pdf`) to Drive at:
-   ```
-   YYYY/MM/DD/<name>_session.md
-   YYYY/MM/DD/<name>_session.tex
-   YYYY/MM/DD/<name>_session.pdf
-   ```
-5. No local saves — `/tmp/` only. Do not auto-open the PDF.
+2. Upload the `.md` to Drive at `YYYY/MM/DD/<name>_session.md`.
+3. **Only if the user explicitly asks for a TeX/PDF export**,
+   follow the "On-Demand: TeX and PDF Exports" section in
+   `Instructions/For_Session_Summary.md`: convert to `.tex`,
+   compile with `tectonic`, and upload both. Do not generate
+   these proactively.
+4. No local saves — `/tmp/` only. Do not auto-open the PDF.
