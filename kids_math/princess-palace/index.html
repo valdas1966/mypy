@@ -592,8 +592,25 @@
     .pp-game-area { top: 84px; }
     .pp-items { padding: 6px 8px; }
     .pp-tabs { padding: 4px 6px; }
+    /* Portrait palette: keep full width; taller strip so
+       items have breathing room on short phones. */
+    .pp-palette {
+        height: 42%;
+        min-height: 200px;
+        max-height: 55%;
+    }
+    .pp-items {
+        grid-template-columns:
+            repeat(auto-fill, minmax(68px, 1fr));
+        gap: 6px;
+    }
+    .pp-item { padding: 6px 2px 2px; }
+    .pp-item-emoji {
+        font-size: clamp(1.6rem, 5.5vw, 2rem);
+    }
 }
-@media (max-width: 420px) {
+/* Landscape + narrow: compact sidebar palette. */
+@media (max-width: 420px) and (min-aspect-ratio: 1/1) {
     .pp-palette { width: 72px; }
     .pp-item { padding: 6px 2px 2px; }
     .pp-item-label { display: none; }

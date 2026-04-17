@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/04/closed_categories/by_domain.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_search/experiments/04/closed_categories/by_map_topology.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_tex/_templates.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/menus/imagination.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/princess-palace/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/princess-palace/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/kids_math/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kids_math/checkers/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/kids_math/checkers/game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kids_math/menus/patterns.html" beforeDir="false" afterPath="$PROJECT_DIR$/kids_math/menus/patterns.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kids_math/princess-palace/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/kids_math/princess-palace/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1333,14 +1328,6 @@
       <workItem from="1770703006670" duration="7888000" />
       <workItem from="1770804142876" duration="9603000" />
     </task>
-    <task id="LOCAL-00301" summary="h">
-      <option name="closed" value="true" />
-      <created>1766594571872</created>
-      <option name="number" value="00301" />
-      <option name="presentableId" value="LOCAL-00301" />
-      <option name="project" value="LOCAL" />
-      <updated>1766594571872</updated>
-    </task>
     <task id="LOCAL-00302" summary="h">
       <option name="closed" value="true" />
       <created>1766671799403</created>
@@ -1725,7 +1712,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776366714786</updated>
     </task>
-    <option name="localTasksCounter" value="350" />
+    <task id="LOCAL-00350" summary="h">
+      <option name="closed" value="true" />
+      <created>1776445731149</created>
+      <option name="number" value="00350" />
+      <option name="presentableId" value="LOCAL-00350" />
+      <option name="project" value="LOCAL" />
+      <updated>1776445731149</updated>
+    </task>
+    <option name="localTasksCounter" value="351" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

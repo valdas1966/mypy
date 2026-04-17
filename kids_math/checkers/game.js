@@ -454,11 +454,9 @@ const CheckersGame = {
                     cell.appendChild(p);
                 }
 
-                // Click only on dark squares while it's the
-                // player's turn (covers selection, target, and
-                // deselect-empty paths).
-                if (this._isDark(r, c) &&
-                    s.turn === 'P' && !s.gameOver) {
+                // handleCellClick guards turn + gameOver,
+                // so attach unconditionally.
+                if (this._isDark(r, c)) {
                     cell.addEventListener('click',
                         () => this.handleCellClick(r, c));
                 }
