@@ -5,7 +5,7 @@ Priority-ordered frontier backed by `QueueIndexed` (indexed
 min-heap with decrease_key). Each State appears at most once.
 Used by A* and Dijkstra. Priorities are tuples compared
 lexicographically — the Algorithm decides the shape
-(e.g., `(f, -g)` for A*).
+(e.g., `(f, -g, state)` for A*).
 
 ## Public API
 

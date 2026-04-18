@@ -22,14 +22,21 @@ Injects `FrontierPriority[State]()` into `AlgoSPP` and stores `h`.
 ```python
 def _priority(self, state: State) -> tuple:
     g = self._g[state]
-    return (g + self._h(state), -g)
+    return (g + self._h(state), -g, state)
 ```
-- **f = g + h**: total estimated cost
-- **-g**: prefer deeper nodes (closer to goal)
+Three-level priority, compared lexicographically by the min-heap:
+- **f = g + h** (primary): total estimated cost.
+- **-g** (secondary): prefer deeper nodes (closer to goal).
+- **state** (tertiary): fall back to State's `Comparable` ordering
+  (via `HasKey`). Makes expansion order deterministic and
+  independent of heap-internal ordering — required for
+  full-sequence recording tests where `(f, -g)` ties are common
+  (tight admissible heuristics produce many equal-f states).
 
 ## Event Enrichment
 AStar overrides `_enrich_event` to add `h` and `f` to all
-push, pop, and decrease_g events.
+push, pop, and decrease_g events. The `f` value stored on events
+equals `event['g'] + h(state)`, not the priority tuple.
 
 ## Factory
 | Method | Returns | Description |
@@ -42,6 +49,7 @@ push, pop, and decrease_g events.
 | `grid_3x3_obstacle()` | `AStar` | Grid with obstacle |
 | `grid_3x3_no_path()` | `AStar` | Grid with wall |
 | `grid_3x3_start_is_goal()` | `AStar` | Grid where start == goal |
+| `grid_4x4_obstacle()` | `AStar` | 4x4 grid with vertical wall, cost 7 |
 
 ## Inheritance
 ```
@@ -49,6 +57,29 @@ AlgoSPP[State]
     └── AStar[State]
         └── Dijkstra[State]
 ```
+
+## Tests
+Split into three files by concern (mirrors the BFS split).
+No `@pytest.fixture` — each test calls `AStar.Factory.*`
+directly, per the Factory-over-fixture rule.
+
+| File | Scope | Count |
+|------|-------|-------|
+| `_tester.py` | Graph problems + lifecycle | 5 |
+| `_tester_grid.py` | Grid problems | 4 |
+| `_tester_recording.py` | Full event-sequence assertion | 5 |
+
+Run all three explicitly:
+```
+pytest f_hs/algo/i_1_astar/_tester.py \
+       f_hs/algo/i_1_astar/_tester_grid.py \
+       f_hs/algo/i_1_astar/_tester_recording.py
+```
+
+The recording tester covers `graph_abc`, `graph_diamond`
+(tie-break via State Comparable), `grid_3x3`, `grid_3x3_obstacle`,
+and `grid_4x4_obstacle` (same problem used by BFS, exercising
+an admissible-but-loose Manhattan heuristic over a wall).
 
 ## Dependencies
 - `f_hs.algo.i_0_base.AlgoSPP`

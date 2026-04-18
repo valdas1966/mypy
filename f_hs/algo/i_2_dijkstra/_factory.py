@@ -97,3 +97,17 @@ class Factory:
         return Dijkstra(
             problem=ProblemGrid.Factory.grid_3x3_start_is_goal()
         )
+
+    @staticmethod
+    def grid_4x4_obstacle() -> Dijkstra:
+        """
+        ====================================================================
+         Dijkstra on 4x4 Grid with a vertical 2-cell wall at (0,2)
+         and (1,2). Start (0,0), goal (0,3). Optimal cost 7 (same
+         problem as BFS/AStar). With no heuristic, Dijkstra behaves
+         like BFS on unit-cost edges.
+        ====================================================================
+        """
+        return Dijkstra(
+            problem=ProblemGrid.Factory.grid_4x4_obstacle()
+        )

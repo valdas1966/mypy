@@ -37,12 +37,14 @@ class AStar(Generic[State], AlgoSPP[State]):
     def _priority(self, state: State) -> tuple:
         """
         ====================================================================
-         Priority = (f, -g). Prefers lower f, breaks ties
-         toward deeper (higher-g) nodes.
+         Priority = (f, -g, state). Prefers lower f, then deeper
+         (higher-g) nodes, then falls back to State's Comparable
+         ordering (via HasKey) so ties are resolved deterministically
+         — independent of heap internals.
         ====================================================================
         """
         g = self._g[state]
-        return (g + self._h(state), -g)
+        return (g + self._h(state), -g, state)
 
     def _enrich_event(self, event: dict) -> None:
         """

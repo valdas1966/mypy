@@ -115,3 +115,21 @@ class Factory:
             problem=problem,
             h=lambda s: float(s.distance(goal)),
         )
+
+    @staticmethod
+    def grid_4x4_obstacle() -> AStar:
+        """
+        ====================================================================
+         A* on 4x4 Grid with a vertical 2-cell wall at (0,2) and
+         (1,2). Start (0,0), goal (0,3). Manhattan heuristic —
+         admissible but loose (it ignores the wall), so f-values
+         along the detour rise above 3 and A* still explores row
+         1 and row 2 before reaching the goal. Optimal cost 7.
+        ====================================================================
+        """
+        problem = ProblemGrid.Factory.grid_4x4_obstacle()
+        goal = problem.goal
+        return AStar(
+            problem=problem,
+            h=lambda s: float(s.distance(goal)),
+        )

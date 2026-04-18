@@ -161,7 +161,8 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         """
         ====================================================================
          Return the Priority for a State. Default: None (FIFO).
-         Subclasses (e.g. AStar) override to compute (f, -g).
+         Subclasses (e.g. AStar) override to compute a priority
+         tuple, e.g. (f, -g, state).
         ====================================================================
         """
         return None

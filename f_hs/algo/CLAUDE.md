@@ -11,7 +11,7 @@ override `_priority(state)` if needed.
 ```
 AlgoSPP (loop + data + recording + path + Frontier)
 ├── BFS                                      — FrontierFIFO
-└── AStar (_priority → (f, -g))              — FrontierPriority
+└── AStar (_priority → (f, -g, state))       — FrontierPriority
     └── Dijkstra (h = 0)                     — inherits AStar
 ```
 
@@ -43,8 +43,15 @@ while FRONTIER:
 | | BFS | A* | Dijkstra |
 |--|-----|-----|----------|
 | Frontier | FrontierFIFO | FrontierPriority | FrontierPriority |
-| `_priority(state)` | None (default) | `(g+h, -g)` | `(g, 0)` |
+| `_priority(state)` | None (default) | `(g+h, -g, state)` | `(g, -g, state)` |
 | Heuristic | none | provided | h=0 |
+| `_enrich_event` | no-op (inherit) | adds `h`, `f` | no-op (override) |
+
+The `state` component (tertiary tie-break) relies on `State`'s
+`Comparable` ordering (via `HasKey`) and keeps expansion order
+deterministic when `(f, -g)` ties — crucial for recording tests.
+Dijkstra overrides `_enrich_event` to drop `h` and `f` (constant
+and derivable, respectively) so its events schema-match BFS.
 
 ## Edge Costs
 `problem.w(parent, child)` returns the edge cost. Default 1.0.

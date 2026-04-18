@@ -37,7 +37,8 @@ frontier/
 ## Design Decisions
 - **Priority is computed by the Algorithm, not the Frontier.**
   The frontier only knows "priorities are comparable." This keeps
-  AStar's `(f, -g)` logic in AStar and keeps the frontier dumb.
+  AStar's `(f, -g, state)` tuple logic in AStar and keeps the
+  frontier dumb.
 - **Uniform signature across subclasses.** FIFO accepts a
   `priority` argument for interface symmetry and ignores it.
 - **`decrease` default is no-op** on the base, so BFS-style
