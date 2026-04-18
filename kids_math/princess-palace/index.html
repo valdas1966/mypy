@@ -93,6 +93,9 @@
     transform: translateY(3px);
     box-shadow: 0 3px 0 rgba(0,0,0,0.1);
 }
+.pp-lvl-btn[data-lvl="0"] {
+    background: linear-gradient(135deg, #81D4FA, #29B6F6);
+}
 .pp-lvl-btn[data-lvl="1"] {
     background: linear-gradient(135deg, #F06292, #E91E63);
 }
@@ -233,13 +236,22 @@
     gap: 8px;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
+    scroll-behavior: smooth;
 }
+/* Portrait: items flow left-to-right in a single horizontal strip,
+   swiped horizontally. Vertical pull starts a drag into the scene
+   (perpendicular axis => no gesture conflict). */
 @media (max-aspect-ratio: 1/1) {
     .pp-items {
-        grid-template-columns:
-            repeat(auto-fill, minmax(60px, 1fr));
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: stretch;
         overflow-x: auto;
-        overflow-y: auto;
+        overflow-y: hidden;
+        gap: 8px;
+        padding: 8px 10px;
+        scroll-padding-left: 10px;
     }
 }
 .pp-item {
@@ -257,9 +269,23 @@
     transition: transform 0.15s, box-shadow 0.15s;
     user-select: none;
     -webkit-user-select: none;
-    touch-action: none;
+    /* Landscape: palette scrolls vertically => reserve pan-y for the
+       browser and use horizontal movement for drag intent. */
+    touch-action: pan-y;
     -webkit-tap-highlight-color: transparent;
     position: relative;
+}
+/* Portrait override: palette scrolls horizontally, so reserve pan-x. */
+@media (max-aspect-ratio: 1/1) {
+    .pp-item {
+        flex: 0 0 auto;
+        width: clamp(64px, 17vw, 86px);
+        height: clamp(64px, 17vw, 86px);
+        touch-action: pan-x;
+    }
+    .pp-item-emoji {
+        font-size: clamp(1.6rem, 6vw, 2.1rem);
+    }
 }
 .pp-item:active {
     cursor: grabbing;
@@ -590,30 +616,46 @@
 /* --- Responsive tweaks --- */
 @media (max-aspect-ratio: 1/1) {
     .pp-game-area { top: 84px; }
-    .pp-items { padding: 6px 8px; }
     .pp-tabs { padding: 4px 6px; }
-    /* Portrait palette: keep full width; taller strip so
-       items have breathing room on short phones. */
+    /* Portrait palette: full-width horizontal strip. Small phones
+       get a shorter strip so the scene stays dominant; bigger
+       screens can grow a bit. */
     .pp-palette {
-        height: 42%;
-        min-height: 200px;
-        max-height: 55%;
-    }
-    .pp-items {
-        grid-template-columns:
-            repeat(auto-fill, minmax(68px, 1fr));
-        gap: 6px;
+        height: 34%;
+        min-height: 150px;
+        max-height: 200px;
     }
     .pp-item { padding: 6px 2px 2px; }
-    .pp-item-emoji {
-        font-size: clamp(1.6rem, 5.5vw, 2rem);
-    }
 }
 /* Landscape + narrow: compact sidebar palette. */
 @media (max-width: 420px) and (min-aspect-ratio: 1/1) {
     .pp-palette { width: 72px; }
     .pp-item { padding: 6px 2px 2px; }
     .pp-item-label { display: none; }
+}
+/* --- "New item" pulse (applied briefly when an item or tab
+   appears through unlock progression) --- */
+.pp-new-pulse {
+    animation: ppNewPulse 1.2s ease-in-out 2;
+}
+@keyframes ppNewPulse {
+    0%, 100% {
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1),
+                    0 0 0 0 rgba(255,215,0,0);
+    }
+    50% {
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1),
+                    0 0 0 8px rgba(255,215,0,0.55);
+    }
+}
+
+/* --- Level-picker sub-prompt --- */
+.pp-lvl-prompt-sub {
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+    font-weight: 700; color: #8E24AA;
+    text-align: center;
+    margin-bottom: 0.6em;
+    letter-spacing: 1px;
 }
 </style>
 </head>
@@ -644,18 +686,25 @@
     <div class="pp-lvl-prompt">
         Choose your math level
     </div>
+    <div class="pp-lvl-prompt-sub">
+        Easy &amp; up mix + &#8722; &#215; &#247;
+    </div>
     <div class="pp-lvl-grid">
+        <button class="pp-lvl-btn" data-lvl="0">
+            <span class="pp-lvl-label">&#127804; Ultra Easy</span>
+            <span class="pp-lvl-range">add 0-10</span>
+        </button>
         <button class="pp-lvl-btn" data-lvl="1">
             <span class="pp-lvl-label">&#127881; Easy</span>
-            <span class="pp-lvl-range">sums 10-12</span>
+            <span class="pp-lvl-range">answer 0-10</span>
         </button>
         <button class="pp-lvl-btn" data-lvl="2">
             <span class="pp-lvl-label">&#127800; Medium</span>
-            <span class="pp-lvl-range">sums 13-16</span>
+            <span class="pp-lvl-range">answer 10-20</span>
         </button>
         <button class="pp-lvl-btn" data-lvl="3">
             <span class="pp-lvl-label">&#128142; Hard</span>
-            <span class="pp-lvl-range">sums 17-20</span>
+            <span class="pp-lvl-range">answer 20-30</span>
         </button>
     </div>
     <button class="pp-continue-btn hidden"
@@ -676,7 +725,7 @@
             <span class="level-display"
                   id="level-display">Easy</span>
             <span class="pp-counter"
-                  id="pp-counter">0/3</span>
+                  id="pp-counter">0/5</span>
         </div>
         <div class="top-bar-right">
             <button class="pp-reset-btn"
@@ -972,9 +1021,6 @@
 <!-- ======================== Scripts ========================= -->
 <script src="../shared/audio.js"></script>
 <script src="../shared/effects.js"></script>
-<script src="../shared/prizes.js"></script>
-<script src="../shared/ice-cream.js"></script>
-<script src="../shared/dress-up.js"></script>
 <script src="game.js"></script>
 </body>
 </html>

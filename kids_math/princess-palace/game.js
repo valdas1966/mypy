@@ -1,34 +1,52 @@
 // =========================================================================
 //  Princess Palace — decorate a royal palace with drag and drop.
 //
-//  Every 3 user changes (add / move / remove / flip) triggers a math
-//  gate: a + b = ? with a + b in [10, 20] and a, b in [1, 11].
-//  Correct answer => +3 stars. 3 stars = 1 candy. 5 candies = Queen of
-//  the Palace. Layout persists in localStorage across sessions.
+//  Every 5 user changes (add / move / remove / flip) triggers a math
+//  gate. The user picks a difficulty before the game; each gate question
+//  uses one of four operations (+, -, x, /) with the answer in the
+//  level's result range. Correct answer => +3 stars. 3 stars = 1 candy.
+//  5 candies = Queen of the Palace.
 //
-//  Palette: Disney princess set (Elsa, Anna, Belle, Cinderella,
-//  Rapunzel, Ariel, Moana) plus royal family, pets, furniture, decor
-//  and magic items. Each princess drop triggers a signature magic
-//  effect (snowflakes for Elsa, rose petals for Anna, bubbles for
-//  Ariel, etc).
+//  Content reveals gradually based on lifetime total changes
+//  (persisted). New categories and items unlock as the player keeps
+//  decorating — they stay in the palace instead of being pulled into
+//  side mini-games.
+//
+//  Palette categories: princesses, magic, decor, pets, royals,
+//  furniture. Each princess drop triggers a signature magic effect.
 // =========================================================================
 
 const PrincessPalaceGame = {
 
-    STORAGE_KEY: 'princess-palace-state-v1',
-    CHANGES_PER_MATH: 3,
+    STORAGE_KEY: 'princess-palace-state-v2',
+    OLD_STORAGE_KEY: 'princess-palace-state-v1',
+    CHANGES_PER_MATH: 5,
     STARS_PER_MATH: 3,
     STARS_PER_CANDY: 3,
     CANDIES_TO_WIN: 5,
 
+    // --- Difficulty levels (result range + optional op subset) ---
+    // `ops` restricts which operations this level can use; when
+    // absent, all four ops are in play.
     LEVEL_RANGES: {
-        1: { min: 10, max: 12, label: 'Easy'   },
-        2: { min: 13, max: 16, label: 'Medium' },
-        3: { min: 17, max: 20, label: 'Hard'   },
+        0: { min: 0,  max: 10, label: 'Ultra Easy',
+             ops: ['+'] },
+        1: { min: 0,  max: 10, label: 'Easy'   },
+        2: { min: 10, max: 20, label: 'Medium' },
+        3: { min: 20, max: 30, label: 'Hard'   },
+    },
+
+    OPS: ['+', '-', 'x', '/'],
+    OP_DISPLAY: {
+        '+': '+',
+        '-': '\u2212',
+        'x': '\u00D7',
+        '/': '\u00F7',
     },
 
     // =================================================================
-    //  Palette catalog — ~40 items across 6 tabs
+    //  Palette catalog — ~40 items across 6 tabs, each with `unlockAt`
+    //  (lifetime total changes required to make the item appear).
     // =================================================================
     CATALOG: {
         princesses: [
@@ -36,192 +54,240 @@ const PrincessPalaceGame = {
               emoji: '\uD83D\uDC78',
               c1: '#B3E5FC', c2: '#4FC3F7',
               border: '#0288D1',
-              magic: 'snow', halo: true },
+              magic: 'snow', halo: true,
+              unlockAt: 0 },
             { id: 'anna',       label: 'Anna',
               emoji: '\uD83D\uDC78',
               c1: '#FFCDD2', c2: '#E57373',
               border: '#C62828',
-              magic: 'petals', halo: true },
+              magic: 'petals', halo: true,
+              unlockAt: 0 },
             { id: 'belle',      label: 'Belle',
               emoji: '\uD83D\uDC78',
               c1: '#FFECB3', c2: '#FFD54F',
               border: '#F57F17',
-              magic: 'golden', halo: true },
+              magic: 'golden', halo: true,
+              unlockAt: 0 },
             { id: 'cinderella', label: 'Cinderella',
               emoji: '\uD83D\uDC78',
               c1: '#E1F5FE', c2: '#81D4FA',
               border: '#0277BD',
-              magic: 'silver', halo: true },
+              magic: 'silver', halo: true,
+              unlockAt: 4 },
             { id: 'rapunzel',   label: 'Rapunzel',
               emoji: '\uD83D\uDC78',
               c1: '#F3E5F5', c2: '#BA68C8',
               border: '#8E24AA',
-              magic: 'blossom', halo: true },
+              magic: 'blossom', halo: true,
+              unlockAt: 8 },
             { id: 'ariel',      label: 'Ariel',
               emoji: '\uD83E\uDDDC\u200D\u2640\uFE0F',
               c1: '#B2DFDB', c2: '#4DB6AC',
               border: '#00695C',
-              magic: 'bubbles', halo: true },
+              magic: 'bubbles', halo: true,
+              unlockAt: 13 },
             { id: 'moana',      label: 'Moana',
               emoji: '\uD83D\uDC78',
               c1: '#C8E6C9', c2: '#81C784',
               border: '#2E7D32',
-              magic: 'waves', halo: true },
-        ],
-        royals: [
-            { id: 'queen',   label: 'Queen',
-              emoji: '\uD83D\uDC78',
-              c1: '#FFE082', c2: '#FFB300',
-              border: '#FF8F00',
-              halo: true, size: 'big' },
-            { id: 'king',    label: 'King',
-              emoji: '\uD83E\uDD34',
-              c1: '#E1BEE7', c2: '#9575CD',
-              border: '#5E35B1',
-              halo: true, size: 'big' },
-            { id: 'prince',  label: 'Prince',
-              emoji: '\uD83E\uDD34',
-              c1: '#BBDEFB', c2: '#64B5F6',
-              border: '#1976D2',
-              halo: true },
-            { id: 'baby',    label: 'Baby',
-              emoji: '\uD83D\uDC76',
-              c1: '#FFCDD2', c2: '#F48FB1',
-              border: '#C2185B',
-              halo: true },
-            { id: 'fairy',   label: 'Fairy',
-              emoji: '\uD83E\uDDDA',
-              c1: '#F8BBD0', c2: '#F06292',
-              border: '#AD1457',
-              halo: true, magic: 'fairy-dust' },
-        ],
-        pets: [
-            { id: 'cat',       label: 'Kitty',
-              emoji: '\uD83D\uDC31',
-              c1: '#FFF9C4', c2: '#FFEB3B',
-              border: '#F9A825' },
-            { id: 'puppy',     label: 'Puppy',
-              emoji: '\uD83D\uDC36',
-              c1: '#FFE0B2', c2: '#FFB74D',
-              border: '#EF6C00' },
-            { id: 'unicorn',   label: 'Unicorn',
-              emoji: '\uD83E\uDD84',
-              c1: '#F3E5F5', c2: '#CE93D8',
-              border: '#6A1B9A',
-              magic: 'rainbow', size: 'big' },
-            { id: 'pony',      label: 'Pony',
-              emoji: '\uD83D\uDC0E',
-              c1: '#EFEBE9', c2: '#BCAAA4',
-              border: '#4E342E' },
-            { id: 'parrot',    label: 'Parrot',
-              emoji: '\uD83E\uDD9C',
-              c1: '#B2DFDB', c2: '#26A69A',
-              border: '#004D40' },
-            { id: 'butterfly', label: 'Butterfly',
-              emoji: '\uD83E\uDD8B',
-              c1: '#BBDEFB', c2: '#64B5F6',
-              border: '#1565C0' },
-        ],
-        furniture: [
-            { id: 'throne',    label: 'Throne',
-              emoji: '\uD83E\uDE91',
-              c1: '#FFCDD2', c2: '#E57373',
-              border: '#B71C1C',
-              size: 'big' },
-            { id: 'bed',       label: 'Bed',
-              emoji: '\uD83D\uDECF\uFE0F',
-              c1: '#E1BEE7', c2: '#CE93D8',
-              border: '#6A1B9A',
-              size: 'big' },
-            { id: 'mirror',    label: 'Mirror',
-              emoji: '\uD83E\uDE9E',
-              c1: '#CFD8DC', c2: '#90A4AE',
-              border: '#37474F' },
-            { id: 'wardrobe',  label: 'Wardrobe',
-              emoji: '\uD83D\uDDC4\uFE0F',
-              c1: '#D7CCC8', c2: '#A1887F',
-              border: '#4E342E',
-              size: 'big' },
-            { id: 'cake',      label: 'Cake',
-              emoji: '\uD83C\uDF82',
-              c1: '#FFF8E1', c2: '#FFE082',
-              border: '#FF8F00' },
-            { id: 'crown',     label: 'Crown',
-              emoji: '\uD83D\uDC51',
-              c1: '#FFF9C4', c2: '#FFD600',
-              border: '#F57F17' },
-            { id: 'gem',       label: 'Gem',
-              emoji: '\uD83D\uDC8E',
-              c1: '#E1F5FE', c2: '#81D4FA',
-              border: '#0277BD' },
-        ],
-        decor: [
-            { id: 'rose',      label: 'Rose',
-              emoji: '\uD83C\uDF39',
-              c1: '#FFCDD2', c2: '#EF5350',
-              border: '#B71C1C' },
-            { id: 'tulip',     label: 'Tulip',
-              emoji: '\uD83C\uDF37',
-              c1: '#F8BBD0', c2: '#F06292',
-              border: '#AD1457' },
-            { id: 'sunflower', label: 'Sunflower',
-              emoji: '\uD83C\uDF3B',
-              c1: '#FFF59D', c2: '#FDD835',
-              border: '#F57F17' },
-            { id: 'tree',      label: 'Tree',
-              emoji: '\uD83C\uDF33',
-              c1: '#C8E6C9', c2: '#66BB6A',
-              border: '#2E7D32',
-              size: 'big' },
-            { id: 'fountain',  label: 'Fountain',
-              emoji: '\u26F2',
-              c1: '#B3E5FC', c2: '#4FC3F7',
-              border: '#0277BD',
-              size: 'big' },
-            { id: 'lantern',   label: 'Lantern',
-              emoji: '\uD83C\uDFEE',
-              c1: '#FFCCBC', c2: '#FF8A65',
-              border: '#BF360C' },
-            { id: 'candle',    label: 'Candle',
-              emoji: '\uD83D\uDD6F\uFE0F',
-              c1: '#FFF3E0', c2: '#FFB74D',
-              border: '#E65100' },
+              magic: 'waves', halo: true,
+              unlockAt: 13 },
         ],
         magic: [
             { id: 'star',      label: 'Star',
               emoji: '\u2B50',
               c1: '#FFF9C4', c2: '#FFD600',
-              border: '#F57F17' },
+              border: '#F57F17',
+              unlockAt: 2 },
+            { id: 'heart',     label: 'Heart',
+              emoji: '\uD83D\uDC96',
+              c1: '#FFCDD2', c2: '#F06292',
+              border: '#C2185B',
+              unlockAt: 6 },
+            { id: 'sparkle',   label: 'Sparkle',
+              emoji: '\u2728',
+              c1: '#FFF9C4', c2: '#FFD700',
+              border: '#F57F17',
+              unlockAt: 10 },
             { id: 'rainbow',   label: 'Rainbow',
               emoji: '\uD83C\uDF08',
               c1: '#F8BBD0', c2: '#CE93D8',
               border: '#7B1FA2',
-              size: 'big' },
-            { id: 'heart',     label: 'Heart',
-              emoji: '\uD83D\uDC96',
-              c1: '#FFCDD2', c2: '#F06292',
-              border: '#C2185B' },
-            { id: 'sparkle',   label: 'Sparkle',
-              emoji: '\u2728',
-              c1: '#FFF9C4', c2: '#FFD700',
-              border: '#F57F17' },
+              size: 'big',
+              unlockAt: 20 },
             { id: 'cloud',     label: 'Cloud',
               emoji: '\u2601\uFE0F',
               c1: '#ECEFF1', c2: '#B0BEC5',
-              border: '#546E7A' },
+              border: '#546E7A',
+              unlockAt: 20 },
             { id: 'moon',      label: 'Moon',
               emoji: '\uD83C\uDF19',
               c1: '#E1F5FE', c2: '#90CAF9',
-              border: '#1565C0' },
+              border: '#1565C0',
+              unlockAt: 30 },
             { id: 'sun',       label: 'Sun',
               emoji: '\u2600\uFE0F',
               c1: '#FFECB3', c2: '#FFC107',
-              border: '#F57F17' },
+              border: '#F57F17',
+              unlockAt: 30 },
+        ],
+        decor: [
+            { id: 'rose',      label: 'Rose',
+              emoji: '\uD83C\uDF39',
+              c1: '#FFCDD2', c2: '#EF5350',
+              border: '#B71C1C',
+              unlockAt: 5 },
+            { id: 'tulip',     label: 'Tulip',
+              emoji: '\uD83C\uDF37',
+              c1: '#F8BBD0', c2: '#F06292',
+              border: '#AD1457',
+              unlockAt: 11 },
+            { id: 'sunflower', label: 'Sunflower',
+              emoji: '\uD83C\uDF3B',
+              c1: '#FFF59D', c2: '#FDD835',
+              border: '#F57F17',
+              unlockAt: 11 },
+            { id: 'lantern',   label: 'Lantern',
+              emoji: '\uD83C\uDFEE',
+              c1: '#FFCCBC', c2: '#FF8A65',
+              border: '#BF360C',
+              unlockAt: 17 },
+            { id: 'candle',    label: 'Candle',
+              emoji: '\uD83D\uDD6F\uFE0F',
+              c1: '#FFF3E0', c2: '#FFB74D',
+              border: '#E65100',
+              unlockAt: 17 },
+            { id: 'tree',      label: 'Tree',
+              emoji: '\uD83C\uDF33',
+              c1: '#C8E6C9', c2: '#66BB6A',
+              border: '#2E7D32',
+              size: 'big',
+              unlockAt: 27 },
+            { id: 'fountain',  label: 'Fountain',
+              emoji: '\u26F2',
+              c1: '#B3E5FC', c2: '#4FC3F7',
+              border: '#0277BD',
+              size: 'big',
+              unlockAt: 27 },
+        ],
+        pets: [
+            { id: 'cat',       label: 'Kitty',
+              emoji: '\uD83D\uDC31',
+              c1: '#FFF9C4', c2: '#FFEB3B',
+              border: '#F9A825',
+              unlockAt: 9 },
+            { id: 'puppy',     label: 'Puppy',
+              emoji: '\uD83D\uDC36',
+              c1: '#FFE0B2', c2: '#FFB74D',
+              border: '#EF6C00',
+              unlockAt: 9 },
+            { id: 'unicorn',   label: 'Unicorn',
+              emoji: '\uD83E\uDD84',
+              c1: '#F3E5F5', c2: '#CE93D8',
+              border: '#6A1B9A',
+              magic: 'rainbow', size: 'big',
+              unlockAt: 15 },
+            { id: 'pony',      label: 'Pony',
+              emoji: '\uD83D\uDC0E',
+              c1: '#EFEBE9', c2: '#BCAAA4',
+              border: '#4E342E',
+              unlockAt: 25 },
+            { id: 'parrot',    label: 'Parrot',
+              emoji: '\uD83E\uDD9C',
+              c1: '#B2DFDB', c2: '#26A69A',
+              border: '#004D40',
+              unlockAt: 25 },
+            { id: 'butterfly', label: 'Butterfly',
+              emoji: '\uD83E\uDD8B',
+              c1: '#BBDEFB', c2: '#64B5F6',
+              border: '#1565C0',
+              unlockAt: 25 },
+        ],
+        royals: [
+            { id: 'fairy',   label: 'Fairy',
+              emoji: '\uD83E\uDDDA',
+              c1: '#F8BBD0', c2: '#F06292',
+              border: '#AD1457',
+              halo: true, magic: 'fairy-dust',
+              unlockAt: 15 },
+            { id: 'queen',   label: 'Queen',
+              emoji: '\uD83D\uDC78',
+              c1: '#FFE082', c2: '#FFB300',
+              border: '#FF8F00',
+              halo: true, size: 'big',
+              unlockAt: 18 },
+            { id: 'king',    label: 'King',
+              emoji: '\uD83E\uDD34',
+              c1: '#E1BEE7', c2: '#9575CD',
+              border: '#5E35B1',
+              halo: true, size: 'big',
+              unlockAt: 26 },
+            { id: 'prince',  label: 'Prince',
+              emoji: '\uD83E\uDD34',
+              c1: '#BBDEFB', c2: '#64B5F6',
+              border: '#1976D2',
+              halo: true,
+              unlockAt: 26 },
+            { id: 'baby',    label: 'Baby',
+              emoji: '\uD83D\uDC76',
+              c1: '#FFCDD2', c2: '#F48FB1',
+              border: '#C2185B',
+              halo: true,
+              unlockAt: 26 },
+        ],
+        furniture: [
+            { id: 'cake',      label: 'Cake',
+              emoji: '\uD83C\uDF82',
+              c1: '#FFF8E1', c2: '#FFE082',
+              border: '#FF8F00',
+              unlockAt: 21 },
+            { id: 'crown',     label: 'Crown',
+              emoji: '\uD83D\uDC51',
+              c1: '#FFF9C4', c2: '#FFD600',
+              border: '#F57F17',
+              unlockAt: 21 },
+            { id: 'gem',       label: 'Gem',
+              emoji: '\uD83D\uDC8E',
+              c1: '#E1F5FE', c2: '#81D4FA',
+              border: '#0277BD',
+              unlockAt: 21 },
+            { id: 'throne',    label: 'Throne',
+              emoji: '\uD83E\uDE91',
+              c1: '#FFCDD2', c2: '#E57373',
+              border: '#B71C1C',
+              size: 'big',
+              unlockAt: 30 },
+            { id: 'bed',       label: 'Bed',
+              emoji: '\uD83D\uDECF\uFE0F',
+              c1: '#E1BEE7', c2: '#CE93D8',
+              border: '#6A1B9A',
+              size: 'big',
+              unlockAt: 30 },
+            { id: 'mirror',    label: 'Mirror',
+              emoji: '\uD83E\uDE9E',
+              c1: '#CFD8DC', c2: '#90A4AE',
+              border: '#37474F',
+              unlockAt: 30 },
+            { id: 'wardrobe',  label: 'Wardrobe',
+              emoji: '\uD83D\uDDC4\uFE0F',
+              c1: '#D7CCC8', c2: '#A1887F',
+              border: '#4E342E',
+              size: 'big',
+              unlockAt: 30 },
         ],
     },
 
-    TAB_ORDER: ['princesses', 'royals', 'pets',
-                'furniture', 'decor', 'magic'],
+    TAB_ORDER: ['princesses', 'magic', 'decor',
+                'pets', 'royals', 'furniture'],
+
+    TAB_LABELS: {
+        princesses: 'Princesses',
+        magic:      'Magic',
+        decor:      'Decor',
+        pets:       'Pets',
+        royals:     'Royal Family',
+        furniture:  'Furniture',
+    },
 
     state: {},
     drag: null,
@@ -305,36 +371,36 @@ const PrincessPalaceGame = {
         initAudio();
         const saved = this._loadSaved();
 
+        const baseState = {
+            stars:        saved ? (saved.stars || 0) : 0,
+            candies:      saved ? (saved.candies || 0) : 0,
+            items:        saved ? (saved.items || []) : [],
+            nextItemId:   saved ? (saved.nextItemId || 1) : 1,
+            totalChanges: saved ? (saved.totalChanges || 0) : 0,
+            activeTab:    'princesses',
+            mathActive:   false,
+            currentQ:     null,
+        };
+
         if (isContinue && saved) {
             this.state = {
+                ...baseState,
                 level:       saved.level || 1,
-                stars:       saved.stars || 0,
-                candies:     saved.candies || 0,
                 changeCount: saved.changeCount || 0,
-                items:       saved.items || [],
-                nextItemId:  saved.nextItemId || 1,
-                activeTab:   'princesses',
-                mathActive:  false,
-                currentQ:    null,
             };
         } else {
             this.state = {
+                ...baseState,
                 level:       level,
-                stars:       saved ? (saved.stars || 0) : 0,
-                candies:     saved ? (saved.candies || 0) : 0,
                 changeCount: 0,
-                items:       saved ? (saved.items || []) : [],
-                nextItemId:  saved ? (saved.nextItemId || 1) : 1,
-                activeTab:   'princesses',
-                mathActive:  false,
-                currentQ:    null,
             };
         }
 
-        if (typeof PrizeManager !== 'undefined') {
-            PrizeManager.init();
-        }
+        // Force princesses tab on start so the first thing the user
+        // sees is always the fully-unlocked princess catalog.
+        this.state.activeTab = 'princesses';
 
+        this._renderTabs();
         this._activateTab('princesses');
         this._renderScene();
         this._renderStars();
@@ -360,9 +426,42 @@ const PrincessPalaceGame = {
     },
 
     // =================================================================
+    //  Unlock logic
+    // =================================================================
+    _isUnlocked(item) {
+        return (this.state.totalChanges || 0)
+            >= (item.unlockAt || 0);
+    },
+
+    _unlockedItems(tabName) {
+        const items = this.CATALOG[tabName] || [];
+        return items.filter(i => this._isUnlocked(i));
+    },
+
+    _visibleTabs() {
+        return this.TAB_ORDER.filter(
+            t => this._unlockedItems(t).length > 0);
+    },
+
+    // =================================================================
     //  Palette rendering
     // =================================================================
+    _renderTabs() {
+        const visible = new Set(this._visibleTabs());
+        document.querySelectorAll('.pp-tab').forEach(t => {
+            const ok = visible.has(t.dataset.tab);
+            t.style.display = ok ? '' : 'none';
+        });
+    },
+
     _activateTab(tabName) {
+        // Guard: if requested tab is not unlocked yet, fall back to
+        // the first visible tab.
+        const visible = this._visibleTabs();
+        if (!visible.includes(tabName)) {
+            if (visible.length === 0) return;
+            tabName = visible[0];
+        }
         this.state.activeTab = tabName;
         document.querySelectorAll('.pp-tab').forEach(t =>
             t.classList.toggle('active', t.dataset.tab === tabName));
@@ -370,12 +469,13 @@ const PrincessPalaceGame = {
     },
 
     _renderPaletteItems() {
-        const items = this.CATALOG[this.state.activeTab] || [];
+        const items = this._unlockedItems(this.state.activeTab);
         const container = document.getElementById('pp-items');
         container.innerHTML = '';
         items.forEach(item => {
             const el = document.createElement('div');
             el.className = 'pp-item';
+            el.dataset.itemId = item.id;
             el.style.setProperty('--pp-c1', item.c1);
             el.style.setProperty('--pp-c2', item.c2);
             el.style.setProperty('--pp-border', item.border);
@@ -431,7 +531,7 @@ const PrincessPalaceGame = {
     },
 
     // =================================================================
-    //  Drag helpers
+    //  Drag helpers — ghost, trash, commit
     // =================================================================
     _createGhost(emoji, x, y) {
         const g = document.createElement('div');
@@ -443,25 +543,68 @@ const PrincessPalaceGame = {
         if (this.drag) this.drag.ghost = g;
     },
 
-    _showTrash() {
-        this.$trash.classList.add('pp-show');
-    },
+    _showTrash() { this.$trash.classList.add('pp-show'); },
     _hideTrash() {
         this.$trash.classList.remove('pp-show');
         this.$trash.classList.remove('pp-hover');
     },
 
+    // Palette drag: cross-axis detection — browser owns the scroll
+    // axis (pan-y on landscape, pan-x on portrait via CSS), we own
+    // the perpendicular axis for drag intent. This lets users swipe
+    // the palette to scroll and still pull items out onto the scene.
     _startDragFromPalette(event, catalogItem) {
         if (this.state.mathActive) return;
-        event.preventDefault();
+
+        const startX = event.clientX;
+        const startY = event.clientY;
+        const portrait = window.matchMedia(
+            '(max-aspect-ratio: 1/1)').matches;
+        let committed = false;
+
+        const onMove = (e) => {
+            if (committed) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            const absX = Math.abs(dx);
+            const absY = Math.abs(dy);
+            if (Math.hypot(dx, dy) < 12) return;
+
+            const primaryIsDragAxis = portrait
+                ? absY > absX
+                : absX > absY;
+            committed = true;
+            cleanup();
+            if (primaryIsDragAxis) {
+                this._commitDragFromPalette(
+                    e, catalogItem, startX, startY);
+            }
+            // else: browser handles the pan; no drag.
+        };
+        const onEnd = () => {
+            if (!committed) {
+                committed = true;
+                cleanup();
+            }
+        };
+        const cleanup = () => {
+            document.removeEventListener('pointermove', onMove);
+            document.removeEventListener('pointerup', onEnd);
+            document.removeEventListener('pointercancel', onEnd);
+        };
+        document.addEventListener('pointermove', onMove);
+        document.addEventListener('pointerup', onEnd);
+        document.addEventListener('pointercancel', onEnd);
+    },
+
+    _commitDragFromPalette(event, catalogItem, startX, startY) {
         this.drag = {
             mode: 'add',
             item: catalogItem,
-            startX: event.clientX,
-            startY: event.clientY,
-            lastX:  event.clientX,
-            lastY:  event.clientY,
-            moved: false,
+            startX, startY,
+            lastX: event.clientX,
+            lastY: event.clientY,
+            moved: true,
             ghost: null,
             overTrash: false,
         };
@@ -473,6 +616,8 @@ const PrincessPalaceGame = {
         document.addEventListener('pointercancel', this._boundUp);
     },
 
+    // Scene items: immediate drag (scene has touch-action: none, so
+    // there's no scroll to distinguish from drag).
     _startDragFromScene(event, pid) {
         if (this.state.mathActive) return;
         event.preventDefault();
@@ -548,7 +693,6 @@ const PrincessPalaceGame = {
             return;
         }
 
-        // Compute scene-relative coords
         const rect = this.$sceneWrap.getBoundingClientRect();
         const x = d.lastX;
         const y = d.lastY;
@@ -564,8 +708,7 @@ const PrincessPalaceGame = {
             return;
         }
 
-        // MOVE branch — tap (no drag) => flip on double-tap;
-        // long hold without movement => no-op.
+        // MOVE branch — tap = flip on double-tap; hold = no-op.
         if (!d.moved) {
             const now = Date.now();
             if (this.lastTap.itemId === d.itemId
@@ -687,11 +830,15 @@ const PrincessPalaceGame = {
     },
 
     // =================================================================
-    //  Change counter + math gate trigger
+    //  Change counter, unlocks, math gate trigger
     // =================================================================
     _registerChange() {
+        const oldTotal = this.state.totalChanges || 0;
+        const newTotal = oldTotal + 1;
+        this.state.totalChanges = newTotal;
         this.state.changeCount++;
         this._renderCounter();
+        this._checkUnlocks(oldTotal, newTotal);
         this._save();
         if (this.state.changeCount >= this.CHANGES_PER_MATH
             && !this.state.mathActive) {
@@ -699,6 +846,47 @@ const PrincessPalaceGame = {
             // 400ms fade-in window does not slip through.
             this.state.mathActive = true;
             setTimeout(() => this._openMathGate(), 400);
+        }
+    },
+
+    _checkUnlocks(oldTotal, newTotal) {
+        const newTabs = [];
+        const newItems = [];
+        for (const tabName of this.TAB_ORDER) {
+            const items = this.CATALOG[tabName];
+            let wasAnyVisible = false;
+            let isAnyVisible  = false;
+            for (const item of items) {
+                const u = item.unlockAt || 0;
+                if (u <= oldTotal) wasAnyVisible = true;
+                if (u <= newTotal) isAnyVisible  = true;
+                if (u > oldTotal && u <= newTotal) {
+                    newItems.push({ item, tabName });
+                }
+            }
+            if (!wasAnyVisible && isAnyVisible) {
+                newTabs.push(tabName);
+            }
+        }
+
+        if (newTabs.length === 0 && newItems.length === 0) return;
+
+        // Re-render tabs (new tab may have appeared).
+        this._renderTabs();
+        // Re-render palette (new item in active tab may have appeared).
+        this._renderPaletteItems();
+
+        if (newTabs.length > 0) {
+            const label = this.TAB_LABELS[newTabs[0]] || newTabs[0];
+            showFeedback('New: ' + label + '!', 'levelup', 2000);
+            sfxLevelUp();
+            spawnConfetti(24);
+        } else {
+            // Only an item unlocked (no new tab). Lighter feedback.
+            const first = newItems[0].item;
+            showFeedback(
+                'New: ' + first.label + '!', 'correct', 1400);
+            sfxStar();
         }
     },
 
@@ -715,29 +903,88 @@ const PrincessPalaceGame = {
     //  Math gate
     // =================================================================
     _genQuestion() {
-        const r = this.LEVEL_RANGES[this.state.level];
-        const sum = r.min + Math.floor(
-            Math.random() * (r.max - r.min + 1));
-        const aMin = Math.max(1,  sum - 11);
-        const aMax = Math.min(11, sum - 1);
-        let a = aMin + Math.floor(
-            Math.random() * (aMax - aMin + 1));
-        let b = sum - a;
-        if (Math.random() < 0.4) { const t = a; a = b; b = t; }
-        return { a, b, sum };
+        const range = this.LEVEL_RANGES[this.state.level]
+                   || this.LEVEL_RANGES[1];
+        const ops = range.ops || this.OPS;
+        for (let tries = 0; tries < 30; tries++) {
+            const op = ops[
+                Math.floor(Math.random() * ops.length)];
+            const result = range.min + Math.floor(
+                Math.random() * (range.max - range.min + 1));
+            const q = this._buildQ(op, result);
+            if (q) return q;
+        }
+        // Fallback — use the level's first op (always '+' for
+        // Ultra Easy) which always has a valid build.
+        const result = range.min + Math.floor(
+            Math.random() * (range.max - range.min + 1));
+        return this._buildQ(ops[0], result);
+    },
+
+    _buildQ(op, result) {
+        if (op === '+') {
+            const max = Math.min(result, 15);
+            const a = Math.floor(Math.random() * (max + 1));
+            const b = result - a;
+            if (b < 0 || b > 20) return null;
+            return { a, b, op, result };
+        }
+        if (op === '-') {
+            // a - b = result; a in [result, result+12], b in [0, 12]
+            const b = Math.floor(Math.random() * 13);
+            const a = result + b;
+            if (a > 40) return null;
+            return { a, b, op, result };
+        }
+        if (op === 'x') {
+            if (result === 0) {
+                const b = 2 + Math.floor(Math.random() * 9);
+                return { a: 0, b, op, result: 0 };
+            }
+            if (result === 1) return { a: 1, b: 1, op, result: 1 };
+            const pairs = [];
+            for (let a = 2; a <= 12; a++) {
+                if (result % a === 0) {
+                    const b = result / a;
+                    if (b >= 2 && b <= 12) pairs.push([a, b]);
+                }
+            }
+            if (pairs.length === 0) return null;
+            const [a, b] = pairs[
+                Math.floor(Math.random() * pairs.length)];
+            return { a, b, op, result };
+        }
+        if (op === '/') {
+            if (result === 0) {
+                const b = 2 + Math.floor(Math.random() * 9);
+                return { a: 0, b, op, result: 0 };
+            }
+            const cap = result <= 10 ? 30
+                      : result <= 20 ? 60 : 90;
+            const pairs = [];
+            for (let b = 2; b <= 10; b++) {
+                const a = result * b;
+                if (a <= cap) pairs.push([a, b]);
+            }
+            if (pairs.length === 0) return null;
+            const [a, b] = pairs[
+                Math.floor(Math.random() * pairs.length)];
+            return { a, b, op, result };
+        }
+        return null;
     },
 
     _genChoices(correct) {
         const set = new Set([correct]);
         let tries = 0;
-        while (set.size < 4 && tries++ < 40) {
+        while (set.size < 4 && tries++ < 60) {
             const off = (Math.random() < 0.5 ? -1 : 1)
-                      * (1 + Math.floor(Math.random() * 3));
+                      * (1 + Math.floor(Math.random() * 4));
             const d = correct + off;
-            if (d >= 1 && d <= 25) set.add(d);
+            if (d >= 0 && d <= 40) set.add(d);
         }
         while (set.size < 4) {
-            set.add(1 + Math.floor(Math.random() * 25));
+            set.add(Math.floor(Math.random() * 40));
         }
         const arr = [...set];
         for (let i = arr.length - 1; i > 0; i--) {
@@ -748,20 +995,19 @@ const PrincessPalaceGame = {
     },
 
     _openMathGate() {
-        // mathActive is pre-set in _registerChange so further drags
-        // are blocked. Still guard against re-entry.
         if (this.state.currentQ !== null) return;
         this.state.mathActive = true;
         const q = this._genQuestion();
         this.state.currentQ = q;
 
+        const opSym = this.OP_DISPLAY[q.op] || q.op;
         document.getElementById('pp-math-prompt').textContent =
             'Help me, princess!';
         document.getElementById('pp-math-q').textContent =
-            q.a + ' + ' + q.b + ' = ?';
+            q.a + ' ' + opSym + ' ' + q.b + ' = ?';
         const container =
             document.getElementById('pp-math-choices');
-        const choices = this._genChoices(q.sum);
+        const choices = this._genChoices(q.result);
         container.innerHTML = '';
         choices.forEach(c => {
             const btn = document.createElement('button');
@@ -769,7 +1015,7 @@ const PrincessPalaceGame = {
             btn.textContent = c;
             btn.dataset.val = c;
             btn.addEventListener('click', () =>
-                this._onChoice(btn, c, q.sum));
+                this._onChoice(btn, c, q.result));
             container.appendChild(btn);
         });
         document.getElementById('pp-math-overlay')
@@ -813,7 +1059,7 @@ const PrincessPalaceGame = {
     },
 
     // =================================================================
-    //  Rewards
+    //  Rewards — no prize time-break; candies and champion only.
     // =================================================================
     _awardStars(n) {
         this.state.stars += n;
@@ -858,13 +1104,6 @@ const PrincessPalaceGame = {
 
         if (this.state.candies >= this.CANDIES_TO_WIN) {
             setTimeout(() => this._showChampion(), 700);
-            return;
-        }
-
-        if (typeof PrizeManager !== 'undefined') {
-            setTimeout(() => {
-                PrizeManager.check(() => {});
-            }, 500);
         }
     },
 
@@ -880,6 +1119,9 @@ const PrincessPalaceGame = {
             .classList.remove('pp-show');
     },
 
+    // Reset clears the palace + current session progress, but KEEPS
+    // lifetime unlocks (totalChanges) so the player doesn't lose
+    // content they already earned.
     _resetAll() {
         this.state.items = [];
         this.state.stars = 0;
@@ -890,20 +1132,23 @@ const PrincessPalaceGame = {
         this._renderStars();
         this._renderCandyBar();
         this._renderCounter();
+        this._renderTabs();
+        this._activateTab(this.state.activeTab);
         this._save();
         sfxPop();
     },
 
     // =================================================================
-    //  Persistence
+    //  Persistence (v2 — includes totalChanges)
     // =================================================================
     _save() {
         try {
             const { level, stars, candies, changeCount,
-                    items, nextItemId } = this.state;
+                    items, nextItemId, totalChanges } = this.state;
             localStorage.setItem(this.STORAGE_KEY, JSON.stringify({
-                v: 1, level, stars, candies, changeCount,
+                v: 2, level, stars, candies, changeCount,
                 items, nextItemId,
+                totalChanges: totalChanges || 0,
             }));
         } catch (e) { /* ignore quota / privacy-mode errors */ }
     },
@@ -911,10 +1156,30 @@ const PrincessPalaceGame = {
     _loadSaved() {
         try {
             const raw = localStorage.getItem(this.STORAGE_KEY);
-            if (!raw) return null;
-            const obj = JSON.parse(raw);
-            if (!obj || obj.v !== 1) return null;
-            return obj;
+            if (raw) {
+                const obj = JSON.parse(raw);
+                if (obj && obj.v === 2) return obj;
+            }
+            // Fall-back: migrate from v1 (no totalChanges, old sum
+            // ranges). Treat prior items as baseline progress.
+            const oldRaw = localStorage.getItem(this.OLD_STORAGE_KEY);
+            if (oldRaw) {
+                const o = JSON.parse(oldRaw);
+                if (o && o.v === 1) {
+                    return {
+                        v: 2,
+                        level:        1,
+                        stars:        o.stars        || 0,
+                        candies:      o.candies      || 0,
+                        changeCount:  0,
+                        items:        o.items        || [],
+                        nextItemId:   o.nextItemId   || 1,
+                        totalChanges: (o.items
+                            ? o.items.length : 0),
+                    };
+                }
+            }
+            return null;
         } catch (e) {
             return null;
         }
