@@ -43,7 +43,7 @@ class AStar(Generic[State], AlgoSPP[State]):
          — independent of heap internals.
         ====================================================================
         """
-        g = self._g[state]
+        g = self._search.g[state]
         return (g + self._h(state), -g, state)
 
     def _enrich_event(self, event: dict) -> None:

@@ -21,7 +21,7 @@ Injects `FrontierPriority[State]()` into `AlgoSPP` and stores `h`.
 ## Priority / Tie-Breaking
 ```python
 def _priority(self, state: State) -> tuple:
-    g = self._g[state]
+    g = self._search.g[state]
     return (g + self._h(state), -g, state)
 ```
 Three-level priority, compared lexicographically by the min-heap:
@@ -50,6 +50,7 @@ equals `event['g'] + h(state)`, not the priority tuple.
 | `grid_3x3_no_path()` | `AStar` | Grid with wall |
 | `grid_3x3_start_is_goal()` | `AStar` | Grid where start == goal |
 | `grid_4x4_obstacle()` | `AStar` | 4x4 grid with vertical wall, cost 7 |
+| `graph_decrease()` | `AStar` | Weighted graph (S→A/B→X, w(B,X)=0), h=0 — forces `decrease_g` and exercises h/f enrichment on it |
 
 ## Inheritance
 ```
@@ -65,9 +66,9 @@ directly, per the Factory-over-fixture rule.
 
 | File | Scope | Count |
 |------|-------|-------|
-| `_tester.py` | Graph problems + lifecycle | 5 |
+| `_tester.py` | Graph problems + lifecycle (incl. `search_state` + `resume`) | 7 |
 | `_tester_grid.py` | Grid problems | 4 |
-| `_tester_recording.py` | Full event-sequence assertion | 5 |
+| `_tester_recording.py` | Full event-sequence assertion (incl. `decrease_g` + h/f enrichment on it) | 6 |
 
 Run all three explicitly:
 ```

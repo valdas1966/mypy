@@ -108,6 +108,50 @@ def test_recording_full_event_sequence_on_graph_diamond() -> None:
     assert popped.index('C') < popped.index('D')
 
 
+def test_recording_full_event_sequence_on_graph_decrease() -> None:
+    """
+    ========================================================================
+     Assert the exact recorded event sequence for Dijkstra on the
+     weighted decrease-graph (S -> A/B -> X with w(B,X) = 0).
+     A and B tie on (g=1, -g=-1); State tiebreak ('A' < 'B') pops
+     A first; A pushes X with g=2; B pops next and re-parents X
+     via `decrease_g` (new_g = 1 + 0 = 1 < 2).
+
+     Pins, beyond the existing Dijkstra tests:
+       1. The `decrease_g` event type is emitted.
+       2. The `decrease_g` event carries NO `h` or `f` fields
+          (Dijkstra's _enrich_event is a no-op on decrease_g
+          too, not just on push / pop).
+       3. The `parent` and `g` on `decrease_g` reflect the NEW
+          values (B, 1), not the previous ones (A, 2).
+    ========================================================================
+    """
+    algo = Dijkstra.Factory.graph_decrease()
+    algo._recorder.is_active = True
+    sol = algo.run()
+    assert sol.cost == 1.0
+    actual = [_normalize(e) for e in algo.recorder.events]
+    expected = [
+        {'type': 'push', 'state': 'S', 'g': 0, 'parent': None},
+        {'type': 'pop',  'state': 'S', 'g': 0},
+        {'type': 'push', 'state': 'A', 'g': 1, 'parent': 'S'},
+        {'type': 'push', 'state': 'B', 'g': 1, 'parent': 'S'},
+        {'type': 'pop',  'state': 'A', 'g': 1},
+        {'type': 'push', 'state': 'X', 'g': 2, 'parent': 'A'},
+        {'type': 'pop',  'state': 'B', 'g': 1},
+        {'type': 'decrease_g', 'state': 'X', 'g': 1, 'parent': 'B'},
+        {'type': 'pop',  'state': 'X', 'g': 1},
+    ]
+    assert actual == expected
+    decrs = [e for e in actual if e['type'] == 'decrease_g']
+    assert len(decrs) == 1
+    assert decrs[0]['parent'] == 'B'
+    assert decrs[0]['g'] == 1
+    # Schema pin: decrease_g must NOT carry h or f on Dijkstra.
+    assert 'h' not in decrs[0]
+    assert 'f' not in decrs[0]
+
+
 def test_recording_full_event_sequence_on_grid_3x3() -> None:
     """
     ========================================================================

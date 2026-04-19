@@ -22,7 +22,7 @@ f_cs (generic)              f_hs (search-specific)
 ─────────────               ──────────────────────
 ProblemAlgo          ←──    ProblemSPP[State]
                               └── ProblemGrid
-Algo[Problem, Sol]   ←──    AlgoSPP[State]         (holds a Frontier)
+Algo[Problem, Sol]   ←──    AlgoSPP[State]         (holds a SearchState)
                               ├── BFS              (FrontierFIFO)
                               └── AStar → Dijkstra (FrontierPriority)
 SolutionAlgo         ←──    SolutionSPP (cost)

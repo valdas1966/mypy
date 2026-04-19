@@ -28,12 +28,17 @@ def __init__(self, starts: list[State], goals: list[State],
 
 ## Factory
 Uses `_ProblemGraph` — concrete subclass with dict adjacency.
+Edge weights default to 1.0 across the graph; pass `weights=
+{(parent_key, child_key): w}` to override per-edge (any
+unspecified edge stays at 1.0).
+
 | Method | Description |
 |--------|-------------|
 | `graph_abc()` | A -> B -> C (cost 2) |
 | `graph_no_path()` | A -> B, C isolated |
 | `graph_start_is_goal()` | Start == Goal |
 | `graph_diamond()` | A -> B -> D, A -> C -> D |
+| `graph_decrease()` | Weighted: S -> A/B -> X with w(B,X)=0; forces a `decrease_g` event when X is re-parented from A to B |
 
 ## Dependencies
 - `f_cs.problem.ProblemAlgo`

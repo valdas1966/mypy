@@ -90,6 +90,17 @@ html, body { margin: 0; height: 100%; overflow: hidden;
       if (res.ok) src = (await res.json()).src || '';
     } catch (e) { /* keep blank */ }
 
+    // Missing / empty file: seed a minimal compilable hello-world
+    if (!src.trim()) {
+      src = [
+        '\\documentclass{article}',
+        '\\begin{document}',
+        'Hello, world.',
+        '\\end{document}',
+        ''
+      ].join('\n');
+    }
+
     editor = monaco.editor.create(document.getElementById('editor'), {
       value: src,
       language: 'latex',

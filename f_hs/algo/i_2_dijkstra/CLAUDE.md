@@ -45,6 +45,7 @@ exactly: `{type, state, g, parent?, duration}`.
 | `grid_3x3_no_path()` | `Dijkstra` | Grid with wall |
 | `grid_3x3_start_is_goal()` | `Dijkstra` | Grid where start == goal |
 | `grid_4x4_obstacle()` | `Dijkstra` | 4x4 grid with vertical wall, cost 7 |
+| `graph_decrease()` | `Dijkstra` | Weighted graph (S→A/B→X, w(B,X)=0) — forces `decrease_g` and verifies the no-h/f schema on that event |
 
 ## Inheritance
 ```
@@ -62,7 +63,7 @@ directly, per the Factory-over-fixture rule.
 |------|-------|-------|
 | `_tester.py` | Graph problems + lifecycle | 5 |
 | `_tester_grid.py` | Grid problems | 4 |
-| `_tester_recording.py` | Full event-sequence + schema | 5 |
+| `_tester_recording.py` | Full event-sequence + schema (incl. `decrease_g` no-h/f) | 6 |
 
 Run all three explicitly:
 ```

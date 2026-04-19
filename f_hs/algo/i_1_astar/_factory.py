@@ -117,6 +117,23 @@ class Factory:
         )
 
     @staticmethod
+    def graph_decrease() -> AStar:
+        """
+        ====================================================================
+         A* on the weighted decrease-graph (S -> A/B -> X with
+         w(B,X) = 0) using h = 0 throughout. Reduces to Dijkstra's
+         pop order — A pops before B by State tiebreak — but
+         AStar's _enrich_event still adds h and f to the recorded
+         decrease_g event, exercising the h/f code path on that
+         event type. See ProblemSPP.Factory.graph_decrease.
+        ====================================================================
+        """
+        return AStar(
+            problem=ProblemSPP.Factory.graph_decrease(),
+            h=lambda s: 0.0,
+        )
+
+    @staticmethod
     def grid_4x4_obstacle() -> AStar:
         """
         ====================================================================

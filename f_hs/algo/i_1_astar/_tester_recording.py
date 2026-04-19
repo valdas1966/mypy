@@ -106,6 +106,51 @@ def test_recording_full_event_sequence_on_graph_diamond() -> None:
     assert 'C' not in popped
 
 
+def test_recording_full_event_sequence_on_graph_decrease() -> None:
+    """
+    ========================================================================
+     Assert the exact recorded event sequence for AStar on the
+     weighted decrease-graph (S -> A/B -> X with w(B,X) = 0)
+     using h = 0 throughout. A and B tie on (f=1, -g=-1); State
+     tiebreak ('A' < 'B') pops A first; A pushes X with g=2;
+     B pops next and re-parents X via `decrease_g` (new_g = 1).
+
+     Pins, beyond the existing AStar tests:
+       1. The `decrease_g` event type is emitted.
+       2. AStar's `_enrich_event` runs on `decrease_g` too —
+          the event carries `h` and `f`, not just `state` / `g`
+          / `parent`.
+       3. The `parent` and `g` on `decrease_g` reflect the NEW
+          values (B, 1), not the previous ones (A, 2).
+       4. f = g + h holds on the decrease_g event.
+    ========================================================================
+    """
+    algo = AStar.Factory.graph_decrease()
+    algo._recorder.is_active = True
+    sol = algo.run()
+    assert sol.cost == 1.0
+    actual = [_normalize(e) for e in algo.recorder.events]
+    expected = [
+        {'type': 'push', 'state': 'S', 'g': 0, 'parent': None, 'h': 0.0, 'f': 0.0},
+        {'type': 'pop',  'state': 'S', 'g': 0, 'h': 0.0, 'f': 0.0},
+        {'type': 'push', 'state': 'A', 'g': 1, 'parent': 'S', 'h': 0.0, 'f': 1.0},
+        {'type': 'push', 'state': 'B', 'g': 1, 'parent': 'S', 'h': 0.0, 'f': 1.0},
+        {'type': 'pop',  'state': 'A', 'g': 1, 'h': 0.0, 'f': 1.0},
+        {'type': 'push', 'state': 'X', 'g': 2, 'parent': 'A', 'h': 0.0, 'f': 2.0},
+        {'type': 'pop',  'state': 'B', 'g': 1, 'h': 0.0, 'f': 1.0},
+        {'type': 'decrease_g', 'state': 'X', 'g': 1, 'parent': 'B', 'h': 0.0, 'f': 1.0},
+        {'type': 'pop',  'state': 'X', 'g': 1, 'h': 0.0, 'f': 1.0},
+    ]
+    assert actual == expected
+    # Exactly one decrease_g; carries enriched h/f; new parent/g.
+    decrs = [e for e in actual if e['type'] == 'decrease_g']
+    assert len(decrs) == 1
+    assert decrs[0]['parent'] == 'B'
+    assert decrs[0]['g'] == 1
+    assert decrs[0]['h'] == 0.0
+    assert decrs[0]['f'] == decrs[0]['g'] + decrs[0]['h']
+
+
 def test_recording_full_event_sequence_on_grid_3x3() -> None:
     """
     ========================================================================

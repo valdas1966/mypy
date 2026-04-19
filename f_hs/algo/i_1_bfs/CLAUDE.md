@@ -25,6 +25,7 @@ by FIFO), `_frontier.{push,pop,...}` are used directly.
 | `graph_no_path()` | `BFS` | No path to goal |
 | `graph_start_is_goal()` | `BFS` | Start == Goal |
 | `graph_diamond()` | `BFS` | Diamond graph |
+| `graph_decrease()` | `BFS` | Weighted graph (S→A/B→X, w(B,X)=0) — forces `decrease_g` |
 | `grid_3x3()` | `BFS` | Open 3x3 grid |
 | `grid_3x3_obstacle()` | `BFS` | Grid with obstacle |
 | `grid_3x3_no_path()` | `BFS` | Grid with wall |
@@ -46,7 +47,7 @@ rule).
 |------|-------|-------|
 | `_tester.py` | Graph problems + lifecycle | 5 |
 | `_tester_grid.py` | Grid problems | 4 |
-| `_tester_recording.py` | Full event-sequence assertion | 3 |
+| `_tester_recording.py` | Full event-sequence assertion (incl. `decrease_g`) | 4 |
 
 Run all three explicitly:
 ```

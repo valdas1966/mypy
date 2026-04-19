@@ -9,11 +9,18 @@ override `_priority(state)` if needed.
 
 ## Architecture
 ```
-AlgoSPP (loop + data + recording + path + Frontier)
+AlgoSPP (loop + SearchState + recording + path + Frontier)
 ├── BFS                                      — FrontierFIFO
 └── AStar (_priority → (f, -g, state))       — FrontierPriority
     └── Dijkstra (h = 0)                     — inherits AStar
 ```
+
+The dynamic per-search bundle (frontier, g, parent, closed,
+goal_reached) is held as a single `SearchStateSPP` dataclass on
+`AlgoSPP._search`, exposed read-only via the `search_state`
+property. `AlgoSPP.resume()` continues the loop without
+reinitializing the bundle — the foundation for OMSPP-iterative
+multi-goal pumping and bidirectional search.
 
 ## Module Structure
 ```

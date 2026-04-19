@@ -104,3 +104,9 @@ f_tex_editor/
    position resets on recompile; acceptable for Phase 1.
 5. **Monaco loaded from unpkg CDN** — Phase 1 simplicity. Vendor
    locally if CSP/offline becomes a requirement.
+6. **Hello-world seed for missing/empty files** — when `/file`
+   returns `src=''`, the frontend preseeds Monaco with a minimal
+   compilable `\documentclass{article} ... \end{document}` so that
+   the first Ctrl+S produces a valid PDF instead of tectonic's
+   `no legal \end found` error. Non-empty existing files are not
+   touched.

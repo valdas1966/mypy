@@ -1,4 +1,5 @@
 from f_cs.algo import Algo
+from f_hs.algo.i_0_base._search_state import SearchStateSPP
 from f_hs.frontier.i_0_base.main import FrontierBase
 from f_hs.problem.i_0_base.main import ProblemSPP
 from f_hs.solution.main import SolutionSPP
@@ -10,9 +11,9 @@ State = TypeVar('State', bound=StateBase)
 
 class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
     """
-    ========================================================================
+    ============================================================================
      Base Algorithm for Shortest-Path-Problem.
-    ========================================================================
+    ============================================================================
     """
 
     def __init__(self,
@@ -27,33 +28,61 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         """
         Algo.__init__(self, problem=problem, name=name,
                       is_recording=is_recording)
-        self._frontier: FrontierBase[State] = frontier
-        self._g: dict[State, float] = dict()
-        self._parent: dict[State, State | None] = dict()
-        self._closed: set[State] = set()
-        self._goal_reached: State | None = None
+        # Per-search dynamic state (frontier + g + parent + closed +
+        # goal_reached). Mutated during the loop, exposed read-only
+        # via `search_state` for cross-instance peeking (bidirectional).
+        self._search: SearchStateSPP[State] = SearchStateSPP(
+            frontier=frontier,
+        )
+        # Cached lookup set, derived from the (immutable) problem.
+        # Lives on the algo (not on _search) because it never changes
+        # across run / resume cycles.
+        self._goals_set: set[State] = set()
 
     # ──────────────────────────────────────────────────
-    #  The Search Loop (Classical Pseudocode)
+    #  Public Properties
+    # ──────────────────────────────────────────────────
+
+    @property
+    def search_state(self) -> SearchStateSPP[State]:
+        """
+        ====================================================================
+         The dynamic per-search state. Read-access for consumers
+         that need to inspect frontier/closed/g across instances
+         (e.g. bidirectional search), and the resumability anchor.
+        ====================================================================
+        """
+        return self._search
+
+    # ──────────────────────────────────────────────────
+    #  Lifecycle
     # ──────────────────────────────────────────────────
 
     def _run(self) -> SolutionSPP:
         """
         ====================================================================
-         Run the Search Loop.
+         Initialize the search and run the loop. Public entry via
+         the inherited run().
         ====================================================================
         """
         self._init_search()
-        while self._frontier:
-            state = self._pop()
-            if self._is_goal(state):
-                self._goal_reached = state
-                return SolutionSPP(cost=self._g[state])
-            self._close(state)
-            for child in self.problem.successors(state):
-                self._handle_child(parent=state,
-                                   child=child)
-        return SolutionSPP(cost=float('inf'))
+        return self._search_loop()
+
+    def resume(self) -> SolutionSPP:
+        """
+        ====================================================================
+         Continue the search from current state without
+         re-initializing. Reuses ProcessBase's lifecycle plumbing
+         (timing reset + output capture) but skips _init_search,
+         so frontier / closed / g / parent / recorder are
+         preserved. Used by OMSPP-iterative pumping and by
+         bidirectional search.
+        ====================================================================
+        """
+        self._run_pre()
+        self._output = self._search_loop()
+        self._run_post()
+        return self._output
 
     # ──────────────────────────────────────────────────
     #  Search Initialization
@@ -65,17 +94,36 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
          Initialize the Search.
         ====================================================================
         """
-        self._frontier.clear()
-        self._g.clear()
-        self._parent.clear()
-        self._closed.clear()
-        self._goal_reached = None
+        self._search.clear()
         self._goals_set = set(self.problem.goals)
         self._recorder.clear()
         for start in self.problem.starts:
-            self._g[start] = 0.0
-            self._parent[start] = None
+            self._search.g[start] = 0.0
+            self._search.parent[start] = None
             self._push(state=start)
+
+    # ──────────────────────────────────────────────────
+    #  Search Loop (Classical Pseudocode)
+    # ──────────────────────────────────────────────────
+
+    def _search_loop(self) -> SolutionSPP:
+        """
+        ====================================================================
+         Pump the search loop until a Goal is popped or the
+         Frontier is exhausted. Does NOT initialize — callable
+         after _init_search (via _run) or directly (via resume).
+        ====================================================================
+        """
+        while self._search.frontier:
+            state = self._pop()
+            if self._is_goal(state):
+                self._search.goal_reached = state
+                return SolutionSPP(cost=self._search.g[state])
+            self._close(state)
+            for child in self.problem.successors(state):
+                self._handle_child(parent=state,
+                                   child=child)
+        return SolutionSPP(cost=float('inf'))
 
     # ──────────────────────────────────────────────────
     #  Core Operations
@@ -95,7 +143,7 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
          Close the State (mark as expanded).
         ====================================================================
         """
-        self._closed.add(state)
+        self._search.closed.add(state)
 
     def _handle_child(self,
                       parent: State,
@@ -105,18 +153,18 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
          Handle a Child State discovered from Parent.
         ====================================================================
         """
-        if child in self._closed:
+        if child in self._search.closed:
             return
-        new_g = (self._g[parent]
+        new_g = (self._search.g[parent]
                  + self.problem.w(parent=parent,
                                   child=child))
-        if child not in self._frontier:
-            self._g[child] = new_g
-            self._parent[child] = parent
+        if child not in self._search.frontier:
+            self._search.g[child] = new_g
+            self._search.parent[child] = parent
             self._push(state=child)
-        elif new_g < self._g[child]:
-            self._g[child] = new_g
-            self._parent[child] = parent
+        elif new_g < self._search.g[child]:
+            self._search.g[child] = new_g
+            self._search.parent[child] = parent
             self._decrease_g(state=child)
 
     # ──────────────────────────────────────────────────
@@ -129,8 +177,10 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
          Push a State into the Frontier and record.
         ====================================================================
         """
-        self._frontier.push(state=state,
-                            priority=self._priority(state=state))
+        self._search.frontier.push(
+            state=state,
+            priority=self._priority(state=state),
+        )
         self._record_event(type='push', state=state)
 
     def _pop(self) -> State:
@@ -139,7 +189,7 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
          Pop the next State from the Frontier and record.
         ====================================================================
         """
-        state = self._frontier.pop()
+        state = self._search.frontier.pop()
         self._record_event(type='pop', state=state)
         return state
 
@@ -149,8 +199,10 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
          Update Priority in the Frontier and record.
         ====================================================================
         """
-        self._frontier.decrease(state=state,
-                                priority=self._priority(state=state))
+        self._search.frontier.decrease(
+            state=state,
+            priority=self._priority(state=state),
+        )
         self._record_event(type='decrease_g', state=state)
 
     # ──────────────────────────────────────────────────
@@ -187,9 +239,9 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
             return
         event = dict(type=type,
                      state=state,
-                     g=int(self._g[state]))
+                     g=int(self._search.g[state]))
         if type in ('push', 'decrease_g'):
-            event['parent'] = self._parent[state]
+            event['parent'] = self._search.parent[state]
         super()._record_event(**event)
 
     # ──────────────────────────────────────────────────
@@ -204,13 +256,14 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
          Reconstruct the Path from Start to Goal.
         ====================================================================
         """
-        target = goal if goal is not None else self._goal_reached
+        target = (goal if goal is not None
+                  else self._search.goal_reached)
         if target is None:
             return list()
         path: list[State] = list()
         current: State | None = target
         while current is not None:
             path.append(current)
-            current = self._parent.get(current)
+            current = self._search.parent.get(current)
         path.reverse()
         return path

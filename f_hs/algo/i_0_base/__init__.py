@@ -1,9 +1,10 @@
-__all__ = ['AlgoSPP']
+__all__ = ['AlgoSPP', 'SearchStateSPP']
 
 
 def __getattr__(name: str):
     _lazy = {
         'AlgoSPP': 'f_hs.algo.i_0_base.main',
+        'SearchStateSPP': 'f_hs.algo.i_0_base._search_state',
     }
     if name in _lazy:
         from importlib import import_module

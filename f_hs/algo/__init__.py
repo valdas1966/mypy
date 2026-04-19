@@ -1,5 +1,6 @@
 __all__ = [
     'AlgoSPP',
+    'SearchStateSPP',
     'BFS',
     'AStar',
     'Dijkstra',
@@ -9,6 +10,7 @@ __all__ = [
 def __getattr__(name: str):
     _lazy = {
         'AlgoSPP': 'f_hs.algo.i_0_base',
+        'SearchStateSPP': 'f_hs.algo.i_0_base',
         'BFS': 'f_hs.algo.i_1_bfs',
         'AStar': 'f_hs.algo.i_1_astar',
         'Dijkstra': 'f_hs.algo.i_2_dijkstra',

@@ -55,6 +55,22 @@ class Factory:
         )
 
     @staticmethod
+    def graph_decrease() -> Dijkstra:
+        """
+        ====================================================================
+         Dijkstra on the weighted decrease-graph (S -> A/B -> X
+         with w(B,X) = 0). A and B tie on (g=1, -g=-1); State
+         tiebreak ('A' < 'B') pops A first; A pushes X with g=2;
+         B pops next and offers a strictly better path
+         (1 + 0 = 1 < 2), triggering decrease_g and re-parenting
+         X from A to B. See ProblemSPP.Factory.graph_decrease.
+        ====================================================================
+        """
+        return Dijkstra(
+            problem=ProblemSPP.Factory.graph_decrease()
+        )
+
+    @staticmethod
     def grid_3x3() -> Dijkstra:
         """
         ====================================================================

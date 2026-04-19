@@ -49,6 +49,19 @@ class Factory:
         return BFS(problem=ProblemSPP.Factory.graph_diamond())
 
     @staticmethod
+    def graph_decrease() -> BFS:
+        """
+        ====================================================================
+         BFS on the weighted decrease-graph (S -> A/B -> X with
+         w(B,X) = 0). FIFO pops A before B; X is then re-parented
+         from A to B via decrease_g. See ProblemSPP.Factory.graph_decrease.
+        ====================================================================
+        """
+        return BFS(
+            problem=ProblemSPP.Factory.graph_decrease()
+        )
+
+    @staticmethod
     def grid_3x3() -> BFS:
         """
         ====================================================================
