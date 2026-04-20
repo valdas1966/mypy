@@ -1,6 +1,6 @@
 from collections import deque
 from f_hs.frontier.i_0_base.main import FrontierBase
-from typing import Any, Generic, Hashable, TypeVar
+from typing import Any, Generic, Hashable, Iterator, TypeVar
 
 State = TypeVar('State', bound=Hashable)
 
@@ -79,3 +79,11 @@ class FrontierFIFO(Generic[State], FrontierBase[State]):
         ========================================================================
         """
         return len(self._queue)
+
+    def __iter__(self) -> Iterator[State]:
+        """
+        ========================================================================
+         Iterate over States in FIFO order.
+        ========================================================================
+        """
+        return iter(self._queue)

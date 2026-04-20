@@ -1,3 +1,4 @@
+from f_hs.algo.i_0_base._search_state import SearchStateSPP
 from f_hs.algo.i_1_astar.main import AStar
 from f_hs.problem.i_0_base.main import ProblemSPP
 from f_hs.state.i_0_base.main import StateBase
@@ -19,15 +20,18 @@ class Dijkstra(Generic[State], AStar[State]):
     def __init__(self,
                  problem: ProblemSPP[State],
                  name: str = 'Dijkstra',
-                 is_recording: bool = False) -> None:
+                 is_recording: bool = False,
+                 search_state: SearchStateSPP[State] | None = None
+                 ) -> None:
         """
         ====================================================================
-         Init private Attributes.
+         Init private Attributes. See AlgoSPP for `search_state`.
         ====================================================================
         """
         AStar.__init__(self, problem=problem,
                        h=lambda s: 0.0, name=name,
-                       is_recording=is_recording)
+                       is_recording=is_recording,
+                       search_state=search_state)
 
     def _enrich_event(self, event: dict) -> None:
         """

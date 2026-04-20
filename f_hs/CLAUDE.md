@@ -11,6 +11,7 @@ from f_hs import StateBase, StateCell
 from f_hs import ProblemSPP, ProblemGrid
 from f_hs import SolutionSPP
 from f_hs import AlgoSPP, BFS, AStar, Dijkstra
+from f_hs import HBase, HCallable, HCached, HBounded, CacheEntry
 from f_hs.frontier import (
     FrontierBase, FrontierFIFO, FrontierPriority,
 )
@@ -33,6 +34,16 @@ SolutionAlgo         ←──    SolutionSPP (cost)
                             FrontierBase[State]
                               ├── FrontierFIFO
                               └── FrontierPriority
+
+                            HBase[State]           (heuristic source)
+                              ├── HCallable        (wraps a function)
+                              ├── HCached          (frozen dict + goal;
+                              │                     drives cache_hit
+                              │                     early termination)
+                              └── HBounded         (frozen admissible
+                                                    lower bounds;
+                                                    max-combines with
+                                                    base)
 ```
 
 ## Module Structure
@@ -50,11 +61,16 @@ f_hs/
 │   ├── i_0_base/         FrontierBase — abstract
 │   ├── i_1_fifo/         FrontierFIFO — BFS frontier
 │   └── i_1_priority/     FrontierPriority — A*/Dijkstra frontier
-└── algo/
-    ├── i_0_base/         AlgoSPP — abstract search loop
-    ├── i_1_bfs/          BFS — breadth-first search
-    ├── i_1_astar/        AStar — A* with heuristic
-    └── i_2_dijkstra/     Dijkstra — A* with h=0
+├── algo/
+│   ├── i_0_base/         AlgoSPP — abstract search loop
+│   ├── i_1_bfs/          BFS — breadth-first search
+│   ├── i_1_astar/        AStar — A* with heuristic
+│   └── i_2_dijkstra/     Dijkstra — A* with h=0
+└── heuristic/
+    ├── i_0_base/         HBase + CacheEntry
+    ├── i_1_callable/     HCallable — wraps a Callable
+    ├── i_1_cached/       HCached — frozen cache + goal
+    └── i_1_bounded/      HBounded — frozen admissible bounds
 ```
 
 ## Running Tests
@@ -75,6 +91,15 @@ python -m f_hs.frontier._run_tests  # just frontier tests
   `FrontierFIFO`, A* passes `FrontierPriority`. The algo
   computes priority via `_priority(state)` and passes it in;
   the frontier stays priority-agnostic.
+- **Heuristic as a first-class class.** AStar accepts
+  `HBase | Callable`. Raw callables are auto-wrapped in
+  `HCallable`. `HCached` enables O(1) termination on popped
+  states whose `h*` is cached (via `AlgoSPP._early_exit` hook),
+  with suffix-stitching in `reconstruct_path`. Static-cache
+  semantics per 2026-04-20 decisions; harvest via
+  `AStar.to_cache()` (works after goal-pop OR cache-hit
+  termination, per the OMSPP / MOSPP / MMSPP incremental-reuse
+  use case).
 - **Dijkstra extends AStar** — Dijkstra is A* with h=0.
 - **i_X_ convention** — inheritance depth encoded in folder names.
 - **StateCell caches in ProblemGrid** — one StateCell per

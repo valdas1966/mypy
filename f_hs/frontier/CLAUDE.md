@@ -28,11 +28,16 @@ frontier/
 |--------|---------|
 | `push(state, priority=None)` | Add a State |
 | `pop()` | Remove and return next State |
-| `decrease(state, priority=None)` | Update priority of existing State |
+| `decrease(state, priority=None)` | Update priority of existing State (decrease-only on FrontierPriority) |
 | `__contains__(state)` | Membership check |
 | `__bool__()` | Non-empty? |
 | `__len__()` | Count |
+| `__iter__()` | Iterate over pending states; order is implementation-defined |
 | `clear()` | Empty the Frontier |
+
+Iteration order is not priority-sorted — it exists to let
+`AlgoSPP.refresh_priorities` drain-and-rebuild the frontier
+when an injected seed has stale priorities.
 
 ## Design Decisions
 - **Priority is computed by the Algorithm, not the Frontier.**

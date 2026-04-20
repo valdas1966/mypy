@@ -22,6 +22,7 @@ agnostic.
 | `__contains__` | `(state) -> bool` | NotImplementedError |
 | `__bool__` | `() -> bool` | NotImplementedError |
 | `__len__` | `() -> int` | NotImplementedError |
+| `__iter__` | `() -> Iterator[State]` | NotImplementedError |
 
 ### Design Notes
 - `priority` is kept `Any` — FIFO frontiers ignore it,

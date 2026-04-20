@@ -12,8 +12,12 @@ Composes a `FrontierFIFO` and inherits everything else from
 def __init__(self,
              problem: ProblemSPP[State],
              name: str = 'BFS',
-             is_recording: bool = False) -> None
+             is_recording: bool = False,
+             search_state: SearchStateSPP[State] | None = None
+             ) -> None
 ```
+`search_state` — optional pre-built bundle; see
+`algo/i_0_base/CLAUDE.md`.
 Injects `FrontierFIFO[State]()` into `AlgoSPP`. No frontier
 hooks to override — `_priority` defaults to `None` (ignored
 by FIFO), `_frontier.{push,pop,...}` are used directly.

@@ -13,8 +13,12 @@ state tiebreak matches BFS's FIFO insertion-order expansion).
 def __init__(self,
              problem: ProblemSPP[State],
              name: str = 'Dijkstra',
-             is_recording: bool = False) -> None
+             is_recording: bool = False,
+             search_state: SearchStateSPP[State] | None = None
+             ) -> None
 ```
+`search_state` — optional pre-built bundle; see
+`algo/i_0_base/CLAUDE.md`.
 
 ## Priority
 Inherited from AStar: `(g + h, -g, state) = (g, -g, state)`.

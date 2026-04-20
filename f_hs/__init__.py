@@ -8,6 +8,11 @@ __all__ = [
     'BFS',
     'AStar',
     'Dijkstra',
+    'HBase',
+    'HCallable',
+    'HCached',
+    'HBounded',
+    'CacheEntry',
 ]
 
 
@@ -22,6 +27,11 @@ def __getattr__(name: str):
         'BFS': 'f_hs.algo',
         'AStar': 'f_hs.algo',
         'Dijkstra': 'f_hs.algo',
+        'HBase':      'f_hs.heuristic',
+        'HCallable':  'f_hs.heuristic',
+        'HCached':    'f_hs.heuristic',
+        'HBounded':   'f_hs.heuristic',
+        'CacheEntry': 'f_hs.heuristic',
     }
     if name in _lazy:
         from importlib import import_module

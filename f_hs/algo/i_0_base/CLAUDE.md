@@ -21,14 +21,47 @@ def __init__(self,
              problem: ProblemSPP[State],
              frontier: FrontierBase[State],
              name: str = 'AlgoSPP',
-             is_recording: bool = False) -> None
+             is_recording: bool = False,
+             search_state: SearchStateSPP[State] | None = None
+             ) -> None
 ```
+
+`search_state` — optional pre-built SearchStateSPP. When
+supplied, the caller's bundle is wired to `self._search` (the
+`frontier` argument is ignored). Use `resume()` (not `run()`)
+to pump the seeded state; `run()` calls `_init_search()` which
+clears the bundle. `_goals_set` is populated at init time —
+the goal check works from the first `resume()` pop without
+needing a prior `run()`.
+
+Two use cases:
+1. **Test seeding** — construct a state (some in `closed`,
+   some on the frontier with specified `g` / `parent`) to pin
+   behavior starting mid-search. See
+   `algo/i_1_astar/_tester_recording.py ::
+   test_recording_resume_from_seeded_search_state`.
+2. **Iterative multi-query reuse** — hand an AStar's
+   post-run bundle to a fresh AStar on a related problem for
+   source-side savings. Paired with `to_cache()` (goal-side)
+   this completes the two orthogonal reuse axes.
+
+**Stale priorities — auto-refresh.** When `search_state` is
+supplied, `AlgoSPP` sets an internal `_frontier_dirty=True`
+flag. The next `resume()` call detects this, invokes
+`refresh_priorities()` once, and clears the flag. The refresh
+drains the frontier and re-pushes each state with a fresh
+`_priority(state)` — AStar owns the priority computation, so
+the caller doesn't have to duplicate it. Subsequent resume()
+calls see a clean frontier and skip the refresh. `_init_search`
+(called by `run()`) rebuilds the frontier from scratch and
+also clears the flag.
 
 ### Methods
 | Method | Signature | Description |
 |--------|-----------|-------------|
 | `run()` | `-> SolutionSPP` | Initialize and run, return solution |
-| `resume()` | `-> SolutionSPP` | Continue without reinitializing |
+| `resume()` | `-> SolutionSPP` | Continue without reinitializing; auto-refreshes stale frontier priorities on first call after a seed |
+| `refresh_priorities()` | `-> None` | Drain the frontier and re-push every state with a fresh `_priority(state)`; callable anytime, no recorder events |
 | `reconstruct_path()` | `(goal?) -> list[State]` | Trace parents |
 
 ### Properties
@@ -58,9 +91,15 @@ class SearchStateSPP(Generic[State]):
     parent:       dict[State, State | None]       = field(default_factory=dict)
     closed:       set[State]                      = field(default_factory=set)
     goal_reached: State | None                    = None
+    cache_hit:    State | None                    = None
 
     def clear(self) -> None: ...   # frontier.clear() + dicts/sets cleared
 ```
+
+`cache_hit` is set by AStar's `_early_exit` when an `HCached`
+heuristic is perfect at the popped state; `goal_reached` stays
+None in that case. The two fields are mutually exclusive per
+termination — at most one is set after a completed run.
 
 Why a dataclass instead of five flat attributes:
 
@@ -223,6 +262,38 @@ overrides (e.g. AStar's `_priority`) reference them through
 | `_is_goal(state)` | `state in _goals_set` | Goal check |
 | `_init_search()` | clears `_search`, rebuilds `_goals_set`, pushes starts | Override for OMSPP-style multi-pump init |
 | `_search_loop()` | classical SPP loop | Override for OMSPP / bidirectional / etc. |
+| `_early_exit(state)` | returns `None` | Return `SolutionSPP` to short-circuit the loop after pop; AStar uses this for `HCached` perfect-h termination |
+
+Event types recorded by this base class: `push`, `pop`,
+`decrease_g`. Subclasses may emit additional types:
+
+- **AStar** adds `propagate` events (Phase 2b) from
+  `propagate_pathmax` — one per strict tightening.
+  Schema: `{type, state, parent, h_parent, h}`. No `g` / `f`
+  (pre-search; not applicable). Flags `is_cached` /
+  `is_bounded` not carried — future `push` / `pop` of the
+  state reflect them.
+
+AStar also adds flags on `push` / `pop`:
+- `is_cached=True` for states with `is_perfect` True (HCached
+  hit). The terminator is readable as "the last pop carrying
+  `is_cached=True`".
+- `is_bounded=True` on push/pop of states whose h is strictly
+  tightened by an HBounded bound.
+
+All flags are **absent** (not False) on non-applicable events —
+constant-False flags violate the Recording Principle.
+
+**`_record_event(type, state, **extra)`** — auto-fills `g`
+for `push` / `pop` / `decrease_g`, and `parent` for
+`push` / `decrease_g`. Other event types receive no auto-fill;
+callers pass context via `**extra` (e.g., pathmax passes
+`parent=source, h_parent=..., h=...` for propagate events).
+
+**Recorder is NOT cleared** by `_init_search()` — pre-search
+events from `propagate_pathmax` persist into the search log.
+Callers wanting a fresh log across repeated `run()` calls
+clear explicitly via `self.recorder.clear()`.
 
 Previously (pre-2026-04-16) AlgoSPP also required `_frontier_push`,
 `_frontier_pop`, `_has_frontier`, `_in_frontier`,

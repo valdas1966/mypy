@@ -29,6 +29,10 @@ class SearchStateSPP(Generic[State]):
 
      `goals_set` is intentionally NOT in here: it's derived from
      the (immutable) problem and lives directly on AlgoSPP.
+
+     `cache_hit` is set when an `HCached` heuristic triggers an
+     early-exit in `_search_loop` (AStar's `_early_exit` hook).
+     It's None after a normal goal-pop termination.
     ============================================================================
     """
     frontier:     FrontierBase[State]
@@ -36,13 +40,15 @@ class SearchStateSPP(Generic[State]):
     parent:       dict[State, State | None]       = field(default_factory=dict)
     closed:       set[State]                      = field(default_factory=set)
     goal_reached: State | None                    = None
+    cache_hit:    State | None                    = None
 
     def clear(self) -> None:
         """
         ========================================================================
          Reset to a fresh search. Frontier identity is preserved
          (frontier.clear() empties the underlying container);
-         g/parent/closed dicts are emptied; goal_reached unset.
+         g/parent/closed dicts are emptied; goal_reached and
+         cache_hit unset.
         ========================================================================
         """
         self.frontier.clear()
@@ -50,3 +56,4 @@ class SearchStateSPP(Generic[State]):
         self.parent.clear()
         self.closed.clear()
         self.goal_reached = None
+        self.cache_hit = None

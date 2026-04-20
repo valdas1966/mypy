@@ -1,4 +1,4 @@
-from typing import Any, Generic, TypeVar
+from typing import Any, Generic, Iterator, TypeVar
 
 State = TypeVar('State')
 
@@ -8,7 +8,7 @@ class FrontierBase(Generic[State]):
     ============================================================================
      Abstract Base for a Search Frontier.
      Holds candidate States awaiting expansion. Narrow interface:
-     push, pop, decrease, contains, bool, len, clear.
+     push, pop, decrease, contains, bool, len, iter, clear.
     ============================================================================
     """
 
@@ -69,6 +69,17 @@ class FrontierBase(Generic[State]):
         """
         ========================================================================
          Return the number of States in the Frontier.
+        ========================================================================
+        """
+        raise NotImplementedError
+
+    def __iter__(self) -> Iterator[State]:
+        """
+        ========================================================================
+         Iterate over States currently in the Frontier. Order is
+         implementation-defined. Enables `list(frontier)` and
+         callers (e.g., `AlgoSPP.refresh_priorities`) that need
+         to visit all pending states.
         ========================================================================
         """
         raise NotImplementedError
