@@ -29,23 +29,36 @@ class Factory:
         ========================================================================
          Find tectonic's absolute path; fall back to the bare name if no
          candidate is found so f_tex's own "engine not found" error still
-         surfaces cleanly.
+         surfaces cleanly. Covers Linux / macOS / Windows install layouts
+         (conda's Unix `bin/`, conda's Windows `Library/bin/`, Homebrew,
+         scoop, chocolatey).
         ========================================================================
         """
-        # 1) On PATH (conda env activated, or system-wide install)
+        # 1) On PATH (conda env activated, or system-wide install).
+        #    shutil.which already tries .exe suffix on Windows.
         found = shutil.which(cmd='tectonic')
         if found:
             return found
-        # 2) Common conda / anaconda install locations
+        # 2) Common install locations per platform.
+        home = Path.home()
         candidates = [
-            Path.home() / 'miniforge3' / 'bin' / 'tectonic',
-            Path.home() / 'miniconda3' / 'bin' / 'tectonic',
-            Path.home() / 'anaconda3' / 'bin' / 'tectonic',
+            # Unix conda
+            home / 'miniforge3' / 'bin' / 'tectonic',
+            home / 'miniconda3' / 'bin' / 'tectonic',
+            home / 'anaconda3' / 'bin' / 'tectonic',
+            # macOS system
             Path('/opt/homebrew/bin/tectonic'),
             Path('/usr/local/bin/tectonic'),
+            # Windows conda (binaries land in Library/bin, not bin)
+            home / 'miniforge3' / 'Library' / 'bin' / 'tectonic.exe',
+            home / 'miniconda3' / 'Library' / 'bin' / 'tectonic.exe',
+            home / 'anaconda3' / 'Library' / 'bin' / 'tectonic.exe',
+            # Windows scoop / chocolatey
+            home / 'scoop' / 'shims' / 'tectonic.exe',
+            Path('C:/ProgramData/chocolatey/bin/tectonic.exe'),
         ]
         for c in candidates:
             if c.is_file():
                 return str(c)
-        # 3) Let Tex raise its own "engine binary not found" error
+        # 3) Let Tex raise its own "engine binary not found" error.
         return 'tectonic'

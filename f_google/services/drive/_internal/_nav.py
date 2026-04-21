@@ -48,6 +48,34 @@ class _Nav:
         except FileNotFoundError:
             return False
 
+    def path_of(self, file_id: str) -> str:
+        """
+        ====================================================================
+         Resolve a file or folder ID to its path (joined names from root).
+         Walks parents upward. Drops the 'My Drive' root from the path.
+         Raises FileNotFoundError if the file does not exist.
+        ====================================================================
+        """
+        names: list[str] = []
+        current: str | None = file_id
+        while current is not None:
+            try:
+                meta = self._service.files().get(
+                    fileId=current,
+                    fields='name, parents'
+                ).execute()
+            except Exception as e:
+                raise FileNotFoundError(
+                    f"File ID '{file_id}' not found: {e}"
+                )
+            names.append(meta['name'])
+            parents = meta.get('parents') or []
+            current = parents[0] if parents else None
+        # Drop the 'My Drive' root (always the last name appended).
+        names = names[:-1]
+        names.reverse()
+        return '/'.join(names)
+
     def resolve(self, path: str = None) -> str:
         """
         ====================================================================

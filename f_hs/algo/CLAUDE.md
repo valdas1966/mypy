@@ -11,8 +11,12 @@ override `_priority(state)` if needed.
 ```
 AlgoSPP (loop + SearchState + recording + path + Frontier)
 ├── BFS                                      — FrontierFIFO
-└── AStar (_priority → (f, -g, state))       — FrontierPriority
-    └── Dijkstra (h = 0)                     — inherits AStar
+└── AStar (simple; (f, -g, state))           — FrontierPriority
+    ├── AStarLookup (advanced; (f, -g, cache_rank, state))
+    │   — adds HCached early-term, HBounded pathmax,
+    │     to_cache harvest, suffix-stitched reconstruct_path.
+    │     Reached transparently via AStar.__new__ dispatch.
+    └── Dijkstra (h = 0)
 ```
 
 The dynamic per-search bundle (frontier, g, parent, closed,
@@ -25,10 +29,12 @@ multi-goal pumping and bidirectional search.
 ## Module Structure
 ```
 algo/
-├── __init__.py          AlgoSPP, BFS, AStar, Dijkstra
+├── __init__.py          AlgoSPP, BFS, AStar, AStarLookup, Dijkstra
 ├── i_0_base/            AlgoSPP — abstract base
 ├── i_1_bfs/             BFS — breadth-first search
-├── i_1_astar/           AStar — A* with heuristic
+├── i_1_astar/           AStar — simple A*, __new__ dispatcher
+├── i_2_astar_lookup/       AStarLookup — advanced A* (HCached +
+│                          HBounded + search_state + pathmax)
 └── i_2_dijkstra/        Dijkstra — A* with h=0
 ```
 
@@ -47,12 +53,14 @@ while FRONTIER:
 ```
 
 ## Subclass Differences
-| | BFS | A* | Dijkstra |
-|--|-----|-----|----------|
-| Frontier | FrontierFIFO | FrontierPriority | FrontierPriority |
-| `_priority(state)` | None (default) | `(g+h, -g, state)` | `(g, -g, state)` |
-| Heuristic | none | provided | h=0 |
-| `_enrich_event` | no-op (inherit) | adds `h`, `f` | no-op (override) |
+| | BFS | AStar (simple) | AStarLookup | Dijkstra |
+|--|-----|-----|-----|----------|
+| Frontier | FIFO | Priority | Priority (inherited) | Priority (inherited) |
+| `_priority` | None | `(f,-g,state)` | `(f,-g,cache_rank,state)` | `(g,-g,state)` |
+| Heuristic | none | HBase / Callable | HCached / HBounded / either | h=0 |
+| `_enrich_event` | no-op | h, f | + is_cached, is_bounded, propagate | no-op (drops h, f) |
+| search_state | inherited | routes to Pro | accepts, refreshes | forwards to AlgoSPP |
+| Pro methods | — | — | to_cache, propagate_pathmax, suffix stitch | — |
 
 The `state` component (tertiary tie-break) relies on `State`'s
 `Comparable` ordering (via `HasKey`) and keeps expansion order

@@ -44,6 +44,15 @@ Read a file from Drive into memory (no disk writes).
 - `.pdf`: markdown text + rendered page images (delegates to `f_pdf`)
 - Returns `_ReadResponse` with `.text` and `.pages` properties
 
+### `get_path_by_id(file_id: str) -> str`
+Resolve a Drive file/folder ID to its `/`-joined path relative to
+"My Drive" root. Walks parents via `files().get(fields='name,parents')`.
+Raises `FileNotFoundError` for unknown IDs.
+
+Used by consumers that receive fileIds from external triggers
+(e.g. `f_tex_editor`'s `/drive-ui/open` entry point, driven by a
+browser extension / bookmarklet from `drive.google.com`).
+
 ## Inheritance (Hierarchy)
 ```
 Drive (no base class)

@@ -212,10 +212,10 @@ setting `parent` on a pop).
 | Concern | push | decrease_g | pop | Reason |
 |---------|:----:|:----------:|:---:|--------|
 | `state` | ✓ | ✓ | ✓ | subject |
-| `g` (answer) | ✓ | ✓ | ✓ | answer at each event |
+| `g` (answer) | ✓ | ✓ | ✓ | answer at each event; cast to `int` |
 | `parent` | ✓ | ✓ | ✗ | structural — constant since last push/decrease_g |
 | `w` | ✗ | ✗ | ✗ | derivable as `g(child) − g(parent)` |
-| `h`, `f` (AStar) | ✓ | ✓ | ✓ | enriched on all three |
+| `h`, `f` (AStar) | ✓ | ✓ | ✓ | enriched on all three; cast to `int` when integer-valued |
 | `duration` | ✓ | ✓ | ✓ | generic, via `ProcessBase` |
 
 Why `g` stays on every event (not "constant since push"):
@@ -267,12 +267,29 @@ overrides (e.g. AStar's `_priority`) reference them through
 Event types recorded by this base class: `push`, `pop`,
 `decrease_g`. Subclasses may emit additional types:
 
-- **AStar** adds `propagate` events (Phase 2b) from
-  `propagate_pathmax` — one per strict tightening.
-  Schema: `{type, state, parent, h_parent, h}`. No `g` / `f`
-  (pre-search; not applicable). Flags `is_cached` /
-  `is_bounded` not carried — future `push` / `pop` of the
-  state reflect them.
+- **AStarLookup** adds four pathmax event types:
+  - `propagate_wave` — state-less meta-event at the start of
+    each wave that runs. Schema: `{type, depth, num_sources}`.
+  - `propagate` — one per (source, child) attempt during pre-
+    search. Schema: `{type, state, parent, h_parent, h,
+    was_improved}`.
+  - `bpmx_lift` — in-search Rule 2 fired (parent h lifted via
+    a child). Schema: `{type, state, h_old, h_new, via_child}`.
+  - `bpmx_forward` — in-search Rule 1 fired (child h lifted
+    via parent). Schema: `{type, state, h_old, h_new,
+    via_parent}`.
+  `was_improved=True` on strict tightening, `False` on no-op
+  attempt — present on every propagate event. This is an
+  **event-outcome** flag (did this attempt tighten?), distinct
+  from the **state-property** `is_bounded` on push/pop (does
+  this state have a tight bound?). A state that is
+  `is_bounded=True` at search time can still generate
+  `was_improved=False` propagate events during pathmax when
+  later attempts fail to tighten it further. Propagate events
+  never carry `is_bounded` or `is_cached`. No `g` / `f`
+  (pre-search; not applicable). `h` / `h_parent` cast to int
+  when integer-valued (shared with AStar's `_enrich_event`
+  cast logic for `push` / `pop` / `decrease_g`).
 
 AStar also adds flags on `push` / `pop`:
 - `is_cached=True` for states with `is_perfect` True (HCached

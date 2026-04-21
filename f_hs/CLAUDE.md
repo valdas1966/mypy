@@ -10,12 +10,18 @@ Framework for heuristic search algorithms on various domains
 from f_hs import StateBase, StateCell
 from f_hs import ProblemSPP, ProblemGrid
 from f_hs import SolutionSPP
-from f_hs import AlgoSPP, BFS, AStar, Dijkstra
+from f_hs import AlgoSPP, BFS, AStar, AStarLookup, Dijkstra
 from f_hs import HBase, HCallable, HCached, HBounded, CacheEntry
 from f_hs.frontier import (
     FrontierBase, FrontierFIFO, FrontierPriority,
 )
 ```
+
+Most users only need `AStar` — the advanced `AStarLookup` class is
+reached transparently via `AStar.__new__` dispatch whenever the
+caller supplies HCached / HBounded / search_state. Import
+`AStarLookup` directly only when you need explicit typing for IDE
+autocomplete of Pro-only methods (`to_cache`, `propagate_pathmax`).
 
 ## Architecture
 ```
@@ -25,7 +31,9 @@ ProblemAlgo          ←──    ProblemSPP[State]
                               └── ProblemGrid
 Algo[Problem, Sol]   ←──    AlgoSPP[State]         (holds a SearchState)
                               ├── BFS              (FrontierFIFO)
-                              └── AStar → Dijkstra (FrontierPriority)
+                              └── AStar            (FrontierPriority)
+                                    ├── AStarLookup   (HCached + HBounded + pathmax)
+                                    └── Dijkstra   (h = 0)
 SolutionAlgo         ←──    SolutionSPP (cost)
 
                             StateBase[Key]
@@ -64,7 +72,9 @@ f_hs/
 ├── algo/
 │   ├── i_0_base/         AlgoSPP — abstract search loop
 │   ├── i_1_bfs/          BFS — breadth-first search
-│   ├── i_1_astar/        AStar — A* with heuristic
+│   ├── i_1_astar/        AStar — simple A* + __new__ dispatcher
+│   ├── i_2_astar_lookup/    AStarLookup — advanced (HCached, HBounded,
+│   │                       search_state, pathmax, to_cache)
 │   └── i_2_dijkstra/     Dijkstra — A* with h=0
 └── heuristic/
     ├── i_0_base/         HBase + CacheEntry

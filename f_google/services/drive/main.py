@@ -107,3 +107,12 @@ class Drive:
         ====================================================================
         """
         return self._read.read(path=path, encoding=encoding)
+
+    def get_path_by_id(self, file_id: str) -> str:
+        """
+        ====================================================================
+         Resolve a Drive file/folder ID to its '/'-joined path relative
+         to My Drive root. Raises FileNotFoundError for unknown IDs.
+        ====================================================================
+        """
+        return self._nav.path_of(file_id=file_id)

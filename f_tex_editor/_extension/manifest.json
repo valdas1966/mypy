@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "f_tex_editor — Open from Drive",
+  "version": "0.1.0",
+  "description": "Open a Google Drive .tex file in the local f_tex_editor with one click (or Alt+T).",
+  "action": {
+    "default_title": "Open in f_tex_editor"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://drive.google.com/file/d/*/view*"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "permissions": ["activeTab", "tabs"],
+  "host_permissions": [
+    "https://drive.google.com/*",
+    "http://127.0.0.1/*"
+  ],
+  "commands": {
+    "open-in-tex-editor": {
+      "suggested_key": { "default": "Alt+T" },
+      "description": "Open the current Drive file in f_tex_editor"
+    }
+  }
+}

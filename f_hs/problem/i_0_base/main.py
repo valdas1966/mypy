@@ -61,13 +61,21 @@ class ProblemSPP(ProblemAlgo, Generic[State]):
         """
         return self._goals[0]
 
-    def w(self, parent: State, child: State) -> float:
+    def w(self, parent: State, child: State) -> int:
         """
         ========================================================================
          Return the Edge Cost from Parent to Child.
+
+         Integer-weight assumption: the framework treats edge
+         costs as `int` in its hot path. Heuristics should also
+         return `int`. Fractional weights would require a
+         separate weighted variant (not shipped). `float('inf')`
+         remains the sentinel for unreachable states in Solution
+         cost and internal `g` storage — localised to that one
+         case.
         ========================================================================
         """
-        return 1.0
+        return 1
 
     def successors(self, state: State) -> list[State]:
         """

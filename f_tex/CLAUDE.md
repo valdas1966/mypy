@@ -59,14 +59,26 @@ single-purpose by design.
 | `pytest` | third-party | `_tester.py` only |
 
 External: a LaTeX engine binary must exist on `PATH` **or** at a
-well-known conda install location. `Tex.Factory.a()` resolves
-tectonic's absolute path via `shutil.which('tectonic')`; if not on
-`PATH`, it falls back to
-`~/miniforge3/bin/tectonic`, `~/miniconda3/bin/tectonic`,
-`~/anaconda3/bin/tectonic`, `/opt/homebrew/bin/tectonic`,
-`/usr/local/bin/tectonic` before surfacing the "engine not found"
-error. This makes the compiler robust to launchers (IDE run configs,
-WSL shells, Windows terminals) that don't activate the conda env.
+well-known platform-specific install location. `Tex.Factory.a()`
+resolves tectonic's absolute path via `shutil.which('tectonic')`
+(which handles the `.exe` suffix on Windows); if not on `PATH`, it
+falls back to:
+
+- **Unix conda**: `~/miniforge3/bin/tectonic`,
+  `~/miniconda3/bin/tectonic`, `~/anaconda3/bin/tectonic`.
+- **macOS system**: `/opt/homebrew/bin/tectonic`,
+  `/usr/local/bin/tectonic`.
+- **Windows conda** (installs binaries in `Library/bin/`, not
+  `bin/`): `%USERPROFILE%\miniforge3\Library\bin\tectonic.exe`,
+  `...\miniconda3\Library\bin\tectonic.exe`,
+  `...\anaconda3\Library\bin\tectonic.exe`.
+- **Windows scoop / chocolatey**:
+  `%USERPROFILE%\scoop\shims\tectonic.exe`,
+  `C:\ProgramData\chocolatey\bin\tectonic.exe`.
+
+Only then does it surface the "engine not found" error. This makes
+the compiler robust to launchers (IDE run configs, WSL shells,
+PowerShell, Windows terminals) that don't activate the conda env.
 
 ## Usage Example
 ```python

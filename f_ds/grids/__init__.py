@@ -1,4 +1,5 @@
-__all__ = ['GridBase', 'GridMap', 'CellMap']
+__all__ = ['GridBase', 'GridMap', 'CellMap',
+           'Cluster', 'ClusterDiamond', 'PairCluster']
 
 
 def __getattr__(name: str):
@@ -6,6 +7,9 @@ def __getattr__(name: str):
         'GridBase': 'f_ds.grids.grid',
         'GridMap': 'f_ds.grids.grid',
         'CellMap': 'f_ds.grids.cell',
+        'Cluster': 'f_ds.grids.cluster',
+        'ClusterDiamond': 'f_ds.grids.cluster',
+        'PairCluster': 'f_ds.grids.cluster',
     }
     if name in _lazy:
         from importlib import import_module

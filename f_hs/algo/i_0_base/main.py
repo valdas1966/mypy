@@ -184,8 +184,14 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
          after _init_search (via _run) or directly (via resume).
 
          `_early_exit` runs after pop and before the goal check;
-         it short-circuits the loop when a subclass (AStar with
-         HCached) can terminate via perfect-h on the popped state.
+         it short-circuits the loop when a subclass (AStarLookup
+         with HCached) can terminate via perfect-h on the popped
+         state.
+
+         `_pre_expand` runs after close and before the successor
+         loop; it's the hook where AStarLookup applies BPMX
+         (in-search pathmax) to lift h values of the current
+         state and its neighbours before they get priorities.
         ====================================================================
         """
         while self._search.frontier:
@@ -197,6 +203,7 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
                 self._search.goal_reached = state
                 return SolutionSPP(cost=self._search.g[state])
             self._close(state)
+            self._pre_expand(state=state)
             for child in self.problem.successors(state):
                 self._handle_child(parent=state,
                                    child=child)
@@ -212,11 +219,22 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
          Subclass hook — return a SolutionSPP to short-circuit
          the loop immediately after popping `state`, or None to
          continue with the normal goal-check + expansion. Default:
-         never short-circuit. AStar overrides to terminate on
-         an HCached perfect-h hit.
+         never short-circuit. AStarLookup overrides to terminate
+         on an HCached perfect-h hit.
         ====================================================================
         """
         return None
+
+    def _pre_expand(self, state: State) -> None:
+        """
+        ====================================================================
+         Subclass hook — runs after close and before the
+         successor loop at each expansion. Default: no-op.
+         AStarLookup overrides for BPMX (in-search pathmax:
+         Rules 1, 2, 3).
+        ====================================================================
+        """
+        pass
 
     # ──────────────────────────────────────────────────
     #  Core Operations
@@ -318,7 +336,7 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
 
     def _record_event(self,
                       type: str,
-                      state: State,
+                      state: State | None = None,
                       **extra) -> None:
         """
         ====================================================================
@@ -326,24 +344,32 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
 
          Auto-fill policy:
            - `g` (as int): added for push / pop / decrease_g.
-             Skipped for other types (propagate and future
-             pre-/post-search events) — they may fire with a
-             state not yet in `self._search.g`.
+             Skipped for other types (propagate, propagate_wave,
+             and future pre-/post-search events) — they may fire
+             with a state not yet in `self._search.g`, or no
+             state at all.
            - `parent`: added for push / decrease_g. Skipped for
              pop (the Recording Principle's `parent not in event`
              ⇒ "parenthood isn't applicable here"). Skipped for
-             non-search types too — callers pass their own via
-             **extra when semantically meaningful (e.g.,
-             propagate events name the source as `parent`).
+             non-search types — callers pass their own via
+             **extra when semantically meaningful.
+
+         `state` is optional: meta-events (e.g., `propagate_wave`
+         marking the start of a pathmax wave) are not tied to a
+         particular state. When `state` is None, the event dict
+         omits the key entirely (absent ≠ None convention).
 
          `**extra` is merged onto the event dict, so callers can
-         add arbitrary fields (h_parent for propagate, etc.).
-         Edge cost w is NOT recorded — it's derivable.
+         add arbitrary fields (h_parent for propagate, depth for
+         propagate_wave, etc.). Edge cost w is NOT recorded —
+         it's derivable.
         ====================================================================
         """
         if not self._recorder:
             return
-        event = dict(type=type, state=state)
+        event = dict(type=type)
+        if state is not None:
+            event['state'] = state
         if type in ('push', 'pop', 'decrease_g'):
             event['g'] = int(self._search.g[state])
         if type in ('push', 'decrease_g'):

@@ -1,8 +1,11 @@
+import json
 from io import BytesIO
 from pathlib import Path, PurePosixPath
 from typing import TYPE_CHECKING
 
-from flask import Flask, Response, jsonify, request, send_file
+from flask import (
+    Flask, Response, jsonify, redirect, request, send_file,
+)
 
 from f_tex import Tex
 
@@ -107,6 +110,8 @@ class TexEditor:
                          methods=['POST'])
         app.add_url_rule('/drive/pdf',
                          view_func=self._route_drive_pdf)
+        app.add_url_rule('/drive-ui/open',
+                         view_func=self._route_drive_ui_open)
         return app
 
     def _route_index(self) -> Response:
@@ -177,14 +182,24 @@ class TexEditor:
     def _route_drive_open(self) -> Response:
         """
         ========================================================================
-         GET /drive/open?drive=<path> - download Drive file to local cache
-         and return its UTF-8 source.
-         Missing Drive path returns src='' (create-on-save model).
+         GET /drive/open?drive=<path>|?fileId=<id> - download the Drive
+         file to local cache and return its UTF-8 source.
+         `fileId` is resolved to a path via Drive.get_path_by_id; the
+         resolved path is echoed back as `drivePath` so the browser can
+         save against the path (not the id) afterwards.
+         Missing file on Drive returns src='' (create-on-save model).
         ========================================================================
         """
         drive_path = request.args.get(key='drive', default='').strip()
-        if not drive_path:
-            return jsonify({'ok': False, 'error': 'missing drive'}), 400
+        file_id = request.args.get(key='fileId', default='').strip()
+        if not drive_path and not file_id:
+            return jsonify({'ok': False,
+                            'error': 'missing drive or fileId'}), 400
+        if file_id and not drive_path:
+            try:
+                drive_path = self.drive.get_path_by_id(file_id=file_id)
+            except FileNotFoundError as e:
+                return jsonify({'ok': False, 'error': str(e)}), 404
         try:
             safe = self._drive_safe_path(drive_path=drive_path)
         except ValueError as e:
@@ -209,17 +224,25 @@ class TexEditor:
     def _route_drive_save(self) -> Response:
         """
         ========================================================================
-         POST /drive/save {drivePath, src} - write to cache, compile,
-         upload both .tex and .pdf to Drive.
+         POST /drive/save {drivePath|fileId, src} - write to cache,
+         compile, upload both .tex and .pdf to Drive.
+         `fileId` is resolved to a drivePath via Drive.get_path_by_id.
          driveUploaded=False if compile succeeded but upload failed.
         ========================================================================
         """
         data = request.get_json(force=True, silent=True) or {}
         drive_path = (data.get('drivePath') or '').strip()
+        file_id = (data.get('fileId') or '').strip()
         src = data.get('src', '')
-        if not drive_path:
+        if not drive_path and not file_id:
             return jsonify({'ok': False,
-                            'error': 'missing drivePath'}), 400
+                            'error': 'missing drivePath or fileId'
+                            }), 400
+        if file_id and not drive_path:
+            try:
+                drive_path = self.drive.get_path_by_id(file_id=file_id)
+            except FileNotFoundError as e:
+                return jsonify({'ok': False, 'error': str(e)}), 404
         try:
             safe = self._drive_safe_path(drive_path=drive_path)
         except ValueError as e:
@@ -259,13 +282,19 @@ class TexEditor:
     def _route_drive_pdf(self) -> Response:
         """
         ========================================================================
-         GET /drive/pdf?drive=<path> - serve the cached PDF for the
-         most recent Drive-mode compile.
+         GET /drive/pdf?drive=<path>|?fileId=<id> - serve the cached PDF
+         for the most recent Drive-mode compile.
         ========================================================================
         """
         drive_path = request.args.get(key='drive', default='').strip()
-        if not drive_path:
+        file_id = request.args.get(key='fileId', default='').strip()
+        if not drive_path and not file_id:
             return Response(response=b'', status=404)
+        if file_id and not drive_path:
+            try:
+                drive_path = self.drive.get_path_by_id(file_id=file_id)
+            except FileNotFoundError:
+                return Response(response=b'', status=404)
         try:
             safe = self._drive_safe_path(drive_path=drive_path)
         except ValueError:
@@ -277,6 +306,41 @@ class TexEditor:
             path_or_file=BytesIO(self._pdf_cache[key]),
             mimetype='application/pdf',
             download_name='preview.pdf',
+        )
+
+    def _route_drive_ui_open(self) -> Response:
+        """
+        ========================================================================
+         GET /drive-ui/open - entry point from a Drive-side trigger.
+         Accepts either:
+           ?fileId=<id>          (bookmarklet / Chrome extension)
+           ?state=<url-JSON>     (future Drive UI Integration payload,
+                                  shape: {"ids":["<id>"],"action":"open"})
+         Extracts the fileId and 302-redirects to /?fileId=<id>.
+         The editor SPA then resolves the fileId via /drive/open?fileId.
+        ========================================================================
+        """
+        file_id = request.args.get(key='fileId', default='').strip()
+        state_raw = request.args.get(key='state', default='').strip()
+        if state_raw and not file_id:
+            try:
+                state = json.loads(state_raw)
+            except Exception as e:
+                return Response(
+                    response=f'Bad state JSON: {e}'.encode(),
+                    status=400,
+                )
+            ids = state.get('ids') or []
+            if ids:
+                file_id = str(ids[0]).strip()
+        if not file_id:
+            return Response(
+                response=b'Missing fileId or state.',
+                status=400,
+            )
+        return redirect(
+            location=f'/?fileId={file_id}',
+            code=302,
         )
 
     @staticmethod

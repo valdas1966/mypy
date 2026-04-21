@@ -20,15 +20,21 @@ _HELLO = (
 class _FakeDrive:
     """
     ============================================================================
-     In-memory Drive double: is_exists / download / upload only.
-     Storage is a {drive_path: bytes} dict.
+     In-memory Drive double: is_exists / download / upload /
+     get_path_by_id. Storage is a {drive_path: bytes} dict; the
+     fileId -> path map is populated via `add_id()` from tests.
     ============================================================================
     """
 
     def __init__(self,
                  fail_upload: bool = False) -> None:
         self.store: dict[str, bytes] = {}
+        self._ids: dict[str, str] = {}
         self._fail_upload = fail_upload
+
+    def add_id(self, file_id: str, path: str) -> None:
+        """Register a fileId -> path mapping (test helper)."""
+        self._ids[file_id] = path
 
     def is_exists(self, path: str) -> bool:
         return path in self.store
@@ -44,6 +50,13 @@ class _FakeDrive:
         if self._fail_upload:
             raise RuntimeError('simulated upload failure')
         self.store[path_dest] = Path(path_src).read_bytes()
+
+    def get_path_by_id(self, file_id: str) -> str:
+        if file_id not in self._ids:
+            raise FileNotFoundError(
+                f"unknown file id: {file_id!r}"
+            )
+        return self._ids[file_id]
 
 
 def _client():
@@ -353,3 +366,168 @@ def test_drive_save_upload_failure_reports_gracefully() -> None:
     assert body['driveUploaded'] is False
     assert 'simulated upload failure' in body['driveError']
     assert 'Papers/fail.tex' not in fake.store
+
+
+# ─── Drive mode — fileId entry ────────────────────────────────────────
+
+
+def test_drive_open_by_fileId_missing_returns_empty_src() -> None:
+    """
+    ========================================================================
+     GET /drive/open?fileId=... resolves to a Drive path that has no
+     file stored; returns src='' and the resolved drivePath.
+    ========================================================================
+    """
+    _, client, fake = _drive_client()
+    fake.add_id(file_id='ABC123', path='Papers/new.tex')
+    r = client.get('/drive/open', query_string={'fileId': 'ABC123'})
+    assert r.status_code == 200
+    body = r.get_json()
+    assert body['ok'] is True
+    assert body['src'] == ''
+    assert body['drivePath'] == 'Papers/new.tex'
+
+
+def test_drive_open_by_fileId_existing_returns_contents() -> None:
+    """
+    ========================================================================
+     GET /drive/open?fileId=... returns the stored source when the
+     resolved path is present on Drive.
+    ========================================================================
+    """
+    _, client, fake = _drive_client()
+    fake.store['Papers/MOSPP.tex'] = _HELLO.encode('utf-8')
+    fake.add_id(file_id='ID_MOSPP', path='Papers/MOSPP.tex')
+    r = client.get('/drive/open',
+                   query_string={'fileId': 'ID_MOSPP'})
+    body = r.get_json()
+    assert body['ok'] is True
+    assert body['src'] == _HELLO
+    assert body['drivePath'] == 'Papers/MOSPP.tex'
+
+
+def test_drive_open_by_unknown_fileId_is_404() -> None:
+    """
+    ========================================================================
+     Unknown fileId returns 404 ok=False with the resolver error.
+    ========================================================================
+    """
+    _, client, _ = _drive_client()
+    r = client.get('/drive/open', query_string={'fileId': 'nope'})
+    assert r.status_code == 404
+    assert r.get_json()['ok'] is False
+
+
+def test_drive_open_missing_both_args_is_400() -> None:
+    """
+    ========================================================================
+     /drive/open with neither ?drive nor ?fileId returns 400.
+    ========================================================================
+    """
+    _, client, _ = _drive_client()
+    r = client.get('/drive/open')
+    assert r.status_code == 400
+    assert 'drive or fileId' in r.get_json()['error']
+
+
+def test_drive_save_by_fileId_compiles_and_uploads() -> None:
+    """
+    ========================================================================
+     POST /drive/save {fileId, src} resolves the fileId, compiles,
+     uploads .tex + .pdf to the resolved path.
+    ========================================================================
+    """
+    _, client, fake = _drive_client()
+    fake.add_id(file_id='ID_X', path='Papers/x.tex')
+    r = client.post('/drive/save',
+                    json={'fileId': 'ID_X', 'src': _HELLO})
+    body = r.get_json()
+    assert r.status_code == 200
+    assert body['ok'] is True
+    assert body['driveUploaded'] is True
+    assert body['drivePath'] == 'Papers/x.tex'
+    assert body['drivePdfPath'] == 'Papers/x.pdf'
+    assert 'Papers/x.tex' in fake.store
+    assert 'Papers/x.pdf' in fake.store
+
+
+def test_drive_save_by_unknown_fileId_is_404() -> None:
+    """
+    ========================================================================
+     /drive/save with an unknown fileId returns 404 without compiling.
+    ========================================================================
+    """
+    _, client, fake = _drive_client()
+    r = client.post('/drive/save',
+                    json={'fileId': 'bogus', 'src': _HELLO})
+    assert r.status_code == 404
+    assert r.get_json()['ok'] is False
+    assert fake.store == {}
+
+
+def test_drive_pdf_by_fileId_returns_cached_bytes() -> None:
+    """
+    ========================================================================
+     GET /drive/pdf?fileId=... resolves to the same path as the prior
+     /drive/save and returns cached PDF bytes.
+    ========================================================================
+    """
+    _, client, fake = _drive_client()
+    fake.add_id(file_id='ID_Y', path='Papers/y.tex')
+    client.post('/drive/save',
+                json={'fileId': 'ID_Y', 'src': _HELLO})
+    r = client.get('/drive/pdf', query_string={'fileId': 'ID_Y'})
+    assert r.status_code == 200
+    assert r.data[:4] == b'%PDF'
+
+
+def test_drive_ui_open_with_fileId_redirects() -> None:
+    """
+    ========================================================================
+     GET /drive-ui/open?fileId=ABC issues a 302 to /?fileId=ABC.
+    ========================================================================
+    """
+    _, client, _ = _drive_client()
+    r = client.get('/drive-ui/open',
+                   query_string={'fileId': 'ABC'})
+    assert r.status_code == 302
+    assert r.headers['Location'] in (
+        '/?fileId=ABC', 'http://localhost/?fileId=ABC',
+    )
+
+
+def test_drive_ui_open_with_state_extracts_fileId() -> None:
+    """
+    ========================================================================
+     GET /drive-ui/open?state=<JSON with ids> redirects to /?fileId=<id>.
+    ========================================================================
+    """
+    _, client, _ = _drive_client()
+    state = '{"ids":["ZZZ"],"action":"open","userId":"u1"}'
+    r = client.get('/drive-ui/open',
+                   query_string={'state': state})
+    assert r.status_code == 302
+    assert '/?fileId=ZZZ' in r.headers['Location']
+
+
+def test_drive_ui_open_bad_state_is_400() -> None:
+    """
+    ========================================================================
+     Malformed state JSON returns 400.
+    ========================================================================
+    """
+    _, client, _ = _drive_client()
+    r = client.get('/drive-ui/open',
+                   query_string={'state': 'not-json'})
+    assert r.status_code == 400
+
+
+def test_drive_ui_open_missing_params_is_400() -> None:
+    """
+    ========================================================================
+     No fileId and no state -> 400.
+    ========================================================================
+    """
+    _, client, _ = _drive_client()
+    r = client.get('/drive-ui/open')
+    assert r.status_code == 400

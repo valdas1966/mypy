@@ -3,7 +3,10 @@ __all__ = [
     'SearchStateSPP',
     'BFS',
     'AStar',
+    'AStarLookup',
     'Dijkstra',
+    'KAStarInc',
+    'KAStarAgg',
 ]
 
 
@@ -13,7 +16,10 @@ def __getattr__(name: str):
         'SearchStateSPP': 'f_hs.algo.i_0_base',
         'BFS': 'f_hs.algo.i_1_bfs',
         'AStar': 'f_hs.algo.i_1_astar',
+        'AStarLookup': 'f_hs.algo.i_2_astar_lookup',
         'Dijkstra': 'f_hs.algo.i_2_dijkstra',
+        'KAStarInc': 'f_hs.algo.omspp',
+        'KAStarAgg': 'f_hs.algo.omspp',
     }
     if name in _lazy:
         from importlib import import_module

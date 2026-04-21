@@ -1,10 +1,22 @@
 # AStar
 
 ## Purpose
-A* Search Algorithm using `FrontierPriority` (backed by
-`QueueIndexed` — indexed min-heap with decrease_key). Matches
-classical textbook pseudocode — eager deletion, each state
-appears at most once in FRONTIER.
+
+A* Search Algorithm — simple, fast path. Canonical A* with
+priority `(f, −g, state)` and minimal event enrichment.
+Accepts any `HBase` / raw callable EXCEPT `HCached` /
+`HBounded`, which route to `AStarLookup` (raises `TypeError`
+with a redirecting message — silent acceptance would be a
+correctness trap).
+
+`search_state` is supported natively — lives on `AlgoSPP` as
+a generic capability (seeded resume, auto-refresh of stale
+frontier priorities). Available on every AStar-family class.
+
+For advanced workflows (HCached, HBounded, pathmax
+propagation), see `AStarLookup` at `i_2_astar_lookup/`. It
+takes `cache` and `bounds` dicts directly as kwargs — callers
+don't interact with HCached / HBounded classes.
 
 ## Public API
 
@@ -18,222 +30,109 @@ def __init__(self,
              search_state: SearchStateSPP[State] | None = None
              ) -> None
 ```
-Injects `FrontierPriority[State]()` into `AlgoSPP`. Accepts
-either an `HBase` subclass or a raw `Callable` — callables are
-auto-wrapped in `HCallable`, so existing call sites that pass a
-lambda keep working unchanged.
+Injects `FrontierPriority[State]()` into `AlgoSPP`. Callables
+are auto-wrapped in `HCallable`. The `search_state` kwarg is
+accepted for kwarg-flow compatibility with the `__new__`
+dispatcher and for Dijkstra's forwarding; on a simple AStar
+instance it is always None (a non-None value routes to
+`AStarLookup`).
 
-**Admissibility guard.** If `h` is an `HCached`, its `goal`
-must be in `problem.goals` — otherwise `__init__` raises
-`ValueError`. A cache harvested against the wrong goal silently
-violates A*'s admissibility (cached h* to the wrong goal may
-over-estimate h* to the right one).
+### HCached / HBounded rejection
+`AStar.__init__` raises `TypeError` when a direct instantiation
+(not via subclass) receives an HCached or HBounded `h`. Rationale:
+- No early exit → user loses cache-hit termination silently.
+- No suffix stitch → `reconstruct_path` gives wrong paths on
+  cache hits.
+- No admissibility guard → bad-goal HCached produces wrong
+  answers.
 
-**`search_state` kwarg** — pre-built bundle injection (see
-`AlgoSPP/CLAUDE.md`). Use `resume()` to pump from the seeded
-state. Push into the caller's frontier with
-`seed.frontier.push(state, priority=algo._priority(state))`
-after construction; the recorder then captures only
-post-resume events.
-
-**Heuristic variants** — the `h` parameter accepts any `HBase`
-subclass: `HCallable` (wraps a function), `HCached` (perfect-h
-+ suffix), or `HBounded` (admissible lower bounds,
-max-combined with a base). For `HBounded`, no special handling:
-`_priority` reads `self._h(state)` which auto-routes through
-the max-combine; `is_perfect=False` keeps `cache_rank=1` and
-the goal-mismatch guard does not fire (HBounded carries no
-goal).
-
-### Pre-Search Pathmax Propagation
-```python
-def propagate_pathmax(self, depth: int = 2) -> dict[State, float]
-```
-Felner-style forward pathmax applied as a **setup step** (pre-
-`run()` / pre-`resume()`). Walks `depth` waves from cached /
-bounded seeds, inserting `max(h(n), h(s) - w(s, n))` at each
-non-cached neighbor via `HBounded.add_bound`. Returns a
-cumulative `dict[State, float]` of every state whose bound
-was tightened, mapped to its final post-propagation h.
-
-**Requirements** — `self._h` is `HBounded`, or wraps one via
-the `_base` chain (e.g., `HCached(base=HBounded(...), ...)`).
-Otherwise raises `ValueError`.
-
-**Semantics**:
-- Wave 0 seeds = cached state keys UNION bounded state keys.
-- Wave `k >= 1` sources = states strictly tightened in wave `k-1`.
-- Targets EXCLUDE cached states (cache is tighter-or-equal).
-- `depth=0` is a valid no-op. `depth<0` raises.
-- Terminates early when a wave tightens nothing.
-- No recorder events emitted — pathmax is setup, not a search
-  step (mirrors `refresh_priorities`).
-
-**Admissibility** preserved: `h(s) ≤ h*(s)` + inequality
-`h*(n) ≥ h*(s) - w(s, n)` ⇒ `h(s) - w(s, n)` is an admissible
-lower bound on `h*(n)`.
-
-Phase 2b deliverable; in-search BPMX (backward pathmax during
-expansion) is deferred to Phase 2c.
-
-**Recording.** When `is_recording=True`, each strict tightening
-emits a `propagate` event:
-```
-{type: 'propagate', state: child, parent: source,
- h_parent: h_source_at_propagation, h: new_h_child}
-```
-No `g` / `f` — pre-search, not applicable. No `is_bounded`
-flag on the event (the subsequent push/pop of the state
-carries it). Emission is deterministic: sources are iterated
-in `sorted(...)` order each wave, so recording tests are
-stable across Python runs. `w` is derivable as
-`h_parent - h` (strict tightening); not recorded.
-
-### Cache Harvest
-```python
-def to_cache(self) -> dict[State, CacheEntry[State]]
-```
-Emit on-path cache entries from the last completed run.
-Supports **both** termination modes:
-- **Goal-pop** (`search_state.goal_reached` set): walks
-  start → goal, `total_cost = g(goal)`.
-- **Cache-hit** (`search_state.cache_hit` set): walks
-  start → cache_hit, `total_cost = g(cache_hit) +
-  h_perfect(cache_hit)`. The terminal entry's `suffix_next`
-  points into the existing cache (so chaining onto the prior
-  cache preserves the suffix).
-
-For each on-path state `s`:
-```
-h_perfect[s]  = total_cost - g(s)
-suffix_next   = next state on the walked chain (or the cache's
-                own suffix_next for the terminal in cache-hit mode;
-                None for the goal in goal-pop mode)
-```
-Raises `ValueError` if neither termination mode fired
-(frontier exhausted — no solution).
-
-This is the mechanism that makes OMSPP / MOSPP / MMSPP
-incremental-reuse possible: each query emits a harvest that
-extends the cache fed to the next query. (2026-04-20 locked
-use case.)
-
-### Path Reconstruction
-`reconstruct_path(goal=None)` — when termination was via
-`cache_hit` and no explicit `goal` was passed, walks parents
-to `cache_hit` and stitches the cached suffix via
-`HCached.suffix_next`. Passing `goal` explicitly bypasses the
-stitching.
+The rejection is gated on `type(self) is AStar` so subclasses
+(AStarLookup) can still call `AStar.__init__` internally with
+assembled HCached/HBounded chains.
 
 ## Priority / Tie-Breaking
 ```python
 def _priority(self, state: State) -> tuple:
     g = self._search.g[state]
     f = g + self._h(state)
-    cache_rank = 0 if self._h.is_perfect(state) else 1
-    return (f, -g, cache_rank, state)
+    return (f, -g, state)
 ```
-Four-level priority, compared lexicographically by the min-heap:
-- **f = g + h** (primary): total estimated cost.
-- **-g** (secondary): prefer deeper nodes (closer to goal).
-- **cache_rank** (tertiary): cached (0) before uncached (1).
-  A cached pop gives O(1) early-termination — strictly less
-  work than expanding an uncached tie. Optimality is unaffected
-  (tie-breaks after `f` don't touch admissibility).
-- **state** (quaternary): fall back to State's `Comparable`
-  ordering (via `HasKey`). Deterministic, independent of
-  heap-internal ordering — required for full-sequence recording
-  tests where `(f, -g, cache_rank)` ties are common.
+Three-level lexicographic:
+1. **f** — lower first.
+2. **−g** — deeper first.
+3. **state** — deterministic tiebreak via HasKey Comparable.
 
-For non-HCached heuristics `is_perfect` is always False, so
-`cache_rank` is a constant 1; the tuple effectively collapses
-to `(f, -g, 1, state)` — behaviourally identical to the pre-cache
-`(f, -g, state)` ordering (no existing-test drift).
+No `cache_rank` at this level — the 4-tuple with cache_rank
+lives on `AStarLookup._priority`.
 
 ## Event Enrichment
-AStar overrides `_enrich_event` to add:
-- `h` and `f` on `push`, `pop`, `decrease_g` events — `f` is
-  `event['g'] + h(state)`, not the priority tuple.
-- `is_cached=True` on `push` and `pop` events whose state has a
-  perfect heuristic (`self._h.is_perfect(state)`).
-- `is_bounded=True` on `push` and `pop` events whose state has
-  a strictly-tightening bound (`self._h.is_bounded(state)`,
-  i.e., `HBounded`'s bound > base for that state).
-
-Both flags are **absent** (not False) when not applicable —
-the framework Recording Principle forbids constant-False flags.
-`decrease_g` does NOT carry either flag: cache / bound
-membership was already signalled on the state's initial push.
-
-No dedicated cache-hit event type. The cache-hit terminator is
-identifiable as "the last pop carrying `is_cached=True`" —
-mirroring goal-pop termination (also implicit, no
-`goal_reached` event). `is_bounded` has no terminator
-semantics — it's purely visibility into which states benefited
-from the bound.
-
-## Early-Exit Override
-AStar overrides `_early_exit(state)`:
 ```python
-if self._h.is_perfect(state):
-    self._search.cache_hit = state
-    return SolutionSPP(cost=g(state) + h_perfect(state))
-return None
+def _enrich_event(self, event: dict) -> None:
+    t = event.get('type')
+    if t in ('push', 'pop', 'decrease_g'):
+        h = self._h(event['state'])
+        f = event['g'] + h
+        event['h'] = self._as_int_if_whole(h)
+        event['f'] = self._as_int_if_whole(f)
 ```
-No event is emitted — the pop recorded just before this hook
-already carries `is_cached=True` via `_enrich_event`. Only
-`HCached` returns True from `is_perfect`, so `HCallable`-backed
-AStar keeps classical behavior.
+Only `h` and `f`, cast to int when integer-valued. No
+`is_cached` / `is_bounded` flags — those are AStarLookup's
+responsibility. No propagate-event handling either (propagate
+is a Pro-only event).
 
 ## Factory
-| Method | Returns | Description |
-|--------|---------|-------------|
-| `graph_abc()` | `AStar` | Linear graph, admissible h |
-| `graph_no_path()` | `AStar` | No path, h=0 |
-| `graph_start_is_goal()` | `AStar` | Start == Goal, h=0 |
-| `graph_diamond()` | `AStar` | Diamond graph, admissible h |
-| `grid_3x3()` | `AStar` | Open grid, Manhattan h |
-| `grid_3x3_obstacle()` | `AStar` | Grid with obstacle |
-| `grid_3x3_no_path()` | `AStar` | Grid with wall |
-| `grid_3x3_start_is_goal()` | `AStar` | Grid where start == goal |
-| `grid_4x4_obstacle()` | `AStar` | 4x4 grid with vertical wall, cost 7 |
-| `graph_decrease()` | `AStar` | Weighted graph (S→A/B→X, w(B,X)=0), h=0 — forces `decrease_g` and exercises h/f enrichment on it |
-| `graph_abc_cached_at_start()` | `AStar` | HCached covering {A,B,C}; degenerate cache_hit on pop(A) |
-| `graph_abc_cached_at_b()` | `AStar` | HCached covering {B,C}; non-degenerate cache_hit on pop(B), drives the `to_cache()`-after-cache_hit harvest test |
+| Method | Description |
+|--------|-------------|
+| `graph_abc()` | Linear A -> B -> C, admissible h |
+| `graph_no_path()` | No path, h=0 |
+| `graph_start_is_goal()` | Start == Goal, h=0 |
+| `graph_diamond()` | Diamond graph, admissible h |
+| `graph_decrease()` | Weighted graph (w(B,X)=0), h=0 — exercises `decrease_g` + h/f enrichment |
+| `grid_3x3()` | Open grid, Manhattan h |
+| `grid_3x3_obstacle()` | Grid with obstacle |
+| `grid_3x3_no_path()` | Grid with wall |
+| `grid_3x3_start_is_goal()` | Start == Goal |
+| `grid_4x4_obstacle()` | 4x4 grid, vertical wall, cost 7 |
+
+All simple-h factories. HCached / HBounded factories live on
+`AStarLookup.Factory`.
 
 ## Inheritance
 ```
 AlgoSPP[State]
-    └── AStar[State]
-        └── Dijkstra[State]
+    └── AStar[State]                   (simple, this class)
+        ├── AStarLookup[State]            (advanced — i_2_astar_lookup/)
+        └── Dijkstra[State]            (h=0 — i_2_dijkstra/)
 ```
 
 ## Tests
-Split into three files by concern (mirrors the BFS split).
-No `@pytest.fixture` — each test calls `AStar.Factory.*`
-directly, per the Factory-over-fixture rule.
-
 | File | Scope | Count |
 |------|-------|-------|
-| `_tester.py` | Graph problems + lifecycle (incl. `search_state`, `resume`, `cache_hit` early-term, `to_cache` round-trip, `to_cache` after cache_hit, goal-mismatch guard) | 11 |
+| `_tester.py` | Graph problems + lifecycle + priority-shape pin | 8 |
 | `_tester_grid.py` | Grid problems | 4 |
-| `_tester_recording.py` | Full event-sequence assertion (incl. `decrease_g` + h/f enrichment, the `cache_hit` event schema, and seeded-resume recording via the `search_state` kwarg) | 8 |
+| `_tester_recording.py` | Full event-sequence (no Pro flags) | 6 |
 
-Run all three explicitly:
-```
-pytest f_hs/algo/i_1_astar/_tester.py \
-       f_hs/algo/i_1_astar/_tester_grid.py \
-       f_hs/algo/i_1_astar/_tester_recording.py
-```
+18 tests total. Pro-side tests live in `i_2_astar_lookup/`.
 
-The recording tester covers `graph_abc`, `graph_diamond`
-(tie-break via State Comparable), `grid_3x3`, `grid_3x3_obstacle`,
-and `grid_4x4_obstacle` (same problem used by BFS, exercising
-an admissible-but-loose Manhattan heuristic over a wall).
+## Why the split
+
+Before this refactor, a single AStar class carried HCached +
+HBounded + search_state + pathmax + to_cache machinery. That
+meant every simple A* call paid:
+1. `isinstance(h, HCached)` check at `__init__`.
+2. 4-tuple priority with `is_perfect` call on every push/pop.
+3. `is_cached` / `is_bounded` branches on every enriched event.
+4. Propagate-event handling branch even when unused.
+
+The split lets simple AStar skip all of that, keeping the hot
+path tight for the common case while preserving full-featured
+behaviour via the transparent `__new__` dispatch. Zero API
+breakage for callers — `AStar(...)` still works the same way.
 
 ## Dependencies
 - `f_hs.algo.i_0_base.AlgoSPP`
 - `f_hs.frontier.i_1_priority.FrontierPriority`
-- `f_hs.heuristic.i_0_base.HBase` + `CacheEntry`
+- `f_hs.heuristic.i_0_base.HBase`
 - `f_hs.heuristic.i_1_callable.HCallable`
-- `f_hs.heuristic.i_1_cached.HCached`
+- `f_hs.heuristic.i_1_cached.HCached` — for dispatch detection only
+- `f_hs.heuristic.i_1_bounded.HBounded` — for dispatch detection only

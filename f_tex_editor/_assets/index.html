@@ -74,11 +74,17 @@ html, body { margin: 0; height: 100%; overflow: hidden;
 (function() {
   const params = new URLSearchParams(window.location.search);
   const drivePath = params.get('drive');
+  const fileId    = params.get('fileId');
   const localPath = params.get('path') || '__DEFAULT_PATH__';
-  const isDrive   = Boolean(drivePath);
-  const refPath   = isDrive ? drivePath : localPath;
+  const isDrive   = Boolean(drivePath) || Boolean(fileId);
+  // When opened by fileId, drivePath is empty until /drive/open
+  // resolves it on the server. Until then the label shows the id.
+  let resolvedDrivePath = drivePath || '';
+  const initialRef = drivePath
+    ? drivePath
+    : (fileId ? ('#' + fileId) : localPath);
   document.getElementById('path-label').textContent =
-      (isDrive ? 'Drive: ' : '') + refPath;
+      (isDrive ? 'Drive: ' : '') + initialRef;
 
   const statusEl = document.getElementById('status');
   const saveBtn  = document.getElementById('save-btn');
@@ -126,14 +132,26 @@ html, body { margin: 0; height: 100%; overflow: hidden;
   });
   require(['vs/editor/editor.main'], async () => {
     let src = '';
-    const openUrl = isDrive
-      ? '/drive/open?drive=' + encodeURIComponent(drivePath)
-      : '/file?path=' + encodeURIComponent(localPath);
+    let openUrl;
+    if (isDrive) {
+      openUrl = drivePath
+        ? '/drive/open?drive=' + encodeURIComponent(drivePath)
+        : '/drive/open?fileId=' + encodeURIComponent(fileId);
+    } else {
+      openUrl = '/file?path=' + encodeURIComponent(localPath);
+    }
     try {
       const res = await fetch(openUrl);
       if (res.ok) {
         const data = await res.json();
         src = data.src || '';
+        // Capture the server-resolved drive path so subsequent
+        // /drive/save calls use the path, not the fileId.
+        if (isDrive && data.drivePath) {
+          resolvedDrivePath = data.drivePath;
+          document.getElementById('path-label').textContent =
+              'Drive: ' + resolvedDrivePath;
+        }
       }
     } catch (e) { /* keep blank */ }
 
@@ -171,7 +189,7 @@ html, body { margin: 0; height: 100%; overflow: hidden;
     setStatus('Compiling...', '');
     const saveUrl = isDrive ? '/drive/save' : '/save';
     const body = isDrive
-      ? { drivePath, src: editor.getValue() }
+      ? { drivePath: resolvedDrivePath, src: editor.getValue() }
       : { path: localPath, src: editor.getValue() };
     try {
       const res = await fetch(saveUrl, {
@@ -197,7 +215,7 @@ html, body { margin: 0; height: 100%; overflow: hidden;
         // on via the viewer's own hamburger button.
         // navpanes=0 -> Chromium/Edge; pagemode=none -> pdf.js/Firefox.
         const pdfUrl = isDrive
-          ? '/drive/pdf?drive=' + encodeURIComponent(drivePath)
+          ? '/drive/pdf?drive=' + encodeURIComponent(resolvedDrivePath)
           : '/pdf?path=' + encodeURIComponent(localPath);
         frame.src = pdfUrl
                   + '&t=' + Date.now()

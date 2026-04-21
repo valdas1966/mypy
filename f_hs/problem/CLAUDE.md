@@ -9,6 +9,10 @@ problem/
 ├── __init__.py         ProblemSPP, ProblemGrid
 ├── i_0_base/           ProblemSPP — abstract SPP base
 └── i_1_grid/           ProblemGrid — 2D grid domain
+                        + Store (bulk save / load with
+                          grids pickled separately and
+                          a shared per-grid StateCell
+                          cache on load)
 ```
 
 ## Inheritance
@@ -17,3 +21,4 @@ ProblemAlgo (f_cs)
   └── ProblemSPP[State]
         └── ProblemGrid (State=StateCell)
 ```
+
