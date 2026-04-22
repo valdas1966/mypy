@@ -45,23 +45,26 @@ def __init__(self,
 ## Factory
 
 ```python
-PairCluster.Factory.of_diamonds(grid, center_a, center_b, steps)
+PairCluster.Factory.of_diamonds(grid, center_a, center_b,
+                                steps_a, steps_b)
     -> PairCluster[ClusterDiamond]
 
 PairCluster.Factory.random(grid, min_cells_a, min_cells_b,
-                           steps, min_distance, max_tries=100)
+                           steps_a, steps_b,
+                           min_distance, max_tries=100)
     -> PairCluster[ClusterDiamond]
 
 PairCluster.Factory.a() -> PairCluster[ClusterDiamond]
 ```
 
 - `of_diamonds(...)` — deterministic: two diamonds at the given
-  centers.
+  centers with independent Manhattan radii (`steps_a`, `steps_b`).
 - `random(...)` — samples two disjoint diamonds with
   `|center_a - center_b| >= min_distance`, `|A| >= min_cells_a`,
-  and `|B| >= min_cells_b`; raises `ValueError` after `max_tries`.
-- `a()` — canonical 8×8 grid, centres `(1,1)` and `(6,6)`, both
-  `steps=1`; distance = 10.
+  `|B| >= min_cells_b`, and independent `steps_a` / `steps_b`;
+  raises `ValueError` after `max_tries`.
+- `a()` — canonical 8×8 grid, centres `(1,1)` and `(6,6)`,
+  `steps_a = steps_b = 1`; distance = 10.
 
 ## Contract on `Cluster.center`
 

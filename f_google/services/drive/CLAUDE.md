@@ -18,6 +18,19 @@ Return names of sub-folders at the given path.
 Return names of files (non-folders) at the given path.
 `path=None` means Drive root.
 
+### `filepaths(path, recursive=False, predicate=None) -> list[str]`
+Return full Drive paths to files under `path`. Walks sub-folders when
+`recursive=True`. Optional `predicate: Callable[[str], bool]` filters
+by *name* (not full path). Same shape as `f_psl/os/u_dir.filepaths`,
+so Drive and local listing code read identically.
+
+```python
+maps = drive.filepaths(
+    path='2026/04/experiments/maps',
+    recursive=True,
+    predicate=lambda name: name.endswith('.map'))
+```
+
 ### `is_exists(path: str) -> bool`
 Return True if a file or folder exists at the given path.
 

@@ -42,26 +42,18 @@ def test_bpmx_off_by_default_emits_no_events() -> None:
                    for e in algo.recorder.events)
 
 
-def test_bpmx_rejects_rule_3_alone() -> None:
+def test_bpmx_rejects_redundant_spellings() -> None:
     """
     ========================================================================
-     `bpmx='3'` raises — cascade without Rule 2 has no trigger.
+     Under the 3-rule API {None, '1', '2', '3'}, the spellings
+     '12', '13', '23', '123' are redundant and rejected —
+     their behaviour collapses into '1' / '2' / '3'.
     ========================================================================
     """
-    with pytest.raises(ValueError, match='bpmx must be one of'):
-        AStarLookup(problem=ProblemSPP.Factory.graph_abc(),
-                    h=lambda s: 0, bpmx='3')
-
-
-def test_bpmx_rejects_rule_13() -> None:
-    """
-    ========================================================================
-     `bpmx='13'` raises — cascade without Rule 2 has no trigger.
-    ========================================================================
-    """
-    with pytest.raises(ValueError, match='bpmx must be one of'):
-        AStarLookup(problem=ProblemSPP.Factory.graph_abc(),
-                    h=lambda s: 0, bpmx='13')
+    for bad in ['12', '13', '23', '123']:
+        with pytest.raises(ValueError, match='bpmx must be one of'):
+            AStarLookup(problem=ProblemSPP.Factory.graph_abc(),
+                        h=lambda s: 0, bpmx=bad)
 
 
 def test_bpmx_rejects_garbage_strings() -> None:
@@ -70,16 +62,34 @@ def test_bpmx_rejects_garbage_strings() -> None:
      Non-digit strings / digits in wrong order raise.
     ========================================================================
     """
-    for bad in ['abc', 'xyz', '21', '0', '4', '1234']:
+    for bad in ['abc', 'xyz', '21', '0', '4', '1234', '31']:
         with pytest.raises(ValueError, match='bpmx must be one of'):
             AStarLookup(problem=ProblemSPP.Factory.graph_abc(),
                         h=lambda s: 0, bpmx=bad)
 
 
+def test_bpmx_depth_validation() -> None:
+    """
+    ========================================================================
+     `bpmx_depth` accepts None or int ≥ 1; rejects 0, negatives,
+     and non-ints.
+    ========================================================================
+    """
+    problem = ProblemSPP.Factory.graph_abc()
+    for bad in [0, -1, -5, 1.5, '1']:
+        with pytest.raises(ValueError, match='bpmx_depth'):
+            AStarLookup(problem=problem, h=lambda s: 0,
+                        bpmx='3', bpmx_depth=bad)
+    # Valid values do not raise.
+    for ok in [None, 1, 2, 10]:
+        AStarLookup(problem=problem, h=lambda s: 0,
+                    bpmx='3', bpmx_depth=ok)
+
+
 def test_bpmx_autocreates_empty_hbounded_when_needed() -> None:
     """
     ========================================================================
-     `bpmx='12'` without explicit bounds auto-wraps an empty
+     `bpmx='3'` without explicit bounds auto-wraps an empty
      HBounded. propagate_pathmax (which also needs HBounded)
      works subsequently.
     ========================================================================
@@ -89,7 +99,7 @@ def test_bpmx_autocreates_empty_hbounded_when_needed() -> None:
     algo = AStarLookup(
         problem=problem,
         h=lambda s: s.distance(goal),
-        bpmx='12',
+        bpmx='3',
     )
     assert algo._find_hbounded(algo._h) is not None
 
@@ -104,7 +114,7 @@ def test_bpmx_rejects_prebuilt_h_without_hbounded() -> None:
     h = HCallable(fn=lambda s: 0)   # no HBounded in chain
     with pytest.raises(ValueError, match='HBounded'):
         AStarLookup(problem=ProblemSPP.Factory.graph_abc(),
-                    h=h, bpmx='12')
+                    h=h, bpmx='3')
 
 
 # ──────────────────────────────────────────────────
@@ -194,13 +204,11 @@ def test_bpmx_rule_1_forward_tightens_child() -> None:
             assert e['via_parent'].rc == (0, 0)
 
 
-def test_bpmx_rule_12_both_fire_in_same_expansion() -> None:
+def test_bpmx_rule_3_both_fire_in_same_expansion() -> None:
     """
     ========================================================================
-     Rule 1 + Rule 2 at the same expansion. Cached neighbour
-     triggers Rule 2 lift on parent. Pins both rules register
-     in the event log even if Rule 1's forward attempt is a
-     no-op on this particular geometry.
+     Rule 3 (full BPMX) at the same expansion. Cached neighbour
+     triggers Rule 2 lift on parent.
     ========================================================================
     """
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
@@ -214,7 +222,7 @@ def test_bpmx_rule_12_both_fire_in_same_expansion() -> None:
         h=lambda s: s.distance(goal),
         cache=cache,
         goal=_sc(0, 3),
-        bpmx='12',
+        bpmx='3',
         is_recording=True,
     )
     algo.run()
@@ -225,11 +233,12 @@ def test_bpmx_rule_12_both_fire_in_same_expansion() -> None:
                for e in lifts)
 
 
-def test_bpmx_rule_123_cascade_iterates() -> None:
+def test_bpmx_depth_none_cascades_to_fixed_point() -> None:
     """
     ========================================================================
-     Cascade ('123') iterates Rules 1+2 to a fixed point. No
-     infinite loop on an already-converged setup.
+     `bpmx='3'` + `bpmx_depth=None` iterates Rules 1+2 to a
+     fixed point over the full reachable subtree at each
+     expansion. No infinite loop, bounded total lifts.
     ========================================================================
     """
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
@@ -244,7 +253,8 @@ def test_bpmx_rule_123_cascade_iterates() -> None:
         cache=cache,
         goal=_sc(0, 3),
         bounds={_sc(1, 0): 6},
-        bpmx='123',
+        bpmx='3',
+        bpmx_depth=None,
         is_recording=True,
     )
     algo.run()
@@ -254,7 +264,7 @@ def test_bpmx_rule_123_cascade_iterates() -> None:
     # No runaway cascade.
     bpmx_ct = sum(1 for e in events
                   if e['type'] in ('bpmx_lift', 'bpmx_forward'))
-    assert bpmx_ct < 50
+    assert bpmx_ct < 200
 
 
 def test_bpmx_skips_cached_states() -> None:
@@ -276,7 +286,7 @@ def test_bpmx_skips_cached_states() -> None:
         cache=cache,
         goal=_sc(0, 3),
         bounds={_sc(0, 0): 7},   # tight admissible seed
-        bpmx='12',
+        bpmx='3',
         is_recording=True,
     )
     algo.run()
@@ -310,7 +320,7 @@ def test_bpmx_preserves_admissibility_all_configs() -> None:
         return a.run().cost
 
     baseline = run(None)
-    for cfg in ('1', '2', '12', '23', '123'):
+    for cfg in ('1', '2', '3'):
         assert run(cfg) == baseline, f'cost drift at bpmx={cfg!r}'
 
 
@@ -340,12 +350,12 @@ def test_bpmx_vs_propagate_pathmax_same_cost() -> None:
     assert sol1.cost == 7
 
     # In-search BPMX only (no pre-search pathmax).
-    a2 = build_algo(bpmx_val='12')
+    a2 = build_algo(bpmx_val='3')
     sol2 = a2.run()
     assert sol2.cost == 7
 
     # Both mechanisms together.
-    a3 = build_algo(bpmx_val='12')
+    a3 = build_algo(bpmx_val='3')
     a3.propagate_pathmax()
     sol3 = a3.run()
     assert sol3.cost == 7
@@ -495,11 +505,12 @@ def test_recording_bpmx_rule_2_backward_on_graph_abc() -> None:
                    for e in actual)
 
 
-def test_recording_bpmx_rule_12_both_fire_on_diamond() -> None:
+def test_recording_bpmx_rule_3_both_fire_on_diamond() -> None:
     """
     ========================================================================
-     Rule 1 + Rule 2 both fire at A's expansion on a diamond
-     graph A→{B,C}→D with B cached at h*=3, D cached at h*=0.
+     Rule 3 (full BPMX, depth=1 flat) fires both Rule 2 and
+     Rule 1 at A's expansion on a diamond graph A→{B,C}→D with
+     B cached at h*=3, D cached at h*=0.
 
      At A's expansion:
        Rule 2: cand from B=3-1=2 > h(A)=0 → lift A to 2.
@@ -528,7 +539,7 @@ def test_recording_bpmx_rule_12_both_fire_on_diamond() -> None:
         h=lambda s: 0,
         cache=cache,
         goal=d_state,
-        bpmx='12',
+        bpmx='3',
         is_recording=True,
     )
     algo.run()
@@ -562,52 +573,49 @@ def test_recording_bpmx_rule_12_both_fire_on_diamond() -> None:
     assert fwds[0]['state'] == 'C'
 
 
-def test_recording_bpmx_rule_123_cascade_terminates() -> None:
+def test_recording_bpmx_depth_none_same_as_depth_1_on_diamond() -> None:
     """
     ========================================================================
-     bpmx='123' on the same diamond setup: cascade iterates
-     Rules 1+2 to fixed point. On this configuration the first
-     round lifts everything it can; the second round finds no
-     changes and the cascade terminates.
-
-     Asserts:
-       1. Same correctness (cost 2) as '12'.
-       2. Exactly one bpmx_lift at A, one bpmx_forward at C —
-          no duplicate emissions from a cascade re-firing.
-       3. Total bpmx events bounded (no infinite loop).
+     bpmx='3' with bpmx_depth=None vs bpmx_depth=1 on the
+     diamond setup. D is cached at h=0, B cached at h=3; the
+     extra tree depth from depth=None adds no lift opportunities
+     beyond flat because the deeper nodes are already cached
+     (Rule 1 skips them; Rule 2 from cached children was already
+     captured at depth=1). Event streams therefore match.
     ========================================================================
     """
     from f_hs.problem.i_0_base._factory import _ProblemGraph
-    problem = _ProblemGraph(
-        adj={'A': ['B', 'C'], 'B': ['D'], 'C': ['D'], 'D': []},
-        start='A', goal='D',
-    )
-    b_state = problem._states['B']
-    d_state = problem._states['D']
-    cache = {
-        b_state: CacheEntry(h_perfect=3, suffix_next=d_state),
-        d_state: CacheEntry(h_perfect=0, suffix_next=None),
-    }
-    algo = AStarLookup(
-        problem=problem,
-        h=lambda s: 0,
-        cache=cache,
-        goal=d_state,
-        bpmx='123',
-        is_recording=True,
-    )
-    sol = algo.run()
+
+    def build(bpmx_depth):
+        p = _ProblemGraph(
+            adj={'A': ['B', 'C'], 'B': ['D'], 'C': ['D'], 'D': []},
+            start='A', goal='D',
+        )
+        b = p._states['B']
+        d = p._states['D']
+        return AStarLookup(
+            problem=p,
+            h=lambda s: 0,
+            cache={b: CacheEntry(h_perfect=3, suffix_next=d),
+                   d: CacheEntry(h_perfect=0, suffix_next=None)},
+            goal=d,
+            bpmx='3',
+            bpmx_depth=bpmx_depth,
+            is_recording=True,
+        )
+
+    a_flat = build(1)
+    a_flat.run()
+    a_conv = build(None)
+    sol = a_conv.run()
     assert sol.cost == 2
-    events = algo.recorder.events
-    lifts = [e for e in events if e['type'] == 'bpmx_lift']
-    fwds = [e for e in events if e['type'] == 'bpmx_forward']
-    # Same single lift + single forward as '12' (cascade
-    # converges after first round on this setup).
+    flat = [normalize(e) for e in a_flat.recorder.events]
+    conv = [normalize(e) for e in a_conv.recorder.events]
+    assert flat == conv
+    lifts = [e for e in conv if e['type'] == 'bpmx_lift']
+    fwds = [e for e in conv if e['type'] == 'bpmx_forward']
     assert len(lifts) == 1
     assert len(fwds) == 1
-    # Total bounded (no runaway cascade).
-    bpmx_count = len(lifts) + len(fwds)
-    assert bpmx_count < 50
 
 
 # ──────────────────────────────────────────────────
@@ -743,17 +751,17 @@ def test_recording_bpmx_rule_2_on_grid_4x4_obstacle() -> None:
     assert len(fwds) == 0
 
 
-def test_recording_bpmx_rule_12_on_grid_4x4_obstacle() -> None:
+def test_recording_bpmx_rule_3_on_grid_4x4_obstacle() -> None:
     """
     ========================================================================
-     Rules 1 + 2 (`bpmx='12'`) on grid_4x4_obstacle with tight
-     HBounded seed (0,0)=7.
+     Rule 3 (full BPMX, `bpmx='3'`) at default depth=1 on
+     grid_4x4_obstacle with tight HBounded seed (0,0)=7.
 
      Rule 2 tries to lift (0,0) from children but (0,0)=h*=7
      is already tight; no Rule 2 lift. Rule 1 fires at each
      expansion instead — same 3 bpmx_forward events as
-     `bpmx='1'`. Pinned: on this seed, Rule 2 is subsumed by
-     Rule 1 (same event stream as Rule 1 alone).
+     `bpmx='1'`. Pinned: on this seed at depth=1, Rule 3 is
+     subsumed by Rule 1 (same event stream as Rule 1 alone).
     ========================================================================
     """
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
@@ -762,7 +770,7 @@ def test_recording_bpmx_rule_12_on_grid_4x4_obstacle() -> None:
         problem=problem,
         h=lambda s: s.distance(goal),
         bounds={_sc(*k): v for k, v in _GRID_BPMX_SEED.items()},
-        bpmx='12',
+        bpmx='3',
         is_recording=True,
     )
     sol = algo.run()
@@ -802,75 +810,41 @@ def test_recording_bpmx_rule_12_on_grid_4x4_obstacle() -> None:
     assert len(fwds) == 3
 
 
-def test_recording_bpmx_rule_23_on_grid_4x4_obstacle() -> None:
+def test_recording_bpmx_depth_scaling_on_grid() -> None:
     """
     ========================================================================
-     Rule 2 + cascade (`bpmx='23'`). On this seed the cascade
-     loop has no Rule 1 to re-apply after Rule 2's lift, so
-     iterations collapse to a single Rule 2 pass — event
-     stream is IDENTICAL to `bpmx='2'` (3 bpmx_lift events).
+     Tree-deep BPMX scaling on grid_4x4_obstacle with tight
+     HBounded seed (0,0)=7:
+
+     1. Admissibility: optimal cost is 7 at every depth.
+     2. Tree-deep event count is monotone in depth
+        (depth=None ≥ depth=5 ≥ depth=1). On this tight-seed
+        setup the Manhattan h saturates the lift cascade
+        quickly, so equality is common — but never inversion.
     ========================================================================
     """
-    problem = ProblemGrid.Factory.grid_4x4_obstacle()
-    goal = problem.goal
-    algo = AStarLookup(
-        problem=problem,
-        h=lambda s: s.distance(goal),
-        bounds={_sc(*k): v for k, v in _GRID_BPMX_SEED.items()},
-        bpmx='23',
-        is_recording=True,
-    )
-    algo.run()
-    actual_23 = [normalize(e) for e in algo.recorder.events]
+    goal = ProblemGrid.Factory.grid_4x4_obstacle().goal
 
-    algo2 = AStarLookup(
-        problem=ProblemGrid.Factory.grid_4x4_obstacle(),
-        h=lambda s: s.distance(goal),
-        bounds={_sc(*k): v for k, v in _GRID_BPMX_SEED.items()},
-        bpmx='2',
-        is_recording=True,
-    )
-    algo2.run()
-    actual_2 = [normalize(e) for e in algo2.recorder.events]
+    def run(depth):
+        a = AStarLookup(
+            problem=ProblemGrid.Factory.grid_4x4_obstacle(),
+            h=lambda s: s.distance(goal),
+            bounds={_sc(*k): v for k, v in _GRID_BPMX_SEED.items()},
+            bpmx='3',
+            bpmx_depth=depth,
+            is_recording=True,
+        )
+        sol = a.run()
+        events = [normalize(e) for e in a.recorder.events]
+        bpmx_ct = sum(1 for e in events
+                      if e['type'] in ('bpmx_lift', 'bpmx_forward'))
+        return sol.cost, bpmx_ct
 
-    assert actual_23 == actual_2
-    # Meaningful BPMX activity: 3 lifts.
-    lifts = [e for e in actual_23 if e['type'] == 'bpmx_lift']
-    assert len(lifts) == 3
+    cost_flat, ct_flat = run(1)
+    cost_deep, ct_deep = run(None)
+    cost_five, ct_five = run(5)
 
-
-def test_recording_bpmx_rule_123_on_grid_4x4_obstacle() -> None:
-    """
-    ========================================================================
-     Rules 1+2+cascade (`bpmx='123'`). On this seed the cascade
-     terminates after the first full pass — Rule 1 preempts
-     Rule 2's opportunities, and subsequent rounds find no
-     changes. Event stream IDENTICAL to `bpmx='12'` (3
-     bpmx_forward events).
-    ========================================================================
-    """
-    problem = ProblemGrid.Factory.grid_4x4_obstacle()
-    goal = problem.goal
-    algo = AStarLookup(
-        problem=problem,
-        h=lambda s: s.distance(goal),
-        bounds={_sc(*k): v for k, v in _GRID_BPMX_SEED.items()},
-        bpmx='123',
-        is_recording=True,
-    )
-    algo.run()
-    actual_123 = [normalize(e) for e in algo.recorder.events]
-
-    algo2 = AStarLookup(
-        problem=ProblemGrid.Factory.grid_4x4_obstacle(),
-        h=lambda s: s.distance(goal),
-        bounds={_sc(*k): v for k, v in _GRID_BPMX_SEED.items()},
-        bpmx='12',
-        is_recording=True,
-    )
-    algo2.run()
-    actual_12 = [normalize(e) for e in algo2.recorder.events]
-
-    assert actual_123 == actual_12
-    fwds = [e for e in actual_123 if e['type'] == 'bpmx_forward']
-    assert len(fwds) == 3
+    # (1) Admissibility preserved across depths.
+    assert cost_flat == cost_deep == cost_five == 7
+    # (2) Monotone in depth.
+    assert ct_deep >= ct_five >= ct_flat

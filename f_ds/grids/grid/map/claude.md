@@ -154,3 +154,16 @@ array = np.array([[True, False], [True, True]])
 grid = GridMap.From.array(array, name='small')
 print(len(grid))  # 3
 ```
+
+### From text (in-memory .map body)
+
+```python
+from f_ds.grids.grid.map import GridMap
+
+body = 'type octile\nheight 3\nwidth 4\nmap\n.@..\n....\n.@.@\n'
+grid = GridMap.From.text(content=body, name='memGrid')
+# Same result as writing `body` to disk and calling From.file_map(path=...).
+```
+
+`From.text` shares parsing with `From.file_map` (header-skip, `.` = valid
+cell), so callers can swap disk↔RAM without changing downstream logic.

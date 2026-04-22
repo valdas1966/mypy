@@ -21,28 +21,60 @@ AStar, BFS, Dijkstra, AStarLookup).
 
 ## Public API
 
-### In-Search BPMX (`bpmx` kwarg)
+### In-Search BPMX (`bpmx` + `bpmx_depth` kwargs)
 
 ```python
-AStarLookup(..., bpmx: str | None = None)
+AStarLookup(..., bpmx: str | None = None,
+                 bpmx_depth: int | None = 1)
 ```
 
-Enables in-search bidirectional pathmax (Felner et al. 2011)
-for inconsistent heuristics. The HCached ∘ HBounded ∘ HCallable
-chain is intrinsically inconsistent at the cache boundary;
-BPMX propagates tightening during the search, complementing
-pre-search `propagate_pathmax`.
+Enables in-search bidirectional pathmax (Felner et al. 2011,
+BPMX(d)) for inconsistent heuristics. The HCached ∘ HBounded
+∘ HCallable chain is intrinsically inconsistent at the cache
+boundary; BPMX propagates tightening through the successor
+subtree of the node being expanded, complementing pre-search
+`propagate_pathmax`.
 
-Valid values: `None` (off, default), `'1'`, `'2'`, `'12'`,
-`'23'`, `'123'`. Rejected: `'3'`, `'13'` (Rule 3 cascade
-requires Rule 2 as trigger).
+Valid `bpmx` values: `None` (off, default), `'1'`, `'2'`, `'3'`.
+Rejected (with `ValueError`): `'12'`, `'13'`, `'23'`, `'123'`.
+Rationale: under tree-deep BPMX the distinct behaviours
+collapse to exactly three — `'13' ≡ '1'` (Rule 1 alone has no
+feedback loop), `'23' ≡ '2'` (symmetric), `'12' ≡ '3'@depth=1`
+(one-pass combined converges in a single round on flat), and
+`'123' ≡ '3'` (iterated to fixed point). Exposing only the
+three canonical spellings avoids redundant API surface.
 
-Rule semantics (MOSPP report numbering):
-- **Rule 1**: forward pathmax — `h(c) ← max(h(c), h(n) − w(n,c))`
-  at parent expansion. Child's h lifted from parent.
-- **Rule 2**: backward pathmax — `h(n) ← max(h(n), max_c(h(c) − w(c,n)))`
-  at parent expansion. Parent's h lifted from children.
-- **Rule 3**: cascade — iterate Rules 1 and 2 until fixed point.
+Rule semantics:
+- **`'1'`** — Rule 1, top-down pathmax sweep over the d-level
+  subtree. For each level-k ancestor `p` and level-(k+1) child
+  `c`: `h(c) ← max(h(c), h(p) − w(p, c))`. Cached children
+  skipped (h* can't be improved); closed children NOT skipped
+  (paper-aligned — admissibility preserved, re-opening under
+  inconsistent-h A* benefits from the tighter h).
+- **`'2'`** — Rule 2, bottom-up pathmax sweep over the d-level
+  subtree. For each level-k parent `p`: `h(p) ← max(h(p),
+  max_c(h(c) − w(c, p)))`. Cached parents skipped; closed
+  parents NOT skipped (same rationale as Rule 1).
+- **`'3'`** — Full BPMX: iterate Rule 2 bottom-up then Rule 1
+  top-down until a pass tightens nothing.
+
+`bpmx_depth` — tree depth of the BPMX lookahead subtree rooted
+at the node being expanded (Felner's BPMX(d) parameter):
+- `1` (default) — **flat** BPMX: node plus its immediate
+  children (star scope).
+- `N > 1` — BFS `N` levels of successors; rules propagate
+  through the full N-level subtree in a single expansion.
+- `None` — full reachable successor subtree, bounded by
+  cycles via the visited-set.
+
+Under flat BPMX (depth=1), `'3'` and a one-pass combined
+Rule 1+Rule 2 coincide — the iteration in `'3'` converges in
+one round because Rule 1/Rule 2 inputs don't feed back into
+themselves at the same level. The iteration matters only at
+depth > 1 on asymmetric or multi-path subgraphs.
+
+Validation: `bpmx_depth` must be `None` or `int >= 1`; else
+`ValueError`.
 
 Auto-wrap: when `bpmx` is set and no explicit `bounds` supplied,
 an empty `HBounded` is auto-wrapped into the chain as storage
@@ -186,9 +218,9 @@ Split by feature into five files; auto-discovered by
 | `_tester_bounded.py` | HBounded lifecycle + recording | 3 |
 | `_tester_pathmax.py` | `propagate_pathmax` (depth None / 0 / int, convergence, multi-wave) | 7 |
 | `_tester_search_state.py` | Seeded resume lifecycle + recording | 3 |
-| `_tester_bpmx.py` | `bpmx` kwarg: validation, rule mechanics, admissibility, A/B vs propagate_pathmax | 13 |
+| `_tester_bpmx.py` | `bpmx` + `bpmx_depth` kwargs: validation, rule mechanics, admissibility, tree-deep scaling, A/B vs propagate_pathmax | 21 |
 
-23 tests total. Shared helpers (`key_of`, `normalize`) in
+45 tests total. Shared helpers (`key_of`, `normalize`) in
 `_utils.py`.
 
 ## Inheritance

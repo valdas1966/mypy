@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>s_0_clusters.py — visual overview</title>
+<style>
+  :root {
+    --accent:     #1E5AA0;
+    --accent-bg:  #EAF2FB;
+    --green:      #228B22;
+    --green-bg:   #E8F5E8;
+    --gold:       #B48200;
+    --gold-bg:    #FFF8E1;
+    --red:        #C82828;
+    --red-bg:     #FFE8E8;
+    --gray:       #5A5A5A;
+    --rule:       #E5E7EB;
+    --mono: "SFMono-Regular", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI",
+            Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: var(--sans);
+    background: #FAFBFC;
+    color: #1f2937;
+    margin: 0;
+    padding: 24px 16px 56px;
+    line-height: 1.55;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; }
+
+  /* ── Header ───────────────────────────────────────────── */
+  header {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 14px;
+    margin-bottom: 24px;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 26px;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+  }
+  header .sub {
+    margin-top: 6px;
+    color: var(--gray);
+    font-size: 14px;
+  }
+  header .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    background: var(--accent-bg);
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-right: 6px;
+  }
+
+  /* ── Section headers ──────────────────────────────────── */
+  h2 {
+    font-size: 15px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 28px 0 10px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* ── Flow diagram ─────────────────────────────────────── */
+  .flow {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: 4px;
+    margin: 8px 0 10px;
+  }
+  .node {
+    text-align: center;
+    padding: 12px 10px;
+    border-radius: 8px;
+    border: 2px solid;
+    font-size: 13px;
+  }
+  .node .title {
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+  .node .detail {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gray);
+  }
+  .node.drive   { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); }
+  .node.code    { background: var(--gold-bg);   border-color: var(--gold);   color: var(--gold); }
+  .node.cluster { background: var(--green-bg);  border-color: var(--green);  color: var(--green); }
+  .arrow {
+    color: var(--accent);
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  /* ── Cards ────────────────────────────────────────────── */
+  .card {
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 12px 14px;
+    background: #fff;
+    margin-bottom: 10px;
+  }
+  .card.good  { background: var(--green-bg); border-color: var(--green); }
+  .card.bad   { background: var(--red-bg);   border-color: var(--red); }
+  .card h3 {
+    margin: 0 0 8px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .card.good h3 { color: var(--green); }
+  .card.bad  h3 { color: var(--red); }
+  .card ul { margin: 0; padding-left: 18px; }
+  .card li { margin: 3px 0; font-size: 14px; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* ── Tables ───────────────────────────────────────────── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th, td {
+    text-align: left;
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  th {
+    background: var(--accent-bg);
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  td.mono, th.mono { font-family: var(--mono); font-size: 12px; }
+
+  /* ── Code block ───────────────────────────────────────── */
+  pre.code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: #0F172A;
+    color: #E2E8F0;
+    padding: 14px 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+    line-height: 1.55;
+    margin: 4px 0 0;
+  }
+  pre.code .kw { color: #C084FC; }
+  pre.code .str { color: #86EFAC; }
+  pre.code .n { color: #93C5FD; }
+  pre.code .cm { color: #64748B; font-style: italic; }
+
+  /* ── Stats row ────────────────────────────────────────── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .stat {
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 10px 12px;
+    background: #fff;
+  }
+  .stat .num {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: var(--mono);
+  }
+  .stat .lbl {
+    font-size: 12px;
+    color: var(--gray);
+    margin-top: 2px;
+  }
+
+  /* ── Footer ───────────────────────────────────────────── */
+  footer {
+    margin-top: 36px;
+    border-top: 1px solid var(--rule);
+    padding-top: 12px;
+    color: var(--gray);
+    font-size: 12px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>s_0_clusters.py</h1>
+  <div class="sub">
+    <span class="tag">f_hs/experiments/clusters/</span>
+    Sample <strong>N random ClusterDiamonds</strong> per GridMap and
+    stream metadata to a CSV on Google Drive.
+  </div>
+</header>
+
+<!-- ── FLOW ─────────────────────────────────────────────── -->
+<h2>Flow</h2>
+<div class="flow">
+  <div class="node drive">
+    <div class="title">Drive</div>
+    <div class="detail">*.map files</div>
+  </div>
+  <div class="arrow">&rarr;</div>
+  <div class="node code">
+    <div class="title">Load GridMap</div>
+    <div class="detail">per map</div>
+  </div>
+  <div class="arrow">&rarr;</div>
+  <div class="node cluster">
+    <div class="title">Sample N</div>
+    <div class="detail">ClusterDiamond.Factory.random</div>
+  </div>
+  <div class="arrow">&rarr;</div>
+  <div class="node drive">
+    <div class="title">Drive</div>
+    <div class="detail">one .csv</div>
+  </div>
+</div>
+
+<!-- ── PARAMETERS + OUTPUT (side by side) ─────────────── -->
+<div class="two-col">
+  <div>
+    <h2>Parameters</h2>
+    <table>
+      <thead>
+        <tr><th class="mono">arg</th><th>meaning</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="mono">grids</td>
+            <td><code>list[GridMap]</code> to sample on</td></tr>
+        <tr><td class="mono">path_drive_csv</td>
+            <td>output path on Drive</td></tr>
+        <tr><td class="mono">steps</td>
+            <td>Manhattan radius of each diamond</td></tr>
+        <tr><td class="mono">min_cells</td>
+            <td>minimum valid cells per cluster</td></tr>
+        <tr><td class="mono">n</td>
+            <td>samples per grid</td></tr>
+        <tr><td class="mono">max_tries</td>
+            <td>retries per sample (default <code>100</code>)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <h2>CSV columns</h2>
+    <table>
+      <thead>
+        <tr><th class="mono">column</th><th>source</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="mono">domain</td>
+            <td>grid.domain</td></tr>
+        <tr><td class="mono">map</td>
+            <td>grid.name</td></tr>
+        <tr><td class="mono">center_row</td>
+            <td>cluster.center.row</td></tr>
+        <tr><td class="mono">center_col</td>
+            <td>cluster.center.col</td></tr>
+        <tr><td class="mono">steps</td>
+            <td>cluster.steps</td></tr>
+        <tr><td class="mono">cells</td>
+            <td>len(cluster) &mdash; valid cells in BFS ball</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ── WHEN TO USE / NOT ───────────────────────────────── -->
+<h2>When to use &nbsp;&middot;&nbsp; when not to</h2>
+<div class="two-col">
+  <div class="card good">
+    <h3>&#x2713; Use</h3>
+    <ul>
+      <li>Characterise the distribution of <strong>cluster size</strong>
+          for a fixed <code>(steps, min_cells)</code>.</li>
+      <li>Profile <em>where</em> random centers land on each map.</li>
+      <li>Sanity-check parameter choices before running the
+          pair-cluster pipeline.</li>
+    </ul>
+  </div>
+  <div class="card bad">
+    <h3>&#x2717; Do not use</h3>
+    <ul>
+      <li>For <strong>pair</strong> experiments &mdash; use
+          <code>s_1_pair_clusters.py</code>.</li>
+      <li>For one-off calls &mdash; invoke
+          <code>ClusterDiamond.Factory.random(&hellip;)</code>
+          directly.</li>
+      <li>If you need full <code>ClusterDiamond</code> objects
+          later &mdash; CSV keeps metadata only.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ── STATS ───────────────────────────────────────────── -->
+<h2>Defaults &nbsp;&middot;&nbsp; scale</h2>
+<div class="stats">
+  <div class="stat">
+    <div class="num">1,000,000</div>
+    <div class="lbl">samples / map (default n)</div>
+  </div>
+  <div class="stat">
+    <div class="num">~50 MB</div>
+    <div class="lbl">CSV size / map at n = 1M</div>
+  </div>
+  <div class="stat">
+    <div class="num">10&ndash;30 min</div>
+    <div class="lbl">runtime / map at n = 1M</div>
+  </div>
+</div>
+
+<!-- ── EXAMPLE ─────────────────────────────────────────── -->
+<h2>Example</h2>
+<pre class="code"><span class="kw">from</span> f_hs.experiments.clusters.s_0_clusters <span class="kw">import</span> (
+    generate_cluster_samples,
+)
+
+<span class="cm"># grids: list[GridMap] already loaded from Drive</span>
+generate_cluster_samples(
+    grids=grids,
+    path_drive_csv=<span class="str">'2026/04/experiments/clusters/steps_10_min_cells_10.csv'</span>,
+    steps=<span class="n">10</span>,
+    min_cells=<span class="n">10</span>,
+    n=<span class="n">1_000_000</span>,
+)</pre>
+
+<footer>
+  f_hs/experiments/clusters/s_0_clusters.py
+  &nbsp;&middot;&nbsp; generated 2026-04-22
+</footer>
+
+</div>
+</body>
+</html>

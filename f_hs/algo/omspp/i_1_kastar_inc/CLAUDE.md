@@ -162,12 +162,9 @@ events, so the force-expand is visible in the event log.
 
 ## Tests
 
-Split into one file by domain (graph-only for now; grid to
-follow in Phase 4 when OMSPP benchmarks land):
-
 | File | Scope | Count |
 |---|---|---|
-| `_tester.py` | lifecycle (single-goal, two-goals, fast-path, duplicates, frontier-transition events, recording, reconstruction, closure, search_state exposure, independent-A* equivalence) | 10 |
+| `_tester.py` | lifecycle (single-goal, two-goals, fast-path, duplicates, frontier-transition events, recording, reconstruction, closure, search_state exposure, independent-A* equivalence) + recorded snapshot on `grid_4x4_obstacle` with goals `[(0,3),(3,3)]` | 11 |
 
 ## Assumptions & limitations (current scope)
 

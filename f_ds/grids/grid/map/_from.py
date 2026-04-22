@@ -14,12 +14,26 @@ class From:
     def file_map(path: str, name: str = None, domain: str = None) -> GridMap:
         """
         ========================================================================
-         Return a GridMap created from a file-i_1_map.
+         Return a GridMap created from a file-i_1_map on disk.
         ========================================================================
         """
         # Get the boolean array from the file-i_1_map
         array = UFileMap.to_bool_array(path=path)
         # Return the GridMap
+        return From.array(array=array, name=name, domain=domain)
+
+    @staticmethod
+    def text(content: str,
+             name: str = None,
+             domain: str = None) -> GridMap:
+        """
+        ========================================================================
+         Return a GridMap built from the body of a map-file held in memory
+         as a string. Uses the same header-skip + valid-char parsing as
+         file_map(path), so callers can swap disk <-> RAM freely.
+        ========================================================================
+        """
+        array = UFileMap.to_bool_array_from_text(text=content)
         return From.array(array=array, name=name, domain=domain)
 
     @staticmethod

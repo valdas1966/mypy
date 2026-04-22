@@ -66,6 +66,32 @@ class Cluster(Collectionable[CellMap], ABC):
         """
         pass
 
+    def to_analytics(self) -> dict:
+        """
+        ========================================================================
+         Return a flat dict of analytic metadata for this cluster, suitable
+         for CSV export and downstream analysis.
+
+         Base fields:
+           (a) Grid-level   -- domain, map, rows, cols, n_cells_grid.
+           (b) Cluster core -- center_row, center_col, cells.
+
+         Subclasses should extend via super().to_analytics() and add
+         shape-specific keys (e.g. ClusterDiamond adds 'steps').
+        ========================================================================
+        """
+        grid = self._grid
+        return dict(
+            domain=grid.domain,
+            map=grid.name,
+            rows=grid.rows,
+            cols=grid.cols,
+            n_cells_grid=len(grid),
+            center_row=self.center.row,
+            center_col=self.center.col,
+            cells=len(self),
+        )
+
     def __repr__(self) -> str:
         """
         ========================================================================

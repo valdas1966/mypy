@@ -167,3 +167,45 @@ def test_str() -> None:
     assert '(2, 2)' in s
     assert 'steps=1' in s
     assert 'cells=5' in s
+
+
+def test_to_analytics() -> None:
+    """
+    ============================================================================
+     ClusterDiamond.to_analytics exposes grid-level, cluster-core, and the
+     diamond-specific 'steps' field.
+    ============================================================================
+    """
+    grid = GridMap(rows=20, cols=20, name='AnalyticsGrid', domain='ana')
+    cluster = ClusterDiamond.Factory.at_center(
+        grid=grid, center=grid[7][9], steps=3)
+    a = cluster.to_analytics()
+    # Grid-level
+    assert a['domain'] == 'ana'
+    assert a['map'] == 'AnalyticsGrid'
+    assert a['rows'] == 20
+    assert a['cols'] == 20
+    assert a['n_cells_grid'] == 400
+    # Cluster core
+    assert a['center_row'] == 7
+    assert a['center_col'] == 9
+    assert a['cells'] == 25
+    # Diamond-specific
+    assert a['steps'] == 3
+
+
+def test_repr() -> None:
+    """
+    ============================================================================
+     __repr__ exposes grid, center, steps, and cells.
+    ============================================================================
+    """
+    grid = GridMap(rows=5, cols=5, name='ReprGrid')
+    cluster = ClusterDiamond.Factory.at_center(
+        grid=grid, center=grid[2][2], steps=2)
+    r = repr(cluster)
+    assert r.startswith('<ClusterDiamond: ')
+    assert 'grid=ReprGrid' in r
+    assert 'center=(2, 2)' in r
+    assert 'steps=2' in r
+    assert 'cells=13' in r

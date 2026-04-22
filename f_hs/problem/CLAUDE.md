@@ -9,10 +9,12 @@ problem/
 ├── __init__.py         ProblemSPP, ProblemGrid
 ├── i_0_base/           ProblemSPP — abstract SPP base
 └── i_1_grid/           ProblemGrid — 2D grid domain
-                        + Store (bulk save / load with
-                          grids pickled separately and
-                          a shared per-grid StateCell
-                          cache on load)
+                        + Store (split-file save / load;
+                          shared per-grid StateCell cache
+                          on load)
+                        + Runner (ProcessPoolExecutor; grids
+                          loaded once per worker; shared
+                          StateCell cache per worker)
 ```
 
 ## Inheritance

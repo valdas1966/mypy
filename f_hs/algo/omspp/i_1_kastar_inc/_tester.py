@@ -1,6 +1,7 @@
 from f_hs.algo.i_1_astar import AStar
 from f_hs.algo.omspp import KAStarInc
 from f_hs.problem.i_0_base._factory import _ProblemGraph
+from f_hs.problem.i_1_grid import ProblemGrid
 
 
 def _graph_abc_multigoal(goals: list[str]) -> _ProblemGraph:
@@ -36,6 +37,25 @@ def _graph_diamond_multigoal(goals: list[str]) -> _ProblemGraph:
 
 def _pos_h(pos: dict[str, int]):
     return lambda s, g: abs(pos[s.key] - pos[g.key])
+
+
+def _grid_4x4_obstacle_multigoal() -> ProblemGrid:
+    """
+    ========================================================================
+     4x4 grid with wall cells at (0,2) and (1,2). Start (0,0),
+     goals [(0,3), (3,3)]. Optimal costs 7 and 6.
+    ========================================================================
+    """
+    p = ProblemGrid.Factory.grid_4x4_obstacle()
+    grid = p.grid
+    p._goals = [p._states[grid[0][3]],
+                p._states[grid[3][3]]]
+    return p
+
+
+def _manhattan_grid(s, g) -> int:
+    return (abs(s.key.row - g.key.row)
+            + abs(s.key.col - g.key.col))
 
 
 # ──────────────────────────────────────────────────
@@ -286,3 +306,72 @@ def test_kastar_inc_search_state_exposed_after_run() -> None:
     algo.run()
     assert algo.search_state is not None
     assert 'A' in {s.key for s in algo.search_state.closed}
+
+
+# ──────────────────────────────────────────────────
+#  5. Grid domain — recorded run on grid_4x4_obstacle
+# ──────────────────────────────────────────────────
+
+
+def test_kastar_inc_grid_4x4_obstacle_recording() -> None:
+    """
+    ========================================================================
+     kA*_inc on a 4x4 grid with a 2-cell wall at (0,2),(1,2).
+     Goals [(0,3), (3,3)] — sub-search 1 detours around the wall
+     and closes (0,3) at g=7; sub-search 2 resumes from shared
+     state and closes (3,3) at g=6. Event counts pinned as a
+     snapshot on the current tie-break order.
+    ========================================================================
+    """
+    p = _grid_4x4_obstacle_multigoal()
+    algo = KAStarInc(problem=p, h=_manhattan_grid,
+                     is_recording=True)
+    sols = algo.run()
+    by_rc = {(g.key.row, g.key.col): s.cost
+             for g, s in sols.items()}
+    assert by_rc == {(0, 3): 7, (3, 3): 6}
+
+    events = algo.recorder.events
+    by_type: dict[str, int] = {}
+    for e in events:
+        by_type[e['type']] = by_type.get(e['type'], 0) + 1
+    assert by_type == {
+        'push': 13, 'pop': 10,
+        'on_goal': 2,
+        'update_frontier': 1,
+        'update_heuristic': 4,
+    }
+
+    on_goals = [e for e in events if e['type'] == 'on_goal']
+    assert [(og['state'].key.row, og['state'].key.col,
+             og['g'], og['reason'], og['goal_index'])
+            for og in on_goals] == [
+        (0, 3, 7, 'expanded', 0),
+        (3, 3, 6, 'expanded', 1),
+    ]
+
+    # Exactly one inter-sub-search transition. Frontier at
+    # transition has 4 states; they are re-heuristicised before
+    # sub-search 2.
+    trans = [e for e in events if e['type'] == 'update_frontier']
+    assert len(trans) == 1
+    assert trans[0]['num_nodes'] == 4
+    assert trans[0]['next_goal_index'] == 1
+
+    updates = [e for e in events
+               if e['type'] == 'update_heuristic']
+    assert len(updates) == 4
+    for u in updates:
+        assert isinstance(u['h_old'], int)
+        assert isinstance(u['h_new'], int)
+
+    # Reconstruct paths — cost matches path length.
+    goal_a, goal_b = p.goals
+    path_a = algo.reconstruct_path(goal_a)
+    path_b = algo.reconstruct_path(goal_b)
+    assert len(path_a) - 1 == 7
+    assert len(path_b) - 1 == 6
+    assert path_a[0].key.row == 0 and path_a[0].key.col == 0
+    assert path_b[0].key.row == 0 and path_b[0].key.col == 0
+    assert path_a[-1].key.row == 0 and path_a[-1].key.col == 3
+    assert path_b[-1].key.row == 3 and path_b[-1].key.col == 3

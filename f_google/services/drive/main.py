@@ -1,3 +1,4 @@
+from typing import Callable
 from google.oauth2.credentials import Credentials as OAuthCredentials
 from google.oauth2.service_account import Credentials as SACredentials
 from googleapiclient.discovery import build
@@ -50,6 +51,36 @@ class Drive:
         ====================================================================
         """
         return self._nav.files(path=path)
+
+    def filepaths(self,
+                  path: str = None,
+                  recursive: bool = False,
+                  predicate: Callable[[str], bool] = None
+                  ) -> list[str]:
+        """
+        ====================================================================
+         Return full Drive paths to files in the given folder.
+         Optional `recursive` walks sub-folders; optional `predicate` is a
+         filter applied to each file *name* (not path) -- same shape as
+         f_psl/os/u_dir.filepaths.
+        ====================================================================
+        """
+        result: list[str] = []
+        # Files in this folder
+        for name in self._nav.files(path=path):
+            if predicate is None or predicate(name):
+                full = name if path is None else f'{path}/{name}'
+                result.append(full)
+        # Recurse into sub-folders
+        if recursive:
+            for folder in self._nav.folders(path=path):
+                sub = (folder if path is None
+                       else f'{path}/{folder}')
+                result.extend(self.filepaths(
+                    path=sub,
+                    recursive=True,
+                    predicate=predicate))
+        return result
 
     def is_exists(self, path: str) -> bool:
         """

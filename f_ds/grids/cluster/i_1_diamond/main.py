@@ -96,6 +96,17 @@ class ClusterDiamond(Cluster):
         """
         return (self._center.key, self._steps)
 
+    def to_analytics(self) -> dict:
+        """
+        ========================================================================
+         Extend the base Cluster.to_analytics() with diamond-specific fields.
+         Adds: steps.
+        ========================================================================
+        """
+        base = super().to_analytics()
+        base['steps'] = self._steps
+        return base
+
     def __str__(self) -> str:
         """
         ========================================================================
@@ -107,3 +118,16 @@ class ClusterDiamond(Cluster):
                 f'center={self._center.key}, '
                 f'steps={self._steps}, '
                 f'cells={len(self)})')
+
+    def __repr__(self) -> str:
+        """
+        ========================================================================
+         Return a debugger-friendly representation including the grid
+         context: '<ClusterDiamond: grid=X, center=(r,c), steps=s, cells=n>'
+        ========================================================================
+        """
+        return (f'<{type(self).__name__}: '
+                f'grid={self._grid.name}, '
+                f'center={self._center.key}, '
+                f'steps={self._steps}, '
+                f'cells={len(self)}>')

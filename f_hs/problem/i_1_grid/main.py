@@ -19,6 +19,7 @@ class ProblemGrid(ProblemSPP[StateCell]):
     # Static Classes (wired in __init__.py)
     Factory: type = None
     Store: type = None
+    Runner: type = None
 
     def __init__(self,
                  grid: GridMap,

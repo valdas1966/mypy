@@ -3,6 +3,7 @@ import pytest
 from f_hs.algo.i_1_astar import AStar
 from f_hs.algo.omspp.i_1_kastar_agg import KAStarAgg
 from f_hs.problem.i_0_base._factory import _ProblemGraph
+from f_hs.problem.i_1_grid import ProblemGrid
 
 
 def _abc(goals: list[str]) -> _ProblemGraph:
@@ -23,6 +24,25 @@ def _diamond(goals: list[str]) -> _ProblemGraph:
 
 def _pos_h(pos: dict[str, int]):
     return lambda s, g: abs(pos[s.key] - pos[g.key])
+
+
+def _grid_4x4_obstacle_multigoal() -> ProblemGrid:
+    """
+    ========================================================================
+     4x4 grid with wall cells at (0,2) and (1,2). Start (0,0),
+     goals [(0,3), (3,3)]. Optimal costs 7 and 6.
+    ========================================================================
+    """
+    p = ProblemGrid.Factory.grid_4x4_obstacle()
+    grid = p.grid
+    p._goals = [p._states[grid[0][3]],
+                p._states[grid[3][3]]]
+    return p
+
+
+def _manhattan_grid(s, g) -> int:
+    return (abs(s.key.row - g.key.row)
+            + abs(s.key.col - g.key.col))
 
 
 # ──────────────────────────────────────────────────
@@ -293,3 +313,88 @@ def test_agg_reconstruct_path() -> None:
     c = p._states['C']
     assert [s.key for s in algo.reconstruct_path(b)] == ['A', 'B']
     assert [s.key for s in algo.reconstruct_path(c)] == ['A', 'B', 'C']
+
+
+# ──────────────────────────────────────────────────
+#  9. Grid domain — recorded run on grid_4x4_obstacle
+# ──────────────────────────────────────────────────
+
+
+def test_agg_grid_4x4_obstacle_recording_lazy() -> None:
+    """
+    ========================================================================
+     kA*_agg MIN lazy on a 4x4 grid with a 2-cell wall at
+     (0,2),(1,2). Goals [(0,3), (3,3)] — single search toward
+     both; under min-h, (3,3) is reached first at g=6 and
+     (0,3) next at g=7. Event counts pinned as a snapshot.
+    ========================================================================
+    """
+    p = _grid_4x4_obstacle_multigoal()
+    algo = KAStarAgg(problem=p, h=_manhattan_grid,
+                     agg='MIN', is_lazy=True,
+                     is_recording=True)
+    sols = algo.run()
+    by_rc = {(g.key.row, g.key.col): s.cost
+             for g, s in sols.items()}
+    assert by_rc == {(0, 3): 7, (3, 3): 6}
+
+    events = algo.recorder.events
+    by_type: dict[str, int] = {}
+    for e in events:
+        by_type[e['type']] = by_type.get(e['type'], 0) + 1
+    assert by_type == {
+        'push': 13, 'pop': 10,
+        'on_goal': 2,
+        'update_heuristic': 3,
+    }
+
+    # Goals resolve in the opposite order from kA*_inc —
+    # (3,3) first (closer under min-h), then (0,3).
+    on_goals = [e for e in events if e['type'] == 'on_goal']
+    assert [(og['state'].key.row, og['state'].key.col,
+             og['g'], og['reason'], og['goal_index'])
+            for og in on_goals] == [
+        (3, 3, 6, 'expanded', 1),
+        (0, 3, 7, 'expanded', 0),
+    ]
+    # Lazy mode — no eager frontier refresh.
+    assert not any(e['type'] == 'update_frontier'
+                   for e in events)
+
+
+def test_agg_grid_4x4_obstacle_recording_eager() -> None:
+    """
+    ========================================================================
+     Same 4x4 grid, is_lazy=False. An eager frontier refresh
+     fires after the first goal is found, producing exactly one
+     update_frontier event plus one update_heuristic per OPEN
+     state at that moment.
+    ========================================================================
+    """
+    p = _grid_4x4_obstacle_multigoal()
+    algo = KAStarAgg(problem=p, h=_manhattan_grid,
+                     agg='MIN', is_lazy=False,
+                     is_recording=True)
+    sols = algo.run()
+    by_rc = {(g.key.row, g.key.col): s.cost
+             for g, s in sols.items()}
+    assert by_rc == {(0, 3): 7, (3, 3): 6}
+
+    events = algo.recorder.events
+    by_type: dict[str, int] = {}
+    for e in events:
+        by_type[e['type']] = by_type.get(e['type'], 0) + 1
+    assert by_type == {
+        'push': 13, 'pop': 10,
+        'on_goal': 2,
+        'update_frontier': 1,
+        'update_heuristic': 4,
+    }
+
+    trans = [e for e in events if e['type'] == 'update_frontier']
+    assert len(trans) == 1
+    # num_nodes == the size of OPEN at the eager refresh, which
+    # matches the following burst of update_heuristic events.
+    updates = [e for e in events
+               if e['type'] == 'update_heuristic']
+    assert len(updates) == trans[0]['num_nodes'] == 4

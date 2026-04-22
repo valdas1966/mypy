@@ -14,7 +14,7 @@ State = TypeVar('State', bound=StateBase)
 
 
 _VALID_BPMX: frozenset[str | None] = frozenset({
-    None, '1', '2', '12', '23', '123',
+    None, '1', '2', '3',
 })
 
 
@@ -61,6 +61,7 @@ class AStarLookup(Generic[State], AStar[State]):
                  goal: State | None = None,
                  bounds: dict[State, int] | None = None,
                  bpmx: str | None = None,
+                 bpmx_depth: int | None = 1,
                  ) -> None:
         """
         ====================================================================
@@ -73,27 +74,53 @@ class AStarLookup(Generic[State], AStar[State]):
              → ValueError (would double-wrap).
            - HCached goal not in problem.goals → ValueError
              (A* admissibility).
-           - `bpmx` not in {None, '1', '2', '12', '23', '123'}
-             → ValueError. '3' and '13' are rejected: Rule 3
-             (cascade) requires Rule 2 as its trigger; cascade
-             alone has no trigger.
+           - `bpmx` not in {None, '1', '2', '3'} → ValueError.
+             Three distinct behaviours:
+               '1' — forward only, tree-deep (Rule 1 sweep).
+               '2' — backward only, tree-deep (Rule 2 sweep).
+               '3' — full BPMX (Rule 1 + Rule 2, iterated to
+                     fixed point) tree-deep.
+             Dropped spellings '12', '13', '23', '123' collapse
+             into this set: {'13'≡'1', '23'≡'2', '12'≡'3'@tree,
+             '123'≡'3'}.
+           - `bpmx_depth` not in {None} ∪ {int ≥ 1} → ValueError.
            - `bpmx` enabled but no HBounded reachable in the
              heuristic chain → ValueError (or auto-wrap when
              `h` is a callable / None).
 
-         `bpmx` — in-search pathmax. Activates rule subsets:
-           '1'  — Rule 1 (forward): child's h lifted from
-                  parent at expansion.
-           '2'  — Rule 2 (backward): parent's h lifted from
-                  max over children at expansion.
-           '12' — Rule 1 + Rule 2 (Felner BPMX, one pass).
-           '23' — Rule 2 + Rule 3 (cascade). Cascade without
-                  Rule 1 converges in a single wave; effectively
-                  equivalent to '2' in outcome. Included for
-                  research-table symmetry.
-           '123'— Full bidirectional + cascade. Iterates
-                  Rules 1 + 2 until fixed point (BPMX(∞)).
+         `bpmx` — in-search pathmax (Felner et al. 2011):
+           '1'  — Rule 1, top-down pathmax: propagate h downward
+                  through the d-level subtree rooted at the
+                  state being expanded. Each ancestor lifts its
+                  children via `h(c) ← max(h(c), h(p) − w(p,c))`.
+           '2'  — Rule 2, bottom-up pathmax: propagate h upward
+                  through the d-level subtree. Each parent lifts
+                  itself via `h(p) ← max(h(p), max_c(h(c) −
+                  w(c,p)))`.
+           '3'  — Full BPMX: iterate Rule 1 top-down + Rule 2
+                  bottom-up until a pass tightens nothing.
            None — BPMX off (default).
+
+         `bpmx_depth` — tree depth of the BPMX lookahead subtree
+         rooted at the state being expanded (Felner BPMX(d)):
+           1    (default) — flat: only the state and its
+                immediate children (the "star" scope).
+           N>1  — BFS `N` levels of successors; rules propagate
+                through the full N-level subtree within the
+                single expansion.
+           None — full reachable successor subtree, bounded by
+                cycles via the visited-set.
+
+         BPMX at depth=1 is structurally one-round (Rule 1/Rule 2
+         inputs don't feed back into themselves at the same
+         level), so '3'@depth=1 behaves identically to a one-
+         pass combined Rule 1+Rule 2. The iteration of '3'
+         matters only at depth>1 on asymmetric/multi-path
+         subgraphs, where a second pass can lift descendants
+         that weren't reachable from the root's h until Rule 2
+         first lifted intermediate ancestors.
+
+         Irrelevant when `bpmx is None`.
         ====================================================================
         """
         # Validate bpmx string.
@@ -101,9 +128,17 @@ class AStarLookup(Generic[State], AStar[State]):
             valid = sorted(v for v in _VALID_BPMX if v is not None)
             raise ValueError(
                 f'bpmx must be one of {valid} or None; got '
-                f'{bpmx!r}. Note: "3" and "13" are rejected — '
-                f'Rule 3 (cascade) requires Rule 2 as its '
-                f'trigger.')
+                f'{bpmx!r}. Under tree-deep BPMX only three '
+                f'behaviours are distinct: "1" forward-only, '
+                f'"2" backward-only, "3" full-BPMX-iterated. '
+                f'Spellings "12"/"13"/"23"/"123" are redundant '
+                f'and rejected.')
+        # Validate bpmx_depth.
+        if bpmx_depth is not None and (not isinstance(bpmx_depth, int)
+                                       or bpmx_depth < 1):
+            raise ValueError(
+                f'bpmx_depth must be int >= 1 or None; got '
+                f'{bpmx_depth!r}')
         # Auto-wrap HBounded when BPMX is on and `h` is a
         # callable / None with no explicit bounds.
         if (bpmx is not None
@@ -120,7 +155,8 @@ class AStarLookup(Generic[State], AStar[State]):
                 'as storage for lifted h values. Either pass `h` '
                 'as a callable (AStarLookup will auto-wrap) or '
                 'supply `bounds=...` (can be empty).')
-        self._bpmx_rules: set[str] = (set(bpmx) if bpmx else set())
+        self._bpmx: str | None = bpmx
+        self._bpmx_depth: int | None = bpmx_depth
         AStar.__init__(self, problem=problem, h=chain, name=name,
                        is_recording=is_recording,
                        search_state=search_state)
@@ -233,105 +269,190 @@ class AStarLookup(Generic[State], AStar[State]):
     def _pre_expand(self, state: State) -> None:
         """
         ====================================================================
-         BPMX (in-search pathmax) at parent expansion.
+         Tree-deep BPMX (Felner BPMX(d)) at parent expansion.
 
-         Activates based on `self._bpmx_rules` (subset of
-         {'1','2','3'}):
-           Rule 1: lift each child's h from parent.
-           Rule 2: lift parent's h from max over children.
-           Rule 3: cascade — iterate Rules 1/2 until fixed point
-                   (without Rule 3, single pass only).
+         Dispatches on `self._bpmx` (string rule selector):
+           '1' — Rule 1 top-down sweep over the d-level subtree
+                 rooted at `state`.
+           '2' — Rule 2 bottom-up sweep over the d-level subtree.
+           '3' — Full BPMX: iterate (Rule 2 bottom-up, then
+                 Rule 1 top-down) until a pass tightens nothing.
+           None — no-op.
+
+         Subtree scope controlled by `self._bpmx_depth` (1 =
+         flat; N>1 = N levels; None = full reachable subtree
+         bounded by the BFS visited-set).
+
+         Within a pass, Rule 2 runs before Rule 1 (preserves the
+         historical flat-depth=1 event order).
 
          Short-circuits:
-           - No rules enabled → no-op.
+           - BPMX off → no-op.
            - `state` is HCached-perfect → skip (no lift possible).
            - No HBounded in chain → enforced at __init__; not
              re-checked here.
 
-         Complication: Rule 1 mutates children's h values in
-         HBounded. Children already on the frontier from earlier
-         expansions carry stale priorities. A* with inconsistent
-         heuristics accepts this (Martelli construction); the
-         paper's Algorithm 2 makes the same pragmatic choice.
+         Staleness caveat: Rule 1 mutates descendants' h values
+         in HBounded. Descendants already on the frontier from
+         earlier expansions carry stale priorities. A* with
+         inconsistent heuristics accepts this (Martelli
+         construction); Felner's BPMX(d) makes the same choice.
         ====================================================================
         """
-        if not self._bpmx_rules:
+        if self._bpmx is None:
             return
         if self._h.is_perfect(state):
             return
         hb = self._find_hbounded(self._h)
         if hb is None:
             return   # defensive; __init__ should have caught.
-        children: list[State] = list(self.problem.successors(state))
-        use_rule_1 = '1' in self._bpmx_rules
-        use_rule_2 = '2' in self._bpmx_rules
-        cascade = '3' in self._bpmx_rules
+        levels, edges = self._collect_bpmx_subtree(
+            root=state, depth=self._bpmx_depth)
+        if self._bpmx == '1':
+            self._bpmx_tree_down(levels, edges, hb)
+            return
+        if self._bpmx == '2':
+            self._bpmx_tree_up(levels, edges, hb)
+            return
+        # '3' — iterate Rule 2 then Rule 1 until fixed point.
         while True:
-            changed = False
-            if use_rule_2 and self._bpmx_rule_2(state, children, hb):
-                changed = True
-            if use_rule_1 and self._bpmx_rule_1(state, children, hb):
-                changed = True
-            if not cascade:
-                break
-            if not changed:
+            changed_up = self._bpmx_tree_up(levels, edges, hb)
+            changed_down = self._bpmx_tree_down(levels, edges, hb)
+            if not (changed_up or changed_down):
                 break
 
-    def _bpmx_rule_2(self, state, children, hb) -> bool:
+    def _collect_bpmx_subtree(
+            self,
+            root: State,
+            depth: int | None,
+            ) -> tuple[list[list[State]], dict[State, list[State]]]:
         """
         ====================================================================
-         Rule 2 (backward pathmax): lift `h(state)` from max
-         over children of `h(c) - w(c, state)`. Returns True
-         iff `h(state)` was strictly tightened.
-        ====================================================================
-        """
-        h_n = self._h(state)
-        best, best_via = h_n, None
-        for c in children:
-            cand = self._h(c) - self.problem.w(parent=c,
-                                               child=state)
-            if cand > best:
-                best, best_via = cand, c
-        if best > h_n:
-            hb.add_bound(state=state, value=best)
-            self._record_event(
-                type='bpmx_lift',
-                state=state,
-                h_old=h_n,
-                h_new=best,
-                via_child=best_via,
-            )
-            return True
-        return False
+         BFS spanning tree from `root`, up to `depth` levels
+         (or full subgraph if depth is None), visited-set
+         bounded.
 
-    def _bpmx_rule_1(self, state, children, hb) -> bool:
+         Returns:
+           levels: list of level-lists. levels[k] = states at
+                   BFS-depth k. levels[0] = [root].
+           edges:  dict mapping each state v in the subtree to
+                   its children in the spanning tree (successors
+                   of v that were first-visited via v).
+
+         Notes:
+           - Spanning tree loses some graph edges when a
+             descendant has multiple paths from the root; a
+             future DAG-aware variant could recover those. For
+             admissibility the spanning tree is sufficient
+             (any lift is still a valid lower bound).
+           - A cached descendant is still included in the BFS
+             (so it can serve as a lift source via Rule 2); the
+             per-rule lift methods skip mutating it.
+        ====================================================================
+        """
+        levels: list[list[State]] = [[root]]
+        edges: dict[State, list[State]] = {root: []}
+        visited: set[State] = {root}
+        k = 0
+        while True:
+            if depth is not None and k >= depth:
+                break
+            next_level: list[State] = []
+            for v in levels[k]:
+                for c in self.problem.successors(v):
+                    if c in visited:
+                        continue
+                    visited.add(c)
+                    edges[v].append(c)
+                    edges.setdefault(c, [])
+                    next_level.append(c)
+            if not next_level:
+                break
+            levels.append(next_level)
+            k += 1
+        return levels, edges
+
+    def _bpmx_tree_down(
+            self,
+            levels: list[list[State]],
+            edges: dict[State, list[State]],
+            hb: 'HBounded',
+            ) -> bool:
         """
         ====================================================================
-         Rule 1 (forward pathmax): for each non-closed,
-         non-perfect child c, lift `h(c)` from
-         `h(state) - w(state, c)`. Returns True iff any child's
-         h was strictly tightened.
+         Rule 1 top-down: for k in 0..d-1, lift each level-(k+1)
+         child from its level-k ancestor via
+         `h(c) ← max(h(c), h(p) − w(p, c))`.
+         Cached children skipped (h* can't be improved); closed
+         children are NOT skipped — paper-aligned information
+         propagation through the expansion subtree regardless
+         of closed/open status (admissibility preserved; any
+         later re-open under inconsistent-h A* sees the tighter
+         h and produces a tighter f).
+         Returns True iff any lift fired.
         ====================================================================
         """
-        h_n = self._h(state)
         changed = False
-        for c in children:
-            if c in self._search.closed:
-                continue
-            if self._h.is_perfect(c):
-                continue
-            h_c_old = self._h(c)
-            cand = h_n - self.problem.w(parent=state, child=c)
-            if cand > h_c_old:
-                hb.add_bound(state=c, value=cand)
-                self._record_event(
-                    type='bpmx_forward',
-                    state=c,
-                    h_old=h_c_old,
-                    h_new=cand,
-                    via_parent=state,
-                )
-                changed = True
+        for k in range(len(levels) - 1):
+            for p in levels[k]:
+                h_p = self._h(p)
+                for c in edges[p]:
+                    if self._h.is_perfect(c):
+                        continue
+                    h_c_old = self._h(c)
+                    cand = h_p - self.problem.w(parent=p, child=c)
+                    if cand > h_c_old:
+                        hb.add_bound(state=c, value=cand)
+                        self._record_event(
+                            type='bpmx_forward',
+                            state=c,
+                            h_old=h_c_old,
+                            h_new=cand,
+                            via_parent=p,
+                        )
+                        changed = True
+        return changed
+
+    def _bpmx_tree_up(
+            self,
+            levels: list[list[State]],
+            edges: dict[State, list[State]],
+            hb: 'HBounded',
+            ) -> bool:
+        """
+        ====================================================================
+         Rule 2 bottom-up: for k in d-1..0, each level-k node
+         lifts from its level-(k+1) children via
+         `h(p) ← max(h(p), max_c(h(c) − w(c, p)))`.
+         Perfect-h parents skipped (cache bound is tighter).
+         Returns True iff any lift fired.
+        ====================================================================
+        """
+        changed = False
+        for k in range(len(levels) - 2, -1, -1):
+            for p in levels[k]:
+                children = edges[p]
+                if not children:
+                    continue
+                if self._h.is_perfect(p):
+                    continue
+                h_p_old = self._h(p)
+                best, best_via = h_p_old, None
+                for c in children:
+                    cand = self._h(c) - self.problem.w(
+                        parent=c, child=p)
+                    if cand > best:
+                        best, best_via = cand, c
+                if best > h_p_old:
+                    hb.add_bound(state=p, value=best)
+                    self._record_event(
+                        type='bpmx_lift',
+                        state=p,
+                        h_old=h_p_old,
+                        h_new=best,
+                        via_child=best_via,
+                    )
+                    changed = True
         return changed
 
     # ──────────────────────────────────────────────────
