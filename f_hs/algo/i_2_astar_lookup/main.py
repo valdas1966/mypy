@@ -61,7 +61,7 @@ class AStarLookup(Generic[State], AStar[State]):
                  goal: State | None = None,
                  bounds: dict[State, int] | None = None,
                  bpmx: str | None = None,
-                 bpmx_depth: int | None = 1,
+                 bpmx_depth: int | None = None,
                  ) -> None:
         """
         ====================================================================
@@ -103,13 +103,19 @@ class AStarLookup(Generic[State], AStar[State]):
 
          `bpmx_depth` — tree depth of the BPMX lookahead subtree
          rooted at the state being expanded (Felner BPMX(d)):
-           1    (default) — flat: only the state and its
-                immediate children (the "star" scope).
+           None (default) — full reachable successor subtree,
+                bounded by cycles via the visited-set. Matches
+                the framework's use case: `HCached ∘ HBounded ∘
+                HCallable` chains may hold inconsistencies at
+                any depth below the popped node, so the default
+                tightens everywhere inconsistency helps.
+                Auto-terminates when a pass tightens nothing.
+           1    — flat: only the state and its immediate
+                children (the "star" scope); the classical
+                Felner BPMX.
            N>1  — BFS `N` levels of successors; rules propagate
                 through the full N-level subtree within the
                 single expansion.
-           None — full reachable successor subtree, bounded by
-                cycles via the visited-set.
 
          BPMX at depth=1 is structurally one-round (Rule 1/Rule 2
          inputs don't feed back into themselves at the same

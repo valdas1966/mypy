@@ -60,18 +60,34 @@ Rule semantics:
 
 `bpmx_depth` — tree depth of the BPMX lookahead subtree rooted
 at the node being expanded (Felner's BPMX(d) parameter):
-- `1` (default) — **flat** BPMX: node plus its immediate
-  children (star scope).
+- `None` (**default**) — full reachable successor subtree,
+  bounded by cycles via the visited-set. Matches this class's
+  heuristic shape: `HCached ∘ HBounded ∘ HCallable` can hold
+  inconsistencies at any depth below the popped node, so the
+  default lifts everywhere inconsistency helps.
+  Self-amortises: Rule sweeps short-circuit on no-tightening,
+  so cost is bounded by actual inconsistency depth, not the
+  worst-case subtree size. (`test_bpmx_depth_none_cascades_to_
+  fixed_point` pins "no runaway".)
+- `1` — **flat** BPMX: node plus its immediate children (star
+  scope). This is the classical Felner BPMX. Opt in for
+  paper-replication or cost-sensitive runs.
 - `N > 1` — BFS `N` levels of successors; rules propagate
   through the full N-level subtree in a single expansion.
-- `None` — full reachable successor subtree, bounded by
-  cycles via the visited-set.
 
 Under flat BPMX (depth=1), `'3'` and a one-pass combined
 Rule 1+Rule 2 coincide — the iteration in `'3'` converges in
 one round because Rule 1/Rule 2 inputs don't feed back into
 themselves at the same level. The iteration matters only at
 depth > 1 on asymmetric or multi-path subgraphs.
+
+All recording tests in `_tester_bpmx.py` rely on the default
+`bpmx_depth=None`; the only `bpmx_depth` arguments that remain
+in the tester are in (a) validation (`test_bpmx_depth_
+validation`) and (b) comparative tests whose purpose is to
+parameterise depth (`test_recording_bpmx_depth_none_same_
+as_depth_1_on_diamond`, `test_recording_bpmx_depth_scaling_
+on_grid`).
 
 Validation: `bpmx_depth` must be `None` or `int >= 1`; else
 `ValueError`.

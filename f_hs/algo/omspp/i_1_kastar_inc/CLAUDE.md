@@ -164,7 +164,7 @@ events, so the force-expand is visible in the event log.
 
 | File | Scope | Count |
 |---|---|---|
-| `_tester.py` | lifecycle (single-goal, two-goals, fast-path, duplicates, frontier-transition events, recording, reconstruction, closure, search_state exposure, independent-A* equivalence) + recorded snapshot on `grid_4x4_obstacle` with goals `[(0,3),(3,3)]` | 11 |
+| `_tester.py` | lifecycle (single-goal, two-goals, fast-path, duplicates, frontier-transition events, recording, reconstruction, closure, search_state exposure, independent-A* equivalence) + full-trace recording test on `grid_4x4_obstacle` with goals `[(0,3),(3,3)]` (30-event golden reference via `_utils.normalize`, AStarLookup-style) | 11 |
 
 ## Assumptions & limitations (current scope)
 

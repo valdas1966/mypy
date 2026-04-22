@@ -236,9 +236,10 @@ def test_bpmx_rule_3_both_fire_in_same_expansion() -> None:
 def test_bpmx_depth_none_cascades_to_fixed_point() -> None:
     """
     ========================================================================
-     `bpmx='3'` + `bpmx_depth=None` iterates Rules 1+2 to a
-     fixed point over the full reachable subtree at each
-     expansion. No infinite loop, bounded total lifts.
+     `bpmx='3'` at the default `bpmx_depth=None` iterates
+     Rules 1+2 to a fixed point over the full reachable
+     subtree at each expansion. No infinite loop, bounded
+     total lifts.
     ========================================================================
     """
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
@@ -254,7 +255,6 @@ def test_bpmx_depth_none_cascades_to_fixed_point() -> None:
         goal=_sc(0, 3),
         bounds={_sc(1, 0): 6},
         bpmx='3',
-        bpmx_depth=None,
         is_recording=True,
     )
     algo.run()
@@ -388,6 +388,11 @@ def test_recording_bpmx_rule_1_forward_on_graph_abc() -> None:
     ========================================================================
      Rule 1 only (bpmx='1') with HBounded seed at A.
 
+     Default tree-deep scope (`bpmx_depth=None`): Rule 1 top-
+     down propagates through the full reachable spanning tree
+     rooted at the popped node. On A→B→C with the seed at A,
+     both forward lifts fire at A's expansion.
+
      Chain is `HBounded(HCallable(0))` — no HCached. The outer
      is HBounded, so `is_bounded` flags surface correctly on
      push/pop of every state that ends up with a bound >
@@ -396,14 +401,13 @@ def test_recording_bpmx_rule_1_forward_on_graph_abc() -> None:
      Trace:
        push A (h=5, bounded)
        pop A
-       Rule 1 lifts B: cand = 5-1 = 4 > base 0 → emit
-         bpmx_forward(B, 0→4, via=A).
-       push B (h=4, now bounded)
-       pop B
-       Rule 1 lifts C: cand = 4-1 = 3 > base 0 → emit
-         bpmx_forward(C, 0→3, via=B).
-       push C (h=3, now bounded)
-       pop C (goal — cost=2)
+       Rule 1 top-down over subtree A→B→C:
+         lift B: cand = 5-1 = 4 > base 0 → bpmx_forward(B).
+         lift C (via B, now h=4): cand = 4-1 = 3 > base 0 →
+           bpmx_forward(C).
+       push B (h=4), push C (was not pushed yet — pushed when B
+         expands and finds C with already-lifted h=3).
+       pop B; push C (h=3, bounded); pop C (goal — cost=2).
     ========================================================================
     """
     from f_hs.problem.i_0_base._factory import _ProblemGraph
@@ -428,12 +432,12 @@ def test_recording_bpmx_rule_1_forward_on_graph_abc() -> None:
          'is_bounded': True},
         {'type': 'bpmx_forward', 'state': 'B', 'h_old': 0,
          'h_new': 4, 'via_parent': 'A'},
+        {'type': 'bpmx_forward', 'state': 'C', 'h_old': 0,
+         'h_new': 3, 'via_parent': 'B'},
         {'type': 'push', 'state': 'B', 'g': 1, 'parent': 'A',
          'h': 4, 'f': 5, 'is_bounded': True},
         {'type': 'pop',  'state': 'B', 'g': 1, 'h': 4, 'f': 5,
          'is_bounded': True},
-        {'type': 'bpmx_forward', 'state': 'C', 'h_old': 0,
-         'h_new': 3, 'via_parent': 'B'},
         {'type': 'push', 'state': 'C', 'g': 2, 'parent': 'B',
          'h': 3, 'f': 5, 'is_bounded': True},
         {'type': 'pop',  'state': 'C', 'g': 2, 'h': 3, 'f': 5,
@@ -634,9 +638,13 @@ def test_recording_bpmx_rule_1_on_grid_4x4_obstacle() -> None:
      Rule 1 only (`bpmx='1'`) on grid_4x4_obstacle with tight
      HBounded seed at (0,0)=7 (h*(start→goal)=7).
 
-     Rule 1 forward-lifts at each expansion of a bounded state:
-       At (0,0): lifts (0,1) 2→6, (1,0) 4→6 via cand=7-1=6.
-       At (0,1): lifts (1,1) 3→5 via cand=6-1=5.
+     Default tree-deep scope (`bpmx_depth=None`): at (0,0)'s
+     expansion, Rule 1 propagates forward through the full
+     spanning tree, lifting (0,1) 2→6, (1,0) 4→6 (via cand=
+     7-1=6), and then (1,1) 3→5 (via the just-lifted (0,1)).
+     All three forwards fire in a single expansion. No further
+     lifts at later pops — the Manhattan base is already
+     consistent beyond the lifted frontier.
 
      Total: 3 bpmx_forward events, 24-event stream. Pushed
      children carry is_bounded=True from that point onward.
@@ -660,10 +668,10 @@ def test_recording_bpmx_rule_1_on_grid_4x4_obstacle() -> None:
         {'type': 'pop',  'state': (0, 0), 'g': 0, 'h': 7, 'f': 7, 'is_bounded': True},
         {'type': 'bpmx_forward', 'state': (0, 1), 'h_old': 2, 'h_new': 6, 'via_parent': (0, 0)},
         {'type': 'bpmx_forward', 'state': (1, 0), 'h_old': 4, 'h_new': 6, 'via_parent': (0, 0)},
+        {'type': 'bpmx_forward', 'state': (1, 1), 'h_old': 3, 'h_new': 5, 'via_parent': (0, 1)},
         {'type': 'push', 'state': (0, 1), 'g': 1, 'parent': (0, 0), 'h': 6, 'f': 7, 'is_bounded': True},
         {'type': 'push', 'state': (1, 0), 'g': 1, 'parent': (0, 0), 'h': 6, 'f': 7, 'is_bounded': True},
         {'type': 'pop',  'state': (0, 1), 'g': 1, 'h': 6, 'f': 7, 'is_bounded': True},
-        {'type': 'bpmx_forward', 'state': (1, 1), 'h_old': 3, 'h_new': 5, 'via_parent': (0, 1)},
         {'type': 'push', 'state': (1, 1), 'g': 2, 'parent': (0, 1), 'h': 5, 'f': 7, 'is_bounded': True},
         {'type': 'pop',  'state': (1, 1), 'g': 2, 'h': 5, 'f': 7, 'is_bounded': True},
         {'type': 'push', 'state': (2, 1), 'g': 3, 'parent': (1, 1), 'h': 4, 'f': 7},
@@ -754,14 +762,16 @@ def test_recording_bpmx_rule_2_on_grid_4x4_obstacle() -> None:
 def test_recording_bpmx_rule_3_on_grid_4x4_obstacle() -> None:
     """
     ========================================================================
-     Rule 3 (full BPMX, `bpmx='3'`) at default depth=1 on
-     grid_4x4_obstacle with tight HBounded seed (0,0)=7.
+     Rule 3 (full BPMX, `bpmx='3'`) on grid_4x4_obstacle with
+     tight HBounded seed (0,0)=7.
 
-     Rule 2 tries to lift (0,0) from children but (0,0)=h*=7
-     is already tight; no Rule 2 lift. Rule 1 fires at each
-     expansion instead — same 3 bpmx_forward events as
-     `bpmx='1'`. Pinned: on this seed at depth=1, Rule 3 is
-     subsumed by Rule 1 (same event stream as Rule 1 alone).
+     Default tree-deep scope (`bpmx_depth=None`): Rule 2 tries
+     to lift (0,0) from descendants but (0,0)=h*=7 is already
+     tight; no Rule 2 lift fires anywhere (base h consistent
+     beyond the seed). Rule 1 fires the same three forwards
+     as `bpmx='1'` at (0,0)'s expansion. Pinned: on this seed
+     Rule 3 is subsumed by Rule 1 — same stream as Rule 1
+     alone.
     ========================================================================
     """
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
@@ -782,10 +792,10 @@ def test_recording_bpmx_rule_3_on_grid_4x4_obstacle() -> None:
         {'type': 'pop',  'state': (0, 0), 'g': 0, 'h': 7, 'f': 7, 'is_bounded': True},
         {'type': 'bpmx_forward', 'state': (0, 1), 'h_old': 2, 'h_new': 6, 'via_parent': (0, 0)},
         {'type': 'bpmx_forward', 'state': (1, 0), 'h_old': 4, 'h_new': 6, 'via_parent': (0, 0)},
+        {'type': 'bpmx_forward', 'state': (1, 1), 'h_old': 3, 'h_new': 5, 'via_parent': (0, 1)},
         {'type': 'push', 'state': (0, 1), 'g': 1, 'parent': (0, 0), 'h': 6, 'f': 7, 'is_bounded': True},
         {'type': 'push', 'state': (1, 0), 'g': 1, 'parent': (0, 0), 'h': 6, 'f': 7, 'is_bounded': True},
         {'type': 'pop',  'state': (0, 1), 'g': 1, 'h': 6, 'f': 7, 'is_bounded': True},
-        {'type': 'bpmx_forward', 'state': (1, 1), 'h_old': 3, 'h_new': 5, 'via_parent': (0, 1)},
         {'type': 'push', 'state': (1, 1), 'g': 2, 'parent': (0, 1), 'h': 5, 'f': 7, 'is_bounded': True},
         {'type': 'pop',  'state': (1, 1), 'g': 2, 'h': 5, 'f': 7, 'is_bounded': True},
         {'type': 'push', 'state': (2, 1), 'g': 3, 'parent': (1, 1), 'h': 4, 'f': 7},

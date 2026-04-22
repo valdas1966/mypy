@@ -150,7 +150,7 @@ if __name__ == '__main__':
     path_drive_maps = '2026/04/experiments/maps'
     steps = 10
     min_cells = 10
-    n = 1_000_000
+    n = 1_000
     path_drive_csv = (f'2026/04/experiments/clusters/'
                       f'steps_{steps}_min_cells_{min_cells}.csv')
     # Streaming loader: yields one grid at a time, releases on next.

@@ -1,5 +1,6 @@
 from f_hs.algo.i_1_astar import AStar
 from f_hs.algo.omspp import KAStarInc
+from f_hs.algo.omspp._utils import normalize
 from f_hs.problem.i_0_base._factory import _ProblemGraph
 from f_hs.problem.i_1_grid import ProblemGrid
 
@@ -319,8 +320,8 @@ def test_kastar_inc_grid_4x4_obstacle_recording() -> None:
      kA*_inc on a 4x4 grid with a 2-cell wall at (0,2),(1,2).
      Goals [(0,3), (3,3)] — sub-search 1 detours around the wall
      and closes (0,3) at g=7; sub-search 2 resumes from shared
-     state and closes (3,3) at g=6. Event counts pinned as a
-     snapshot on the current tie-break order.
+     state and closes (3,3) at g=6. Full event stream pinned as
+     a golden reference on the current tie-break order.
     ========================================================================
     """
     p = _grid_4x4_obstacle_multigoal()
@@ -331,41 +332,42 @@ def test_kastar_inc_grid_4x4_obstacle_recording() -> None:
              for g, s in sols.items()}
     assert by_rc == {(0, 3): 7, (3, 3): 6}
 
-    events = algo.recorder.events
-    by_type: dict[str, int] = {}
-    for e in events:
-        by_type[e['type']] = by_type.get(e['type'], 0) + 1
-    assert by_type == {
-        'push': 13, 'pop': 10,
-        'on_goal': 2,
-        'update_frontier': 1,
-        'update_heuristic': 4,
-    }
-
-    on_goals = [e for e in events if e['type'] == 'on_goal']
-    assert [(og['state'].key.row, og['state'].key.col,
-             og['g'], og['reason'], og['goal_index'])
-            for og in on_goals] == [
-        (0, 3, 7, 'expanded', 0),
-        (3, 3, 6, 'expanded', 1),
+    actual = [normalize(e) for e in algo.recorder.events]
+    expected = [
+        {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 3, 'f': 3},
+        {'type': 'pop',  'state': (0, 0), 'g': 0, 'h': 3, 'f': 3},
+        {'type': 'push', 'state': (0, 1), 'g': 1, 'parent': (0, 0), 'h': 2, 'f': 3},
+        {'type': 'push', 'state': (1, 0), 'g': 1, 'parent': (0, 0), 'h': 4, 'f': 5},
+        {'type': 'pop',  'state': (0, 1), 'g': 1, 'h': 2, 'f': 3},
+        {'type': 'push', 'state': (1, 1), 'g': 2, 'parent': (0, 1), 'h': 3, 'f': 5},
+        {'type': 'pop',  'state': (1, 1), 'g': 2, 'h': 3, 'f': 5},
+        {'type': 'push', 'state': (2, 1), 'g': 3, 'parent': (1, 1), 'h': 4, 'f': 7},
+        {'type': 'pop',  'state': (1, 0), 'g': 1, 'h': 4, 'f': 5},
+        {'type': 'push', 'state': (2, 0), 'g': 2, 'parent': (1, 0), 'h': 5, 'f': 7},
+        {'type': 'pop',  'state': (2, 1), 'g': 3, 'h': 4, 'f': 7},
+        {'type': 'push', 'state': (2, 2), 'g': 4, 'parent': (2, 1), 'h': 3, 'f': 7},
+        {'type': 'push', 'state': (3, 1), 'g': 4, 'parent': (2, 1), 'h': 5, 'f': 9},
+        {'type': 'pop',  'state': (2, 2), 'g': 4, 'h': 3, 'f': 7},
+        {'type': 'push', 'state': (2, 3), 'g': 5, 'parent': (2, 2), 'h': 2, 'f': 7},
+        {'type': 'push', 'state': (3, 2), 'g': 5, 'parent': (2, 2), 'h': 4, 'f': 9},
+        {'type': 'pop',  'state': (2, 3), 'g': 5, 'h': 2, 'f': 7},
+        {'type': 'push', 'state': (1, 3), 'g': 6, 'parent': (2, 3), 'h': 1, 'f': 7},
+        {'type': 'push', 'state': (3, 3), 'g': 6, 'parent': (2, 3), 'h': 3, 'f': 9},
+        {'type': 'pop',  'state': (1, 3), 'g': 6, 'h': 1, 'f': 7},
+        {'type': 'push', 'state': (0, 3), 'g': 7, 'parent': (1, 3), 'h': 0, 'f': 7},
+        {'type': 'pop',  'state': (0, 3), 'g': 7, 'h': 0, 'f': 7},
+        {'type': 'on_goal', 'state': (0, 3), 'g': 7, 'reason': 'expanded', 'goal_index': 0},
+        {'type': 'update_frontier', 'num_nodes': 4, 'next_goal_index': 1},
+        {'type': 'update_heuristic', 'state': (2, 0), 'h_old': 5, 'h_new': 4},
+        {'type': 'update_heuristic', 'state': (3, 3), 'h_old': 3, 'h_new': 0},
+        {'type': 'update_heuristic', 'state': (3, 2), 'h_old': 4, 'h_new': 1},
+        {'type': 'update_heuristic', 'state': (3, 1), 'h_old': 5, 'h_new': 2},
+        {'type': 'pop',  'state': (3, 3), 'g': 6, 'h': 0, 'f': 6},
+        {'type': 'on_goal', 'state': (3, 3), 'g': 6, 'reason': 'expanded', 'goal_index': 1},
     ]
+    assert actual == expected
 
-    # Exactly one inter-sub-search transition. Frontier at
-    # transition has 4 states; they are re-heuristicised before
-    # sub-search 2.
-    trans = [e for e in events if e['type'] == 'update_frontier']
-    assert len(trans) == 1
-    assert trans[0]['num_nodes'] == 4
-    assert trans[0]['next_goal_index'] == 1
-
-    updates = [e for e in events
-               if e['type'] == 'update_heuristic']
-    assert len(updates) == 4
-    for u in updates:
-        assert isinstance(u['h_old'], int)
-        assert isinstance(u['h_new'], int)
-
-    # Reconstruct paths — cost matches path length.
+    # Path reconstruction — not visible in the event stream.
     goal_a, goal_b = p.goals
     path_a = algo.reconstruct_path(goal_a)
     path_b = algo.reconstruct_path(goal_b)

@@ -17,19 +17,34 @@ via composition.
 ```
 omspp/
 ├── __init__.py          Lazy aggregator
+├── _utils.py            Shared test helpers (key_of, normalize)
 ├── _internal/
 │   └── _single_goal_view.py   ProblemSPP wrapper (one goal at a time)
-└── i_1_kastar_inc/      KAStarInc — Incremental kA*
+├── i_1_kastar_inc/      KAStarInc — Incremental kA*
+└── i_1_kastar_agg/      KAStarAgg — Aggregative kA*
 ```
 
 ## Package Exports
 
 ```python
-from f_hs.algo.omspp import KAStarInc
+from f_hs.algo.omspp import KAStarInc, KAStarAgg
 # also re-exported as:
 from f_hs import KAStarInc          # convenience
 from f_hs.algo import KAStarInc
 ```
+
+## Test Helpers (`_utils.py`)
+
+Private to the package; mirrors `f_hs/algo/i_2_astar_lookup/_utils.py`:
+
+- `key_of(state)` — unwraps `CellMap → (row, col)` for grids;
+  pass-through for string-keyed graph states.
+- `normalize(event)` — drops `duration`; unwraps `state` and
+  `parent` to keys. State-less meta-events
+  (`update_frontier`) pass through unchanged. Used by
+  recording tests that pin the full event stream as a golden
+  reference (e.g., the `grid_4x4_obstacle` tests in Inc and
+  Agg testers).
 
 ## Design Principles
 
@@ -50,9 +65,8 @@ from f_hs.algo import KAStarInc
 
 | Name | Status | Notes |
 |---|---|---|
-| `KAStarInc` | shipped | Incremental kA* (this module) |
-| `KAStarMin` | planned | Single-search kA* with Φ=min aggregation |
-| `KAStarLazy` | planned | Lazy kA* — defer F-recomputation |
+| `KAStarInc` | shipped | Incremental kA* |
+| `KAStarAgg` | shipped | Aggregative kA* (MIN/MAX/AVG/RND/PROJECTION) |
 | `KDijkstra` | planned | k-Dijkstra (no heuristic, Φ=0) fallback |
 
 ## Dependencies
