@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from f_ds.mixins.collectionable.main import Collectionable
 from f_ds.grids.cell.i_1_map.main import CellMap
 from f_ds.grids.grid.map.main import GridMap
@@ -8,6 +8,11 @@ class Cluster(Collectionable[CellMap], ABC):
     """
     ============================================================================
      Abstract Cluster: a set of valid CellMaps on a GridMap.
+
+     Holds only the grid's NAME (`map: str`), not the grid object — the
+     grid is required at construction time by `_build()` (BFS, etc.) and
+     released as soon as `__init__` returns. This keeps clusters light
+     (good for pickling and outliving the in-memory grid).
     ============================================================================
     """
 
@@ -15,35 +20,28 @@ class Cluster(Collectionable[CellMap], ABC):
     Factory: type = None
 
     def __init__(self,
-                 # Parent GridMap
-                 grid: GridMap,
-                 # Cluster's Name
-                 name: str = 'Cluster') -> None:
+                 # Parent GridMap (used at build-time only; not stored)
+                 grid: GridMap) -> None:
         """
         ========================================================================
-         Init private Attributes.
+         Snapshot the grid's name into `_map` and initialise an empty
+         cell list. Concrete subclasses must consume the `grid` argument
+         inside their own `__init__` (typically passed to
+         `_build(grid=...)`) and assign the result to `self._cells`;
+         `Cluster` does not retain the grid.
         ========================================================================
         """
-        self._grid = grid
-        self._name = name
+        self._map: str = grid.name
+        self._cells: list[CellMap] = []
 
     @property
-    def grid(self) -> GridMap:
+    def map(self) -> str:
         """
         ========================================================================
-         Return the parent GridMap of the Cluster.
+         Return the parent grid's NAME (the only grid identity retained).
         ========================================================================
         """
-        return self._grid
-
-    @property
-    def name(self) -> str:
-        """
-        ========================================================================
-         Return the Cluster's Name.
-        ========================================================================
-        """
-        return self._name
+        return self._map
 
     @property
     def cells(self) -> list[CellMap]:
@@ -52,45 +50,16 @@ class Cluster(Collectionable[CellMap], ABC):
          Return the list of Cells in the Cluster.
         ========================================================================
         """
-        return list(self.to_iterable())
+        return list(self._cells)
 
-    @property
-    @abstractmethod
-    def center(self) -> CellMap:
+    def to_iterable(self) -> list[CellMap]:
         """
         ========================================================================
-         Return the representative center cell of the Cluster.
-         Every concrete Cluster must expose a center, used for pair-level
-         geometry (e.g. PairCluster.distance).
+         Return the underlying cell list. Drives `len()`, `in`, `iter()`,
+         `bool()` via the Collectionable mixin.
         ========================================================================
         """
-        pass
-
-    def to_analytics(self) -> dict:
-        """
-        ========================================================================
-         Return a flat dict of analytic metadata for this cluster, suitable
-         for CSV export and downstream analysis.
-
-         Base fields:
-           (a) Grid-level   -- domain, map, rows, cols, n_cells_grid.
-           (b) Cluster core -- center_row, center_col, cells.
-
-         Subclasses should extend via super().to_analytics() and add
-         shape-specific keys (e.g. ClusterDiamond adds 'steps').
-        ========================================================================
-        """
-        grid = self._grid
-        return dict(
-            domain=grid.domain,
-            map=grid.name,
-            rows=grid.rows,
-            cols=grid.cols,
-            n_cells_grid=len(grid),
-            center_row=self.center.row,
-            center_col=self.center.col,
-            cells=len(self),
-        )
+        return self._cells
 
     def __repr__(self) -> str:
         """
@@ -99,5 +68,5 @@ class Cluster(Collectionable[CellMap], ABC):
         ========================================================================
         """
         return (f'<{type(self).__name__}: '
-                f'name={self._name}, '
+                f'map={self._map}, '
                 f'cells={len(self)}>')

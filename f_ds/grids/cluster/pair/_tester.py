@@ -165,7 +165,7 @@ def test_str_and_repr() -> None:
     """
     ============================================================================
      __str__ and __repr__ contain the distance; __repr__ also carries the
-     grid name and both centers.
+     map name and both centers.
     ============================================================================
     """
     pair = PairCluster.Factory.a()
@@ -173,41 +173,6 @@ def test_str_and_repr() -> None:
     r = repr(pair)
     assert 'distance=10' in s
     assert 'distance=10' in r
-    assert 'grid=GridMap' in r
+    assert 'map=GridMap' in r
     assert 'a.center=(1, 1)' in r
     assert 'b.center=(6, 6)' in r
-
-
-def test_to_analytics() -> None:
-    """
-    ============================================================================
-     to_analytics returns a flat dict with all expected metadata fields.
-    ============================================================================
-    """
-    grid = GridMap(rows=20, cols=20, name='TestGrid', domain='test')
-    pair = PairCluster.Factory.of_diamonds(
-        grid=grid,
-        center_a=grid[3][4],
-        center_b=grid[15][16],
-        steps_a=2,
-        steps_b=3)
-    a = pair.to_analytics()
-    # Grid-level
-    assert a['domain'] == 'test'
-    assert a['map'] == 'TestGrid'
-    assert a['rows'] == 20
-    assert a['cols'] == 20
-    assert a['n_cells_grid'] == 400
-    # Per-pair geometry
-    assert a['center_a_row'] == 3
-    assert a['center_a_col'] == 4
-    assert a['center_b_row'] == 15
-    assert a['center_b_col'] == 16
-    # Shape
-    assert a['steps_a'] == 2
-    assert a['steps_b'] == 3
-    # Sizes
-    assert a['n_cells_a'] == 13
-    assert a['n_cells_b'] == 25
-    # Pair summary: |3-15| + |4-16| = 24
-    assert a['distance'] == 24

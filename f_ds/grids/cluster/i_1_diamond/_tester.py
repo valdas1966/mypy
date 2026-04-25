@@ -94,13 +94,43 @@ def test_iteration() -> None:
 def test_key() -> None:
     """
     ============================================================================
-     The key is (center.key, steps).
+     The key is (map_name, center.key, steps).
     ============================================================================
     """
-    grid = GridMap(rows=5, cols=5)
+    grid = GridMap(rows=5, cols=5, name='KeyGrid')
     cluster = ClusterDiamond.Factory.at_center(
         grid=grid, center=grid[2][2], steps=1)
-    assert cluster.key == ((2, 2), 1)
+    assert cluster.key == ('KeyGrid', (2, 2), 1)
+
+
+def test_eq_hash() -> None:
+    """
+    ============================================================================
+     __eq__/__hash__ via Hashable: identity is (map, center.key, steps).
+     - Same map + center + steps  -> equal, same hash, dedups in a set.
+     - Different center           -> not equal.
+     - Different steps            -> not equal.
+     - Different map              -> not equal.
+    ============================================================================
+    """
+    g1 = GridMap(rows=10, cols=10, name='M1')
+    g2 = GridMap(rows=10, cols=10, name='M2')
+    a = ClusterDiamond.Factory.at_center(
+        grid=g1, center=g1[3][3], steps=2)
+    b = ClusterDiamond.Factory.at_center(
+        grid=g1, center=g1[3][3], steps=2)
+    c = ClusterDiamond.Factory.at_center(
+        grid=g1, center=g1[4][4], steps=2)
+    d = ClusterDiamond.Factory.at_center(
+        grid=g1, center=g1[3][3], steps=3)
+    e = ClusterDiamond.Factory.at_center(
+        grid=g2, center=g2[3][3], steps=2)
+    assert a == b
+    assert hash(a) == hash(b)
+    assert a != c
+    assert a != d
+    assert a != e
+    assert len({a, b, c, d, e}) == 4
 
 
 def test_walls_excluded() -> None:
@@ -169,35 +199,10 @@ def test_str() -> None:
     assert 'cells=5' in s
 
 
-def test_to_analytics() -> None:
-    """
-    ============================================================================
-     ClusterDiamond.to_analytics exposes grid-level, cluster-core, and the
-     diamond-specific 'steps' field.
-    ============================================================================
-    """
-    grid = GridMap(rows=20, cols=20, name='AnalyticsGrid', domain='ana')
-    cluster = ClusterDiamond.Factory.at_center(
-        grid=grid, center=grid[7][9], steps=3)
-    a = cluster.to_analytics()
-    # Grid-level
-    assert a['domain'] == 'ana'
-    assert a['map'] == 'AnalyticsGrid'
-    assert a['rows'] == 20
-    assert a['cols'] == 20
-    assert a['n_cells_grid'] == 400
-    # Cluster core
-    assert a['center_row'] == 7
-    assert a['center_col'] == 9
-    assert a['cells'] == 25
-    # Diamond-specific
-    assert a['steps'] == 3
-
-
 def test_repr() -> None:
     """
     ============================================================================
-     __repr__ exposes grid, center, steps, and cells.
+     __repr__ exposes map, center, steps, and cells.
     ============================================================================
     """
     grid = GridMap(rows=5, cols=5, name='ReprGrid')
@@ -205,7 +210,7 @@ def test_repr() -> None:
         grid=grid, center=grid[2][2], steps=2)
     r = repr(cluster)
     assert r.startswith('<ClusterDiamond: ')
-    assert 'grid=ReprGrid' in r
+    assert 'map=ReprGrid' in r
     assert 'center=(2, 2)' in r
     assert 'steps=2' in r
     assert 'cells=13' in r

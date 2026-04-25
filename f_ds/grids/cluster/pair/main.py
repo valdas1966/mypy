@@ -68,42 +68,6 @@ class PairCluster(Generic[T]):
         """
         return self._a.center.distance(other=self._b.center)
 
-    def to_analytics(self) -> dict:
-        """
-        ========================================================================
-         Return a flat dict of analytic metadata for this pair, suitable for
-         CSV export, structured logging, or downstream dataframes.
-
-         Naming follows the convention:
-           (a) Grid-level fields first (domain, map, rows, cols, n_cells_grid).
-           (b) Per-pair geometry (center_[ab]_row, center_[ab]_col).
-           (c) Shape parameters (steps_a, steps_b).
-           (d) Cluster sizes (n_cells_a, n_cells_b).
-           (e) Pair summary (distance).
-
-         Assumes each cluster has a '.steps' attribute (satisfied by
-         ClusterDiamond). If a future Cluster subclass lacks 'steps', it
-         should override this method or provide the attribute.
-        ========================================================================
-        """
-        grid = self._a.grid
-        return dict(
-            domain=grid.domain,
-            map=grid.name,
-            rows=grid.rows,
-            cols=grid.cols,
-            n_cells_grid=len(grid),
-            center_a_row=self._a.center.row,
-            center_a_col=self._a.center.col,
-            center_b_row=self._b.center.row,
-            center_b_col=self._b.center.col,
-            steps_a=self._a.steps,
-            steps_b=self._b.steps,
-            n_cells_a=len(self._a),
-            n_cells_b=len(self._b),
-            distance=self.distance,
-        )
-
     def __str__(self) -> str:
         """
         ========================================================================
@@ -119,12 +83,11 @@ class PairCluster(Generic[T]):
         """
         ========================================================================
          Return the representation of the PairCluster --- concise identifier
-         with the shared grid, both centers, and the pair distance.
-         Full metadata: see to_analytics().
+         with the shared map, both centers, and the pair distance.
         ========================================================================
         """
         return (f'<{type(self).__name__}: '
-                f'grid={self._a.grid.name}, '
+                f'map={self._a.map}, '
                 f'a.center={self._a.center.key}, '
                 f'b.center={self._b.center.key}, '
                 f'distance={self.distance}>')

@@ -9,28 +9,25 @@
                             max_tries=100) -> None
 
  __main__ (user's specific use case)
-   Load every *.map file from 2026/04/experiments/maps, run the core function
-   with n = 1_000_000, steps = 10, min_cells = 10; write the CSV to
-   2026/04/experiments/clusters/steps_10_min_cells_10.csv.
-
- Location rationale
-   f_hs/experiments/clusters/ -- sits next to s_1_pair_clusters.py; layer
-   boundary respected (f_ds stays I/O-free).
+   Load all grids from a single pickle on Drive at
+   2026/04/experiments/maps/grids/grids.pkl (each grid carries its
+   `domain` attribute), run the core function with n = 1_000, steps = 10,
+   min_cells = 10; write the CSV to
+   2026/04/experiments/mospp/i_0_clusters.csv.
 
  Memory / size
-   Fully streaming:
-     - Grids are pulled from Drive one at a time via a generator and
-       released when the next one is fetched (peak: ~1 grid in RAM).
-     - Cluster samples are written row-by-row and discarded (peak: ~1
-       row).
-   Total peak memory is independent of both `len(grids)` and `n`.
+   - Grids are loaded from a single pickle once; iterated and released
+     in turn (peak grid count = whatever the pickle holds, but typically
+     small — a few maps).
+   - Cluster samples are written row-by-row and discarded (peak: ~1 row).
 ===============================================================================
 """
 import os
 import csv
+import pickle
 import tempfile
 import logging
-from typing import Iterable, Iterator
+from typing import Iterable
 
 from f_log import setup_log, get_log
 from f_google.services.drive import Drive
@@ -42,8 +39,6 @@ _log = get_log(__name__)
 
 
 # CSV column order -- one source of truth for header and rows.
-# DictWriter is created with extrasaction='ignore' below, so extra keys in
-# Cluster.to_analytics() (rows, cols, n_cells_grid) are silently dropped.
 _CSV_COLUMNS = [
     'domain',
     'map',
@@ -56,31 +51,47 @@ _CSV_COLUMNS = [
 
 # ── Helpers ────────────────────────────────────────────────────────────────
 
-def _iter_grids_from_drive(drive: Drive,
-                           path_drive_maps: str
-                           ) -> Iterator[GridMap]:
+def _load_grids_from_pickle(drive: Drive,
+                            path_drive_pkl: str
+                            ) -> list[GridMap]:
     """
     ============================================================================
-     Yield one GridMap at a time from the maps folder on Drive.
-     The previous grid becomes unreachable once the next one is yielded,
-     so peak memory stays at ~1 grid even when the folder has many maps.
+     Download the grids pickle from Drive and return the contained
+     GridMaps as a list. The pickle is expected to hold either a
+     `dict[str, GridMap]` (canonical, matching ProblemGrid.Store) or a
+     plain `list[GridMap]`. Each grid carries its own `domain` attribute
+     -- the whole point of switching to the pickled bundle.
     ============================================================================
     """
-    paths = drive.filepaths(
-        path=path_drive_maps,
-        recursive=True,
-        predicate=lambda name: name.endswith('.map'))
-    _log.info(f'found {len(paths)} *.map files in '
-              f'{path_drive_maps}')
-    for path in paths:
-        name = os.path.basename(path).removesuffix('.map')
-        _log.info(f'  reading: {path}')
-        content = drive.read(path=path).text
-        grid = GridMap.From.text(content=content, name=name)
-        _log.info(f'    -> {grid.name}: '
-                  f'{grid.rows}x{grid.cols}, '
-                  f'{len(grid):,} valid cells')
-        yield grid
+    _log.info(f'reading grids pickle: {path_drive_pkl}')
+    # `drive.read` decodes as text; pickle is binary, so download to
+    # a temp file and unpickle from disk.
+    tmp = tempfile.NamedTemporaryFile(
+        suffix='.pkl', delete=False, mode='wb')
+    path_local = tmp.name
+    tmp.close()
+    try:
+        drive.download(path_src=path_drive_pkl,
+                       path_dest=path_local)
+        with open(path_local, 'rb') as f:
+            obj = pickle.load(f)
+    finally:
+        if os.path.exists(path_local):
+            os.unlink(path_local)
+    if isinstance(obj, dict):
+        grids = list(obj.values())
+    elif isinstance(obj, list):
+        grids = obj
+    else:
+        raise TypeError(
+            f'expected dict[str, GridMap] or list[GridMap] in '
+            f'{path_drive_pkl}; got {type(obj).__name__}')
+    for g in grids:
+        _log.info(f'  loaded: {g.name} '
+                  f'(domain={g.domain!r}, '
+                  f'{g.rows}x{g.cols}, '
+                  f'{len(g):,} valid cells)')
+    return grids
 
 
 # ── Public API ──────────────────────────────────────────────────────────────
@@ -128,7 +139,14 @@ def generate_cluster_samples(grids: Iterable[GridMap],
                     min_cells=min_cells,
                     steps=steps,
                     max_tries=max_tries)
-                writer.writerow(cluster.to_analytics())
+                writer.writerow({
+                    'domain':     grid.domain,
+                    'map':        grid.name,
+                    'center_row': cluster.center.row,
+                    'center_col': cluster.center.col,
+                    'steps':      cluster.steps,
+                    'cells':      len(cluster),
+                })
                 if (i + 1) % 100_000 == 0:
                     _log.info(f'    {i + 1:,}/{n:,} '
                               f'sampled on {grid.name}')
@@ -147,17 +165,15 @@ def generate_cluster_samples(grids: Iterable[GridMap],
 
 if __name__ == '__main__':
     # Parameters
-    path_drive_maps = '2026/04/experiments/maps'
+    path_drive_pkl = '2026/04/experiments/grids/grids.pkl'
     steps = 10
     min_cells = 10
-    n = 1_000
-    path_drive_csv = (f'2026/04/experiments/clusters/'
-                      f'steps_{steps}_min_cells_{min_cells}.csv')
-    # Streaming loader: yields one grid at a time, releases on next.
+    n = 100
+    path_drive_csv = '2026/04/experiments/mospp/i_0_clusters.csv'
+    # Load all grids from a single pickle on Drive.
     drive = Drive.Factory.valdas()
-    _log.info(f'streaming grids from {path_drive_maps}')
-    grids = _iter_grids_from_drive(drive=drive,
-                                   path_drive_maps=path_drive_maps)
+    grids = _load_grids_from_pickle(drive=drive,
+                                    path_drive_pkl=path_drive_pkl)
     # Run
     generate_cluster_samples(grids=grids,
                              path_drive_csv=path_drive_csv,

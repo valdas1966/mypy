@@ -44,7 +44,7 @@ ball).
 - You need to visualize where random cluster centers land on each map.
 
 **When NOT to use.**
-- Don't use for pair experiments — use `s_1_pair_clusters.py` instead.
+- Don't use for pair experiments — use `s_1_pairs_clusters.py` instead.
 - Don't use for one-off calls — just invoke
   `ClusterDiamond.Factory.random(grid, min_cells, steps)` directly.
 - Don't use if you need the full `ClusterDiamond` objects for downstream
@@ -61,39 +61,57 @@ ball).
 `min_cells = 10`, writes
 `2026/04/experiments/clusters/steps_10_min_cells_10.csv`.
 
-### s_1_pair_clusters.py
+### s_1_pairs_clusters.py
 
-**What it does.** For each `GridMap` in a Drive folder, samples
-`n_pairs` `PairCluster` instances (two disjoint diamonds with a
-minimum center-distance) and uploads **both** a pickle (full
-`PairCluster` objects, for experiment re-use) and a CSV (per-pair
-metadata) to Drive.
+**What it does.** Reads the per-cluster CSV produced by
+`s_0_clusters.py`, groups rows by `(domain, map)`, and for each
+group draws `n` random ordered pairs `(a, b)` with `a != b` whose
+**Manhattan center-distance** is `>= min_dist`. Streams the pairs
+to a single CSV on Drive.
 
 **Public function.**
 ```python
-generate_pair_clusters(path_drive_maps: str,
-                       n_pairs: int,
-                       min_dist: int,
-                       steps_a: int,
-                       min_cells_a: int,
-                       steps_b: int,
-                       min_cells_b: int,
-                       path_drive_out: str,
-                       name_out: str = 'pair_clusters',
-                       max_tries: int = 100
-                       ) -> dict[str, list[PairCluster]]
+generate_pairs(path_drive_csv_in: str,
+               path_drive_csv_out: str,
+               n: int,
+               min_dist: int,
+               max_tries: int = 10_000,
+               seed: int | None = None) -> None
 ```
 
+**CSV columns.** `domain, map, steps, a_center_row, a_center_col,
+a_cells, b_center_row, b_center_col, b_cells, dist` (10 columns;
+`steps` is single-valued because both clusters come from the same
+s_0 CSV; `dist` is the Manhattan center-distance).
+
 **When to use.**
-- Generating experimental **instances** for an SPP / OMSPP / MOSPP /
-  MMSPP run. Family is determined by the cardinality of `min_cells_a`
-  and `min_cells_b`:
-  - `1, 1` → SPP
-  - `1, >1` → OMSPP
-  - `>1, 1` → MOSPP
-  - `>1, >1` → MMSPP
-- You need the same pair set to be re-runnable against multiple
-  algorithms (the pickle preserves the concrete pairs).
+- Building experimental **start/goal pairs** (or any two-cluster
+  instance) from an existing s_0 sample, parameterised by a
+  minimum spatial separation. Family is determined by the
+  `min_cells` of the source CSV — pair both endpoints from the
+  same s_0 run.
+- You want reproducible sampling — pass `seed=...`.
+
+**When NOT to use.**
+- You need fresh cluster sampling with different `(steps,
+  min_cells)` per endpoint — re-run `s_0_clusters.py` with the
+  desired parameters first, then pair from those.
+- You need the full `ClusterDiamond` object (e.g., the explicit
+  cell set) downstream — this script only carries center +
+  `cells` count metadata.
+
+**Sampling semantics.**
+- With replacement (a cluster can appear in multiple pairs).
+- Ordered: `(a, b)` and `(b, a)` are treated as distinct draws.
+- `max_tries` bounds **consecutive** rejections per group; the
+  counter resets on each accepted pair. Protects against
+  infeasible `min_dist` on small grids by aborting that group
+  early rather than spinning forever.
+
+**`__main__` defaults.** Reads
+`2026/04/experiments/clusters/steps_10_min_cells_10.csv`, samples
+`n = 1_000` pairs per map with `min_dist = 20`, writes
+`2026/04/experiments/clusters/pairs_min_dist_20.csv`.
 
 ## Conventions
 
@@ -120,5 +138,5 @@ generate_pair_clusters(path_drive_maps: str,
 2. Run `s_0_clusters.py` to characterize `(steps, min_cells)` choice —
    review the CSV, verify cluster-size distribution is reasonable.
 3. Tune parameters if needed; rerun `s_0_clusters.py`.
-4. Run `s_1_pair_clusters.py` to generate the experimental instance
-   set that your downstream algorithm experiments will consume.
+4. Run `s_1_pairs_clusters.py` to generate `(start, goal)` pairs
+   from that CSV, parameterised by `min_dist` (Manhattan).

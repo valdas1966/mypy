@@ -1,12 +1,16 @@
+from f_core.mixins.hashable.main import Hashable
 from f_ds.grids.cluster.i_0_base.main import Cluster
 from f_ds.grids.cell.i_1_map.main import CellMap
 from f_ds.grids.grid.map.main import GridMap
 
 
-class ClusterDiamond(Cluster):
+class ClusterDiamond(Cluster, Hashable):
     """
     ============================================================================
      Diamond-shaped (Manhattan-ball) Cluster on a GridMap.
+
+     Identity (`key`, `__eq__`, `__hash__` via Hashable):
+       (map_name, center.key, steps).
     ============================================================================
     """
 
@@ -14,25 +18,24 @@ class ClusterDiamond(Cluster):
     Factory: type = None
 
     def __init__(self,
-                 # Parent GridMap
+                 # Parent GridMap (used at build-time only; not stored)
                  grid: GridMap,
                  # Center cell of the diamond
                  center: CellMap,
                  # Manhattan radius (steps from center)
-                 steps: int,
-                 # Cluster's Name
-                 name: str = 'ClusterDiamond') -> None:
+                 steps: int) -> None:
         """
         ========================================================================
-         Init private Attributes and build the diamond via BFS.
+         Init private Attributes and build the diamond via BFS. The grid
+         is consumed by `_build` and not retained on `self`.
         ========================================================================
         """
-        Cluster.__init__(self, grid=grid, name=name)
-        self._center = center
-        self._steps = steps
-        self._cells: list[CellMap] = self._build()
+        Cluster.__init__(self, grid=grid)
+        self._center: CellMap = center
+        self._steps: int = steps
+        self._cells = self._build(grid=grid)
 
-    def _build(self) -> list[CellMap]:
+    def _build(self, grid: GridMap) -> list[CellMap]:
         """
         ========================================================================
          BFS from center up to depth <= steps.
@@ -43,7 +46,6 @@ class ClusterDiamond(Cluster):
         if not self._center:
             return []
         # Aliases
-        grid = self._grid
         steps = self._steps
         # BFS
         visited: set[tuple[int, int]] = {self._center.key}
@@ -60,14 +62,6 @@ class ClusterDiamond(Cluster):
                     next_frontier.append(nbr)
             frontier = next_frontier
         return cells
-
-    def to_iterable(self) -> list[CellMap]:
-        """
-        ========================================================================
-         Return the valid Cells inside the Diamond.
-        ========================================================================
-        """
-        return self._cells
 
     @property
     def center(self) -> CellMap:
@@ -88,46 +82,24 @@ class ClusterDiamond(Cluster):
         return self._steps
 
     @property
-    def key(self) -> tuple[tuple[int, int], int]:
+    def key(self) -> tuple[str, tuple[int, int], int]:
         """
         ========================================================================
-         Return (center.key, steps) for comparison / dedup.
+         Identity: (map_name, center.key, steps). Drives __eq__ / __hash__
+         via the Hashable mixin.
         ========================================================================
         """
-        return (self._center.key, self._steps)
-
-    def to_analytics(self) -> dict:
-        """
-        ========================================================================
-         Extend the base Cluster.to_analytics() with diamond-specific fields.
-         Adds: steps.
-        ========================================================================
-        """
-        base = super().to_analytics()
-        base['steps'] = self._steps
-        return base
-
-    def __str__(self) -> str:
-        """
-        ========================================================================
-         Return STR-REPR:
-         'ClusterDiamond(center=(r,c), steps=s, cells=n)'
-        ========================================================================
-        """
-        return (f'{self._name}('
-                f'center={self._center.key}, '
-                f'steps={self._steps}, '
-                f'cells={len(self)})')
+        return (self._map, self._center.key, self._steps)
 
     def __repr__(self) -> str:
         """
         ========================================================================
-         Return a debugger-friendly representation including the grid
-         context: '<ClusterDiamond: grid=X, center=(r,c), steps=s, cells=n>'
+         Return a debugger-friendly representation:
+         '<ClusterDiamond: map=X, center=(r,c), steps=s, cells=n>'.
         ========================================================================
         """
         return (f'<{type(self).__name__}: '
-                f'grid={self._grid.name}, '
+                f'map={self._map}, '
                 f'center={self._center.key}, '
                 f'steps={self._steps}, '
                 f'cells={len(self)}>')

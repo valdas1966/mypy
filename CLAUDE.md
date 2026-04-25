@@ -44,7 +44,26 @@ enumerated**. Favor lists over prose.
 
 7. **Minimal, concise, sharp.** Use the fewest words that
    convey the point. No softeners, no recap, no closing
-   pleasantries.
+   pleasantries. Every reply must be as minimal, concise,
+   simple, and sharp as possible — strip anything that is
+   not strictly required.
+
+8. **NOTES section is for critical items only.** Write a
+   `NOTES` entry only when the information is genuinely
+   critical or important (a hidden risk, a non-obvious
+   consequence, a behavior the user must know). Default to
+   leaving the section empty — most reports should have **no
+   notes at all**. Do not pad with observations, summaries,
+   or "fyi" remarks.
+
+9. **QUESTIONS section is for pre-task blockers only.**
+   - a. Write a `QUESTIONS` entry **only before** starting a
+     task, and **only** when the task is not fully
+     understood (genuine ambiguity that blocks progress).
+   - b. If the task was understood and is already finished,
+     the `QUESTIONS` section must be **empty** — never
+     append after-the-fact questions, suggestions, or
+     follow-up offers there.
 
 ## Project Structure
 

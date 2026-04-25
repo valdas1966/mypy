@@ -68,10 +68,17 @@ PairCluster.Factory.a() -> PairCluster[ClusterDiamond]
 
 ## Contract on `Cluster.center`
 
-`PairCluster.distance` depends on `self._a.center.distance(other=self._b.center)`.
-`Cluster.center` is declared `@abstractmethod` — every concrete cluster
-(e.g. `ClusterDiamond`) must expose it. Shape-free clusters that want
-to avoid a center concept cannot participate in `PairCluster`.
+`PairCluster.distance` calls `self._a.center.distance(other=self._b.center)`.
+`Cluster.center` is `None` by default (no abstract requirement); concrete
+shapes that have a natural center (e.g. `ClusterDiamond`) override.
+**Both** clusters in a pair must have non-`None` centers — pairing a
+shape-free cluster will raise `AttributeError` at `distance` time.
+
+## No `to_analytics()`
+For structured CSV / dataframe export, build the row dict from the
+pair's components inline (the script that owns the grid has it in
+scope). `__repr__` carries the headline identity; the full structured
+view is the script's responsibility.
 
 ## Usage
 

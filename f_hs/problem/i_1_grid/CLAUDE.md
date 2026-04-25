@@ -13,19 +13,38 @@ the `Store` helper (problems -> one pickle, grids -> another).
 
 ### Constructor
 ```python
-def __init__(self, grid: GridMap, start: CellMap,
-             goal: CellMap, name: str = 'ProblemGrid') -> None
+def __init__(self, grid: GridMap,
+             start: CellMap | None = None,
+             goal: CellMap | None = None,
+             starts: list[CellMap] | None = None,
+             goals: list[CellMap] | None = None,
+             name: str = 'ProblemGrid') -> None
 ```
+Accepts either single (`start`, `goal`) or multi (`starts`, `goals`)
+endpoint forms; the two are mutually exclusive per side
+(`ValueError` otherwise). The multi form unlocks OMSPP / MOSPP /
+MMSPP grid problems.
 
 ### Properties
 | Property | Type | Description |
 |----------|------|-------------|
 | `grid` | `GridMap` | The attached grid (raises if detached) |
 | `grid_name` | `str` | Stable grid identifier (survives pickle) |
-| `start_rc` | `tuple[int, int]` | Start coords (stable) |
-| `goal_rc` | `tuple[int, int]` | Goal coords (stable) |
+| `start_rc` | `tuple[int, int]` | First start coords (single-form convenience) |
+| `goal_rc` | `tuple[int, int]` | First goal coords (single-form convenience) |
+| `starts_rc` | `list[tuple[int, int]]` | All start coords (stable) |
+| `goals_rc` | `list[tuple[int, int]]` | All goal coords (stable) |
 | `is_attached` | `bool` | True when grid is attached |
-| `key` | `tuple` | `(grid_name, start_rc, goal_rc)` — stable |
+| `key` | `tuple` | `(grid_name, tuple(starts_rc), tuple(goals_rc))` — stable |
+
+### `__repr__`
+```
+<ProblemGrid: grid=<grid_name>, #starts=k1, #goals=k2,
+ avg_dist_starts_to_goals=<float>, avg_dist_between_goals=<float>>
+```
+Both averages are Manhattan over `(row, col)`. Computed from the
+stable rc lists, so `__repr__` works detached and after pickle.
+`avg_dist_between_goals` is `0.0` when `|goals| < 2`.
 
 ### Methods
 | Method | Description |
