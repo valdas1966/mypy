@@ -8,10 +8,14 @@ from typing import Callable, Generic, TypeVar
 
 State = TypeVar('State', bound=StateBase)
 
+# Phase tags for `_compute_F` counter routing.
+_PHASE_SEARCH = 'search'
+_PHASE_UPDATE = 'update'
+
 
 class KAStarAgg(Generic[State]):
     """
-    ========================================================================
+    ============================================================================
      Aggregative kA* (kA*_agg) for the One-to-Many Shortest Path
      Problem.
 
@@ -25,20 +29,40 @@ class KAStarAgg(Generic[State]):
      from the active set. The priority function changes
      accordingly — F values of OPEN nodes may go stale.
 
-     Three orthogonal parameters control behaviour:
+     Four orthogonal parameters control behaviour:
        `agg`          — Φ selector (string or callable).
        `is_lazy`      — defer F recomputation to pop time (lazy)
                         vs eager refresh immediately after each
                         goal is found.
+       `is_opt`       — Stern §5.1.1 responsible-goal tracking.
+                        Lazy: skip pop-time recompute when the
+                        node's responsible goal is still active.
+                        Eager: refresh only OPEN nodes whose
+                        responsible goal was just removed.
+                        Currently MIN / MAX only (singleton
+                        responsible set).
        `store_vector` — each state stores [h_1(n), ..., h_k(n)]
                         as a vector (fast F recompute; O(k)
                         memory per state) vs only the current
                         aggregate (less memory; O(|active|)
                         h calls on each recompute).
 
-     Based on Stern et al. 2021 Algorithm 3.
+     Based on Stern et al. 2021 Algorithm 3 (§5.1, §5.1.1).
 
-     Recording event schema (standard push/pop/decrease_g plus):
+     Per-run counters (reset on every `run()`):
+       cnt_h_search   — h(n,t) calls in normal flow (push,
+                        decrease-g, start seed).
+       cnt_h_update   — h(n,t) calls in refresh flow (lazy
+                        pop-recompute, eager `_refresh_all_F`).
+       cnt_phi_search — `_compute_F` calls in normal flow.
+       cnt_phi_update — `_compute_F` calls in refresh flow.
+       cnt_push       — `frontier.push` calls.
+       cnt_pop        — `frontier.pop` calls (heap-op cost).
+       cnt_pop_stale  — pops that found stale F and re-inserted
+                        (lazy mode only).
+       cnt_decrease   — `frontier.decrease` calls.
+
+     Recording event schema (push/pop/decrease_g plus):
        `on_goal`          — goal reached; reason='expanded' or
                             'unreachable'.
        `update_frontier`  — boundary before an eager F refresh;
@@ -46,7 +70,7 @@ class KAStarAgg(Generic[State]):
        `update_heuristic` — per-node h/F update; fires during
                             eager refresh AND during lazy
                             re-insertion.
-    ========================================================================
+    ============================================================================
     """
 
     # Factory
@@ -57,22 +81,30 @@ class KAStarAgg(Generic[State]):
                  h: Callable[[State, State], int],
                  agg: str | Callable[[list[int]], int] = 'MIN',
                  is_lazy: bool = True,
+                 is_opt: bool = False,
                  store_vector: bool = False,
                  name: str = 'KAStarAgg',
                  is_recording: bool = False,
                  ) -> None:
         """
-        ====================================================================
+        ========================================================================
          Init private Attributes.
-        ====================================================================
+        ========================================================================
         """
         self._problem: ProblemSPP[State] = problem
         self._h: Callable[[State, State], int] = h
         self._agg, self._agg_name = resolve_agg(agg)
         self._is_lazy: bool = is_lazy
+        self._is_opt: bool = is_opt
         self._store_vector: bool = store_vector
         self._name: str = name
         self._recorder: Recorder = Recorder(is_active=is_recording)
+        # is_opt: responsible-goal opt requires Φ whose
+        # responsible set is the singleton arg-extremum.
+        if is_opt and self._agg_name not in ('MIN', 'MAX'):
+            raise ValueError(
+                f'is_opt=True requires agg in MIN/MAX '
+                f'(got {self._agg_name!r}).')
         # Per-run mutable state.
         self._solutions: dict[State, SolutionSPP] = {}
         self._frontier: FrontierPriority[State] = FrontierPriority[State]()
@@ -82,9 +114,19 @@ class KAStarAgg(Generic[State]):
         self._active_goals: set[State] = set()
         self._F_stored: dict[State, int] = {}
         self._h_vector: dict[State, list[int]] = {}
+        self._responsible: dict[State, State] = {}
         # Ordered list of all problem goals (stable for
         # store_vector indexing + PROJECTION ordering).
         self._all_goals: list[State] = []
+        # Per-run counters.
+        self._cnt_h_search: int = 0
+        self._cnt_h_update: int = 0
+        self._cnt_phi_search: int = 0
+        self._cnt_phi_update: int = 0
+        self._cnt_push: int = 0
+        self._cnt_pop: int = 0
+        self._cnt_pop_stale: int = 0
+        self._cnt_decrease: int = 0
 
     # ──────────────────────────────────────────────────
     #  Public Properties
@@ -112,7 +154,28 @@ class KAStarAgg(Generic[State]):
     def is_lazy(self) -> bool: return self._is_lazy
 
     @property
+    def is_opt(self) -> bool: return self._is_opt
+
+    @property
     def store_vector(self) -> bool: return self._store_vector
+
+    @property
+    def counters(self) -> dict[str, int]:
+        """
+        ====================================================================
+         Per-run operation counters. Reset on every `run()` call.
+        ====================================================================
+        """
+        return {
+            'cnt_h_search': self._cnt_h_search,
+            'cnt_h_update': self._cnt_h_update,
+            'cnt_phi_search': self._cnt_phi_search,
+            'cnt_phi_update': self._cnt_phi_update,
+            'cnt_push': self._cnt_push,
+            'cnt_pop': self._cnt_pop,
+            'cnt_pop_stale': self._cnt_pop_stale,
+            'cnt_decrease': self._cnt_decrease,
+        }
 
     # ──────────────────────────────────────────────────
     #  Lifecycle
@@ -130,34 +193,44 @@ class KAStarAgg(Generic[State]):
         for start in self._problem.starts:
             self._g[start] = 0
             self._parent[start] = None
-            f = self._compute_F(start)
+            f = self._compute_F(start, phase=_PHASE_SEARCH)
             self._F_stored[start] = f
             self._emit_push(start, g=0, f=f,
                             h=f)  # h == F when g == 0
+            self._cnt_push += 1
             self._frontier.push(state=start,
                                 priority=(f, 0, start))
 
         # Main loop.
         while self._frontier and self._active_goals:
+            self._cnt_pop += 1
             state = self._frontier.pop()
             g_state = self._g[state]
             stored_f = self._F_stored[state]
 
-            # Lazy: re-check F in case a goal was removed after
-            # this state was pushed. If F changed (either
-            # direction), re-insert with fresh priority.
+            # Lazy: re-check F (skipped under is_opt when the
+            # responsible goal is still active).
             if self._is_lazy:
-                actual_f = self._compute_F(state)
-                if actual_f != stored_f:
-                    self._emit_update_heuristic(
-                        state, h_old=stored_f - g_state,
-                        h_new=actual_f - g_state)
-                    self._F_stored[state] = actual_f
-                    self._frontier.push(
-                        state=state,
-                        priority=(actual_f, -g_state, state))
-                    continue
-                stored_f = actual_f
+                needs_recompute = True
+                if self._is_opt:
+                    resp = self._responsible.get(state)
+                    if resp is None or resp in self._active_goals:
+                        needs_recompute = False
+                if needs_recompute:
+                    actual_f = self._compute_F(
+                        state, phase=_PHASE_UPDATE)
+                    if actual_f != stored_f:
+                        self._emit_update_heuristic(
+                            state, h_old=stored_f - g_state,
+                            h_new=actual_f - g_state)
+                        self._F_stored[state] = actual_f
+                        self._cnt_pop_stale += 1
+                        self._cnt_push += 1
+                        self._frontier.push(
+                            state=state,
+                            priority=(actual_f, -g_state, state))
+                        continue
+                    stored_f = actual_f
 
             # Emit pop AFTER lazy-refresh so the pop event
             # reflects the "final" F value we'll act on.
@@ -171,8 +244,7 @@ class KAStarAgg(Generic[State]):
                 self._active_goals.discard(state)
                 # Force-expand: add goal to closed and push its
                 # successors so subsequent sub-goals can reach
-                # beyond this one. (AStar-style goal-pop-and-
-                # return would leave the frontier starved.)
+                # beyond this one.
                 self._closed.add(state)
                 for child in self._problem.successors(state):
                     if child in self._closed:
@@ -183,7 +255,8 @@ class KAStarAgg(Generic[State]):
                                    goal_index=goal_index)
                 if not self._is_lazy and self._active_goals:
                     self._refresh_all_F(
-                        next_goal_index=self._next_active_index())
+                        next_goal_index=self._next_active_index(),
+                        just_removed_goal=state)
                 if not self._active_goals:
                     break
                 continue
@@ -241,6 +314,15 @@ class KAStarAgg(Generic[State]):
         self._active_goals = set(self._all_goals)
         self._F_stored = {}
         self._h_vector = {}
+        self._responsible = {}
+        self._cnt_h_search = 0
+        self._cnt_h_update = 0
+        self._cnt_phi_search = 0
+        self._cnt_phi_update = 0
+        self._cnt_push = 0
+        self._cnt_pop = 0
+        self._cnt_pop_stale = 0
+        self._cnt_decrease = 0
 
     def _handle_child(self,
                       parent: State,
@@ -256,8 +338,9 @@ class KAStarAgg(Generic[State]):
             if new_g < self._g[child]:
                 self._g[child] = new_g
                 self._parent[child] = parent
-                f = self._compute_F(child)
+                f = self._compute_F(child, phase=_PHASE_SEARCH)
                 self._F_stored[child] = f
+                self._cnt_decrease += 1
                 self._frontier.decrease(
                     state=child,
                     priority=(f, -new_g, child))
@@ -266,46 +349,99 @@ class KAStarAgg(Generic[State]):
         else:
             self._g[child] = new_g
             self._parent[child] = parent
-            f = self._compute_F(child)
+            f = self._compute_F(child, phase=_PHASE_SEARCH)
             self._F_stored[child] = f
+            self._cnt_push += 1
             self._frontier.push(
                 state=child, priority=(f, -new_g, child))
             self._emit_push(child, g=new_g, f=f,
                             h=f - new_g,
                             parent=parent)
 
-    def _compute_F(self, state: State) -> int:
+    def _compute_F(self,
+                   state: State,
+                   phase: str = _PHASE_SEARCH) -> int:
         """
         ====================================================================
          F(state) = g(state) + Φ(h_i(state) for i in active).
+
+         Increments `cnt_h_*` and `cnt_phi_*` according to
+         `phase`. When `is_opt=True`, also assigns
+         `self._responsible[state]` to the active goal achieving
+         the current arg-extremum (argmin for MIN, argmax for
+         MAX).
         ====================================================================
         """
+        if phase == _PHASE_SEARCH:
+            self._cnt_phi_search += 1
+        else:
+            self._cnt_phi_update += 1
+
         g = self._g.get(state, 0)
         if not self._active_goals:
-            return g
+            return int(g)
+
         if self._store_vector:
             if state not in self._h_vector:
                 self._h_vector[state] = [
                     int(self._h(state, goal))
                     for goal in self._all_goals
                 ]
+                k_h = len(self._all_goals)
+                if phase == _PHASE_SEARCH:
+                    self._cnt_h_search += k_h
+                else:
+                    self._cnt_h_update += k_h
             vec = self._h_vector[state]
-            active_h = [vec[i]
-                        for i, goal in enumerate(self._all_goals)
-                        if goal in self._active_goals]
+            active_pairs = [(i, vec[i])
+                            for i, goal in enumerate(self._all_goals)
+                            if goal in self._active_goals]
         else:
-            active_h = [int(self._h(state, goal))
-                        for goal in self._all_goals
-                        if goal in self._active_goals]
-        phi = self._agg(active_h) if active_h else 0
+            active_pairs = []
+            for i, goal in enumerate(self._all_goals):
+                if goal in self._active_goals:
+                    active_pairs.append(
+                        (i, int(self._h(state, goal))))
+            n_h = len(active_pairs)
+            if phase == _PHASE_SEARCH:
+                self._cnt_h_search += n_h
+            else:
+                self._cnt_h_update += n_h
+
+        if not active_pairs:
+            return int(g)
+
+        active_h = [h for _, h in active_pairs]
+        phi = self._agg(active_h)
+
+        if self._is_opt:
+            if self._agg_name == 'MIN':
+                best_idx = min(
+                    range(len(active_pairs)),
+                    key=lambda j: active_pairs[j][1])
+            else:  # 'MAX' (validated in __init__)
+                best_idx = max(
+                    range(len(active_pairs)),
+                    key=lambda j: active_pairs[j][1])
+            self._responsible[state] = self._all_goals[
+                active_pairs[best_idx][0]]
+
         return int(g + phi)
 
-    def _refresh_all_F(self, next_goal_index: int) -> None:
+    def _refresh_all_F(self,
+                       next_goal_index: int,
+                       just_removed_goal: State | None = None,
+                       ) -> None:
         """
         ====================================================================
-         Eager refresh: drain the frontier, recompute every F
-         with the reduced active-goal set, re-push. Emits
-         `update_frontier` and one `update_heuristic` per state.
+         Eager refresh: drain the frontier, recompute F, re-push.
+
+         When `is_opt=True` and `just_removed_goal` is given,
+         only nodes whose responsible goal is the just-removed
+         one have their F recomputed (and `update_heuristic`
+         emitted); the rest keep their stored F. All OPEN nodes
+         are re-pushed regardless (the heap has no increase-key,
+         so we drain-and-rebuild).
         ====================================================================
         """
         states: list[State] = list(self._frontier)
@@ -315,11 +451,22 @@ class KAStarAgg(Generic[State]):
         self._frontier.clear()
         for s in states:
             old_f = self._F_stored[s]
-            new_f = self._compute_F(s)
+            if (self._is_opt
+                    and just_removed_goal is not None
+                    and self._responsible.get(s)
+                    != just_removed_goal):
+                # Not affected; keep stored F (no recompute,
+                # no `update_heuristic` event).
+                new_f = old_f
+            else:
+                new_f = self._compute_F(s, phase=_PHASE_UPDATE)
+                g_s = self._g[s]
+                self._emit_update_heuristic(
+                    s, h_old=old_f - g_s,
+                    h_new=new_f - g_s)
+                self._F_stored[s] = new_f
             g_s = self._g[s]
-            self._emit_update_heuristic(
-                s, h_old=old_f - g_s, h_new=new_f - g_s)
-            self._F_stored[s] = new_f
+            self._cnt_push += 1
             self._frontier.push(state=s,
                                 priority=(new_f, -g_s, s))
 
