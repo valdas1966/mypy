@@ -1,8 +1,15 @@
 """
 ===============================================================================
  Script: read sampled clusters from s_0_clusters CSV and emit n random
- pairs per (domain, map), constrained by a minimum center-distance, to a
- single CSV on Google Drive.
+ *distinct* ordered pairs per (domain, map), constrained by a minimum
+ center-distance, to a single CSV on Google Drive.
+-------------------------------------------------------------------------------
+ Distinctness
+   Pairs are ordered-distinct: each (a, b) is emitted at most once, but
+   (A, B) and (B, A) may both appear (different orientations are
+   different pairs). Re-sampling continues until `n` distinct pairs are
+   collected or `max_tries` consecutive rejections (collision, self,
+   or below `min_dist`) abort the group.
 -------------------------------------------------------------------------------
  Core function (general)
    generate_pairs(path_drive_csv_in, path_drive_csv_out,
@@ -114,15 +121,18 @@ def _sample_pairs(clusters: list[_Cluster],
                   ) -> list[tuple[_Cluster, _Cluster, int]]:
     """
     ============================================================================
-     Draw n random ordered pairs (a, b) with replacement from `clusters`,
-     accepting only pairs with a != b and Manhattan distance between
-     centers >= min_dist. Aborts after `max_tries` consecutive rejections
-     and returns what was accumulated.
+     Draw n random ordered-distinct pairs (a, b) with replacement from
+     `clusters`, accepting only pairs with a != b, Manhattan distance
+     between centers >= min_dist, and (a, b) not yet emitted (ordered:
+     (A, B) and (B, A) are distinct). Aborts after `max_tries`
+     consecutive rejections (collision, self, or below min_dist) and
+     returns what was accumulated.
     ============================================================================
     """
     pairs: list[tuple[_Cluster, _Cluster, int]] = []
     if len(clusters) < 2:
         return pairs
+    seen: set[tuple[_Cluster, _Cluster]] = set()
     tries = 0
     while len(pairs) < n and tries < max_tries:
         a = rng.choice(clusters)
@@ -130,10 +140,14 @@ def _sample_pairs(clusters: list[_Cluster],
         if a is b:
             tries += 1
             continue
+        if (a, b) in seen:
+            tries += 1
+            continue
         d = _manhattan(a=a, b=b)
         if d < min_dist:
             tries += 1
             continue
+        seen.add((a, b))
         pairs.append((a, b, d))
         tries = 0
     return pairs
@@ -145,19 +159,22 @@ def generate_pairs(path_drive_csv_in: str,
                    path_drive_csv_out: str,
                    n: int,
                    min_dist: int,
-                   max_tries: int = 10_000,
+                   max_tries: int = 100,
                    seed: int | None = None,
                    ) -> None:
     """
     ============================================================================
      Read sampled clusters from `path_drive_csv_in` (output of
-     s_0_clusters), for each (domain, map) sample `n` random ordered
-     pairs (a, b) with Manhattan center-distance >= `min_dist`, and
-     stream the pairs to a single CSV at `path_drive_csv_out` on Drive.
+     s_0_clusters), for each (domain, map) sample `n` random
+     ordered-distinct pairs (a, b) with Manhattan center-distance
+     >= `min_dist` (each (a, b) emitted at most once; (A, B) and
+     (B, A) are distinct), and stream the pairs to a single CSV at
+     `path_drive_csv_out` on Drive.
 
-     `max_tries` bounds consecutive rejections per (domain, map) before
-     aborting that group early -- protects against infeasible
-     `min_dist` choices on small grids.
+     `max_tries` bounds consecutive rejections per (domain, map)
+     before aborting that group early -- protects against infeasible
+     `min_dist` choices on small grids and against pair-space
+     exhaustion (e.g. n > |clusters| * (|clusters| - 1)).
 
      `seed` -- pass an int for reproducible sampling.
 
@@ -196,6 +213,7 @@ def generate_pairs(path_drive_csv_in: str,
                                   rng=rng)
             for a, b, d in pairs:
                 writer.writerow({
+                    'domain': domain,
                     'map': name,
                     'steps': a.steps,
                     'a_center_row': a.center_row,
@@ -226,7 +244,7 @@ def generate_pairs(path_drive_csv_in: str,
 if __name__ == '__main__':
     # Parameters
     path_drive_csv_in = ('2026/04/experiments/mospp/i_0_clusters.csv')
-    n = 1_000
+    n = 100
     min_dist = 100
     path_drive_csv_out = (f'2026/04/experiments/mospp/i_1_pairs_clusters.csv')
     # Run

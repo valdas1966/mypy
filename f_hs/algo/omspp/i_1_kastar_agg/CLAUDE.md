@@ -37,7 +37,7 @@ Three orthogonal switches × `agg` define 8 + 1 configs:
 |---|---|---|
 | `is_lazy` | True / False | Defer F refresh to pop time vs. eager batch refresh after every goal-find |
 | `is_opt` | True / False | Stern §5.1.1 responsible-goal tracking; skips refresh when `n.responsible ∈ A`. Requires `agg ∈ {MIN, MAX}` |
-| `store_vector` | True / False | Cache full `[h_1(n), ..., h_k(n)]` per node vs. recompute h's on each `_compute_F` |
+| `store_vector` | True / False | Cache `[h_1(n), ..., h_k(n)]` per node (only for goals active at first encounter; closed goals get `None` sentinel and are never read) vs. recompute h's on each `_compute_F` |
 
 `ValueError` raised if `is_opt=True` with `agg` not in MIN/MAX.
 
@@ -73,8 +73,8 @@ Reset on every `run()` call. Runtime decomposition for the
 
 | counter | when incremented |
 |---|---|
-| `cnt_h_search` | h call in normal flow (start seed, push, decrease-g) |
-| `cnt_h_update` | h call in refresh flow (lazy pop-recompute, eager `_refresh_all_F`) |
+| `cnt_h_search` | h call in normal flow (start seed, push, decrease-g). Under `store_vector=True`, counts only the first-encounter h calls for goals that were active at that moment. |
+| `cnt_h_update` | h call in refresh flow (lazy pop-recompute, eager `_refresh_all_F`). Always 0 when `store_vector=True` (vector cached). |
 | `cnt_phi_search` | `_compute_F` from search flow |
 | `cnt_phi_update` | `_compute_F` from refresh flow |
 | `cnt_push` | every `frontier.push` (incl. lazy re-insertions, eager bulk re-push) |
@@ -84,10 +84,29 @@ Reset on every `run()` call. Runtime decomposition for the
 
 ### Recording schema
 
-Event types emitted when `is_recording=True`: `push`, `pop`,
-`decrease_g`, `on_goal` (`reason='expanded'` / `'unreachable'`),
-`update_frontier` (eager refresh boundary), `update_heuristic`
-(per-node F change at refresh or lazy re-insertion).
+Event types emitted when `is_recording=True`:
+
+| event | payload | when |
+|---|---|---|
+| `push` | state, g, h, f, parent | every `frontier.push` (initial seed, child handling, eager bulk re-push). Lazy stale re-push does NOT emit. |
+| `pop` | state, g, h, f | every non-stale pop (after lazy refresh). Stale pops do NOT emit `pop`. |
+| `decrease_g` | state, g, h, f, parent | every decrease-key |
+| `on_goal` | state, g, reason, goal_index | goal expanded / unreachable |
+| `update_frontier` | num_nodes, next_goal_index | eager refresh boundary (eager only) |
+| `update_heuristic` | state, h_old, h_new | per-node F change during eager refresh OR lazy stale-pop re-insertion |
+| `h_calc` | state, goal, value, phase | single h(state,goal) evaluation; `phase ∈ {search, update}` |
+| `phi_calc` | state, value, phase | every `_compute_F` call; `value` = aggregated Φ (0 when no active goals) |
+| `responsible_set` | state, responsible | `self._responsible[state]` assignment (is_opt only) |
+| `refresh_skip` | state, reason | opt short-circuit; `reason ∈ {lazy_responsible_active, eager_responsible_unchanged}` |
+| `pop_stale` | state, f_stored, f_recomputed | lazy pop found stale F (precedes the `update_heuristic` + lazy re-push) |
+
+**Param → distinguishing events:**
+
+| param | distinguishing events |
+|---|---|
+| `is_lazy` | `pop_stale` (lazy only); `update_frontier` (eager only) |
+| `is_opt` | `responsible_set`, `refresh_skip` (opt only) |
+| `store_vector` | `h_calc` count drops to 0 after each state's first `_compute_F`; first-encounter `h_calc` events only fire for goals active at that moment (closed goals are skipped) |
 
 ## 3) Inheritance (Hierarchy)
 

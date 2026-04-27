@@ -25,9 +25,10 @@ def normalize(event: dict) -> dict:
     ========================================================================
      Return a comparable copy of an Event:
      - duration removed (non-deterministic timing).
-     - state / parent unwrapped to their keys (when present).
+     - state / parent / goal / responsible unwrapped to their
+       keys (when present and non-None).
      - state-less meta-events (e.g. `update_frontier`) pass
-       through unchanged; no state field expected.
+       through unchanged.
     ========================================================================
     """
     out = {k: v for k, v in event.items() if k != 'duration'}
@@ -36,4 +37,8 @@ def normalize(event: dict) -> dict:
     if 'parent' in event:
         p = event['parent']
         out['parent'] = key_of(p) if p is not None else None
+    if 'goal' in event and event['goal'] is not None:
+        out['goal'] = key_of(event['goal'])
+    if 'responsible' in event and event['responsible'] is not None:
+        out['responsible'] = key_of(event['responsible'])
     return out

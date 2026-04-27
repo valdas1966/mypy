@@ -1,37 +1,48 @@
 """
 ===============================================================================
- Script: read pair-cluster metadata from i_1_pairs_clusters.csv, reconstruct
- the two ClusterDiamond objects per pair, sample k random cells from
- cluster A (-> goals) and one random cell from cluster B (-> start), build
- a multi-goal ProblemGrid per pair, and emit:
+ Script: read pair-cluster metadata from i_1_pairs_clusters.csv, randomly
+ select n_per_map pair_clusters per (domain, map), reconstruct the two
+ ClusterDiamond objects per selected pair, sample 1 start from cluster
+ A and a NESTED family of goal sets from cluster B (one prefix per
+ value of k), build an OMSPP ProblemGrid for each k, and emit:
    - a pickle of the list of (detached) problems,
    - a CSV of per-problem metadata (one row per problem).
 -------------------------------------------------------------------------------
  Core function (general)
    generate_problems(path_drive_csv_in, path_drive_pkl_out,
-                     path_drive_csv_out, path_drive_maps,
+                     path_drive_csv_out, path_drive_grids_pkl,
                      n_per_map, k, seed=None) -> None
 
  __main__ (specific use case)
-   in:  2026/04/experiments/mospp/i_1_pairs_clusters.csv
-   maps: 2026/04/experiments/maps
-   out: 2026/04/experiments/mospp/i_2_problems.pkl
-        2026/04/experiments/mospp/i_2_problems.csv
+   in:   2026/04/experiments/mospp/i_1_pairs_clusters.csv
+   pkl:  2026/04/experiments/grids/grids.pkl  (bundle of GridMaps)
+   out:  2026/04/experiments/mospp/i_2_problems.pkl
+         2026/04/experiments/mospp/i_2_problems.csv
 
  Sampling
-   - Per-pair: k cells sampled WITHOUT replacement from cluster A's valid
-     cells (clamped to len(cluster_a) when k exceeds the cluster size);
-     1 cell sampled uniformly from cluster B.
-   - Pairs from the input CSV are taken in their on-disk order: the
-     FIRST n rows per (domain, map) become problems; later rows are
-     ignored.
+   - Pair selection: per (domain, map), `n_per_map` pair_clusters are
+     drawn uniformly WITHOUT replacement from the available pairs
+     (clamped to the group size when fewer pairs exist).
+   - Per selected pair: 1 cell sampled uniformly from cluster A
+     (-> start). max(k) cells sampled WITHOUT replacement from cluster
+     B once; the resulting ordered list G is sliced into nested
+     prefixes G[:k_i] for each k_i in `k`. The k=4 problem's goals are
+     thus exactly the k=2 problem's goals plus 2 new (and so on).
+     This gives a paired/nested design for measuring the effect of
+     growing k while holding start + earlier goals fixed.
+
+ k parameter
+   `k` may be an int (single problem per pair, legacy) or a list[int]
+   (family: one problem per k value, sharing start + nested goals).
+   Sorted ascending internally.
 
  Memory
    - Pair-CSV is read once into dict[(domain, map)] -> list[_PairRow]
      (small; ~50 B/row).
-   - Maps are streamed: one grid loaded from Drive at a time, all
-     problems for that map are built and detached, the grid is
-     released before the next is fetched (peak ~1 grid in RAM).
+   - Grids are loaded once from a single pickle bundle on Drive and
+     held in a dict[name -> GridMap] for the duration of the run. The
+     bundle is small (a few maps in practice) so this is cheaper than
+     re-downloading and re-parsing per-map .map files.
    - Final problem list is held in memory (detached, light) for one
      pickle dump.
 ===============================================================================
@@ -59,11 +70,10 @@ _log = get_log(__name__)
 _CSV_COLUMNS = [
     'domain',
     'map',
-    'name',
-    'n_starts',
-    'n_goals',
-    'avg_dist_starts_to_goals',
-    'avg_dist_between_goals',
+    'n',
+    'm',
+    'dist_starts_goals',
+    'dist_goals',
 ]
 
 
@@ -111,37 +121,77 @@ def _read_pairs_grouped(drive: Drive,
     return groups
 
 
-def _load_grid(drive: Drive,
-               path_drive_maps: str,
-               name: str) -> GridMap:
+def _load_grids_from_pickle(drive: Drive,
+                            path_drive_pkl: str
+                            ) -> dict[str, GridMap]:
     """
     ============================================================================
-     Download a single .map file and parse it to a GridMap. Map name is
-     the file stem (the .map file lives at `<path_drive_maps>/<name>.map`).
+     Download the grids pickle from Drive and return a name -> GridMap
+     map. The pickle is expected to hold either a `dict[str, GridMap]`
+     (canonical, matching ProblemGrid.Store) or a `list[GridMap]`. Each
+     grid carries its own `domain` attribute.
+
+     `drive.read` decodes as text; pickle is binary, so download to a
+     temp file and unpickle from disk.
     ============================================================================
     """
-    path = f'{path_drive_maps}/{name}.map'
-    _log.info(f'  reading grid: {path}')
-    text = drive.read(path=path).text
-    grid = GridMap.From.text(content=text, name=name)
-    _log.info(f'    -> {grid.name}: {grid.rows}x{grid.cols}, '
-              f'{len(grid):,} valid cells')
-    return grid
+    _log.info(f'reading grids pickle: {path_drive_pkl}')
+    tmp = tempfile.NamedTemporaryFile(
+        suffix='.pkl', delete=False, mode='wb')
+    path_local = tmp.name
+    tmp.close()
+    try:
+        drive.download(path_src=path_drive_pkl,
+                       path_dest=path_local)
+        with open(path_local, 'rb') as f:
+            obj = pickle.load(f)
+    finally:
+        if os.path.exists(path_local):
+            os.unlink(path_local)
+    if isinstance(obj, dict):
+        grids = list(obj.values())
+    elif isinstance(obj, list):
+        grids = obj
+    else:
+        raise TypeError(
+            f'expected dict[str, GridMap] or list[GridMap] in '
+            f'{path_drive_pkl}; got {type(obj).__name__}')
+    by_name: dict[str, GridMap] = {}
+    for g in grids:
+        _log.info(f'  loaded: {g.name} '
+                  f'(domain={g.domain!r}, '
+                  f'{g.rows}x{g.cols}, '
+                  f'{len(g):,} valid cells)')
+        by_name[g.name] = g
+    return by_name
 
 
-def _build_problem(grid: GridMap,
-                   pair: _PairRow,
-                   k: int,
-                   rng: random.Random,
-                   problem_idx: int,
-                   ) -> ProblemGrid | None:
+def _build_problems(grid: GridMap,
+                    pair: _PairRow,
+                    ks: list[int],
+                    rng: random.Random,
+                    pair_id: str,
+                    ) -> list[tuple[int, ProblemGrid]]:
     """
     ============================================================================
      Reconstruct the two ClusterDiamond instances from `pair`'s
-     metadata, sample k goals (without replacement) from cluster A and
-     1 start (uniform) from cluster B, and build a multi-goal
-     ProblemGrid. Returns None when either cluster is empty (stale
-     center under wall reshuffle, etc.) so the caller can skip cleanly.
+     metadata, sample 1 start (uniform) from cluster A and max(ks)
+     goals (without replacement) from cluster B once, then emit one
+     ProblemGrid per k in `ks` whose goals are the prefix G[:k] of the
+     same shuffled goal list -- so larger-k problems strictly extend
+     smaller-k ones (paired/nested design for measuring the effect of
+     k).
+
+     `ks` -- ascending list of distinct positive ints.
+
+     Returns a list of (k, problem) tuples in the same order as `ks`.
+
+     Per the experimental design, cluster A and cluster B must have
+     enough cells to support the sampling (>=1 and >=max(ks)
+     respectively). If either constraint is violated (e.g. stale
+     center under wall reshuffle), raises ValueError so the upstream
+     pipeline can be tightened rather than silently emitting an
+     unbalanced design.
     ============================================================================
     """
     center_a = grid[pair.a_center_row][pair.a_center_col]
@@ -154,18 +204,30 @@ def _build_problem(grid: GridMap,
                                steps=pair.steps)
     cells_a = list(cluster_a)
     cells_b = list(cluster_b)
-    if not cells_a or not cells_b:
-        return None
-    # k goals from A (without replacement, clamped to cluster size).
-    k_eff = min(k, len(cells_a))
-    goals = rng.sample(cells_a, k=k_eff)
-    # 1 start from B.
-    start = rng.choice(cells_b)
-    name = f'{grid.name}_{problem_idx:06d}'
-    return ProblemGrid(grid=grid,
-                       starts=[start],
-                       goals=goals,
-                       name=name)
+    k_max = ks[-1]
+    if len(cells_a) < 1:
+        raise ValueError(
+            f'cluster A empty for pair_id={pair_id} on '
+            f'{grid.name} (center=({pair.a_center_row},'
+            f'{pair.a_center_col}), steps={pair.steps})')
+    if len(cells_b) < k_max:
+        raise ValueError(
+            f'cluster B has {len(cells_b)} cells < max(k)={k_max} '
+            f'for pair_id={pair_id} on {grid.name} '
+            f'(center=({pair.b_center_row},{pair.b_center_col}), '
+            f'steps={pair.steps})')
+    # Single start from A; single max(k)-shuffle of B for nested goals.
+    start = rng.choice(cells_a)
+    goals_full = rng.sample(cells_b, k=k_max)
+    out: list[tuple[int, ProblemGrid]] = []
+    for k in ks:
+        goals = goals_full[:k]
+        name = f'{pair_id}_k{k:02d}'
+        out.append((k, ProblemGrid(grid=grid,
+                                   starts=[start],
+                                   goals=goals,
+                                   name=name)))
+    return out
 
 
 def _problem_to_meta_row(problem: ProblemGrid,
@@ -199,11 +261,10 @@ def _problem_to_meta_row(problem: ProblemGrid,
     return {
         'domain': domain,
         'map': problem.grid_name,
-        'name': problem.name,
-        'n_starts': len(starts),
-        'n_goals': len(goals),
-        'avg_dist_starts_to_goals': round(avg_sg, 4),
-        'avg_dist_between_goals': round(avg_gg, 4),
+        'n': len(starts),
+        'm': len(goals),
+        'dist_starts_goals': round(avg_sg, 4),
+        'dist_goals': round(avg_gg, 4),
     }
 
 
@@ -212,35 +273,52 @@ def _problem_to_meta_row(problem: ProblemGrid,
 def generate_problems(path_drive_csv_in: str,
                       path_drive_pkl_out: str,
                       path_drive_csv_out: str,
-                      path_drive_maps: str,
+                      path_drive_grids_pkl: str,
                       n_per_map: int,
-                      k: int,
+                      k: int | list[int],
                       seed: int | None = None,
                       ) -> None:
     """
     ============================================================================
-     Read pair-cluster metadata from `path_drive_csv_in`, build up to
-     `n_per_map` MOSPP-style ProblemGrid problems per (domain, map) by
-     reconstructing the two clusters and sampling (k goals from A, 1
-     start from B), then upload:
+     Read pair-cluster metadata from `path_drive_csv_in`, randomly
+     select up to `n_per_map` pair_clusters per (domain, map) without
+     replacement, and for each selected pair build an OMSPP
+     ProblemGrid family (one per value of `k`) by reconstructing the
+     two clusters, drawing 1 start from A and max(k) goals from B
+     once, and slicing the goal list into nested prefixes G[:k_i].
+     Then upload:
        - the list of detached problems as a single pickle to
          `path_drive_pkl_out`,
-       - per-problem metadata as a CSV to `path_drive_csv_out`.
+       - per-problem metadata as a CSV to `path_drive_csv_out`
+         (one row per (pair, k)).
 
-     Grids are loaded one at a time from `path_drive_maps`; problems
-     are detached before being added to the list (light pickle).
+     `k` -- int (legacy: one problem per pair) or list[int] (one
+     problem per k per pair, sharing start + nested goal prefixes).
+     The list is sorted ascending internally; values must be positive.
+
+     Grids are loaded once from the bundle pickle at
+     `path_drive_grids_pkl` and looked up by name. Pairs whose map is
+     absent from the bundle are skipped with a warning. Problems are
+     detached before being added to the list (light pickle).
 
      `seed` -- pass an int for reproducible sampling.
     ============================================================================
     """
+    ks = sorted({k}) if isinstance(k, int) else sorted(set(k))
+    if not ks or ks[0] < 1:
+        raise ValueError(f'k must be a positive int or non-empty '
+                         f'list of positive ints; got {k!r}')
     _log.info(f'generate_problems('
               f'in={path_drive_csv_in}, '
+              f'grids_pkl={path_drive_grids_pkl}, '
               f'pkl_out={path_drive_pkl_out}, '
               f'csv_out={path_drive_csv_out}, '
-              f'n_per_map={n_per_map}, k={k})')
+              f'n_per_map={n_per_map}, k={ks})')
     drive = Drive.Factory.valdas()
     groups = _read_pairs_grouped(drive=drive,
                                  path_drive_csv=path_drive_csv_in)
+    grids_by_name = _load_grids_from_pickle(
+        drive=drive, path_drive_pkl=path_drive_grids_pkl)
     rng = random.Random(seed)
     problems: list[ProblemGrid] = []
     # CSV is streamed to a temp file as we go.
@@ -254,31 +332,33 @@ def generate_problems(path_drive_csv_in: str,
         writer.writeheader()
         # Stable iteration order: by (domain, map).
         for (domain, name), pairs in sorted(groups.items()):
-            head = pairs[:n_per_map]
-            _log.info(f'  building {len(head):,} problems on '
-                      f'{name} '
+            grid = grids_by_name.get(name)
+            if grid is None:
+                _log.warning(f'  skipping {name}: not in grids pickle '
+                             f'({len(pairs):,} pairs dropped)')
+                continue
+            n_eff = min(n_per_map, len(pairs))
+            selected = rng.sample(pairs, k=n_eff)
+            _log.info(f'  building {len(selected):,} pairs * '
+                      f'{len(ks)} k = {len(selected) * len(ks):,} '
+                      f'problems on {name} '
                       f'({len(pairs):,} pairs available, '
-                      f'k={k})')
-            grid = _load_grid(drive=drive,
-                              path_drive_maps=path_drive_maps,
-                              name=name)
+                      f'ks={ks})')
             built = 0
-            for idx, pair in enumerate(head):
-                problem = _build_problem(grid=grid,
+            for idx, pair in enumerate(selected):
+                pair_id = f'{name}_{idx:06d}'
+                family = _build_problems(grid=grid,
                                          pair=pair,
-                                         k=k,
+                                         ks=ks,
                                          rng=rng,
-                                         problem_idx=idx)
-                if problem is None:
-                    continue
-                writer.writerow(_problem_to_meta_row(
-                    problem=problem, domain=domain))
-                problem.detach()
-                problems.append(problem)
-                built += 1
+                                         pair_id=pair_id)
+                for k_i, problem in family:
+                    writer.writerow(_problem_to_meta_row(
+                        problem=problem, domain=domain))
+                    problem.detach()
+                    problems.append(problem)
+                    built += 1
             _log.info(f'    done: {built:,} problems on {name}')
-            # Drop the grid before fetching the next map.
-            del grid
         tmp_csv.close()
         # Pickle the (detached) problem list to a temp file, upload.
         tmp_pkl = tempfile.NamedTemporaryFile(
@@ -309,9 +389,9 @@ if __name__ == '__main__':
     # Parameters
     path_drive_csv_in = ('2026/04/experiments/mospp/'
                          'i_1_pairs_clusters.csv')
-    path_drive_maps = '2026/04/experiments/maps'
+    path_drive_grids_pkl = '2026/04/experiments/grids/grids.pkl'
     n_per_map = 1
-    k = 10
+    k = [2, 4, 6, 8, 10]
     path_drive_pkl_out = ('2026/04/experiments/mospp/'
                           'i_2_problems.pkl')
     path_drive_csv_out = ('2026/04/experiments/mospp/'
@@ -320,7 +400,7 @@ if __name__ == '__main__':
     generate_problems(path_drive_csv_in=path_drive_csv_in,
                       path_drive_pkl_out=path_drive_pkl_out,
                       path_drive_csv_out=path_drive_csv_out,
-                      path_drive_maps=path_drive_maps,
+                      path_drive_grids_pkl=path_drive_grids_pkl,
                       n_per_map=n_per_map,
                       k=k)
     _log.info('--- done ---')

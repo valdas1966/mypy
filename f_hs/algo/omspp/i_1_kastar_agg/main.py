@@ -45,7 +45,12 @@ class KAStarAgg(Generic[State]):
                         as a vector (fast F recompute; O(k)
                         memory per state) vs only the current
                         aggregate (less memory; O(|active|)
-                        h calls on each recompute).
+                        h calls on each recompute). The vector
+                        is filled only for goals that were
+                        active at first-encounter time; closed
+                        goals get a None sentinel and are never
+                        read (the active set is
+                        monotone-decreasing).
 
      Based on Stern et al. 2021 Algorithm 3 (§5.1, §5.1.1).
 
@@ -70,6 +75,20 @@ class KAStarAgg(Generic[State]):
        `update_heuristic` — per-node h/F update; fires during
                             eager refresh AND during lazy
                             re-insertion.
+       `h_calc`           — single h(state, goal) evaluation;
+                            value + phase ('search' / 'update').
+       `phi_calc`         — single _compute_F call; carries phi
+                            (the aggregated heuristic value) and
+                            phase. Fires once per call, even when
+                            no active goals (phi=0 then).
+       `responsible_set`  — `self._responsible[state]` assigned
+                            (only fires under is_opt=True).
+       `refresh_skip`     — opt short-circuit fired; reason in
+                            {'lazy_responsible_active',
+                             'eager_responsible_unchanged'}.
+       `pop_stale`        — lazy pop found stale F; carries
+                            f_stored and f_recomputed (an
+                            `update_heuristic` + re-push follows).
     ============================================================================
     """
 
@@ -113,7 +132,12 @@ class KAStarAgg(Generic[State]):
         self._closed: set[State] = set()
         self._active_goals: set[State] = set()
         self._F_stored: dict[State, int] = {}
-        self._h_vector: dict[State, list[int]] = {}
+        # Vector slots for non-active goals at first-encounter
+        # time are stored as None (sentinel). The active set is
+        # monotone-decreasing, so a None slot is forever
+        # unreachable via the `goal in self._active_goals`
+        # filter in `_compute_F`.
+        self._h_vector: dict[State, list[int | None]] = {}
         self._responsible: dict[State, State] = {}
         # Ordered list of all problem goals (stable for
         # store_vector indexing + PROJECTION ordering).
@@ -216,10 +240,16 @@ class KAStarAgg(Generic[State]):
                     resp = self._responsible.get(state)
                     if resp is None or resp in self._active_goals:
                         needs_recompute = False
+                        self._emit_refresh_skip(
+                            state,
+                            reason='lazy_responsible_active')
                 if needs_recompute:
                     actual_f = self._compute_F(
                         state, phase=_PHASE_UPDATE)
                     if actual_f != stored_f:
+                        self._emit_pop_stale(
+                            state, f_stored=stored_f,
+                            f_recomputed=actual_f)
                         self._emit_update_heuristic(
                             state, h_old=stored_f - g_state,
                             h_new=actual_f - g_state)
@@ -379,19 +409,30 @@ class KAStarAgg(Generic[State]):
 
         g = self._g.get(state, 0)
         if not self._active_goals:
+            self._emit_phi_calc(state, value=0, phase=phase)
             return int(g)
 
         if self._store_vector:
             if state not in self._h_vector:
-                self._h_vector[state] = [
-                    int(self._h(state, goal))
-                    for goal in self._all_goals
-                ]
-                k_h = len(self._all_goals)
+                # Compute h only for currently-active goals;
+                # store None for closed goals (never read,
+                # since active set only shrinks).
+                vec: list[int | None] = []
+                n_h = 0
+                for goal in self._all_goals:
+                    if goal in self._active_goals:
+                        v = int(self._h(state, goal))
+                        self._emit_h_calc(state, goal, value=v,
+                                          phase=phase)
+                        vec.append(v)
+                        n_h += 1
+                    else:
+                        vec.append(None)
+                self._h_vector[state] = vec
                 if phase == _PHASE_SEARCH:
-                    self._cnt_h_search += k_h
+                    self._cnt_h_search += n_h
                 else:
-                    self._cnt_h_update += k_h
+                    self._cnt_h_update += n_h
             vec = self._h_vector[state]
             active_pairs = [(i, vec[i])
                             for i, goal in enumerate(self._all_goals)
@@ -400,8 +441,10 @@ class KAStarAgg(Generic[State]):
             active_pairs = []
             for i, goal in enumerate(self._all_goals):
                 if goal in self._active_goals:
-                    active_pairs.append(
-                        (i, int(self._h(state, goal))))
+                    v = int(self._h(state, goal))
+                    self._emit_h_calc(state, goal, value=v,
+                                      phase=phase)
+                    active_pairs.append((i, v))
             n_h = len(active_pairs)
             if phase == _PHASE_SEARCH:
                 self._cnt_h_search += n_h
@@ -409,6 +452,7 @@ class KAStarAgg(Generic[State]):
                 self._cnt_h_update += n_h
 
         if not active_pairs:
+            self._emit_phi_calc(state, value=0, phase=phase)
             return int(g)
 
         active_h = [h for _, h in active_pairs]
@@ -423,9 +467,13 @@ class KAStarAgg(Generic[State]):
                 best_idx = max(
                     range(len(active_pairs)),
                     key=lambda j: active_pairs[j][1])
-            self._responsible[state] = self._all_goals[
+            responsible_goal = self._all_goals[
                 active_pairs[best_idx][0]]
+            self._responsible[state] = responsible_goal
+            self._emit_responsible_set(
+                state, responsible=responsible_goal)
 
+        self._emit_phi_calc(state, value=int(phi), phase=phase)
         return int(g + phi)
 
     def _refresh_all_F(self,
@@ -457,6 +505,8 @@ class KAStarAgg(Generic[State]):
                     != just_removed_goal):
                 # Not affected; keep stored F (no recompute,
                 # no `update_heuristic` event).
+                self._emit_refresh_skip(
+                    s, reason='eager_responsible_unchanged')
                 new_f = old_f
             else:
                 new_f = self._compute_F(s, phase=_PHASE_UPDATE)
@@ -539,4 +589,45 @@ class KAStarAgg(Generic[State]):
         self._recorder.record({
             'type': 'update_heuristic', 'state': state,
             'h_old': int(h_old), 'h_new': int(h_new),
+        })
+
+    def _emit_h_calc(self, state, goal, value, phase):
+        if not self._recorder.is_active:
+            return
+        self._recorder.record({
+            'type': 'h_calc', 'state': state, 'goal': goal,
+            'value': int(value), 'phase': phase,
+        })
+
+    def _emit_phi_calc(self, state, value, phase):
+        if not self._recorder.is_active:
+            return
+        self._recorder.record({
+            'type': 'phi_calc', 'state': state,
+            'value': int(value), 'phase': phase,
+        })
+
+    def _emit_responsible_set(self, state, responsible):
+        if not self._recorder.is_active:
+            return
+        self._recorder.record({
+            'type': 'responsible_set', 'state': state,
+            'responsible': responsible,
+        })
+
+    def _emit_refresh_skip(self, state, reason):
+        if not self._recorder.is_active:
+            return
+        self._recorder.record({
+            'type': 'refresh_skip', 'state': state,
+            'reason': reason,
+        })
+
+    def _emit_pop_stale(self, state, f_stored, f_recomputed):
+        if not self._recorder.is_active:
+            return
+        self._recorder.record({
+            'type': 'pop_stale', 'state': state,
+            'f_stored': int(f_stored),
+            'f_recomputed': int(f_recomputed),
         })
