@@ -1,8 +1,8 @@
-from f_core.recorder.main import Recorder
 from f_hs.algo.omspp._internal._aggregations import resolve_agg
+from f_hs.algo.omspp.i_0_base.main import AlgoOMSPP
 from f_hs.frontier.i_1_priority.main import FrontierPriority
 from f_hs.problem.i_0_base.main import ProblemSPP
-from f_hs.solution.main import SolutionSPP
+from f_hs.solution.main import SolutionOMSPP, SolutionSPP
 from f_hs.state.i_0_base.main import StateBase
 from typing import Callable, Generic, TypeVar
 
@@ -13,7 +13,7 @@ _PHASE_SEARCH = 'search'
 _PHASE_UPDATE = 'update'
 
 
-class KAStarAgg(Generic[State]):
+class KAStarAgg(Generic[State], AlgoOMSPP[State]):
     """
     ============================================================================
      Aggregative kA* (kA*_agg) for the One-to-Many Shortest Path
@@ -54,7 +54,12 @@ class KAStarAgg(Generic[State]):
 
      Based on Stern et al. 2021 Algorithm 3 (§5.1, §5.1.1).
 
-     Per-run counters (reset on every `run()`):
+     Inherits the full f_cs Algo lifecycle from AlgoOMSPP —
+     `algo.run()` returns a `SolutionOMSPP` (Mapping over
+     `{goal: SolutionSPP}`); `algo.elapsed`, `algo.recorder`,
+     `algo.counters`, `algo.solutions` all available.
+
+     Per-run counters (8-counter scaffold from AlgoOMSPP):
        cnt_h_search   — h(n,t) calls in normal flow (push,
                         decrease-g, start seed).
        cnt_h_update   — h(n,t) calls in refresh flow (lazy
@@ -92,9 +97,6 @@ class KAStarAgg(Generic[State]):
     ============================================================================
     """
 
-    # Factory
-    Factory: type = None
-
     def __init__(self,
                  problem: ProblemSPP[State],
                  h: Callable[[State, State], int],
@@ -110,14 +112,12 @@ class KAStarAgg(Generic[State]):
          Init private Attributes.
         ========================================================================
         """
-        self._problem: ProblemSPP[State] = problem
-        self._h: Callable[[State, State], int] = h
+        AlgoOMSPP.__init__(self, problem=problem, h=h, name=name,
+                           is_recording=is_recording)
         self._agg, self._agg_name = resolve_agg(agg)
         self._is_lazy: bool = is_lazy
         self._is_opt: bool = is_opt
         self._store_vector: bool = store_vector
-        self._name: str = name
-        self._recorder: Recorder = Recorder(is_active=is_recording)
         # is_opt: responsible-goal opt requires Φ whose
         # responsible set is the singleton arg-extremum.
         if is_opt and self._agg_name not in ('MIN', 'MAX'):
@@ -125,7 +125,6 @@ class KAStarAgg(Generic[State]):
                 f'is_opt=True requires agg in MIN/MAX '
                 f'(got {self._agg_name!r}).')
         # Per-run mutable state.
-        self._solutions: dict[State, SolutionSPP] = {}
         self._frontier: FrontierPriority[State] = FrontierPriority[State]()
         self._g: dict[State, int] = {}
         self._parent: dict[State, State | None] = {}
@@ -142,32 +141,10 @@ class KAStarAgg(Generic[State]):
         # Ordered list of all problem goals (stable for
         # store_vector indexing + PROJECTION ordering).
         self._all_goals: list[State] = []
-        # Per-run counters.
-        self._cnt_h_search: int = 0
-        self._cnt_h_update: int = 0
-        self._cnt_phi_search: int = 0
-        self._cnt_phi_update: int = 0
-        self._cnt_push: int = 0
-        self._cnt_pop: int = 0
-        self._cnt_pop_stale: int = 0
-        self._cnt_decrease: int = 0
 
     # ──────────────────────────────────────────────────
     #  Public Properties
     # ──────────────────────────────────────────────────
-
-    @property
-    def problem(self) -> ProblemSPP[State]: return self._problem
-
-    @property
-    def name(self) -> str: return self._name
-
-    @property
-    def recorder(self) -> Recorder: return self._recorder
-
-    @property
-    def solutions(self) -> dict[State, SolutionSPP]:
-        return self._solutions
 
     @property
     def agg(self) -> str:
@@ -183,29 +160,11 @@ class KAStarAgg(Generic[State]):
     @property
     def store_vector(self) -> bool: return self._store_vector
 
-    @property
-    def counters(self) -> dict[str, int]:
-        """
-        ====================================================================
-         Per-run operation counters. Reset on every `run()` call.
-        ====================================================================
-        """
-        return {
-            'cnt_h_search': self._cnt_h_search,
-            'cnt_h_update': self._cnt_h_update,
-            'cnt_phi_search': self._cnt_phi_search,
-            'cnt_phi_update': self._cnt_phi_update,
-            'cnt_push': self._cnt_push,
-            'cnt_pop': self._cnt_pop,
-            'cnt_pop_stale': self._cnt_pop_stale,
-            'cnt_decrease': self._cnt_decrease,
-        }
-
     # ──────────────────────────────────────────────────
     #  Lifecycle
     # ──────────────────────────────────────────────────
 
-    def run(self) -> dict[State, SolutionSPP]:
+    def _run(self) -> SolutionOMSPP:
         """
         ====================================================================
          Run the aggregative kA* loop.
@@ -214,7 +173,7 @@ class KAStarAgg(Generic[State]):
         self._reset_search_state()
 
         # Seed starts.
-        for start in self._problem.starts:
+        for start in self.problem.starts:
             self._g[start] = 0
             self._parent[start] = None
             f = self._compute_F(start, phase=_PHASE_SEARCH)
@@ -276,7 +235,7 @@ class KAStarAgg(Generic[State]):
                 # successors so subsequent sub-goals can reach
                 # beyond this one.
                 self._closed.add(state)
-                for child in self._problem.successors(state):
+                for child in self.problem.successors(state):
                     if child in self._closed:
                         continue
                     self._handle_child(parent=state, child=child)
@@ -296,7 +255,7 @@ class KAStarAgg(Generic[State]):
             self._closed.add(state)
 
             # Expand.
-            for child in self._problem.successors(state):
+            for child in self.problem.successors(state):
                 if child in self._closed:
                     continue
                 self._handle_child(parent=state, child=child)
@@ -311,7 +270,7 @@ class KAStarAgg(Generic[State]):
                                goal_index=goal_index)
             self._active_goals.discard(goal)
 
-        return self._solutions
+        return SolutionOMSPP(self._solutions)
 
     def reconstruct_path(self, goal: State) -> list[State]:
         """
@@ -335,24 +294,22 @@ class KAStarAgg(Generic[State]):
     # ──────────────────────────────────────────────────
 
     def _reset_search_state(self) -> None:
-        self._solutions = {}
+        """
+        ====================================================================
+         Reset per-run search bookkeeping. `_solutions` and the
+         8 counters are reset by the base class's `_run_pre()`
+         before `_run()` is called.
+        ====================================================================
+        """
         self._frontier = FrontierPriority[State]()
         self._g = {}
         self._parent = {}
         self._closed = set()
-        self._all_goals = list(self._problem.goals)
+        self._all_goals = list(self.problem.goals)
         self._active_goals = set(self._all_goals)
         self._F_stored = {}
         self._h_vector = {}
         self._responsible = {}
-        self._cnt_h_search = 0
-        self._cnt_h_update = 0
-        self._cnt_phi_search = 0
-        self._cnt_phi_update = 0
-        self._cnt_push = 0
-        self._cnt_pop = 0
-        self._cnt_pop_stale = 0
-        self._cnt_decrease = 0
 
     def _handle_child(self,
                       parent: State,
@@ -362,7 +319,7 @@ class KAStarAgg(Generic[State]):
          Classical A* child handling adapted for kA*_agg.
         ====================================================================
         """
-        new_g = self._g[parent] + self._problem.w(
+        new_g = self._g[parent] + self.problem.w(
             parent=parent, child=child)
         if child in self._frontier:
             if new_g < self._g[child]:

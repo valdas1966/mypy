@@ -1,18 +1,22 @@
-from f_core.recorder.main import Recorder
 from f_hs.algo.i_1_astar import AStar
 from f_hs.algo.i_0_base._search_state import SearchStateSPP
 from f_hs.algo.omspp._internal._single_goal_view import _SingleGoalView
+from f_hs.algo.omspp.i_0_base.main import AlgoOMSPP
 from f_hs.problem.i_0_base.main import ProblemSPP
-from f_hs.solution.main import SolutionSPP
+from f_hs.solution.main import SolutionOMSPP, SolutionSPP
 from f_hs.state.i_0_base.main import StateBase
 from typing import Callable, Generic, TypeVar
 
 State = TypeVar('State', bound=StateBase)
 
+# Phase tags for h-call counter routing.
+_PHASE_SEARCH = 'search'
+_PHASE_UPDATE = 'update'
 
-class KAStarInc(Generic[State]):
+
+class KAStarInc(Generic[State], AlgoOMSPP[State]):
     """
-    ========================================================================
+    ============================================================================
      Incremental kA* (kA*_inc) for the One-to-Many Shortest
      Path Problem.
 
@@ -23,8 +27,9 @@ class KAStarInc(Generic[State]):
      iterations discovered.
 
      Between sub-search i and i+1:
-       - The frontier is re-prioritised with h_{i+1} (auto-
-         refresh via `AlgoSPP._frontier_dirty`).
+       - The frontier is re-prioritised with h_{i+1} (priority
+         refresh, called explicitly with phase='update' so
+         h-calls are counted as `cnt_h_update`).
        - If t_{i+1} is already in CLOSED (expanded by some
          earlier sub-search under consistent heuristics), the
          fast-path returns g[t_{i+1}] without a resume().
@@ -35,6 +40,32 @@ class KAStarInc(Generic[State]):
      computing only ONE heuristic per node per sub-search (vs
      `k` for kA*_min).
 
+     Inherits the f_cs Algo lifecycle from AlgoOMSPP —
+     `algo.run()` returns `SolutionOMSPP` (Mapping over
+     `{goal: SolutionSPP}`); `algo.elapsed`, `algo.recorder`,
+     `algo.counters` all available.
+
+     Counters (subset of the AlgoOMSPP 8-counter scaffold; the
+     rest stay at 0):
+       cnt_h_search   — h(state, goal) calls during sub-search
+                        execution (priority computations on
+                        newly pushed/decreased nodes).
+       cnt_h_update   — h(state, goal) calls during inter-sub-
+                        search transitions: prev_h+new_h emitted
+                        for each frontier state, plus the
+                        explicit refresh_priorities pass.
+
+     The other 6 counters (`cnt_phi_*`, `cnt_push`, `cnt_pop`,
+     `cnt_pop_stale`, `cnt_decrease`) are not Inc-meaningful or
+     are deferred:
+       cnt_phi_*      — N/A. Inc has no Φ aggregation.
+       cnt_pop_stale  — N/A. Inc has no lazy stale-pop branch.
+       cnt_push / cnt_pop / cnt_decrease — deferred. Would need
+                        AStar / FrontierPriority instrumentation
+                        (currently the inner AStar emits
+                        push/pop/decrease_g events but doesn't
+                        count them).
+
      Recording event schema (in addition to the standard
      AStar events push/pop/decrease_g):
        `on_goal`          — per goal, at sub-search termination.
@@ -44,11 +75,8 @@ class KAStarInc(Generic[State]):
                             refresh on sub-search transition.
                             carries `num_nodes`.
        `update_heuristic` — per frontier state, old/new h-value.
-    ========================================================================
+    ============================================================================
     """
-
-    # Factory
-    Factory: type = None
 
     def __init__(self,
                  problem: ProblemSPP[State],
@@ -62,62 +90,26 @@ class KAStarInc(Generic[State]):
 
          `h` is a bi-arg callable `h(state, goal) -> int`. Each
          sub-search closes over its goal to produce a standard
-         `Callable[[State], int]` for the inner AStar.
+         `Callable[[State], int]` for the inner AStar — wrapped
+         with a counter that routes calls to `cnt_h_search` or
+         `cnt_h_update` based on `self._phase`.
 
          Assumes consistent heuristics (required for kA*_inc's
          "same-nodes-as-kA*_min" guarantee and the closed-goal
          fast-path's correctness).
         ====================================================================
         """
-        self._problem: ProblemSPP[State] = problem
-        self._h: Callable[[State, State], int] = h
-        self._name: str = name
-        self._recorder: Recorder = Recorder(is_active=is_recording)
-        self._solutions: dict[State, SolutionSPP] = {}
+        AlgoOMSPP.__init__(self, problem=problem, h=h, name=name,
+                           is_recording=is_recording)
         self._shared_state: SearchStateSPP[State] | None = None
+        # Phase tag used by the wrapped h-callable to route
+        # increments. Default is 'search'; flipped to 'update'
+        # around inter-sub-search transitions.
+        self._phase: str = _PHASE_SEARCH
 
     # ──────────────────────────────────────────────────
     #  Public Properties
     # ──────────────────────────────────────────────────
-
-    @property
-    def problem(self) -> ProblemSPP[State]:
-        """
-        ====================================================================
-         The input OMSPP problem.
-        ====================================================================
-        """
-        return self._problem
-
-    @property
-    def name(self) -> str:
-        """
-        ====================================================================
-         The algorithm instance name.
-        ====================================================================
-        """
-        return self._name
-
-    @property
-    def recorder(self) -> Recorder:
-        """
-        ====================================================================
-         The shared Recorder. Holds events from all k
-         sub-searches interleaved with kA*_inc-specific meta
-         events (on_goal, update_frontier, update_heuristic).
-        ====================================================================
-        """
-        return self._recorder
-
-    @property
-    def solutions(self) -> dict[State, SolutionSPP]:
-        """
-        ====================================================================
-         Per-goal SolutionSPP, populated by `run()`. Key ordering
-         matches `problem.goals`.
-        ====================================================================
-        """
-        return self._solutions
 
     @property
     def search_state(self) -> SearchStateSPP[State] | None:
@@ -133,20 +125,17 @@ class KAStarInc(Generic[State]):
     #  Lifecycle
     # ──────────────────────────────────────────────────
 
-    def run(self) -> dict[State, SolutionSPP]:
+    def _run(self) -> SolutionOMSPP:
         """
         ====================================================================
          Run k sub-searches sequentially, passing the
          SearchStateSPP bundle between them.
-
-         Returns `{goal: SolutionSPP}` mapping. The same dict is
-         accessible afterward via `self.solutions`.
         ====================================================================
         """
-        self._solutions = {}
         self._shared_state = None
+        self._phase = _PHASE_SEARCH
         prev_h: Callable[[State], int] | None = None
-        goals = list(self._problem.goals)
+        goals = list(self.problem.goals)
         for i, goal in enumerate(goals):
             h_i = self._make_h_for(goal)
 
@@ -164,8 +153,10 @@ class KAStarInc(Generic[State]):
                 continue
 
             # Inter-sub-search transition: priority refresh
-            # events (iterations 1+).
+            # events (iterations 1+). All h-calls during this
+            # block are counted as `cnt_h_update`.
             if self._shared_state is not None:
+                self._phase = _PHASE_UPDATE
                 self._emit_frontier_transition(
                     shared=self._shared_state,
                     prev_h=prev_h,
@@ -178,7 +169,7 @@ class KAStarInc(Generic[State]):
 
             # Build the sub-problem (single-goal view).
             sub_problem = _SingleGoalView[State](
-                base=self._problem, goal=goal)
+                base=self.problem, goal=goal)
 
             # Build the inner AStar with shared state + shared
             # recorder (swap after construction; AStar.__init__
@@ -186,16 +177,25 @@ class KAStarInc(Generic[State]):
             algo = AStar[State](
                 problem=sub_problem,
                 h=h_i,
-                name=f'{self._name}[{i}]',
+                name=f'{self.name}[{i}]',
                 is_recording=False,
                 search_state=self._shared_state,
             )
             algo._recorder = self._recorder
 
-            # Run for iteration 0; resume for 1+.
+            # Iterations 1+: explicitly run refresh_priorities
+            # under phase='update' so the h-calls performed by
+            # the auto-refresh land in `cnt_h_update` rather
+            # than `cnt_h_search`. After the explicit refresh,
+            # `_frontier_dirty` is False so resume() skips its
+            # own auto-refresh.
             if self._shared_state is None:
+                self._phase = _PHASE_SEARCH
                 sol = algo.run()
             else:
+                self._phase = _PHASE_UPDATE
+                algo.refresh_priorities()
+                self._phase = _PHASE_SEARCH
                 sol = algo.resume()
 
             # Post-termination: if the goal was reached, AStar
@@ -224,7 +224,7 @@ class KAStarInc(Generic[State]):
             self._solutions[goal] = sol
             self._shared_state = algo.search_state
             prev_h = h_i
-        return self._solutions
+        return SolutionOMSPP(self._solutions)
 
     # ──────────────────────────────────────────────────
     #  Path Reconstruction
@@ -260,15 +260,26 @@ class KAStarInc(Generic[State]):
             ) -> Callable[[State], int]:
         """
         ====================================================================
-         Close over the current goal, producing a single-arg
-         `Callable[[State], int]` suitable for AStar. The
-         default-arg idiom `g=goal` captures the goal at lambda
-         creation, avoiding the loop-variable late-binding
-         pitfall.
+         Close over the current goal AND wrap with a phase-aware
+         counter — every h-call routes to `cnt_h_search` or
+         `cnt_h_update` based on `self._phase` at call time.
+
+         The default-arg idiom `g=goal` captures the goal at
+         lambda creation, avoiding the loop-variable
+         late-binding pitfall.
         ====================================================================
         """
         h_outer = self._h
-        return lambda s, g=goal: h_outer(s, g)
+
+        def h_wrapped(s: State, g: State = goal) -> int:
+            v = h_outer(s, g)
+            if self._phase == _PHASE_SEARCH:
+                self._cnt_h_search += 1
+            else:
+                self._cnt_h_update += 1
+            return v
+
+        return h_wrapped
 
     def _emit_on_goal(self,
                       goal: State,
@@ -310,24 +321,29 @@ class KAStarInc(Generic[State]):
          fire BEFORE the actual refresh — they document the
          upcoming priority swap.
 
-         `AlgoSPP._frontier_dirty` is True (set by the new
-         AStar's __init__); on the first `resume()` it will
-         invoke `refresh_priorities()` to rebuild the heap with
-         the new h-derived priorities. The events here carry
-         h_old / h_new so consumers don't need the pre-state.
+         The h-calls performed here (prev_h + new_h, per
+         frontier state) are counted as `cnt_h_update` because
+         the caller flips `self._phase = 'update'` before
+         calling this method. Even when `is_recording=False`,
+         the calls still execute and are still counted —
+         consistent with the benchmark's need for counter
+         parity between recording and non-recording runs.
         ====================================================================
         """
+        frontier_states = list(shared.frontier)
+        # Always evaluate prev_h / new_h so counters tick even
+        # when recording is off. Cache values for emission.
+        h_olds = [prev_h(s) for s in frontier_states]
+        h_news = [new_h(s) for s in frontier_states]
         if not self._recorder.is_active:
             return
-        frontier_states = list(shared.frontier)
         self._recorder.record(dict(
             type='update_frontier',
             num_nodes=len(frontier_states),
             next_goal_index=next_goal_index,
         ))
-        for s in frontier_states:
-            h_old = prev_h(s)
-            h_new = new_h(s)
+        for s, h_old, h_new in zip(
+                frontier_states, h_olds, h_news):
             self._recorder.record(dict(
                 type='update_heuristic',
                 state=s,

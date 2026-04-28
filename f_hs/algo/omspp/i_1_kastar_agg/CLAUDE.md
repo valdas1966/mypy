@@ -43,28 +43,35 @@ Three orthogonal switches × `agg` define 8 + 1 configs:
 
 ### Properties
 
-| Property | Type | Description |
-|---|---|---|
-| `problem` | `ProblemSPP[State]` | Underlying problem |
-| `name` | `str` | Algorithm name |
-| `recorder` | `Recorder` | Event recorder (active iff `is_recording=True`) |
-| `solutions` | `dict[State, SolutionSPP]` | Goal → solution after `run()` |
-| `agg` | `str` | Φ name ('MIN', 'MAX', ..., 'CUSTOM') |
-| `is_lazy` | `bool` | |
-| `is_opt` | `bool` | |
-| `store_vector` | `bool` | |
-| `counters` | `dict[str, int]` | Per-run op counters (see below) |
+| Property | Type | Description | Source |
+|---|---|---|---|
+| `problem` | `ProblemSPP[State]` | Underlying problem | `Algo` |
+| `name` | `str` | Algorithm name | `HasName` |
+| `recorder` | `Recorder` | Event recorder (active iff `is_recording=True`) | `ProcessBase` |
+| `elapsed` | `float \| None` | Wall-clock seconds for the most recent `run()` | `ProcessBase` |
+| `solutions` | `dict[State, SolutionSPP]` | Goal → solution after `run()` | `AlgoOMSPP` |
+| `counters` | `dict[str, int]` | Per-run op counters (see below) | `AlgoOMSPP` |
+| `agg` | `str` | Φ name ('MIN', 'MAX', ..., 'CUSTOM') | own |
+| `is_lazy` | `bool` | | own |
+| `is_opt` | `bool` | | own |
+| `store_vector` | `bool` | | own |
 
 ### Methods
 
 ```python
-def run(self) -> dict[State, SolutionSPP]
+def run(self) -> SolutionOMSPP        # inherited from Algo
 def reconstruct_path(self, goal: State) -> list[State]
 ```
 
-`run()` resets all per-run state (including counters), then
-executes the kA*_agg loop. `reconstruct_path(goal)` walks
-parent-pointers; `[]` if goal was never reached.
+`run()` (inherited) resets per-run state (counters and
+`_solutions` via `AlgoOMSPP._run_pre`; bookkeeping via
+`_reset_search_state`), executes the kA*_agg loop in `_run()`,
+records `elapsed` in `_run_post`. The returned
+`SolutionOMSPP` is a `Mapping[State, SolutionSPP]` — indexing
+and `.items()` work as on a dict. The same per-goal map is
+also available as `algo.solutions`.
+`reconstruct_path(goal)` walks parent-pointers; `[]` if goal
+was never reached.
 
 ### Counters (`self.counters`)
 
@@ -111,17 +118,27 @@ Event types emitted when `is_recording=True`:
 ## 3) Inheritance (Hierarchy)
 
 ```
-Generic[State]
-    └── KAStarAgg[State]   (no further base; orchestrator class)
+f_cs.algo.Algo[ProblemSPP[State], SolutionOMSPP]
+    └── AlgoOMSPP[State]
+            └── KAStarAgg[State]
 ```
 
-Composition over inheritance — does **not** extend `AlgoSPP`.
-Owns its own search loop, frontier, and bookkeeping; reuses
-`Recorder`, `FrontierPriority`, and `_aggregations.resolve_agg`.
+Inherits the standard `Algo` lifecycle from `AlgoOMSPP`:
+`run()` is the public entry, calls `_run_pre()` →
+`_run()` → `_run_post()`. `_run()` is the override here —
+it executes the kA*_agg loop and returns a `SolutionOMSPP`
+wrapping `self._solutions`. `elapsed`, `recorder`, `name`,
+`problem`, `counters`, `solutions` are all inherited.
+
+Composition over `AlgoSPP` — does **not** extend the SPP
+search loop. Owns its own loop, frontier, and bookkeeping;
+reuses `Recorder` (via inherited `recorder`),
+`FrontierPriority`, and `_aggregations.resolve_agg`.
 
 ## 4) Dependencies
 
-- `f_core.recorder.Recorder` — event capture.
+- `f_hs.algo.omspp.i_0_base.AlgoOMSPP` — base class
+  (lifecycle + 8-counter scaffold).
 - `f_hs.algo.omspp._internal._aggregations.resolve_agg` —
   string-or-callable → (Φ, name) resolver (MIN / MAX / AVG /
   RND / PROJECTION / CUSTOM).
@@ -129,7 +146,9 @@ Owns its own search loop, frontier, and bookkeeping; reuses
   min-heap with `push` / `pop` / `decrease` / `clear` (all O(log n)).
 - `f_hs.problem.i_0_base.ProblemSPP` — provides `starts`,
   `goals`, `successors`, `w`.
-- `f_hs.solution.SolutionSPP` — cost-only solution holder.
+- `f_hs.solution.SolutionOMSPP` — Mapping-like wrapper of
+  `{goal: SolutionSPP}` returned from `run()`.
+- `f_hs.solution.SolutionSPP` — cost-only per-goal solution.
 - `f_hs.state.i_0_base.StateBase` — generic state bound.
 
 ## 5) Usage example

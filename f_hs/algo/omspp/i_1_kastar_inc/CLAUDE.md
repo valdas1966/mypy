@@ -38,16 +38,41 @@ KAStarInc(problem: ProblemSPP[State],
 ### Methods
 | Method | Description |
 |---|---|
-| `run() -> dict[State, SolutionSPP]` | Orchestrate k sub-searches. Returns per-goal solutions. |
+| `run() -> SolutionOMSPP` | Inherited from `Algo`; orchestrates k sub-searches via `_run()`. Returns a `SolutionOMSPP` (Mapping over `{goal: SolutionSPP}`). |
 | `reconstruct_path(goal) -> list[State]` | Walk parents back to start for any goal (expanded or fast-path). |
 
 ### Properties
-| Property | Type | Description |
-|---|---|---|
-| `problem` | `ProblemSPP` | Input OMSPP problem |
-| `recorder` | `Recorder` | Shared event stream across all sub-searches |
-| `solutions` | `dict[State, SolutionSPP]` | Per-goal solutions after `run()` |
-| `search_state` | `SearchStateSPP \| None` | Shared bundle for post-hoc inspection |
+| Property | Type | Description | Source |
+|---|---|---|---|
+| `problem` | `ProblemSPP` | Input OMSPP problem | `Algo` |
+| `name` | `str` | Algorithm name | `HasName` |
+| `recorder` | `Recorder` | Shared event stream across all sub-searches | `ProcessBase` |
+| `elapsed` | `float \| None` | Wall-clock seconds for the most recent `run()` | `ProcessBase` |
+| `solutions` | `dict[State, SolutionSPP]` | Per-goal solutions after `run()` | `AlgoOMSPP` |
+| `counters` | `dict[str, int]` | Per-run op counters (see below) | `AlgoOMSPP` |
+| `search_state` | `SearchStateSPP \| None` | Shared bundle for post-hoc inspection | own |
+
+### Counters (`self.counters`)
+
+`AlgoOMSPP` provides an 8-counter scaffold. KAStarInc populates
+two of the eight; the others stay at 0 with a documented reason:
+
+| counter | KAStarInc semantics |
+|---|---|
+| `cnt_h_search` | h(state, goal) calls during sub-search execution. Routed by phase tag (default `'search'`); incremented inside the wrapped h-callable. |
+| `cnt_h_update` | h(state, goal) calls during inter-sub-search transitions. The orchestrator flips `self._phase = 'update'` around `_emit_frontier_transition` (prev_h+new_h per frontier state) AND the explicit `algo.refresh_priorities()` call (one h-call per frontier state). All such calls land here. |
+| `cnt_phi_*` | always 0 — Inc has no Φ aggregation. |
+| `cnt_pop_stale` | always 0 — Inc has no lazy stale-pop branch. |
+| `cnt_push`, `cnt_pop`, `cnt_decrease` | always 0 — deferred. Would require AStar / `FrontierPriority` instrumentation; the inner AStar emits `push` / `pop` / `decrease_g` events but does not count them. |
+
+### Always-evaluate during transition
+
+`_emit_frontier_transition` evaluates `prev_h(s)` and `new_h(s)`
+for every frontier state **even when `is_recording=False`**.
+This keeps `cnt_h_update` consistent between recording and
+non-recording runs — important for benchmarks that disable
+recording for performance but still need accurate counter
+totals.
 
 ## Algorithm
 
@@ -182,9 +207,10 @@ events, so the force-expand is visible in the event log.
 
 ## Dependencies
 
+- `f_hs.algo.omspp.i_0_base.AlgoOMSPP` — base class
+  (lifecycle + 8-counter scaffold).
 - `f_hs.algo.i_1_astar.AStar`
 - `f_hs.algo.i_0_base._search_state.SearchStateSPP`
 - `f_hs.algo.omspp._internal._single_goal_view._SingleGoalView`
 - `f_hs.problem.i_0_base.ProblemSPP`
-- `f_hs.solution.SolutionSPP`
-- `f_core.recorder.main.Recorder`
+- `f_hs.solution.SolutionOMSPP`, `f_hs.solution.SolutionSPP`
