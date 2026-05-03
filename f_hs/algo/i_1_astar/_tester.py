@@ -132,3 +132,52 @@ def test_simple_priority_is_3_tuple() -> None:
     p = algo._priority(state=start)
     assert len(p) == 3
     assert p[0] == algo.search_state.g[start] + algo._h(start)
+
+
+def test_counters_surface() -> None:
+    """
+    ========================================================================
+     Test AStar exposes the inherited 3-counter surface
+     (cnt_push, cnt_pop, cnt_decrease) and that the
+     never-pop-more-than-pushed invariant holds.
+    ========================================================================
+    """
+    algo = AStar.Factory.graph_abc()
+    algo.run()
+    c = algo.counters
+    assert set(c) == {'cnt_push', 'cnt_pop', 'cnt_decrease'}
+    assert c['cnt_pop'] <= c['cnt_push']
+    assert c['cnt_pop'] >= 1
+
+
+def test_counters_decrease_fires_on_graph_decrease() -> None:
+    """
+    ========================================================================
+     Test cnt_decrease > 0 on the graph_decrease scenario —
+     the only Factory case that exercises a `decrease_g` call.
+     This is the AStar-specific invariant that BFS cannot show
+     (FIFO ignores decrease).
+    ========================================================================
+    """
+    algo = AStar.Factory.graph_decrease()
+    algo.run()
+    assert algo.counters['cnt_decrease'] >= 1
+
+
+def test_counters_survive_resume() -> None:
+    """
+    ========================================================================
+     Test counters accumulate across run() + resume() — the
+     same FrontierPriority instance persists, so the same
+     Counters instance ticks throughout.
+    ========================================================================
+    """
+    algo = AStar.Factory.graph_abc()
+    algo.run()
+    snap = dict(algo.counters)
+    algo.resume()
+    after = dict(algo.counters)
+    # No new pops/pushes (frontier was drained), but counters
+    # MUST be at-least the snapshot — never reset across resume.
+    for k, v in snap.items():
+        assert after[k] >= v

@@ -51,6 +51,13 @@ exactly: `{type, state, g, parent?, duration}`.
 | `grid_4x4_obstacle()` | `Dijkstra` | 4x4 grid with vertical wall, cost 7 |
 | `graph_decrease()` | `Dijkstra` | Weighted graph (S→A/B→X, w(B,X)=0) — forces `decrease_g` and verifies the no-h/f schema on that event |
 
+## Counters
+
+**Inherited from `AlgoSPP`** (via AStar) — `dijkstra.counters`
+returns `self._search.frontier.counters`, the 3-counter
+scaffold (`cnt_push`, `cnt_pop`, `cnt_decrease`) owned by
+`FrontierPriority`.
+
 ## Inheritance
 ```
 AlgoSPP[State]

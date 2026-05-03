@@ -251,3 +251,33 @@ def test_recording_on_grid_4x4_obstacle_with_cached_optimal_suffix(
         (0, 0), (1, 0), (1, 1),
         (2, 1), (2, 2), (2, 3), (1, 3), (0, 3),
     ]
+
+
+def test_counters_pin_graph_abc_cached_at_start() -> None:
+    """
+    ========================================================================
+     Pin counters under cache-hit early-term at the start.
+     The start state is perfect-h, so the algo pops it once
+     and terminates without expanding successors:
+     cnt_push=1 (start only), cnt_pop=1, cnt_decrease=0.
+    ========================================================================
+    """
+    algo = AStarLookup.Factory.graph_abc_cached_at_start()
+    algo.run()
+    assert dict(algo.counters) == {
+        'cnt_push': 1, 'cnt_pop': 1, 'cnt_decrease': 0}
+
+
+def test_counters_pin_graph_abc_cached_at_b() -> None:
+    """
+    ========================================================================
+     Pin counters under cache-hit early-term mid-search.
+     Cache covers {B, C}; A pops, generates B (cached), B
+     pops and triggers cache-hit termination. Two pops, two
+     pushes, no decreases.
+    ========================================================================
+    """
+    algo = AStarLookup.Factory.graph_abc_cached_at_b()
+    algo.run()
+    assert dict(algo.counters) == {
+        'cnt_push': 2, 'cnt_pop': 2, 'cnt_decrease': 0}

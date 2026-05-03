@@ -50,7 +50,7 @@ Three orthogonal switches × `agg` define 8 + 1 configs:
 | `recorder` | `Recorder` | Event recorder (active iff `is_recording=True`) | `ProcessBase` |
 | `elapsed` | `float \| None` | Wall-clock seconds for the most recent `run()` | `ProcessBase` |
 | `solutions` | `dict[State, SolutionSPP]` | Goal → solution after `run()` | `AlgoOMSPP` |
-| `counters` | `dict[str, int]` | Per-run op counters (see below) | `AlgoOMSPP` |
+| `counters` | `Counters` | Per-run op counters (Mapping; `c == {...}` and `dict(c)` work) | `AlgoOMSPP` |
 | `agg` | `str` | Φ name ('MIN', 'MAX', ..., 'CUSTOM') | own |
 | `is_lazy` | `bool` | | own |
 | `is_opt` | `bool` | | own |
@@ -84,10 +84,36 @@ Reset on every `run()` call. Runtime decomposition for the
 | `cnt_h_update` | h call in refresh flow (lazy pop-recompute, eager `_refresh_all_F`). Always 0 when `store_vector=True` (vector cached). |
 | `cnt_phi_search` | `_compute_F` from search flow |
 | `cnt_phi_update` | `_compute_F` from refresh flow |
-| `cnt_push` | every `frontier.push` (incl. lazy re-insertions, eager bulk re-push) |
-| `cnt_pop` | every `frontier.pop` |
-| `cnt_pop_stale` | subset of `cnt_pop`: stale-F re-insertions (lazy only) |
-| `cnt_decrease` | every `frontier.decrease` |
+| `cnt_push` | every `frontier.push` (incl. lazy re-insertions, eager bulk re-push). Frontier-sourced — mirrored from `self._frontier.counters` at end-of-run by `_sync_frontier_counters`. |
+| `cnt_pop` | every `frontier.pop`. Frontier-sourced. |
+| `cnt_pop_stale` | subset of `cnt_pop`: stale-F re-insertions (lazy only). Algo-level (the frontier can't see staleness — it's a g/F semantic). |
+| `cnt_decrease` | every `frontier.decrease`. Frontier-sourced. |
+
+### Within/between elapsed split
+
+KAStarAgg accepts `is_timing: bool = True` and exposes
+`elapsed_search` / `elapsed_update` (inherited from
+`AlgoOMSPP`). Phase-flip sites by mode:
+
+| mode | flip site | result |
+|---|---|---|
+| **eager** | around `_refresh_all_F` after each goal-find | `elapsed_update > 0` |
+| **lazy** | (no flips) | `elapsed_update == 0.0` by design |
+
+**Why lazy reports zero `elapsed_update`:** lazy mode chose to
+defer refresh into the search loop (pop-time stale checks)
+rather than batch it between phases. Structurally there *is*
+no between-phase moment — only one continuous best-first
+search. The lazy stale-pop branch's wall-clock falls into
+`elapsed_search` (where the work happens). The work-type
+counters (`cnt_h_update`, `cnt_phi_update`, `cnt_pop_stale`)
+still increment to record that refresh-typed work occurred —
+they tag the WORK TYPE; the elapsed buckets tag the
+STRUCTURAL PHASE. Two complementary axes.
+
+**Overhead:** at k=200, eager has ~2k = 400 flips × ~150 ns =
+**60 µs**. Lazy has 0 flips → **0 overhead**. Both are
+invisible against typical Agg runtimes.
 
 ### Recording schema
 

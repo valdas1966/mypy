@@ -49,21 +49,47 @@ KAStarInc(problem: ProblemSPP[State],
 | `recorder` | `Recorder` | Shared event stream across all sub-searches | `ProcessBase` |
 | `elapsed` | `float \| None` | Wall-clock seconds for the most recent `run()` | `ProcessBase` |
 | `solutions` | `dict[State, SolutionSPP]` | Per-goal solutions after `run()` | `AlgoOMSPP` |
-| `counters` | `dict[str, int]` | Per-run op counters (see below) | `AlgoOMSPP` |
+| `counters` | `Counters` | Per-run op counters (Mapping; `c == {...}` and `dict(c)` work) | `AlgoOMSPP` |
 | `search_state` | `SearchStateSPP \| None` | Shared bundle for post-hoc inspection | own |
 
 ### Counters (`self.counters`)
 
 `AlgoOMSPP` provides an 8-counter scaffold. KAStarInc populates
-two of the eight; the others stay at 0 with a documented reason:
+five of the eight; the remaining three (`cnt_phi_*`,
+`cnt_pop_stale`) stay at 0 with documented reasons:
 
 | counter | KAStarInc semantics |
 |---|---|
 | `cnt_h_search` | h(state, goal) calls during sub-search execution. Routed by phase tag (default `'search'`); incremented inside the wrapped h-callable. |
 | `cnt_h_update` | h(state, goal) calls during inter-sub-search transitions. The orchestrator flips `self._phase = 'update'` around `_emit_frontier_transition` (prev_h+new_h per frontier state) AND the explicit `algo.refresh_priorities()` call (one h-call per frontier state). All such calls land here. |
+| `cnt_push` | total `frontier.push` calls across the whole INC run — includes initial seed push, child-handling pushes, force-expand pushes, and the explicit `algo.refresh_priorities()` drain-and-rebuild pushes. Sourced from the shared `FrontierPriority` (single instance accumulates across all k sub-searches). |
+| `cnt_pop` | total `frontier.pop` calls. Frontier-sourced. |
+| `cnt_decrease` | total `frontier.decrease` calls (decrease-key during child handling). Frontier-sourced. |
 | `cnt_phi_*` | always 0 — Inc has no Φ aggregation. |
 | `cnt_pop_stale` | always 0 — Inc has no lazy stale-pop branch. |
-| `cnt_push`, `cnt_pop`, `cnt_decrease` | always 0 — deferred. Would require AStar / `FrontierPriority` instrumentation; the inner AStar emits `push` / `pop` / `decrease_g` events but does not count them. |
+
+Frontier-sourced values are mirrored into `self._counters` at
+end-of-run by `_sync_frontier_counters()` (called automatically
+by `AlgoOMSPP._run_post`). The frontier is the single source of
+truth for heap-op counts; INC reads `self._shared_state.frontier.counters`
+once per run and copies into the algo's 8-counter scaffold via
+`Counters.assign`.
+
+### Within/between elapsed split
+
+KAStarInc accepts `is_timing: bool = True` and exposes
+`elapsed_search` / `elapsed_update` (inherited from
+`AlgoOMSPP`). Phase-flip sites in `_run`:
+
+| site | flip | reason |
+|---|---|---|
+| Around `_emit_frontier_transition` (iterations 1+) | SEARCH → UPDATE → SEARCH (auto on next loop iter) | h-calls for `prev_h+new_h` per frontier state belong to between-phase work |
+| Before explicit `algo.refresh_priorities()` | SEARCH → UPDATE | drain-and-rebuild + h-calls per frontier state |
+| Before `algo.resume()` | UPDATE → SEARCH | resumed sub-search loop is search work |
+| Force-expand | (no flip — stays in SEARCH) | Stern's framing — still part of sub-search i |
+
+At k=200, ~4(k−1) = ~800 active flips × ~150 ns = **120 µs**
+overhead. Negligible vs. typical Inc runtimes (100 ms+).
 
 ### Always-evaluate during transition
 

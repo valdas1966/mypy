@@ -70,3 +70,25 @@ def test_elapsed() -> None:
     algo.run()
     assert algo.elapsed is not None
     assert algo.elapsed >= 0
+
+
+def test_counters_surface() -> None:
+    """
+    ========================================================================
+     Test BFS exposes the inherited 3-counter surface
+     (cnt_push, cnt_pop, cnt_decrease) and that the FIFO
+     invariant holds — `decrease` is a no-op so cnt_decrease
+     stays at 0 even when `_decrease_g` would be called.
+    ========================================================================
+    """
+    algo = BFS.Factory.graph_abc()
+    algo.run()
+    c = algo.counters
+    assert set(c) == {'cnt_push', 'cnt_pop', 'cnt_decrease'}
+    assert c['cnt_pop'] <= c['cnt_push']
+    assert c['cnt_pop'] >= 1
+    assert c['cnt_decrease'] == 0  # FIFO no-op
+    # Same counter survives a re-run on a fresh algo:
+    algo2 = BFS.Factory.graph_decrease()
+    algo2.run()
+    assert algo2.counters['cnt_decrease'] == 0  # FIFO never decreases

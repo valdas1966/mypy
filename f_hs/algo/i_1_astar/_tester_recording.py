@@ -235,3 +235,32 @@ def test_recording_full_event_sequence_on_grid_4x4_obstacle(
         assert e['state'] not in obstacles
         if 'parent' in e and e['parent'] is not None:
             assert e['parent'] not in obstacles
+
+
+def test_counters_pin_grid_4x4_obstacle() -> None:
+    """
+    ========================================================================
+     Pin the exact frontier-counter triplet for AStar on the
+     canonical grid_4x4_obstacle scenario. Manhattan h prunes
+     vs BFS — fewer pops than pushes is the expected
+     improvement.
+    ========================================================================
+    """
+    algo = AStar.Factory.grid_4x4_obstacle()
+    algo.run()
+    assert dict(algo.counters) == {
+        'cnt_push': 13, 'cnt_pop': 9, 'cnt_decrease': 0}
+
+
+def test_counters_pin_graph_decrease() -> None:
+    """
+    ========================================================================
+     Pin the exact frontier-counter triplet for AStar on the
+     graph_decrease scenario — the only canonical case that
+     exercises a `decrease_g` call (cnt_decrease == 1).
+    ========================================================================
+    """
+    algo = AStar.Factory.graph_decrease()
+    algo.run()
+    assert dict(algo.counters) == {
+        'cnt_push': 4, 'cnt_pop': 4, 'cnt_decrease': 1}

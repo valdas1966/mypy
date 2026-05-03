@@ -1,3 +1,4 @@
+from f_core.counters.main import Counters
 from f_cs.algo import Algo
 from f_hs.algo.i_0_base._search_state import SearchStateSPP
 from f_hs.frontier.i_0_base.main import FrontierBase
@@ -79,6 +80,26 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         ====================================================================
         """
         return self._search
+
+    @property
+    def counters(self) -> Counters:
+        """
+        ====================================================================
+         Heap-op counters delegated from the injected frontier
+         (`cnt_push`, `cnt_pop`, `cnt_decrease`). The frontier
+         is the single source of truth — AlgoSPP does NOT mirror;
+         it reads. Counters survive `resume()` (the same
+         frontier instance persists) and survive priority
+         refreshes (frontier clears the heap but not the
+         counts).
+
+         Inherited unchanged by every concrete SPP algorithm
+         (BFS, AStar, AStarLookup, Dijkstra). FIFO frontiers
+         report `cnt_decrease=0` since `decrease` is a no-op
+         on FIFO and does not increment.
+        ====================================================================
+        """
+        return self._search.frontier.counters
 
     # ──────────────────────────────────────────────────
     #  Lifecycle

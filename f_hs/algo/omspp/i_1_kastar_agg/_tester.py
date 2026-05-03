@@ -300,3 +300,107 @@ def test_agg_reconstruct_path() -> None:
 #     live in `_tester_recording.py` (8 tests, one per
 #     is_lazy × is_opt × store_vector cell).
 # ──────────────────────────────────────────────────
+
+
+def test_counters_surface() -> None:
+    """
+    ========================================================================
+     Test KAStarAgg exposes the inherited 8-counter surface.
+     Per-config exact-value pinning lives in
+     `_tester_recording.py` (9 tests across the
+     is_lazy × is_opt × store_vector × MIN/MAX matrix).
+    ========================================================================
+    """
+    p = _abc(goals=['B', 'C'])
+    h = _pos_h({'A': 2, 'B': 1, 'C': 0})
+    algo = KAStarAgg(problem=p, h=h, agg='MIN')
+    algo.run()
+    c = algo.counters
+    assert set(c) == {
+        'cnt_h_search', 'cnt_h_update',
+        'cnt_phi_search', 'cnt_phi_update',
+        'cnt_push', 'cnt_pop',
+        'cnt_pop_stale', 'cnt_decrease',
+    }
+    assert c['cnt_pop'] <= c['cnt_push']
+    assert c['cnt_pop'] >= 1
+    assert c['cnt_phi_search'] >= 1   # at least one F computation
+
+
+def _make_2goal_agg(*, is_lazy: bool, is_opt: bool,
+                    store_vector: bool) -> KAStarAgg:
+    """
+    ========================================================================
+     Helper: build a 2-goal Agg on grid_4x4_obstacle for the
+     elapsed-split tests across the 8 configs.
+    ========================================================================
+    """
+    from f_hs.problem.i_1_grid import ProblemGrid
+    p = ProblemGrid.Factory.grid_4x4_obstacle()
+    grid = p.grid
+    p._goals = [p._states[grid[0][3]], p._states[grid[3][3]]]
+
+    def manhattan(s, g):
+        return (abs(s.key.row - g.key.row)
+                + abs(s.key.col - g.key.col))
+
+    return KAStarAgg(problem=p, h=manhattan, agg='MIN',
+                     is_lazy=is_lazy, is_opt=is_opt,
+                     store_vector=store_vector)
+
+
+@pytest.mark.parametrize('is_opt', [False, True])
+@pytest.mark.parametrize('store_vector', [False, True])
+def test_elapsed_split_eager_has_positive_update(
+        is_opt: bool, store_vector: bool) -> None:
+    """
+    ========================================================================
+     Eager Agg has between-phase _refresh_all_F → both
+     elapsed_search and elapsed_update strictly positive.
+     Verified across all 4 (is_opt × store_vector) sub-configs.
+    ========================================================================
+    """
+    algo = _make_2goal_agg(is_lazy=False, is_opt=is_opt,
+                           store_vector=store_vector)
+    algo.run()
+    assert algo.elapsed_search > 0.0
+    assert algo.elapsed_update > 0.0
+
+
+@pytest.mark.parametrize('is_opt', [False, True])
+@pytest.mark.parametrize('store_vector', [False, True])
+def test_elapsed_split_lazy_has_zero_update(
+        is_opt: bool, store_vector: bool) -> None:
+    """
+    ========================================================================
+     Lazy Agg has NO between-phase moment by construction —
+     refresh work happens inline at pop-time and is structurally
+     part of search. So elapsed_update is exactly 0.0 for all
+     4 lazy configs.
+    ========================================================================
+    """
+    algo = _make_2goal_agg(is_lazy=True, is_opt=is_opt,
+                           store_vector=store_vector)
+    algo.run()
+    assert algo.elapsed_search > 0.0
+    assert algo.elapsed_update == 0.0
+
+
+def test_elapsed_split_zero_when_is_timing_off() -> None:
+    """
+    ========================================================================
+     Test is_timing=False suppresses both bucket timers across
+     all 8 configs. Spot-check eager+opt+vec; the property
+     setter branch is identical for all configs.
+    ========================================================================
+    """
+    a = _make_2goal_agg(is_lazy=False, is_opt=True,
+                        store_vector=True)
+    b = _make_2goal_agg(is_lazy=False, is_opt=True,
+                        store_vector=True)
+    b._is_timing = False
+    a.run()
+    b.run()
+    assert a.elapsed_search > 0.0 and a.elapsed_update > 0.0
+    assert b.elapsed_search == 0.0 and b.elapsed_update == 0.0
+    assert dict(a.counters) == dict(b.counters)

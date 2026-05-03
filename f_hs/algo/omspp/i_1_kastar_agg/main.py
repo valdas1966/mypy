@@ -1,5 +1,7 @@
 from f_hs.algo.omspp._internal._aggregations import resolve_agg
-from f_hs.algo.omspp.i_0_base.main import AlgoOMSPP
+from f_hs.algo.omspp.i_0_base.main import (
+    AlgoOMSPP, PHASE_SEARCH, PHASE_UPDATE,
+)
 from f_hs.frontier.i_1_priority.main import FrontierPriority
 from f_hs.problem.i_0_base.main import ProblemSPP
 from f_hs.solution.main import SolutionOMSPP, SolutionSPP
@@ -9,8 +11,9 @@ from typing import Callable, Generic, TypeVar
 State = TypeVar('State', bound=StateBase)
 
 # Phase tags for `_compute_F` counter routing.
-_PHASE_SEARCH = 'search'
-_PHASE_UPDATE = 'update'
+# (Aliased to base names so the in-file callers stay readable.)
+_PHASE_SEARCH = PHASE_SEARCH
+_PHASE_UPDATE = PHASE_UPDATE
 
 
 class KAStarAgg(Generic[State], AlgoOMSPP[State]):
@@ -106,6 +109,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                  store_vector: bool = False,
                  name: str = 'KAStarAgg',
                  is_recording: bool = False,
+                 is_timing: bool = True,
                  ) -> None:
         """
         ========================================================================
@@ -113,7 +117,8 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
         ========================================================================
         """
         AlgoOMSPP.__init__(self, problem=problem, h=h, name=name,
-                           is_recording=is_recording)
+                           is_recording=is_recording,
+                           is_timing=is_timing)
         self._agg, self._agg_name = resolve_agg(agg)
         self._is_lazy: bool = is_lazy
         self._is_opt: bool = is_opt
@@ -180,13 +185,11 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
             self._F_stored[start] = f
             self._emit_push(start, g=0, f=f,
                             h=f)  # h == F when g == 0
-            self._cnt_push += 1
             self._frontier.push(state=start,
                                 priority=(f, 0, start))
 
         # Main loop.
         while self._frontier and self._active_goals:
-            self._cnt_pop += 1
             state = self._frontier.pop()
             g_state = self._g[state]
             stored_f = self._F_stored[state]
@@ -213,8 +216,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                             state, h_old=stored_f - g_state,
                             h_new=actual_f - g_state)
                         self._F_stored[state] = actual_f
-                        self._cnt_pop_stale += 1
-                        self._cnt_push += 1
+                        self._counters.inc('cnt_pop_stale')
                         self._frontier.push(
                             state=state,
                             priority=(actual_f, -g_state, state))
@@ -243,9 +245,15 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                                    reason='expanded',
                                    goal_index=goal_index)
                 if not self._is_lazy and self._active_goals:
+                    # Eager refresh — the only Agg between-phase
+                    # boundary. Lazy mode does NOT flip phase
+                    # (its refresh work happens inline at pop
+                    # time and structurally belongs to search).
+                    self.phase = PHASE_UPDATE
                     self._refresh_all_F(
                         next_goal_index=self._next_active_index(),
                         just_removed_goal=state)
+                    self.phase = PHASE_SEARCH
                 if not self._active_goals:
                     break
                 continue
@@ -293,6 +301,19 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
     #  Core Ops
     # ──────────────────────────────────────────────────
 
+    def _sync_frontier_counters(self) -> None:
+        """
+        ====================================================================
+         Mirror the frontier's heap-op counts into the algo's
+         8-counter scaffold. Called by `AlgoOMSPP._run_post`
+         after `_run` completes.
+        ====================================================================
+        """
+        fc = self._frontier.counters
+        self._counters.assign('cnt_push', fc['cnt_push'])
+        self._counters.assign('cnt_pop', fc['cnt_pop'])
+        self._counters.assign('cnt_decrease', fc['cnt_decrease'])
+
     def _reset_search_state(self) -> None:
         """
         ====================================================================
@@ -327,7 +348,6 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                 self._parent[child] = parent
                 f = self._compute_F(child, phase=_PHASE_SEARCH)
                 self._F_stored[child] = f
-                self._cnt_decrease += 1
                 self._frontier.decrease(
                     state=child,
                     priority=(f, -new_g, child))
@@ -338,7 +358,6 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
             self._parent[child] = parent
             f = self._compute_F(child, phase=_PHASE_SEARCH)
             self._F_stored[child] = f
-            self._cnt_push += 1
             self._frontier.push(
                 state=child, priority=(f, -new_g, child))
             self._emit_push(child, g=new_g, f=f,
@@ -360,9 +379,9 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
         ====================================================================
         """
         if phase == _PHASE_SEARCH:
-            self._cnt_phi_search += 1
+            self._counters.inc('cnt_phi_search')
         else:
-            self._cnt_phi_update += 1
+            self._counters.inc('cnt_phi_update')
 
         g = self._g.get(state, 0)
         if not self._active_goals:
@@ -387,9 +406,9 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                         vec.append(None)
                 self._h_vector[state] = vec
                 if phase == _PHASE_SEARCH:
-                    self._cnt_h_search += n_h
+                    self._counters.inc('cnt_h_search', n=n_h)
                 else:
-                    self._cnt_h_update += n_h
+                    self._counters.inc('cnt_h_update', n=n_h)
             vec = self._h_vector[state]
             active_pairs = [(i, vec[i])
                             for i, goal in enumerate(self._all_goals)
@@ -404,9 +423,9 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                     active_pairs.append((i, v))
             n_h = len(active_pairs)
             if phase == _PHASE_SEARCH:
-                self._cnt_h_search += n_h
+                self._counters.inc('cnt_h_search', n=n_h)
             else:
-                self._cnt_h_update += n_h
+                self._counters.inc('cnt_h_update', n=n_h)
 
         if not active_pairs:
             self._emit_phi_calc(state, value=0, phase=phase)
@@ -473,7 +492,6 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                     h_new=new_f - g_s)
                 self._F_stored[s] = new_f
             g_s = self._g[s]
-            self._cnt_push += 1
             self._frontier.push(state=s,
                                 priority=(new_f, -g_s, s))
 

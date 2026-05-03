@@ -70,3 +70,32 @@ def test_elapsed() -> None:
     algo.run()
     assert algo.elapsed is not None
     assert algo.elapsed >= 0
+
+
+def test_counters_surface() -> None:
+    """
+    ========================================================================
+     Test Dijkstra exposes the inherited 3-counter surface
+     (cnt_push, cnt_pop, cnt_decrease) and the
+     never-pop-more-than-pushed invariant. With h=0, Dijkstra
+     pops every state it pushes (no early-term).
+    ========================================================================
+    """
+    algo = Dijkstra.Factory.grid_4x4_obstacle()
+    algo.run()
+    c = algo.counters
+    assert set(c) == {'cnt_push', 'cnt_pop', 'cnt_decrease'}
+    assert c['cnt_pop'] <= c['cnt_push']
+    assert c['cnt_pop'] >= 1
+
+
+def test_counters_decrease_fires_on_graph_decrease() -> None:
+    """
+    ========================================================================
+     Test cnt_decrease > 0 on graph_decrease — the only
+     canonical scenario that exercises `decrease_g`.
+    ========================================================================
+    """
+    algo = Dijkstra.Factory.graph_decrease()
+    algo.run()
+    assert algo.counters['cnt_decrease'] >= 1

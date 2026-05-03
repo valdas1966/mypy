@@ -11,6 +11,12 @@ class FrontierFIFO(Generic[State], FrontierBase[State]):
      FIFO Frontier (First-In-First-Out).
      Deque for order + auxiliary set for O(1) membership check.
      Priority is accepted for interface symmetry but ignored.
+
+     Inherits the 3-counter scaffold from `FrontierBase`. Only
+     `cnt_push` and `cnt_pop` are incremented — `decrease` is a
+     no-op on FIFO and does not increment `cnt_decrease`
+     (counts reflect what the frontier actually did, not what
+     was called).
     ============================================================================
     """
 
@@ -23,6 +29,7 @@ class FrontierFIFO(Generic[State], FrontierBase[State]):
          Init private Attributes.
         ========================================================================
         """
+        FrontierBase.__init__(self)
         self._queue: deque[State] = deque()
         self._members: set[State] = set()
 
@@ -34,6 +41,7 @@ class FrontierFIFO(Generic[State], FrontierBase[State]):
          Append State to the back of the queue (priority ignored).
         ========================================================================
         """
+        self._counters.inc('cnt_push')
         self._queue.append(state)
         self._members.add(state)
 
@@ -43,6 +51,7 @@ class FrontierFIFO(Generic[State], FrontierBase[State]):
          Pop the State from the front of the queue.
         ========================================================================
         """
+        self._counters.inc('cnt_pop')
         state = self._queue.popleft()
         self._members.discard(state)
         return state
@@ -50,7 +59,8 @@ class FrontierFIFO(Generic[State], FrontierBase[State]):
     def clear(self) -> None:
         """
         ========================================================================
-         Remove all States from the Frontier.
+         Remove all States from the Frontier. Does NOT reset
+         the counters — they accumulate over the whole run.
         ========================================================================
         """
         self._queue.clear()

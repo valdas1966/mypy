@@ -50,6 +50,28 @@ The rejection is gated on `type(self) is AStar` so subclasses
 (AStarLookup) can still call `AStar.__init__` internally with
 assembled HCached/HBounded chains.
 
+## Counters
+
+**Inherited from `AlgoSPP`** — the `counters` delegation
+property lives on the base and returns
+`self._search.frontier.counters`, the `Counters` instance owned
+by the injected `FrontierPriority`. Three names: `cnt_push`,
+`cnt_pop`, `cnt_decrease`.
+
+Single source of truth — AStar does **not** hold its own copy.
+Mirroring would risk drift; reading the frontier directly cannot.
+
+The same frontier (and therefore the same counter instance)
+survives `resume()` and `refresh_priorities()` calls, so totals
+accumulate over the whole `run()` + zero-or-more `resume()`
+chain. OMSPP's `KAStarInc` reuses one shared `FrontierPriority`
+across all k sub-searches and reads the cumulative totals
+once at end-of-run via `algo.search_state.frontier.counters`.
+
+If algorithm-level counters become useful later (e.g.,
+`cnt_expand`, `cnt_h`), they live on AStar and merge into the
+same dict — own only what only AStar knows.
+
 ## Priority / Tie-Breaking
 ```python
 def _priority(self, state: State) -> tuple:
@@ -130,7 +152,8 @@ behaviour via the transparent `__new__` dispatch. Zero API
 breakage for callers — `AStar(...)` still works the same way.
 
 ## Dependencies
-- `f_hs.algo.i_0_base.AlgoSPP`
+- `f_hs.algo.i_0_base.AlgoSPP` — provides the `counters`
+  delegation property.
 - `f_hs.frontier.i_1_priority.FrontierPriority`
 - `f_hs.heuristic.i_0_base.HBase`
 - `f_hs.heuristic.i_1_callable.HCallable`

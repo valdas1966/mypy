@@ -1,17 +1,15 @@
 from f_hs.algo.i_1_astar import AStar
 from f_hs.algo.i_0_base._search_state import SearchStateSPP
 from f_hs.algo.omspp._internal._single_goal_view import _SingleGoalView
-from f_hs.algo.omspp.i_0_base.main import AlgoOMSPP
+from f_hs.algo.omspp.i_0_base.main import (
+    AlgoOMSPP, PHASE_SEARCH, PHASE_UPDATE,
+)
 from f_hs.problem.i_0_base.main import ProblemSPP
 from f_hs.solution.main import SolutionOMSPP, SolutionSPP
 from f_hs.state.i_0_base.main import StateBase
 from typing import Callable, Generic, TypeVar
 
 State = TypeVar('State', bound=StateBase)
-
-# Phase tags for h-call counter routing.
-_PHASE_SEARCH = 'search'
-_PHASE_UPDATE = 'update'
 
 
 class KAStarInc(Generic[State], AlgoOMSPP[State]):
@@ -83,6 +81,7 @@ class KAStarInc(Generic[State], AlgoOMSPP[State]):
                  h: Callable[[State, State], int],
                  name: str = 'KAStarInc',
                  is_recording: bool = False,
+                 is_timing: bool = True,
                  ) -> None:
         """
         ====================================================================
@@ -92,7 +91,8 @@ class KAStarInc(Generic[State], AlgoOMSPP[State]):
          sub-search closes over its goal to produce a standard
          `Callable[[State], int]` for the inner AStar — wrapped
          with a counter that routes calls to `cnt_h_search` or
-         `cnt_h_update` based on `self._phase`.
+         `cnt_h_update` based on `self._phase` (the same field
+         drives the structural-phase time bucket).
 
          Assumes consistent heuristics (required for kA*_inc's
          "same-nodes-as-kA*_min" guarantee and the closed-goal
@@ -100,12 +100,9 @@ class KAStarInc(Generic[State], AlgoOMSPP[State]):
         ====================================================================
         """
         AlgoOMSPP.__init__(self, problem=problem, h=h, name=name,
-                           is_recording=is_recording)
+                           is_recording=is_recording,
+                           is_timing=is_timing)
         self._shared_state: SearchStateSPP[State] | None = None
-        # Phase tag used by the wrapped h-callable to route
-        # increments. Default is 'search'; flipped to 'update'
-        # around inter-sub-search transitions.
-        self._phase: str = _PHASE_SEARCH
 
     # ──────────────────────────────────────────────────
     #  Public Properties
@@ -133,7 +130,7 @@ class KAStarInc(Generic[State], AlgoOMSPP[State]):
         ====================================================================
         """
         self._shared_state = None
-        self._phase = _PHASE_SEARCH
+        # Default phase is 'search' (set by base in _run_pre).
         prev_h: Callable[[State], int] | None = None
         goals = list(self.problem.goals)
         for i, goal in enumerate(goals):
@@ -154,9 +151,10 @@ class KAStarInc(Generic[State], AlgoOMSPP[State]):
 
             # Inter-sub-search transition: priority refresh
             # events (iterations 1+). All h-calls during this
-            # block are counted as `cnt_h_update`.
+            # block are counted as `cnt_h_update`; flip drives
+            # both counter routing AND the elapsed_update bucket.
             if self._shared_state is not None:
-                self._phase = _PHASE_UPDATE
+                self.phase = PHASE_UPDATE
                 self._emit_frontier_transition(
                     shared=self._shared_state,
                     prev_h=prev_h,
@@ -186,16 +184,17 @@ class KAStarInc(Generic[State], AlgoOMSPP[State]):
             # Iterations 1+: explicitly run refresh_priorities
             # under phase='update' so the h-calls performed by
             # the auto-refresh land in `cnt_h_update` rather
-            # than `cnt_h_search`. After the explicit refresh,
+            # than `cnt_h_search`, and the wall-clock lands in
+            # `elapsed_update`. After the explicit refresh,
             # `_frontier_dirty` is False so resume() skips its
             # own auto-refresh.
             if self._shared_state is None:
-                self._phase = _PHASE_SEARCH
+                self.phase = PHASE_SEARCH
                 sol = algo.run()
             else:
-                self._phase = _PHASE_UPDATE
+                self.phase = PHASE_UPDATE
                 algo.refresh_priorities()
-                self._phase = _PHASE_SEARCH
+                self.phase = PHASE_SEARCH
                 sol = algo.resume()
 
             # Post-termination: if the goal was reached, AStar
@@ -225,6 +224,33 @@ class KAStarInc(Generic[State], AlgoOMSPP[State]):
             self._shared_state = algo.search_state
             prev_h = h_i
         return SolutionOMSPP(self._solutions)
+
+    def _sync_frontier_counters(self) -> None:
+        """
+        ====================================================================
+         Mirror the shared frontier's heap-op counts into the
+         algo's 8-counter scaffold. Called by
+         `AlgoOMSPP._run_post` after `_run` completes.
+
+         The same `FrontierPriority` instance accumulates across
+         all k sub-searches (it lives on the shared
+         `SearchStateSPP`), so a single read here gives total
+         `cnt_push` / `cnt_pop` / `cnt_decrease` for the whole
+         INC run — including pushes from the explicit
+         `algo.refresh_priorities()` (drain-and-rebuild) and
+         from the force-expand `_handle_child` calls.
+
+         No-op when no sub-search ran (e.g., a problem with no
+         goals): `_shared_state` stays None and there's nothing
+         to mirror.
+        ====================================================================
+        """
+        if self._shared_state is None:
+            return
+        fc = self._shared_state.frontier.counters
+        self._counters.assign('cnt_push', fc['cnt_push'])
+        self._counters.assign('cnt_pop', fc['cnt_pop'])
+        self._counters.assign('cnt_decrease', fc['cnt_decrease'])
 
     # ──────────────────────────────────────────────────
     #  Path Reconstruction
@@ -273,10 +299,10 @@ class KAStarInc(Generic[State], AlgoOMSPP[State]):
 
         def h_wrapped(s: State, g: State = goal) -> int:
             v = h_outer(s, g)
-            if self._phase == _PHASE_SEARCH:
-                self._cnt_h_search += 1
+            if self._phase == PHASE_SEARCH:
+                self._counters.inc('cnt_h_search')
             else:
-                self._cnt_h_update += 1
+                self._counters.inc('cnt_h_update')
             return v
 
         return h_wrapped

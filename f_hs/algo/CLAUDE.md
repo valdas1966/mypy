@@ -12,10 +12,15 @@ override `_priority(state)` if needed.
 AlgoSPP (loop + SearchState + recording + path + Frontier)
 ├── BFS                                      — FrontierFIFO
 └── AStar (simple; (f, -g, state))           — FrontierPriority
-    ├── AStarLookup (advanced; (f, -g, cache_rank, state))
-    │   — adds HCached early-term, HBounded pathmax,
-    │     to_cache harvest, suffix-stitched reconstruct_path.
-    │     Reached transparently via AStar.__new__ dispatch.
+    ├── AStarLookup (cache + bounds; (f, -g, cache_rank, state))
+    │   — HCached early-term, HBounded admissible bounds,
+    │     to_cache harvest, suffix-stitched reconstruct_path,
+    │     pre-search propagate_pathmax.
+    ├── AStarBPMX (in-search Felner pathmax + BPMX(d) cascade)
+    │   — rule_pathmax ∈ {None, 1, 2, 3} (Felner numbering),
+    │     depth_bpmx ∈ {None, 0, 1, 2, ...} for BPMX(d).
+    │     Sibling of AStarLookup, not in chain. A Phase-2
+    │     integration class will combine cache/bounds with BPMX.
     └── Dijkstra (h = 0)
 ```
 
@@ -26,15 +31,26 @@ property. `AlgoSPP.resume()` continues the loop without
 reinitializing the bundle — the foundation for OMSPP-iterative
 multi-goal pumping and bidirectional search.
 
+**Counters** — `AlgoSPP.counters` is a delegation property
+returning `self._search.frontier.counters`. The injected
+frontier (FIFO or Priority) owns the 3-name `Counters`
+scaffold (`cnt_push`, `cnt_pop`, `cnt_decrease`) inherited
+from `FrontierBase`. Every concrete SPP algorithm (BFS,
+AStar, AStarLookup, Dijkstra) inherits the same `counters`
+surface — single declaration on `AlgoSPP`, single source of
+truth on the frontier. FIFO frontiers report `cnt_decrease=0`
+since `decrease` is a no-op on FIFO.
+
 ## Module Structure
 ```
 algo/
-├── __init__.py          AlgoSPP, BFS, AStar, AStarLookup, Dijkstra
+├── __init__.py          AlgoSPP, BFS, AStar, AStarLookup,
+│                        AStarBPMX, Dijkstra
 ├── i_0_base/            AlgoSPP — abstract base
 ├── i_1_bfs/             BFS — breadth-first search
 ├── i_1_astar/           AStar — simple A*, __new__ dispatcher
-├── i_2_astar_lookup/       AStarLookup — advanced A* (HCached +
-│                          HBounded + search_state + pathmax)
+├── i_2_astar_lookup/    AStarLookup — cache + bounds + pathmax
+├── i_2_astar_bpmx/      AStarBPMX — Felner pathmax + BPMX(d)
 └── i_2_dijkstra/        Dijkstra — A* with h=0
 ```
 

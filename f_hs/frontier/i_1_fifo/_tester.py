@@ -87,3 +87,41 @@ def test_decrease_is_noop() -> None:
     assert f.pop() == 'A'
     assert f.pop() == 'B'
     assert f.pop() == 'C'
+
+
+def test_counters_inherited_from_base() -> None:
+    """
+    ========================================================================
+     Test FrontierFIFO inherits the 3-counter scaffold from
+     FrontierBase. Push and pop increment; decrease is a no-op
+     and does NOT increment cnt_decrease.
+    ========================================================================
+    """
+    f = FrontierFIFO[str]()
+    assert dict(f.counters) == {
+        'cnt_push': 0, 'cnt_pop': 0, 'cnt_decrease': 0}
+    f.push(state='A')
+    f.push(state='B')
+    f.push(state='C')
+    f.pop()
+    f.pop()
+    f.decrease(state='C', priority=0)
+    assert f.counters['cnt_push'] == 3
+    assert f.counters['cnt_pop'] == 2
+    assert f.counters['cnt_decrease'] == 0
+
+
+def test_counters_survive_clear() -> None:
+    """
+    ========================================================================
+     Test counters accumulate across clear() — they reflect
+     the run, not the heap state.
+    ========================================================================
+    """
+    f = FrontierFIFO[str]()
+    f.push(state='A')
+    f.push(state='B')
+    f.pop()
+    f.clear()
+    assert f.counters['cnt_push'] == 2
+    assert f.counters['cnt_pop'] == 1

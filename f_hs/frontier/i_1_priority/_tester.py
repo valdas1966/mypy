@@ -102,6 +102,49 @@ def test_push_existing_calls_decrease() -> None:
     assert f.pop() == 'C'
 
 
+def test_counters_push_pop_decrease() -> None:
+    """
+    ========================================================================
+     Test counters tick on every push / pop / decrease call.
+     Counts are by call-site: `push(existing_state)` increments
+     `cnt_push` even though it routes internally to decrease_key.
+    ========================================================================
+    """
+    f = FrontierPriority.Factory.empty()
+    assert dict(f.counters) == {
+        'cnt_push': 0, 'cnt_pop': 0, 'cnt_decrease': 0}
+    f.push(state='A', priority=(3,))
+    f.push(state='B', priority=(1,))
+    f.push(state='C', priority=(2,))
+    assert f.counters['cnt_push'] == 3
+    f.decrease(state='A', priority=(0,))
+    assert f.counters['cnt_decrease'] == 1
+    f.pop()
+    f.pop()
+    assert f.counters['cnt_pop'] == 2
+    # `push` of existing state still counts as cnt_push
+    # (call-site naming, not internal-op naming).
+    f.push(state='C', priority=(0,))
+    assert f.counters['cnt_push'] == 4
+    assert f.counters['cnt_decrease'] == 1
+
+
+def test_counters_survive_clear() -> None:
+    """
+    ========================================================================
+     Test clear() does NOT reset counters — they accumulate
+     over the whole run, not over the heap state. Required for
+     KAStarAgg._refresh_all_F and AlgoSPP.refresh_priorities,
+     which clear-and-rebuild the frontier mid-run.
+    ========================================================================
+    """
+    f = FrontierPriority.Factory.abc()
+    f.pop()
+    pre = dict(f.counters)
+    f.clear()
+    assert dict(f.counters) == pre
+
+
 def test_tuple_priority_tiebreak() -> None:
     """
     ========================================================================

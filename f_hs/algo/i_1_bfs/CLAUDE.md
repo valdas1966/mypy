@@ -36,6 +36,15 @@ by FIFO), `_frontier.{push,pop,...}` are used directly.
 | `grid_3x3_start_is_goal()` | `BFS` | Grid where start == goal |
 | `grid_4x4_obstacle()` | `BFS` | 4x4 grid with vertical wall, cost 7 |
 
+## Counters
+
+**Inherited from `AlgoSPP`** — `bfs.counters` returns
+`self._search.frontier.counters`, the 3-counter scaffold
+(`cnt_push`, `cnt_pop`, `cnt_decrease`) owned by
+`FrontierFIFO`. `cnt_decrease` is always 0 because `decrease`
+is the no-op default on FIFO and does not increment (counts
+reflect what the frontier actually did, not what was called).
+
 ## Inheritance
 ```
 AlgoSPP[State]

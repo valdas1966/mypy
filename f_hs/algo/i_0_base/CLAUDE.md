@@ -68,6 +68,7 @@ also clears the flag.
 | Property | Type | Description |
 |----------|------|-------------|
 | `search_state` | `SearchStateSPP[State]` | Dynamic per-search bundle |
+| `counters` | `Counters` | Heap-op counters delegated from the injected frontier (`cnt_push`, `cnt_pop`, `cnt_decrease`). Single source of truth — the frontier owns the values; AlgoSPP just exposes them. Inherited unchanged by every concrete SPP algorithm (BFS, AStar, AStarLookup, Dijkstra). FIFO frontiers report `cnt_decrease=0` since `decrease` is a no-op on FIFO. |
 
 ### Inherited from Algo / ProcessBase
 | Property / Method | Description |
@@ -267,17 +268,12 @@ overrides (e.g. AStar's `_priority`) reference them through
 Event types recorded by this base class: `push`, `pop`,
 `decrease_g`. Subclasses may emit additional types:
 
-- **AStarLookup** adds four pathmax event types:
+- **AStarLookup** adds two pre-search pathmax event types:
   - `propagate_wave` — state-less meta-event at the start of
     each wave that runs. Schema: `{type, depth, num_sources}`.
   - `propagate` — one per (source, child) attempt during pre-
     search. Schema: `{type, state, parent, h_parent, h,
     was_improved}`.
-  - `bpmx_lift` — in-search Rule 2 fired (parent h lifted via
-    a child). Schema: `{type, state, h_old, h_new, via_child}`.
-  - `bpmx_forward` — in-search Rule 1 fired (child h lifted
-    via parent). Schema: `{type, state, h_old, h_new,
-    via_parent}`.
   `was_improved=True` on strict tightening, `False` on no-op
   attempt — present on every propagate event. This is an
   **event-outcome** flag (did this attempt tighten?), distinct
@@ -290,6 +286,11 @@ Event types recorded by this base class: `push`, `pop`,
   (pre-search; not applicable). `h` / `h_parent` cast to int
   when integer-valued (shared with AStar's `_enrich_event`
   cast logic for `push` / `pop` / `decrease_g`).
+- **AStarBPMX** adds four in-search Felner-pathmax event types
+  (live on the sibling class, not AStarLookup):
+  `pathmax_apply` (isolated rule), `bpmx_iteration` (cascade
+  round-marker), `bpmx_lift` (Rule 3 fired), `bpmx_forward`
+  (Rule 1 fired). See `f_hs/algo/i_2_astar_bpmx/CLAUDE.md`.
 
 AStar also adds flags on `push` / `pop`:
 - `is_cached=True` for states with `is_perfect` True (HCached

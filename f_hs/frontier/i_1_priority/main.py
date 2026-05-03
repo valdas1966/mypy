@@ -11,6 +11,24 @@ class FrontierPriority(Generic[State], FrontierBase[State]):
      Priority Frontier backed by an indexed min-heap (QueueIndexed).
      Each State appears at most once. O(log n) push, pop, decrease.
      Used by A* and Dijkstra.
+
+     Inherits the 3-counter scaffold (`cnt_push`, `cnt_pop`,
+     `cnt_decrease`) from `FrontierBase`; increments here on
+     every call to the corresponding method. Counts are
+     **by call-site**, not by underlying heap op: a `push` whose
+     internal `QueueIndexed.push` falls through to `decrease_key`
+     still increments `cnt_push` (the algorithm called `push`,
+     so that's what the counter reflects). `clear()` does NOT
+     reset the counters — they accumulate over the run, not over
+     the heap state, so callers like `AlgoSPP.refresh_priorities`
+     and `KAStarAgg._refresh_all_F` (which clear-and-rebuild)
+     keep the running totals intact.
+
+     Counters are read at end-of-run by upstream algorithms
+     (e.g., `AlgoOMSPP._sync_frontier_counters`) and mirrored
+     into the algorithm's wider counter scaffold via
+     `Counters.assign`. The frontier is the single source of
+     truth for heap-op counts.
     ============================================================================
     """
 
@@ -23,6 +41,7 @@ class FrontierPriority(Generic[State], FrontierBase[State]):
          Init private Attributes.
         ========================================================================
         """
+        FrontierBase.__init__(self)
         self._queue: QueueIndexed[State, Any] = QueueIndexed()
 
     def push(self,
@@ -34,6 +53,7 @@ class FrontierPriority(Generic[State], FrontierBase[State]):
          If the State already exists, decrease its key if better.
         ========================================================================
         """
+        self._counters.inc('cnt_push')
         self._queue.push(item=state, priority=priority)
 
     def pop(self) -> State:
@@ -42,6 +62,7 @@ class FrontierPriority(Generic[State], FrontierBase[State]):
          Pop the State with the lowest Priority.
         ========================================================================
         """
+        self._counters.inc('cnt_pop')
         return self._queue.pop()
 
     def decrease(self,
@@ -53,12 +74,14 @@ class FrontierPriority(Generic[State], FrontierBase[State]):
          No-op if the new Priority is not better.
         ========================================================================
         """
+        self._counters.inc('cnt_decrease')
         self._queue.decrease_key(item=state, priority=priority)
 
     def clear(self) -> None:
         """
         ========================================================================
-         Remove all States from the Frontier.
+         Remove all States from the Frontier. Does NOT reset
+         the counters — they accumulate over the whole run.
         ========================================================================
         """
         self._queue.clear()

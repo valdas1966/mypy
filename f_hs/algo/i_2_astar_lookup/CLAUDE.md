@@ -12,105 +12,20 @@ Lookup semantics:
   key. Triggers cache-hit early termination and suffix-
   stitched path reconstruction. Requires `goal`.
 - `bounds: dict[State, int]` — admissible lower bounds.
-  Max-combined with the base heuristic. Unlocks
+  Max-combined with the base heuristic. Unlocks pre-search
   `propagate_pathmax`.
 
 `search_state` is NOT a Pro feature — it lives on `AlgoSPP`
 and is available natively on every AStar-family class (simple
 AStar, BFS, Dijkstra, AStarLookup).
 
+In-search BPMX is **not** a feature of `AStarLookup`. The
+Felner pathmax rules and the BPMX(d) cascade live on the
+sibling class `AStarBPMX` (`f_hs/algo/i_2_astar_bpmx/`). A
+Phase-2 integration class will combine cache/bounds with BPMX
+for OMSPP / MOSPP sub-search reuse.
+
 ## Public API
-
-### In-Search BPMX (`bpmx` + `bpmx_depth` kwargs)
-
-```python
-AStarLookup(..., bpmx: str | None = None,
-                 bpmx_depth: int | None = 1)
-```
-
-Enables in-search bidirectional pathmax (Felner et al. 2011,
-BPMX(d)) for inconsistent heuristics. The HCached ∘ HBounded
-∘ HCallable chain is intrinsically inconsistent at the cache
-boundary; BPMX propagates tightening through the successor
-subtree of the node being expanded, complementing pre-search
-`propagate_pathmax`.
-
-Valid `bpmx` values: `None` (off, default), `'1'`, `'2'`, `'3'`.
-Rejected (with `ValueError`): `'12'`, `'13'`, `'23'`, `'123'`.
-Rationale: under tree-deep BPMX the distinct behaviours
-collapse to exactly three — `'13' ≡ '1'` (Rule 1 alone has no
-feedback loop), `'23' ≡ '2'` (symmetric), `'12' ≡ '3'@depth=1`
-(one-pass combined converges in a single round on flat), and
-`'123' ≡ '3'` (iterated to fixed point). Exposing only the
-three canonical spellings avoids redundant API surface.
-
-Rule semantics:
-- **`'1'`** — Rule 1, top-down pathmax sweep over the d-level
-  subtree. For each level-k ancestor `p` and level-(k+1) child
-  `c`: `h(c) ← max(h(c), h(p) − w(p, c))`. Cached children
-  skipped (h* can't be improved); closed children NOT skipped
-  (paper-aligned — admissibility preserved, re-opening under
-  inconsistent-h A* benefits from the tighter h).
-- **`'2'`** — Rule 2, bottom-up pathmax sweep over the d-level
-  subtree. For each level-k parent `p`: `h(p) ← max(h(p),
-  max_c(h(c) − w(c, p)))`. Cached parents skipped; closed
-  parents NOT skipped (same rationale as Rule 1).
-- **`'3'`** — Full BPMX: iterate Rule 2 bottom-up then Rule 1
-  top-down until a pass tightens nothing.
-
-`bpmx_depth` — tree depth of the BPMX lookahead subtree rooted
-at the node being expanded (Felner's BPMX(d) parameter):
-- `None` (**default**) — full reachable successor subtree,
-  bounded by cycles via the visited-set. Matches this class's
-  heuristic shape: `HCached ∘ HBounded ∘ HCallable` can hold
-  inconsistencies at any depth below the popped node, so the
-  default lifts everywhere inconsistency helps.
-  Self-amortises: Rule sweeps short-circuit on no-tightening,
-  so cost is bounded by actual inconsistency depth, not the
-  worst-case subtree size. (`test_bpmx_depth_none_cascades_to_
-  fixed_point` pins "no runaway".)
-- `1` — **flat** BPMX: node plus its immediate children (star
-  scope). This is the classical Felner BPMX. Opt in for
-  paper-replication or cost-sensitive runs.
-- `N > 1` — BFS `N` levels of successors; rules propagate
-  through the full N-level subtree in a single expansion.
-
-Under flat BPMX (depth=1), `'3'` and a one-pass combined
-Rule 1+Rule 2 coincide — the iteration in `'3'` converges in
-one round because Rule 1/Rule 2 inputs don't feed back into
-themselves at the same level. The iteration matters only at
-depth > 1 on asymmetric or multi-path subgraphs.
-
-All recording tests in `_tester_bpmx.py` rely on the default
-`bpmx_depth=None`; the only `bpmx_depth` arguments that remain
-in the tester are in (a) validation (`test_bpmx_depth_
-validation`) and (b) comparative tests whose purpose is to
-parameterise depth (`test_recording_bpmx_depth_none_same_
-as_depth_1_on_diamond`, `test_recording_bpmx_depth_scaling_
-on_grid`).
-
-Validation: `bpmx_depth` must be `None` or `int >= 1`; else
-`ValueError`.
-
-Auto-wrap: when `bpmx` is set and no explicit `bounds` supplied,
-an empty `HBounded` is auto-wrapped into the chain as storage
-for lifted h values. Pre-built HBase `h` without HBounded in
-its chain → `ValueError`.
-
-Static-bounds invariant: BPMX mutates `HBounded._bounds`
-during search (calls `add_bound`). Deliberate relaxation of
-the 2026-04-20 "bounds static during search" decision, scoped
-to the BPMX code path. Documented in the HBounded CLAUDE.md.
-
-Recording: `bpmx_lift` event on Rule 2 fires;
-`bpmx_forward` on Rule 1. Schema:
-- `{type: 'bpmx_lift', state=n, h_old, h_new, via_child}`.
-- `{type: 'bpmx_forward', state=c, h_old, h_new, via_parent}`.
-
-Frontier staleness: Rule 1 can tighten a child's h after that
-child has been pushed from an earlier path; the heap keeps
-old priority. A* with inconsistent h accepts this (Martelli);
-paper Algorithm 2 makes the same pragmatic choice.
 
 ### Constructor
 ```python
@@ -234,10 +149,17 @@ Split by feature into five files; auto-discovered by
 | `_tester_bounded.py` | HBounded lifecycle + recording | 3 |
 | `_tester_pathmax.py` | `propagate_pathmax` (depth None / 0 / int, convergence, multi-wave) | 7 |
 | `_tester_search_state.py` | Seeded resume lifecycle + recording | 3 |
-| `_tester_bpmx.py` | `bpmx` + `bpmx_depth` kwargs: validation, rule mechanics, admissibility, tree-deep scaling, A/B vs propagate_pathmax | 21 |
 
-45 tests total. Shared helpers (`key_of`, `normalize`) in
-`_utils.py`.
+23 tests total. Shared helpers (`key_of`, `normalize`) in
+`_utils.py`. In-search BPMX tests live on `AStarBPMX`
+(`f_hs/algo/i_2_astar_bpmx/_tester*.py`).
+
+## Counters
+
+**Inherited from `AlgoSPP`** (via AStar) — `algo.counters`
+returns `self._search.frontier.counters`, the 3-counter
+scaffold (`cnt_push`, `cnt_pop`, `cnt_decrease`) owned by
+`FrontierPriority`.
 
 ## Inheritance
 

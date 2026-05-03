@@ -190,3 +190,17 @@ def test_recording_full_event_sequence_on_grid_4x4_obstacle() -> None:
         assert e['state'] not in obstacles
         if 'parent' in e and e['parent'] is not None:
             assert e['parent'] not in obstacles
+
+
+def test_counters_pin_grid_4x4_obstacle() -> None:
+    """
+    ========================================================================
+     Pin the exact frontier-counter triplet for BFS on the
+     canonical grid_4x4_obstacle scenario. cnt_decrease=0
+     because FIFO never decreases.
+    ========================================================================
+    """
+    algo = BFS.Factory.grid_4x4_obstacle()
+    algo.run()
+    assert dict(algo.counters) == {
+        'cnt_push': 14, 'cnt_pop': 14, 'cnt_decrease': 0}

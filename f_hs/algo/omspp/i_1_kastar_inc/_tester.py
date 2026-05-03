@@ -377,3 +377,116 @@ def test_kastar_inc_grid_4x4_obstacle_recording() -> None:
     assert path_b[0].key.row == 0 and path_b[0].key.col == 0
     assert path_a[-1].key.row == 0 and path_a[-1].key.col == 3
     assert path_b[-1].key.row == 3 and path_b[-1].key.col == 3
+
+
+def test_counters_surface() -> None:
+    """
+    ========================================================================
+     Test KAStarInc exposes the inherited 8-counter surface
+     and that frontier counts are mirrored at end-of-run via
+     `_sync_frontier_counters`. After a real run, cnt_push /
+     cnt_pop must be > 0 (frontier was actually used).
+    ========================================================================
+    """
+    algo = KAStarInc.Factory.graph_abc_two_goals()
+    algo.run()
+    c = algo.counters
+    assert set(c) == {
+        'cnt_h_search', 'cnt_h_update',
+        'cnt_phi_search', 'cnt_phi_update',
+        'cnt_push', 'cnt_pop',
+        'cnt_pop_stale', 'cnt_decrease',
+    }
+    # Frontier was used → push/pop reflect real heap traffic.
+    assert c['cnt_push'] >= 1
+    assert c['cnt_pop'] <= c['cnt_push']
+    # KAStarInc has no Φ aggregation and no lazy stale branch.
+    assert c['cnt_phi_search'] == 0
+    assert c['cnt_phi_update'] == 0
+    assert c['cnt_pop_stale'] == 0
+
+
+def test_counters_pin_graph_abc_two_goals() -> None:
+    """
+    ========================================================================
+     Pin the exact 8-counter dict for KAStarInc on
+     graph_abc_two_goals. Two sub-searches with consistent
+     h: cnt_h_search counts h-calls during sub-search
+     execution, cnt_h_update counts the inter-sub-search
+     priority-refresh h-calls.
+    ========================================================================
+    """
+    algo = KAStarInc.Factory.graph_abc_two_goals()
+    algo.run()
+    assert dict(algo.counters) == {
+        'cnt_h_search': 3, 'cnt_h_update': 3,
+        'cnt_phi_search': 0, 'cnt_phi_update': 0,
+        'cnt_push': 4, 'cnt_pop': 3,
+        'cnt_pop_stale': 0, 'cnt_decrease': 0,
+    }
+
+
+def test_counters_pin_graph_abc_cached_at_b_first() -> None:
+    """
+    ========================================================================
+     Pin the 8-counter dict on the fast-path scenario:
+     goals=[C, B] — first sub-search reaches and force-
+     expands C; second sub-search hits the already-closed
+     fast-path on B → no resume(), no priority refresh,
+     no `cnt_h_update`.
+    ========================================================================
+    """
+    algo = KAStarInc.Factory.graph_abc_cached_at_b_first()
+    algo.run()
+    assert dict(algo.counters) == {
+        'cnt_h_search': 3, 'cnt_h_update': 0,
+        'cnt_phi_search': 0, 'cnt_phi_update': 0,
+        'cnt_push': 3, 'cnt_pop': 3,
+        'cnt_pop_stale': 0, 'cnt_decrease': 0,
+    }
+
+
+def test_elapsed_split_positive_when_multi_goal() -> None:
+    """
+    ========================================================================
+     Test elapsed_search > 0 AND elapsed_update > 0 for k=2.
+     INC always has at least one inter-sub-search transition
+     when k>=2 (unless the second goal hits the fast-path),
+     so both buckets accrue real time.
+    ========================================================================
+    """
+    algo = KAStarInc.Factory.graph_abc_two_goals()
+    algo.run()
+    assert algo.elapsed_search > 0.0
+    assert algo.elapsed_update > 0.0
+
+
+def test_elapsed_split_zero_when_is_timing_off() -> None:
+    """
+    ========================================================================
+     Test that is_timing=False suppresses both bucket timers
+     (algo still runs correctly; just no perf_counter calls).
+    ========================================================================
+    """
+    factory = KAStarInc.Factory.graph_abc_two_goals
+    a, b = factory(), factory()
+    b._is_timing = False
+    a.run()
+    b.run()
+    assert a.elapsed_search > 0.0 and a.elapsed_update > 0.0
+    assert b.elapsed_search == 0.0 and b.elapsed_update == 0.0
+    # Counters/results unchanged.
+    assert dict(a.counters) == dict(b.counters)
+
+
+def test_phase_setter_rejects_unknown_value() -> None:
+    """
+    ========================================================================
+     Test phase property setter raises ValueError on a typo'd
+     phase name — typo guard, same spirit as Counters.inc.
+    ========================================================================
+    """
+    import pytest
+    algo = KAStarInc.Factory.graph_abc_two_goals()
+    with pytest.raises(ValueError, match='unknown phase'):
+        algo.phase = 'bogus'

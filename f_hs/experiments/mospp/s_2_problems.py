@@ -2,9 +2,11 @@
 ===============================================================================
  Script: read pair-cluster metadata from i_1_pairs_clusters.csv, randomly
  select n_per_map pair_clusters per (domain, map), reconstruct the two
- ClusterDiamond objects per selected pair, sample 1 start from cluster
- A and a NESTED family of goal sets from cluster B (one prefix per
- value of k), build an OMSPP ProblemGrid for each k, and emit:
+ ClusterDiamond objects per selected pair, and emit -- per pair, per k
+ -- TWO OMSPP ProblemGrids:
+   - fwd: 1 start sampled from cluster A,  k goals sampled from B,
+   - rev: 1 start sampled from cluster B,  k goals sampled from A,
+ with NESTED goal prefixes per k. Output:
    - a pickle of the list of (detached) problems,
    - a CSV of per-problem metadata (one row per problem).
 -------------------------------------------------------------------------------
@@ -23,13 +25,19 @@
    - Pair selection: per (domain, map), `n_per_map` pair_clusters are
      drawn uniformly WITHOUT replacement from the available pairs
      (clamped to the group size when fewer pairs exist).
-   - Per selected pair: 1 cell sampled uniformly from cluster A
-     (-> start). max(k) cells sampled WITHOUT replacement from cluster
-     B once; the resulting ordered list G is sliced into nested
-     prefixes G[:k_i] for each k_i in `k`. The k=4 problem's goals are
-     thus exactly the k=2 problem's goals plus 2 new (and so on).
-     This gives a paired/nested design for measuring the effect of
-     growing k while holding start + earlier goals fixed.
+   - Per selected pair, INDEPENDENT draws inside the two swapped
+     cluster roles:
+       * start_a, goals_b_full  -- forward: 1 cell uniform from A,
+         max(k) cells WITHOUT replacement from B,
+       * start_b, goals_a_full  -- reverse: 1 cell uniform from B,
+         max(k) cells WITHOUT replacement from A.
+     For each k_i in `k` we emit both `_fwd` and `_rev` problems
+     with goals sliced to G[:k_i]. The k=4 problem's goals are thus
+     exactly the k=2 problem's goals plus 2 new (and so on). Forward
+     and reverse share the pair-cluster geometry but are otherwise
+     independent draws -- gives a paired/nested design for measuring
+     the effect of growing k AND of swapping start/goal cluster roles
+     while holding cluster geometry fixed.
 
  k parameter
    `k` may be an int (single problem per pair, legacy) or a list[int]
@@ -70,6 +78,7 @@ _log = get_log(__name__)
 _CSV_COLUMNS = [
     'domain',
     'map',
+    'direction',
     'n',
     'm',
     'dist_starts_goals',
@@ -171,27 +180,33 @@ def _build_problems(grid: GridMap,
                     ks: list[int],
                     rng: random.Random,
                     pair_id: str,
-                    ) -> list[tuple[int, ProblemGrid]]:
+                    ) -> list[tuple[int, str, ProblemGrid]]:
     """
     ============================================================================
      Reconstruct the two ClusterDiamond instances from `pair`'s
-     metadata, sample 1 start (uniform) from cluster A and max(ks)
-     goals (without replacement) from cluster B once, then emit one
-     ProblemGrid per k in `ks` whose goals are the prefix G[:k] of the
-     same shuffled goal list -- so larger-k problems strictly extend
-     smaller-k ones (paired/nested design for measuring the effect of
-     k).
+     metadata, draw INDEPENDENT samples for the two cluster-role
+     orientations:
+       * forward: 1 start uniform from A, max(ks) goals (without
+         replacement) from B,
+       * reverse: 1 start uniform from B, max(ks) goals (without
+         replacement) from A.
+     For each k in `ks`, emit one ProblemGrid per direction whose
+     goals are the prefix G[:k] of the corresponding shuffled goal
+     list -- so larger-k problems strictly extend smaller-k ones
+     within each direction (paired/nested design for measuring the
+     effect of k AND of swapping start/goal cluster roles).
 
      `ks` -- ascending list of distinct positive ints.
 
-     Returns a list of (k, problem) tuples in the same order as `ks`.
+     Returns a list of (k, direction, problem) tuples ordered as:
+       (k_0, 'fwd'), (k_0, 'rev'), (k_1, 'fwd'), (k_1, 'rev'), ...
+     so fwd/rev pairs are adjacent in the output list.
 
-     Per the experimental design, cluster A and cluster B must have
-     enough cells to support the sampling (>=1 and >=max(ks)
-     respectively). If either constraint is violated (e.g. stale
-     center under wall reshuffle), raises ValueError so the upstream
-     pipeline can be tightened rather than silently emitting an
-     unbalanced design.
+     Both clusters must have >= max(ks) cells (each is used as start
+     source AND as goal source across the two directions). If either
+     constraint is violated (e.g. stale center under wall reshuffle),
+     raises ValueError so the upstream pipeline can be tightened
+     rather than silently emitting an unbalanced design.
     ============================================================================
     """
     center_a = grid[pair.a_center_row][pair.a_center_col]
@@ -205,37 +220,48 @@ def _build_problems(grid: GridMap,
     cells_a = list(cluster_a)
     cells_b = list(cluster_b)
     k_max = ks[-1]
-    if len(cells_a) < 1:
+    if len(cells_a) < k_max:
         raise ValueError(
-            f'cluster A empty for pair_id={pair_id} on '
-            f'{grid.name} (center=({pair.a_center_row},'
-            f'{pair.a_center_col}), steps={pair.steps})')
+            f'cluster A has {len(cells_a)} cells < max(k)={k_max} '
+            f'for pair_id={pair_id} on {grid.name} '
+            f'(center=({pair.a_center_row},{pair.a_center_col}), '
+            f'steps={pair.steps})')
     if len(cells_b) < k_max:
         raise ValueError(
             f'cluster B has {len(cells_b)} cells < max(k)={k_max} '
             f'for pair_id={pair_id} on {grid.name} '
             f'(center=({pair.b_center_row},{pair.b_center_col}), '
             f'steps={pair.steps})')
-    # Single start from A; single max(k)-shuffle of B for nested goals.
-    start = rng.choice(cells_a)
-    goals_full = rng.sample(cells_b, k=k_max)
-    out: list[tuple[int, ProblemGrid]] = []
+    # Forward: 1 start from A, max(k)-shuffle of B for nested goals.
+    start_a = rng.choice(cells_a)
+    goals_b_full = rng.sample(cells_b, k=k_max)
+    # Reverse: 1 start from B, max(k)-shuffle of A for nested goals.
+    start_b = rng.choice(cells_b)
+    goals_a_full = rng.sample(cells_a, k=k_max)
+    out: list[tuple[int, str, ProblemGrid]] = []
     for k in ks:
-        goals = goals_full[:k]
-        name = f'{pair_id}_k{k:02d}'
-        out.append((k, ProblemGrid(grid=grid,
-                                   starts=[start],
-                                   goals=goals,
-                                   name=name)))
+        name_fwd = f'{pair_id}_k{k:02d}_fwd'
+        name_rev = f'{pair_id}_k{k:02d}_rev'
+        out.append((k, 'fwd', ProblemGrid(grid=grid,
+                                          starts=[start_a],
+                                          goals=goals_b_full[:k],
+                                          name=name_fwd)))
+        out.append((k, 'rev', ProblemGrid(grid=grid,
+                                          starts=[start_b],
+                                          goals=goals_a_full[:k],
+                                          name=name_rev)))
     return out
 
 
 def _problem_to_meta_row(problem: ProblemGrid,
-                         domain: str) -> dict:
+                         domain: str,
+                         direction: str) -> dict:
     """
     ============================================================================
      Extract per-problem metadata for the side-car CSV. Mirrors the
-     fields surfaced by ProblemGrid.__repr__.
+     fields surfaced by ProblemGrid.__repr__. `direction` is 'fwd'
+     (start in cluster A, goals in B) or 'rev' (start in B, goals
+     in A).
     ============================================================================
     """
     starts = problem.starts_rc
@@ -261,6 +287,7 @@ def _problem_to_meta_row(problem: ProblemGrid,
     return {
         'domain': domain,
         'map': problem.grid_name,
+        'direction': direction,
         'n': len(starts),
         'm': len(goals),
         'dist_starts_goals': round(avg_sg, 4),
@@ -340,7 +367,8 @@ def generate_problems(path_drive_csv_in: str,
             n_eff = min(n_per_map, len(pairs))
             selected = rng.sample(pairs, k=n_eff)
             _log.info(f'  building {len(selected):,} pairs * '
-                      f'{len(ks)} k = {len(selected) * len(ks):,} '
+                      f'{len(ks)} k * 2 dirs = '
+                      f'{len(selected) * len(ks) * 2:,} '
                       f'problems on {name} '
                       f'({len(pairs):,} pairs available, '
                       f'ks={ks})')
@@ -352,9 +380,11 @@ def generate_problems(path_drive_csv_in: str,
                                          ks=ks,
                                          rng=rng,
                                          pair_id=pair_id)
-                for k_i, problem in family:
+                for k_i, direction, problem in family:
                     writer.writerow(_problem_to_meta_row(
-                        problem=problem, domain=domain))
+                        problem=problem,
+                        domain=domain,
+                        direction=direction))
                     problem.detach()
                     problems.append(problem)
                     built += 1
@@ -392,6 +422,7 @@ if __name__ == '__main__':
     path_drive_grids_pkl = '2026/04/experiments/grids/grids.pkl'
     n_per_map = 1
     k = [2, 4, 6, 8, 10]
+    seed = 0
     path_drive_pkl_out = ('2026/04/experiments/mospp/'
                           'i_2_problems.pkl')
     path_drive_csv_out = ('2026/04/experiments/mospp/'
@@ -402,5 +433,6 @@ if __name__ == '__main__':
                       path_drive_csv_out=path_drive_csv_out,
                       path_drive_grids_pkl=path_drive_grids_pkl,
                       n_per_map=n_per_map,
-                      k=k)
+                      k=k,
+                      seed=seed)
     _log.info('--- done ---')
