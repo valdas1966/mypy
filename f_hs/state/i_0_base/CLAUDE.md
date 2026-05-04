@@ -18,6 +18,11 @@ def __init__(self, key: Key) -> None
 | `__eq__`, `__lt__`, `__hash__` | Via key |
 | `__str__` | `str(key)` |
 
+### Methods
+| Method | Description |
+|--------|-------------|
+| `event_key() -> object` | Canonical comparable representation for recording-test normalizers. Default returns `self.key`. Override when the key isn't trivially comparable / readable in test output (see `StateCell.event_key()`). Consumed by `f_hs.algo.u_event_normalize.normalize(event)`. |
+
 ## Factory
 | Method | Returns | Description |
 |--------|---------|-------------|

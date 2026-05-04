@@ -16,9 +16,9 @@
                   n, min_dist, max_tries=10_000, seed=None) -> None
 
  __main__ (user's specific use case)
-   Read 2026/04/experiments/clusters/steps_10_min_cells_10.csv, sample
+   Read Experiments/clusters/steps_10_min_cells_10.csv, sample
    n = 1_000 pairs per map with min_dist = 20 (Manhattan), write to
-   2026/04/experiments/clusters/pairs_min_dist_20.csv.
+   Experiments/clusters/pairs_min_dist_20.csv.
 
  Distance
    Manhattan between cluster centers -- natural metric for diamond
@@ -243,10 +243,10 @@ def generate_pairs(path_drive_csv_in: str,
 
 if __name__ == '__main__':
     # Parameters
-    path_drive_csv_in = ('2026/04/experiments/mospp/i_0_clusters.csv')
+    path_drive_csv_in = ('Experiments/MOSPP/i_0_clusters.csv')
     n = 100
     min_dist = 100
-    path_drive_csv_out = (f'2026/04/experiments/mospp/i_1_pairs_clusters.csv')
+    path_drive_csv_out = (f'Experiments/MOSPP/i_1_pairs_clusters.csv')
     # Run
     generate_pairs(path_drive_csv_in=path_drive_csv_in,
                    path_drive_csv_out=path_drive_csv_out,

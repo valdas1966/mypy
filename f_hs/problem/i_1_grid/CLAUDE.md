@@ -65,7 +65,28 @@ stable rc lists, so `__repr__` works detached and after pickle.
 | `grid_3x3_obstacle()` | Obstacle at (1,1), cost 4 |
 | `grid_3x3_no_path()` | Wall across middle row |
 | `grid_3x3_start_is_goal()` | Start == Goal |
-| `grid_4x4_obstacle()` | 2-cell wall at (0,2),(1,2); (0,0)->(0,3), cost 7 |
+| `grid_4x4_obstacle()` | **Canonical OOSPP** — wall at (0,2),(1,2); start (0,0), goal (0,3), cost 7 |
+| `grid_4x4_obstacle_omspp()` | **Canonical OMSPP** — same wall; start (0,0), goals (0,3) / (3,0) / (3,3); per-goal costs 7 / 3 / 6 |
+
+**Canonicals.** The two `grid_4x4_obstacle*` methods are the
+cross-algorithm benchmark anchors:
+
+- `grid_4x4_obstacle()` is the OOSPP canonical — every
+  AStar-family tester and every OOSPP script uses it as the
+  primary regression net (counters, recording, expansion order
+  pinned against this instance).
+- `grid_4x4_obstacle_omspp()` is the OMSPP canonical, same
+  grid + obstacle pattern, three "far corner" goals. The cost
+  spread {3, 6, 7} and directional spread (E / S / SE) make
+  MIN / MAX / AVG / RND / PROJECTION aggregations visibly
+  distinguishable. Inter-sub-search reuse opportunities differ
+  per goal: (0,3) and (3,3) share south-through-row-2 prefix;
+  (3,0) goes straight south down column 0 (low reuse).
+
+Per-algo edge-case scenarios (unreachable goal, duplicate goals,
+k=1, start==goal, weighted edges, inconsistent h) stay local to
+the tester that needs them; the canonicals are the *primary*
+benchmark, not the *only* one.
 
 ## Store (bulk save / load)
 

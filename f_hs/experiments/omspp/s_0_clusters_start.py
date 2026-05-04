@@ -19,10 +19,10 @@
 
  __main__ (user's specific use case)
    Load all grids from a single pickle on Drive at
-   2026/04/experiments/grids/grids.pkl (each grid carries its `domain`
+   Experiments/Grids/grids.pkl (each grid carries its `domain`
    attribute), run the core function with n = 100, steps = 0,
    min_cells = 1; write the CSV to
-   2026/04/experiments/omspp/i_0_clusters_start.csv.
+   Experiments/OMSPP/i_0_clusters_start.csv.
 
  Memory / size
    - Grids are loaded from a single pickle once; iterated and released
@@ -194,12 +194,12 @@ if __name__ == '__main__':
     # Parameters — OMSPP step i_0: candidate START cells.
     # steps=0, min_cells=1 → each cluster is a single cell;
     # the CSV pins n candidate start coordinates per grid.
-    path_drive_pkl = '2026/04/experiments/grids/grids.pkl'
+    path_drive_pkl = 'Experiments/Grids/grids.pkl'
     steps = 0
     min_cells = 1
     n = 100
     path_drive_csv = (
-        '2026/04/experiments/omspp/i_0_clusters_start.csv')
+        'Experiments/OMSPP/i_0_clusters_start.csv')
     # Load all grids from a single pickle on Drive.
     drive = Drive.Factory.valdas()
     grids = _load_grids_from_pickle(drive=drive,

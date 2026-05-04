@@ -20,6 +20,7 @@ def __init__(self, key: CellMap) -> None
 | Method | Signature | Description |
 |--------|-----------|-------------|
 | `distance` | `(other: StateCell) -> int` | Manhattan distance |
+| `event_key` | `() -> tuple[int, int]` | Override of `StateBase.event_key()` — returns `self.rc` so recording-test normalizers see a `(row, col)` tuple instead of a `CellMap` repr. |
 
 ## Factory
 | Method | Returns | Description |

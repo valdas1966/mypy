@@ -26,6 +26,16 @@ class StateCell(StateBase[CellMap]):
         """
         return self.key.rc
 
+    def event_key(self) -> tuple[int, int]:
+        """
+        ====================================================================
+         Canonical comparable representation for recording-test
+         normalizers — `(row, col)` tuple unwrapped from the
+         underlying CellMap.
+        ====================================================================
+        """
+        return self.rc
+
     def distance(self, other: 'StateCell') -> int:
         """
         ====================================================================

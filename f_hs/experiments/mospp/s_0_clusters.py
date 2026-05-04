@@ -10,10 +10,10 @@
 
  __main__ (user's specific use case)
    Load all grids from a single pickle on Drive at
-   2026/04/experiments/maps/grids/grids.pkl (each grid carries its
+   Experiments/Grids/grids.pkl (each grid carries its
    `domain` attribute), run the core function with n = 1_000, steps = 10,
    min_cells = 10; write the CSV to
-   2026/04/experiments/mospp/i_0_clusters.csv.
+   Experiments/MOSPP/i_0_clusters.csv.
 
  Memory / size
    - Grids are loaded from a single pickle once; iterated and released
@@ -165,11 +165,11 @@ def generate_cluster_samples(grids: Iterable[GridMap],
 
 if __name__ == '__main__':
     # Parameters
-    path_drive_pkl = '2026/04/experiments/grids/grids.pkl'
+    path_drive_pkl = 'Experiments/Grids/grids.pkl'
     steps = 10
     min_cells = 10
     n = 100
-    path_drive_csv = '2026/04/experiments/mospp/i_0_clusters.csv'
+    path_drive_csv = 'Experiments/MOSPP/i_0_clusters.csv'
     # Load all grids from a single pickle on Drive.
     drive = Drive.Factory.valdas()
     grids = _load_grids_from_pickle(drive=drive,

@@ -17,12 +17,23 @@ AlgoSPP (loop + SearchState + recording + path + Frontier)
     │     to_cache harvest, suffix-stitched reconstruct_path,
     │     pre-search propagate_pathmax.
     ├── AStarBPMX (in-search Felner pathmax + BPMX(d) cascade)
-    │   — rule_pathmax ∈ {None, 1, 2, 3} (Felner numbering),
+    │   — composes BPMXMixin with vanilla AStar.
+    │     rule_pathmax ∈ {None, 1, 2, 3} (Felner numbering),
     │     depth_bpmx ∈ {None, 0, 1, 2, ...} for BPMX(d).
-    │     Sibling of AStarLookup, not in chain. A Phase-2
-    │     integration class will combine cache/bounds with BPMX.
+    │     Sibling of AStarLookup, not in chain.
     └── Dijkstra (h = 0)
+
+AStarLookup
+    └── AStarLookupBPMX (i_3_astar_lookup_bpmx/) — cache +
+        bounds + propagate_pathmax + in-search BPMX in one
+        pass; composes BPMXMixin with AStarLookup. Phase-2
+        integration; used by k×A*-CB for OMSPP/MOSPP sub-search.
 ```
+
+The shared in-search Felner mechanism lives in
+`f_hs/algo/i_0_oospp/mixins/bpmx/main.py` (`BPMXMixin`). Both `AStarBPMX`
+and `AStarLookupBPMX` inherit from it via MRO; the host class
+just owns init validation and chain assembly.
 
 The dynamic per-search bundle (frontier, g, parent, closed,
 goal_reached) is held as a single `SearchStateSPP` dataclass on
@@ -44,15 +55,61 @@ since `decrease` is a no-op on FIFO.
 ## Module Structure
 ```
 algo/
-├── __init__.py          AlgoSPP, BFS, AStar, AStarLookup,
-│                        AStarBPMX, Dijkstra
-├── i_0_base/            AlgoSPP — abstract base
-├── i_1_bfs/             BFS — breadth-first search
-├── i_1_astar/           AStar — simple A*, __new__ dispatcher
-├── i_2_astar_lookup/    AStarLookup — cache + bounds + pathmax
-├── i_2_astar_bpmx/      AStarBPMX — Felner pathmax + BPMX(d)
-└── i_2_dijkstra/        Dijkstra — A* with h=0
+├── __init__.py            Top-level lazy aggregator
+├── _run_tests.py          Recursive test runner
+├── CLAUDE.md              (this file)
+├── i_0_oospp/             Variant-depth 0 — One-to-One SPP
+│   ├── i_0_base/          AlgoSPP — abstract base
+│   ├── i_1_bfs/           BFS — breadth-first search
+│   ├── i_1_astar/         AStar — simple A*
+│   ├── i_2_astar_lookup/  AStarLookup — cache + bounds
+│   ├── i_2_astar_bpmx/    AStarBPMX — AStar + BPMXMixin
+│   ├── i_2_dijkstra/      Dijkstra — A* with h=0
+│   ├── i_3_astar_lookup_bpmx/
+│   │                      AStarLookupBPMX — combined
+│   └── mixins/bpmx/       BPMXMixin (Felner pathmax / BPMX(d))
+├── i_1_omspp/             Variant-depth 1 — One-to-Many SPP
+│   │                      (composes i_0_oospp algos as
+│   │                       sub-searches; no inheritance)
+│   ├── i_0_base/          AlgoOMSPP — orchestrator base
+│   ├── i_1_kastar_inc/    KAStarInc
+│   ├── i_1_kastar_agg/    KAStarAgg
+│   ├── i_1_kbfs/          KBFS
+│   └── i_2_kdijkstra/     KDijkstra
+├── i_1_mospp/             (future) Many-to-One SPP
+└── i_2_mmspp/             (future) Many-to-Many SPP
+                           (composes both i_1_omspp and i_1_mospp)
 ```
+
+## Variant Dependency DAG
+
+The `i_X_VAR/` prefix at the top level encodes
+**variant-composition depth** in the algo namespace, mirroring
+how `i_X_NAME/` inside a variant folder encodes inheritance
+depth. `i_0_*` is the kernel (no variant deps); `i_1_*` composes
+`i_0_*`; `i_2_*` composes `i_1_*`.
+
+```
+              i_0_oospp/   (kernel — AlgoSPP, AStar*, BFS,
+              ▲    ▲       Dijkstra; no variant deps)
+              │    │
+       ┌──────┘    └──────┐
+       │                  │
+   i_1_omspp/          i_1_mospp/    (compose i_0_oospp;
+       │                  │           orchestrate sub-searches)
+       └──────┐    ┌──────┘
+              │    │
+              ▼    ▼
+              i_2_mmspp/    (composes i_1_omspp and i_1_mospp;
+                             iterates one axis, delegates the
+                             other)
+```
+
+The relationship between levels is **composition**, not
+inheritance. `AlgoOMSPP` does NOT extend `AlgoSPP` — it
+extends `f_cs.algo.Algo` directly and instantiates `AStar`
+sub-searches internally. The `i_X_` numbering reflects "uses"
+arrows, not class chains.
 
 ## Classical Search Loop (in AlgoSPP)
 ```

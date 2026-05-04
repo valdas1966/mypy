@@ -16,10 +16,10 @@
                      n_per_map, k, seed=None) -> None
 
  __main__ (specific use case)
-   in:   2026/04/experiments/mospp/i_1_pairs_clusters.csv
-   pkl:  2026/04/experiments/grids/grids.pkl  (bundle of GridMaps)
-   out:  2026/04/experiments/mospp/i_2_problems.pkl
-         2026/04/experiments/mospp/i_2_problems.csv
+   in:   Experiments/MOSPP/i_1_pairs_clusters.csv
+   pkl:  Experiments/Grids/grids.pkl  (bundle of GridMaps)
+   out:  Experiments/MOSPP/i_2_problems.pkl
+         Experiments/MOSPP/i_2_problems.csv
 
  Sampling
    - Pair selection: per (domain, map), `n_per_map` pair_clusters are
@@ -417,15 +417,15 @@ def generate_problems(path_drive_csv_in: str,
 
 if __name__ == '__main__':
     # Parameters
-    path_drive_csv_in = ('2026/04/experiments/mospp/'
+    path_drive_csv_in = ('Experiments/MOSPP/'
                          'i_1_pairs_clusters.csv')
-    path_drive_grids_pkl = '2026/04/experiments/grids/grids.pkl'
+    path_drive_grids_pkl = 'Experiments/Grids/grids.pkl'
     n_per_map = 1
     k = [2, 4, 6, 8, 10]
     seed = 0
-    path_drive_pkl_out = ('2026/04/experiments/mospp/'
+    path_drive_pkl_out = ('Experiments/MOSPP/'
                           'i_2_problems.pkl')
-    path_drive_csv_out = ('2026/04/experiments/mospp/'
+    path_drive_csv_out = ('Experiments/MOSPP/'
                           'i_2_problems.csv')
     # Run
     generate_problems(path_drive_csv_in=path_drive_csv_in,
