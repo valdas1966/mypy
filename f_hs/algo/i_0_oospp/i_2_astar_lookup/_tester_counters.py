@@ -29,12 +29,15 @@ def test_counters_canonical_oospp() -> None:
     algo = AStarLookup(problem=p,
                        h=lambda s: float(s.distance(goal)))
     algo.run()
-    assert dict(algo.counters) == {
+    counters = {k: v for k, v in algo.counters.items()
+                if not k.startswith('mem_')}
+    assert counters == {
+        'cnt_prop_waves': 0,
+        'cnt_prop_attempts': 0,
+        'cnt_prop_lifts': 0,
         'cnt_push': 13,
         'cnt_pop': 9,
         'cnt_decrease': 0,
-        'mem_open': 1245,
-        'mem_closed': 1819,
-        'mem_cache': 0,
-        'mem_bounds': 0,
+        'cnt_expanded': 8,
+        'cnt_generated': 13,
     }

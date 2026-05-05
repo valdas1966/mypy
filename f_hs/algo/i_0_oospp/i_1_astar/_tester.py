@@ -137,17 +137,22 @@ def test_simple_priority_is_3_tuple() -> None:
 def test_counters_surface() -> None:
     """
     ========================================================================
-     Test AStar exposes the inherited 3-counter surface
-     (cnt_push, cnt_pop, cnt_decrease) and that the
+     Test AStar exposes the inherited 5-counter surface
+     (cnt_push, cnt_pop, cnt_decrease, cnt_expanded,
+     cnt_generated) plus the 2 memory snapshots, and that the
      never-pop-more-than-pushed invariant holds.
     ========================================================================
     """
     algo = AStar.Factory.graph_abc()
     algo.run()
     c = algo.counters
-    assert set(c) == {'cnt_push', 'cnt_pop', 'cnt_decrease', 'mem_open', 'mem_closed'}
+    assert set(c) == {'cnt_push', 'cnt_pop', 'cnt_decrease',
+                      'cnt_expanded', 'cnt_generated',
+                      'mem_open', 'mem_closed'}
     assert c['cnt_pop'] <= c['cnt_push']
     assert c['cnt_pop'] >= 1
+    assert c['cnt_generated'] >= 1
+    assert c['cnt_expanded'] <= c['cnt_pop']
 
 
 def test_counters_decrease_fires_on_graph_decrease() -> None:

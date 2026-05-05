@@ -100,6 +100,15 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
     ============================================================================
     """
 
+    _COUNTER_NAMES: tuple[tuple[str, ...], ...] = (
+        ('cnt_h_search', 'cnt_h_update'),
+        ('cnt_phi_search', 'cnt_phi_update'),
+        ('cnt_push', 'cnt_pop',
+         'cnt_pop_stale', 'cnt_decrease'),
+        ('cnt_expanded', 'cnt_generated'),
+        ('mem_open', 'mem_closed'),
+    )
+
     def __init__(self,
                  problem: ProblemSPP[State],
                  h: Callable[[State, State], int],
@@ -187,6 +196,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                             h=f)  # h == F when g == 0
             self._frontier.push(state=start,
                                 priority=(f, 0, start))
+            self._counters.inc('cnt_generated')
 
         # Main loop.
         while self._frontier and self._active_goals:
@@ -237,6 +247,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                 # successors so subsequent sub-goals can reach
                 # beyond this one.
                 self._closed.add(state)
+                self._counters.inc('cnt_expanded')
                 for child in self.problem.successors(state):
                     if child in self._closed:
                         continue
@@ -261,6 +272,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
             if state in self._closed:
                 continue
             self._closed.add(state)
+            self._counters.inc('cnt_expanded')
 
             # Expand.
             for child in self.problem.successors(state):
@@ -360,6 +372,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
             self._F_stored[child] = f
             self._frontier.push(
                 state=child, priority=(f, -new_g, child))
+            self._counters.inc('cnt_generated')
             self._emit_push(child, g=new_g, f=f,
                             h=f - new_g,
                             parent=parent)

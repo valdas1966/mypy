@@ -135,19 +135,21 @@ def test_kbfs_no_transition_or_h_update_events() -> None:
 def test_kbfs_counters_h_zero_decrease_zero() -> None:
     """
     ========================================================================
-     KBFS has no heuristic and uses FIFO frontier — both
-     `cnt_h_*` and `cnt_decrease` are 0. Frontier push/pop
-     are real.
+     KBFS has no heuristic and no Φ aggregation — its counter
+     scaffold contains only frontier ops + memory snapshots.
+     Heuristic / Φ / stale-pop counters are absent (declared
+     off the scaffold, not zero). Frontier `cnt_decrease` is
+     0 (FIFO no-op); `cnt_push` is real.
     ========================================================================
     """
     algo = KBFS.Factory.graph_abc_two_goals()
     algo.run()
     c = algo.counters
-    assert c['cnt_h_search'] == 0
-    assert c['cnt_h_update'] == 0
-    assert c['cnt_phi_search'] == 0
-    assert c['cnt_phi_update'] == 0
-    assert c['cnt_pop_stale'] == 0
+    assert 'cnt_h_search' not in c
+    assert 'cnt_h_update' not in c
+    assert 'cnt_phi_search' not in c
+    assert 'cnt_phi_update' not in c
+    assert 'cnt_pop_stale' not in c
     assert c['cnt_decrease'] == 0
     assert c['cnt_push'] >= 1
 

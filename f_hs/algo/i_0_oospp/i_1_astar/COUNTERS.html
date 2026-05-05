@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AStar — Counters</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --panel: #161b22;
+  --panel-2: #1c2230;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-dim: #8b949e;
+  --accent: #ff8a3d;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.55;
+}
+code, .mono { font-family: "SF Mono", "Menlo", "Consolas", "Monaco", monospace; }
+
+.container { max-width: 1080px; margin: 0 auto; padding: 32px 28px 80px; }
+
+/* ── Hero ──────────────────────────────────────────── */
+.hero {
+  background: linear-gradient(135deg, #1a2030 0%, #0d1117 100%);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 32px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -40%; right: -10%;
+  width: 360px; height: 360px;
+  background: radial-gradient(circle, rgba(255,138,61,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero h1 {
+  margin: 0 0 6px;
+  font-size: 42px; letter-spacing: -0.5px;
+  color: var(--accent);
+}
+.hero .meta {
+  font-size: 14px; color: var(--text-dim);
+  display: flex; gap: 14px; flex-wrap: wrap;
+  align-items: center;
+}
+.hero .meta .badge {
+  display: inline-block; padding: 3px 10px;
+  background: rgba(255,138,61,0.12);
+  color: var(--accent);
+  border: 1px solid rgba(255,138,61,0.35);
+  border-radius: 999px;
+  font-size: 12px; letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+.hero .role {
+  margin-top: 14px;
+  font-size: 15px; color: var(--text);
+  max-width: 800px;
+}
+
+/* ── Stat strip ────────────────────────────────────── */
+.statbar {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 20px;
+  align-items: center;
+  margin: 24px 0 20px;
+  padding: 18px 22px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.statbar .total {
+  font-size: 56px; font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+}
+.statbar .total small {
+  display: block;
+  font-size: 12px; color: var(--text-dim);
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-top: 4px;
+}
+.bars { display: flex; flex-direction: column; gap: 8px; }
+.bars .row {
+  display: grid;
+  grid-template-columns: 220px 1fr 36px;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.bars .row .label { color: var(--text-dim); }
+.bars .row .label .dot {
+  display: inline-block; width: 9px; height: 9px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.bars .row .val { color: var(--text); font-variant-numeric: tabular-nums; }
+.bars .row .barwrap {
+  height: 8px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.bars .row .bar {
+  height: 100%;
+  border-radius: 999px;
+}
+
+/* ── Inheritance chain ─────────────────────────────── */
+.chain {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 6px;
+  margin: 24px 0;
+  padding: 16px 20px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+}
+.chain .pill {
+  display: inline-block;
+  padding: 5px 12px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-family: "SF Mono", monospace;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.chain .pill.last {
+  background: rgba(255,138,61,0.10);
+  border-color: rgba(255,138,61,0.40);
+  color: var(--accent);
+  font-weight: 600;
+}
+.chain .arrow {
+  color: var(--text-dim);
+  font-weight: 300;
+  user-select: none;
+}
+
+/* ── Family sections ───────────────────────────────── */
+.family {
+  margin: 28px 0;
+  padding: 22px 24px 18px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  border-left: 4px solid;
+}
+.family h2 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  display: flex; align-items: center;
+  gap: 12px;
+}
+.family h2 .count {
+  font-size: 12px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text-dim);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.family .fnote {
+  font-size: 13px; color: var(--text-dim);
+  margin: 0 0 14px;
+}
+
+/* ── Counter cards ─────────────────────────────────── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+.card {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+}
+.card .top {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px;
+}
+.card .name {
+  font-family: "SF Mono", monospace;
+  font-size: 13px;
+  color: var(--text);
+  letter-spacing: -0.2px;
+  word-break: break-all;
+}
+.card .icon {
+  font-size: 18px;
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.05);
+  flex-shrink: 0;
+}
+.card .desc {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.5;
+}
+.card .role {
+  margin-top: 4px;
+  font-size: 11px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* ── Footer ────────────────────────────────────────── */
+footer {
+  margin-top: 40px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-dim);
+  display: flex; justify-content: space-between;
+  flex-wrap: wrap; gap: 8px;
+}
+footer code { color: var(--text); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="hero">
+  <h1>AStar</h1>
+  <div class="meta">
+    <span class="badge">OOSPP</span>
+    <code>f_hs/algo/i_0_oospp/i_1_astar</code>
+  </div>
+  <p class="role">A* with HBase / Callable heuristic (priority frontier).</p>
+</div>
+
+
+<div class="statbar">
+  <div class="total">5<small>counters</small></div>
+  <div class="bars">
+        <div class="row">
+          <div class="label"><span class="dot" style="background:#4A90E2;"></span>Frontier ops</div>
+          <div class="barwrap"><div class="bar" style="width:60%;background:#4A90E2;"></div></div>
+          <div class="val">3</div>
+        </div>
+        <div class="row">
+          <div class="label"><span class="dot" style="background:#FFD54F;"></span>Memory snapshots</div>
+          <div class="barwrap"><div class="bar" style="width:40%;background:#FFD54F;"></div></div>
+          <div class="val">2</div>
+        </div></div>
+</div>
+
+<div class="chain"><strong style="font-size:12px;color:var(--text-dim);letter-spacing:1.4px;text-transform:uppercase;margin-right:8px;">Inheritance</strong><span class="pill">Algo</span><span class="arrow">▸</span><span class="pill">AlgoSPP</span><span class="arrow">▸</span><span class="pill last">AStar</span></div>
+
+<section class="family" style="border-left-color:#4A90E2;">
+  <h2><span style="color:#4A90E2;">●</span> Frontier ops <span class="count">3</span></h2>
+  <p class="fnote">Owned by FrontierBase; mirrored into the algo at end-of-run via _sync_frontier_counters.</p>
+  <div class="cards">
+<div class="card" style="border-left:3px solid #4A90E2;">
+  <div class="top">
+    <span class="name">cnt_push</span>
+    <span class="icon" style="color:#4A90E2;">⬇</span>
+  </div>
+  <div class="desc">frontier.push() — a state inserted into OPEN.</div>
+  <div class="role">frontier-mirrored</div>
+</div>
+
+
+<div class="card" style="border-left:3px solid #4A90E2;">
+  <div class="top">
+    <span class="name">cnt_pop</span>
+    <span class="icon" style="color:#4A90E2;">⬆</span>
+  </div>
+  <div class="desc">frontier.pop() — a state removed from OPEN for expansion (or early-exit).</div>
+  <div class="role">frontier-mirrored</div>
+</div>
+
+
+<div class="card" style="border-left:3px solid #4A90E2;">
+  <div class="top">
+    <span class="name">cnt_decrease</span>
+    <span class="icon" style="color:#4A90E2;">⇩</span>
+  </div>
+  <div class="desc">frontier.decrease() — a frontier state&#x27;s priority lowered (g improved). FIFO frontiers report 0.</div>
+  <div class="role">frontier-mirrored</div>
+</div>
+</div>
+</section>
+
+
+<section class="family" style="border-left-color:#FFD54F;">
+  <h2><span style="color:#FFD54F;">●</span> Memory snapshots <span class="count">2</span></h2>
+  <p class="fnote">End-of-search byte counts. Populated in _run_post() AFTER _elapsed is recorded — outside the runtime budget.</p>
+  <div class="cards">
+<div class="card" style="border-left:3px solid #FFD54F;">
+  <div class="top">
+    <span class="name">mem_open</span>
+    <span class="icon" style="color:#FFD54F;">◧</span>
+  </div>
+  <div class="desc">Bytes — frontier struct + g/parent slots pro-rated to OPEN by per-entry membership.</div>
+  <div class="role">post-run snapshot</div>
+</div>
+
+
+<div class="card" style="border-left:3px solid #FFD54F;">
+  <div class="top">
+    <span class="name">mem_closed</span>
+    <span class="icon" style="color:#FFD54F;">◨</span>
+  </div>
+  <div class="desc">Bytes — closed set + g/parent slots pro-rated to CLOSED by per-entry membership.</div>
+  <div class="role">post-run snapshot</div>
+</div>
+</div>
+</section>
+
+
+<footer>
+  <span>Counter scaffold for <code>AStar</code> — auto-generated; mirrors <code>algo.counters.keys()</code>.</span>
+  <span><code>f_hs/algo/i_0_oospp/i_1_astar/COUNTERS.html</code></span>
+</footer>
+
+</div>
+</body>
+</html>

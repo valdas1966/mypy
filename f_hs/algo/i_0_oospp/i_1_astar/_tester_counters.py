@@ -4,8 +4,11 @@
  (`grid_4x4_obstacle`: start (0,0), goal (0,3), cost 7,
  Manhattan h).
 
- AStar inherits the 3-counter scaffold from `AlgoSPP.counters`
- (frontier-mirrored from `FrontierPriority`). With Manhattan h
+ AStar inherits the 5-counter scaffold from `AlgoSPP.counters`
+ — heap-op group (cnt_push / cnt_pop / cnt_decrease, mirrored
+ from `FrontierPriority`) and search-semantic group
+ (cnt_expanded / cnt_generated, incremented inline by
+ `_search_loop` and `_handle_child`). With Manhattan h
  (consistent on a 4-connected unit-cost grid), `cnt_decrease`
  is structurally 0 — re-discovery never improves g.
 ============================================================================
@@ -27,12 +30,14 @@ def test_counters_canonical_oospp() -> None:
     goal = p.goal
     algo = AStar(problem=p, h=lambda s: float(s.distance(goal)))
     algo.run()
-    assert dict(algo.counters) == {
+    counters = {k: v for k, v in algo.counters.items()
+                if not k.startswith('mem_')}
+    assert counters == {
         'cnt_push': 13,
         'cnt_pop': 9,
         'cnt_decrease': 0,
-        'mem_open': 1245,
-        'mem_closed': 1819,
+        'cnt_expanded': 8,
+        'cnt_generated': 13,
     }
 
 
@@ -46,7 +51,9 @@ def test_counters_graph_decrease() -> None:
     """
     algo = AStar.Factory.graph_decrease()
     algo.run()
-    assert dict(algo.counters) == {
+    counters = {k: v for k, v in algo.counters.items()
+                if not k.startswith('mem_')}
+    assert counters == {
         'cnt_push': 4, 'cnt_pop': 4, 'cnt_decrease': 1,
-        'mem_open': 280, 'mem_closed': 760,
+        'cnt_expanded': 3, 'cnt_generated': 4,
     }

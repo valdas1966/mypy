@@ -27,10 +27,12 @@ def test_counters_canonical_oospp() -> None:
     p = ProblemGrid.Factory.grid_4x4_obstacle()
     algo = Dijkstra(problem=p)
     algo.run()
-    assert dict(algo.counters) == {
+    counters = {k: v for k, v in algo.counters.items()
+                if not k.startswith('mem_')}
+    assert counters == {
         'cnt_push': 14,
         'cnt_pop': 14,
         'cnt_decrease': 0,
-        'mem_open': 280,
-        'mem_closed': 2328,
+        'cnt_expanded': 13,
+        'cnt_generated': 14,
     }

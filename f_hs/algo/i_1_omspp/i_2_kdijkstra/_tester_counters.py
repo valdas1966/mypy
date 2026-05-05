@@ -31,17 +31,14 @@ def test_counters_canonical_omspp() -> None:
     p = ProblemGrid.Factory.grid_4x4_obstacle_omspp()
     algo = KDijkstra(problem=p)
     algo.run()
-    assert dict(algo.counters) == {
-        'cnt_h_search': 0,
-        'cnt_h_update': 0,
-        'cnt_phi_search': 0,
-        'cnt_phi_update': 0,
+    counters = {k: v for k, v in algo.counters.items()
+                if not k.startswith('mem_')}
+    assert counters == {
         'cnt_push': 14,
         'cnt_pop': 14,
-        'cnt_pop_stale': 0,
         'cnt_decrease': 0,
-        'mem_open': 280,
-        'mem_closed': 2328,
+        'cnt_expanded': 13,
+        'cnt_generated': 14,
     }
 
 

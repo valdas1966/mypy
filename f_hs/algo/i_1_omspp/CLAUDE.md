@@ -77,22 +77,32 @@ overridden on `StateCell` to return the `(row, col)` tuple.
 4. **Meta-events** (`on_goal`, `update_frontier`,
    `update_heuristic`) document the orchestration phase,
    distinct from AStar's per-node events.
-5. **Unified 8-counter scaffold** on `AlgoOMSPP`, composed
-   via `f_core.counters.Counters`, enables a uniform
-   benchmark table across `KAStarAgg` / `KAStarInc`. Each
-   algorithm increments whichever subset it supports;
-   unsupported counters stay at 0 with a documented reason
-   (see `i_0_base/CLAUDE.md` for the per-algorithm support
-   matrix). The `Counters` instance is a Mapping, so callers
-   that did `algo.counters == {...}` or `algo.counters['cnt_pop']`
-   keep working unchanged.
-   **Heap-op counters** (`cnt_push` / `cnt_pop` / `cnt_decrease`)
-   are owned by `FrontierPriority` (single source of truth),
-   not duplicated on the algos. `AlgoOMSPP._run_post` calls a
-   `_sync_frontier_counters` hook on each subclass that
-   mirrors the frontier's tally into the 8-counter scaffold
-   via `Counters.assign`. Both Inc and Agg now expose all
-   heap-op counts honestly — no more "deferred" gaps.
+5. **Per-class counter scaffolds via `_COUNTER_NAMES`
+   override.** Each algorithm declares its own counter set —
+   only what it actually tracks. The base `AlgoOMSPP` holds
+   the minimal scaffold (`cnt_push` / `cnt_pop` /
+   `cnt_decrease` + `mem_open` / `mem_closed`); subclasses
+   override `_COUNTER_NAMES` with their full schema:
+     - **KBFS / KDijkstra** — base scaffold only (no h, no Φ,
+       no lazy stale-pop).
+     - **KAStarInc** — adds `cnt_h_search`, `cnt_h_update`.
+     - **KAStarAgg** — adds `cnt_h_search`, `cnt_h_update`,
+       `cnt_phi_search`, `cnt_phi_update`, `cnt_pop_stale`.
+   No structural zeros for unsupported mechanisms; every
+   counter on `algo.counters` corresponds to actual work the
+   algorithm performs. Cross-algo benchmark tables union
+   counter sets when needed
+   (`pd.DataFrame(rows).fillna(0)`).
+   The `Counters` instance is a Mapping, so callers that did
+   `algo.counters[name]` or `name in algo.counters` keep
+   working — they just see a smaller, honest key set per
+   algorithm.
+   **Heap-op counters** (`cnt_push` / `cnt_pop` /
+   `cnt_decrease`) are owned by `FrontierPriority` (single
+   source of truth), not duplicated on the algos.
+   `AlgoOMSPP._run_post` calls a `_sync_frontier_counters`
+   hook on each subclass that mirrors the frontier's tally
+   into the algo's scaffold via `Counters.assign`.
 6. **`SolutionOMSPP` Mapping return.** `run()` returns a
    `SolutionOMSPP` (a `Mapping[State, SolutionSPP]` plus
    `SolutionAlgo` validity), not a plain dict. Indexing,

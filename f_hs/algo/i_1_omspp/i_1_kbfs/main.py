@@ -227,8 +227,8 @@ class KBFS(Generic[State], AlgoOMSPP[State]):
     def _sync_frontier_counters(self) -> None:
         """
         ====================================================================
-         Mirror the inner BFS's `FrontierFIFO` counts into the
-         algo's 8-counter scaffold. Called by
+         Mirror the inner BFS's frontier and search-semantic
+         counts into the algo's scaffold. Called by
          `AlgoOMSPP._run_post`. `cnt_decrease` is always 0
          (FIFO's `decrease` is a no-op and does not increment).
         ====================================================================
@@ -239,6 +239,13 @@ class KBFS(Generic[State], AlgoOMSPP[State]):
         self._counters.assign('cnt_push', fc['cnt_push'])
         self._counters.assign('cnt_pop', fc['cnt_pop'])
         self._counters.assign('cnt_decrease', fc['cnt_decrease'])
+        # Search-semantic counters live on the inner algo's
+        # _counters (incremented by AlgoSPP's loop and
+        # _handle_child); mirror them through.
+        ic = self._inner.counters
+        self._counters.assign('cnt_expanded', ic['cnt_expanded'])
+        self._counters.assign(
+            'cnt_generated', ic['cnt_generated'])
 
     # ──────────────────────────────────────────────────
     #  Path Reconstruction

@@ -54,19 +54,20 @@ KAStarInc(problem: ProblemSPP[State],
 
 ### Counters (`self.counters`)
 
-`AlgoOMSPP` provides an 8-counter scaffold. KAStarInc populates
-five of the eight; the remaining three (`cnt_phi_*`,
-`cnt_pop_stale`) stay at 0 with documented reasons:
+KAStarInc declares its own scaffold via `_COUNTER_NAMES`,
+extending the `AlgoOMSPP` base with the heuristic group.
+`cnt_phi_*` and `cnt_pop_stale` are **absent** — Inc has no
+Φ aggregation and no lazy stale-pop branch, so those names
+are not in the counter dict at all.
 
 | counter | KAStarInc semantics |
 |---|---|
 | `cnt_h_search` | h(state, goal) calls during sub-search execution. Routed by phase tag (default `'search'`); incremented inside the wrapped h-callable. |
-| `cnt_h_update` | h(state, goal) calls during inter-sub-search transitions. The orchestrator flips `self._phase = 'update'` around `_emit_frontier_transition` (prev_h+new_h per frontier state) AND the explicit `algo.refresh_priorities()` call (one h-call per frontier state). All such calls land here. |
-| `cnt_push` | total `frontier.push` calls across the whole INC run — includes initial seed push, child-handling pushes, force-expand pushes, and the explicit `algo.refresh_priorities()` drain-and-rebuild pushes. Sourced from the shared `FrontierPriority` (single instance accumulates across all k sub-searches). |
+| `cnt_h_update` | h(state, goal) calls during inter-sub-search transitions. The orchestrator flips `self._phase = 'update'` around the explicit `algo.refresh_priorities()` call (one h-call per frontier state during the drain-and-rebuild). All such calls land here. |
+| `cnt_push` | total `frontier.push` calls across the whole INC run — includes initial seed push, child-handling pushes, lazy re-push of reached non-last goals, and the explicit `algo.refresh_priorities()` drain-and-rebuild pushes. Sourced from the shared `FrontierPriority` (single instance accumulates across all k sub-searches). |
 | `cnt_pop` | total `frontier.pop` calls. Frontier-sourced. |
 | `cnt_decrease` | total `frontier.decrease` calls (decrease-key during child handling). Frontier-sourced. |
-| `cnt_phi_*` | always 0 — Inc has no Φ aggregation. |
-| `cnt_pop_stale` | always 0 — Inc has no lazy stale-pop branch. |
+| `mem_open` / `mem_closed` | post-run memory snapshot of the shared `SearchStateSPP` bundle. |
 
 Frontier-sourced values are mirrored into `self._counters` at
 end-of-run by `_sync_frontier_counters()` (called automatically
@@ -83,19 +84,19 @@ KAStarInc accepts `is_timing: bool = True` and exposes
 
 | site | flip | reason |
 |---|---|---|
-| Around `_emit_frontier_transition` (iterations 1+) | SEARCH → UPDATE → SEARCH (auto on next loop iter) | h-calls for `prev_h+new_h` per frontier state belong to between-phase work |
-| Before explicit `algo.refresh_priorities()` | SEARCH → UPDATE | drain-and-rebuild + h-calls per frontier state |
+| Around `_emit_frontier_transition` + `refresh_priorities` (iterations 1+) | SEARCH → UPDATE → SEARCH (auto on next loop iter) | drain-and-rebuild + h-calls per frontier state belong to between-phase work |
 | Before `algo.resume()` | UPDATE → SEARCH | resumed sub-search loop is search work |
-| Force-expand | (no flip — stays in SEARCH) | Stern's framing — still part of sub-search i |
+| Lazy re-push of reached non-last goal | (no flip — stays in SEARCH) | the re-push completes the just-finished sub-search's goal handling |
 
 At k=200, ~4(k−1) = ~800 active flips × ~150 ns = **120 µs**
 overhead. Negligible vs. typical Inc runtimes (100 ms+).
 
-### Always-evaluate during transition
+### Recording-independence of `cnt_h_update`
 
-`_emit_frontier_transition` evaluates `prev_h(s)` and `new_h(s)`
-for every frontier state **even when `is_recording=False`**.
-This keeps `cnt_h_update` consistent between recording and
+`refresh_priorities()` runs whether or not `is_recording=True`
+(it's not gated on the recorder), and the per-state h-calls
+it triggers are routed to `cnt_h_update` via the phase tag.
+So `cnt_h_update` is consistent between recording and
 non-recording runs — important for benchmarks that disable
 recording for performance but still need accurate counter
 totals.
@@ -105,50 +106,68 @@ totals.
 ```
 shared = None
 for i, goal_i in enumerate(problem.goals):
+    if goal_i in self._solutions:
+        # Fast-path A: was a previous sub-search's goal.
+        emit on_goal(reason='already_reached')
+        continue
     if shared and goal_i in shared.closed:
-        # Fast-path: goal already expanded by an earlier
-        # sub-search. Its g is optimal under consistent h.
+        # Fast-path B: popped+closed as collateral by an
+        # earlier sub-search. g is optimal under consistent h.
         emit on_goal(reason='already_closed')
         continue
 
     if shared is not None:
         emit update_frontier(num_nodes=len(shared.frontier))
-        for state in shared.frontier:
-            emit update_heuristic(state, h_{i-1}(state), h_i(state))
+        algo.refresh_priorities()  # silent re-keying under h_i
         shared.goal_reached = None
 
     algo = AStar(sub_problem(goal_i), h=h_i, search_state=shared)
     algo._recorder = self._recorder     # share the event log
     sol = algo.run() if i == 0 else algo.resume()
 
-    if sol reachable:
-        # Force-expand the goal (AStar returned before
-        # closing/expanding it). Necessary so future sub-
-        # searches can reach beyond this goal.
-        shared.closed.add(goal_i)
-        for child in successors(goal_i):
-            algo._handle_child(parent=goal_i, child=child)
-
     emit on_goal(reason=reached ? 'expanded' : 'unreachable')
+    self._solutions[goal_i] = sol
+
+    if reached and i < len(goals) - 1:
+        # Lazy re-push: goal re-enters OPEN with optimal g
+        # so the next sub-search's natural close+expand fires
+        # if/when its f under h_{i+1} clears C_{i+1}. The
+        # last goal is NOT re-pushed — no future sub-search
+        # would consume the work.
+        algo._push(state=goal_i)
+
     shared = algo.search_state
 ```
 
 ## Recording — event schema
 
 In addition to the standard AStar events (`push`, `pop`,
-`decrease_g`), KAStarInc emits three meta-events:
+`decrease_g`), KAStarInc emits two meta-events:
 
 ### `on_goal`
 ```
 {type: 'on_goal',
  state: <goal>,
  g: int | float('inf'),
- reason: 'expanded' | 'already_closed' | 'unreachable',
+ reason: 'expanded' | 'already_reached' | 'already_closed'
+       | 'unreachable',
  goal_index: int}
 ```
 One per goal, at sub-search termination. `goal_index` is the
 0-based position in `problem.goals`, preserving identifiability
 for duplicate goals.
+
+Reason values:
+- `expanded` — was the active sub-search's goal; A* popped it
+  and finalized g.
+- `already_reached` — was a prior sub-search's goal (in
+  `self._solutions`). Under the lazy re-push design, the goal
+  may be on OPEN with finalized g but not in CLOSED, so this
+  reason is distinct from `already_closed`.
+- `already_closed` — was popped+closed as collateral by an
+  earlier sub-search (in `shared.closed` but never a sub-
+  search's goal). Consistent h ⇒ g is optimal.
+- `unreachable` — A* exhausted OPEN without reaching the goal.
 
 ### `update_frontier`
 ```
@@ -156,24 +175,18 @@ for duplicate goals.
  num_nodes: int,
  next_goal_index: int}
 ```
-Boundary marker before priority refresh on sub-search
-transition (iterations 1+). Not emitted before iteration 0
-(no transition) nor before a fast-path iteration (no refresh
-needed).
+Boundary marker at the sub-search transition (iterations 1+).
+`num_nodes` is the frontier size at the moment of refresh.
+Not emitted before iteration 0 (no transition) nor before a
+fast-path iteration (no refresh needed).
 
-### `update_heuristic`
-```
-{type: 'update_heuristic',
- state: <state>,
- h_old: int,
- h_new: int}
-```
-One per frontier state, emitted in a cluster after
-`update_frontier`. Documents the heuristic swap from the
-previous goal's h to the current goal's h. Emitted for EVERY
-frontier state (not only those whose h changed) — research
-visibility over minimalism, per this class's analytical use
-case.
+The per-state `update_heuristic` cluster was removed — the
+actual h-value re-keying happens via `refresh_priorities()`
+and is observable through `cnt_h_update` (one h-call per
+frontier state per transition) and the silent re-push
+activity that drains and rebuilds the heap. Recording
+overhead at large k drops substantially (was ~k × |frontier|
+events per transition; now 1).
 
 ## Interaction with existing machinery
 
@@ -185,31 +198,76 @@ case.
 | `_frontier_dirty` flag | Set by `AStar(search_state=...)`; cleared on first refresh |
 | Recorder sharing | `algo._recorder = self._recorder` override — all AStar sub-instances write to KAStarInc's Recorder |
 
-## Force-expand of reached goals
+## Lazy re-push of reached non-last goals
 
 AStar's `_search_loop` returns on goal-pop WITHOUT closing the
 goal or expanding its successors (standard A* — the goal is
 the search's output, not an intermediate node). For kA*_inc's
-state-sharing to be useful, the reached goal must be in CLOSED
-and its successors on the frontier before the next sub-search
-begins.
+state-sharing to be useful, *if a future sub-search needs to
+traverse this goal*, then the goal must reach CLOSED and its
+successors must reach OPEN before the future search expands
+past it.
 
-KAStarInc performs this force-expand explicitly after each
-sub-search returns with `expanded`:
+KAStarInc handles this **lazily**: after each non-last reached
+goal, the orchestrator re-pushes the goal onto OPEN with its
+optimal g. The next sub-search's standard A* loop then either:
+
+- pops the re-pushed goal (when its f under h_{i+1} clears
+  C_{i+1}), runs the standard close+expand → goal joins
+  CLOSED, successors land on OPEN. Or
+- never pops it (when its f stays above C_{i+1}) → goal sits
+  on OPEN harmlessly until the orchestrator finishes.
+
 ```
-shared.closed.add(goal)
-for child in successors(goal):
-    algo._handle_child(parent=goal, child=child)
+if reached and i < len(goals) - 1:
+    algo._push(state=goal)         # re-enter OPEN with optimal g
 ```
-The `_handle_child` call emits standard `push` / `decrease_g`
-events, so the force-expand is visible in the event log.
+
+The re-push emits a standard `push` event. The `_push` call
+uses the current sub-search's h_i for the priority computation;
+the next transition's `refresh_priorities()` will re-key it
+under h_{i+1}, alongside the rest of the frontier.
+
+**Why lazy, not eager?**
+- The last goal is *guaranteed* to have no consumer for its
+  expansion. Eager force-expand at the last goal is pure
+  waste; lazy avoids it by construction.
+- For non-last goals, lazy expands only if a future search
+  needs the goal. Eager always expands (cheap when neighbors
+  are already known, but still ≥ 0 work).
+- Per Stern et al. Theorem 1 (kA*_inc expands the same nodes
+  as kA*_min up to tie-breaking), both designs are
+  paper-compliant — the choice is implementation-level.
+
+**Trade-off vs eager force-expand:**
+- **Expansions:** lazy ≤ eager always; strictly < at the
+  last goal and at any non-last goal whose neighbors no
+  future search visits.
+- **Heap ops:** lazy can be > eager when the goal's
+  neighbors are already known *and* the re-pushed goal
+  participates in subsequent `refresh_priorities()` calls
+  (one extra silent push per re-push per remaining
+  transition). On dense pre-explored grids, eager is
+  cheaper on `cnt_push`; on sparse exploration, lazy wins.
+
+**Fast-path predicate (CLOSED ∪ self._solutions).**
+A goal can be "finalized" two distinct ways under the lazy
+design:
+- `goal in self._solutions` — was a prior sub-search's goal;
+  fast-path emits `already_reached`.
+- `goal in shared.closed` — was popped+closed as collateral;
+  fast-path emits `already_closed`.
+
+The two are disjoint at the moment of the check (a re-pushed
+goal that gets re-popped during a later sub-search would join
+CLOSED, but `self._solutions` is checked first).
 
 ## Factory
 
 | Method | Description |
 |---|---|
 | `graph_abc_two_goals()` | A→B→C with goals=[B, C]; both expanded |
-| `graph_abc_cached_at_b_first()` | goals=[C, B]; B hits already_closed fast-path |
+| `graph_abc_cached_at_b_first()` | goals=[C, B]; B hits `already_closed` fast-path (B was popped+expanded as collateral by sub-search 0 while seeking C) |
 
 ## Tests
 

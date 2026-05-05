@@ -3,9 +3,11 @@
  BFS — counter pin on the canonical OOSPP problem
  (`grid_4x4_obstacle`: start (0,0), goal (0,3), cost 7).
 
- BFS inherits the 3-counter scaffold from `AlgoSPP.counters`
- (frontier-mirrored from `FrontierFIFO`). FIFO never decreases
- — `cnt_decrease` is structurally 0 for BFS.
+ BFS inherits the 5-counter scaffold from `AlgoSPP.counters`
+ — heap-op group (mirrored from `FrontierFIFO`) and search-
+ semantic group (cnt_expanded / cnt_generated). FIFO never
+ decreases — `cnt_decrease` is structurally 0. BFS expands
+ every popped non-goal state, so cnt_expanded = cnt_pop − 1.
 ============================================================================
 """
 
@@ -25,10 +27,12 @@ def test_counters_canonical_oospp() -> None:
     p = ProblemGrid.Factory.grid_4x4_obstacle()
     algo = BFS(problem=p)
     algo.run()
-    assert dict(algo.counters) == {
+    counters = {k: v for k, v in algo.counters.items()
+                if not k.startswith('mem_')}
+    assert counters == {
         'cnt_push': 14,
         'cnt_pop': 14,
         'cnt_decrease': 0,
-        'mem_open': 760,
-        'mem_closed': 2328,
+        'cnt_expanded': 13,
+        'cnt_generated': 14,
     }

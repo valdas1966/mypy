@@ -6,8 +6,10 @@
  the active goal).
 
  KAStarInc reuses the SearchStateSPP bundle across k=3
- sub-searches. The 8-counter scaffold inherits from
- `AlgoOMSPP`. Φ-counters stay 0 (Inc has no aggregation).
+ sub-searches under the lazy re-push design — non-last
+ reached goals re-enter OPEN with their optimal g; the last
+ goal does not. Counter scaffold is the per-class
+ `_COUNTER_NAMES` (no Φ counters, no `cnt_pop_stale`).
 ============================================================================
 """
 
@@ -19,36 +21,64 @@ def test_counters_canonical_omspp() -> None:
     """
     ========================================================================
      Pin KAStarInc counters on the canonical OMSPP problem.
-     21 push / 12 pop across 3 sub-searches; cnt_decrease=0
-     under consistent Manhattan h; cnt_h_search=14 reflects
-     priority computations during sub-search (one h call per
-     push, total 14 pushes minus the start that uses g=0);
-     cnt_h_update=21 reflects priority refresh between
-     sub-searches (full frontier re-priced when the goal
-     changes).
 
-     Counters are identical with `is_recording` on or off
-     for KAStarAgg; for KAStarInc, `cnt_h_search` is
-     RECORDING-DEPENDENT — event enrichment calls h once per
-     push/pop event, inflating it. This pin is for the
-     no-recording case (which is what this tester runs).
+     Decomposition (no recording):
+
+       cnt_push = 26
+         = 14 search-driven pushes (start seed + first-time
+           successor pushes during the 3 sub-searches)
+         + 2 lazy re-push events for the non-last goals
+           ((0,3) re-pushed after sub-search 0; (3,0)
+           re-pushed after sub-search 1; (3,3) NOT re-pushed
+           since it's the last goal)
+         + 10 silent `refresh_priorities()` re-pushes
+           (5 frontier states × 2 transitions; the re-pushed
+           goals participate in subsequent refreshes).
+
+       cnt_pop = 12 — total pops across the 3 sub-searches.
+
+       cnt_decrease = 0 — consistent Manhattan h on a
+         uniform-cost grid never tightens g via a back-edge.
+
+       cnt_h_search = 16
+         = 14 priority-computation h-calls during the
+           sub-searches' pushes (no recording, so no
+           per-event enrichment)
+         + 2 h-calls for the lazy re-push priority
+           computation under PHASE_SEARCH.
+
+       cnt_h_update = 10
+         = 5 frontier states × 2 transitions × 1 h-call per
+           state (the explicit refresh_priorities() drain and
+           rebuild). The legacy `update_heuristic` event
+           cluster (which would have added 2 prev_h+new_h
+           calls per frontier state) was removed — the per-
+           state heuristic re-keying is observable through
+           `refresh_priorities` and the `push` events it
+           emits during drain-and-rebuild.
+
+     `cnt_phi_*` and `cnt_pop_stale` are NOT in
+     KAStarInc's scaffold (per-class `_COUNTER_NAMES`).
+
+     This pin is RECORDING-OFF. With recording on,
+     `cnt_h_search` inflates because AStar's `_enrich_event`
+     calls h once per push/pop event.
     ========================================================================
     """
     p = ProblemGrid.Factory.grid_4x4_obstacle_omspp()
     algo = KAStarInc(problem=p,
                      h=lambda s, g: float(s.distance(g)))
     algo.run()
-    assert dict(algo.counters) == {
-        'cnt_h_search': 14,
-        'cnt_h_update': 21,
-        'cnt_phi_search': 0,
-        'cnt_phi_update': 0,
-        'cnt_push': 21,
+    counters = {k: v for k, v in algo.counters.items()
+                if not k.startswith('mem_')}
+    assert counters == {
+        'cnt_h_search': 16,
+        'cnt_h_update': 10,
+        'cnt_push': 26,
         'cnt_pop': 12,
-        'cnt_pop_stale': 0,
         'cnt_decrease': 0,
-        'mem_open': 685,
-        'mem_closed': 2099,
+        'cnt_expanded': 9,
+        'cnt_generated': 14,
     }
 
 

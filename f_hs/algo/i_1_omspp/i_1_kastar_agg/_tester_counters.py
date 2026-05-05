@@ -31,7 +31,9 @@ def test_counters_canonical_omspp_min() -> None:
                      h=lambda s, g: float(s.distance(g)),
                      agg='MIN')
     algo.run()
-    assert dict(algo.counters) == {
+    counters = {k: v for k, v in algo.counters.items()
+                if not k.startswith('mem_')}
+    assert counters == {
         'cnt_h_search': 34,
         'cnt_h_update': 31,
         'cnt_phi_search': 16,
@@ -40,8 +42,8 @@ def test_counters_canonical_omspp_min() -> None:
         'cnt_pop': 16,
         'cnt_pop_stale': 2,
         'cnt_decrease': 2,
-        'mem_open': 280,
-        'mem_closed': 2384,
+        'cnt_expanded': 14,
+        'cnt_generated': 14,
     }
 
 

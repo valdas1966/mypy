@@ -6,11 +6,20 @@
  specific meta-events around its sub-search transitions:
  `on_goal`, `update_frontier`, `update_heuristic`.
 
+ Lazy re-push design — for each reached non-last goal, the
+ orchestrator emits an extra `push` event (the goal re-entering
+ OPEN with its optimal g). The re-push then participates in
+ the next transition's `update_heuristic` cluster and the
+ silent `refresh_priorities()` re-key. The last goal is NOT
+ re-pushed.
+
  Scenarios:
    - canonical OMSPP grid (3 goals): exercises 2 sub-search
-     transitions, fast-path on the third goal.
+     transitions, each followed by a re-push of the just-
+     reached non-last goal. Last goal not re-pushed.
    - grid_4x4_obstacle 2-goal: exercises 1 sub-search
-     transition with 4-state `update_heuristic` cluster.
+     transition with re-pushed goal participating in the
+     5-state `update_heuristic` cluster.
 ============================================================================
 """
 
@@ -36,7 +45,9 @@ def test_recording_canonical_omspp() -> None:
     """
     ========================================================================
      Pin the FULL event stream for KAStarInc on the canonical
-     OMSPP problem.
+     OMSPP problem. Lazy re-push: (0,3) and (3,0) get an extra
+     `push` event after their on_goal; (3,3) (last goal) does
+     not.
     ========================================================================
     """
     p = ProblemGrid.Factory.grid_4x4_obstacle_omspp()
@@ -69,19 +80,14 @@ def test_recording_canonical_omspp() -> None:
         {'type': 'push', 'state': (0, 3), 'g': 7, 'parent': (1, 3), 'h': 0, 'f': 7},
         {'type': 'pop', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7},
         {'type': 'on_goal', 'state': (0, 3), 'g': 7, 'reason': 'expanded', 'goal_index': 0},
-        {'type': 'update_frontier', 'num_nodes': 4, 'next_goal_index': 1},
-        {'type': 'update_heuristic', 'state': (2, 0), 'h_old': 5, 'h_new': 1},
-        {'type': 'update_heuristic', 'state': (3, 3), 'h_old': 3, 'h_new': 3},
-        {'type': 'update_heuristic', 'state': (3, 2), 'h_old': 4, 'h_new': 2},
-        {'type': 'update_heuristic', 'state': (3, 1), 'h_old': 5, 'h_new': 1},
+        {'type': 'push', 'state': (0, 3), 'g': 7, 'parent': (1, 3), 'h': 0, 'f': 7},
+        {'type': 'update_frontier', 'num_nodes': 5, 'next_goal_index': 1},
         {'type': 'pop', 'state': (2, 0), 'g': 2, 'h': 1, 'f': 3},
         {'type': 'push', 'state': (3, 0), 'g': 3, 'parent': (2, 0), 'h': 0, 'f': 3},
         {'type': 'pop', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3},
         {'type': 'on_goal', 'state': (3, 0), 'g': 3, 'reason': 'expanded', 'goal_index': 1},
-        {'type': 'update_frontier', 'num_nodes': 3, 'next_goal_index': 2},
-        {'type': 'update_heuristic', 'state': (3, 1), 'h_old': 1, 'h_new': 2},
-        {'type': 'update_heuristic', 'state': (3, 2), 'h_old': 2, 'h_new': 1},
-        {'type': 'update_heuristic', 'state': (3, 3), 'h_old': 3, 'h_new': 0},
+        {'type': 'push', 'state': (3, 0), 'g': 3, 'parent': (2, 0), 'h': 0, 'f': 3},
+        {'type': 'update_frontier', 'num_nodes': 5, 'next_goal_index': 2},
         {'type': 'pop', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6},
         {'type': 'on_goal', 'state': (3, 3), 'g': 6, 'reason': 'expanded', 'goal_index': 2},
     ]
@@ -92,9 +98,10 @@ def test_recording_grid_4x4_obstacle_2goals() -> None:
     """
     ========================================================================
      Pin the FULL event stream for KAStarInc on `grid_4x4_obstacle`
-     with goals=[(0,3), (3,3)]. Sub-search 1 closes (0,3) at g=7;
-     sub-search 2 resumes from shared state and closes (3,3) at
-     g=6. 30 events.
+     with goals=[(0,3), (3,3)]. Sub-search 0 closes (0,3) at g=7;
+     orchestrator re-pushes (0,3); sub-search 1 resumes from
+     shared state and closes (3,3) at g=6 (last goal, no
+     re-push).
     ========================================================================
     """
     p = _grid_4x4_obstacle_2goals()
@@ -127,11 +134,8 @@ def test_recording_grid_4x4_obstacle_2goals() -> None:
         {'type': 'push', 'state': (0, 3), 'g': 7, 'parent': (1, 3), 'h': 0, 'f': 7},
         {'type': 'pop',  'state': (0, 3), 'g': 7, 'h': 0, 'f': 7},
         {'type': 'on_goal', 'state': (0, 3), 'g': 7, 'reason': 'expanded', 'goal_index': 0},
-        {'type': 'update_frontier', 'num_nodes': 4, 'next_goal_index': 1},
-        {'type': 'update_heuristic', 'state': (2, 0), 'h_old': 5, 'h_new': 4},
-        {'type': 'update_heuristic', 'state': (3, 3), 'h_old': 3, 'h_new': 0},
-        {'type': 'update_heuristic', 'state': (3, 2), 'h_old': 4, 'h_new': 1},
-        {'type': 'update_heuristic', 'state': (3, 1), 'h_old': 5, 'h_new': 2},
+        {'type': 'push', 'state': (0, 3), 'g': 7, 'parent': (1, 3), 'h': 0, 'f': 7},
+        {'type': 'update_frontier', 'num_nodes': 5, 'next_goal_index': 1},
         {'type': 'pop',  'state': (3, 3), 'g': 6, 'h': 0, 'f': 6},
         {'type': 'on_goal', 'state': (3, 3), 'g': 6, 'reason': 'expanded', 'goal_index': 1},
     ]

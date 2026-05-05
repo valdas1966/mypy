@@ -87,12 +87,17 @@ class AStarLookup(Generic[State], AStar[State]):
                     f'of the problem; admissibility cannot be '
                     f'guaranteed (cached h* to a different goal '
                     f'may over-estimate h* to the right goal).')
-        # Extend the inherited 6-name scaffold with cache /
+        # Extend the inherited scaffold with the propagate
+        # group (pre-search `propagate_pathmax` work) and cache /
         # bounds memory snapshots (always present in the
         # scaffold; report 0 when the layer isn't in the chain).
         from f_core.counters.main import Counters
         self._counters = Counters(names=(
+            ('cnt_prop_waves',
+             'cnt_prop_attempts',
+             'cnt_prop_lifts'),
             ('cnt_push', 'cnt_pop', 'cnt_decrease'),
+            ('cnt_expanded', 'cnt_generated'),
             ('mem_open', 'mem_closed',
              'mem_cache', 'mem_bounds'),
         ))
@@ -316,6 +321,7 @@ class AStarLookup(Generic[State], AStar[State]):
             # `num_sources` = source states about to propagate
             # (cheap `len(sources)`); useful for per-wave
             # analytics and early-termination tracking.
+            self._counters.inc('cnt_prop_waves')
             self._record_event(type='propagate_wave',
                                depth=iteration,
                                num_sources=len(sources))
@@ -333,10 +339,12 @@ class AStarLookup(Generic[State], AStar[State]):
                     tightened = hb.add_bound(state=n,
                                              value=cand)
                     new_h = self._h(n)
+                    self._counters.inc('cnt_prop_attempts')
                     if tightened:
                         next_sources.add(n)
                         updates[n] = new_h
                         last_tightener[n] = s
+                        self._counters.inc('cnt_prop_lifts')
                     self._record_event(
                         type='propagate',
                         state=n,

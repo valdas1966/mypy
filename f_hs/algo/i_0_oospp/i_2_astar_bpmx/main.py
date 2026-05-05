@@ -45,17 +45,19 @@ class AStarBPMX(BPMXMixin, AStar[State], Generic[State]):
                  is_recording: bool = False,
                  search_state: SearchStateSPP[State] | None = None,
                  bounds: dict[State, float] | None = None,
-                 rule_pathmax: int | None = None,
-                 depth_bpmx: int | None = 0,
+                 rule_bpmx: str | None = None,
+                 depth_bpmx: int | None = 1,
                  ) -> None:
         """
         ====================================================================
          Init private Attributes.
 
          Validation:
-           - `rule_pathmax not in {None, 1, 2, 3}` → ValueError.
-           - `depth_bpmx not in {None} ∪ {int >= 0}` →
-             ValueError.
+           - `rule_bpmx not in {None, '1', '2', '3', 'CASCADE'}`
+             → ValueError.
+           - `depth_bpmx not in {None} ∪ {int >= 1}` → ValueError.
+           - `rule_bpmx == '2'` with depth_bpmx != 1 → ValueError
+             (Rule 2 cannot propagate beyond depth 1).
            - Pre-built HBase `h` combined with `bounds` →
              ValueError (would double-wrap).
            - Pre-built HBase chain containing HCached →
@@ -64,14 +66,16 @@ class AStarBPMX(BPMXMixin, AStar[State], Generic[State]):
              ValueError (auto-wraps when `h` is callable / None,
              so this only fires for pre-built chains).
 
-         Auto-wrap: when any mechanism is enabled (rule_pathmax
-         or depth_bpmx) AND `h` is callable / None AND `bounds`
-         is None, an empty HBounded is auto-wrapped to provide
-         storage for lifted h-values.
+         Auto-wrap: when `rule_bpmx is not None` AND `h` is
+         callable / None AND `bounds` is None, an empty
+         HBounded is auto-wrapped to provide storage for
+         lifted h-values.
         ====================================================================
         """
-        BPMXMixin._validate_rule_pathmax(rule_pathmax)
+        BPMXMixin._validate_rule_bpmx(rule_bpmx)
         BPMXMixin._validate_depth_bpmx(depth_bpmx)
+        BPMXMixin._validate_combination(rule_bpmx=rule_bpmx,
+                                        depth_bpmx=depth_bpmx)
         if (isinstance(h, HBase)
                 and BPMXMixin._chain_contains_hcached(h)):
             raise TypeError(
@@ -81,26 +85,24 @@ class AStarBPMX(BPMXMixin, AStar[State], Generic[State]):
                 'AStarLookupBPMX for cache + BPMX in one '
                 'pass; or pass `h` as a plain callable to '
                 'AStarBPMX.')
-        bpmx_on = (depth_bpmx is None) or (depth_bpmx > 0)
-        pathmax_on = rule_pathmax is not None
-        needs_storage = bpmx_on or pathmax_on
+        needs_storage = rule_bpmx is not None
         chain = self._build_chain(h=h,
                                   bounds=bounds,
                                   auto_wrap=needs_storage)
         if (needs_storage
                 and BPMXMixin._find_hbounded(chain) is None):
             raise ValueError(
-                'rule_pathmax / depth_bpmx require an HBounded '
-                'in the heuristic chain as storage for lifted '
-                'h values; pass `h` as a callable / None (will '
-                'auto-wrap) or supply `bounds=...` (can be empty).')
+                'rule_bpmx requires an HBounded in the heuristic '
+                'chain as storage for lifted h values; pass `h` '
+                'as a callable / None (will auto-wrap) or supply '
+                '`bounds=...` (can be empty).')
         AStar.__init__(self,
                        problem=problem,
                        h=chain,
                        name=name,
                        is_recording=is_recording,
                        search_state=search_state)
-        self._init_bpmx_mechanism(rule_pathmax=rule_pathmax,
+        self._init_bpmx_mechanism(rule_bpmx=rule_bpmx,
                                   depth_bpmx=depth_bpmx)
 
     # ──────────────────────────────────────────────────

@@ -67,10 +67,17 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         # `_run_pre` fires) can compute a valid `duration`.
         # `_run_pre` will reset this later for search timing.
         self._event_prev_ns: int = perf_counter_ns()
-        # Own-scaffold Counters: heap-op counters mirrored from
-        # the injected frontier on every `counters` access; mem
-        # snapshots populated in `_run_post()` AFTER the timer
-        # closes (outside the runtime budget).
+        # Own-scaffold Counters:
+        # - heap-op group (cnt_push / cnt_pop / cnt_decrease) is
+        #   mirrored from the injected frontier on every
+        #   `counters` access (frontier is single source of
+        #   truth);
+        # - search-semantic group (cnt_expanded / cnt_generated)
+        #   is incremented inline by `_search_loop`,
+        #   `_handle_child`, and `_init_search` (start seed);
+        # - memory group (mem_open / mem_closed) is snapshotted
+        #   in `_run_post()` AFTER the timer closes (outside the
+        #   runtime budget).
         # `mem_open` includes per-state g/parent share for states
         # currently in OPEN; `mem_closed` includes the same share
         # for states NOT in OPEN (closed + popped-but-not-closed
@@ -78,6 +85,7 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         # bookkeeping memory by membership.
         self._counters: Counters = Counters(names=(
             ('cnt_push', 'cnt_pop', 'cnt_decrease'),
+            ('cnt_expanded', 'cnt_generated'),
             ('mem_open', 'mem_closed'),
         ))
         self._mem: dict[str, int] = {}
@@ -289,13 +297,18 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
          into the search log so consumers see the full timeline.
          Callers who want a fresh log across `run()` invocations
          should call `self.recorder.clear()` explicitly.
+
+         Counters ARE reset here (run-only; resume() preserves
+         them — needed for OMSPP-iterative accumulation).
         ====================================================================
         """
         self._search.clear()
+        self._counters.reset()
         self._goals_set = set(self.problem.goals)
         for start in self.problem.starts:
             self._search.g[start] = 0.0
             self._search.parent[start] = None
+            self._counters.inc('cnt_generated')
             self._push(state=start)
         # Frontier is freshly rebuilt with current priorities —
         # any stale-priority concerns from an injected seed are
@@ -333,6 +346,7 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
                 self._search.goal_reached = state
                 return SolutionSPP(cost=self._search.g[state])
             self._close(state)
+            self._counters.inc('cnt_expanded')
             self._pre_expand(state=state)
             for child in self.problem.successors(state):
                 self._handle_child(parent=state,
@@ -402,6 +416,7 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         if child not in self._search.frontier:
             self._search.g[child] = new_g
             self._search.parent[child] = parent
+            self._counters.inc('cnt_generated')
             self._push(state=child)
         elif new_g < self._search.g[child]:
             self._search.g[child] = new_g

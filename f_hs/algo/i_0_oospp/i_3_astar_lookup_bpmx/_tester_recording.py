@@ -26,7 +26,7 @@ def test_recording_canonical_oospp() -> None:
     algo = AStarLookupBPMX(
         problem=p,
         h=lambda s: float(s.distance(goal)),
-        rule_pathmax=None,
+        rule_bpmx='CASCADE',
         depth_bpmx=None,
         is_recording=True,
     )

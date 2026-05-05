@@ -12,8 +12,8 @@ if TYPE_CHECKING:
 class BPMXMixin:
     """
     ============================================================================
-     Mixin: Felner pathmax rules + BPMX(d) cascade as a
-     reusable in-search mechanism.
+     Mixin: Felner pathmax / BPMX cascade as a reusable
+     in-search mechanism.
 
      Hosts the search-time pathmax mechanics so multiple AStar
      subclasses can compose them without duplicating code:
@@ -23,31 +23,42 @@ class BPMXMixin:
          by k×A*-CB).
 
      Faithful to Felner et al., "Inconsistent Heuristics in
-     Theory and Practice", AIJ 2011.
+     Theory and Practice", AIJ 2011 (rules §5.1–5.3,
+     cascade Algorithm 2).
 
-     Two orthogonal mechanisms (independent kwargs on the host
-     class):
+     Single-axis API: `rule_bpmx ∈ {None, '1', '2', '3',
+     'CASCADE'}` selects what runs; `depth_bpmx ∈ {None,
+     int >= 1}` controls how far it walks.
 
-       (A) `rule_pathmax ∈ {None, 1, 2, 3}` — isolated Felner
-           rule applied once per expansion at the immediate
-           parent → children neighborhood (depth 1 only).
-           Felner numbering:
-             1: parent → child (Mero, 1984):
+       - `'1'`  Rule 1 (Mero, 1984) — parent → child:
                   h'(c) = max(h(c), h(p) − w(p, c)).
-             2: children → parent via min:
+                  Top-down sweep over BFS subtree to
+                  `depth_bpmx` levels (default 1 = isolated).
+
+       - `'2'`  Rule 2 (Felner) — children → parent via min:
                   h'(p) = max(h(p),
                               min_i(h(c_i) + w(p, c_i))).
-             3: single child → parent (reverse pathmax):
+                  Structurally depth-1 only — Rule 2's operator
+                  consumes "a parent + its full children set",
+                  which has no chained-grandparent analogue.
+                  Constructor enforces `depth_bpmx == 1`.
+
+       - `'3'`  Rule 3 (Felner) — strongest child → parent:
                   h'(p) = max(h(p),
                               max_c(h(c) − w(c, p))).
+                  Bottom-up sweep over BFS subtree to
+                  `depth_bpmx` levels (default 1 = isolated).
 
-       (B) `depth_bpmx ∈ {0, n ≥ 1, None}` — BPMX(d) cascade
-           depth (Felner Algorithm 2). BPMX is the cascading
-           combination of Rules 1 + 3 propagated outward
-           through the d-level successor subtree of the
-           expanded node, iterated to a fixed point. `None`
-           propagates through the full reachable subtree
-           (visited-set bounded).
+       - `'CASCADE'`  Felner Algorithm 2 — Rules 1 + 3
+                  alternating, iterated to fixed point over the
+                  d-level BFS subtree. The bidirectional pathmax
+                  propagation that gives BPMX its name.
+
+     Why deep Rule 1 / Rule 3 alone? Cascade is strictly ≥
+     either single-direction sweep but does roughly 2× the
+     work and iterates. Single-direction sweeps trade some
+     lift coverage for cheaper per-expansion overhead — useful
+     for ablation studies.
 
      Storage: lifted h-values persist via an `HBounded` layer
      in the heuristic chain. Bounds are admissible by
@@ -68,13 +79,13 @@ class BPMXMixin:
        - `self._record_event(...)` — recorder hook.
 
      The mixin owns:
-       - `_pre_expand(state)` override (orchestrates pathmax
-         + cascade).
-       - `counters` property (10-counter scaffold + frontier
-         mirror).
+       - `_pre_expand(state)` override (orchestrates the
+         selected rule).
+       - `counters` property (mechanism counters + frontier /
+         memory mirror).
        - `_enrich_event(event)` (int-casts BPMX h_old / h_new;
          chains to next class in MRO via super()).
-       - `_init_bpmx_mechanism(rule_pathmax, depth_bpmx)`
+       - `_init_bpmx_mechanism(rule_bpmx, depth_bpmx)`
          — call from host's __init__ after AStar.__init__.
 
      MRO contract: place BPMXMixin BEFORE AStar / AlgoSPP in
@@ -90,23 +101,21 @@ class BPMXMixin:
     ============================================================================
     """
 
-    _VALID_RULE_PATHMAX: frozenset[int | None] = frozenset(
-        {None, 1, 2, 3})
+    _VALID_RULE_BPMX: frozenset[str | None] = frozenset(
+        {None, '1', '2', '3', 'CASCADE'})
 
-    # 15-name scaffold in 4 visual groups (pathmax 2, bpmx 5,
-    # frontier 3 mirrored from FrontierPriority, mem 5 snapshots
-    # taken in `_run_post()` AFTER the timer closes).
-    # `mem_cache` stays 0 unless an HCached layer is in the
-    # chain (only AStarLookupBPMX engages it).
+    # 3-counter mechanism scaffold. `cnt_bpmx_depth` is a max
+    # tracker (deepest BFS-level at which a lift fired across
+    # the run), updated via assign; the others are cumulative
+    # via inc. Frontier (3) and memory (4) groups round out the
+    # default scaffold; AStarLookupBPMX overrides via
+    # `_COUNTER_NAMES` to prepend the propagate group.
     _BPMX_COUNTER_NAMES: tuple[tuple[str, ...], ...] = (
-        ('cnt_pathmax_attempts',
-         'cnt_pathmax_lifts'),
         ('cnt_bpmx_attempts',
-         'cnt_bpmx_iterations',
-         'cnt_bpmx_rule3_lifts',
-         'cnt_bpmx_rule1_forwards',
-         'cnt_bpmx_subtree_states'),
+         'cnt_bpmx_successes',
+         'cnt_bpmx_depth'),
         ('cnt_push', 'cnt_pop', 'cnt_decrease'),
+        ('cnt_expanded', 'cnt_generated'),
         ('mem_open', 'mem_closed',
          'mem_cache', 'mem_bounds'),
     )
@@ -116,40 +125,57 @@ class BPMXMixin:
     # ──────────────────────────────────────────────────
 
     @classmethod
-    def _validate_rule_pathmax(cls, rule_pathmax: int | None) -> None:
+    def _validate_rule_bpmx(cls, rule_bpmx: str | None) -> None:
         """
         ====================================================================
-         Validate `rule_pathmax` ∈ {None, 1, 2, 3} (Felner
-         numbering). Raises ValueError otherwise.
+         Validate `rule_bpmx` ∈ {None, '1', '2', '3', 'CASCADE'}.
+         Raises ValueError otherwise.
         ====================================================================
         """
-        if rule_pathmax not in cls._VALID_RULE_PATHMAX:
-            valid = sorted(v for v in cls._VALID_RULE_PATHMAX
+        if rule_bpmx not in cls._VALID_RULE_BPMX:
+            valid = sorted(v for v in cls._VALID_RULE_BPMX
                            if v is not None)
             raise ValueError(
-                f'rule_pathmax must be one of {valid} or None '
-                f'(Felner numbering: 1=parent->child, '
-                f'2=children->parent via min, '
-                f'3=single child->parent reverse pathmax); '
-                f'got {rule_pathmax!r}')
+                f"rule_bpmx must be one of {valid} or None; "
+                f"got {rule_bpmx!r}")
 
     @staticmethod
     def _validate_depth_bpmx(depth_bpmx: int | None) -> None:
         """
         ====================================================================
-         Validate `depth_bpmx` ∈ {None} ∪ {int >= 0}. Rejects
-         bool to guard against `depth_bpmx=True` / `False`
-         typos. Raises ValueError otherwise.
+         Validate `depth_bpmx` ∈ {None} ∪ {int >= 1}. Rejects
+         bool (guards `True` / `False` typos), 0, and negatives.
         ====================================================================
         """
         if depth_bpmx is None:
             return
         if (not isinstance(depth_bpmx, int)
                 or isinstance(depth_bpmx, bool)
-                or depth_bpmx < 0):
+                or depth_bpmx < 1):
             raise ValueError(
-                f'depth_bpmx must be int >= 0 or None; got '
-                f'{depth_bpmx!r}')
+                f"depth_bpmx must be int >= 1 or None; got "
+                f"{depth_bpmx!r}")
+
+    @classmethod
+    def _validate_combination(cls,
+                              rule_bpmx: str | None,
+                              depth_bpmx: int | None) -> None:
+        """
+        ====================================================================
+         Cross-axis validation. Rule 2 cannot propagate beyond
+         depth 1 — its operator consumes a parent + its full
+         children set, which has no chained-grandparent
+         analogue. `depth_bpmx is None` (full reach) and
+         `depth_bpmx > 1` are both rejected for Rule 2.
+        ====================================================================
+        """
+        if rule_bpmx == '2' and depth_bpmx != 1:
+            raise ValueError(
+                "rule_bpmx='2' requires depth_bpmx=1; Rule 2's "
+                "operator consumes a parent + its full children "
+                "set and has no chained-grandparent analogue. "
+                "For deep propagation use 'CASCADE' or '1' / '3' "
+                f"with depth_bpmx > 1; got depth_bpmx={depth_bpmx!r}")
 
     # ──────────────────────────────────────────────────
     #  Chain Inspectors (static; chain-walking helpers)
@@ -188,30 +214,38 @@ class BPMXMixin:
     # ──────────────────────────────────────────────────
 
     def _init_bpmx_mechanism(self,
-                             rule_pathmax: int | None,
+                             rule_bpmx: str | None,
                              depth_bpmx: int | None) -> None:
         """
         ====================================================================
-         Initialize the mechanism state and the 10-counter
+         Initialize the mechanism state and the counter
          scaffold. Call from the host class's __init__ AFTER
          the AStar.__init__ chain has set `self._h`,
          `self._search`, etc.
+
+         Scaffold resolution: if the host class declares its
+         own `_COUNTER_NAMES` class attribute, that wins
+         (per-class override pattern). Otherwise the mixin's
+         `_BPMX_COUNTER_NAMES` default is used. AStarLookupBPMX
+         overrides to add the `cnt_prop_*` group inherited
+         from AStarLookup; AStarBPMX accepts the default.
         ====================================================================
         """
-        self._rule_pathmax: int | None = rule_pathmax
+        self._rule_bpmx: str | None = rule_bpmx
         self._depth_bpmx: int | None = depth_bpmx
-        self._counters: Counters = Counters(
-            names=self._BPMX_COUNTER_NAMES)
+        names = getattr(type(self), '_COUNTER_NAMES',
+                        self._BPMX_COUNTER_NAMES)
+        self._counters: Counters = Counters(names=names)
 
     # ──────────────────────────────────────────────────
-    #  Counters property (10-counter scaffold + frontier mirror)
+    #  Counters property (mechanism + frontier mirror)
     # ──────────────────────────────────────────────────
 
     @property
     def counters(self) -> Counters:
         """
         ====================================================================
-         Live snapshot of the 15-name scaffold. Heap-op counts
+         Live snapshot of the scaffold. Heap-op counts
          (cnt_push / cnt_pop / cnt_decrease) are the frontier's
          authoritative tally, mirrored on each access via
          `Counters.assign` (single source of truth:
@@ -296,85 +330,88 @@ class BPMXMixin:
     def _pre_expand(self, state) -> None:
         """
         ====================================================================
-         Apply the isolated pathmax rule (if enabled) at depth
-         1 around `state`, then run the BPMX(d) cascade (if
-         enabled) over the d-level subtree rooted at `state`.
-
-         Order: isolated rule first (cheap, depth-1 only);
-         BPMX cascade second (may extend deeper). Both share
-         the HBounded storage; the cascade sees any lifts the
-         isolated rule produced and may extend them outward.
+         Apply the configured BPMX rule on `state`. Delegates
+         to `_apply_bpmx` which dispatches by `rule_bpmx`:
+           - None       → no-op
+           - '1' / '3'  → single-direction sweep over the
+                           depth-d BFS subtree (no iteration)
+           - '2'        → isolated min-children → parent (depth 1)
+           - 'CASCADE'  → Felner Algorithm 2 (Rules 1 + 3,
+                           alternating sweeps, iterated to
+                           fixed point)
         ====================================================================
         """
-        if self._rule_pathmax is not None:
-            self._apply_pathmax(state=state)
-        if self._depth_bpmx is None or self._depth_bpmx > 0:
-            self._apply_bpmx(state=state)
+        if self._rule_bpmx is None:
+            return
+        self._apply_bpmx(state=state)
 
     # ──────────────────────────────────────────────────
-    #  Isolated Pathmax (depth-1 only)
+    #  Lift-depth tracker (max via assign)
     # ──────────────────────────────────────────────────
 
-    def _apply_pathmax(self, state) -> None:
+    def _record_lift_at_level(self, level: int) -> None:
         """
         ====================================================================
-         Apply `rule_pathmax` once at the immediate parent →
-         children neighborhood. No cascading.
+         Update `cnt_bpmx_depth` to max(current, level) via
+         assign. Called on each successful lift, with `level`
+         being the BFS-depth (0 = root) of the LIFTED node.
         ====================================================================
         """
-        rule = self._rule_pathmax
-        self._counters.inc('cnt_pathmax_attempts')
+        if level > self._counters['cnt_bpmx_depth']:
+            self._counters.assign('cnt_bpmx_depth', level)
+
+    # ──────────────────────────────────────────────────
+    #  Mechanism dispatch
+    # ──────────────────────────────────────────────────
+
+    def _apply_bpmx(self, state) -> None:
+        """
+        ====================================================================
+         Dispatch by `rule_bpmx`. Increments
+         `cnt_bpmx_attempts` once per call (regardless of
+         whether any lift fires).
+        ====================================================================
+        """
+        if self._h.is_perfect(state):
+            return
         hb = self._find_hbounded(self._h)
         if hb is None:
             return
-        children = list(self.problem.successors(state))
-        if not children:
+        rule = self._rule_bpmx
+        self._counters.inc('cnt_bpmx_attempts')
+
+        if rule == '2':
+            children = list(self.problem.successors(state))
+            if not children:
+                return
+            self._apply_rule2(state=state, children=children, hb=hb)
             return
-        if rule == 1:
-            self._pathmax_rule1(state=state, children=children, hb=hb)
-        elif rule == 2:
-            self._pathmax_rule2(state=state, children=children, hb=hb)
-        elif rule == 3:
-            self._pathmax_rule3(state=state, children=children, hb=hb)
 
-    def _pathmax_rule1(self,
-                       state,
-                       children: list,
-                       hb: HBounded) -> None:
-        """
-        ====================================================================
-         Rule 1 (Mero, 1984): parent → child.
-             h'(c) = max(h(c), h(p) − w(p, c)).
-         Lifts each child's h from the popped parent's h.
-        ====================================================================
-        """
-        h_p = self._h(state)
-        for c in children:
-            if self._h.is_perfect(c):
-                continue
-            h_c_old = self._h(c)
-            cand = h_p - self.problem.w(parent=state, child=c)
-            if cand > h_c_old:
-                hb.add_bound(state=c, value=cand)
-                self._counters.inc('cnt_pathmax_lifts')
-                self._record_event(
-                    type='pathmax_apply',
-                    state=c,
-                    rule=1,
-                    h_old=h_c_old,
-                    h_new=cand,
-                    via_parent=state,
-                )
+        # Rules '1', '3', 'CASCADE': BFS-span the subtree first.
+        levels, edges = self._collect_bpmx_subtree(
+            root=state, depth=self._depth_bpmx)
+        if rule == '1':
+            self._sweep_rule1_down(levels=levels, edges=edges, hb=hb)
+        elif rule == '3':
+            self._sweep_rule3_up(levels=levels, edges=edges, hb=hb)
+        elif rule == 'CASCADE':
+            self._cascade(state=state, levels=levels,
+                          edges=edges, hb=hb)
 
-    def _pathmax_rule2(self,
-                       state,
-                       children: list,
-                       hb: HBounded) -> None:
+    # ──────────────────────────────────────────────────
+    #  Rule 2 — isolated, depth 1 only
+    # ──────────────────────────────────────────────────
+
+    def _apply_rule2(self,
+                     state,
+                     children: list,
+                     hb: HBounded) -> None:
         """
         ====================================================================
          Rule 2 (Felner): children → parent via min.
              h'(p) = max(h(p), min_i(h(c_i) + w(p, c_i))).
-         The parent's h is bounded by the cheapest child path.
+         Depth-1 only by structural constraint (constructor
+         enforces depth_bpmx == 1).
         ====================================================================
         """
         if self._h.is_perfect(state):
@@ -384,7 +421,8 @@ class BPMXMixin:
                    for c in children)
         if cand > h_p_old:
             hb.add_bound(state=state, value=cand)
-            self._counters.inc('cnt_pathmax_lifts')
+            self._counters.inc('cnt_bpmx_successes')
+            self._record_lift_at_level(0)
             self._record_event(
                 type='pathmax_apply',
                 state=state,
@@ -394,94 +432,20 @@ class BPMXMixin:
                 via_children=tuple(children),
             )
 
-    def _pathmax_rule3(self,
-                       state,
-                       children: list,
-                       hb: HBounded) -> None:
-        """
-        ====================================================================
-         Rule 3 (Felner): single child → parent (reverse pathmax).
-             h'(p) = max(h(p), max_c(h(c) − w(c, p))).
-         The parent's h is bounded from below by the strongest
-         child's reverse-pathmax estimate.
-        ====================================================================
-        """
-        if self._h.is_perfect(state):
-            return
-        h_p_old = self._h(state)
-        best, best_via = h_p_old, None
-        for c in children:
-            cand = self._h(c) - self.problem.w(parent=c, child=state)
-            if cand > best:
-                best, best_via = cand, c
-        if best > h_p_old:
-            hb.add_bound(state=state, value=best)
-            self._counters.inc('cnt_pathmax_lifts')
-            self._record_event(
-                type='pathmax_apply',
-                state=state,
-                rule=3,
-                h_old=h_p_old,
-                h_new=best,
-                via_child=best_via,
-            )
-
     # ──────────────────────────────────────────────────
-    #  BPMX(d) Cascade (Rules 1 + 3, iterated)
+    #  Rule 3 — bottom-up sweep (used alone or in cascade)
     # ──────────────────────────────────────────────────
 
-    def _apply_bpmx(self, state) -> None:
-        """
-        ====================================================================
-         Felner Algorithm 2: BPMX(d) cascade.
-
-         BFS-spans the d-level successor subtree from `state`,
-         then iterates (Rule 3 bottom-up, Rule 1 top-down)
-         until no pass tightens any node. `state` itself is
-         the BFS root; cached descendants (perfect-h) are
-         skipped from lift mutation.
-
-         `depth = None` propagates through the full reachable
-         subtree (visited-set bounded). Self-amortizes via
-         the no-improvement short-circuit.
-        ====================================================================
-        """
-        if self._h.is_perfect(state):
-            return
-        hb = self._find_hbounded(self._h)
-        if hb is None:
-            return
-        levels, edges = self._collect_bpmx_subtree(
-            root=state, depth=self._depth_bpmx)
-        n_states = sum(len(L) for L in levels)
-        self._counters.inc('cnt_bpmx_attempts')
-        self._counters.inc('cnt_bpmx_subtree_states', n=n_states)
-        iteration = 0
-        while True:
-            iteration += 1
-            self._counters.inc('cnt_bpmx_iterations')
-            self._record_event(
-                type='bpmx_iteration',
-                state=state,
-                iteration=iteration,
-                num_levels=len(levels),
-                num_states=n_states,
-            )
-            up_changed = self._bpmx_rule3_up(levels, edges, hb)
-            down_changed = self._bpmx_rule1_down(levels, edges, hb)
-            if not (up_changed or down_changed):
-                break
-
-    def _bpmx_rule3_up(self,
-                       levels: list[list],
-                       edges: dict,
-                       hb: HBounded) -> bool:
+    def _sweep_rule3_up(self,
+                        levels: list[list],
+                        edges: dict,
+                        hb: HBounded) -> bool:
         """
         ====================================================================
          Rule 3 (single child → parent) sweep, bottom-up over
-         the BFS subtree. For each level k from d−1 down to 0,
-         each parent at level k lifts from its strongest child
-         at level k+1.
+         the BFS subtree. For each level k from len(levels)-2
+         down to 0, each parent at level k lifts from its
+         strongest child at level k+1.
 
          Returns True iff any lift fired.
         ====================================================================
@@ -503,7 +467,8 @@ class BPMXMixin:
                         best, best_via = cand, c
                 if best > h_p_old:
                     hb.add_bound(state=p, value=best)
-                    self._counters.inc('cnt_bpmx_rule3_lifts')
+                    self._counters.inc('cnt_bpmx_successes')
+                    self._record_lift_at_level(k)
                     self._record_event(
                         type='bpmx_lift',
                         state=p,
@@ -514,15 +479,19 @@ class BPMXMixin:
                     changed = True
         return changed
 
-    def _bpmx_rule1_down(self,
-                         levels: list[list],
-                         edges: dict,
-                         hb: HBounded) -> bool:
+    # ──────────────────────────────────────────────────
+    #  Rule 1 — top-down sweep (used alone or in cascade)
+    # ──────────────────────────────────────────────────
+
+    def _sweep_rule1_down(self,
+                          levels: list[list],
+                          edges: dict,
+                          hb: HBounded) -> bool:
         """
         ====================================================================
          Rule 1 (parent → child) sweep, top-down over the BFS
-         subtree. For each level k from 0 to d−1, each parent
-         lifts every child at level k+1.
+         subtree. For each level k from 0 to len(levels)-2,
+         each parent lifts every child at level k+1.
 
          Cached children skipped (h* cannot be tightened).
          Closed children NOT skipped: paper-aligned —
@@ -543,8 +512,8 @@ class BPMXMixin:
                     cand = h_p - self.problem.w(parent=p, child=c)
                     if cand > h_c_old:
                         hb.add_bound(state=c, value=cand)
-                        self._counters.inc(
-                            'cnt_bpmx_rule1_forwards')
+                        self._counters.inc('cnt_bpmx_successes')
+                        self._record_lift_at_level(k + 1)
                         self._record_event(
                             type='bpmx_forward',
                             state=c,
@@ -554,6 +523,43 @@ class BPMXMixin:
                         )
                         changed = True
         return changed
+
+    # ──────────────────────────────────────────────────
+    #  CASCADE — Felner Algorithm 2 (Rules 1 + 3 iterated)
+    # ──────────────────────────────────────────────────
+
+    def _cascade(self,
+                 state,
+                 levels: list[list],
+                 edges: dict,
+                 hb: HBounded) -> None:
+        """
+        ====================================================================
+         Felner Algorithm 2: alternate Rule 3 bottom-up and
+         Rule 1 top-down sweeps until neither tightens any
+         node. Self-amortizes via the no-improvement
+         short-circuit.
+        ====================================================================
+        """
+        n_states = sum(len(L) for L in levels)
+        iteration = 0
+        while True:
+            iteration += 1
+            self._record_event(
+                type='bpmx_iteration',
+                state=state,
+                iteration=iteration,
+                num_levels=len(levels),
+                num_states=n_states,
+            )
+            up = self._sweep_rule3_up(levels=levels, edges=edges, hb=hb)
+            down = self._sweep_rule1_down(levels=levels, edges=edges, hb=hb)
+            if not (up or down):
+                break
+
+    # ──────────────────────────────────────────────────
+    #  BFS subtree collection (shared)
+    # ──────────────────────────────────────────────────
 
     def _collect_bpmx_subtree(
             self,

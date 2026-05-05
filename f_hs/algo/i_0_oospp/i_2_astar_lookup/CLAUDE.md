@@ -161,10 +161,30 @@ polymorphism on `StateBase`). In-search BPMX tests live on
 
 ## Counters
 
-**Inherited from `AlgoSPP`** (via AStar) — `algo.counters`
-returns `self._search.frontier.counters`, the 3-counter
-scaffold (`cnt_push`, `cnt_pop`, `cnt_decrease`) owned by
-`FrontierPriority`.
+AStarLookup extends the inherited frontier-mirror scaffold
+with a `propagate` group that tracks the pre-search
+`propagate_pathmax` work.
+
+| group | counters |
+|---|---|
+| propagate (3) | `cnt_prop_waves`, `cnt_prop_attempts`, `cnt_prop_lifts` |
+| frontier (3) | `cnt_push`, `cnt_pop`, `cnt_decrease` (mirrored from `FrontierPriority`) |
+| memory (4) | `mem_open`, `mem_closed`, `mem_cache`, `mem_bounds` (post-run snapshot) |
+
+**`cnt_prop_*` semantics** (set inside `propagate_pathmax`):
+
+- `cnt_prop_waves` — number of waves run (capped by `depth`;
+  natural termination on no-improvement). Equals the count of
+  `propagate_wave` events.
+- `cnt_prop_attempts` — total `(source, child)` propagate
+  attempts. Equals the count of `propagate` events. Excludes
+  back-edge / cached-target short-circuits.
+- `cnt_prop_lifts` — successful tightenings (subset of
+  attempts where `was_improved=True` on the propagate event).
+
+All three stay 0 if `propagate_pathmax()` is never called.
+Frontier counters are sourced from `FrontierPriority` on every
+read.
 
 ## Inheritance
 

@@ -43,16 +43,20 @@ AlgoSPP[State]
 
 ### Counters
 
+KDijkstra uses the base `AlgoOMSPP` scaffold unchanged — no
+heuristic, no Φ, no lazy stale-pop, so no counters for those
+mechanisms appear on `algo.counters`.
+
 | counter | KDijkstra |
 |---|:---:|
-| `cnt_h_search` | 0 (no heuristic; inner Dijkstra's h≡0 callable is never wrapped with a counter) |
-| `cnt_h_update` | 0 (no heuristic) |
-| `cnt_phi_search` | 0 (no Φ aggregation) |
-| `cnt_phi_update` | 0 (no Φ aggregation) |
 | `cnt_push` | ✓ (frontier-sourced) |
 | `cnt_pop` | ✓ (frontier-sourced) |
-| `cnt_pop_stale` | 0 (no lazy stale-pop) |
 | `cnt_decrease` | ✓ (frontier-sourced) |
+| `mem_open` / `mem_closed` | ✓ (post-run snapshot) |
+
+Mechanism-irrelevant counters (`cnt_h_*`, `cnt_phi_*`,
+`cnt_pop_stale`) are **absent** from KDijkstra's scaffold by
+design.
 
 Sourced from the inner `_MultiGoalDijkstra`'s `FrontierPriority` via `_sync_frontier_counters()` at end-of-run.
 

@@ -3,11 +3,14 @@
 ## Purpose
 
 Abstract base for OMSPP algorithms (`KAStarInc`, `KAStarAgg`,
-future `KDijkstra`). Inherits the standard f_cs `Algo`
+`KBFS`, `KDijkstra`). Inherits the standard f_cs `Algo`
 lifecycle (so `elapsed`, `recorder`, `name`, `problem` are all
-provided), plus a unified 8-counter scaffold (composed via
-`f_core.counters.Counters`) for cross-algorithm benchmark
-comparison.
+provided), plus a **minimal** counter scaffold (composed via
+`f_core.counters.Counters`) — frontier ops (`cnt_push` /
+`cnt_pop` / `cnt_decrease`) and end-of-search memory snapshots
+(`mem_open` / `mem_closed`). Subclasses override
+`_COUNTER_NAMES` to declare their full schema; only counters
+the algorithm actually tracks appear on `algo.counters`.
 
 ## Inheritance
 
@@ -15,7 +18,9 @@ comparison.
 f_cs.algo.Algo[ProblemSPP[State], SolutionOMSPP]
     └── AlgoOMSPP[State]
             ├── KAStarInc
-            └── KAStarAgg
+            ├── KAStarAgg
+            ├── KBFS
+            └── KDijkstra
 ```
 
 `AlgoOMSPP` is a **sibling** of `AlgoSPP` under the same
@@ -51,8 +56,8 @@ at 0.0 when off.
 | `recorder` | `Recorder` | Inherited from `ProcessBase` |
 | `elapsed` | `float \| None` | Inherited from `ProcessBase`; auto-set in `_run_post()` |
 | `solutions` | `dict[State, SolutionSPP]` | Per-goal map populated by `_run()` |
-| `counters` | `Counters` | Per-run 8-counter snapshot (Mapping protocol — `c[name]`, `dict(c)`, `c == {...}` all work; `print(c)` shows an aligned grouped block) |
-| `elapsed_search` | `float` | Wall-clock seconds in the **search** structural phase (sub-search loop bodies + force-expand + AGG-lazy inline refresh). 0.0 when `is_timing=False`. |
+| `counters` | `Counters` | Per-run counter snapshot (Mapping protocol — `c[name]`, `dict(c)`, `c == {...}` all work; `print(c)` shows an aligned grouped block). Schema is **per-algo** (set by the subclass's `_COUNTER_NAMES`); see Per-class counter scaffolds below. |
+| `elapsed_search` | `float` | Wall-clock seconds in the **search** structural phase (sub-search loop bodies + Inc lazy re-push + AGG-lazy inline refresh). 0.0 when `is_timing=False`. |
 | `elapsed_update` | `float` | Wall-clock seconds in the **update** structural phase (Inc: `_emit_frontier_transition` + `algo.refresh_priorities`; AGG-eager: `_refresh_all_F`). **AGG-lazy reports 0.0 by construction** — no between-phase moment exists. 0.0 when `is_timing=False`. |
 | `phase` | `str` | Current structural phase (`'search'` / `'update'`). Mutate via the property setter only — direct `_phase = X` writes bypass the time-bucket flush and are forbidden. |
 
@@ -64,48 +69,67 @@ at 0.0 when off.
 | `_run()` | **Subclass override.** Execute the algorithm, populate `self._solutions`, return `SolutionOMSPP(self._solutions)` |
 | `_run_post()` | Records `_elapsed = time_finish - time_start` |
 
-## The 8 counters
+## Per-class counter scaffolds
 
 Held in `self._counters` (a `f_core.counters.Counters`
 instance, exposed through the read-only `counters` property).
-Each name is also the key when consumers index the Counters or
-convert it to a dict. Subclasses increment whichever subset
-they support; unsupported counters stay at 0 with a documented
-reason.
+The schema is set per-class via the `_COUNTER_NAMES` class
+attribute — the base reads `self._COUNTER_NAMES` in
+`__init__`, so the most-derived class's declaration wins.
+Counters are declared as visual groups so
+`print(algo.counters)` renders with blank-line separators
+between groups for fast scanning.
 
-The 8 names are declared in 3 visual groups (h-calls,
-phi-calls, frontier ops) so `print(algo.counters)` renders
-with blank-line separators between groups for fast scanning.
+**Universe of counter names:**
 
 | counter | semantics |
 |---|---|
 | `cnt_h_search` | h(state, goal) call in normal search flow |
 | `cnt_h_update` | h(state, goal) call in refresh flow |
-| `cnt_phi_search` | `_compute_F` call in normal flow (Φ-aggregation algorithms only) |
-| `cnt_phi_update` | `_compute_F` call in refresh flow (Φ-aggregation algorithms only) |
+| `cnt_phi_search` | `_compute_F` call in normal flow (Φ-aggregation only) |
+| `cnt_phi_update` | `_compute_F` call in refresh flow (Φ-aggregation only) |
 | `cnt_push` | `frontier.push` call |
 | `cnt_pop` | `frontier.pop` call |
-| `cnt_pop_stale` | subset of `cnt_pop`: stale-F re-insertions (lazy-mode algorithms only) |
+| `cnt_pop_stale` | subset of `cnt_pop`: stale-F re-insertions (lazy-mode only) |
 | `cnt_decrease` | `frontier.decrease` call |
+| `cnt_expanded` | popped state whose successors were generated (Stern-style "expansions") |
+| `cnt_generated` | first-time push (state newly enters OPEN; excludes refresh re-pushes, lazy-re-pushed goals, decrease-key) |
+| `mem_open` | post-run memory snapshot — frontier struct + g/parent slots in OPEN |
+| `mem_closed` | post-run memory snapshot — closed set + g/parent slots in CLOSED |
 
-### Per-algorithm support (current state)
+**Per-algo schemas (no structural zeros — only what the algo tracks):**
 
-| counter | KAStarAgg | KAStarInc |
-|---|:---:|:---:|
-| `cnt_h_search` | ✓ | ✓ |
-| `cnt_h_update` | ✓ | ✓ |
-| `cnt_phi_search` | ✓ | N/A (no Φ aggregation) |
-| `cnt_phi_update` | ✓ | N/A (no Φ aggregation) |
-| `cnt_push` | ✓ (frontier-sourced) | ✓ (frontier-sourced) |
-| `cnt_pop` | ✓ (frontier-sourced) | ✓ (frontier-sourced) |
-| `cnt_pop_stale` | ✓ (lazy only) | N/A (no lazy stale-pop) |
-| `cnt_decrease` | ✓ (frontier-sourced) | ✓ (frontier-sourced) |
+| algo | scaffold |
+|---|---|
+| **AlgoOMSPP** (base) | `cnt_push`, `cnt_pop`, `cnt_decrease`, `cnt_expanded`, `cnt_generated`, `mem_open`, `mem_closed` |
+| **KBFS** | inherits base — no extras (no h, no Φ, no lazy stale-pop) |
+| **KDijkstra** | inherits base — no extras (same reasons) |
+| **KAStarInc** | base + `cnt_h_search`, `cnt_h_update` |
+| **KAStarAgg** | base + `cnt_h_search`, `cnt_h_update`, `cnt_phi_search`, `cnt_phi_update`, `cnt_pop_stale` |
+
+**Search-semantic counters** (`cnt_expanded`, `cnt_generated`)
+are propagated into orchestrator scaffolds differently per
+algo:
+
+- **KAStarAgg** — increments directly inside its own search
+  loop (orchestrator IS the search).
+- **KAStarInc** — accumulates per-iteration from the inner
+  AStar's `algo.counters` (each sub-search owns its own
+  inner counters; sum across all k sub-searches gives the
+  total over the INC run).
+- **KBFS / KDijkstra** — mirrors from the single inner
+  `_MultiGoalBFS` / `_MultiGoalDijkstra` instance via
+  `_sync_frontier_counters()`.
 
 KAStarInc tracks `cnt_h_search` / `cnt_h_update` by wrapping
 the h-callable handed to each inner AStar; phase tracking
 (`'search'` during sub-search execution, `'update'` during
 inter-sub-search priority refresh) routes increments to the
 right counter.
+
+**Cross-algo benchmark tables** union counter sets — algos
+without a given counter contribute zero to that column:
+`pd.DataFrame([dict(a.counters) for a in algos]).fillna(0)`.
 
 ### Phase + within/between time bucketing
 
@@ -115,8 +139,9 @@ Two structural phases — `PHASE_SEARCH` and `PHASE_UPDATE`
 **structural**, not work-typed:
 
 - `PHASE_SEARCH` = inside a sub-search loop body (Inc:
-  `algo.run`/`algo.resume` + force-expand; AGG: main best-first
-  loop, including any inline lazy stale-pop re-checks).
+  `algo.run`/`algo.resume` + lazy re-push of reached non-last
+  goals; AGG: main best-first loop, including any inline lazy
+  stale-pop re-checks).
 - `PHASE_UPDATE` = explicit between-sub-search work (Inc:
   `_emit_frontier_transition` + `algo.refresh_priorities`;
   AGG-eager: `_refresh_all_F` calls).
@@ -139,8 +164,9 @@ are forbidden.
 
 Per-algo flip sites:
 - **KAStarInc** — flips around `_emit_frontier_transition`
-  and the explicit `algo.refresh_priorities`. Force-expand
-  stays in SEARCH (Stern's framing).
+  and the explicit `algo.refresh_priorities`. Lazy re-push
+  stays in SEARCH (it's the goal-handling tail of the just-
+  finished sub-search).
 - **KAStarAgg-eager** — flips around the `_refresh_all_F`
   call after each goal-find.
 - **KAStarAgg-lazy** — does NOT flip (zero phase-flip

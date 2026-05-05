@@ -8,24 +8,22 @@ class Factory:
     ============================================================================
      Factory for AStarBPMX test instances.
 
-     Each method returns an `AStarBPMX` configured with a
-     specific (rule_pathmax, depth_bpmx) profile on a known
-     problem. Profiles span the four ablation corners
-     (off / pathmax-only / BPMX-only / both) plus a few
-     mixed configurations.
+     The grid_4x4 builder is parametric over `(rule_bpmx,
+     depth_bpmx)`. Defaults (`rule_bpmx=None`) reproduce the
+     off-mode (≡ plain AStar).
     ============================================================================
     """
 
-    # ──────────────────────────────────────────────────
-    #  Off (baseline, behaves like plain AStar)
-    # ──────────────────────────────────────────────────
-
     @staticmethod
-    def grid_4x4_off() -> AStarBPMX:
+    def grid_4x4(rule_bpmx: str | None = None,
+                 depth_bpmx: int | None = 1) -> AStarBPMX:
         """
         ========================================================================
-         AStarBPMX on 4x4 obstacle grid, both mechanisms off.
-         Behaviourally identical to plain AStar.
+         AStarBPMX on the canonical 4x4 obstacle grid with
+         Manhattan h. Defaults (rule_bpmx=None) reproduce
+         off-mode (behaviourally identical to plain AStar).
+         See AStarBPMX / BPMXMixin docstrings for the
+         (rule_bpmx, depth_bpmx) semantics.
         ========================================================================
         """
         problem = ProblemGrid.Factory.grid_4x4_obstacle()
@@ -33,214 +31,25 @@ class Factory:
         return AStarBPMX(
             problem=problem,
             h=lambda s: float(s.distance(goal)),
-            rule_pathmax=None,
-            depth_bpmx=0,
-        )
-
-    # ──────────────────────────────────────────────────
-    #  Isolated pathmax rules (depth 1 only)
-    # ──────────────────────────────────────────────────
-
-    @staticmethod
-    def grid_4x4_rule1() -> AStarBPMX:
-        """
-        ========================================================================
-         AStarBPMX with Felner Rule 1 (parent -> child) only.
-        ========================================================================
-        """
-        problem = ProblemGrid.Factory.grid_4x4_obstacle()
-        goal = problem.goal
-        return AStarBPMX(
-            problem=problem,
-            h=lambda s: float(s.distance(goal)),
-            rule_pathmax=1,
-            depth_bpmx=0,
+            rule_bpmx=rule_bpmx,
+            depth_bpmx=depth_bpmx,
         )
 
     @staticmethod
-    def grid_4x4_rule2() -> AStarBPMX:
-        """
-        ========================================================================
-         AStarBPMX with Felner Rule 2 (children -> parent via min) only.
-        ========================================================================
-        """
-        problem = ProblemGrid.Factory.grid_4x4_obstacle()
-        goal = problem.goal
-        return AStarBPMX(
-            problem=problem,
-            h=lambda s: float(s.distance(goal)),
-            rule_pathmax=2,
-            depth_bpmx=0,
-        )
-
-    @staticmethod
-    def grid_4x4_rule3() -> AStarBPMX:
-        """
-        ========================================================================
-         AStarBPMX with Felner Rule 3 (single child -> parent reverse) only.
-        ========================================================================
-        """
-        problem = ProblemGrid.Factory.grid_4x4_obstacle()
-        goal = problem.goal
-        return AStarBPMX(
-            problem=problem,
-            h=lambda s: float(s.distance(goal)),
-            rule_pathmax=3,
-            depth_bpmx=0,
-        )
-
-    # ──────────────────────────────────────────────────
-    #  BPMX(d) cascade
-    # ──────────────────────────────────────────────────
-
-    @staticmethod
-    def grid_4x4_bpmx_d1() -> AStarBPMX:
-        """
-        ========================================================================
-         AStarBPMX with BPMX(1): cascade only at the immediate
-         parent-children level.
-        ========================================================================
-        """
-        problem = ProblemGrid.Factory.grid_4x4_obstacle()
-        goal = problem.goal
-        return AStarBPMX(
-            problem=problem,
-            h=lambda s: float(s.distance(goal)),
-            rule_pathmax=None,
-            depth_bpmx=1,
-        )
-
-    @staticmethod
-    def grid_4x4_bpmx_d2() -> AStarBPMX:
-        """
-        ========================================================================
-         AStarBPMX with BPMX(2): cascade through 2 levels.
-        ========================================================================
-        """
-        problem = ProblemGrid.Factory.grid_4x4_obstacle()
-        goal = problem.goal
-        return AStarBPMX(
-            problem=problem,
-            h=lambda s: float(s.distance(goal)),
-            rule_pathmax=None,
-            depth_bpmx=2,
-        )
-
-    @staticmethod
-    def grid_4x4_bpmx_full() -> AStarBPMX:
-        """
-        ========================================================================
-         AStarBPMX with BPMX(infinity): cascade through the full
-         reachable subtree, visited-set bounded.
-        ========================================================================
-        """
-        problem = ProblemGrid.Factory.grid_4x4_obstacle()
-        goal = problem.goal
-        return AStarBPMX(
-            problem=problem,
-            h=lambda s: float(s.distance(goal)),
-            rule_pathmax=None,
-            depth_bpmx=None,
-        )
-
-    # ──────────────────────────────────────────────────
-    #  Combined (isolated rule + BPMX(infinity)) — the
-    #  per-rule canonical configurations used by
-    #  _tester_counters.py / _tester_recording.py.
-    # ──────────────────────────────────────────────────
-
-    @staticmethod
-    def grid_4x4_rule1_bpmx_full() -> AStarBPMX:
-        """
-        ========================================================================
-         Felner Rule 1 + BPMX(infinity) on canonical
-         grid_4x4_obstacle. rule_pathmax=1, depth_bpmx=None.
-         The per-rule canonical configuration consumed by
-         AStarBPMX's counter and recording testers.
-        ========================================================================
-        """
-        problem = ProblemGrid.Factory.grid_4x4_obstacle()
-        goal = problem.goal
-        return AStarBPMX(
-            problem=problem,
-            h=lambda s: float(s.distance(goal)),
-            rule_pathmax=1,
-            depth_bpmx=None,
-        )
-
-    @staticmethod
-    def grid_4x4_rule2_bpmx_full() -> AStarBPMX:
-        """
-        ========================================================================
-         Felner Rule 2 + BPMX(infinity) on canonical
-         grid_4x4_obstacle. rule_pathmax=2, depth_bpmx=None.
-         The per-rule canonical configuration consumed by
-         AStarBPMX's counter and recording testers.
-        ========================================================================
-        """
-        problem = ProblemGrid.Factory.grid_4x4_obstacle()
-        goal = problem.goal
-        return AStarBPMX(
-            problem=problem,
-            h=lambda s: float(s.distance(goal)),
-            rule_pathmax=2,
-            depth_bpmx=None,
-        )
-
-    @staticmethod
-    def grid_4x4_rule3_bpmx_full() -> AStarBPMX:
-        """
-        ========================================================================
-         Felner Rule 3 + BPMX(infinity) on canonical
-         grid_4x4_obstacle. rule_pathmax=3, depth_bpmx=None.
-         The per-rule canonical configuration consumed by
-         AStarBPMX's counter and recording testers.
-        ========================================================================
-        """
-        problem = ProblemGrid.Factory.grid_4x4_obstacle()
-        goal = problem.goal
-        return AStarBPMX(
-            problem=problem,
-            h=lambda s: float(s.distance(goal)),
-            rule_pathmax=3,
-            depth_bpmx=None,
-        )
-
-    @staticmethod
-    def grid_4x4_rule3_bpmx_d1() -> AStarBPMX:
-        """
-        ========================================================================
-         Rule 3 isolated AND BPMX(1) -- both fire; redundant but
-         correct. Useful for probing the redundancy claim.
-        ========================================================================
-        """
-        problem = ProblemGrid.Factory.grid_4x4_obstacle()
-        goal = problem.goal
-        return AStarBPMX(
-            problem=problem,
-            h=lambda s: float(s.distance(goal)),
-            rule_pathmax=3,
-            depth_bpmx=1,
-        )
-
-    # ──────────────────────────────────────────────────
-    #  Inconsistent-heuristic toy graph
-    # ──────────────────────────────────────────────────
-
-    @staticmethod
-    def graph_diamond_inconsistent_bpmx_full() -> AStarBPMX:
+    def graph_diamond_inconsistent_cascade() -> AStarBPMX:
         """
         ========================================================================
          Diamond graph with an artificially inconsistent heuristic
-         (B has h=4, others h=0) so BPMX has something to lift.
-         Useful for verifying lift events fire.
+         (B has h=4, others h=0) + CASCADE (full reach) so BPMX
+         has something to lift. Useful for verifying lift events
+         fire.
         ========================================================================
         """
         h_inc = {'A': 0.0, 'B': 4.0, 'C': 0.0, 'D': 0.0}
         return AStarBPMX(
             problem=ProblemSPP.Factory.graph_diamond(),
             h=lambda s: h_inc.get(s.key, 0.0),
-            rule_pathmax=None,
+            rule_bpmx='CASCADE',
             depth_bpmx=None,
             is_recording=True,
         )

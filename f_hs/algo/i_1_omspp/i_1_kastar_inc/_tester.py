@@ -144,7 +144,10 @@ def test_kastar_inc_duplicate_goals() -> None:
     """
     ========================================================================
      goals=[B, B, B]: first finds B (expanded), rest hit the
-     fast-path (already_closed). All three solutions equal.
+     fast-path via `self._solutions` (already_reached). Under
+     the lazy re-push design, B is on OPEN — not in
+     shared.closed — so the predicate routes through
+     `self._solutions`, not `shared.closed`.
     ========================================================================
     """
     p = _graph_abc_multigoal(goals=['B', 'B', 'B'])
@@ -158,7 +161,7 @@ def test_kastar_inc_duplicate_goals() -> None:
                 if e['type'] == 'on_goal']
     assert len(on_goals) == 3
     assert [e['reason'] for e in on_goals] == [
-        'expanded', 'already_closed', 'already_closed',
+        'expanded', 'already_reached', 'already_reached',
     ]
     assert [e['goal_index'] for e in on_goals] == [0, 1, 2]
 
@@ -168,12 +171,16 @@ def test_kastar_inc_duplicate_goals() -> None:
 # ──────────────────────────────────────────────────
 
 
-def test_kastar_inc_frontier_transition_events() -> None:
+def test_kastar_inc_frontier_transition_event() -> None:
     """
     ========================================================================
-     Between sub-searches: one update_frontier event + N
-     update_heuristic events (N = frontier size at transition).
-     Each carries h_old (prev goal) and h_new (current goal).
+     Between sub-searches: exactly one `update_frontier`
+     boundary event per transition, carrying `num_nodes` (the
+     frontier size at the moment of refresh) and
+     `next_goal_index`. The per-state `update_heuristic`
+     cluster was removed — heuristic re-keying happens via
+     `refresh_priorities()` and is observable through
+     `cnt_h_update` and the silent re-push activity.
     ========================================================================
     """
     # diamond: goals=[B, D]. After sub-search 1 (B found),
@@ -187,42 +194,11 @@ def test_kastar_inc_frontier_transition_events() -> None:
                    if e['type'] == 'update_frontier']
     assert len(transitions) == 1
     assert transitions[0]['next_goal_index'] == 1
-    updates = [e for e in events
-               if e['type'] == 'update_heuristic']
-    assert len(updates) == transitions[0]['num_nodes']
-    # Every update carries h_old and h_new as ints.
-    for u in updates:
-        assert isinstance(u['h_old'], int)
-        assert isinstance(u['h_new'], int)
-    # update_frontier precedes its update_heuristic events in
-    # the event stream.
-    idx_trans = events.index(transitions[0])
-    for u in updates:
-        assert events.index(u) > idx_trans
-
-
-def test_kastar_inc_update_heuristic_reflects_goal_change(
-        ) -> None:
-    """
-    ========================================================================
-     Specific values pinned: on diamond with goals=[B, D],
-     after sub-search 1, C is on frontier with h_B(C)=0 (C's
-     key=='C' so pos diff to 'B'=0). Sub-search 2 refreshes to
-     h_D(C) = |1 - 2| = 1. Pin the (h_old, h_new) pair.
-    ========================================================================
-    """
-    p = _graph_diamond_multigoal(goals=['B', 'D'])
-    pos = {'A': 0, 'B': 1, 'C': 1, 'D': 2}
-    algo = KAStarInc(problem=p, h=_pos_h(pos), is_recording=True)
-    algo.run()
-    updates = [e for e in algo.recorder.events
-               if e['type'] == 'update_heuristic']
-    by_state = {u['state'].key: (u['h_old'], u['h_new'])
-                for u in updates}
-    # C's h under goal B: |1-1| = 0.
-    # C's h under goal D: |1-2| = 1.
-    if 'C' in by_state:
-        assert by_state['C'] == (0, 1)
+    assert isinstance(transitions[0]['num_nodes'], int)
+    assert transitions[0]['num_nodes'] >= 1
+    # `update_heuristic` is NOT emitted (removed by design).
+    assert not any(e['type'] == 'update_heuristic'
+                   for e in events)
 
 
 # ──────────────────────────────────────────────────
@@ -317,10 +293,13 @@ def test_kastar_inc_search_state_exposed_after_run() -> None:
 def test_counters_surface() -> None:
     """
     ========================================================================
-     Test KAStarInc exposes the inherited 8-counter surface
-     and that frontier counts are mirrored at end-of-run via
-     `_sync_frontier_counters`. After a real run, cnt_push /
-     cnt_pop must be > 0 (frontier was actually used).
+     Test KAStarInc exposes its declared counter surface
+     (heuristic + frontier + memory) and that frontier counts
+     are mirrored at end-of-run via `_sync_frontier_counters`.
+     Φ counters and `cnt_pop_stale` are ABSENT — KAStarInc has
+     no aggregation and no lazy stale-pop branch, so they're
+     declared off the scaffold (not zero). After a real run,
+     cnt_push / cnt_pop must be > 0 (frontier was used).
     ========================================================================
     """
     algo = KAStarInc.Factory.graph_abc_two_goals()
@@ -328,59 +307,60 @@ def test_counters_surface() -> None:
     c = algo.counters
     assert set(c) == {
         'cnt_h_search', 'cnt_h_update',
-        'cnt_phi_search', 'cnt_phi_update',
-        'cnt_push', 'cnt_pop',
-        'cnt_pop_stale', 'cnt_decrease',
+        'cnt_push', 'cnt_pop', 'cnt_decrease',
+        'cnt_expanded', 'cnt_generated',
         'mem_open', 'mem_closed',
     }
     # Frontier was used → push/pop reflect real heap traffic.
     assert c['cnt_push'] >= 1
     assert c['cnt_pop'] <= c['cnt_push']
-    # KAStarInc has no Φ aggregation and no lazy stale branch.
-    assert c['cnt_phi_search'] == 0
-    assert c['cnt_phi_update'] == 0
-    assert c['cnt_pop_stale'] == 0
+    # Off-scaffold counters confirmed absent.
+    assert 'cnt_phi_search' not in c
+    assert 'cnt_phi_update' not in c
+    assert 'cnt_pop_stale' not in c
 
 
 def test_counters_pin_graph_abc_two_goals() -> None:
     """
     ========================================================================
-     Pin the exact 8-counter dict for KAStarInc on
-     graph_abc_two_goals. Two sub-searches with consistent
-     h: cnt_h_search counts h-calls during sub-search
-     execution, cnt_h_update counts the inter-sub-search
-     priority-refresh h-calls.
+     Pin the counter dict for KAStarInc on
+     graph_abc_two_goals (goals=[B, C]). Lazy re-push:
+     after sub-search 0 reaches B, B re-enters OPEN
+     (+1 cnt_push, +1 cnt_h_search); the transition refreshes
+     a 1-state frontier (+1 cnt_push silent, +3 cnt_h_update);
+     sub-search 1 pops B, expands → push C, pops C (last
+     goal, no re-push).
     ========================================================================
     """
     algo = KAStarInc.Factory.graph_abc_two_goals()
     algo.run()
-    assert dict(algo.counters) == {
-        'cnt_h_search': 3, 'cnt_h_update': 3,
-        'cnt_phi_search': 0, 'cnt_phi_update': 0,
-        'cnt_push': 4, 'cnt_pop': 3,
-        'cnt_pop_stale': 0, 'cnt_decrease': 0,
-        'mem_open': 280, 'mem_closed': 736,
+    counters = {k: v for k, v in algo.counters.items()
+                if not k.startswith('mem_')}
+    assert counters == {
+        'cnt_h_search': 4, 'cnt_h_update': 1,
+        'cnt_push': 5, 'cnt_pop': 4, 'cnt_decrease': 0,
+        'cnt_expanded': 2, 'cnt_generated': 3,
     }
 
 
 def test_counters_pin_graph_abc_cached_at_b_first() -> None:
     """
     ========================================================================
-     Pin the 8-counter dict on the fast-path scenario:
-     goals=[C, B] — first sub-search reaches and force-
-     expands C; second sub-search hits the already-closed
-     fast-path on B → no resume(), no priority refresh,
-     no `cnt_h_update`.
+     Pin the counter dict on the fast-path scenario:
+     goals=[C, B] — sub-search 0 reaches C and re-pushes it;
+     sub-search 1 hits the already-closed fast-path on B (B
+     was popped+expanded as collateral by sub-search 0). No
+     resume(), no priority refresh, no `cnt_h_update`.
     ========================================================================
     """
     algo = KAStarInc.Factory.graph_abc_cached_at_b_first()
     algo.run()
-    assert dict(algo.counters) == {
-        'cnt_h_search': 3, 'cnt_h_update': 0,
-        'cnt_phi_search': 0, 'cnt_phi_update': 0,
-        'cnt_push': 3, 'cnt_pop': 3,
-        'cnt_pop_stale': 0, 'cnt_decrease': 0,
-        'mem_open': 280, 'mem_closed': 736,
+    counters = {k: v for k, v in algo.counters.items()
+                if not k.startswith('mem_')}
+    assert counters == {
+        'cnt_h_search': 4, 'cnt_h_update': 0,
+        'cnt_push': 4, 'cnt_pop': 3, 'cnt_decrease': 0,
+        'cnt_expanded': 2, 'cnt_generated': 3,
     }
 
 

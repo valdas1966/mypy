@@ -31,30 +31,26 @@ class AlgoOMSPP(Generic[State],
      ProcessBase / Algo. Subclasses override `_run()` to execute
      the algorithm body and return a `SolutionOMSPP`.
 
-     Provides a unified 8-counter scaffold (composed via
-     `f_core.counters.Counters`) so cross-algorithm benchmarks
-     (KAStarAgg vs KAStarInc) can produce a uniform metric
-     table. Counters are reset in `_run_pre()` before every
-     `run()`. Each subclass increments whichever subset it
-     supports (others stay at 0; document with reason in the
-     subclass CLAUDE.md).
+     Provides a minimal counter scaffold (composed via
+     `f_core.counters.Counters`) holding only what every OMSPP
+     algorithm tracks unconditionally:
+       - Heap-op counts (frontier-sourced): `cnt_push`,
+         `cnt_pop`, `cnt_decrease`.
+       - End-of-search memory snapshot: `mem_open`,
+         `mem_closed`.
 
-     The 8 counters (declared as 3 visual groups for `repr`):
-       cnt_h_search    — h(state, goal) calls in normal flow.
-       cnt_h_update    — h(state, goal) calls in refresh flow
-                         (post-goal F refresh / inter-sub-search
-                         priority refresh).
+     Counters are reset in `_run_pre()` before every `run()`.
 
-       cnt_phi_search  — `_compute_F` calls in normal flow
-                         (Φ-aggregation algorithms only).
-       cnt_phi_update  — `_compute_F` calls in refresh flow
-                         (Φ-aggregation algorithms only).
-
-       cnt_push        — frontier.push calls.
-       cnt_pop         — frontier.pop calls.
-       cnt_pop_stale   — subset of cnt_pop: stale-F re-insertions
-                         (lazy-mode algorithms only).
-       cnt_decrease    — frontier.decrease calls.
+     **Subclasses override `_COUNTER_NAMES`** to declare their
+     own scaffold — adding mechanism-specific counters (e.g.,
+     `cnt_h_*`, `cnt_phi_*`, `cnt_pop_stale`) and dropping any
+     that don't apply. Hierarchy via class inheritance: the
+     attribute resolves to the most-derived class's
+     declaration, so `__init__` reads the right shape. Each
+     algorithm's scaffold reflects exactly what it tracks; no
+     structural zeros for unsupported mechanisms. Cross-algo
+     comparison tooling unions counter sets when needed
+     (`pd.DataFrame(rows).fillna(0)`).
     ============================================================================
     """
 
@@ -62,10 +58,11 @@ class AlgoOMSPP(Generic[State],
     Factory: type = None
 
     _COUNTER_NAMES: tuple[tuple[str, ...], ...] = (
-        ('cnt_h_search', 'cnt_h_update'),
-        ('cnt_phi_search', 'cnt_phi_update'),
-        ('cnt_push', 'cnt_pop',
-         'cnt_pop_stale', 'cnt_decrease'),
+        ('cnt_push', 'cnt_pop', 'cnt_decrease'),
+        # Search-semantic group — incremented by orchestrators
+        # (KAStarAgg directly; KAStarInc / KBFS / KDijkstra by
+        # accumulating inner sub-search totals).
+        ('cnt_expanded', 'cnt_generated'),
         # Memory snapshots — populated by _run_post() AFTER
         # _elapsed is recorded (outside the runtime budget).
         # mem_open / mem_closed split g/parent slot cost by
@@ -138,10 +135,11 @@ class AlgoOMSPP(Generic[State],
         ====================================================================
          Wall-clock seconds spent in the **search** structural
          phase — i.e., inside the actual sub-search loops (Inc:
-         AStar `run` / `resume` calls + force-expand; Agg: main
-         best-first loop body INCLUDING any lazy stale-pop
-         re-checks that happen during search). Reset to 0.0 in
-         `_run_pre()`. Stays 0.0 when `is_timing=False`.
+         AStar `run` / `resume` calls + lazy re-push of reached
+         non-last goals; Agg: main best-first loop body
+         INCLUDING any lazy stale-pop re-checks that happen
+         during search). Reset to 0.0 in `_run_pre()`. Stays
+         0.0 when `is_timing=False`.
         ====================================================================
         """
         return self._t_search

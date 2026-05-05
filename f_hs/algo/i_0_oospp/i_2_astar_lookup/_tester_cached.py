@@ -265,7 +265,11 @@ def test_counters_pin_graph_abc_cached_at_start() -> None:
     algo = AStarLookup.Factory.graph_abc_cached_at_start()
     algo.run()
     assert dict(algo.counters) == {
+        'cnt_prop_waves': 0,
+        'cnt_prop_attempts': 0,
+        'cnt_prop_lifts': 0,
         'cnt_push': 1, 'cnt_pop': 1, 'cnt_decrease': 0,
+        'cnt_expanded': 0, 'cnt_generated': 1,
         'mem_open': 280, 'mem_closed': 688,
         'mem_cache': 452, 'mem_bounds': 0,
     }
@@ -283,7 +287,11 @@ def test_counters_pin_graph_abc_cached_at_b() -> None:
     algo = AStarLookup.Factory.graph_abc_cached_at_b()
     algo.run()
     assert dict(algo.counters) == {
+        'cnt_prop_waves': 0,
+        'cnt_prop_attempts': 0,
+        'cnt_prop_lifts': 0,
         'cnt_push': 2, 'cnt_pop': 2, 'cnt_decrease': 0,
+        'cnt_expanded': 1, 'cnt_generated': 2,
         'mem_open': 280, 'mem_closed': 712,
         'mem_cache': 376, 'mem_bounds': 0,
     }

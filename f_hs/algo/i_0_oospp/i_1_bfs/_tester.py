@@ -84,10 +84,14 @@ def test_counters_surface() -> None:
     algo = BFS.Factory.graph_abc()
     algo.run()
     c = algo.counters
-    assert set(c) == {'cnt_push', 'cnt_pop', 'cnt_decrease', 'mem_open', 'mem_closed'}
+    assert set(c) == {'cnt_push', 'cnt_pop', 'cnt_decrease',
+                      'cnt_expanded', 'cnt_generated',
+                      'mem_open', 'mem_closed'}
     assert c['cnt_pop'] <= c['cnt_push']
     assert c['cnt_pop'] >= 1
     assert c['cnt_decrease'] == 0  # FIFO no-op
+    assert c['cnt_generated'] >= 1
+    assert c['cnt_expanded'] <= c['cnt_pop']
     # Same counter survives a re-run on a fresh algo:
     algo2 = BFS.Factory.graph_decrease()
     algo2.run()

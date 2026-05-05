@@ -216,8 +216,8 @@ class KDijkstra(Generic[State], AlgoOMSPP[State]):
     def _sync_frontier_counters(self) -> None:
         """
         ====================================================================
-         Mirror the inner Dijkstra's `FrontierPriority` counts
-         into the algo's 8-counter scaffold.
+         Mirror the inner Dijkstra's frontier and search-semantic
+         counts into the algo's scaffold.
         ====================================================================
         """
         if self._inner is None:
@@ -226,6 +226,10 @@ class KDijkstra(Generic[State], AlgoOMSPP[State]):
         self._counters.assign('cnt_push', fc['cnt_push'])
         self._counters.assign('cnt_pop', fc['cnt_pop'])
         self._counters.assign('cnt_decrease', fc['cnt_decrease'])
+        ic = self._inner.counters
+        self._counters.assign('cnt_expanded', ic['cnt_expanded'])
+        self._counters.assign(
+            'cnt_generated', ic['cnt_generated'])
 
     # ──────────────────────────────────────────────────
     #  Path Reconstruction

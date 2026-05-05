@@ -68,7 +68,7 @@ also clears the flag.
 | Property | Type | Description |
 |----------|------|-------------|
 | `search_state` | `SearchStateSPP[State]` | Dynamic per-search bundle |
-| `counters` | `Counters` | Heap-op counters delegated from the injected frontier (`cnt_push`, `cnt_pop`, `cnt_decrease`). Single source of truth — the frontier owns the values; AlgoSPP just exposes them. Inherited unchanged by every concrete SPP algorithm (BFS, AStar, AStarLookup, Dijkstra). FIFO frontiers report `cnt_decrease=0` since `decrease` is a no-op on FIFO. |
+| `counters` | `Counters` | 5-counter scaffold + 2 memory snapshots. Heap-op group (`cnt_push`, `cnt_pop`, `cnt_decrease`) is mirrored from the injected frontier on every access — single source of truth. Search-semantic group (`cnt_expanded`, `cnt_generated`) is incremented inline by the search loop and `_handle_child` (Stern-style "expanded" = popped state whose successors are generated; "generated" = first-time push, including the start seed). Memory group populated by `_run_post()` after the timer closes. Inherited unchanged by every concrete SPP algorithm (BFS, AStar, AStarLookup, Dijkstra); BPMX-flavored classes extend the scaffold via `BPMXMixin._BPMX_COUNTER_NAMES`. FIFO frontiers report `cnt_decrease=0` since `decrease` is a no-op on FIFO. |
 
 ### Inherited from Algo / ProcessBase
 | Property / Method | Description |

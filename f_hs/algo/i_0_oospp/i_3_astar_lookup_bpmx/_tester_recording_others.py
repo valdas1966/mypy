@@ -1,8 +1,6 @@
 from f_hs.algo.i_0_oospp.i_3_astar_lookup_bpmx import AStarLookupBPMX
-from f_hs.heuristic.i_0_base._cache_entry import CacheEntry
 from f_hs.problem import ProblemSPP
 from f_hs.problem.i_1_grid import ProblemGrid
-from f_hs.state.i_0_base.main import StateBase
 
 
 def _types(events: list[dict]) -> list[str]:
@@ -20,7 +18,7 @@ def _types(events: list[dict]) -> list[str]:
 def test_off_emits_only_search_events() -> None:
     """
     ========================================================================
-     With rule=None, depth=0: the recorder log contains only
+     With rule_bpmx=None: the recorder log contains only
      push / pop / decrease_g — no pathmax_apply / bpmx_*.
     ========================================================================
     """
@@ -29,8 +27,7 @@ def test_off_emits_only_search_events() -> None:
     algo = AStarLookupBPMX(
         problem=problem,
         h=lambda s: float(s.distance(goal)),
-        rule_pathmax=None,
-        depth_bpmx=0,
+        rule_bpmx=None,
         is_recording=True,
     )
     algo.run()
@@ -40,72 +37,70 @@ def test_off_emits_only_search_events() -> None:
     assert 'bpmx_iteration' not in types
 
 
-# ── pathmax_apply event schema (rules 1 / 3) ────────────────
+# ── Rule 3 (isolated, depth=1) — emits bpmx_lift ────────────
 
 
-def test_pathmax_apply_rule3_event_schema() -> None:
+def test_rule3_isolated_emits_bpmx_lift() -> None:
     """
     ========================================================================
-     rule_pathmax=3 fires pathmax_apply{rule=3, via_child}
-     events when a parent's h is liftable from a strong child.
+     rule_bpmx='3' fires `bpmx_lift{via_child}` events when a
+     parent's h is liftable from a strong child.
     ========================================================================
     """
     h_inc = {'A': 0.0, 'B': 4.0, 'C': 0.0, 'D': 0.0}
     algo = AStarLookupBPMX(
         problem=ProblemSPP.Factory.graph_diamond(),
         h=lambda s: h_inc.get(s.key, 0.0),
-        rule_pathmax=3,
-        depth_bpmx=0,
+        rule_bpmx='3',
+        depth_bpmx=1,
         is_recording=True,
     )
     algo.run()
-    pathmax_events = [e for e in algo.recorder.events
-                      if e['type'] == 'pathmax_apply']
-    assert any(e['rule'] == 3 and 'via_child' in e
-               and 'h_old' in e and 'h_new' in e
-               for e in pathmax_events)
+    lifts = [e for e in algo.recorder.events
+             if e['type'] == 'bpmx_lift']
+    assert any('via_child' in e and 'h_old' in e and 'h_new' in e
+               for e in lifts)
 
 
-def test_pathmax_apply_h_values_int_cast() -> None:
+def test_bpmx_lift_h_values_int_cast() -> None:
     """
     ========================================================================
-     h_old / h_new on pathmax_apply events are int-cast (BPMX
-     mixin's _enrich_event handles this).
+     h_old / h_new on bpmx_lift / bpmx_forward events are
+     int-cast (BPMX mixin's _enrich_event handles this).
     ========================================================================
     """
     h_inc = {'A': 0.0, 'B': 4.0, 'C': 0.0, 'D': 0.0}
     algo = AStarLookupBPMX(
         problem=ProblemSPP.Factory.graph_diamond(),
         h=lambda s: h_inc.get(s.key, 0.0),
-        rule_pathmax=3,
+        rule_bpmx='3',
+        depth_bpmx=1,
         is_recording=True,
     )
     algo.run()
     for e in algo.recorder.events:
-        if e['type'] == 'pathmax_apply':
+        if e['type'] in ('bpmx_lift', 'bpmx_forward'):
             assert isinstance(e['h_old'], int)
             assert isinstance(e['h_new'], int)
 
 
-# ── bpmx_* events ───────────────────────────────────────────
+# ── bpmx_iteration — CASCADE only ────────────────────────────
 
 
-def test_bpmx_iteration_marker_per_expansion() -> None:
+def test_bpmx_iteration_marker_per_cascade() -> None:
     """
     ========================================================================
-     With BPMX on, each expansion emits at least one
-     bpmx_iteration event, and `iteration` resets to 1 at the
-     start of each expansion's cascade.
+     With CASCADE on, each expansion emits at least one
+     `bpmx_iteration` event, and `iteration` resets to 1 at
+     the start of each expansion's cascade.
     ========================================================================
     """
-    algo = AStarLookupBPMX.Factory.grid_4x4_bpmx_full_no_cache()
-    algo._is_recording = True
-    # Re-create with is_recording=True
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
     algo = AStarLookupBPMX(
         problem=problem,
         h=lambda s: float(s.distance(goal)),
+        rule_bpmx='CASCADE',
         depth_bpmx=None,
         is_recording=True,
     )
@@ -113,7 +108,6 @@ def test_bpmx_iteration_marker_per_expansion() -> None:
     iters = [e for e in algo.recorder.events
              if e['type'] == 'bpmx_iteration']
     assert len(iters) > 0
-    # Every iteration has the required keys.
     for e in iters:
         assert 'state' in e
         assert 'iteration' in e
@@ -121,16 +115,37 @@ def test_bpmx_iteration_marker_per_expansion() -> None:
         assert 'num_states' in e
 
 
-def test_bpmx_lift_event_on_inconsistent_diamond() -> None:
+def test_isolated_rules_emit_no_iteration_marker() -> None:
     """
     ========================================================================
-     BPMX(infinity) on the inconsistent diamond fires
-     bpmx_lift events (Rule 3 lifts the parent from a
-     stronger-h child).
+     `bpmx_iteration` events are emitted only by CASCADE — the
+     isolated rule sweeps run a single non-iterated pass.
+    ========================================================================
+    """
+    problem = ProblemGrid.Factory.grid_4x4_obstacle()
+    goal = problem.goal
+    for rule in ('1', '2', '3'):
+        algo = AStarLookupBPMX(
+            problem=problem,
+            h=lambda s: float(s.distance(goal)),
+            rule_bpmx=rule,
+            depth_bpmx=1,
+            is_recording=True,
+        )
+        algo.run()
+        types = {e['type'] for e in algo.recorder.events}
+        assert 'bpmx_iteration' not in types
+
+
+def test_cascade_lift_event_on_inconsistent_diamond() -> None:
+    """
+    ========================================================================
+     CASCADE on the inconsistent diamond fires `bpmx_lift`
+     events (Rule 3 lifts the parent from a stronger-h child).
     ========================================================================
     """
     algo = (AStarLookupBPMX.Factory
-            .graph_diamond_inconsistent_bpmx_full())
+            .graph_diamond_inconsistent_cascade())
     algo.run()
     lifts = [e for e in algo.recorder.events
              if e['type'] == 'bpmx_lift']
@@ -142,20 +157,18 @@ def test_bpmx_lift_event_on_inconsistent_diamond() -> None:
         assert isinstance(e['h_new'], int)
 
 
-def test_bpmx_forward_event_on_inconsistent_diamond() -> None:
+def test_cascade_forward_event_on_inconsistent_diamond() -> None:
     """
     ========================================================================
-     BPMX(infinity) also fires bpmx_forward events (Rule 1
-     pushes the lifted h forward to children).
+     CASCADE also fires `bpmx_forward` events (Rule 1 pushes
+     the lifted h forward to children).
     ========================================================================
     """
     algo = (AStarLookupBPMX.Factory
-            .graph_diamond_inconsistent_bpmx_full())
+            .graph_diamond_inconsistent_cascade())
     algo.run()
     fwds = [e for e in algo.recorder.events
             if e['type'] == 'bpmx_forward']
-    # Forward events fire if Rule 3 lifted the root and Rule
-    # 1 then pushes that to children.
     if fwds:
         for e in fwds:
             assert 'state' in e and 'via_parent' in e
@@ -167,13 +180,15 @@ def test_bpmx_forward_event_on_inconsistent_diamond() -> None:
 def test_is_cached_flag_coexists_with_bpmx_events() -> None:
     """
     ========================================================================
-     A run with both cache and BPMX records `is_cached=True`
-     on the cached state's pop, and BPMX events for the
+     A run with both cache and CASCADE records `is_cached=True`
+     on the cached state's pop, and CASCADE events for the
      uncached expansions — both event vocabularies coexist.
     ========================================================================
     """
     algo = (AStarLookupBPMX.Factory
-            .graph_abc_cached_at_b_bpmx_d1())
+            .graph_abc_cached_at_b(rule_bpmx='CASCADE',
+                                   depth_bpmx=1,
+                                   is_recording=True))
     algo.run()
     events = algo.recorder.events
     pops = [e for e in events if e['type'] == 'pop']
@@ -181,21 +196,22 @@ def test_is_cached_flag_coexists_with_bpmx_events() -> None:
                    if e.get('is_cached') is True]
     assert len(cached_pops) >= 1   # B early-exits with is_cached
     bpmx_iters = [e for e in events if e['type'] == 'bpmx_iteration']
-    assert len(bpmx_iters) >= 1   # A's expansion fires BPMX
+    assert len(bpmx_iters) >= 1   # A's expansion fires CASCADE
 
 
 def test_cached_state_skipped_from_bpmx_lift() -> None:
     """
     ========================================================================
-     A cached state appearing in the BPMX subtree is skipped
-     from lift-event emission (`is_perfect` guard in the
-     mixin's rule3_up / rule1_down). The cascade still records
-     the iteration marker, but no bpmx_lift / bpmx_forward
-     event names the cached state.
+     A cached state appearing in the cascade subtree is skipped
+     from lift-event emission (`is_perfect` guard). The cascade
+     still records the iteration marker, but no bpmx_lift /
+     bpmx_forward event names the cached state.
     ========================================================================
     """
     algo = (AStarLookupBPMX.Factory
-            .graph_abc_cached_at_b_bpmx_d1())
+            .graph_abc_cached_at_b(rule_bpmx='CASCADE',
+                                   depth_bpmx=1,
+                                   is_recording=True))
     algo.run()
     b_key = 'B'
     lifts = [e for e in algo.recorder.events
@@ -212,7 +228,7 @@ def test_propagate_event_then_bpmx_in_search() -> None:
     """
     ========================================================================
      Pre-search `propagate_pathmax` records `propagate_wave`
-     and `propagate` events; subsequent in-search BPMX run
+     and `propagate` events; subsequent in-search CASCADE
      records `bpmx_iteration` events. Both vocabularies appear
      in order.
     ========================================================================
@@ -224,6 +240,7 @@ def test_propagate_event_then_bpmx_in_search() -> None:
         problem=problem,
         h=lambda s: float(s.distance(goal)),
         bounds=bounds,
+        rule_bpmx='CASCADE',
         depth_bpmx=1,
         is_recording=True,
     )
@@ -234,7 +251,6 @@ def test_propagate_event_then_bpmx_in_search() -> None:
     has_bpmx_iter = 'bpmx_iteration' in types
     assert has_propagate_wave, 'pre-search propagate_wave missing'
     assert has_bpmx_iter, 'in-search bpmx_iteration missing'
-    # propagate_wave events all precede bpmx_iteration events.
     last_propagate = max(
         i for i, t in enumerate(types) if t == 'propagate_wave')
     first_bpmx = min(

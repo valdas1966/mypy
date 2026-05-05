@@ -42,16 +42,20 @@ AlgoSPP[State]
 
 ### Counters
 
+KBFS uses the base `AlgoOMSPP` scaffold unchanged — no
+heuristic, no Φ, no lazy stale-pop, so no counters for those
+mechanisms appear on `algo.counters`.
+
 | counter | KBFS |
 |---|:---:|
-| `cnt_h_search` | 0 (no heuristic) |
-| `cnt_h_update` | 0 (no heuristic) |
-| `cnt_phi_search` | 0 (no Φ aggregation) |
-| `cnt_phi_update` | 0 (no Φ aggregation) |
 | `cnt_push` | ✓ (frontier-sourced) |
 | `cnt_pop` | ✓ (frontier-sourced) |
-| `cnt_pop_stale` | 0 (no lazy stale-pop) |
 | `cnt_decrease` | 0 (FIFO's decrease is a no-op) |
+| `mem_open` / `mem_closed` | ✓ (post-run snapshot) |
+
+Mechanism-irrelevant counters (`cnt_h_*`, `cnt_phi_*`,
+`cnt_pop_stale`) are **absent** from KBFS's scaffold by
+design — `'cnt_h_search' in algo.counters` returns `False`.
 
 Sourced from the inner `_MultiGoalBFS`'s `FrontierFIFO` via `_sync_frontier_counters()` at end-of-run.
 

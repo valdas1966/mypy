@@ -75,6 +75,10 @@ was never reached.
 
 ### Counters (`self.counters`)
 
+KAStarAgg declares its own scaffold via `_COUNTER_NAMES`,
+extending the `AlgoOMSPP` base with the heuristic, Φ, and
+lazy-stale-pop groups. All counters listed below are
+present on `algo.counters` (KAStarAgg uses every mechanism).
 Reset on every `run()` call. Runtime decomposition for the
 8-config benchmark.
 

@@ -154,18 +154,21 @@ def test_kdijkstra_inner_sub_algo_is_dijkstra() -> None:
 def test_kdijkstra_counters_h_zero() -> None:
     """
     ========================================================================
-     KDijkstra has no heuristic — `cnt_h_search` and
-     `cnt_h_update` must be 0. Frontier counters are real.
+     KDijkstra has no heuristic and no Φ aggregation — its
+     counter scaffold contains only frontier ops + memory
+     snapshots. Heuristic / Φ / stale-pop counters are absent
+     (declared off the scaffold, not zero). Frontier counters
+     are real.
     ========================================================================
     """
     algo = KDijkstra.Factory.graph_abc_two_goals()
     algo.run()
     c = algo.counters
-    assert c['cnt_h_search'] == 0
-    assert c['cnt_h_update'] == 0
-    assert c['cnt_phi_search'] == 0
-    assert c['cnt_phi_update'] == 0
-    assert c['cnt_pop_stale'] == 0
+    assert 'cnt_h_search' not in c
+    assert 'cnt_h_update' not in c
+    assert 'cnt_phi_search' not in c
+    assert 'cnt_phi_update' not in c
+    assert 'cnt_pop_stale' not in c
     assert c['cnt_push'] >= 1
 
 

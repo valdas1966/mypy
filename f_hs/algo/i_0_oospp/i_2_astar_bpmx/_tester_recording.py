@@ -6,10 +6,10 @@
  normalized event list (every field of every event,
  `duration` stripped).
 
- Rule None tests `depth_bpmx=None` (full BPMX cascade);
- Rules 1 / 2 / 3 test `depth_bpmx=0` (isolated rule, no
- cascade). Rule 2 fires `pathmax_apply` lifts at "local
- minimum" cells where the obstacle blocks every h-decreasing
+ CASCADE tests `depth_bpmx=None` (full reach);
+ Rules 1 / 2 / 3 test `depth_bpmx=1` (isolated rule).
+ Rule 2 fires `pathmax_apply` lifts at "local minimum"
+ cells where the obstacle blocks every h-decreasing
  successor; Rules 1 / 3 attempt but never lift under
  consistent Manhattan h, so their streams are byte-identical
  to plain AStar's 22-event sequence.
@@ -20,15 +20,16 @@ from f_hs.algo.i_0_oospp.i_2_astar_bpmx import AStarBPMX
 from f_hs.algo.u_event_normalize import normalize
 
 
-def test_recording_grid_4x4_obstacle_rule_none_depth_full() -> None:
+def test_recording_grid_4x4_obstacle_cascade_full() -> None:
     """
     ========================================================================
-     Pin the FULL event stream for `rule_pathmax=None,
+     Pin the FULL event stream for `rule_bpmx='CASCADE',
      depth_bpmx=None` (30 events: AStar trace + 8
      `bpmx_iteration` markers).
     ========================================================================
     """
-    algo = AStarBPMX.Factory.grid_4x4_bpmx_full()
+    algo = AStarBPMX.Factory.grid_4x4(rule_bpmx='CASCADE',
+                                      depth_bpmx=None)
     algo.recorder.is_active = True
     algo.run()
     actual = [normalize(e) for e in algo.recorder.events]
@@ -67,16 +68,16 @@ def test_recording_grid_4x4_obstacle_rule_none_depth_full() -> None:
     assert actual == expected
 
 
-def test_recording_grid_4x4_obstacle_rule_1_depth_0() -> None:
+def test_recording_grid_4x4_obstacle_rule_1_isolated() -> None:
     """
     ========================================================================
-     Pin the FULL event stream for `rule_pathmax=1,
-     depth_bpmx=0`. Rule 1 attempts but never lifts under
+     Pin the FULL event stream for `rule_bpmx='1',
+     depth_bpmx=1`. Rule 1 attempts but never lifts under
      consistent Manhattan h — same 22-event sequence as plain
      AStar.
     ========================================================================
     """
-    algo = AStarBPMX.Factory.grid_4x4_rule1()
+    algo = AStarBPMX.Factory.grid_4x4(rule_bpmx='1', depth_bpmx=1)
     algo.recorder.is_active = True
     algo.run()
     actual = [normalize(e) for e in algo.recorder.events]
@@ -107,17 +108,17 @@ def test_recording_grid_4x4_obstacle_rule_1_depth_0() -> None:
     assert actual == expected
 
 
-def test_recording_grid_4x4_obstacle_rule_2_depth_0() -> None:
+def test_recording_grid_4x4_obstacle_rule_2_isolated() -> None:
     """
     ========================================================================
-     Pin the FULL event stream for `rule_pathmax=2,
-     depth_bpmx=0`. Rule 2 fires `pathmax_apply` lifts at two
+     Pin the FULL event stream for `rule_bpmx='2',
+     depth_bpmx=1`. Rule 2 fires `pathmax_apply` lifts at two
      "local minimum" cells where the obstacle blocks every
      h-decreasing successor — `(0, 1)` and `(1, 1)`. 24
      events.
     ========================================================================
     """
-    algo = AStarBPMX.Factory.grid_4x4_rule2()
+    algo = AStarBPMX.Factory.grid_4x4(rule_bpmx='2', depth_bpmx=1)
     algo.recorder.is_active = True
     algo.run()
     actual = [normalize(e) for e in algo.recorder.events]
@@ -150,16 +151,16 @@ def test_recording_grid_4x4_obstacle_rule_2_depth_0() -> None:
     assert actual == expected
 
 
-def test_recording_grid_4x4_obstacle_rule_3_depth_0() -> None:
+def test_recording_grid_4x4_obstacle_rule_3_isolated() -> None:
     """
     ========================================================================
-     Pin the FULL event stream for `rule_pathmax=3,
-     depth_bpmx=0`. Rule 3 attempts but never lifts under
+     Pin the FULL event stream for `rule_bpmx='3',
+     depth_bpmx=1`. Rule 3 attempts but never lifts under
      consistent Manhattan h — same 22-event sequence as plain
      AStar.
     ========================================================================
     """
-    algo = AStarBPMX.Factory.grid_4x4_rule3()
+    algo = AStarBPMX.Factory.grid_4x4(rule_bpmx='3', depth_bpmx=1)
     algo.recorder.is_active = True
     algo.run()
     actual = [normalize(e) for e in algo.recorder.events]

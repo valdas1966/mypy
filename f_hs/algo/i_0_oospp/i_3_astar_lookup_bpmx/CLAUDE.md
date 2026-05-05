@@ -27,35 +27,35 @@ AStarLookupBPMX(
     cache: dict[State, CacheEntry[State]] | None = None,
     goal: State | None = None,
     bounds: dict[State, float] | None = None,
-    rule_pathmax: int | None = None,
-    depth_bpmx: int | None = 0,
+    rule_bpmx: str | None = None,
+    depth_bpmx: int | None = 1,
 )
 ```
 
 Kwargs split:
 - **AStarLookup-side**: `cache`, `goal`, `bounds`. Same
   semantics as `AStarLookup` — see its CLAUDE.md.
-- **BPMX-side**: `rule_pathmax ∈ {None, 1, 2, 3}`, `depth_bpmx ∈
-  {0, n ≥ 1, None}`. Same semantics as `AStarBPMX` /
-  `BPMXMixin` — see `oospp/mixins/bpmx/` and `BPMXMixin` docstring.
+- **BPMX-side**: `rule_bpmx ∈ {None, '1', '2', '3', 'CASCADE'}`,
+  `depth_bpmx ∈ {None, int >= 1}`. Same semantics as
+  `AStarBPMX` / `BPMXMixin` — see `oospp/mixins/bpmx/` and
+  `BPMXMixin` docstring.
 
 ### Storage auto-wrap
 
-When a BPMX mechanism is enabled (`rule_pathmax` set OR
-`depth_bpmx > 0` OR `depth_bpmx is None`) AND `h` is a
-callable / None AND `bounds` is None, the constructor
-synthesizes an empty `bounds={}` so AStarLookup's chain
-builder includes the HBounded layer needed as storage for
-lifted h-values. With a pre-built HBase chain, the host
-must supply HBounded (constructor verifies; ValueError
-otherwise).
+When `rule_bpmx is not None` AND `h` is a callable / None AND
+`bounds` is None, the constructor synthesizes an empty
+`bounds={}` so AStarLookup's chain builder includes the
+HBounded layer needed as storage for lifted h-values. With a
+pre-built HBase chain, the host must supply HBounded
+(constructor verifies; ValueError otherwise).
 
 ### Validation (rejected configurations)
 
 | Input | Error | Source |
 |---|---|---|
-| `rule_pathmax not in {None, 1, 2, 3}` | `ValueError` | BPMXMixin |
-| `depth_bpmx not in {None} ∪ {int >= 0}` | `ValueError` | BPMXMixin |
+| `rule_bpmx not in {None, '1', '2', '3', 'CASCADE'}` | `ValueError` | BPMXMixin |
+| `depth_bpmx not in {None} ∪ {int >= 1}` | `ValueError` | BPMXMixin |
+| `rule_bpmx == '2'` with `depth_bpmx != 1` | `ValueError` | BPMXMixin (Rule 2 cannot propagate) |
 | `cache` without `goal` | `ValueError` | AStarLookup |
 | Pre-built `HBase` `h` + `cache` / `bounds` | `ValueError` | AStarLookup |
 | HCached goal not in `problem.goals` | `ValueError` | AStarLookup |
@@ -78,7 +78,7 @@ Method resolution:
 | `reconstruct_path` | `AStarLookup` | suffix-stitch |
 | `to_cache` | `AStarLookup` | harvest |
 | `propagate_pathmax` | `AStarLookup` | pre-search waves |
-| `counters` | `BPMXMixin` | 10-counter scaffold |
+| `counters` | `BPMXMixin` | 15-name scaffold (3 prop + 3 bpmx + 3 frontier + 2 search-semantic + 4 memory) |
 | `_enrich_event` | `BPMXMixin → AStarLookup → AStar` | chained via `super()` |
 
 The `_enrich_event` chain runs in MRO order: BPMXMixin first
@@ -89,27 +89,41 @@ casts), then BPMXMixin adds its `pathmax_apply` / `bpmx_lift`
 
 ## Counters
 
-10-counter scaffold (inherited from `BPMXMixin`):
+15-name scaffold declared via `_COUNTER_NAMES` (per-class
+override of `BPMXMixin._BPMX_COUNTER_NAMES` to add the
+`cnt_prop_*` group inherited from AStarLookup):
 
 ```
-pathmax (2):
-  cnt_pathmax_attempts     -- expansions where rule_pathmax fired
-  cnt_pathmax_lifts        -- successful tightenings
+propagate (3) — pre-search waves on AStarLookup:
+  cnt_prop_waves         -- waves run by propagate_pathmax
+  cnt_prop_attempts      -- (source, child) attempts
+  cnt_prop_lifts         -- successful tightenings
 
-bpmx (5):
-  cnt_bpmx_attempts        -- expansions where BPMX cascade ran
-  cnt_bpmx_iterations      -- total iteration rounds
-  cnt_bpmx_rule3_lifts     -- Rule 3 (parent up) fires
-  cnt_bpmx_rule1_forwards  -- Rule 1 (child down) fires
-  cnt_bpmx_subtree_states  -- BFS subtree visits
+bpmx (3) — in-search mechanism (any rule_bpmx):
+  cnt_bpmx_attempts      -- _pre_expand calls when rule_bpmx is set
+  cnt_bpmx_successes     -- successful lifts (cumulative)
+  cnt_bpmx_depth         -- max BFS-level at which a lift fired
 
 frontier (3, mirrored from FrontierPriority on every read):
   cnt_push, cnt_pop, cnt_decrease
+
+search-semantic (2, inherited from AlgoSPP):
+  cnt_expanded, cnt_generated
+
+memory (4, post-run snapshot):
+  mem_open, mem_closed, mem_cache, mem_bounds
 ```
 
+`cnt_bpmx_cascade_successes` is the sum of Rule 3 lifts +
+Rule 1 forwards across all cascades. `cnt_bpmx_cascade_total_depth`
+gives cumulative BFS depth — average cascade depth is
+Per-rule lift breakdown and iteration count remain visible
+via `bpmx_lift` / `bpmx_forward` / `pathmax_apply` /
+`bpmx_iteration` recording events for diagnostic runs.
+
 **Cache-hit interaction**: when a cached state is popped,
-`_early_exit` fires BEFORE `_pre_expand`, so the BPMX cascade
-does NOT run for that pop. cnt_bpmx_attempts therefore can be
+`_early_exit` fires BEFORE `_pre_expand`, so the cascade does
+NOT run for that pop. `cnt_bpmx_attempts` therefore can be
 strictly less than the count of non-goal pops when the cache
 covers any expansion target.
 
@@ -123,12 +137,12 @@ From AStarLookup:
 - Event flags `is_cached` / `is_bounded` on push / pop.
 
 From BPMXMixin:
-- `pathmax_apply` (isolated rule fire).
-- `bpmx_iteration` (cascade round-marker).
-- `bpmx_lift` (Rule 3 fired during BPMX).
-- `bpmx_forward` (Rule 1 fired during BPMX).
+- `pathmax_apply{rule=2}` — Rule 2 lifts (depth-1 only).
+- `bpmx_lift` — Rule 3 lifts (alone or in cascade).
+- `bpmx_forward` — Rule 1 pushes (alone or in cascade).
+- `bpmx_iteration` — CASCADE round-marker (cascade only).
 
-A cached state in the BPMX subtree is skipped from lift
+A cached state in the cascade subtree is skipped from lift
 mutation (`_h.is_perfect(c)` guard in the mixin) — no
 `bpmx_lift` / `bpmx_forward` event names a cached state.
 
@@ -144,14 +158,12 @@ AlgoSPP[State]
 
 ## Factory
 
-| Method | Cache | rule_pathmax | depth_bpmx | Notes |
-|---|:---:|:---:|:---:|---|
-| `graph_abc_cached_at_b_off()` | yes | None | 0 | matches AStarLookup |
-| `grid_4x4_bpmx_full_no_cache()` | no | None | None | matches AStarBPMX |
-| `grid_4x4_rule3_no_cache()` | no | 3 | 0 | matches AStarBPMX |
-| `graph_abc_cached_at_b_bpmx_d1()` | yes | None | 1 | combined |
-| `grid_4x4_cached_suffix_bpmx_d1()` | yes | None | 1 | cached-goal + BPMX |
-| `graph_diamond_inconsistent_bpmx_full()` | no | None | None | inconsistent toy |
+| Method | Cache | Notes |
+|---|:---:|---|
+| `graph_abc_cached_at_b(rule_bpmx=None, depth_bpmx=1, is_recording=False)` | yes | Parametric on graph_abc with cache covering {B, C}. Defaults = off-mode (matches `AStarLookup.Factory.graph_abc_cached_at_b()`); active mechanisms (e.g. `rule_bpmx='CASCADE', depth_bpmx=1, is_recording=True`) exercise the combined cache + BPMX path. |
+| `grid_4x4_no_cache(rule_bpmx=None, depth_bpmx=1)` | no | Parametric on the canonical 4x4 grid with Manhattan h. Mirrors `AStarBPMX.Factory.grid_4x4(...)` for the no-cache equivalence side. Defaults = off-mode; e.g. `grid_4x4_no_cache(rule_bpmx='CASCADE', depth_bpmx=None)` matches AStarBPMX BPMX(∞), `grid_4x4_no_cache(rule_bpmx='3')` matches Rule 3. |
+| `grid_4x4_cached_suffix_cascade_d1()` | yes | cached-goal only + CASCADE depth=1 |
+| `graph_diamond_inconsistent_cascade()` | no | inconsistent toy + CASCADE(∞), `is_recording=True` |
 
 ## Tests
 

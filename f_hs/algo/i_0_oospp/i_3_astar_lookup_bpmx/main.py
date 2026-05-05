@@ -72,6 +72,24 @@ class AStarLookupBPMX(BPMXMixin,
     # Factory
     Factory: type = None
 
+    # Per-class scaffold override consumed by
+    # `BPMXMixin._init_bpmx_mechanism`. Adds the `cnt_prop_*`
+    # group inherited from AStarLookup's pre-search
+    # `propagate_pathmax` machinery on top of the BPMX
+    # mechanism counters.
+    _COUNTER_NAMES: tuple[tuple[str, ...], ...] = (
+        ('cnt_prop_waves',
+         'cnt_prop_attempts',
+         'cnt_prop_lifts'),
+        ('cnt_bpmx_attempts',
+         'cnt_bpmx_successes',
+         'cnt_bpmx_depth'),
+        ('cnt_push', 'cnt_pop', 'cnt_decrease'),
+        ('cnt_expanded', 'cnt_generated'),
+        ('mem_open', 'mem_closed',
+         'mem_cache', 'mem_bounds'),
+    )
+
     def __init__(self,
                  problem: ProblemSPP[State],
                  h: HBase[State] | Callable[[State], int] | None = None,
@@ -81,34 +99,36 @@ class AStarLookupBPMX(BPMXMixin,
                  cache: dict[State, CacheEntry[State]] | None = None,
                  goal: State | None = None,
                  bounds: dict[State, float] | None = None,
-                 rule_pathmax: int | None = None,
-                 depth_bpmx: int | None = 0,
+                 rule_bpmx: str | None = None,
+                 depth_bpmx: int | None = 1,
                  ) -> None:
         """
         ====================================================================
          Init private Attributes.
 
          Validation:
-           - `rule_pathmax not in {None, 1, 2, 3}` → ValueError.
-           - `depth_bpmx not in {None} ∪ {int >= 0}` →
-             ValueError.
+           - `rule_bpmx not in {None, '1', '2', '3', 'CASCADE'}`
+             → ValueError.
+           - `depth_bpmx not in {None} ∪ {int >= 1}` → ValueError.
+           - `rule_bpmx == '2'` with depth_bpmx != 1 → ValueError
+             (Rule 2 cannot propagate beyond depth 1).
            - AStarLookup-side validations (cache without goal;
              pre-built HBase + cache/bounds; HCached goal not
              in problem.goals).
            - Mechanism enabled but no HBounded reachable in
              the resulting chain → ValueError.
 
-         Auto-wrap: when a mechanism is enabled AND `h` is a
+         Auto-wrap: when `rule_bpmx is not None` AND `h` is a
          callable / None AND `bounds` is None, synthesize an
          empty `bounds={}` so AStarLookup's chain builder
          includes the HBounded storage layer.
         ====================================================================
         """
-        BPMXMixin._validate_rule_pathmax(rule_pathmax)
+        BPMXMixin._validate_rule_bpmx(rule_bpmx)
         BPMXMixin._validate_depth_bpmx(depth_bpmx)
-        bpmx_on = (depth_bpmx is None) or (depth_bpmx > 0)
-        pathmax_on = rule_pathmax is not None
-        needs_storage = bpmx_on or pathmax_on
+        BPMXMixin._validate_combination(rule_bpmx=rule_bpmx,
+                                        depth_bpmx=depth_bpmx)
+        needs_storage = rule_bpmx is not None
         bounds_for_lookup = bounds
         if (needs_storage
                 and not isinstance(h, HBase)
@@ -126,9 +146,9 @@ class AStarLookupBPMX(BPMXMixin,
         if (needs_storage
                 and BPMXMixin._find_hbounded(self._h) is None):
             raise ValueError(
-                'rule_pathmax / depth_bpmx require an HBounded '
-                'in the heuristic chain as storage for lifted '
-                'h values; pass `h` as a callable / None (will '
-                'auto-wrap) or supply `bounds=...` (can be empty).')
-        self._init_bpmx_mechanism(rule_pathmax=rule_pathmax,
+                'rule_bpmx requires an HBounded in the heuristic '
+                'chain as storage for lifted h values; pass `h` '
+                'as a callable / None (will auto-wrap) or supply '
+                '`bounds=...` (can be empty).')
+        self._init_bpmx_mechanism(rule_bpmx=rule_bpmx,
                                   depth_bpmx=depth_bpmx)

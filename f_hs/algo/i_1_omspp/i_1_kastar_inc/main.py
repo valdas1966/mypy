@@ -25,12 +25,19 @@ class KAStarInc(Generic[State], AlgoOMSPP[State]):
      iterations discovered.
 
      Between sub-search i and i+1:
+       - For non-last reached goals: the goal is **re-pushed**
+         to OPEN with its optimal g (lazy re-expansion). When
+         a future sub-search pops it, A*'s standard close+expand
+         fires naturally — no orchestrator-side force-expand.
+         The last reached goal is NOT re-pushed (no consumer).
        - The frontier is re-prioritised with h_{i+1} (priority
          refresh, called explicitly with phase='update' so
          h-calls are counted as `cnt_h_update`).
-       - If t_{i+1} is already in CLOSED (expanded by some
-         earlier sub-search under consistent heuristics), the
-         fast-path returns g[t_{i+1}] without a resume().
+       - Fast-path: if t_{i+1} was a prior sub-search's goal
+         (in `self._solutions`) → reason='already_reached'; if
+         it was popped+closed as collateral by an earlier
+         sub-search (in `shared.closed`) → reason='already_closed'.
+         Either way no resume() runs.
 
      Per Stern et al. (OMSPP/MOSPP submission) Theorem 1:
      assuming consistent heuristics, kA*_inc expands the same
@@ -54,6 +61,13 @@ class KAStarInc(Generic[State], AlgoOMSPP[State]):
        `update_heuristic` — per frontier state, old/new h-value.
     ============================================================================
     """
+
+    _COUNTER_NAMES: tuple[tuple[str, ...], ...] = (
+        ('cnt_h_search', 'cnt_h_update'),
+        ('cnt_push', 'cnt_pop', 'cnt_decrease'),
+        ('cnt_expanded', 'cnt_generated'),
+        ('mem_open', 'mem_closed'),
+    )
 
     def __init__(self,
                  problem: ProblemSPP[State],
@@ -110,14 +124,24 @@ class KAStarInc(Generic[State], AlgoOMSPP[State]):
         """
         self._shared_state = None
         # Default phase is 'search' (set by base in _run_pre).
-        prev_h: Callable[[State], int] | None = None
         goals = list(self.problem.goals)
         for i, goal in enumerate(goals):
             h_i = self._make_h_for(goal)
 
-            # Fast-path: goal already expanded by an earlier
-            # sub-search → its g is the optimal cost under
-            # consistent-h assumption.
+            # Fast-path: this goal's optimal cost is already
+            # known if (a) it was a previous sub-search's goal
+            # (in self._solutions — its sub-search popped it
+            # and finalized g), or (b) it was popped+closed as
+            # collateral by an earlier sub-search (in
+            # shared.closed; consistent-h ⇒ g is optimal). The
+            # two cases get distinct event reasons for benchmark
+            # readability.
+            if goal in self._solutions:
+                sol = self._solutions[goal]
+                self._emit_on_goal(goal, cost=sol.cost,
+                                   reason='already_reached',
+                                   goal_index=i)
+                continue
             if (self._shared_state is not None
                     and goal in self._shared_state.closed):
                 cost = self._shared_state.g[goal]
@@ -136,8 +160,6 @@ class KAStarInc(Generic[State], AlgoOMSPP[State]):
                 self.phase = PHASE_UPDATE
                 self._emit_frontier_transition(
                     shared=self._shared_state,
-                    prev_h=prev_h,
-                    new_h=h_i,
                     next_goal_index=i,
                 )
                 # Clear prior goal_reached so the new sub-search
@@ -176,32 +198,43 @@ class KAStarInc(Generic[State], AlgoOMSPP[State]):
                 self.phase = PHASE_SEARCH
                 sol = algo.resume()
 
-            # Post-termination: if the goal was reached, AStar
-            # returned without closing it or expanding its
-            # successors (standard A* behavior — goal check
-            # fires before `_close` + successor loop). For
-            # kA*_inc continuity, the goal must be in CLOSED
-            # and its successors on the frontier so subsequent
-            # sub-searches can benefit. Force-expand here.
+            # Accumulate the inner sub-search's search-semantic
+            # counters (each AStar instance owns its own
+            # cnt_expanded / cnt_generated; sum across all
+            # sub-searches gives the total over the whole INC run).
+            ic = algo.counters
+            self._counters.inc(
+                'cnt_expanded', n=ic['cnt_expanded'])
+            self._counters.inc(
+                'cnt_generated', n=ic['cnt_generated'])
+
+            # Post-termination: AStar returned at goal-pop
+            # without closing the goal or generating its
+            # successors. Lazy re-push design — for non-last
+            # reached goals, push the goal back onto OPEN with
+            # its optimal g; the next sub-search's natural
+            # close+expand will handle it if/when its f under
+            # h_{i+1} clears C_{i+1}. The last goal is NEVER
+            # re-pushed — no future sub-search would consume
+            # the work.
             reason = ('expanded' if sol.cost != float('inf')
                       else 'unreachable')
-            if reason == 'expanded':
-                shared = algo.search_state
-                if goal not in shared.closed:
-                    shared.closed.add(goal)
-                    for child in sub_problem.successors(goal):
-                        algo._handle_child(parent=goal,
-                                           child=child)
 
-            # Emit on_goal (after the force-expand so events
-            # are in causal order: any push events from the
-            # goal's children precede the on_goal marker).
+            # Emit on_goal first so the goal-completion marker
+            # precedes any "preparation for next sub-search"
+            # events (the lazy re-push, if any).
             self._emit_on_goal(goal, cost=sol.cost,
                                reason=reason, goal_index=i)
-
             self._solutions[goal] = sol
+
+            if (reason == 'expanded'
+                    and i < len(goals) - 1):
+                # Re-push under the just-finished search's h_i;
+                # the next transition's refresh_priorities()
+                # will re-key it under h_{i+1}.
+                algo._push(state=goal)
+
             self._shared_state = algo.search_state
-            prev_h = h_i
         return SolutionOMSPP(self._solutions)
 
     def _sync_frontier_counters(self) -> None:
@@ -296,33 +329,22 @@ class KAStarInc(Generic[State], AlgoOMSPP[State]):
     def _emit_frontier_transition(
             self,
             shared: SearchStateSPP[State],
-            prev_h: Callable[[State], int],
-            new_h: Callable[[State], int],
             next_goal_index: int,
             ) -> None:
         """
         ====================================================================
-         Emit the `update_frontier` boundary event and one
-         `update_heuristic` event per frontier state.
+         Emit the `update_frontier` boundary event marking the
+         sub-search transition. No per-state cluster — the
+         actual heuristic re-keying happens via
+         `refresh_priorities()` and is observable through its
+         h-call counter (`cnt_h_update`) and the `push` events
+         it emits during drain-and-rebuild.
         ====================================================================
         """
-        frontier_states = list(shared.frontier)
-        # Always evaluate prev_h / new_h so counters tick even
-        # when recording is off. Cache values for emission.
-        h_olds = [prev_h(s) for s in frontier_states]
-        h_news = [new_h(s) for s in frontier_states]
         if not self._recorder.is_active:
             return
         self._recorder.record(dict(
             type='update_frontier',
-            num_nodes=len(frontier_states),
+            num_nodes=len(shared.frontier),
             next_goal_index=next_goal_index,
         ))
-        for s, h_old, h_new in zip(
-                frontier_states, h_olds, h_news):
-            self._recorder.record(dict(
-                type='update_heuristic',
-                state=s,
-                h_old=int(h_old),
-                h_new=int(h_new),
-            ))

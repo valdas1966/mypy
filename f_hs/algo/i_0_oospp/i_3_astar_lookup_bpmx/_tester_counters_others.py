@@ -9,16 +9,17 @@ from f_hs.state.i_0_base.main import StateBase
 
 
 _EXPECTED_NAMES: set[str] = {
-    'cnt_pathmax_attempts',
-    'cnt_pathmax_lifts',
+    'cnt_prop_waves',
+    'cnt_prop_attempts',
+    'cnt_prop_lifts',
     'cnt_bpmx_attempts',
-    'cnt_bpmx_iterations',
-    'cnt_bpmx_rule3_lifts',
-    'cnt_bpmx_rule1_forwards',
-    'cnt_bpmx_subtree_states',
+    'cnt_bpmx_successes',
+    'cnt_bpmx_depth',
     'cnt_push',
     'cnt_pop',
     'cnt_decrease',
+    'cnt_expanded',
+    'cnt_generated',
     'mem_open',
     'mem_closed',
     'mem_cache',
@@ -29,48 +30,44 @@ _EXPECTED_NAMES: set[str] = {
 def test_counters_scaffold_shape() -> None:
     """
     ========================================================================
-     The counters surface has the 15-name scaffold defined by
-     BPMXMixin (pathmax 2 + bpmx 5 + frontier 3 + mem 5
-     snapshots populated by `_run_post()` after timing).
+     The counters surface has the 15-name scaffold (propagate
+     3 + bpmx 3 + frontier 3 + search-semantic 2 + memory 4)
+     declared by AStarLookupBPMX's `_COUNTER_NAMES` override.
     ========================================================================
     """
-    algo = AStarLookupBPMX.Factory.grid_4x4_bpmx_full_no_cache()
+    algo = AStarLookupBPMX.Factory.grid_4x4_no_cache(
+        rule_bpmx='CASCADE', depth_bpmx=None)
     algo.run()
     assert set(algo.counters.keys()) == _EXPECTED_NAMES
-    assert len(algo.counters) == 14
+    assert len(algo.counters) == 15
 
 
 # ── Off-mode counters ───────────────────────────────────────
 
 
-def test_counters_off_mode_no_pathmax_or_bpmx_activity() -> None:
+def test_counters_off_mode_no_bpmx_activity() -> None:
     """
     ========================================================================
-     With rule=None, depth=0: all 7 mechanism counters stay 0;
+     With rule_bpmx=None: all 3 BPMX-mechanism counters stay 0;
      only frontier mirrors are non-zero.
     ========================================================================
     """
-    algo = AStarLookupBPMX.Factory.graph_abc_cached_at_b_off()
+    algo = AStarLookupBPMX.Factory.graph_abc_cached_at_b()
     algo.run()
-    assert algo.counters['cnt_pathmax_attempts'] == 0
-    assert algo.counters['cnt_pathmax_lifts'] == 0
     assert algo.counters['cnt_bpmx_attempts'] == 0
-    assert algo.counters['cnt_bpmx_iterations'] == 0
-    assert algo.counters['cnt_bpmx_rule3_lifts'] == 0
-    assert algo.counters['cnt_bpmx_rule1_forwards'] == 0
-    assert algo.counters['cnt_bpmx_subtree_states'] == 0
+    assert algo.counters['cnt_bpmx_successes'] == 0
+    assert algo.counters['cnt_bpmx_depth'] == 0
 
 
 # ── Pathmax counters ────────────────────────────────────────
 
 
-def test_counters_rule_pathmax_attempts_per_expansion() -> None:
+def test_counters_attempts_per_expansion() -> None:
     """
     ========================================================================
-     With rule_pathmax enabled (any of 1/2/3) and depth=0,
-     each expansion attempts the rule once →
-     cnt_pathmax_attempts == cnt_pop (every popped state's
-     expansion runs the rule, including the goal pop).
+     With any rule_bpmx active and depth=1 on a no-cache run,
+     each non-goal expansion increments cnt_bpmx_attempts once.
+     cnt_bpmx_attempts == cnt_pop − 1.
     ========================================================================
     """
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
@@ -78,62 +75,32 @@ def test_counters_rule_pathmax_attempts_per_expansion() -> None:
     algo = AStarLookupBPMX(
         problem=problem,
         h=lambda s: float(s.distance(goal)),
-        rule_pathmax=1,
-        depth_bpmx=0,
+        rule_bpmx='1',
+        depth_bpmx=1,
     )
     algo.run()
-    pops_excluding_goal = algo.counters['cnt_pop'] - 1
-    assert (algo.counters['cnt_pathmax_attempts']
-            == pops_excluding_goal)
+    assert (algo.counters['cnt_bpmx_attempts']
+            == algo.counters['cnt_pop'] - 1)
 
 
-# ── BPMX counters ───────────────────────────────────────────
+# ── BPMX cascade counters ───────────────────────────────────
 
 
-def test_counters_bpmx_attempts_per_expansion() -> None:
+def test_counters_cascade_attempts_per_expansion() -> None:
     """
     ========================================================================
-     With BPMX on (depth=None): each non-goal expansion attempts
-     the BPMX cascade. cnt_bpmx_attempts equals the number of
-     expansions that actually ran the cascade.
+     With CASCADE on (depth=None): each non-goal expansion
+     attempts the cascade. cnt_bpmx_attempts equals the number
+     of expansions that actually ran the cascade, bounded by
+     cnt_pop.
     ========================================================================
     """
-    algo = AStarLookupBPMX.Factory.grid_4x4_bpmx_full_no_cache()
+    algo = AStarLookupBPMX.Factory.grid_4x4_no_cache(
+        rule_bpmx='CASCADE', depth_bpmx=None)
     algo.run()
-    # Cascade runs once per non-goal pop where _h.is_perfect is
-    # False. Lower bound: at least one attempt fired.
     assert algo.counters['cnt_bpmx_attempts'] >= 1
-    # Upper bound: cannot exceed pop count.
     assert (algo.counters['cnt_bpmx_attempts']
             <= algo.counters['cnt_pop'])
-
-
-def test_counters_bpmx_subtree_states_positive_when_on() -> None:
-    """
-    ========================================================================
-     With BPMX(infinity), the cascade visits at least one
-     state per attempt → cnt_bpmx_subtree_states >=
-     cnt_bpmx_attempts.
-    ========================================================================
-    """
-    algo = AStarLookupBPMX.Factory.grid_4x4_bpmx_full_no_cache()
-    algo.run()
-    assert (algo.counters['cnt_bpmx_subtree_states']
-            >= algo.counters['cnt_bpmx_attempts'])
-
-
-def test_counters_bpmx_iterations_at_least_one_per_attempt() -> None:
-    """
-    ========================================================================
-     Every BPMX cascade runs at least 1 iteration
-     (the no-improvement short-circuit only fires AFTER the
-     first round) → cnt_bpmx_iterations >= cnt_bpmx_attempts.
-    ========================================================================
-    """
-    algo = AStarLookupBPMX.Factory.grid_4x4_bpmx_full_no_cache()
-    algo.run()
-    assert (algo.counters['cnt_bpmx_iterations']
-            >= algo.counters['cnt_bpmx_attempts'])
 
 
 # ── Cache + BPMX interactions ───────────────────────────────
@@ -143,10 +110,10 @@ def test_counters_cache_hit_skips_bpmx_for_cached_pop() -> None:
     """
     ========================================================================
      When a cached state is popped, _early_exit fires BEFORE
-     _pre_expand → BPMX cascade does NOT run for that pop.
+     _pre_expand → the cascade does NOT run for that pop.
      Confirmed by counting: with cache covering all of
      {A, B, C}, pop(A) early-exits → cnt_bpmx_attempts == 0
-     even though depth_bpmx is on.
+     even though CASCADE is on.
     ========================================================================
     """
     a = StateBase[str](key='A')
@@ -162,6 +129,7 @@ def test_counters_cache_hit_skips_bpmx_for_cached_pop() -> None:
         h=lambda s: 0,
         cache=cache,
         goal=c,
+        rule_bpmx='CASCADE',
         depth_bpmx=None,
     )
     algo.run()
@@ -175,61 +143,63 @@ def test_counters_cache_hit_skips_bpmx_for_cached_pop() -> None:
 def test_counters_pin_graph_abc_cached_at_b_off() -> None:
     """
     ========================================================================
-     Exact counter values for `graph_abc_cached_at_b_off`:
+     Exact counter values for `graph_abc_cached_at_b()`
+     in off-mode (rule_bpmx=None):
      pop(A) → expand → push(B) → pop(B) early-exits.
-       push=2, pop=2, decrease=0. All BPMX/pathmax = 0.
+       push=2, pop=2, decrease=0. All BPMX counters = 0.
     ========================================================================
     """
-    algo = AStarLookupBPMX.Factory.graph_abc_cached_at_b_off()
+    algo = AStarLookupBPMX.Factory.graph_abc_cached_at_b()
     algo.run()
     assert dict(algo.counters) == {
-        'cnt_pathmax_attempts': 0,
-        'cnt_pathmax_lifts': 0,
+        'cnt_prop_waves': 0,
+        'cnt_prop_attempts': 0,
+        'cnt_prop_lifts': 0,
         'cnt_bpmx_attempts': 0,
-        'cnt_bpmx_iterations': 0,
-        'cnt_bpmx_rule3_lifts': 0,
-        'cnt_bpmx_rule1_forwards': 0,
-        'cnt_bpmx_subtree_states': 0,
+        'cnt_bpmx_successes': 0,
+        'cnt_bpmx_depth': 0,
         'cnt_push': 2,
         'cnt_pop': 2,
         'cnt_decrease': 0,
+        'cnt_expanded': 1,
+        'cnt_generated': 2,
         'mem_open': 280, 'mem_closed': 712,
         'mem_cache': 376, 'mem_bounds': 0,
     }
 
 
-def test_counters_pin_graph_abc_cached_at_b_bpmx_d1() -> None:
+def test_counters_pin_graph_abc_cached_at_b_cascade_d1() -> None:
     """
     ========================================================================
-     Exact counter values for the cache-at-B + BPMX(1) case:
-     pop(A) runs BPMX(1) over subtree {A, B}; B is cached
-     (skipped from lift); cascade fires 1 iteration with no
-     lifts. pop(B) early-exits via HCached.
+     Exact counter values for the cache-at-B + CASCADE depth=1
+     case: pop(A) runs the cascade over subtree {A, B}; B is
+     cached (skipped from lift); cascade settles with no lifts.
+     pop(B) early-exits via HCached.
 
-       cnt_bpmx_attempts       = 1
-       cnt_bpmx_iterations     = 1
-       cnt_bpmx_subtree_states = 2  (A + B)
-       cnt_bpmx_rule3_lifts    = 0  (A has higher h than what
-                                     B − w(B,A) yields)
-       cnt_bpmx_rule1_forwards = 0  (B is cached, skipped)
-       cnt_pathmax_*           = 0
+       cnt_bpmx_attempts   = 1
+       cnt_bpmx_successes  = 0  (A has higher h than
+         B − w(B,A); B is cached and skipped from forwards)
+       cnt_bpmx_depth      = 0  (no lifts ever fired)
        push=2, pop=2, decrease=0.
     ========================================================================
     """
     algo = (AStarLookupBPMX.Factory
-            .graph_abc_cached_at_b_bpmx_d1())
+            .graph_abc_cached_at_b(rule_bpmx='CASCADE',
+                                   depth_bpmx=1,
+                                   is_recording=True))
     algo.run()
     assert dict(algo.counters) == {
-        'cnt_pathmax_attempts': 0,
-        'cnt_pathmax_lifts': 0,
+        'cnt_prop_waves': 0,
+        'cnt_prop_attempts': 0,
+        'cnt_prop_lifts': 0,
         'cnt_bpmx_attempts': 1,
-        'cnt_bpmx_iterations': 1,
-        'cnt_bpmx_rule3_lifts': 0,
-        'cnt_bpmx_rule1_forwards': 0,
-        'cnt_bpmx_subtree_states': 2,
+        'cnt_bpmx_successes': 0,
+        'cnt_bpmx_depth': 0,
         'cnt_push': 2,
         'cnt_pop': 2,
         'cnt_decrease': 0,
+        'cnt_expanded': 1,
+        'cnt_generated': 2,
         'mem_open': 280, 'mem_closed': 712,
         'mem_cache': 376, 'mem_bounds': 64,
     }
@@ -253,6 +223,7 @@ def test_counters_independent_of_recording_flag() -> None:
         return AStarLookupBPMX(
             problem=problem,
             h=lambda s: float(s.distance(goal)),
+            rule_bpmx='CASCADE',
             depth_bpmx=None,
             is_recording=is_recording,
         )

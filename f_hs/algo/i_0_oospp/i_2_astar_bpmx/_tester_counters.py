@@ -1,30 +1,25 @@
 """
 ============================================================================
- AStarBPMX — counter tests, one method per Felner pathmax rule
- on the canonical OOSPP problem (`grid_4x4_obstacle`) with
- max BPMX cascade (`depth_bpmx=None`).
-
- Each test calls a Factory method directly — no in-file
- helpers. Recording is OFF here (counters are independent of
- `is_recording`); the recording-event tests live in
- `_tester_recording.py`. Generic counter invariants (scaffold
- shape, off-mode, attempts-per-expansion, subtree bound) live
- in `_tester.py`.
+ AStarBPMX — counter pin tests, one per rule_bpmx value on
+ the canonical OOSPP problem (`grid_4x4_obstacle`).
 
  Manhattan h on grid_4x4_obstacle is consistent (1-Lipschitz),
- so:
-   - Rules 1 and 3 attempt on every non-goal expansion but
-     never strictly tighten → cnt_pathmax_lifts = 0.
-   - Rule 2 can fire at "local minimum" cells where the
-     obstacle blocks every h-decreasing successor → 2 lifts.
-   - The BPMX(infinity) cascade itself tightens nothing under
-     consistent h → cnt_bpmx_rule3_lifts = cnt_bpmx_rule1_forwards
-     = 0 across all four rule values.
+ so Rules 1 / 3 / CASCADE attempt on every non-goal expansion
+ but never strictly tighten → cnt_bpmx_successes = 0,
+ cnt_bpmx_depth = 0.
 
- Because the lifts under Rule 2 don't re-heap the frontier
- (stale-priority policy), the heap-op counters
- (cnt_push / cnt_pop / cnt_decrease) are byte-identical across
- all four rules: 13 / 9 / 0.
+ Rule 2 IS counted (since the rename: pathmax_attempts /
+ pathmax_successes → bpmx_attempts / bpmx_successes — Rule 2
+ contributes uniformly). It fires twice at the "local minimum"
+ cells (0,1) and (1,1) where the obstacle blocks every
+ h-decreasing successor → cnt_bpmx_successes == 2.
+ cnt_bpmx_depth stays 0 because Rule 2 lifts the root state
+ itself (level 0).
+
+ Heap-op counters (cnt_push / cnt_pop / cnt_decrease) are
+ byte-identical across all rule values: 13 / 9 / 0
+ (lifts under Rule 2 don't re-heap the frontier — stale-
+ priority policy).
 ============================================================================
 """
 
@@ -32,136 +27,129 @@ from f_hs.algo.i_0_oospp.i_2_astar_bpmx import AStarBPMX
 
 
 # ─────────────────────────────────────────────────────────────
-#  Per-rule counter pins on grid_4x4_obstacle, depth_bpmx=None
+#  Per-rule counter pins on grid_4x4_obstacle
 # ─────────────────────────────────────────────────────────────
 
-def test_counters_grid_4x4_obstacle_rule_none_depth_full() -> None:
+def test_counters_grid_4x4_obstacle_off() -> None:
     """
     ========================================================================
-     rule_pathmax=None, depth_bpmx=None
-     (`AStarBPMX.Factory.grid_4x4_bpmx_full()`).
-
-     Mechanism off for the isolated rule (cnt_pathmax_* = 0);
-     BPMX cascade runs once per non-goal expansion (8 times),
-     each cascade settling in 1 iteration with no tightenings.
-     Frontier: 13 push / 9 pop / 0 decrease.
+     rule_bpmx=None — mechanism off. All BPMX counters 0;
+     frontier 13/9/0; expanded=8, generated=13.
     ========================================================================
     """
-    algo = AStarBPMX.Factory.grid_4x4_bpmx_full()
+    algo = AStarBPMX.Factory.grid_4x4()
     algo.run()
-    assert dict(algo.counters) == {
-        'cnt_pathmax_attempts': 0,
-        'cnt_pathmax_lifts': 0,
-        'cnt_bpmx_attempts': 8,
-        'cnt_bpmx_iterations': 8,
-        'cnt_bpmx_rule3_lifts': 0,
-        'cnt_bpmx_rule1_forwards': 0,
-        'cnt_bpmx_subtree_states': 112,
+    counters = {k: v for k, v in algo.counters.items()
+                if not k.startswith('mem_')}
+    assert counters == {
+        'cnt_bpmx_attempts': 0,
+        'cnt_bpmx_successes': 0,
+        'cnt_bpmx_depth': 0,
         'cnt_push': 13,
         'cnt_pop': 9,
         'cnt_decrease': 0,
-        'mem_open': 1245,
-        'mem_closed': 1819,
-        'mem_cache': 0,
-        'mem_bounds': 64,
+        'cnt_expanded': 8,
+        'cnt_generated': 13,
     }
 
 
-def test_counters_grid_4x4_obstacle_rule_1_depth_full() -> None:
+def test_counters_grid_4x4_obstacle_rule_1() -> None:
     """
     ========================================================================
-     rule_pathmax=1 (Mero parent→child), depth_bpmx=None
-     (`AStarBPMX.Factory.grid_4x4_rule1_bpmx_full()`).
-
-     Isolated Rule 1 attempts on every non-goal expansion
-     (cnt_pathmax_attempts == 8) but cannot strictly tighten
-     under consistent Manhattan h (cnt_pathmax_lifts == 0).
-     BPMX cascade also tightens nothing.
+     rule_bpmx='1' (depth=1). Rule 1 attempts on every non-goal
+     expansion (cnt_bpmx_attempts == 8) but cannot strictly
+     tighten under consistent h → 0 successes, 0 depth.
     ========================================================================
     """
-    algo = AStarBPMX.Factory.grid_4x4_rule1_bpmx_full()
+    algo = AStarBPMX.Factory.grid_4x4(rule_bpmx='1', depth_bpmx=1)
     algo.run()
-    assert dict(algo.counters) == {
-        'cnt_pathmax_attempts': 8,
-        'cnt_pathmax_lifts': 0,
+    counters = {k: v for k, v in algo.counters.items()
+                if not k.startswith('mem_')}
+    assert counters == {
         'cnt_bpmx_attempts': 8,
-        'cnt_bpmx_iterations': 8,
-        'cnt_bpmx_rule3_lifts': 0,
-        'cnt_bpmx_rule1_forwards': 0,
-        'cnt_bpmx_subtree_states': 112,
+        'cnt_bpmx_successes': 0,
+        'cnt_bpmx_depth': 0,
         'cnt_push': 13,
         'cnt_pop': 9,
         'cnt_decrease': 0,
-        'mem_open': 1245,
-        'mem_closed': 1819,
-        'mem_cache': 0,
-        'mem_bounds': 64,
+        'cnt_expanded': 8,
+        'cnt_generated': 13,
     }
 
 
-def test_counters_grid_4x4_obstacle_rule_2_depth_full() -> None:
+def test_counters_grid_4x4_obstacle_rule_2() -> None:
     """
     ========================================================================
-     rule_pathmax=2 (Felner children→parent via min),
-     depth_bpmx=None
-     (`AStarBPMX.Factory.grid_4x4_rule2_bpmx_full()`).
-
-     Rule 2 fires twice — at the two "local minimum" cells
-     (0,1) and (1,1) where the obstacle blocks every
-     h-decreasing successor. cnt_pathmax_lifts == 2; the rest
-     of the mechanism counters match the other rules. Frontier
-     counters identical to all four rules (13/9/0) because
-     stale-priority policy absorbs the lifts.
+     rule_bpmx='2' (depth=1). Rule 2 fires twice — at the two
+     "local minimum" cells (0,1) and (1,1) where the obstacle
+     blocks every h-decreasing successor. cnt_bpmx_successes
+     == 2. cnt_bpmx_depth stays 0 (Rule 2 lifts the root state
+     itself, level 0). Frontier counters identical to other
+     rules (13/9/0) because stale-priority policy absorbs the
+     lifts.
     ========================================================================
     """
-    algo = AStarBPMX.Factory.grid_4x4_rule2_bpmx_full()
+    algo = AStarBPMX.Factory.grid_4x4(rule_bpmx='2', depth_bpmx=1)
     algo.run()
-    assert dict(algo.counters) == {
-        'cnt_pathmax_attempts': 8,
-        'cnt_pathmax_lifts': 2,
+    counters = {k: v for k, v in algo.counters.items()
+                if not k.startswith('mem_')}
+    assert counters == {
         'cnt_bpmx_attempts': 8,
-        'cnt_bpmx_iterations': 8,
-        'cnt_bpmx_rule3_lifts': 0,
-        'cnt_bpmx_rule1_forwards': 0,
-        'cnt_bpmx_subtree_states': 112,
+        'cnt_bpmx_successes': 2,
+        'cnt_bpmx_depth': 0,
         'cnt_push': 13,
         'cnt_pop': 9,
         'cnt_decrease': 0,
-        'mem_open': 1245,
-        'mem_closed': 1819,
-        'mem_cache': 0,
-        'mem_bounds': 272,
+        'cnt_expanded': 8,
+        'cnt_generated': 13,
     }
 
 
-def test_counters_grid_4x4_obstacle_rule_3_depth_full() -> None:
+def test_counters_grid_4x4_obstacle_rule_3() -> None:
     """
     ========================================================================
-     rule_pathmax=3 (Felner single child→parent reverse),
-     depth_bpmx=None
-     (`AStarBPMX.Factory.grid_4x4_rule3_bpmx_full()`).
-
-     Symmetric to Rule 1 in this respect — the reverse-
-     pathmax bound never exceeds the parent's existing h when
-     h is 1-Lipschitz. cnt_pathmax_attempts == 8, but
-     cnt_pathmax_lifts == 0.
+     rule_bpmx='3' (depth=1). Symmetric to Rule 1 — the
+     reverse-pathmax bound never exceeds the parent's existing
+     h when h is 1-Lipschitz. 8 attempts, 0 successes, 0 depth.
     ========================================================================
     """
-    algo = AStarBPMX.Factory.grid_4x4_rule3_bpmx_full()
+    algo = AStarBPMX.Factory.grid_4x4(rule_bpmx='3', depth_bpmx=1)
     algo.run()
-    assert dict(algo.counters) == {
-        'cnt_pathmax_attempts': 8,
-        'cnt_pathmax_lifts': 0,
+    counters = {k: v for k, v in algo.counters.items()
+                if not k.startswith('mem_')}
+    assert counters == {
         'cnt_bpmx_attempts': 8,
-        'cnt_bpmx_iterations': 8,
-        'cnt_bpmx_rule3_lifts': 0,
-        'cnt_bpmx_rule1_forwards': 0,
-        'cnt_bpmx_subtree_states': 112,
+        'cnt_bpmx_successes': 0,
+        'cnt_bpmx_depth': 0,
         'cnt_push': 13,
         'cnt_pop': 9,
         'cnt_decrease': 0,
-        'mem_open': 1245,
-        'mem_closed': 1819,
-        'mem_cache': 0,
-        'mem_bounds': 64,
+        'cnt_expanded': 8,
+        'cnt_generated': 13,
+    }
+
+
+def test_counters_grid_4x4_obstacle_cascade_full() -> None:
+    """
+    ========================================================================
+     rule_bpmx='CASCADE', depth_bpmx=None (full reach).
+     Cascade runs once per non-goal expansion (8 times) with
+     no tightenings under consistent h. 8 attempts, 0
+     successes, 0 depth.
+    ========================================================================
+    """
+    algo = AStarBPMX.Factory.grid_4x4(rule_bpmx='CASCADE',
+                                      depth_bpmx=None)
+    algo.run()
+    counters = {k: v for k, v in algo.counters.items()
+                if not k.startswith('mem_')}
+    assert counters == {
+        'cnt_bpmx_attempts': 8,
+        'cnt_bpmx_successes': 0,
+        'cnt_bpmx_depth': 0,
+        'cnt_push': 13,
+        'cnt_pop': 9,
+        'cnt_decrease': 0,
+        'cnt_expanded': 8,
+        'cnt_generated': 13,
     }
