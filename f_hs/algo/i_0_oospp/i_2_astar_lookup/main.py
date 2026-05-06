@@ -1,3 +1,4 @@
+from f_hs.algo.i_0_oospp.mixins.bpmx import BPMXMixin
 from f_hs.algo.i_0_oospp.i_0_base._search_state import SearchStateSPP
 from f_hs.algo.i_0_oospp.i_1_astar.main import AStar
 from f_hs.heuristic.i_0_base._cache_entry import CacheEntry
@@ -13,13 +14,15 @@ from typing import Callable, Generic, TypeVar
 State = TypeVar('State', bound=StateBase)
 
 
-class AStarLookup(Generic[State], AStar[State]):
+class AStarLookup(BPMXMixin, AStar[State], Generic[State]):
     """
     ========================================================================
-     A* enhanced by lookup tables.
+     A* enhanced by lookup tables and (optional) in-search
+     Felner pathmax / BPMX(d).
 
-     Accepts optional `cache` and `bounds` dicts; builds the
-     heuristic chain internally as
+     Accepts optional `cache`, `bounds`, `rule_bpmx`,
+     `depth_bpmx` kwargs; builds the heuristic chain
+     internally as
          HCached(base=HBounded(base=HCallable(h)))
      wrapping only the layers the caller actually requested.
      Callers work with plain dicts and never need to know the
@@ -34,23 +37,47 @@ class AStarLookup(Generic[State], AStar[State]):
          per state. Max-combined with the base heuristic.
          Unlocks `propagate_pathmax` (pre-search).
 
+     BPMX semantics (composed via `BPMXMixin`):
+       - `rule_bpmx ∈ {None, '1', '2', '3', 'CASCADE'}`
+         — selects which Felner rule (or cascade) runs at
+         each `_pre_expand`. `None` (default) ⇒ mechanism off.
+       - `depth_bpmx ∈ {None, int >= 1}` — BFS-subtree depth
+         for Rule 1 / 3 / CASCADE; Rule 2 is depth-1 only by
+         structural constraint.
+       BPMX needs an HBounded layer for storage of lifted
+       h-values; when enabled with a callable `h` and no
+       explicit `bounds`, an empty bounds dict is auto-wrapped.
+
      Escape hatch: if `h` is already an `HBase` subclass, it's
      used directly; `cache` / `bounds` must then be None (we
-     refuse to silently double-wrap an assembled chain).
+     refuse to silently double-wrap an assembled chain). In
+     this case, when BPMX is enabled, the host must supply
+     an HBounded somewhere in the chain (constructor verifies).
 
      `search_state` lives on AlgoSPP — available on every
      AStar-family class, not a Pro feature.
-
-     In-search BPMX is NOT a feature of AStarLookup. The
-     Felner pathmax rules and the BPMX(d) cascade live on the
-     sibling class `AStarBPMX` (`i_2_astar_bpmx/`). A
-     Phase-2 integration class will combine cache/bounds with
-     BPMX in one pass.
     ========================================================================
     """
 
     # Factory
     Factory: type = None
+
+    # Per-class scaffold consumed by `BPMXMixin._init_bpmx_mechanism`.
+    # Union of pre-search propagate (`cnt_prop_*`) and in-search BPMX
+    # (`cnt_bpmx_*`) groups on top of the inherited frontier /
+    # search-semantic / memory groups.
+    _COUNTER_NAMES: tuple[tuple[str, ...], ...] = (
+        ('cnt_prop_waves',
+         'cnt_prop_attempts',
+         'cnt_prop_lifts'),
+        ('cnt_bpmx_attempts',
+         'cnt_bpmx_successes',
+         'cnt_bpmx_depth'),
+        ('cnt_push', 'cnt_pop', 'cnt_decrease'),
+        ('cnt_expanded', 'cnt_generated'),
+        ('mem_open', 'mem_closed',
+         'mem_cache', 'mem_bounds'),
+    )
 
     def __init__(self,
                  problem: ProblemSPP[State],
@@ -61,22 +88,46 @@ class AStarLookup(Generic[State], AStar[State]):
                  cache: dict[State, CacheEntry[State]] | None = None,
                  goal: State | None = None,
                  bounds: dict[State, int] | None = None,
+                 rule_bpmx: str | None = None,
+                 depth_bpmx: int | None = 1,
                  ) -> None:
         """
         ====================================================================
          Build the heuristic chain from the supplied pieces, then
-         delegate to AStar.__init__.
+         delegate to AStar.__init__ and initialise BPMX state.
 
          Validation:
+           - `rule_bpmx not in {None, '1', '2', '3', 'CASCADE'}`
+             → ValueError.
+           - `depth_bpmx not in {None} ∪ {int >= 1}` → ValueError.
+           - `rule_bpmx == '2'` with depth_bpmx != 1 → ValueError
+             (Rule 2 cannot propagate beyond depth 1).
            - `cache` supplied without `goal` → ValueError.
            - `h` is a pre-built HBase AND `cache`/`bounds` given
              → ValueError (would double-wrap).
            - HCached goal not in problem.goals → ValueError
              (A* admissibility).
+           - BPMX enabled but no HBounded reachable in the chain
+             → ValueError.
+
+         Auto-wrap: when `rule_bpmx is not None` AND `h` is a
+         callable / None AND `bounds` is None, synthesize an
+         empty `bounds={}` so the chain builder includes the
+         HBounded storage layer.
         ====================================================================
         """
+        BPMXMixin._validate_rule_bpmx(rule_bpmx)
+        BPMXMixin._validate_depth_bpmx(depth_bpmx)
+        BPMXMixin._validate_combination(rule_bpmx=rule_bpmx,
+                                        depth_bpmx=depth_bpmx)
+        needs_storage = rule_bpmx is not None
+        bounds_for_chain = bounds
+        if (needs_storage
+                and not isinstance(h, HBase)
+                and bounds is None):
+            bounds_for_chain = {}
         chain = self._build_chain(h=h, cache=cache,
-                                  goal=goal, bounds=bounds)
+                                  goal=goal, bounds=bounds_for_chain)
         AStar.__init__(self, problem=problem, h=chain, name=name,
                        is_recording=is_recording,
                        search_state=search_state)
@@ -87,20 +138,15 @@ class AStarLookup(Generic[State], AStar[State]):
                     f'of the problem; admissibility cannot be '
                     f'guaranteed (cached h* to a different goal '
                     f'may over-estimate h* to the right goal).')
-        # Extend the inherited scaffold with the propagate
-        # group (pre-search `propagate_pathmax` work) and cache /
-        # bounds memory snapshots (always present in the
-        # scaffold; report 0 when the layer isn't in the chain).
-        from f_core.counters.main import Counters
-        self._counters = Counters(names=(
-            ('cnt_prop_waves',
-             'cnt_prop_attempts',
-             'cnt_prop_lifts'),
-            ('cnt_push', 'cnt_pop', 'cnt_decrease'),
-            ('cnt_expanded', 'cnt_generated'),
-            ('mem_open', 'mem_closed',
-             'mem_cache', 'mem_bounds'),
-        ))
+        if (needs_storage
+                and BPMXMixin._find_hbounded(self._h) is None):
+            raise ValueError(
+                'rule_bpmx requires an HBounded in the heuristic '
+                'chain as storage for lifted h values; pass `h` '
+                'as a callable / None (will auto-wrap) or supply '
+                '`bounds=...` (can be empty).')
+        self._init_bpmx_mechanism(rule_bpmx=rule_bpmx,
+                                  depth_bpmx=depth_bpmx)
 
     @staticmethod
     def _build_chain(h, cache, goal, bounds) -> HBase:
@@ -203,12 +249,10 @@ class AStarLookup(Generic[State], AStar[State]):
            - int-cast `h` / `h_parent` on propagate events.
 
          Chains to next `_enrich_event` in MRO via super() —
-         for plain AStarLookup that's AStar (h, f); for the
-         combined AStarLookupBPMX, BPMXMixin appears earlier
-         in MRO and runs its int-casts after this method
-         returns (inverted because BPMXMixin calls super()
-         FIRST then its own logic, while this method does the
-         opposite — see CLAUDE.md "Combined-Class MRO").
+         BPMXMixin's enrichment (int-casts on
+         `pathmax_apply` / `bpmx_lift` / `bpmx_forward`) runs
+         first via MRO; this method then layers the lookup
+         flags and propagate casts on top.
         ====================================================================
         """
         super()._enrich_event(event)
@@ -248,20 +292,6 @@ class AStarLookup(Generic[State], AStar[State]):
     #  Pre-Search Pathmax Propagation
     # ──────────────────────────────────────────────────
 
-    @staticmethod
-    def _find_hbounded(h: HBase) -> 'HBounded | None':
-        """
-        ====================================================================
-         Walk the `._base` chain; return the first HBounded.
-        ====================================================================
-        """
-        cur: HBase | None = h
-        while cur is not None:
-            if isinstance(cur, HBounded):
-                return cur
-            cur = getattr(cur, '_base', None)
-        return None
-
     def propagate_pathmax(self,
                           depth: int | None = None
                           ) -> dict[State, float]:
@@ -294,7 +324,7 @@ class AStarLookup(Generic[State], AStar[State]):
         if depth is not None and depth < 0:
             raise ValueError(
                 f'depth must be >= 0 or None; got {depth!r}')
-        hb = self._find_hbounded(self._h)
+        hb = BPMXMixin._find_hbounded(self._h)
         if hb is None:
             raise ValueError(
                 'propagate_pathmax requires an HBounded in the '

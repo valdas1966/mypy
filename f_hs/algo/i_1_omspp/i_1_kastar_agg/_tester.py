@@ -224,8 +224,8 @@ def test_agg_eager_emits_update_frontier_between_goals() -> None:
     """
     ========================================================================
      With is_lazy=False, a found goal that leaves OPEN non-empty
-     triggers an update_frontier event + one update_heuristic
-     per OPEN state.
+     triggers an `update_frontier` boundary marker before the
+     bulk refresh. Refresh re-pushes are silent (no events).
     ========================================================================
     """
     algo = KAStarAgg(
@@ -238,22 +238,17 @@ def test_agg_eager_emits_update_frontier_between_goals() -> None:
     algo.run()
     transitions = [e for e in algo.recorder.events
                    if e['type'] == 'update_frontier']
-    # At least one transition when the first goal is found and
-    # OPEN is non-empty.
     assert len(transitions) >= 1
-    # Each transition is followed by num_nodes update_heuristic
-    # events.
     for t in transitions:
         assert t['num_nodes'] >= 0
 
 
-def test_agg_lazy_emits_update_heuristic_on_stale_pop() -> None:
+def test_agg_lazy_emits_no_update_frontier() -> None:
     """
     ========================================================================
-     With is_lazy=True, popping a stale state (F changed after
-     a goal-found) emits update_heuristic before re-insertion.
-     This test just asserts the mechanism fires — exact count
-     depends on the search trajectory.
+     With is_lazy=True, no `update_frontier` markers are
+     emitted — refresh is inline at pop time and structurally
+     belongs to search (no between-phase moment).
     ========================================================================
     """
     algo = KAStarAgg(
@@ -264,8 +259,6 @@ def test_agg_lazy_emits_update_heuristic_on_stale_pop() -> None:
         is_recording=True,
     )
     algo.run()
-    # Reachability: lazy mode SHOULD NOT emit update_frontier
-    # (that's eager-only) — pin this.
     assert not any(e['type'] == 'update_frontier'
                    for e in algo.recorder.events)
 
@@ -357,7 +350,7 @@ def test_elapsed_split_eager_has_positive_update(
         is_opt: bool, store_vector: bool) -> None:
     """
     ========================================================================
-     Eager Agg has between-phase _refresh_all_F → both
+     Eager Agg has between-phase _refresh_priorities → both
      elapsed_search and elapsed_update strictly positive.
      Verified across all 4 (is_opt × store_vector) sub-configs.
     ========================================================================

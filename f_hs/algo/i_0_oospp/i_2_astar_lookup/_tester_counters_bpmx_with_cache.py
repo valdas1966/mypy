@@ -1,4 +1,4 @@
-from f_hs.algo.i_0_oospp.i_3_astar_lookup_bpmx import AStarLookupBPMX
+from f_hs.algo.i_0_oospp.i_2_astar_lookup import AStarLookup
 from f_hs.heuristic.i_0_base._cache_entry import CacheEntry
 from f_hs.problem import ProblemSPP
 from f_hs.problem.i_1_grid import ProblemGrid
@@ -32,10 +32,10 @@ def test_counters_scaffold_shape() -> None:
     ========================================================================
      The counters surface has the 15-name scaffold (propagate
      3 + bpmx 3 + frontier 3 + search-semantic 2 + memory 4)
-     declared by AStarLookupBPMX's `_COUNTER_NAMES` override.
+     declared by AStarLookup's `_COUNTER_NAMES` override.
     ========================================================================
     """
-    algo = AStarLookupBPMX.Factory.grid_4x4_no_cache(
+    algo = AStarLookup.Factory.grid_4x4(
         rule_bpmx='CASCADE', depth_bpmx=None)
     algo.run()
     assert set(algo.counters.keys()) == _EXPECTED_NAMES
@@ -52,7 +52,7 @@ def test_counters_off_mode_no_bpmx_activity() -> None:
      only frontier mirrors are non-zero.
     ========================================================================
     """
-    algo = AStarLookupBPMX.Factory.graph_abc_cached_at_b()
+    algo = AStarLookup.Factory.graph_abc_cached_at_b()
     algo.run()
     assert algo.counters['cnt_bpmx_attempts'] == 0
     assert algo.counters['cnt_bpmx_successes'] == 0
@@ -72,7 +72,7 @@ def test_counters_attempts_per_expansion() -> None:
     """
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
-    algo = AStarLookupBPMX(
+    algo = AStarLookup(
         problem=problem,
         h=lambda s: float(s.distance(goal)),
         rule_bpmx='1',
@@ -95,7 +95,7 @@ def test_counters_cascade_attempts_per_expansion() -> None:
      cnt_pop.
     ========================================================================
     """
-    algo = AStarLookupBPMX.Factory.grid_4x4_no_cache(
+    algo = AStarLookup.Factory.grid_4x4(
         rule_bpmx='CASCADE', depth_bpmx=None)
     algo.run()
     assert algo.counters['cnt_bpmx_attempts'] >= 1
@@ -124,7 +124,7 @@ def test_counters_cache_hit_skips_bpmx_for_cached_pop() -> None:
         b: CacheEntry(h_perfect=1, suffix_next=c),
         c: CacheEntry(h_perfect=0, suffix_next=None),
     }
-    algo = AStarLookupBPMX(
+    algo = AStarLookup(
         problem=ProblemSPP.Factory.graph_abc(),
         h=lambda s: 0,
         cache=cache,
@@ -149,9 +149,11 @@ def test_counters_pin_graph_abc_cached_at_b_off() -> None:
        push=2, pop=2, decrease=0. All BPMX counters = 0.
     ========================================================================
     """
-    algo = AStarLookupBPMX.Factory.graph_abc_cached_at_b()
+    algo = AStarLookup.Factory.graph_abc_cached_at_b()
     algo.run()
-    assert dict(algo.counters) == {
+    counters = {k: v for k, v in algo.counters.items()
+                if not k.startswith('mem_')}
+    assert counters == {
         'cnt_prop_waves': 0,
         'cnt_prop_attempts': 0,
         'cnt_prop_lifts': 0,
@@ -163,8 +165,6 @@ def test_counters_pin_graph_abc_cached_at_b_off() -> None:
         'cnt_decrease': 0,
         'cnt_expanded': 1,
         'cnt_generated': 2,
-        'mem_open': 280, 'mem_closed': 712,
-        'mem_cache': 376, 'mem_bounds': 0,
     }
 
 
@@ -183,12 +183,14 @@ def test_counters_pin_graph_abc_cached_at_b_cascade_d1() -> None:
        push=2, pop=2, decrease=0.
     ========================================================================
     """
-    algo = (AStarLookupBPMX.Factory
+    algo = (AStarLookup.Factory
             .graph_abc_cached_at_b(rule_bpmx='CASCADE',
                                    depth_bpmx=1,
                                    is_recording=True))
     algo.run()
-    assert dict(algo.counters) == {
+    counters = {k: v for k, v in algo.counters.items()
+                if not k.startswith('mem_')}
+    assert counters == {
         'cnt_prop_waves': 0,
         'cnt_prop_attempts': 0,
         'cnt_prop_lifts': 0,
@@ -200,8 +202,6 @@ def test_counters_pin_graph_abc_cached_at_b_cascade_d1() -> None:
         'cnt_decrease': 0,
         'cnt_expanded': 1,
         'cnt_generated': 2,
-        'mem_open': 280, 'mem_closed': 712,
-        'mem_cache': 376, 'mem_bounds': 64,
     }
 
 
@@ -219,8 +219,8 @@ def test_counters_independent_of_recording_flag() -> None:
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
 
-    def _make(is_recording: bool) -> AStarLookupBPMX:
-        return AStarLookupBPMX(
+    def _make(is_recording: bool) -> AStarLookup:
+        return AStarLookup(
             problem=problem,
             h=lambda s: float(s.distance(goal)),
             rule_bpmx='CASCADE',

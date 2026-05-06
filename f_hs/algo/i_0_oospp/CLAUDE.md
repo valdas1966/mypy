@@ -18,10 +18,8 @@ oospp/
 ├── i_0_base/               AlgoSPP — abstract base, classical search loop
 ├── i_1_bfs/                BFS — breadth-first search
 ├── i_1_astar/              AStar — simple A*
-├── i_2_astar_lookup/       AStarLookup — cache + bounds + propagate_pathmax
-├── i_2_astar_bpmx/         AStarBPMX — AStar + BPMXMixin (Felner pathmax / BPMX(d))
-├── i_2_dijkstra/           Dijkstra — A* with h=0
-└── i_3_astar_lookup_bpmx/  AStarLookupBPMX — AStarLookup + BPMXMixin (combined)
+├── i_2_astar_lookup/       AStarLookup — cache + bounds + propagate_pathmax + BPMX
+└── i_2_dijkstra/           Dijkstra — A* with h=0
 ```
 
 ## Inheritance
@@ -30,10 +28,8 @@ oospp/
 AlgoSPP[State]                                — i_0_base/
 ├── BFS                                       — i_1_bfs/
 └── AStar (simple; (f, -g, state))            — i_1_astar/
-    ├── AStarLookup (cache + bounds)          — i_2_astar_lookup/
-    │     └── AStarLookupBPMX (cache+bounds   — i_3_astar_lookup_bpmx/
-    │                          + BPMXMixin)
-    ├── AStarBPMX (BPMXMixin + AStar)         — i_2_astar_bpmx/
+    ├── AStarLookup (BPMXMixin + cache +      — i_2_astar_lookup/
+    │                bounds + BPMX)
     └── Dijkstra (h = 0)                      — i_2_dijkstra/
 ```
 
@@ -53,7 +49,7 @@ of this one.
 ```python
 from f_hs.algo.i_0_oospp import (
     AlgoSPP, SearchStateSPP,
-    BFS, AStar, AStarLookup, AStarBPMX, AStarLookupBPMX,
+    BFS, AStar, AStarLookup,
     Dijkstra,
 )
 # Or via the parent package:
@@ -92,9 +88,11 @@ scaffold (`cnt_push`, `cnt_pop`, `cnt_decrease`) owned by
 `FrontierBase`. Every concrete OOSPP algo (BFS, AStar,
 AStarLookup, Dijkstra) inherits the same `counters` surface.
 
-`AStarBPMX` and `AStarLookupBPMX` override via `BPMXMixin`
-to expose a 10-counter scaffold (pathmax 2 + bpmx 5 +
-frontier 3 mirrored from FrontierPriority).
+`AStarLookup` overrides `_COUNTER_NAMES` (via the per-class
+override pattern consumed by `BPMXMixin._init_bpmx_mechanism`)
+to a 15-name shape (prop 3 + bpmx 3 + frontier 3 + search 2 +
+memory 4) covering both pre-search `propagate_pathmax` and
+in-search BPMX(d).
 
 ## Dependencies
 
@@ -105,5 +103,5 @@ frontier 3 mirrored from FrontierPriority).
   injected per algo.
 - `f_hs.heuristic.*` — heuristic chain layers (HBase,
   HCallable, HBounded, HCached).
-- `f_hs.algo.i_0_oospp.mixins.bpmx.BPMXMixin` — composed by the two
-  BPMX-flavored classes.
+- `f_hs.algo.i_0_oospp.mixins.bpmx.BPMXMixin` — composed
+  natively by `AStarLookup` (the canonical advanced-A* class).

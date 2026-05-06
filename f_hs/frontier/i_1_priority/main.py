@@ -21,7 +21,7 @@ class FrontierPriority(Generic[State], FrontierBase[State]):
      so that's what the counter reflects). `clear()` does NOT
      reset the counters — they accumulate over the run, not over
      the heap state, so callers like `AlgoSPP.refresh_priorities`
-     and `KAStarAgg._refresh_all_F` (which clear-and-rebuild)
+     and `KAStarAgg._refresh_priorities` (which clear-and-rebuild)
      keep the running totals intact.
 
      Counters are read at end-of-run by upstream algorithms

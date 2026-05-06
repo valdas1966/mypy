@@ -5,69 +5,64 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_0_base/COUNTERS.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_astar/COUNTERS.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_bfs/COUNTERS.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/COUNTERS.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/RULES.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/COUNTERS.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_dijkstra/COUNTERS.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/COUNTERS.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/mixins/bpmx/COUNTERS.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_0_base/COUNTERS.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/COUNTERS.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/COUNTERS.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/COUNTERS.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_2_kdijkstra/COUNTERS.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_bpmx_no_cache.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_bpmx_with_cache.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_counters_bpmx_no_cache.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_counters_bpmx_with_cache.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_recording_bpmx_no_cache.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_recording_bpmx_with_cache.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/frontier/ABOUT.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_0_base/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_0_base/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_0_base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_astar/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_astar/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_astar/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_astar/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_bfs/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_bfs/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_bfs/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_bfs/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/_tester_recording.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/_tester_recording.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/CLAUDE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/COUNTERS.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/RULES.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/_factory.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/_tester.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/_tester_counters.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/_tester_recording.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_bpmx/main.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/COUNTERS.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/COUNTERS.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_factory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_cached.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_cached.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_counters.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_dijkstra/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_dijkstra/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_dijkstra/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_dijkstra/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/_tester_counters_others.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/_tester_counters_others.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/_tester_recording.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/_tester_recording.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/_tester_recording_others.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/_tester_recording_others.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/CLAUDE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/COUNTERS.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/_factory.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/_tester.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/_tester_counters.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/_tester_counters_others.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/_tester_recording.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/_tester_recording_others.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_lookup_bpmx/main.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/mixins/bpmx/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/mixins/bpmx/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/mixins/bpmx/COUNTERS.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/mixins/bpmx/COUNTERS.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/mixins/bpmx/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/mixins/bpmx/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/CLAUDE.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_0_base/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_0_base/CLAUDE.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_0_base/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/COUNTERS.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/COUNTERS.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester_counters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester_recording.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester_recording.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/_tester_recording.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/_tester_recording.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_2_kdijkstra/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_2_kdijkstra/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_2_kdijkstra/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_2_kdijkstra/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_2_kdijkstra/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_2_kdijkstra/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_2_kdijkstra/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_2_kdijkstra/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/frontier/i_1_priority/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/frontier/i_1_priority/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/frontier/i_1_priority/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/frontier/i_1_priority/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/frontier/i_1_priority/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/frontier/i_1_priority/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/problem/i_1_grid/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/problem/i_1_grid/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/solution/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/solution/CLAUDE.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1407,14 +1402,6 @@
       <workItem from="1770703006670" duration="7888000" />
       <workItem from="1770804142876" duration="9603000" />
     </task>
-    <task id="LOCAL-00309" summary="h">
-      <option name="closed" value="true" />
-      <created>1768842168322</created>
-      <option name="number" value="00309" />
-      <option name="presentableId" value="LOCAL-00309" />
-      <option name="project" value="LOCAL" />
-      <updated>1768842168322</updated>
-    </task>
     <task id="LOCAL-00310" summary="h">
       <option name="closed" value="true" />
       <created>1769025272405</created>
@@ -1799,7 +1786,15 @@
       <option name="project" value="LOCAL" />
       <updated>1777923716105</updated>
     </task>
-    <option name="localTasksCounter" value="358" />
+    <task id="LOCAL-00358" summary="h">
+      <option name="closed" value="true" />
+      <created>1777981459440</created>
+      <option name="number" value="00358" />
+      <option name="presentableId" value="LOCAL-00358" />
+      <option name="project" value="LOCAL" />
+      <updated>1777981459440</updated>
+    </task>
+    <option name="localTasksCounter" value="359" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

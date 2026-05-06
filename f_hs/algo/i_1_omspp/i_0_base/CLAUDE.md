@@ -58,7 +58,7 @@ at 0.0 when off.
 | `solutions` | `dict[State, SolutionSPP]` | Per-goal map populated by `_run()` |
 | `counters` | `Counters` | Per-run counter snapshot (Mapping protocol — `c[name]`, `dict(c)`, `c == {...}` all work; `print(c)` shows an aligned grouped block). Schema is **per-algo** (set by the subclass's `_COUNTER_NAMES`); see Per-class counter scaffolds below. |
 | `elapsed_search` | `float` | Wall-clock seconds in the **search** structural phase (sub-search loop bodies + Inc lazy re-push + AGG-lazy inline refresh). 0.0 when `is_timing=False`. |
-| `elapsed_update` | `float` | Wall-clock seconds in the **update** structural phase (Inc: `_emit_frontier_transition` + `algo.refresh_priorities`; AGG-eager: `_refresh_all_F`). **AGG-lazy reports 0.0 by construction** — no between-phase moment exists. 0.0 when `is_timing=False`. |
+| `elapsed_update` | `float` | Wall-clock seconds in the **update** structural phase (Inc: `_emit_frontier_transition` + `algo.refresh_priorities`; AGG-eager: `_refresh_priorities`). **AGG-lazy reports 0.0 by construction** — no between-phase moment exists. 0.0 when `is_timing=False`. |
 | `phase` | `str` | Current structural phase (`'search'` / `'update'`). Mutate via the property setter only — direct `_phase = X` writes bypass the time-bucket flush and are forbidden. |
 
 ### Lifecycle (inherited from `Algo` / `ProcessBase`)
@@ -144,7 +144,7 @@ Two structural phases — `PHASE_SEARCH` and `PHASE_UPDATE`
   stale-pop re-checks).
 - `PHASE_UPDATE` = explicit between-sub-search work (Inc:
   `_emit_frontier_transition` + `algo.refresh_priorities`;
-  AGG-eager: `_refresh_all_F` calls).
+  AGG-eager: `_refresh_priorities` calls).
 
 **AGG-lazy reports `elapsed_update == 0.0`** by design — its
 refresh work happens inline at pop time and is structurally
@@ -167,7 +167,7 @@ Per-algo flip sites:
   and the explicit `algo.refresh_priorities`. Lazy re-push
   stays in SEARCH (it's the goal-handling tail of the just-
   finished sub-search).
-- **KAStarAgg-eager** — flips around the `_refresh_all_F`
+- **KAStarAgg-eager** — flips around the `_refresh_priorities`
   call after each goal-find.
 - **KAStarAgg-lazy** — does NOT flip (zero phase-flip
   overhead at any k).

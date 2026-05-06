@@ -85,7 +85,7 @@ Reset on every `run()` call. Runtime decomposition for the
 | counter | when incremented |
 |---|---|
 | `cnt_h_search` | h call in normal flow (start seed, push, decrease-g). Under `store_vector=True`, counts only the first-encounter h calls for goals that were active at that moment. |
-| `cnt_h_update` | h call in refresh flow (lazy pop-recompute, eager `_refresh_all_F`). Always 0 when `store_vector=True` (vector cached). |
+| `cnt_h_update` | h call in refresh flow (lazy pop-recompute, eager `_refresh_priorities`). Always 0 when `store_vector=True` (vector cached). |
 | `cnt_phi_search` | `_compute_F` from search flow |
 | `cnt_phi_update` | `_compute_F` from refresh flow |
 | `cnt_push` | every `frontier.push` (incl. lazy re-insertions, eager bulk re-push). Frontier-sourced — mirrored from `self._frontier.counters` at end-of-run by `_sync_frontier_counters`. |
@@ -101,7 +101,7 @@ KAStarAgg accepts `is_timing: bool = True` and exposes
 
 | mode | flip site | result |
 |---|---|---|
-| **eager** | around `_refresh_all_F` after each goal-find | `elapsed_update > 0` |
+| **eager** | around `_refresh_priorities` after each goal-find | `elapsed_update > 0` |
 | **lazy** | (no flips) | `elapsed_update == 0.0` by design |
 
 **Why lazy reports zero `elapsed_update`:** lazy mode chose to
@@ -121,29 +121,36 @@ invisible against typical Agg runtimes.
 
 ### Recording schema
 
-Event types emitted when `is_recording=True`:
+**Minimal, INC-aligned: 5 event types.** Every concrete OMSPP
+algorithm (KAStarInc, KAStarAgg, KBFS, KDijkstra) emits the
+same `push` / `pop` / `decrease_g` / `on_goal` /
+`update_frontier` set, so cross-algo recording-stream
+comparisons line up directly.
 
 | event | payload | when |
 |---|---|---|
-| `push` | state, g, h, f, parent | every `frontier.push` (initial seed, child handling, eager bulk re-push). Lazy stale re-push does NOT emit. |
-| `pop` | state, g, h, f | every non-stale pop (after lazy refresh). Stale pops do NOT emit `pop`. |
-| `decrease_g` | state, g, h, f, parent | every decrease-key |
+| `push` | state, g, h, f, parent | first-time push only — initial seed and `_handle_child` first-encounter branch (one per `cnt_generated`). Eager bulk re-push and lazy stale re-push are silent. Stream's `push`-event count = `cnt_generated`, not `cnt_push`. |
+| `pop` | state, g, h, f | non-stale pop only (real expansion). Lazy stale pops are silent. Stream's `pop`-event count = `cnt_pop − cnt_pop_stale`. |
+| `decrease_g` | state, g, h, f, parent | every decrease-key (one per `cnt_decrease`) |
 | `on_goal` | state, g, reason, goal_index | goal expanded / unreachable |
-| `update_frontier` | num_nodes, next_goal_index | eager refresh boundary (eager only) |
-| `update_heuristic` | state, h_old, h_new | per-node F change during eager refresh OR lazy stale-pop re-insertion |
-| `h_calc` | state, goal, value, phase | single h(state,goal) evaluation; `phase ∈ {search, update}` |
-| `phi_calc` | state, value, phase | every `_compute_F` call; `value` = aggregated Φ (0 when no active goals) |
-| `responsible_set` | state, responsible | `self._responsible[state]` assignment (is_opt only) |
-| `refresh_skip` | state, reason | opt short-circuit; `reason ∈ {lazy_responsible_active, eager_responsible_unchanged}` |
-| `pop_stale` | state, f_stored, f_recomputed | lazy pop found stale F (precedes the `update_heuristic` + lazy re-push) |
+| `update_frontier` | num_nodes, next_goal_index | eager refresh boundary (eager only — lazy mode does NOT emit; no between-phase moment) |
 
-**Param → distinguishing events:**
+**Param → distinguishing event signal:**
 
-| param | distinguishing events |
+| param | distinguishing signal |
 |---|---|
-| `is_lazy` | `pop_stale` (lazy only); `update_frontier` (eager only) |
-| `is_opt` | `responsible_set`, `refresh_skip` (opt only) |
-| `store_vector` | `h_calc` count drops to 0 after each state's first `_compute_F`; first-encounter `h_calc` events only fire for goals active at that moment (closed goals are skipped) |
+| `is_lazy=False` | `update_frontier` markers fire (one per goal-find that triggers a refresh) |
+| `is_lazy=True`  | no `update_frontier` markers; `cnt_pop_stale > 0` (counter, not event) |
+| `is_opt`        | not visible in events — only via counter deltas (`cnt_phi_update` / `cnt_h_update` drop) |
+| `store_vector`  | not visible in events — only via counter deltas (`cnt_h_search`, `cnt_h_update`) |
+
+**Refresh-internal events removed.** `update_heuristic`,
+`pop_stale`, `h_calc`, `phi_calc`, `responsible_set`,
+`refresh_skip` were dropped (2026-05-06) for INC-consistency
+and recorder-overhead reduction at large k. The aggregate
+counters `cnt_h_search` / `cnt_h_update` / `cnt_phi_search` /
+`cnt_phi_update` / `cnt_pop_stale` preserve the work-type
+observability.
 
 ## 3) Inheritance (Hierarchy)
 

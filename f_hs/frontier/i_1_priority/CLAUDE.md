@@ -39,7 +39,7 @@ on every call to the matching method.
   *called*, not what the heap *did*.
 - **Survive `clear()`.** Counters accumulate over the whole
   run, not over the heap state. `AlgoSPP.refresh_priorities`
-  and `KAStarAgg._refresh_all_F` (which drain-and-rebuild)
+  and `KAStarAgg._refresh_priorities` (which drain-and-rebuild)
   keep the running totals intact.
 - **Reset only via a fresh instance.** No public `reset()` on
   the frontier — algorithms that want a clean count construct

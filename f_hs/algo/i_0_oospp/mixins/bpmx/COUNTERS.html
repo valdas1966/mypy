@@ -259,104 +259,53 @@ footer code { color: var(--text); }
     <span class="badge">OOSPP — counter-bearing mixin</span>
     <code>f_hs/algo/i_0_oospp/mixins/bpmx</code>
   </div>
-  <p class="role">In-search Felner pathmax / BPMX(d) — composed with AStar (→ AStarBPMX) or AStarLookup (→ AStarLookupBPMX). Owns the 7 BPMX counters; the host class adds frontier + memory.</p>
+  <p class="role">In-search Felner pathmax / BPMX(d) cascade — composed natively by AStarLookup (the sole consumer post 2026-05-06 Phase-2 retirement). Owns the 3-name BPMX scaffold; the host class adds prop / frontier / search-semantic / memory groups via per-class _COUNTER_NAMES.</p>
 </div>
 
 
 <div class="statbar">
-  <div class="total">7<small>counters</small></div>
+  <div class="total">3<small>counters</small></div>
   <div class="bars">
         <div class="row">
-          <div class="label"><span class="dot" style="background:#D0021B;"></span>Felner pathmax (isolated)</div>
-          <div class="barwrap"><div class="bar" style="width:29%;background:#D0021B;"></div></div>
-          <div class="val">2</div>
-        </div>
-        <div class="row">
-          <div class="label"><span class="dot" style="background:#BD10E0;"></span>BPMX cascade</div>
-          <div class="barwrap"><div class="bar" style="width:71%;background:#BD10E0;"></div></div>
-          <div class="val">5</div>
+          <div class="label"><span class="dot" style="background:#BD10E0;"></span>In-search BPMX</div>
+          <div class="barwrap"><div class="bar" style="width:100%;background:#BD10E0;"></div></div>
+          <div class="val">3</div>
         </div></div>
 </div>
 
-<div class="chain"><strong style="font-size:12px;color:var(--text-dim);letter-spacing:1.4px;text-transform:uppercase;margin-right:8px;">Inheritance</strong><span class="pill last">BPMXMixin (mixin — never instantiated alone)</span></div>
-
-<section class="family" style="border-left-color:#D0021B;">
-  <h2><span style="color:#D0021B;">●</span> Felner pathmax (isolated) <span class="count">2</span></h2>
-  <p class="fnote">Isolated rule_pathmax pass at the immediate parent-children level. Depth 1 only.</p>
-  <div class="cards">
-<div class="card" style="border-left:3px solid #D0021B;">
-  <div class="top">
-    <span class="name">cnt_bpmx_pathmax_attempts</span>
-    <span class="icon" style="color:#D0021B;">↑</span>
-  </div>
-  <div class="desc">Isolated rule_pathmax pass attempted on a non-goal expansion. Increments once per non-goal pop when rule_pathmax ∈ {1,2,3}.</div>
-  <div class="role">algo-incremented</div>
-</div>
-
-
-<div class="card" style="border-left:3px solid #D0021B;">
-  <div class="top">
-    <span class="name">cnt_bpmx_pathmax_lifts</span>
-    <span class="icon" style="color:#D0021B;">⇈</span>
-  </div>
-  <div class="desc">Successful tightening — the isolated rule strictly increased a state&#x27;s h-value. Stays at 0 under consistent (1-Lipschitz) heuristics.</div>
-  <div class="role">algo-incremented</div>
-</div>
-</div>
-</section>
-
+<div class="chain"><strong style="font-size:12px;color:var(--text-dim);letter-spacing:1.4px;text-transform:uppercase;margin-right:8px;">Composition</strong><span class="pill last">BPMXMixin → composed by AStarLookup (sole consumer)</span></div>
 
 <section class="family" style="border-left-color:#BD10E0;">
-  <h2><span style="color:#BD10E0;">●</span> BPMX cascade <span class="count">5</span></h2>
-  <p class="fnote">Felner Algorithm 2 — Rules 1 + 3 propagated outward through the d-level subtree, iterated to fixed point.</p>
+  <h2><span style="color:#BD10E0;">●</span> In-search BPMX <span class="count">3</span></h2>
+  <p class="fnote">Felner pathmax rules and the BPMX(d) cascade — fire on every non-cached pop when rule_bpmx is active. The single 3-counter scaffold replaced the older split of (pathmax 2 + cascade 5) — successes / depth aggregate uniformly across Rules 1 / 2 / 3 / CASCADE.</p>
   <div class="cards">
 <div class="card" style="border-left:3px solid #BD10E0;">
   <div class="top">
-    <span class="name">cnt_bpmx_cascade_attempts</span>
+    <span class="name">cnt_bpmx_attempts</span>
     <span class="icon" style="color:#BD10E0;">∿</span>
   </div>
-  <div class="desc">BPMX(d) cascade run on a non-goal expansion. Skipped on cache-hit pops (HCached early-exit fires before _pre_expand).</div>
+  <div class="desc">_pre_expand dispatch — incremented once per non-cached pop when rule_bpmx is set (None ⇒ no-op). Skipped on cache-hit pops (HCached early-exit fires before _pre_expand). Cumulative across the run.</div>
   <div class="role">algo-incremented</div>
 </div>
 
 
 <div class="card" style="border-left:3px solid #BD10E0;">
   <div class="top">
-    <span class="name">cnt_bpmx_cascade_iterations</span>
-    <span class="icon" style="color:#BD10E0;">↻</span>
-  </div>
-  <div class="desc">Total iteration rounds across all cascades. Each cascade runs ≥ 1 iteration; multiple rounds occur under inconsistent h.</div>
-  <div class="role">algo-incremented</div>
-</div>
-
-
-<div class="card" style="border-left:3px solid #BD10E0;">
-  <div class="top">
-    <span class="name">cnt_bpmx_cascade_rule3_lifts</span>
+    <span class="name">cnt_bpmx_successes</span>
     <span class="icon" style="color:#BD10E0;">⇈</span>
   </div>
-  <div class="desc">Rule 3 (parent up via strongest child) fired during the cascade.</div>
+  <div class="desc">Successful lift, regardless of which rule fired. Sum across Rule 2 (parent via min-children), Rule 3 (parent via strongest child), Rule 1 (child via parent forward), and CASCADE (Rules 1 + 3 iterated). Stays at 0 under consistent (1-Lipschitz) heuristics.</div>
   <div class="role">algo-incremented</div>
 </div>
 
 
 <div class="card" style="border-left:3px solid #BD10E0;">
   <div class="top">
-    <span class="name">cnt_bpmx_cascade_rule1_forwards</span>
-    <span class="icon" style="color:#BD10E0;">⇊</span>
+    <span class="name">cnt_bpmx_depth</span>
+    <span class="icon" style="color:#BD10E0;">↧</span>
   </div>
-  <div class="desc">Rule 1 (parent → child Mero pathmax) fired during the cascade.</div>
-  <div class="role">algo-incremented</div>
-</div>
-
-
-<div class="card" style="border-left:3px solid #BD10E0;">
-  <div class="top">
-    <span class="name">cnt_bpmx_cascade_subtree_states</span>
-    <span class="icon" style="color:#BD10E0;">#</span>
-  </div>
-  <div class="desc">States visited inside BPMX BFS subtrees, summed across all cascades. Bounded above by depth_bpmx-reachable subtree size × cnt_bpmx_cascade_attempts.</div>
-  <div class="role">algo-incremented</div>
+  <div class="desc">Max-tracker (not cumulative). Deepest BFS-level (0 = root) at which any successful lift fired across the run. Updated via assign on each lift; stays 0 if no lifts fire OR if Rule 2 lifts only the popped state itself.</div>
+  <div class="role">algo-incremented (max via assign)</div>
 </div>
 </div>
 </section>

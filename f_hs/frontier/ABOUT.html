@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>f_hs/frontier — Operations & Complexity</title>
+<style>
+  :root {
+    --bg:        #0f1115;
+    --panel:     #171a21;
+    --panel-2:   #1d2129;
+    --line:      #2a2f3a;
+    --text:      #e6e8ec;
+    --muted:     #8a93a3;
+    --accent-fifo:     #4ea1ff;
+    --accent-priority: #ff8c42;
+    --c-o1:      #2ecc71;
+    --c-olog:    #4ea1ff;
+    --c-on:      #f5a623;
+    --c-onlog:   #e74c3c;
+    --c-none:    #4a5060;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 32px 28px 56px;
+  }
+  h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  .sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin: 0 0 28px;
+    padding: 12px 14px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: #0f1115;
+    white-space: nowrap;
+  }
+  .b-o1     { background: var(--c-o1); }
+  .b-olog   { background: var(--c-olog); }
+  .b-on     { background: var(--c-on); }
+  .b-onlog  { background: var(--c-onlog); color: #fff; }
+  .b-none   { background: var(--c-none); color: #c8ccd6; }
+
+  section {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .section-head {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .section-head .stripe {
+    width: 6px;
+    align-self: stretch;
+    border-radius: 3px;
+  }
+  .head-fifo     .stripe { background: var(--accent-fifo); }
+  .head-priority .stripe { background: var(--accent-priority); }
+  .head-fifo     h2 { color: var(--accent-fifo); }
+  .head-priority h2 { color: var(--accent-priority); }
+  .section-head h2 {
+    font-size: 18px;
+    margin: 0;
+    font-weight: 700;
+  }
+  .section-head .meta {
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .section-head code {
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12.5px;
+    color: var(--text);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  th, td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+  }
+  th {
+    background: var(--panel-2);
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,0.02); }
+  td.fn {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 13px;
+    color: #d2d6df;
+    white-space: nowrap;
+  }
+  td.algo-cell {
+    text-align: center;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 13px;
+  }
+  td.algo-cell .yes  { color: var(--c-o1); font-weight: 700; }
+  td.algo-cell .no   { color: var(--c-none); }
+  td.algo-cell .note { color: var(--muted); font-size: 11.5px; }
+  .notes {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px 20px;
+    color: var(--muted);
+    font-size: 13.5px;
+  }
+  .notes h3 {
+    margin: 0 0 8px;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .notes ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+  .notes li { margin: 4px 0; }
+  .notes code {
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 0 5px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12.5px;
+    color: var(--text);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>f_hs/frontier — Operations &amp; Complexity</h1>
+  <div class="sub">
+    Which frontier each algorithm uses, which functions it
+    calls, and the time complexity of each call. <em>n</em> =
+    current frontier size.
+  </div>
+
+  <div class="legend">
+    <span class="legend-item"><span class="badge b-o1">O(1)</span> constant</span>
+    <span class="legend-item"><span class="badge b-olog">O(log n)</span> heap op</span>
+    <span class="legend-item"><span class="badge b-on">O(n)</span> linear</span>
+    <span class="legend-item"><span class="badge b-onlog">O(n log n)</span> sorted drain</span>
+    <span class="legend-item"><span class="badge b-none">no-op / —</span> not invoked</span>
+  </div>
+
+  <!-- ────────────────────────────────────────────────── -->
+  <!-- FrontierFIFO -->
+  <!-- ────────────────────────────────────────────────── -->
+  <section>
+    <div class="section-head head-fifo">
+      <div class="stripe"></div>
+      <h2>FrontierFIFO</h2>
+      <span class="meta">deque + set, FIFO order, priority ignored</span>
+      <span class="meta">Used by: <code>BFS</code>, <code>KBFS</code></span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 28%;">Function</th>
+          <th style="width: 18%;">Complexity</th>
+          <th style="width: 27%;">BFS</th>
+          <th style="width: 27%;">KBFS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fn">push(state, priority)</td>
+          <td><span class="badge b-o1">O(1)</span></td>
+          <td class="algo-cell"><span class="yes">✓</span> <span class="note">_init_search + _handle_child</span></td>
+          <td class="algo-cell"><span class="yes">✓</span> <span class="note">via inner BFS</span></td>
+        </tr>
+        <tr>
+          <td class="fn">pop()</td>
+          <td><span class="badge b-o1">O(1)</span></td>
+          <td class="algo-cell"><span class="yes">✓</span> <span class="note">_search_loop</span></td>
+          <td class="algo-cell"><span class="yes">✓</span> <span class="note">via inner BFS</span></td>
+        </tr>
+        <tr>
+          <td class="fn">decrease(state, priority)</td>
+          <td><span class="badge b-none">no-op</span></td>
+          <td class="algo-cell"><span class="no">—</span></td>
+          <td class="algo-cell"><span class="no">—</span></td>
+        </tr>
+        <tr>
+          <td class="fn">__contains__(state)</td>
+          <td><span class="badge b-o1">O(1)</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="fn">__bool__()</td>
+          <td><span class="badge b-o1">O(1)</span></td>
+          <td class="algo-cell"><span class="yes">✓</span> <span class="note">loop guard</span></td>
+          <td class="algo-cell"><span class="yes">✓</span> <span class="note">loop guard</span></td>
+        </tr>
+        <tr>
+          <td class="fn">__len__()</td>
+          <td><span class="badge b-o1">O(1)</span></td>
+          <td class="algo-cell"><span class="note">rarely</span></td>
+          <td class="algo-cell"><span class="note">rarely</span></td>
+        </tr>
+        <tr>
+          <td class="fn">clear()</td>
+          <td><span class="badge b-on">O(n)</span></td>
+          <td class="algo-cell"><span class="yes">✓</span> <span class="note">_init_search</span></td>
+          <td class="algo-cell"><span class="yes">✓</span> <span class="note">via inner _init_search</span></td>
+        </tr>
+        <tr>
+          <td class="fn">__iter__()</td>
+          <td><span class="badge b-on">O(n)</span></td>
+          <td class="algo-cell"><span class="no">—</span></td>
+          <td class="algo-cell"><span class="no">—</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ────────────────────────────────────────────────── -->
+  <!-- FrontierPriority -->
+  <!-- ────────────────────────────────────────────────── -->
+  <section>
+    <div class="section-head head-priority">
+      <div class="stripe"></div>
+      <h2>FrontierPriority</h2>
+      <span class="meta">indexed binary min-heap (QueueIndexed) with decrease-key</span>
+      <span class="meta">Used by: <code>A*-family</code>, <code>kA*-INC</code>, <code>kA*-AGG</code>, <code>KDijkstra</code></span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 22%;">Function</th>
+          <th style="width: 13%;">Complexity</th>
+          <th style="width: 14%;">A*-family</th>
+          <th style="width: 13%;">KDijkstra</th>
+          <th style="width: 14%;">kA*-INC</th>
+          <th style="width: 12%;">kA*-AGG<br><span style="font-weight:400;text-transform:none;font-size:11px;">eager</span></th>
+          <th style="width: 12%;">kA*-AGG<br><span style="font-weight:400;text-transform:none;font-size:11px;">lazy</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fn">push(state, priority)</td>
+          <td><span class="badge b-olog">O(log n)</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span> <span class="note">+ bulk re-push (refresh) + goal re-push</span></td>
+          <td class="algo-cell"><span class="yes">✓</span> <span class="note">+ bulk re-push (refresh)</span></td>
+          <td class="algo-cell"><span class="yes">✓</span> <span class="note">+ stale re-push</span></td>
+        </tr>
+        <tr>
+          <td class="fn">pop()</td>
+          <td><span class="badge b-olog">O(log n)</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="fn">decrease(state, priority)</td>
+          <td><span class="badge b-olog">O(log n)</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="fn">__contains__(state)</td>
+          <td><span class="badge b-o1">O(1)</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="fn">__bool__()</td>
+          <td><span class="badge b-o1">O(1)</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+          <td class="algo-cell"><span class="yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="fn">__len__()</td>
+          <td><span class="badge b-o1">O(1)</span></td>
+          <td class="algo-cell"><span class="note">rarely</span></td>
+          <td class="algo-cell"><span class="note">rarely</span></td>
+          <td class="algo-cell"><span class="note">rarely</span></td>
+          <td class="algo-cell"><span class="note">rarely</span></td>
+          <td class="algo-cell"><span class="note">rarely</span></td>
+        </tr>
+        <tr>
+          <td class="fn">clear()</td>
+          <td><span class="badge b-on">O(n)</span></td>
+          <td class="algo-cell"><span class="yes">✓</span> <span class="note">_init_search</span></td>
+          <td class="algo-cell"><span class="yes">✓</span> <span class="note">_init_search</span></td>
+          <td class="algo-cell"><span class="yes">✓</span> <span class="note">refresh_priorities</span></td>
+          <td class="algo-cell"><span class="yes">✓</span> <span class="note">_refresh_priorities</span></td>
+          <td class="algo-cell"><span class="no">—</span></td>
+        </tr>
+        <tr>
+          <td class="fn">__iter__()</td>
+          <td><span class="badge b-onlog">O(n log n)</span></td>
+          <td class="algo-cell"><span class="no">—</span></td>
+          <td class="algo-cell"><span class="no">—</span></td>
+          <td class="algo-cell"><span class="yes">✓</span> <span class="note">refresh_priorities</span></td>
+          <td class="algo-cell"><span class="yes">✓</span> <span class="note">_refresh_priorities</span></td>
+          <td class="algo-cell"><span class="no">—</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ────────────────────────────────────────────────── -->
+  <!-- Notes -->
+  <!-- ────────────────────────────────────────────────── -->
+  <div class="notes">
+    <h3>Notes</h3>
+    <ul>
+      <li><strong>A*-family</strong> = <code>AStar</code>,
+          <code>AStarLookup</code>, <code>AStarBPMX</code>,
+          <code>AStarLookupBPMX</code>, <code>Dijkstra</code> —
+          identical frontier call pattern; differ only in
+          priority shape and h-chain.</li>
+      <li><strong>KDijkstra is single-pass observer.</strong>
+          One inner Dijkstra pass; goal-pops detected via
+          <code>_early_exit</code>. Dijkstra's priority
+          <code>(g, …)</code> is goal-independent, so no
+          <code>refresh_priorities</code> is ever needed —
+          structurally KDijkstra matches A*-family (init only),
+          NOT kA*-INC.</li>
+      <li><strong>kA*-INC</strong> runs k sub-searches sharing
+          one frontier. Between sub-searches: h changes
+          (h<sub>i</sub> → h<sub>i+1</sub>), so
+          <code>refresh_priorities()</code> drains
+          (<code>__iter__</code>) → <code>clear</code> →
+          re-pushes n× ⇒ O(n log n) per refresh. Same
+          drain-and-rebuild pattern as
+          <code>kA*-AGG-eager._refresh_priorities</code>.</li>
+      <li><strong>kA*-INC goal re-push.</strong> Reached
+          non-last goals are also re-pushed via
+          <code>algo._push(state=goal)</code> so the next
+          sub-search can expand them with the updated h
+          (lazy re-push). One extra <code>push</code> per
+          non-last goal reached.</li>
+      <li><strong>Refresh naming is unified.</strong>
+          <code>AlgoSPP.refresh_priorities()</code> (used by
+          INC's inner AStar) and
+          <code>KAStarAgg._refresh_priorities()</code>
+          perform the same structural operation
+          (drain + clear + re-push with fresh priorities);
+          AGG adds bookkeeping (F-cache, events, opt-skip)
+          but the core mechanism is identical.</li>
+      <li><strong>kA*-AGG</strong> behaviour depends only on
+          <code>is_lazy</code>: eager calls <code>clear</code>
+          and <code>__iter__</code> after every goal-find;
+          lazy never does. Other params
+          (<code>is_opt</code>, <code>store_vector</code>,
+          <code>agg</code>) don't change frontier ops.</li>
+      <li><strong>FrontierPriority __iter__</strong> cost is
+          dominated by <code>QueueIndexed.to_iterable()</code>
+          = <code>sorted(heap)</code>; FIFO iteration is
+          plain O(n) deque traversal but is not invoked by any
+          algorithm.</li>
+      <li><strong>FIFO decrease</strong> is the inherited
+          no-op from <code>FrontierBase</code>; never invoked
+          by BFS/KBFS and never increments
+          <code>cnt_decrease</code>.</li>
+      <li><strong>push fall-through.</strong> On
+          FrontierPriority, <code>push</code> on an existing
+          state falls through to <code>decrease_key</code>
+          internally — both paths are O(log n); the call-site
+          counter still records <code>cnt_push</code>.</li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>

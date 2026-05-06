@@ -151,7 +151,7 @@ class AlgoOMSPP(Generic[State],
          Wall-clock seconds spent in the **update** structural
          phase — i.e., explicit between-sub-search work (Inc:
          `_emit_frontier_transition` + `algo.refresh_priorities`;
-         Agg-eager: `_refresh_all_F` calls). Agg-lazy reports
+         Agg-eager: `_refresh_priorities` calls). Agg-lazy reports
          0.0 here by construction (no between-phase moment;
          refresh work happens inline during search). Reset to
          0.0 in `_run_pre()`. Stays 0.0 when `is_timing=False`.

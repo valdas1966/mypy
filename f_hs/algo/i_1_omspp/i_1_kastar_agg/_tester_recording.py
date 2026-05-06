@@ -3,1129 +3,234 @@
  KAStarAgg — full event-stream pins on the canonical OMSPP
  problem (`Factory.grid_4x4_obstacle_omspp`: start (0,0),
  goals (0,3) / (3,0) / (3,3); per-goal optimal costs 7 / 3 / 6;
- Manhattan h to each goal). Aggregator: MIN (the canonical
- aggregator; is_opt requires agg ∈ {MIN, MAX}).
+ Manhattan h to each goal). Aggregator: MIN.
 
- One test per param-config (8 total = 2³ combinations of
- `is_lazy` × `is_opt` × `store_vector`). Each asserts the
- complete normalized event list (every field of every event,
- `duration` stripped). Distinguishing event signatures per
- config (per `KAStarAgg/CLAUDE.md`):
+ Minimal INC-aligned schema: 5 event types (`push`, `pop`,
+ `decrease_g`, `on_goal`, `update_frontier`). The recording
+ stream is INVARIANT to (`is_opt`, `store_vector`) — those
+ params affect only counters (`cnt_h_*`, `cnt_phi_*`,
+ `cnt_pop_stale`), not the event sequence. Only `is_lazy`
+ distinguishes the streams:
 
-   - `is_lazy=False`  → `update_frontier` markers fire on
-     eager refresh boundaries.
-   - `is_lazy=True`   → `pop_stale` events fire on lazy
-     stale-pop re-checks.
-   - `is_opt=True`    → `responsible_set` and `refresh_skip`
-     events fire when the responsible-goal optimisation
-     short-circuits.
-   - `store_vector=True` → `h_calc` count drops to zero after
-     each state's first vector cache; subsequent
-     `phi_calc`s consume the cached vector.
+   - `is_lazy=False` → 35 events (incl. 2 `update_frontier`
+                       boundary markers, one per non-final
+                       goal-find).
+   - `is_lazy=True`  → 33 events (no `update_frontier`; lazy
+                       refresh is silent).
+
+ The two pinned streams below define the canonical eager and
+ lazy event sequences. A parametrized invariance check then
+ asserts every (is_opt × store_vector) combination produces
+ identical events to the canonical for that `is_lazy`.
+
+ If a future change makes opt or store_vector observable in
+ the event stream, the invariance check will fail at the
+ deviating cell — surfacing the schema drift directly.
 ============================================================================
 """
+
+import pytest
 
 from f_hs.algo.i_1_omspp.i_1_kastar_agg import KAStarAgg
 from f_hs.algo.u_event_normalize import normalize
 from f_hs.problem.i_1_grid import ProblemGrid
 
 
-
-
-# === eager_noopt_nosv (106 events) ===
-def test_recording_canonical_omspp_min_eager_noopt_nosv() -> None:
+def _make_algo(is_lazy: bool,
+               is_opt: bool,
+               store_vector: bool) -> KAStarAgg:
     """
     ========================================================================
-     Pin the FULL event stream for KAStarAgg-MIN with
-     is_lazy=False, is_opt=False, store_vector=False.
-     106 events.
+     Build a KAStarAgg-MIN on the canonical OMSPP problem
+     for the given config, with recording enabled.
     ========================================================================
     """
     p = ProblemGrid.Factory.grid_4x4_obstacle_omspp()
-    algo = KAStarAgg(problem=p,
+    return KAStarAgg(problem=p,
                      h=lambda s, g: float(s.distance(g)),
                      agg='MIN',
-                     is_lazy=False,
-                     is_opt=False,
-                     store_vector=False,
+                     is_lazy=is_lazy,
+                     is_opt=is_opt,
+                     store_vector=store_vector,
                      is_recording=True)
+
+
+def _events_of(algo: KAStarAgg) -> list[dict]:
+    """
+    ========================================================================
+     Run the algo and return its normalized event list.
+    ========================================================================
+    """
     algo.run()
-    actual = [normalize(e) for e in algo.recorder.events]
-    expected = [
-        {'type': 'h_calc', 'state': (0, 0), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 3, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 6, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (0, 0), 'value': 3, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 3, 'f': 3},
-        {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 3, 'f': 3},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 4, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 5, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (0, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 1), 'g': 1, 'parent': (0, 0), 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 2, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 5, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (1, 0), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 0), 'g': 1, 'parent': (0, 0), 'h': 2, 'f': 3},
-        {'type': 'pop', 'state': (0, 1), 'g': 1, 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 3, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 4, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (1, 1), 'value': 3, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 1), 'g': 2, 'parent': (0, 1), 'h': 3, 'f': 5},
-        {'type': 'pop', 'state': (1, 0), 'g': 1, 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 5, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 1, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 4, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 0), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 0), 'g': 2, 'parent': (1, 0), 'h': 1, 'f': 3},
-        {'type': 'pop', 'state': (2, 0), 'g': 2, 'h': 1, 'f': 3},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 2, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 3, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 1), 'g': 3, 'parent': (2, 0), 'h': 2, 'f': 5},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 6, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 0, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 3, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 0), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 0), 'g': 3, 'parent': (2, 0), 'h': 0, 'f': 3},
-        {'type': 'pop', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 5, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 2, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 1), 'g': 4, 'parent': (3, 0), 'h': 2, 'f': 6},
-        {'type': 'on_goal', 'state': (3, 0), 'g': 3, 'reason': 'expanded', 'goal_index': 1},
-        {'type': 'update_frontier', 'num_nodes': 3, 'next_goal_index': 0},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 4, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 3, 'phase': 'update', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 3, 'phase': 'update'},
-        {'type': 'update_heuristic', 'state': (2, 1), 'h_old': 2, 'h_new': 3},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 3, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 4, 'phase': 'update', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (1, 1), 'value': 3, 'phase': 'update'},
-        {'type': 'update_heuristic', 'state': (1, 1), 'h_old': 3, 'h_new': 3},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 5, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 2, 'phase': 'update', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 1), 'value': 2, 'phase': 'update'},
-        {'type': 'update_heuristic', 'state': (3, 1), 'h_old': 2, 'h_new': 2},
-        {'type': 'pop', 'state': (1, 1), 'g': 2, 'h': 3, 'f': 5},
-        {'type': 'pop', 'state': (3, 1), 'g': 4, 'h': 2, 'f': 6},
-        {'type': 'h_calc', 'state': (3, 2), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 2), 'value': 1, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 2), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 2), 'g': 5, 'parent': (3, 1), 'h': 1, 'f': 6},
-        {'type': 'pop', 'state': (3, 2), 'g': 5, 'h': 1, 'f': 6},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 2, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 2), 'g': 6, 'parent': (3, 2), 'h': 2, 'f': 8},
-        {'type': 'h_calc', 'state': (3, 3), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 3), 'value': 0, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 3), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 3), 'g': 6, 'parent': (3, 2), 'h': 0, 'f': 6},
-        {'type': 'pop', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6},
-        {'type': 'h_calc', 'state': (2, 3), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 3), 'g': 7, 'parent': (3, 3), 'h': 2, 'f': 9},
-        {'type': 'on_goal', 'state': (3, 3), 'g': 6, 'reason': 'expanded', 'goal_index': 2},
-        {'type': 'update_frontier', 'num_nodes': 3, 'next_goal_index': 0},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 4, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 4, 'phase': 'update'},
-        {'type': 'update_heuristic', 'state': (2, 1), 'h_old': 3, 'h_new': 4},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 3, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 3, 'phase': 'update'},
-        {'type': 'update_heuristic', 'state': (2, 2), 'h_old': 2, 'h_new': 3},
-        {'type': 'h_calc', 'state': (2, 3), 'value': 2, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'update'},
-        {'type': 'update_heuristic', 'state': (2, 3), 'h_old': 2, 'h_new': 2},
-        {'type': 'pop', 'state': (2, 1), 'g': 3, 'h': 4, 'f': 7},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 3, 'phase': 'search'},
-        {'type': 'decrease_g', 'state': (2, 2), 'g': 4, 'parent': (2, 1), 'h': 3, 'f': 7},
-        {'type': 'pop', 'state': (2, 2), 'g': 4, 'h': 3, 'f': 7},
-        {'type': 'h_calc', 'state': (2, 3), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'search'},
-        {'type': 'decrease_g', 'state': (2, 3), 'g': 5, 'parent': (2, 2), 'h': 2, 'f': 7},
-        {'type': 'pop', 'state': (2, 3), 'g': 5, 'h': 2, 'f': 7},
-        {'type': 'h_calc', 'state': (1, 3), 'value': 1, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (1, 3), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 3), 'g': 6, 'parent': (2, 3), 'h': 1, 'f': 7},
-        {'type': 'pop', 'state': (1, 3), 'g': 6, 'h': 1, 'f': 7},
-        {'type': 'h_calc', 'state': (0, 3), 'value': 0, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (0, 3), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 3), 'g': 7, 'parent': (1, 3), 'h': 0, 'f': 7},
-        {'type': 'pop', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7},
-        {'type': 'on_goal', 'state': (0, 3), 'g': 7, 'reason': 'expanded', 'goal_index': 0},
-    ]
-    assert actual == expected
+    return [normalize(e) for e in algo.recorder.events]
 
 
-# === eager_noopt_sv (95 events) ===
-def test_recording_canonical_omspp_min_eager_noopt_sv() -> None:
-    """
-    ========================================================================
-     Pin the FULL event stream for KAStarAgg-MIN with
-     is_lazy=False, is_opt=False, store_vector=True.
-     95 events.
-    ========================================================================
-    """
-    p = ProblemGrid.Factory.grid_4x4_obstacle_omspp()
-    algo = KAStarAgg(problem=p,
-                     h=lambda s, g: float(s.distance(g)),
-                     agg='MIN',
-                     is_lazy=False,
-                     is_opt=False,
-                     store_vector=True,
-                     is_recording=True)
-    algo.run()
-    actual = [normalize(e) for e in algo.recorder.events]
-    expected = [
-        {'type': 'h_calc', 'state': (0, 0), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 3, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 6, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (0, 0), 'value': 3, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 3, 'f': 3},
-        {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 3, 'f': 3},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 4, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 5, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (0, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 1), 'g': 1, 'parent': (0, 0), 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 2, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 5, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (1, 0), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 0), 'g': 1, 'parent': (0, 0), 'h': 2, 'f': 3},
-        {'type': 'pop', 'state': (0, 1), 'g': 1, 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 3, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 4, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (1, 1), 'value': 3, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 1), 'g': 2, 'parent': (0, 1), 'h': 3, 'f': 5},
-        {'type': 'pop', 'state': (1, 0), 'g': 1, 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 5, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 1, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 4, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 0), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 0), 'g': 2, 'parent': (1, 0), 'h': 1, 'f': 3},
-        {'type': 'pop', 'state': (2, 0), 'g': 2, 'h': 1, 'f': 3},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 2, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 3, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 1), 'g': 3, 'parent': (2, 0), 'h': 2, 'f': 5},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 6, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 0, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 3, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 0), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 0), 'g': 3, 'parent': (2, 0), 'h': 0, 'f': 3},
-        {'type': 'pop', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 5, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 2, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 1), 'g': 4, 'parent': (3, 0), 'h': 2, 'f': 6},
-        {'type': 'on_goal', 'state': (3, 0), 'g': 3, 'reason': 'expanded', 'goal_index': 1},
-        {'type': 'update_frontier', 'num_nodes': 3, 'next_goal_index': 0},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 3, 'phase': 'update'},
-        {'type': 'update_heuristic', 'state': (2, 1), 'h_old': 2, 'h_new': 3},
-        {'type': 'phi_calc', 'state': (1, 1), 'value': 3, 'phase': 'update'},
-        {'type': 'update_heuristic', 'state': (1, 1), 'h_old': 3, 'h_new': 3},
-        {'type': 'phi_calc', 'state': (3, 1), 'value': 2, 'phase': 'update'},
-        {'type': 'update_heuristic', 'state': (3, 1), 'h_old': 2, 'h_new': 2},
-        {'type': 'pop', 'state': (1, 1), 'g': 2, 'h': 3, 'f': 5},
-        {'type': 'pop', 'state': (3, 1), 'g': 4, 'h': 2, 'f': 6},
-        {'type': 'h_calc', 'state': (3, 2), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 2), 'value': 1, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 2), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 2), 'g': 5, 'parent': (3, 1), 'h': 1, 'f': 6},
-        {'type': 'pop', 'state': (3, 2), 'g': 5, 'h': 1, 'f': 6},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 2, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 2), 'g': 6, 'parent': (3, 2), 'h': 2, 'f': 8},
-        {'type': 'h_calc', 'state': (3, 3), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 3), 'value': 0, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 3), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 3), 'g': 6, 'parent': (3, 2), 'h': 0, 'f': 6},
-        {'type': 'pop', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6},
-        {'type': 'h_calc', 'state': (2, 3), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 3), 'g': 7, 'parent': (3, 3), 'h': 2, 'f': 9},
-        {'type': 'on_goal', 'state': (3, 3), 'g': 6, 'reason': 'expanded', 'goal_index': 2},
-        {'type': 'update_frontier', 'num_nodes': 3, 'next_goal_index': 0},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 4, 'phase': 'update'},
-        {'type': 'update_heuristic', 'state': (2, 1), 'h_old': 3, 'h_new': 4},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 3, 'phase': 'update'},
-        {'type': 'update_heuristic', 'state': (2, 2), 'h_old': 2, 'h_new': 3},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'update'},
-        {'type': 'update_heuristic', 'state': (2, 3), 'h_old': 2, 'h_new': 2},
-        {'type': 'pop', 'state': (2, 1), 'g': 3, 'h': 4, 'f': 7},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 3, 'phase': 'search'},
-        {'type': 'decrease_g', 'state': (2, 2), 'g': 4, 'parent': (2, 1), 'h': 3, 'f': 7},
-        {'type': 'pop', 'state': (2, 2), 'g': 4, 'h': 3, 'f': 7},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'search'},
-        {'type': 'decrease_g', 'state': (2, 3), 'g': 5, 'parent': (2, 2), 'h': 2, 'f': 7},
-        {'type': 'pop', 'state': (2, 3), 'g': 5, 'h': 2, 'f': 7},
-        {'type': 'h_calc', 'state': (1, 3), 'value': 1, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (1, 3), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 3), 'g': 6, 'parent': (2, 3), 'h': 1, 'f': 7},
-        {'type': 'pop', 'state': (1, 3), 'g': 6, 'h': 1, 'f': 7},
-        {'type': 'h_calc', 'state': (0, 3), 'value': 0, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (0, 3), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 3), 'g': 7, 'parent': (1, 3), 'h': 0, 'f': 7},
-        {'type': 'pop', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7},
-        {'type': 'on_goal', 'state': (0, 3), 'g': 7, 'reason': 'expanded', 'goal_index': 0},
-    ]
-    assert actual == expected
+# ──────────────────────────────────────────────────────────
+#  Canonical streams (one per `is_lazy` value)
+# ──────────────────────────────────────────────────────────
 
 
-# === eager_opt_nosv (117 events) ===
-def test_recording_canonical_omspp_min_eager_opt_nosv() -> None:
-    """
-    ========================================================================
-     Pin the FULL event stream for KAStarAgg-MIN with
-     is_lazy=False, is_opt=True, store_vector=False.
-     117 events.
-    ========================================================================
-    """
-    p = ProblemGrid.Factory.grid_4x4_obstacle_omspp()
-    algo = KAStarAgg(problem=p,
-                     h=lambda s, g: float(s.distance(g)),
-                     agg='MIN',
-                     is_lazy=False,
-                     is_opt=True,
-                     store_vector=False,
-                     is_recording=True)
-    algo.run()
-    actual = [normalize(e) for e in algo.recorder.events]
-    expected = [
-        {'type': 'h_calc', 'state': (0, 0), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 3, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 6, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (0, 0), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (0, 0), 'value': 3, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 3, 'f': 3},
-        {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 3, 'f': 3},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 4, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 5, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (0, 1), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (0, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 1), 'g': 1, 'parent': (0, 0), 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 2, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 5, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (1, 0), 'responsible': (3, 0)},
-        {'type': 'phi_calc', 'state': (1, 0), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 0), 'g': 1, 'parent': (0, 0), 'h': 2, 'f': 3},
-        {'type': 'pop', 'state': (0, 1), 'g': 1, 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 3, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 4, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (1, 1), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (1, 1), 'value': 3, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 1), 'g': 2, 'parent': (0, 1), 'h': 3, 'f': 5},
-        {'type': 'pop', 'state': (1, 0), 'g': 1, 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 5, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 1, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 4, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (2, 0), 'responsible': (3, 0)},
-        {'type': 'phi_calc', 'state': (2, 0), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 0), 'g': 2, 'parent': (1, 0), 'h': 1, 'f': 3},
-        {'type': 'pop', 'state': (2, 0), 'g': 2, 'h': 1, 'f': 3},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 2, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 3, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (2, 1), 'responsible': (3, 0)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 1), 'g': 3, 'parent': (2, 0), 'h': 2, 'f': 5},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 6, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 0, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 3, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (3, 0), 'responsible': (3, 0)},
-        {'type': 'phi_calc', 'state': (3, 0), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 0), 'g': 3, 'parent': (2, 0), 'h': 0, 'f': 3},
-        {'type': 'pop', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 5, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 2, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (3, 1), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 1), 'g': 4, 'parent': (3, 0), 'h': 2, 'f': 6},
-        {'type': 'on_goal', 'state': (3, 0), 'g': 3, 'reason': 'expanded', 'goal_index': 1},
-        {'type': 'update_frontier', 'num_nodes': 3, 'next_goal_index': 0},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 4, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 3, 'phase': 'update', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (2, 1), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 3, 'phase': 'update'},
-        {'type': 'update_heuristic', 'state': (2, 1), 'h_old': 2, 'h_new': 3},
-        {'type': 'refresh_skip', 'state': (1, 1), 'reason': 'eager_responsible_unchanged'},
-        {'type': 'refresh_skip', 'state': (3, 1), 'reason': 'eager_responsible_unchanged'},
-        {'type': 'pop', 'state': (1, 1), 'g': 2, 'h': 3, 'f': 5},
-        {'type': 'pop', 'state': (3, 1), 'g': 4, 'h': 2, 'f': 6},
-        {'type': 'h_calc', 'state': (3, 2), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 2), 'value': 1, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (3, 2), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 2), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 2), 'g': 5, 'parent': (3, 1), 'h': 1, 'f': 6},
-        {'type': 'pop', 'state': (3, 2), 'g': 5, 'h': 1, 'f': 6},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 2, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (2, 2), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 2), 'g': 6, 'parent': (3, 2), 'h': 2, 'f': 8},
-        {'type': 'h_calc', 'state': (3, 3), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 3), 'value': 0, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (3, 3), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 3), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 3), 'g': 6, 'parent': (3, 2), 'h': 0, 'f': 6},
-        {'type': 'pop', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6},
-        {'type': 'h_calc', 'state': (2, 3), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (2, 3), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 3), 'g': 7, 'parent': (3, 3), 'h': 2, 'f': 9},
-        {'type': 'on_goal', 'state': (3, 3), 'g': 6, 'reason': 'expanded', 'goal_index': 2},
-        {'type': 'update_frontier', 'num_nodes': 3, 'next_goal_index': 0},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 4, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (2, 1), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 4, 'phase': 'update'},
-        {'type': 'update_heuristic', 'state': (2, 1), 'h_old': 3, 'h_new': 4},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 3, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (2, 2), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 3, 'phase': 'update'},
-        {'type': 'update_heuristic', 'state': (2, 2), 'h_old': 2, 'h_new': 3},
-        {'type': 'refresh_skip', 'state': (2, 3), 'reason': 'eager_responsible_unchanged'},
-        {'type': 'pop', 'state': (2, 1), 'g': 3, 'h': 4, 'f': 7},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (2, 2), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 3, 'phase': 'search'},
-        {'type': 'decrease_g', 'state': (2, 2), 'g': 4, 'parent': (2, 1), 'h': 3, 'f': 7},
-        {'type': 'pop', 'state': (2, 2), 'g': 4, 'h': 3, 'f': 7},
-        {'type': 'h_calc', 'state': (2, 3), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (2, 3), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'search'},
-        {'type': 'decrease_g', 'state': (2, 3), 'g': 5, 'parent': (2, 2), 'h': 2, 'f': 7},
-        {'type': 'pop', 'state': (2, 3), 'g': 5, 'h': 2, 'f': 7},
-        {'type': 'h_calc', 'state': (1, 3), 'value': 1, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (1, 3), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (1, 3), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 3), 'g': 6, 'parent': (2, 3), 'h': 1, 'f': 7},
-        {'type': 'pop', 'state': (1, 3), 'g': 6, 'h': 1, 'f': 7},
-        {'type': 'h_calc', 'state': (0, 3), 'value': 0, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (0, 3), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (0, 3), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 3), 'g': 7, 'parent': (1, 3), 'h': 0, 'f': 7},
-        {'type': 'pop', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7},
-        {'type': 'on_goal', 'state': (0, 3), 'g': 7, 'reason': 'expanded', 'goal_index': 0},
-    ]
-    assert actual == expected
+_EAGER_CANONICAL: list[dict] = [
+    {'type': 'push', 'state': (0, 0), 'g': 0, 'h': 3, 'f': 3, 'parent': None},
+    {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 3, 'f': 3},
+    {'type': 'push', 'state': (0, 1), 'g': 1, 'h': 2, 'f': 3, 'parent': (0, 0)},
+    {'type': 'push', 'state': (1, 0), 'g': 1, 'h': 2, 'f': 3, 'parent': (0, 0)},
+    {'type': 'pop', 'state': (0, 1), 'g': 1, 'h': 2, 'f': 3},
+    {'type': 'push', 'state': (1, 1), 'g': 2, 'h': 3, 'f': 5, 'parent': (0, 1)},
+    {'type': 'pop', 'state': (1, 0), 'g': 1, 'h': 2, 'f': 3},
+    {'type': 'push', 'state': (2, 0), 'g': 2, 'h': 1, 'f': 3, 'parent': (1, 0)},
+    {'type': 'pop', 'state': (2, 0), 'g': 2, 'h': 1, 'f': 3},
+    {'type': 'push', 'state': (2, 1), 'g': 3, 'h': 2, 'f': 5, 'parent': (2, 0)},
+    {'type': 'push', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3, 'parent': (2, 0)},
+    {'type': 'pop', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3},
+    {'type': 'push', 'state': (3, 1), 'g': 4, 'h': 2, 'f': 6, 'parent': (3, 0)},
+    {'type': 'on_goal', 'state': (3, 0), 'g': 3, 'reason': 'expanded', 'goal_index': 1},
+    {'type': 'update_frontier', 'num_nodes': 3, 'next_goal_index': 0},
+    {'type': 'pop', 'state': (1, 1), 'g': 2, 'h': 3, 'f': 5},
+    {'type': 'pop', 'state': (3, 1), 'g': 4, 'h': 2, 'f': 6},
+    {'type': 'push', 'state': (3, 2), 'g': 5, 'h': 1, 'f': 6, 'parent': (3, 1)},
+    {'type': 'pop', 'state': (3, 2), 'g': 5, 'h': 1, 'f': 6},
+    {'type': 'push', 'state': (2, 2), 'g': 6, 'h': 2, 'f': 8, 'parent': (3, 2)},
+    {'type': 'push', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6, 'parent': (3, 2)},
+    {'type': 'pop', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6},
+    {'type': 'push', 'state': (2, 3), 'g': 7, 'h': 2, 'f': 9, 'parent': (3, 3)},
+    {'type': 'on_goal', 'state': (3, 3), 'g': 6, 'reason': 'expanded', 'goal_index': 2},
+    {'type': 'update_frontier', 'num_nodes': 3, 'next_goal_index': 0},
+    {'type': 'pop', 'state': (2, 1), 'g': 3, 'h': 4, 'f': 7},
+    {'type': 'decrease_g', 'state': (2, 2), 'g': 4, 'h': 3, 'f': 7, 'parent': (2, 1)},
+    {'type': 'pop', 'state': (2, 2), 'g': 4, 'h': 3, 'f': 7},
+    {'type': 'decrease_g', 'state': (2, 3), 'g': 5, 'h': 2, 'f': 7, 'parent': (2, 2)},
+    {'type': 'pop', 'state': (2, 3), 'g': 5, 'h': 2, 'f': 7},
+    {'type': 'push', 'state': (1, 3), 'g': 6, 'h': 1, 'f': 7, 'parent': (2, 3)},
+    {'type': 'pop', 'state': (1, 3), 'g': 6, 'h': 1, 'f': 7},
+    {'type': 'push', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7, 'parent': (1, 3)},
+    {'type': 'pop', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7},
+    {'type': 'on_goal', 'state': (0, 3), 'g': 7, 'reason': 'expanded', 'goal_index': 0},
+]
 
 
-# === eager_opt_sv (111 events) ===
-def test_recording_canonical_omspp_min_eager_opt_sv() -> None:
-    """
-    ========================================================================
-     Pin the FULL event stream for KAStarAgg-MIN with
-     is_lazy=False, is_opt=True, store_vector=True.
-     111 events.
-    ========================================================================
-    """
-    p = ProblemGrid.Factory.grid_4x4_obstacle_omspp()
-    algo = KAStarAgg(problem=p,
-                     h=lambda s, g: float(s.distance(g)),
-                     agg='MIN',
-                     is_lazy=False,
-                     is_opt=True,
-                     store_vector=True,
-                     is_recording=True)
-    algo.run()
-    actual = [normalize(e) for e in algo.recorder.events]
-    expected = [
-        {'type': 'h_calc', 'state': (0, 0), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 3, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 6, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (0, 0), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (0, 0), 'value': 3, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 3, 'f': 3},
-        {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 3, 'f': 3},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 4, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 5, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (0, 1), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (0, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 1), 'g': 1, 'parent': (0, 0), 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 2, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 5, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (1, 0), 'responsible': (3, 0)},
-        {'type': 'phi_calc', 'state': (1, 0), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 0), 'g': 1, 'parent': (0, 0), 'h': 2, 'f': 3},
-        {'type': 'pop', 'state': (0, 1), 'g': 1, 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 3, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 4, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (1, 1), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (1, 1), 'value': 3, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 1), 'g': 2, 'parent': (0, 1), 'h': 3, 'f': 5},
-        {'type': 'pop', 'state': (1, 0), 'g': 1, 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 5, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 1, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 4, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (2, 0), 'responsible': (3, 0)},
-        {'type': 'phi_calc', 'state': (2, 0), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 0), 'g': 2, 'parent': (1, 0), 'h': 1, 'f': 3},
-        {'type': 'pop', 'state': (2, 0), 'g': 2, 'h': 1, 'f': 3},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 2, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 3, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (2, 1), 'responsible': (3, 0)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 1), 'g': 3, 'parent': (2, 0), 'h': 2, 'f': 5},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 6, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 0, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 3, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (3, 0), 'responsible': (3, 0)},
-        {'type': 'phi_calc', 'state': (3, 0), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 0), 'g': 3, 'parent': (2, 0), 'h': 0, 'f': 3},
-        {'type': 'pop', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 5, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 2, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (3, 1), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 1), 'g': 4, 'parent': (3, 0), 'h': 2, 'f': 6},
-        {'type': 'on_goal', 'state': (3, 0), 'g': 3, 'reason': 'expanded', 'goal_index': 1},
-        {'type': 'update_frontier', 'num_nodes': 3, 'next_goal_index': 0},
-        {'type': 'responsible_set', 'state': (2, 1), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 3, 'phase': 'update'},
-        {'type': 'update_heuristic', 'state': (2, 1), 'h_old': 2, 'h_new': 3},
-        {'type': 'refresh_skip', 'state': (1, 1), 'reason': 'eager_responsible_unchanged'},
-        {'type': 'refresh_skip', 'state': (3, 1), 'reason': 'eager_responsible_unchanged'},
-        {'type': 'pop', 'state': (1, 1), 'g': 2, 'h': 3, 'f': 5},
-        {'type': 'pop', 'state': (3, 1), 'g': 4, 'h': 2, 'f': 6},
-        {'type': 'h_calc', 'state': (3, 2), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 2), 'value': 1, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (3, 2), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 2), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 2), 'g': 5, 'parent': (3, 1), 'h': 1, 'f': 6},
-        {'type': 'pop', 'state': (3, 2), 'g': 5, 'h': 1, 'f': 6},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 2, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (2, 2), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 2), 'g': 6, 'parent': (3, 2), 'h': 2, 'f': 8},
-        {'type': 'h_calc', 'state': (3, 3), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 3), 'value': 0, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (3, 3), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 3), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 3), 'g': 6, 'parent': (3, 2), 'h': 0, 'f': 6},
-        {'type': 'pop', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6},
-        {'type': 'h_calc', 'state': (2, 3), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (2, 3), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 3), 'g': 7, 'parent': (3, 3), 'h': 2, 'f': 9},
-        {'type': 'on_goal', 'state': (3, 3), 'g': 6, 'reason': 'expanded', 'goal_index': 2},
-        {'type': 'update_frontier', 'num_nodes': 3, 'next_goal_index': 0},
-        {'type': 'responsible_set', 'state': (2, 1), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 4, 'phase': 'update'},
-        {'type': 'update_heuristic', 'state': (2, 1), 'h_old': 3, 'h_new': 4},
-        {'type': 'responsible_set', 'state': (2, 2), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 3, 'phase': 'update'},
-        {'type': 'update_heuristic', 'state': (2, 2), 'h_old': 2, 'h_new': 3},
-        {'type': 'refresh_skip', 'state': (2, 3), 'reason': 'eager_responsible_unchanged'},
-        {'type': 'pop', 'state': (2, 1), 'g': 3, 'h': 4, 'f': 7},
-        {'type': 'responsible_set', 'state': (2, 2), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 3, 'phase': 'search'},
-        {'type': 'decrease_g', 'state': (2, 2), 'g': 4, 'parent': (2, 1), 'h': 3, 'f': 7},
-        {'type': 'pop', 'state': (2, 2), 'g': 4, 'h': 3, 'f': 7},
-        {'type': 'responsible_set', 'state': (2, 3), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'search'},
-        {'type': 'decrease_g', 'state': (2, 3), 'g': 5, 'parent': (2, 2), 'h': 2, 'f': 7},
-        {'type': 'pop', 'state': (2, 3), 'g': 5, 'h': 2, 'f': 7},
-        {'type': 'h_calc', 'state': (1, 3), 'value': 1, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (1, 3), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (1, 3), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 3), 'g': 6, 'parent': (2, 3), 'h': 1, 'f': 7},
-        {'type': 'pop', 'state': (1, 3), 'g': 6, 'h': 1, 'f': 7},
-        {'type': 'h_calc', 'state': (0, 3), 'value': 0, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (0, 3), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (0, 3), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 3), 'g': 7, 'parent': (1, 3), 'h': 0, 'f': 7},
-        {'type': 'pop', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7},
-        {'type': 'on_goal', 'state': (0, 3), 'g': 7, 'reason': 'expanded', 'goal_index': 0},
-    ]
-    assert actual == expected
+_LAZY_CANONICAL: list[dict] = [
+    {'type': 'push', 'state': (0, 0), 'g': 0, 'h': 3, 'f': 3, 'parent': None},
+    {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 3, 'f': 3},
+    {'type': 'push', 'state': (0, 1), 'g': 1, 'h': 2, 'f': 3, 'parent': (0, 0)},
+    {'type': 'push', 'state': (1, 0), 'g': 1, 'h': 2, 'f': 3, 'parent': (0, 0)},
+    {'type': 'pop', 'state': (0, 1), 'g': 1, 'h': 2, 'f': 3},
+    {'type': 'push', 'state': (1, 1), 'g': 2, 'h': 3, 'f': 5, 'parent': (0, 1)},
+    {'type': 'pop', 'state': (1, 0), 'g': 1, 'h': 2, 'f': 3},
+    {'type': 'push', 'state': (2, 0), 'g': 2, 'h': 1, 'f': 3, 'parent': (1, 0)},
+    {'type': 'pop', 'state': (2, 0), 'g': 2, 'h': 1, 'f': 3},
+    {'type': 'push', 'state': (2, 1), 'g': 3, 'h': 2, 'f': 5, 'parent': (2, 0)},
+    {'type': 'push', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3, 'parent': (2, 0)},
+    {'type': 'pop', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3},
+    {'type': 'push', 'state': (3, 1), 'g': 4, 'h': 2, 'f': 6, 'parent': (3, 0)},
+    {'type': 'on_goal', 'state': (3, 0), 'g': 3, 'reason': 'expanded', 'goal_index': 1},
+    {'type': 'pop', 'state': (1, 1), 'g': 2, 'h': 3, 'f': 5},
+    {'type': 'pop', 'state': (3, 1), 'g': 4, 'h': 2, 'f': 6},
+    {'type': 'push', 'state': (3, 2), 'g': 5, 'h': 1, 'f': 6, 'parent': (3, 1)},
+    {'type': 'pop', 'state': (3, 2), 'g': 5, 'h': 1, 'f': 6},
+    {'type': 'push', 'state': (2, 2), 'g': 6, 'h': 2, 'f': 8, 'parent': (3, 2)},
+    {'type': 'push', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6, 'parent': (3, 2)},
+    {'type': 'pop', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6},
+    {'type': 'push', 'state': (2, 3), 'g': 7, 'h': 2, 'f': 9, 'parent': (3, 3)},
+    {'type': 'on_goal', 'state': (3, 3), 'g': 6, 'reason': 'expanded', 'goal_index': 2},
+    {'type': 'pop', 'state': (2, 1), 'g': 3, 'h': 4, 'f': 7},
+    {'type': 'decrease_g', 'state': (2, 2), 'g': 4, 'h': 3, 'f': 7, 'parent': (2, 1)},
+    {'type': 'pop', 'state': (2, 2), 'g': 4, 'h': 3, 'f': 7},
+    {'type': 'decrease_g', 'state': (2, 3), 'g': 5, 'h': 2, 'f': 7, 'parent': (2, 2)},
+    {'type': 'pop', 'state': (2, 3), 'g': 5, 'h': 2, 'f': 7},
+    {'type': 'push', 'state': (1, 3), 'g': 6, 'h': 1, 'f': 7, 'parent': (2, 3)},
+    {'type': 'pop', 'state': (1, 3), 'g': 6, 'h': 1, 'f': 7},
+    {'type': 'push', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7, 'parent': (1, 3)},
+    {'type': 'pop', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7},
+    {'type': 'on_goal', 'state': (0, 3), 'g': 7, 'reason': 'expanded', 'goal_index': 0},
+]
 
 
-# === lazy_noopt_nosv (134 events) ===
-def test_recording_canonical_omspp_min_lazy_noopt_nosv() -> None:
-    """
-    ========================================================================
-     Pin the FULL event stream for KAStarAgg-MIN with
-     is_lazy=True, is_opt=False, store_vector=False.
-     134 events.
-    ========================================================================
-    """
-    p = ProblemGrid.Factory.grid_4x4_obstacle_omspp()
-    algo = KAStarAgg(problem=p,
-                     h=lambda s, g: float(s.distance(g)),
-                     agg='MIN',
-                     is_lazy=True,
-                     is_opt=False,
-                     store_vector=False,
-                     is_recording=True)
-    algo.run()
-    actual = [normalize(e) for e in algo.recorder.events]
-    expected = [
-        {'type': 'h_calc', 'state': (0, 0), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 3, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 6, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (0, 0), 'value': 3, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 3, 'f': 3},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 3, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 3, 'phase': 'update', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 6, 'phase': 'update', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (0, 0), 'value': 3, 'phase': 'update'},
-        {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 3, 'f': 3},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 4, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 5, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (0, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 1), 'g': 1, 'parent': (0, 0), 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 2, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 5, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (1, 0), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 0), 'g': 1, 'parent': (0, 0), 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 2, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 4, 'phase': 'update', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 5, 'phase': 'update', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (0, 1), 'value': 2, 'phase': 'update'},
-        {'type': 'pop', 'state': (0, 1), 'g': 1, 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 3, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 4, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (1, 1), 'value': 3, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 1), 'g': 2, 'parent': (0, 1), 'h': 3, 'f': 5},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 4, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 2, 'phase': 'update', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 5, 'phase': 'update', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (1, 0), 'value': 2, 'phase': 'update'},
-        {'type': 'pop', 'state': (1, 0), 'g': 1, 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 5, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 1, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 4, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 0), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 0), 'g': 2, 'parent': (1, 0), 'h': 1, 'f': 3},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 5, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 1, 'phase': 'update', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 4, 'phase': 'update', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 0), 'value': 1, 'phase': 'update'},
-        {'type': 'pop', 'state': (2, 0), 'g': 2, 'h': 1, 'f': 3},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 2, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 3, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 1), 'g': 3, 'parent': (2, 0), 'h': 2, 'f': 5},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 6, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 0, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 3, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 0), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 0), 'g': 3, 'parent': (2, 0), 'h': 0, 'f': 3},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 6, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 0, 'phase': 'update', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 3, 'phase': 'update', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 0), 'value': 0, 'phase': 'update'},
-        {'type': 'pop', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 5, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 2, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 1), 'g': 4, 'parent': (3, 0), 'h': 2, 'f': 6},
-        {'type': 'on_goal', 'state': (3, 0), 'g': 3, 'reason': 'expanded', 'goal_index': 1},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 4, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 3, 'phase': 'update', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 3, 'phase': 'update'},
-        {'type': 'pop_stale', 'state': (2, 1), 'f_stored': 5, 'f_recomputed': 6},
-        {'type': 'update_heuristic', 'state': (2, 1), 'h_old': 2, 'h_new': 3},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 3, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 4, 'phase': 'update', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (1, 1), 'value': 3, 'phase': 'update'},
-        {'type': 'pop', 'state': (1, 1), 'g': 2, 'h': 3, 'f': 5},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 5, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 2, 'phase': 'update', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 1), 'value': 2, 'phase': 'update'},
-        {'type': 'pop', 'state': (3, 1), 'g': 4, 'h': 2, 'f': 6},
-        {'type': 'h_calc', 'state': (3, 2), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 2), 'value': 1, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 2), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 2), 'g': 5, 'parent': (3, 1), 'h': 1, 'f': 6},
-        {'type': 'h_calc', 'state': (3, 2), 'value': 4, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 2), 'value': 1, 'phase': 'update', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 2), 'value': 1, 'phase': 'update'},
-        {'type': 'pop', 'state': (3, 2), 'g': 5, 'h': 1, 'f': 6},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 2, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 2), 'g': 6, 'parent': (3, 2), 'h': 2, 'f': 8},
-        {'type': 'h_calc', 'state': (3, 3), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 3), 'value': 0, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 3), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 3), 'g': 6, 'parent': (3, 2), 'h': 0, 'f': 6},
-        {'type': 'h_calc', 'state': (3, 3), 'value': 3, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 3), 'value': 0, 'phase': 'update', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 3), 'value': 0, 'phase': 'update'},
-        {'type': 'pop', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6},
-        {'type': 'h_calc', 'state': (2, 3), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 3), 'g': 7, 'parent': (3, 3), 'h': 2, 'f': 9},
-        {'type': 'on_goal', 'state': (3, 3), 'g': 6, 'reason': 'expanded', 'goal_index': 2},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 4, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 4, 'phase': 'update'},
-        {'type': 'pop_stale', 'state': (2, 1), 'f_stored': 6, 'f_recomputed': 7},
-        {'type': 'update_heuristic', 'state': (2, 1), 'h_old': 3, 'h_new': 4},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 4, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 4, 'phase': 'update'},
-        {'type': 'pop', 'state': (2, 1), 'g': 3, 'h': 4, 'f': 7},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 3, 'phase': 'search'},
-        {'type': 'decrease_g', 'state': (2, 2), 'g': 4, 'parent': (2, 1), 'h': 3, 'f': 7},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 3, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 3, 'phase': 'update'},
-        {'type': 'pop', 'state': (2, 2), 'g': 4, 'h': 3, 'f': 7},
-        {'type': 'h_calc', 'state': (2, 3), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'search'},
-        {'type': 'decrease_g', 'state': (2, 3), 'g': 5, 'parent': (2, 2), 'h': 2, 'f': 7},
-        {'type': 'h_calc', 'state': (2, 3), 'value': 2, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'update'},
-        {'type': 'pop', 'state': (2, 3), 'g': 5, 'h': 2, 'f': 7},
-        {'type': 'h_calc', 'state': (1, 3), 'value': 1, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (1, 3), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 3), 'g': 6, 'parent': (2, 3), 'h': 1, 'f': 7},
-        {'type': 'h_calc', 'state': (1, 3), 'value': 1, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (1, 3), 'value': 1, 'phase': 'update'},
-        {'type': 'pop', 'state': (1, 3), 'g': 6, 'h': 1, 'f': 7},
-        {'type': 'h_calc', 'state': (0, 3), 'value': 0, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (0, 3), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 3), 'g': 7, 'parent': (1, 3), 'h': 0, 'f': 7},
-        {'type': 'h_calc', 'state': (0, 3), 'value': 0, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (0, 3), 'value': 0, 'phase': 'update'},
-        {'type': 'pop', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7},
-        {'type': 'on_goal', 'state': (0, 3), 'g': 7, 'reason': 'expanded', 'goal_index': 0},
-    ]
-    assert actual == expected
+# ──────────────────────────────────────────────────────────
+#  Canonical-stream pins
+# ──────────────────────────────────────────────────────────
 
 
-# === lazy_noopt_sv (101 events) ===
-def test_recording_canonical_omspp_min_lazy_noopt_sv() -> None:
+def test_recording_canonical_omspp_min_eager() -> None:
     """
     ========================================================================
-     Pin the FULL event stream for KAStarAgg-MIN with
-     is_lazy=True, is_opt=False, store_vector=True.
-     101 events.
+     Pin the canonical eager event stream (35 events) on the
+     canonical OMSPP problem with KAStarAgg-MIN, is_lazy=False.
+
+     Distinguishing eager features:
+     - 2 `update_frontier` boundary markers (one per non-
+       final goal-find: index 1 → 0, then index 2 → 0).
+     - All 14 pops are real expansions (no stale pops in
+       eager mode).
+     - 14 first-time pushes + 2 `decrease_g` events at
+       (2,2) and (2,3) on the path to the last goal (0,3).
     ========================================================================
     """
-    p = ProblemGrid.Factory.grid_4x4_obstacle_omspp()
-    algo = KAStarAgg(problem=p,
-                     h=lambda s, g: float(s.distance(g)),
-                     agg='MIN',
-                     is_lazy=True,
-                     is_opt=False,
-                     store_vector=True,
-                     is_recording=True)
-    algo.run()
-    actual = [normalize(e) for e in algo.recorder.events]
-    expected = [
-        {'type': 'h_calc', 'state': (0, 0), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 3, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 6, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (0, 0), 'value': 3, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 3, 'f': 3},
-        {'type': 'phi_calc', 'state': (0, 0), 'value': 3, 'phase': 'update'},
-        {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 3, 'f': 3},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 4, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 5, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (0, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 1), 'g': 1, 'parent': (0, 0), 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 2, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 5, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (1, 0), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 0), 'g': 1, 'parent': (0, 0), 'h': 2, 'f': 3},
-        {'type': 'phi_calc', 'state': (0, 1), 'value': 2, 'phase': 'update'},
-        {'type': 'pop', 'state': (0, 1), 'g': 1, 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 3, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 4, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (1, 1), 'value': 3, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 1), 'g': 2, 'parent': (0, 1), 'h': 3, 'f': 5},
-        {'type': 'phi_calc', 'state': (1, 0), 'value': 2, 'phase': 'update'},
-        {'type': 'pop', 'state': (1, 0), 'g': 1, 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 5, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 1, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 4, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 0), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 0), 'g': 2, 'parent': (1, 0), 'h': 1, 'f': 3},
-        {'type': 'phi_calc', 'state': (2, 0), 'value': 1, 'phase': 'update'},
-        {'type': 'pop', 'state': (2, 0), 'g': 2, 'h': 1, 'f': 3},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 2, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 3, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 1), 'g': 3, 'parent': (2, 0), 'h': 2, 'f': 5},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 6, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 0, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 3, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 0), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 0), 'g': 3, 'parent': (2, 0), 'h': 0, 'f': 3},
-        {'type': 'phi_calc', 'state': (3, 0), 'value': 0, 'phase': 'update'},
-        {'type': 'pop', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 5, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 2, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 1), 'g': 4, 'parent': (3, 0), 'h': 2, 'f': 6},
-        {'type': 'on_goal', 'state': (3, 0), 'g': 3, 'reason': 'expanded', 'goal_index': 1},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 3, 'phase': 'update'},
-        {'type': 'pop_stale', 'state': (2, 1), 'f_stored': 5, 'f_recomputed': 6},
-        {'type': 'update_heuristic', 'state': (2, 1), 'h_old': 2, 'h_new': 3},
-        {'type': 'phi_calc', 'state': (1, 1), 'value': 3, 'phase': 'update'},
-        {'type': 'pop', 'state': (1, 1), 'g': 2, 'h': 3, 'f': 5},
-        {'type': 'phi_calc', 'state': (3, 1), 'value': 2, 'phase': 'update'},
-        {'type': 'pop', 'state': (3, 1), 'g': 4, 'h': 2, 'f': 6},
-        {'type': 'h_calc', 'state': (3, 2), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 2), 'value': 1, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 2), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 2), 'g': 5, 'parent': (3, 1), 'h': 1, 'f': 6},
-        {'type': 'phi_calc', 'state': (3, 2), 'value': 1, 'phase': 'update'},
-        {'type': 'pop', 'state': (3, 2), 'g': 5, 'h': 1, 'f': 6},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 2, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 2), 'g': 6, 'parent': (3, 2), 'h': 2, 'f': 8},
-        {'type': 'h_calc', 'state': (3, 3), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 3), 'value': 0, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 3), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 3), 'g': 6, 'parent': (3, 2), 'h': 0, 'f': 6},
-        {'type': 'phi_calc', 'state': (3, 3), 'value': 0, 'phase': 'update'},
-        {'type': 'pop', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6},
-        {'type': 'h_calc', 'state': (2, 3), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 3), 'g': 7, 'parent': (3, 3), 'h': 2, 'f': 9},
-        {'type': 'on_goal', 'state': (3, 3), 'g': 6, 'reason': 'expanded', 'goal_index': 2},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 4, 'phase': 'update'},
-        {'type': 'pop_stale', 'state': (2, 1), 'f_stored': 6, 'f_recomputed': 7},
-        {'type': 'update_heuristic', 'state': (2, 1), 'h_old': 3, 'h_new': 4},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 4, 'phase': 'update'},
-        {'type': 'pop', 'state': (2, 1), 'g': 3, 'h': 4, 'f': 7},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 3, 'phase': 'search'},
-        {'type': 'decrease_g', 'state': (2, 2), 'g': 4, 'parent': (2, 1), 'h': 3, 'f': 7},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 3, 'phase': 'update'},
-        {'type': 'pop', 'state': (2, 2), 'g': 4, 'h': 3, 'f': 7},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'search'},
-        {'type': 'decrease_g', 'state': (2, 3), 'g': 5, 'parent': (2, 2), 'h': 2, 'f': 7},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'update'},
-        {'type': 'pop', 'state': (2, 3), 'g': 5, 'h': 2, 'f': 7},
-        {'type': 'h_calc', 'state': (1, 3), 'value': 1, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (1, 3), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 3), 'g': 6, 'parent': (2, 3), 'h': 1, 'f': 7},
-        {'type': 'phi_calc', 'state': (1, 3), 'value': 1, 'phase': 'update'},
-        {'type': 'pop', 'state': (1, 3), 'g': 6, 'h': 1, 'f': 7},
-        {'type': 'h_calc', 'state': (0, 3), 'value': 0, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'phi_calc', 'state': (0, 3), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 3), 'g': 7, 'parent': (1, 3), 'h': 0, 'f': 7},
-        {'type': 'phi_calc', 'state': (0, 3), 'value': 0, 'phase': 'update'},
-        {'type': 'pop', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7},
-        {'type': 'on_goal', 'state': (0, 3), 'g': 7, 'reason': 'expanded', 'goal_index': 0},
-    ]
-    assert actual == expected
+    algo = _make_algo(is_lazy=False, is_opt=False,
+                      store_vector=False)
+    assert _events_of(algo) == _EAGER_CANONICAL
 
 
-# === lazy_opt_nosv (124 events) ===
-def test_recording_canonical_omspp_min_lazy_opt_nosv() -> None:
+def test_recording_canonical_omspp_min_lazy() -> None:
     """
     ========================================================================
-     Pin the FULL event stream for KAStarAgg-MIN with
-     is_lazy=True, is_opt=True, store_vector=False.
-     124 events.
+     Pin the canonical lazy event stream (33 events) on the
+     canonical OMSPP problem with KAStarAgg-MIN, is_lazy=True.
+
+     Distinguishing lazy features:
+     - No `update_frontier` markers (refresh is inline at
+       pop time, no between-phase moment).
+     - The 2 stale pops are silent in the stream — `pop`
+       events fire only for real expansions, so the visible
+       pop count matches eager (14).
+     - Identical to `_EAGER_CANONICAL` apart from the 2
+       missing `update_frontier` events.
     ========================================================================
     """
-    p = ProblemGrid.Factory.grid_4x4_obstacle_omspp()
-    algo = KAStarAgg(problem=p,
-                     h=lambda s, g: float(s.distance(g)),
-                     agg='MIN',
-                     is_lazy=True,
-                     is_opt=True,
-                     store_vector=False,
-                     is_recording=True)
-    algo.run()
-    actual = [normalize(e) for e in algo.recorder.events]
-    expected = [
-        {'type': 'h_calc', 'state': (0, 0), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 3, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 6, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (0, 0), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (0, 0), 'value': 3, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 3, 'f': 3},
-        {'type': 'refresh_skip', 'state': (0, 0), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 3, 'f': 3},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 4, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 5, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (0, 1), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (0, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 1), 'g': 1, 'parent': (0, 0), 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 2, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 5, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (1, 0), 'responsible': (3, 0)},
-        {'type': 'phi_calc', 'state': (1, 0), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 0), 'g': 1, 'parent': (0, 0), 'h': 2, 'f': 3},
-        {'type': 'refresh_skip', 'state': (0, 1), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (0, 1), 'g': 1, 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 3, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 4, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (1, 1), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (1, 1), 'value': 3, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 1), 'g': 2, 'parent': (0, 1), 'h': 3, 'f': 5},
-        {'type': 'refresh_skip', 'state': (1, 0), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (1, 0), 'g': 1, 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 5, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 1, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 4, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (2, 0), 'responsible': (3, 0)},
-        {'type': 'phi_calc', 'state': (2, 0), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 0), 'g': 2, 'parent': (1, 0), 'h': 1, 'f': 3},
-        {'type': 'refresh_skip', 'state': (2, 0), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (2, 0), 'g': 2, 'h': 1, 'f': 3},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 2, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 3, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (2, 1), 'responsible': (3, 0)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 1), 'g': 3, 'parent': (2, 0), 'h': 2, 'f': 5},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 6, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 0, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 3, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (3, 0), 'responsible': (3, 0)},
-        {'type': 'phi_calc', 'state': (3, 0), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 0), 'g': 3, 'parent': (2, 0), 'h': 0, 'f': 3},
-        {'type': 'refresh_skip', 'state': (3, 0), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 5, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 2, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (3, 1), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 1), 'g': 4, 'parent': (3, 0), 'h': 2, 'f': 6},
-        {'type': 'on_goal', 'state': (3, 0), 'g': 3, 'reason': 'expanded', 'goal_index': 1},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 4, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 3, 'phase': 'update', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (2, 1), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 3, 'phase': 'update'},
-        {'type': 'pop_stale', 'state': (2, 1), 'f_stored': 5, 'f_recomputed': 6},
-        {'type': 'update_heuristic', 'state': (2, 1), 'h_old': 2, 'h_new': 3},
-        {'type': 'refresh_skip', 'state': (1, 1), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (1, 1), 'g': 2, 'h': 3, 'f': 5},
-        {'type': 'refresh_skip', 'state': (3, 1), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (3, 1), 'g': 4, 'h': 2, 'f': 6},
-        {'type': 'h_calc', 'state': (3, 2), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 2), 'value': 1, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (3, 2), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 2), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 2), 'g': 5, 'parent': (3, 1), 'h': 1, 'f': 6},
-        {'type': 'refresh_skip', 'state': (3, 2), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (3, 2), 'g': 5, 'h': 1, 'f': 6},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 2, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (2, 2), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 2), 'g': 6, 'parent': (3, 2), 'h': 2, 'f': 8},
-        {'type': 'h_calc', 'state': (3, 3), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 3), 'value': 0, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (3, 3), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 3), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 3), 'g': 6, 'parent': (3, 2), 'h': 0, 'f': 6},
-        {'type': 'refresh_skip', 'state': (3, 3), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6},
-        {'type': 'h_calc', 'state': (2, 3), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (2, 3), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 3), 'g': 7, 'parent': (3, 3), 'h': 2, 'f': 9},
-        {'type': 'on_goal', 'state': (3, 3), 'g': 6, 'reason': 'expanded', 'goal_index': 2},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 4, 'phase': 'update', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (2, 1), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 4, 'phase': 'update'},
-        {'type': 'pop_stale', 'state': (2, 1), 'f_stored': 6, 'f_recomputed': 7},
-        {'type': 'update_heuristic', 'state': (2, 1), 'h_old': 3, 'h_new': 4},
-        {'type': 'refresh_skip', 'state': (2, 1), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (2, 1), 'g': 3, 'h': 4, 'f': 7},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (2, 2), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 3, 'phase': 'search'},
-        {'type': 'decrease_g', 'state': (2, 2), 'g': 4, 'parent': (2, 1), 'h': 3, 'f': 7},
-        {'type': 'refresh_skip', 'state': (2, 2), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (2, 2), 'g': 4, 'h': 3, 'f': 7},
-        {'type': 'h_calc', 'state': (2, 3), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (2, 3), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'search'},
-        {'type': 'decrease_g', 'state': (2, 3), 'g': 5, 'parent': (2, 2), 'h': 2, 'f': 7},
-        {'type': 'refresh_skip', 'state': (2, 3), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (2, 3), 'g': 5, 'h': 2, 'f': 7},
-        {'type': 'h_calc', 'state': (1, 3), 'value': 1, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (1, 3), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (1, 3), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 3), 'g': 6, 'parent': (2, 3), 'h': 1, 'f': 7},
-        {'type': 'refresh_skip', 'state': (1, 3), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (1, 3), 'g': 6, 'h': 1, 'f': 7},
-        {'type': 'h_calc', 'state': (0, 3), 'value': 0, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (0, 3), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (0, 3), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 3), 'g': 7, 'parent': (1, 3), 'h': 0, 'f': 7},
-        {'type': 'refresh_skip', 'state': (0, 3), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7},
-        {'type': 'on_goal', 'state': (0, 3), 'g': 7, 'reason': 'expanded', 'goal_index': 0},
-    ]
-    assert actual == expected
+    algo = _make_algo(is_lazy=True, is_opt=False,
+                      store_vector=False)
+    assert _events_of(algo) == _LAZY_CANONICAL
 
 
-# === lazy_opt_sv (119 events) ===
-def test_recording_canonical_omspp_min_lazy_opt_sv() -> None:
+# ──────────────────────────────────────────────────────────
+#  Cross-config invariance: opt × store_vector don't perturb
+#  the recording stream.
+# ──────────────────────────────────────────────────────────
+
+
+@pytest.mark.parametrize('is_opt', [False, True])
+@pytest.mark.parametrize('store_vector', [False, True])
+def test_recording_invariant_eager_across_opt_sv(
+        is_opt: bool, store_vector: bool) -> None:
     """
     ========================================================================
-     Pin the FULL event stream for KAStarAgg-MIN with
-     is_lazy=True, is_opt=True, store_vector=True.
-     119 events.
+     Under is_lazy=False, the event stream is invariant to
+     (is_opt, store_vector). Both parameters affect only
+     counters, never the kept events.
+
+     Asserts the full stream equals `_EAGER_CANONICAL` for
+     every (opt × sv) cell. A regression that surfaces opt
+     or store_vector in events would fail at the deviating
+     cell, identifying the schema drift directly.
     ========================================================================
     """
-    p = ProblemGrid.Factory.grid_4x4_obstacle_omspp()
-    algo = KAStarAgg(problem=p,
-                     h=lambda s, g: float(s.distance(g)),
-                     agg='MIN',
-                     is_lazy=True,
-                     is_opt=True,
-                     store_vector=True,
-                     is_recording=True)
-    algo.run()
-    actual = [normalize(e) for e in algo.recorder.events]
-    expected = [
-        {'type': 'h_calc', 'state': (0, 0), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 3, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (0, 0), 'value': 6, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (0, 0), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (0, 0), 'value': 3, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 3, 'f': 3},
-        {'type': 'refresh_skip', 'state': (0, 0), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 3, 'f': 3},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 4, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (0, 1), 'value': 5, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (0, 1), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (0, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 1), 'g': 1, 'parent': (0, 0), 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 2, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (1, 0), 'value': 5, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (1, 0), 'responsible': (3, 0)},
-        {'type': 'phi_calc', 'state': (1, 0), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 0), 'g': 1, 'parent': (0, 0), 'h': 2, 'f': 3},
-        {'type': 'refresh_skip', 'state': (0, 1), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (0, 1), 'g': 1, 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 3, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (1, 1), 'value': 4, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (1, 1), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (1, 1), 'value': 3, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 1), 'g': 2, 'parent': (0, 1), 'h': 3, 'f': 5},
-        {'type': 'refresh_skip', 'state': (1, 0), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (1, 0), 'g': 1, 'h': 2, 'f': 3},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 5, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 1, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (2, 0), 'value': 4, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (2, 0), 'responsible': (3, 0)},
-        {'type': 'phi_calc', 'state': (2, 0), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 0), 'g': 2, 'parent': (1, 0), 'h': 1, 'f': 3},
-        {'type': 'refresh_skip', 'state': (2, 0), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (2, 0), 'g': 2, 'h': 1, 'f': 3},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 2, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (2, 1), 'value': 3, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (2, 1), 'responsible': (3, 0)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 1), 'g': 3, 'parent': (2, 0), 'h': 2, 'f': 5},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 6, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 0, 'phase': 'search', 'goal': (3, 0)},
-        {'type': 'h_calc', 'state': (3, 0), 'value': 3, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (3, 0), 'responsible': (3, 0)},
-        {'type': 'phi_calc', 'state': (3, 0), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 0), 'g': 3, 'parent': (2, 0), 'h': 0, 'f': 3},
-        {'type': 'refresh_skip', 'state': (3, 0), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 5, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 1), 'value': 2, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (3, 1), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 1), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 1), 'g': 4, 'parent': (3, 0), 'h': 2, 'f': 6},
-        {'type': 'on_goal', 'state': (3, 0), 'g': 3, 'reason': 'expanded', 'goal_index': 1},
-        {'type': 'responsible_set', 'state': (2, 1), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 3, 'phase': 'update'},
-        {'type': 'pop_stale', 'state': (2, 1), 'f_stored': 5, 'f_recomputed': 6},
-        {'type': 'update_heuristic', 'state': (2, 1), 'h_old': 2, 'h_new': 3},
-        {'type': 'refresh_skip', 'state': (1, 1), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (1, 1), 'g': 2, 'h': 3, 'f': 5},
-        {'type': 'refresh_skip', 'state': (3, 1), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (3, 1), 'g': 4, 'h': 2, 'f': 6},
-        {'type': 'h_calc', 'state': (3, 2), 'value': 4, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 2), 'value': 1, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (3, 2), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 2), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 2), 'g': 5, 'parent': (3, 1), 'h': 1, 'f': 6},
-        {'type': 'refresh_skip', 'state': (3, 2), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (3, 2), 'g': 5, 'h': 1, 'f': 6},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (2, 2), 'value': 2, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (2, 2), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 2), 'g': 6, 'parent': (3, 2), 'h': 2, 'f': 8},
-        {'type': 'h_calc', 'state': (3, 3), 'value': 3, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'h_calc', 'state': (3, 3), 'value': 0, 'phase': 'search', 'goal': (3, 3)},
-        {'type': 'responsible_set', 'state': (3, 3), 'responsible': (3, 3)},
-        {'type': 'phi_calc', 'state': (3, 3), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (3, 3), 'g': 6, 'parent': (3, 2), 'h': 0, 'f': 6},
-        {'type': 'refresh_skip', 'state': (3, 3), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6},
-        {'type': 'h_calc', 'state': (2, 3), 'value': 2, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (2, 3), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'search'},
-        {'type': 'push', 'state': (2, 3), 'g': 7, 'parent': (3, 3), 'h': 2, 'f': 9},
-        {'type': 'on_goal', 'state': (3, 3), 'g': 6, 'reason': 'expanded', 'goal_index': 2},
-        {'type': 'responsible_set', 'state': (2, 1), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 1), 'value': 4, 'phase': 'update'},
-        {'type': 'pop_stale', 'state': (2, 1), 'f_stored': 6, 'f_recomputed': 7},
-        {'type': 'update_heuristic', 'state': (2, 1), 'h_old': 3, 'h_new': 4},
-        {'type': 'refresh_skip', 'state': (2, 1), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (2, 1), 'g': 3, 'h': 4, 'f': 7},
-        {'type': 'responsible_set', 'state': (2, 2), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 2), 'value': 3, 'phase': 'search'},
-        {'type': 'decrease_g', 'state': (2, 2), 'g': 4, 'parent': (2, 1), 'h': 3, 'f': 7},
-        {'type': 'refresh_skip', 'state': (2, 2), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (2, 2), 'g': 4, 'h': 3, 'f': 7},
-        {'type': 'responsible_set', 'state': (2, 3), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (2, 3), 'value': 2, 'phase': 'search'},
-        {'type': 'decrease_g', 'state': (2, 3), 'g': 5, 'parent': (2, 2), 'h': 2, 'f': 7},
-        {'type': 'refresh_skip', 'state': (2, 3), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (2, 3), 'g': 5, 'h': 2, 'f': 7},
-        {'type': 'h_calc', 'state': (1, 3), 'value': 1, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (1, 3), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (1, 3), 'value': 1, 'phase': 'search'},
-        {'type': 'push', 'state': (1, 3), 'g': 6, 'parent': (2, 3), 'h': 1, 'f': 7},
-        {'type': 'refresh_skip', 'state': (1, 3), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (1, 3), 'g': 6, 'h': 1, 'f': 7},
-        {'type': 'h_calc', 'state': (0, 3), 'value': 0, 'phase': 'search', 'goal': (0, 3)},
-        {'type': 'responsible_set', 'state': (0, 3), 'responsible': (0, 3)},
-        {'type': 'phi_calc', 'state': (0, 3), 'value': 0, 'phase': 'search'},
-        {'type': 'push', 'state': (0, 3), 'g': 7, 'parent': (1, 3), 'h': 0, 'f': 7},
-        {'type': 'refresh_skip', 'state': (0, 3), 'reason': 'lazy_responsible_active'},
-        {'type': 'pop', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7},
-        {'type': 'on_goal', 'state': (0, 3), 'g': 7, 'reason': 'expanded', 'goal_index': 0},
-    ]
-    assert actual == expected
+    algo = _make_algo(is_lazy=False, is_opt=is_opt,
+                      store_vector=store_vector)
+    assert _events_of(algo) == _EAGER_CANONICAL
+
+
+@pytest.mark.parametrize('is_opt', [False, True])
+@pytest.mark.parametrize('store_vector', [False, True])
+def test_recording_invariant_lazy_across_opt_sv(
+        is_opt: bool, store_vector: bool) -> None:
+    """
+    ========================================================================
+     Under is_lazy=True, the event stream is invariant to
+     (is_opt, store_vector). The opt short-circuit and the
+     vector cache only affect counters; the kept events are
+     identical across all four (opt × sv) cells.
+    ========================================================================
+    """
+    algo = _make_algo(is_lazy=True, is_opt=is_opt,
+                      store_vector=store_vector)
+    assert _events_of(algo) == _LAZY_CANONICAL

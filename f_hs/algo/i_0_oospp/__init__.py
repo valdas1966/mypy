@@ -4,8 +4,6 @@ __all__ = [
     'BFS',
     'AStar',
     'AStarLookup',
-    'AStarBPMX',
-    'AStarLookupBPMX',
     'Dijkstra',
 ]
 
@@ -17,8 +15,6 @@ def __getattr__(name: str):
         'BFS': 'f_hs.algo.i_0_oospp.i_1_bfs',
         'AStar': 'f_hs.algo.i_0_oospp.i_1_astar',
         'AStarLookup': 'f_hs.algo.i_0_oospp.i_2_astar_lookup',
-        'AStarBPMX': 'f_hs.algo.i_0_oospp.i_2_astar_bpmx',
-        'AStarLookupBPMX': 'f_hs.algo.i_0_oospp.i_3_astar_lookup_bpmx',
         'Dijkstra': 'f_hs.algo.i_0_oospp.i_2_dijkstra',
     }
     if name in _lazy:

@@ -12,28 +12,21 @@ override `_priority(state)` if needed.
 AlgoSPP (loop + SearchState + recording + path + Frontier)
 ├── BFS                                      — FrontierFIFO
 └── AStar (simple; (f, -g, state))           — FrontierPriority
-    ├── AStarLookup (cache + bounds; (f, -g, cache_rank, state))
+    ├── AStarLookup (cache + bounds + BPMX(d);
+    │                (f, -g, cache_rank, state))
     │   — HCached early-term, HBounded admissible bounds,
     │     to_cache harvest, suffix-stitched reconstruct_path,
-    │     pre-search propagate_pathmax.
-    ├── AStarBPMX (in-search Felner pathmax + BPMX(d) cascade)
-    │   — composes BPMXMixin with vanilla AStar.
-    │     rule_pathmax ∈ {None, 1, 2, 3} (Felner numbering),
-    │     depth_bpmx ∈ {None, 0, 1, 2, ...} for BPMX(d).
-    │     Sibling of AStarLookup, not in chain.
+    │     pre-search propagate_pathmax, in-search Felner
+    │     pathmax / BPMX(d) cascade. Composes BPMXMixin
+    │     natively. The canonical advanced-A* class; used by
+    │     k×A*-CB for OMSPP / MOSPP sub-search.
     └── Dijkstra (h = 0)
-
-AStarLookup
-    └── AStarLookupBPMX (i_3_astar_lookup_bpmx/) — cache +
-        bounds + propagate_pathmax + in-search BPMX in one
-        pass; composes BPMXMixin with AStarLookup. Phase-2
-        integration; used by k×A*-CB for OMSPP/MOSPP sub-search.
 ```
 
 The shared in-search Felner mechanism lives in
-`f_hs/algo/i_0_oospp/mixins/bpmx/main.py` (`BPMXMixin`). Both `AStarBPMX`
-and `AStarLookupBPMX` inherit from it via MRO; the host class
-just owns init validation and chain assembly.
+`f_hs/algo/i_0_oospp/mixins/bpmx/main.py` (`BPMXMixin`).
+`AStarLookup` composes it via MRO; the host class owns init
+validation and chain assembly.
 
 The dynamic per-search bundle (frontier, g, parent, closed,
 goal_reached) is held as a single `SearchStateSPP` dataclass on
@@ -62,11 +55,8 @@ algo/
 │   ├── i_0_base/          AlgoSPP — abstract base
 │   ├── i_1_bfs/           BFS — breadth-first search
 │   ├── i_1_astar/         AStar — simple A*
-│   ├── i_2_astar_lookup/  AStarLookup — cache + bounds
-│   ├── i_2_astar_bpmx/    AStarBPMX — AStar + BPMXMixin
+│   ├── i_2_astar_lookup/  AStarLookup — cache + bounds + BPMX
 │   ├── i_2_dijkstra/      Dijkstra — A* with h=0
-│   ├── i_3_astar_lookup_bpmx/
-│   │                      AStarLookupBPMX — combined
 │   └── mixins/bpmx/       BPMXMixin (Felner pathmax / BPMX(d))
 ├── i_1_omspp/             Variant-depth 1 — One-to-Many SPP
 │   │                      (composes i_0_oospp algos as

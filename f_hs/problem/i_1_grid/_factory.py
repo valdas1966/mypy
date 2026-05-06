@@ -44,8 +44,8 @@ class Factory:
          optimal cost is 7 (vs. 3 without obstacles).
 
          Used as the cross-algorithm OOSPP benchmark by every
-         AStar-family tester (AStar, AStarLookup, AStarBPMX,
-         AStarLookupBPMX, Dijkstra, BFS) and by OOSPP scripts.
+         AStar-family tester (AStar, AStarLookup, Dijkstra,
+         BFS) and by OOSPP scripts.
          The OMSPP twin is `grid_4x4_obstacle_omspp()` (same
          grid, multi-goal).
         ====================================================================

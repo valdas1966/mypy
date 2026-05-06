@@ -7,48 +7,56 @@ interpretations, ask clarifying questions first. Do not assume intent —
 confirm it. For straightforward operational tasks (run tests, commit,
 format, etc.) proceed directly without asking.
 
+## Effort Escalation
+
+Before starting a task, judge whether regular reasoning effort
+is likely to suffice. If the task is genuinely complex —
+multi-step design, subtle correctness, cross-module impact,
+non-obvious tradeoffs, hard performance constraints — **flag
+this and ask** whether to use a higher reasoning effort (e.g.,
+`ultrathink`) before proceeding. Do not silently downscope or
+take a shortcut on a task that warrants the extra budget. For
+routine, well-scoped tasks, proceed without asking.
+
 ## Response Style
 
-Text replies to the user must be **concise, structured, and
-enumerated**. Favor lists over prose.
+Text replies to the user must be **enumerated, titled,
+minimal**. Strict format:
 
-1. **Concise sentences.** Every sentence carries unique
-   information. Cut filler, hedging, preamble, and restatement
-   of the user's request. Prefer short sentences; split long
-   ones.
+1. **Numbered sentences, one per line.** Each sentence is a
+   numbered list item on its own line — no prose paragraphs,
+   no inline run-on.
 
-2. **Structured layout.** Group related points. For any reply
-   with more than one piece of information, use either:
-   - a numbered list, or
-   - the `DONE / QUESTIONS / NOTES` delimiters defined in the
-     Drive `Instructions/For_Tex.md` "Reporting Back to the
-     User" section — these apply to **all** task reports, not
-     just tex work.
+2. **Bold title per sentence.** Every sentence opens with a
+   short bold title (e.g., `**Done.**`, `**Risk.**`). The
+   title does **not** count toward the body word cap.
 
-3. **Enumerate points.** When a reply covers multiple items,
-   present them as a numbered list. One idea per item.
+3. **≤ 10 words per body.** The body — everything after the
+   bold title — is at most 10 words. Hyphenated tokens
+   (`multi-finding`, `word-cap`) count as one word.
 
-4. **Inner enumeration when nested.** If a numbered item has
-   sub-points, nest a second level using bullets (`-`) or
-   letters (`a./b./c.`). Two levels is usually enough; avoid
-   deeper nesting.
+4. **≤ 5 sentences total.** Five is a ceiling, not a target.
+   A one-sentence reply is correct when that suffices — do
+   not pad to fill the cap.
 
-5. **No narration of diffs or tool calls.** The tools, files,
-   and session `.md` carry the evidence. Do not rehearse the
-   user's request.
+5. **Critical info only.** Every sentence carries unique
+   essential information. Cut hedging, preamble, recap,
+   restatement of the user's request.
 
-6. **Long explanations go into the session `.md`, not chat.**
+6. **No narration of diffs or tool calls.** Tools, files, and
+   the session `.md` carry the evidence.
+
+7. **Long explanations go into the session `.md`, not chat.**
    When a detailed rationale is warranted, write it to the
-   session summary on Drive and link to it from a one-line
-   chat note.
+   session summary on Drive and link from a one-line chat
+   note.
 
-7. **Minimal, concise, sharp.** Use the fewest words that
-   convey the point. No softeners, no recap, no closing
-   pleasantries. Every reply must be as minimal, concise,
-   simple, and sharp as possible — strip anything that is
-   not strictly required.
+8. **DONE / QUESTIONS / NOTES delimiters.** Task reports use
+   the delimiters from Drive `Instructions/For_Tex.md →
+   Reporting Back to the User`; each entry inside follows
+   rules 1–5.
 
-8. **NOTES section is for critical items only.** Write a
+9. **NOTES section is for critical items only.** Write a
    `NOTES` entry only when the information is genuinely
    critical or important (a hidden risk, a non-obvious
    consequence, a behavior the user must know). Default to
@@ -56,14 +64,14 @@ enumerated**. Favor lists over prose.
    notes at all**. Do not pad with observations, summaries,
    or "fyi" remarks.
 
-9. **QUESTIONS section is for pre-task blockers only.**
-   - a. Write a `QUESTIONS` entry **only before** starting a
-     task, and **only** when the task is not fully
-     understood (genuine ambiguity that blocks progress).
-   - b. If the task was understood and is already finished,
-     the `QUESTIONS` section must be **empty** — never
-     append after-the-fact questions, suggestions, or
-     follow-up offers there.
+10. **QUESTIONS section is for pre-task blockers only.**
+    - a. Write a `QUESTIONS` entry **only before** starting a
+      task, and **only** when the task is not fully
+      understood (genuine ambiguity that blocks progress).
+    - b. If the task was understood and is already finished,
+      the `QUESTIONS` section must be **empty** — never
+      append after-the-fact questions, suggestions, or
+      follow-up offers there.
 
 ## Project Structure
 

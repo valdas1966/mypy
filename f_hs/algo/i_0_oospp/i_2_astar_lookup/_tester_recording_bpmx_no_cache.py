@@ -1,6 +1,6 @@
 """
 ============================================================================
- AStarBPMX — full event-stream pins on the canonical OOSPP
+ AStarLookup — full event-stream pins on the canonical OOSPP
  problem (`grid_4x4_obstacle`) for each Felner pathmax rule.
  One test method per rule; each asserts the complete
  normalized event list (every field of every event,
@@ -16,7 +16,7 @@
 ============================================================================
 """
 
-from f_hs.algo.i_0_oospp.i_2_astar_bpmx import AStarBPMX
+from f_hs.algo.i_0_oospp.i_2_astar_lookup import AStarLookup
 from f_hs.algo.u_event_normalize import normalize
 
 
@@ -28,7 +28,7 @@ def test_recording_grid_4x4_obstacle_cascade_full() -> None:
      `bpmx_iteration` markers).
     ========================================================================
     """
-    algo = AStarBPMX.Factory.grid_4x4(rule_bpmx='CASCADE',
+    algo = AStarLookup.Factory.grid_4x4(rule_bpmx='CASCADE',
                                       depth_bpmx=None)
     algo.recorder.is_active = True
     algo.run()
@@ -77,7 +77,7 @@ def test_recording_grid_4x4_obstacle_rule_1_isolated() -> None:
      AStar.
     ========================================================================
     """
-    algo = AStarBPMX.Factory.grid_4x4(rule_bpmx='1', depth_bpmx=1)
+    algo = AStarLookup.Factory.grid_4x4(rule_bpmx='1', depth_bpmx=1)
     algo.recorder.is_active = True
     algo.run()
     actual = [normalize(e) for e in algo.recorder.events]
@@ -118,7 +118,7 @@ def test_recording_grid_4x4_obstacle_rule_2_isolated() -> None:
      events.
     ========================================================================
     """
-    algo = AStarBPMX.Factory.grid_4x4(rule_bpmx='2', depth_bpmx=1)
+    algo = AStarLookup.Factory.grid_4x4(rule_bpmx='2', depth_bpmx=1)
     algo.recorder.is_active = True
     algo.run()
     actual = [normalize(e) for e in algo.recorder.events]
@@ -160,7 +160,7 @@ def test_recording_grid_4x4_obstacle_rule_3_isolated() -> None:
      AStar.
     ========================================================================
     """
-    algo = AStarBPMX.Factory.grid_4x4(rule_bpmx='3', depth_bpmx=1)
+    algo = AStarLookup.Factory.grid_4x4(rule_bpmx='3', depth_bpmx=1)
     algo.recorder.is_active = True
     algo.run()
     actual = [normalize(e) for e in algo.recorder.events]

@@ -66,7 +66,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
        cnt_h_search   — h(n,t) calls in normal flow (push,
                         decrease-g, start seed).
        cnt_h_update   — h(n,t) calls in refresh flow (lazy
-                        pop-recompute, eager `_refresh_all_F`).
+                        pop-recompute, eager `_refresh_priorities`).
        cnt_phi_search — `_compute_F` calls in normal flow.
        cnt_phi_update — `_compute_F` calls in refresh flow.
        cnt_push       — `frontier.push` calls.
@@ -75,28 +75,31 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                         (lazy mode only).
        cnt_decrease   — `frontier.decrease` calls.
 
-     Recording event schema (push/pop/decrease_g plus):
+     Recording event schema — minimal, INC-aligned (5 types):
+       `push`             — first-time push only (initial seed
+                            + `_handle_child` first-encounter
+                            branch). Eager bulk re-push (in
+                            `_refresh_priorities`) and lazy
+                            stale re-push are silent. Stream's
+                            `push` count = `cnt_generated`, not
+                            `cnt_push`.
+       `pop`              — non-stale pop (real expansion) only.
+                            Lazy stale pops are silent; stream's
+                            `pop` count = `cnt_pop − cnt_pop_stale`.
+       `decrease_g`       — child relaxation; one per `cnt_decrease`.
        `on_goal`          — goal reached; reason='expanded' or
                             'unreachable'.
-       `update_frontier`  — boundary before an eager F refresh;
-                            carries num_nodes and next_goal_index.
-       `update_heuristic` — per-node h/F update; fires during
-                            eager refresh AND during lazy
-                            re-insertion.
-       `h_calc`           — single h(state, goal) evaluation;
-                            value + phase ('search' / 'update').
-       `phi_calc`         — single _compute_F call; carries phi
-                            (the aggregated heuristic value) and
-                            phase. Fires once per call, even when
-                            no active goals (phi=0 then).
-       `responsible_set`  — `self._responsible[state]` assigned
-                            (only fires under is_opt=True).
-       `refresh_skip`     — opt short-circuit fired; reason in
-                            {'lazy_responsible_active',
-                             'eager_responsible_unchanged'}.
-       `pop_stale`        — lazy pop found stale F; carries
-                            f_stored and f_recomputed (an
-                            `update_heuristic` + re-push follows).
+       `update_frontier`  — eager-only boundary marker before the
+                            bulk refresh; carries num_nodes and
+                            next_goal_index. Lazy mode does NOT
+                            emit (no between-phase moment exists).
+
+     Refresh-internal events (`update_heuristic`, `pop_stale`,
+     `h_calc`, `phi_calc`, `responsible_set`, `refresh_skip`)
+     were removed for INC-consistency and recorder-overhead
+     reduction. The aggregate `cnt_h_*` / `cnt_phi_*` /
+     `cnt_pop_stale` counters preserve the work-type
+     observability.
     ============================================================================
     """
 
@@ -205,26 +208,20 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
             stored_f = self._F_stored[state]
 
             # Lazy: re-check F (skipped under is_opt when the
-            # responsible goal is still active).
+            # responsible goal is still active). Stale re-push
+            # is silent — no event emitted (consistent with
+            # kA*-INC's silent refresh re-pushes); cnt_pop_stale
+            # tracks the count.
             if self._is_lazy:
                 needs_recompute = True
                 if self._is_opt:
                     resp = self._responsible.get(state)
                     if resp is None or resp in self._active_goals:
                         needs_recompute = False
-                        self._emit_refresh_skip(
-                            state,
-                            reason='lazy_responsible_active')
                 if needs_recompute:
                     actual_f = self._compute_F(
                         state, phase=_PHASE_UPDATE)
                     if actual_f != stored_f:
-                        self._emit_pop_stale(
-                            state, f_stored=stored_f,
-                            f_recomputed=actual_f)
-                        self._emit_update_heuristic(
-                            state, h_old=stored_f - g_state,
-                            h_new=actual_f - g_state)
                         self._F_stored[state] = actual_f
                         self._counters.inc('cnt_pop_stale')
                         self._frontier.push(
@@ -261,7 +258,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                     # (its refresh work happens inline at pop
                     # time and structurally belongs to search).
                     self.phase = PHASE_UPDATE
-                    self._refresh_all_F(
+                    self._refresh_priorities(
                         next_goal_index=self._next_active_index(),
                         just_removed_goal=state)
                     self.phase = PHASE_SEARCH
@@ -398,7 +395,6 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
 
         g = self._g.get(state, 0)
         if not self._active_goals:
-            self._emit_phi_calc(state, value=0, phase=phase)
             return int(g)
 
         if self._store_vector:
@@ -411,8 +407,6 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                 for goal in self._all_goals:
                     if goal in self._active_goals:
                         v = int(self._h(state, goal))
-                        self._emit_h_calc(state, goal, value=v,
-                                          phase=phase)
                         vec.append(v)
                         n_h += 1
                     else:
@@ -431,8 +425,6 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
             for i, goal in enumerate(self._all_goals):
                 if goal in self._active_goals:
                     v = int(self._h(state, goal))
-                    self._emit_h_calc(state, goal, value=v,
-                                      phase=phase)
                     active_pairs.append((i, v))
             n_h = len(active_pairs)
             if phase == _PHASE_SEARCH:
@@ -441,7 +433,6 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                 self._counters.inc('cnt_h_update', n=n_h)
 
         if not active_pairs:
-            self._emit_phi_calc(state, value=0, phase=phase)
             return int(g)
 
         active_h = [h for _, h in active_pairs]
@@ -459,26 +450,35 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
             responsible_goal = self._all_goals[
                 active_pairs[best_idx][0]]
             self._responsible[state] = responsible_goal
-            self._emit_responsible_set(
-                state, responsible=responsible_goal)
 
-        self._emit_phi_calc(state, value=int(phi), phase=phase)
         return int(g + phi)
 
-    def _refresh_all_F(self,
-                       next_goal_index: int,
-                       just_removed_goal: State | None = None,
-                       ) -> None:
+    def _refresh_priorities(self,
+                            next_goal_index: int,
+                            just_removed_goal: State | None = None,
+                            ) -> None:
         """
         ====================================================================
          Eager refresh: drain the frontier, recompute F, re-push.
 
+         Same structural operation as
+         `AlgoSPP.refresh_priorities()` (drain + clear +
+         re-push with fresh priorities) — named symmetrically
+         so the vocabulary is unified across INC (calls
+         `algo.refresh_priorities()` on its inner AStar) and
+         AGG-eager (this method). Diverges from the AlgoSPP
+         version only in bookkeeping: maintains `_F_stored`
+         and applies the `is_opt` short-circuit. Re-pushes are
+         silent (no `push` events emitted) — only the
+         `update_frontier` boundary marker fires before the
+         drain.
+
          When `is_opt=True` and `just_removed_goal` is given,
          only nodes whose responsible goal is the just-removed
-         one have their F recomputed (and `update_heuristic`
-         emitted); the rest keep their stored F. All OPEN nodes
-         are re-pushed regardless (the heap has no increase-key,
-         so we drain-and-rebuild).
+         one have their F recomputed; the rest keep their
+         stored F. All OPEN nodes are re-pushed regardless
+         (the heap has no increase-key, so we drain-and-
+         rebuild).
         ====================================================================
         """
         states: list[State] = list(self._frontier)
@@ -492,17 +492,10 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                     and just_removed_goal is not None
                     and self._responsible.get(s)
                     != just_removed_goal):
-                # Not affected; keep stored F (no recompute,
-                # no `update_heuristic` event).
-                self._emit_refresh_skip(
-                    s, reason='eager_responsible_unchanged')
+                # Not affected; keep stored F (no recompute).
                 new_f = old_f
             else:
                 new_f = self._compute_F(s, phase=_PHASE_UPDATE)
-                g_s = self._g[s]
-                self._emit_update_heuristic(
-                    s, h_old=old_f - g_s,
-                    h_new=new_f - g_s)
                 self._F_stored[s] = new_f
             g_s = self._g[s]
             self._frontier.push(state=s,
@@ -571,51 +564,3 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
             'next_goal_index': int(next_goal_index),
         })
 
-    def _emit_update_heuristic(self, state, h_old, h_new):
-        if not self._recorder.is_active:
-            return
-        self._recorder.record({
-            'type': 'update_heuristic', 'state': state,
-            'h_old': int(h_old), 'h_new': int(h_new),
-        })
-
-    def _emit_h_calc(self, state, goal, value, phase):
-        if not self._recorder.is_active:
-            return
-        self._recorder.record({
-            'type': 'h_calc', 'state': state, 'goal': goal,
-            'value': int(value), 'phase': phase,
-        })
-
-    def _emit_phi_calc(self, state, value, phase):
-        if not self._recorder.is_active:
-            return
-        self._recorder.record({
-            'type': 'phi_calc', 'state': state,
-            'value': int(value), 'phase': phase,
-        })
-
-    def _emit_responsible_set(self, state, responsible):
-        if not self._recorder.is_active:
-            return
-        self._recorder.record({
-            'type': 'responsible_set', 'state': state,
-            'responsible': responsible,
-        })
-
-    def _emit_refresh_skip(self, state, reason):
-        if not self._recorder.is_active:
-            return
-        self._recorder.record({
-            'type': 'refresh_skip', 'state': state,
-            'reason': reason,
-        })
-
-    def _emit_pop_stale(self, state, f_stored, f_recomputed):
-        if not self._recorder.is_active:
-            return
-        self._recorder.record({
-            'type': 'pop_stale', 'state': state,
-            'f_stored': int(f_stored),
-            'f_recomputed': int(f_recomputed),
-        })

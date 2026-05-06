@@ -134,7 +134,7 @@ def test_counters_survive_clear() -> None:
     ========================================================================
      Test clear() does NOT reset counters — they accumulate
      over the whole run, not over the heap state. Required for
-     KAStarAgg._refresh_all_F and AlgoSPP.refresh_priorities,
+     KAStarAgg._refresh_priorities and AlgoSPP.refresh_priorities,
      which clear-and-rebuild the frontier mid-run.
     ========================================================================
     """

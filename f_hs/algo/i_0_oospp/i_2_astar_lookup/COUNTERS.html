@@ -259,31 +259,41 @@ footer code { color: var(--text); }
     <span class="badge">OOSPP</span>
     <code>f_hs/algo/i_0_oospp/i_2_astar_lookup</code>
   </div>
-  <p class="role">A* + HCached / HBounded + suffix-stitch + pre-search propagate_pathmax.</p>
+  <p class="role">A* + HCached / HBounded + suffix-stitch + pre-search propagate_pathmax + (optional) in-search Felner pathmax / BPMX(d) cascade. Composes BPMXMixin natively (2026-05-06 Phase-1 merge); the canonical advanced-A* class.</p>
 </div>
 
 
 <div class="statbar">
-  <div class="total">10<small>counters</small></div>
+  <div class="total">15<small>counters</small></div>
   <div class="bars">
         <div class="row">
           <div class="label"><span class="dot" style="background:#50E3C2;"></span>Pre-search propagate</div>
-          <div class="barwrap"><div class="bar" style="width:30%;background:#50E3C2;"></div></div>
+          <div class="barwrap"><div class="bar" style="width:20%;background:#50E3C2;"></div></div>
+          <div class="val">3</div>
+        </div>
+        <div class="row">
+          <div class="label"><span class="dot" style="background:#BD10E0;"></span>In-search BPMX</div>
+          <div class="barwrap"><div class="bar" style="width:20%;background:#BD10E0;"></div></div>
           <div class="val">3</div>
         </div>
         <div class="row">
           <div class="label"><span class="dot" style="background:#4A90E2;"></span>Frontier ops</div>
-          <div class="barwrap"><div class="bar" style="width:30%;background:#4A90E2;"></div></div>
+          <div class="barwrap"><div class="bar" style="width:20%;background:#4A90E2;"></div></div>
           <div class="val">3</div>
         </div>
         <div class="row">
+          <div class="label"><span class="dot" style="background:#FF6B6B;"></span>Search-semantic</div>
+          <div class="barwrap"><div class="bar" style="width:13.3%;background:#FF6B6B;"></div></div>
+          <div class="val">2</div>
+        </div>
+        <div class="row">
           <div class="label"><span class="dot" style="background:#FFD54F;"></span>Memory snapshots</div>
-          <div class="barwrap"><div class="bar" style="width:40%;background:#FFD54F;"></div></div>
+          <div class="barwrap"><div class="bar" style="width:26.7%;background:#FFD54F;"></div></div>
           <div class="val">4</div>
         </div></div>
 </div>
 
-<div class="chain"><strong style="font-size:12px;color:var(--text-dim);letter-spacing:1.4px;text-transform:uppercase;margin-right:8px;">Inheritance</strong><span class="pill">Algo</span><span class="arrow">▸</span><span class="pill">AlgoSPP</span><span class="arrow">▸</span><span class="pill">AStar</span><span class="arrow">▸</span><span class="pill last">AStarLookup</span></div>
+<div class="chain"><strong style="font-size:12px;color:var(--text-dim);letter-spacing:1.4px;text-transform:uppercase;margin-right:8px;">MRO</strong><span class="pill">Algo</span><span class="arrow">▸</span><span class="pill">AlgoSPP</span><span class="arrow">▸</span><span class="pill">AStar</span><span class="arrow">▸</span><span class="pill">BPMXMixin</span><span class="arrow">▸</span><span class="pill last">AStarLookup</span></div>
 
 <section class="family" style="border-left-color:#50E3C2;">
   <h2><span style="color:#50E3C2;">●</span> Pre-search propagate <span class="count">3</span></h2>
@@ -321,6 +331,42 @@ footer code { color: var(--text); }
 </section>
 
 
+<section class="family" style="border-left-color:#BD10E0;">
+  <h2><span style="color:#BD10E0;">●</span> In-search BPMX <span class="count">3</span></h2>
+  <p class="fnote">Felner pathmax rules and the BPMX(d) cascade — fire on every non-cached pop when rule_bpmx is active. Off (all 3 counters stay 0) when rule_bpmx=None.</p>
+  <div class="cards">
+<div class="card" style="border-left:3px solid #BD10E0;">
+  <div class="top">
+    <span class="name">cnt_bpmx_attempts</span>
+    <span class="icon" style="color:#BD10E0;">∿</span>
+  </div>
+  <div class="desc">_pre_expand dispatch — incremented once per non-cached pop when rule_bpmx is set. Cumulative across the run.</div>
+  <div class="role">algo-incremented</div>
+</div>
+
+
+<div class="card" style="border-left:3px solid #BD10E0;">
+  <div class="top">
+    <span class="name">cnt_bpmx_successes</span>
+    <span class="icon" style="color:#BD10E0;">⇈</span>
+  </div>
+  <div class="desc">Successful lift, regardless of which rule fired. Sum across Rule 2 / Rule 3 / Rule 1 / cascade.</div>
+  <div class="role">algo-incremented</div>
+</div>
+
+
+<div class="card" style="border-left:3px solid #BD10E0;">
+  <div class="top">
+    <span class="name">cnt_bpmx_depth</span>
+    <span class="icon" style="color:#BD10E0;">↧</span>
+  </div>
+  <div class="desc">Max-tracker (not cumulative). Deepest BFS-level (0 = root) at which any successful lift fired across the run.</div>
+  <div class="role">algo-incremented (max via assign)</div>
+</div>
+</div>
+</section>
+
+
 <section class="family" style="border-left-color:#4A90E2;">
   <h2><span style="color:#4A90E2;">●</span> Frontier ops <span class="count">3</span></h2>
   <p class="fnote">Owned by FrontierBase; mirrored into the algo at end-of-run via _sync_frontier_counters.</p>
@@ -352,6 +398,32 @@ footer code { color: var(--text); }
   </div>
   <div class="desc">frontier.decrease() — a frontier state&#x27;s priority lowered (g improved). FIFO frontiers report 0.</div>
   <div class="role">frontier-mirrored</div>
+</div>
+</div>
+</section>
+
+
+<section class="family" style="border-left-color:#FF6B6B;">
+  <h2><span style="color:#FF6B6B;">●</span> Search-semantic <span class="count">2</span></h2>
+  <p class="fnote">Inherited from AlgoSPP. Stern-style "expanded" = popped state whose successors are generated; "generated" = first-time push, including the start seed.</p>
+  <div class="cards">
+<div class="card" style="border-left:3px solid #FF6B6B;">
+  <div class="top">
+    <span class="name">cnt_expanded</span>
+    <span class="icon" style="color:#FF6B6B;">◎</span>
+  </div>
+  <div class="desc">Popped non-goal state whose successors get generated. Bounded above by cnt_pop minus the goal-pop and any cache-hit early-exits.</div>
+  <div class="role">algo-incremented</div>
+</div>
+
+
+<div class="card" style="border-left:3px solid #FF6B6B;">
+  <div class="top">
+    <span class="name">cnt_generated</span>
+    <span class="icon" style="color:#FF6B6B;">●</span>
+  </div>
+  <div class="desc">First-time push of a state, including the start seed. Equals cnt_push minus re-pushes / decrease-induced re-heaps.</div>
+  <div class="role">algo-incremented</div>
 </div>
 </div>
 </section>

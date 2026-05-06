@@ -54,11 +54,15 @@ class KAStarInc(Generic[State], AlgoOMSPP[State]):
      AStar events push/pop/decrease_g):
        `on_goal`          — per goal, at sub-search termination.
                             reason ∈ {expanded, already_closed,
-                            unreachable}.
+                            unreachable, already_reached}.
        `update_frontier`  — boundary marker before priority
                             refresh on sub-search transition.
-                            carries `num_nodes`.
-       `update_heuristic` — per frontier state, old/new h-value.
+                            carries `num_nodes` and
+                            `next_goal_index`. Per-state
+                            `update_heuristic` events are NOT
+                            emitted — the silent re-keying via
+                            `refresh_priorities` is observable
+                            through `cnt_h_update`.
     ============================================================================
     """
 

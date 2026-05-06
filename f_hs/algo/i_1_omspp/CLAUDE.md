@@ -74,9 +74,14 @@ overridden on `StateCell` to return the `(row, col)` tuple.
    internal AStar instances have their `_recorder` attribute
    reassigned after construction to point at the shared
    Recorder.
-4. **Meta-events** (`on_goal`, `update_frontier`,
-   `update_heuristic`) document the orchestration phase,
-   distinct from AStar's per-node events.
+4. **Meta-events** (`on_goal`, `update_frontier`) document
+   the orchestration phase, distinct from AStar's per-node
+   events. All four OMSPP algorithms (KAStarInc, KAStarAgg,
+   KBFS, KDijkstra) emit the same minimal 5-event schema
+   (`push`, `pop`, `decrease_g`, `on_goal`,
+   `update_frontier`); refresh-internal events were dropped
+   for cross-algo consistency and recorder-overhead
+   reduction.
 5. **Per-class counter scaffolds via `_COUNTER_NAMES`
    override.** Each algorithm declares its own counter set —
    only what it actually tracks. The base `AlgoOMSPP` holds

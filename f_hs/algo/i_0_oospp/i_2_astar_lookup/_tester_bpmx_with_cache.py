@@ -1,8 +1,7 @@
 import pytest
 
-from f_hs.algo.i_0_oospp.i_2_astar_bpmx import AStarBPMX
 from f_hs.algo.i_0_oospp.i_2_astar_lookup import AStarLookup
-from f_hs.algo.i_0_oospp.i_3_astar_lookup_bpmx import AStarLookupBPMX
+from f_hs.algo.i_0_oospp.i_2_astar_lookup import AStarLookup
 from f_hs.heuristic.i_0_base._cache_entry import CacheEntry
 from f_hs.heuristic.i_1_cached.main import HCached
 from f_hs.problem import ProblemSPP
@@ -23,7 +22,7 @@ def test_rule_bpmx_validation() -> None:
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
     with pytest.raises(ValueError, match='rule_bpmx'):
-        AStarLookupBPMX(problem=problem,
+        AStarLookup(problem=problem,
                         h=lambda s: float(s.distance(goal)),
                         rule_bpmx='4')
 
@@ -38,7 +37,7 @@ def test_depth_bpmx_validation() -> None:
     goal = problem.goal
     for bad in (0, -1, True):
         with pytest.raises(ValueError, match='depth_bpmx'):
-            AStarLookupBPMX(problem=problem,
+            AStarLookup(problem=problem,
                             h=lambda s: float(s.distance(goal)),
                             rule_bpmx='1',
                             depth_bpmx=bad)
@@ -55,7 +54,7 @@ def test_rule2_requires_depth_1() -> None:
     goal = problem.goal
     for bad in (2, 5, None):
         with pytest.raises(ValueError, match='Rule 2'):
-            AStarLookupBPMX(problem=problem,
+            AStarLookup(problem=problem,
                             h=lambda s: float(s.distance(goal)),
                             rule_bpmx='2',
                             depth_bpmx=bad)
@@ -71,7 +70,7 @@ def test_cache_without_goal_raises() -> None:
     a = StateBase[str](key='A')
     cache = {a: CacheEntry(h_perfect=0, suffix_next=None)}
     with pytest.raises(ValueError, match='cache'):
-        AStarLookupBPMX(problem=ProblemSPP.Factory.graph_abc(),
+        AStarLookup(problem=ProblemSPP.Factory.graph_abc(),
                         h=lambda s: 0,
                         cache=cache,
                         goal=None)
@@ -86,7 +85,7 @@ def test_cache_goal_not_in_problem_goals_raises() -> None:
     bogus = StateBase[str](key='Z')
     cache = {bogus: CacheEntry(h_perfect=0, suffix_next=None)}
     with pytest.raises(ValueError, match='HCached goal'):
-        AStarLookupBPMX(problem=ProblemSPP.Factory.graph_abc(),
+        AStarLookup(problem=ProblemSPP.Factory.graph_abc(),
                         h=lambda s: 0,
                         cache=cache,
                         goal=bogus)
@@ -105,7 +104,7 @@ def test_prebuilt_hbase_with_bounds_raises() -> None:
     from f_hs.heuristic.i_1_callable.main import HCallable
     h = HCached(base=HCallable(fn=lambda s: 0), cache=cache, goal=c)
     with pytest.raises(ValueError, match='cache / bounds'):
-        AStarLookupBPMX(problem=ProblemSPP.Factory.graph_abc(),
+        AStarLookup(problem=ProblemSPP.Factory.graph_abc(),
                         h=h,
                         bounds={})
 
@@ -119,7 +118,7 @@ def test_mechanism_on_no_hbounded_in_prebuilt_chain_raises() -> None:
     from f_hs.heuristic.i_1_callable.main import HCallable
     h = HCallable(fn=lambda s: 0)
     with pytest.raises(ValueError, match='HBounded'):
-        AStarLookupBPMX(problem=ProblemSPP.Factory.graph_abc(),
+        AStarLookup(problem=ProblemSPP.Factory.graph_abc(),
                         h=h,
                         rule_bpmx='1')
 
@@ -130,47 +129,17 @@ def test_mechanism_on_no_hbounded_in_prebuilt_chain_raises() -> None:
 def test_off_matches_astar_lookup_on_cached_at_b() -> None:
     """
     ========================================================================
-     AStarLookupBPMX with rule_bpmx=None must match
+     AStarLookup with rule_bpmx=None must match
      AStarLookup's behavior given the same cache.
     ========================================================================
     """
-    combo = AStarLookupBPMX.Factory.graph_abc_cached_at_b()
+    combo = AStarLookup.Factory.graph_abc_cached_at_b()
     lookup = AStarLookup.Factory.graph_abc_cached_at_b()
     s_combo = combo.run()
     s_lookup = lookup.run()
     assert s_combo.cost == s_lookup.cost == 2.0
     assert combo.counters['cnt_push'] == lookup.counters['cnt_push']
     assert combo.counters['cnt_pop'] == lookup.counters['cnt_pop']
-
-
-# ── BPMX-only mode (≡ AStarBPMX given the same h) ───────────
-
-
-def test_cascade_no_cache_matches_astar_bpmx_on_grid_4x4() -> None:
-    """
-    ========================================================================
-     AStarLookupBPMX with no cache + CASCADE(None) finds the
-     same optimal cost as AStarBPMX on grid_4x4.
-    ========================================================================
-    """
-    combo = AStarLookupBPMX.Factory.grid_4x4_no_cache(
-        rule_bpmx='CASCADE', depth_bpmx=None)
-    bpmx = AStarBPMX.Factory.grid_4x4(
-        rule_bpmx='CASCADE', depth_bpmx=None)
-    assert combo.run().cost == bpmx.run().cost == 7.0
-
-
-def test_rule3_no_cache_matches_astar_bpmx_rule3() -> None:
-    """
-    ========================================================================
-     AStarLookupBPMX with rule_bpmx='3', no cache: same cost
-     as AStarBPMX rule3.
-    ========================================================================
-    """
-    combo = AStarLookupBPMX.Factory.grid_4x4_no_cache(rule_bpmx='3',
-                                                      depth_bpmx=1)
-    bpmx = AStarBPMX.Factory.grid_4x4(rule_bpmx='3', depth_bpmx=1)
-    assert combo.run().cost == bpmx.run().cost == 7.0
 
 
 # ── Optimality across configurations ────────────────────────
@@ -193,7 +162,7 @@ def test_optimality_grid_4x4_no_cache(rule_bpmx: str | None,
     """
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
-    algo = AStarLookupBPMX(
+    algo = AStarLookup(
         problem=problem,
         h=lambda s: float(s.distance(goal)),
         rule_bpmx=rule_bpmx,
@@ -220,7 +189,7 @@ def test_optimality_grid_4x4_with_goal_cached(
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
     cache = {goal: CacheEntry(h_perfect=0, suffix_next=None)}
-    algo = AStarLookupBPMX(
+    algo = AStarLookup(
         problem=problem,
         h=lambda s: float(s.distance(goal)),
         cache=cache,
@@ -250,7 +219,7 @@ def test_cache_hit_early_term_with_bpmx_on() -> None:
         b: CacheEntry(h_perfect=1, suffix_next=c),
         c: CacheEntry(h_perfect=0, suffix_next=None),
     }
-    algo = AStarLookupBPMX(
+    algo = AStarLookup(
         problem=ProblemSPP.Factory.graph_abc(),
         h=lambda s: 0,
         cache=cache,
@@ -273,7 +242,7 @@ def test_to_cache_works_after_combined_run() -> None:
      `to_cache()` harvest works after a combined run.
     ========================================================================
     """
-    algo = AStarLookupBPMX.Factory.grid_4x4_cached_suffix_cascade_d1()
+    algo = AStarLookup.Factory.grid_4x4_cached_suffix_cascade_d1()
     algo.run()
     cache = algo.to_cache()
     assert len(cache) > 0
@@ -291,7 +260,7 @@ def test_propagate_pathmax_callable_under_combined_class() -> None:
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
     bounds = {goal: 0}
-    algo = AStarLookupBPMX(
+    algo = AStarLookup(
         problem=problem,
         h=lambda s: float(s.distance(goal)),
         bounds=bounds,
@@ -315,7 +284,7 @@ def test_reconstruct_path_suffix_stitch_with_bpmx_on() -> None:
         c: CacheEntry(h_perfect=0, suffix_next=None),
     }
     h_map = {'A': 2}
-    algo = AStarLookupBPMX(
+    algo = AStarLookup(
         problem=ProblemSPP.Factory.graph_abc(),
         h=lambda s: h_map.get(s.key, 0),
         cache=cache,
@@ -334,12 +303,12 @@ def test_reconstruct_path_suffix_stitch_with_bpmx_on() -> None:
 def test_is_subclass_of_astar_lookup() -> None:
     """
     ========================================================================
-     Inheritance invariant: AStarLookupBPMX < AStarLookup < AStar.
+     Inheritance invariant: AStarLookup < AStarLookup < AStar.
     ========================================================================
     """
     from f_hs.algo.i_0_oospp.i_1_astar import AStar
-    assert issubclass(AStarLookupBPMX, AStarLookup)
-    assert issubclass(AStarLookupBPMX, AStar)
+    assert issubclass(AStarLookup, AStarLookup)
+    assert issubclass(AStarLookup, AStar)
 
 
 def test_factory_attached() -> None:
@@ -348,22 +317,23 @@ def test_factory_attached() -> None:
      Factory wired via __init__.py.
     ========================================================================
     """
-    assert AStarLookupBPMX.Factory is not None
-    assert AStarLookupBPMX.Factory.grid_4x4_no_cache(
+    assert AStarLookup.Factory is not None
+    assert AStarLookup.Factory.grid_4x4(
         rule_bpmx='CASCADE', depth_bpmx=None) is not None
 
 
-def test_mro_puts_bpmx_mixin_before_astar_lookup() -> None:
+def test_mro_puts_bpmx_mixin_before_astar() -> None:
     """
     ========================================================================
-     MRO must be: AStarLookupBPMX → BPMXMixin → AStarLookup →
-     AStar → AlgoSPP → ... — so `_pre_expand` resolves to
-     BPMXMixin and `_early_exit` / `_priority` resolve to
-     AStarLookup.
+     Post-Phase-1 MRO: AStarLookup → AStarLookup →
+     BPMXMixin → AStar → AlgoSPP → ... — `AStarLookup` now
+     natively composes BPMXMixin, so the mixin sits between
+     `AStarLookup` and `AStar` (mechanism overrides resolve
+     before the simple-A* fallback).
     ========================================================================
     """
-    mro = type(AStarLookupBPMX.Factory.grid_4x4_no_cache(
+    mro = type(AStarLookup.Factory.grid_4x4(
         rule_bpmx='CASCADE', depth_bpmx=None)).__mro__
     names = [c.__name__ for c in mro]
-    assert names.index('BPMXMixin') < names.index('AStarLookup')
-    assert names.index('AStarLookup') < names.index('AStar')
+    assert names.index('AStarLookup') < names.index('BPMXMixin')
+    assert names.index('BPMXMixin') < names.index('AStar')

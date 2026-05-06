@@ -1,6 +1,6 @@
 import pytest
 
-from f_hs.algo.i_0_oospp.i_2_astar_bpmx import AStarBPMX
+from f_hs.algo.i_0_oospp.i_2_astar_lookup import AStarLookup
 from f_hs.heuristic.i_0_base._cache_entry import CacheEntry
 from f_hs.heuristic.i_1_callable.main import HCallable
 from f_hs.heuristic.i_1_cached.main import HCached
@@ -8,7 +8,7 @@ from f_hs.problem import ProblemSPP
 from f_hs.problem.i_1_grid import ProblemGrid
 
 
-def _events_of_type(algo: AStarBPMX, *types: str) -> list[dict]:
+def _events_of_type(algo: AStarLookup, *types: str) -> list[dict]:
     """
     ========================================================================
      Filter the recorder log to events whose `type` is in
@@ -32,10 +32,10 @@ def test_rule_bpmx_validation() -> None:
     """
     problem = ProblemSPP.Factory.graph_abc()
     for ok in (None, '1', '2', '3', 'CASCADE'):
-        AStarBPMX(problem=problem, h=lambda s: 0, rule_bpmx=ok)
+        AStarLookup(problem=problem, h=lambda s: 0, rule_bpmx=ok)
     for bad in (1, 2, 3, 0, 'cascade', 'rule1', '4', 1.5):
         with pytest.raises(ValueError, match='rule_bpmx'):
-            AStarBPMX(problem=problem, h=lambda s: 0, rule_bpmx=bad)
+            AStarLookup(problem=problem, h=lambda s: 0, rule_bpmx=bad)
 
 
 def test_depth_bpmx_validation() -> None:
@@ -47,11 +47,11 @@ def test_depth_bpmx_validation() -> None:
     """
     problem = ProblemSPP.Factory.graph_abc()
     for ok in (None, 1, 2, 10):
-        AStarBPMX(problem=problem, h=lambda s: 0,
+        AStarLookup(problem=problem, h=lambda s: 0,
                   rule_bpmx='1', depth_bpmx=ok)
     for bad in (0, -1, -5, 1.5, '1', True, False):
         with pytest.raises(ValueError, match='depth_bpmx'):
-            AStarBPMX(problem=problem, h=lambda s: 0,
+            AStarLookup(problem=problem, h=lambda s: 0,
                       rule_bpmx='1', depth_bpmx=bad)
 
 
@@ -66,28 +66,13 @@ def test_rule2_requires_depth_1() -> None:
     """
     problem = ProblemSPP.Factory.graph_abc()
     # depth=1 is fine.
-    AStarBPMX(problem=problem, h=lambda s: 0,
+    AStarLookup(problem=problem, h=lambda s: 0,
               rule_bpmx='2', depth_bpmx=1)
     # depth>1 rejected.
     for bad in (2, 5, None):
         with pytest.raises(ValueError, match='Rule 2'):
-            AStarBPMX(problem=problem, h=lambda s: 0,
+            AStarLookup(problem=problem, h=lambda s: 0,
                       rule_bpmx='2', depth_bpmx=bad)
-
-
-def test_rejects_hcached_chain() -> None:
-    """
-    ========================================================================
-     A pre-built HBase chain that contains HCached is rejected
-     with a redirect to AStarLookup.
-    ========================================================================
-    """
-    problem = ProblemSPP.Factory.graph_abc()
-    goal = list(problem.goals)[0]
-    cache = {goal: CacheEntry(h_perfect=0, suffix_next=None)}
-    h = HCached(base=HCallable(fn=lambda s: 0), cache=cache, goal=goal)
-    with pytest.raises(TypeError, match='AStarLookup'):
-        AStarBPMX(problem=problem, h=h)
 
 
 def test_rejects_bounds_with_prebuilt_h() -> None:
@@ -100,7 +85,7 @@ def test_rejects_bounds_with_prebuilt_h() -> None:
     problem = ProblemSPP.Factory.graph_abc()
     h = HCallable(fn=lambda s: 0)
     with pytest.raises(ValueError, match='bounds'):
-        AStarBPMX(problem=problem, h=h, bounds={})
+        AStarLookup(problem=problem, h=h, bounds={})
 
 
 def test_auto_wraps_hbounded_when_mechanism_on() -> None:
@@ -112,9 +97,9 @@ def test_auto_wraps_hbounded_when_mechanism_on() -> None:
     """
     problem = ProblemSPP.Factory.graph_abc()
     for rule in ('1', '2', '3', 'CASCADE'):
-        algo = AStarBPMX(problem=problem, h=lambda s: 0,
+        algo = AStarLookup(problem=problem, h=lambda s: 0,
                          rule_bpmx=rule)
-        assert AStarBPMX._find_hbounded(algo._h) is not None
+        assert AStarLookup._find_hbounded(algo._h) is not None
 
 
 # ─────────────────────────────────────────────────────────────
@@ -124,11 +109,11 @@ def test_auto_wraps_hbounded_when_mechanism_on() -> None:
 def test_off_behaves_like_astar() -> None:
     """
     ========================================================================
-     With rule_bpmx=None, AStarBPMX finds the same optimal
+     With rule_bpmx=None, AStarLookup finds the same optimal
      solution as plain AStar on the 4x4 obstacle grid.
     ========================================================================
     """
-    algo = AStarBPMX.Factory.grid_4x4()
+    algo = AStarLookup.Factory.grid_4x4()
     sol = algo.run()
     assert sol.cost == 7.0
 
@@ -142,7 +127,7 @@ def test_off_emits_no_bpmx_events() -> None:
     """
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
-    algo = AStarBPMX(
+    algo = AStarLookup(
         problem=problem,
         h=lambda s: float(s.distance(goal)),
         is_recording=True,
@@ -174,7 +159,7 @@ def test_optimality_grid_4x4(rule_bpmx: str | None,
     """
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
-    algo = AStarBPMX(
+    algo = AStarLookup(
         problem=problem,
         h=lambda s: float(s.distance(goal)),
         rule_bpmx=rule_bpmx,
@@ -197,7 +182,7 @@ def test_cascade_lifts_on_inconsistent_diamond() -> None:
      child C.
     ========================================================================
     """
-    algo = AStarBPMX.Factory.graph_diamond_inconsistent_cascade()
+    algo = AStarLookup.Factory.graph_diamond_inconsistent_cascade()
     algo.run()
     types = [e['type'] for e in algo.recorder.events]
     assert 'bpmx_iteration' in types
@@ -216,7 +201,7 @@ def test_rule3_isolated_lifts_parent_via_high_h_child() -> None:
     ========================================================================
     """
     h_inc = {'A': 0.0, 'B': 4.0, 'C': 0.0, 'D': 0.0}
-    algo = AStarBPMX(
+    algo = AStarLookup(
         problem=ProblemSPP.Factory.graph_diamond(),
         h=lambda s: h_inc.get(s.key, 0.0),
         rule_bpmx='3',
@@ -248,7 +233,7 @@ def test_bpmx_forward_event_schema_rule1_isolated() -> None:
     ========================================================================
     """
     h_inc = {'A': 5.0, 'B': 0.0, 'C': 0.0, 'D': 0.0}
-    algo = AStarBPMX(
+    algo = AStarLookup(
         problem=ProblemSPP.Factory.graph_diamond(),
         h=lambda s: h_inc.get(s.key, 0.0),
         rule_bpmx='1',
@@ -275,7 +260,7 @@ def test_pathmax_apply_rule2_event_schema() -> None:
     ========================================================================
     """
     h_inc = {'A': 0.0, 'B': 3.0, 'C': 3.0, 'D': 0.0}
-    algo = AStarBPMX(
+    algo = AStarLookup(
         problem=ProblemSPP.Factory.graph_diamond(),
         h=lambda s: h_inc.get(s.key, 0.0),
         rule_bpmx='2',
@@ -302,7 +287,7 @@ def test_bpmx_lift_event_schema_rule3_isolated() -> None:
     ========================================================================
     """
     h_inc = {'A': 0.0, 'B': 4.0, 'C': 0.0, 'D': 0.0}
-    algo = AStarBPMX(
+    algo = AStarLookup(
         problem=ProblemSPP.Factory.graph_diamond(),
         h=lambda s: h_inc.get(s.key, 0.0),
         rule_bpmx='3',
@@ -329,7 +314,7 @@ def test_bpmx_iteration_marker_per_cascade() -> None:
     """
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
-    algo = AStarBPMX(
+    algo = AStarLookup(
         problem=problem,
         h=lambda s: float(s.distance(goal)),
         rule_bpmx='CASCADE',
@@ -358,7 +343,7 @@ def test_isolated_rules_emit_no_iteration_marker() -> None:
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
     for rule in ('1', '2', '3'):
-        algo = AStarBPMX(
+        algo = AStarLookup(
             problem=problem,
             h=lambda s: float(s.distance(goal)),
             rule_bpmx=rule,
@@ -379,7 +364,7 @@ def test_bpmx_iteration_indices_monotone_per_cascade() -> None:
     """
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
-    algo = AStarBPMX(
+    algo = AStarLookup(
         problem=problem,
         h=lambda s: float(s.distance(goal)),
         rule_bpmx='CASCADE',
@@ -410,7 +395,7 @@ def test_bpmx_forward_event_after_cascade_lift() -> None:
     ========================================================================
     """
     h_inc = {'A': 0.0, 'B': 4.0, 'C': 0.0, 'D': 0.0}
-    algo = AStarBPMX(
+    algo = AStarLookup(
         problem=ProblemSPP.Factory.graph_diamond(),
         h=lambda s: h_inc.get(s.key, 0.0),
         rule_bpmx='CASCADE',
@@ -438,13 +423,14 @@ def test_bpmx_forward_event_after_cascade_lift() -> None:
 def test_counters_scaffold_shape() -> None:
     """
     ========================================================================
-     The counters scaffold has exactly the 12 declared names
-     in four groups (BPMX 3, frontier 3, search-semantic 2,
-     memory 4).
+     The counters scaffold has exactly the 15 declared names in
+     five groups (propagate 3, BPMX 3, frontier 3, search-
+     semantic 2, memory 4) — AStarLookup's `_COUNTER_NAMES`.
     ========================================================================
     """
-    algo = AStarBPMX.Factory.grid_4x4()
+    algo = AStarLookup.Factory.grid_4x4()
     expected = {
+        'cnt_prop_waves', 'cnt_prop_attempts', 'cnt_prop_lifts',
         'cnt_bpmx_attempts',
         'cnt_bpmx_successes',
         'cnt_bpmx_depth',
@@ -463,7 +449,7 @@ def test_counters_off_records_no_bpmx_activity() -> None:
      frontier counters are positive.
     ========================================================================
     """
-    algo = AStarBPMX.Factory.grid_4x4()
+    algo = AStarLookup.Factory.grid_4x4()
     algo.run()
     c = algo.counters
     for name in ('cnt_bpmx_attempts',
@@ -483,7 +469,7 @@ def test_counters_attempts_per_expansion(rule_bpmx: str) -> None:
      short-circuits before _pre_expand).
     ========================================================================
     """
-    algo = AStarBPMX.Factory.grid_4x4(rule_bpmx=rule_bpmx,
+    algo = AStarLookup.Factory.grid_4x4(rule_bpmx=rule_bpmx,
                                       depth_bpmx=1)
     algo.run()
     c = algo.counters
@@ -501,11 +487,11 @@ def test_counters_successes_zero_under_consistent_h() -> None:
     ========================================================================
     """
     for rule in ('1', '3', 'CASCADE'):
-        algo = AStarBPMX.Factory.grid_4x4(rule_bpmx=rule,
+        algo = AStarLookup.Factory.grid_4x4(rule_bpmx=rule,
                                           depth_bpmx=1)
         algo.run()
         assert algo.counters['cnt_bpmx_successes'] == 0
-    algo2 = AStarBPMX.Factory.grid_4x4(rule_bpmx='2', depth_bpmx=1)
+    algo2 = AStarLookup.Factory.grid_4x4(rule_bpmx='2', depth_bpmx=1)
     algo2.run()
     assert algo2.counters['cnt_bpmx_successes'] == 2
 
@@ -520,11 +506,11 @@ def test_counters_depth_max_tracker() -> None:
      itself → still 0.
     ========================================================================
     """
-    algo = AStarBPMX.Factory.grid_4x4(rule_bpmx='CASCADE',
+    algo = AStarLookup.Factory.grid_4x4(rule_bpmx='CASCADE',
                                       depth_bpmx=None)
     algo.run()
     assert algo.counters['cnt_bpmx_depth'] == 0
-    algo2 = AStarBPMX.Factory.grid_4x4(rule_bpmx='2', depth_bpmx=1)
+    algo2 = AStarLookup.Factory.grid_4x4(rule_bpmx='2', depth_bpmx=1)
     algo2.run()
     # Rule 2 lifts the popped state itself (level 0).
     assert algo2.counters['cnt_bpmx_depth'] == 0
@@ -539,7 +525,7 @@ def test_counters_depth_positive_on_inconsistent_diamond() -> None:
      deepest lifted level — at least 1.
     ========================================================================
     """
-    algo = AStarBPMX.Factory.graph_diamond_inconsistent_cascade()
+    algo = AStarLookup.Factory.graph_diamond_inconsistent_cascade()
     algo.run()
     assert algo.counters['cnt_bpmx_depth'] >= 1
 
@@ -551,20 +537,20 @@ def test_counters_depth_positive_on_inconsistent_diamond() -> None:
 def test_is_subclass_of_astar() -> None:
     """
     ========================================================================
-     AStarBPMX extends AStar (sibling of AStarLookup).
+     AStarLookup extends AStar (sibling of AStarLookup).
     ========================================================================
     """
     from f_hs.algo.i_0_oospp.i_1_astar.main import AStar
-    algo = AStarBPMX.Factory.grid_4x4()
+    algo = AStarLookup.Factory.grid_4x4()
     assert isinstance(algo, AStar)
-    assert type(algo).__name__ == 'AStarBPMX'
+    assert type(algo).__name__ == 'AStarLookup'
 
 
 def test_factory_attached() -> None:
     """
     ========================================================================
-     AStarBPMX.Factory is wired through __init__.py.
+     AStarLookup.Factory is wired through __init__.py.
     ========================================================================
     """
-    assert AStarBPMX.Factory is not None
-    assert hasattr(AStarBPMX.Factory, 'grid_4x4')
+    assert AStarLookup.Factory is not None
+    assert hasattr(AStarLookup.Factory, 'grid_4x4')

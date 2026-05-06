@@ -286,11 +286,11 @@ Event types recorded by this base class: `push`, `pop`,
   (pre-search; not applicable). `h` / `h_parent` cast to int
   when integer-valued (shared with AStar's `_enrich_event`
   cast logic for `push` / `pop` / `decrease_g`).
-- **AStarBPMX** adds four in-search Felner-pathmax event types
-  (live on the sibling class, not AStarLookup):
-  `pathmax_apply` (isolated rule), `bpmx_iteration` (cascade
-  round-marker), `bpmx_lift` (Rule 3 fired), `bpmx_forward`
-  (Rule 1 fired). See `f_hs/algo/i_2_astar_bpmx/CLAUDE.md`.
+- **AStarLookup** (when `rule_bpmx is not None`) adds four
+  in-search Felner-pathmax event types: `pathmax_apply`
+  (isolated Rule 2), `bpmx_iteration` (cascade round-marker),
+  `bpmx_lift` (Rule 3 fired), `bpmx_forward` (Rule 1 fired).
+  See `f_hs/algo/i_0_oospp/mixins/bpmx/CLAUDE.md`.
 
 AStar also adds flags on `push` / `pop`:
 - `is_cached=True` for states with `is_perfect` True (HCached

@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING
 from f_core.counters.main import Counters
 from f_hs.heuristic.i_0_base.main import HBase
 from f_hs.heuristic.i_1_bounded.main import HBounded
-from f_hs.heuristic.i_1_cached.main import HCached
 
 if TYPE_CHECKING:
     pass
@@ -15,12 +14,12 @@ class BPMXMixin:
      Mixin: Felner pathmax / BPMX cascade as a reusable
      in-search mechanism.
 
-     Hosts the search-time pathmax mechanics so multiple AStar
-     subclasses can compose them without duplicating code:
-       - AStarBPMX (AStar + BPMXMixin) — vanilla A* + BPMX.
-       - AStarLookupBPMX (AStarLookup + BPMXMixin) — cache /
-         bounds / propagate_pathmax + BPMX in one pass (used
-         by k×A*-CB).
+     Hosts the search-time pathmax mechanics so its host
+     class can compose them without duplicating code:
+       - AStarLookup (AStarLookup + BPMXMixin) — cache /
+         bounds / propagate_pathmax + (optional) BPMX in one
+         pass; the canonical advanced-A* class (used by
+         k×A*-CB). The mixin's sole consumer.
 
      Faithful to Felner et al., "Inconsistent Heuristics in
      Theory and Practice", AIJ 2011 (rules §5.1–5.3,
@@ -92,11 +91,8 @@ class BPMXMixin:
      the host class's bases so `_pre_expand`, `counters`, and
      `_enrich_event` resolve here first. Example:
 
-         class AStarBPMX(BPMXMixin, AStar[State], Generic[State]):
-             ...
-
-         class AStarLookupBPMX(BPMXMixin, AStarLookup[State],
-                               Generic[State]):
+         class AStarLookup(BPMXMixin, AStar[State],
+                           Generic[State]):
              ...
     ============================================================================
     """
@@ -108,7 +104,7 @@ class BPMXMixin:
     # tracker (deepest BFS-level at which a lift fired across
     # the run), updated via assign; the others are cumulative
     # via inc. Frontier (3) and memory (4) groups round out the
-    # default scaffold; AStarLookupBPMX overrides via
+    # default scaffold; AStarLookup overrides via
     # `_COUNTER_NAMES` to prepend the propagate group.
     _BPMX_COUNTER_NAMES: tuple[tuple[str, ...], ...] = (
         ('cnt_bpmx_attempts',
@@ -178,7 +174,7 @@ class BPMXMixin:
                 f"with depth_bpmx > 1; got depth_bpmx={depth_bpmx!r}")
 
     # ──────────────────────────────────────────────────
-    #  Chain Inspectors (static; chain-walking helpers)
+    #  Chain Inspector (static; HBounded lookup)
     # ──────────────────────────────────────────────────
 
     @staticmethod
@@ -194,20 +190,6 @@ class BPMXMixin:
                 return cur
             cur = getattr(cur, '_base', None)
         return None
-
-    @staticmethod
-    def _chain_contains_hcached(h: HBase) -> bool:
-        """
-        ====================================================================
-         True iff the chain has an HCached anywhere.
-        ====================================================================
-        """
-        cur: HBase | None = h
-        while cur is not None:
-            if isinstance(cur, HCached):
-                return True
-            cur = getattr(cur, '_base', None)
-        return False
 
     # ──────────────────────────────────────────────────
     #  Initialization (called from host __init__)
@@ -226,9 +208,9 @@ class BPMXMixin:
          Scaffold resolution: if the host class declares its
          own `_COUNTER_NAMES` class attribute, that wins
          (per-class override pattern). Otherwise the mixin's
-         `_BPMX_COUNTER_NAMES` default is used. AStarLookupBPMX
-         overrides to add the `cnt_prop_*` group inherited
-         from AStarLookup; AStarBPMX accepts the default.
+         `_BPMX_COUNTER_NAMES` default is used. AStarLookup
+         overrides to add the `cnt_prop_*` group from its
+         pre-search `propagate_pathmax`.
         ====================================================================
         """
         self._rule_bpmx: str | None = rule_bpmx
@@ -263,46 +245,6 @@ class BPMXMixin:
         return self._counters
 
     # ──────────────────────────────────────────────────
-    #  Memory Snapshot (extends inherited hook)
-    # ──────────────────────────────────────────────────
-
-    def _memory_snapshot(self) -> dict[str, int]:
-        """
-        ====================================================================
-         Extends the inherited `_memory_snapshot()` (AStarLookup
-         or AlgoSPP) with the BPMX-specific contributor:
-
-           - `mem_bounds` : HBounded `_bounds` dict + per-value
-                            float overhead. (BPMX requires an
-                            HBounded layer for storage of
-                            lifted h-values.)
-
-         When MRO chains through `AStarLookup._memory_snapshot`
-         FIRST (i.e., for `AStarLookupBPMX`), this method's
-         `mem_bounds` write idempotently overwrites the same
-         value (same HBounded instance — single dict). For
-         `AStarBPMX` (no AStarLookup in MRO), this provides
-         the ONLY `mem_bounds` source. Either way: schema
-         stays consistent.
-
-         Reports 0 if no HBounded is in the chain (defensive;
-         BPMXMixin's __init__ guards normally guarantee one
-         when a mechanism is enabled).
-        ====================================================================
-        """
-        import sys
-        snap = super()._memory_snapshot()
-        snap.setdefault('mem_cache', 0)
-        snap.setdefault('mem_bounds', 0)
-        hb = self._find_hbounded(self._h)
-        if hb is not None:
-            m = sys.getsizeof(hb._bounds)
-            m += sum(sys.getsizeof(v)
-                     for v in hb._bounds.values())
-            snap['mem_bounds'] = m
-        return snap
-
-    # ──────────────────────────────────────────────────
     #  Event Enrichment (chains to next class in MRO)
     # ──────────────────────────────────────────────────
 
@@ -311,9 +253,11 @@ class BPMXMixin:
         ====================================================================
          Add int-cast for `h_old` / `h_new` on pathmax / BPMX
          events. Chains to next `_enrich_event` in MRO via
-         super() — for AStarBPMX that's AStar (h, f); for
-         AStarLookupBPMX that's AStarLookup (is_cached,
-         is_bounded, propagate casts) → AStar (h, f).
+         super() — for AStarLookup that's AStar (h, f), and
+         AStarLookup's own override layers is_cached /
+         is_bounded / propagate casts on top (it calls super()
+         first, so this mixin's int-casts run BEFORE
+         AStarLookup's flags).
         ====================================================================
         """
         super()._enrich_event(event)

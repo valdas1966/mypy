@@ -9,7 +9,7 @@ universal contract is imposed by the f_cs layer.
 
 | Class | Wraps | Used by |
 |---|---|---|
-| `SolutionSPP` | a single `cost` (float) | OOSPP algorithms (AStar, BFS, Dijkstra, AStarLookup, AStarBPMX) |
+| `SolutionSPP` | a single `cost` (float) | OOSPP algorithms (AStar, BFS, Dijkstra, AStarLookup) |
 | `SolutionPerKey[Key, Val]` | `dict[Key, Val]` (abstract spine) | shared base for `SolutionOMSPP`, `SolutionMOSPP`, future `SolutionMMSPP` |
 | `SolutionOMSPP` | `dict[goal-State, SolutionSPP]` | OMSPP algorithms (KAStarAgg, KAStarInc) |
 | `SolutionMOSPP` | `dict[start-State, SolutionSPP]` | MOSPP algorithms (k×A*, k×A*-CB; symmetric to OMSPP) |
