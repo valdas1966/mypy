@@ -84,10 +84,10 @@ Reset on every `run()` call. Runtime decomposition for the
 
 | counter | when incremented |
 |---|---|
-| `cnt_h_search` | h call in normal flow (start seed, push, decrease-g). Under `store_vector=True`, counts only the first-encounter h calls for goals that were active at that moment. |
-| `cnt_h_update` | h call in refresh flow (lazy pop-recompute, eager `_refresh_priorities`). Always 0 when `store_vector=True` (vector cached). |
-| `cnt_phi_search` | `_compute_F` from search flow |
-| `cnt_phi_update` | `_compute_F` from refresh flow |
+| `cnt_h_search` | h call in normal flow: start seed, first-time push (in `_handle_child`), decrease-g. Under `store_vector=True`, counts only the first-encounter h calls for goals that were active at that moment. **NOT** incremented on the goal re-push (that is refresh-typed work — see `cnt_h_update`). |
+| `cnt_h_update` | h call in refresh flow: lazy pop-recompute, eager `_refresh_priorities`, AND the goal re-push at goal-find (h is recomputed under the newly-shrunken active set; `phase=PHASE_UPDATE` since 2026-05-08). Always 0 when `store_vector=True` (vector cached). |
+| `cnt_phi_search` | `_compute_F` from search flow (start seed + first-time push + decrease-g). |
+| `cnt_phi_update` | `_compute_F` from refresh flow (lazy pop-recompute, eager `_refresh_priorities`, AND goal re-push). |
 | `cnt_push` | every `frontier.push` (incl. lazy re-insertions, eager bulk re-push). Frontier-sourced — mirrored from `self._frontier.counters` at end-of-run by `_sync_frontier_counters`. |
 | `cnt_pop` | every `frontier.pop`. Frontier-sourced. |
 | `cnt_pop_stale` | subset of `cnt_pop`: stale-F re-insertions (lazy only). Algo-level (the frontier can't see staleness — it's a g/F semantic). |
@@ -179,6 +179,24 @@ re-pushed and only close+expanded on natural re-pop. Saves
 last-goal expansions and any non-last goal whose successors
 are reached via other paths. Symmetric to KAStarInc's
 `algo._push(state=goal)` lazy re-push.
+
+**Goal re-push h/Φ counters re-tagged as PHASE_UPDATE
+(2026-05-08).** The `_compute_F` call inside the goal
+re-push branch now uses `phase=_PHASE_UPDATE` (was
+`_PHASE_SEARCH`). Rationale: the re-push recomputes h /
+Φ in response to an active-set change — that is refresh-
+typed work, not search-typed. Effect on the canonical
+8-config matrix: `cnt_h_search` becomes invariant at 34
+across all 8 configs (the sv/nosv split previously caused
+by the goal re-push h-calls collapses); `cnt_phi_search`
+drops from 16 → 14 invariant; `cnt_h_update` rises by 3
+in nosv configs (sv unchanged at 0 — vector cache absorbs
+the work); `cnt_phi_update` rises by 2 across all configs.
+The recording stream is unchanged. Wall-clock attribution
+is unchanged: re-push work happens inside the search loop
+and `elapsed_search` still claims it (matches the lazy
+stale-pop precedent — counters tag WORK TYPE; elapsed
+buckets tag STRUCTURAL PHASE).
 
 ### Visual counter snapshot — `COUNTERS.html`
 

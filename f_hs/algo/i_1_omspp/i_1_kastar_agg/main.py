@@ -63,12 +63,18 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
      `algo.counters`, `algo.solutions` all available.
 
      Per-run counters (8-counter scaffold from AlgoOMSPP):
-       cnt_h_search   — h(n,t) calls in normal flow (push,
-                        decrease-g, start seed).
-       cnt_h_update   — h(n,t) calls in refresh flow (lazy
-                        pop-recompute, eager `_refresh_priorities`).
+       cnt_h_search   — h(n,t) calls in normal flow (start
+                        seed, first-time push in `_handle_child`,
+                        decrease-g).
+       cnt_h_update   — h(n,t) calls in refresh flow: lazy
+                        pop-recompute, eager
+                        `_refresh_priorities`, AND the goal
+                        re-push at goal-find (h is recomputed
+                        under the newly-shrunken active set).
        cnt_phi_search — `_compute_F` calls in normal flow.
-       cnt_phi_update — `_compute_F` calls in refresh flow.
+       cnt_phi_update — `_compute_F` calls in refresh flow
+                        (lazy pop-recompute, eager
+                        `_refresh_priorities`, goal re-push).
        cnt_push       — `frontier.push` calls.
        cnt_pop        — `frontier.pop` calls (heap-op cost).
        cnt_pop_stale  — pops that found stale F and re-inserted
@@ -276,10 +282,15 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                 if not self._active_goals:
                     break
                 # Re-push under the shrunken active set's Φ.
-                # PHASE_SEARCH — mirrors INC's phase choice for
-                # lazy re-push (the re-push completes the just-
-                # finished sub-goal's handling).
-                new_f = self._compute_F(state, phase=_PHASE_SEARCH)
+                # PHASE_UPDATE — h / Φ are recomputed under the
+                # newly-shrunken active goal set; that work is
+                # refresh-typed (responding to active-set
+                # change), not search-typed. The wall-clock
+                # still falls into elapsed_search (the work
+                # happens inside the search loop), matching the
+                # lazy stale-pop precedent: counters tag WORK
+                # TYPE; elapsed buckets tag STRUCTURAL PHASE.
+                new_f = self._compute_F(state, phase=_PHASE_UPDATE)
                 self._F_stored[state] = new_f
                 self._frontier.push(
                     state=state,
