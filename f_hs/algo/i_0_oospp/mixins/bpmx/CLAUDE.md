@@ -6,7 +6,9 @@ Reusable in-search mechanism for **Felner pathmax rules** and the **BPMX cascade
 
 Consumed by exactly one OOSPP algorithm class:
 
-- `AStarLookup` — cache + bounds + pre-search propagate_pathmax + (optional) in-search BPMX in one class (`AStarLookup → BPMXMixin → AStar → AlgoSPP`). The canonical advanced-A* class; used by k×A*-CB.
+- `AStarBPMX` — extends `AStarLookup` with in-search BPMX
+  (`AStarBPMX → BPMXMixin → AStarLookup → AStar → AlgoSPP`).
+  Used by k×A*-CB-style sub-search when BPMX is desired.
 
 ## Why it lives here (and not at `f_hs/algo/`)
 
@@ -42,10 +44,10 @@ The cascade is strictly ≥ either single-direction sweep but does roughly 2× t
 
 ## MRO contract
 
-Place `BPMXMixin` BEFORE `AStar` in the host's bases tuple so `super()` chains resolve mixin overrides first:
+Place `BPMXMixin` BEFORE its lookup ancestor in the host's bases tuple so `super()` chains resolve mixin overrides first:
 
 ```python
-class AStarLookup(BPMXMixin, AStar[State], Generic[State]):
+class AStarBPMX(BPMXMixin, AStarLookup[State], Generic[State]):
     ...
 ```
 
@@ -66,7 +68,7 @@ The mixin declares a 3-counter mechanism scaffold; the host class can override v
 - **`cnt_bpmx_successes`** — incremented per successful lift, regardless of which rule fired. Cumulative across the run. For Rule 1 and Rule 3 alone, this counts the rule's lifts; for Rule 2 it counts the parent lift; for CASCADE it sums all Rule 3 + Rule 1 lifts across iterations.
 - **`cnt_bpmx_depth`** — **max tracker** (not cumulative). Tracks the deepest BFS-level (0 = root) at which any successful lift fired. Updated via `assign` on each successful lift; stays at 0 if no lifts fire OR if Rule 2 lifts only the root.
 
-`AStarLookup` overrides `_COUNTER_NAMES` to prepend a `propagate` group (`cnt_prop_waves`, `cnt_prop_attempts`, `cnt_prop_lifts`) covering its pre-search `propagate_pathmax`.
+`AStarBPMX` overrides `_COUNTER_NAMES` to prepend a `propagate` group (`cnt_prop_waves`, `cnt_prop_attempts`, `cnt_prop_lifts`) — inherited from its `AStarLookup` parent's pre-search `propagate_pathmax`.
 
 ## Validation hooks
 
@@ -97,4 +99,4 @@ Static helpers exposed for host classes to call from `__init__`:
 
 No standalone tester for this mixin — tests live with its only consumer:
 
-- `oospp/i_2_astar_lookup/_tester_bpmx*.py` (covers BPMX standalone, cache + BPMX, combined-class scenarios).
+- `oospp/i_3_astar_bpmx/_tester_bpmx*.py` and `_tester_*_bpmx_*.py` (covers BPMX standalone, cache + BPMX, counter pins, recording pins).

@@ -332,7 +332,7 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
          state.
 
          `_pre_expand` runs after close and before the successor
-         loop; it's the hook where AStarLookup applies BPMX
+         loop; it's the hook where AStarBPMX applies BPMX
          (in-search pathmax) to lift h values of the current
          state and its neighbours before they get priorities.
         ====================================================================
@@ -374,8 +374,8 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         ====================================================================
          Subclass hook — runs after close and before the
          successor loop at each expansion. Default: no-op.
-         AStarLookup overrides for BPMX (in-search pathmax:
-         Rules 1, 2, 3).
+         AStarBPMX overrides (via BPMXMixin) for in-search
+         pathmax: Rules 1, 2, 3, CASCADE.
         ====================================================================
         """
         pass

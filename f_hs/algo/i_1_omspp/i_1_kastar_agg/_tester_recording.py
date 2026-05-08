@@ -12,14 +12,22 @@
  `cnt_pop_stale`), not the event sequence. Only `is_lazy`
  distinguishes the streams:
 
-   - `is_lazy=False` → 35 events (incl. 2 `update_frontier`
+   - `is_lazy=False` → 33 events (incl. 2 `update_frontier`
                        boundary markers, one per non-final
                        goal-find).
-   - `is_lazy=True`  → 33 events (no `update_frontier`; lazy
+   - `is_lazy=True`  → 31 events (no `update_frontier`; lazy
                        refresh is silent).
 
- The two pinned streams below define the canonical eager and
- lazy event sequences. A parametrized invariance check then
+ Goal-handling order at every goal-find (INC-symmetric lazy
+ re-push):
+
+     pop  → on_goal  → push (re-push, if non-last)
+                     → update_frontier (eager only)
+
+ The just-found goal is NOT force-expanded; its successors
+ are reached via other paths during the search. The two
+ pinned streams below define the canonical eager and lazy
+ event sequences. A parametrized invariance check then
  asserts every (is_opt × store_vector) combination produces
  identical events to the canonical for that `is_lazy`.
 
@@ -83,25 +91,23 @@ _EAGER_CANONICAL: list[dict] = [
     {'type': 'push', 'state': (2, 1), 'g': 3, 'h': 2, 'f': 5, 'parent': (2, 0)},
     {'type': 'push', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3, 'parent': (2, 0)},
     {'type': 'pop', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3},
-    {'type': 'push', 'state': (3, 1), 'g': 4, 'h': 2, 'f': 6, 'parent': (3, 0)},
     {'type': 'on_goal', 'state': (3, 0), 'g': 3, 'reason': 'expanded', 'goal_index': 1},
+    {'type': 'push', 'state': (3, 0), 'g': 3, 'h': 3, 'f': 6, 'parent': (2, 0)},
     {'type': 'update_frontier', 'num_nodes': 3, 'next_goal_index': 0},
     {'type': 'pop', 'state': (1, 1), 'g': 2, 'h': 3, 'f': 5},
-    {'type': 'pop', 'state': (3, 1), 'g': 4, 'h': 2, 'f': 6},
-    {'type': 'push', 'state': (3, 2), 'g': 5, 'h': 1, 'f': 6, 'parent': (3, 1)},
-    {'type': 'pop', 'state': (3, 2), 'g': 5, 'h': 1, 'f': 6},
-    {'type': 'push', 'state': (2, 2), 'g': 6, 'h': 2, 'f': 8, 'parent': (3, 2)},
-    {'type': 'push', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6, 'parent': (3, 2)},
-    {'type': 'pop', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6},
-    {'type': 'push', 'state': (2, 3), 'g': 7, 'h': 2, 'f': 9, 'parent': (3, 3)},
-    {'type': 'on_goal', 'state': (3, 3), 'g': 6, 'reason': 'expanded', 'goal_index': 2},
-    {'type': 'update_frontier', 'num_nodes': 3, 'next_goal_index': 0},
-    {'type': 'pop', 'state': (2, 1), 'g': 3, 'h': 4, 'f': 7},
-    {'type': 'decrease_g', 'state': (2, 2), 'g': 4, 'h': 3, 'f': 7, 'parent': (2, 1)},
-    {'type': 'pop', 'state': (2, 2), 'g': 4, 'h': 3, 'f': 7},
-    {'type': 'decrease_g', 'state': (2, 3), 'g': 5, 'h': 2, 'f': 7, 'parent': (2, 2)},
-    {'type': 'pop', 'state': (2, 3), 'g': 5, 'h': 2, 'f': 7},
+    {'type': 'pop', 'state': (2, 1), 'g': 3, 'h': 3, 'f': 6},
+    {'type': 'push', 'state': (2, 2), 'g': 4, 'h': 2, 'f': 6, 'parent': (2, 1)},
+    {'type': 'push', 'state': (3, 1), 'g': 4, 'h': 2, 'f': 6, 'parent': (2, 1)},
+    {'type': 'pop', 'state': (2, 2), 'g': 4, 'h': 2, 'f': 6},
+    {'type': 'push', 'state': (2, 3), 'g': 5, 'h': 1, 'f': 6, 'parent': (2, 2)},
+    {'type': 'push', 'state': (3, 2), 'g': 5, 'h': 1, 'f': 6, 'parent': (2, 2)},
+    {'type': 'pop', 'state': (2, 3), 'g': 5, 'h': 1, 'f': 6},
     {'type': 'push', 'state': (1, 3), 'g': 6, 'h': 1, 'f': 7, 'parent': (2, 3)},
+    {'type': 'push', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6, 'parent': (2, 3)},
+    {'type': 'pop', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6},
+    {'type': 'on_goal', 'state': (3, 3), 'g': 6, 'reason': 'expanded', 'goal_index': 2},
+    {'type': 'push', 'state': (3, 3), 'g': 6, 'h': 3, 'f': 9, 'parent': (2, 3)},
+    {'type': 'update_frontier', 'num_nodes': 5, 'next_goal_index': 0},
     {'type': 'pop', 'state': (1, 3), 'g': 6, 'h': 1, 'f': 7},
     {'type': 'push', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7, 'parent': (1, 3)},
     {'type': 'pop', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7},
@@ -122,23 +128,21 @@ _LAZY_CANONICAL: list[dict] = [
     {'type': 'push', 'state': (2, 1), 'g': 3, 'h': 2, 'f': 5, 'parent': (2, 0)},
     {'type': 'push', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3, 'parent': (2, 0)},
     {'type': 'pop', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3},
-    {'type': 'push', 'state': (3, 1), 'g': 4, 'h': 2, 'f': 6, 'parent': (3, 0)},
     {'type': 'on_goal', 'state': (3, 0), 'g': 3, 'reason': 'expanded', 'goal_index': 1},
+    {'type': 'push', 'state': (3, 0), 'g': 3, 'h': 3, 'f': 6, 'parent': (2, 0)},
     {'type': 'pop', 'state': (1, 1), 'g': 2, 'h': 3, 'f': 5},
-    {'type': 'pop', 'state': (3, 1), 'g': 4, 'h': 2, 'f': 6},
-    {'type': 'push', 'state': (3, 2), 'g': 5, 'h': 1, 'f': 6, 'parent': (3, 1)},
-    {'type': 'pop', 'state': (3, 2), 'g': 5, 'h': 1, 'f': 6},
-    {'type': 'push', 'state': (2, 2), 'g': 6, 'h': 2, 'f': 8, 'parent': (3, 2)},
-    {'type': 'push', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6, 'parent': (3, 2)},
-    {'type': 'pop', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6},
-    {'type': 'push', 'state': (2, 3), 'g': 7, 'h': 2, 'f': 9, 'parent': (3, 3)},
-    {'type': 'on_goal', 'state': (3, 3), 'g': 6, 'reason': 'expanded', 'goal_index': 2},
-    {'type': 'pop', 'state': (2, 1), 'g': 3, 'h': 4, 'f': 7},
-    {'type': 'decrease_g', 'state': (2, 2), 'g': 4, 'h': 3, 'f': 7, 'parent': (2, 1)},
-    {'type': 'pop', 'state': (2, 2), 'g': 4, 'h': 3, 'f': 7},
-    {'type': 'decrease_g', 'state': (2, 3), 'g': 5, 'h': 2, 'f': 7, 'parent': (2, 2)},
-    {'type': 'pop', 'state': (2, 3), 'g': 5, 'h': 2, 'f': 7},
+    {'type': 'pop', 'state': (2, 1), 'g': 3, 'h': 3, 'f': 6},
+    {'type': 'push', 'state': (2, 2), 'g': 4, 'h': 2, 'f': 6, 'parent': (2, 1)},
+    {'type': 'push', 'state': (3, 1), 'g': 4, 'h': 2, 'f': 6, 'parent': (2, 1)},
+    {'type': 'pop', 'state': (2, 2), 'g': 4, 'h': 2, 'f': 6},
+    {'type': 'push', 'state': (2, 3), 'g': 5, 'h': 1, 'f': 6, 'parent': (2, 2)},
+    {'type': 'push', 'state': (3, 2), 'g': 5, 'h': 1, 'f': 6, 'parent': (2, 2)},
+    {'type': 'pop', 'state': (2, 3), 'g': 5, 'h': 1, 'f': 6},
     {'type': 'push', 'state': (1, 3), 'g': 6, 'h': 1, 'f': 7, 'parent': (2, 3)},
+    {'type': 'push', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6, 'parent': (2, 3)},
+    {'type': 'pop', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6},
+    {'type': 'on_goal', 'state': (3, 3), 'g': 6, 'reason': 'expanded', 'goal_index': 2},
+    {'type': 'push', 'state': (3, 3), 'g': 6, 'h': 3, 'f': 9, 'parent': (2, 3)},
     {'type': 'pop', 'state': (1, 3), 'g': 6, 'h': 1, 'f': 7},
     {'type': 'push', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7, 'parent': (1, 3)},
     {'type': 'pop', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7},
@@ -154,16 +158,21 @@ _LAZY_CANONICAL: list[dict] = [
 def test_recording_canonical_omspp_min_eager() -> None:
     """
     ========================================================================
-     Pin the canonical eager event stream (35 events) on the
+     Pin the canonical eager event stream (33 events) on the
      canonical OMSPP problem with KAStarAgg-MIN, is_lazy=False.
 
      Distinguishing eager features:
      - 2 `update_frontier` boundary markers (one per non-
        final goal-find: index 1 → 0, then index 2 → 0).
-     - All 14 pops are real expansions (no stale pops in
-       eager mode).
-     - 14 first-time pushes + 2 `decrease_g` events at
-       (2,2) and (2,3) on the path to the last goal (0,3).
+     - At each goal-find: `pop` → `on_goal` → `push` (re-push,
+       INC-symmetric) → `update_frontier`.
+     - All 12 emitted pops are real expansions or goal-finds
+       (no stale pops in eager mode).
+     - 14 first-encounter pushes + 2 goal re-pushes
+       ((3,0) and (3,3); (0,3) is last and not re-pushed).
+     - 0 `decrease_g` events — under proposal, (2,2) and
+       (2,3) are first-pushed at their optimal g (via (2,1)
+       and (2,2)), so no decrease-key race.
     ========================================================================
     """
     algo = _make_algo(is_lazy=False, is_opt=False,
@@ -174,15 +183,15 @@ def test_recording_canonical_omspp_min_eager() -> None:
 def test_recording_canonical_omspp_min_lazy() -> None:
     """
     ========================================================================
-     Pin the canonical lazy event stream (33 events) on the
+     Pin the canonical lazy event stream (31 events) on the
      canonical OMSPP problem with KAStarAgg-MIN, is_lazy=True.
 
      Distinguishing lazy features:
      - No `update_frontier` markers (refresh is inline at
        pop time, no between-phase moment).
-     - The 2 stale pops are silent in the stream — `pop`
+     - The 4 stale pops are silent in the stream — `pop`
        events fire only for real expansions, so the visible
-       pop count matches eager (14).
+       pop count matches eager (12).
      - Identical to `_EAGER_CANONICAL` apart from the 2
        missing `update_frontier` events.
     ========================================================================

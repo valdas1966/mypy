@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>בעיות מילוליות — מאיה ומיקה</title>
+<link rel="stylesheet" href="../shared/styles.css">
+<style>
+/* ===== Word Problems — Maya & Mika ===== */
+body.wp-body {
+    font-family: 'Comic Sans MS', 'Arial Hebrew', 'Heebo', sans-serif;
+    background: linear-gradient(180deg, #B3E5FC 0%, #FFF59D 100%);
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    margin: 0;
+    direction: rtl;
+}
+
+.wp-screen {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    padding: 8px;
+    box-sizing: border-box;
+    gap: 6px;
+}
+
+/* ----- Top bar ----- */
+.wp-top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 6px 10px;
+    background: rgba(255,255,255,0.78);
+    border-radius: 14px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    flex: 0 0 auto;
+}
+.wp-top-btn {
+    background: #FFF; border: 2px solid #FFB74D;
+    border-radius: 50%;
+    width: 44px; height: 44px;
+    font-size: 22px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none;
+    color: inherit;
+    padding: 0;
+}
+.wp-counter {
+    font-size: 22px; font-weight: bold;
+    color: #E65100;
+    background: #FFF3E0;
+    padding: 6px 18px;
+    border-radius: 12px;
+    border: 2px solid #FFB74D;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* ----- Scene: Maya & Mika side-by-side ----- */
+.wp-scene {
+    flex: 1 1 auto;
+    display: flex; flex-direction: row;
+    align-items: stretch; justify-content: space-around;
+    gap: 10px;
+    min-height: 0;
+}
+.wp-char {
+    flex: 1 1 0;
+    display: flex; flex-direction: column;
+    align-items: center;
+    background: rgba(255,255,255,0.85);
+    border-radius: 18px;
+    padding: 8px 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    min-width: 0;
+}
+.wp-avatar {
+    width: clamp(56px, 14vw, 80px);
+    height: clamp(56px, 14vw, 80px);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: clamp(36px, 9vw, 52px);
+    flex: 0 0 auto;
+    line-height: 1;
+}
+.wp-char-maya .wp-avatar {
+    background: #F8BBD0;
+    border: 4px solid #EC407A;
+}
+.wp-char-mika .wp-avatar {
+    background: #E1BEE7;
+    border: 4px solid #AB47BC;
+}
+.wp-name {
+    font-size: clamp(18px, 4vw, 24px);
+    font-weight: bold;
+    margin: 4px 0 6px;
+}
+.wp-char-maya .wp-name { color: #C2185B; }
+.wp-char-mika .wp-name { color: #6A1B9A; }
+
+.wp-basket {
+    flex: 1 1 auto;
+    width: 100%;
+    display: flex; flex-wrap: wrap;
+    align-content: flex-start; justify-content: center;
+    gap: 6px;
+    padding: 8px;
+    background: linear-gradient(180deg, #FFF8E1 0%, #FFE082 100%);
+    border-radius: 14px;
+    border: 3px dashed #FFB300;
+    box-sizing: border-box;
+    min-height: 80px;
+}
+.wp-basket.wp-drag-over {
+    background: linear-gradient(180deg, #FFE082 0%, #FFD54F 100%);
+    border-color: #FB8C00;
+}
+
+/* ----- Balls ----- */
+.wp-ball {
+    width: clamp(36px, 8vw, 46px);
+    height: clamp(36px, 8vw, 46px);
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%,
+        #FF8A80 0%, #E53935 60%, #B71C1C 100%);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+    cursor: grab;
+    touch-action: none;
+    flex: 0 0 auto;
+}
+.wp-ball-drag {
+    cursor: grabbing;
+    transform: scale(1.15);
+    z-index: 9999;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+}
+
+/* ----- Question ----- */
+.wp-question {
+    flex: 0 0 auto;
+    background: #FFF;
+    border-radius: 14px;
+    padding: 12px 16px;
+    font-size: clamp(18px, 4.5vw, 24px);
+    font-weight: bold;
+    color: #1A237E;
+    text-align: center;
+    line-height: 1.4;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    min-height: 1em;
+}
+
+/* ----- Answer buttons ----- */
+.wp-answers {
+    flex: 0 0 auto;
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+}
+.wp-ans {
+    flex: 1 1 0;
+    max-width: 200px;
+    height: clamp(64px, 14vw, 92px);
+    font-size: clamp(36px, 8vw, 56px);
+    font-weight: bold;
+    border: none;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #66BB6A 0%, #2E7D32 100%);
+    color: #FFF;
+    box-shadow: 0 4px 0 #1B5E20, 0 6px 10px rgba(0,0,0,0.15);
+    cursor: pointer;
+    touch-action: manipulation;
+    font-family: inherit;
+}
+.wp-ans:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #1B5E20, 0 3px 6px rgba(0,0,0,0.15);
+}
+.wp-ans.wp-correct {
+    background: linear-gradient(180deg, #FFD54F 0%, #FFA000 100%);
+    box-shadow: 0 4px 0 #FF6F00, 0 6px 10px rgba(255,179,0,0.5);
+    animation: wp-flash 0.6s ease;
+}
+.wp-ans.wp-wrong {
+    animation: wp-shake 0.5s ease;
+}
+@keyframes wp-flash {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.15); }
+}
+@keyframes wp-shake {
+    0%, 100% { transform: translateX(0); }
+    25%      { transform: translateX(-8px); }
+    75%      { transform: translateX(8px); }
+}
+
+/* Compact landscape on small phones */
+@media (orientation: landscape) and (max-height: 500px) {
+    .wp-screen   { padding: 4px; gap: 4px; }
+    .wp-question { padding: 8px 14px; }
+}
+</style>
+</head>
+<body class="wp-body">
+
+<div class="wp-screen">
+
+    <!-- top bar -->
+    <div class="wp-top">
+        <a class="wp-top-btn" href="../index.html" title="חזרה">&#127968;</a>
+        <div class="wp-counter" id="wp-counter">0/5</div>
+        <button class="wp-top-btn" id="wp-mute">&#128264;</button>
+    </div>
+
+    <!-- scene: Maya (right in RTL) and Mika (left) -->
+    <div class="wp-scene">
+        <div class="wp-char wp-char-maya">
+            <div class="wp-avatar">&#128103;</div>
+            <div class="wp-name">מאיה</div>
+            <div class="wp-basket" id="wp-basket-maya"></div>
+        </div>
+        <div class="wp-char wp-char-mika">
+            <div class="wp-avatar">&#128103;</div>
+            <div class="wp-name">מיקה</div>
+            <div class="wp-basket" id="wp-basket-mika"></div>
+        </div>
+    </div>
+
+    <!-- question -->
+    <div class="wp-question" id="wp-question"></div>
+
+    <!-- two answer buttons -->
+    <div class="wp-answers" id="wp-answers"></div>
+
+</div>
+
+<!-- feedback overlay -->
+<div class="feedback" id="feedback"></div>
+
+<script src="../shared/audio.js"></script>
+<script src="../shared/effects.js"></script>
+<script src="../shared/ice-cream.js"></script>
+<script src="../shared/dress-up.js"></script>
+<script src="../shared/prizes.js"></script>
+<script src="game.js"></script>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-from f_hs.algo.i_0_oospp.i_2_astar_lookup import AStarLookup
+from f_hs.algo.i_0_oospp.i_3_astar_bpmx import AStarBPMX
 from f_hs.problem import ProblemSPP
 from f_hs.problem.i_1_grid import ProblemGrid
 
@@ -24,7 +24,7 @@ def test_off_emits_only_search_events() -> None:
     """
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
-    algo = AStarLookup(
+    algo = AStarBPMX(
         problem=problem,
         h=lambda s: float(s.distance(goal)),
         rule_bpmx=None,
@@ -48,7 +48,7 @@ def test_rule3_isolated_emits_bpmx_lift() -> None:
     ========================================================================
     """
     h_inc = {'A': 0.0, 'B': 4.0, 'C': 0.0, 'D': 0.0}
-    algo = AStarLookup(
+    algo = AStarBPMX(
         problem=ProblemSPP.Factory.graph_diamond(),
         h=lambda s: h_inc.get(s.key, 0.0),
         rule_bpmx='3',
@@ -70,7 +70,7 @@ def test_bpmx_lift_h_values_int_cast() -> None:
     ========================================================================
     """
     h_inc = {'A': 0.0, 'B': 4.0, 'C': 0.0, 'D': 0.0}
-    algo = AStarLookup(
+    algo = AStarBPMX(
         problem=ProblemSPP.Factory.graph_diamond(),
         h=lambda s: h_inc.get(s.key, 0.0),
         rule_bpmx='3',
@@ -97,7 +97,7 @@ def test_bpmx_iteration_marker_per_cascade() -> None:
     """
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
-    algo = AStarLookup(
+    algo = AStarBPMX(
         problem=problem,
         h=lambda s: float(s.distance(goal)),
         rule_bpmx='CASCADE',
@@ -125,7 +125,7 @@ def test_isolated_rules_emit_no_iteration_marker() -> None:
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
     for rule in ('1', '2', '3'):
-        algo = AStarLookup(
+        algo = AStarBPMX(
             problem=problem,
             h=lambda s: float(s.distance(goal)),
             rule_bpmx=rule,
@@ -144,7 +144,7 @@ def test_cascade_lift_event_on_inconsistent_diamond() -> None:
      events (Rule 3 lifts the parent from a stronger-h child).
     ========================================================================
     """
-    algo = (AStarLookup.Factory
+    algo = (AStarBPMX.Factory
             .graph_diamond_inconsistent_cascade())
     algo.run()
     lifts = [e for e in algo.recorder.events
@@ -164,7 +164,7 @@ def test_cascade_forward_event_on_inconsistent_diamond() -> None:
      the lifted h forward to children).
     ========================================================================
     """
-    algo = (AStarLookup.Factory
+    algo = (AStarBPMX.Factory
             .graph_diamond_inconsistent_cascade())
     algo.run()
     fwds = [e for e in algo.recorder.events
@@ -185,7 +185,7 @@ def test_is_cached_flag_coexists_with_bpmx_events() -> None:
      uncached expansions — both event vocabularies coexist.
     ========================================================================
     """
-    algo = (AStarLookup.Factory
+    algo = (AStarBPMX.Factory
             .graph_abc_cached_at_b(rule_bpmx='CASCADE',
                                    depth_bpmx=1,
                                    is_recording=True))
@@ -208,7 +208,7 @@ def test_cached_state_skipped_from_bpmx_lift() -> None:
      bpmx_forward event names the cached state.
     ========================================================================
     """
-    algo = (AStarLookup.Factory
+    algo = (AStarBPMX.Factory
             .graph_abc_cached_at_b(rule_bpmx='CASCADE',
                                    depth_bpmx=1,
                                    is_recording=True))
@@ -236,7 +236,7 @@ def test_propagate_event_then_bpmx_in_search() -> None:
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
     bounds = {goal: 0}
-    algo = AStarLookup(
+    algo = AStarBPMX(
         problem=problem,
         h=lambda s: float(s.distance(goal)),
         bounds=bounds,

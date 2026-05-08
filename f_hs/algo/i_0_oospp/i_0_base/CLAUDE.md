@@ -68,7 +68,7 @@ also clears the flag.
 | Property | Type | Description |
 |----------|------|-------------|
 | `search_state` | `SearchStateSPP[State]` | Dynamic per-search bundle |
-| `counters` | `Counters` | 5-counter scaffold + 2 memory snapshots. Heap-op group (`cnt_push`, `cnt_pop`, `cnt_decrease`) is mirrored from the injected frontier on every access — single source of truth. Search-semantic group (`cnt_expanded`, `cnt_generated`) is incremented inline by the search loop and `_handle_child` (Stern-style "expanded" = popped state whose successors are generated; "generated" = first-time push, including the start seed). Memory group populated by `_run_post()` after the timer closes. Inherited unchanged by every concrete SPP algorithm (BFS, AStar, AStarLookup, Dijkstra); BPMX-flavored classes extend the scaffold via `BPMXMixin._BPMX_COUNTER_NAMES`. FIFO frontiers report `cnt_decrease=0` since `decrease` is a no-op on FIFO. |
+| `counters` | `Counters` | 5-counter scaffold + 2 memory snapshots. Heap-op group (`cnt_push`, `cnt_pop`, `cnt_decrease`) is mirrored from the injected frontier on every access — single source of truth. Search-semantic group (`cnt_expanded`, `cnt_generated`) is incremented inline by the search loop and `_handle_child` (Stern-style "expanded" = popped state whose successors are generated; "generated" = first-time push, including the start seed). Memory group populated by `_run_post()` after the timer closes. Inherited unchanged by every concrete SPP algorithm (BFS, AStar, AStarLookup, AStarBPMX, Dijkstra); `AStarLookup` widens the scaffold to 12 names via per-class `_COUNTER_NAMES`, and `AStarBPMX` widens further to 15 via the same mechanism. FIFO frontiers report `cnt_decrease=0` since `decrease` is a no-op on FIFO. |
 
 ### Inherited from Algo / ProcessBase
 | Property / Method | Description |
@@ -286,7 +286,7 @@ Event types recorded by this base class: `push`, `pop`,
   (pre-search; not applicable). `h` / `h_parent` cast to int
   when integer-valued (shared with AStar's `_enrich_event`
   cast logic for `push` / `pop` / `decrease_g`).
-- **AStarLookup** (when `rule_bpmx is not None`) adds four
+- **AStarBPMX** (when `rule_bpmx is not None`) adds four
   in-search Felner-pathmax event types: `pathmax_apply`
   (isolated Rule 2), `bpmx_iteration` (cascade round-marker),
   `bpmx_lift` (Rule 3 fired), `bpmx_forward` (Rule 1 fired).

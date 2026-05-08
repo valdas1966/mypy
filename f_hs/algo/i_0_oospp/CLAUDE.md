@@ -18,8 +18,9 @@ oospp/
 ├── i_0_base/               AlgoSPP — abstract base, classical search loop
 ├── i_1_bfs/                BFS — breadth-first search
 ├── i_1_astar/              AStar — simple A*
-├── i_2_astar_lookup/       AStarLookup — cache + bounds + propagate_pathmax + BPMX
-└── i_2_dijkstra/           Dijkstra — A* with h=0
+├── i_2_astar_lookup/       AStarLookup — cache + bounds + propagate_pathmax
+├── i_2_dijkstra/           Dijkstra — A* with h=0
+└── i_3_astar_bpmx/         AStarBPMX — AStarLookup + in-search BPMX
 ```
 
 ## Inheritance
@@ -28,28 +29,29 @@ oospp/
 AlgoSPP[State]                                — i_0_base/
 ├── BFS                                       — i_1_bfs/
 └── AStar (simple; (f, -g, state))            — i_1_astar/
-    ├── AStarLookup (BPMXMixin + cache +      — i_2_astar_lookup/
-    │                bounds + BPMX)
+    ├── AStarLookup (cache + bounds +         — i_2_astar_lookup/
+    │   │            propagate_pathmax)
+    │   └── AStarBPMX (BPMXMixin)             — i_3_astar_bpmx/
     └── Dijkstra (h = 0)                      — i_2_dijkstra/
 ```
 
 The shared `BPMXMixin` (in-search Felner pathmax / BPMX(d)
-mechanism) lives at `f_hs/algo/i_0_oospp/mixins/bpmx/main.py`.
-BPMX is intrinsically OOSPP-scoped — it operates on a
-per-search-tree A* (single source / single goal). Even when
-an OMSPP / MOSPP orchestrator composes a BPMX-flavored
-sub-algo via the `_inner_algo_cls` hook on `KAStarInc`, the
-BPMX mechanism still runs *inside* the OOSPP sub-search.
-A multi-goal-aware BPMX variant (e.g., aggregate-Φ pathmax)
-would be a different mixin with different math, not a reuse
-of this one.
+mechanism) lives at `f_hs/algo/i_0_oospp/mixins/bpmx/main.py`
+and is consumed by `AStarBPMX` only. BPMX is intrinsically
+OOSPP-scoped — it operates on a per-search-tree A* (single
+source / single goal). Even when an OMSPP / MOSPP orchestrator
+composes a BPMX-flavored sub-algo via the `_inner_algo_cls`
+hook on `KAStarInc`, the BPMX mechanism still runs *inside*
+the OOSPP sub-search. A multi-goal-aware BPMX variant (e.g.,
+aggregate-Φ pathmax) would be a different mixin with
+different math, not a reuse of this one.
 
 ## Package Exports
 
 ```python
 from f_hs.algo.i_0_oospp import (
     AlgoSPP, SearchStateSPP,
-    BFS, AStar, AStarLookup,
+    BFS, AStar, AStarLookup, AStarBPMX,
     Dijkstra,
 )
 # Or via the parent package:
@@ -83,16 +85,19 @@ problem variant; class names keep the conventional stem.
 ## Counters
 
 `AlgoSPP.counters` is a delegation property returning
-`self._search.frontier.counters` — the 3-name `Counters`
+`self._search.frontier.counters` — the 3-name heap-op
 scaffold (`cnt_push`, `cnt_pop`, `cnt_decrease`) owned by
 `FrontierBase`. Every concrete OOSPP algo (BFS, AStar,
-AStarLookup, Dijkstra) inherits the same `counters` surface.
+AStarLookup, AStarBPMX, Dijkstra) inherits the same
+`counters` surface.
 
-`AStarLookup` overrides `_COUNTER_NAMES` (via the per-class
-override pattern consumed by `BPMXMixin._init_bpmx_mechanism`)
-to a 15-name shape (prop 3 + bpmx 3 + frontier 3 + search 2 +
-memory 4) covering both pre-search `propagate_pathmax` and
-in-search BPMX(d).
+Per-class scaffold overrides via `_COUNTER_NAMES`:
+
+| Class | Names | Composition |
+|---|---|---|
+| `AlgoSPP` (default) | 7 | frontier 3 + search 2 + memory 2 |
+| `AStarLookup` | 12 | propagate 3 + frontier 3 + search 2 + memory 4 |
+| `AStarBPMX` | 15 | propagate 3 + bpmx 3 + frontier 3 + search 2 + memory 4 |
 
 ## Dependencies
 
@@ -104,4 +109,4 @@ in-search BPMX(d).
 - `f_hs.heuristic.*` — heuristic chain layers (HBase,
   HCallable, HBounded, HCached).
 - `f_hs.algo.i_0_oospp.mixins.bpmx.BPMXMixin` — composed
-  natively by `AStarLookup` (the canonical advanced-A* class).
+  by `AStarBPMX`.

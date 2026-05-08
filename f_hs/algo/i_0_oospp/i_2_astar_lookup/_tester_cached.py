@@ -270,9 +270,6 @@ def test_counters_pin_graph_abc_cached_at_start() -> None:
         'cnt_prop_waves': 0,
         'cnt_prop_attempts': 0,
         'cnt_prop_lifts': 0,
-        'cnt_bpmx_attempts': 0,
-        'cnt_bpmx_successes': 0,
-        'cnt_bpmx_depth': 0,
         'cnt_push': 1, 'cnt_pop': 1, 'cnt_decrease': 0,
         'cnt_expanded': 0, 'cnt_generated': 1,
     }
@@ -295,9 +292,6 @@ def test_counters_pin_graph_abc_cached_at_b() -> None:
         'cnt_prop_waves': 0,
         'cnt_prop_attempts': 0,
         'cnt_prop_lifts': 0,
-        'cnt_bpmx_attempts': 0,
-        'cnt_bpmx_successes': 0,
-        'cnt_bpmx_depth': 0,
         'cnt_push': 2, 'cnt_pop': 2, 'cnt_decrease': 0,
         'cnt_expanded': 1, 'cnt_generated': 2,
     }

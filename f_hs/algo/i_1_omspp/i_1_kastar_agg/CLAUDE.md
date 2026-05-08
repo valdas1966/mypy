@@ -129,17 +129,36 @@ comparisons line up directly.
 
 | event | payload | when |
 |---|---|---|
-| `push` | state, g, h, f, parent | first-time push only — initial seed and `_handle_child` first-encounter branch (one per `cnt_generated`). Eager bulk re-push and lazy stale re-push are silent. Stream's `push`-event count = `cnt_generated`, not `cnt_push`. |
-| `pop` | state, g, h, f | non-stale pop only (real expansion). Lazy stale pops are silent. Stream's `pop`-event count = `cnt_pop − cnt_pop_stale`. |
+| `push` | state, g, h, f, parent | first-time push (initial seed + `_handle_child` first-encounter branch, one per `cnt_generated`) AND the lazy re-push of any non-last goal at goal-find. Eager bulk re-push and lazy stale re-push are silent. Stream's `push`-event count = `cnt_generated` + (number of non-last reached goals). |
+| `pop` | state, g, h, f | non-stale pop only (real expansion or goal-find). Lazy stale pops are silent. Stream's `pop`-event count = `cnt_pop − cnt_pop_stale`. |
 | `decrease_g` | state, g, h, f, parent | every decrease-key (one per `cnt_decrease`) |
-| `on_goal` | state, g, reason, goal_index | goal expanded / unreachable |
-| `update_frontier` | num_nodes, next_goal_index | eager refresh boundary (eager only — lazy mode does NOT emit; no between-phase moment) |
+| `on_goal` | state, g, reason, goal_index | goal expanded / unreachable. Emitted BEFORE the goal re-push (INC-symmetric ordering). |
+| `update_frontier` | num_nodes, next_goal_index | eager refresh boundary (eager only — lazy mode does NOT emit; no between-phase moment). Emitted AFTER the goal re-push event. |
+
+**Goal-handling order at every goal-find** (INC-symmetric
+lazy re-push):
+
+```
+pop  →  on_goal  →  push (re-push, if non-last)
+                 →  update_frontier (eager only)
+```
+
+The just-found goal is NOT force-expanded at goal-find. It
+is removed from `active_goals` and re-pushed onto OPEN with
+its g and a fresh F under the shrunken active set's Φ.
+Successors of the goal are reached via other paths during
+the search; if the goal's optimal-path-to-other-goal role
+matters, the re-pushed entry will re-pop in priority order
+and the standard close+expand fires (in the non-goal
+branch). The last active goal is NEVER re-pushed (no
+consumer for its expansion). The pattern is one-to-one
+symmetric to KAStarInc's lazy re-push.
 
 **Param → distinguishing event signal:**
 
 | param | distinguishing signal |
 |---|---|
-| `is_lazy=False` | `update_frontier` markers fire (one per goal-find that triggers a refresh) |
+| `is_lazy=False` | `update_frontier` markers fire (one per non-last goal-find) |
 | `is_lazy=True`  | no `update_frontier` markers; `cnt_pop_stale > 0` (counter, not event) |
 | `is_opt`        | not visible in events — only via counter deltas (`cnt_phi_update` / `cnt_h_update` drop) |
 | `store_vector`  | not visible in events — only via counter deltas (`cnt_h_search`, `cnt_h_update`) |
@@ -151,6 +170,27 @@ and recorder-overhead reduction at large k. The aggregate
 counters `cnt_h_search` / `cnt_h_update` / `cnt_phi_search` /
 `cnt_phi_update` / `cnt_pop_stale` preserve the work-type
 observability.
+
+**Goal force-expand replaced with lazy re-push (2026-05-07).**
+Previously the goal-find branch added the goal to closed and
+generated its successors before emitting `on_goal`
+(force-expand). The new flow defers expansion: the goal is
+re-pushed and only close+expanded on natural re-pop. Saves
+last-goal expansions and any non-last goal whose successors
+are reached via other paths. Symmetric to KAStarInc's
+`algo._push(state=goal)` lazy re-push.
+
+### Visual counter snapshot — `COUNTERS.html`
+
+Dark-themed 10 × 8 table of counter values for all 8 param
+configs on the canonical OMSPP problem (matches the pins in
+`_tester_counters.py` exactly). Each counter row is followed
+by a one-sentence explanation of why the values differ across
+configs (or why the row is invariant), so the table doubles as
+documentation of which axis affects which counter and why.
+Layout: 3-level grouped header
+(`is_lazy` > `is_opt` > `store_vector`); cells coloured green
+for row-minimum, grey for invariant rows.
 
 ## 3) Inheritance (Hierarchy)
 

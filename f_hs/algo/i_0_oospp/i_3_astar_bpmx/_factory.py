@@ -1,0 +1,116 @@
+from f_hs.algo.i_0_oospp.i_3_astar_bpmx.main import AStarBPMX
+from f_hs.heuristic.i_0_base._cache_entry import CacheEntry
+from f_hs.problem import ProblemSPP
+from f_hs.problem.i_1_grid import ProblemGrid
+from f_hs.state.i_0_base.main import StateBase
+
+
+class Factory:
+    """
+    ========================================================================
+     Factory for AStarBPMX test instances. Exercises the
+     dict-based kwargs API (cache / goal / bounds) plus the
+     BPMX kwargs (rule_bpmx / depth_bpmx) directly. Defaults
+     reproduce off-mode (rule_bpmx=None) so factories that
+     accept BPMX parameters can also be used as plain
+     AStarLookup-equivalent instances.
+    ========================================================================
+    """
+
+    @staticmethod
+    def graph_abc_cached_at_b(rule_bpmx: str | None = None,
+                              depth_bpmx: int | None = 1,
+                              is_recording: bool = False
+                              ) -> AStarBPMX:
+        """
+        ====================================================================
+         HCached covering only {B, C} on graph A → B → C.
+         Pop(A) not cached → expand → push(B). Pop(B) triggers
+         _early_exit. Cost 2.
+
+         Parametric over BPMX kwargs — defaults reproduce
+         off-mode (behaviourally identical to a plain
+         AStarLookup with the same cache). Active mechanisms
+         (e.g. `rule_bpmx='CASCADE', depth_bpmx=1,
+         is_recording=True`) exercise the combined cache +
+         BPMX path.
+        ====================================================================
+        """
+        b = StateBase[str](key='B')
+        c = StateBase[str](key='C')
+        cache = {
+            b: CacheEntry(h_perfect=1, suffix_next=c),
+            c: CacheEntry(h_perfect=0, suffix_next=None),
+        }
+        h_map = {'A': 2}
+        return AStarBPMX(
+            problem=ProblemSPP.Factory.graph_abc(),
+            h=lambda s: h_map.get(s.key, 0),
+            cache=cache,
+            goal=c,
+            rule_bpmx=rule_bpmx,
+            depth_bpmx=depth_bpmx,
+            is_recording=is_recording,
+        )
+
+    @staticmethod
+    def grid_4x4(rule_bpmx: str | None = None,
+                 depth_bpmx: int | None = 1) -> AStarBPMX:
+        """
+        ====================================================================
+         AStarBPMX on the canonical 4x4 obstacle grid with
+         Manhattan h. Defaults (rule_bpmx=None) reproduce
+         off-mode (behaviourally identical to plain
+         AStarLookup). See AStarBPMX / BPMXMixin docstrings for
+         the (rule_bpmx, depth_bpmx) semantics.
+        ====================================================================
+        """
+        problem = ProblemGrid.Factory.grid_4x4_obstacle()
+        goal = problem.goal
+        return AStarBPMX(
+            problem=problem,
+            h=lambda s: float(s.distance(goal)),
+            rule_bpmx=rule_bpmx,
+            depth_bpmx=depth_bpmx,
+        )
+
+    @staticmethod
+    def graph_diamond_inconsistent_cascade() -> AStarBPMX:
+        """
+        ====================================================================
+         Diamond graph with an artificially inconsistent heuristic
+         (B has h=4, others h=0) + CASCADE (full reach) so BPMX
+         has something to lift. Useful for verifying lift events
+         fire.
+        ====================================================================
+        """
+        h_inc = {'A': 0.0, 'B': 4.0, 'C': 0.0, 'D': 0.0}
+        return AStarBPMX(
+            problem=ProblemSPP.Factory.graph_diamond(),
+            h=lambda s: h_inc.get(s.key, 0.0),
+            rule_bpmx='CASCADE',
+            depth_bpmx=None,
+            is_recording=True,
+        )
+
+    @staticmethod
+    def grid_4x4_cached_suffix_cascade_d1() -> AStarBPMX:
+        """
+        ====================================================================
+         4x4 obstacle grid with a small cached suffix near the
+         goal + CASCADE depth=1. Exercises (a) cache-hit early
+         term when a cached state is popped, (b) cascade
+         skipping cached descendants from lift mutation.
+        ====================================================================
+        """
+        problem = ProblemGrid.Factory.grid_4x4_obstacle()
+        goal = problem.goal
+        cache = {goal: CacheEntry(h_perfect=0, suffix_next=None)}
+        return AStarBPMX(
+            problem=problem,
+            h=lambda s: float(s.distance(goal)),
+            cache=cache,
+            goal=goal,
+            rule_bpmx='CASCADE',
+            depth_bpmx=1,
+        )

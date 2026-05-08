@@ -76,23 +76,44 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
        cnt_decrease   — `frontier.decrease` calls.
 
      Recording event schema — minimal, INC-aligned (5 types):
-       `push`             — first-time push only (initial seed
-                            + `_handle_child` first-encounter
-                            branch). Eager bulk re-push (in
-                            `_refresh_priorities`) and lazy
-                            stale re-push are silent. Stream's
-                            `push` count = `cnt_generated`, not
-                            `cnt_push`.
+       `push`             — first-time push (initial seed +
+                            `_handle_child` first-encounter
+                            branch) AND the lazy re-push of any
+                            non-last goal at goal-find. Eager
+                            bulk re-push (in `_refresh_priorities`)
+                            and lazy stale re-push are silent.
+                            Stream's `push` count = `cnt_generated`
+                            + (number of non-last goals reached).
        `pop`              — non-stale pop (real expansion) only.
                             Lazy stale pops are silent; stream's
                             `pop` count = `cnt_pop − cnt_pop_stale`.
        `decrease_g`       — child relaxation; one per `cnt_decrease`.
        `on_goal`          — goal reached; reason='expanded' or
-                            'unreachable'.
+                            'unreachable'. Emitted BEFORE the
+                            lazy re-push (INC-symmetric goal-
+                            handling order: pop → on_goal →
+                            push (re-push) → update_frontier).
        `update_frontier`  — eager-only boundary marker before the
                             bulk refresh; carries num_nodes and
                             next_goal_index. Lazy mode does NOT
                             emit (no between-phase moment exists).
+
+     Goal handling — lazy re-push (INC-symmetric):
+
+     At goal-pop the goal is recorded, removed from active_goals,
+     and re-pushed under the shrunken active set's Φ — NOT
+     force-expanded. Successors of the goal are reached via
+     other states during the search; if a remaining active goal
+     can only be optimally reached *through* the just-found
+     goal, the re-pushed entry will re-pop in priority order
+     and the standard close+expand fires (in the non-goal
+     branch). Under consistent h with MIN/MAX aggregation, this
+     guarantees correctness: f_new(t_i) ≤ C*(t_j) whenever t_j's
+     optimal path passes through t_i, so t_i must re-pop before
+     t_j is found. The last active goal is NEVER re-pushed (no
+     consumer). The pattern is one-to-one symmetric to KAStarInc's
+     lazy re-push (which defers goal close+expand to a future
+     sub-search via `algo._push(state=goal)` before transition).
 
      Refresh-internal events (`update_heuristic`, `pop_stale`,
      `h_calc`, `phi_calc`, `responsible_set`, `refresh_skip`)
@@ -240,19 +261,33 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                 self._solutions[state] = sol
                 goal_index = self._all_goals.index(state)
                 self._active_goals.discard(state)
-                # Force-expand: add goal to closed and push its
-                # successors so subsequent sub-goals can reach
-                # beyond this one.
-                self._closed.add(state)
-                self._counters.inc('cnt_expanded')
-                for child in self.problem.successors(state):
-                    if child in self._closed:
-                        continue
-                    self._handle_child(parent=state, child=child)
+                # Lazy re-push (INC-symmetric). NOT force-
+                # expanded: the goal is not added to closed and
+                # its successors are not generated here. If a
+                # remaining active goal's optimal path passes
+                # through this goal, the re-pushed entry will
+                # re-pop in priority order and the standard
+                # close+expand fires in the non-goal branch.
+                # The last active goal is NEVER re-pushed (no
+                # consumer for its expansion).
                 self._emit_on_goal(state, g=g_state,
                                    reason='expanded',
                                    goal_index=goal_index)
-                if not self._is_lazy and self._active_goals:
+                if not self._active_goals:
+                    break
+                # Re-push under the shrunken active set's Φ.
+                # PHASE_SEARCH — mirrors INC's phase choice for
+                # lazy re-push (the re-push completes the just-
+                # finished sub-goal's handling).
+                new_f = self._compute_F(state, phase=_PHASE_SEARCH)
+                self._F_stored[state] = new_f
+                self._frontier.push(
+                    state=state,
+                    priority=(new_f, -g_state, state))
+                self._emit_push(state, g=g_state, f=new_f,
+                                h=new_f - g_state,
+                                parent=self._parent.get(state))
+                if not self._is_lazy:
                     # Eager refresh — the only Agg between-phase
                     # boundary. Lazy mode does NOT flip phase
                     # (its refresh work happens inline at pop
@@ -262,8 +297,6 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                         next_goal_index=self._next_active_index(),
                         just_removed_goal=state)
                     self.phase = PHASE_SEARCH
-                if not self._active_goals:
-                    break
                 continue
 
             if state in self._closed:

@@ -1,6 +1,6 @@
 """
 ============================================================================
- AStarLookup — counter pin tests, one per rule_bpmx value on
+ AStarBPMX — counter pin tests, one per rule_bpmx value on
  the canonical OOSPP problem (`grid_4x4_obstacle`).
 
  Manhattan h on grid_4x4_obstacle is consistent (1-Lipschitz),
@@ -23,7 +23,7 @@
 ============================================================================
 """
 
-from f_hs.algo.i_0_oospp.i_2_astar_lookup import AStarLookup
+from f_hs.algo.i_0_oospp.i_3_astar_bpmx import AStarBPMX
 
 
 # ─────────────────────────────────────────────────────────────
@@ -37,7 +37,7 @@ def test_counters_grid_4x4_obstacle_off() -> None:
      frontier 13/9/0; expanded=8, generated=13.
     ========================================================================
     """
-    algo = AStarLookup.Factory.grid_4x4()
+    algo = AStarBPMX.Factory.grid_4x4()
     algo.run()
     counters = {k: v for k, v in algo.counters.items()
                 if not k.startswith('mem_')}
@@ -64,7 +64,7 @@ def test_counters_grid_4x4_obstacle_rule_1() -> None:
      tighten under consistent h → 0 successes, 0 depth.
     ========================================================================
     """
-    algo = AStarLookup.Factory.grid_4x4(rule_bpmx='1', depth_bpmx=1)
+    algo = AStarBPMX.Factory.grid_4x4(rule_bpmx='1', depth_bpmx=1)
     algo.run()
     counters = {k: v for k, v in algo.counters.items()
                 if not k.startswith('mem_')}
@@ -95,7 +95,7 @@ def test_counters_grid_4x4_obstacle_rule_2() -> None:
      lifts.
     ========================================================================
     """
-    algo = AStarLookup.Factory.grid_4x4(rule_bpmx='2', depth_bpmx=1)
+    algo = AStarBPMX.Factory.grid_4x4(rule_bpmx='2', depth_bpmx=1)
     algo.run()
     counters = {k: v for k, v in algo.counters.items()
                 if not k.startswith('mem_')}
@@ -122,7 +122,7 @@ def test_counters_grid_4x4_obstacle_rule_3() -> None:
      h when h is 1-Lipschitz. 8 attempts, 0 successes, 0 depth.
     ========================================================================
     """
-    algo = AStarLookup.Factory.grid_4x4(rule_bpmx='3', depth_bpmx=1)
+    algo = AStarBPMX.Factory.grid_4x4(rule_bpmx='3', depth_bpmx=1)
     algo.run()
     counters = {k: v for k, v in algo.counters.items()
                 if not k.startswith('mem_')}
@@ -150,7 +150,7 @@ def test_counters_grid_4x4_obstacle_cascade_full() -> None:
      successes, 0 depth.
     ========================================================================
     """
-    algo = AStarLookup.Factory.grid_4x4(rule_bpmx='CASCADE',
+    algo = AStarBPMX.Factory.grid_4x4(rule_bpmx='CASCADE',
                                       depth_bpmx=None)
     algo.run()
     counters = {k: v for k, v in algo.counters.items()

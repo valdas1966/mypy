@@ -3,7 +3,6 @@ from f_ds.grids.grid.map import GridMap
 
 from f_hs.algo.i_0_oospp.i_0_base._search_state import SearchStateSPP
 from f_hs.algo.i_0_oospp.i_1_astar import AStar
-from f_hs.algo.i_0_oospp.i_2_astar_lookup import AStarLookup
 from f_hs.algo.u_event_normalize import normalize
 from f_hs.frontier.i_1_priority.main import FrontierPriority
 from f_hs.problem import ProblemSPP

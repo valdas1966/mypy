@@ -12,21 +12,23 @@ override `_priority(state)` if needed.
 AlgoSPP (loop + SearchState + recording + path + Frontier)
 ├── BFS                                      — FrontierFIFO
 └── AStar (simple; (f, -g, state))           — FrontierPriority
-    ├── AStarLookup (cache + bounds + BPMX(d);
-    │                (f, -g, cache_rank, state))
-    │   — HCached early-term, HBounded admissible bounds,
-    │     to_cache harvest, suffix-stitched reconstruct_path,
-    │     pre-search propagate_pathmax, in-search Felner
-    │     pathmax / BPMX(d) cascade. Composes BPMXMixin
-    │     natively. The canonical advanced-A* class; used by
-    │     k×A*-CB for OMSPP / MOSPP sub-search.
+    ├── AStarLookup (cache + bounds;
+    │   │            (f, -g, cache_rank, state))
+    │   │   — HCached early-term, HBounded admissible bounds,
+    │   │     to_cache harvest, suffix-stitched reconstruct_path,
+    │   │     pre-search propagate_pathmax. The canonical
+    │   │     lookup class.
+    │   └── AStarBPMX (AStarLookup + in-search BPMX cascade)
+    │       — composes BPMXMixin; adds `rule_bpmx` /
+    │         `depth_bpmx` kwargs and the in-search Felner
+    │         pathmax cascade. Used by k×A*-CB for OMSPP /
+    │         MOSPP sub-search when BPMX is desired.
     └── Dijkstra (h = 0)
 ```
 
 The shared in-search Felner mechanism lives in
-`f_hs/algo/i_0_oospp/mixins/bpmx/main.py` (`BPMXMixin`).
-`AStarLookup` composes it via MRO; the host class owns init
-validation and chain assembly.
+`f_hs/algo/i_0_oospp/mixins/bpmx/main.py` (`BPMXMixin`) and
+is composed by `AStarBPMX` (its sole consumer).
 
 The dynamic per-search bundle (frontier, g, parent, closed,
 goal_reached) is held as a single `SearchStateSPP` dataclass on
@@ -40,10 +42,10 @@ returning `self._search.frontier.counters`. The injected
 frontier (FIFO or Priority) owns the 3-name `Counters`
 scaffold (`cnt_push`, `cnt_pop`, `cnt_decrease`) inherited
 from `FrontierBase`. Every concrete SPP algorithm (BFS,
-AStar, AStarLookup, Dijkstra) inherits the same `counters`
-surface — single declaration on `AlgoSPP`, single source of
-truth on the frontier. FIFO frontiers report `cnt_decrease=0`
-since `decrease` is a no-op on FIFO.
+AStar, AStarLookup, AStarBPMX, Dijkstra) inherits the same
+`counters` surface — single declaration on `AlgoSPP`, single
+source of truth on the frontier. FIFO frontiers report
+`cnt_decrease=0` since `decrease` is a no-op on FIFO.
 
 ## Module Structure
 ```
@@ -55,8 +57,9 @@ algo/
 │   ├── i_0_base/          AlgoSPP — abstract base
 │   ├── i_1_bfs/           BFS — breadth-first search
 │   ├── i_1_astar/         AStar — simple A*
-│   ├── i_2_astar_lookup/  AStarLookup — cache + bounds + BPMX
+│   ├── i_2_astar_lookup/  AStarLookup — cache + bounds + propagate_pathmax
 │   ├── i_2_dijkstra/      Dijkstra — A* with h=0
+│   ├── i_3_astar_bpmx/    AStarBPMX — AStarLookup + in-search BPMX
 │   └── mixins/bpmx/       BPMXMixin (Felner pathmax / BPMX(d))
 ├── i_1_omspp/             Variant-depth 1 — One-to-Many SPP
 │   │                      (composes i_0_oospp algos as
@@ -116,14 +119,13 @@ while FRONTIER:
 ```
 
 ## Subclass Differences
-| | BFS | AStar (simple) | AStarLookup | Dijkstra |
-|--|-----|-----|-----|----------|
-| Frontier | FIFO | Priority | Priority (inherited) | Priority (inherited) |
-| `_priority` | None | `(f,-g,state)` | `(f,-g,cache_rank,state)` | `(g,-g,state)` |
-| Heuristic | none | HBase / Callable | HCached / HBounded / either | h=0 |
-| `_enrich_event` | no-op | h, f | + is_cached, is_bounded, propagate | no-op (drops h, f) |
-| search_state | inherited | routes to Pro | accepts, refreshes | forwards to AlgoSPP |
-| Pro methods | — | — | to_cache, propagate_pathmax, suffix stitch | — |
+| | BFS | AStar | AStarLookup | AStarBPMX | Dijkstra |
+|--|-----|-----|-----|-----|----------|
+| Frontier | FIFO | Priority | Priority | Priority | Priority |
+| `_priority` | None | `(f,-g,state)` | `(f,-g,cache_rank,state)` | inherited | `(g,-g,state)` |
+| Heuristic | none | HBase / Callable | HCached / HBounded | inherited | h=0 |
+| `_enrich_event` | no-op | h, f | + is_cached, is_bounded, propagate | + BPMX int-casts | no-op (drops h, f) |
+| Pro methods | — | — | to_cache, propagate_pathmax, suffix stitch | inherited + rule_bpmx | — |
 
 The `state` component (tertiary tie-break) relies on `State`'s
 `Comparable` ordering (via `HasKey`) and keeps expansion order

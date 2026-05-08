@@ -16,10 +16,11 @@ class BPMXMixin:
 
      Hosts the search-time pathmax mechanics so its host
      class can compose them without duplicating code:
-       - AStarLookup (AStarLookup + BPMXMixin) — cache /
-         bounds / propagate_pathmax + (optional) BPMX in one
-         pass; the canonical advanced-A* class (used by
-         k×A*-CB). The mixin's sole consumer.
+       - AStarBPMX (AStarBPMX → BPMXMixin → AStarLookup →
+         AStar → AlgoSPP) — cache / bounds /
+         propagate_pathmax inherited from AStarLookup, plus
+         in-search BPMX from this mixin. The mixin's sole
+         consumer.
 
      Faithful to Felner et al., "Inconsistent Heuristics in
      Theory and Practice", AIJ 2011 (rules §5.1–5.3,
@@ -85,14 +86,16 @@ class BPMXMixin:
        - `_enrich_event(event)` (int-casts BPMX h_old / h_new;
          chains to next class in MRO via super()).
        - `_init_bpmx_mechanism(rule_bpmx, depth_bpmx)`
-         — call from host's __init__ after AStar.__init__.
+         — call from host's __init__ after the AStarLookup /
+         AStar / AlgoSPP chain has set `self._h`,
+         `self._search`, etc.
 
-     MRO contract: place BPMXMixin BEFORE AStar / AlgoSPP in
-     the host class's bases so `_pre_expand`, `counters`, and
-     `_enrich_event` resolve here first. Example:
+     MRO contract: place BPMXMixin BEFORE its lookup ancestor
+     in the host class's bases so `_pre_expand`, `counters`,
+     and `_enrich_event` resolve here first. Example:
 
-         class AStarLookup(BPMXMixin, AStar[State],
-                           Generic[State]):
+         class AStarBPMX(BPMXMixin, AStarLookup[State],
+                         Generic[State]):
              ...
     ============================================================================
     """

@@ -122,9 +122,10 @@ All simple-h factories. HCached / HBounded factories live on
 ## Inheritance
 ```
 AlgoSPP[State]
-    └── AStar[State]                   (simple, this class)
-        ├── AStarLookup[State]            (advanced — i_2_astar_lookup/)
-        └── Dijkstra[State]            (h=0 — i_2_dijkstra/)
+    └── AStar[State]                       (simple, this class)
+        ├── AStarLookup[State]             (i_2_astar_lookup/)
+        │   └── AStarBPMX[State]           (i_3_astar_bpmx/)
+        └── Dijkstra[State]                (i_2_dijkstra/)
 ```
 
 ## Tests
@@ -133,8 +134,11 @@ AlgoSPP[State]
 | `_tester.py` | Graph problems + lifecycle + priority-shape pin | 8 |
 | `_tester_grid.py` | Grid problems | 4 |
 | `_tester_recording.py` | Full event-stream pins (one per scenario; each is a single `actual == expected` assertion against the normalized event list, `duration` stripped). Scenarios: canonical `grid_4x4_obstacle`, graph_abc, graph_diamond, graph_decrease (decrease_g), grid_3x3, grid_3x3_obstacle | 6 |
+| `_tester_dispatch.py` | Pin AStar's HCached / HBounded TypeError guard (rejection redirects to AStarLookup) | 2 |
+| `_tester_search_state.py` | Seeded-resume lifecycle: `_frontier_dirty` auto-refresh, recording-from-seed, two-stage state reuse on grid_4x4 | 3 |
 
-18 tests total. Pro-side tests live in `i_2_astar_lookup/`.
+23 tests total. AStarLookup-specific tests live in
+`i_2_astar_lookup/`.
 
 ## Why the split
 

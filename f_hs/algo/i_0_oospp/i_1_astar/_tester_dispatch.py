@@ -37,22 +37,3 @@ def test_simple_astar_rejects_hbounded() -> None:
     h = HBounded(base=HCallable(fn=lambda s: 0), bounds={})
     with pytest.raises(TypeError, match='AStarLookup'):
         AStar(problem=ProblemSPP.Factory.graph_abc(), h=h)
-
-
-def test_simple_astar_accepts_search_state() -> None:
-    """
-    ========================================================================
-     Simple AStar accepts `search_state` natively — it's an
-     AlgoSPP capability, not a Pro feature. No dispatch, no
-     class promotion.
-    ========================================================================
-    """
-    from f_hs.algo.i_0_oospp.i_0_base._search_state import SearchStateSPP
-    from f_hs.frontier.i_1_priority.main import FrontierPriority
-    seed = SearchStateSPP[StateBase[str]](
-        frontier=FrontierPriority[StateBase[str]]())
-    algo = AStar(problem=ProblemSPP.Factory.graph_abc(),
-                 h=lambda s: 0, search_state=seed)
-    assert type(algo) is AStar
-    assert algo._frontier_dirty is True
-    assert algo.search_state is seed

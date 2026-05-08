@@ -788,7 +788,29 @@ do the following **immediately**:
    - **`.md` only** — do not generate `.tex` or `.pdf` at session
      start.
 
-5. **Track** important information throughout the session:
+5. **Report back the prev-session summary** *(opening
+   session only)*. After steps 1–4 are complete, send a
+   single chat reply that obeys the *Response Style* rules
+   (enumerated, titled, ≤ 10-word bodies, ≤ 5 sentences):
+   - a. **Sentence 1 — Done (mandatory).** State which
+        session started, today's date, and the date of the
+        prior session being continued (or "fresh session"
+        when none).
+   - b. **Sentences 2–5 — optional, in this order, drop any
+        that add no value:** recap of prior session (1–3
+        sentences, chronologically or by topic), where the
+        prior session ended, recommended starting point for
+        today. Combine into one sentence when possible. Do
+        not pad to fill the cap.
+   - c. **Skeleton fallback.** If the immediately prior file
+        is only a skeleton (purpose set, work sections
+        empty), recap the most recent *substantive* session
+        instead and flag the skeleton in sentence 1.
+   - d. **Fresh session.** If no prior session exists,
+        sentence 1 says so; remaining sentences (if any)
+        propose a starting plan.
+
+6. **Track** important information throughout the session:
    - Key decisions and their reasoning.
    - What was built (deliverables, files, features).
    - Architecture and design choices.

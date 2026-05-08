@@ -119,6 +119,32 @@
   tbody tr:last-child td { border-bottom: none; }
   tbody tr:hover { background: rgba(255,255,255,0.02); }
 
+  tr.explain td {
+    background: #14171d;
+    color: #a8b0bf;
+    font-size: 11.5px;
+    line-height: 1.55;
+    text-align: left;
+    padding: 7px 14px 9px;
+    font-style: italic;
+    border-bottom: 1px solid var(--line);
+  }
+  tr.explain:hover { background: #14171d; }
+  tr.explain code {
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 0 4px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    color: var(--text);
+    font-style: normal;
+  }
+  tr.explain b {
+    color: var(--accent);
+    font-style: normal;
+  }
+
   .notes {
     background: var(--panel);
     border: 1px solid var(--line);
@@ -187,29 +213,53 @@
       </tr>
     </thead>
     <tbody>
-      <!-- cnt_h_search: min=32 (all sv=T) -->
+      <!-- cnt_h_search: min=34 (all sv=T) -->
       <tr>
         <td class="row-head">cnt_h_search</td>
-        <td class="val div-l-strong">34</td>
-        <td class="val best">32</td>
-        <td class="val div-l">34</td>
-        <td class="val best">32</td>
-        <td class="val div-l-strong">34</td>
-        <td class="val best">32</td>
-        <td class="val div-l">34</td>
-        <td class="val best">32</td>
+        <td class="val div-l-strong">37</td>
+        <td class="val best">34</td>
+        <td class="val div-l">37</td>
+        <td class="val best">34</td>
+        <td class="val div-l-strong">37</td>
+        <td class="val best">34</td>
+        <td class="val div-l">37</td>
+        <td class="val best">34</td>
+      </tr>
+      <tr class="explain">
+        <td colspan="9">
+          <b>37 → 34</b> when <code>store_vector=True</code>:
+          the cached h-vectors built at first encounter are
+          reused by the 2 goal re-pushes (under the lazy-re-push
+          design), saving 2 + 1 = 3 h-calls. Invariant across
+          <code>is_lazy</code> and <code>is_opt</code> —
+          search-flow h calls don't depend on the refresh
+          policy.
+        </td>
       </tr>
       <!-- cnt_h_update: min=0 (all sv=T) -->
       <tr>
         <td class="row-head">cnt_h_update</td>
-        <td class="val div-l-strong">9</td>
+        <td class="val div-l-strong">11</td>
         <td class="val best">0</td>
-        <td class="val div-l">4</td>
+        <td class="val div-l">5</td>
         <td class="val best">0</td>
-        <td class="val div-l-strong">31</td>
+        <td class="val div-l-strong">32</td>
         <td class="val best">0</td>
-        <td class="val div-l">3</td>
+        <td class="val div-l">5</td>
         <td class="val best">0</td>
+      </tr>
+      <tr class="explain">
+        <td colspan="9">
+          Two refresh-side optimisations stack:
+          <code>store_vector=True</code> drives this to
+          <b>0</b> (cached vector reused, no h calls during
+          refresh / lazy-pop staleness check);
+          <code>is_opt=True</code> shrinks the set of pops or
+          OPEN states whose F is recomputed (skipped when the
+          responsible goal is still active). Lazy-noopt-nosv
+          (<b>32</b>) is worst — every pop re-runs
+          <code>_compute_F</code> over the active-goal vector.
+        </td>
       </tr>
       <!-- cnt_phi_search: invariant=16 -->
       <tr class="invariant">
@@ -223,41 +273,83 @@
         <td class="val div-l">16</td>
         <td class="val">16</td>
       </tr>
-      <!-- cnt_phi_update: min=2 (lazy_opt_*) -->
+      <tr class="explain">
+        <td colspan="9">
+          <b>Invariant = 16</b>. 14 first-encounter pushes +
+          2 goal re-pushes (under the lazy-re-push design) =
+          16 search-flow <code>_compute_F</code> calls. None
+          of the three axes change the search graph.
+        </td>
+      </tr>
+      <!-- cnt_phi_update: min=4 (opt=T cells) -->
       <tr>
         <td class="row-head">cnt_phi_update</td>
-        <td class="val div-l-strong">6</td>
-        <td class="val">6</td>
-        <td class="val div-l">3</td>
-        <td class="val">3</td>
+        <td class="val div-l-strong">8</td>
+        <td class="val">8</td>
+        <td class="val div-l best">4</td>
+        <td class="val best">4</td>
         <td class="val div-l-strong">16</td>
         <td class="val">16</td>
-        <td class="val div-l best">2</td>
-        <td class="val best">2</td>
+        <td class="val div-l best">4</td>
+        <td class="val best">4</td>
       </tr>
-      <!-- cnt_push: min=16 (all lazy) -->
+      <tr class="explain">
+        <td colspan="9">
+          Eager: <b>8</b> = 3 (refresh after (3,0)-find) + 5
+          (refresh after (3,3)-find) — drops to <b>4</b> with
+          <code>is_opt</code> (only states whose responsible
+          goal was just removed get recomputed). Lazy:
+          <b>16</b> = one Φ recompute per pop — drops to
+          <b>4</b> with <code>is_opt</code> (only the 4 stale
+          pops hit the recompute path). <code>store_vector</code>
+          doesn't affect Φ-call count — Φ runs even when the
+          h-cache is hit.
+        </td>
+      </tr>
+      <!-- cnt_push: min=20 (all lazy) -->
       <tr>
         <td class="row-head">cnt_push</td>
-        <td class="val div-l-strong">20</td>
-        <td class="val">20</td>
-        <td class="val div-l">20</td>
-        <td class="val">20</td>
-        <td class="val div-l-strong best">16</td>
-        <td class="val best">16</td>
-        <td class="val div-l best">16</td>
-        <td class="val best">16</td>
+        <td class="val div-l-strong">24</td>
+        <td class="val">24</td>
+        <td class="val div-l">24</td>
+        <td class="val">24</td>
+        <td class="val div-l-strong best">20</td>
+        <td class="val best">20</td>
+        <td class="val div-l best">20</td>
+        <td class="val best">20</td>
       </tr>
-      <!-- cnt_pop: min=14 (all eager) -->
+      <tr class="explain">
+        <td colspan="9">
+          Eager <b>24</b> = 14 first-time + 2 goal re-pushes +
+          8 bulk re-pushes (3 OPEN states after (3,0)-find +
+          5 OPEN states after (3,3)-find). Lazy <b>20</b> =
+          14 first-time + 2 goal re-pushes + 4 stale re-pushes.
+          <code>is_opt</code> / <code>store_vector</code> don't
+          affect heap traffic — only <code>is_lazy</code> does.
+        </td>
+      </tr>
+      <!-- cnt_pop: min=12 (all eager) -->
       <tr>
         <td class="row-head">cnt_pop</td>
-        <td class="val div-l-strong best">14</td>
-        <td class="val best">14</td>
-        <td class="val div-l best">14</td>
-        <td class="val best">14</td>
+        <td class="val div-l-strong best">12</td>
+        <td class="val best">12</td>
+        <td class="val div-l best">12</td>
+        <td class="val best">12</td>
         <td class="val div-l-strong">16</td>
         <td class="val">16</td>
         <td class="val div-l">16</td>
         <td class="val">16</td>
+      </tr>
+      <tr class="explain">
+        <td colspan="9">
+          Eager <b>12</b> = clean pops (bulk-refresh prevents
+          stale OPEN entries from existing). Lazy <b>16</b> =
+          12 real + 4 stale re-pops: when an OPEN state's F
+          has drifted between push and pop (typically because
+          its responsible goal was just removed), lazy mode
+          pops it, detects staleness, and re-pushes with the
+          fresh F.
+        </td>
       </tr>
       <!-- cnt_pop_stale: min=0 (all eager) -->
       <tr>
@@ -266,34 +358,65 @@
         <td class="val best">0</td>
         <td class="val div-l best">0</td>
         <td class="val best">0</td>
-        <td class="val div-l-strong">2</td>
-        <td class="val">2</td>
-        <td class="val div-l">2</td>
-        <td class="val">2</td>
+        <td class="val div-l-strong">4</td>
+        <td class="val">4</td>
+        <td class="val div-l">4</td>
+        <td class="val">4</td>
       </tr>
-      <!-- cnt_decrease: invariant=2 -->
+      <tr class="explain">
+        <td colspan="9">
+          <b>0</b> in eager — bulk refresh keeps every OPEN F
+          current, so no pop is ever stale. <b>4</b> in lazy —
+          exactly the count of stale re-pushes from the
+          <code>cnt_pop</code> row ((2,1) once after (3,0)
+          goal-find; (3,0)/(3,1)/(3,2) each once after (3,3)
+          goal-find). Independent of <code>is_opt</code> /
+          <code>store_vector</code>.
+        </td>
+      </tr>
+      <!-- cnt_decrease: invariant=0 -->
       <tr class="invariant">
         <td class="row-head">cnt_decrease</td>
-        <td class="val div-l-strong">2</td>
-        <td class="val">2</td>
-        <td class="val div-l">2</td>
-        <td class="val">2</td>
-        <td class="val div-l-strong">2</td>
-        <td class="val">2</td>
-        <td class="val div-l">2</td>
-        <td class="val">2</td>
+        <td class="val div-l-strong">0</td>
+        <td class="val">0</td>
+        <td class="val div-l">0</td>
+        <td class="val">0</td>
+        <td class="val div-l-strong">0</td>
+        <td class="val">0</td>
+        <td class="val div-l">0</td>
+        <td class="val">0</td>
       </tr>
-      <!-- cnt_expanded: invariant=14 -->
+      <tr class="explain">
+        <td colspan="9">
+          <b>Invariant = 0</b>. Under the lazy-re-push design,
+          (2,2)/(2,3) are first-pushed at their optimal g via
+          (2,1)/(2,2) directly — no detour through (3,2)/(3,3),
+          so no decrease-key race. (Under the prior force-expand
+          design, this was invariant=2.)
+        </td>
+      </tr>
+      <!-- cnt_expanded: invariant=9 -->
       <tr class="invariant">
         <td class="row-head">cnt_expanded</td>
-        <td class="val div-l-strong">14</td>
-        <td class="val">14</td>
-        <td class="val div-l">14</td>
-        <td class="val">14</td>
-        <td class="val div-l-strong">14</td>
-        <td class="val">14</td>
-        <td class="val div-l">14</td>
-        <td class="val">14</td>
+        <td class="val div-l-strong">9</td>
+        <td class="val">9</td>
+        <td class="val div-l">9</td>
+        <td class="val">9</td>
+        <td class="val div-l-strong">9</td>
+        <td class="val">9</td>
+        <td class="val div-l">9</td>
+        <td class="val">9</td>
+      </tr>
+      <tr class="explain">
+        <td colspan="9">
+          <b>Invariant = 9</b>. The 3 goals are NOT expanded
+          at goal-find (lazy re-push design); none of them
+          re-pop before <code>active_goals</code> empties on
+          this canonical (their f under the shrunken active
+          set exceeds the final goal's C*). So only the 9
+          non-goal expansions count. (Under the prior
+          force-expand design, this was invariant=14.)
+        </td>
       </tr>
       <!-- cnt_generated: invariant=14 -->
       <tr class="invariant">
@@ -307,27 +430,46 @@
         <td class="val div-l">14</td>
         <td class="val">14</td>
       </tr>
+      <tr class="explain">
+        <td colspan="9">
+          <b>Invariant = 14</b>. Same successor function + same
+          start + same goals → same set of unique states first-
+          encountered. Counts every <code>_handle_child</code>
+          first-encounter branch — equal across all 8 configs.
+        </td>
+      </tr>
     </tbody>
   </table>
 
   <div class="notes">
     <ul>
-      <li><b>4 counters are invariant</b> across all configs:
+      <li><b>5 counters are invariant</b> across all configs:
           <code>cnt_phi_search</code>, <code>cnt_decrease</code>,
-          <code>cnt_expanded</code>, <code>cnt_generated</code>
-          — they reflect search-loop structure, untouched by
-          the three optimization axes.</li>
+          <code>cnt_expanded</code>, <code>cnt_generated</code>,
+          and (under the lazy-re-push design)
+          <code>cnt_decrease=0</code> and
+          <code>cnt_expanded=9</code> — they reflect the
+          search-loop structure under the INC-symmetric
+          goal-handling, untouched by the three optimization
+          axes.</li>
       <li><b><code>store_vector</code></b> wins on
           <code>cnt_h_*</code> (no h recomputation; cached
-          vector reused).</li>
+          vector reused, including by goal re-pushes).</li>
       <li><b><code>is_opt</code></b> wins on
           <code>cnt_phi_update</code> /
-          <code>cnt_h_update</code> (refresh skipped when
-          responsible goal still active).</li>
+          <code>cnt_h_update</code> (refresh / lazy-pop
+          recompute skipped when responsible goal still
+          active).</li>
       <li><b><code>is_lazy=True</code></b> wins on
           <code>cnt_push</code> (no bulk re-push); loses on
           <code>cnt_pop</code> / <code>cnt_pop_stale</code>
           (stale re-pop counts).</li>
+      <li><b>Goal-handling is INC-symmetric:</b> at each goal
+          pop, emit <code>on_goal</code> then <code>push</code>
+          (re-push, if non-last). The just-found goal is NOT
+          force-expanded; its successors are reached via other
+          paths during the search. The last active goal is
+          never re-pushed.</li>
       <li><b>No single config wins everything</b> — eager
           minimizes pops, lazy minimizes pushes; opt+sv layer
           cheaply on top of either.</li>

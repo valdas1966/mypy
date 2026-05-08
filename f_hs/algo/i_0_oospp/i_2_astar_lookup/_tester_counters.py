@@ -4,12 +4,12 @@
  (`grid_4x4_obstacle`: start (0,0), goal (0,3), cost 7,
  Manhattan h, no cache, no bounds).
 
- AStarLookup inherits the 3-counter scaffold from
- `AlgoSPP.counters` via `AStar`. Without cache or bounds, the
- chain reduces to `HCallable(h)` and behavior matches plain
- `AStar` exactly — the pin matches AStar's. Cache- /
- bounds-driven counter behavior lives in `_tester_cached.py`
- / `_tester_bounded.py`.
+ AStarLookup declares a 12-name scaffold (propagate 3 +
+ frontier 3 + search 2 + memory 4). Without cache or bounds,
+ the chain reduces to `HCallable(h)` and the search-step
+ counts match plain `AStar` exactly — the propagate group
+ stays at zero (no `propagate_pathmax()` call). BPMX-side
+ counters live on `AStarBPMX` (`i_3_astar_bpmx/`).
 ============================================================================
 """
 
@@ -21,7 +21,8 @@ def test_counters_canonical_oospp() -> None:
     """
     ========================================================================
      Pin AStarLookup counters on the canonical OOSPP problem
-     with no cache / no bounds — matches plain AStar exactly.
+     with no cache / no bounds — search-step counts match
+     plain AStar; propagate counters stay at zero.
     ========================================================================
     """
     p = ProblemGrid.Factory.grid_4x4_obstacle()
@@ -35,9 +36,6 @@ def test_counters_canonical_oospp() -> None:
         'cnt_prop_waves': 0,
         'cnt_prop_attempts': 0,
         'cnt_prop_lifts': 0,
-        'cnt_bpmx_attempts': 0,
-        'cnt_bpmx_successes': 0,
-        'cnt_bpmx_depth': 0,
         'cnt_push': 13,
         'cnt_pop': 9,
         'cnt_decrease': 0,

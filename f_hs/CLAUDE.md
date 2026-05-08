@@ -10,18 +10,20 @@ Framework for heuristic search algorithms on various domains
 from f_hs import StateBase, StateCell
 from f_hs import ProblemSPP, ProblemGrid
 from f_hs import SolutionSPP
-from f_hs import AlgoSPP, BFS, AStar, AStarLookup, Dijkstra
+from f_hs import AlgoSPP, BFS, AStar, AStarLookup, AStarBPMX, Dijkstra
 from f_hs import HBase, HCallable, HCached, HBounded, CacheEntry
 from f_hs.frontier import (
     FrontierBase, FrontierFIFO, FrontierPriority,
 )
 ```
 
-Most users only need `AStar` — the advanced `AStarLookup` class is
-reached transparently via `AStar.__new__` dispatch whenever the
-caller supplies HCached / HBounded / search_state. Import
-`AStarLookup` directly only when you need explicit typing for IDE
-autocomplete of Pro-only methods (`to_cache`, `propagate_pathmax`).
+Three A* tiers, picked explicitly by the caller:
+- `AStar` — simple, hot path; raw callable / HBase only.
+  Rejects HCached / HBounded with a redirect TypeError.
+- `AStarLookup` — adds `cache=` / `bounds=` kwargs,
+  `propagate_pathmax`, `to_cache`, suffix-stitching.
+- `AStarBPMX` — extends `AStarLookup` with in-search BPMX
+  (`rule_bpmx=` / `depth_bpmx=` kwargs).
 
 ## Architecture
 ```
@@ -33,6 +35,7 @@ Algo[Problem, Sol]   ←──    AlgoSPP[State]         (holds a SearchState)
                               ├── BFS              (FrontierFIFO)
                               └── AStar            (FrontierPriority)
                                     ├── AStarLookup   (HCached + HBounded + pathmax)
+                                    │     └── AStarBPMX (+ in-search BPMX cascade)
                                     └── Dijkstra   (h = 0)
 SolutionAlgo         ←──    SolutionSPP (cost)
 
@@ -70,12 +73,12 @@ f_hs/
 │   ├── i_1_fifo/         FrontierFIFO — BFS frontier
 │   └── i_1_priority/     FrontierPriority — A*/Dijkstra frontier
 ├── algo/
-│   ├── i_0_base/         AlgoSPP — abstract search loop
-│   ├── i_1_bfs/          BFS — breadth-first search
-│   ├── i_1_astar/        AStar — simple A* + __new__ dispatcher
-│   ├── i_2_astar_lookup/    AStarLookup — advanced (HCached, HBounded,
-│   │                       search_state, pathmax, to_cache)
-│   └── i_2_dijkstra/     Dijkstra — A* with h=0
+│   ├── i_0_base/            AlgoSPP — abstract search loop
+│   ├── i_1_bfs/             BFS — breadth-first search
+│   ├── i_1_astar/           AStar — simple A*
+│   ├── i_2_astar_lookup/    AStarLookup — cache + bounds + pathmax + to_cache
+│   ├── i_2_dijkstra/        Dijkstra — A* with h=0
+│   └── i_3_astar_bpmx/      AStarBPMX — AStarLookup + in-search BPMX
 └── heuristic/
     ├── i_0_base/         HBase + CacheEntry
     ├── i_1_callable/     HCallable — wraps a Callable
