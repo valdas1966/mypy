@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Learn English</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #FFF8E1;
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+}
+
+body { padding: 24px; min-height: 100vh; }
+
+.wrap { max-width: 880px; margin: 0 auto; }
+
+.top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #fff;
+    color: #E65100;
+    text-decoration: none;
+    font-size: 1.4rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.back:active { transform: scale(0.95); }
+
+.title {
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    font-weight: 800;
+    color: #E65100;
+    letter-spacing: -0.01em;
+}
+
+.sub {
+    color: #6D4C41;
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+}
+
+.lessons { display: grid; gap: 12px; }
+
+.lesson {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    background: #fff;
+    border-radius: 16px;
+    border-left: 6px solid #E0E0E0;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.lesson.ready {
+    border-left-color: #E65100;
+    cursor: pointer;
+}
+
+.lesson.ready:active {
+    transform: scale(0.99);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.lesson.locked {
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+.lesson-num {
+    flex: 0 0 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #FFF3E0;
+    color: #E65100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1rem;
+}
+
+.lesson.locked .lesson-num {
+    background: #F5F5F5;
+    color: #BDBDBD;
+}
+
+.lesson-body { flex: 1; min-width: 0; }
+
+.lesson-title {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 2px;
+}
+
+.lesson-desc {
+    font-size: 0.85rem;
+    color: #757575;
+}
+
+.lesson-tag {
+    flex: 0 0 auto;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+
+.lesson.ready .lesson-tag {
+    background: #FFE0B2;
+    color: #E65100;
+}
+
+.lesson.locked .lesson-tag {
+    background: #EEEEEE;
+    color: #9E9E9E;
+}
+
+.foot {
+    margin-top: 28px;
+    font-size: 0.85rem;
+    color: #8D6E63;
+    opacity: 0.85;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+    <div class="top">
+        <a class="back" href="../index.html" title="Home">&#8592;</a>
+        <div class="title">&#128218; Learn English</div>
+    </div>
+    <div class="sub">
+        18-lesson curriculum for Hebrew speakers — visual PDF + game.
+    </div>
+
+    <div class="lessons">
+        <a class="lesson ready" href="01_Pronouns_To_Be/lesson_01.html">
+            <div class="lesson-num">01</div>
+            <div class="lesson-body">
+                <div class="lesson-title">Pronouns &amp; "to be"</div>
+                <div class="lesson-desc">
+                    I am, you are, he is — present, past, negative
+                </div>
+            </div>
+            <div class="lesson-tag">Play</div>
+        </a>
+
+        <div class="lesson locked">
+            <div class="lesson-num">02</div>
+            <div class="lesson-body">
+                <div class="lesson-title">Articles (a, an, the)</div>
+                <div class="lesson-desc">When to use each one</div>
+            </div>
+            <div class="lesson-tag">Soon</div>
+        </div>
+
+        <div class="lesson locked">
+            <div class="lesson-num">03</div>
+            <div class="lesson-body">
+                <div class="lesson-title">Common nouns (top 100)</div>
+                <div class="lesson-desc">Most-used nouns with Hebrew</div>
+            </div>
+            <div class="lesson-tag">Soon</div>
+        </div>
+
+        <div class="lesson locked">
+            <div class="lesson-num">04</div>
+            <div class="lesson-body">
+                <div class="lesson-title">Adjectives (top 50)</div>
+                <div class="lesson-desc">Describing words</div>
+            </div>
+            <div class="lesson-tag">Soon</div>
+        </div>
+
+        <div class="lesson locked">
+            <div class="lesson-num">05</div>
+            <div class="lesson-body">
+                <div class="lesson-title">Possessives</div>
+                <div class="lesson-desc">my, your, his, her, our, their</div>
+            </div>
+            <div class="lesson-tag">Soon</div>
+        </div>
+
+        <div class="lesson locked">
+            <div class="lesson-num">06</div>
+            <div class="lesson-body">
+                <div class="lesson-title">Numbers, time, dates</div>
+                <div class="lesson-desc">Counting and the clock</div>
+            </div>
+            <div class="lesson-tag">Soon</div>
+        </div>
+
+        <div class="lesson locked">
+            <div class="lesson-num">07</div>
+            <div class="lesson-body">
+                <div class="lesson-title">Common verbs (top 50)</div>
+                <div class="lesson-desc">Most-used verbs in present</div>
+            </div>
+            <div class="lesson-tag">Soon</div>
+        </div>
+
+        <div class="lesson locked">
+            <div class="lesson-num">08</div>
+            <div class="lesson-body">
+                <div class="lesson-title">Present simple tense</div>
+                <div class="lesson-desc">I work, he works</div>
+            </div>
+            <div class="lesson-tag">Soon</div>
+        </div>
+
+        <div class="lesson locked">
+            <div class="lesson-num">09</div>
+            <div class="lesson-body">
+                <div class="lesson-title">Present continuous</div>
+                <div class="lesson-desc">I am working right now</div>
+            </div>
+            <div class="lesson-tag">Soon</div>
+        </div>
+
+        <div class="lesson locked">
+            <div class="lesson-num">10</div>
+            <div class="lesson-body">
+                <div class="lesson-title">Past simple — regular</div>
+                <div class="lesson-desc">walked, played, asked</div>
+            </div>
+            <div class="lesson-tag">Soon</div>
+        </div>
+
+        <div class="lesson locked">
+            <div class="lesson-num">11</div>
+            <div class="lesson-body">
+                <div class="lesson-title">Past simple — irregular</div>
+                <div class="lesson-desc">went, came, took, ate</div>
+            </div>
+            <div class="lesson-tag">Soon</div>
+        </div>
+
+        <div class="lesson locked">
+            <div class="lesson-num">12</div>
+            <div class="lesson-body">
+                <div class="lesson-title">Future (will, going to)</div>
+                <div class="lesson-desc">Talking about tomorrow</div>
+            </div>
+            <div class="lesson-tag">Soon</div>
+        </div>
+
+        <div class="lesson locked">
+            <div class="lesson-num">13</div>
+            <div class="lesson-body">
+                <div class="lesson-title">Question words</div>
+                <div class="lesson-desc">who, what, when, where, why, how</div>
+            </div>
+            <div class="lesson-tag">Soon</div>
+        </div>
+
+        <div class="lesson locked">
+            <div class="lesson-num">14</div>
+            <div class="lesson-body">
+                <div class="lesson-title">Prepositions</div>
+                <div class="lesson-desc">in, on, at, to, from, with</div>
+            </div>
+            <div class="lesson-tag">Soon</div>
+        </div>
+
+        <div class="lesson locked">
+            <div class="lesson-num">15</div>
+            <div class="lesson-body">
+                <div class="lesson-title">Modals</div>
+                <div class="lesson-desc">can, must, should, may</div>
+            </div>
+            <div class="lesson-tag">Soon</div>
+        </div>
+
+        <div class="lesson locked">
+            <div class="lesson-num">16</div>
+            <div class="lesson-body">
+                <div class="lesson-title">Phrasal verbs (top 30)</div>
+                <div class="lesson-desc">get up, give up, look for</div>
+            </div>
+            <div class="lesson-tag">Soon</div>
+        </div>
+
+        <div class="lesson locked">
+            <div class="lesson-num">17</div>
+            <div class="lesson-body">
+                <div class="lesson-title">Conditionals</div>
+                <div class="lesson-desc">if-clauses (zero / first / second)</div>
+            </div>
+            <div class="lesson-tag">Soon</div>
+        </div>
+
+        <div class="lesson locked">
+            <div class="lesson-num">18</div>
+            <div class="lesson-body">
+                <div class="lesson-title">Passive voice</div>
+                <div class="lesson-desc">It was made / is being done</div>
+            </div>
+            <div class="lesson-tag">Soon</div>
+        </div>
+    </div>
+
+    <div class="foot">PDFs live on Google Drive · Games live here</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1962 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Lesson 01 — Pronouns + To Be</title>
+<style>
+  /* ── Palette: matches the PDF ──────────────────────────── */
+  :root {
+    --accent: #1e5aa0;
+    --accent-bg: #dcebfc;
+    --pron: #22783c;
+    --pron-bg: #e8f5e8;
+    --verb: #c85020;
+    --verb-bg: #ffebdc;
+    --neg: #aa3c3c;
+    --neg-bg: #ffe8e8;
+    --tip: #b48200;
+    --tip-bg: #fff8e1;
+    --gray: #5a5a5a;
+    --gray-light: #b0b0b0;
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --good: #2e8b3d;
+    --good-bg: #e3f4e7;
+    --close: #b07a00;
+    --close-bg: #fff5d6;
+    --bad: #c0392b;
+    --bad-bg: #fdecea;
+    --shadow: 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-lg: 0 6px 18px rgba(0,0,0,0.10);
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: #222;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px; line-height: 1.45;
+    min-height: 100vh;
+  }
+  body {
+    display: flex; flex-direction: column; align-items: center;
+    padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
+  }
+  .he {
+    font-family: "Arial Hebrew", "Times New Roman", "David",
+                 "DejaVu Sans", system-ui, sans-serif;
+    direction: rtl; unicode-bidi: embed;
+  }
+
+  .app { width: 100%; max-width: 560px; margin: 14px 0; }
+
+  /* ── Header ────────────────────────────────────────────── */
+  header.title { text-align: center; padding: 10px 4px 18px; }
+  header.title h1 {
+    margin: 0; font-size: 20px;
+    color: var(--accent); letter-spacing: 0.2px;
+  }
+  header.title .sub {
+    margin-top: 4px; color: var(--gray); font-size: 14px;
+  }
+
+  /* ── Screens ───────────────────────────────────────────── */
+  .screen { display: none; }
+  .screen.active { display: block; animation: fade .25s ease; }
+  @keyframes fade {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; }
+  }
+
+  .card {
+    background: var(--card); border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 18px 16px; margin-bottom: 14px;
+  }
+
+  /* ── Start screen ──────────────────────────────────────── */
+  .modes { display: flex; flex-direction: column; gap: 10px; }
+  .mode-btn {
+    appearance: none; border: none; cursor: pointer;
+    background: var(--card);
+    border: 2px solid var(--accent-bg);
+    border-radius: 14px;
+    padding: 14px 16px; font-size: 17px; text-align: left;
+    display: flex; align-items: center;
+    justify-content: space-between;
+    color: #222;
+    transition: transform .12s ease, border-color .12s ease,
+                background .12s ease;
+    min-height: 60px; box-shadow: var(--shadow);
+    font-family: inherit;
+  }
+  .mode-btn .name { font-weight: 600; }
+  .mode-btn .desc {
+    display: block; font-size: 13px;
+    color: var(--gray); font-weight: 400; margin-top: 2px;
+  }
+  .mode-btn .badge {
+    background: var(--accent); color: #fff;
+    border-radius: 999px; font-size: 11px;
+    padding: 3px 10px; font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .mode-btn .badge.match { background: var(--pron); }
+  .mode-btn .badge.build { background: var(--verb); }
+  .mode-btn .badge.type  { background: #2c8aa6; }
+  .mode-btn .badge.write { background: #6d3d8e; }
+  .mode-btn .badge.mixed { background: #6f4cba; }
+  .mode-btn:active { transform: scale(0.98); }
+  .mode-btn:hover {
+    border-color: var(--accent);
+    background: var(--accent-bg);
+  }
+  .ladder {
+    text-align: center; color: var(--gray);
+    font-size: 12px; margin-top: 8px; line-height: 1.5;
+  }
+  .ladder strong { color: var(--accent); }
+
+  /* ── Common game header ────────────────────────────────── */
+  .progress-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 12px;
+  }
+  .progress {
+    flex: 1; height: 8px; background: var(--accent-bg);
+    border-radius: 999px; overflow: hidden;
+  }
+  .progress > div {
+    height: 100%; background: var(--accent);
+    width: 0%; transition: width .3s ease;
+  }
+  .pcount {
+    font-size: 13px; color: var(--gray);
+    font-variant-numeric: tabular-nums;
+    min-width: 42px; text-align: right;
+  }
+  .topic-tag {
+    display: inline-block;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.5px; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  .topic-tag[data-t="present"]  { background: var(--verb-bg);   color: var(--verb); }
+  .topic-tag[data-t="past"]     { background: var(--verb-bg);   color: var(--verb); }
+  .topic-tag[data-t="negative"] { background: var(--neg-bg);    color: var(--neg); }
+  .topic-tag[data-t="question"] { background: var(--accent-bg); color: var(--accent); }
+  .topic-tag[data-t="pronoun"]  { background: var(--pron-bg);   color: var(--pron); }
+
+  .footer-row {
+    display: flex; justify-content: space-between;
+    margin-top: 14px; gap: 10px;
+  }
+  .meta {
+    color: var(--gray); font-size: 13px;
+    align-self: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .ghost-btn {
+    appearance: none; border: 1px solid var(--gray-light);
+    background: transparent; color: var(--gray);
+    padding: 8px 14px; border-radius: 999px;
+    font-size: 13px; cursor: pointer;
+    font-family: inherit;
+  }
+  .ghost-btn:active { transform: scale(0.97); }
+
+  .feedback {
+    margin-top: 14px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--gray);
+    min-height: 22px;
+  }
+  .feedback strong { color: #222; }
+  .feedback.good   { color: var(--good); }
+  .feedback.close  { color: var(--close); }
+  .feedback.bad    { color: var(--bad); }
+
+  /* ── FILL mode ─────────────────────────────────────────── */
+  .sentence {
+    font-size: 26px; line-height: 1.35;
+    font-weight: 500; text-align: center;
+    margin: 6px 0 8px;
+    color: #1a1a1a;
+  }
+  .sentence .blank {
+    display: inline-block; min-width: 90px;
+    border-bottom: 3px solid var(--gray-light);
+    padding: 0 6px; margin: 0 4px;
+    color: var(--gray-light); font-weight: 600;
+  }
+  .sentence .blank.filled-good {
+    border-color: var(--good); color: var(--good);
+  }
+
+  .he-line {
+    text-align: center; color: var(--gray);
+    font-size: 18px;
+    margin-top: 4px; margin-bottom: 18px;
+  }
+
+  .options {
+    display: grid; grid-template-columns: 1fr; gap: 10px;
+  }
+  @media (min-width: 420px) {
+    .options.cols-2 { grid-template-columns: 1fr 1fr; }
+    .options.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  }
+  .opt {
+    appearance: none; border: 2px solid var(--accent-bg);
+    background: var(--card); border-radius: 12px;
+    padding: 14px 12px; min-height: 56px;
+    font-size: 19px; font-weight: 600;
+    color: #222; cursor: pointer;
+    transition: transform .1s, background .15s,
+                border-color .15s, color .15s;
+    box-shadow: var(--shadow); font-family: inherit;
+  }
+  .opt:hover:not(.locked) {
+    border-color: var(--accent); background: var(--accent-bg);
+  }
+  .opt:active:not(.locked) { transform: scale(0.97); }
+  .opt.locked { cursor: default; }
+  .opt.right {
+    background: var(--good-bg);
+    border-color: var(--good); color: var(--good);
+  }
+  .opt.wrong {
+    background: var(--bad-bg);
+    border-color: var(--bad); color: var(--bad);
+    animation: shake .35s ease;
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+  .pulse-good { animation: pulseG .35s ease; }
+  .pulse-bad  { animation: pulseB .35s ease; }
+  @keyframes pulseG {
+    0%   { box-shadow: 0 0 0 0 rgba(46,139,61,0.4); }
+    100% { box-shadow: 0 0 0 16px rgba(46,139,61,0); }
+  }
+  @keyframes pulseB {
+    0%   { box-shadow: 0 0 0 0 rgba(192,57,43,0.4); }
+    100% { box-shadow: 0 0 0 16px rgba(192,57,43,0); }
+  }
+
+  /* ── MATCH mode (drag-line two-column) ─────────────────── */
+  .match-board {
+    position: relative;
+    margin: 6px 0 6px;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .match-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .match-cols {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    z-index: 2;
+  }
+  .match-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .match-item {
+    position: relative;
+    background: var(--card);
+    border: 2px solid var(--accent-bg);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 17px; font-weight: 600;
+    text-align: center;
+    color: #222;
+    transition: background .18s, border-color .18s, color .18s;
+    min-height: 48px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .match-item.he {
+    font-family: "Arial Hebrew","Times New Roman","David",
+                 "DejaVu Sans",sans-serif;
+    font-size: 19px;
+  }
+  .match-item.matched {
+    background: var(--good-bg);
+    border-color: var(--good);
+    color: var(--good);
+  }
+  .match-item.wrong {
+    background: var(--bad-bg);
+    border-color: var(--bad);
+    color: var(--bad);
+  }
+  .match-item.dragging {
+    background: var(--accent-bg);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .match-dot {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 3px solid var(--card);
+    box-shadow: 0 0 0 1px var(--accent);
+    cursor: grab;
+    touch-action: none;
+    z-index: 3;
+  }
+  .match-dot.locked {
+    background: var(--good);
+    box-shadow: 0 0 0 1px var(--good);
+    cursor: default;
+    animation: none;
+  }
+  .match-dot.bad-flash {
+    background: var(--bad);
+    box-shadow: 0 0 0 1px var(--bad);
+  }
+  #col-en .match-dot { right: -9px; }
+  #col-he .match-dot { left:  -9px; }
+  @media (max-width: 430px) {
+    .match-cols { gap: 44px; }
+    .match-item { font-size: 15px; padding: 10px 8px; }
+    .match-item.he { font-size: 17px; }
+  }
+
+  .match-stats {
+    display: flex; justify-content: space-between;
+    align-items: center;
+    color: var(--gray); font-size: 14px;
+    margin: 4px 0 8px;
+  }
+  .match-stats strong {
+    color: #222; font-variant-numeric: tabular-nums;
+  }
+
+  /* ── BUILD mode ────────────────────────────────────────── */
+  .build-target { text-align: center; margin: 6px 0 14px; }
+  .build-target .target-he {
+    font-size: 22px; color: var(--accent); margin-bottom: 6px;
+  }
+  .build-target .hint {
+    font-size: 13px; color: var(--gray);
+  }
+  .build-answer {
+    min-height: 64px;
+    border: 2px dashed var(--accent-bg);
+    border-radius: 12px; padding: 10px;
+    margin-bottom: 14px;
+    display: flex; flex-wrap: wrap; gap: 8px;
+    align-items: center; justify-content: center;
+    transition: border-color .25s, background .25s;
+  }
+  .build-answer.full-good {
+    border-color: var(--good); border-style: solid;
+    background: var(--good-bg);
+  }
+  .build-answer.empty::before {
+    content: 'tap chips below to build';
+    color: var(--gray-light);
+    font-size: 14px; font-style: italic;
+  }
+  .build-pool {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    justify-content: center; min-height: 56px;
+  }
+  .chip {
+    padding: 12px 14px;
+    background: var(--card);
+    border: 2px solid var(--accent-bg);
+    border-radius: 10px;
+    font-size: 18px; font-weight: 600;
+    cursor: pointer; user-select: none;
+    transition: all .15s; min-height: 44px;
+    color: #222; font-family: inherit;
+  }
+  .chip:hover { border-color: var(--accent); background: var(--accent-bg); }
+  .chip:active { transform: scale(0.95); }
+  .chip.placed {
+    background: var(--accent); color: white; border-color: var(--accent);
+  }
+  .chip.shake {
+    animation: shake .3s; border-color: var(--bad);
+    background: var(--bad-bg); color: var(--bad);
+  }
+
+  /* ── TYPE / WRITE modes ────────────────────────────────── */
+  .input-row {
+    display: flex; gap: 8px; margin-top: 8px;
+  }
+  .input-field {
+    flex: 1;
+    appearance: none;
+    border: 2px solid var(--accent-bg);
+    background: var(--card);
+    border-radius: 12px;
+    padding: 14px 12px;
+    font-size: 19px; font-weight: 500;
+    color: #222;
+    font-family: inherit;
+    min-height: 56px;
+    outline: none;
+    transition: border-color .15s, background .15s;
+  }
+  .input-field:focus {
+    border-color: var(--accent);
+    background: var(--accent-bg);
+  }
+  .input-field.right {
+    border-color: var(--good); background: var(--good-bg);
+    color: var(--good);
+  }
+  .input-field.close {
+    border-color: var(--close); background: var(--close-bg);
+    color: var(--close);
+  }
+  .input-field.wrong-flash {
+    border-color: var(--bad); background: var(--bad-bg);
+    color: var(--bad);
+    animation: shake .35s ease;
+  }
+  .input-field.wrong {
+    border-color: var(--bad); background: var(--bad-bg);
+    color: var(--bad);
+  }
+  .check-btn {
+    appearance: none; border: none;
+    padding: 0 18px; min-width: 64px;
+    background: var(--accent); color: white;
+    border-radius: 12px;
+    font-size: 16px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+    box-shadow: var(--shadow);
+  }
+  .check-btn:active { transform: scale(0.97); }
+  .check-btn.disabled {
+    background: var(--gray-light); cursor: default;
+  }
+
+  .write-area {
+    width: 100%;
+    appearance: none;
+    border: 2px solid var(--accent-bg);
+    background: var(--card);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 19px; font-weight: 500;
+    color: #222; font-family: inherit;
+    min-height: 64px; resize: vertical;
+    outline: none;
+    transition: border-color .15s, background .15s;
+  }
+  .write-area:focus {
+    border-color: var(--accent); background: var(--accent-bg);
+  }
+  .write-area.right {
+    border-color: var(--good); background: var(--good-bg);
+    color: var(--good);
+  }
+  .write-area.close {
+    border-color: var(--close); background: var(--close-bg);
+    color: var(--close);
+  }
+  .write-area.wrong-flash {
+    border-color: var(--bad); background: var(--bad-bg);
+    color: var(--bad);
+    animation: shake .35s ease;
+  }
+  .write-area.wrong {
+    border-color: var(--bad); background: var(--bad-bg);
+    color: var(--bad);
+  }
+
+  .show-answer-row {
+    display: flex; justify-content: center;
+    margin-top: 10px;
+    min-height: 30px;
+  }
+  .show-answer-row .ghost-btn {
+    border-color: var(--bad);
+    color: var(--bad);
+  }
+
+  .attempts {
+    text-align: center; color: var(--gray);
+    font-size: 12px; margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Results screen ────────────────────────────────────── */
+  .score-big {
+    text-align: center;
+    font-size: 56px; font-weight: 700;
+    color: var(--accent);
+    line-height: 1; margin: 8px 0 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .score-sub {
+    text-align: center; color: var(--gray);
+    margin-bottom: 18px;
+  }
+  .topic-rows { display: flex; flex-direction: column; gap: 8px; }
+  .topic-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0;
+  }
+  .topic-row .label {
+    flex: 0 0 95px; font-weight: 600;
+    text-transform: capitalize; font-size: 14px;
+  }
+  .topic-row .bar {
+    flex: 1; height: 8px; background: var(--accent-bg);
+    border-radius: 999px; overflow: hidden;
+  }
+  .topic-row .bar > div { height: 100%; background: var(--accent); }
+  .topic-row .num {
+    flex: 0 0 50px; text-align: right;
+    font-size: 13px; color: var(--gray);
+    font-variant-numeric: tabular-nums;
+  }
+  .actions {
+    display: flex; gap: 10px; margin-top: 16px;
+  }
+  .btn {
+    appearance: none; border: none; cursor: pointer;
+    flex: 1; padding: 14px 16px;
+    border-radius: 12px;
+    font-size: 16px; font-weight: 600;
+    box-shadow: var(--shadow); font-family: inherit;
+  }
+  .btn.primary { background: var(--accent); color: #fff; }
+  .btn.secondary {
+    background: var(--card); color: var(--accent);
+    border: 2px solid var(--accent-bg);
+  }
+  .btn:active { transform: scale(0.98); }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="title">
+    <h1>Lesson 01 — Pronouns + To Be</h1>
+    <div class="sub">Tap to drill. <span class="he">שיעור ראשון</span></div>
+  </header>
+
+  <!-- ══ Start screen ══ -->
+  <section id="screen-start" class="screen active">
+    <div class="card">
+      <div style="font-size:14px;color:var(--gray);
+                  margin-bottom:10px;text-align:center;">
+        Choose a mode &middot; difficulty rises top→bottom
+      </div>
+      <div class="modes">
+        <button class="mode-btn" id="btn-match">
+          <span>
+            <span class="name">Match</span>
+            <span class="desc">Drag lines: English ↔ Hebrew</span>
+          </span>
+          <span class="badge match">play</span>
+        </button>
+        <button class="mode-btn" id="btn-fill">
+          <span>
+            <span class="name">Fill</span>
+            <span class="desc">Tap the missing word</span>
+          </span>
+          <span class="badge">play</span>
+        </button>
+        <button class="mode-btn" id="btn-build">
+          <span>
+            <span class="name">Build</span>
+            <span class="desc">Order the words to form a sentence</span>
+          </span>
+          <span class="badge build">play</span>
+        </button>
+        <button class="mode-btn" id="btn-type">
+          <span>
+            <span class="name">Type</span>
+            <span class="desc">Type the missing word — retry on errors</span>
+          </span>
+          <span class="badge type">play</span>
+        </button>
+        <button class="mode-btn" id="btn-write">
+          <span>
+            <span class="name">Write</span>
+            <span class="desc">Write the whole sentence — retry on errors</span>
+          </span>
+          <span class="badge write">play</span>
+        </button>
+        <button class="mode-btn" id="btn-mixed">
+          <span>
+            <span class="name">Mixed</span>
+            <span class="desc">Spiral drill across all five mechanics</span>
+          </span>
+          <span class="badge mixed">play</span>
+        </button>
+      </div>
+      <div class="ladder">
+        <strong>Recognition</strong> &rarr; <strong>Recall</strong>
+        &rarr; <strong>Production</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FILL screen ══ -->
+  <section id="screen-fill" class="screen">
+    <div class="card">
+      <div class="progress-row">
+        <div class="progress"><div id="bar-fill"></div></div>
+        <div class="pcount" id="pcount-fill">0/10</div>
+      </div>
+      <div id="topic-tag-fill" class="topic-tag" data-t="present">present</div>
+      <div class="sentence" id="sentence"></div>
+      <div class="he-line he" id="hebrew"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback-fill">&nbsp;</div>
+      <div class="footer-row">
+        <div class="meta" id="score-fill">Score 0</div>
+        <button class="ghost-btn" id="btn-quit-fill">end round</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ MATCH screen ══ -->
+  <section id="screen-match" class="screen">
+    <div class="card">
+      <div class="match-stats">
+        <div>matched <strong id="match-found">0</strong>/<span id="match-total">6</span></div>
+        <div>mistakes <strong id="match-mistakes">0</strong></div>
+      </div>
+      <div class="match-board" id="match-board">
+        <svg class="match-svg" id="match-svg"
+             xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="match-cols">
+          <div class="match-col" id="col-en"></div>
+          <div class="match-col" id="col-he"></div>
+        </div>
+      </div>
+      <div class="feedback" id="feedback-match">drag from a dot to its match</div>
+      <div class="footer-row">
+        <div class="meta">&nbsp;</div>
+        <button class="ghost-btn" id="btn-quit-match">end round</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ BUILD screen ══ -->
+  <section id="screen-build" class="screen">
+    <div class="card">
+      <div class="progress-row">
+        <div class="progress"><div id="bar-build"></div></div>
+        <div class="pcount" id="pcount-build">0/10</div>
+      </div>
+      <div id="topic-tag-build" class="topic-tag" data-t="present">present</div>
+      <div class="build-target">
+        <div class="target-he he" id="build-he"></div>
+        <div class="hint">Build the English version</div>
+      </div>
+      <div class="build-answer empty" id="build-answer"></div>
+      <div class="build-pool" id="build-pool"></div>
+      <div class="feedback" id="feedback-build">&nbsp;</div>
+      <div class="footer-row">
+        <div class="meta" id="score-build">Score 0</div>
+        <button class="ghost-btn" id="btn-quit-build">end round</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ TYPE screen ══ -->
+  <section id="screen-type" class="screen">
+    <div class="card">
+      <div class="progress-row">
+        <div class="progress"><div id="bar-type"></div></div>
+        <div class="pcount" id="pcount-type">0/10</div>
+      </div>
+      <div id="topic-tag-type" class="topic-tag" data-t="present">present</div>
+      <div class="sentence" id="sentence-type"></div>
+      <div class="he-line he" id="hebrew-type"></div>
+      <div class="input-row">
+        <input class="input-field" id="type-input" type="text"
+               placeholder="type the missing word"
+               autocomplete="off" autocorrect="off"
+               autocapitalize="off" spellcheck="false"
+               inputmode="text">
+        <button class="check-btn" id="type-check">Check</button>
+      </div>
+      <div class="show-answer-row">
+        <button class="ghost-btn" id="type-show-answer"
+                style="display:none;">show answer</button>
+      </div>
+      <div class="attempts" id="type-attempts">&nbsp;</div>
+      <div class="feedback" id="feedback-type">&nbsp;</div>
+      <div class="footer-row">
+        <div class="meta" id="score-type">Score 0</div>
+        <button class="ghost-btn" id="btn-quit-type">end round</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ WRITE screen ══ -->
+  <section id="screen-write" class="screen">
+    <div class="card">
+      <div class="progress-row">
+        <div class="progress"><div id="bar-write"></div></div>
+        <div class="pcount" id="pcount-write">0/10</div>
+      </div>
+      <div id="topic-tag-write" class="topic-tag" data-t="present">present</div>
+      <div class="build-target">
+        <div class="target-he he" id="write-he"></div>
+        <div class="hint">Write the English sentence</div>
+      </div>
+      <textarea class="write-area" id="write-input"
+                placeholder="type the whole sentence"
+                rows="2"
+                autocomplete="off" autocorrect="off"
+                autocapitalize="off" spellcheck="false"></textarea>
+      <div style="margin-top:8px;display:flex;justify-content:flex-end;">
+        <button class="check-btn" id="write-check">Check</button>
+      </div>
+      <div class="show-answer-row">
+        <button class="ghost-btn" id="write-show-answer"
+                style="display:none;">show answer</button>
+      </div>
+      <div class="attempts" id="write-attempts">&nbsp;</div>
+      <div class="feedback" id="feedback-write">&nbsp;</div>
+      <div class="footer-row">
+        <div class="meta" id="score-write">Score 0</div>
+        <button class="ghost-btn" id="btn-quit-write">end round</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ Results screen ══ -->
+  <section id="screen-results" class="screen">
+    <div class="card">
+      <div class="score-big" id="score-big">0/10</div>
+      <div class="score-sub" id="score-sub">round complete</div>
+      <div class="topic-rows" id="topic-rows"></div>
+      <div class="actions">
+        <button class="btn secondary" id="btn-menu">Menu</button>
+        <button class="btn primary"   id="btn-again">Play again</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════
+//  CONTENT POOLS
+// ════════════════════════════════════════════════════════════
+const FILL_QUESTIONS = [
+  // Present positive
+  { en: ['I', '___', 'a student.'],         options: ['am','is','are'], correct: 'am',
+    he: 'אני תלמיד.', topic: 'present' },
+  { en: ['I', '___', 'tired.'],             options: ['am','is','are'], correct: 'am',
+    he: 'אני עייף.', topic: 'present' },
+  { en: ['You', '___', 'kind.'],            options: ['am','is','are'], correct: 'are',
+    he: 'אתה אדיב.', topic: 'present' },
+  { en: ['You', '___', 'welcome.'],         options: ['am','is','are'], correct: 'are',
+    he: 'אתה מוזמן.', topic: 'present' },
+  { en: ['He', '___', 'a doctor.'],         options: ['am','is','are'], correct: 'is',
+    he: 'הוא רופא.', topic: 'present' },
+  { en: ['He', '___', 'at home.'],          options: ['am','is','are'], correct: 'is',
+    he: 'הוא בבית.', topic: 'present' },
+  { en: ['She', '___', 'happy.'],           options: ['am','is','are'], correct: 'is',
+    he: 'היא שמחה.', topic: 'present' },
+  { en: ['She', '___', 'my sister.'],       options: ['am','is','are'], correct: 'is',
+    he: 'היא אחותי.', topic: 'present' },
+  { en: ['It', '___', 'cold today.'],       options: ['am','is','are'], correct: 'is',
+    he: 'קר היום.', topic: 'present' },
+  { en: ['It', '___', 'a cat.'],            options: ['am','is','are'], correct: 'is',
+    he: 'זה חתול.', topic: 'present' },
+  { en: ['We', '___', 'friends.'],          options: ['am','is','are'], correct: 'are',
+    he: 'אנחנו חברים.', topic: 'present' },
+  { en: ['We', '___', 'ready.'],            options: ['am','is','are'], correct: 'are',
+    he: 'אנחנו מוכנים.', topic: 'present' },
+  { en: ['They', '___', 'at school.'],      options: ['am','is','are'], correct: 'are',
+    he: 'הם בבית הספר.', topic: 'present' },
+  { en: ['They', '___', 'my friends.'],     options: ['am','is','are'], correct: 'are',
+    he: 'הם החברים שלי.', topic: 'present' },
+  // Past positive
+  { en: ['I', '___', 'at home yesterday.'], options: ['was','were'], correct: 'was',
+    he: 'הייתי בבית אתמול.', topic: 'past' },
+  { en: ['I', '___', 'a child once.'],      options: ['was','were','am'], correct: 'was',
+    he: 'הייתי ילד פעם.', topic: 'past' },
+  { en: ['You', '___', 'late.'],            options: ['was','were'], correct: 'were',
+    he: 'איחרת.', topic: 'past' },
+  { en: ['He', '___', 'my teacher.'],       options: ['was','were'], correct: 'was',
+    he: 'הוא היה המורה שלי.', topic: 'past' },
+  { en: ['She', '___', 'tired.'],           options: ['was','were'], correct: 'was',
+    he: 'היא הייתה עייפה.', topic: 'past' },
+  { en: ['It', '___', 'a long day.'],       options: ['was','were'], correct: 'was',
+    he: 'זה היה יום ארוך.', topic: 'past' },
+  { en: ['We', '___', 'in Tel Aviv.'],      options: ['was','were'], correct: 'were',
+    he: 'היינו בתל אביב.', topic: 'past' },
+  { en: ['They', '___', 'at the beach.'],   options: ['was','were'], correct: 'were',
+    he: 'הם היו בחוף הים.', topic: 'past' },
+  { en: ['We', '___', 'children together.'],options: ['was','were'], correct: 'were',
+    he: 'היינו ילדים יחד.', topic: 'past' },
+  // Negative
+  { en: ["I'm", '___', 'tired.'],           options: ['not','no','isn’t'], correct: 'not',
+    he: 'אני לא עייף.', topic: 'negative' },
+  { en: ['She', '___', 'here.'],            options: ['isn’t','aren’t','am not'], correct: "isn't",
+    accept: ['is not'],
+    he: 'היא לא כאן.', topic: 'negative' },
+  { en: ['He', '___', 'from London.'],      options: ['isn’t','aren’t','wasn’t'], correct: "isn't",
+    accept: ['is not'],
+    he: 'הוא לא מלונדון.', topic: 'negative' },
+  { en: ['We', '___', 'ready yet.'],        options: ['isn’t','aren’t','weren’t'], correct: "aren't",
+    accept: ['are not'],
+    he: 'אנחנו עדיין לא מוכנים.', topic: 'negative' },
+  { en: ['They', '___', 'my friends.'],     options: ['isn’t','aren’t','weren’t'], correct: "aren't",
+    accept: ['are not'],
+    he: 'הם לא החברים שלי.', topic: 'negative' },
+  { en: ['I', '___', 'at home.'],           options: ['wasn’t','weren’t','isn’t'], correct: "wasn't",
+    accept: ['was not'],
+    he: 'לא הייתי בבית.', topic: 'negative' },
+  { en: ['He', '___', 'at school.'],        options: ['wasn’t','weren’t','isn’t'], correct: "wasn't",
+    accept: ['was not'],
+    he: 'הוא לא היה בבית הספר.', topic: 'negative' },
+  { en: ['We', '___', 'ready.'],            options: ['wasn’t','weren’t','aren’t'], correct: "weren't",
+    accept: ['were not'],
+    he: 'לא היינו מוכנים.', topic: 'negative' },
+  { en: ['They', '___', 'at the party.'],   options: ['wasn’t','weren’t','aren’t'], correct: "weren't",
+    accept: ['were not'],
+    he: 'הם לא היו במסיבה.', topic: 'negative' },
+  // Questions
+  { en: ['___', 'you happy?'],              options: ['Am','Is','Are'], correct: 'Are',
+    he: 'אתה שמח?', topic: 'question' },
+  { en: ['___', 'he a teacher?'],           options: ['Am','Is','Are'], correct: 'Is',
+    he: 'הוא מורה?', topic: 'question' },
+  { en: ['___', 'she at the office?'],      options: ['Am','Is','Are'], correct: 'Is',
+    he: 'היא במשרד?', topic: 'question' },
+  { en: ['___', 'it cold today?'],          options: ['Am','Is','Are'], correct: 'Is',
+    he: 'קר היום?', topic: 'question' },
+  { en: ['___', 'we late?'],                options: ['Am','Is','Are'], correct: 'Are',
+    he: 'אנחנו מאחרים?', topic: 'question' },
+  { en: ['___', 'they your friends?'],      options: ['Am','Is','Are'], correct: 'Are',
+    he: 'הם החברים שלך?', topic: 'question' },
+  { en: ['___', 'I right?'],                options: ['Am','Is','Are'], correct: 'Am',
+    he: 'אני צודק?', topic: 'question' },
+  { en: ['___', 'you here yesterday?'],     options: ['Was','Were'], correct: 'Were',
+    he: 'היית כאן אתמול?', topic: 'question' },
+  { en: ['___', 'he at home?'],             options: ['Was','Were'], correct: 'Was',
+    he: 'הוא היה בבית?', topic: 'question' },
+  { en: ['___', 'they at school?'],         options: ['Was','Were','Are'], correct: 'Were',
+    he: 'הם היו בבית הספר?', topic: 'question' },
+  { en: ['___', 'she tired?'],              options: ['Was','Were'], correct: 'Was',
+    he: 'היא הייתה עייפה?', topic: 'question' },
+];
+
+const MATCH_PAIRS = [
+  { en: 'I',       he: 'אני' },
+  { en: 'you',     he: 'אתה' },
+  { en: 'you (f)', he: 'את' },
+  { en: 'he',      he: 'הוא' },
+  { en: 'she',     he: 'היא' },
+  { en: 'it',      he: 'זה' },
+  { en: 'we',      he: 'אנחנו' },
+  { en: 'they',    he: 'הם' },
+];
+const MATCH_PAIRS_PER_ROUND = 6;
+
+const BUILD_SENTENCES = [
+  { chips: ['I','am','a','student.'],     he: 'אני תלמיד.',         topic: 'present' },
+  { chips: ['You','are','kind.'],         he: 'אתה אדיב.',          topic: 'present' },
+  { chips: ['He','is','at','home.'],      he: 'הוא בבית.',          topic: 'present' },
+  { chips: ['She','is','happy.'],         he: 'היא שמחה.',          topic: 'present' },
+  { chips: ['It','is','cold','today.'],   he: 'קר היום.',           topic: 'present' },
+  { chips: ['We','are','friends.'],       he: 'אנחנו חברים.',       topic: 'present' },
+  { chips: ['They','are','at','school.'], he: 'הם בבית הספר.',      topic: 'present' },
+  { chips: ['I','was','tired.'],          he: 'הייתי עייף.',        topic: 'past' },
+  { chips: ['He','was','a','teacher.'],   he: 'הוא היה מורה.',      topic: 'past' },
+  { chips: ['She','was','happy.'],        he: 'היא הייתה שמחה.',    topic: 'past' },
+  { chips: ['We','were','friends.'],      he: 'היינו חברים.',       topic: 'past' },
+  { chips: ['They','were','children.'],   he: 'הם היו ילדים.',      topic: 'past' },
+  { chips: ["I'm",'not','tired.'],        he: 'אני לא עייף.',       topic: 'negative' },
+  { chips: ['She',"isn't",'here.'],       he: 'היא לא כאן.',        topic: 'negative' },
+  { chips: ['They',"aren't",'ready.'],    he: 'הם לא מוכנים.',      topic: 'negative' },
+  { chips: ['He',"wasn't",'at','home.'],  he: 'הוא לא היה בבית.',   topic: 'negative' },
+  { chips: ['Are','you','happy?'],        he: 'אתה שמח?',           topic: 'question' },
+  { chips: ['Is','he','at','home?'],      he: 'הוא בבית?',          topic: 'question' },
+  { chips: ['Are','they','friends?'],     he: 'הם חברים?',          topic: 'question' },
+  { chips: ['Was','she','tired?'],        he: 'היא הייתה עייפה?',   topic: 'question' },
+  { chips: ['Were','you','late?'],        he: 'איחרת?',             topic: 'question' },
+];
+
+// ════════════════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════════════════
+const state = {
+  mode: null,
+  round: [],
+  i: 0,
+  correct: 0,
+  byTopic: {},
+  byKind: {},
+  locked: false,
+  // Build
+  buildAnswer: [], buildExpected: [], buildPool: [],
+  // Match (drag-line)
+  matchLeft: [], matchRight: [], matchLines: [],
+  matchMistakes: 0, matchSet: 0,
+  // Type / Write retry
+  typeAttempts: 0, writeAttempts: 0,
+  // Drag
+  drag: null,  // { side, id, pointerId }
+};
+
+const ROUND_SIZE = 10;
+
+// ════════════════════════════════════════════════════════════
+//  HELPERS
+// ════════════════════════════════════════════════════════════
+const $ = (id) => document.getElementById(id);
+
+function show(name) {
+  ['start','fill','match','build','type','write','results']
+    .forEach(s => {
+      $('screen-' + s).classList.toggle('active', s === name);
+    });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function shuffle(a) {
+  const x = a.slice();
+  for (let i = x.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [x[i], x[j]] = [x[j], x[i]];
+  }
+  return x;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;')
+                  .replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+const PRAISES = ['nice','right','great','correct',
+                 'spot on','good','yes'];
+function praise() {
+  return PRAISES[Math.floor(Math.random() * PRAISES.length)];
+}
+
+function norm(s) {
+  return String(s)
+    .trim()
+    .toLowerCase()
+    .replace(/[‘’]/g, "'")
+    .replace(/[“”]/g, '"')
+    .replace(/\s+/g, ' ');
+}
+function normLoose(s) {
+  return norm(s).replace(/[.!?]+$/, '');
+}
+function expand(s) {
+  return s
+    .replace(/[‘’]/g, "'")
+    .replace(/\bi'm\b/gi,    'i am')
+    .replace(/\byou're\b/gi, 'you are')
+    .replace(/\bhe's\b/gi,   'he is')
+    .replace(/\bshe's\b/gi,  'she is')
+    .replace(/\bit's\b/gi,   'it is')
+    .replace(/\bwe're\b/gi,  'we are')
+    .replace(/\bthey're\b/gi,'they are')
+    .replace(/\bisn't\b/gi,  'is not')
+    .replace(/\baren't\b/gi, 'are not')
+    .replace(/\bwasn't\b/gi, 'was not')
+    .replace(/\bweren't\b/gi,'were not');
+}
+// Forgiving comparison: case-insensitive, apostrophe-agnostic,
+// contraction-equivalent (I'm = I am, isn't = is not), tolerant of
+// whitespace and trailing punctuation. Returns boolean.
+function isCorrect(user, correct, accept) {
+  const candidates = [correct, ...(accept || [])];
+  const transforms = [
+    s => norm(s),                 // case + apos + whitespace
+    s => normLoose(s),            // + strip end punctuation
+    s => norm(expand(s)),         // expand contractions
+    s => normLoose(expand(s)),    // both
+  ];
+  for (const c of candidates) {
+    for (const t of transforms) {
+      if (t(user) === t(c)) return true;
+    }
+  }
+  return false;
+}
+
+// ════════════════════════════════════════════════════════════
+//  FILL MODE
+// ════════════════════════════════════════════════════════════
+function buildFillRound() {
+  const TARGET = { present: 3, past: 3, negative: 2, question: 2 };
+  const pools = {};
+  Object.keys(TARGET).forEach(t => {
+    pools[t] = shuffle(FILL_QUESTIONS.filter(q => q.topic === t));
+  });
+  const round = [];
+  Object.keys(TARGET).forEach(t => {
+    round.push(...pools[t].slice(0, TARGET[t]));
+  });
+  return shuffle(round);
+}
+
+function startFill() {
+  state.mode = 'fill';
+  state.round = buildFillRound();
+  state.i = 0; state.correct = 0;
+  state.byTopic = {}; state.byKind = {};
+  show('fill');
+  renderFill();
+}
+
+function renderFillCommon(q) {
+  const sent = $('sentence');
+  sent.innerHTML = '';
+  q.en.forEach((piece, idx) => {
+    if (piece === '___') {
+      const span = document.createElement('span');
+      span.className = 'blank'; span.id = 'blank-slot';
+      span.textContent = ' ';
+      sent.appendChild(span);
+    } else {
+      const span = document.createElement('span');
+      span.textContent = (idx === 0 ? '' : ' ') + piece;
+      sent.appendChild(span);
+    }
+  });
+  $('hebrew').textContent = q.he;
+  const tag = $('topic-tag-fill');
+  tag.dataset.t = q.topic; tag.textContent = q.topic;
+}
+
+// Pick exactly two options to display: the correct one + one
+// random distractor, shuffled. Keeps option text (curly
+// apostrophes) intact for display.
+function pickFillOptions(q) {
+  const correctOpt = q.options.find(
+    o => isCorrect(o, q.correct, q.accept)
+  ) || q.correct;
+  const wrongs = q.options.filter(
+    o => !isCorrect(o, q.correct, q.accept)
+  );
+  const wrong = wrongs.length
+    ? wrongs[Math.floor(Math.random() * wrongs.length)]
+    : null;
+  return shuffle(wrong != null ? [correctOpt, wrong] : [correctOpt]);
+}
+
+function renderFill() {
+  const q = state.round[state.i];
+  renderFillCommon(q);
+  const opts = $('options');
+  opts.innerHTML = '';
+  opts.classList.remove('cols-2','cols-3');
+  opts.classList.add('cols-2');
+  pickFillOptions(q).forEach(o => {
+    const b = document.createElement('button');
+    b.className = 'opt'; b.textContent = o;
+    b.onclick = () => onFillAnswer(b, o, q);
+    opts.appendChild(b);
+  });
+  const pct = (state.i / state.round.length) * 100;
+  $('bar-fill').style.width = pct + '%';
+  $('pcount-fill').textContent = (state.i + 1) + '/' + state.round.length;
+  $('feedback-fill').innerHTML = '&nbsp;';
+  $('feedback-fill').className = 'feedback';
+  $('score-fill').textContent = 'Score ' + state.correct;
+  state.locked = false;
+}
+
+function onFillAnswer(btn, choice, q) {
+  if (state.locked) return;
+  state.locked = true;
+  const right = isCorrect(choice, q.correct, q.accept);
+  trackResult(q.topic, right, 'fill');
+  document.querySelectorAll('#options .opt').forEach(b => b.classList.add('locked'));
+  if (right) {
+    btn.classList.add('right','pulse-good');
+    const slot = $('blank-slot');
+    if (slot) {
+      slot.textContent = q.correct;
+      slot.classList.add('filled-good');
+    }
+    $('feedback-fill').innerHTML = '<strong>' + praise() + '</strong>';
+    $('feedback-fill').className = 'feedback good';
+  } else {
+    btn.classList.add('wrong','pulse-bad');
+    document.querySelectorAll('#options .opt').forEach(b => {
+      if (isCorrect(b.textContent, q.correct, q.accept)) b.classList.add('right');
+    });
+    $('feedback-fill').innerHTML =
+      'correct: <strong>' + escapeHtml(q.correct) + '</strong>';
+    $('feedback-fill').className = 'feedback bad';
+  }
+  $('score-fill').textContent = 'Score ' + state.correct;
+  setTimeout(advance, right ? 700 : 1500);
+}
+
+// ════════════════════════════════════════════════════════════
+//  MATCH MODE  —  drag-line two-column
+// ════════════════════════════════════════════════════════════
+function startMatch() {
+  state.mode = 'match';
+  state.matchSet = 0;  // increments each round so DOM ids are unique
+  const pairs = shuffle(MATCH_PAIRS).slice(0, MATCH_PAIRS_PER_ROUND);
+  // Left column: English in original (random-from-pool) order
+  state.matchLeft = pairs.map((p, idx) => ({ pid: idx, text: p.en }));
+  // Right column: Hebrew in shuffled order, but each carrying its pair-id
+  state.matchRight = shuffle(pairs.map((p, idx) =>
+    ({ pid: idx, text: p.he })));
+  state.matchLines = [];
+  state.matchMistakes = 0;
+  state.locked = false;
+  show('match');
+  renderMatchBoard();
+  // After paint, redraw lines (none yet) — keeps SVG sized correctly
+  setTimeout(redrawMatchLines, 50);
+}
+
+function renderMatchBoard() {
+  const colEn = $('col-en'); colEn.innerHTML = '';
+  const colHe = $('col-he'); colHe.innerHTML = '';
+  state.matchLeft.forEach(item => {
+    colEn.appendChild(makeMatchItem(item, 'left'));
+  });
+  state.matchRight.forEach(item => {
+    colHe.appendChild(makeMatchItem(item, 'right'));
+  });
+  $('match-found').textContent = '0';
+  $('match-mistakes').textContent = '0';
+  $('match-total').textContent = MATCH_PAIRS_PER_ROUND;
+  $('feedback-match').textContent = 'drag from a dot to its match';
+}
+
+function makeMatchItem(item, side) {
+  const el = document.createElement('div');
+  el.className = 'match-item' + (side === 'right' ? ' he' : '');
+  el.dataset.pid = item.pid;
+  el.dataset.side = side;
+  el.textContent = item.text;
+  const dot = document.createElement('div');
+  dot.className = 'match-dot';
+  dot.dataset.pid = item.pid;
+  dot.dataset.side = side;
+  el.appendChild(dot);
+  // Wire drag start (on the whole item — bigger touch target)
+  el.addEventListener('pointerdown', onMatchPointerDown);
+  return el;
+}
+
+function onMatchPointerDown(e) {
+  if (state.locked) return;
+  const item = e.currentTarget;
+  const side = item.dataset.side;
+  const pid  = parseInt(item.dataset.pid, 10);
+  // If this side's item is already in a CORRECT match, ignore
+  const alreadyCorrect = state.matchLines.some(L =>
+    L.correct && (
+      (side === 'left'  && L.leftPid === pid) ||
+      (side === 'right' && L.rightPid === pid)));
+  if (alreadyCorrect) return;
+  e.preventDefault();
+  state.drag = {
+    side, pid,
+    pointerId: e.pointerId,
+    fromEl: item,
+    start: getDotCenter(side, pid),
+    last: { x: e.clientX, y: e.clientY },
+  };
+  item.classList.add('dragging');
+  document.addEventListener('pointermove', onMatchPointerMove);
+  document.addEventListener('pointerup',   onMatchPointerUp);
+  document.addEventListener('pointercancel', onMatchPointerUp);
+  drawTempLine();
+}
+
+function onMatchPointerMove(e) {
+  if (!state.drag) return;
+  if (e.pointerId !== state.drag.pointerId) return;
+  state.drag.last = { x: e.clientX, y: e.clientY };
+  drawTempLine();
+}
+
+function onMatchPointerUp(e) {
+  if (!state.drag) return;
+  if (e.pointerId !== undefined && e.pointerId !== state.drag.pointerId) return;
+  const last = state.drag.last;
+  state.drag.fromEl.classList.remove('dragging');
+  document.removeEventListener('pointermove', onMatchPointerMove);
+  document.removeEventListener('pointerup',   onMatchPointerUp);
+  document.removeEventListener('pointercancel', onMatchPointerUp);
+
+  // Find element under release point
+  const target = document.elementFromPoint(last.x, last.y);
+  const targetItem = target && target.closest && target.closest('.match-item');
+  const drag = state.drag;
+  state.drag = null;
+  clearTempLine();
+
+  if (!targetItem) { redrawMatchLines(); return; }
+  const tSide = targetItem.dataset.side;
+  const tPid  = parseInt(targetItem.dataset.pid, 10);
+  if (tSide === drag.side) { redrawMatchLines(); return; }
+
+  // Build the connection (left,right)
+  const leftPid  = (drag.side === 'left')  ? drag.pid : tPid;
+  const rightPid = (drag.side === 'right') ? drag.pid : tPid;
+
+  // Refuse if target already in a correct match
+  const targetLockedCorrect = state.matchLines.some(L =>
+    L.correct && (
+      (tSide === 'left'  && L.leftPid  === tPid) ||
+      (tSide === 'right' && L.rightPid === tPid)));
+  if (targetLockedCorrect) { redrawMatchLines(); return; }
+
+  // Remove any existing lines touching either side (these get replaced)
+  state.matchLines = state.matchLines.filter(L =>
+    L.leftPid !== leftPid && L.rightPid !== rightPid);
+
+  const correct = (leftPid === rightPid);
+  state.matchLines.push({ leftPid, rightPid, correct });
+  if (!correct) state.matchMistakes += 1;
+
+  refreshMatchUI();
+  redrawMatchLines();
+
+  if (state.matchLines.filter(L => L.correct).length
+      === MATCH_PAIRS_PER_ROUND) {
+    state.locked = true;
+    setTimeout(showMatchResults, 700);
+  }
+}
+
+function refreshMatchUI() {
+  // Mark items and dots based on current lines
+  document.querySelectorAll('.match-item').forEach(el => {
+    el.classList.remove('matched','wrong');
+    el.querySelector('.match-dot')?.classList.remove('locked','bad-flash');
+  });
+  state.matchLines.forEach(L => {
+    const lEl = document.querySelector(
+      `.match-item[data-side="left"][data-pid="${L.leftPid}"]`);
+    const rEl = document.querySelector(
+      `.match-item[data-side="right"][data-pid="${L.rightPid}"]`);
+    if (L.correct) {
+      lEl?.classList.add('matched');
+      rEl?.classList.add('matched');
+      lEl?.querySelector('.match-dot')?.classList.add('locked');
+      rEl?.querySelector('.match-dot')?.classList.add('locked');
+    } else {
+      lEl?.classList.add('wrong');
+      rEl?.classList.add('wrong');
+    }
+  });
+  const correctCount = state.matchLines.filter(L => L.correct).length;
+  $('match-found').textContent = correctCount;
+  $('match-mistakes').textContent = state.matchMistakes;
+  if (correctCount === MATCH_PAIRS_PER_ROUND) {
+    $('feedback-match').innerHTML = '<strong>all matched!</strong>';
+    $('feedback-match').className = 'feedback good';
+  } else if (state.matchLines.some(L => !L.correct)) {
+    $('feedback-match').textContent =
+      'red lines are wrong — drag again to fix';
+    $('feedback-match').className = 'feedback bad';
+  } else {
+    $('feedback-match').textContent =
+      'keep going — drag the next pair';
+    $('feedback-match').className = 'feedback';
+  }
+}
+
+function getDotCenter(side, pid) {
+  const dot = document.querySelector(
+    `.match-item[data-side="${side}"][data-pid="${pid}"] .match-dot`);
+  if (!dot) return { x: 0, y: 0 };
+  const r = dot.getBoundingClientRect();
+  const sr = $('match-svg').getBoundingClientRect();
+  return {
+    x: r.left + r.width / 2 - sr.left,
+    y: r.top  + r.height / 2 - sr.top,
+  };
+}
+
+function bezierPath(a, b) {
+  const dx = b.x - a.x;
+  const c1x = a.x + dx * 0.5;
+  const c2x = b.x - dx * 0.5;
+  return `M ${a.x} ${a.y} C ${c1x} ${a.y}, ${c2x} ${b.y}, ${b.x} ${b.y}`;
+}
+
+function redrawMatchLines() {
+  const svg = $('match-svg');
+  if (!svg) return;
+  // Clear existing permanent lines (keep nothing)
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+  state.matchLines.forEach(L => {
+    const a = getDotCenter('left',  L.leftPid);
+    const b = getDotCenter('right', L.rightPid);
+    const path = document.createElementNS(
+      'http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', bezierPath(a, b));
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke',
+      L.correct ? '#2e8b3d' : '#c0392b');
+    path.setAttribute('stroke-width', '3.5');
+    path.setAttribute('stroke-linecap', 'round');
+    if (!L.correct) path.setAttribute('stroke-dasharray', '6 5');
+    svg.appendChild(path);
+  });
+}
+
+function drawTempLine() {
+  if (!state.drag) return;
+  const svg = $('match-svg');
+  // Render permanent first, then temp on top
+  redrawMatchLines();
+  const sr = svg.getBoundingClientRect();
+  const a = state.drag.start;
+  const b = {
+    x: state.drag.last.x - sr.left,
+    y: state.drag.last.y - sr.top,
+  };
+  const path = document.createElementNS(
+    'http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('d', bezierPath(a, b));
+  path.setAttribute('fill', 'none');
+  path.setAttribute('stroke', '#1e5aa0');
+  path.setAttribute('stroke-width', '3');
+  path.setAttribute('stroke-dasharray', '5 4');
+  path.setAttribute('stroke-linecap', 'round');
+  path.setAttribute('opacity', '0.85');
+  svg.appendChild(path);
+}
+
+function clearTempLine() {
+  redrawMatchLines();
+}
+
+function showMatchResults() {
+  show('results');
+  const par = MATCH_PAIRS_PER_ROUND;
+  const m = state.matchMistakes;
+  $('score-big').textContent = par + '/' + par;
+  $('score-sub').textContent =
+    m === 0 ? 'all matched, no mistakes' :
+    'all matched · ' + m + ' mistake' + (m === 1 ? '' : 's');
+  const rows = $('topic-rows');
+  rows.innerHTML = '';
+  const tier =
+    m === 0 ? 'flawless' :
+    m <= 1  ? 'excellent' :
+    m <= 3  ? 'solid' :
+    m <= 5  ? 'getting there' :
+              'more practice';
+  const tierRow = document.createElement('div');
+  tierRow.style.textAlign = 'center';
+  tierRow.style.color = 'var(--gray)';
+  tierRow.style.marginTop = '6px';
+  tierRow.textContent = tier;
+  rows.appendChild(tierRow);
+}
+
+window.addEventListener('resize', () => {
+  if (state.mode === 'match') redrawMatchLines();
+});
+
+// ════════════════════════════════════════════════════════════
+//  BUILD MODE
+// ════════════════════════════════════════════════════════════
+function buildBuildRound() {
+  const TARGET = { present: 3, past: 2, negative: 2, question: 3 };
+  const pools = {};
+  Object.keys(TARGET).forEach(t => {
+    pools[t] = shuffle(BUILD_SENTENCES.filter(s => s.topic === t));
+  });
+  const round = [];
+  Object.keys(TARGET).forEach(t => {
+    round.push(...pools[t].slice(0, TARGET[t]));
+  });
+  return shuffle(round);
+}
+
+function startBuild() {
+  state.mode = 'build';
+  state.round = buildBuildRound();
+  state.i = 0; state.correct = 0;
+  state.byTopic = {}; state.byKind = {};
+  show('build');
+  renderBuild();
+}
+
+function renderBuildCommon(q) {
+  // Strip leading capitals and trailing punctuation from chips so
+  // neither signals first/last position. Apostrophes and other
+  // word-internal characters stay. Source data unchanged — Write
+  // mode still shows the canonical "I am a student." form.
+  const normChips = q.chips.map(
+    w => w.toLowerCase().replace(/[.?!,]+$/, '')
+  );
+  state.buildExpected = normChips.slice();
+  state.buildAnswer = [];
+  state.buildPool = shuffle(normChips);
+
+  $('build-he').textContent = q.he;
+  const tag = $('topic-tag-build');
+  tag.dataset.t = q.topic; tag.textContent = q.topic;
+
+  const ans = $('build-answer');
+  ans.classList.remove('full-good');
+  ans.classList.add('empty');
+  ans.innerHTML = '';
+
+  const pool = $('build-pool');
+  pool.innerHTML = '';
+  state.buildPool.forEach((word, idx) => {
+    pool.appendChild(makeChip(word, idx, false));
+  });
+}
+
+function renderBuild() {
+  const q = state.round[state.i];
+  renderBuildCommon(q);
+  const pct = (state.i / state.round.length) * 100;
+  $('bar-build').style.width = pct + '%';
+  $('pcount-build').textContent = (state.i + 1) + '/' + state.round.length;
+  $('feedback-build').innerHTML = '&nbsp;';
+  $('feedback-build').className = 'feedback';
+  $('score-build').textContent = 'Score ' + state.correct;
+  state.locked = false;
+}
+
+function makeChip(word, idx, placed) {
+  const el = document.createElement('button');
+  el.className = 'chip' + (placed ? ' placed' : '');
+  el.textContent = word;
+  el.dataset.word = word;
+  el.dataset.idx = idx;
+  el.onclick = () => placed
+    ? onChipUnplace(el, word, idx)
+    : onChipPlace(el, word, idx);
+  return el;
+}
+
+function onChipPlace(el, word, idx) {
+  if (state.locked) return;
+  const expectedNext = state.buildExpected[state.buildAnswer.length];
+  if (word === expectedNext) {
+    state.buildAnswer.push(word);
+    el.remove();
+    const ans = $('build-answer');
+    ans.classList.remove('empty');
+    ans.appendChild(makeChip(word, idx, true));
+    if (state.buildAnswer.length === state.buildExpected.length) {
+      onBuildComplete();
+    }
+  } else {
+    el.classList.add('shake');
+    setTimeout(() => el.classList.remove('shake'), 350);
+  }
+}
+
+function onChipUnplace(el, word, idx) {
+  if (state.locked) return;
+  const ans = $('build-answer');
+  const placedChips = ans.querySelectorAll('.chip');
+  if (placedChips.length === 0) return;
+  const last = placedChips[placedChips.length - 1];
+  if (last !== el) {
+    el.classList.add('shake');
+    setTimeout(() => el.classList.remove('shake'), 350);
+    return;
+  }
+  state.buildAnswer.pop();
+  if (state.buildAnswer.length === 0) ans.classList.add('empty');
+  el.remove();
+  $('build-pool').appendChild(makeChip(word, idx, false));
+}
+
+function onBuildComplete() {
+  state.locked = true;
+  const q = state.round[state.i];
+  trackResult(q.topic, true, 'build');
+  $('build-answer').classList.add('full-good');
+  $('feedback-build').innerHTML = '<strong>' + praise() + '</strong>';
+  $('feedback-build').className = 'feedback good';
+  $('score-build').textContent = 'Score ' + state.correct;
+  setTimeout(advance, 800);
+}
+
+// ════════════════════════════════════════════════════════════
+//  TYPE MODE  —  retry on error, "show answer" escape
+// ════════════════════════════════════════════════════════════
+function startType() {
+  state.mode = 'type';
+  state.round = buildFillRound();
+  state.i = 0; state.correct = 0;
+  state.byTopic = {}; state.byKind = {};
+  show('type');
+  renderType();
+  setTimeout(() => $('type-input').focus(), 80);
+}
+
+function renderTypeCommon(q) {
+  const sent = $('sentence-type');
+  sent.innerHTML = '';
+  q.en.forEach((piece, idx) => {
+    if (piece === '___') {
+      const span = document.createElement('span');
+      span.className = 'blank'; span.id = 'blank-slot-type';
+      span.textContent = ' ';
+      sent.appendChild(span);
+    } else {
+      const span = document.createElement('span');
+      span.textContent = (idx === 0 ? '' : ' ') + piece;
+      sent.appendChild(span);
+    }
+  });
+  $('hebrew-type').textContent = q.he;
+  const tag = $('topic-tag-type');
+  tag.dataset.t = q.topic; tag.textContent = q.topic;
+}
+
+function renderType() {
+  const q = state.round[state.i];
+  renderTypeCommon(q);
+  const inp = $('type-input');
+  inp.value = '';
+  inp.className = 'input-field';
+  inp.disabled = false;
+  $('type-check').classList.remove('disabled');
+  $('type-show-answer').style.display = 'none';
+  $('type-attempts').innerHTML = '&nbsp;';
+  state.typeAttempts = 0;
+  const pct = (state.i / state.round.length) * 100;
+  $('bar-type').style.width = pct + '%';
+  $('pcount-type').textContent = (state.i + 1) + '/' + state.round.length;
+  $('feedback-type').innerHTML = '&nbsp;';
+  $('feedback-type').className = 'feedback';
+  $('score-type').textContent = 'Score ' + state.correct;
+  state.locked = false;
+  setTimeout(() => inp.focus(), 60);
+}
+
+function onTypeSubmit() {
+  if (state.locked) return;
+  const q = state.round[state.i];
+  const inp = $('type-input');
+  const user = inp.value;
+  if (!user.trim()) { inp.focus(); return; }
+
+  if (!isCorrect(user, q.correct, q.accept)) {
+    state.typeAttempts += 1;
+    inp.classList.remove('wrong-flash');
+    void inp.offsetWidth;
+    inp.classList.add('wrong-flash');
+    setTimeout(() => inp.classList.remove('wrong-flash'), 600);
+    $('feedback-type').innerHTML = 'not quite — try again';
+    $('feedback-type').className = 'feedback bad';
+    $('type-attempts').textContent =
+      'attempts: ' + state.typeAttempts;
+    $('type-show-answer').style.display = 'inline-block';
+    inp.focus(); inp.select();
+    return;
+  }
+
+  // Correct in any acceptable form (case / contraction / etc.)
+  state.locked = true;
+  inp.disabled = true;
+  $('type-check').classList.add('disabled');
+  $('type-show-answer').style.display = 'none';
+  trackResult(q.topic, true, 'type');
+
+  const slot = $('blank-slot-type');
+  if (slot) {
+    slot.textContent = q.correct;
+    slot.classList.add('filled-good');
+  }
+  inp.classList.add('right');
+  const tail = state.typeAttempts > 0
+    ? ' (after ' + (state.typeAttempts + 1) + ' tries)' : '';
+  $('feedback-type').innerHTML =
+    '<strong>' + praise() + '</strong>' + tail;
+  $('feedback-type').className = 'feedback good';
+  $('score-type').textContent = 'Score ' + state.correct;
+  setTimeout(advance, 800);
+}
+
+function onTypeShowAnswer() {
+  if (state.locked) return;
+  const q = state.round[state.i];
+  state.locked = true;
+  const inp = $('type-input');
+  inp.value = q.correct;
+  inp.disabled = true;
+  inp.classList.add('wrong');
+  $('type-check').classList.add('disabled');
+  $('type-show-answer').style.display = 'none';
+  trackResult(q.topic, false, 'type');
+  $('feedback-type').innerHTML =
+    'answer: <strong>' + escapeHtml(q.correct) + '</strong>';
+  $('feedback-type').className = 'feedback bad';
+  const slot = $('blank-slot-type');
+  if (slot) {
+    slot.textContent = q.correct;
+    slot.classList.add('filled-good');
+  }
+  setTimeout(advance, 1800);
+}
+
+// ════════════════════════════════════════════════════════════
+//  WRITE MODE  —  retry on error, "show answer" escape
+// ════════════════════════════════════════════════════════════
+function startWrite() {
+  state.mode = 'write';
+  state.round = buildBuildRound();
+  state.i = 0; state.correct = 0;
+  state.byTopic = {}; state.byKind = {};
+  show('write');
+  renderWrite();
+  setTimeout(() => $('write-input').focus(), 80);
+}
+
+function renderWriteCommon(q) {
+  $('write-he').textContent = q.he;
+  const tag = $('topic-tag-write');
+  tag.dataset.t = q.topic; tag.textContent = q.topic;
+}
+
+function renderWrite() {
+  const q = state.round[state.i];
+  renderWriteCommon(q);
+  const inp = $('write-input');
+  inp.value = '';
+  inp.className = 'write-area';
+  inp.disabled = false;
+  $('write-check').classList.remove('disabled');
+  $('write-show-answer').style.display = 'none';
+  $('write-attempts').innerHTML = '&nbsp;';
+  state.writeAttempts = 0;
+  const pct = (state.i / state.round.length) * 100;
+  $('bar-write').style.width = pct + '%';
+  $('pcount-write').textContent = (state.i + 1) + '/' + state.round.length;
+  $('feedback-write').innerHTML = '&nbsp;';
+  $('feedback-write').className = 'feedback';
+  $('score-write').textContent = 'Score ' + state.correct;
+  state.locked = false;
+  setTimeout(() => inp.focus(), 60);
+}
+
+function onWriteSubmit() {
+  if (state.locked) return;
+  const q = state.round[state.i];
+  const inp = $('write-input');
+  const user = inp.value;
+  if (!user.trim()) { inp.focus(); return; }
+  const correct = q.chips.join(' ');
+
+  if (!isCorrect(user, correct)) {
+    state.writeAttempts += 1;
+    inp.classList.remove('wrong-flash');
+    void inp.offsetWidth;
+    inp.classList.add('wrong-flash');
+    setTimeout(() => inp.classList.remove('wrong-flash'), 600);
+    $('feedback-write').innerHTML = 'not quite — try again';
+    $('feedback-write').className = 'feedback bad';
+    $('write-attempts').textContent =
+      'attempts: ' + state.writeAttempts;
+    $('write-show-answer').style.display = 'inline-block';
+    inp.focus();
+    return;
+  }
+
+  // Correct in any acceptable form (case / contraction / etc.)
+  state.locked = true;
+  inp.disabled = true;
+  $('write-check').classList.add('disabled');
+  $('write-show-answer').style.display = 'none';
+  trackResult(q.topic, true, 'write');
+
+  inp.classList.add('right');
+  const tail = state.writeAttempts > 0
+    ? ' (after ' + (state.writeAttempts + 1) + ' tries)' : '';
+  $('feedback-write').innerHTML =
+    '<strong>' + praise() + '</strong>' + tail;
+  $('feedback-write').className = 'feedback good';
+  $('score-write').textContent = 'Score ' + state.correct;
+  setTimeout(advance, 900);
+}
+
+function onWriteShowAnswer() {
+  if (state.locked) return;
+  const q = state.round[state.i];
+  const correct = q.chips.join(' ');
+  state.locked = true;
+  const inp = $('write-input');
+  inp.value = correct;
+  inp.disabled = true;
+  inp.classList.add('wrong');
+  $('write-check').classList.add('disabled');
+  $('write-show-answer').style.display = 'none';
+  trackResult(q.topic, false, 'write');
+  $('feedback-write').innerHTML =
+    'answer: <strong>' + escapeHtml(correct) + '</strong>';
+  $('feedback-write').className = 'feedback bad';
+  setTimeout(advance, 2000);
+}
+
+// ════════════════════════════════════════════════════════════
+//  MIXED MODE
+// ════════════════════════════════════════════════════════════
+function buildMixedRound() {
+  const fillItems  = shuffle(FILL_QUESTIONS).slice(0, 3)
+                       .map(q => ({ kind: 'fill',  q }));
+  const buildItems = shuffle(BUILD_SENTENCES).slice(0, 3)
+                       .map(q => ({ kind: 'build', q }));
+  const typeItems  = shuffle(FILL_QUESTIONS).slice(0, 2)
+                       .map(q => ({ kind: 'type',  q }));
+  const writeItems = shuffle(BUILD_SENTENCES).slice(0, 2)
+                       .map(q => ({ kind: 'write', q }));
+  return shuffle([...fillItems, ...buildItems,
+                  ...typeItems,  ...writeItems]);
+}
+
+function startMixed() {
+  state.mode = 'mixed';
+  state.round = buildMixedRound();
+  state.i = 0; state.correct = 0;
+  state.byTopic = {}; state.byKind = {};
+  renderMixed();
+}
+
+function renderMixed() {
+  const item = state.round[state.i];
+  if (item.kind === 'fill')  { show('fill');  renderFillFromMixed(item.q);  }
+  else if (item.kind === 'build') { show('build'); renderBuildFromMixed(item.q); }
+  else if (item.kind === 'type')  { show('type');  renderTypeFromMixed(item.q);  }
+  else if (item.kind === 'write') { show('write'); renderWriteFromMixed(item.q); }
+}
+
+function renderFillFromMixed(q) {
+  renderFillCommon(q);
+  const opts = $('options');
+  opts.innerHTML = '';
+  opts.classList.remove('cols-2','cols-3');
+  opts.classList.add('cols-2');
+  pickFillOptions(q).forEach(o => {
+    const b = document.createElement('button');
+    b.className = 'opt'; b.textContent = o;
+    b.onclick = () => onFillAnswer(b, o, q);
+    opts.appendChild(b);
+  });
+  const pct = (state.i / state.round.length) * 100;
+  $('bar-fill').style.width = pct + '%';
+  $('pcount-fill').textContent = (state.i + 1) + '/' + state.round.length;
+  $('feedback-fill').innerHTML = '&nbsp;';
+  $('feedback-fill').className = 'feedback';
+  $('score-fill').textContent = 'Score ' + state.correct;
+  state.locked = false;
+}
+
+function renderBuildFromMixed(q) {
+  renderBuildCommon(q);
+  const pct = (state.i / state.round.length) * 100;
+  $('bar-build').style.width = pct + '%';
+  $('pcount-build').textContent = (state.i + 1) + '/' + state.round.length;
+  $('feedback-build').innerHTML = '&nbsp;';
+  $('feedback-build').className = 'feedback';
+  $('score-build').textContent = 'Score ' + state.correct;
+  state.locked = false;
+}
+
+function renderTypeFromMixed(q) {
+  // Replace round[i] view with a single q embedded
+  state.round[state.i].q = q;  // already same
+  renderTypeCommon(q);
+  const inp = $('type-input');
+  inp.value = '';
+  inp.className = 'input-field';
+  inp.disabled = false;
+  $('type-check').classList.remove('disabled');
+  $('type-show-answer').style.display = 'none';
+  $('type-attempts').innerHTML = '&nbsp;';
+  state.typeAttempts = 0;
+  const pct = (state.i / state.round.length) * 100;
+  $('bar-type').style.width = pct + '%';
+  $('pcount-type').textContent = (state.i + 1) + '/' + state.round.length;
+  $('feedback-type').innerHTML = '&nbsp;';
+  $('feedback-type').className = 'feedback';
+  $('score-type').textContent = 'Score ' + state.correct;
+  state.locked = false;
+  setTimeout(() => inp.focus(), 60);
+}
+
+function renderWriteFromMixed(q) {
+  renderWriteCommon(q);
+  const inp = $('write-input');
+  inp.value = '';
+  inp.className = 'write-area';
+  inp.disabled = false;
+  $('write-check').classList.remove('disabled');
+  $('write-show-answer').style.display = 'none';
+  $('write-attempts').innerHTML = '&nbsp;';
+  state.writeAttempts = 0;
+  const pct = (state.i / state.round.length) * 100;
+  $('bar-write').style.width = pct + '%';
+  $('pcount-write').textContent = (state.i + 1) + '/' + state.round.length;
+  $('feedback-write').innerHTML = '&nbsp;';
+  $('feedback-write').className = 'feedback';
+  $('score-write').textContent = 'Score ' + state.correct;
+  state.locked = false;
+  setTimeout(() => inp.focus(), 60);
+}
+
+// ════════════════════════════════════════════════════════════
+//  ADVANCE / RESULTS / TRACKING
+// ════════════════════════════════════════════════════════════
+function trackResult(topic, isCorrect, kind) {
+  state.byTopic[topic] = state.byTopic[topic] || { c: 0, t: 0 };
+  state.byTopic[topic].t += 1;
+  if (isCorrect) {
+    state.byTopic[topic].c += 1;
+    state.correct += 1;
+  }
+  if (state.mode === 'mixed') {
+    state.byKind[kind] = state.byKind[kind] || { c: 0, t: 0 };
+    state.byKind[kind].t += 1;
+    if (isCorrect) state.byKind[kind].c += 1;
+  }
+}
+
+function advance() {
+  state.i += 1;
+  if (state.i >= state.round.length) {
+    if (state.mode === 'fill')  $('bar-fill').style.width  = '100%';
+    if (state.mode === 'build') $('bar-build').style.width = '100%';
+    if (state.mode === 'type')  $('bar-type').style.width  = '100%';
+    if (state.mode === 'write') $('bar-write').style.width = '100%';
+    showResults();
+  } else {
+    if (state.mode === 'fill')  renderFill();
+    else if (state.mode === 'build') renderBuild();
+    else if (state.mode === 'type')  renderType();
+    else if (state.mode === 'write') renderWrite();
+    else if (state.mode === 'mixed') renderMixed();
+  }
+}
+
+function showResults() {
+  show('results');
+  const total = state.round.length;
+  const pct = Math.round(100 * state.correct / total);
+  $('score-big').textContent = state.correct + '/' + total;
+  $('score-sub').textContent =
+    pct >= 90 ? 'excellent' :
+    pct >= 70 ? 'solid' :
+    pct >= 50 ? 'getting there' :
+                'more practice needed';
+  const rows = $('topic-rows');
+  rows.innerHTML = '';
+
+  if (state.mode === 'mixed' && Object.keys(state.byKind).length) {
+    ['fill','build','type','write'].forEach(k => {
+      const r = state.byKind[k]; if (!r) return;
+      const p = Math.round(100 * r.c / r.t);
+      const row = document.createElement('div');
+      row.className = 'topic-row';
+      row.innerHTML =
+        '<div class="label">' + k + ' mode</div>' +
+        '<div class="bar"><div style="width:' + p + '%"></div></div>' +
+        '<div class="num">' + r.c + '/' + r.t + '</div>';
+      rows.appendChild(row);
+    });
+    const sep = document.createElement('div');
+    sep.style.height = '1px';
+    sep.style.background = 'var(--accent-bg)';
+    sep.style.margin = '8px 0';
+    rows.appendChild(sep);
+  }
+
+  ['present','past','negative','question'].forEach(t => {
+    const r = state.byTopic[t]; if (!r) return;
+    const p = Math.round(100 * r.c / r.t);
+    const row = document.createElement('div');
+    row.className = 'topic-row';
+    row.innerHTML =
+      '<div class="label">' + t + '</div>' +
+      '<div class="bar"><div style="width:' + p + '%"></div></div>' +
+      '<div class="num">' + r.c + '/' + r.t + '</div>';
+    rows.appendChild(row);
+  });
+}
+
+// ════════════════════════════════════════════════════════════
+//  WIRING
+// ════════════════════════════════════════════════════════════
+function replay() {
+  if (state.mode === 'fill')  startFill();
+  else if (state.mode === 'match') startMatch();
+  else if (state.mode === 'build') startBuild();
+  else if (state.mode === 'type')  startType();
+  else if (state.mode === 'write') startWrite();
+  else if (state.mode === 'mixed') startMixed();
+}
+
+function quitToResults()      { showResults(); }
+function quitMatchToResults() { showMatchResults(); }
+
+document.addEventListener('DOMContentLoaded', () => {
+  $('btn-fill').onclick  = startFill;
+  $('btn-match').onclick = startMatch;
+  $('btn-build').onclick = startBuild;
+  $('btn-type').onclick  = startType;
+  $('btn-write').onclick = startWrite;
+  $('btn-mixed').onclick = startMixed;
+
+  $('btn-quit-fill').onclick  = quitToResults;
+  $('btn-quit-build').onclick = quitToResults;
+  $('btn-quit-match').onclick = quitMatchToResults;
+  $('btn-quit-type').onclick  = quitToResults;
+  $('btn-quit-write').onclick = quitToResults;
+
+  $('type-check').onclick  = onTypeSubmit;
+  $('type-show-answer').onclick = onTypeShowAnswer;
+  $('type-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); onTypeSubmit(); }
+  });
+
+  $('write-check').onclick = onWriteSubmit;
+  $('write-show-answer').onclick = onWriteShowAnswer;
+  $('write-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); onWriteSubmit();
+    }
+  });
+
+  $('btn-again').onclick = replay;
+  $('btn-menu').onclick  = () => show('start');
+});
+</script>
+</body>
+</html>

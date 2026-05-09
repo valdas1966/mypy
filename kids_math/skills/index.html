@@ -1,0 +1,984 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Claude Skills — Quick Learn</title>
+<style>
+:root {
+    --accent: #1e5aa0;
+    --accent-bg: #dcebfc;
+    --learn: #22783c;
+    --learn-bg: #e8f5e8;
+    --match: #c85020;
+    --match-bg: #ffebdc;
+    --quiz: #6d3d8e;
+    --quiz-bg: #f1e7f7;
+    --gray: #5a5a5a;
+    --gray-light: #b0b0b0;
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --good: #2e8b3d;
+    --good-bg: #e3f4e7;
+    --bad: #c0392b;
+    --bad-bg: #fdecea;
+    --shadow: 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-lg: 0 6px 18px rgba(0,0,0,0.10);
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+    margin: 0; padding: 0; background: var(--bg); color: #222;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px; line-height: 1.45; min-height: 100vh;
+}
+body {
+    display: flex; flex-direction: column; align-items: center;
+    padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
+}
+.app { width: 100%; max-width: 560px; margin: 14px 0; }
+
+/* ── Header ─────────────────────────────────────────── */
+header.title { text-align: center; padding: 10px 4px 18px; }
+header.title h1 {
+    margin: 0; font-size: 22px;
+    color: var(--accent); letter-spacing: 0.2px;
+}
+header.title .sub {
+    margin-top: 6px; color: var(--gray); font-size: 14px;
+}
+
+/* ── Screens ────────────────────────────────────────── */
+.screen { display: none; }
+.screen.active { display: block; animation: fade .25s ease; }
+@keyframes fade {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; }
+}
+
+.card {
+    background: var(--card); border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 18px 16px; margin-bottom: 14px;
+}
+
+/* ── Start screen ───────────────────────────────────── */
+.modes { display: flex; flex-direction: column; gap: 10px; }
+.mode-btn {
+    appearance: none; cursor: pointer;
+    background: var(--card); border: 2px solid var(--accent-bg);
+    border-radius: 14px; padding: 14px 16px;
+    font-size: 17px; text-align: left;
+    display: flex; align-items: center; justify-content: space-between;
+    color: #222;
+    transition: transform .12s ease, border-color .12s ease,
+                background .12s ease;
+    min-height: 64px; box-shadow: var(--shadow);
+    font-family: inherit;
+}
+.mode-btn .name { font-weight: 600; font-size: 18px; }
+.mode-btn .desc {
+    display: block; font-size: 13px; color: var(--gray);
+    font-weight: 400; margin-top: 2px;
+}
+.mode-btn .badge {
+    color: #fff; border-radius: 999px;
+    font-size: 11px; padding: 4px 11px;
+    font-weight: 700; letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+.mode-btn .badge.learn { background: var(--learn); }
+.mode-btn .badge.match { background: var(--match); }
+.mode-btn .badge.quiz  { background: var(--quiz); }
+.mode-btn:active { transform: scale(0.98); }
+.mode-btn:hover {
+    border-color: var(--accent);
+    background: var(--accent-bg);
+}
+
+/* ── Common header for in-game ──────────────────────── */
+.progress-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 14px;
+}
+.progress {
+    flex: 1; height: 8px; background: var(--accent-bg);
+    border-radius: 999px; overflow: hidden;
+}
+.progress > div {
+    height: 100%; background: var(--accent);
+    width: 0%; transition: width .3s ease;
+}
+.pcount {
+    font-size: 13px; color: var(--gray);
+    font-variant-numeric: tabular-nums;
+    min-width: 48px; text-align: right;
+}
+.ghost-btn {
+    appearance: none; border: 1px solid var(--gray-light);
+    background: transparent; color: var(--gray);
+    padding: 8px 14px; border-radius: 999px;
+    font-size: 13px; cursor: pointer; font-family: inherit;
+}
+.ghost-btn:active { transform: scale(0.97); }
+.row {
+    display: flex; justify-content: space-between;
+    margin-top: 14px; gap: 10px;
+}
+.meta { color: var(--gray); font-size: 13px; align-self: center; }
+
+/* ── Flashcard (Learn) ──────────────────────────────── */
+.flash-stage {
+    perspective: 1200px; height: 360px;
+    margin: 16px 0;
+}
+.flash {
+    position: relative; width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    transition: transform .55s cubic-bezier(.2,.7,.3,1.3);
+    cursor: pointer;
+}
+.flash.flipped { transform: rotateY(180deg); }
+.flash-side {
+    position: absolute; inset: 0; border-radius: 18px;
+    background: var(--card); box-shadow: var(--shadow-lg);
+    backface-visibility: hidden;
+    padding: 22px 20px;
+    display: flex; flex-direction: column;
+}
+.flash-back { transform: rotateY(180deg); }
+.flash-icon { font-size: 56px; text-align: center; margin: 8px 0 12px; }
+.flash-name {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 28px; font-weight: 700;
+    color: var(--accent); text-align: center;
+    margin-bottom: 6px;
+}
+.flash-tap {
+    text-align: center; color: var(--gray-light);
+    font-size: 13px; margin-top: auto;
+}
+.flash-row {
+    margin-bottom: 10px;
+}
+.flash-label {
+    display: inline-block; padding: 2px 9px; border-radius: 999px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.4px;
+    text-transform: uppercase; margin-right: 8px;
+    background: var(--learn-bg); color: var(--learn);
+}
+.flash-text { font-size: 15px; color: #222; }
+.flash-example {
+    background: var(--accent-bg); color: var(--accent);
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    padding: 10px 12px; border-radius: 10px;
+    font-size: 13px; margin-top: 8px;
+    overflow-x: auto; white-space: nowrap;
+}
+.nav-row {
+    display: flex; gap: 10px; justify-content: center;
+}
+.nav-btn {
+    appearance: none; border: none; cursor: pointer;
+    background: var(--accent); color: #fff;
+    padding: 12px 24px; border-radius: 999px;
+    font-size: 15px; font-weight: 600;
+    font-family: inherit;
+    box-shadow: var(--shadow);
+}
+.nav-btn:disabled {
+    background: var(--gray-light); cursor: not-allowed;
+}
+.nav-btn:active:not(:disabled) { transform: scale(0.97); }
+
+/* ── Match mode ─────────────────────────────────────── */
+.match-board {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin: 12px 0;
+}
+.match-tile {
+    background: var(--card); border: 2px solid var(--accent-bg);
+    border-radius: 12px; padding: 12px;
+    cursor: pointer; min-height: 64px;
+    display: flex; align-items: center;
+    font-size: 14px; transition: all .15s ease;
+    box-shadow: var(--shadow);
+}
+.match-tile.name {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    color: var(--accent); font-weight: 700;
+    justify-content: center; font-size: 15px;
+}
+.match-tile.selected {
+    border-color: var(--match);
+    background: var(--match-bg);
+    transform: scale(1.02);
+}
+.match-tile.matched {
+    border-color: var(--good); background: var(--good-bg);
+    color: var(--good); cursor: default; opacity: 0.85;
+}
+.match-tile.wrong {
+    border-color: var(--bad); background: var(--bad-bg);
+    animation: shake .35s;
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+
+/* ── Quiz mode ──────────────────────────────────────── */
+.q-prompt {
+    font-size: 18px; line-height: 1.4;
+    margin-bottom: 16px; color: #222;
+    background: var(--quiz-bg); border-left: 4px solid var(--quiz);
+    padding: 14px 14px; border-radius: 8px;
+}
+.q-prompt .tag {
+    display: inline-block; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.4px; text-transform: uppercase;
+    background: var(--quiz); color: #fff;
+    padding: 3px 10px; border-radius: 999px; margin-bottom: 8px;
+}
+.q-options { display: flex; flex-direction: column; gap: 8px; }
+.q-opt {
+    appearance: none; cursor: pointer;
+    background: var(--card); border: 2px solid var(--accent-bg);
+    border-radius: 10px; padding: 12px 14px;
+    font-size: 15px; text-align: left;
+    color: #222; font-family: inherit;
+    transition: all .15s ease; box-shadow: var(--shadow);
+}
+.q-opt.name {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    color: var(--accent); font-weight: 700;
+}
+.q-opt:hover { border-color: var(--quiz); background: var(--quiz-bg); }
+.q-opt:active { transform: scale(0.98); }
+.q-opt.right { border-color: var(--good); background: var(--good-bg); color: var(--good); }
+.q-opt.wrong { border-color: var(--bad); background: var(--bad-bg); color: var(--bad); }
+.q-opt:disabled { cursor: default; }
+
+/* ── End screen ─────────────────────────────────────── */
+.end-card { text-align: center; padding: 30px 18px; }
+.end-icon { font-size: 64px; margin-bottom: 8px; }
+.end-score {
+    font-size: 36px; font-weight: 700; color: var(--accent);
+    margin: 8px 0 4px;
+}
+.end-meta { color: var(--gray); margin-bottom: 18px; }
+.end-actions { display: flex; gap: 10px; justify-content: center; }
+
+/* ── Quiz explanation block ──────────────────────────── */
+.q-explain {
+    margin-top: 12px; padding: 12px 14px;
+    border-radius: 10px; font-size: 14px;
+    background: var(--accent-bg); color: #1a3a66;
+    line-height: 1.5;
+    display: none;
+    border-left: 4px solid var(--accent);
+}
+.q-explain.show { display: block; animation: fade .2s ease; }
+.q-explain.right { border-left-color: var(--good);
+                   background: var(--good-bg); color: #1a4a26; }
+.q-explain.wrong { border-left-color: var(--bad);
+                   background: var(--bad-bg); color: #722; }
+.q-explain code {
+    background: rgba(0,0,0,.07); padding: 1px 6px;
+    border-radius: 4px; font-size: 13px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+}
+.q-next-row {
+    display: none; margin-top: 12px;
+    justify-content: center;
+}
+.q-next-row.show { display: flex; }
+
+/* ── Best score chips on start ───────────────────────── */
+.mode-best {
+    display: block; font-size: 12px;
+    color: var(--accent); font-weight: 600;
+    margin-top: 4px; letter-spacing: 0.2px;
+}
+.mode-best:empty { display: none; }
+
+/* ── Keyboard hint ───────────────────────────────────── */
+.kbd-hint {
+    text-align: center; color: var(--gray-light);
+    font-size: 11px; margin-top: 8px;
+    letter-spacing: 0.3px;
+}
+.kbd-hint kbd {
+    background: var(--accent-bg); color: var(--accent);
+    border-radius: 4px; padding: 1px 6px;
+    font-family: "SF Mono", monospace; font-size: 10px;
+    border: 1px solid #c9dcf4;
+}
+
+/* ── Confetti ────────────────────────────────────────── */
+.confetti {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 9999; overflow: hidden;
+}
+.confetti span {
+    position: absolute; top: -28px;
+    font-size: 24px;
+    animation: confetti-fall 1.8s ease-in forwards;
+}
+@keyframes confetti-fall {
+    0%   { transform: translateY(0) rotate(0); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+/* ── Tablet bump ─────────────────────────────────────── */
+@media (min-width: 600px) {
+    .flash-stage { height: 400px; }
+    .flash-name { font-size: 32px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<header class="title">
+    <h1>🛠️ Claude Skills</h1>
+    <div class="sub">Quick learn &amp; recall</div>
+</header>
+
+<!-- ════════════════════ START ════════════════════ -->
+<section id="start" class="screen active">
+    <div class="card">
+        <div class="modes">
+            <button class="mode-btn" data-mode="learn">
+                <div>
+                    <div class="name">📚 Learn</div>
+                    <div class="desc">
+                        Flip flashcards to study each skill.
+                    </div>
+                    <span class="mode-best" id="bestLearn"></span>
+                </div>
+                <span class="badge learn">10 cards</span>
+            </button>
+            <button class="mode-btn" data-mode="match">
+                <div>
+                    <div class="name">🔗 Match</div>
+                    <div class="desc">
+                        Pair skill names with their descriptions.
+                    </div>
+                    <span class="mode-best" id="bestMatch"></span>
+                </div>
+                <span class="badge match">5 pairs</span>
+            </button>
+            <button class="mode-btn" data-mode="quiz">
+                <div>
+                    <div class="name">❓ Quiz</div>
+                    <div class="desc">
+                        Pick the right skill for each scenario.
+                    </div>
+                    <span class="mode-best" id="bestQuiz"></span>
+                </div>
+                <span class="badge quiz">10 q's</span>
+            </button>
+        </div>
+    </div>
+    <div class="meta" style="text-align:center; margin-top:8px;">
+        Source:
+        <a href="https://drive.google.com" style="color:var(--accent);">
+            Reports/Claude/Skills/Skills.pdf
+        </a>
+    </div>
+</section>
+
+<!-- ════════════════════ LEARN ════════════════════ -->
+<section id="learn" class="screen">
+    <div class="card">
+        <div class="progress-row">
+            <button class="ghost-btn" onclick="goHome()">← Home</button>
+            <div class="progress"><div id="learnBar"></div></div>
+            <div class="pcount" id="learnCount">1 / 10</div>
+        </div>
+        <div class="flash-stage" id="flashStage" onclick="flipFlash()">
+            <div class="flash" id="flash">
+                <div class="flash-side flash-front" id="flashFront">
+                    <div class="flash-icon" id="flashIcon">📄</div>
+                    <div class="flash-name" id="flashName">/init</div>
+                    <div class="flash-tap">tap card to flip</div>
+                </div>
+                <div class="flash-side flash-back" id="flashBack">
+                    <div class="flash-row">
+                        <span class="flash-label">what</span>
+                        <span class="flash-text" id="flashDesc"></span>
+                    </div>
+                    <div class="flash-row">
+                        <span class="flash-label"
+                              style="background: var(--match-bg);
+                                     color: var(--match);">when</span>
+                        <span class="flash-text" id="flashWhen"></span>
+                    </div>
+                    <div class="flash-row">
+                        <span class="flash-label"
+                              style="background: var(--quiz-bg);
+                                     color: var(--quiz);">try</span>
+                        <div class="flash-example" id="flashEx"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-row">
+            <button class="nav-btn" id="prevBtn" onclick="learnPrev()">
+                ← Prev
+            </button>
+            <button class="nav-btn" id="nextBtn" onclick="learnNext()">
+                Next →
+            </button>
+        </div>
+        <div class="kbd-hint">
+            <kbd>←</kbd> <kbd>→</kbd> navigate ·
+            <kbd>Space</kbd> flip
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════ MATCH ════════════════════ -->
+<section id="match" class="screen">
+    <div class="card">
+        <div class="progress-row">
+            <button class="ghost-btn" onclick="goHome()">← Home</button>
+            <div class="progress"><div id="matchBar"></div></div>
+            <div class="pcount" id="matchCount">0 / 5</div>
+        </div>
+        <div class="match-board" id="matchBoard"></div>
+        <div class="row">
+            <div class="meta" id="matchStats">
+                Mistakes: 0
+            </div>
+            <button class="ghost-btn" onclick="startMatch()">↻ Restart</button>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════ QUIZ ═════════════════════ -->
+<section id="quiz" class="screen">
+    <div class="card">
+        <div class="progress-row">
+            <button class="ghost-btn" onclick="goHome()">← Home</button>
+            <div class="progress"><div id="quizBar"></div></div>
+            <div class="pcount" id="quizCount">1 / 10</div>
+        </div>
+        <div class="q-prompt">
+            <span class="tag" id="qTag">scenario</span>
+            <div id="qText" style="margin-top:6px;"></div>
+        </div>
+        <div class="q-options" id="qOptions"></div>
+        <div class="q-explain" id="qExplain"></div>
+        <div class="q-next-row" id="qNextRow">
+            <button class="nav-btn" id="qNext" onclick="quizAdvance()">
+                Next →
+            </button>
+        </div>
+        <div class="row">
+            <div class="meta" id="qStats">Correct: 0</div>
+            <button class="ghost-btn" onclick="startQuiz()">↻ Restart</button>
+        </div>
+        <div class="kbd-hint">
+            <kbd>1</kbd>–<kbd>4</kbd> pick · <kbd>Enter</kbd> next
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════ END ══════════════════════ -->
+<section id="end" class="screen">
+    <div class="card end-card">
+        <div class="end-icon" id="endIcon">🎉</div>
+        <div class="end-score" id="endScore">10 / 10</div>
+        <div class="end-meta" id="endMeta">
+            Perfect run!
+        </div>
+        <div class="end-actions">
+            <button class="nav-btn" onclick="restartCurrent()">
+                ↻ Try again
+            </button>
+            <button class="nav-btn" style="background:var(--gray);"
+                    onclick="goHome()">
+                Home
+            </button>
+        </div>
+    </div>
+</section>
+
+</div>
+
+<script>
+// ── Data ──────────────────────────────────────────────────
+const skills = [
+    { name: '/init', icon: '📄',
+      desc: 'Generate a starter CLAUDE.md for the codebase.',
+      when: 'First time you open a project with Claude Code.',
+      scenario: 'You cloned a new repo and want Claude oriented.',
+      example: '> /init' },
+    { name: '/review', icon: '🔍',
+      desc: 'Review a pull request or branch diff.',
+      when: 'Before opening or merging a PR.',
+      scenario: 'You want feedback on your branch before merging.',
+      example: '> /review 142' },
+    { name: '/security-review', icon: '🛡️',
+      desc: 'Audit pending changes for vulnerabilities.',
+      when: 'Before merging code that touches auth or input.',
+      scenario: 'You want to check for SQL injection in your changes.',
+      example: '> /security-review' },
+    { name: '/simplify', icon: '✨',
+      desc: 'Review and simplify changed code.',
+      when: 'After a multi-file edit you suspect grew messy.',
+      scenario: 'A function has duplication after your refactor.',
+      example: '> /simplify' },
+    { name: '/loop', icon: '🔁',
+      desc: 'Repeat a prompt on an interval.',
+      when: 'Polling a build or watching a queue.',
+      scenario: 'You want to re-check the deploy every 5 minutes.',
+      example: '> /loop 5m /check-deploy' },
+    { name: '/schedule', icon: '⏰',
+      desc: 'Run an agent on a cron schedule.',
+      when: 'Recurring routines like weekly reports.',
+      scenario: 'You want a status report every Monday at 9am.',
+      example: '> /schedule "every Mon 9am" /weekly-report' },
+    { name: '/fewer-permission-prompts', icon: '✅',
+      desc: 'Add safe commands to the project allowlist.',
+      when: 'When permission prompts interrupt your flow.',
+      scenario: 'You want to stop being asked about ls and git status.',
+      example: '> /fewer-permission-prompts' },
+    { name: '/update-config', icon: '⚙️',
+      desc: 'Edit Claude Code settings.json safely.',
+      when: 'Adding hooks, granting tools, setting env vars.',
+      scenario: 'You want to allow all bq commands at user scope.',
+      example: '> /update-config allow Bash(bq:*)' },
+    { name: '/claude-api', icon: '🤖',
+      desc: 'Build apps on the Anthropic SDK.',
+      when: 'Writing code that calls the Claude API.',
+      scenario: 'You want a chatbot script using prompt caching.',
+      example: '> /claude-api build a chatbot' },
+    { name: '/keybindings-help', icon: '⌨️',
+      desc: 'Customize keyboard shortcuts.',
+      when: 'A default shortcut conflicts with your IDE.',
+      scenario: 'You want to bind Ctrl+L to clear-screen.',
+      example: '> /keybindings-help bind Ctrl+L' }
+];
+
+// Concept questions (from Skills.pdf body)
+const concepts = [
+    { tag: 'concept',
+      text: 'Where are USER-level skills stored?',
+      a: '~/.claude/skills/',
+      options: ['~/.claude/skills/',
+                '.claude/skills/',
+                '/etc/claude/',
+                'plugin/skills/'],
+      style: 'name',
+      explain: 'User-level skills live in ' +
+        '<code>~/.claude/skills/</code> — tied to your OS ' +
+        'user on that machine, available across every project.' },
+    { tag: 'concept',
+      text: 'Where are PROJECT-level skills stored?',
+      a: '.claude/skills/',
+      options: ['.claude/skills/',
+                '~/.claude/skills/',
+                'src/skills/',
+                'plugin/skills/'],
+      style: 'name',
+      explain: '<code>.claude/skills/</code> sits at the repo ' +
+        'root; you commit it like any other source file so ' +
+        'everyone who clones gets the skill.' },
+    { tag: 'concept',
+      text: 'What does a skill always have?',
+      a: 'name + description + instructions',
+      options: ['name + description + instructions',
+                'just a name',
+                'name and tools only',
+                'description and code'],
+      style: 'text',
+      explain: 'Every skill has three parts: a <code>name</code>, ' +
+        'a <code>description</code> (so Claude knows when to ' +
+        'use it), and the <code>instructions</code> body. ' +
+        '<code>allowed-tools</code> is optional.' },
+    { tag: 'concept',
+      text: 'How long does a slash-command skill apply?',
+      a: 'one turn',
+      options: ['one turn',
+                'whole session',
+                'forever',
+                'one project'],
+      style: 'text',
+      explain: 'A slash command runs the skill on the ' +
+        '<strong>current prompt only</strong>. Effects persist ' +
+        'only via what stays in conversation history.' },
+    { tag: 'concept',
+      text: 'How are plugin skills namespaced?',
+      a: 'plugin:skill-name',
+      options: ['plugin:skill-name',
+                'plugin/skill-name',
+                '@plugin/skill',
+                'plugin.skill'],
+      style: 'name',
+      explain: 'Plugins install at the user level and prefix ' +
+        'their skills as <code>plugin:skill-name</code> so they ' +
+        'never collide with user or project skills.' }
+];
+
+// ── Utilities ─────────────────────────────────────────────
+function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+function show(id) {
+    document.querySelectorAll('.screen').forEach(s =>
+        s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+function goHome() { show('start'); currentMode = null; }
+
+// ── Mode switcher ─────────────────────────────────────────
+let currentMode = null;
+document.querySelectorAll('[data-mode]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const m = btn.dataset.mode;
+        currentMode = m;
+        if (m === 'learn') startLearn();
+        if (m === 'match') startMatch();
+        if (m === 'quiz')  startQuiz();
+    });
+});
+function restartCurrent() {
+    if (currentMode === 'learn') startLearn();
+    if (currentMode === 'match') startMatch();
+    if (currentMode === 'quiz')  startQuiz();
+}
+
+// ── LEARN ─────────────────────────────────────────────────
+let learnIdx = 0;
+function startLearn() {
+    show('learn');
+    learnIdx = 0;
+    renderFlash();
+}
+function renderFlash() {
+    const s = skills[learnIdx];
+    document.getElementById('flashIcon').textContent = s.icon;
+    document.getElementById('flashName').textContent = s.name;
+    document.getElementById('flashDesc').textContent = s.desc;
+    document.getElementById('flashWhen').textContent = s.when;
+    document.getElementById('flashEx').textContent  = s.example;
+    document.getElementById('flash').classList.remove('flipped');
+    document.getElementById('learnCount').textContent =
+        `${learnIdx + 1} / ${skills.length}`;
+    document.getElementById('learnBar').style.width =
+        ((learnIdx + 1) / skills.length * 100) + '%';
+    document.getElementById('prevBtn').disabled = learnIdx === 0;
+    document.getElementById('nextBtn').disabled =
+        learnIdx === skills.length - 1;
+}
+function flipFlash() {
+    document.getElementById('flash').classList.toggle('flipped');
+}
+function learnPrev() {
+    if (learnIdx > 0) { learnIdx--; renderFlash(); }
+}
+function learnNext() {
+    if (learnIdx < skills.length - 1) { learnIdx++; renderFlash(); }
+}
+
+// ── MATCH ─────────────────────────────────────────────────
+const MATCH_PAIRS = 5;
+let matchPicked = null;
+let matchDone = 0;
+let matchMistakes = 0;
+function startMatch() {
+    show('match');
+    matchPicked = null;
+    matchDone = 0;
+    matchMistakes = 0;
+    document.getElementById('matchStats').textContent = 'Mistakes: 0';
+    document.getElementById('matchCount').textContent =
+        `0 / ${MATCH_PAIRS}`;
+    document.getElementById('matchBar').style.width = '0%';
+    const chosen = shuffle(skills).slice(0, MATCH_PAIRS);
+    const left  = shuffle(chosen.map((s, i) =>
+        ({ id: i, kind: 'name', text: s.name })));
+    const right = shuffle(chosen.map((s, i) =>
+        ({ id: i, kind: 'desc', text: s.desc })));
+    const board = document.getElementById('matchBoard');
+    board.innerHTML = '';
+    const interleave = [];
+    for (let i = 0; i < MATCH_PAIRS; i++) {
+        interleave.push(left[i]); interleave.push(right[i]);
+    }
+    interleave.forEach(t => {
+        const div = document.createElement('button');
+        div.className = 'match-tile ' +
+            (t.kind === 'name' ? 'name' : 'desc');
+        div.textContent = t.text;
+        div.dataset.id   = t.id;
+        div.dataset.kind = t.kind;
+        div.addEventListener('click', () => onMatchPick(div));
+        board.appendChild(div);
+    });
+}
+function onMatchPick(el) {
+    if (el.classList.contains('matched')) return;
+    if (!matchPicked) {
+        matchPicked = el;
+        el.classList.add('selected');
+        return;
+    }
+    if (matchPicked === el) {
+        el.classList.remove('selected');
+        matchPicked = null;
+        return;
+    }
+    if (matchPicked.dataset.kind === el.dataset.kind) {
+        // both same kind — replace pick
+        matchPicked.classList.remove('selected');
+        matchPicked = el;
+        el.classList.add('selected');
+        return;
+    }
+    // different kind — check id
+    if (matchPicked.dataset.id === el.dataset.id) {
+        matchPicked.classList.remove('selected');
+        matchPicked.classList.add('matched');
+        el.classList.add('matched');
+        matchPicked = null;
+        matchDone++;
+        document.getElementById('matchCount').textContent =
+            `${matchDone} / ${MATCH_PAIRS}`;
+        document.getElementById('matchBar').style.width =
+            (matchDone / MATCH_PAIRS * 100) + '%';
+        if (matchDone === MATCH_PAIRS) {
+            setTimeout(() => endMatch(), 500);
+        }
+    } else {
+        matchMistakes++;
+        document.getElementById('matchStats').textContent =
+            `Mistakes: ${matchMistakes}`;
+        const a = matchPicked, b = el;
+        a.classList.add('wrong'); b.classList.add('wrong');
+        a.classList.remove('selected');
+        matchPicked = null;
+        setTimeout(() => {
+            a.classList.remove('wrong'); b.classList.remove('wrong');
+        }, 360);
+    }
+}
+function endMatch() {
+    document.getElementById('endIcon').textContent =
+        matchMistakes === 0 ? '🏆' :
+        matchMistakes <= 2 ? '🎉' : '👍';
+    document.getElementById('endScore').textContent =
+        `${MATCH_PAIRS} pairs`;
+    document.getElementById('endMeta').textContent =
+        `Mistakes: ${matchMistakes}`;
+    saveBest('match', matchMistakes);
+    if (matchMistakes === 0) confetti();
+    show('end');
+}
+
+// ── QUIZ ──────────────────────────────────────────────────
+const QUIZ_LEN = 10;
+let quizSet = [];
+let quizIdx = 0;
+let quizScore = 0;
+function buildQuizSet() {
+    // Mix: 5 scenario questions (skills) + 5 concept questions
+    const scenarios = shuffle(skills).slice(0, 5).map(s => {
+        const opts = shuffle([s.name].concat(
+            shuffle(skills.filter(x => x.name !== s.name))
+                .slice(0, 3).map(x => x.name)
+        ));
+        return {
+            tag: 'scenario',
+            text: s.scenario,
+            a: s.name,
+            options: opts,
+            style: 'name',
+            explain: '<code>' + s.name + '</code> — ' +
+                s.desc + ' <em>When:</em> ' + s.when
+        };
+    });
+    const conc = shuffle(concepts).slice(0,
+        Math.min(5, concepts.length));
+    return shuffle(scenarios.concat(conc)).slice(0, QUIZ_LEN);
+}
+function startQuiz() {
+    show('quiz');
+    quizSet = buildQuizSet();
+    quizIdx = 0;
+    quizScore = 0;
+    document.getElementById('qStats').textContent = 'Correct: 0';
+    renderQuiz();
+}
+function renderQuiz() {
+    if (quizIdx >= quizSet.length) { endQuiz(); return; }
+    const q = quizSet[quizIdx];
+    document.getElementById('qTag').textContent = q.tag;
+    document.getElementById('qText').textContent = q.text;
+    document.getElementById('quizCount').textContent =
+        `${quizIdx + 1} / ${quizSet.length}`;
+    document.getElementById('quizBar').style.width =
+        ((quizIdx + 1) / quizSet.length * 100) + '%';
+    const opts = document.getElementById('qOptions');
+    opts.innerHTML = '';
+    q.options.forEach(o => {
+        const b = document.createElement('button');
+        b.className = 'q-opt' + (q.style === 'name' ? ' name' : '');
+        b.textContent = o;
+        b.addEventListener('click', () => onQuizPick(b, o, q));
+        opts.appendChild(b);
+    });
+    // Reset explain + next
+    const ex = document.getElementById('qExplain');
+    ex.className = 'q-explain';
+    ex.innerHTML = '';
+    document.getElementById('qNextRow').classList.remove('show');
+}
+function onQuizPick(btn, picked, q) {
+    const all = document.querySelectorAll('#qOptions .q-opt');
+    all.forEach(b => b.disabled = true);
+    const correct = picked === q.a;
+    if (correct) {
+        btn.classList.add('right');
+        quizScore++;
+        document.getElementById('qStats').textContent =
+            `Correct: ${quizScore}`;
+    } else {
+        btn.classList.add('wrong');
+        all.forEach(b => {
+            if (b.textContent === q.a) b.classList.add('right');
+        });
+    }
+    const ex = document.getElementById('qExplain');
+    ex.innerHTML = (correct ? '✓ ' : '✗ ') + q.explain;
+    ex.className = 'q-explain show ' + (correct ? 'right' : 'wrong');
+    document.getElementById('qNextRow').classList.add('show');
+    document.getElementById('qNext').focus();
+}
+function quizAdvance() {
+    quizIdx++;
+    renderQuiz();
+}
+function endQuiz() {
+    const pct = Math.round(quizScore / QUIZ_LEN * 100);
+    document.getElementById('endIcon').textContent =
+        pct === 100 ? '🏆' :
+        pct >= 80   ? '🎉' :
+        pct >= 50   ? '👍' : '📚';
+    document.getElementById('endScore').textContent =
+        `${quizScore} / ${QUIZ_LEN}`;
+    document.getElementById('endMeta').textContent =
+        pct === 100 ? 'Perfect run!' :
+        pct >= 80   ? 'Strong recall.' :
+        pct >= 50   ? 'Solid — try Learn again.' :
+                      'Open Learn mode for a refresher.';
+    saveBest('quiz', quizScore);
+    if (quizScore === QUIZ_LEN) confetti();
+    show('end');
+}
+
+// ── Persistence (best scores) ─────────────────────────────
+const LS = {
+    best_quiz:  'cs_best_quiz',   // higher is better
+    best_match: 'cs_best_match',  // lower mistakes is better
+    learn_seen: 'cs_learn_seen'   // count of cards seen
+};
+function getNum(key) {
+    const v = localStorage.getItem(key);
+    return v == null ? null : parseInt(v, 10);
+}
+function saveBest(mode, val) {
+    if (mode === 'quiz') {
+        const cur = getNum(LS.best_quiz);
+        if (cur == null || val > cur)
+            localStorage.setItem(LS.best_quiz, val);
+    }
+    if (mode === 'match') {
+        const cur = getNum(LS.best_match);
+        if (cur == null || val < cur)
+            localStorage.setItem(LS.best_match, val);
+    }
+    renderBest();
+}
+function renderBest() {
+    const bq = getNum(LS.best_quiz);
+    const bm = getNum(LS.best_match);
+    document.getElementById('bestQuiz').textContent =
+        bq != null ? `Best: ${bq} / ${QUIZ_LEN}` : '';
+    document.getElementById('bestMatch').textContent =
+        bm != null ? `Best: ${bm} mistakes` : '';
+    document.getElementById('bestLearn').textContent = '';
+}
+
+// ── Confetti ──────────────────────────────────────────────
+function confetti() {
+    const emojis = ['🎉','✨','🌟','🎊','💫','🏆'];
+    const layer = document.createElement('div');
+    layer.className = 'confetti';
+    document.body.appendChild(layer);
+    for (let i = 0; i < 36; i++) {
+        const s = document.createElement('span');
+        s.textContent = emojis[i % emojis.length];
+        s.style.left = (Math.random() * 100) + 'vw';
+        s.style.animationDelay = (Math.random() * 0.4) + 's';
+        s.style.animationDuration =
+            (1.4 + Math.random() * 1.1) + 's';
+        layer.appendChild(s);
+    }
+    setTimeout(() => layer.remove(), 2400);
+}
+
+// ── Keyboard shortcuts ────────────────────────────────────
+document.addEventListener('keydown', (e) => {
+    const active = document.querySelector('.screen.active');
+    if (!active) return;
+    const id = active.id;
+    if (id === 'learn') {
+        if (e.key === 'ArrowLeft')  { learnPrev(); e.preventDefault(); }
+        if (e.key === 'ArrowRight') { learnNext(); e.preventDefault(); }
+        if (e.key === ' ' || e.key === 'Enter') {
+            flipFlash(); e.preventDefault();
+        }
+    } else if (id === 'quiz') {
+        const opts = document.querySelectorAll('#qOptions .q-opt');
+        if (['1','2','3','4'].includes(e.key)) {
+            const i = parseInt(e.key, 10) - 1;
+            if (opts[i] && !opts[i].disabled) {
+                opts[i].click(); e.preventDefault();
+            }
+        }
+        if (e.key === 'Enter') {
+            const nr = document.getElementById('qNextRow');
+            if (nr.classList.contains('show')) {
+                quizAdvance(); e.preventDefault();
+            }
+        }
+    } else if (id === 'start') {
+        if (e.key === '1') document
+            .querySelector('[data-mode=learn]').click();
+        if (e.key === '2') document
+            .querySelector('[data-mode=match]').click();
+        if (e.key === '3') document
+            .querySelector('[data-mode=quiz]').click();
+    } else if (id === 'end') {
+        if (e.key === 'Enter') restartCurrent();
+        if (e.key === 'Escape') goHome();
+    }
+});
+
+// ── Init ──────────────────────────────────────────────────
+renderBest();
+</script>
+</body>
+</html>
