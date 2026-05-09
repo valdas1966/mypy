@@ -65,6 +65,18 @@ class AStarLookup(Generic[State], AStar[State]):
          'mem_cache', 'mem_bounds'),
     )
 
+    # Propagate counters describe pre-search work
+    # (`propagate_pathmax`); declared here so `_init_search`
+    # preserves them across its reset, mirroring the recorder's
+    # retention of pre-search `propagate` / `propagate_wave`
+    # events. Inherited by `AStarBPMX` — its `cnt_bpmx_*` group
+    # is in-search and stays subject to reset.
+    _PRESEARCH_COUNTER_NAMES: tuple[str, ...] = (
+        'cnt_prop_waves',
+        'cnt_prop_attempts',
+        'cnt_prop_lifts',
+    )
+
     def __init__(self,
                  problem: ProblemSPP[State],
                  h: HBase[State] | Callable[[State], int] | None = None,

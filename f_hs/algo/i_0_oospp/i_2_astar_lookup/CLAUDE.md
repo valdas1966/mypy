@@ -150,16 +150,18 @@ All construct via the kwargs API (`cache=`, `goal=`,
 
 ## Tests
 
-Split by feature; auto-discovered by `TestRunner`'s
-`_tester*.py` pattern.
+Auto-discovered by `TestRunner`'s `_tester*.py` pattern.
 
 | File | Scope |
 |------|-------|
-| `_tester_cached.py` | HCached lifecycle + recording |
-| `_tester_bounded.py` | HBounded lifecycle + recording |
-| `_tester_pathmax.py` | `propagate_pathmax` (depth None / 0 / int, convergence, multi-wave) |
-| `_tester_counters.py` | Counter scaffold pin (no cache, no bounds) |
-| `_tester_recording.py` | Full event-stream pin scenarios |
+| `_tester.py` | HCached + HBounded + `propagate_pathmax` lifecycle (3 sections in one file: cached / bounded / pathmax). Includes graph_abc cache-hit counter pins. |
+| `_tester_counters.py` | Counter pins on the canonical OOSPP — four methods: baseline (no cache, no bounds), cached (`(1,1)` at `h*=5`), bounded (`(1,0)` at `h=6`), bounded_propagated (`(0,0)` at `h=7` + `propagate_pathmax(depth=None)`). Drives the param-sensitivity table in `COUNTERS.html`. |
+| `_tester_recording.py` | Full event-stream pin scenarios — four methods mirroring `_tester_counters.py` one-to-one (baseline / cached / bounded / bounded_propagated). Each asserts every field of every normalized event for the same scenario as the counter-test of the same name. |
+
+History — `_tester.py` was assembled from three previously
+split files (`_tester_cached.py`, `_tester_bounded.py`,
+`_tester_pathmax.py`) merged after the BPMX split; the
+graph_abc cache-hit counter pins ride along inside it.
 
 BPMX testers live in `i_3_astar_bpmx/`. Dispatch and
 seeded-`search_state` testers (which exercise simple `AStar`
@@ -195,6 +197,16 @@ this wider one immediately after `AStar.__init__`.
   attempts where `was_improved=True`).
 
 All stay 0 if `propagate_pathmax()` is never called.
+
+**Pre-search retention.** `propagate_pathmax` runs BEFORE
+`run()`, but the counters it sets must persist into the
+post-`run()` snapshot — otherwise calling propagate then run
+silently wipes the propagate accounting. AStarLookup declares
+`_PRESEARCH_COUNTER_NAMES = ('cnt_prop_waves',
+'cnt_prop_attempts', 'cnt_prop_lifts')`; `AlgoSPP._init_search`
+preserves listed counters across its `_counters.reset()`,
+mirroring the recorder's retention of pre-search `propagate` /
+`propagate_wave` events.
 
 `AStarBPMX` overrides `_COUNTER_NAMES` to a 15-name shape by
 prepending the `cnt_bpmx_*` group.

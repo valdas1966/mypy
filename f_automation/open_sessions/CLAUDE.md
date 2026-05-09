@@ -51,10 +51,10 @@ OpenSessions.Factory.at(path_project) -> OpenSessions
 For each session name, append to `wt.exe` args:
 ```
 new-tab --title <name> wsl.exe -- bash -lic
-    "cd '<path_project>' && claude \"start session '<name>';\""
+    "cd '<path>' && claude 'start session '\''<name>'\'';'"
 ```
 Multiple tabs are chained with the `;` separator (a single argv element
-that `wt.exe` parses as a sub-command boundary). `claude "<prompt>"`
+that `wt.exe` parses as a sub-command boundary). `claude '<prompt>'`
 starts Claude Code in interactive mode with the prompt pre-submitted.
 
 ## Quoting Chain
@@ -62,9 +62,12 @@ starts Claude Code in interactive mode with the prompt pre-submitted.
 The bash command travels four levels: Python `subprocess` (argv list) ->
 WSL/Win interop (Linux argv -> Windows command line) -> `wt.exe`
 (parses + re-joins for `CreateProcess`) -> `wsl.exe` (Windows args ->
-Linux argv) -> `bash -lic` (parses string as a shell command). This is
-fragile; the strict `_NAME_PATTERN` validator prevents shell injection
-across the chain.
+Linux argv) -> `bash -lic` (parses string as a shell command). The
+WSL/Win interop step mangles embedded `\"` escapes, so the bash command
+uses **single-quote-only escaping** via `_sq()` (the standard `'\''`
+idiom): no double quotes appear in the bash command. The strict
+`_NAME_PATTERN` validator additionally prevents shell injection across
+the chain.
 
 ## Usage
 

@@ -5,117 +5,150 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0,
       maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>Kids Math Games</title>
-<link rel="stylesheet" href="shared/styles.css">
+<title>Apps</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(160deg, #FFF8E1 0%, #FFECB3 100%);
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+}
+
+.hub {
+    width: 100%;
+    max-width: 880px;
+    text-align: center;
+}
+
+.hub-title {
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    font-weight: 800;
+    color: #E65100;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.4em;
+}
+
+.hub-sub {
+    font-size: clamp(1rem, 2.4vw, 1.2rem);
+    color: #6D4C41;
+    margin-bottom: 2em;
+}
+
+.tiles {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+    .tiles {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+}
+
+.tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    border-radius: 24px;
+    text-decoration: none;
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.tile:active {
+    transform: scale(0.97);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.tile-kids {
+    background: linear-gradient(135deg, #42A5F5 0%, #66BB6A 100%);
+}
+
+.tile-english {
+    background: linear-gradient(135deg, #FB8C00 0%, #E65100 100%);
+}
+
+.tile-skills {
+    background: linear-gradient(135deg, #1e5aa0 0%, #6d3d8e 100%);
+}
+
+.tile-icon {
+    font-size: clamp(3rem, 9vw, 4.2rem);
+    line-height: 1;
+    margin-bottom: 14px;
+}
+
+.tile-title {
+    font-size: clamp(1.4rem, 3.6vw, 1.9rem);
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.tile-desc {
+    font-size: clamp(0.9rem, 2.2vw, 1rem);
+    opacity: 0.92;
+    text-align: center;
+    line-height: 1.4;
+    max-width: 280px;
+}
+
+.foot {
+    margin-top: 2.4em;
+    font-size: 0.85rem;
+    color: #8D6E63;
+    opacity: 0.8;
+}
+</style>
 </head>
 <body>
+<div class="hub">
+    <div class="hub-title">Apps</div>
+    <div class="hub-sub">Pick what you want to do</div>
 
-<div class="hub-bg">
-    <div class="hub-title">Kids Math</div>
-    <div class="hub-animals" id="hub-animals"></div>
-
-    <div class="hub-grid">
-        <a class="hub-card" href="menus/counting.html"
-           style="border-top: 5px solid #42A5F5;">
-            <div class="hub-card-icon">&#129414;</div>
-            <div class="hub-card-title">Counting</div>
-            <div class="hub-card-desc">
-                Count animals and objects
+    <div class="tiles">
+        <a class="tile tile-kids" href="kids/index.html">
+            <div class="tile-icon">&#127922;</div>
+            <div class="tile-title">Kids Games</div>
+            <div class="tile-desc">
+                Math, patterns, board games, Hebrew letters
             </div>
         </a>
-        <a class="hub-card" href="menus/addition.html"
-           style="border-top: 5px solid #66BB6A;">
-            <div class="hub-card-icon">&#10133;</div>
-            <div class="hub-card-title">Addition</div>
-            <div class="hub-card-desc">
-                Add numbers together
+        <a class="tile tile-english" href="english/index.html">
+            <div class="tile-icon">&#128218;</div>
+            <div class="tile-title">Learn English</div>
+            <div class="tile-desc">
+                Visual lessons with Hebrew translations
             </div>
         </a>
-        <a class="hub-card" href="menus/subtraction.html"
-           style="border-top: 5px solid #FF7043;">
-            <div class="hub-card-icon">&#10134;</div>
-            <div class="hub-card-title">Subtraction</div>
-            <div class="hub-card-desc">
-                Take away and find what's left
-            </div>
-        </a>
-        <a class="hub-card" href="menus/multiplication.html"
-           style="border-top: 5px solid #5C6BC0;">
-            <div class="hub-card-icon">&#10006;</div>
-            <div class="hub-card-title">Multiplication</div>
-            <div class="hub-card-desc">
-                Multiply two numbers
-            </div>
-        </a>
-        <a class="hub-card" href="menus/division.html"
-           style="border-top: 5px solid #26A69A;">
-            <div class="hub-card-icon">&#247;</div>
-            <div class="hub-card-title">Division</div>
-            <div class="hub-card-desc">
-                Divide and conquer!
-            </div>
-        </a>
-        <a class="hub-card" href="menus/column.html"
-           style="border-top: 5px solid #AB47BC;">
-            <div class="hub-card-icon">&#128221;</div>
-            <div class="hub-card-title">&#1495;&#1513;&#1489;&#1493;&#1503; &#1489;&#1496;&#1493;&#1512;</div>
-            <div class="hub-card-desc">
-                Column addition &amp; subtraction
-            </div>
-        </a>
-        <a class="hub-card" href="menus/snakes.html"
-           style="border-top: 5px solid #EF5350;">
-            <div class="hub-card-icon">&#127922;</div>
-            <div class="hub-card-title">Board Games</div>
-            <div class="hub-card-desc">
-                Play and learn on the board
-            </div>
-        </a>
-        <a class="hub-card" href="menus/hebrew.html"
-           style="border-top: 5px solid #26C6DA;">
-            <div class="hub-card-icon">&#128292;</div>
-            <div class="hub-card-title">&#1506;&#1489;&#1512;&#1497;&#1514;</div>
-            <div class="hub-card-desc">
-                Learn Hebrew letters
-            </div>
-        </a>
-        <a class="hub-card" href="menus/patterns.html"
-           style="border-top: 5px solid #EC407A;">
-            <div class="hub-card-icon">&#128310;</div>
-            <div class="hub-card-title">Patterns</div>
-            <div class="hub-card-desc">
-                Find what comes next!
-            </div>
-        </a>
-        <a class="hub-card" href="menus/imagination.html"
-           style="border-top: 5px solid #AB47BC;">
-            <div class="hub-card-icon">&#128142;</div>
-            <div class="hub-card-title">Imagination</div>
-            <div class="hub-card-desc">
-                Decorate a royal palace!
-            </div>
-        </a>
-        <a class="hub-card" href="word-problems/index.html"
-           style="border-top: 5px solid #FFA726;">
-            <div class="hub-card-icon">&#128173;</div>
-            <div class="hub-card-title">&#1489;&#1506;&#1497;&#1493;&#1514; &#1502;&#1497;&#1500;&#1493;&#1500;&#1497;&#1493;&#1514;</div>
-            <div class="hub-card-desc">
-                Maya &amp; Mika story problems
+        <a class="tile tile-skills" href="skills/index.html">
+            <div class="tile-icon">&#128736;&#65039;</div>
+            <div class="tile-title">Claude Skills</div>
+            <div class="tile-desc">
+                Quick-learn the slash skills
             </div>
         </a>
     </div>
-</div>
 
-<script src="shared/animals.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const el = document.getElementById('hub-animals');
-    animalFns.forEach(fn => {
-        const w = document.createElement('div');
-        w.innerHTML = fn();
-        el.appendChild(w.firstElementChild);
-    });
-});
-</script>
+    <div class="foot">Hosted on GitHub Pages</div>
+</div>
 </body>
 </html>

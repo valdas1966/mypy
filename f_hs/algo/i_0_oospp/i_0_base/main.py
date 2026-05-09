@@ -20,6 +20,16 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
     ============================================================================
     """
 
+    # Names of counters that describe work done OUTSIDE the
+    # search loop (e.g., AStarLookup's pre-search
+    # `propagate_pathmax` group). They survive
+    # `_init_search`'s `_counters.reset()` so that the
+    # post-`run()` snapshot reflects the full algorithm
+    # timeline (pre-search + search), mirroring the recorder's
+    # retention principle. Default empty — only subclasses with
+    # pre-search ops override.
+    _PRESEARCH_COUNTER_NAMES: tuple[str, ...] = ()
+
     def __init__(self,
                  problem: ProblemSPP[State],
                  frontier: FrontierBase[State],
@@ -299,11 +309,22 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
          should call `self.recorder.clear()` explicitly.
 
          Counters ARE reset here (run-only; resume() preserves
-         them — needed for OMSPP-iterative accumulation).
+         them — needed for OMSPP-iterative accumulation), with
+         one exception: counters listed in
+         `_PRESEARCH_COUNTER_NAMES` are preserved across the
+         reset. They describe work done OUTSIDE the loop and
+         must survive into the post-run snapshot — same
+         retention principle as the recorder.
         ====================================================================
         """
         self._search.clear()
+        # Capture pre-search counters before the wipe so they
+        # survive into post-run readings (recorder-parity).
+        preserved = {n: self._counters[n]
+                     for n in type(self)._PRESEARCH_COUNTER_NAMES}
         self._counters.reset()
+        for n, v in preserved.items():
+            self._counters.assign(n, v)
         self._goals_set = set(self.problem.goals)
         for start in self.problem.starts:
             self._search.g[start] = 0.0

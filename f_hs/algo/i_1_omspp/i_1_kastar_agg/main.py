@@ -303,10 +303,15 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                     # boundary. Lazy mode does NOT flip phase
                     # (its refresh work happens inline at pop
                     # time and structurally belongs to search).
+                    # `just_re_pushed_state=state`: skip the
+                    # redundant recompute of the goal we just
+                    # re-pushed (its F was computed under the
+                    # exact same active set on line 293).
                     self.phase = PHASE_UPDATE
                     self._refresh_priorities(
                         next_goal_index=self._next_active_index(),
-                        just_removed_goal=state)
+                        just_removed_goal=state,
+                        just_re_pushed_state=state)
                     self.phase = PHASE_SEARCH
                 continue
 
@@ -500,6 +505,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
     def _refresh_priorities(self,
                             next_goal_index: int,
                             just_removed_goal: State | None = None,
+                            just_re_pushed_state: State | None = None,
                             ) -> None:
         """
         ====================================================================
@@ -523,6 +529,16 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
          stored F. All OPEN nodes are re-pushed regardless
          (the heap has no increase-key, so we drain-and-
          rebuild).
+
+         When `just_re_pushed_state` is given, that state's F
+         was just freshly computed under the post-removal
+         active set by the goal re-push site (line 293) —
+         skip the recompute (the value is identical). This
+         saves one `_compute_F` per non-last goal-find in
+         `is_opt=False` configs (in `is_opt=True` the
+         responsible-skip rule already covers it, since the
+         re-pushed goal's responsible is updated to a
+         remaining active goal during the re-push).
         ====================================================================
         """
         states: list[State] = list(self._frontier)
@@ -532,7 +548,13 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
         self._frontier.clear()
         for s in states:
             old_f = self._F_stored[s]
-            if (self._is_opt
+            if (just_re_pushed_state is not None
+                    and s == just_re_pushed_state):
+                # Just re-pushed by the goal-find branch — F
+                # was computed under the new active set on
+                # line 293; recomputing yields the same value.
+                new_f = old_f
+            elif (self._is_opt
                     and just_removed_goal is not None
                     and self._responsible.get(s)
                     != just_removed_goal):

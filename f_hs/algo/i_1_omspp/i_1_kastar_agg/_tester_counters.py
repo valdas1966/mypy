@@ -33,7 +33,14 @@
                      drop sharply (responsible-goal short-
                      circuit skips most refresh / pop-time
                      recomputes).
-  - `is_opt=False` → every refresh / lazy-pop recomputes F.
+  - `is_opt=False` → every refresh / lazy-pop recomputes F
+                     EXCEPT the just-re-pushed goal, which
+                     is skipped in eager refresh via the
+                     `just_re_pushed_state` short-circuit
+                     (added 2026-05-09): its F was just
+                     computed under the same active set at
+                     the re-push site, so refresh would
+                     recompute the identical value.
 
   - `store_vector=True`  → `cnt_h_update == 0` always (h
                            cached at first encounter; refresh,
@@ -126,28 +133,38 @@ def test_counters_canonical_omspp_min_eager_noopt_nosv() -> None:
      Distinguishing values:
      - `cnt_push=24` = 14 first-time + 2 goal re-pushes
        ((3,0), (3,3)) + 8 bulk re-pushes (3 + 5 across the
-       two refreshes).
-     - `cnt_phi_update=10` = 3 (refresh after (3,0)) + 5
-       (refresh after (3,3)) + 2 goal re-pushes (PHASE_UPDATE
-       since the re-push aggregates Φ over the just-shrunken
-       active set). No opt short-circuit: every OPEN state
-       recomputed at each refresh.
-     - `cnt_h_update=14` = 6 (3 states × 2 active in refresh
-       1) + 5 (5 states × 1 active in refresh 2) + 3 (the
-       goal-re-push h-calls: 2 active for first re-push,
-       1 active for second).
+       two refreshes). The just-re-pushed goal IS still
+       pushed back to the heap during the bulk rebuild —
+       only the F recompute is skipped, not the heap entry.
+     - `cnt_phi_update=8` = 2 (refresh after (3,0): 3 OPEN
+       states minus the just-re-pushed (3,0) = 2 recomputes)
+       + 4 (refresh after (3,3): 5 OPEN states minus the
+       just-re-pushed (3,3) = 4 recomputes) + 2 goal
+       re-pushes (always counted; PHASE_UPDATE).
+     - `cnt_h_update=11` = 4 (refresh 1: 2 states × 2
+       active) + 4 (refresh 2: 4 states × 1 active) + 3 goal
+       re-push h-calls (2 active for first, 1 active for
+       second).
      - `cnt_h_search=34` = sum over the 14 search-phase
        `_compute_F` (first-time push) calls of (#active goals
        at call time).
+
+     Pre-2026-05-09 the just-re-pushed goal's F was
+     recomputed redundantly inside `_refresh_priorities`
+     (yielding the same value); that branch is now skipped
+     via the `just_re_pushed_state` short-circuit. Counter
+     deltas: `cnt_h_update` 14→11 (saves 2 + 1 redundant
+     h-calls); `cnt_phi_update` 10→8 (saves 1 + 1 redundant
+     Φ-calls). Heap-op counts and per-goal costs unchanged.
     ========================================================================
     """
     algo = _make_algo(is_lazy=False, is_opt=False,
                       store_vector=False)
     assert _run_and_strip_mem(algo) == {
         'cnt_h_search':   34,
-        'cnt_h_update':   14,
+        'cnt_h_update':   11,
         'cnt_phi_search': 14,
-        'cnt_phi_update': 10,
+        'cnt_phi_update':  8,
         'cnt_push':       24,
         'cnt_pop':        12,
         'cnt_pop_stale':   0,
@@ -167,8 +184,12 @@ def test_counters_canonical_omspp_min_eager_noopt_sv() -> None:
      - `cnt_h_update=0` — refresh, lazy stale-pop, AND goal
        re-push all reuse cached vectors; h is never
        recomputed in update flow.
+     - `cnt_phi_update=8` — same as eager_noopt_nosv: the
+       `just_re_pushed_state` skip applies to the Φ recompute
+       regardless of vector cache; saves 2 Φ calls vs. the
+       pre-2026-05-09 value of 10.
      - `cnt_h_search=34` — identical to eager_noopt_nosv.
-       Vector cache only saves later re-reads (now all
+       Vector cache only saves later re-reads (all
        PHASE_UPDATE), so the search-phase total stays equal.
      - All other counters identical to eager_noopt_nosv.
     ========================================================================
@@ -179,7 +200,7 @@ def test_counters_canonical_omspp_min_eager_noopt_sv() -> None:
         'cnt_h_search':   34,
         'cnt_h_update':    0,
         'cnt_phi_search': 14,
-        'cnt_phi_update': 10,
+        'cnt_phi_update':  8,
         'cnt_push':       24,
         'cnt_pop':        12,
         'cnt_pop_stale':   0,

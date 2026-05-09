@@ -248,6 +248,138 @@ footer {
   flex-wrap: wrap; gap: 8px;
 }
 footer code { color: var(--text); }
+
+/* ── Param sensitivity table ───────────────────────── */
+.psense {
+  margin: 28px 0;
+  padding: 22px 24px 20px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  border-left: 4px solid var(--accent);
+}
+.psense h2 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  color: var(--accent);
+  letter-spacing: -0.2px;
+}
+.psense .caption {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin: 0 0 18px;
+  max-width: 800px;
+}
+.psense .tbl-wrap {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.psense table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+  background: var(--panel-2);
+}
+.psense thead th {
+  background: rgba(255,255,255,0.025);
+  padding: 14px 14px 12px;
+  text-align: center;
+  border-bottom: 2px solid var(--border);
+  vertical-align: bottom;
+}
+.psense thead th.rowhead {
+  text-align: left;
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.psense thead th .param-chip {
+  display: inline-block;
+  padding: 3px 11px;
+  background: rgba(255,138,61,0.10);
+  border: 1px solid rgba(255,138,61,0.32);
+  color: var(--accent);
+  border-radius: 999px;
+  font-family: "SF Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.2px;
+  margin-bottom: 8px;
+  white-space: nowrap;
+}
+.psense thead th.col-baseline .param-chip {
+  background: rgba(255,255,255,0.05);
+  border-color: var(--border);
+  color: var(--text-dim);
+}
+.psense thead th .col-name {
+  font-size: 12px;
+  color: var(--text);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.psense tbody td {
+  padding: 9px 14px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-family: "SF Mono", monospace;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-dim);
+}
+.psense tbody tr:last-child td {
+  border-bottom: none;
+}
+.psense tbody td.cname {
+  text-align: left;
+  color: var(--text);
+  white-space: nowrap;
+  font-size: 13px;
+}
+.psense tbody td.cname .fam-dot {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.psense tbody tr.grp-edge td {
+  border-top: 1px solid var(--border);
+}
+.psense tbody td.diff {
+  font-weight: 700;
+  color: var(--accent);
+  background: rgba(255,138,61,0.10);
+}
+.psense .keyline {
+  display: flex; gap: 22px; flex-wrap: wrap;
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.psense .keyline .swatch {
+  display: inline-block; width: 10px; height: 10px;
+  border-radius: 50%;
+  margin-right: 7px;
+  vertical-align: middle;
+}
+.psense .keyline .diffkey {
+  display: inline-block; width: 12px; height: 10px;
+  border-radius: 2px;
+  margin-right: 7px;
+  vertical-align: middle;
+  background: rgba(255,138,61,0.10);
+  border: 1px solid rgba(255,138,61,0.45);
+}
+.psense .footnote {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 10px;
+  font-style: italic;
+}
 </style>
 </head>
 <body>
@@ -294,6 +426,120 @@ footer code { color: var(--text); }
 </div>
 
 <div class="chain"><strong style="font-size:12px;color:var(--text-dim);letter-spacing:1.4px;text-transform:uppercase;margin-right:8px;">MRO</strong><span class="pill">Algo</span><span class="arrow">▸</span><span class="pill">AlgoSPP</span><span class="arrow">▸</span><span class="pill">AStar</span><span class="arrow">▸</span><span class="pill">BPMXMixin</span><span class="arrow">▸</span><span class="pill last">AStarLookup</span></div>
+
+<section class="psense">
+  <h2>Param sensitivity — how lookup tables move counters</h2>
+  <p class="caption">
+    Same problem (canonical OOSPP — <code>grid_4x4_obstacle</code>, start (0,0), goal (0,3), Manhattan h, optimal cost 7), same algo class (<code>AStarLookup</code>), three param configurations. Highlighted cells differ from the <strong>baseline</strong> column — at-a-glance read-off of how a single cache or bound entry moves operational counters.
+  </p>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th class="rowhead">counter</th>
+          <th class="col-baseline">
+            <div class="param-chip">— no cache · no bounds —</div>
+            <div class="col-name">baseline</div>
+          </th>
+          <th class="col-cached">
+            <div class="param-chip">cache (1,1) · h*=5</div>
+            <div class="col-name">cached</div>
+          </th>
+          <th class="col-bounded">
+            <div class="param-chip">bound (1,0) · h=6</div>
+            <div class="col-name">bounded</div>
+          </th>
+          <th class="col-bounded">
+            <div class="param-chip">bound (0,0)=7 + propagate</div>
+            <div class="col-name">bounded&nbsp;+&nbsp;propagated</div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="grp-edge">
+          <td class="cname"><span class="fam-dot" style="background:#50E3C2"></span>cnt_prop_waves</td>
+          <td>0</td><td>0</td><td>0</td>
+          <td class="diff">3</td>
+        </tr>
+        <tr>
+          <td class="cname"><span class="fam-dot" style="background:#50E3C2"></span>cnt_prop_attempts</td>
+          <td>0</td><td>0</td><td>0</td>
+          <td class="diff">7</td>
+        </tr>
+        <tr>
+          <td class="cname"><span class="fam-dot" style="background:#50E3C2"></span>cnt_prop_lifts</td>
+          <td>0</td><td>0</td><td>0</td>
+          <td class="diff">3</td>
+        </tr>
+        <tr class="grp-edge">
+          <td class="cname"><span class="fam-dot" style="background:#4A90E2"></span>cnt_push</td>
+          <td>13</td>
+          <td class="diff">5</td>
+          <td>13</td>
+          <td>13</td>
+        </tr>
+        <tr>
+          <td class="cname"><span class="fam-dot" style="background:#4A90E2"></span>cnt_pop</td>
+          <td>9</td>
+          <td class="diff">4</td>
+          <td class="diff">8</td>
+          <td class="diff">8</td>
+        </tr>
+        <tr>
+          <td class="cname"><span class="fam-dot" style="background:#4A90E2"></span>cnt_decrease</td>
+          <td>0</td><td>0</td><td>0</td>
+          <td>0</td>
+        </tr>
+        <tr class="grp-edge">
+          <td class="cname"><span class="fam-dot" style="background:#FF6B6B"></span>cnt_expanded</td>
+          <td>8</td>
+          <td class="diff">3</td>
+          <td class="diff">7</td>
+          <td class="diff">7</td>
+        </tr>
+        <tr>
+          <td class="cname"><span class="fam-dot" style="background:#FF6B6B"></span>cnt_generated</td>
+          <td>13</td>
+          <td class="diff">5</td>
+          <td>13</td>
+          <td>13</td>
+        </tr>
+        <tr class="grp-edge">
+          <td class="cname"><span class="fam-dot" style="background:#FFD54F"></span>mem_open</td>
+          <td>✓</td><td>✓</td><td>✓</td><td>✓</td>
+        </tr>
+        <tr>
+          <td class="cname"><span class="fam-dot" style="background:#FFD54F"></span>mem_closed</td>
+          <td>✓</td><td>✓</td><td>✓</td><td>✓</td>
+        </tr>
+        <tr>
+          <td class="cname"><span class="fam-dot" style="background:#FFD54F"></span>mem_cache</td>
+          <td>0</td>
+          <td class="diff">▮ active</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td class="cname"><span class="fam-dot" style="background:#FFD54F"></span>mem_bounds</td>
+          <td>0</td>
+          <td>0</td>
+          <td class="diff">▮ active</td>
+          <td class="diff">▮ active</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="keyline">
+    <span><span class="swatch" style="background:#50E3C2"></span>propagate</span>
+    <span><span class="swatch" style="background:#4A90E2"></span>frontier ops</span>
+    <span><span class="swatch" style="background:#FF6B6B"></span>search-semantic</span>
+    <span><span class="swatch" style="background:#FFD54F"></span>memory</span>
+    <span style="margin-left:auto;"><span class="diffkey"></span>differs from baseline</span>
+  </div>
+  <p class="footnote">
+    Pinned by <code>_tester_counters.py</code> — four test methods (<code>test_counters_baseline</code> / <code>_cached</code> / <code>_bounded</code> / <code>_bounded_propagated</code>) assert the cnt_* values in this table. mem_open / mem_closed are always populated post-run; mem_cache / mem_bounds reflect whether the corresponding lookup-table layer was attached to the heuristic chain. <code>cnt_prop_*</code> values in the propagated column survive <code>_init_search</code>'s reset via the <code>_PRESEARCH_COUNTER_NAMES</code> hook on <code>AlgoSPP</code> (overridden by <code>AStarLookup</code>) — same retention principle as the recorder.
+  </p>
+</section>
 
 <section class="family" style="border-left-color:#50E3C2;">
   <h2><span style="color:#50E3C2;">●</span> Pre-search propagate <span class="count">3</span></h2>

@@ -85,7 +85,7 @@ Reset on every `run()` call. Runtime decomposition for the
 | counter | when incremented |
 |---|---|
 | `cnt_h_search` | h call in normal flow: start seed, first-time push (in `_handle_child`), decrease-g. Under `store_vector=True`, counts only the first-encounter h calls for goals that were active at that moment. **NOT** incremented on the goal re-push (that is refresh-typed work — see `cnt_h_update`). |
-| `cnt_h_update` | h call in refresh flow: lazy pop-recompute, eager `_refresh_priorities`, AND the goal re-push at goal-find (h is recomputed under the newly-shrunken active set; `phase=PHASE_UPDATE` since 2026-05-08). Always 0 when `store_vector=True` (vector cached). |
+| `cnt_h_update` | h call in refresh flow: lazy pop-recompute, eager `_refresh_priorities`, AND the goal re-push at goal-find (h is recomputed under the newly-shrunken active set; `phase=PHASE_UPDATE` since 2026-05-08). Eager refresh skips the recompute for the just-re-pushed goal — its F was already computed under the new active set at the re-push site (`just_re_pushed_state` short-circuit, 2026-05-09). Always 0 when `store_vector=True` (vector cached). |
 | `cnt_phi_search` | `_compute_F` from search flow (start seed + first-time push + decrease-g). |
 | `cnt_phi_update` | `_compute_F` from refresh flow (lazy pop-recompute, eager `_refresh_priorities`, AND goal re-push). |
 | `cnt_push` | every `frontier.push` (incl. lazy re-insertions, eager bulk re-push). Frontier-sourced — mirrored from `self._frontier.counters` at end-of-run by `_sync_frontier_counters`. |
@@ -197,6 +197,31 @@ is unchanged: re-push work happens inside the search loop
 and `elapsed_search` still claims it (matches the lazy
 stale-pop precedent — counters tag WORK TYPE; elapsed
 buckets tag STRUCTURAL PHASE).
+
+**Eager refresh skips the just-re-pushed goal
+(2026-05-09).** `_refresh_priorities` accepts a new
+`just_re_pushed_state` parameter; for that state the
+F-recompute is skipped (the value was already computed
+under the new active set at the re-push site, line 293).
+Rationale: the goal re-push and the bulk refresh are
+independent code paths that previously both recomputed F
+on the just-re-pushed goal — yielding identical values
+and burning 2 h-calls + 1 Φ-call per non-last goal-find
+in `is_opt=False` configs. The `is_opt=True` case
+already skipped this redundancy via the responsible-set
+rule (the re-pushed goal's responsible flips to a
+remaining active goal during the re-push, so
+`responsible(s) ≠ just_removed_goal` keeps it out of the
+recompute branch); the new parameter brings parity to
+`is_opt=False`. Counter deltas on the canonical
+8-config matrix: `cnt_h_update` 14 → 11
+(eager_noopt_nosv); `cnt_phi_update` 10 → 8
+(eager_noopt_nosv AND eager_noopt_sv). Six other configs
+unchanged (eager_opt_*: already skipping; lazy_*: no
+`_refresh_priorities` call). All cross-config
+search-phase invariants preserved. Recording stream,
+heap-op counts, and per-goal optimal costs are
+unchanged.
 
 ### Visual counter snapshot — `COUNTERS.html`
 

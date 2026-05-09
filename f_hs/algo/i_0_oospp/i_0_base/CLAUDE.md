@@ -264,6 +264,7 @@ overrides (e.g. AStar's `_priority`) reference them through
 | `_init_search()` | clears `_search`, rebuilds `_goals_set`, pushes starts | Override for OMSPP-style multi-pump init |
 | `_search_loop()` | classical SPP loop | Override for OMSPP / bidirectional / etc. |
 | `_early_exit(state)` | returns `None` | Return `SolutionSPP` to short-circuit the loop after pop; AStar uses this for `HCached` perfect-h termination |
+| `_PRESEARCH_COUNTER_NAMES` (class attr) | `()` | Names of counters that describe work done OUTSIDE the search loop. Preserved across `_init_search`'s `_counters.reset()` so post-`run()` snapshots reflect both pre-search and search work — same retention principle as the recorder (which is also not cleared by `_init_search`). `AStarLookup` overrides with the propagate group (`cnt_prop_waves` / `cnt_prop_attempts` / `cnt_prop_lifts`); `AStarBPMX` inherits unchanged because its `cnt_bpmx_*` group is in-search and is correctly subject to reset. |
 
 Event types recorded by this base class: `push`, `pop`,
 `decrease_g`. Subclasses may emit additional types:
