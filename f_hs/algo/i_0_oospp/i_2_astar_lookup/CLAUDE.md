@@ -155,8 +155,8 @@ Auto-discovered by `TestRunner`'s `_tester*.py` pattern.
 | File | Scope |
 |------|-------|
 | `_tester.py` | HCached + HBounded + `propagate_pathmax` lifecycle (3 sections in one file: cached / bounded / pathmax). Includes graph_abc cache-hit counter pins. |
-| `_tester_counters.py` | Counter pins on the canonical OOSPP — four methods: baseline (no cache, no bounds), cached (`(1,1)` at `h*=5`), bounded (`(1,0)` at `h=6`), bounded_propagated (`(0,0)` at `h=7` + `propagate_pathmax(depth=None)`). Drives the param-sensitivity table in `COUNTERS.html`. |
-| `_tester_recording.py` | Full event-stream pin scenarios — four methods mirroring `_tester_counters.py` one-to-one (baseline / cached / bounded / bounded_propagated). Each asserts every field of every normalized event for the same scenario as the counter-test of the same name. |
+| `_tester_counters.py` | Counter pins on the canonical OOSPP — seven methods: baseline (no cache, no bounds), cached (`(1,1)` at `h*=5`), bounded (`(1,0)` at `h=6`), and four bounded_propagated_depth_{0,1,2,3} (bound `(0,0)=7` + `propagate_pathmax(depth=N)` for `N` in `[0,1,2,3]`). The depth split isolates per-wave deltas: depth-0 ↔ depth-1 = marginal value of wave 0; depth-2 ↔ depth-3 = cost of the no-tighten convergence wave. Drives the param-sensitivity table in `COUNTERS.html`. |
+| `_tester_recording.py` | Full event-stream pin scenarios — seven methods mirroring `_tester_counters.py` one-to-one (baseline / cached / bounded / bounded_propagated_depth_{0,1,2,3}). Each asserts every field of every normalized event for the same scenario as the counter-test of the same name. depth-0 has 22 events (no propagate), depth-1 has 24 (1+2+21), depth-2 has 28 (2+5+21), depth-3 has 31 (3+7+21; ≡ depth=None). |
 
 History — `_tester.py` was assembled from three previously
 split files (`_tester_cached.py`, `_tester_bounded.py`,

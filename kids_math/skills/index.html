@@ -356,7 +356,7 @@ header.title .sub {
                 <div>
                     <div class="name">📚 Learn</div>
                     <div class="desc">
-                        Flip flashcards to study each skill.
+                        Flip flashcards to study Skills concepts.
                     </div>
                     <span class="mode-best" id="bestLearn"></span>
                 </div>
@@ -366,7 +366,7 @@ header.title .sub {
                 <div>
                     <div class="name">🔗 Match</div>
                     <div class="desc">
-                        Pair skill names with their descriptions.
+                        Pair each concept with its key fact.
                     </div>
                     <span class="mode-best" id="bestMatch"></span>
                 </div>
@@ -376,7 +376,7 @@ header.title .sub {
                 <div>
                     <div class="name">❓ Quiz</div>
                     <div class="desc">
-                        Pick the right skill for each scenario.
+                        Test your knowledge of Skills concepts.
                     </div>
                     <span class="mode-best" id="bestQuiz"></span>
                 </div>
@@ -469,7 +469,7 @@ header.title .sub {
             <div class="pcount" id="quizCount">1 / 10</div>
         </div>
         <div class="q-prompt">
-            <span class="tag" id="qTag">scenario</span>
+            <span class="tag" id="qTag">concept</span>
             <div id="qText" style="margin-top:6px;"></div>
         </div>
         <div class="q-options" id="qOptions"></div>
@@ -512,74 +512,76 @@ header.title .sub {
 </div>
 
 <script>
-// ── Data ──────────────────────────────────────────────────
-const skills = [
-    { name: '/init', icon: '📄',
-      desc: 'Generate a starter CLAUDE.md for the codebase.',
-      when: 'First time you open a project with Claude Code.',
-      scenario: 'You cloned a new repo and want Claude oriented.',
-      example: '> /init' },
-    { name: '/review', icon: '🔍',
-      desc: 'Review a pull request or branch diff.',
-      when: 'Before opening or merging a PR.',
-      scenario: 'You want feedback on your branch before merging.',
-      example: '> /review 142' },
-    { name: '/security-review', icon: '🛡️',
-      desc: 'Audit pending changes for vulnerabilities.',
-      when: 'Before merging code that touches auth or input.',
-      scenario: 'You want to check for SQL injection in your changes.',
-      example: '> /security-review' },
-    { name: '/simplify', icon: '✨',
-      desc: 'Review and simplify changed code.',
-      when: 'After a multi-file edit you suspect grew messy.',
-      scenario: 'A function has duplication after your refactor.',
-      example: '> /simplify' },
-    { name: '/loop', icon: '🔁',
-      desc: 'Repeat a prompt on an interval.',
-      when: 'Polling a build or watching a queue.',
-      scenario: 'You want to re-check the deploy every 5 minutes.',
-      example: '> /loop 5m /check-deploy' },
-    { name: '/schedule', icon: '⏰',
-      desc: 'Run an agent on a cron schedule.',
-      when: 'Recurring routines like weekly reports.',
-      scenario: 'You want a status report every Monday at 9am.',
-      example: '> /schedule "every Mon 9am" /weekly-report' },
-    { name: '/fewer-permission-prompts', icon: '✅',
-      desc: 'Add safe commands to the project allowlist.',
-      when: 'When permission prompts interrupt your flow.',
-      scenario: 'You want to stop being asked about ls and git status.',
-      example: '> /fewer-permission-prompts' },
-    { name: '/update-config', icon: '⚙️',
-      desc: 'Edit Claude Code settings.json safely.',
-      when: 'Adding hooks, granting tools, setting env vars.',
-      scenario: 'You want to allow all bq commands at user scope.',
-      example: '> /update-config allow Bash(bq:*)' },
-    { name: '/claude-api', icon: '🤖',
-      desc: 'Build apps on the Anthropic SDK.',
-      when: 'Writing code that calls the Claude API.',
-      scenario: 'You want a chatbot script using prompt caching.',
-      example: '> /claude-api build a chatbot' },
-    { name: '/keybindings-help', icon: '⌨️',
-      desc: 'Customize keyboard shortcuts.',
-      when: 'A default shortcut conflicts with your IDE.',
-      scenario: 'You want to bind Ctrl+L to clear-screen.',
-      example: '> /keybindings-help bind Ctrl+L' }
+// ── Data — all content drawn from Skills.pdf ──────────────
+// Each topic maps to a section of Skills.pdf (the visual intro).
+// The flashcard back shows: what / detail / example.
+const topics = [
+    { name: 'What is a Skill', icon: '🛠️',
+      desc: 'A reusable instruction set that teaches Claude one task.',
+      when: 'Always has a name, a description, and instructions.',
+      example: 'Lives in plain markdown files.' },
+
+    { name: 'Slash command', icon: '⌨️',
+      desc: 'Type /skill-name to run a skill on the current prompt.',
+      when: 'Explicit — you name the skill. Scope is one turn.',
+      example: '> /review' },
+
+    { name: 'Auto-trigger', icon: '🪄',
+      desc: 'Claude picks a skill by matching its description.',
+      when: 'Implicit — Claude chooses. Clear descriptions help.',
+      example: '(no slash — description match)' },
+
+    { name: 'User-level', icon: '👤',
+      desc: 'Skills stored in ~/.claude/skills/, tied to your OS user.',
+      when: 'Across every project. Not auto-synced — copy to share.',
+      example: '~/.claude/skills/hello/' },
+
+    { name: 'Project-level', icon: '📁',
+      desc: 'Skills stored in .claude/skills/ at the repo root.',
+      when: 'Committed like source — everyone who clones gets it.',
+      example: '<repo>/.claude/skills/hello/' },
+
+    { name: 'Plugin-bundled', icon: '🔌',
+      desc: 'Skills shipped inside a Claude Code plugin.',
+      when: 'Plugins install at the user level — cross-project.',
+      example: 'plugin:skill-name' },
+
+    { name: 'Frontmatter', icon: '📋',
+      desc: 'YAML block at the top declaring name and description.',
+      when: 'Both required. Description tells Claude when to use it.',
+      example: '--- name: hello, description: greet ---' },
+
+    { name: 'Allowed-tools', icon: '🔒',
+      desc: 'Optional frontmatter field that restricts tool access.',
+      when: 'Improves safety. Omit it to allow all tools.',
+      example: 'allowed-tools: [Read, Bash]' },
+
+    { name: 'Built-in vs Custom', icon: '⚖️',
+      desc: 'Built-in ships with Claude Code; custom is written by you.',
+      when: 'Both work the same way. Custom can override built-ins.',
+      example: '/init (built-in) · /deploy (custom)' },
+
+    { name: 'When to use', icon: '🎯',
+      desc: 'Use for repeated multi-step tasks or team conventions.',
+      when: 'Skip for trivial one-offs. Skills shine when reused.',
+      example: 'Good: weekly report.  Skip: one-line questions.' }
 ];
 
-// Concept questions (from Skills.pdf body)
-const concepts = [
-    { tag: 'concept',
+// Quiz questions — every answer is found in Skills.pdf.
+const questions = [
+    { tag: 'where',
       text: 'Where are USER-level skills stored?',
       a: '~/.claude/skills/',
       options: ['~/.claude/skills/',
                 '.claude/skills/',
-                '/etc/claude/',
+                '/etc/claude/skills/',
                 'plugin/skills/'],
       style: 'name',
       explain: 'User-level skills live in ' +
         '<code>~/.claude/skills/</code> — tied to your OS ' +
-        'user on that machine, available across every project.' },
-    { tag: 'concept',
+        'user, available across every project on that machine.' },
+
+    { tag: 'where',
       text: 'Where are PROJECT-level skills stored?',
       a: '.claude/skills/',
       options: ['.claude/skills/',
@@ -588,21 +590,22 @@ const concepts = [
                 'plugin/skills/'],
       style: 'name',
       explain: '<code>.claude/skills/</code> sits at the repo ' +
-        'root; you commit it like any other source file so ' +
+        'root and is committed like any source file, so ' +
         'everyone who clones gets the skill.' },
-    { tag: 'concept',
-      text: 'What does a skill always have?',
-      a: 'name + description + instructions',
-      options: ['name + description + instructions',
-                'just a name',
-                'name and tools only',
-                'description and code'],
-      style: 'text',
-      explain: 'Every skill has three parts: a <code>name</code>, ' +
-        'a <code>description</code> (so Claude knows when to ' +
-        'use it), and the <code>instructions</code> body. ' +
-        '<code>allowed-tools</code> is optional.' },
-    { tag: 'concept',
+
+    { tag: 'where',
+      text: 'How are PLUGIN skills namespaced?',
+      a: 'plugin:skill-name',
+      options: ['plugin:skill-name',
+                'plugin/skill-name',
+                '@plugin/skill',
+                'plugin.skill'],
+      style: 'name',
+      explain: 'Plugins install at the user level and prefix ' +
+        'their skills as <code>plugin:skill-name</code> so ' +
+        'they never collide with user or project skills.' },
+
+    { tag: 'invoke',
       text: 'How long does a slash-command skill apply?',
       a: 'one turn',
       options: ['one turn',
@@ -612,18 +615,142 @@ const concepts = [
       style: 'text',
       explain: 'A slash command runs the skill on the ' +
         '<strong>current prompt only</strong>. Effects persist ' +
-        'only via what stays in conversation history.' },
-    { tag: 'concept',
-      text: 'How are plugin skills namespaced?',
-      a: 'plugin:skill-name',
-      options: ['plugin:skill-name',
-                'plugin/skill-name',
-                '@plugin/skill',
-                'plugin.skill'],
+        'only via what stays in the conversation history.' },
+
+    { tag: 'invoke',
+      text: 'Which invocation method has Claude pick the skill?',
+      a: 'auto-trigger by description',
+      options: ['auto-trigger by description',
+                'slash command',
+                'manual install',
+                'plugin namespace'],
+      style: 'text',
+      explain: 'In <strong>auto-trigger</strong>, Claude reads ' +
+        'each skill\'s description and picks a matching one — ' +
+        'implicit. With a slash command, you name it yourself.' },
+
+    { tag: 'invoke',
+      text: 'Which invocation method requires YOU to name the skill?',
+      a: 'slash command',
+      options: ['slash command',
+                'auto-trigger by description',
+                'plugin install',
+                'YAML frontmatter'],
+      style: 'text',
+      explain: 'A <strong>slash command</strong> is explicit — ' +
+        'you type <code>/skill-name</code>. Auto-trigger is ' +
+        'implicit — Claude picks based on the description.' },
+
+    { tag: 'parts',
+      text: 'What does a skill always have?',
+      a: 'name + description + instructions',
+      options: ['name + description + instructions',
+                'just a name',
+                'name and tools only',
+                'description and code'],
+      style: 'text',
+      explain: 'Every skill has three parts: <code>name</code>, ' +
+        '<code>description</code> (so Claude knows when to use ' +
+        'it), and the instructions body. ' +
+        '<code>allowed-tools</code> is optional.' },
+
+    { tag: 'parts',
+      text: 'Which frontmatter field is OPTIONAL?',
+      a: 'allowed-tools',
+      options: ['allowed-tools',
+                'name',
+                'description',
+                'all are optional'],
       style: 'name',
-      explain: 'Plugins install at the user level and prefix ' +
-        'their skills as <code>plugin:skill-name</code> so they ' +
-        'never collide with user or project skills.' }
+      explain: '<code>allowed-tools</code> is optional — it ' +
+        'restricts which tools the skill may use. ' +
+        '<code>name</code> and <code>description</code> are required.' },
+
+    { tag: 'parts',
+      text: 'In what format is skill content written?',
+      a: 'markdown',
+      options: ['markdown',
+                'JSON',
+                'Python',
+                'plain text'],
+      style: 'text',
+      explain: 'Skills live in plain <strong>markdown</strong> ' +
+        'files — YAML frontmatter at the top, markdown body ' +
+        'below. The body holds the actual instructions.' },
+
+    { tag: 'parts',
+      text: 'In what format is the frontmatter written?',
+      a: 'YAML',
+      options: ['YAML',
+                'JSON',
+                'TOML',
+                'INI'],
+      style: 'text',
+      explain: 'Frontmatter is a <strong>YAML</strong> block at ' +
+        'the top of the file — declares <code>name</code>, ' +
+        '<code>description</code>, and optionally ' +
+        '<code>allowed-tools</code>.' },
+
+    { tag: 'kind',
+      text: 'Which skill type SHIPS with Claude Code?',
+      a: 'built-in',
+      options: ['built-in',
+                'custom',
+                'plugin-bundled',
+                'project-level'],
+      style: 'text',
+      explain: '<strong>Built-in</strong> skills ship with ' +
+        'Claude Code — examples: <code>/init</code>, ' +
+        '<code>/review</code>, <code>/security-review</code>. ' +
+        'Custom skills are written by you.' },
+
+    { tag: 'kind',
+      text: 'Can custom skills OVERRIDE built-in ones?',
+      a: 'yes',
+      options: ['yes',
+                'no, never',
+                'only at user level',
+                'only with plugins'],
+      style: 'text',
+      explain: '<strong>Yes</strong> — both built-in and custom ' +
+        'work the same way once installed, and you can override ' +
+        'a built-in by writing a custom skill of the same name.' },
+
+    { tag: 'when',
+      text: 'When are skills MOST useful?',
+      a: 'for repeated multi-step tasks',
+      options: ['for repeated multi-step tasks',
+                'for trivial one-off questions',
+                'for casual chat',
+                'for typing speed'],
+      style: 'text',
+      explain: 'Skills shine when <strong>reused often</strong> ' +
+        '— repeated multi-step tasks, team conventions, or ' +
+        'when one-off prompts get tedious.' },
+
+    { tag: 'when',
+      text: 'When should you SKIP using a skill?',
+      a: 'for trivial one-time questions',
+      options: ['for trivial one-time questions',
+                'for repeated multi-step tasks',
+                'when enforcing team conventions',
+                'when prompts get tedious to retype'],
+      style: 'text',
+      explain: 'Skip skills for <strong>trivial, one-time</strong> ' +
+        'things — the overhead isn\'t worth it. Skills pay off ' +
+        'when reused often.' },
+
+    { tag: 'parts',
+      text: 'What part of a skill tells Claude WHEN to use it?',
+      a: 'the description',
+      options: ['the description',
+                'the name',
+                'the body',
+                'the allowed-tools'],
+      style: 'text',
+      explain: 'The <code>description</code> field tells Claude ' +
+        'when to use the skill — it\'s how auto-trigger picks ' +
+        'the right one. Write clear, specific descriptions.' }
 ];
 
 // ── Utilities ─────────────────────────────────────────────
@@ -667,7 +794,7 @@ function startLearn() {
     renderFlash();
 }
 function renderFlash() {
-    const s = skills[learnIdx];
+    const s = topics[learnIdx];
     document.getElementById('flashIcon').textContent = s.icon;
     document.getElementById('flashName').textContent = s.name;
     document.getElementById('flashDesc').textContent = s.desc;
@@ -675,12 +802,12 @@ function renderFlash() {
     document.getElementById('flashEx').textContent  = s.example;
     document.getElementById('flash').classList.remove('flipped');
     document.getElementById('learnCount').textContent =
-        `${learnIdx + 1} / ${skills.length}`;
+        `${learnIdx + 1} / ${topics.length}`;
     document.getElementById('learnBar').style.width =
-        ((learnIdx + 1) / skills.length * 100) + '%';
+        ((learnIdx + 1) / topics.length * 100) + '%';
     document.getElementById('prevBtn').disabled = learnIdx === 0;
     document.getElementById('nextBtn').disabled =
-        learnIdx === skills.length - 1;
+        learnIdx === topics.length - 1;
 }
 function flipFlash() {
     document.getElementById('flash').classList.toggle('flipped');
@@ -689,7 +816,7 @@ function learnPrev() {
     if (learnIdx > 0) { learnIdx--; renderFlash(); }
 }
 function learnNext() {
-    if (learnIdx < skills.length - 1) { learnIdx++; renderFlash(); }
+    if (learnIdx < topics.length - 1) { learnIdx++; renderFlash(); }
 }
 
 // ── MATCH ─────────────────────────────────────────────────
@@ -706,7 +833,7 @@ function startMatch() {
     document.getElementById('matchCount').textContent =
         `0 / ${MATCH_PAIRS}`;
     document.getElementById('matchBar').style.width = '0%';
-    const chosen = shuffle(skills).slice(0, MATCH_PAIRS);
+    const chosen = shuffle(topics).slice(0, MATCH_PAIRS);
     const left  = shuffle(chosen.map((s, i) =>
         ({ id: i, kind: 'name', text: s.name })));
     const right = shuffle(chosen.map((s, i) =>
@@ -793,25 +920,8 @@ let quizSet = [];
 let quizIdx = 0;
 let quizScore = 0;
 function buildQuizSet() {
-    // Mix: 5 scenario questions (skills) + 5 concept questions
-    const scenarios = shuffle(skills).slice(0, 5).map(s => {
-        const opts = shuffle([s.name].concat(
-            shuffle(skills.filter(x => x.name !== s.name))
-                .slice(0, 3).map(x => x.name)
-        ));
-        return {
-            tag: 'scenario',
-            text: s.scenario,
-            a: s.name,
-            options: opts,
-            style: 'name',
-            explain: '<code>' + s.name + '</code> — ' +
-                s.desc + ' <em>When:</em> ' + s.when
-        };
-    });
-    const conc = shuffle(concepts).slice(0,
-        Math.min(5, concepts.length));
-    return shuffle(scenarios.concat(conc)).slice(0, QUIZ_LEN);
+    // Pure Skills.pdf concept questions — pick QUIZ_LEN at random.
+    return shuffle(questions).slice(0, QUIZ_LEN);
 }
 function startQuiz() {
     show('quiz');

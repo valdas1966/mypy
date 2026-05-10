@@ -5,135 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/addition/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/addition/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/checkers/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/checkers/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/column-addition/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/column-addition/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/column-subtraction/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/column-subtraction/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/counting/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/counting/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/division/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/division/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/memory/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/memory/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/menus/addition.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/menus/column.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/menus/counting.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/menus/division.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/menus/hebrew.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/menus/imagination.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/menus/multiplication.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/menus/patterns.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/menus/snakes.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/menus/subtraction.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/multiplication/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/multiplication/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/patterns-analogy/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/patterns-analogy/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/patterns-grid/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/patterns-grid/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/patterns-shift/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/patterns-shift/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/patterns/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/patterns/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/princess-palace/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/princess-palace/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/shared/animals.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/shared/audio.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/shared/dress-up.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/shared/effects.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/shared/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/shared/ice-cream.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/shared/prizes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/shared/styles.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/snake-ladders/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/snake-ladders/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/subtraction/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/subtraction/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/tic-tac-toe/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/tic-tac-toe/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/triple-addition/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/triple-addition/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/word-problems/game.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kids_math/kids/word-problems/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_automation/open_sessions/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_automation/open_sessions/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_automation/open_sessions/_backend_windows.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_automation/open_sessions/_backend_windows.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_automation/open_sessions/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_automation/open_sessions/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_0_base/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_0_base/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_0_base/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/COUNTERS.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/COUNTERS.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_bounded.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_cached.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_pathmax.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_recording.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_recording.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/COUNTERS.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/COUNTERS.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/addition/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/addition/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/checkers/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/checkers/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/column-addition/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/column-addition/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/column-subtraction/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/column-subtraction/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/counting/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/counting/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/division/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/division/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/kids_math/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/memory/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/memory/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/menus/addition.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/menus/column.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/menus/counting.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/menus/division.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/menus/hebrew.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/menus/imagination.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/menus/multiplication.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/menus/patterns.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/menus/snakes.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/menus/subtraction.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/multiplication/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/multiplication/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/patterns-analogy/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/patterns-analogy/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/patterns-grid/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/patterns-grid/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/patterns-shift/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/patterns-shift/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/patterns/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/patterns/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/princess-palace/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/princess-palace/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/shared/animals.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/shared/audio.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/shared/dress-up.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/shared/effects.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/shared/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/shared/ice-cream.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/shared/prizes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/shared/styles.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/snake-ladders/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/snake-ladders/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/subtraction/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/subtraction/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/tic-tac-toe/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/tic-tac-toe/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/triple-addition/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/triple-addition/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/word-problems/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kids_math/word-problems/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/kids_math/skills/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/kids_math/skills/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,12 +35,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
-    &quot;accountId&quot;: &quot;0f4621b9-87f9-4a4a-9ceb-401ed7593bcc&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/valdas1966/mypy.git",
+    "accountId": "a1e5e179-580e-4572-8eba-3d60343860e3"
   }
-}</component>
+}]]></component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../miniconda3/envs/mypy/lib/python3.13/typing.py" root0="SKIP_INSPECTION" />
   </component>
@@ -1261,6 +1139,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/creds/oauth/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1283,6 +1162,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/creds/oauth/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1305,6 +1185,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1327,6 +1208,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/omspp/s_3_problems.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1346,6 +1228,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/_tester_counters.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -1361,6 +1244,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_overleaf/project/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -1387,7 +1271,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
+        <option value="bundled-python-sdk-ca5e2b39c7df-6e1f45a539f7-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.29346.308" />
       </set>
     </attachedChunks>
   </component>
