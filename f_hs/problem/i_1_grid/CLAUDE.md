@@ -67,6 +67,7 @@ stable rc lists, so `__repr__` works detached and after pickle.
 | `grid_3x3_start_is_goal()` | Start == Goal |
 | `grid_4x4_obstacle()` | **Canonical OOSPP** — wall at (0,2),(1,2); start (0,0), goal (0,3), cost 7 |
 | `grid_4x4_obstacle_omspp()` | **Canonical OMSPP** — same wall; start (0,0), goals (0,3) / (3,0) / (3,3); per-goal costs 7 / 3 / 6 |
+| `grid_6x6_zigzag()` | **Large-inconsistency BPMX fixture** — two horizontal walls force a snake detour (0,0)→(5,0), cost 15, gap h\*−Manhattan up to 10 across the upper rows |
 
 **Canonicals.** The two `grid_4x4_obstacle*` methods are the
 cross-algorithm benchmark anchors:

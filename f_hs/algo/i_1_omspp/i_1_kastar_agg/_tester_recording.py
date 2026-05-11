@@ -129,7 +129,11 @@ _LAZY_CANONICAL: list[dict] = [
     {'type': 'push', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3, 'parent': (2, 0)},
     {'type': 'pop', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3},
     {'type': 'on_goal', 'state': (3, 0), 'g': 3, 'reason': 'expanded', 'goal_index': 1},
-    {'type': 'push', 'state': (3, 0), 'g': 3, 'h': 3, 'f': 6, 'parent': (2, 0)},
+    # Lazy goal re-push (2026-05-11 skip): emitted with the
+    # STALE F (= popped F = g for MIN). The next pop of this
+    # entry is a silent stale-pop that refreshes F to g + min
+    # h to remaining active goals.
+    {'type': 'push', 'state': (3, 0), 'g': 3, 'h': 0, 'f': 3, 'parent': (2, 0)},
     {'type': 'pop', 'state': (1, 1), 'g': 2, 'h': 3, 'f': 5},
     {'type': 'pop', 'state': (2, 1), 'g': 3, 'h': 3, 'f': 6},
     {'type': 'push', 'state': (2, 2), 'g': 4, 'h': 2, 'f': 6, 'parent': (2, 1)},
@@ -142,7 +146,8 @@ _LAZY_CANONICAL: list[dict] = [
     {'type': 'push', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6, 'parent': (2, 3)},
     {'type': 'pop', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6},
     {'type': 'on_goal', 'state': (3, 3), 'g': 6, 'reason': 'expanded', 'goal_index': 2},
-    {'type': 'push', 'state': (3, 3), 'g': 6, 'h': 3, 'f': 9, 'parent': (2, 3)},
+    # Lazy goal re-push (2026-05-11 skip): stale F.
+    {'type': 'push', 'state': (3, 3), 'g': 6, 'h': 0, 'f': 6, 'parent': (2, 3)},
     {'type': 'pop', 'state': (1, 3), 'g': 6, 'h': 1, 'f': 7},
     {'type': 'push', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7, 'parent': (1, 3)},
     {'type': 'pop', 'state': (0, 3), 'g': 7, 'h': 0, 'f': 7},

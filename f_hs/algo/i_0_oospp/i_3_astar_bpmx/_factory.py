@@ -94,6 +94,129 @@ class Factory:
         )
 
     @staticmethod
+    def grid_4x4_beacon(rule_bpmx: str | None = None,
+                        depth_bpmx: int | None = 1,
+                        is_recording: bool = False
+                        ) -> AStarBPMX:
+        """
+        ====================================================================
+         4x4 obstacle grid with a cached "beacon" at (0,1) holding
+         its perfect heuristic value h*=6 (vs Manhattan=2; gap=4).
+         The beacon is a successor of start, so BPMX from the
+         start's expansion has immediate access to a high-h cell
+         that lifts its neighbors and (under Rule 3 / CASCADE)
+         lifts the start itself.
+
+         Parametric over BPMX kwargs --- defaults reproduce
+         off-mode (counters identical to plain AStarLookup with
+         the same cache). Optimal cost is 7.
+
+         Probed counter signature (cost=7, push=13, pop=8,
+         expand=7, generated=13 across ALL valid (rule, depth)):
+           rule_bpmx | depth | att | suc | depth_max
+           ----------+-------+-----+-----+----------
+           None      |   1   |  0  |  0  |     0
+           '1'       |   1   |  7  |  0  |     0
+           '1'       |  2..N |  7  |  2  |     2
+           '2'       |   1   |  7  |  2  |     0
+           '3'       |  1..N |  7  |  2  |     0
+           CASCADE   |   1   |  7  |  2  |     0
+           CASCADE   |  2..N |  7  |  2  |     2
+        ====================================================================
+        """
+        from collections import deque
+        problem = ProblemGrid.Factory.grid_4x4_obstacle()
+        goal = problem.goal
+        # Locate the beacon state (0, 1) by BFS from start.
+        seen = {problem.start}
+        q = deque([problem.start])
+        beacon = None
+        while q:
+            s = q.popleft()
+            if s.rc == (0, 1):
+                beacon = s
+                break
+            for succ in problem.successors(s):
+                if succ not in seen:
+                    seen.add(succ)
+                    q.append(succ)
+        cache = {beacon: CacheEntry(h_perfect=6, suffix_next=None)}
+        return AStarBPMX(
+            problem=problem,
+            h=lambda s: float(s.distance(goal)),
+            cache=cache,
+            goal=goal,
+            rule_bpmx=rule_bpmx,
+            depth_bpmx=depth_bpmx,
+            is_recording=is_recording,
+        )
+
+    @staticmethod
+    def grid_6x6_zigzag_beacon(rule_bpmx: str | None = None,
+                               depth_bpmx: int | None = 1,
+                               is_recording: bool = False
+                               ) -> AStarBPMX:
+        """
+        ====================================================================
+         6x6 zigzag grid (snake-detour) with a cached "beacon" at
+         (1,0) holding its perfect heuristic h*=14 (vs Manhattan=4;
+         gap=10). The grid forces a long detour from start (0,0)
+         to goal (5,0); the beacon sits one step south of start
+         on the optimal path. Many cells in the upper region have
+         h* - Manhattan > 0, so BPMX has multi-cell, multi-depth
+         lift opportunities.
+
+         Used by depth-axis tests where the depth_bpmx parameter
+         must visibly differentiate counter signatures (the 4x4
+         grid is too shallow for that --- on 4x4 Rule 3 saturates
+         at depth=1).
+
+         Probed counter signature (cost=15 always):
+           rule_bpmx | depth | att | suc | depth_max | exp | push
+           ----------+-------+-----+-----+-----------+-----+-----
+           None      |   1   |  0  |  0  |     0     | 20  |  27
+           '1'       |   1   | 20  |  0  |     0     | 20  |  27
+           '1'       |   2   | 19  |  1  |     2     | 19  |  27
+           '1'       |   3   | 18  |  2  |     3     | 18  |  26
+           '1'       |  None | 15  |  5  |     6     | 15  |  23
+           '2'       |   1   | 20  |  6  |     0     | 20  |  27
+           '3'       |   1   | 20  |  5  |     0     | 20  |  27
+           '3'       |   2   | 19  |  6  |     1     | 19  |  27
+           '3'       |   3   | 18  |  7  |     2     | 18  |  26
+           '3'       |  None | 15  |  9  |     5     | 15  |  23
+           CASCADE   |   1   | 20  |  6  |     1     | 20  |  27
+           CASCADE   |   2   | 18  |  9  |     2     | 18  |  26
+           CASCADE   |   3   | 16  |  9  |     3     | 16  |  24
+           CASCADE   |  None | 15  |  9  |     6     | 15  |  23
+        ====================================================================
+        """
+        from collections import deque
+        problem = ProblemGrid.Factory.grid_6x6_zigzag()
+        goal = problem.goal
+        seen = {problem.start}
+        q = deque([problem.start])
+        beacon = None
+        while q:
+            s = q.popleft()
+            if s.rc == (1, 0):
+                beacon = s
+                break
+            for succ in problem.successors(s):
+                if succ not in seen:
+                    seen.add(succ)
+                    q.append(succ)
+        cache = {beacon: CacheEntry(h_perfect=14, suffix_next=None)}
+        return AStarBPMX(
+            problem=problem,
+            h=lambda s: float(s.distance(goal)),
+            cache=cache,
+            goal=goal,
+            rule_bpmx=rule_bpmx,
+            depth_bpmx=depth_bpmx,
+            is_recording=is_recording,
+        )
+
+    @staticmethod
     def grid_4x4_cached_suffix_cascade_d1() -> AStarBPMX:
         """
         ====================================================================

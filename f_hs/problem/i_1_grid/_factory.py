@@ -119,6 +119,44 @@ class Factory:
                            goal=grid[2][2])
 
     @staticmethod
+    def grid_6x6_zigzag() -> ProblemGrid:
+        """
+        ====================================================================
+         6x6 grid with two long horizontal walls that force a
+         snake-shaped detour from (0,0) to (5,0). Wall in row 1
+         spans cols 1..4 (cols 0 and 5 open); wall in row 3 spans
+         cols 0..4 (only col 5 open). Optimal cost is 15 versus a
+         Manhattan estimate of 5 from start --- the canonical
+         large-inconsistency grid for BPMX / pathmax tests.
+
+         Path shape:
+           (0,0) -> (1,0) -> (2,0) -> (2,1) ... (2,5)
+                 -> (3,5) -> (4,5) -> (4,4) ... (4,0) -> (5,0)
+
+         Inconsistency map (h* - Manhattan, sorted by gap):
+           row 0: (0,0)=10  (0,1)=8  (0,2)=6  (0,3)=4  (0,4)=2  (0,5)=0
+           row 2: (2,0)=10  (2,1)=8  (2,2)=6  (2,3)=4  (2,4)=2  (2,5)=0
+           row 1: (1,0)=10  (1,5)=0
+           rows 3-5: all 0 (consistent).
+
+         Cells with gap > 0 are above the second wall (rows 0-2);
+         the path traverses (1,0)->(2,0)->...->(2,5)->(3,5)
+         on its way down, so caching cells in this upper region
+         creates real BPMX lift opportunities during search.
+        ====================================================================
+        """
+        grid = GridMap(rows=6, cols=6)
+        # Upper wall: row 1, cols 1..4 (cols 0 and 5 open).
+        for c in range(1, 5):
+            grid[1][c].set_invalid()
+        # Lower wall: row 3, cols 0..4 (only col 5 open).
+        for c in range(0, 5):
+            grid[3][c].set_invalid()
+        return ProblemGrid(grid=grid,
+                           start=grid[0][0],
+                           goal=grid[5][0])
+
+    @staticmethod
     def grid_3x3_start_is_goal() -> ProblemGrid:
         """
         ====================================================================

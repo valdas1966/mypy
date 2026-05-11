@@ -92,7 +92,13 @@ overridden on `StateCell` to return the `(row, col)` tuple.
        no lazy stale-pop).
      - **KAStarInc** — adds `cnt_h_search`, `cnt_h_update`.
      - **KAStarAgg** — adds `cnt_h_search`, `cnt_h_update`,
-       `cnt_phi_search`, `cnt_phi_update`, `cnt_pop_stale`.
+       `cnt_phi_search`, `cnt_phi_update`.
+       Under Path D (2026-05-11) the counter axis is
+       strictly temporal — mirrors the structural `phase`
+       axis. Lazy mode's `cnt_*_update` is always 0; its
+       active-set-change-response h / Φ work all lives in
+       `cnt_*_search` (pop-time staleness checks run inside
+       the search loop).
    No structural zeros for unsupported mechanisms; every
    counter on `algo.counters` corresponds to actual work the
    algorithm performs. Cross-algo benchmark tables union
@@ -122,9 +128,11 @@ overridden on `StateCell` to return the `(row, col)` tuple.
    between-sub-search blocks*, not all refresh-typed work.
    Consequently **AGG-lazy reports `elapsed_update == 0.0`** —
    its refresh work happens inline at pop time and is
-   structurally part of search. Counters (`cnt_h_update`
-   etc.) still tag the work type, so the two metrics tell
-   complementary stories. The base accepts `is_timing=True`
+   structurally part of search. Under Path D (2026-05-11)
+   the AGG counter taxonomy is strictly temporal:
+   `cnt_*_update = 0` in lazy mode (counter and elapsed
+   axes agree); the lazy pop-time staleness h / Φ work all
+   counts as `cnt_*_search`. The base accepts `is_timing=True`
    (default; ~150 ns per phase flip) or `is_timing=False`
    (plain field write only) for distortion-free benchmarks
    at large k. AGG-lazy has zero phase flips at any k by

@@ -312,8 +312,7 @@ def test_counters_surface() -> None:
     assert set(c) == {
         'cnt_h_search', 'cnt_h_update',
         'cnt_phi_search', 'cnt_phi_update',
-        'cnt_push', 'cnt_pop',
-        'cnt_pop_stale', 'cnt_decrease',
+        'cnt_push', 'cnt_pop', 'cnt_decrease',
         'cnt_expanded', 'cnt_generated',
         'mem_open', 'mem_closed',
     }

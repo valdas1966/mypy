@@ -84,14 +84,15 @@ Reset on every `run()` call. Runtime decomposition for the
 
 | counter | when incremented |
 |---|---|
-| `cnt_h_search` | h call in normal flow: start seed, first-time push (in `_handle_child`), decrease-g. Under `store_vector=True`, counts only the first-encounter h calls for goals that were active at that moment. **NOT** incremented on the goal re-push (that is refresh-typed work — see `cnt_h_update`). |
-| `cnt_h_update` | h call in refresh flow: lazy pop-recompute, eager `_refresh_priorities`, AND the goal re-push at goal-find (h is recomputed under the newly-shrunken active set; `phase=PHASE_UPDATE` since 2026-05-08). Eager refresh skips the recompute for the just-re-pushed goal — its F was already computed under the new active set at the re-push site (`just_re_pushed_state` short-circuit, 2026-05-09). Always 0 when `store_vector=True` (vector cached). |
-| `cnt_phi_search` | `_compute_F` from search flow (start seed + first-time push + decrease-g). |
-| `cnt_phi_update` | `_compute_F` from refresh flow (lazy pop-recompute, eager `_refresh_priorities`, AND goal re-push). |
+| `cnt_h_search` | h call during PHASE_SEARCH (= inside the main search loop): start seed, first-time push (in `_handle_child`), decrease-g, lazy pop-time staleness check, AND the eager goal re-push at goal-find. Under `store_vector=True`, counts only the first-encounter h calls (later reads hit the vector cache). |
+| `cnt_h_update` | h call during PHASE_UPDATE — strictly the body of `_refresh_priorities` (eager-only). The just-re-pushed goal is skipped via `just_re_pushed_state` (2026-05-09). **Lazy: always 0** — lazy never enters PHASE_UPDATE; its active-set-change response runs inside the search loop at pop time. Always 0 when `store_vector=True`. |
+| `cnt_phi_search` | `_compute_F` during PHASE_SEARCH (parallel to `cnt_h_search`: first-encounter, decrease-g, lazy stale-pop, eager goal re-push). |
+| `cnt_phi_update` | `_compute_F` during PHASE_UPDATE (eager refresh body only). **Lazy: always 0**. Independent of `store_vector` (Φ runs even when h is cached). |
 | `cnt_push` | every `frontier.push` (incl. lazy re-insertions, eager bulk re-push). Frontier-sourced — mirrored from `self._frontier.counters` at end-of-run by `_sync_frontier_counters`. |
 | `cnt_pop` | every `frontier.pop`. Frontier-sourced. |
-| `cnt_pop_stale` | subset of `cnt_pop`: stale-F re-insertions (lazy only). Algo-level (the frontier can't see staleness — it's a g/F semantic). |
 | `cnt_decrease` | every `frontier.decrease`. Frontier-sourced. |
+
+Stale pops are NOT a separate counter — they share the same heap-op cost as real pops (both do one `frontier.pop`), and their additional re-push contribution lives in `cnt_push`. The stale subset is derivable: `stale_pops = cnt_pop − cnt_expanded − #on_goal_events`.
 
 ### Within/between elapsed split
 
@@ -108,12 +109,14 @@ KAStarAgg accepts `is_timing: bool = True` and exposes
 defer refresh into the search loop (pop-time stale checks)
 rather than batch it between phases. Structurally there *is*
 no between-phase moment — only one continuous best-first
-search. The lazy stale-pop branch's wall-clock falls into
-`elapsed_search` (where the work happens). The work-type
-counters (`cnt_h_update`, `cnt_phi_update`, `cnt_pop_stale`)
-still increment to record that refresh-typed work occurred —
-they tag the WORK TYPE; the elapsed buckets tag the
-STRUCTURAL PHASE. Two complementary axes.
+search. Under Path D (2026-05-11) the counter axis mirrors
+this structural reality exactly: `cnt_*_search` counts h / Φ
+work done in PHASE_SEARCH (including the lazy pop-time
+staleness check and the eager goal re-push), and
+`cnt_*_update` counts work in PHASE_UPDATE (eager refresh
+body only). **Lazy mode reports `cnt_*_update = 0`** — both
+the counter and elapsed axes agree it does no work between
+sub-search segments.
 
 **Overhead:** at k=200, eager has ~2k = 400 flips × ~150 ns =
 **60 µs**. Lazy has 0 flips → **0 overhead**. Both are
@@ -130,7 +133,7 @@ comparisons line up directly.
 | event | payload | when |
 |---|---|---|
 | `push` | state, g, h, f, parent | first-time push (initial seed + `_handle_child` first-encounter branch, one per `cnt_generated`) AND the lazy re-push of any non-last goal at goal-find. Eager bulk re-push and lazy stale re-push are silent. Stream's `push`-event count = `cnt_generated` + (number of non-last reached goals). |
-| `pop` | state, g, h, f | non-stale pop only (real expansion or goal-find). Lazy stale pops are silent. Stream's `pop`-event count = `cnt_pop − cnt_pop_stale`. |
+| `pop` | state, g, h, f | non-stale pop only (real expansion or goal-find). Lazy stale pops are silent. Stream's `pop`-event count = `cnt_pop − stale_pops` where `stale_pops = cnt_pop − cnt_expanded − #on_goal`. |
 | `decrease_g` | state, g, h, f, parent | every decrease-key (one per `cnt_decrease`) |
 | `on_goal` | state, g, reason, goal_index | goal expanded / unreachable. Emitted BEFORE the goal re-push (INC-symmetric ordering). |
 | `update_frontier` | num_nodes, next_goal_index | eager refresh boundary (eager only — lazy mode does NOT emit; no between-phase moment). Emitted AFTER the goal re-push event. |
@@ -159,17 +162,17 @@ symmetric to KAStarInc's lazy re-push.
 | param | distinguishing signal |
 |---|---|
 | `is_lazy=False` | `update_frontier` markers fire (one per non-last goal-find) |
-| `is_lazy=True`  | no `update_frontier` markers; `cnt_pop_stale > 0` (counter, not event) |
-| `is_opt`        | not visible in events — only via counter deltas (`cnt_phi_update` / `cnt_h_update` drop) |
-| `store_vector`  | not visible in events — only via counter deltas (`cnt_h_search`, `cnt_h_update`) |
+| `is_lazy=True`  | no `update_frontier` markers; `cnt_pop > cnt_expanded + #on_goal` (stale-pop derivation > 0) |
+| `is_opt`        | not visible in events — only via counter deltas (`cnt_phi_update` / `cnt_h_update` drop in eager; `cnt_phi_search` / `cnt_h_search` drop in lazy) |
+| `store_vector`  | not visible in events — only via counter deltas (`cnt_h_search` falls to first-encounter floor; `cnt_h_update` falls to 0) |
 
 **Refresh-internal events removed.** `update_heuristic`,
 `pop_stale`, `h_calc`, `phi_calc`, `responsible_set`,
 `refresh_skip` were dropped (2026-05-06) for INC-consistency
 and recorder-overhead reduction at large k. The aggregate
 counters `cnt_h_search` / `cnt_h_update` / `cnt_phi_search` /
-`cnt_phi_update` / `cnt_pop_stale` preserve the work-type
-observability.
+`cnt_phi_update` preserve the work-type observability; stale
+pops are derivable from `cnt_pop − cnt_expanded − #on_goal`.
 
 **Goal force-expand replaced with lazy re-push (2026-05-07).**
 Previously the goal-find branch added the goal to closed and
@@ -180,52 +183,119 @@ last-goal expansions and any non-last goal whose successors
 are reached via other paths. Symmetric to KAStarInc's
 `algo._push(state=goal)` lazy re-push.
 
-**Goal re-push h/Φ counters re-tagged as PHASE_UPDATE
-(2026-05-08).** The `_compute_F` call inside the goal
-re-push branch now uses `phase=_PHASE_UPDATE` (was
-`_PHASE_SEARCH`). Rationale: the re-push recomputes h /
-Φ in response to an active-set change — that is refresh-
-typed work, not search-typed. Effect on the canonical
-8-config matrix: `cnt_h_search` becomes invariant at 34
-across all 8 configs (the sv/nosv split previously caused
-by the goal re-push h-calls collapses); `cnt_phi_search`
-drops from 16 → 14 invariant; `cnt_h_update` rises by 3
-in nosv configs (sv unchanged at 0 — vector cache absorbs
-the work); `cnt_phi_update` rises by 2 across all configs.
-The recording stream is unchanged. Wall-clock attribution
-is unchanged: re-push work happens inside the search loop
-and `elapsed_search` still claims it (matches the lazy
-stale-pop precedent — counters tag WORK TYPE; elapsed
-buckets tag STRUCTURAL PHASE).
-
 **Eager refresh skips the just-re-pushed goal
 (2026-05-09).** `_refresh_priorities` accepts a new
 `just_re_pushed_state` parameter; for that state the
 F-recompute is skipped (the value was already computed
-under the new active set at the re-push site, line 293).
-Rationale: the goal re-push and the bulk refresh are
-independent code paths that previously both recomputed F
-on the just-re-pushed goal — yielding identical values
-and burning 2 h-calls + 1 Φ-call per non-last goal-find
-in `is_opt=False` configs. The `is_opt=True` case
-already skipped this redundancy via the responsible-set
-rule (the re-pushed goal's responsible flips to a
-remaining active goal during the re-push, so
-`responsible(s) ≠ just_removed_goal` keeps it out of the
-recompute branch); the new parameter brings parity to
-`is_opt=False`. Counter deltas on the canonical
-8-config matrix: `cnt_h_update` 14 → 11
-(eager_noopt_nosv); `cnt_phi_update` 10 → 8
-(eager_noopt_nosv AND eager_noopt_sv). Six other configs
-unchanged (eager_opt_*: already skipping; lazy_*: no
-`_refresh_priorities` call). All cross-config
-search-phase invariants preserved. Recording stream,
-heap-op counts, and per-goal optimal costs are
-unchanged.
+under the new active set at the re-push site). Rationale:
+the goal re-push and the bulk refresh are independent
+code paths that previously both recomputed F on the just-
+re-pushed goal — yielding identical values. Saves 2
+h-calls + 1 Φ-call per non-last goal-find in `is_opt=False`
+configs (the `is_opt=True` case already skipped via the
+responsible-set rule). All cross-config search-phase
+invariants preserved at the time of landing.
+
+**Path D — strictly temporal counter taxonomy + lazy goal-
+repush skip (2026-05-11).** The counter axis is now
+perfectly aligned with the structural `phase` axis:
+
+  - `cnt_*_search` counts every h / Φ call done during
+    PHASE_SEARCH (inside the main search loop): first-
+    encounter, decrease-g, lazy pop-time staleness check,
+    AND the eager goal re-push (which lives temporally in
+    SEARCH — the structural flip to UPDATE happens around
+    the bulk refresh, not the re-push). Reverts the
+    2026-05-08 retag of the goal re-push as UPDATE.
+  - `cnt_*_update` counts every h / Φ call done during
+    PHASE_UPDATE — strictly the body of
+    `_refresh_priorities` (eager-only). **Lazy mode never
+    enters PHASE_UPDATE → `cnt_*_update = 0` always.** A
+    parametrized invariant test pins this.
+
+  In addition, the lazy branch at goal-find no longer
+  computes F under the shrunken active set. It pushes the
+  goal back with its STALE F (= popped F) and lets the
+  lazy stale-pop machinery refresh it on the next pop.
+  Embodies the lazy-mode contract: do no active-set-
+  change-response work between sub-search segments —
+  defer it to pop time. Cost on the canonical: +2 stale
+  pops (one per non-last goal), so `cnt_pop` goes 16 → 18,
+  `cnt_push` 20 → 22. The stale subset (derivable as
+  `cnt_pop − cnt_expanded − #on_goal`) goes 4 → 6.
+
+  Counter deltas on the canonical 8-config matrix vs.
+  Path B (2026-05-10):
+
+  - Removed counters: `cnt_h_pop_staleness`,
+    `cnt_phi_pop_staleness`.
+  - `cnt_h_search`: 34 invariant → eager nosv 37 / eager
+    sv 34 / lazy_noopt_nosv 69 / lazy_noopt_sv 34 /
+    lazy_opt_nosv 42 / lazy_opt_sv 34. No longer
+    invariant — the lazy stale-pop and goal-re-push
+    h-work now lives here. Cross-config differences are
+    informative: cost of lazy stale-pop is now directly
+    legible as `lazy_h_search − eager_h_search`.
+  - `cnt_h_update`: 11 → 8 (eager_noopt_nosv, lost the 3
+    goal-re-push h-calls); 8 → 5 (eager_opt_nosv); 0 (all
+    sv + all lazy).
+  - `cnt_phi_search`: 14 invariant → eager invariant at
+    16 (= 14 + 2 goal re-pushes); lazy varies (lazy_noopt
+    32; lazy_opt 20).
+  - `cnt_phi_update`: 8 → 6 (eager_noopt); 6 → 4
+    (eager_opt); 0 (all lazy).
+  - Heap-op deltas (lazy only): see above.
+
+  Recording stream impact: lazy goal-re-push push events
+  now carry the stale F (h=0 for MIN since stored_f =
+  g_state). The silent stale-pop refreshes them on the
+  next pop. The `_LAZY_CANONICAL` recording fixture
+  reflects this. Per-goal optimal costs are unchanged.
+
+### Per-counter trace CSVs — `csvs/`
+
+For each of the 8 param configs there is a folder
+`csvs/{config}/` containing one CSV per non-invariant
+counter (`cnt_h_search`, `cnt_h_update`, `cnt_phi_search`,
+`cnt_phi_update`, `cnt_push`, `cnt_pop` = 6 files). Each
+CSV lists every state that contributed to that counter in
+process order. Schema: `order, event, state, phase`.
+
+The `phase` column is `'search'` or `'update'` — mirrors
+the structural `self.phase` axis (the same one
+`elapsed_search` / `elapsed_update` use). Rows inside the
+eager `_refresh_priorities` body show `'update'`; every
+other site (main loop pop, first-time push, goal re-push,
+lazy stale-pop) shows `'search'`. So `cnt_*_update.csv`
+rows are uniformly `update`; lazy CSVs are uniformly
+`search`; `cnt_push.csv` (eager) is the most informative —
+mixes search-phase pushes (first-time, goal re-push) with
+update-phase pushes (refresh body), so the
+`search → update → search` transitions in `cnt_push`
+directly mark where the bulk-refresh body ran.
+
+The number of rows in each CSV equals the corresponding
+counter value *only for invariance-1 counters* (where every
+increment is +1 — i.e. `cnt_phi_*`, `cnt_push`, `cnt_pop`);
+for `cnt_h_*` each row can contribute multiple h-calls
+(one per active goal at call time), so the CSV's row count
+is `cnt_phi_*` (= number of `_compute_F` invocations).
+
+Regenerate after substantive algo changes:
+```
+python -m f_hs.algo.i_1_omspp.i_1_kastar_agg._dump_csvs
+```
+The dumper runs all 8 configs with `is_tracing=True` (an
+opt-in constructor flag that populates `algo.traces`, off
+by default → zero overhead). The in-memory `algo.traces`
+events retain an `n` field (increment amount) for
+programmatic cross-checks; the CSV view drops `n` in favor
+of `phase`. To cross-check against the pinned counter
+totals, sum `algo.traces` directly.
 
 ### Visual counter snapshot — `COUNTERS.html`
 
-Dark-themed 10 × 8 table of counter values for all 8 param
+Dark-themed 9 × 8 table of counter values for all 8 param
 configs on the canonical OMSPP problem (matches the pins in
 `_tester_counters.py` exactly). Each counter row is followed
 by a one-sentence explanation of why the values differ across
@@ -233,7 +303,7 @@ configs (or why the row is invariant), so the table doubles as
 documentation of which axis affects which counter and why.
 Layout: 3-level grouped header
 (`is_lazy` > `is_opt` > `store_vector`); cells coloured green
-for row-minimum, grey for invariant rows.
+for row-minimum.
 
 ## 3) Inheritance (Hierarchy)
 

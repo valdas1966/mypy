@@ -84,13 +84,12 @@ between groups for fast scanning.
 
 | counter | semantics |
 |---|---|
-| `cnt_h_search` | h(state, goal) call in normal search flow |
-| `cnt_h_update` | h(state, goal) call in refresh flow |
-| `cnt_phi_search` | `_compute_F` call in normal flow (Φ-aggregation only) |
-| `cnt_phi_update` | `_compute_F` call in refresh flow (Φ-aggregation only) |
+| `cnt_h_search` | h(state, goal) call during PHASE_SEARCH (inside the search-loop body). For AGG this includes first-encounter, decrease-g, lazy pop-time staleness check, AND the eager goal re-push (Path D, 2026-05-11). |
+| `cnt_h_update` | h(state, goal) call during PHASE_UPDATE (explicit between-sub-search code: AGG-eager `_refresh_priorities` body; INC `algo.refresh_priorities()`). Always 0 in AGG-lazy. |
+| `cnt_phi_search` | `_compute_F` call during PHASE_SEARCH (Φ-aggregation; AGG-only) |
+| `cnt_phi_update` | `_compute_F` call during PHASE_UPDATE (Φ-aggregation; AGG-eager only — lazy always 0) |
 | `cnt_push` | `frontier.push` call |
-| `cnt_pop` | `frontier.pop` call |
-| `cnt_pop_stale` | subset of `cnt_pop`: stale-F re-insertions (lazy-mode only) |
+| `cnt_pop` | `frontier.pop` call (includes stale pops in AGG-lazy; the stale subset is derivable as `cnt_pop − cnt_expanded − #on_goal_events`) |
 | `cnt_decrease` | `frontier.decrease` call |
 | `cnt_expanded` | popped state whose successors were generated (Stern-style "expansions") |
 | `cnt_generated` | first-time push (state newly enters OPEN; excludes refresh re-pushes, lazy-re-pushed goals, decrease-key) |
@@ -105,7 +104,7 @@ between groups for fast scanning.
 | **KBFS** | inherits base — no extras (no h, no Φ, no lazy stale-pop) |
 | **KDijkstra** | inherits base — no extras (same reasons) |
 | **KAStarInc** | base + `cnt_h_search`, `cnt_h_update` |
-| **KAStarAgg** | base + `cnt_h_search`, `cnt_h_update`, `cnt_phi_search`, `cnt_phi_update`, `cnt_pop_stale` |
+| **KAStarAgg** | base + `cnt_h_search`, `cnt_h_update`, `cnt_phi_search`, `cnt_phi_update` |
 
 **Search-semantic counters** (`cnt_expanded`, `cnt_generated`)
 are propagated into orchestrator scaffolds differently per
@@ -148,14 +147,18 @@ Two structural phases — `PHASE_SEARCH` and `PHASE_UPDATE`
 
 **AGG-lazy reports `elapsed_update == 0.0`** by design — its
 refresh work happens inline at pop time and is structurally
-part of search. The `cnt_h_update` / `cnt_phi_update` counters
-*do* increment for that work (they tag the work TYPE), so
-counters and time buckets tell complementary stories:
+part of search. Under Path D (2026-05-11) the AGG counter
+taxonomy is strictly temporal: `cnt_*_update = 0` in lazy
+mode (counter and elapsed axes agree), and lazy pop-time
+staleness h / Φ work all counts as `cnt_*_search` (lives in
+`elapsed_search` wall-clock):
 
 | metric | what it measures |
 |---|---|
-| `cnt_*_update` | refresh-typed *work* (regardless of when) |
-| `elapsed_update` | refresh-typed *time spent in a between-phase block* |
+| `cnt_*_search` | h / Φ work during PHASE_SEARCH (inside the search-loop body) |
+| `cnt_*_update` | h / Φ work during PHASE_UPDATE (explicit between-sub-search blocks) |
+| `elapsed_search` | wall-clock spent in PHASE_SEARCH |
+| `elapsed_update` | wall-clock spent in PHASE_UPDATE |
 
 Mutation is via the `phase` property setter (typo-guarded with
 `ValueError` on unknown values; idempotent on same-value).

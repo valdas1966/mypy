@@ -115,6 +115,8 @@ and the instance is behaviourally identical to an
 |--------|-------------|
 | `graph_abc_cached_at_b(rule_bpmx, depth_bpmx, is_recording)` | Parametric — cache covering {B,C}; defaults reproduce off-mode |
 | `grid_4x4(rule_bpmx, depth_bpmx)` | Parametric — canonical 4x4 grid, no cache; defaults reproduce plain AStarLookup |
+| `grid_4x4_beacon(rule_bpmx, depth_bpmx, is_recording)` | **Cached beacon at (0,1) with h\*=6** (gap=4 vs Manhattan). Primary rule-axis fixture; counter signature pinned for all valid (rule, depth) combinations |
+| `grid_6x6_zigzag_beacon(rule_bpmx, depth_bpmx, is_recording)` | **Cached beacon at (1,0) with h\*=14** (gap=10) on the new zigzag grid. Depth-axis fixture --- counters differentiate cleanly across depth=1, 2, 3, ∞ for Rules 1, 3, and CASCADE |
 | `graph_diamond_inconsistent_cascade()` | Inconsistent diamond + CASCADE(∞), recording on |
 | `grid_4x4_cached_suffix_cascade_d1()` | Goal-cached + CASCADE depth=1 |
 
