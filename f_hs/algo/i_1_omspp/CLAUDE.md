@@ -24,10 +24,15 @@ omspp/
 ├── _single_goal_view.py    ProblemSPP wrapper (one goal at a time)
 │                           — shared by INC/BFS/Dijkstra orchestrators
 ├── i_0_base/               AlgoOMSPP — abstract base (Algo lifecycle
-│                             + 8-counter scaffold + SolutionOMSPP)
-├── i_1_kastar_inc/         KAStarInc — Incremental kA*
-├── i_1_kastar_agg/         KAStarAgg — Aggregative kA*
+│                             + counter scaffold + SolutionOMSPP)
+├── mixins/                 OMSPP-scoped capability mixins
+│   └── extendable/         ExtendableOMSPP — prefix-extend the goal
+│                             sequence after run() completes
+│                             (composed by KAStarInc)
+├── i_1_kastar_inc/         KAStarInc — Incremental kA* (Extendable)
+├── i_1_kastar_agg/         KAStarAgg — Aggregative kA* (NOT Extendable)
 │   └── _aggregations.py    AGG-only Φ resolver (MIN/MAX/AVG/...)
+├── i_1_kxastar/            KxAStarOMSPP — Repetitive k×A* baseline (Extendable)
 ├── i_1_kbfs/               KBFS — Incremental k-BFS (no h, FIFO)
 └── i_2_kdijkstra/          KDijkstra — Incremental k-Dijkstra
                               (KAStarInc with h≡0, inner=Dijkstra)
@@ -37,7 +42,7 @@ omspp/
 
 ```python
 from f_hs.algo.i_1_omspp import (
-    KAStarInc, KAStarAgg, KBFS, KDijkstra,
+    KAStarInc, KAStarAgg, KBFS, KDijkstra, KxAStarOMSPP,
 )
 # also re-exported as:
 from f_hs import KAStarInc          # convenience
@@ -140,12 +145,35 @@ overridden on `StateCell` to return the `(row, col)` tuple.
 
 ## Algorithm matrix
 
-| Name | Status | Notes |
+| Name | Status | Extendable | Notes |
+|---|---|---|---|
+| `KAStarInc` | shipped | yes | Incremental kA* (consistent h required); composes `ExtendableOMSPP` |
+| `KAStarAgg` | shipped | no | Aggregative kA* (MIN/MAX/AVG/RND/PROJECTION); single-loop Φ structure does not fit the per-goal extend model — opted out cleanly |
+| `KxAStarOMSPP` | shipped | yes | Repetitive k×A* — OMSPP paper baseline; k independent A*s, no state sharing. Composes `ExtendableOMSPP` but gains only the `already_reached` fast-path skip (lazy re-push / shared-CLOSED branches are structurally inert here). Admissible h sufficient. |
+| `KBFS` | shipped | no (yet) | k-BFS — single-pass multi-goal BFS for uniform-weight graphs; structurally compatible with `ExtendableOMSPP`, deferred until demand |
+| `KDijkstra` | shipped | no (yet) | k-Dijkstra; same shape as `KBFS`; same deferral |
+
+## Capability mixins
+
+| Mixin | Path | Composed by |
 |---|---|---|
-| `KAStarInc` | shipped | Incremental kA* (consistent h required) |
-| `KAStarAgg` | shipped | Aggregative kA* (MIN/MAX/AVG/RND/PROJECTION) |
-| `KBFS` | shipped | k-BFS — single-pass multi-goal BFS for uniform-weight graphs (own frame, sibling of KAStarInc) |
-| `KDijkstra` | shipped | k-Dijkstra — single-pass multi-goal Dijkstra for non-negative weights (own frame, sibling of KAStarInc) |
+| `ExtendableOMSPP` | `mixins/extendable/` | `KAStarInc`, `KxAStarOMSPP` |
+
+`ExtendableOMSPP` adds `extend(new_goals)` (instance method)
+and `run_nested(problems, h, ...)` (classmethod). See its
+own `CLAUDE.md` for the subclass contract. The free function
+`is_extendable(algo)` lets callers fork on the capability:
+
+```python
+from f_hs.algo.i_1_omspp.mixins.extendable import (
+    is_extendable,
+)
+if is_extendable(algo):
+    algo.extend([g_new])
+else:
+    # KAStarAgg path — rerun from scratch on the extended problem
+    ...
+```
 
 ## Dependencies
 

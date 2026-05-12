@@ -69,7 +69,14 @@ algo/
 │   ├── i_1_kastar_agg/    KAStarAgg
 │   ├── i_1_kbfs/          KBFS
 │   └── i_2_kdijkstra/     KDijkstra
-├── i_1_mospp/             (future) Many-to-One SPP
+├── i_1_mospp/             Variant-depth 1 — Many-to-One SPP
+│   │                      (composes i_0_oospp algos and
+│   │                       i_1_omspp algos for the flip-
+│   │                       to-OMSPP delegation pattern)
+│   ├── i_0_base/          AlgoMOSPP — orchestrator base
+│   ├── i_1_kxastar/       KxAStarMOSPP
+│   ├── i_1_kbfs/          KBFSMOSPP (delegates to OMSPP KBFS)
+│   └── i_1_kdijkstra/     KDijkstraMOSPP (delegates to OMSPP KDijkstra)
 └── i_2_mmspp/             (future) Many-to-Many SPP
                            (composes both i_1_omspp and i_1_mospp)
 ```
@@ -93,7 +100,7 @@ depth. `i_0_*` is the kernel (no variant deps); `i_1_*` composes
        └──────┐    ┌──────┘
               │    │
               ▼    ▼
-              i_2_mmspp/    (composes i_1_omspp and i_1_mospp;
+              i_2_mmspp/    (future; composes i_1_omspp and i_1_mospp;
                              iterates one axis, delegates the
                              other)
 ```

@@ -736,6 +736,22 @@ This file contains mandatory conventions for colors, section styling,
 enumerated sentences, TikZ graph diagrams (node colors by search
 status, edge label positioning, layout rules), and compilation.
 
+**Mandatory `\me{...}` / `\you{...}` macros in every `.tex`.**
+Every `.tex` file created or edited under this project — whether
+destined for Drive or Overleaf — must include **both** annotation
+macros (red `\me{...}` for the author, blue `\you{...}` for
+Claude's reply) with the shared `\ifdraft` toggle in the preamble.
+A `.tex` without the block is non-conforming — fix before upload.
+
+**Bidirectional protocol.** On every read of a `.tex`, scan for
+inline `\me{...}` annotations: execute tasks as edits to the
+file, and answer questions with `\you{<one-sentence>}` inserted
+immediately after the `\me{...}`. If a `\me{...}` sits in a
+LaTeX-invalid position (e.g., inside `\begin{itemize}` before
+any `\item`), remove that line as part of the fix. See
+`Instructions/For_Tex.md → Author Annotations → Bidirectional
+Protocol` on Drive for the exact block, rationale, and rules.
+
 ---
 
 ## Session Management

@@ -125,17 +125,40 @@ All construct via the kwargs API
 
 ## Tests
 
-Split by feature; auto-discovered by `TestRunner`'s
-`_tester*.py` pattern.
+Auto-discovered by `TestRunner`'s `_tester*.py` pattern.
 
-| File | Scope |
-|------|-------|
-| `_tester_bpmx_no_cache.py` | BPMX without cache (validation, optimality, lift events on inconsistent diamond, generic schema) |
-| `_tester_bpmx_with_cache.py` | Cache + BPMX integration (validation, optimality, MRO) |
-| `_tester_counters_bpmx_no_cache.py` | Per-rule counter pins on grid_4x4_obstacle (no cache) |
-| `_tester_counters_bpmx_with_cache.py` | Cache + BPMX counter scenarios |
-| `_tester_recording_bpmx_no_cache.py` | Per-rule full event-stream pins on grid_4x4_obstacle (no cache) |
-| `_tester_recording_bpmx_with_cache.py` | Cache + BPMX recording scenarios |
+All tests use a **single fixture**:
+`Factory.grid_4x4_beacon(rule_bpmx, depth_bpmx)` — the
+canonical OOSPP problem (`grid_4x4_obstacle`) with a cached
+beacon at (0,1) holding `h*=6` (gap=4 vs. Manhattan=2). The
+beacon is the inconsistency engine — without it, Rules 1 /
+3 / CASCADE never lift on consistent Manhattan h. Scope is
+strictly "canonical OOSPP × different BPMX configs."
+
+| File | Count | Scope |
+|------|------:|-------|
+| `_tester.py` | 14 | Parametric optimality across all valid (rule, depth) configs — cost stays 7 |
+| `_tester_counters.py` | 14 | Parametric counter pin per (rule, depth) — full dict per row of the probed matrix |
+| `_tester_recording.py` | 4 | Full event-stream pins for 4 representative configs (None, Rule 1 d=None, Rule 3 d=1, CASCADE d=None) |
+
+**Dropped scope** (intentionally — see session 2026-05-13):
+
+- `_tester_*_no_cache.py` — removed entirely. Inconsistency
+  source was hand-crafted `h_inc` dicts on the toy
+  `graph_diamond`. The beacon-on-canonical fixture supersedes
+  this with a cleaner injection mechanism on a real grid.
+- Validation tests (`rule_bpmx` / `depth_bpmx` / `cache` /
+  pre-built-HBase argument parsing) — removed from the
+  surviving files. They test constructor behavior, not
+  "canonical OOSPP with BPMX configs."
+- Toy-graph tests (`graph_abc`, `graph_diamond_inconsistent_cascade`,
+  `graph_abc_cached_at_b`) — removed. The canonical OOSPP +
+  beacon covers the relevant code paths.
+- Feature tests (`to_cache` harvest after combined run,
+  `propagate_pathmax` callability, suffix-stitched
+  `reconstruct_path`, MRO / subclass / Factory plumbing
+  invariants) — removed. Those live (or will live) in
+  `i_2_astar_lookup/` where the features originate.
 
 Lookup-only tests (`_tester_cached.py`, `_tester_bounded.py`,
 `_tester_pathmax.py`, `_tester_recording.py`,

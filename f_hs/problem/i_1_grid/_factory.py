@@ -103,6 +103,41 @@ class Factory:
         )
 
     @staticmethod
+    def grid_4x4_obstacle_mospp() -> ProblemGrid:
+        """
+        ====================================================================
+         Canonical MOSPP test instance — mirror of
+         `grid_4x4_obstacle_omspp()`. Same `grid_4x4_obstacle`
+         with the same wall at (0,2) and (1,2), but with the
+         endpoint roles INVERTED:
+
+           starts = [(0,3), (3,0), (3,3)]   (the three "far corners")
+           goal   = (0,0)                   (origin)
+
+         Optimal costs from each start to the shared goal:
+           (0,3) → (0,0) = 7   — detour around the wall.
+           (3,0) → (0,0) = 3   — straight north up column 0.
+           (3,3) → (0,0) = 6   — moderate route around obstacle.
+
+         Costs match the OMSPP twin's per-goal costs by
+         symmetry — the grid is undirected, so cost(a→b) =
+         cost(b→a). Used as the cross-algorithm benchmark
+         anchor for MOSPP testers and scripts. Each MOSPP
+         sub-search starts from a different start and uses the
+         SAME h(state, goal=(0,0)) — heuristic is fixed across
+         sub-searches (unlike OMSPP, where h changes per goal).
+        ====================================================================
+        """
+        grid = GridMap(rows=4)
+        grid[0][2].set_invalid()
+        grid[1][2].set_invalid()
+        return ProblemGrid(
+            grid=grid,
+            starts=[grid[0][3], grid[3][0], grid[3][3]],
+            goals=[grid[0][0]],
+        )
+
+    @staticmethod
     def grid_3x3_no_path() -> ProblemGrid:
         """
         ====================================================================

@@ -3,54 +3,46 @@ import sys
 from f_core.counters.main import Counters
 from f_cs.algo import Algo
 from f_hs.problem.i_0_base.main import ProblemSPP
-from f_hs.solution.main import SolutionOMSPP, SolutionSPP
+from f_hs.solution.main import SolutionMOSPP, SolutionSPP
 from f_hs.state.i_0_base.main import StateBase
 from time import perf_counter
 from typing import Callable, Generic, TypeVar
 
 State = TypeVar('State', bound=StateBase)
 
-# Phase tags — used for both counter routing (subclass-specific)
-# and structural time bucketing (`elapsed_search` / `elapsed_update`).
+# Phase tags — same constants as AlgoOMSPP. Used for both
+# counter routing (subclass-specific) and structural time
+# bucketing (`elapsed_search` / `elapsed_update`).
 PHASE_SEARCH = 'search'
 PHASE_UPDATE = 'update'
 
 
-class AlgoOMSPP(Generic[State],
-                Algo[ProblemSPP[State], SolutionOMSPP]):
+class AlgoMOSPP(Generic[State],
+                Algo[ProblemSPP[State], SolutionMOSPP]):
     """
     ============================================================================
-     Abstract base for One-to-Many Shortest Path Problem
-     algorithms (KAStarInc, KAStarAgg, future KDijkstra).
+     Abstract base for Many-to-One Shortest Path Problem
+     algorithms.
 
-     Inherits the standard f_cs Algo lifecycle:
+     **Sibling of `AlgoOMSPP`** — both inherit the standard
+     `f_cs.algo.Algo` lifecycle:
 
          run()  →  _run_pre  →  _run  →  _run_post
 
      `elapsed` (wall-clock) and `recorder` are auto-managed by
-     ProcessBase / Algo. Subclasses override `_run()` to execute
-     the algorithm body and return a `SolutionOMSPP`.
+     `ProcessBase` / `Algo`. Subclasses override `_run()` to
+     execute the algorithm body and return a `SolutionMOSPP`
+     (Mapping over `{start: SolutionSPP}`).
 
-     Provides a minimal counter scaffold (composed via
-     `f_core.counters.Counters`) holding only what every OMSPP
-     algorithm tracks unconditionally:
-       - Heap-op counts (frontier-sourced): `cnt_push`,
-         `cnt_pop`, `cnt_decrease`.
-       - End-of-search memory snapshot: `mem_open`,
-         `mem_closed`.
+     The MOSPP problem shape is `ProblemSPP` with
+     `len(starts)=k, len(goals)=1` — k starts, one shared
+     goal. The orchestrator iterates `self.problem.starts`
+     and runs k sub-searches, one per start.
 
-     Counters are reset in `_run_pre()` before every `run()`.
-
-     **Subclasses override `_COUNTER_NAMES`** to declare their
-     own scaffold — adding mechanism-specific counters (e.g.,
-     `cnt_h_*`, `cnt_phi_*`, `cnt_pop_stale`) and dropping any
-     that don't apply. Hierarchy via class inheritance: the
-     attribute resolves to the most-derived class's
-     declaration, so `__init__` reads the right shape. Each
-     algorithm's scaffold reflects exactly what it tracks; no
-     structural zeros for unsupported mechanisms. Cross-algo
-     comparison tooling unions counter sets when needed
-     (`pd.DataFrame(rows).fillna(0)`).
+     Counter scaffold identical to `AlgoOMSPP`'s minimal set
+     — subclasses override `_COUNTER_NAMES` to declare their
+     own schema (heap-op + search-semantic + memory, with
+     mechanism-specific extensions like `cnt_h_search`).
     ============================================================================
     """
 
@@ -60,21 +52,18 @@ class AlgoOMSPP(Generic[State],
     _COUNTER_NAMES: tuple[tuple[str, ...], ...] = (
         ('cnt_push', 'cnt_pop', 'cnt_decrease'),
         # Search-semantic group — incremented by orchestrators
-        # (KAStarAgg directly; KAStarInc / KBFS / KDijkstra by
-        # accumulating inner sub-search totals).
+        # (e.g., KxAStarMOSPP accumulates inner sub-search
+        # totals per iteration).
         ('cnt_expanded', 'cnt_generated'),
         # Memory snapshots — populated by _run_post() AFTER
         # _elapsed is recorded (outside the runtime budget).
-        # mem_open / mem_closed split g/parent slot cost by
-        # current OPEN/CLOSED membership (states not in OPEN
-        # are charged to mem_closed).
         ('mem_open', 'mem_closed'),
     )
 
     def __init__(self,
                  problem: ProblemSPP[State],
                  h: Callable[[State, State], int],
-                 name: str = 'AlgoOMSPP',
+                 name: str = 'AlgoMOSPP',
                  is_recording: bool = False,
                  is_timing: bool = True) -> None:
         """
@@ -110,8 +99,8 @@ class AlgoOMSPP(Generic[State],
     def solutions(self) -> dict[State, SolutionSPP]:
         """
         ====================================================================
-         Per-goal `{goal: SolutionSPP}` populated by `_run()`.
-         Same dict that the returned `SolutionOMSPP` wraps.
+         Per-start `{start: SolutionSPP}` populated by `_run()`.
+         Same dict that the returned `SolutionMOSPP` wraps.
         ====================================================================
         """
         return self._solutions
@@ -121,10 +110,7 @@ class AlgoOMSPP(Generic[State],
         """
         ====================================================================
          Per-run operation counters as a `Counters` instance
-         (Mapping protocol — `c[name]`, `dict(c)`, `c.items()`,
-         `c == {...}` all work). Reset to 0 in `_run_pre()`,
-         so `algo.counters` after `run()` reflects the most
-         recent run only.
+         (Mapping protocol). Reset to 0 in `_run_pre()`.
         ====================================================================
         """
         return self._counters
@@ -133,13 +119,8 @@ class AlgoOMSPP(Generic[State],
     def elapsed_search(self) -> float:
         """
         ====================================================================
-         Wall-clock seconds spent in the **search** structural
-         phase — i.e., inside the actual sub-search loops (Inc:
-         AStar `run` / `resume` calls + lazy re-push of reached
-         non-last goals; Agg: main best-first loop body
-         INCLUDING any lazy stale-pop re-checks that happen
-         during search). Reset to 0.0 in `_run_pre()`. Stays
-         0.0 when `is_timing=False`.
+         Wall-clock seconds spent in PHASE_SEARCH. Reset in
+         `_run_pre()`. 0.0 when `is_timing=False`.
         ====================================================================
         """
         return self._t_search
@@ -148,13 +129,8 @@ class AlgoOMSPP(Generic[State],
     def elapsed_update(self) -> float:
         """
         ====================================================================
-         Wall-clock seconds spent in the **update** structural
-         phase — i.e., explicit between-sub-search work (Inc:
-         `_emit_frontier_transition` + `algo.refresh_priorities`;
-         Agg-eager: `_refresh_priorities` calls). Agg-lazy reports
-         0.0 here by construction (no between-phase moment;
-         refresh work happens inline during search). Reset to
-         0.0 in `_run_pre()`. Stays 0.0 when `is_timing=False`.
+         Wall-clock seconds spent in PHASE_UPDATE. Reset in
+         `_run_pre()`. 0.0 when `is_timing=False`.
         ====================================================================
         """
         return self._t_update
@@ -163,8 +139,8 @@ class AlgoOMSPP(Generic[State],
     def phase(self) -> str:
         """
         ====================================================================
-         Current structural phase (`'search'` or `'update'`).
-         Read-side; mutate via the setter only.
+         Current structural phase (`'search'` / `'update'`).
+         Mutate via the setter only.
         ====================================================================
         """
         return self._phase
@@ -174,9 +150,7 @@ class AlgoOMSPP(Generic[State],
         """
         ====================================================================
          Flip the structural phase tag and accumulate elapsed
-         wall-clock into the previous bucket. Idempotent (no
-         work when value matches current). When
-         `is_timing=False`, becomes a plain field write.
+         wall-clock into the previous bucket. Idempotent.
         ====================================================================
         """
         if value not in (PHASE_SEARCH, PHASE_UPDATE):
@@ -205,26 +179,22 @@ class AlgoOMSPP(Generic[State],
     def _run_pre(self) -> None:
         """
         ====================================================================
-         Reset wall-clock + per-run mutable state (counters,
-         solutions dict, phase + bucket timers). Called
-         automatically by Algo.run() before _run().
+         Reset wall-clock + per-run mutable state.
         ====================================================================
         """
         super()._run_pre()
         self._counters.reset()
         self._solutions = {}
-        # Phase-bucket timer reset. Direct field writes are safe
-        # here — nothing accumulated yet, no flush needed.
         self._t_search = 0.0
         self._t_update = 0.0
         self._phase = PHASE_SEARCH
         self._t_phase_start = perf_counter()
 
-    def _run(self) -> SolutionOMSPP:
+    def _run(self) -> SolutionMOSPP:
         """
         ====================================================================
          Subclass override point. Execute the algorithm and
-         return a `SolutionOMSPP` wrapping `self._solutions`.
+         return a `SolutionMOSPP` wrapping `self._solutions`.
         ====================================================================
         """
         raise NotImplementedError
@@ -232,34 +202,22 @@ class AlgoOMSPP(Generic[State],
     def _run_post(self) -> None:
         """
         ====================================================================
-         Final flush of the active phase bucket, then sync
-         frontier-owned counters into the algo's scaffold and
-         take the end-of-search memory snapshot. All happen
-         AFTER the inherited `_run_post` records `_elapsed`.
-         The memory snapshot is therefore structurally OUT of
-         the runtime budget.
+         Flush phase timer, then super (records `_elapsed`),
+         then sync frontier counters + memory snapshot.
         ====================================================================
         """
-        # Flush the trailing phase bucket BEFORE inherited post,
-        # so timing buckets reflect the full _run() span.
         self._flush_phase_timer()
-        super()._run_post()                  # records _elapsed
+        super()._run_post()
         self._sync_frontier_counters()
-        self._sync_memory_snapshot()         # outside _elapsed
+        self._sync_memory_snapshot()
 
     def _flush_phase_timer(self) -> None:
         """
         ====================================================================
          Accumulate wall-clock since `_t_phase_start` into the
-         current phase bucket (`_t_search` or `_t_update`) and
-         re-anchor `_t_phase_start`. No-op when
-         `is_timing=False`.
-
-         Shared by `_run_post` and by the `ExtendableOMSPP`
-         mixin's `extend()` — the latter needs the same flush
-         semantics to bracket each `extend()` call's
-         contribution to the phase buckets without
-         double-counting between calls.
+         current phase bucket and re-anchor. No-op when
+         `is_timing=False`. Shared by `_run_post` and the
+         `ExtendableMOSPP` mixin's `extend()`.
         ====================================================================
         """
         if not self._is_timing:
@@ -277,17 +235,8 @@ class AlgoOMSPP(Generic[State],
         ====================================================================
          Default implementation: locate the snapshot state via
          common attribute names and write `mem_open`,
-         `mem_closed`, `mem_g_parent` into `self._counters`.
-
-         Probes (in order):
-           1. `self._shared_state` (KAStarInc — SearchStateSPP).
-           2. `self._search` (legacy fallback).
-           3. `self._inner.search_state` (KBFS, KDijkstra —
-              composed inner sub-algo).
-           4. Direct attrs `self._frontier / _closed / _g /
-              _parent` (KAStarAgg).
-
-         Subclasses with non-standard state shapes can override.
+         `mem_closed` into `self._counters`. Same probe order
+         as `AlgoOMSPP._sync_memory_snapshot`.
         ====================================================================
         """
         ss = (getattr(self, '_shared_state', None)
@@ -341,15 +290,9 @@ class AlgoOMSPP(Generic[State],
     def _sync_frontier_counters(self) -> None:
         """
         ====================================================================
-         Subclass hook: mirror the frontier's
-         `cnt_push` / `cnt_pop` / `cnt_decrease` into
-         `self._counters` via `Counters.assign`. Default is a
-         no-op (subclasses without a frontier — or that don't
-         want to expose its counts — leave this alone).
-
-         KAStarAgg reads its own `self._frontier`. KAStarInc
-         reads the shared frontier on
-         `self._shared_state.frontier`.
+         Subclass hook: mirror frontier counters into
+         `self._counters` via `Counters.assign`. Default
+         no-op.
         ====================================================================
         """
         pass

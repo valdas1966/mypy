@@ -5,9 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_counters.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_recording.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/_flipped_view.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/_recorder_shim.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kbfs/CLAUDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kbfs/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kbfs/_factory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kbfs/_tester.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kbfs/_tester_counters.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kbfs/_tester_recording.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kbfs/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kdijkstra/CLAUDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kdijkstra/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kdijkstra/_factory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kdijkstra/_tester.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kdijkstra/_tester_counters.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kdijkstra/_tester_recording.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kdijkstra/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_bpmx_no_cache.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_bpmx_with_cache.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_counters_bpmx_no_cache.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_counters_bpmx_with_cache.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_recording_bpmx_no_cache.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_recording_bpmx_with_cache.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_overleaf/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_overleaf/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_overleaf/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_overleaf/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_overleaf/project/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_overleaf/project/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_overleaf/project/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_overleaf/project/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,12 +64,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "a1e5e179-580e-4572-8eba-3d60343860e3"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
+    &quot;accountId&quot;: &quot;a1e5e179-580e-4572-8eba-3d60343860e3&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../miniconda3/envs/mypy/lib/python3.13/typing.py" root0="SKIP_INSPECTION" />
   </component>
@@ -1121,7 +1154,7 @@
       <recent name="F:\mypy\f_log\_comparing" />
     </key>
   </component>
-  <component name="RunManager" selected="Python._study (1)">
+  <component name="RunManager" selected="Python._study (2)">
     <configuration name="_study (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -1137,6 +1170,29 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/creds/oauth/_study.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="_study (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_overleaf" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_overleaf/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1191,29 +1247,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_3_problems" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/experiments/omspp" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/omspp/s_3_problems.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="Python tests in _tester_counters.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -1248,19 +1281,19 @@
     </configuration>
     <list>
       <item itemvalue="Python.p_4_solutions" />
+      <item itemvalue="Python._study (2)" />
       <item itemvalue="Python._study (1)" />
       <item itemvalue="Python._study" />
-      <item itemvalue="Python.s_3_problems" />
       <item itemvalue="Python tests.Python tests in _tester.py" />
       <item itemvalue="Python tests.Python tests in _tester_counters.py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python._study (2)" />
+        <item itemvalue="Python._study" />
         <item itemvalue="Python._study (1)" />
         <item itemvalue="Python tests.Python tests in _tester.py" />
         <item itemvalue="Python tests.Python tests in _tester_counters.py" />
-        <item itemvalue="Python._study" />
-        <item itemvalue="Python.s_3_problems" />
       </list>
     </recent_temporary>
   </component>
@@ -1339,22 +1372,6 @@
       <workItem from="1770540816637" duration="6873000" />
       <workItem from="1770703006670" duration="7888000" />
       <workItem from="1770804142876" duration="9603000" />
-    </task>
-    <task id="LOCAL-00312" summary="h">
-      <option name="closed" value="true" />
-      <created>1769153932348</created>
-      <option name="number" value="00312" />
-      <option name="presentableId" value="LOCAL-00312" />
-      <option name="project" value="LOCAL" />
-      <updated>1769153932348</updated>
-    </task>
-    <task id="LOCAL-00313" summary="h">
-      <option name="closed" value="true" />
-      <created>1769186223207</created>
-      <option name="number" value="00313" />
-      <option name="presentableId" value="LOCAL-00313" />
-      <option name="project" value="LOCAL" />
-      <updated>1769186223207</updated>
     </task>
     <task id="LOCAL-00314" summary="h">
       <option name="closed" value="true" />
@@ -1732,7 +1749,23 @@
       <option name="project" value="LOCAL" />
       <updated>1778269214604</updated>
     </task>
-    <option name="localTasksCounter" value="361" />
+    <task id="LOCAL-00361" summary="h">
+      <option name="closed" value="true" />
+      <created>1778585719813</created>
+      <option name="number" value="00361" />
+      <option name="presentableId" value="LOCAL-00361" />
+      <option name="project" value="LOCAL" />
+      <updated>1778585719813</updated>
+    </task>
+    <task id="LOCAL-00362" summary="h">
+      <option name="closed" value="true" />
+      <created>1778609560573</created>
+      <option name="number" value="00362" />
+      <option name="presentableId" value="LOCAL-00362" />
+      <option name="project" value="LOCAL" />
+      <updated>1778609560573</updated>
+    </task>
+    <option name="localTasksCounter" value="363" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

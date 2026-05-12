@@ -73,8 +73,15 @@ class ProjectOverLeaf(HasName, HasKey[str]):
         """
         ====================================================================
          Create a text file at the given path. Override if exists.
+         Text must be pure ASCII — see Encoding Note in CLAUDE.md.
         ====================================================================
         """
+        bad = sorted({c for c in text if ord(c) > 127})
+        if bad:
+            raise ValueError(
+                f"Non-ASCII chars not supported by Overleaf upload "
+                f"(see CLAUDE.md): {bad[:10]}"
+            )
         root = self._root()
         parent, name = self._parent_and_name(root=root,
                                              path=path)
@@ -84,7 +91,7 @@ class ProjectOverLeaf(HasName, HasKey[str]):
         self._api.project_upload_file(self._key,
                                       parent.id,
                                       name,
-                                      text.encode('utf-8'))
+                                      text.encode('ascii'))
 
     def upload_file(self,
                     path_src: str,
@@ -105,6 +112,35 @@ class ProjectOverLeaf(HasName, HasKey[str]):
                                       parent.id,
                                       name,
                                       content)
+
+    def set_root_doc(self, name: str) -> None:
+        """
+        ====================================================================
+         Set the Project's compile root document to the named file.
+         The file must exist at the project root and be of type 'doc'.
+        ====================================================================
+        """
+        root = self._root()
+        for child in root.children:
+            if (child.name == name
+                    and isinstance(child, pyoverleaf.ProjectFile)
+                    and getattr(child, 'type', None) == 'doc'):
+                host = self._api._host
+                session = self._api._get_session()
+                resp = session.post(
+                    f'https://{host}/project/{self._key}/settings',
+                    json={'rootDocId': child.id},
+                    headers={
+                        'x-csrf-token':
+                            self._api._get_csrf_token(self._key),
+                        'Accept': 'application/json',
+                    },
+                    **self._api._request_kwargs,
+                )
+                resp.raise_for_status()
+                return
+        raise ValueError(
+            f"No editable doc named '{name}' at project root.")
 
     def delete_file(self, path: str) -> None:
         """
