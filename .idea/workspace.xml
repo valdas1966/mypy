@@ -5,70 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_dump_csvs.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_noopt_nosv/cnt_h_search.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_noopt_nosv/cnt_h_update.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_noopt_nosv/cnt_phi_search.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_noopt_nosv/cnt_phi_update.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_noopt_nosv/cnt_pop.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_noopt_nosv/cnt_push.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_noopt_sv/cnt_h_search.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_noopt_sv/cnt_h_update.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_noopt_sv/cnt_phi_search.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_noopt_sv/cnt_phi_update.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_noopt_sv/cnt_pop.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_noopt_sv/cnt_push.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_opt_nosv/cnt_h_search.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_opt_nosv/cnt_h_update.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_opt_nosv/cnt_phi_search.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_opt_nosv/cnt_phi_update.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_opt_nosv/cnt_pop.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_opt_nosv/cnt_push.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_opt_sv/cnt_h_search.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_opt_sv/cnt_h_update.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_opt_sv/cnt_phi_search.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_opt_sv/cnt_phi_update.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_opt_sv/cnt_pop.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/eager_opt_sv/cnt_push.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_noopt_nosv/cnt_h_search.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_noopt_nosv/cnt_h_update.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_noopt_nosv/cnt_phi_search.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_noopt_nosv/cnt_phi_update.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_noopt_nosv/cnt_pop.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_noopt_nosv/cnt_push.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_noopt_sv/cnt_h_search.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_noopt_sv/cnt_h_update.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_noopt_sv/cnt_phi_search.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_noopt_sv/cnt_phi_update.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_noopt_sv/cnt_pop.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_noopt_sv/cnt_push.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_opt_nosv/cnt_h_search.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_opt_nosv/cnt_h_update.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_opt_nosv/cnt_phi_search.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_opt_nosv/cnt_phi_update.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_opt_nosv/cnt_pop.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_opt_nosv/cnt_push.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_opt_sv/cnt_h_search.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_opt_sv/cnt_h_update.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_opt_sv/cnt_phi_search.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_opt_sv/cnt_phi_update.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_opt_sv/cnt_pop.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/csvs/lazy_opt_sv/cnt_push.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_0_base/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_0_base/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/COUNTERS.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/COUNTERS.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester_recording.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester_recording.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/problem/i_1_grid/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/problem/i_1_grid/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/problem/i_1_grid/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/problem/i_1_grid/_factory.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +34,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "0f4621b9-87f9-4a4a-9ceb-401ed7593bcc"
+    "accountId": "a1e5e179-580e-4572-8eba-3d60343860e3"
   }
 }]]></component>
   <component name="HighlightingSettingsPerFile">
@@ -1196,6 +1135,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/creds/oauth/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1218,6 +1158,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/creds/oauth/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1240,6 +1181,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1262,6 +1204,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/omspp/s_3_problems.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1281,6 +1224,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/_tester_counters.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -1296,6 +1240,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_overleaf/project/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -1322,7 +1267,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
+        <option value="bundled-python-sdk-ca5e2b39c7df-6e1f45a539f7-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.29346.308" />
       </set>
     </attachedChunks>
   </component>
