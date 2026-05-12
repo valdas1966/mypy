@@ -1,4 +1,5 @@
-__all__ = ['KAStarInc', 'KAStarAgg', 'KDijkstra', 'KBFS']
+__all__ = ['KAStarInc', 'KAStarAgg', 'KDijkstra', 'KBFS',
+           'KxAStarOMSPP']
 
 
 def __getattr__(name: str):
@@ -7,6 +8,7 @@ def __getattr__(name: str):
         'KAStarAgg': 'f_hs.algo.i_1_omspp.i_1_kastar_agg',
         'KDijkstra': 'f_hs.algo.i_1_omspp.i_2_kdijkstra',
         'KBFS': 'f_hs.algo.i_1_omspp.i_1_kbfs',
+        'KxAStarOMSPP': 'f_hs.algo.i_1_omspp.i_1_kxastar',
     }
     if name in _lazy:
         from importlib import import_module

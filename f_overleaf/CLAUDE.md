@@ -28,8 +28,24 @@ Sizable
 ## Factory
 
 ### `Factory.valdas() -> OverLeaf`
-Create client using Valdas session cookies stored in
-`F:/jsons/valdas/overleaf.json`.
+Create client using Valdas session cookies cached as a local
+JSON file. First existing path wins:
+- `F:/jsons/valdas/overleaf.json` (Windows)
+- `/mnt/f/jsons/valdas/overleaf.json` (WSL)
+- `~/prof/valdas/overleaf.json` (macOS / Linux)
+
+JSON format is `{cookie_name: cookie_value, ...}` — at minimum
+`overleaf_session2`. To refresh after expiry (~30 days), re-export
+the cookies from Firefox DevTools (Storage → Cookies →
+`https://www.overleaf.com`) and overwrite the JSON.
+
+### `Factory.firefox() -> OverLeaf`
+Create client using Firefox's cookie jar via
+`browsercookie.firefox()`. Cross-platform, zero-config —
+requires you to be logged in to Overleaf in Firefox.
+Preferred on macOS because it reads Firefox's plaintext
+`cookies.sqlite` directly and does **not** trigger a
+Keychain prompt (unlike Chrome).
 
 ## Dependencies
 

@@ -39,6 +39,8 @@ KAStarInc(problem: ProblemSPP[State],
 | Method | Description |
 |---|---|
 | `run() -> SolutionOMSPP` | Inherited from `Algo`; orchestrates k sub-searches via `_run()`. Returns a `SolutionOMSPP` (Mapping over `{goal: SolutionSPP}`). |
+| `extend(new_goals) -> SolutionOMSPP` | Resume the orchestrator with additional goals appended to the sequence solved by `run()` (or any prior `extend()`). Reuses `_shared_state`, `_solutions`, `_counters`, `_recorder`. Returns a `SolutionOMSPP` over the FULL set of goals seen so far. Provided by `ExtendableOMSPP` mixin. |
+| `run_nested(problems, h, ...)` *(classmethod)* | Convenience wrapper: solves a prefix-extending sequence of problems via `run(problems[0])` then chained `extend()` calls. Provided by `ExtendableOMSPP` mixin. |
 | `reconstruct_path(goal) -> list[State]` | Walk parents back to start for any goal (expanded or fast-path). |
 
 ### Properties
@@ -187,6 +189,59 @@ frontier state per transition) and the silent re-push
 activity that drains and rebuilds the heap. Recording
 overhead at large k drops substantially (was ~k × |frontier|
 events per transition; now 1).
+
+## Prefix-extending the goal sequence: `extend()`
+
+`KAStarInc` composes the `ExtendableOMSPP` mixin (at
+`f_hs/algo/i_1_omspp/mixins/extendable/`). The mixin
+contributes:
+
+- `algo.extend(new_goals)` — resume the orchestrator with
+  `new_goals` appended to the sequence already solved.
+  Returns a `SolutionOMSPP` over the full sequence.
+- `KAStarInc.run_nested(problems, h, ...)` — classmethod
+  convenience for a prefix-extending list of problems.
+
+**The per-goal loop body is shared** between `_run()` and
+`extend()` via the `_handle_goal(goal, idx)` method. `_run`
+sets `self._all_goals = list(self.problem.goals)` and
+iterates; `extend` appends to `self._all_goals` and iterates
+at the offset. The lazy-re-push decision (`idx <
+len(self._all_goals) - 1`) automatically tracks the new
+"last goal" boundary.
+
+**Trailing reached goal re-push.** After the last goal of a
+run/extend, lazy re-push is *skipped* (no consumer for the
+work). When `extend()` arrives, that previously-last goal
+now has consumers — `_repush_last_reached_goal()` performs
+the deferred re-push under the trailing sub-search's `h`
+before the new goal loop's first transition. The transition's
+own `refresh_priorities()` then re-keys the re-pushed entry
+under the new goal's `h`.
+
+**Bookkeeping (set by `_handle_goal`):**
+
+| field | semantics |
+|---|---|
+| `_all_goals: list[State]` | Full sequence: original goals + every extend's appended goals. |
+| `_last_reached_goal: State \| None` | Most recent successfully-expanded goal (None after unreachable / fast-path / on-completed-re-push). |
+| `_last_algo: AStar \| None` | The sub-search algo instance for `_last_reached_goal` (its `_h` is closed over that goal; used by `_repush_last_reached_goal`). |
+
+**Counters / elapsed / recorder are cumulative across
+calls.** `algo.counters` after `extend()` reports the total
+work since the original `run()`; same for `algo.elapsed`,
+`algo.recorder.events`, and `algo.solutions`. The phase
+buckets (`elapsed_search` / `elapsed_update`) likewise
+accumulate. To get a per-call breakdown, snapshot
+`dict(algo.counters)` and `algo.elapsed` before and after
+each `extend()`.
+
+**Preconditions:** `run()` must have completed at least once
+(else `RuntimeError`); `new_goals` must be non-empty (else
+`ValueError`). Duplicate goals (already in `_solutions` or
+`shared.closed`) are handled by the existing fast-paths and
+emit `already_reached` / `already_closed` events as during
+`_run`.
 
 ## Interaction with existing machinery
 
