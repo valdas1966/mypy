@@ -331,6 +331,7 @@ CLOSED, but `self._solutions` is checked first).
 | `_tester.py` | lifecycle (single-goal, two-goals, fast-path, duplicates, frontier-transition events, recording, reconstruction, closure, search_state exposure, independent-A* equivalence) | 10 |
 | `_tester_recording.py` | Full event-stream pins (one per scenario). Scenarios: canonical OMSPP (3 goals; transitions + fast-path), `grid_4x4_obstacle` 2-goal (1 transition + 4-state h-update cluster) | 2 |
 | `_tester_counters.py` | full 8-counter dict pin on canonical OMSPP; per-goal optimal costs pin | 2 |
+| `_tester_extend.py` | nested-extend counter equivalence on canonical OMSPP — `run([g0])` → `extend([g1])` → `extend([g2])`; at each stage the cumulative counters must equal those of a fresh kA*-INC run on the same goal prefix | 1 |
 
 ## Assumptions & limitations (current scope)
 

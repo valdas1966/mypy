@@ -5,42 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_counters.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_recording.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/_flipped_view.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/_recorder_shim.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kbfs/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kbfs/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kbfs/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kbfs/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kbfs/_tester_counters.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kbfs/_tester_recording.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kbfs/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kdijkstra/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kdijkstra/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kdijkstra/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kdijkstra/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kdijkstra/_tester_counters.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kdijkstra/_tester_recording.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_kdijkstra/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_bpmx_no_cache.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_bpmx_with_cache.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_counters_bpmx_no_cache.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_counters_bpmx_with_cache.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_recording_bpmx_no_cache.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_recording_bpmx_with_cache.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_overleaf/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_overleaf/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_overleaf/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_overleaf/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_overleaf/project/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_overleaf/project/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_overleaf/project/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_overleaf/project/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/_tester_extend.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/_tester_extend.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,12 +33,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
-    &quot;accountId&quot;: &quot;a1e5e179-580e-4572-8eba-3d60343860e3&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/valdas1966/mypy.git",
+    "accountId": "0f4621b9-87f9-4a4a-9ceb-401ed7593bcc"
   }
-}</component>
+}]]></component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../miniconda3/envs/mypy/lib/python3.13/typing.py" root0="SKIP_INSPECTION" />
   </component>
@@ -1168,7 +1137,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/creds/oauth/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1191,7 +1159,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_overleaf/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1214,7 +1181,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/creds/oauth/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1237,7 +1203,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1257,7 +1222,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/_tester_counters.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -1273,7 +1237,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_overleaf/project/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -1300,7 +1263,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-ca5e2b39c7df-6e1f45a539f7-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.29346.308" />
+        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
       </set>
     </attachedChunks>
   </component>
