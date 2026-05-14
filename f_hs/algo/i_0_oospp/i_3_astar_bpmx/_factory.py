@@ -166,6 +166,21 @@ class Factory:
          h* - Manhattan > 0, so BPMX has multi-cell, multi-depth
          lift opportunities.
 
+         Grid layout (1 = valid, 0 = invalid):
+
+               col:  0  1  2  3  4  5
+             row 0:  1  1  1  1  1  1     <- start (0,0)
+             row 1:  1  0  0  0  0  1     <- beacon (1,0); upper wall
+             row 2:  1  1  1  1  1  1
+             row 3:  0  0  0  0  0  1     <- lower wall
+             row 4:  1  1  1  1  1  1
+             row 5:  1  1  1  1  1  1     <- goal (5,0)
+
+         Optimal path (cost 15):
+           (0,0) -> (1,0) -> (2,0) -> (2,1) -> ... -> (2,5)
+                 -> (3,5) -> (4,5) -> (4,4) -> ... -> (4,0)
+                 -> (5,0)
+
          Used by depth-axis tests where the depth_bpmx parameter
          must visibly differentiate counter signatures (the 4x4
          grid is too shallow for that --- on 4x4 Rule 3 saturates

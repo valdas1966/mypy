@@ -723,34 +723,81 @@ drive.delete(path='2026/04/07/old_file.md')
 - Upload results back to Drive.
 - Do **not** auto-open files — the user views them on Drive.
 
-### LaTeX / Report / Graph Work
+---
 
-When the user asks to create or edit **LaTeX documents**, **reports**,
-**TikZ figures**, or **graph diagrams** — even outside a named session
-— read `Instructions/For_Tex.md` from Drive first:
+## LaTeX Files
+
+### Mandatory `\me` / `\you` annotation macros
+
+Every `.tex` file created or edited under this project — whether
+destined for Drive or Overleaf — **must** define both annotation
+macros in the preamble, so the option to write inline author /
+AI comments is available at all times:
+
+- **`\me{...}`** — the author's voice, rendered in **red**.
+- **`\you{...}`** — Claude's (the AI's) reply, rendered in
+  **blue**.
+
+Both macros share a single `\ifdraft` toggle, so flipping it to
+`\draftfalse` strips every annotation for the publication build.
+A `.tex` without the block is **non-conforming** — fix before
+upload (to Drive or Overleaf).
+
+**Required preamble block** (paste verbatim, after the color /
+styling preamble, before `\begin{document}`):
+
+```latex
+% ── Author annotations (draft only) ─────────────────────
+\newif\ifdraft\drafttrue  % flip to \draftfalse to strip all
+
+\newcommand{\me}[1]{%
+    \ifdraft\textcolor{red}{\textbf{[me:\,#1]}}\fi%
+}
+\newcommand{\you}[1]{%
+    \ifdraft\textcolor{blue}{\textbf{[you:\,#1]}}\fi%
+}
+```
+
+The block must be present even when the file currently contains
+zero `\me{...}` or `\you{...}` calls — annotations may be added
+inline at any time.
+
+### Bidirectional protocol
+
+On every read of a `.tex`, scan for inline `\me{...}`
+annotations and act:
+
+- **Tasks** (imperatives — "make X bold", "add reference") —
+  execute the edit. If a `\me{...}` line sits in a LaTeX-invalid
+  position (e.g., inside `\begin{itemize}` before any `\item`),
+  remove the line as part of the fix.
+- **Questions** (interrogatives — "why X?", "does Y hold?") —
+  insert `\you{<one-sentence answer>}` immediately after the
+  `\me{...}`, keeping the `\me{...}` so the thread reads
+  naturally.
+- **No `\you{...}` without a `\me{...}`** — AI annotations exist
+  to answer the author. Do not add unsolicited `\you{...}`.
+
+Replies inside `\you{...}` follow the same brevity rule: one
+sentence or less. Long rationale belongs in the session `.md`,
+never the `.tex`.
+
+### Drive instructions are authoritative
+
+Before creating or editing any **LaTeX document**, **report**,
+**TikZ figure**, or **graph diagram** — even outside a named
+session — read `Instructions/For_Tex.md` from Drive first:
+
 ```python
 drive = Drive.Factory.valdas()
 print(drive.read(path='Instructions/For_Tex.md').text)
 ```
-This file contains mandatory conventions for colors, section styling,
-enumerated sentences, TikZ graph diagrams (node colors by search
-status, edge label positioning, layout rules), and compilation.
 
-**Mandatory `\me{...}` / `\you{...}` macros in every `.tex`.**
-Every `.tex` file created or edited under this project — whether
-destined for Drive or Overleaf — must include **both** annotation
-macros (red `\me{...}` for the author, blue `\you{...}` for
-Claude's reply) with the shared `\ifdraft` toggle in the preamble.
-A `.tex` without the block is non-conforming — fix before upload.
-
-**Bidirectional protocol.** On every read of a `.tex`, scan for
-inline `\me{...}` annotations: execute tasks as edits to the
-file, and answer questions with `\you{<one-sentence>}` inserted
-immediately after the `\me{...}`. If a `\me{...}` sits in a
-LaTeX-invalid position (e.g., inside `\begin{itemize}` before
-any `\item`), remove that line as part of the fix. See
-`Instructions/For_Tex.md → Author Annotations → Bidirectional
-Protocol` on Drive for the exact block, rationale, and rules.
+That file holds the authoritative conventions for colors,
+section styling, enumerated sentences, TikZ graph diagrams
+(node colors by search status, edge label positioning, layout
+rules), and compilation. If it conflicts with this section,
+**Drive wins**.
 
 ---
 

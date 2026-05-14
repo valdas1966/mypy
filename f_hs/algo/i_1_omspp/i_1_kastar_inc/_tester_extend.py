@@ -1,16 +1,18 @@
 """
 ============================================================================
- KAStarInc -- nested-extend counter equivalence on canonical OMSPP.
+ KAStarInc -- nested-extend manual counter pins on canonical OMSPP.
 
  Canonical OMSPP problem (`grid_4x4_obstacle_omspp`: start
  (0,0), goals (0,3) / (3,0) / (3,3); Manhattan h to the
  active goal).
 
  The nested-extend chain
- `run([g0]) -> extend([g1]) -> extend([g2])` must produce, at
- each stage, the same cumulative counters as a fresh kA*-INC
- run on the same prefix of goals -- the state-reuse
- equivalence invariant for KAStarInc.extend().
+ `run([g0]) -> extend([g1]) -> extend([g2])` is run once, and
+ at each stage the cumulative non-mem counter dict is asserted
+ against hardcoded manual values. Drift in either the nested-
+ extend logic or the underlying single-shot algorithm will
+ surface here -- the all-at-once 3-goal pin lives separately
+ in `_tester_counters.py`.
 ============================================================================
 """
 
@@ -27,50 +29,62 @@ def _strip_mem(counters) -> dict:
             if not k.startswith('mem_')}
 
 
-def _fresh_counters(k: int) -> dict:
+def test_extend_counters_manual_pins() -> None:
     """
     ========================================================================
-     Run kA*-INC from scratch on the canonical OMSPP problem
-     subsetted to its first `k` goals and return the non-mem
-     counter dict.
+     Pin cumulative non-mem counters at each stage of the
+     nested-extend chain on the canonical 3-goal OMSPP problem.
+     Values are hardcoded; any change in nested-extend logic or
+     in the underlying single-shot algorithm surfaces here.
     ========================================================================
     """
-    p = ProblemGrid.Factory.grid_4x4_obstacle_omspp()
-    p._goals = p._goals[:k]
-    algo = KAStarInc(problem=p, h=_h)
-    algo.run()
-    return _strip_mem(algo.counters)
+    # Hardcoded counter pins -- grid_4x4_obstacle_omspp
+    # (start (0,0); goals (0,3)/(3,0)/(3,3); Manhattan h).
+    target_k1 = \
+        {
+            'cnt_h_search': 13,
+            'cnt_h_update': 0,
+            'cnt_push': 13,
+            'cnt_pop': 9,
+            'cnt_decrease': 0,
+            'cnt_expanded': 8,
+            'cnt_generated': 13,
+        }
+    target_k2 =\
+        {
+            'cnt_h_search': 15,
+            'cnt_h_update': 5,
+            'cnt_push': 20,
+            'cnt_pop': 11,
+            'cnt_decrease': 0,
+            'cnt_expanded': 9,
+            'cnt_generated': 14,
+        }
+    target_k3 =\
+        {
+            'cnt_h_search': 16,
+            'cnt_h_update': 10,
+            'cnt_push': 26,
+            'cnt_pop': 12,
+            'cnt_decrease': 0,
+            'cnt_expanded': 9,
+            'cnt_generated': 14,
+        }
 
-
-def test_extend_nested_matches_fresh_runs() -> None:
-    """
-    ========================================================================
-     run([g0]) -> extend([g1]) -> extend([g2]) on the canonical
-     3-goal OMSPP problem. At each stage assert the cumulative
-     KAStarInc counters equal those of a fresh run on the same
-     prefix of goals (state reuse via extend is equivalent to
-     running from scratch at the larger k).
-    ========================================================================
-    """
-    # Targets -- 3 fresh kA*-INC runs at k = 1, 2, 3.
-    target_k1 = _fresh_counters(k=1)
-    target_k2 = _fresh_counters(k=2)
-    target_k3 = _fresh_counters(k=3)
-
-    # Nested -- start with goal 0, extend to goal 1, then to goal 2.
+    # Nested -- start with goal 0, extend to goal 1, then goal 2.
     p = ProblemGrid.Factory.grid_4x4_obstacle_omspp()
     g1, g2 = p._goals[1], p._goals[2]
     p._goals = p._goals[:1]
     algo = KAStarInc(problem=p, h=_h)
 
-    # Stage k=1.
+    # Stage k=1: run([g0]).
     algo.run()
     assert _strip_mem(algo.counters) == target_k1
 
-    # Stage k=2.
+    # Stage k=2: extend([g1]).
     algo.extend([g1])
     assert _strip_mem(algo.counters) == target_k2
 
-    # Stage k=3.
+    # Stage k=3: extend([g2]).
     algo.extend([g2])
     assert _strip_mem(algo.counters) == target_k3

@@ -127,19 +127,36 @@ All construct via the kwargs API
 
 Auto-discovered by `TestRunner`'s `_tester*.py` pattern.
 
-All tests use a **single fixture**:
-`Factory.grid_4x4_beacon(rule_bpmx, depth_bpmx)` — the
-canonical OOSPP problem (`grid_4x4_obstacle`) with a cached
-beacon at (0,1) holding `h*=6` (gap=4 vs. Manhattan=2). The
-beacon is the inconsistency engine — without it, Rules 1 /
-3 / CASCADE never lift on consistent Manhattan h. Scope is
-strictly "canonical OOSPP × different BPMX configs."
+Two beacon fixtures are used, picked per file by what
+that file needs to discriminate:
 
-| File | Count | Scope |
-|------|------:|-------|
-| `_tester.py` | 14 | Parametric optimality across all valid (rule, depth) configs — cost stays 7 |
-| `_tester_counters.py` | 14 | Parametric counter pin per (rule, depth) — full dict per row of the probed matrix |
-| `_tester_recording.py` | 4 | Full event-stream pins for 4 representative configs (None, Rule 1 d=None, Rule 3 d=1, CASCADE d=None) |
+- **`Factory.grid_4x4_beacon(rule, depth)`** — canonical
+  OOSPP (`grid_4x4_obstacle`) + cached beacon at (0,1)
+  holding `h*=6` (gap=4 vs. Manhattan=2). Compact: 7
+  expansions, optimal cost 7. Used by `_tester.py`
+  (optimality is binary) and `_tester_recording.py`
+  (small fixture → compact event-stream pins).
+- **`Factory.grid_6x6_zigzag_beacon(rule, depth)`** —
+  6x6 snake-detour grid + cached beacon at (1,0)
+  holding `h*=14` (gap=10 vs. Manhattan=4). Rich: 15–20
+  expansions, optimal cost 15. Used by
+  `_tester_counters.py` because the 4x4 collapses BPMX
+  signals to binary (successes 0 or 2, depth_max 0 or
+  2, `cnt_expanded` constant at 7) — it cannot
+  demonstrate depth monotonicity, search pruning, or
+  CASCADE > Rule 1 separation. The 6x6 zigzag does all
+  three (see session 2026-05-14, Q2).
+
+In both fixtures the cached beacon is the inconsistency
+engine — without it, Rules 1 / 3 / CASCADE never lift
+on consistent Manhattan h. Scope across the file set is
+"canonical OOSPP × different BPMX configs."
+
+| File | Count | Fixture | Scope |
+|------|------:|---------|-------|
+| `_tester.py` | 14 | 4x4 | Parametric optimality across all valid (rule, depth) configs — cost stays 7 |
+| `_tester_counters.py` | 14 | **6x6 zigzag** | Parametric counter pin per (rule, depth) — full dict per row. Discriminates depth monotonicity and pruning |
+| `_tester_recording.py` | 4 | 4x4 | Full event-stream pins for 4 representative configs (None, Rule 1 d=None, Rule 3 d=1, CASCADE d=None) |
 
 **Dropped scope** (intentionally — see session 2026-05-13):
 
