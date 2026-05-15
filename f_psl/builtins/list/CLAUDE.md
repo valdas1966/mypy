@@ -1,8 +1,9 @@
-# `f_utils/list` — List Utilities
+# `f_psl/builtins/list` — List Utilities
 
 ## 1) Purpose
 Static utility class `UList` grouping helpers that operate on
-built-in Python lists.
+the built-in `list` type. Lives under `f_psl/builtins/` because
+`list` is exposed by the Python `builtins` stdlib module.
 
 ## 2) Public API
 
@@ -23,7 +24,7 @@ no base). Follows the `U`-prefix convention.
 
 ## 5) Usage Example
 ```python
-from f_utils.list import UList
+from f_psl.builtins.list import UList
 
 UList.sliding_windows(li=[1, 2, 3, 4], size=2)
 # [[1, 2], [2, 3], [3, 4]]

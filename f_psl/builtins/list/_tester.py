@@ -1,4 +1,4 @@
-from f_utils.list import UList
+from f_psl.builtins.list import UList
 
 
 def test_sliding_windows() -> None:
