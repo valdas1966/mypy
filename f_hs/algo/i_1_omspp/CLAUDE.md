@@ -97,7 +97,10 @@ overridden on `StateCell` to return the `(row, col)` tuple.
        no lazy stale-pop).
      - **KAStarInc** — adds `cnt_h_search`, `cnt_h_update`.
      - **KAStarAgg** — adds `cnt_h_search`, `cnt_h_update`,
-       `cnt_phi_search`, `cnt_phi_update`.
+       `cnt_phi_search`, `cnt_phi_update`, and `mem_aux`
+       (auxiliary-structure byte snapshot:
+       `_F_stored` + sv·`_h_vector` + opt·`_responsible`;
+       OUTSIDE the strict `mem_open` / `mem_closed` buckets).
        Under Path D (2026-05-11) the counter axis is
        strictly temporal — mirrors the structural `phase`
        axis. Lazy mode's `cnt_*_update` is always 0; its

@@ -1,3 +1,5 @@
+import sys
+
 from f_hs.algo.i_1_omspp.i_1_kastar_agg._aggregations import resolve_agg
 from f_hs.algo.i_1_omspp.i_0_base.main import (
     AlgoOMSPP, PHASE_SEARCH, PHASE_UPDATE,
@@ -174,7 +176,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
         ('cnt_phi_search', 'cnt_phi_update'),
         ('cnt_push', 'cnt_pop', 'cnt_decrease'),
         ('cnt_expanded', 'cnt_generated'),
-        ('mem_open', 'mem_closed'),
+        ('mem_open', 'mem_closed', 'mem_aux'),
     )
 
     def __init__(self,
@@ -474,6 +476,36 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
         self._counters.assign('cnt_push', fc['cnt_push'])
         self._counters.assign('cnt_pop', fc['cnt_pop'])
         self._counters.assign('cnt_decrease', fc['cnt_decrease'])
+
+    def _sync_memory_snapshot(self) -> None:
+        """
+        ====================================================================
+         Extend the base mem_open / mem_closed snapshot with
+         `mem_aux` — the bytes carried by AGG's auxiliary
+         per-state structures that live OUTSIDE OPEN/CLOSED:
+           - `_F_stored`     (always present)
+           - `_h_vector`     (only when `store_vector=True`)
+           - `_responsible`  (only when `is_opt=True`)
+
+         Shallow accounting consistent with the base
+         (`sys.getsizeof` on the dict container + values; list
+         entries inside `_h_vector` are summed element-wise).
+        ====================================================================
+        """
+        super()._sync_memory_snapshot()
+        size_aux = (sys.getsizeof(self._F_stored)
+                    + sum(sys.getsizeof(v)
+                          for v in self._F_stored.values()))
+        if self._store_vector:
+            size_aux += sys.getsizeof(self._h_vector)
+            for vec in self._h_vector.values():
+                size_aux += sys.getsizeof(vec)
+                size_aux += sum(sys.getsizeof(x)
+                                for x in vec
+                                if x is not None)
+        if self._is_opt:
+            size_aux += sys.getsizeof(self._responsible)
+        self._counters.assign('mem_aux', size_aux)
 
     def _reset_search_state(self) -> None:
         """

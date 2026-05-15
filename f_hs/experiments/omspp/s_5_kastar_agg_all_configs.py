@@ -1,29 +1,31 @@
 """
 ===============================================================================
- Script: run kA*-AGG over all 8 parameter configurations
- (is_lazy x is_opt x store_vector = 2 x 2 x 2 = 8), aggregator Φ = MIN,
- across every problem in `s_3_problems.pkl`. Parallelized over a
- process pool; emits cumulative counters + timing per
- (problem, config) to a single CSV on Drive.
+ Script: run kA*-AGG with `is_opt=True, store_vector=True` on each
+ mode (eager and lazy), aggregator Φ = MIN, across every problem in
+ `s_3_problems.pkl`. 2 configs per problem (NOT the full 8-way sweep).
+ Parallelized over a process pool; emits cumulative counters + timing
+ per (problem, config) to a single CSV on Drive.
 
- Why 8 configs
-   KAStarAgg has three orthogonal parameters: `is_lazy`, `is_opt`,
-   `store_vector` (see `f_hs/algo/i_1_omspp/i_1_kastar_agg/CLAUDE.md`).
-   `is_opt=True` requires agg in {MIN, MAX}; we use MIN here for the
-   full 2x2x2 sweep. Other Φ values (MAX / AVG / RND / PROJECTION) are
-   a separate experiment.
+ Why only 2 configs (2026-05-15)
+   Restricted from the 2x2x2 (=8) sweep to just the (opt=True,
+   sv=True) pair on eager and lazy. The 2026-05-14 toy sweep showed
+   sv=True ADDS ~15% elapsed on grid+Manhattan (h-vector upkeep
+   exceeds h-recompute savings); the no-opt and no-sv baselines were
+   captured in `kastar_agg_all_configs_toy50.csv` (still on Drive)
+   and don't need to be re-measured for the full run. `is_opt=True`
+   requires agg in {MIN, MAX}; we use MIN here.
 
  Why NOT extended mode
    KAStarAgg is NOT Extendable -- the single-loop Φ structure doesn't
    fit the per-goal extend model (per the algo matrix). So we run
-   each of the 500 problems from scratch per config: 500 x 8 = 4000
+   each of the 500 problems from scratch per config: 500 x 2 = 1000
    independent kA*-AGG runs.
 
- Work unit -- per problem, all 8 configs
-   Each Runner task processes one ProblemGrid and runs all 8 configs
+ Work unit -- per problem, both configs
+   Each Runner task processes one ProblemGrid and runs the 2 configs
    on it back-to-back (same problem object, same grid in worker RAM
-   -> good cache locality). The task returns 8 CSV rows. Toy slice
-   `n_problems=N` -> N tasks -> N*8 CSV rows.
+   -> good cache locality). The task returns 2 CSV rows. Toy slice
+   `n_problems=N` -> N tasks -> N*2 CSV rows.
 -------------------------------------------------------------------------------
  Parallelism
    Built on `ProblemGrid.Runner` (ProcessPoolExecutor):
@@ -33,14 +35,14 @@
      - Each worker pre-builds one shared `StateCell` cache per grid.
      - Per-task IPC payload = light detached `ProblemGrid` only.
 
- Output CSV columns (21 cols)
+ Output CSV columns (22 cols)
    IDs (3):        domain, map, k
    Config (4):     is_lazy, is_opt, store_vector, config
-   Counters (11):  cnt_h_search, cnt_h_update,
+   Counters (12):  cnt_h_search, cnt_h_update,
                    cnt_phi_search, cnt_phi_update,
                    cnt_push, cnt_pop, cnt_decrease,
                    cnt_expanded, cnt_generated,
-                   mem_open, mem_closed
+                   mem_open, mem_closed, mem_aux
    Timing (3):     elapsed_total, elapsed_search, elapsed_update
 
    `config` is the folder-safe label `{lazy|eager}_{opt|noopt}_{sv|nosv}`
@@ -59,7 +61,7 @@
  Toy mode
    `n_problems` (None = all 500) slices the 500-problem pickle to the
    first N entries directly (no k-filter -- AGG runs all k values).
-   N=50 -> 50 problems x 8 configs = 400 CSV rows. The output CSV
+   N=50 -> 50 problems x 2 configs = 100 CSV rows. The output CSV
    gets a `_toy{N}` suffix in toy mode to avoid clobbering full-run
    results.
 ===============================================================================
@@ -80,8 +82,7 @@ setup_log(sink='console', level=logging.INFO)
 _log = get_log(__name__)
 
 
-# Φ aggregation. is_opt requires MIN or MAX; we pick MIN to make all
-# 8 configs legal under a single sweep.
+# Φ aggregation. is_opt requires MIN or MAX; we pick MIN.
 _AGG = 'MIN'
 
 
@@ -105,18 +106,21 @@ _CSV_COLUMNS = [
     'cnt_generated',
     'mem_open',
     'mem_closed',
+    'mem_aux',
     'elapsed_total',
     'elapsed_search',
     'elapsed_update',
 ]
 
 
-# The 8 configs in canonical order (matches _dump_csvs.py).
+# Restricted sweep (2026-05-15): only the (opt=True, sv=True) pair
+# for each mode -- 2 configs, not 8. The remaining 6 (any is_opt=False
+# or any store_vector=False combination) are no longer measured here;
+# the 2026-05-14 toy CSV remains on Drive as the historical 8-config
+# snapshot. Sweep both modes so the lazy-vs-eager axis stays visible.
 _CONFIGS: list[tuple[bool, bool, bool]] = [
-    (is_lazy, is_opt, store_vector)
-    for is_lazy in (False, True)
-    for is_opt in (False, True)
-    for store_vector in (False, True)
+    (False, True, True),   # eager_opt_sv
+    (True,  True, True),   # lazy_opt_sv
 ]
 
 
@@ -186,6 +190,7 @@ def _snapshot(domain: str,
         'cnt_generated':  c['cnt_generated'],
         'mem_open':       c['mem_open'],
         'mem_closed':     c['mem_closed'],
+        'mem_aux':        c['mem_aux'],
         'elapsed_total':  round(algo.elapsed, 6),
         'elapsed_search': round(algo.elapsed_search, 6),
         'elapsed_update': round(algo.elapsed_update, 6),
@@ -197,8 +202,8 @@ def _snapshot(domain: str,
 def _experiment_kastar_agg_all_configs(problem: ProblemGrid) -> list[dict]:
     """
     ============================================================================
-     Run the 8 (is_lazy, is_opt, store_vector) configurations of
-     kA*-AGG with Φ=`_AGG` on `problem`. Returns 8 CSV rows.
+     Run the 2 (eager_opt_sv, lazy_opt_sv) configurations of
+     kA*-AGG with Φ=`_AGG` on `problem`. Returns 2 CSV rows.
 
      The `problem` arrives attached to its grid (Runner does this in
      `_worker_task`). KAStarAgg reads `problem.goals` once into its
@@ -211,7 +216,8 @@ def _experiment_kastar_agg_all_configs(problem: ProblemGrid) -> list[dict]:
     map_name = problem.grid_name
     k = len(problem.goals_rc)
 
-    _log.info(f'start  ({domain}, {map_name}, k={k}) 8 configs')
+    _log.info(f'start  ({domain}, {map_name}, k={k}) '
+              f'{len(_CONFIGS)} configs')
 
     rows: list[dict] = []
     for is_lazy, is_opt, store_vector in _CONFIGS:
@@ -236,7 +242,7 @@ def _experiment_kastar_agg_all_configs(problem: ProblemGrid) -> list[dict]:
 
     total_elapsed = sum(r['elapsed_total'] for r in rows)
     _log.info(f'done   ({domain}, {map_name}, k={k}) '
-              f'8 configs in {total_elapsed:.2f}s total')
+              f'{len(_CONFIGS)} configs in {total_elapsed:.2f}s total')
     return rows
 
 
@@ -321,7 +327,7 @@ def run_all_configs(path_drive_pkl_in: str,
 
         # 5. Run on the pool. Each worker loads `path_grids` once,
         # builds a shared per-grid StateCell cache, then processes its
-        # share of the tasks (each task = one problem x 8 configs).
+        # share of the tasks (each task = one problem x N configs).
         effective_workers = min(workers, n_tasks)
         _log.info(f'spawning {effective_workers} workers '
                   f'(requested {workers}, n_tasks={n_tasks}); '
@@ -368,7 +374,7 @@ if __name__ == '__main__':
 
     # Toy mode: process only the first N problems of the 500-problem
     # pickle (None == all 500). Useful for smoke-testing the pipeline.
-    n_problems = 50    # full run: set to None
+    n_problems = None    # full run: set to None
 
     # Output path -- auto-suffix in toy mode so we never clobber the
     # full-run CSV.

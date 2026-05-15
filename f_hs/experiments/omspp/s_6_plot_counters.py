@@ -1,20 +1,20 @@
 """
 ===============================================================================
- Script: plot kA*-INC (extended mode) vs kA*-AGG (8 configs, Φ=MIN)
+ Script: plot kA*-INC (extended mode) vs kA*-AGG (2 configs, Φ=MIN)
  counters as a multi-page PDF on Drive.
 
  For each counter, one chart with:
    - 1 bold black line for kA*-INC (extended)
-   - 8 lines for kA*-AGG, one per (is_lazy, is_opt, store_vector)
-     configuration. Visual encoding:
+   - 2 lines for kA*-AGG: `eager_opt_sv` and `lazy_opt_sv`
+     (restricted sweep, 2026-05-15). Visual encoding:
        linestyle = is_lazy   (solid = lazy, dashed = eager)
-       color     = (is_opt, store_vector) pair (4 colors)
+       color     = (is_opt, store_vector) pair (red for opt+sv)
 
  X-axis: k (number of goals).
  Y-axis: counter value, MEAN over (domain, map) at each k.
 
  Each page: chart on the top half, a per-k DATA TABLE on the bottom
- half (rows = k values, columns = INC + 8 AGG configs). The table
+ half (rows = k values, columns = INC + 2 AGG configs). The table
  surfaces the exact mean values that the chart visualizes -- useful
  when one line is visually crushed by another (e.g., INC's
  `cnt_h_search` is ~10^5 while some AGG configs reach ~10^7, so the
@@ -24,22 +24,24 @@
  (map, k) missing from one side (e.g. a partial 3rd chain in toy
  mode) is dropped from both -- the comparison stays apples-to-apples.
 
- Caveat on `mem_open` / `mem_closed` (AGG)
-   The base `_sync_memory_snapshot` only counts the frontier struct +
-   pro-rated g/parent slots. KAStarAgg's auxiliary structures --
+ Memory accounting
+   `mem_open` / `mem_closed` cover frontier struct + pro-rated g/parent
+   slots (strict bucket semantics). `mem_aux` covers KAStarAgg's
+   auxiliary per-state structures that live OUTSIDE OPEN/CLOSED:
    `_F_stored` (always), `_h_vector` (when store_vector=True),
-   `_responsible` (when is_opt=True) -- are NOT included. AGG configs
-   with sv / opt thus appear memory-cheaper than they really are; a
-   footer note on the mem_* charts flags this.
+   `_responsible` (when is_opt=True). For KAStarInc this is
+   structurally 0 -- no AGG-style aux structures exist. The
+   derived headline `mem_total = mem_open + mem_closed + mem_aux`
+   is added in `make_plots` (not stored in either CSV).
 -------------------------------------------------------------------------------
- 14 charts total:
-   12 shared counters  (INC + 8 AGG lines per chart)
+ 16 charts total:
+   14 shared counters  (INC + 2 AGG lines per chart)
      cnt_h_search, cnt_h_update,
      cnt_push, cnt_pop, cnt_decrease,
      cnt_expanded, cnt_generated,
-     mem_open, mem_closed,
+     mem_open, mem_closed, mem_aux, mem_total,
      elapsed_total, elapsed_search, elapsed_update
-   2 AGG-only counters (8 AGG lines per chart, no INC)
+   2 AGG-only counters (2 AGG lines per chart, no INC)
      cnt_phi_search, cnt_phi_update
 -------------------------------------------------------------------------------
  Inputs  (Drive)
@@ -81,6 +83,8 @@ _SHARED_COUNTERS: list[str] = [
     'cnt_generated',
     'mem_open',
     'mem_closed',
+    'mem_aux',
+    'mem_total',
     'elapsed_total',
     'elapsed_search',
     'elapsed_update',
@@ -92,34 +96,24 @@ _AGG_ONLY_COUNTERS: list[str] = [
     'cnt_phi_update',
 ]
 
-# 8 AGG configs in canonical order.
+# 2 AGG configs (matches s_5 restricted sweep, 2026-05-15).
+# Restored to 8 if the no-opt / no-sv baselines are re-measured.
 _AGG_CONFIGS: list[tuple[bool, bool, bool, str]] = [
-    (False, False, False, 'eager_noopt_nosv'),
-    (False, False, True,  'eager_noopt_sv'),
-    (False, True,  False, 'eager_opt_nosv'),
     (False, True,  True,  'eager_opt_sv'),
-    (True,  False, False, 'lazy_noopt_nosv'),
-    (True,  False, True,  'lazy_noopt_sv'),
-    (True,  True,  False, 'lazy_opt_nosv'),
     (True,  True,  True,  'lazy_opt_sv'),
 ]
 
-# Color per (is_opt, store_vector) pair.
-_AGG_COLOR: dict[tuple[bool, bool], str] = {
-    (False, False): 'tab:blue',
-    (False, True):  'tab:orange',
-    (True,  False): 'tab:green',
-    (True,  True):  'tab:red',
-}
-
-# Linestyle per is_lazy.
-_AGG_LINESTYLE: dict[bool, str] = {
-    False: '--',   # eager
-    True:  '-',    # lazy
+# Three-algorithm color scheme: black (INC), blue (eager_opt_sv),
+# red (lazy_opt_sv). Linestyle stays solid for all -- color alone
+# distinguishes the three algorithms.
+_AGG_COLOR: dict[bool, str] = {
+    False: 'tab:blue',   # eager_opt_sv
+    True:  'tab:red',    # lazy_opt_sv
 }
 
 _INC_COLOR = 'black'
 _INC_LW = 2.6
+_AGG_LW = 2.0
 
 
 # ── Drive I/O ──────────────────────────────────────────────────────────────
@@ -199,9 +193,9 @@ def _plot_counter(ax,
         except KeyError:
             continue
         ax.plot(series.index, series.values,
-                color=_AGG_COLOR[(is_opt, store_vector)],
-                linestyle=_AGG_LINESTYLE[is_lazy],
-                linewidth=1.4,
+                color=_AGG_COLOR[is_lazy],
+                linewidth=_AGG_LW,
+                marker='o', markersize=4,
                 label=f'KAStarAgg/{cfg}')
 
     ax.set_xlabel('k (number of goals)')
@@ -211,14 +205,28 @@ def _plot_counter(ax,
     ax.grid(True, alpha=0.3)
     ax.legend(loc='best', fontsize=7, framealpha=0.85)
 
-    # Caveat note for memory snapshots -- AGG's _F_stored,
-    # _h_vector, _responsible are NOT counted by mem_open /
-    # mem_closed.
+    # Memory accounting note: mem_open / mem_closed are strict
+    # (frontier + pro-rated g/parent slots); AGG's auxiliary
+    # structures live in mem_aux instead.
     if counter in ('mem_open', 'mem_closed'):
         ax.text(0.01, -0.16,
-                'Caveat: AGG\'s _F_stored / _h_vector (sv) / '
-                '_responsible (opt) are NOT in mem_* '
-                '(see _sync_memory_snapshot).',
+                'Strict bucket: frontier + g/parent slots only. '
+                'AGG\'s _F_stored / _h_vector (sv) / '
+                '_responsible (opt) are tallied in mem_aux.',
+                transform=ax.transAxes,
+                fontsize=7, color='dimgray', style='italic')
+    elif counter == 'mem_aux':
+        ax.text(0.01, -0.16,
+                'AGG-only: _F_stored (always) + _h_vector (sv) + '
+                '_responsible (opt). INC is structurally 0 -- no '
+                'AGG-style aux structures.',
+                transform=ax.transAxes,
+                fontsize=7, color='dimgray', style='italic')
+    elif counter == 'mem_total':
+        ax.text(0.01, -0.16,
+                'Headline memory metric: mem_open + mem_closed + '
+                'mem_aux. For INC the aux term is 0 by construction;'
+                ' for AGG it adds the _F_stored / vector / opt cost.',
                 transform=ax.transAxes,
                 fontsize=7, color='dimgray', style='italic')
 
@@ -227,16 +235,25 @@ def _format_value(counter: str, value: float) -> str:
     """
     ========================================================================
      Format a single mean value for the per-k data table. Elapsed
-     counters get 3 decimals; large counts use scientific notation;
-     smaller integer-valued counters use thousands-separator.
+     counters get 3 decimals; large counts use K / M / B suffixes
+     for readability (no scientific notation):
+       >= 1e9  -> 1.23B
+       >= 1e6  -> 1.23M
+       >= 1e4  -> 12.3K   (use shorthand only past 10K so 1234 -> 1,234)
+       else    -> thousands-separator
     ========================================================================
     """
     if pd.isna(value):
         return '—'
     if counter.startswith('elapsed_'):
         return f'{value:.3f}'
-    if abs(value) >= 1_000_000:
-        return f'{value:.2e}'
+    av = abs(value)
+    if av >= 1_000_000_000:
+        return f'{value / 1_000_000_000:.2f}B'
+    if av >= 1_000_000:
+        return f'{value / 1_000_000:.2f}M'
+    if av >= 10_000:
+        return f'{value / 1_000:.1f}K'
     return f'{value:,.0f}'
 
 
@@ -247,7 +264,11 @@ def _render_table(ax,
     """
     ========================================================================
      Render the per-k data table on `ax`. Columns: 'k' + 'INC' (if
-     applicable) + 8 AGG configs. Rows: 20 k values.
+     applicable) + 2 AGG configs. Rows: 20 k values.
+
+     Cells are center-aligned and shaded with a per-row red-yellow-
+     green gradient: the row's max is red, min is green, others are
+     linearly interpolated. `k` and header cells are not shaded.
     ========================================================================
     """
     ax.axis('off')
@@ -261,23 +282,31 @@ def _render_table(ax,
     for _, _, _, cfg in _AGG_CONFIGS:
         col_labels.append(cfg)
 
+    # Build cells (display strings) AND raw values (for coloring) in
+    # parallel. NaN entries in raw -> '—' string + no shading.
     cells: list[list[str]] = []
+    raw: list[list[float]] = []
     for k in ks:
-        row: list[str] = [str(k)]
+        row_str: list[str] = [str(k)]
+        row_val: list[float] = [float('nan')]  # k column never shaded
         if has_inc:
-            row.append(_format_value(counter, inc_by_k.loc[k, counter]))
+            v = inc_by_k.loc[k, counter]
+            row_str.append(_format_value(counter, v))
+            row_val.append(float(v) if not pd.isna(v) else float('nan'))
         for _, _, _, cfg in _AGG_CONFIGS:
             try:
-                val = agg_by_k_config.xs(
+                v = agg_by_k_config.xs(
                     cfg, level='config').loc[k, counter]
             except KeyError:
-                val = float('nan')
-            row.append(_format_value(counter, val))
-        cells.append(row)
+                v = float('nan')
+            row_str.append(_format_value(counter, v))
+            row_val.append(float(v) if not pd.isna(v) else float('nan'))
+        cells.append(row_str)
+        raw.append(row_val)
 
     table = ax.table(cellText=cells,
                      colLabels=col_labels,
-                     cellLoc='right',
+                     cellLoc='center',
                      loc='center')
     table.auto_set_font_size(False)
     table.set_fontsize(6.5)
@@ -289,6 +318,30 @@ def _render_table(ax,
     for i in range(1, len(cells) + 1):
         table[(i, 0)].set_text_props(weight='bold')
 
+    # Per-row red->yellow->green gradient on the data columns
+    # (j >= 1). Max value in the row = red, min = green, others
+    # linearly interpolated. Softened toward white for readable
+    # text. Skip rows with < 2 finite values, or all-equal rows.
+    cmap = plt.get_cmap('RdYlGn_r')
+    softness = 0.55  # 0 = full saturation, 1 = pure white
+    for i_row, vals in enumerate(raw, start=1):
+        data_vals = [v for v in vals[1:] if not pd.isna(v)]
+        if len(data_vals) < 2:
+            continue
+        vmin, vmax = min(data_vals), max(data_vals)
+        if vmin == vmax:
+            continue
+        for j in range(1, len(vals)):
+            v = vals[j]
+            if pd.isna(v):
+                continue
+            pos = (v - vmin) / (vmax - vmin)
+            r, g, b, _ = cmap(pos)
+            r = 1 - (1 - r) * (1 - softness)
+            g = 1 - (1 - g) * (1 - softness)
+            b = 1 - (1 - b) * (1 - softness)
+            table[(i_row, j)].set_facecolor((r, g, b))
+
 
 # ── Public API ─────────────────────────────────────────────────────────────
 
@@ -297,14 +350,25 @@ def make_plots(path_drive_csv_inc: str,
                path_drive_pdf_out: str) -> None:
     """
     ============================================================================
-     Read the INC and AGG CSVs from Drive, inner-join on
+     Read the INC and AGG CSVs from Drive, derive `mem_total`
+     (mem_open + mem_closed + mem_aux), inner-join on
      (domain, map, k), aggregate each counter to a per-k mean,
-     and write a 14-page PDF (one chart per counter) to Drive.
+     and write a 16-page PDF (one chart per counter) to Drive.
     ============================================================================
     """
     drive = Drive.Factory.valdas()
     df_inc = _download_csv(drive=drive, path=path_drive_csv_inc)
     df_agg = _download_csv(drive=drive, path=path_drive_csv_agg)
+
+    # Derived headline memory metric: total bytes carried by the
+    # algorithm = strict OPEN bucket + strict CLOSED bucket + aux
+    # structures (AGG-only; INC's mem_aux is structurally 0).
+    df_inc['mem_total'] = (df_inc['mem_open']
+                           + df_inc['mem_closed']
+                           + df_inc['mem_aux'])
+    df_agg['mem_total'] = (df_agg['mem_open']
+                           + df_agg['mem_closed']
+                           + df_agg['mem_aux'])
 
     # Inner-join keys so the comparison is apples-to-apples.
     common = _intersect_keys(df_inc=df_inc, df_agg=df_agg)
@@ -326,7 +390,7 @@ def make_plots(path_drive_csv_inc: str,
     os.close(fd)
     try:
         with PdfPages(path_pdf) as pdf:
-            # Shared counters: INC + 8 AGG lines + per-k table.
+            # Shared counters: INC + 2 AGG lines + per-k table.
             for counter in _SHARED_COUNTERS:
                 fig = plt.figure(figsize=(13, 9.5))
                 gs = fig.add_gridspec(2, 1,
@@ -346,7 +410,7 @@ def make_plots(path_drive_csv_inc: str,
                 pdf.savefig(fig)
                 plt.close(fig)
 
-            # AGG-only counters: 8 AGG lines + per-k table (no INC).
+            # AGG-only counters: 2 AGG lines + per-k table (no INC).
             for counter in _AGG_ONLY_COUNTERS:
                 fig = plt.figure(figsize=(13, 9.5))
                 gs = fig.add_gridspec(2, 1,
@@ -377,9 +441,9 @@ def make_plots(path_drive_csv_inc: str,
 # ── Main ───────────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':
-    # Default: pick up the toy outputs already on Drive. Set
-    # suffix = '' to point at full-run CSVs once they exist.
-    suffix = '_toy50'
+    # Full-run CSVs (2026-05-15). Switch to '_toy50' to read the
+    # historical 8-config toy snapshot.
+    suffix = ''
     path_drive_csv_inc = (f'Experiments/OMSPP/'
                           f'kastar_inc_extended{suffix}.csv')
     path_drive_csv_agg = (f'Experiments/OMSPP/'

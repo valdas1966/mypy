@@ -93,8 +93,9 @@ between groups for fast scanning.
 | `cnt_decrease` | `frontier.decrease` call |
 | `cnt_expanded` | popped state whose successors were generated (Stern-style "expansions") |
 | `cnt_generated` | first-time push (state newly enters OPEN; excludes refresh re-pushes, lazy-re-pushed goals, decrease-key) |
-| `mem_open` | post-run memory snapshot — frontier struct + g/parent slots in OPEN |
-| `mem_closed` | post-run memory snapshot — closed set + g/parent slots in CLOSED |
+| `mem_open` | post-run memory snapshot — frontier struct + g/parent slots in OPEN (strict bucket; aux structures excluded) |
+| `mem_closed` | post-run memory snapshot — closed set + g/parent slots in CLOSED (strict bucket) |
+| `mem_aux` | post-run memory snapshot — algorithm-specific auxiliary per-state structures that live OUTSIDE OPEN/CLOSED. **KAStarAgg-only:** `_F_stored` (always) + `_h_vector` (when `store_vector=True`) + `_responsible` (when `is_opt=True`). Other OMSPP algos have no aux structures; the column is omitted from their scaffold (cross-algo tables fill 0 via `.fillna(0)`). |
 
 **Per-algo schemas (no structural zeros — only what the algo tracks):**
 
@@ -104,7 +105,7 @@ between groups for fast scanning.
 | **KBFS** | inherits base — no extras (no h, no Φ, no lazy stale-pop) |
 | **KDijkstra** | inherits base — no extras (same reasons) |
 | **KAStarInc** | base + `cnt_h_search`, `cnt_h_update` |
-| **KAStarAgg** | base + `cnt_h_search`, `cnt_h_update`, `cnt_phi_search`, `cnt_phi_update` |
+| **KAStarAgg** | base + `cnt_h_search`, `cnt_h_update`, `cnt_phi_search`, `cnt_phi_update`, `mem_aux` |
 
 **Search-semantic counters** (`cnt_expanded`, `cnt_generated`)
 are propagated into orchestrator scaffolds differently per
