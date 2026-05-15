@@ -7,7 +7,7 @@ regex-based helpers used across the framework.
 
 ## 2) Public API
 
-### `URe` (`main.py`)
+### `URe` (`u_re.py`)
 - `URe.extract_words(text: str) -> list[str]`
   Returns a list of words from `text`, in the order they
   appear. A "word" is a maximal sequence of word-characters
@@ -42,6 +42,6 @@ URe.extract_words(text='one, two. three: (four)\nfive; six')
 ## Files
 | File | Purpose |
 |------|---------|
-| `main.py` | `URe` class. |
+| `u_re.py` | `URe` class. |
 | `__init__.py` | Re-exports `URe`. |
 | `_tester.py` | Single pytest test bundling all asserts. |

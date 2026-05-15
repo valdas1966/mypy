@@ -8,14 +8,17 @@
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_0_base/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_0_base/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/s_4_kastar_inc_extended.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/s_4_kastar_inc_extended.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/s_5_kastar_agg_all_configs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/s_5_kastar_agg_all_configs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/s_6_plot_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/s_6_plot_counters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_psl/re/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/re/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_psl/re/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/re/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_psl/re/_factory.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_psl/re/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/re/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_psl/re/generators/CLAUDE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_psl/re/generators/g_re.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_psl/re/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_psl/re/testers/CLAUDE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_psl/re/testers/t_re.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_psl/re/u_re.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_psl/re/u_re.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +45,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "0f4621b9-87f9-4a4a-9ceb-401ed7593bcc"
+    "accountId": "a1e5e179-580e-4572-8eba-3d60343860e3"
   }
 }]]></component>
   <component name="HighlightingSettingsPerFile">
@@ -77,6 +80,7 @@
     "Python tests.Python tests for f_hs.algo.i_1_omspp.i_1_kastar_inc._tester_extend.test_extend_counters_manual_pins.executor": "Run",
     "Python tests.Python tests for f_hs.algo.omspp.i_1_kastar_agg._tester_recording.test_agg_recording_lazy1_opt0_vec0.executor": "Run",
     "Python tests.Python tests for f_hs.problem.i_1_grid._tester.test_successors_obstacle.executor": "Run",
+    "Python tests.Python tests for f_psl.builtins.list._tester.test_sliding_windows.executor": "Run",
     "Python tests.Python tests for f_psl.pandas.df._tester.test_compare_zeros.executor": "Run",
     "Python tests.Python tests for f_quiz._tester.test_load.executor": "Run",
     "Python tests.Python tests for f_search.algos.i_1_spp.i_1_astar._tester.test_g_values_of_optimal_path.executor": "Run",
@@ -1134,7 +1138,7 @@
       <recent name="F:\mypy\f_log\_comparing" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_4_kastar_inc_extended (1)">
+  <component name="RunManager" selected="Python tests.Python tests for f_psl.builtins.list._tester.test_sliding_windows">
     <configuration name="_study (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -1148,6 +1152,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/creds/oauth/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1170,6 +1175,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1192,28 +1198,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/omspp/s_4_kastar_inc_extended.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="s_4_kastar_inc_extended" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/experiments/omspp" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/omspp/s_4_kastar_inc_extended.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1236,6 +1221,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/omspp/s_5_kastar_agg_all_configs.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1258,6 +1244,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/omspp/s_5_kastar_agg_all_configs.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1267,28 +1254,44 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Python tests for f_psl.builtins.list._tester.test_sliding_windows" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;f_psl.builtins.list._tester.test_sliding_windows&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.p_4_solutions" />
       <item itemvalue="Python._study (1)" />
       <item itemvalue="Python.s_4_kastar_inc_extended (1)" />
       <item itemvalue="Python.s_5_kastar_agg_all_configs (1)" />
       <item itemvalue="Python.s_5_kastar_agg_all_configs" />
-      <item itemvalue="Python.s_4_kastar_inc_extended" />
+      <item itemvalue="Python tests.Python tests for f_psl.builtins.list._tester.test_sliding_windows" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for f_psl.builtins.list._tester.test_sliding_windows" />
         <item itemvalue="Python.s_4_kastar_inc_extended (1)" />
         <item itemvalue="Python.s_5_kastar_agg_all_configs (1)" />
         <item itemvalue="Python._study (1)" />
         <item itemvalue="Python.s_5_kastar_agg_all_configs" />
-        <item itemvalue="Python.s_4_kastar_inc_extended" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
+        <option value="bundled-python-sdk-ca5e2b39c7df-6e1f45a539f7-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.29346.308" />
       </set>
     </attachedChunks>
   </component>

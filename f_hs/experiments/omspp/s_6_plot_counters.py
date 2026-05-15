@@ -1,48 +1,51 @@
 """
 ===============================================================================
- Script: plot kA*-INC (extended mode) vs kA*-AGG (2 configs, Φ=MIN)
- counters as a multi-page PDF on Drive.
+ Script: plot Incremental (kA*-INC extended) vs AGG-Eager / AGG-Lazy
+ (kA*-AGG, Φ=MIN, opt+sv) counters as a multi-page PDF on Drive.
 
- For each counter, one chart with:
-   - 1 bold black line for kA*-INC (extended)
-   - 2 lines for kA*-AGG: `eager_opt_sv` and `lazy_opt_sv`
-     (restricted sweep, 2026-05-15). Visual encoding:
-       linestyle = is_lazy   (solid = lazy, dashed = eager)
-       color     = (is_opt, store_vector) pair (red for opt+sv)
+ Three algorithms compared:
+   - Incremental : kA*-INC, extended mode. Black.
+   - AGG-Eager   : kA*-AGG `eager_opt_sv`. Blue.
+   - AGG-Lazy    : kA*-AGG `lazy_opt_sv`.  Red.
+
+ All three are SOLID lines with the same filled-circle marker. When
+ AGG-Eager and AGG-Lazy coincide on a segment (mem_*, cnt_phi_*,
+ ... often differ by < 1%), the visible line on that segment is
+ drawn as alternating short pieces blue / red / blue / red so both
+ algorithms remain visible. Non-overlapping segments are drawn as
+ normal solid lines per algorithm.
 
  X-axis: k (number of goals).
  Y-axis: counter value, MEAN over (domain, map) at each k.
 
  Each page: chart on the top half, a per-k DATA TABLE on the bottom
- half (rows = k values, columns = INC + 2 AGG configs). The table
- surfaces the exact mean values that the chart visualizes -- useful
- when one line is visually crushed by another (e.g., INC's
- `cnt_h_search` is ~10^5 while some AGG configs reach ~10^7, so the
- INC line looks near-zero on a shared Y axis without log scaling).
+ half (rows = k values, columns = Incremental + 2 AGG configs). The
+ table surfaces the exact mean values that the chart visualises.
 
  The two CSVs are inner-joined on `(domain, map, k)` first, so any
- (map, k) missing from one side (e.g. a partial 3rd chain in toy
- mode) is dropped from both -- the comparison stays apples-to-apples.
+ (map, k) missing from one side is dropped from both -- the
+ comparison stays apples-to-apples.
 
  Memory accounting
    `mem_open` / `mem_closed` cover frontier struct + pro-rated g/parent
    slots (strict bucket semantics). `mem_aux` covers KAStarAgg's
    auxiliary per-state structures that live OUTSIDE OPEN/CLOSED:
    `_F_stored` (always), `_h_vector` (when store_vector=True),
-   `_responsible` (when is_opt=True). For KAStarInc this is
-   structurally 0 -- no AGG-style aux structures exist. The
-   derived headline `mem_total = mem_open + mem_closed + mem_aux`
-   is added in `make_plots` (not stored in either CSV).
+   `_responsible` (when is_opt=True). For Incremental this is
+   structurally 0. The derived headline `mem_total = mem_open +
+   mem_closed + mem_aux` is added in `make_plots` (not stored in
+   either CSV). `cnt_h_total = cnt_h_search + cnt_h_update` is the
+   analogous derived headline for h-call accounting.
 -------------------------------------------------------------------------------
- 16 charts total:
-   14 shared counters  (INC + 2 AGG lines per chart)
-     cnt_h_search, cnt_h_update,
-     cnt_push, cnt_pop, cnt_decrease,
+ 11 pages total:
+   shared counters (Incremental + 2 AGG lines per chart)
      cnt_expanded, cnt_generated,
-     mem_open, mem_closed, mem_aux, mem_total,
-     elapsed_total, elapsed_search, elapsed_update
-   2 AGG-only counters (2 AGG lines per chart, no INC)
-     cnt_phi_search, cnt_phi_update
+     elapsed_total,
+     cnt_h_total (derived = cnt_h_search + cnt_h_update),
+     cnt_push, cnt_pop,
+     mem_open, mem_closed, mem_aux, mem_total
+   AGG-only counters (2 AGG lines per chart, no Incremental)
+     cnt_phi_total (derived = cnt_phi_search + cnt_phi_update)
 -------------------------------------------------------------------------------
  Inputs  (Drive)
    Experiments/OMSPP/kastar_inc_extended{suffix}.csv
@@ -54,6 +57,7 @@
  `suffix` is `''` for full-run CSVs or `'_toy{N}'` for toy CSVs.
 ===============================================================================
 """
+import math
 import os
 import tempfile
 import logging
@@ -72,48 +76,116 @@ setup_log(sink='console', level=logging.INFO)
 _log = get_log(__name__)
 
 
-# Counters shared between INC and AGG.
-_SHARED_COUNTERS: list[str] = [
-    'cnt_h_search',
-    'cnt_h_update',
-    'cnt_push',
-    'cnt_pop',
-    'cnt_decrease',
-    'cnt_expanded',
-    'cnt_generated',
-    'mem_open',
-    'mem_closed',
-    'mem_aux',
-    'mem_total',
-    'elapsed_total',
-    'elapsed_search',
-    'elapsed_update',
-]
+# ── Algorithm visual specs ──────────────────────────────────────────────────
+# Solid lines only; on segments where AGG-Eager and AGG-Lazy coincide
+# the visible line alternates the two colours (see _draw_overlay_pair).
+# alpha=1.0 throughout so the alternating colours stay vivid.
 
-# Counters only in AGG (Φ-related).
-_AGG_ONLY_COUNTERS: list[str] = [
-    'cnt_phi_search',
-    'cnt_phi_update',
-]
+_ALGO_INC = 'Incremental'
+_ALGO_EAGER = 'AGG-Eager'
+_ALGO_LAZY = 'AGG-Lazy'
 
-# 2 AGG configs (matches s_5 restricted sweep, 2026-05-15).
-# Restored to 8 if the no-opt / no-sv baselines are re-measured.
-_AGG_CONFIGS: list[tuple[bool, bool, bool, str]] = [
-    (False, True,  True,  'eager_opt_sv'),
-    (True,  True,  True,  'lazy_opt_sv'),
-]
-
-# Three-algorithm color scheme: black (INC), blue (eager_opt_sv),
-# red (lazy_opt_sv). Linestyle stays solid for all -- color alone
-# distinguishes the three algorithms.
-_AGG_COLOR: dict[bool, str] = {
-    False: 'tab:blue',   # eager_opt_sv
-    True:  'tab:red',    # lazy_opt_sv
+_ALGO_SPECS: dict[str, dict] = {
+    _ALGO_INC: dict(
+        color='black',
+        linestyle='-',
+        linewidth=2.6,
+        marker='o',
+        markersize=5,
+        markerfacecolor='black',
+        markeredgecolor='black',
+        alpha=1.0,
+    ),
+    _ALGO_EAGER: dict(
+        color='tab:blue',
+        linestyle='-',
+        linewidth=2.2,
+        marker='o',
+        markersize=5,
+        markerfacecolor='tab:blue',
+        markeredgecolor='tab:blue',
+        alpha=1.0,
+    ),
+    _ALGO_LAZY: dict(
+        color='tab:red',
+        linestyle='-',
+        linewidth=2.2,
+        marker='o',
+        markersize=5,
+        markerfacecolor='tab:red',
+        markeredgecolor='tab:red',
+        alpha=1.0,
+    ),
 }
 
-_INC_COLOR = 'black'
-_INC_LW = 2.6
-_AGG_LW = 2.0
+# Pieces per overlapping segment for the alternating bicolour draw.
+# 6 pieces over a k-step of 10 yields ~10px alternation at typical
+# PDF zoom -- visible alternation, not noisy.
+_INTERLEAVE_PIECES: int = 6
+
+# Relative tolerance for "lines coincide on this segment". If both
+# endpoints of the segment satisfy |y_a - y_b| / max(|y_a|, |y_b|)
+# < tol, the segment is drawn as an alternating midline.
+_OVERLAP_REL_TOL: float = 0.02
+
+
+# (is_lazy, is_opt, store_vector, csv_config_label, display_label)
+_AGG_CONFIGS: list[tuple[bool, bool, bool, str, str]] = [
+    (False, True, True, 'eager_opt_sv', _ALGO_EAGER),
+    (True,  True, True, 'lazy_opt_sv',  _ALGO_LAZY),
+]
+
+
+# Footer notes for caveats on mem_* / cnt_h_total pages.
+_NOTE_MEM_STRICT = (
+    "Strict bucket: frontier + g/parent slots only. "
+    "AGG's _F_stored / _h_vector (sv) / _responsible (opt) "
+    "are tallied in mem_aux."
+)
+_NOTE_MEM_AUX = (
+    "AGG-only: _F_stored (always) + _h_vector (sv) + "
+    "_responsible (opt). Incremental is structurally 0 -- no "
+    "AGG-style aux structures."
+)
+_NOTE_MEM_TOTAL = (
+    "Headline memory metric: mem_open + mem_closed + mem_aux. "
+    "For Incremental the aux term is 0 by construction; for "
+    "AGG it adds the _F_stored / vector / opt cost."
+)
+_NOTE_CNT_H_TOTAL = (
+    "Derived: cnt_h_search + cnt_h_update. Captures total "
+    "heuristic evaluations across both lazy-search misses "
+    "(search bucket) and eager-refresh recomputes (update "
+    "bucket)."
+)
+_FOOTER_NOTE: dict[str, str] = {
+    'mem_open':    _NOTE_MEM_STRICT,
+    'mem_closed':  _NOTE_MEM_STRICT,
+    'mem_aux':     _NOTE_MEM_AUX,
+    'mem_total':   _NOTE_MEM_TOTAL,
+    'cnt_h_total': _NOTE_CNT_H_TOTAL,
+}
+
+
+# Page list: explicit ordering. `agg_only=True` skips Incremental.
+_PAGES: list[dict] = [
+    {'counter': 'cnt_expanded'},
+    {'counter': 'cnt_generated'},
+
+    {'counter': 'elapsed_total'},
+
+    {'counter': 'cnt_h_total'},
+
+    {'counter': 'cnt_push'},
+    {'counter': 'cnt_pop'},
+
+    {'counter': 'cnt_phi_total', 'agg_only': True},
+
+    {'counter': 'mem_open'},
+    {'counter': 'mem_closed'},
+    {'counter': 'mem_aux'},
+    {'counter': 'mem_total'},
+]
 
 
 # ── Drive I/O ──────────────────────────────────────────────────────────────
@@ -146,8 +218,6 @@ def _intersect_keys(df_inc: pd.DataFrame,
     """
     ========================================================================
      Return the set of (domain, map, k) keys present in BOTH CSVs.
-     Drives the inner-join filter applied to each frame before
-     aggregation.
     ========================================================================
     """
     keys_inc = df_inc[['domain', 'map', 'k']].drop_duplicates()
@@ -162,13 +232,151 @@ def _filter_common(df: pd.DataFrame,
     """
     ========================================================================
      Keep only rows of `df` whose (domain, map, k) appears in
-     `common`. Returns the filtered DataFrame.
+     `common`.
     ========================================================================
     """
     return df.merge(common, on=['domain', 'map', 'k'], how='inner')
 
 
-# ── Plotting ────────────────────────────────────────────────────────────────
+# ── Single-counter chart + per-k table ──────────────────────────────────────
+
+def _line_only_spec(spec: dict) -> dict:
+    """
+    ========================================================================
+     Strip marker keys from an algorithm spec; used when drawing the
+     LINE only (markers are emitted in a separate plot call so they
+     land on the actual per-algo (x, y) data points even within
+     overlap segments).
+    ========================================================================
+    """
+    line_keys = {'color', 'linestyle', 'linewidth', 'alpha'}
+    return {k: v for k, v in spec.items() if k in line_keys}
+
+
+def _marker_only_kwargs(spec: dict) -> dict:
+    """
+    ========================================================================
+     Return matplotlib kwargs that draw markers only (no connecting
+     line) at the data points of an algorithm.
+    ========================================================================
+    """
+    return dict(
+        linestyle='None',
+        marker=spec.get('marker', 'o'),
+        markersize=spec.get('markersize', 5),
+        markerfacecolor=spec.get('markerfacecolor', spec['color']),
+        markeredgecolor=spec.get('markeredgecolor', spec['color']),
+        markeredgewidth=spec.get('markeredgewidth', 1.0),
+        alpha=spec.get('alpha', 1.0),
+    )
+
+
+def _draw_overlay_pair(ax,
+                       x: list,
+                       y_a: list,
+                       y_b: list,
+                       spec_a: dict,
+                       spec_b: dict,
+                       label_a: str,
+                       label_b: str,
+                       n_pieces: int = _INTERLEAVE_PIECES,
+                       rel_tol: float = _OVERLAP_REL_TOL) -> None:
+    """
+    ========================================================================
+     Draw two lines (A=eager, B=lazy) so that:
+
+       - On a segment where the two lines coincide (within rel_tol),
+         the visible line is rendered as `n_pieces` short pieces
+         alternating colour A / colour B along the (y_a + y_b) / 2
+         midline. Neither A's nor B's full-resolution line is drawn
+         in that segment.
+       - On a non-overlapping segment, each line is drawn solid in
+         its own colour.
+
+     Markers are always drawn at the actual data points of BOTH
+     lines so each algorithm's per-k value remains visible even
+     inside an overlap segment.
+
+     Legend entries are emitted exactly once per algorithm via
+     empty proxy plots.
+    ========================================================================
+    """
+    n = len(x)
+    if n == 0:
+        return
+    if n == 1:
+        # Single point: just draw markers, no line.
+        ax.plot([x[0]], [y_a[0]], label=label_a,
+                **_marker_only_kwargs(spec_a))
+        ax.plot([x[0]], [y_b[0]], label=label_b,
+                **_marker_only_kwargs(spec_b))
+        return
+
+    # Per-segment overlap detection.
+    overlap = [False] * (n - 1)
+    for i in range(n - 1):
+        a_i, a_j = y_a[i], y_a[i + 1]
+        b_i, b_j = y_b[i], y_b[i + 1]
+        if any(v is None or (isinstance(v, float) and math.isnan(v))
+               for v in (a_i, a_j, b_i, b_j)):
+            continue
+        mag_i = max(abs(a_i), abs(b_i), 1e-12)
+        mag_j = max(abs(a_j), abs(b_j), 1e-12)
+        gap_i = abs(a_i - b_i) / mag_i
+        gap_j = abs(a_j - b_j) / mag_j
+        overlap[i] = (gap_i < rel_tol) and (gap_j < rel_tol)
+
+    # Legend proxies (drawn once, with full spec incl. marker).
+    ax.plot([], [], label=label_a, **spec_a)
+    ax.plot([], [], label=label_b, **spec_b)
+
+    line_a = _line_only_spec(spec_a)
+    line_b = _line_only_spec(spec_b)
+
+    # Draw non-overlap segments, per line, as contiguous runs.
+    for y_line, line_spec in ((y_a, line_a), (y_b, line_b)):
+        i = 0
+        while i < n - 1:
+            if overlap[i]:
+                i += 1
+                continue
+            j = i
+            while j < n - 1 and not overlap[j]:
+                j += 1
+            ax.plot(x[i:j + 1], y_line[i:j + 1],
+                    label='_nolegend_', **line_spec)
+            i = j
+
+    # Draw overlap segments as alternating-colour midline pieces.
+    color_a = spec_a['color']
+    color_b = spec_b['color']
+    lw = max(line_a.get('linewidth', 2), line_b.get('linewidth', 2))
+    alpha_overlap = max(spec_a.get('alpha', 1.0),
+                        spec_b.get('alpha', 1.0))
+    for i in range(n - 1):
+        if not overlap[i]:
+            continue
+        x_i, x_j = x[i], x[i + 1]
+        mid_i = (y_a[i] + y_b[i]) / 2
+        mid_j = (y_a[i + 1] + y_b[i + 1]) / 2
+        for p in range(n_pieces):
+            t1 = p / n_pieces
+            t2 = (p + 1) / n_pieces
+            x_p1 = x_i + t1 * (x_j - x_i)
+            x_p2 = x_i + t2 * (x_j - x_i)
+            y_p1 = mid_i + t1 * (mid_j - mid_i)
+            y_p2 = mid_i + t2 * (mid_j - mid_i)
+            color = color_a if p % 2 == 0 else color_b
+            ax.plot([x_p1, x_p2], [y_p1, y_p2],
+                    color=color, linewidth=lw,
+                    solid_capstyle='butt',
+                    alpha=alpha_overlap,
+                    label='_nolegend_')
+
+    # Markers at every (x, y) of each algorithm.
+    ax.plot(x, y_a, label='_nolegend_', **_marker_only_kwargs(spec_a))
+    ax.plot(x, y_b, label='_nolegend_', **_marker_only_kwargs(spec_b))
+
 
 def _plot_counter(ax,
                   counter: str,
@@ -179,54 +387,61 @@ def _plot_counter(ax,
     ========================================================================
      Draw one counter onto `ax`. `inc_by_k` may be None for
      AGG-only counters (cnt_phi_*).
+
+     Incremental is drawn as a single solid line. The AGG-Eager and
+     AGG-Lazy pair is drawn via `_draw_overlay_pair` so coincident
+     segments render as alternating blue / red pieces instead of
+     one colour silently masking the other.
     ========================================================================
     """
     if inc_by_k is not None and counter in inc_by_k.columns:
+        spec = dict(_ALGO_SPECS[_ALGO_INC])
         ax.plot(inc_by_k.index, inc_by_k[counter],
-                color=_INC_COLOR, linewidth=_INC_LW,
-                marker='o', markersize=4,
-                label='KAStarInc (extended)')
+                label=_ALGO_INC, **spec)
 
-    for is_lazy, is_opt, store_vector, cfg in _AGG_CONFIGS:
+    # AGG pair (interleave colours on overlap).
+    eager_series = None
+    lazy_series = None
+    for _is_lazy, _is_opt, _sv, cfg, display in _AGG_CONFIGS:
         try:
             series = agg_by_k_config.xs(cfg, level='config')[counter]
         except KeyError:
             continue
-        ax.plot(series.index, series.values,
-                color=_AGG_COLOR[is_lazy],
-                linewidth=_AGG_LW,
-                marker='o', markersize=4,
-                label=f'KAStarAgg/{cfg}')
+        if display == _ALGO_EAGER:
+            eager_series = series
+        elif display == _ALGO_LAZY:
+            lazy_series = series
+
+    if eager_series is not None and lazy_series is not None:
+        x_vals = list(eager_series.index)
+        _draw_overlay_pair(
+            ax=ax, x=x_vals,
+            y_a=list(eager_series.values),
+            y_b=list(lazy_series.values),
+            spec_a=_ALGO_SPECS[_ALGO_EAGER],
+            spec_b=_ALGO_SPECS[_ALGO_LAZY],
+            label_a=_ALGO_EAGER,
+            label_b=_ALGO_LAZY,
+        )
+    elif eager_series is not None:
+        spec = dict(_ALGO_SPECS[_ALGO_EAGER])
+        ax.plot(eager_series.index, eager_series.values,
+                label=_ALGO_EAGER, **spec)
+    elif lazy_series is not None:
+        spec = dict(_ALGO_SPECS[_ALGO_LAZY])
+        ax.plot(lazy_series.index, lazy_series.values,
+                label=_ALGO_LAZY, **spec)
 
     ax.set_xlabel('k (number of goals)')
     ax.set_ylabel(counter)
     ax.set_title(f'{counter}  '
                  f'(mean over {n_maps} (domain, map) at each k)')
     ax.grid(True, alpha=0.3)
-    ax.legend(loc='best', fontsize=7, framealpha=0.85)
+    ax.legend(loc='best', fontsize=8, framealpha=0.85)
 
-    # Memory accounting note: mem_open / mem_closed are strict
-    # (frontier + pro-rated g/parent slots); AGG's auxiliary
-    # structures live in mem_aux instead.
-    if counter in ('mem_open', 'mem_closed'):
-        ax.text(0.01, -0.16,
-                'Strict bucket: frontier + g/parent slots only. '
-                'AGG\'s _F_stored / _h_vector (sv) / '
-                '_responsible (opt) are tallied in mem_aux.',
-                transform=ax.transAxes,
-                fontsize=7, color='dimgray', style='italic')
-    elif counter == 'mem_aux':
-        ax.text(0.01, -0.16,
-                'AGG-only: _F_stored (always) + _h_vector (sv) + '
-                '_responsible (opt). INC is structurally 0 -- no '
-                'AGG-style aux structures.',
-                transform=ax.transAxes,
-                fontsize=7, color='dimgray', style='italic')
-    elif counter == 'mem_total':
-        ax.text(0.01, -0.16,
-                'Headline memory metric: mem_open + mem_closed + '
-                'mem_aux. For INC the aux term is 0 by construction;'
-                ' for AGG it adds the _F_stored / vector / opt cost.',
+    note = _FOOTER_NOTE.get(counter)
+    if note is not None:
+        ax.text(0.01, -0.16, note,
                 transform=ax.transAxes,
                 fontsize=7, color='dimgray', style='italic')
 
@@ -239,7 +454,7 @@ def _format_value(counter: str, value: float) -> str:
      for readability (no scientific notation):
        >= 1e9  -> 1.23B
        >= 1e6  -> 1.23M
-       >= 1e4  -> 12.3K   (use shorthand only past 10K so 1234 -> 1,234)
+       >= 1e4  -> 12.3K
        else    -> thousands-separator
     ========================================================================
     """
@@ -263,8 +478,8 @@ def _render_table(ax,
                   agg_by_k_config: pd.DataFrame) -> None:
     """
     ========================================================================
-     Render the per-k data table on `ax`. Columns: 'k' + 'INC' (if
-     applicable) + 2 AGG configs. Rows: 20 k values.
+     Render the per-k data table on `ax`. Columns: 'k' + 'Incremental'
+     (if applicable) + 2 AGG display labels. Rows: 20 k values.
 
      Cells are center-aligned and shaded with a per-row red-yellow-
      green gradient: the row's max is red, min is green, others are
@@ -278,22 +493,20 @@ def _render_table(ax,
                and counter in inc_by_k.columns)
     col_labels: list[str] = ['k']
     if has_inc:
-        col_labels.append('INC')
-    for _, _, _, cfg in _AGG_CONFIGS:
-        col_labels.append(cfg)
+        col_labels.append(_ALGO_INC)
+    for _is_lazy, _is_opt, _sv, _cfg, display in _AGG_CONFIGS:
+        col_labels.append(display)
 
-    # Build cells (display strings) AND raw values (for coloring) in
-    # parallel. NaN entries in raw -> '—' string + no shading.
     cells: list[list[str]] = []
     raw: list[list[float]] = []
     for k in ks:
         row_str: list[str] = [str(k)]
-        row_val: list[float] = [float('nan')]  # k column never shaded
+        row_val: list[float] = [float('nan')]
         if has_inc:
             v = inc_by_k.loc[k, counter]
             row_str.append(_format_value(counter, v))
             row_val.append(float(v) if not pd.isna(v) else float('nan'))
-        for _, _, _, cfg in _AGG_CONFIGS:
+        for _is_lazy, _is_opt, _sv, cfg, _display in _AGG_CONFIGS:
             try:
                 v = agg_by_k_config.xs(
                     cfg, level='config').loc[k, counter]
@@ -311,19 +524,13 @@ def _render_table(ax,
     table.auto_set_font_size(False)
     table.set_fontsize(6.5)
     table.scale(1.0, 1.18)
-    # Bold header row.
     for j in range(len(col_labels)):
         table[(0, j)].set_text_props(weight='bold')
-    # Bold the 'k' column.
     for i in range(1, len(cells) + 1):
         table[(i, 0)].set_text_props(weight='bold')
 
-    # Per-row red->yellow->green gradient on the data columns
-    # (j >= 1). Max value in the row = red, min = green, others
-    # linearly interpolated. Softened toward white for readable
-    # text. Skip rows with < 2 finite values, or all-equal rows.
     cmap = plt.get_cmap('RdYlGn_r')
-    softness = 0.55  # 0 = full saturation, 1 = pure white
+    softness = 0.55
     for i_row, vals in enumerate(raw, start=1):
         data_vals = [v for v in vals[1:] if not pd.isna(v)]
         if len(data_vals) < 2:
@@ -350,27 +557,26 @@ def make_plots(path_drive_csv_inc: str,
                path_drive_pdf_out: str) -> None:
     """
     ============================================================================
-     Read the INC and AGG CSVs from Drive, derive `mem_total`
-     (mem_open + mem_closed + mem_aux), inner-join on
-     (domain, map, k), aggregate each counter to a per-k mean,
-     and write a 16-page PDF (one chart per counter) to Drive.
+     Read the INC and AGG CSVs from Drive, derive `mem_total` and
+     `cnt_h_total`, inner-join on (domain, map, k), aggregate each
+     counter to a per-k mean, and write a 16-page PDF to Drive.
     ============================================================================
     """
     drive = Drive.Factory.valdas()
     df_inc = _download_csv(drive=drive, path=path_drive_csv_inc)
     df_agg = _download_csv(drive=drive, path=path_drive_csv_agg)
 
-    # Derived headline memory metric: total bytes carried by the
-    # algorithm = strict OPEN bucket + strict CLOSED bucket + aux
-    # structures (AGG-only; INC's mem_aux is structurally 0).
-    df_inc['mem_total'] = (df_inc['mem_open']
-                           + df_inc['mem_closed']
-                           + df_inc['mem_aux'])
-    df_agg['mem_total'] = (df_agg['mem_open']
-                           + df_agg['mem_closed']
-                           + df_agg['mem_aux'])
+    # Derived headline metrics (computed once, used everywhere).
+    for df in (df_inc, df_agg):
+        df['mem_total'] = (df['mem_open']
+                           + df['mem_closed']
+                           + df['mem_aux'])
+        df['cnt_h_total'] = (df['cnt_h_search']
+                             + df['cnt_h_update'])
+    # AGG-only derived metric.
+    df_agg['cnt_phi_total'] = (df_agg['cnt_phi_search']
+                               + df_agg['cnt_phi_update'])
 
-    # Inner-join keys so the comparison is apples-to-apples.
     common = _intersect_keys(df_inc=df_inc, df_agg=df_agg)
     df_inc = _filter_common(df=df_inc, common=common)
     df_agg = _filter_common(df=df_agg, common=common)
@@ -378,40 +584,20 @@ def make_plots(path_drive_csv_inc: str,
     _log.info(f'after filter: INC={len(df_inc):,} rows, '
               f'AGG={len(df_agg):,} rows; n_maps={n_maps}')
 
-    # Per-k aggregations.
-    inc_cols = [c for c in _SHARED_COUNTERS if c in df_inc.columns]
+    counters_used = {p['counter'] for p in _PAGES}
+    inc_cols = [c for c in counters_used if c in df_inc.columns]
+    agg_cols = [c for c in counters_used if c in df_agg.columns]
     inc_by_k = df_inc.groupby('k')[inc_cols].mean()
-    agg_cols = _SHARED_COUNTERS + _AGG_ONLY_COUNTERS
-    agg_cols = [c for c in agg_cols if c in df_agg.columns]
     agg_by_k_config = df_agg.groupby(['k', 'config'])[agg_cols].mean()
 
-    # Write multi-page PDF.
     fd, path_pdf = tempfile.mkstemp(suffix='.pdf')
     os.close(fd)
     try:
         with PdfPages(path_pdf) as pdf:
-            # Shared counters: INC + 2 AGG lines + per-k table.
-            for counter in _SHARED_COUNTERS:
-                fig = plt.figure(figsize=(13, 9.5))
-                gs = fig.add_gridspec(2, 1,
-                                      height_ratios=[3, 2],
-                                      hspace=0.35)
-                ax_chart = fig.add_subplot(gs[0])
-                ax_table = fig.add_subplot(gs[1])
-                _plot_counter(ax=ax_chart,
-                              counter=counter,
-                              inc_by_k=inc_by_k,
-                              agg_by_k_config=agg_by_k_config,
-                              n_maps=n_maps)
-                _render_table(ax=ax_table,
-                              counter=counter,
-                              inc_by_k=inc_by_k,
-                              agg_by_k_config=agg_by_k_config)
-                pdf.savefig(fig)
-                plt.close(fig)
+            for page in _PAGES:
+                counter = page['counter']
+                inc_arg = None if page.get('agg_only') else inc_by_k
 
-            # AGG-only counters: 2 AGG lines + per-k table (no INC).
-            for counter in _AGG_ONLY_COUNTERS:
                 fig = plt.figure(figsize=(13, 9.5))
                 gs = fig.add_gridspec(2, 1,
                                       height_ratios=[3, 2],
@@ -420,12 +606,12 @@ def make_plots(path_drive_csv_inc: str,
                 ax_table = fig.add_subplot(gs[1])
                 _plot_counter(ax=ax_chart,
                               counter=counter,
-                              inc_by_k=None,
+                              inc_by_k=inc_arg,
                               agg_by_k_config=agg_by_k_config,
                               n_maps=n_maps)
                 _render_table(ax=ax_table,
                               counter=counter,
-                              inc_by_k=None,
+                              inc_by_k=inc_arg,
                               agg_by_k_config=agg_by_k_config)
                 pdf.savefig(fig)
                 plt.close(fig)

@@ -15,22 +15,31 @@ def test_extract_words() -> None:
     """
     # Simple
     text = 'hello world python'
-    assert URe.extract_words(text=text) == ['hello', 'world', 'python']
+    actual = URe.extract_words(text=text)
+    expected = ['hello', 'world', 'python']
+    assert actual == expected
 
     # Mixed delimiters
     text = 'one, two. three: (four)\nfive; six!\tseven?eight'
-    assert URe.extract_words(text=text) == ['one', 'two', 'three', 'four',
-                                            'five', 'six', 'seven', 'eight']
+    actual = URe.extract_words(text=text)
+    expected = ['one', 'two', 'three', 'four',
+                'five', 'six', 'seven', 'eight']
+    assert actual == expected
 
     # Duplicates preserved in order
     text = 'cat dog cat bird dog cat'
-    assert URe.extract_words(text=text) == ['cat', 'dog', 'cat',
-                                            'bird', 'dog', 'cat']
+    actual = URe.extract_words(text=text)
+    expected = ['cat', 'dog', 'cat', 'bird', 'dog', 'cat']
+    assert actual == expected
 
     # Empty
     text = ''
-    assert URe.extract_words(text=text) == []
+    actual = URe.extract_words(text=text)
+    expected = []
+    assert actual == expected
 
     # Only delimiters
     text = '  , . : ;\n\t () '
-    assert URe.extract_words(text=text) == []
+    actual = URe.extract_words(text=text)
+    expected = []
+    assert actual == expected
