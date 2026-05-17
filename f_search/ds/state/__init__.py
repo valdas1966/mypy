@@ -1,17 +1,6 @@
-__all__ = ['StateBase', 'StateCell']
+from f_core.imports import ULazy
 
-
-def __getattr__(name: str):
-    _lazy = {
-        'StateBase': 'f_search.ds.state.i_0_base',
-        'StateCell': 'f_search.ds.state.i_1_cell',
-    }
-    if name in _lazy:
-        from importlib import import_module
-        mod = import_module(_lazy[name])
-        val = getattr(mod, name)
-        globals()[name] = val
-        return val
-    raise AttributeError(
-        f"module {__name__!r} has no attribute {name!r}"
-    )
+ULazy.install(globals(), {
+    'StateBase': 'f_search.ds.state.i_0_base:StateBase',
+    'StateCell': 'f_search.ds.state.i_1_cell:StateCell',
+})

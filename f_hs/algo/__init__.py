@@ -1,34 +1,13 @@
-__all__ = [
-    'AlgoSPP',
-    'SearchStateSPP',
-    'BFS',
-    'AStar',
-    'AStarLookup',
-    'AStarBPMX',
-    'Dijkstra',
-    'KAStarInc',
-    'KAStarAgg',
-]
+from f_core.imports import ULazy
 
-
-def __getattr__(name: str):
-    _lazy = {
-        'AlgoSPP': 'f_hs.algo.i_0_oospp.i_0_base',
-        'SearchStateSPP': 'f_hs.algo.i_0_oospp.i_0_base',
-        'BFS': 'f_hs.algo.i_0_oospp.i_1_bfs',
-        'AStar': 'f_hs.algo.i_0_oospp.i_1_astar',
-        'AStarLookup': 'f_hs.algo.i_0_oospp.i_2_astar_lookup',
-        'AStarBPMX': 'f_hs.algo.i_0_oospp.i_3_astar_bpmx',
-        'Dijkstra': 'f_hs.algo.i_0_oospp.i_2_dijkstra',
-        'KAStarInc': 'f_hs.algo.i_1_omspp',
-        'KAStarAgg': 'f_hs.algo.i_1_omspp',
-    }
-    if name in _lazy:
-        from importlib import import_module
-        mod = import_module(_lazy[name])
-        val = getattr(mod, name)
-        globals()[name] = val
-        return val
-    raise AttributeError(
-        f"module {__name__!r} has no attribute {name!r}"
-    )
+ULazy.install(globals(), {
+    'AlgoSPP': 'f_hs.algo.i_0_oospp.i_0_base:AlgoSPP',
+    'SearchStateSPP': 'f_hs.algo.i_0_oospp.i_0_base:SearchStateSPP',
+    'BFS': 'f_hs.algo.i_0_oospp.i_1_bfs:BFS',
+    'AStar': 'f_hs.algo.i_0_oospp.i_1_astar:AStar',
+    'AStarLookup': 'f_hs.algo.i_0_oospp.i_2_astar_lookup:AStarLookup',
+    'AStarBPMX': 'f_hs.algo.i_0_oospp.i_3_astar_bpmx:AStarBPMX',
+    'Dijkstra': 'f_hs.algo.i_0_oospp.i_2_dijkstra:Dijkstra',
+    'KAStarInc': 'f_hs.algo.i_1_omspp:KAStarInc',
+    'KAStarAgg': 'f_hs.algo.i_1_omspp:KAStarAgg',
+})

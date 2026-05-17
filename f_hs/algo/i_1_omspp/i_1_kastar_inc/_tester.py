@@ -325,11 +325,12 @@ def test_counters_pin_graph_abc_two_goals() -> None:
     ========================================================================
      Pin the counter dict for KAStarInc on
      graph_abc_two_goals (goals=[B, C]). Lazy re-push:
-     after sub-search 0 reaches B, B re-enters OPEN
-     (+1 cnt_push, +1 cnt_h_search); the transition refreshes
-     a 1-state frontier (+1 cnt_push silent, +3 cnt_h_update);
-     sub-search 1 pops B, expands → push C, pops C (last
-     goal, no re-push).
+     after sub-search 0 reaches B, B re-enters OPEN via
+     `_lazy_repush` (+1 cnt_push, NO cnt_h_search — the
+     provably-zero h_i(B, B) is skipped); the transition
+     refreshes a 1-state frontier (+1 cnt_push silent,
+     +3 cnt_h_update); sub-search 1 pops B, expands → push
+     C, pops C (last goal, no re-push).
     ========================================================================
     """
     algo = KAStarInc.Factory.graph_abc_two_goals()
@@ -337,7 +338,7 @@ def test_counters_pin_graph_abc_two_goals() -> None:
     counters = {k: v for k, v in algo.counters.items()
                 if not k.startswith('mem_')}
     assert counters == {
-        'cnt_h_search': 4, 'cnt_h_update': 1,
+        'cnt_h_search': 3, 'cnt_h_update': 1,
         'cnt_push': 5, 'cnt_pop': 4, 'cnt_decrease': 0,
         'cnt_expanded': 2, 'cnt_generated': 3,
     }
@@ -347,7 +348,8 @@ def test_counters_pin_graph_abc_cached_at_b_first() -> None:
     """
     ========================================================================
      Pin the counter dict on the fast-path scenario:
-     goals=[C, B] — sub-search 0 reaches C and re-pushes it;
+     goals=[C, B] — sub-search 0 reaches C and re-pushes it
+     via `_lazy_repush` (h-free; no cnt_h_search added);
      sub-search 1 hits the already-closed fast-path on B (B
      was popped+expanded as collateral by sub-search 0). No
      resume(), no priority refresh, no `cnt_h_update`.
@@ -358,7 +360,7 @@ def test_counters_pin_graph_abc_cached_at_b_first() -> None:
     counters = {k: v for k, v in algo.counters.items()
                 if not k.startswith('mem_')}
     assert counters == {
-        'cnt_h_search': 4, 'cnt_h_update': 0,
+        'cnt_h_search': 3, 'cnt_h_update': 0,
         'cnt_push': 4, 'cnt_pop': 3, 'cnt_decrease': 0,
         'cnt_expanded': 2, 'cnt_generated': 3,
     }

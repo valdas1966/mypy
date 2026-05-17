@@ -82,6 +82,7 @@ class KAStarInc(Generic[State],
                  name: str = 'KAStarInc',
                  is_recording: bool = False,
                  is_timing: bool = True,
+                 is_tracing: bool = False,
                  ) -> None:
         """
         ====================================================================
@@ -112,6 +113,20 @@ class KAStarInc(Generic[State],
         self._all_goals: list[State] = []
         self._last_reached_goal: State | None = None
         self._last_algo: AStar[State] | None = None
+        # Opt-in survival instrument (off by default → zero
+        # overhead; one bool check per sub-search transition).
+        # survival[n] = number of inter-sub-search transitions
+        # at which n was in OPEN = exactly the number of
+        # `cnt_h_update` h-calls n incurs (the transition
+        # refresh re-prices every OPEN node once). Hence
+        # `sum(survival.values()) == cnt_h_update`. Nodes
+        # expanded within their own sub-search never sit
+        # through a refresh → survival 0 → absent from the
+        # dict. NOT a benchmark counter (a per-node histogram,
+        # not a scalar; kept out of `_COUNTER_NAMES` so the
+        # CSV schema / pinned counter dicts are untouched).
+        self._is_tracing: bool = is_tracing
+        self._survival: dict[State, int] = {}
 
     # ──────────────────────────────────────────────────
     #  Public Properties
@@ -126,6 +141,53 @@ class KAStarInc(Generic[State],
         ====================================================================
         """
         return self._shared_state
+
+    @property
+    def is_tracing(self) -> bool:
+        """
+        ====================================================================
+         Whether the opt-in survival instrument is active.
+        ====================================================================
+        """
+        return self._is_tracing
+
+    @property
+    def survival(self) -> dict[State, int]:
+        """
+        ====================================================================
+         Per-node survival: {node: #inter-sub-search transitions
+         the node was in OPEN}. This equals the node's number of
+         `cnt_h_update` h-calls, so
+         `sum(self.survival.values()) == counters['cnt_h_update']`.
+
+         Only nodes with survival >= 1 appear (a node expanded
+         within its own sub-search never sits through a refresh
+         → survival 0 → absent). Empty when `is_tracing=False`.
+         A copy — safe to mutate.
+        ====================================================================
+        """
+        return dict(self._survival)
+
+    @property
+    def survival_histogram(self) -> dict[int, int]:
+        """
+        ====================================================================
+         {survival_count: number_of_nodes}, ascending by count.
+
+         The report visual: how many nodes survived 1 / 2 / ...
+         sub-searches. The tail (survive ~k) is the worst case
+         where INC would pay ~k `cnt_h_update` h-calls per node
+         like AGG's `cnt_h_search` — the histogram shows that
+         tail is essentially empty, so `cnt_h_update` stays
+         small. `sum(s * n for s, n in hist.items())
+         == counters['cnt_h_update']`. Empty when
+         `is_tracing=False`.
+        ====================================================================
+        """
+        hist: dict[int, int] = {}
+        for s in self._survival.values():
+            hist[s] = hist.get(s, 0) + 1
+        return dict(sorted(hist.items()))
 
     # ──────────────────────────────────────────────────
     #  Lifecycle
@@ -148,6 +210,9 @@ class KAStarInc(Generic[State],
         self._all_goals = list(self.problem.goals)
         self._last_reached_goal = None
         self._last_algo = None
+        # Fresh run resets survival; extend() accumulates it
+        # (same lifecycle as counters / recorder).
+        self._survival = {}
         # Default phase is 'search' (set by base in _run_pre).
         for i, goal in enumerate(self._all_goals):
             self._handle_goal(goal, idx=i)
@@ -244,6 +309,13 @@ class KAStarInc(Generic[State],
             sol = algo.run()
         else:
             self.phase = PHASE_UPDATE
+            if self._is_tracing:
+                # Snapshot OPEN before the drain — these are
+                # exactly the nodes refresh_priorities() will
+                # issue one `cnt_h_update` h-call for.
+                for node in list(algo.search_state.frontier):
+                    self._survival[node] = (
+                        self._survival.get(node, 0) + 1)
             algo.refresh_priorities()
             self.phase = PHASE_SEARCH
             sol = algo.resume()
@@ -280,10 +352,14 @@ class KAStarInc(Generic[State],
 
         if (reason == 'expanded'
                 and idx < len(self._all_goals) - 1):
-            # Re-push under the just-finished search's h_i;
-            # the next transition's refresh_priorities() will
-            # re-key it under h_{i+1}.
-            algo._push(state=goal)
+            # Lazy re-push WITHOUT an h-call. The next
+            # transition's refresh_priorities() re-keys this
+            # entry under h_{i+1} before it can be popped, so
+            # the h_i(goal) value is provably discarded — and
+            # for a consistent h, h_i(goal, goal) = 0, so the
+            # priority is exactly (g, -g, goal). Skipping the
+            # redundant call keeps it out of `cnt_h_search`.
+            self._lazy_repush(algo, goal)
 
         self._shared_state = algo.search_state
 
@@ -316,14 +392,49 @@ class KAStarInc(Generic[State],
         if (self._last_reached_goal is None
                 or self._last_algo is None):
             return
-        # Use the just-finished sub-search's h_i (closed over
-        # _last_reached_goal). The very next _handle_goal call
-        # is "iterations 1+" because _shared_state is non-None,
-        # so its transition refresh_priorities() will re-key
-        # this re-pushed entry under the new goal's h.
-        self._last_algo._push(state=self._last_reached_goal)
+        # h-free re-push (see `_lazy_repush`). The very next
+        # _handle_goal call is "iterations 1+" because
+        # _shared_state is non-None, so its transition
+        # refresh_priorities() re-keys this entry under the
+        # new goal's h before it can be popped.
+        self._lazy_repush(self._last_algo, self._last_reached_goal)
         self._last_reached_goal = None
         self._last_algo = None
+
+    def _lazy_repush(self,
+                     algo: AStar[State],
+                     goal: State) -> None:
+        """
+        ====================================================================
+         Re-push a reached non-last goal onto OPEN WITHOUT an
+         h-call, then emit the standard `push` event.
+
+         Rationale. KAStarInc requires a consistent (hence
+         admissible) heuristic, so `h_i(goal, goal) = 0`. The
+         priority `AStar._priority` would compute for the
+         re-pushed goal is therefore exactly
+         `(g + 0, -g, goal) = (g, -g, goal)`. Moreover the
+         next sub-search transition's `refresh_priorities()`
+         drains the whole frontier and recomputes every
+         entry's priority under `h_{i+1}` BEFORE any pop can
+         observe this one — so the `h_i(goal)` value is
+         provably discarded regardless. Calling it is pure
+         redundant work that, under the recording-off
+         benchmark path, lands in `cnt_h_search`.
+
+         This pushes the exact same frontier entry and emits
+         the exact same `push` event (`_record_event` →
+         `_enrich_event` yields `h = 0`, `f = g`) as the
+         prior `algo._push(state=goal)` path — frontier order
+         and the recorded event stream are byte-identical.
+         The ONLY observable delta is that `cnt_h_search` no
+         longer counts the provably-zero re-push h-call.
+        ====================================================================
+        """
+        g = algo.search_state.g[goal]
+        algo.search_state.frontier.push(
+            state=goal, priority=(g, -g, goal))
+        algo._record_event(type='push', state=goal)
 
     def _sync_frontier_counters(self) -> None:
         """

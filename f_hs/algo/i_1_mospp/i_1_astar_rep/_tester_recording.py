@@ -1,6 +1,6 @@
 """
 ============================================================================
- KxAStarMOSPP — full event-stream pins. One test per scenario;
+ AStarRepMOSPP — full event-stream pins. One test per scenario;
  each asserts the complete normalized event list (`duration`
  stripped). Mirror of `KxAStarOMSPP`'s recording tester with
  the axis-swap event schema:
@@ -26,7 +26,7 @@
 ============================================================================
 """
 
-from f_hs.algo.i_1_mospp.i_1_kxastar import KxAStarMOSPP
+from f_hs.algo.i_1_mospp.i_1_astar_rep import AStarRepMOSPP
 from f_hs.algo.u_event_normalize import normalize
 from f_hs.problem.i_1_grid import ProblemGrid
 
@@ -48,14 +48,14 @@ def _grid_4x4_obstacle_2starts() -> ProblemGrid:
 def test_recording_canonical_mospp() -> None:
     """
     ========================================================================
-     Pin the FULL event stream for KxAStarMOSPP on the
+     Pin the FULL event stream for AStarRepMOSPP on the
      canonical MOSPP problem. Three independent A* sub-
      searches, no state sharing. Each starts with `push` of a
      different start state under h = Manhattan to (0,0).
     ========================================================================
     """
     p = ProblemGrid.Factory.grid_4x4_obstacle_mospp()
-    algo = KxAStarMOSPP(problem=p,
+    algo = AStarRepMOSPP(problem=p,
                         h=lambda s, g: float(s.distance(g)),
                         is_recording=True)
     algo.run()
@@ -128,14 +128,14 @@ def test_recording_canonical_mospp() -> None:
 def test_recording_grid_4x4_obstacle_2starts() -> None:
     """
     ========================================================================
-     Pin the FULL event stream for KxAStarMOSPP on the 2-start
+     Pin the FULL event stream for AStarRepMOSPP on the 2-start
      `grid_4x4_obstacle` variant (starts=[(0,3),(3,3)], goal
      (0,0)). Two independent A*s — no state sharing, no
      update_frontier.
     ========================================================================
     """
     p = _grid_4x4_obstacle_2starts()
-    algo = KxAStarMOSPP(problem=p,
+    algo = AStarRepMOSPP(problem=p,
                         h=lambda s, g: float(s.distance(g)),
                         is_recording=True)
     algo.run()

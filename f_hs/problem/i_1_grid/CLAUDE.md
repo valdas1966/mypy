@@ -67,7 +67,9 @@ stable rc lists, so `__repr__` works detached and after pickle.
 | `grid_3x3_start_is_goal()` | Start == Goal |
 | `grid_4x4_obstacle()` | **Canonical OOSPP** — wall at (0,2),(1,2); start (0,0), goal (0,3), cost 7 |
 | `grid_4x4_obstacle_omspp()` | **Canonical OMSPP** — same wall; start (0,0), goals (0,3) / (3,0) / (3,3); per-goal costs 7 / 3 / 6 |
+| `grid_4x4_obstacle_mospp()` | **Canonical MOSPP** — same wall; starts (0,3) / (3,0) / (3,3), goal (0,0); per-start costs 7 / 3 / 6 |
 | `grid_6x6_zigzag()` | **Large-inconsistency BPMX fixture** — two horizontal walls force a snake detour (0,0)→(5,0), cost 15, gap h\*−Manhattan up to 10 across the upper rows |
+| `grid_6x6_zigzag_mospp()` | **Canonical incremental-MOSPP fixture** — `grid_6x6_zigzag` topology; starts (0,0) / (2,3) / (0,3), goal (5,0); per-start costs 15 / 10 / 12. (2,3) lies on the (0,0)→(5,0) cached path → cache-hit-at-init for `AStarIncMOSPP` |
 
 **Canonicals.** The two `grid_4x4_obstacle*` methods are the
 cross-algorithm benchmark anchors:

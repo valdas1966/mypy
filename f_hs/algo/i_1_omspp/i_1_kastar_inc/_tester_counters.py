@@ -40,12 +40,15 @@ def test_counters_canonical_omspp() -> None:
        cnt_decrease = 0 — consistent Manhattan h on a
          uniform-cost grid never tightens g via a back-edge.
 
-       cnt_h_search = 16
+       cnt_h_search = 14
          = 14 priority-computation h-calls during the
            sub-searches' pushes (no recording, so no
-           per-event enrichment)
-         + 2 h-calls for the lazy re-push priority
-           computation under PHASE_SEARCH.
+           per-event enrichment).
+         The 2 non-last goal lazy re-pushes do NOT add
+           h-calls: `_lazy_repush` skips the provably-zero
+           `h_i(goal, goal)` and pushes the exact priority
+           `(g, -g, goal)` directly; the next transition's
+           refresh_priorities() re-keys it under h_{i+1}.
 
        cnt_h_update = 10
          = 5 frontier states × 2 transitions × 1 h-call per
@@ -72,7 +75,7 @@ def test_counters_canonical_omspp() -> None:
     counters = {k: v for k, v in algo.counters.items()
                 if not k.startswith('mem_')}
     assert counters == {
-        'cnt_h_search': 16,
+        'cnt_h_search': 14,
         'cnt_h_update': 10,
         'cnt_push': 26,
         'cnt_pop': 12,

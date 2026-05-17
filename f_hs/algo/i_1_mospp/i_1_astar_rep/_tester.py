@@ -1,4 +1,4 @@
-from f_hs.algo.i_1_mospp.i_1_kxastar import KxAStarMOSPP
+from f_hs.algo.i_1_mospp.i_1_astar_rep import AStarRepMOSPP
 from f_hs.problem.i_0_base._factory import _ProblemGraph
 from f_hs.problem.i_1_grid import ProblemGrid
 
@@ -46,7 +46,7 @@ def test_kxastar_mospp_single_start() -> None:
     ========================================================================
     """
     p = _line_problem(start_keys=['A'], goal_key='C')
-    algo = KxAStarMOSPP(problem=p, h=_pos_h(_LINE_POS))
+    algo = AStarRepMOSPP(problem=p, h=_pos_h(_LINE_POS))
     sols = algo.run()
     assert len(sols) == 1
     assert next(iter(sols.values())).cost == 2
@@ -59,7 +59,7 @@ def test_kxastar_mospp_two_starts_both_expanded() -> None:
     ========================================================================
     """
     p = _line_problem(start_keys=['A', 'B'], goal_key='C')
-    algo = KxAStarMOSPP(problem=p, h=_pos_h(_LINE_POS),
+    algo = AStarRepMOSPP(problem=p, h=_pos_h(_LINE_POS),
                         is_recording=True)
     sols = algo.run()
     by_key = {s.key: v for s, v in sols.items()}
@@ -87,7 +87,7 @@ def test_kxastar_mospp_unreachable_start() -> None:
     p._starts = [p._states['A'], p._states['X']]
     p._goals = [p._states['B']]
     pos = {'A': 0, 'B': 1, 'X': 99}
-    algo = KxAStarMOSPP(problem=p, h=_pos_h(pos),
+    algo = AStarRepMOSPP(problem=p, h=_pos_h(pos),
                         is_recording=True)
     sols = algo.run()
     assert sols[p._states['X']].cost == float('inf')
@@ -109,7 +109,7 @@ def test_kxastar_mospp_duplicate_start_fast_path() -> None:
      hits already_reached. Counters reflect a single A*.
     ========================================================================
     """
-    algo = KxAStarMOSPP.Factory.graph_abc_repeated_start()
+    algo = AStarRepMOSPP.Factory.graph_abc_repeated_start()
     sols = algo.run()
     by_key = {s.key: v.cost for s, v in sols.items()}
     assert by_key == {'A': 1}
@@ -129,7 +129,7 @@ def test_kxastar_mospp_no_already_closed_branch() -> None:
     ========================================================================
     """
     p = _line_problem(start_keys=['A', 'B'], goal_key='C')
-    algo = KxAStarMOSPP(problem=p, h=_pos_h(_LINE_POS),
+    algo = AStarRepMOSPP(problem=p, h=_pos_h(_LINE_POS),
                         is_recording=True)
     algo.run()
     on_starts = [e for e in algo.recorder.events
@@ -152,7 +152,7 @@ def test_kxastar_mospp_no_update_frontier_events() -> None:
     ========================================================================
     """
     p = _line_problem(start_keys=['A', 'B'], goal_key='C')
-    algo = KxAStarMOSPP(problem=p, h=_pos_h(_LINE_POS),
+    algo = AStarRepMOSPP(problem=p, h=_pos_h(_LINE_POS),
                         is_recording=True)
     algo.run()
     assert not any(e['type'] == 'update_frontier'
@@ -167,12 +167,12 @@ def test_kxastar_mospp_no_update_frontier_events() -> None:
 def test_kxastar_mospp_counter_scaffold() -> None:
     """
     ========================================================================
-     KxAStarMOSPP's scaffold drops cnt_h_update (no UPDATE
+     AStarRepMOSPP's scaffold drops cnt_h_update (no UPDATE
      phase). Honest minimal set.
     ========================================================================
     """
     p = _line_problem(start_keys=['A', 'B'], goal_key='C')
-    algo = KxAStarMOSPP(problem=p, h=_pos_h(_LINE_POS))
+    algo = AStarRepMOSPP(problem=p, h=_pos_h(_LINE_POS))
     algo.run()
     keys = set(dict(algo.counters).keys())
     assert 'cnt_h_search' in keys
@@ -193,7 +193,7 @@ def test_kxastar_mospp_elapsed_update_is_zero() -> None:
     ========================================================================
     """
     p = _line_problem(start_keys=['A', 'B'], goal_key='C')
-    algo = KxAStarMOSPP(problem=p, h=_pos_h(_LINE_POS),
+    algo = AStarRepMOSPP(problem=p, h=_pos_h(_LINE_POS),
                         is_timing=True)
     algo.run()
     assert algo.elapsed_update == 0.0
@@ -208,7 +208,7 @@ def test_kxastar_mospp_elapsed_update_is_zero() -> None:
 def test_kxastar_mospp_rejects_multi_goal_problem() -> None:
     """
     ========================================================================
-     KxAStarMOSPP requires exactly one goal. A multi-goal
+     AStarRepMOSPP requires exactly one goal. A multi-goal
      problem raises ValueError at construction.
     ========================================================================
     """
@@ -220,7 +220,7 @@ def test_kxastar_mospp_rejects_multi_goal_problem() -> None:
     p._starts = [p._states['A']]
     p._goals = [p._states['B'], p._states['C']]   # 2 goals
     with pytest.raises(ValueError):
-        KxAStarMOSPP(problem=p,
+        AStarRepMOSPP(problem=p,
                      h=lambda s, g: 0)
 
 
@@ -237,7 +237,7 @@ def test_kxastar_mospp_reconstruct_path_empty() -> None:
     ========================================================================
     """
     p = _line_problem(start_keys=['A', 'B'], goal_key='C')
-    algo = KxAStarMOSPP(problem=p, h=_pos_h(_LINE_POS))
+    algo = AStarRepMOSPP(problem=p, h=_pos_h(_LINE_POS))
     algo.run()
     assert algo.reconstruct_path(p._states['A']) == []
     assert algo.reconstruct_path(p._states['B']) == []
@@ -257,12 +257,12 @@ def test_kxastar_mospp_h_is_fixed_across_subsearches() -> None:
     ========================================================================
     """
     p = _line_problem(start_keys=['A', 'B'], goal_key='C')
-    algo = KxAStarMOSPP(problem=p, h=_pos_h(_LINE_POS))
+    algo = AStarRepMOSPP(problem=p, h=_pos_h(_LINE_POS))
     h_before = algo._h_wrapped
     algo.run()
     h_after = algo._h_wrapped
     assert h_before is h_after, (
-        'KxAStarMOSPP should reuse the same wrapped h across '
+        'AStarRepMOSPP should reuse the same wrapped h across '
         'sub-searches (the goal is fixed)')
 
 
@@ -280,7 +280,7 @@ def test_kxastar_mospp_canonical_costs() -> None:
     ========================================================================
     """
     p = ProblemGrid.Factory.grid_4x4_obstacle_mospp()
-    algo = KxAStarMOSPP(problem=p, h=_manhattan_grid)
+    algo = AStarRepMOSPP(problem=p, h=_manhattan_grid)
     sols = algo.run()
     costs = {(s.key.row, s.key.col): v.cost
              for s, v in sols.items()}

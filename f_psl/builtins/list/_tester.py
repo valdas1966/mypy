@@ -15,25 +15,42 @@ def test_sliding_windows() -> None:
     """
     # Canonical example
     li = [1, 2, 3]
-    assert UList.sliding_windows(li=li, size=2) == [[1, 2], [2, 3]]
+    size = 2
+    actual = UList.sliding_windows(li=li, size=size)
+    expected = [[1, 2], [2, 3]]
+    assert actual == expected
 
     # Size 1
     li = [1, 2, 3]
-    assert UList.sliding_windows(li=li, size=1) == [[1], [2], [3]]
+    size = 1
+    actual = UList.sliding_windows(li=li, size=size)
+    expected = [[1], [2], [3]]
+    assert actual == expected
 
     # Size == len(li)
     li = [1, 2, 3]
-    assert UList.sliding_windows(li=li, size=3) == [[1, 2, 3]]
+    size = 3
+    actual = UList.sliding_windows(li=li, size=size)
+    expected = [[1, 2, 3]]
+    assert actual == expected
 
     # Size > len(li)
     li = [1, 2, 3]
-    assert UList.sliding_windows(li=li, size=4) == []
+    size = 4
+    actual = UList.sliding_windows(li=li, size=size)
+    expected = []
+    assert actual == expected
 
     # Empty list
     li = []
-    assert UList.sliding_windows(li=li, size=2) == []
+    size = 2
+    actual = UList.sliding_windows(li=li, size=size)
+    expected = []
+    assert actual == expected
 
     # Longer list, size 3
     li = [1, 2, 3, 4, 5]
-    assert UList.sliding_windows(li=li, size=3) \
-        == [[1, 2, 3], [2, 3, 4], [3, 4, 5]]
+    size = 3
+    actual = UList.sliding_windows(li=li, size=size)
+    expected = [[1, 2, 3], [2, 3, 4], [3, 4, 5]]
+    assert actual == expected

@@ -23,7 +23,7 @@ class ExtendableMOSPP(Generic[State]):
               `_handle_start(start, idx)`.
 
      Composed by orchestrators whose `_run()` body is a
-     per-start sub-search loop (today: `KxAStarMOSPP`).
+     per-start sub-search loop (today: `AStarRepMOSPP`).
      Provides the shared `extend(new_starts)` body and the
      `run_nested(problems, h)` classmethod convenience.
      Subclasses provide two hooks:
@@ -120,7 +120,7 @@ class ExtendableMOSPP(Generic[State]):
            - Caller is responsible for the prefix-extending
              contract; duplicate starts are handled by the
              orchestrator's existing fast-paths (e.g.,
-             KxAStarMOSPP's `already_reached`).
+             AStarRepMOSPP's `already_reached`).
         ========================================================================
         """
         if self._elapsed is None:

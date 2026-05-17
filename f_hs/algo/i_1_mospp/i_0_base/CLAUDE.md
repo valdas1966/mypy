@@ -3,7 +3,7 @@
 ## Purpose
 
 Abstract base for MOSPP algorithms (currently:
-`KxAStarMOSPP`). Sibling of `AlgoOMSPP` — both inherit
+`AStarRepMOSPP`). Sibling of `AlgoOMSPP` — both inherit
 the standard `f_cs.algo.Algo` lifecycle, plus a minimal
 counter scaffold (composed via `f_core.counters.Counters`).
 Returns `SolutionMOSPP` (Mapping over `{start: SolutionSPP}`).
@@ -13,7 +13,7 @@ Returns `SolutionMOSPP` (Mapping over `{start: SolutionSPP}`).
 ```
 f_cs.algo.Algo[ProblemSPP[State], SolutionMOSPP]
     └── AlgoMOSPP[State]
-            └── KxAStarMOSPP
+            └── AStarRepMOSPP
 ```
 
 Mirrors `AlgoOMSPP` exactly in body — counter scaffold,

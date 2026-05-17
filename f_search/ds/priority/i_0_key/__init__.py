@@ -1,16 +1,3 @@
-__all__ = ['PriorityKey']
+from f_core.imports import ULazy
 
-
-def __getattr__(name: str):
-    _lazy = {
-        'PriorityKey': 'f_search.ds.priority.i_0_key.main',
-    }
-    if name in _lazy:
-        from importlib import import_module
-        mod = import_module(_lazy[name])
-        val = getattr(mod, name)
-        globals()[name] = val
-        return val
-    raise AttributeError(
-        f"module {__name__!r} has no attribute {name!r}"
-    )
+ULazy.install(globals(), {'PriorityKey': 'f_search.ds.priority.i_0_key.main:PriorityKey'})

@@ -1,6 +1,6 @@
 import pytest
 
-from f_hs.algo.i_1_mospp.i_1_kxastar import KxAStarMOSPP
+from f_hs.algo.i_1_mospp.i_1_astar_rep import AStarRepMOSPP
 from f_hs.algo.i_1_mospp.mixins.extendable import (
     ExtendableMOSPP,
     is_extendable,
@@ -42,10 +42,10 @@ _LINE_POS = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5}
 def test_kxastar_mospp_is_extendable() -> None:
     """
     ========================================================================
-     KxAStarMOSPP satisfies the ExtendableMOSPP protocol.
+     AStarRepMOSPP satisfies the ExtendableMOSPP protocol.
     ========================================================================
     """
-    algo = KxAStarMOSPP.Factory.graph_abc_two_starts()
+    algo = AStarRepMOSPP.Factory.graph_abc_two_starts()
     assert isinstance(algo, ExtendableMOSPP)
     assert is_extendable(algo)
     assert callable(algo.extend)
@@ -58,14 +58,14 @@ def test_kxastar_mospp_is_extendable() -> None:
 
 def test_extend_before_run_raises() -> None:
     p = _line_problem(start_keys=['A', 'B'], goal_key='F')
-    algo = KxAStarMOSPP(problem=p, h=_pos_h(_LINE_POS))
+    algo = AStarRepMOSPP(problem=p, h=_pos_h(_LINE_POS))
     with pytest.raises(RuntimeError):
         algo.extend([p._states['C']])
 
 
 def test_extend_empty_starts_raises() -> None:
     p = _line_problem(start_keys=['A', 'B'], goal_key='F')
-    algo = KxAStarMOSPP(problem=p, h=_pos_h(_LINE_POS))
+    algo = AStarRepMOSPP(problem=p, h=_pos_h(_LINE_POS))
     algo.run()
     with pytest.raises(ValueError):
         algo.extend([])
@@ -85,14 +85,14 @@ def test_extend_matches_single_shot() -> None:
     """
     p_full = _line_problem(
         start_keys=['A', 'B', 'C', 'D'], goal_key='F')
-    baseline = KxAStarMOSPP(problem=p_full,
+    baseline = AStarRepMOSPP(problem=p_full,
                             h=_pos_h(_LINE_POS))
     sol_full = baseline.run()
     base_costs = {s.key: v.cost for s, v in sol_full.items()}
 
     p_inc = _line_problem(
         start_keys=['A', 'B'], goal_key='F')
-    algo = KxAStarMOSPP(problem=p_inc, h=_pos_h(_LINE_POS))
+    algo = AStarRepMOSPP(problem=p_inc, h=_pos_h(_LINE_POS))
     algo.run()
     sol_ext = algo.extend(
         [p_inc._states['C'], p_inc._states['D']])
@@ -114,7 +114,7 @@ def test_extend_skips_already_solved_start() -> None:
     ========================================================================
     """
     p = _line_problem(start_keys=['A', 'B'], goal_key='F')
-    algo = KxAStarMOSPP(problem=p, h=_pos_h(_LINE_POS),
+    algo = AStarRepMOSPP(problem=p, h=_pos_h(_LINE_POS),
                         is_recording=True)
     algo.run()
     expanded_before = algo.counters['cnt_expanded']
@@ -141,7 +141,7 @@ def test_extend_chain_three_calls() -> None:
     ========================================================================
     """
     p = _line_problem(start_keys=['A'], goal_key='F')
-    algo = KxAStarMOSPP(problem=p, h=_pos_h(_LINE_POS))
+    algo = AStarRepMOSPP(problem=p, h=_pos_h(_LINE_POS))
     algo.run()
     algo.extend([p._states['B']])
     algo.extend([p._states['C']])
@@ -157,7 +157,7 @@ def test_extend_chain_three_calls() -> None:
 
 def test_extend_counters_cumulative() -> None:
     p = _line_problem(start_keys=['A', 'B'], goal_key='F')
-    algo = KxAStarMOSPP(problem=p, h=_pos_h(_LINE_POS))
+    algo = AStarRepMOSPP(problem=p, h=_pos_h(_LINE_POS))
     algo.run()
     before = dict(algo.counters)
     algo.extend([p._states['C']])
@@ -180,7 +180,7 @@ def test_repush_is_inert() -> None:
     ========================================================================
     """
     p = _line_problem(start_keys=['A', 'B'], goal_key='F')
-    algo = KxAStarMOSPP(problem=p, h=_pos_h(_LINE_POS),
+    algo = AStarRepMOSPP(problem=p, h=_pos_h(_LINE_POS),
                         is_recording=True)
     algo.run()
     pushes_before = sum(1 for e in algo.recorder.events
@@ -201,7 +201,7 @@ def test_repush_is_inert() -> None:
 def test_run_nested_kxastar_mospp() -> None:
     """
     ========================================================================
-     KxAStarMOSPP.run_nested([P1, P2, P3]) solves a
+     AStarRepMOSPP.run_nested([P1, P2, P3]) solves a
      prefix-extending sequence of MOSPP problems.
     ========================================================================
     """
@@ -209,7 +209,7 @@ def test_run_nested_kxastar_mospp() -> None:
     p2 = _line_problem(start_keys=['A', 'B'], goal_key='F')
     p3 = _line_problem(start_keys=['A', 'B', 'C'],
                        goal_key='F')
-    algo = KxAStarMOSPP.run_nested(
+    algo = AStarRepMOSPP.run_nested(
         problems=[p1, p2, p3], h=_pos_h(_LINE_POS))
     by_key = {s.key: v.cost
               for s, v in algo.solutions.items()}

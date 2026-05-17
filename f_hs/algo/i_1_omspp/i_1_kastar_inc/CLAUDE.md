@@ -25,8 +25,13 @@ while computing only **one** heuristic per node per sub-search
 KAStarInc(problem: ProblemSPP[State],
           h: Callable[[State, State], int],
           name: str = 'KAStarInc',
-          is_recording: bool = False)
+          is_recording: bool = False,
+          is_timing: bool = True,
+          is_tracing: bool = False)
 ```
+- `is_tracing` — opt-in survival instrument (default off →
+  one bool check per transition, zero benchmark overhead).
+  See **Survival instrument** below.
 - `problem.goals` provides the goal list `[t₁, ..., tₖ]`.
 - `h(state, goal) -> int` — bi-arg heuristic. Each sub-search
   closes over its goal via default-arg idiom (no late-binding
@@ -53,6 +58,9 @@ KAStarInc(problem: ProblemSPP[State],
 | `solutions` | `dict[State, SolutionSPP]` | Per-goal solutions after `run()` | `AlgoOMSPP` |
 | `counters` | `Counters` | Per-run op counters (Mapping; `c == {...}` and `dict(c)` work) | `AlgoOMSPP` |
 | `search_state` | `SearchStateSPP \| None` | Shared bundle for post-hoc inspection | own |
+| `is_tracing` | `bool` | Whether the survival instrument is active | own |
+| `survival` | `dict[State, int]` | Per-node `{node: #transitions in OPEN}` (= node's `cnt_h_update` h-calls). Empty when `is_tracing=False`. A copy. | own |
+| `survival_histogram` | `dict[int, int]` | `{survival_count: num_nodes}`, ascending. The report visual. Empty when `is_tracing=False`. | own |
 
 ### Counters (`self.counters`)
 
@@ -64,7 +72,7 @@ are not in the counter dict at all.
 
 | counter | KAStarInc semantics |
 |---|---|
-| `cnt_h_search` | h(state, goal) calls during sub-search execution. Routed by phase tag (default `'search'`); incremented inside the wrapped h-callable. |
+| `cnt_h_search` | h(state, goal) calls during sub-search execution. Routed by phase tag (default `'search'`); incremented inside the wrapped h-callable. **Excludes the lazy goal re-push**: `_lazy_repush` pushes with the exact `(g, -g, goal)` priority and does NOT call h (for consistent h, `h_i(goal, goal) = 0`; the value is overwritten by the next transition's refresh before any pop). |
 | `cnt_h_update` | h(state, goal) calls during inter-sub-search transitions. The orchestrator flips `self._phase = 'update'` around the explicit `algo.refresh_priorities()` call (one h-call per frontier state during the drain-and-rebuild). All such calls land here. |
 | `cnt_push` | total `frontier.push` calls across the whole INC run — includes initial seed push, child-handling pushes, lazy re-push of reached non-last goals, and the explicit `algo.refresh_priorities()` drain-and-rebuild pushes. Sourced from the shared `FrontierPriority` (single instance accumulates across all k sub-searches). |
 | `cnt_pop` | total `frontier.pop` calls. Frontier-sourced. |
@@ -136,7 +144,7 @@ for i, goal_i in enumerate(problem.goals):
         # if/when its f under h_{i+1} clears C_{i+1}. The
         # last goal is NOT re-pushed — no future sub-search
         # would consume the work.
-        algo._push(state=goal_i)
+        self._lazy_repush(algo, goal_i)   # h-free re-push
 
     shared = algo.search_state
 ```
@@ -214,7 +222,7 @@ len(self._all_goals) - 1`) automatically tracks the new
 run/extend, lazy re-push is *skipped* (no consumer for the
 work). When `extend()` arrives, that previously-last goal
 now has consumers — `_repush_last_reached_goal()` performs
-the deferred re-push under the trailing sub-search's `h`
+the deferred re-push (also h-free, via `_lazy_repush`)
 before the new goal loop's first transition. The transition's
 own `refresh_priorities()` then re-keys the re-pushed entry
 under the new goal's `h`.
@@ -253,6 +261,61 @@ emit `already_reached` / `already_closed` events as during
 | `_frontier_dirty` flag | Set by `AStar(search_state=...)`; cleared on first refresh |
 | Recorder sharing | `algo._recorder = self._recorder` override — all AStar sub-instances write to KAStarInc's Recorder |
 
+## Survival instrument (`is_tracing`)
+
+Opt-in, off by default. Answers the question a sceptic
+raises about `cnt_h_total`: *"the `cnt_h_search` gap is
+definitional (INC computes h once per node, AGG ≈|A|≈k
+times) — but couldn't INC's `cnt_h_update` be just as bad?
+If a node sits in OPEN across all k sub-searches, the
+per-transition refresh re-prices it every time → ≈k h-calls
+for that node too."* The instrument shows that worst case
+is essentially empty.
+
+**Definition.** `survival[n]` = number of inter-sub-search
+transitions at which `n` was in OPEN. The transition
+refresh (`AlgoSPP.refresh_priorities()`) re-prices every
+OPEN node exactly once (one h-call each, counted as
+`cnt_h_update`). Therefore:
+
+```
+survival[n] == n's cnt_h_update h-calls
+sum(survival.values())
+  == sum(s * cnt for s, cnt in survival_histogram.items())
+  == counters['cnt_h_update']        # exact invariant
+```
+
+A node expanded within its own sub-search never sits
+through a refresh → survival 0 → absent from the dict
+(it costs zero `cnt_h_update`). `survival_histogram` =
+`{survival_count: num_nodes}` is the report visual: almost
+all mass at low counts; the tail near k (the AGG-like
+≈k-per-node regime) is ≈empty — that is *why*
+`cnt_h_update` stays small (empirically avg |OPEN| at a
+transition ≈ 1.3 % of explored states at k=200).
+
+**Implementation.** A `dict[State, int]` bumped once per
+node in the `_handle_goal` transition block, snapshotting
+OPEN immediately *before* `algo.refresh_priorities()` (the
+same set refresh will h-recompute). Guarded by
+`if self._is_tracing` → one bool test per transition when
+off. Reset on `run()`, accumulated across `extend()` (same
+lifecycle as counters / recorder).
+
+**Not a benchmark counter.** A per-node histogram is not a
+scalar work-count; it is deliberately kept OUT of
+`_COUNTER_NAMES` / `algo.counters`, so the benchmark CSV
+schema and every pinned counter dict are untouched. It is
+exposed as its own `survival` / `survival_histogram`
+properties — "a counter" in spirit, a separate structure
+in implementation.
+
+**AGG has no analogue.** AGG is a single best-first loop —
+there are no sub-searches, so "survives k sub-searches" is
+undefined. AGG's per-node h-cost is simply `n_h`≈|A|≈k at
+first encounter, already recoverable from AGG's existing
+`is_tracing` trace. No new AGG instrumentation was added.
+
 ## Lazy re-push of reached non-last goals
 
 AStar's `_search_loop` returns on goal-pop WITHOUT closing the
@@ -275,13 +338,24 @@ optimal g. The next sub-search's standard A* loop then either:
 
 ```
 if reached and i < len(goals) - 1:
-    algo._push(state=goal)         # re-enter OPEN with optimal g
+    self._lazy_repush(algo, goal)  # re-enter OPEN, h-free
 ```
 
-The re-push emits a standard `push` event. The `_push` call
-uses the current sub-search's h_i for the priority computation;
-the next transition's `refresh_priorities()` will re-key it
-under h_{i+1}, alongside the rest of the frontier.
+`_lazy_repush` pushes the goal back with priority
+`(g, -g, goal)` **without** an h-call, then emits a standard
+`push` event. This is exact, not an approximation: KAStarInc
+requires a consistent (hence admissible) heuristic, so
+`h_i(goal, goal) = 0` and the priority `AStar._priority`
+would compute is exactly `(g + 0, -g, goal)`. The next
+transition's `refresh_priorities()` drains the whole frontier
+and re-keys this entry under h_{i+1} **before any pop can
+observe it**, so the `h_i(goal)` value is provably discarded
+regardless. Skipping it keeps a provably-zero, immediately-
+overwritten h-call out of `cnt_h_search` (the
+recording-off benchmark path). Frontier order and the
+recorded `push` event (`h = 0`, `f = g` via `_enrich_event`)
+are byte-identical to the prior `algo._push(state=goal)`
+path; the ONLY observable delta is the lower `cnt_h_search`.
 
 **Why lazy, not eager?**
 - The last goal is *guaranteed* to have no consumer for its
@@ -332,6 +406,7 @@ CLOSED, but `self._solutions` is checked first).
 | `_tester_recording.py` | Full event-stream pins (one per scenario). Scenarios: canonical OMSPP (3 goals; transitions + fast-path), `grid_4x4_obstacle` 2-goal (1 transition + 4-state h-update cluster) | 2 |
 | `_tester_counters.py` | full 8-counter dict pin on canonical OMSPP; per-goal optimal costs pin | 2 |
 | `_tester_extend.py` | nested-extend manual counter pin on canonical OMSPP — `run([g0])` → `extend([g1])` → `extend([g2])`; at each stage the cumulative non-mem counter dict is asserted against hardcoded values (k=1, k=2, k=3). Drift in either the nested-extend logic or the underlying single-shot algorithm surfaces here. | 1 |
+| `_tester_survival.py` | survival instrument: off-by-default inertness, canonical histogram pin (`{1:2, 2:4}`), the `sum(survival) == cnt_h_update` invariant (direct + via histogram), and accumulation across `run()` + `extend()`. | 4 |
 
 ## Assumptions & limitations (current scope)
 

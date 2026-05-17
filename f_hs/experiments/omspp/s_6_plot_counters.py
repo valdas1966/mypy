@@ -37,7 +37,7 @@
    either CSV). `cnt_h_total = cnt_h_search + cnt_h_update` is the
    analogous derived headline for h-call accounting.
 -------------------------------------------------------------------------------
- 11 pages total:
+ 12 pages total:
    shared counters (Incremental + 2 AGG lines per chart)
      cnt_expanded, cnt_generated,
      elapsed_total,
@@ -46,10 +46,15 @@
      mem_open, mem_closed, mem_aux, mem_total
    AGG-only counters (2 AGG lines per chart, no Incremental)
      cnt_phi_total (derived = cnt_phi_search + cnt_phi_update)
+   + 1 survival page (Incremental per-node OPEN-survival
+     distribution; explains the cnt_h_update half of the
+     cnt_h_total gap) -- appended when the survival CSV is
+     supplied.
 -------------------------------------------------------------------------------
  Inputs  (Drive)
    Experiments/OMSPP/kastar_inc_extended{suffix}.csv
    Experiments/OMSPP/kastar_agg_all_configs{suffix}.csv
+   Experiments/OMSPP/inc_survival_histogram{suffix}.csv
 
  Output  (Drive)
    Experiments/OMSPP/kastar_inc_vs_agg_counters{suffix}.pdf
@@ -62,6 +67,7 @@ import os
 import tempfile
 import logging
 
+import numpy as np
 import pandas as pd
 import matplotlib
 matplotlib.use('Agg')   # headless: write PDF without a display
@@ -158,6 +164,18 @@ _NOTE_CNT_H_TOTAL = (
     "(search bucket) and eager-refresh recomputes (update "
     "bucket)."
 )
+_NOTE_SURVIVAL = (
+    "Bar: % of ALL generated nodes by #refresh-transitions "
+    "survived in OPEN (= that node's cnt_h_update h-calls); "
+    "sum over nodes == cnt_h_update. survival-0 = expanded "
+    "within its own sub-search (never refreshed) -- the vast "
+    "majority. AGG instead pays ~|A|~k h-calls for EVERY "
+    "node. The h/node columns make it concrete: INC is "
+    "~constant (~4); AGG-Lazy is ~k -- THAT ratio is why "
+    "INC << AGG on cnt_h_total. The companion table is the "
+    "same binned distribution as the bars."
+)
+
 _FOOTER_NOTE: dict[str, str] = {
     'mem_open':    _NOTE_MEM_STRICT,
     'mem_closed':  _NOTE_MEM_STRICT,
@@ -552,14 +570,109 @@ def _render_table(ax,
 
 # ── Public API ─────────────────────────────────────────────────────────────
 
+def _plot_survival_page(pdf: PdfPages,
+                        surv: pd.DataFrame,
+                        df_inc: pd.DataFrame) -> None:
+    """
+    ============================================================================
+     One extra page: INC per-node OPEN-survival distribution at
+     the largest k.
+
+     survival = #inter-sub-search transitions a node sat in OPEN
+     = that node's cnt_h_update h-calls. Bar histogram + a
+     2-column companion table, both keyed on the same bins:
+     fine bins of 10 from 0 to 99, then a single 100+ bin
+     (100..k-1). y / table value = % of ALL generated nodes.
+     survival-0 nodes (never refreshed -- expanded within their
+     own sub-search; absent from the CSV by design) are
+     reconstructed from cnt_generated and fall in bin 0-9, which
+     dominates. AGG instead pays ~|A|~k h-calls for EVERY node.
+    ============================================================================
+    """
+    fig = plt.figure(figsize=(13, 9.5))
+    gs = fig.add_gridspec(1, 2, width_ratios=[3, 1], wspace=0.16)
+    ax = fig.add_subplot(gs[0])
+    ax_t = fig.add_subplot(gs[1])
+
+    ks_all = sorted(surv['k'].unique())
+    k_focus = max(ks_all)                 # 200 on the full run
+
+    # Denominator = ALL generated nodes at k_focus (pooled over
+    # the common maps). survival-0 nodes are absent from the
+    # survival CSV by design, so reconstruct them as
+    # cnt_generated - sum(survival >= 1).
+    gen_total = float(df_inc[df_inc['k'] == k_focus]
+                      ['cnt_generated'].sum())
+    sf = surv[surv['k'] == k_focus]
+    n_zero = max(0.0, gen_total - float(sf['num_nodes'].sum()))
+
+    # Bins: 0-9, 10-19, ..., 90-99, then a single 100+ bin.
+    n_fine = 10
+    labels = [f'{i * 10}-{i * 10 + 9}'
+              for i in range(n_fine)] + ['100+']
+    counts = [0.0] * (n_fine + 1)
+    counts[0] = n_zero                    # survival 0 -> bin 0-9
+    for sc, n in zip(sf['survival_count'], sf['num_nodes']):
+        idx = int(sc) // 10
+        counts[idx if idx < n_fine else n_fine] += n
+    pct = [c / gen_total * 100.0 for c in counts]
+
+    x = np.arange(len(labels))
+    bars = ax.bar(x, pct, width=0.82,
+                   color='#3b6fb5', edgecolor='black',
+                   linewidth=0.6)
+    bars[0].set_color('#c0392b')          # the dominant bin
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels, rotation=45, ha='right')
+    for xi, p in zip(x, pct):
+        ax.annotate(f'{p:.2f}%', (xi, p),
+                    textcoords='offset points', xytext=(0, 3),
+                    ha='center', fontsize=8, fontweight='bold')
+    ax.set_ylim(0, 105)
+    pct0 = n_zero / gen_total * 100.0
+    ax.set_xlabel('sub-searches the node survived in OPEN '
+                  'after insertion  (bins of 10; 100+ = 100..'
+                  f'{k_focus - 1})')
+    ax.set_ylabel(f'% of all generated nodes  (k={k_focus})')
+    ax.set_title(
+        f'Incremental kA*: per-node OPEN-survival, k={k_focus}\n'
+        f'{pct0:.1f}% of generated nodes are NEVER refreshed '
+        f'(survival 0); {pct[0]:.1f}% survive <10 sub-searches '
+        f'-- AGG pays ~k h-calls for EVERY node',
+        fontsize=12, fontweight='bold')
+    ax.grid(True, axis='y', alpha=0.3)
+
+    # ── Companion table: the same binned distribution ──
+    headers = ['Survived', '% of generated']
+    rows = [[lab, f'{p:.2f}%'] for lab, p in zip(labels, pct)]
+    ax_t.axis('off')
+    tbl = ax_t.table(cellText=rows, colLabels=headers,
+                     loc='center', cellLoc='center')
+    tbl.auto_set_font_size(False)
+    tbl.set_fontsize(9)
+    tbl.scale(1, 1.5)
+    for c in range(len(headers)):
+        tbl[0, c].set_text_props(fontweight='bold')
+    for c in range(len(headers)):           # highlight bin 0-9
+        tbl[1, c].set_facecolor('#f6d8d4')
+    fig.text(0.5, 0.03, _NOTE_SURVIVAL, ha='center', va='bottom',
+             fontsize=8, style='italic', wrap=True)
+
+    pdf.savefig(fig)
+    plt.close(fig)
+
+
 def make_plots(path_drive_csv_inc: str,
                path_drive_csv_agg: str,
-               path_drive_pdf_out: str) -> None:
+               path_drive_pdf_out: str,
+               path_drive_csv_survival: str | None = None) -> None:
     """
     ============================================================================
      Read the INC and AGG CSVs from Drive, derive `mem_total` and
      `cnt_h_total`, inner-join on (domain, map, k), aggregate each
-     counter to a per-k mean, and write a 16-page PDF to Drive.
+     counter to a per-k mean, and write the multi-page PDF to
+     Drive (11 counter pages + 1 survival page when
+     `path_drive_csv_survival` is given).
     ============================================================================
     """
     drive = Drive.Factory.valdas()
@@ -615,6 +728,18 @@ def make_plots(path_drive_csv_inc: str,
                               agg_by_k_config=agg_by_k_config)
                 pdf.savefig(fig)
                 plt.close(fig)
+
+            # Extra page: INC per-node OPEN-survival distribution
+            # (explains the cnt_h_update half of the cnt_h_total
+            # gap). Restricted to the same common (domain,map,k).
+            if path_drive_csv_survival is not None:
+                surv = _download_csv(drive=drive,
+                                     path=path_drive_csv_survival)
+                surv = _filter_common(df=surv, common=common)
+                _log.info(f'survival: {len(surv):,} rows after '
+                          f'common filter')
+                _plot_survival_page(pdf=pdf, surv=surv,
+                                    df_inc=df_inc)
         _log.info(f'wrote {path_pdf}')
         drive.upload(path_src=path_pdf,
                      path_dest=path_drive_pdf_out)
@@ -636,8 +761,11 @@ if __name__ == '__main__':
                           f'kastar_agg_all_configs{suffix}.csv')
     path_drive_pdf_out = (f'Experiments/OMSPP/'
                           f'kastar_inc_vs_agg_counters{suffix}.pdf')
+    path_drive_csv_survival = (f'Experiments/OMSPP/'
+                               f'inc_survival_histogram{suffix}.csv')
 
     make_plots(path_drive_csv_inc=path_drive_csv_inc,
                path_drive_csv_agg=path_drive_csv_agg,
-               path_drive_pdf_out=path_drive_pdf_out)
+               path_drive_pdf_out=path_drive_pdf_out,
+               path_drive_csv_survival=path_drive_csv_survival)
     _log.info('--- done ---')

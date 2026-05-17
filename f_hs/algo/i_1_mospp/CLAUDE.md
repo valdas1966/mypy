@@ -45,9 +45,13 @@ mospp/
 ├── mixins/                 MOSPP-scoped capability mixins
 │   └── extendable/         ExtendableMOSPP — prefix-extend
 │                             the START sequence after run()
-│                             (composed by KxAStarMOSPP)
-├── i_1_kxastar/            KxAStarMOSPP — Repetitive k×A*
+│                             (composed by AStarRepMOSPP)
+├── i_1_astar_rep/          AStarRepMOSPP — Repetitive k×A*
 │                             baseline (Extendable)
+├── i_1_astar_inc/          AStarIncMOSPP — Incremental k×A*
+│                             (goal-anchored cache + bounds
+│                              reuse; cache-hit-at-init;
+│                              study/oracle.py)
 ├── i_1_kbfs/               KBFSMOSPP — k-BFS via flip-to-
 │                             OMSPP delegation (undirected,
 │                             uniform-weight)
@@ -61,32 +65,35 @@ mospp/
 
 ```python
 from f_hs.algo.i_1_mospp import (
-    KxAStarMOSPP, KBFSMOSPP, KDijkstraMOSPP,
+    AStarRepMOSPP, KBFSMOSPP, KDijkstraMOSPP,
 )
+from f_hs.algo.i_1_mospp.i_1_astar_inc import AStarIncMOSPP
 # also re-exported at top-level:
-from f_hs import KxAStarMOSPP, KBFSMOSPP, KDijkstraMOSPP
+from f_hs import AStarRepMOSPP, KBFSMOSPP, KDijkstraMOSPP
 ```
 
 ## Algorithm matrix
 
 | Name | Status | Extendable | Notes |
 |---|---|---|---|
-| `KxAStarMOSPP` | shipped | yes | Repetitive k×A* — MOSPP paper baseline; k independent A*s, no state sharing. Composes `ExtendableMOSPP`; gains the `already_reached` fast-path skip only. Admissible h sufficient. Works on directed graphs. |
+| `AStarRepMOSPP` | shipped | yes | Repetitive k×A* — MOSPP paper baseline; k independent A*s, no state sharing. Composes `ExtendableMOSPP`; gains the `already_reached` fast-path skip only. Admissible h sufficient. Works on directed graphs. |
+| `AStarIncMOSPP` | shipped | no | Incremental k×A* — k sequential forward `AStarBPMX` sub-searches sharing a goal-anchored on-path cache + admissible bounds (NOT a shared `SearchStateSPP`; start varies). Cache-hit-at-init headline win. Opt-in pre-search `propagate_pathmax` and in-search BPMX. Admissible h sufficient (consistency not required). Works on directed graphs. |
 | `KBFSMOSPP` | shipped | no | k-BFS via flip-to-OMSPP delegation. **Undirected, uniform-weight precondition.** Single backward BFS pass from the goal; emits `on_start` (translated by `_OnGoalToOnStartShim` from the inner OMSPP `KBFS`'s `on_goal`). Mirror of OMSPP `KBFS`. |
 | `KDijkstraMOSPP` | shipped | no | k-Dijkstra via flip-to-OMSPP delegation. **Undirected, non-negative-weight precondition.** Single backward Dijkstra pass from the goal; same event-translation pattern as `KBFSMOSPP`. Mirror of OMSPP `KDijkstra`. |
 
-Future state-sharing MOSPP algorithms (e.g., `KAStarCBMOSPP`
-— suffix-cache sharing across k forward A*s) will follow a
-different shape: forward-direction sub-searches with
-suffix-caching via `AStarLookup.to_cache()`, NOT the
-flip-to-OMSPP delegation pattern (which only works on
-undirected graphs).
+`AStarIncMOSPP` is the realized state-sharing MOSPP
+algorithm: forward-direction sub-searches with goal-anchored
+suffix-caching via `AStarLookup.to_cache()` + accumulated
+admissible bounds, NOT the flip-to-OMSPP delegation pattern
+(which only works on undirected graphs). It deliberately does
+**not** compose `ExtendableMOSPP` — the reuse axis is the
+cache/bounds stores, not a prefix-extendable start sequence.
 
 ## Capability mixins
 
 | Mixin | Path | Composed by |
 |---|---|---|
-| `ExtendableMOSPP` | `mixins/extendable/` | `KxAStarMOSPP` |
+| `ExtendableMOSPP` | `mixins/extendable/` | `AStarRepMOSPP` |
 
 `ExtendableMOSPP` adds `extend(new_starts)` (instance
 method) and `run_nested(problems, h, ...)` (classmethod).
@@ -115,7 +122,7 @@ same function name in their respective modules.
    refactor into a shared abstract base if/when a third
    variant (MMSPP) arrives.
 2. **Fixed-h optimization.** Because the goal is fixed
-   across MOSPP sub-searches, `KxAStarMOSPP` precomputes
+   across MOSPP sub-searches, `AStarRepMOSPP` precomputes
    the counter-wrapped h ONCE in `__init__` and reuses the
    same callable across every sub-search. OMSPP cannot do
    this (h's goal closure varies per sub-search).

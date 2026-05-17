@@ -1,17 +1,6 @@
-__all__ = ['UPhi', 'PhiFunc']
+from f_core.imports import ULazy
 
-
-def __getattr__(name: str):
-    _lazy = {
-        'UPhi': 'f_search.heuristics.phi.main',
-        'PhiFunc': 'f_search.heuristics.phi.main',
-    }
-    if name in _lazy:
-        from importlib import import_module
-        mod = import_module(_lazy[name])
-        val = getattr(mod, name)
-        globals()[name] = val
-        return val
-    raise AttributeError(
-        f"module {__name__!r} has no attribute {name!r}"
-    )
+ULazy.install(globals(), {
+    'UPhi': 'f_search.heuristics.phi.main:UPhi',
+    'PhiFunc': 'f_search.heuristics.phi.main:PhiFunc',
+})

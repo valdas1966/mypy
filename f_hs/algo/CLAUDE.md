@@ -74,7 +74,8 @@ algo/
 │   │                       i_1_omspp algos for the flip-
 │   │                       to-OMSPP delegation pattern)
 │   ├── i_0_base/          AlgoMOSPP — orchestrator base
-│   ├── i_1_kxastar/       KxAStarMOSPP
+│   ├── i_1_astar_rep/     AStarRepMOSPP (Repetitive k×A* baseline)
+│   ├── i_1_astar_inc/     AStarIncMOSPP (Incremental k×A*)
 │   ├── i_1_kbfs/          KBFSMOSPP (delegates to OMSPP KBFS)
 │   └── i_1_kdijkstra/     KDijkstraMOSPP (delegates to OMSPP KDijkstra)
 └── i_2_mmspp/             (future) Many-to-Many SPP

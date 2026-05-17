@@ -1,18 +1,7 @@
-__all__ = ['SupportsEquality', 'SupportsComparison', 'SupportsBounds']
+from f_core.imports import ULazy
 
-
-def __getattr__(name: str):
-    _lazy = {
-        'SupportsEquality': 'f_core.protocols.equality',
-        'SupportsComparison': 'f_core.protocols.comparison',
-        'SupportsBounds': 'f_core.protocols.bounds',
-    }
-    if name in _lazy:
-        from importlib import import_module
-        mod = import_module(_lazy[name])
-        val = getattr(mod, name)
-        globals()[name] = val
-        return val
-    raise AttributeError(
-        f"module {__name__!r} has no attribute {name!r}"
-    )
+ULazy.install(globals(), {
+    'SupportsEquality': 'f_core.protocols.equality:SupportsEquality',
+    'SupportsComparison': 'f_core.protocols.comparison:SupportsComparison',
+    'SupportsBounds': 'f_core.protocols.bounds:SupportsBounds',
+})

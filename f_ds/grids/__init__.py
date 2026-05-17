@@ -1,22 +1,10 @@
-__all__ = ['GridBase', 'GridMap', 'CellMap',
-           'Cluster', 'ClusterDiamond', 'PairCluster']
+from f_core.imports import ULazy
 
-
-def __getattr__(name: str):
-    _lazy = {
-        'GridBase': 'f_ds.grids.grid',
-        'GridMap': 'f_ds.grids.grid',
-        'CellMap': 'f_ds.grids.cell',
-        'Cluster': 'f_ds.grids.cluster',
-        'ClusterDiamond': 'f_ds.grids.cluster',
-        'PairCluster': 'f_ds.grids.cluster',
-    }
-    if name in _lazy:
-        from importlib import import_module
-        mod = import_module(_lazy[name])
-        val = getattr(mod, name)
-        globals()[name] = val
-        return val
-    raise AttributeError(
-        f"module {__name__!r} has no attribute {name!r}"
-    )
+ULazy.install(globals(), {
+    'GridBase': 'f_ds.grids.grid:GridBase',
+    'GridMap': 'f_ds.grids.grid:GridMap',
+    'CellMap': 'f_ds.grids.cell:CellMap',
+    'Cluster': 'f_ds.grids.cluster:Cluster',
+    'ClusterDiamond': 'f_ds.grids.cluster:ClusterDiamond',
+    'PairCluster': 'f_ds.grids.cluster:PairCluster',
+})

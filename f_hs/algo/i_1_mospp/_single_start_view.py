@@ -11,7 +11,7 @@ class _SingleStartView(Generic[State], ProblemSPP[State]):
      ProblemSPP wrapper that exposes exactly one start from a
      multi-start base problem. Delegates everything else.
 
-     Used by KxAStarMOSPP to feed each sub-search a single-
+     Used by AStarRepMOSPP to feed each sub-search a single-
      start problem while keeping the underlying graph /
      successors / edge weights / goals unchanged.
 

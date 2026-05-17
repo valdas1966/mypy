@@ -109,7 +109,7 @@ return SolutionMOSPP(self._solutions)
 
 | File | Scope | Count |
 |---|---|---|
-| `_tester.py` | lifecycle (single/two/unreachable start), duplicate-start, recording-schema cleanliness, counter scaffold, elapsed_update zero, multi-goal rejection, cross-algo equivalence vs `KxAStarMOSPP` and `KBFSMOSPP`, path reconstruction | 10 |
+| `_tester.py` | lifecycle (single/two/unreachable start), duplicate-start, recording-schema cleanliness, counter scaffold, elapsed_update zero, multi-goal rejection, cross-algo equivalence vs `AStarRepMOSPP` and `KBFSMOSPP`, path reconstruction | 10 |
 | `_tester_counters.py` | counter pin on canonical MOSPP grid (14 push / 14 pop); per-start optimal costs pin (7 / 3 / 6) | 2 |
 | `_tester_recording.py` | FULL event-stream pin on canonical MOSPP — 31 events (14 push / 14 pop with 3 INTERLEAVED `on_start` events at discovery order). Identical to `KBFSMOSPP` on this uniform-cost canonical (pinned independently so a future tiebreak divergence surfaces in both testers). | 1 |
 

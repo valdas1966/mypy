@@ -1,5 +1,5 @@
 from f_hs.algo.i_1_mospp.i_1_kbfs import KBFSMOSPP
-from f_hs.algo.i_1_mospp.i_1_kxastar import KxAStarMOSPP
+from f_hs.algo.i_1_mospp.i_1_astar_rep import AStarRepMOSPP
 from f_hs.problem.i_0_base._factory import _ProblemGraph
 from f_hs.problem.i_1_grid import ProblemGrid
 
@@ -230,7 +230,7 @@ def test_kbfs_mospp_rejects_multi_goal_problem() -> None:
 def test_kbfs_mospp_costs_match_kxastar() -> None:
     """
     ========================================================================
-     KBFSMOSPP and KxAStarMOSPP must produce identical per-
+     KBFSMOSPP and AStarRepMOSPP must produce identical per-
      start optimal costs on the canonical MOSPP grid (the
      reference baseline). Uniform weights — KBFS is valid.
     ========================================================================
@@ -238,7 +238,7 @@ def test_kbfs_mospp_costs_match_kxastar() -> None:
     p1 = ProblemGrid.Factory.grid_4x4_obstacle_mospp()
     p2 = ProblemGrid.Factory.grid_4x4_obstacle_mospp()
     a = KBFSMOSPP(problem=p1)
-    b = KxAStarMOSPP(
+    b = AStarRepMOSPP(
         problem=p2,
         h=lambda s, g: float(s.distance(g)),
     )

@@ -1,16 +1,3 @@
-__all__ = ['HasDataState']
+from f_core.imports import ULazy
 
-
-def __getattr__(name: str):
-    _lazy = {
-        'HasDataState': 'f_search.ds.data.mixins.has_data_state.main',
-    }
-    if name in _lazy:
-        from importlib import import_module
-        mod = import_module(_lazy[name])
-        val = getattr(mod, name)
-        globals()[name] = val
-        return val
-    raise AttributeError(
-        f"module {__name__!r} has no attribute {name!r}"
-    )
+ULazy.install(globals(), {'HasDataState': 'f_search.ds.data.mixins.has_data_state.main:HasDataState'})

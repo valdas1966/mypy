@@ -12,7 +12,7 @@ from typing import Callable, Generic, TypeVar
 State = TypeVar('State', bound=StateBase)
 
 
-class KxAStarMOSPP(Generic[State],
+class AStarRepMOSPP(Generic[State],
                    AlgoMOSPP[State],
                    ExtendableMOSPP[State]):
     """
@@ -104,7 +104,7 @@ class KxAStarMOSPP(Generic[State],
     def __init__(self,
                  problem: ProblemSPP[State],
                  h: Callable[[State, State], int],
-                 name: str = 'KxAStarMOSPP',
+                 name: str = 'AStarRepMOSPP',
                  is_recording: bool = False,
                  is_timing: bool = True,
                  ) -> None:
@@ -124,7 +124,7 @@ class KxAStarMOSPP(Generic[State],
         """
         if len(problem.goals) != 1:
             raise ValueError(
-                f'KxAStarMOSPP requires exactly 1 goal '
+                f'AStarRepMOSPP requires exactly 1 goal '
                 f'(got {len(problem.goals)})')
         AlgoMOSPP.__init__(self, problem=problem, h=h, name=name,
                            is_recording=is_recording,

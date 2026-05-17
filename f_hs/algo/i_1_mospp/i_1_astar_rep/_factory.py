@@ -1,16 +1,16 @@
-from f_hs.algo.i_1_mospp.i_1_kxastar.main import KxAStarMOSPP
+from f_hs.algo.i_1_mospp.i_1_astar_rep.main import AStarRepMOSPP
 from f_hs.problem.i_0_base._factory import _ProblemGraph
 
 
 class Factory:
     """
     ============================================================================
-     Factory for KxAStarMOSPP test instances.
+     Factory for AStarRepMOSPP test instances.
     ============================================================================
     """
 
     @staticmethod
-    def graph_abc_two_starts() -> KxAStarMOSPP:
+    def graph_abc_two_starts() -> AStarRepMOSPP:
         """
         ========================================================================
          kxA*-MOSPP on A -> B -> C with starts [A, B], goal C.
@@ -25,13 +25,13 @@ class Factory:
         p._starts = [p._states['A'], p._states['B']]
         p._goals = [p._states['C']]
         pos = {'A': 0, 'B': 1, 'C': 2}
-        return KxAStarMOSPP(
+        return AStarRepMOSPP(
             problem=p,
             h=lambda s, g: abs(pos[s.key] - pos[g.key]),
         )
 
     @staticmethod
-    def graph_abc_repeated_start() -> KxAStarMOSPP:
+    def graph_abc_repeated_start() -> AStarRepMOSPP:
         """
         ========================================================================
          kxA*-MOSPP on A -> B -> C with starts [A, A], goal B.
@@ -46,7 +46,7 @@ class Factory:
         p._starts = [p._states['A'], p._states['A']]
         p._goals = [p._states['B']]
         pos = {'A': 0, 'B': 1, 'C': 2}
-        return KxAStarMOSPP(
+        return AStarRepMOSPP(
             problem=p,
             h=lambda s, g: abs(pos[s.key] - pos[g.key]),
         )

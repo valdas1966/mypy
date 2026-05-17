@@ -1,4 +1,4 @@
-# KxAStarMOSPP — Repetitive k×A* (MOSPP paper baseline)
+# AStarRepMOSPP — Repetitive k×A* (MOSPP paper baseline)
 
 ## Purpose
 
@@ -17,9 +17,9 @@ shape; axis swapped (k starts instead of k goals).
 ### Constructor
 
 ```python
-KxAStarMOSPP(problem: ProblemSPP[State],
+AStarRepMOSPP(problem: ProblemSPP[State],
              h: Callable[[State, State], int],
-             name: str = 'KxAStarMOSPP',
+             name: str = 'AStarRepMOSPP',
              is_recording: bool = False,
              is_timing: bool = True)
 ```
@@ -64,7 +64,7 @@ KxAStarMOSPP(problem: ProblemSPP[State],
 
 ## Composition with `ExtendableMOSPP`
 
-`KxAStarMOSPP(Generic[State], AlgoMOSPP[State],
+`AStarRepMOSPP(Generic[State], AlgoMOSPP[State],
 ExtendableMOSPP[State])` — composes the
 `ExtendableMOSPP` capability mixin, gaining `extend()` and
 `run_nested()`.
@@ -84,7 +84,7 @@ Subset of the canonical MOSPP 5-event set:
 | `push` | inner AStar | first-time push |
 | `pop` | inner AStar | per pop |
 | `decrease_g` | inner AStar | per decrease-key |
-| `on_start` | KxAStarMOSPP | per start at sub-search end; `reason ∈ {expanded, already_reached, unreachable}` |
+| `on_start` | AStarRepMOSPP | per start at sub-search end; `reason ∈ {expanded, already_reached, unreachable}` |
 | `update_frontier` | — | **NOT EMITTED** (no transition) |
 
 The `on_start` event is the MOSPP analog of OMSPP's

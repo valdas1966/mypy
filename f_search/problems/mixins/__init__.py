@@ -1,24 +1,8 @@
-__all__ = [
-    'HasStart',
-    'HasStarts',
-    'HasGoal',
-    'HasGoals',
-]
+from f_core.imports import ULazy
 
-
-def __getattr__(name: str):
-    _lazy = {
-        'HasStart': 'f_search.problems.mixins.has_start',
-        'HasStarts': 'f_search.problems.mixins.has_starts',
-        'HasGoal': 'f_search.problems.mixins.has_goal',
-        'HasGoals': 'f_search.problems.mixins.has_goals',
-    }
-    if name in _lazy:
-        from importlib import import_module
-        mod = import_module(_lazy[name])
-        val = getattr(mod, name)
-        globals()[name] = val
-        return val
-    raise AttributeError(
-        f"module {__name__!r} has no attribute {name!r}"
-    )
+ULazy.install(globals(), {
+    'HasStart': 'f_search.problems.mixins.has_start:HasStart',
+    'HasStarts': 'f_search.problems.mixins.has_starts:HasStarts',
+    'HasGoal': 'f_search.problems.mixins.has_goal:HasGoal',
+    'HasGoals': 'f_search.problems.mixins.has_goals:HasGoals',
+})

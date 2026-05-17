@@ -192,6 +192,53 @@ class Factory:
                            goal=grid[5][0])
 
     @staticmethod
+    def grid_6x6_zigzag_mospp() -> ProblemGrid:
+        """
+        ====================================================================
+         Canonical MOSPP test instance — `grid_6x6_zigzag`
+         topology with three starts and one fixed goal,
+         designed to differentiate ALL AStarIncMOSPP configs
+         (Group A cache, Group B propagation depth, Group C
+         BPMX rule x depth) in their counter tuples.
+
+         - Group A (cache-hit-at-init): s_2 = (2,3) lies on
+           the sub-search-1 cached path -> cache-hit fires
+           on initial pop in sub-search 2.
+         - Group B (propagation depths 1, 2, 3, inf): the
+           row-0 chain (0,1)->(0,2)->(0,3)->(0,4) lifts one
+           cell per wave from the sub-search-1 cache seeds;
+           cnt_prop_lifts grows one per depth - all distinct.
+         - Group C (BPMX rule x depth): sub-search 3 from
+           (0,3) inherits the inconsistency leverage of
+           `grid_6x6_zigzag` (the sub-search-1 cache injects
+           perfect-h beacons -> local inconsistency for the
+           in-search Felner cascade).
+
+         Per-sub-search optimal costs (goal (5,0)):
+           (0,0) -> (5,0) = 15   — full zigzag detour
+           (2,3) -> (5,0) = 10   — cache-hit-at-init
+           (0,3) -> (5,0) = 12   — partial detour
+
+         Same obstacle pattern as `grid_6x6_zigzag()` (OOSPP).
+         Default `order_starts='near'` sorts by Manhattan to
+         the goal, yielding sub-search order
+         (0,0) [d=5], (2,3) [d=6], (0,3) [d=8].
+        ====================================================================
+        """
+        grid = GridMap(rows=6, cols=6)
+        # Upper wall: row 1, cols 1..4 (cols 0 and 5 open).
+        for c in range(1, 5):
+            grid[1][c].set_invalid()
+        # Lower wall: row 3, cols 0..4 (only col 5 open).
+        for c in range(0, 5):
+            grid[3][c].set_invalid()
+        return ProblemGrid(
+            grid=grid,
+            starts=[grid[0][0], grid[2][3], grid[0][3]],
+            goals=[grid[5][0]],
+        )
+
+    @staticmethod
     def grid_3x3_start_is_goal() -> ProblemGrid:
         """
         ====================================================================

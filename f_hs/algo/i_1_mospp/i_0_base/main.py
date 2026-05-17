@@ -52,7 +52,7 @@ class AlgoMOSPP(Generic[State],
     _COUNTER_NAMES: tuple[tuple[str, ...], ...] = (
         ('cnt_push', 'cnt_pop', 'cnt_decrease'),
         # Search-semantic group — incremented by orchestrators
-        # (e.g., KxAStarMOSPP accumulates inner sub-search
+        # (e.g., AStarRepMOSPP accumulates inner sub-search
         # totals per iteration).
         ('cnt_expanded', 'cnt_generated'),
         # Memory snapshots — populated by _run_post() AFTER

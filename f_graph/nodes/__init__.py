@@ -1,18 +1,7 @@
-__all__ = ['NodeKey', 'Key', 'NodeParent']
+from f_core.imports import ULazy
 
-
-def __getattr__(name: str):
-    _lazy = {
-        'NodeKey': 'f_graph.nodes.i_0_key',
-        'Key': 'f_graph.nodes.i_0_key',
-        'NodeParent': 'f_graph.nodes.i_1_parent',
-    }
-    if name in _lazy:
-        from importlib import import_module
-        mod = import_module(_lazy[name])
-        val = getattr(mod, name)
-        globals()[name] = val
-        return val
-    raise AttributeError(
-        f"module {__name__!r} has no attribute {name!r}"
-    )
+ULazy.install(globals(), {
+    'NodeKey': 'f_graph.nodes.i_0_key:NodeKey',
+    'Key': 'f_graph.nodes.i_0_key:Key',
+    'NodeParent': 'f_graph.nodes.i_1_parent:NodeParent',
+})

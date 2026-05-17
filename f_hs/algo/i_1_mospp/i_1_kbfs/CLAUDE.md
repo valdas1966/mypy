@@ -122,7 +122,7 @@ unchanged.
 
 | File | Scope | Count |
 |---|---|---|
-| `_tester.py` | lifecycle (single/two/unreachable start), duplicate-start, recording-schema cleanliness, counter scaffold, elapsed_update zero, multi-goal rejection, cross-algo equivalence vs `KxAStarMOSPP`, path reconstruction | 9 |
+| `_tester.py` | lifecycle (single/two/unreachable start), duplicate-start, recording-schema cleanliness, counter scaffold, elapsed_update zero, multi-goal rejection, cross-algo equivalence vs `AStarRepMOSPP`, path reconstruction | 9 |
 | `_tester_counters.py` | counter pin on canonical MOSPP grid (14 push / 14 pop); per-start optimal costs pin (7 / 3 / 6) | 2 |
 | `_tester_recording.py` | FULL event-stream pin on canonical MOSPP — 31 events (14 push / 14 pop with 3 INTERLEAVED `on_start` events at discovery order) | 1 |
 

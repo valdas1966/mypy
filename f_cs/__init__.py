@@ -1,18 +1,7 @@
-__all__ = ['Algo', 'ProblemAlgo', 'SolutionAlgo']
+from f_core.imports import ULazy
 
-
-def __getattr__(name: str):
-    _lazy = {
-        'Algo': 'f_cs.algo',
-        'ProblemAlgo': 'f_cs.problem',
-        'SolutionAlgo': 'f_cs.solution',
-    }
-    if name in _lazy:
-        from importlib import import_module
-        mod = import_module(_lazy[name])
-        val = getattr(mod, name)
-        globals()[name] = val
-        return val
-    raise AttributeError(
-        f"module {__name__!r} has no attribute {name!r}"
-    )
+ULazy.install(globals(), {
+    'Algo': 'f_cs.algo:Algo',
+    'ProblemAlgo': 'f_cs.problem:ProblemAlgo',
+    'SolutionAlgo': 'f_cs.solution:SolutionAlgo',
+})

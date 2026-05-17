@@ -35,4 +35,4 @@ UList.sliding_windows(li=[1, 2, 3, 4], size=2)
 |------|---------|
 | `main.py` | `UList` class. |
 | `__init__.py` | Re-exports `UList`. |
-| `_tester.py` | Single pytest test bundling all asserts. |
+| `_tester.py` | Single pytest test; cases in 4-line structural form (`# label`, inputs, `actual`, `expected`, `assert actual == expected`). |

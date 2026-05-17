@@ -47,7 +47,7 @@ A subclass MUST:
 
 | algo | composes today | rationale |
 |---|---|---|
-| `KxAStarMOSPP` | yes | per-start sub-search loop |
+| `AStarRepMOSPP` | yes | per-start sub-search loop |
 
 ## Dependencies
 

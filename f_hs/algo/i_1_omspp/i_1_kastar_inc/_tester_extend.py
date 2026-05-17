@@ -52,7 +52,7 @@ def test_extend_counters_manual_pins() -> None:
         }
     target_k2 =\
         {
-            'cnt_h_search': 15,
+            'cnt_h_search': 14,
             'cnt_h_update': 5,
             'cnt_push': 20,
             'cnt_pop': 11,
@@ -62,7 +62,7 @@ def test_extend_counters_manual_pins() -> None:
         }
     target_k3 =\
         {
-            'cnt_h_search': 16,
+            'cnt_h_search': 14,
             'cnt_h_update': 10,
             'cnt_push': 26,
             'cnt_pop': 12,

@@ -1,18 +1,7 @@
-__all__ = ['FrontierBase', 'FrontierFifo', 'FrontierPriority']
+from f_core.imports import ULazy
 
-
-def __getattr__(name: str):
-    _lazy = {
-        'FrontierBase': 'f_search.ds.frontier.i_0_base',
-        'FrontierFifo': 'f_search.ds.frontier.i_1_fifo',
-        'FrontierPriority': 'f_search.ds.frontier.i_1_priority',
-    }
-    if name in _lazy:
-        from importlib import import_module
-        mod = import_module(_lazy[name])
-        val = getattr(mod, name)
-        globals()[name] = val
-        return val
-    raise AttributeError(
-        f"module {__name__!r} has no attribute {name!r}"
-    )
+ULazy.install(globals(), {
+    'FrontierBase': 'f_search.ds.frontier.i_0_base:FrontierBase',
+    'FrontierFifo': 'f_search.ds.frontier.i_1_fifo:FrontierFifo',
+    'FrontierPriority': 'f_search.ds.frontier.i_1_priority:FrontierPriority',
+})
