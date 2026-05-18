@@ -111,34 +111,43 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
     # Counter scaffold = AStarRepMOSPP's set, widened with the
     # inner AStarBPMX propagate / bpmx groups (accumulated per
     # sub-search) and the orchestrator-owned
-    # `cnt_cache_hits_at_init`.
+    # `cnt_cache_hits_at_init`. Group order mirrors the
+    # COUNTERS.html column order: search, propagate, bpmx,
+    # then the un-displayed h / frontier / reuse / memory
+    # groups.
     _COUNTER_NAMES: tuple[tuple[str, ...], ...] = (
-        ('cnt_h_search',),
-        ('cnt_prop_waves', 'cnt_prop_attempts', 'cnt_prop_lifts'),
-        ('cnt_bpmx_attempts', 'cnt_bpmx_successes',
-         'cnt_bpmx_depth'),
-        ('cnt_push', 'cnt_pop', 'cnt_decrease'),
         ('cnt_expanded', 'cnt_generated'),
+        ('cnt_prop_attempts', 'cnt_prop_lifts', 'cnt_prop_waves'),
+        ('cnt_bpmx_attempts', 'cnt_bpmx_lifts', 'cnt_bpmx_depth'),
+        ('cnt_h_search',),
+        ('cnt_push', 'cnt_pop', 'cnt_decrease'),
         ('cnt_cache_hits_at_init',),
-        ('mem_open', 'mem_closed'),
+        ('mem_open', 'mem_closed', 'mem_cache', 'mem_bounds'),
     )
 
     # Inner AStarBPMX counter names SUMMED per sub-search.
-    # Two inner counters are deliberately excluded:
+    # Three inner counters are deliberately excluded:
     #  - `cnt_h_search` — incremented directly on the
     #    orchestrator by the wrapped h (no inner counter).
     #  - `cnt_prop_waves` — aggregated by MAX, not SUM (see
     #    `_prop_waves_peak`): it is a propagation-DEPTH horizon
     #    ("deepest wave any sub-search ran"), not wave-work.
     #    Wave-work is already carried by the summed
-    #    `cnt_prop_attempts` / `cnt_prop_lifts`. Mirrors the
-    #    peak aggregation of `mem_open` / `mem_closed`.
+    #    `cnt_prop_attempts` / `cnt_prop_lifts`.
+    #  - `cnt_bpmx_depth` — aggregated by MAX, not SUM (see
+    #    `_bpmx_depth_peak`): the inner mixin already tracks it
+    #    as a per-search max (deepest BFS-level a lift fired,
+    #    capped by where lifts actually stop — NOT `depth_bpmx`).
+    #    Summing k per-search maxima is meaningless; the
+    #    cross-sub-search horizon is the MAX. Lift *work* is
+    #    carried by the summed `cnt_bpmx_attempts` /
+    #    `cnt_bpmx_lifts`. Both mirror the peak aggregation of
+    #    `mem_open` / `mem_closed`.
     _INNER_COUNTER_NAMES: tuple[str, ...] = (
-        'cnt_prop_attempts', 'cnt_prop_lifts',
-        'cnt_bpmx_attempts', 'cnt_bpmx_successes',
-        'cnt_bpmx_depth',
-        'cnt_push', 'cnt_pop', 'cnt_decrease',
         'cnt_expanded', 'cnt_generated',
+        'cnt_prop_attempts', 'cnt_prop_lifts',
+        'cnt_bpmx_attempts', 'cnt_bpmx_lifts',
+        'cnt_push', 'cnt_pop', 'cnt_decrease',
     )
 
     def __init__(self,
@@ -212,10 +221,21 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
         # Peak memory across sub-searches.
         self._mem_open_peak: int = 0
         self._mem_closed_peak: int = 0
+        # Peak goal-anchored reuse-store footprint (bytes) —
+        # the carried cache / bounds the incremental variant
+        # trades space for. Inner AStarBPMX measures them over
+        # the SAME dicts the orchestrator passes in; the stores
+        # only grow across sub-searches, so peak == final.
+        self._mem_cache_peak: int = 0
+        self._mem_bounds_peak: int = 0
         # MAX-aggregated propagation depth: the deepest wave
         # ladder any single sub-search ran (NOT the sum). 0
         # when no sub-search propagated (empty seeds).
         self._prop_waves_peak: int = 0
+        # MAX-aggregated in-search BPMX lift depth: the deepest
+        # BFS-level a lift fired in any single sub-search (NOT
+        # the sum). 0 when no sub-search lifted.
+        self._bpmx_depth_peak: int = 0
 
     # ──────────────────────────────────────────────────
     #  Lifecycle
@@ -234,7 +254,10 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
         self._bounds = {}
         self._mem_open_peak = 0
         self._mem_closed_peak = 0
+        self._mem_cache_peak = 0
+        self._mem_bounds_peak = 0
         self._prop_waves_peak = 0
+        self._bpmx_depth_peak = 0
         ordered = self._apply_order_starts(list(self.problem.starts))
         for i, start in enumerate(ordered):
             self._handle_start(start, idx=i)
@@ -324,6 +347,15 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
         if ic['cnt_prop_waves'] > self._prop_waves_peak:
             self._prop_waves_peak = ic['cnt_prop_waves']
 
+        # `cnt_bpmx_depth` aggregates by MAX, not SUM: the inner
+        # mixin already reports it as this sub-search's deepest
+        # lift level (capped by where lifts actually stop, not
+        # `depth_bpmx`); the cross-sub-search horizon is the MAX
+        # of those, not their sum. Flushed in
+        # `_sync_memory_snapshot`.
+        if ic['cnt_bpmx_depth'] > self._bpmx_depth_peak:
+            self._bpmx_depth_peak = ic['cnt_bpmx_depth']
+
         # Cache-hit-at-init: terminated on the FIRST pop via
         # the carried cache (1 pop, 0 expansions, the cache
         # hit is the start itself).
@@ -338,12 +370,20 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
             self._emit_cache_hit_at_init(
                 start, cost=sol.cost, start_index=idx)
 
-        # Track peak memory.
+        # Track peak memory. open / closed via direct
+        # search-state introspection; cache / bounds from the
+        # inner snapshot (it walked the SAME carried dicts). The
+        # carried stores grow monotonically across sub-searches,
+        # so the peak is the final footprint.
         open_mem, closed_mem = self._mem_of(algo)
         if open_mem > self._mem_open_peak:
             self._mem_open_peak = open_mem
         if closed_mem > self._mem_closed_peak:
             self._mem_closed_peak = closed_mem
+        if ic['mem_cache'] > self._mem_cache_peak:
+            self._mem_cache_peak = ic['mem_cache']
+        if ic['mem_bounds'] > self._mem_bounds_peak:
+            self._mem_bounds_peak = ic['mem_bounds']
 
         reason = ('expanded' if sol.cost != float('inf')
                   else 'unreachable')
@@ -376,17 +416,28 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
          sub-searches into `self._counters`. Overrides the
          base auto-probe (there is no single shared
          search-state to probe). Covers `mem_open` /
-         `mem_closed` (peak) and `cnt_prop_waves` (deepest
-         single-sub-search propagation-wave ladder — MAX, not
-         SUM; the summed wave-work lives in
-         `cnt_prop_attempts` / `cnt_prop_lifts`).
+         `mem_closed` / `mem_cache` / `mem_bounds` (peak —
+         `mem_cache` / `mem_bounds` are the carried
+         goal-anchored reuse stores, the incremental variant's
+         space-for-time cost), `cnt_prop_waves` (deepest
+         single-sub-search propagation-wave ladder) and
+         `cnt_bpmx_depth` (deepest single-sub-search BPMX lift
+         level) — the latter two MAX, not SUM; the summed work
+         lives in `cnt_prop_attempts` / `cnt_prop_lifts` and
+         `cnt_bpmx_attempts` / `cnt_bpmx_lifts`.
         ====================================================================
         """
         self._counters.assign('mem_open', self._mem_open_peak)
         self._counters.assign(
             'mem_closed', self._mem_closed_peak)
         self._counters.assign(
+            'mem_cache', self._mem_cache_peak)
+        self._counters.assign(
+            'mem_bounds', self._mem_bounds_peak)
+        self._counters.assign(
             'cnt_prop_waves', self._prop_waves_peak)
+        self._counters.assign(
+            'cnt_bpmx_depth', self._bpmx_depth_peak)
 
     # ──────────────────────────────────────────────────
     #  Path Reconstruction

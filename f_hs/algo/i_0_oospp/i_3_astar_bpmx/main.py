@@ -57,7 +57,7 @@ class AStarBPMX(BPMXMixin, AStarLookup[State], Generic[State]):
          'cnt_prop_attempts',
          'cnt_prop_lifts'),
         ('cnt_bpmx_attempts',
-         'cnt_bpmx_successes',
+         'cnt_bpmx_lifts',
          'cnt_bpmx_depth'),
         ('cnt_push', 'cnt_pop', 'cnt_decrease'),
         ('cnt_expanded', 'cnt_generated'),

@@ -79,18 +79,27 @@ AStarIncMOSPP(problem: ProblemSPP[State],
 
 ### Counter scaffold
 
+Group order mirrors the COUNTERS.html column order:
+
 | group | counters |
 |---|---|
-| h | `cnt_h_search` (orchestrator-owned; wrapped h) |
-| propagate | `cnt_prop_waves` (MAX-aggregated — see below), `cnt_prop_attempts`, `cnt_prop_lifts` |
-| bpmx | `cnt_bpmx_attempts`, `cnt_bpmx_successes`, `cnt_bpmx_depth` |
-| frontier | `cnt_push`, `cnt_pop`, `cnt_decrease` |
 | search | `cnt_expanded`, `cnt_generated` |
+| propagate | `cnt_prop_attempts`, `cnt_prop_lifts`, `cnt_prop_waves` (MAX-aggregated — see below) |
+| bpmx | `cnt_bpmx_attempts`, `cnt_bpmx_lifts`, `cnt_bpmx_depth` (MAX-aggregated — see below) |
+| h | `cnt_h_search` (orchestrator-owned; wrapped h) |
+| frontier | `cnt_push`, `cnt_pop`, `cnt_decrease` |
 | reuse | `cnt_cache_hits_at_init` |
 | memory | `mem_open`, `mem_closed` (peak across sub-searches) |
 
+`cnt_bpmx_lifts` was formerly `cnt_bpmx_successes` — renamed
+for prop/bpmx symmetry (`*_attempts` / `*_lifts`); pure
+rename, semantics unchanged (it already counted successful
+lifts). The rename is global: it is an OOSPP `BPMXMixin`
+scaffold counter, so `AStarBPMX` and its OOSPP testers/docs
+moved too.
+
 Inner-`AStarBPMX` counters are **summed** across
-sub-searches, with two exceptions:
+sub-searches, with three exceptions:
 - **`cnt_prop_waves` is MAX-aggregated, not summed.** It is
   a propagation-DEPTH horizon — *the deepest wave ladder any
   single sub-search ran* — not total wave-work. Rationale:
@@ -107,6 +116,20 @@ sub-searches, with two exceptions:
   `depth_inf → 5`. OMSPP `KAStarInc` never propagates so
   `cnt_prop_waves ≡ 0` there — SUM and MAX coincide; this
   redefinition is MOSPP-only by nature.
+- **`cnt_bpmx_depth` is MAX-aggregated, not summed.** Same
+  horizon logic: the inner `BPMXMixin` already tracks it
+  per-search as a max (deepest BFS-level a lift fired,
+  capped by where lifts actually stop — NOT the
+  `depth_bpmx` param). Summing k per-search maxima is
+  meaningless; the cross-sub-search horizon is the MAX.
+  Lift *work* is carried by the summed `cnt_bpmx_attempts` /
+  `cnt_bpmx_lifts`. Mirrors `_prop_waves_peak` /
+  `mem_*` (see `_bpmx_depth_peak`, flushed in
+  `_sync_memory_snapshot`). Within-search semantics are
+  unchanged, so standalone `AStarBPMX` is unaffected and no
+  OOSPP regeneration was needed; on the canonical MOSPP
+  fixture only one sub-search lifts, so SUM and MAX happen
+  to coincide (values pinned unchanged).
 - `cnt_h_search` is incremented directly by the wrapped h
   (no inner counter).
 
@@ -162,8 +185,8 @@ for i, s_i in enumerate(ordered_starts):
 | File | Scope | Count |
 |---|---|---|
 | `_tester.py` | lifecycle: canonical + cache-hit-at-init, multi-goal / bad-policy rejection, duplicate-start fast-path, all 4 order policies correct, `elapsed_update==0`, no `update_frontier`, empty `reconstruct_path`, carry-cache toggle | 9 |
-| `_tester_counters.py` | one method per param config (18: 1 cache + 4 propagate + 13 BPMX); full non-mem counter dict + per-start costs pinned from the Phase-0b oracle | 18 |
-| `_tester_recording.py` | one method per param config (18); full normalized event-stream golden master | 18 |
+| `_tester_counters.py` | one method per param config (22: 1 cache + 4 propagate + 13 BPMX + 4 combined); full non-mem counter dict + per-start costs pinned from the oracle | 22 |
+| `_tester_recording.py` | one method per param config (22); full normalized event-stream golden master | 22 |
 
 **Group C uses `carry_cache=True`.** The sub-search-1 on-path
 cache is BPMX's inconsistency engine on the otherwise-
@@ -171,20 +194,58 @@ consistent Manhattan h (same role as the cached beacon in
 `AStarBPMX`'s OOSPP testers — see
 `i_3_astar_bpmx/CLAUDE.md`). With `carry_cache=False` Rules 1
 and 3 never lift and `rule_1_depth_1 == rule_3_depth_1`
-(verified collision); with the cache present all 18 tuples are
+(verified collision); with the cache present all 22 tuples are
 distinct.
 
-`study/oracle.py` (script-only — no CLAUDE.md) dumps the 18
+**Group D — Propagate + BPMX (combined quadrant, 4
+configs).** `propagate=True` AND `rule_bpmx` set: pre-search
+`propagate_pathmax` runs, *then* in-search BPMX, both
+writing the one shared `HBounded` layer via max-combine
+(admissible — optimality preserved, verified). Configs:
+`prop_1_bpmx_rule_CASCADE_depth_1` (shallow+shallow, 24
+expanded — underperforms a deep single axis),
+`prop_2_bpmx_rule_3_depth_2` /
+`prop_2_bpmx_rule_CASCADE_depth_2` (depth-capped propagate
+leaves residue both rules harvest: `prop_lifts>0` AND
+`bpmx_lifts>0`), and `prop_inf_bpmx_rule_3_depth_3` (the
+**subsumption canary** — `rule_3_depth_3` lifts 4 in
+isolation but **0** here because convergent propagation
+already saturated `HBounded`). **Decision guide:** on this
+fixture there is *no expansion synergy* — the grid saturates
+at 23 and propagation is the cheap global informer
+(`cnt_h_search` ≈ 88 at convergence) while BPMX is the
+expensive local one (100s–1000s). Prefer propagation; reach
+for BPMX only when uncached or propagation is depth-capped
+and residual inconsistency remains. Real synergy would need
+a harder fixture where neither axis alone reaches the
+expansion floor (separate fixture-design task).
+
+`study/oracle.py` (script-only — no CLAUDE.md) dumps the 22
 counter tuples and asserts distinctness; it is the source of
 the `_tester_counters.py` pins. Run:
 `python -m f_hs.algo.i_1_mospp.i_1_astar_inc.study.oracle`.
 
+`study/gen_counters.py` (script-only — no CLAUDE.md) is the
+generator: it re-runs the 22 `study/oracle.py` configs,
+recomputes the per-column traffic scale (green = column min,
+red = column max) + duplicate grouping, and splices a fresh
+`<table>` into `COUNTERS.html` (hand-written chrome
+untouched). Run:
+`python -m f_hs.algo.i_1_mospp.i_1_astar_inc.study.gen_counters`.
+
 `COUNTERS.html` is the human-eye view of the same data: an
-18-config × 8-counter param-sensitivity heatmap (each
-column heat-scaled independently min→max; only
+22-config × 8-counter param-sensitivity heatmap (each
+column traffic-scaled independently — green at the column
+min, red at the max; only
 param-discriminating counters are shown — every shown
-column moves), grouped A/B/C with the fixture and the
-design-decision callouts.
+column moves), grouped A/B/C/D with the fixture and the
+design-decision callouts. Column order follows the
+counter-scaffold group order (search · propagate · bpmx:
+`cnt_expanded, cnt_generated, cnt_prop_attempts,
+cnt_prop_lifts, cnt_prop_waves, cnt_bpmx_attempts,
+cnt_bpmx_lifts, cnt_bpmx_depth`). The derived `uniq`
+✓/≡ column was removed — collapsed configs remain visible
+via row-dimming + the `≡ canonical` badge.
 **Five counters are omitted from the heatmap** (all kept
 in the class scaffold / `_tester_counters.py`):
 - `cnt_decrease` — invariant `≡ 0` (no priority-decrease
@@ -209,16 +270,34 @@ in the class scaffold / `_tester_counters.py`):
 - `cnt_h_search` — dropped by request (pure
   heuristic-evaluation cost). It is the **sole** separator
   of two BPMX depth tails, so on the shown counters only
-  **12 of 18** configs differ; the 6 collapsed configs are
+  **16 of 22** configs differ; the 6 collapsed configs are
   tagged `≡ <canonical>` and dimmed, and the badge reads
-  `12 / 18` (amber). Full 18-way distinctness (incl.
+  `16 / 22` (amber). Full 22-way distinctness (incl.
   `cnt_h_search` / push / pop) is the contract verified by
   `study/oracle.py` and `_tester_counters.py` — COUNTERS.html
   is a readability view, not the distinctness oracle.
 
-Regenerate after any counter-affecting change so it tracks
-`_tester_counters.py`. Dark-themed, self-contained; for
-human reading only (Claude reads CLAUDE.md).
+Regenerate after any counter-affecting change via
+`python -m …study.gen_counters` (re-runs the oracle configs;
+do not hand-edit table cells). Dark-themed, self-contained;
+for human reading only (Claude reads CLAUDE.md).
+
+**Display conventions (preserve on regeneration —
+`gen_counters.py` already enforces all of these).** Width
+is fitted to the screen, no horizontal scroll: the table
+sits in a vertical-scroll container (`max-height:72vh`,
+sticky header). Cells use a per-column traffic scale —
+green at the column min, red at the column max, yellow at
+the midpoint (HSL hue 120→0); a constant column renders
+neutral. Columns follow the counter-scaffold group
+order; the `uniq` column is dropped (dimming + `≡ canonical`
+badge replace it). Counter headers drop the `cnt_` prefix.
+The two globally-invariant params
+(`carry_cache=True, carry_bounds=False`) are lifted out of
+every row's kw line into a single "Display" note; the kw
+line shows only the discriminating params. These are
+presentation-only — the counter data and the
+distinctness contract are unchanged.
 
 ## Assumptions & limitations
 

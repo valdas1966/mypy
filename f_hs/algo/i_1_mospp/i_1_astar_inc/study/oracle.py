@@ -2,7 +2,8 @@
 ============================================================================
  Oracle for AStarIncMOSPP on `grid_6x6_zigzag_mospp`.
 
- Runs all 18 configs (1 cache + 4 propagation + 13 BPMX),
+ Runs all 22 configs (1 cache + 4 propagation + 13 BPMX
+ + 4 propagate-then-bpmx combined),
  dumps the non-memory counter tuple per config, and reports
  any duplicate tuples (= configs that collapsed). Phase 0b of
  the AStarIncMOSPP plan — the input to pinning
@@ -18,7 +19,8 @@ from f_hs.algo.i_1_mospp.i_1_astar_inc import AStarIncMOSPP
 from f_hs.problem.i_1_grid import ProblemGrid
 
 
-# 18 configs: 1 cache + 4 propagation + 13 BPMX.
+# 22 configs: 1 cache + 4 propagation + 13 BPMX
+# + 4 propagate-then-bpmx combined (Group D).
 CONFIGS: list[tuple[str, dict]] = [
     # Group A — only cache.
     ('only_cache',
@@ -54,6 +56,33 @@ CONFIGS: list[tuple[str, dict]] = [
           ('CASCADE', 1), ('CASCADE', 2),
           ('CASCADE', 3), ('CASCADE', None),
       ]],
+
+    # Group D — propagate THEN bpmx (the combined quadrant;
+    # both write the shared HBounded layer via max-combine).
+    # On this fixture there is no expansion synergy — the grid
+    # saturates at 23 and convergent propagation SUBSUMES BPMX
+    # (see `prop_inf_bpmx_rule_3_depth_3`: rule_3_depth_3 lifts
+    # 4 alone but 0 once propagation has converged). These rows
+    # exist for combined-path coverage, the subsumption canary,
+    # and the decision-guide fact (prefer propagation; reach
+    # for BPMX only when uncached / depth-capped). Optimality
+    # is preserved (admissible composition).
+    ('prop_1_bpmx_rule_CASCADE_depth_1',
+     dict(carry_cache=True, carry_bounds=False,
+          propagate=True, propagate_depth=1,
+          rule_bpmx='CASCADE', depth_bpmx=1)),
+    ('prop_2_bpmx_rule_3_depth_2',
+     dict(carry_cache=True, carry_bounds=False,
+          propagate=True, propagate_depth=2,
+          rule_bpmx='3', depth_bpmx=2)),
+    ('prop_2_bpmx_rule_CASCADE_depth_2',
+     dict(carry_cache=True, carry_bounds=False,
+          propagate=True, propagate_depth=2,
+          rule_bpmx='CASCADE', depth_bpmx=2)),
+    ('prop_inf_bpmx_rule_3_depth_3',
+     dict(carry_cache=True, carry_bounds=False,
+          propagate=True, propagate_depth=None,
+          rule_bpmx='3', depth_bpmx=3)),
 ]
 
 

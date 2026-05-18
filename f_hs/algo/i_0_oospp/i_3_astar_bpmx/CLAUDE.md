@@ -100,7 +100,7 @@ casts on propagate → `AStar` adds `h` / `f`.
 | group | counters | source |
 |---|---|---|
 | propagate (3) | `cnt_prop_waves`, `cnt_prop_attempts`, `cnt_prop_lifts` | inherited from `AStarLookup`'s pre-search `propagate_pathmax` |
-| bpmx (3) | `cnt_bpmx_attempts`, `cnt_bpmx_successes`, `cnt_bpmx_depth` | in-search BPMX dispatch (BPMXMixin) |
+| bpmx (3) | `cnt_bpmx_attempts`, `cnt_bpmx_lifts`, `cnt_bpmx_depth` | in-search BPMX dispatch (BPMXMixin) |
 | frontier (3) | `cnt_push`, `cnt_pop`, `cnt_decrease` | `FrontierPriority` (mirrored on every read) |
 | search (2) | `cnt_expanded`, `cnt_generated` | inherited from `AlgoSPP` |
 | memory (4) | `mem_open`, `mem_closed`, `mem_cache`, `mem_bounds` | `_memory_snapshot()` (post-run) |

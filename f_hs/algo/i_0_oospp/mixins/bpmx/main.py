@@ -111,7 +111,7 @@ class BPMXMixin:
     # `_COUNTER_NAMES` to prepend the propagate group.
     _BPMX_COUNTER_NAMES: tuple[tuple[str, ...], ...] = (
         ('cnt_bpmx_attempts',
-         'cnt_bpmx_successes',
+         'cnt_bpmx_lifts',
          'cnt_bpmx_depth'),
         ('cnt_push', 'cnt_pop', 'cnt_decrease'),
         ('cnt_expanded', 'cnt_generated'),
@@ -368,7 +368,7 @@ class BPMXMixin:
                    for c in children)
         if cand > h_p_old:
             hb.add_bound(state=state, value=cand)
-            self._counters.inc('cnt_bpmx_successes')
+            self._counters.inc('cnt_bpmx_lifts')
             self._record_lift_at_level(0)
             self._record_event(
                 type='pathmax_apply',
@@ -414,7 +414,7 @@ class BPMXMixin:
                         best, best_via = cand, c
                 if best > h_p_old:
                     hb.add_bound(state=p, value=best)
-                    self._counters.inc('cnt_bpmx_successes')
+                    self._counters.inc('cnt_bpmx_lifts')
                     self._record_lift_at_level(k)
                     self._record_event(
                         type='bpmx_lift',
@@ -459,7 +459,7 @@ class BPMXMixin:
                     cand = h_p - self.problem.w(parent=p, child=c)
                     if cand > h_c_old:
                         hb.add_bound(state=c, value=cand)
-                        self._counters.inc('cnt_bpmx_successes')
+                        self._counters.inc('cnt_bpmx_lifts')
                         self._record_lift_at_level(k + 1)
                         self._record_event(
                             type='bpmx_forward',

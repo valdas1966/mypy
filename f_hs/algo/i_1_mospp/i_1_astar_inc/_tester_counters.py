@@ -62,7 +62,7 @@ def test_only_cache() -> None:
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 0,
         'cnt_bpmx_depth': 0,
-        'cnt_bpmx_successes': 0,
+        'cnt_bpmx_lifts': 0,
         'cnt_cache_hits_at_init': 1,
         'cnt_decrease': 0,
         'cnt_expanded': 25,
@@ -90,7 +90,7 @@ def test_only_propagate_depth_1() -> None:
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 0,
         'cnt_bpmx_depth': 0,
-        'cnt_bpmx_successes': 0,
+        'cnt_bpmx_lifts': 0,
         'cnt_cache_hits_at_init': 1,
         'cnt_decrease': 0,
         'cnt_expanded': 24,
@@ -118,7 +118,7 @@ def test_only_propagate_depth_2() -> None:
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 0,
         'cnt_bpmx_depth': 0,
-        'cnt_bpmx_successes': 0,
+        'cnt_bpmx_lifts': 0,
         'cnt_cache_hits_at_init': 1,
         'cnt_decrease': 0,
         'cnt_expanded': 23,
@@ -146,7 +146,7 @@ def test_only_propagate_depth_3() -> None:
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 0,
         'cnt_bpmx_depth': 0,
-        'cnt_bpmx_successes': 0,
+        'cnt_bpmx_lifts': 0,
         'cnt_cache_hits_at_init': 1,
         'cnt_decrease': 0,
         'cnt_expanded': 23,
@@ -174,7 +174,7 @@ def test_only_propagate_depth_inf() -> None:
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 0,
         'cnt_bpmx_depth': 0,
-        'cnt_bpmx_successes': 0,
+        'cnt_bpmx_lifts': 0,
         'cnt_cache_hits_at_init': 1,
         'cnt_decrease': 0,
         'cnt_expanded': 23,
@@ -202,7 +202,7 @@ def test_only_bpmx_rule_1_depth_1() -> None:
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 25,
         'cnt_bpmx_depth': 0,
-        'cnt_bpmx_successes': 0,
+        'cnt_bpmx_lifts': 0,
         'cnt_cache_hits_at_init': 1,
         'cnt_decrease': 0,
         'cnt_expanded': 25,
@@ -230,7 +230,7 @@ def test_only_bpmx_rule_1_depth_2() -> None:
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 25,
         'cnt_bpmx_depth': 0,
-        'cnt_bpmx_successes': 0,
+        'cnt_bpmx_lifts': 0,
         'cnt_cache_hits_at_init': 1,
         'cnt_decrease': 0,
         'cnt_expanded': 25,
@@ -258,7 +258,7 @@ def test_only_bpmx_rule_1_depth_3() -> None:
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 25,
         'cnt_bpmx_depth': 0,
-        'cnt_bpmx_successes': 0,
+        'cnt_bpmx_lifts': 0,
         'cnt_cache_hits_at_init': 1,
         'cnt_decrease': 0,
         'cnt_expanded': 25,
@@ -286,7 +286,7 @@ def test_only_bpmx_rule_1_depth_inf() -> None:
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 25,
         'cnt_bpmx_depth': 0,
-        'cnt_bpmx_successes': 0,
+        'cnt_bpmx_lifts': 0,
         'cnt_cache_hits_at_init': 1,
         'cnt_decrease': 0,
         'cnt_expanded': 25,
@@ -314,7 +314,7 @@ def test_only_bpmx_rule_2_depth_1() -> None:
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 25,
         'cnt_bpmx_depth': 0,
-        'cnt_bpmx_successes': 6,
+        'cnt_bpmx_lifts': 6,
         'cnt_cache_hits_at_init': 1,
         'cnt_decrease': 0,
         'cnt_expanded': 25,
@@ -342,7 +342,7 @@ def test_only_bpmx_rule_3_depth_1() -> None:
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 25,
         'cnt_bpmx_depth': 0,
-        'cnt_bpmx_successes': 1,
+        'cnt_bpmx_lifts': 1,
         'cnt_cache_hits_at_init': 1,
         'cnt_decrease': 0,
         'cnt_expanded': 25,
@@ -370,7 +370,7 @@ def test_only_bpmx_rule_3_depth_2() -> None:
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 24,
         'cnt_bpmx_depth': 1,
-        'cnt_bpmx_successes': 4,
+        'cnt_bpmx_lifts': 4,
         'cnt_cache_hits_at_init': 1,
         'cnt_decrease': 0,
         'cnt_expanded': 24,
@@ -398,7 +398,7 @@ def test_only_bpmx_rule_3_depth_3() -> None:
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 23,
         'cnt_bpmx_depth': 2,
-        'cnt_bpmx_successes': 4,
+        'cnt_bpmx_lifts': 4,
         'cnt_cache_hits_at_init': 1,
         'cnt_decrease': 0,
         'cnt_expanded': 23,
@@ -426,7 +426,7 @@ def test_only_bpmx_rule_3_depth_inf() -> None:
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 23,
         'cnt_bpmx_depth': 2,
-        'cnt_bpmx_successes': 4,
+        'cnt_bpmx_lifts': 4,
         'cnt_cache_hits_at_init': 1,
         'cnt_decrease': 0,
         'cnt_expanded': 23,
@@ -454,7 +454,7 @@ def test_only_bpmx_rule_CASCADE_depth_1() -> None:
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 25,
         'cnt_bpmx_depth': 1,
-        'cnt_bpmx_successes': 2,
+        'cnt_bpmx_lifts': 2,
         'cnt_cache_hits_at_init': 1,
         'cnt_decrease': 0,
         'cnt_expanded': 25,
@@ -482,7 +482,7 @@ def test_only_bpmx_rule_CASCADE_depth_2() -> None:
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 24,
         'cnt_bpmx_depth': 2,
-        'cnt_bpmx_successes': 4,
+        'cnt_bpmx_lifts': 4,
         'cnt_cache_hits_at_init': 1,
         'cnt_decrease': 0,
         'cnt_expanded': 24,
@@ -510,7 +510,7 @@ def test_only_bpmx_rule_CASCADE_depth_3() -> None:
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 23,
         'cnt_bpmx_depth': 2,
-        'cnt_bpmx_successes': 4,
+        'cnt_bpmx_lifts': 4,
         'cnt_cache_hits_at_init': 1,
         'cnt_decrease': 0,
         'cnt_expanded': 23,
@@ -538,7 +538,7 @@ def test_only_bpmx_rule_CASCADE_depth_inf() -> None:
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 23,
         'cnt_bpmx_depth': 2,
-        'cnt_bpmx_successes': 4,
+        'cnt_bpmx_lifts': 4,
         'cnt_cache_hits_at_init': 1,
         'cnt_decrease': 0,
         'cnt_expanded': 23,
@@ -548,6 +548,130 @@ def test_only_bpmx_rule_CASCADE_depth_inf() -> None:
         'cnt_prop_attempts': 0,
         'cnt_prop_lifts': 0,
         'cnt_prop_waves': 0,
+        'cnt_push': 34,
+    }
+    costs = {(s.key.row, s.key.col): v.cost
+             for s, v in algo.solutions.items()}
+    assert costs == {(0, 0): 15.0, (2, 3): 10.0, (0, 3): 12.0}
+
+
+# ── Group D — propagate THEN bpmx (combined quadrant) ──────────
+# Both mechanisms write the shared HBounded layer (max-combined).
+# No expansion synergy on this fixture (saturates at 23);
+# convergent propagation subsumes BPMX — see
+# test_prop_inf_bpmx_rule_3_depth_3 (rule_3_depth_3 lifts 4
+# alone, 0 here). Optimality preserved. Recording-OFF, like the
+# rest of the file.
+
+
+def test_prop_1_bpmx_rule_CASCADE_depth_1() -> None:
+    """
+    ========================================================================
+     Pin counters for config `prop_1_bpmx_rule_CASCADE_depth_1`
+     (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=1, rule_bpmx='CASCADE', depth_bpmx=1).
+    ========================================================================
+    """
+    algo = _run(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=1, rule_bpmx='CASCADE', depth_bpmx=1)
+    assert _counters(algo) == {
+        'cnt_bpmx_attempts': 24,
+        'cnt_bpmx_depth': 1,
+        'cnt_bpmx_lifts': 3,
+        'cnt_cache_hits_at_init': 1,
+        'cnt_decrease': 0,
+        'cnt_expanded': 24,
+        'cnt_generated': 35,
+        'cnt_h_search': 234,
+        'cnt_pop': 27,
+        'cnt_prop_attempts': 16,
+        'cnt_prop_lifts': 2,
+        'cnt_prop_waves': 1,
+        'cnt_push': 35,
+    }
+    costs = {(s.key.row, s.key.col): v.cost
+             for s, v in algo.solutions.items()}
+    assert costs == {(0, 0): 15.0, (2, 3): 10.0, (0, 3): 12.0}
+
+
+def test_prop_2_bpmx_rule_3_depth_2() -> None:
+    """
+    ========================================================================
+     Pin counters for config `prop_2_bpmx_rule_3_depth_2`
+     (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=2, rule_bpmx='3', depth_bpmx=2).
+    ========================================================================
+    """
+    algo = _run(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=2, rule_bpmx='3', depth_bpmx=2)
+    assert _counters(algo) == {
+        'cnt_bpmx_attempts': 23,
+        'cnt_bpmx_depth': 0,
+        'cnt_bpmx_lifts': 2,
+        'cnt_cache_hits_at_init': 1,
+        'cnt_decrease': 0,
+        'cnt_expanded': 23,
+        'cnt_generated': 34,
+        'cnt_h_search': 251,
+        'cnt_pop': 26,
+        'cnt_prop_attempts': 18,
+        'cnt_prop_lifts': 4,
+        'cnt_prop_waves': 2,
+        'cnt_push': 34,
+    }
+    costs = {(s.key.row, s.key.col): v.cost
+             for s, v in algo.solutions.items()}
+    assert costs == {(0, 0): 15.0, (2, 3): 10.0, (0, 3): 12.0}
+
+
+def test_prop_2_bpmx_rule_CASCADE_depth_2() -> None:
+    """
+    ========================================================================
+     Pin counters for config `prop_2_bpmx_rule_CASCADE_depth_2`
+     (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=2, rule_bpmx='CASCADE', depth_bpmx=2).
+    ========================================================================
+    """
+    algo = _run(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=2, rule_bpmx='CASCADE', depth_bpmx=2)
+    assert _counters(algo) == {
+        'cnt_bpmx_attempts': 23,
+        'cnt_bpmx_depth': 1,
+        'cnt_bpmx_lifts': 2,
+        'cnt_cache_hits_at_init': 1,
+        'cnt_decrease': 0,
+        'cnt_expanded': 23,
+        'cnt_generated': 34,
+        'cnt_h_search': 446,
+        'cnt_pop': 26,
+        'cnt_prop_attempts': 18,
+        'cnt_prop_lifts': 4,
+        'cnt_prop_waves': 2,
+        'cnt_push': 34,
+    }
+    costs = {(s.key.row, s.key.col): v.cost
+             for s, v in algo.solutions.items()}
+    assert costs == {(0, 0): 15.0, (2, 3): 10.0, (0, 3): 12.0}
+
+
+def test_prop_inf_bpmx_rule_3_depth_3() -> None:
+    """
+    ========================================================================
+     Pin counters for config `prop_inf_bpmx_rule_3_depth_3`
+     (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=None, rule_bpmx='3', depth_bpmx=3).
+     Subsumption canary: rule_3_depth_3 lifts 4 in isolation
+     (see test_only_bpmx_rule_3_depth_3) but 0 here — convergent
+     propagation already saturated the HBounded layer.
+    ========================================================================
+    """
+    algo = _run(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=None, rule_bpmx='3', depth_bpmx=3)
+    assert _counters(algo) == {
+        'cnt_bpmx_attempts': 23,
+        'cnt_bpmx_depth': 0,
+        'cnt_bpmx_lifts': 0,
+        'cnt_cache_hits_at_init': 1,
+        'cnt_decrease': 0,
+        'cnt_expanded': 23,
+        'cnt_generated': 34,
+        'cnt_h_search': 370,
+        'cnt_pop': 26,
+        'cnt_prop_attempts': 24,
+        'cnt_prop_lifts': 8,
+        'cnt_prop_waves': 5,
         'cnt_push': 34,
     }
     costs = {(s.key.row, s.key.col): v.cost

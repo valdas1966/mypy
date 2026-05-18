@@ -57,7 +57,7 @@ The mixin declares a 3-counter mechanism scaffold; the host class can override v
 
 | group | counters | source |
 |---|---|---|
-| bpmx (3) | `cnt_bpmx_attempts`, `cnt_bpmx_successes`, `cnt_bpmx_depth` | mechanism dispatch + sweep functions |
+| bpmx (3) | `cnt_bpmx_attempts`, `cnt_bpmx_lifts`, `cnt_bpmx_depth` | mechanism dispatch + sweep functions |
 | frontier (3) | `cnt_push`, `cnt_pop`, `cnt_decrease` | `FrontierPriority` (mirrored on every read) |
 | search (2) | `cnt_expanded`, `cnt_generated` | inherited from AlgoSPP |
 | memory (4) | `mem_open`, `mem_closed`, `mem_cache`, `mem_bounds` | `_memory_snapshot()` (post-run) |
@@ -65,7 +65,7 @@ The mixin declares a 3-counter mechanism scaffold; the host class can override v
 ### Counter semantics
 
 - **`cnt_bpmx_attempts`** — incremented once per `_pre_expand` call when `rule_bpmx is not None` (excludes cache-hit early-exits, which fire before `_pre_expand`). Cumulative across the run.
-- **`cnt_bpmx_successes`** — incremented per successful lift, regardless of which rule fired. Cumulative across the run. For Rule 1 and Rule 3 alone, this counts the rule's lifts; for Rule 2 it counts the parent lift; for CASCADE it sums all Rule 3 + Rule 1 lifts across iterations.
+- **`cnt_bpmx_lifts`** — incremented per successful lift, regardless of which rule fired. Cumulative across the run. For Rule 1 and Rule 3 alone, this counts the rule's lifts; for Rule 2 it counts the parent lift; for CASCADE it sums all Rule 3 + Rule 1 lifts across iterations.
 - **`cnt_bpmx_depth`** — **max tracker** (not cumulative). Tracks the deepest BFS-level (0 = root) at which any successful lift fired. Updated via `assign` on each successful lift; stays at 0 if no lifts fire OR if Rule 2 lifts only the root.
 
 `AStarBPMX` overrides `_COUNTER_NAMES` to prepend a `propagate` group (`cnt_prop_waves`, `cnt_prop_attempts`, `cnt_prop_lifts`) — inherited from its `AStarLookup` parent's pre-search `propagate_pathmax`.
