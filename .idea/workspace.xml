@@ -5,41 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/study/gen_counters.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_nlp/_internal/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_nlp/_internal/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_nlp/_internal/_ngram/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_nlp/_internal/_ngram/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_nlp/_internal/_ngram/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_nlp/_internal/_ngram/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_nlp/_internal/_policy.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_nlp/_internal/_strip/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_nlp/_internal/_strip/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_nlp/_internal/_strip/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_nlp/_internal/_strip/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_nlp/_internal/_token/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_nlp/_internal/_token/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_nlp/_internal/_token/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_nlp/_internal/_token/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/COUNTERS.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/COUNTERS.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/mixins/bpmx/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/mixins/bpmx/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/mixins/bpmx/COUNTERS.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/mixins/bpmx/COUNTERS.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/mixins/bpmx/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/mixins/bpmx/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/COUNTERS.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/COUNTERS.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/_tester_recording.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/_tester_recording.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/study/oracle.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/study/oracle.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_nlp/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_nlp/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_nlp/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_nlp/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_nlp/u_nlp.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_nlp/u_nlp.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +34,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "a1e5e179-580e-4572-8eba-3d60343860e3"
+    "accountId": "0f4621b9-87f9-4a4a-9ceb-401ed7593bcc"
   }
 }]]></component>
   <component name="HighlightingSettingsPerFile">
@@ -1174,7 +1142,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/creds/oauth/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1197,7 +1164,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1220,7 +1186,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/omspp/s_4_kastar_inc_extended.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1243,7 +1208,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/omspp/s_5_kastar_agg_all_configs.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1266,7 +1230,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/omspp/s_7_inc_survival_histogram.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1286,7 +1249,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;f_psl.builtins.list._tester.test_sliding_windows&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
@@ -1313,7 +1275,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-ca5e2b39c7df-6e1f45a539f7-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.29346.308" />
+        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
       </set>
     </attachedChunks>
   </component>
