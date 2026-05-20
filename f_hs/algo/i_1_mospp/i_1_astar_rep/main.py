@@ -98,7 +98,7 @@ class AStarRepMOSPP(Generic[State],
         ('cnt_h_search',),
         ('cnt_push', 'cnt_pop', 'cnt_decrease'),
         ('cnt_expanded', 'cnt_generated'),
-        ('mem_open', 'mem_closed'),
+        ('mem_open', 'mem_closed', 'mem_total'),
     )
 
     def __init__(self,
@@ -368,15 +368,17 @@ class AStarRepMOSPP(Generic[State],
             frontier_struct = sys.getsizeof(
                 queue if queue is not None else frontier)
         n_g = len(g)
-        n_open = len(frontier)
+        # Rule-2: use this sub-search's frontier lifetime peak.
+        n_open_peak = min(
+            getattr(frontier, 'max_size', len(frontier)), n_g)
         if n_g > 0:
             g_parent_total = (sys.getsizeof(g)
                               + sum(sys.getsizeof(v)
                                     for v in g.values())
                               + sys.getsizeof(parent))
             per_entry = g_parent_total / n_g
-            g_parent_open = round(per_entry * n_open)
-            g_parent_closed = round(per_entry * (n_g - n_open))
+            g_parent_open = round(per_entry * n_open_peak)
+            g_parent_closed = round(per_entry * (n_g - n_open_peak))
         else:
             g_parent_open = 0
             g_parent_closed = 0

@@ -309,7 +309,7 @@ def test_counters_surface() -> None:
         'cnt_h_search', 'cnt_h_update',
         'cnt_push', 'cnt_pop', 'cnt_decrease',
         'cnt_expanded', 'cnt_generated',
-        'mem_open', 'mem_closed',
+        'mem_open', 'mem_closed', 'mem_total',
     }
     # Frontier was used → push/pop reflect real heap traffic.
     assert c['cnt_push'] >= 1

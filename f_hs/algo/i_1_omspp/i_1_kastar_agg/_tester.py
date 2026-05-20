@@ -314,7 +314,7 @@ def test_counters_surface() -> None:
         'cnt_phi_search', 'cnt_phi_update',
         'cnt_push', 'cnt_pop', 'cnt_decrease',
         'cnt_expanded', 'cnt_generated',
-        'mem_open', 'mem_closed', 'mem_aux',
+        'mem_open', 'mem_closed', 'mem_aux', 'mem_total',
     }
     assert c['cnt_pop'] <= c['cnt_push']
     assert c['cnt_pop'] >= 1

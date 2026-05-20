@@ -86,7 +86,7 @@ def test_counters_surface() -> None:
     c = algo.counters
     assert set(c) == {'cnt_push', 'cnt_pop', 'cnt_decrease',
                       'cnt_expanded', 'cnt_generated',
-                      'mem_open', 'mem_closed'}
+                      'mem_open', 'mem_closed', 'mem_total'}
     assert c['cnt_pop'] <= c['cnt_push']
     assert c['cnt_pop'] >= 1
     assert c['cnt_decrease'] == 0  # FIFO no-op

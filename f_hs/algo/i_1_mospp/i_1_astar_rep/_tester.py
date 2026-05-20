@@ -181,7 +181,7 @@ def test_kxastar_mospp_counter_scaffold() -> None:
         'cnt_h_search',
         'cnt_push', 'cnt_pop', 'cnt_decrease',
         'cnt_expanded', 'cnt_generated',
-        'mem_open', 'mem_closed',
+        'mem_open', 'mem_closed', 'mem_total',
     }
 
 

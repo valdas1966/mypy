@@ -175,8 +175,8 @@ polymorphism on `StateBase`).
 
 ## Counters
 
-12-name scaffold declared via per-class `_COUNTER_NAMES`.
-The constructor replaces `AlgoSPP`'s 7-name scaffold with
+13-name scaffold declared via per-class `_COUNTER_NAMES`.
+The constructor replaces `AlgoSPP`'s 8-name scaffold with
 this wider one immediately after `AStar.__init__`.
 
 | group | counters | source |
@@ -184,7 +184,7 @@ this wider one immediately after `AStar.__init__`.
 | propagate (3) | `cnt_prop_waves`, `cnt_prop_attempts`, `cnt_prop_lifts` | pre-search `propagate_pathmax` |
 | frontier (3) | `cnt_push`, `cnt_pop`, `cnt_decrease` | `FrontierPriority` (mirrored on every read) |
 | search (2) | `cnt_expanded`, `cnt_generated` | inherited from AlgoSPP |
-| memory (4) | `mem_open`, `mem_closed`, `mem_cache`, `mem_bounds` | post-run `_memory_snapshot()` |
+| memory (5) | `mem_open`, `mem_closed`, `mem_cache`, `mem_bounds`, `mem_total` | post-run `_memory_snapshot()`; `mem_total = Σ mem_*` finalized last via `u_mem.finalize_mem_total` |
 
 **Counter semantics** — `cnt_prop_*` (set inside
 `propagate_pathmax`):

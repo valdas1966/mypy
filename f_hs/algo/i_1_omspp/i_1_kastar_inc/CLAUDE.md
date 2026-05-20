@@ -77,7 +77,8 @@ are not in the counter dict at all.
 | `cnt_push` | total `frontier.push` calls across the whole INC run — includes initial seed push, child-handling pushes, lazy re-push of reached non-last goals, and the explicit `algo.refresh_priorities()` drain-and-rebuild pushes. Sourced from the shared `FrontierPriority` (single instance accumulates across all k sub-searches). |
 | `cnt_pop` | total `frontier.pop` calls. Frontier-sourced. |
 | `cnt_decrease` | total `frontier.decrease` calls (decrease-key during child handling). Frontier-sourced. |
-| `mem_open` / `mem_closed` | post-run memory snapshot of the shared `SearchStateSPP` bundle. |
+| `mem_open` / `mem_closed` | post-run memory snapshot of the shared `SearchStateSPP` bundle. `mem_open` uses the shared `FrontierPriority.max_size` (rule-2 + rule-3: same frontier accumulates across all k sub-searches, so `max_size` is the cross-sub-search lifetime peak). |
+| `mem_total` | `Σ mem_*` — conservative upper-bound coincident peak. |
 
 Frontier-sourced values are mirrored into `self._counters` at
 end-of-run by `_sync_frontier_counters()` (called automatically

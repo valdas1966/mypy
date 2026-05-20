@@ -66,9 +66,12 @@ class AlgoOMSPP(Generic[State],
         # Memory snapshots — populated by _run_post() AFTER
         # _elapsed is recorded (outside the runtime budget).
         # mem_open / mem_closed split g/parent slot cost by
-        # current OPEN/CLOSED membership (states not in OPEN
-        # are charged to mem_closed).
-        ('mem_open', 'mem_closed'),
+        # peak-OPEN/CLOSED membership (rule-2 via
+        # `frontier.max_size`; states not in OPEN charged to
+        # mem_closed). `mem_total` = Σ mem_* — conservative
+        # upper-bound coincident peak (sum of per-region
+        # peaks; component peaks need not be simultaneous).
+        ('mem_open', 'mem_closed', 'mem_total'),
     )
 
     def __init__(self,
@@ -233,19 +236,28 @@ class AlgoOMSPP(Generic[State],
         """
         ====================================================================
          Final flush of the active phase bucket, then sync
-         frontier-owned counters into the algo's scaffold and
-         take the end-of-search memory snapshot. All happen
-         AFTER the inherited `_run_post` records `_elapsed`.
-         The memory snapshot is therefore structurally OUT of
-         the runtime budget.
+         frontier-owned counters into the algo's scaffold,
+         take the end-of-search memory snapshot, and finalize
+         `mem_total = Σ mem_*`. All happen AFTER the inherited
+         `_run_post` records `_elapsed`. The memory snapshot
+         (and mem_total finalization) is therefore structurally
+         OUT of the runtime budget.
+
+         `finalize_mem_total` runs LAST so subclass
+         `_sync_memory_snapshot` overrides that extend the
+         memory schema (e.g., KAStarAgg's `mem_aux`) are
+         auto-absorbed into the total — same rule, applied
+         uniformly across every `f_hs/algo` algo.
         ====================================================================
         """
+        from f_hs.algo.u_mem import finalize_mem_total
         # Flush the trailing phase bucket BEFORE inherited post,
         # so timing buckets reflect the full _run() span.
         self._flush_phase_timer()
         super()._run_post()                  # records _elapsed
         self._sync_frontier_counters()
         self._sync_memory_snapshot()         # outside _elapsed
+        finalize_mem_total(self._counters)
 
     def _flush_phase_timer(self) -> None:
         """
@@ -316,15 +328,24 @@ class AlgoOMSPP(Generic[State],
             frontier_struct = sys.getsizeof(
                 queue if queue is not None else frontier)
         n_g = len(g)
-        n_open = len(frontier)
+        # Rule-2 fix: peak |OPEN| over the whole run, not the
+        # post-loop snapshot. For shared-state orchestrators
+        # (KAStarInc, KBFS, KDijkstra) the frontier is the SAME
+        # instance across all sub-searches, so `max_size` is the
+        # cross-sub-search peak (rule-3 also auto-satisfied).
+        # Falls back to `len(frontier)` if the frontier lacks
+        # the `max_size` API (defensive — every `FrontierBase`
+        # subclass provides it as of the 2026-05-20 fix).
+        n_open_peak = min(
+            getattr(frontier, 'max_size', len(frontier)), n_g)
         if n_g > 0:
             g_parent_total = (sys.getsizeof(g)
                               + sum(sys.getsizeof(v)
                                     for v in g.values())
                               + sys.getsizeof(parent))
             per_entry = g_parent_total / n_g
-            g_parent_open = round(per_entry * n_open)
-            g_parent_closed = round(per_entry * (n_g - n_open))
+            g_parent_open = round(per_entry * n_open_peak)
+            g_parent_closed = round(per_entry * (n_g - n_open_peak))
         else:
             g_parent_open = 0
             g_parent_closed = 0

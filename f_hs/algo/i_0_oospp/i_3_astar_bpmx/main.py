@@ -48,10 +48,10 @@ class AStarBPMX(BPMXMixin, AStarLookup[State], Generic[State]):
     Factory: type = None
 
     # Per-class scaffold consumed by both `AStarLookup.__init__`
-    # (replaces inherited 7-name AlgoSPP scaffold) and
+    # (replaces inherited 8-name AlgoSPP scaffold) and
     # `BPMXMixin._init_bpmx_mechanism` (rebuilds with the same
-    # 15 names — propagate 3 + bpmx 3 + frontier 3 + search 2 +
-    # memory 4).
+    # 16 names — propagate 3 + bpmx 3 + frontier 3 + search 2 +
+    # memory 5 incl. mem_total).
     _COUNTER_NAMES: tuple[tuple[str, ...], ...] = (
         ('cnt_prop_waves',
          'cnt_prop_attempts',
@@ -62,7 +62,7 @@ class AStarBPMX(BPMXMixin, AStarLookup[State], Generic[State]):
         ('cnt_push', 'cnt_pop', 'cnt_decrease'),
         ('cnt_expanded', 'cnt_generated'),
         ('mem_open', 'mem_closed',
-         'mem_cache', 'mem_bounds'),
+         'mem_cache', 'mem_bounds', 'mem_total'),
     )
 
     def __init__(self,

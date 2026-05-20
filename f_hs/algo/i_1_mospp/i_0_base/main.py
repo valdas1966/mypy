@@ -57,7 +57,11 @@ class AlgoMOSPP(Generic[State],
         ('cnt_expanded', 'cnt_generated'),
         # Memory snapshots — populated by _run_post() AFTER
         # _elapsed is recorded (outside the runtime budget).
-        ('mem_open', 'mem_closed'),
+        # `mem_open` uses `frontier.max_size` (rule-2; lifetime
+        # peak |OPEN|); `mem_total = Σ mem_*` is the
+        # conservative upper-bound coincident peak (component
+        # peaks need not be simultaneous).
+        ('mem_open', 'mem_closed', 'mem_total'),
     )
 
     def __init__(self,
@@ -203,13 +207,19 @@ class AlgoMOSPP(Generic[State],
         """
         ====================================================================
          Flush phase timer, then super (records `_elapsed`),
-         then sync frontier counters + memory snapshot.
+         then sync frontier counters + memory snapshot, then
+         finalize `mem_total = Σ mem_*` last. `finalize_mem_total`
+         after `_sync_memory_snapshot` so subclass overrides
+         (e.g., `AStarIncMOSPP` adding `mem_cache` / `mem_bounds`)
+         are auto-absorbed.
         ====================================================================
         """
+        from f_hs.algo.u_mem import finalize_mem_total
         self._flush_phase_timer()
         super()._run_post()
         self._sync_frontier_counters()
         self._sync_memory_snapshot()
+        finalize_mem_total(self._counters)
 
     def _flush_phase_timer(self) -> None:
         """
@@ -265,15 +275,19 @@ class AlgoMOSPP(Generic[State],
             frontier_struct = sys.getsizeof(
                 queue if queue is not None else frontier)
         n_g = len(g)
-        n_open = len(frontier)
+        # Rule-2 fix: peak |OPEN| over the whole run, not the
+        # post-loop snapshot. Mirrors `AlgoSPP._memory_snapshot`
+        # and `AlgoOMSPP._sync_memory_snapshot`.
+        n_open_peak = min(
+            getattr(frontier, 'max_size', len(frontier)), n_g)
         if n_g > 0:
             g_parent_total = (sys.getsizeof(g)
                               + sum(sys.getsizeof(v)
                                     for v in g.values())
                               + sys.getsizeof(parent))
             per_entry = g_parent_total / n_g
-            g_parent_open = round(per_entry * n_open)
-            g_parent_closed = round(per_entry * (n_g - n_open))
+            g_parent_open = round(per_entry * n_open_peak)
+            g_parent_closed = round(per_entry * (n_g - n_open_peak))
         else:
             g_parent_open = 0
             g_parent_closed = 0

@@ -34,11 +34,12 @@ own `__init__`.
 | Property | Type | Description |
 |----------|------|-------------|
 | `counters` | `Counters` | Always-on 3-counter scaffold (Mapping; `c == {...}`, `dict(c)`, `c['cnt_pop']` all work). Survives `clear()` — accumulates over the whole run. |
+| `max_size` | `int` | Lifetime high-water mark of `len(frontier)` across the whole run. Used by `f_hs/algo`'s `mem_open` reading (rule-2: OPEN is non-monotone, so end-of-run `len()` understates the peak). Survives `clear()` — a drain-and-rebuild (`AlgoSPP.refresh_priorities`) does not reset the peak. |
 
 ### Methods
 | Method | Signature | Default |
 |--------|-----------|---------|
-| `push` | `(state, priority=None) -> None` | NotImplementedError |
+| `push` | `(state, priority=None) -> None` | NotImplementedError. Subclass overrides MUST call `self._track_max_size()` at the end (after the actual insertion). |
 | `pop` | `() -> State` | NotImplementedError |
 | `decrease` | `(state, priority=None) -> None` | no-op (does NOT increment `cnt_decrease`) |
 | `clear` | `() -> None` | NotImplementedError |
@@ -46,6 +47,7 @@ own `__init__`.
 | `__bool__` | `() -> bool` | NotImplementedError |
 | `__len__` | `() -> int` | NotImplementedError |
 | `__iter__` | `() -> Iterator[State]` | NotImplementedError |
+| `_track_max_size` | `() -> None` | Bumps `_max_size` to `len(self)` if it grew. Called by each subclass's `push` after the actual insertion. O(1); does NOT call `getsizeof` (per-push hot path). |
 
 ### Design Notes
 - `priority` is kept `Any` — FIFO frontiers ignore it,

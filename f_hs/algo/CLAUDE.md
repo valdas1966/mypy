@@ -144,3 +144,30 @@ and derivable, respectively) so its events schema-match BFS.
 ## Edge Costs
 `problem.w(parent, child)` returns the edge cost. Default 1.0.
 Subclasses of `ProblemSPP` override for weighted graphs.
+
+## Memory counters — single rule, applied uniformly
+
+Every `f_hs/algo` algo exposes a `mem_*` counter group with
+a uniform principle: each per-region `mem_k` is the right
+reading for its region (peak for non-monotone OPEN, final-on-
+owner for monotone CLOSED / cache / bounds, max-across-sub-
+searches for disjoint-in-time orchestrator scopes), and
+
+  `mem_total := Σ_{k != 'mem_total'} mem_k`
+
+is the conservative upper-bound coincident peak. Implemented
+once in `f_hs/algo/u_mem.finalize_mem_total` and called LAST
+in each algo's memory-snapshot routine (after every other
+`mem_*` is assigned), so new `mem_*` keys (e.g.,
+`KAStarAgg.mem_aux`, `AStarLookup.mem_cache` / `mem_bounds`,
+`AStarIncMOSPP.mem_cache` / `mem_bounds`) are auto-absorbed
+without each algo being patched.
+
+The OPEN-region peak count comes from `FrontierBase.max_size`
+(lifetime high-water mark, updated by `_track_max_size()` on
+every push). End-of-run `len(frontier)` understates the peak
+when the loop exits with a drained frontier — `max_size` is
+the principled rule-2 reading. For shared-frontier
+orchestrators (KAStarInc / KBFS / KDijkstra) the SAME
+`FrontierPriority` accumulates across all k sub-searches, so
+`max_size` is automatically the cross-sub-search peak.

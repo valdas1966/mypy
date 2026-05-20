@@ -51,7 +51,8 @@ AStarRepMOSPP(problem: ProblemSPP[State],
 | `cnt_decrease` | Cumulative `frontier.decrease`. |
 | `cnt_expanded` | Cumulative expanded states. |
 | `cnt_generated` | Cumulative first-time pushes. |
-| `mem_open` / `mem_closed` | **Peak** memory snapshot across sub-searches. |
+| `mem_open` / `mem_closed` | **Peak** memory snapshot across sub-searches. Each sub-search probe uses that sub-search's `frontier.max_size` for the OPEN count (rule-2 + rule-3). |
+| `mem_total` | `Σ mem_*` — conservative upper-bound coincident peak. |
 
 `cnt_h_update` is **absent** — no PHASE_UPDATE in kxA*.
 

@@ -51,10 +51,10 @@ class AStarLookup(Generic[State], AStar[State]):
     # Factory
     Factory: type = None
 
-    # 12-name scaffold: propagate (3) + frontier (3) + search
-    # (2) + memory (4). Replaces AlgoSPP's 7-name scaffold
-    # during __init__. AStarBPMX overrides to a 15-name
-    # variant by prepending the bpmx group.
+    # 13-name scaffold: propagate (3) + frontier (3) + search
+    # (2) + memory (5 incl. mem_total). Replaces AlgoSPP's
+    # 8-name scaffold during __init__. AStarBPMX overrides to
+    # a 16-name variant by prepending the bpmx group.
     _COUNTER_NAMES: tuple[tuple[str, ...], ...] = (
         ('cnt_prop_waves',
          'cnt_prop_attempts',
@@ -62,7 +62,7 @@ class AStarLookup(Generic[State], AStar[State]):
         ('cnt_push', 'cnt_pop', 'cnt_decrease'),
         ('cnt_expanded', 'cnt_generated'),
         ('mem_open', 'mem_closed',
-         'mem_cache', 'mem_bounds'),
+         'mem_cache', 'mem_bounds', 'mem_total'),
     )
 
     # Propagate counters describe pre-search work

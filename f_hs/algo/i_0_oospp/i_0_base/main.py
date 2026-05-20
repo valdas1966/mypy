@@ -96,7 +96,7 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         self._counters: Counters = Counters(names=(
             ('cnt_push', 'cnt_pop', 'cnt_decrease'),
             ('cnt_expanded', 'cnt_generated'),
-            ('mem_open', 'mem_closed'),
+            ('mem_open', 'mem_closed', 'mem_total'),
         ))
         self._mem: dict[str, int] = {}
 
@@ -157,31 +157,64 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
          Subclasses that hold additional persistent state
          (HCached / HBounded dicts, etc.) extend this via
          `snap = super()._memory_snapshot(); snap[...] = ...`
-         and then return the augmented dict.
+         and then return the augmented dict — the base will
+         NOT have called `finalize_mem_total` yet; subclasses
+         add their `mem_*` keys and the LEAF override is
+         responsible for the final `finalize_mem_total(snap)`
+         call (see `AStarLookup._memory_snapshot`).
 
          Universal fields (every OOSPP algo):
            - `mem_open`   : frontier internal structures
                             (FrontierPriority: heap + index +
                             tuples; FrontierFIFO: deque) +
-                            g/parent slot share for states
-                            CURRENTLY in OPEN.
+                            g/parent slot share for OPEN.
+                            **Rule-2:** the OPEN region is
+                            non-monotone (states enter via
+                            push, leave via pop), so we use
+                            `frontier.max_size` (peak |OPEN|
+                            over the whole run) for the
+                            count input — `len(frontier)` at
+                            end-of-run understates the peak
+                            when the loop exits on goal-pop
+                            with a still-populated frontier
+                            (close enough; never coincident-
+                            peak-honest) and dramatically
+                            understates when the frontier
+                            drained.
            - `mem_closed` : closed-set bucket array + g/parent
                             slot share for states NOT in OPEN
                             (closed states + the
-                            popped-but-not-closed goal).
+                            popped-but-not-closed goal). Uses
+                            `n_g - n_open_peak` (clamped at 0)
+                            so the pro-rate share is the
+                            complement of the OPEN-peak share.
+
+         The `n_open_peak / n_g` pro-rate is an upper-bound
+         approximation: at the moment of peak-OPEN the g dict
+         may have been smaller (some states not yet discovered).
+         Acceptable bias — `mem_total` is conservatively-summed
+         by the same principle (see `u_mem.finalize_mem_total`).
 
          g/parent dicts hold one slot per discovered state.
          `sys.getsizeof()` reports the dict-wide size; we
          pro-rate it by membership: per-entry = total / |g|,
-         then multiply by |open| (charged to mem_open) and
-         |g|-|open| (charged to mem_closed). This matches
-         CPython's uniform per-entry slot cost within a single
-         dict — the pro-rate is exact for slot accounting.
+         then multiply by `n_open_peak` (charged to mem_open)
+         and `n_g - n_open_peak` (charged to mem_closed). This
+         matches CPython's uniform per-entry slot cost within
+         a single dict — the pro-rate is exact for slot
+         accounting.
 
          All numbers come from `sys.getsizeof()` — CPython's
          own accounting. Shared State objects are NOT
          double-counted (parent dict's State values are shared
          with closed/frontier and not summed).
+
+         The base does NOT add `mem_total` — that is added by
+         the leaf algo's snapshot (`AStarLookup` /
+         `AStarBPMX` / direct callers via
+         `finalize_mem_total`), so subclasses extending this
+         method can freely add their `mem_*` keys and have
+         them auto-summed.
         ====================================================================
         """
         fr = self._search.frontier
@@ -198,15 +231,20 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         g = self._search.g
         parent = self._search.parent
         n_g = len(g)
-        n_open = len(fr)
+        # Rule-2 fix: peak |OPEN| over the whole run, not the
+        # post-loop snapshot. Clamp at n_g for safety (max_size
+        # cannot exceed |g| since every pushed state has a g
+        # entry, but the clamp shields the pro-rate from edge
+        # cases where g is mutated outside of push).
+        n_open_peak = min(fr.max_size, n_g)
         if n_g > 0:
             g_parent_total = (sys.getsizeof(g)
                               + sum(sys.getsizeof(v)
                                     for v in g.values())
                               + sys.getsizeof(parent))
             per_entry = g_parent_total / n_g
-            g_parent_open = round(per_entry * n_open)
-            g_parent_closed = round(per_entry * (n_g - n_open))
+            g_parent_open = round(per_entry * n_open_peak)
+            g_parent_closed = round(per_entry * (n_g - n_open_peak))
         else:
             g_parent_open = 0
             g_parent_closed = 0
@@ -219,14 +257,21 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         """
         ====================================================================
          Records `_elapsed` via super, THEN takes the memory
-         snapshot. The snapshot lives outside the runtime
-         budget by construction — `super()._run_post()`
-         captures `_elapsed` before this method's snapshot
-         work runs.
+         snapshot and finalizes `mem_total = Σ mem_*`. The
+         snapshot lives outside the runtime budget by
+         construction — `super()._run_post()` captures
+         `_elapsed` before this method's snapshot work runs.
+
+         `finalize_mem_total` runs last so any subclass-added
+         `mem_*` keys (e.g., `mem_cache` / `mem_bounds` from
+         `AStarLookup._memory_snapshot`) are auto-absorbed into
+         the total — same rule, applied uniformly.
         ====================================================================
         """
+        from f_hs.algo.u_mem import finalize_mem_total
         super()._run_post()
         self._mem = self._memory_snapshot()
+        finalize_mem_total(self._mem)
 
     # ──────────────────────────────────────────────────
     #  Lifecycle

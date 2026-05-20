@@ -95,9 +95,9 @@ Per-class scaffold overrides via `_COUNTER_NAMES`:
 
 | Class | Names | Composition |
 |---|---|---|
-| `AlgoSPP` (default) | 7 | frontier 3 + search 2 + memory 2 |
-| `AStarLookup` | 12 | propagate 3 + frontier 3 + search 2 + memory 4 |
-| `AStarBPMX` | 15 | propagate 3 + bpmx 3 + frontier 3 + search 2 + memory 4 |
+| `AlgoSPP` (default) | 8 | frontier 3 + search 2 + memory 3 (incl. `mem_total`) |
+| `AStarLookup` | 13 | propagate 3 + frontier 3 + search 2 + memory 5 (`mem_open` / `mem_closed` / `mem_cache` / `mem_bounds` / `mem_total`) |
+| `AStarBPMX` | 16 | propagate 3 + bpmx 3 + frontier 3 + search 2 + memory 5 |
 
 ## Dependencies
 

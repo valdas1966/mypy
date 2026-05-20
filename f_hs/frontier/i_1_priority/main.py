@@ -55,6 +55,7 @@ class FrontierPriority(Generic[State], FrontierBase[State]):
         """
         self._counters.inc('cnt_push')
         self._queue.push(item=state, priority=priority)
+        self._track_max_size()
 
     def pop(self) -> State:
         """

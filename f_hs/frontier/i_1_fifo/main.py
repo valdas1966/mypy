@@ -44,6 +44,7 @@ class FrontierFIFO(Generic[State], FrontierBase[State]):
         self._counters.inc('cnt_push')
         self._queue.append(state)
         self._members.add(state)
+        self._track_max_size()
 
     def pop(self) -> State:
         """

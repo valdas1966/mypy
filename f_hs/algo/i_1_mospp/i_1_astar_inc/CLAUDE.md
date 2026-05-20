@@ -89,7 +89,7 @@ Group order mirrors the COUNTERS.html column order:
 | h | `cnt_h_search` (orchestrator-owned; wrapped h) |
 | frontier | `cnt_push`, `cnt_pop`, `cnt_decrease` |
 | reuse | `cnt_cache_hits_at_init` |
-| memory | `mem_open`, `mem_closed` (peak across sub-searches) |
+| memory | `mem_open`, `mem_closed` (rule-3 MAX across per-start sub-searches; each per-sub-search probe uses that sub-search's `frontier.max_size`), `mem_cache`, `mem_bounds` (rule-4 final-on-owner — measured on `self._cache` / `self._bounds` at end-of-run, after every harvest; supersedes the prior stale-inner-snapshot reading), `mem_total = Σ mem_*` |
 
 `cnt_bpmx_lifts` was formerly `cnt_bpmx_successes` — renamed
 for prop/bpmx symmetry (`*_attempts` / `*_lifts`); pure

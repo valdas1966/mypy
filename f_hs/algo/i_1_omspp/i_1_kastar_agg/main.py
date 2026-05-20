@@ -176,7 +176,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
         ('cnt_phi_search', 'cnt_phi_update'),
         ('cnt_push', 'cnt_pop', 'cnt_decrease'),
         ('cnt_expanded', 'cnt_generated'),
-        ('mem_open', 'mem_closed', 'mem_aux'),
+        ('mem_open', 'mem_closed', 'mem_aux', 'mem_total'),
     )
 
     def __init__(self,

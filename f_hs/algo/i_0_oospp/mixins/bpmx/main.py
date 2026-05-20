@@ -116,7 +116,7 @@ class BPMXMixin:
         ('cnt_push', 'cnt_pop', 'cnt_decrease'),
         ('cnt_expanded', 'cnt_generated'),
         ('mem_open', 'mem_closed',
-         'mem_cache', 'mem_bounds'),
+         'mem_cache', 'mem_bounds', 'mem_total'),
     )
 
     # ──────────────────────────────────────────────────

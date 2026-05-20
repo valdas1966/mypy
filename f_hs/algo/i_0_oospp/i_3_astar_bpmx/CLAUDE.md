@@ -95,7 +95,7 @@ casts on propagate → `AStar` adds `h` / `f`.
 
 ## Counters
 
-15-name scaffold (per-class `_COUNTER_NAMES` override).
+16-name scaffold (per-class `_COUNTER_NAMES` override).
 
 | group | counters | source |
 |---|---|---|
@@ -103,7 +103,7 @@ casts on propagate → `AStar` adds `h` / `f`.
 | bpmx (3) | `cnt_bpmx_attempts`, `cnt_bpmx_lifts`, `cnt_bpmx_depth` | in-search BPMX dispatch (BPMXMixin) |
 | frontier (3) | `cnt_push`, `cnt_pop`, `cnt_decrease` | `FrontierPriority` (mirrored on every read) |
 | search (2) | `cnt_expanded`, `cnt_generated` | inherited from `AlgoSPP` |
-| memory (4) | `mem_open`, `mem_closed`, `mem_cache`, `mem_bounds` | `_memory_snapshot()` (post-run) |
+| memory (5) | `mem_open`, `mem_closed`, `mem_cache`, `mem_bounds`, `mem_total` | `_memory_snapshot()` (post-run); `mem_total = Σ mem_*` finalized last via `u_mem.finalize_mem_total` |
 
 In off-mode (`rule_bpmx=None`), the bpmx group stays at zero
 and the instance is behaviourally identical to an

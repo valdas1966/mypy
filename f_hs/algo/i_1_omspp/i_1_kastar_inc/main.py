@@ -73,7 +73,7 @@ class KAStarInc(Generic[State],
         ('cnt_h_search', 'cnt_h_update'),
         ('cnt_push', 'cnt_pop', 'cnt_decrease'),
         ('cnt_expanded', 'cnt_generated'),
-        ('mem_open', 'mem_closed'),
+        ('mem_open', 'mem_closed', 'mem_total'),
     )
 
     def __init__(self,

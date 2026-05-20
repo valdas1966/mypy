@@ -114,13 +114,16 @@ same function name in their respective modules.
 ## Design Principles
 
 1. **Sibling-of-AlgoOMSPP, mirror in body.** `AlgoMOSPP`'s
-   counter scaffold, phase setter, `_flush_phase_timer`,
-   `_sync_memory_snapshot`, and lifecycle hooks are
-   identical to `AlgoOMSPP` — only the `Algo` Solution
-   generic argument and naming differ. This duplication
-   is accepted in exchange for natural OMSPP/MOSPP naming;
-   refactor into a shared abstract base if/when a third
-   variant (MMSPP) arrives.
+   counter scaffold (incl. `mem_open` / `mem_closed` /
+   `mem_total` with `mem_total = Σ mem_*` finalized via
+   `u_mem.finalize_mem_total`), phase setter,
+   `_flush_phase_timer`, `_sync_memory_snapshot` (OPEN
+   count from `frontier.max_size` — rule-2), and lifecycle
+   hooks are identical to `AlgoOMSPP` — only the `Algo`
+   Solution generic argument and naming differ. This
+   duplication is accepted in exchange for natural
+   OMSPP/MOSPP naming; refactor into a shared abstract
+   base if/when a third variant (MMSPP) arrives.
 2. **Fixed-h optimization.** Because the goal is fixed
    across MOSPP sub-searches, `AStarRepMOSPP` precomputes
    the counter-wrapped h ONCE in `__init__` and reuses the

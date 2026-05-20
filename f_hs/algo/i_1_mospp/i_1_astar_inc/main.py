@@ -122,7 +122,8 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
         ('cnt_h_search',),
         ('cnt_push', 'cnt_pop', 'cnt_decrease'),
         ('cnt_cache_hits_at_init',),
-        ('mem_open', 'mem_closed', 'mem_cache', 'mem_bounds'),
+        ('mem_open', 'mem_closed',
+         'mem_cache', 'mem_bounds', 'mem_total'),
     )
 
     # Inner AStarBPMX counter names SUMMED per sub-search.
@@ -218,16 +219,19 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
         # sub-searches.
         self._cache: dict[State, CacheEntry[State]] = {}
         self._bounds: dict[State, float] = {}
-        # Peak memory across sub-searches.
+        # Peak memory across sub-searches (rule-3: MAX across
+        # disjoint-in-time per-start sub-search bundles).
         self._mem_open_peak: int = 0
         self._mem_closed_peak: int = 0
-        # Peak goal-anchored reuse-store footprint (bytes) —
-        # the carried cache / bounds the incremental variant
-        # trades space for. Inner AStarBPMX measures them over
-        # the SAME dicts the orchestrator passes in; the stores
-        # only grow across sub-searches, so peak == final.
-        self._mem_cache_peak: int = 0
-        self._mem_bounds_peak: int = 0
+        # `mem_cache` / `mem_bounds` are read final-on-owner at
+        # end-of-run (rule-4: persist + accumulate across
+        # sub-searches — final == peak for monotone stores).
+        # No per-sub-search peak-tracking needed; the
+        # orchestrator-owned `self._cache` / `self._bounds`
+        # ARE the final state. Avoids the prior stale-inner-
+        # snapshot bias (the inner sub-search reported the
+        # PRE-harvest size; the orchestrator's harvest grew
+        # the store immediately after).
         # MAX-aggregated propagation depth: the deepest wave
         # ladder any single sub-search ran (NOT the sum). 0
         # when no sub-search propagated (empty seeds).
@@ -254,8 +258,6 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
         self._bounds = {}
         self._mem_open_peak = 0
         self._mem_closed_peak = 0
-        self._mem_cache_peak = 0
-        self._mem_bounds_peak = 0
         self._prop_waves_peak = 0
         self._bpmx_depth_peak = 0
         ordered = self._apply_order_starts(list(self.problem.starts))
@@ -370,20 +372,20 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
             self._emit_cache_hit_at_init(
                 start, cost=sol.cost, start_index=idx)
 
-        # Track peak memory. open / closed via direct
-        # search-state introspection; cache / bounds from the
-        # inner snapshot (it walked the SAME carried dicts). The
-        # carried stores grow monotonically across sub-searches,
-        # so the peak is the final footprint.
+        # Track peak (open, closed) memory — rule-3 MAX across
+        # disjoint-in-time per-start sub-searches. `mem_cache`
+        # / `mem_bounds` are NOT tracked here: they are read
+        # final-on-owner at end-of-run in `_sync_memory_snapshot`
+        # (the carried stores grow monotonically across
+        # sub-searches, so final == peak — measuring on the
+        # owning `self._cache` / `self._bounds` after the
+        # orchestrator's `update()` / `_harvest_bounds` avoids
+        # the prior stale-inner-snapshot bias).
         open_mem, closed_mem = self._mem_of(algo)
         if open_mem > self._mem_open_peak:
             self._mem_open_peak = open_mem
         if closed_mem > self._mem_closed_peak:
             self._mem_closed_peak = closed_mem
-        if ic['mem_cache'] > self._mem_cache_peak:
-            self._mem_cache_peak = ic['mem_cache']
-        if ic['mem_bounds'] > self._mem_bounds_peak:
-            self._mem_bounds_peak = ic['mem_bounds']
 
         reason = ('expanded' if sol.cost != float('inf')
                   else 'unreachable')
@@ -415,25 +417,46 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
          Write tracked peak / MAX-aggregated counters across
          sub-searches into `self._counters`. Overrides the
          base auto-probe (there is no single shared
-         search-state to probe). Covers `mem_open` /
-         `mem_closed` / `mem_cache` / `mem_bounds` (peak —
-         `mem_cache` / `mem_bounds` are the carried
-         goal-anchored reuse stores, the incremental variant's
-         space-for-time cost), `cnt_prop_waves` (deepest
-         single-sub-search propagation-wave ladder) and
-         `cnt_bpmx_depth` (deepest single-sub-search BPMX lift
-         level) — the latter two MAX, not SUM; the summed work
-         lives in `cnt_prop_attempts` / `cnt_prop_lifts` and
-         `cnt_bpmx_attempts` / `cnt_bpmx_lifts`.
+         search-state to probe). Covers:
+
+           - `mem_open` / `mem_closed`: rule-3 MAX across
+             disjoint-in-time per-start sub-search bundles
+             (tracked via `_mem_open_peak` / `_mem_closed_peak`
+             in `_handle_start`; each per-sub-search probe uses
+             that sub-search's `frontier.max_size` for the OPEN
+             count, rule-2).
+           - `mem_cache` / `mem_bounds`: rule-4 final-on-owner.
+             The carried goal-anchored stores
+             (`self._cache` / `self._bounds`) grow monotonically
+             across sub-searches, so final == peak. Measured
+             directly here on the orchestrator's stores AFTER
+             every harvest — supersedes the prior stale-inner-
+             snapshot reading (the inner reported its
+             *pre-harvest* size; the orchestrator's
+             `update()` / `_harvest_bounds` grew the store
+             immediately after, so the inner snapshot
+             understated by the harvest delta).
+           - `cnt_prop_waves` / `cnt_bpmx_depth`: MAX-aggregated
+             horizons (deepest wave ladder / deepest lift
+             level any single sub-search ran). Summed work
+             lives in `cnt_prop_attempts` / `cnt_prop_lifts`
+             and `cnt_bpmx_attempts` / `cnt_bpmx_lifts`.
         ====================================================================
         """
         self._counters.assign('mem_open', self._mem_open_peak)
         self._counters.assign(
             'mem_closed', self._mem_closed_peak)
-        self._counters.assign(
-            'mem_cache', self._mem_cache_peak)
-        self._counters.assign(
-            'mem_bounds', self._mem_bounds_peak)
+        # Rule-4: final == peak for monotone-growing stores.
+        # Measure on the owning dicts AFTER every harvest.
+        mem_cache = sys.getsizeof(self._cache)
+        for entry in self._cache.values():
+            mem_cache += sys.getsizeof(entry)
+            mem_cache += sys.getsizeof(entry.h_perfect)
+        mem_bounds = sys.getsizeof(self._bounds)
+        mem_bounds += sum(sys.getsizeof(v)
+                          for v in self._bounds.values())
+        self._counters.assign('mem_cache', mem_cache)
+        self._counters.assign('mem_bounds', mem_bounds)
         self._counters.assign(
             'cnt_prop_waves', self._prop_waves_peak)
         self._counters.assign(
@@ -618,15 +641,17 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
             frontier_struct = sys.getsizeof(
                 queue if queue is not None else frontier)
         n_g = len(g)
-        n_open = len(frontier)
+        # Rule-2: use this sub-search's frontier lifetime peak.
+        n_open_peak = min(
+            getattr(frontier, 'max_size', len(frontier)), n_g)
         if n_g > 0:
             g_parent_total = (sys.getsizeof(g)
                               + sum(sys.getsizeof(v)
                                     for v in g.values())
                               + sys.getsizeof(parent))
             per_entry = g_parent_total / n_g
-            g_parent_open = round(per_entry * n_open)
-            g_parent_closed = round(per_entry * (n_g - n_open))
+            g_parent_open = round(per_entry * n_open_peak)
+            g_parent_closed = round(per_entry * (n_g - n_open_peak))
         else:
             g_parent_open = 0
             g_parent_closed = 0

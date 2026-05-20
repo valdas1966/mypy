@@ -60,7 +60,7 @@ The mixin declares a 3-counter mechanism scaffold; the host class can override v
 | bpmx (3) | `cnt_bpmx_attempts`, `cnt_bpmx_lifts`, `cnt_bpmx_depth` | mechanism dispatch + sweep functions |
 | frontier (3) | `cnt_push`, `cnt_pop`, `cnt_decrease` | `FrontierPriority` (mirrored on every read) |
 | search (2) | `cnt_expanded`, `cnt_generated` | inherited from AlgoSPP |
-| memory (4) | `mem_open`, `mem_closed`, `mem_cache`, `mem_bounds` | `_memory_snapshot()` (post-run) |
+| memory (5) | `mem_open`, `mem_closed`, `mem_cache`, `mem_bounds`, `mem_total` | `_memory_snapshot()` (post-run); `mem_total = Σ mem_*` |
 
 ### Counter semantics
 
