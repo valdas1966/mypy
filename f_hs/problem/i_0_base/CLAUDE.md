@@ -26,6 +26,17 @@ def __init__(self, starts: list[State], goals: list[State],
 |--------|-------------|
 | `successors(state)` | Domain-specific neighbors |
 
+### Methods
+| Method | Description |
+|--------|-------------|
+| `flipped()` | Return a view with `starts` / `goals` SWAPPED (the OM ↔ MO axis flip). `successors()` / `w()` delegate unchanged, so the genuine transpose only on undirected graphs. Inherited by every subclass (incl. `ProblemGrid`). |
+
+## Internal
+- `_flipped.py` — `_FlippedView`, the `ProblemSPP` subclass
+  returned by `flipped()`. Private; reached only via the
+  `flipped()` method (lazy import breaks the `main` ↔
+  `_flipped` cycle).
+
 ## Factory
 Uses `_ProblemGraph` — concrete subclass with dict adjacency.
 Edge weights default to 1.0 across the graph; pass `weights=

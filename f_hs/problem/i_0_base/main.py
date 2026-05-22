@@ -85,6 +85,22 @@ class ProblemSPP(ProblemAlgo, Generic[State]):
         """
         raise NotImplementedError
 
+    def flipped(self) -> 'ProblemSPP[State]':
+        """
+        ========================================================================
+         Return a view of this Problem with `starts` and `goals`
+         SWAPPED (the One-to-Many / Many-to-One axis flip).
+
+         `successors()` and `w()` are delegated UNCHANGED, so the
+         same edges are walked. On an undirected graph the
+         flipped problem is the genuine transpose; on a directed
+         graph it relabels endpoints WITHOUT reversing edges, and
+         the caller owns that precondition.
+        ========================================================================
+        """
+        from f_hs.problem.i_0_base._flipped import _FlippedView
+        return _FlippedView(base=self)
+
     @property
     def key(self) -> tuple:
         """
