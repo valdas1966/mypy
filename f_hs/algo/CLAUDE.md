@@ -159,9 +159,12 @@ is the conservative upper-bound coincident peak. Implemented
 once in `f_hs/algo/u_mem.finalize_mem_total` and called LAST
 in each algo's memory-snapshot routine (after every other
 `mem_*` is assigned), so new `mem_*` keys (e.g.,
-`KAStarAgg.mem_aux`, `AStarLookup.mem_cache` / `mem_bounds`,
+`AStarLookup.mem_cache` / `mem_bounds`,
 `AStarIncMOSPP.mem_cache` / `mem_bounds`) are auto-absorbed
-without each algo being patched.
+without each algo being patched. (Note: KAStarAgg's
+auxiliary-structure peak is now folded into `mem_open` ---
+free-on-close + region-attribution, 2026-05-23 --- so there
+is no separate `mem_aux` key.)
 
 The OPEN-region peak count comes from `FrontierBase.max_size`
 (lifetime high-water mark, updated by `_track_max_size()` on

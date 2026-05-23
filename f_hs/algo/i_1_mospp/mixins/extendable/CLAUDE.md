@@ -16,6 +16,14 @@ the sequence already solved by `run()` (and any prior
 `extend()`s). Returns a `SolutionMOSPP` over the FULL set
 of starts seen so far.
 
+Post-batch, `extend()` mirrors `AlgoMOSPP._run_post`:
+`_flush_phase_timer` → accumulate `_elapsed` →
+`_sync_frontier_counters` → `_sync_memory_snapshot` →
+`finalize_mem_total`. The trailing `finalize_mem_total`
+keeps `mem_total = Σ mem_*` consistent after an extend
+(without it, `mem_total` would stay stale at its
+last-`run()` value).
+
 ### `run_nested(problems, h, ...) -> ExtendableMOSPP`
 *(classmethod)*
 
@@ -48,6 +56,7 @@ A subclass MUST:
 | algo | composes today | rationale |
 |---|---|---|
 | `AStarRepMOSPP` | yes | per-start sub-search loop |
+| `AStarIncMOSPP` | yes | per-start sub-search loop; the carried goal-anchored cache / bounds survive an extend for free (`extend()` does not call `_run()`, so its `_cache` / `_bounds` reset is bypassed) |
 
 ## Dependencies
 

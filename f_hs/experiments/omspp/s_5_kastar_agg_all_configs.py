@@ -35,14 +35,16 @@
      - Each worker pre-builds one shared `StateCell` cache per grid.
      - Per-task IPC payload = light detached `ProblemGrid` only.
 
- Output CSV columns (22 cols)
+ Output CSV columns (21 cols)
    IDs (3):        domain, map, k
    Config (4):     is_lazy, is_opt, store_vector, config
-   Counters (12):  cnt_h_search, cnt_h_update,
+   Counters (11):  cnt_h_search, cnt_h_update,
                    cnt_phi_search, cnt_phi_update,
                    cnt_push, cnt_pop, cnt_decrease,
                    cnt_expanded, cnt_generated,
-                   mem_open, mem_closed, mem_aux
+                   mem_open, mem_closed
+                   (`mem_open` folds the AGG aux peak ---
+                    see `KAStarAgg._sync_memory_snapshot`)
    Timing (3):     elapsed_total, elapsed_search, elapsed_update
 
    `config` is the folder-safe label `{lazy|eager}_{opt|noopt}_{sv|nosv}`
@@ -106,7 +108,6 @@ _CSV_COLUMNS = [
     'cnt_generated',
     'mem_open',
     'mem_closed',
-    'mem_aux',
     'elapsed_total',
     'elapsed_search',
     'elapsed_update',
@@ -190,7 +191,6 @@ def _snapshot(domain: str,
         'cnt_generated':  c['cnt_generated'],
         'mem_open':       c['mem_open'],
         'mem_closed':     c['mem_closed'],
-        'mem_aux':        c['mem_aux'],
         'elapsed_total':  round(algo.elapsed, 6),
         'elapsed_search': round(algo.elapsed_search, 6),
         'elapsed_update': round(algo.elapsed_update, 6),

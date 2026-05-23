@@ -176,7 +176,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
         ('cnt_phi_search', 'cnt_phi_update'),
         ('cnt_push', 'cnt_pop', 'cnt_decrease'),
         ('cnt_expanded', 'cnt_generated'),
-        ('mem_open', 'mem_closed', 'mem_aux', 'mem_total'),
+        ('mem_open', 'mem_closed', 'mem_total'),
     )
 
     def __init__(self,
@@ -310,7 +310,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
             self._g[start] = 0
             self._parent[start] = None
             f = self._compute_F(start, phase=_PHASE_SEARCH)
-            self._F_stored[start] = f
+            self._aux_set_F_stored(start, f)
             self._emit_push(start, g=0, f=f,
                             h=f)  # h == F when g == 0
             self._frontier.push(state=start,
@@ -339,7 +339,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                     actual_f = self._compute_F(
                         state, phase=_PHASE_SEARCH)
                     if actual_f != stored_f:
-                        self._F_stored[state] = actual_f
+                        self._aux_set_F_stored(state, actual_f)
                         self._frontier.push(
                             state=state,
                             priority=(actual_f, -g_state, state))
@@ -400,7 +400,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                     # PHASE_UPDATE code on AGG.
                     new_f = self._compute_F(
                         state, phase=_PHASE_SEARCH)
-                    self._F_stored[state] = new_f
+                    self._aux_set_F_stored(state, new_f)
                     self._frontier.push(
                         state=state,
                         priority=(new_f, -g_state, state))
@@ -424,6 +424,12 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                 continue
             self._closed.add(state)
             self._counters.inc('cnt_expanded')
+            # Free-on-close: the three aux entries for the
+            # just-closed node are read-dead (see
+            # `_aux_pop_on_close`). Releasing them keeps
+            # `mem_aux` at the OPEN-region scale instead of
+            # growing with `cnt_generated`.
+            self._aux_pop_on_close(state)
 
             # Expand.
             for child in self.problem.successors(state):
@@ -480,32 +486,29 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
     def _sync_memory_snapshot(self) -> None:
         """
         ====================================================================
-         Extend the base mem_open / mem_closed snapshot with
-         `mem_aux` — the bytes carried by AGG's auxiliary
-         per-state structures that live OUTSIDE OPEN/CLOSED:
+         Fold AGG's auxiliary per-state structures
            - `_F_stored`     (always present)
            - `_h_vector`     (only when `store_vector=True`)
            - `_responsible`  (only when `is_opt=True`)
+         into `mem_open`. With free-on-close (see
+         `_aux_pop_on_close`), every byte in those dicts is
+         per-OPEN-node bookkeeping, so by the region-
+         attribution rule it belongs to the OPEN region.
+         There is no separate `mem_aux` counter --- `mem_open`
+         reports the true OPEN-region peak.
 
-         Shallow accounting consistent with the base
-         (`sys.getsizeof` on the dict container + values; list
-         entries inside `_h_vector` are summed element-wise).
+         The aux contribution is the RUNNING PEAK
+         `self._mem_aux_peak`, maintained incrementally by
+         `_aux_bump_peak()` at every aux write (rule-2; the
+         aux dicts are non-monotone, so the end-of-run
+         snapshot would under-report). Adding it to
+         `mem_open` is O(1) at end-of-run.
         ====================================================================
         """
         super()._sync_memory_snapshot()
-        size_aux = (sys.getsizeof(self._F_stored)
-                    + sum(sys.getsizeof(v)
-                          for v in self._F_stored.values()))
-        if self._store_vector:
-            size_aux += sys.getsizeof(self._h_vector)
-            for vec in self._h_vector.values():
-                size_aux += sys.getsizeof(vec)
-                size_aux += sum(sys.getsizeof(x)
-                                for x in vec
-                                if x is not None)
-        if self._is_opt:
-            size_aux += sys.getsizeof(self._responsible)
-        self._counters.assign('mem_aux', size_aux)
+        self._counters.assign(
+            'mem_open',
+            self._counters['mem_open'] + self._mem_aux_peak)
 
     def _reset_search_state(self) -> None:
         """
@@ -524,7 +527,93 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
         self._F_stored = {}
         self._h_vector = {}
         self._responsible = {}
+        # Incremental aux byte-size accounting (rule-2 peak;
+        # see `_aux_bump_peak`). The aux dicts are
+        # non-monotone (entries freed on close in
+        # `_aux_pop_on_close`), so we maintain a running
+        # high-water mark rather than relying on an
+        # end-of-run snapshot.
+        self._aux_running: int = 0
+        self._mem_aux_peak: int = 0
         self.traces = []
+
+    # ──────────────────────────────────────────────────
+    #  Aux byte-size tracking (running peak; rule-2)
+    # ──────────────────────────────────────────────────
+
+    @staticmethod
+    def _h_vector_value_size(vec: list[int | None]) -> int:
+        """Shallow byte-size of an `_h_vector` value
+        (list backbone + non-None int slots)."""
+        return (sys.getsizeof(vec)
+                + sum(sys.getsizeof(x)
+                      for x in vec if x is not None))
+
+    def _aux_bump_peak(self) -> None:
+        """Refresh `_mem_aux_peak` from `_aux_running` plus
+        the current dict shells. O(1) per call."""
+        cur = self._aux_running + sys.getsizeof(self._F_stored)
+        if self._store_vector:
+            cur += sys.getsizeof(self._h_vector)
+        if self._is_opt:
+            cur += sys.getsizeof(self._responsible)
+        if cur > self._mem_aux_peak:
+            self._mem_aux_peak = cur
+
+    def _aux_set_F_stored(self, state: State,
+                          value: int) -> None:
+        """Set / overwrite `_F_stored[state]` and update the
+        running aux byte total + peak."""
+        if state in self._F_stored:
+            self._aux_running -= sys.getsizeof(
+                self._F_stored[state])
+        self._F_stored[state] = value
+        self._aux_running += sys.getsizeof(value)
+        self._aux_bump_peak()
+
+    def _aux_set_h_vector(self, state: State,
+                          vec: list[int | None]) -> None:
+        """Set `_h_vector[state]` (first-encounter assignment)
+        and update the running aux byte total + peak."""
+        if state in self._h_vector:
+            self._aux_running -= self._h_vector_value_size(
+                self._h_vector[state])
+        self._h_vector[state] = vec
+        self._aux_running += self._h_vector_value_size(vec)
+        self._aux_bump_peak()
+
+    def _aux_set_responsible(self, state: State,
+                             goal: State) -> None:
+        """Set / overwrite `_responsible[state]` and update
+        the running aux byte total + peak."""
+        if state in self._responsible:
+            self._aux_running -= sys.getsizeof(
+                self._responsible[state])
+        self._responsible[state] = goal
+        self._aux_running += sys.getsizeof(goal)
+        self._aux_bump_peak()
+
+    def _aux_pop_on_close(self, state: State) -> None:
+        """Free the three aux entries for a just-closed node
+        (free-on-close optimisation, 2026-05-23).
+
+         After close the node is never re-popped (closed-skip
+         on goal-pop / non-goal pop), never relaxed
+         (closed-skip in `_handle_child`), and never
+         refresh-iterated (`_refresh_priorities` walks the
+         frontier only). So `_F_stored`, `_h_vector` and
+         `_responsible` for it are read-dead --- releasing
+         them here keeps `mem_aux` at the OPEN-region scale
+         rather than the all-generated scale."""
+        if state in self._F_stored:
+            v = self._F_stored.pop(state)
+            self._aux_running -= sys.getsizeof(v)
+        if self._store_vector and state in self._h_vector:
+            vec = self._h_vector.pop(state)
+            self._aux_running -= self._h_vector_value_size(vec)
+        if self._is_opt and state in self._responsible:
+            g = self._responsible.pop(state)
+            self._aux_running -= sys.getsizeof(g)
 
     def _handle_child(self,
                       parent: State,
@@ -541,7 +630,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                 self._g[child] = new_g
                 self._parent[child] = parent
                 f = self._compute_F(child, phase=_PHASE_SEARCH)
-                self._F_stored[child] = f
+                self._aux_set_F_stored(child, f)
                 self._frontier.decrease(
                     state=child,
                     priority=(f, -new_g, child))
@@ -551,7 +640,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
             self._g[child] = new_g
             self._parent[child] = parent
             f = self._compute_F(child, phase=_PHASE_SEARCH)
-            self._F_stored[child] = f
+            self._aux_set_F_stored(child, f)
             self._frontier.push(
                 state=child, priority=(f, -new_g, child))
             self._trace('cnt_push', child)
@@ -609,7 +698,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                         n_h += 1
                     else:
                         vec.append(None)
-                self._h_vector[state] = vec
+                self._aux_set_h_vector(state, vec)
                 self._counters.inc(h_counter, n=n_h)
                 if n_h:
                     self._trace(h_counter, state, n=n_h)
@@ -645,7 +734,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                     key=lambda j: active_pairs[j][1])
             responsible_goal = self._all_goals[
                 active_pairs[best_idx][0]]
-            self._responsible[state] = responsible_goal
+            self._aux_set_responsible(state, responsible_goal)
 
         return int(g + phi)
 
@@ -712,7 +801,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                 new_f = old_f
             else:
                 new_f = self._compute_F(s, phase=_PHASE_UPDATE)
-                self._F_stored[s] = new_f
+                self._aux_set_F_stored(s, new_f)
             g_s = self._g[s]
             self._frontier.push(state=s,
                                 priority=(new_f, -g_s, s))

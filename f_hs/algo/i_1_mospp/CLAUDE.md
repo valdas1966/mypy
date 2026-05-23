@@ -77,7 +77,7 @@ from f_hs import AStarRepMOSPP, KBFSMOSPP, KDijkstraMOSPP
 | Name | Status | Extendable | Notes |
 |---|---|---|---|
 | `AStarRepMOSPP` | shipped | yes | Repetitive k×A* — MOSPP paper baseline; k independent A*s, no state sharing. Composes `ExtendableMOSPP`; gains the `already_reached` fast-path skip only. Admissible h sufficient. Works on directed graphs. |
-| `AStarIncMOSPP` | shipped | no | Incremental k×A* — k sequential forward `AStarBPMX` sub-searches sharing a goal-anchored on-path cache + admissible bounds (NOT a shared `SearchStateSPP`; start varies). Cache-hit-at-init headline win. Opt-in pre-search `propagate_pathmax` and in-search BPMX. Admissible h sufficient (consistency not required). Works on directed graphs. |
+| `AStarIncMOSPP` | shipped | yes | Incremental k×A* — k sequential forward `AStarBPMX` sub-searches sharing a goal-anchored on-path cache + admissible bounds (NOT a shared `SearchStateSPP`; start varies). Cache-hit-at-init headline win. Opt-in pre-search `propagate_pathmax` and in-search BPMX. Composes `ExtendableMOSPP` — the carried goal-anchored stores survive an `extend()` for free, making nested MOSPP chains solvable in one pass. Admissible h sufficient (consistency not required). Works on directed graphs. |
 | `KBFSMOSPP` | shipped | no | k-BFS via flip-to-OMSPP delegation. **Undirected, uniform-weight precondition.** Single backward BFS pass from the goal; emits `on_start` (translated by `_OnGoalToOnStartShim` from the inner OMSPP `KBFS`'s `on_goal`). Mirror of OMSPP `KBFS`. |
 | `KDijkstraMOSPP` | shipped | no | k-Dijkstra via flip-to-OMSPP delegation. **Undirected, non-negative-weight precondition.** Single backward Dijkstra pass from the goal; same event-translation pattern as `KBFSMOSPP`. Mirror of OMSPP `KDijkstra`. |
 
@@ -85,15 +85,23 @@ from f_hs import AStarRepMOSPP, KBFSMOSPP, KDijkstraMOSPP
 algorithm: forward-direction sub-searches with goal-anchored
 suffix-caching via `AStarLookup.to_cache()` + accumulated
 admissible bounds, NOT the flip-to-OMSPP delegation pattern
-(which only works on undirected graphs). It deliberately does
-**not** compose `ExtendableMOSPP` — the reuse axis is the
-cache/bounds stores, not a prefix-extendable start sequence.
+(which only works on undirected graphs). It composes
+`ExtendableMOSPP`: because its reuse axis IS the goal-anchored
+cache / bounds stores — monotone and goal-fixed, so never
+stale — and `extend()` bypasses `_run()`'s store reset, an
+extended run carries the incremental win across the extend
+boundary. This makes a prefix-extending (nested) MOSPP
+problem chain solvable in ONE `run()` + `extend()` pass.
+Under `order_starts='given'` an extended run is
+counter-identical to a fresh full run; under the reordering
+policies it stays cost-correct but its counters differ (the
+new batch trails rather than interleaves).
 
 ## Capability mixins
 
 | Mixin | Path | Composed by |
 |---|---|---|
-| `ExtendableMOSPP` | `mixins/extendable/` | `AStarRepMOSPP` |
+| `ExtendableMOSPP` | `mixins/extendable/` | `AStarRepMOSPP`, `AStarIncMOSPP` |
 
 `ExtendableMOSPP` adds `extend(new_starts)` (instance
 method) and `run_nested(problems, h, ...)` (classmethod).

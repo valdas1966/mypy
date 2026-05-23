@@ -314,12 +314,14 @@ def test_counters_surface() -> None:
         'cnt_phi_search', 'cnt_phi_update',
         'cnt_push', 'cnt_pop', 'cnt_decrease',
         'cnt_expanded', 'cnt_generated',
-        'mem_open', 'mem_closed', 'mem_aux', 'mem_total',
+        'mem_open', 'mem_closed', 'mem_total',
     }
     assert c['cnt_pop'] <= c['cnt_push']
     assert c['cnt_pop'] >= 1
     assert c['cnt_phi_search'] >= 1   # at least one F computation
-    assert c['mem_aux'] > 0   # _F_stored is always populated
+    # `mem_open` now folds the AGG aux peak (free-on-close +
+    # region-attribution: aux is per-OPEN-node bookkeeping).
+    assert c['mem_open'] > 0
 
 
 def _make_2goal_agg(*, is_lazy: bool, is_opt: bool,

@@ -28,16 +28,16 @@
    The worker derives the k=10..190 prefixes internally by slicing
    `problem._goals` -- the same technique used by `_tester_extend.py`.
 
- Output CSV columns (16 cols, all CUMULATIVE since `run()`)
+ Output CSV columns (15 cols, all CUMULATIVE since `run()`)
    domain, map, k,
    cnt_h_search, cnt_h_update, cnt_push, cnt_pop, cnt_decrease,
-   cnt_expanded, cnt_generated, mem_open, mem_closed, mem_aux,
+   cnt_expanded, cnt_generated, mem_open, mem_closed,
    elapsed_total, elapsed_search, elapsed_update
 
-   `mem_aux` is structurally 0 for KAStarInc -- the algorithm has no
-   AGG-style auxiliary structures (_F_stored / _h_vector / _responsible).
-   Carried as an explicit column so cross-algo joins against s_5
-   (KAStarAgg) line up.
+   No `mem_aux` column (2026-05-23 merge): KAStarAgg now folds
+   its aux peak into `mem_open` (free-on-close + region
+   attribution), so the cross-algo schema is just
+   `mem_open` / `mem_closed` for every algo.
 
  Per-stage incremental deltas are a trivial post-processing step:
    df.groupby(['domain', 'map']).diff()
@@ -89,7 +89,6 @@ _CSV_COLUMNS = [
     'cnt_generated',
     'mem_open',
     'mem_closed',
-    'mem_aux',
     'elapsed_total',
     'elapsed_search',
     'elapsed_update',
@@ -141,7 +140,6 @@ def _snapshot(domain: str,
         'cnt_generated':  c['cnt_generated'],
         'mem_open':       c['mem_open'],
         'mem_closed':     c['mem_closed'],
-        'mem_aux':        0,   # INC has no AGG-style aux structures
         'elapsed_total':  round(algo.elapsed, 6),
         'elapsed_search': round(algo.elapsed_search, 6),
         'elapsed_update': round(algo.elapsed_update, 6),

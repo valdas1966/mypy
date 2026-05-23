@@ -56,10 +56,13 @@ AStarIncMOSPP(problem: ProblemSPP[State],
 - `h(state, goal) -> int` — bi-arg, admissible. Goal is fixed
   ⇒ the counter-wrapped unary h is built once and reused (also
   the `order_starts` metric — raw, not counted).
-- `order_starts ∈ {near, far, mean, random}`:
+- `order_starts ∈ {near, far, mean, random, given}`:
   - `near`/`far` — ascending / descending by `h(start, goal)`.
   - `mean` — ascending by `|h(start, goal) − mean|`.
   - `random` — deterministic shuffle (fixed seed `0`).
+  - `given` — `problem.starts` as-is, no reordering (the
+    identity policy; the consistent choice for `extend()`-based
+    nested chains — see **Extendable** below).
 - `carry_cache` / `carry_bounds` — replay the respective
   goal-anchored store across sub-searches.
 - **`propagate` is a separate boolean from `propagate_depth`.**
@@ -75,6 +78,8 @@ AStarIncMOSPP(problem: ProblemSPP[State],
 | Method | Description |
 |---|---|
 | `run() -> SolutionMOSPP` | Orchestrate k sequential sub-searches over the policy-ordered starts. |
+| `extend(new_starts) -> SolutionMOSPP` | (from `ExtendableMOSPP`) Resume after `run()` with more starts — see **Extendable**. |
+| `run_nested(problems, h, ...) -> AStarIncMOSPP` | (classmethod, from `ExtendableMOSPP`) Solve a prefix-extending problem chain in one call. |
 | `reconstruct_path(start) -> list[State]` | Returns `[]` by design — sub-search parent pointers are discarded (mirror of `AStarRepMOSPP`). |
 
 ### Counter scaffold
@@ -149,6 +154,43 @@ sub-searches, with three exceptions:
 
 `already_closed` is never emitted (no shared CLOSED set).
 
+## Extendable
+
+Composes the `ExtendableMOSPP` capability mixin (same mixin
+`AStarRepMOSPP` uses). `extend(new_starts)` resumes the
+orchestrator with more starts after `run()`; `run_nested`
+chains `run()` + `extend()` over a prefix-extending problem
+sequence.
+
+Why it fits naturally:
+
+- **Goal-anchored stores never go stale.** `cache` /
+  `bounds` are keyed to the fixed goal, so every entry
+  harvested during `run()` stays exact / admissible for
+  every later `extend()` sub-search.
+- **`extend()` bypasses the reset.** Only `_run()` resets
+  `_cache` / `_bounds`; `extend()` does not call `_run()`,
+  so the carried stores survive the extend for free — the
+  incremental win (cache-hit-at-init) crosses the extend
+  boundary.
+- Wiring mirrors `AStarRepMOSPP`: `_all_starts` /
+  `_last_reached_start` / `_last_algo` bookkeeping;
+  `_repush_last_reached_start` is an inert no-op (no shared
+  frontier).
+
+**`order_starts` interaction.** `extend()` appends each new
+batch in the order given — it never re-applies
+`order_starts`. So:
+
+- `order_starts='given'` — `run()` and every `extend()` are
+  in `problem.starts` order; an extended run is
+  **counter-identical** to a fresh full run (verified in
+  `_tester_extend.py::test_extend_equals_fresh_given`).
+- `near` / `far` / `mean` / `random` — an extended run stays
+  **cost-correct** (A* with admissible h is order-
+  independent for correctness) but its counters differ from
+  a fresh run: the new batch trails rather than interleaves.
+
 ## Algorithm
 
 ```
@@ -184,9 +226,10 @@ for i, s_i in enumerate(ordered_starts):
 
 | File | Scope | Count |
 |---|---|---|
-| `_tester.py` | lifecycle: canonical + cache-hit-at-init, multi-goal / bad-policy rejection, duplicate-start fast-path, all 4 order policies correct, `elapsed_update==0`, no `update_frontier`, empty `reconstruct_path`, carry-cache toggle | 9 |
+| `_tester.py` | lifecycle: canonical + cache-hit-at-init, multi-goal / bad-policy rejection, duplicate-start fast-path, all 5 order policies (`near`/`far`/`mean`/`random`/`given`) correct, `elapsed_update==0`, no `update_frontier`, empty `reconstruct_path`, carry-cache toggle | 9 |
 | `_tester_counters.py` | one method per param config (22: 1 cache + 4 propagate + 13 BPMX + 4 combined); full non-mem counter dict + per-start costs pinned from the oracle | 22 |
 | `_tester_recording.py` | one method per param config (22); full normalized event-stream golden master | 22 |
+| `_tester_extend.py` | `ExtendableMOSPP` path: protocol check, `extend()` preconditions, `run([prefix]) + extend([rest])` == fresh `run([full])` under `order_starts='given'` (costs + full counters), cache survives extend, chained extend / `run_nested`, inert `_repush` | 8 |
 
 **Group C uses `carry_cache=True`.** The sub-search-1 on-path
 cache is BPMX's inconsistency engine on the otherwise-

@@ -6,6 +6,7 @@ from f_hs.algo.i_1_mospp._single_start_view import _SingleStartView
 from f_hs.algo.i_1_mospp.i_0_base.main import (
     AlgoMOSPP, PHASE_SEARCH,
 )
+from f_hs.algo.i_1_mospp.mixins.extendable import ExtendableMOSPP
 from f_hs.heuristic.i_0_base._cache_entry import CacheEntry
 from f_hs.heuristic.i_1_bounded.main import HBounded
 from f_hs.problem.i_0_base.main import ProblemSPP
@@ -20,10 +21,12 @@ State = TypeVar('State', bound=StateBase)
 # is reproducible across runs.
 _RANDOM_SEED = 0
 
-_ORDER_POLICIES = ('near', 'far', 'mean', 'random')
+_ORDER_POLICIES = ('near', 'far', 'mean', 'random', 'given')
 
 
-class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
+class AStarIncMOSPP(Generic[State],
+                    AlgoMOSPP[State],
+                    ExtendableMOSPP[State]):
     """
     ============================================================================
      Incremental k×A* (kA*_inc) for the Many-to-One Shortest
@@ -77,6 +80,25 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
      propagate at all". Without the boolean, the
      cache-only config and the propagate-to-convergence config
      would be indistinguishable.
+
+     **Extendable.** Composes `ExtendableMOSPP`:
+     `extend(new_starts)` resumes the orchestrator with more
+     starts after `run()`. The goal-anchored cache / bounds
+     are monotone and never go stale (the goal is fixed), and
+     `extend()` does NOT call `_run()` — so its
+     `_cache` / `_bounds` reset is bypassed and the carried
+     stores survive the extend for free. This makes a
+     prefix-extending (nested) MOSPP problem chain solvable
+     in ONE pass via `run()` + `extend()` (or `run_nested`).
+     `extend()` appends each new batch in the order given —
+     it does NOT re-apply `order_starts`. Under
+     `order_starts='given'` the whole chain is processed in
+     `problem.starts` order, so an extended run is
+     counter-identical to a fresh full run; under the
+     reordering policies (`near` / `far` / `mean` / `random`)
+     an extended run stays cost-correct but its counters
+     differ from a fresh run (the new batch trails rather
+     than interleaves).
 
      **Assumptions / requirements:**
 
@@ -175,12 +197,16 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
          `self._goal = problem.goals[0]` — and reused across
          every sub-search (and as the ordering metric).
 
-         `order_starts ∈ {near, far, mean, random}`:
+         `order_starts ∈ {near, far, mean, random, given}`:
            - `near` / `far` — ascending / descending by
              `h(start, goal)`.
            - `mean`  — ascending by `|h(start, goal) − mean|`
              (closest-to-average first).
            - `random` — deterministic shuffle (fixed seed).
+           - `given` — `problem.starts` as-is, no reordering
+             (the identity policy; the consistent choice for
+             `extend()`-based nested chains, since `extend()`
+             never reorders either).
 
          `propagate` toggles the per-sub-search pre-search
          `propagate_pathmax(depth=propagate_depth)` call;
@@ -219,6 +245,15 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
         # sub-searches.
         self._cache: dict[State, CacheEntry[State]] = {}
         self._bounds: dict[State, float] = {}
+        # ExtendableMOSPP bookkeeping — the full start
+        # sequence seen so far (across run + every extend),
+        # and the trailing completed start. `_last_algo` is
+        # tracked for contract symmetry but never consulted
+        # by `_repush_last_reached_start` (no shared frontier
+        # for k×A*-flavored MOSPP).
+        self._all_starts: list[State] = []
+        self._last_reached_start: State | None = None
+        self._last_algo: AStarBPMX[State] | None = None
         # Peak memory across sub-searches (rule-3: MAX across
         # disjoint-in-time per-start sub-search bundles).
         self._mem_open_peak: int = 0
@@ -249,9 +284,12 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
         """
         ====================================================================
          Run k sequential A* sub-searches, one per start, in
-         the policy-ordered start sequence. Goal-anchored
-         cache / bounds are reset here so a re-`run()` starts
-         clean.
+         the policy-ordered start sequence. Delegates the
+         per-start loop body to `_handle_start`, shared with
+         `ExtendableMOSPP.extend()`. Goal-anchored cache /
+         bounds are reset here so a re-`run()` starts clean
+         (`extend()` does not call `_run()`, so the carried
+         stores survive an extend).
         ====================================================================
         """
         self._cache = {}
@@ -260,18 +298,23 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
         self._mem_closed_peak = 0
         self._prop_waves_peak = 0
         self._bpmx_depth_peak = 0
-        ordered = self._apply_order_starts(list(self.problem.starts))
-        for i, start in enumerate(ordered):
+        self._all_starts = self._apply_order_starts(
+            list(self.problem.starts))
+        self._last_reached_start = None
+        self._last_algo = None
+        for i, start in enumerate(self._all_starts):
             self._handle_start(start, idx=i)
         return SolutionMOSPP(self._solutions)
 
     def _handle_start(self, start: State, idx: int) -> None:
         """
         ====================================================================
-         Per-start sub-search body.
+         Per-start sub-search body. Shared by `_run()` and
+         `ExtendableMOSPP.extend()`.
 
          Skips A* on the `already_reached` fast-path when a
-         prior sub-search already finalized this start's cost
+         prior sub-search (in this run, or any prior
+         `extend()`) already finalized this start's cost
          (duplicate start). Otherwise runs a FRESH
          `AStarBPMX` over a single-start view, seeded with the
          carried cache / bounds, then harvests the result back
@@ -286,6 +329,10 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
             self._emit_on_start(start, cost=sol.cost,
                                 reason='already_reached',
                                 start_index=idx)
+            # ExtendableMOSPP bookkeeping — fast-path is not a
+            # reached expansion.
+            self._last_reached_start = None
+            self._last_algo = None
             return
 
         sub_problem = _SingleStartView[State](
@@ -402,6 +449,28 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
             if self._carry_bounds:
                 self._harvest_bounds(algo, cost=sol.cost)
 
+        # ExtendableMOSPP bookkeeping — record the trailing
+        # completed start so `extend()` could re-push it
+        # (inert here — no shared frontier).
+        if reason == 'expanded':
+            self._last_reached_start = start
+            self._last_algo = algo
+        else:
+            self._last_reached_start = None
+            self._last_algo = None
+
+    def _repush_last_reached_start(self) -> None:
+        """
+        ====================================================================
+         No-op for k×A*-flavored MOSPP — there is no shared
+         frontier to re-push the trailing start into. Clears
+         the bookkeeping for hygiene (mirror of
+         `AStarRepMOSPP._repush_last_reached_start`).
+        ====================================================================
+        """
+        self._last_reached_start = None
+        self._last_algo = None
+
     def _sync_frontier_counters(self) -> None:
         """
         ====================================================================
@@ -491,9 +560,12 @@ class AStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
          (the raw bi-arg h — NOT counted as search work).
          Sorts are stable, so duplicate-metric ties keep the
          original `problem.starts` order; `random` uses a
-         fixed seed — every policy is deterministic.
+         fixed seed — every policy is deterministic. `given`
+         is the identity policy (no reordering).
         ====================================================================
         """
+        if self._order_starts == 'given':
+            return list(starts)
         h = self._h
         goal = self._goal
         if self._order_starts == 'random':

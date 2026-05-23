@@ -148,12 +148,19 @@ class ExtendableMOSPP(Generic[State]):
             self._handle_start(start, idx=offset + j)
 
         # Post: flush phase bucket, accumulate elapsed,
-        # re-sync frontier counters + memory snapshot.
+        # re-sync frontier counters + memory snapshot, then
+        # finalize `mem_total = Σ mem_*` LAST — mirrors
+        # `AlgoMOSPP._run_post` so `extend()` leaves the
+        # counters in the same consistent state as `run()`.
+        # Without the finalize, `mem_total` stays stale at
+        # its last-`run()` value after an extend.
+        from f_hs.algo.u_mem import finalize_mem_total
         self._flush_phase_timer()
         self._elapsed = (self._elapsed or 0.0) + (
             perf_counter() - t0)
         self._sync_frontier_counters()
         self._sync_memory_snapshot()
+        finalize_mem_total(self._counters)
         return SolutionMOSPP(self._solutions)
 
     @classmethod

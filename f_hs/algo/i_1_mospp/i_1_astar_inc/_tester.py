@@ -99,7 +99,7 @@ def test_order_policies_all_correct() -> None:
      costs — ordering changes the work, never the answer.
     ========================================================================
     """
-    for policy in ('near', 'far', 'mean', 'random'):
+    for policy in ('near', 'far', 'mean', 'random', 'given'):
         algo = AStarIncMOSPP.Factory.canonical(
             order_starts=policy)
         algo.run()
