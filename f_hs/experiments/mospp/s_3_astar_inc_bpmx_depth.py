@@ -568,7 +568,7 @@ if __name__ == '__main__':
     # depth_bpmx : int >= 1, or None = BPMX to convergence.
     # depth_prop : 0 = no propagation; int >= 1 = propagate to that
     #              depth; None = propagate to convergence.
-    rule_bpmx = '2'
+    rule_bpmx = '3'
     depth_bpmx = 1
     depth_prop = 0
 
