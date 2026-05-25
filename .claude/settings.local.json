@@ -1,6 +1,5 @@
 {
   "permissions": {
-    "defaultMode": "acceptEdits",
     "allow": [
       "Bash",
       "Write",
@@ -133,7 +132,13 @@
       "Bash(tectonic MOSPP_session.tex)",
       "Bash(tectonic MMSPP_session.tex)",
       "Bash(tectonic quiz_session.tex)",
-      "Skill(update-config)"
-    ]
+      "Skill(update-config)",
+      "WebFetch(domain:www.sciencedirect.com)",
+      "WebFetch(domain:d-nb.info)",
+      "WebFetch(domain:eva.fing.edu.uy)",
+      "WebFetch(domain:drops.dagstuhl.de)",
+      "WebFetch(domain:core.ac.uk)"
+    ],
+    "defaultMode": "acceptEdits"
   }
 }
