@@ -56,40 +56,42 @@ OVERLEAF_FILE = 'MOSPP.tex'
 # reach. Legend uses `depth=N` alone (the shared `rule=1` is
 # called out once in the setup paragraph instead).
 #
-# Color: monotone "darker = deeper" ladder. All four colors are
-# dark enough to read cleanly on white; each step is strictly
-# darker (lower perceptual lightness) than the previous, so the
-# reader can rank depth at a glance without consulting the
-# legend. Hue glides blue -> dark blue -> dark gray -> black,
-# leaving the blue family at d=2 to signal "exiting the active
-# BPMX zone" and landing on pure black at d=3 for the saturating
-# extreme.
+# Color: monotone blue gradient with perceptually-even steps
+# (CIELAB L* ~ 70, 52, 33, 12; Delta ~ 18-21 each) so the
+# human eye can rank all four lines at a glance, even when
+# they sit close together on a chart. The darkest rung stays
+# in the blue family rather than collapsing to pure black, so
+# the gradient reads as one ramp end-to-end. The light-end
+# choice (#6BAED6) supplies the contrast the prior all-dark
+# palette lacked -- merged-dash bands (e.g. depth=0/1) now
+# alternate light-blue against medium-blue and are visibly
+# two-toned.
 #
-#   depth=0 = #1976D2   Material Blue 700  -- visible mid-blue
-#   depth=1 = #0D47A1   Material Blue 900  -- deep blue
-#   depth=2 = #424242   Material Gray 800  -- dark neutral
-#   depth=3 = #000000   pure black         -- darkest rung
+#   depth=0 = #6BAED6   Colorbrewer Blues9-5   -- light blue
+#   depth=1 = #3182BD   Colorbrewer Blues7-5   -- medium blue
+#   depth=2 = #08519C   Colorbrewer Blues9-8   -- dark blue
+#   depth=3 = #041F4B   custom navy            -- very dark navy
 CONFIGS = [
     {'tag':   'rule_none',
      'label': r'depth=0',
      'csv':   ('Experiments/MOSPP/'
                'astar_inc_nested__rule_none__bpmx_inf__prop_0.csv'),
-     'color': '1976D2'},
+     'color': '6BAED6'},
     {'tag':   'rule_1__d_1',
      'label': r'depth=1',
      'csv':   ('Experiments/MOSPP/'
                'astar_inc_nested__rule_1__bpmx_1__prop_0.csv'),
-     'color': '0D47A1'},
+     'color': '3182BD'},
     {'tag':   'rule_1__d_2',
      'label': r'depth=2',
      'csv':   ('Experiments/MOSPP/'
                'astar_inc_nested__rule_1__bpmx_2__prop_0.csv'),
-     'color': '424242'},
+     'color': '08519C'},
     {'tag':   'rule_1__d_3',
      'label': r'depth=3',
      'csv':   ('Experiments/MOSPP/'
                'astar_inc_nested__rule_1__bpmx_3__prop_0.csv'),
-     'color': '000000'},
+     'color': '041F4B'},
 ]
 
 # k snapshots shown in per-counter tables (rows = depth,
@@ -122,6 +124,8 @@ _EXCLUDED_COUNTERS: set[str] = {
     'cnt_pop',
     'cnt_generated',
     'cnt_decrease',
+    'cnt_bpmx_depth',
+    'cnt_cache_hits_at_init',
     'mem_cache',
     'mem_bounds',
     'elapsed_search',
@@ -569,8 +573,9 @@ def panel_addplots(per_kc: pd.DataFrame,
     ========================================================================
      Emit one \\addplot per config, with COINCIDENT configs merged
      into a single visual line as overlaid offset-dash plots so
-     the colors alternate in 4pt segments (e.g. d=0 black + d=1
-     green dashed together when both produce identical curves).
+     the colors alternate in 4pt segments (e.g. d=0 light-blue +
+     d=1 medium-blue dashed together when both produce identical
+     curves).
      Returns (addplots_string, legend_labels) -- the legend
      entries are 1-per-group, not 1-per-config, with combined
      labels like `depth=0/1`.
@@ -830,24 +835,25 @@ covers one counter: a short description and a min/max
 observation at $k={k_max}$, followed by its line chart
 and per-$k$ table.
 
-\paragraph{{Color \& line convention.}} Monotone "darker $=$
-deeper" palette:
-\textbf{{\textcolor[HTML]{{1976D2}}{{depth=0 (blue)}}}}
+\paragraph{{Color \& line convention.}} Monotone blue gradient
+with perceptually-even steps so all four lines remain
+distinguishable even when they sit close together on a chart:
+\textbf{{\textcolor[HTML]{{6BAED6}}{{depth=0 (light blue)}}}}
 $=$ BPMX off,
-\textbf{{\textcolor[HTML]{{0D47A1}}{{depth=1 (dark blue)}}}}
+\textbf{{\textcolor[HTML]{{3182BD}}{{depth=1 (medium blue)}}}}
 $=$ BPMX on but inert on consistent $h$,
-\textbf{{\textcolor[HTML]{{424242}}{{depth=2 (dark gray)}}}}
+\textbf{{\textcolor[HTML]{{08519C}}{{depth=2 (dark blue)}}}}
 $=$ cascade fires,
-\textbf{{\textcolor[HTML]{{000000}}{{depth=3 (black)}}}}
+\textbf{{\textcolor[HTML]{{041F4B}}{{depth=3 (very dark navy)}}}}
 $=$ gains saturated. Each step is strictly darker than the
 previous, so the reader can rank depth at a glance. When two
 or more configs coincide exactly on a counter, their curves
 are merged into a single line that alternates 4\,pt segments
 of each config's color (e.g.~\texttt{{depth=0/1}} reads as a
-blue~--~dark-blue dashed band). The legend entry shows the
-merged label (\texttt{{depth=0/1}}, \texttt{{depth=0/1/2/3}},
-etc.) so the coincidence is visible without consulting the
-table.
+light-blue~--~medium-blue dashed band). The legend entry shows
+the merged label (\texttt{{depth=0/1}},
+\texttt{{depth=0/1/2/3}}, etc.) so the coincidence is visible
+without consulting the table.
 """
     omitted_zero = sorted(set(metric_cols)
                           - nontrivial
