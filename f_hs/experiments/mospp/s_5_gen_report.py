@@ -56,47 +56,40 @@ OVERLEAF_FILE = 'MOSPP.tex'
 # reach. Legend uses `depth=N` alone (the shared `rule=1` is
 # called out once in the setup paragraph instead).
 #
-# Color: monotone 7-stop blue gradient (ColorBrewer Blues),
-# light → dark with depth, so the depth ladder reads
-# left→right on the legend AND top→bottom on intensity. No
-# gray break for the baseline -- the gradient is the visual
-# story.
+# Color: monotone "darker = deeper" ladder. All four colors are
+# dark enough to read cleanly on white; each step is strictly
+# darker (lower perceptual lightness) than the previous, so the
+# reader can rank depth at a glance without consulting the
+# legend. Hue glides blue -> dark blue -> dark gray -> black,
+# leaving the blue family at d=2 to signal "exiting the active
+# BPMX zone" and landing on pure black at d=3 for the saturating
+# extreme.
+#
+#   depth=0 = #1976D2   Material Blue 700  -- visible mid-blue
+#   depth=1 = #0D47A1   Material Blue 900  -- deep blue
+#   depth=2 = #424242   Material Gray 800  -- dark neutral
+#   depth=3 = #000000   pure black         -- darkest rung
 CONFIGS = [
     {'tag':   'rule_none',
      'label': r'depth=0',
      'csv':   ('Experiments/MOSPP/'
                'astar_inc_nested__rule_none__bpmx_inf__prop_0.csv'),
-     'color': 'DEEBF7'},
+     'color': '1976D2'},
     {'tag':   'rule_1__d_1',
      'label': r'depth=1',
      'csv':   ('Experiments/MOSPP/'
                'astar_inc_nested__rule_1__bpmx_1__prop_0.csv'),
-     'color': 'C6DBEF'},
+     'color': '0D47A1'},
     {'tag':   'rule_1__d_2',
      'label': r'depth=2',
      'csv':   ('Experiments/MOSPP/'
                'astar_inc_nested__rule_1__bpmx_2__prop_0.csv'),
-     'color': '9ECAE1'},
+     'color': '424242'},
     {'tag':   'rule_1__d_3',
      'label': r'depth=3',
      'csv':   ('Experiments/MOSPP/'
                'astar_inc_nested__rule_1__bpmx_3__prop_0.csv'),
-     'color': '6BAED6'},
-    {'tag':   'rule_1__d_4',
-     'label': r'depth=4',
-     'csv':   ('Experiments/MOSPP/'
-               'astar_inc_nested__rule_1__bpmx_4__prop_0.csv'),
-     'color': '2171B5'},
-    {'tag':   'rule_1__d_5',
-     'label': r'depth=5',
-     'csv':   ('Experiments/MOSPP/'
-               'astar_inc_nested__rule_1__bpmx_5__prop_0.csv'),
-     'color': '08519C'},
-    {'tag':   'rule_1__d_inf',
-     'label': r'depth=$\infty$',
-     'csv':   ('Experiments/MOSPP/'
-               'astar_inc_nested__rule_1__bpmx_inf__prop_0.csv'),
-     'color': '08306B'},
+     'color': '000000'},
 ]
 
 # k snapshots shown in per-counter tables (rows = depth,
@@ -512,22 +505,113 @@ def add_derived_columns(df: pd.DataFrame) -> pd.DataFrame:
 
 # ── Figure (one per counter, single axis) ───────────────────────────────────
 
-def panel_addplots(per_kc: pd.DataFrame,
-                   metric: str,
-                   used: list[dict]) -> str:
-    """One \\addplot per config (color-coded by named color)."""
-    lines = []
+def _coincident_groups(per_kc: pd.DataFrame,
+                       metric: str,
+                       used: list[dict]) -> list[list[int]]:
+    """
+    ========================================================================
+     Group configs whose (k -> value) series are bit-identical on
+     this metric. Preserves CONFIGS order: each config belongs to
+     the earliest already-formed group with a matching series, or
+     starts a new group.
+
+     Floating-point tolerance is 1e-9 of the larger magnitude --
+     counters are deterministic means of integer per-map values,
+     so true coincidences are exact; the tolerance only absorbs
+     pandas / numpy round-trip noise.
+    ========================================================================
+    """
+    series_by_idx: dict[int, list[tuple[int, float]]] = {}
     for idx, cfg in enumerate(used):
         sub = (per_kc[per_kc['config'] == cfg['tag']]
+               .sort_values('m'))
+        series_by_idx[idx] = [
+            (int(k), float(v)) for k, v in zip(sub['m'], sub[metric])]
+
+    def equal(s1, s2) -> bool:
+        if len(s1) != len(s2):
+            return False
+        for (k1, v1), (k2, v2) in zip(s1, s2):
+            if k1 != k2:
+                return False
+            tol = 1e-9 * max(abs(v1), abs(v2), 1.0)
+            if abs(v1 - v2) > tol:
+                return False
+        return True
+
+    groups: list[list[int]] = []
+    placed: set[int] = set()
+    for idx in range(len(used)):
+        if idx in placed:
+            continue
+        group = [idx]
+        placed.add(idx)
+        for jdx in range(idx + 1, len(used)):
+            if jdx in placed:
+                continue
+            if equal(series_by_idx[idx], series_by_idx[jdx]):
+                group.append(jdx)
+                placed.add(jdx)
+        groups.append(group)
+    return groups
+
+
+def _group_label(group: list[int], used: list[dict]) -> str:
+    """`depth=0` for solo, `depth=0/1` for 2-way, etc."""
+    nums = [used[i]['label'].replace('depth=', '') for i in group]
+    return 'depth=' + '/'.join(nums)
+
+
+def panel_addplots(per_kc: pd.DataFrame,
+                   metric: str,
+                   used: list[dict]) -> tuple[str, list[str]]:
+    """
+    ========================================================================
+     Emit one \\addplot per config, with COINCIDENT configs merged
+     into a single visual line as overlaid offset-dash plots so
+     the colors alternate in 4pt segments (e.g. d=0 black + d=1
+     green dashed together when both produce identical curves).
+     Returns (addplots_string, legend_labels) -- the legend
+     entries are 1-per-group, not 1-per-config, with combined
+     labels like `depth=0/1`.
+
+     Markers are dropped globally: dashed overlays interleave
+     visually only without per-point marker glyphs clashing with
+     the dash pattern; the per-k tables already carry the exact
+     numbers.
+    ========================================================================
+    """
+    groups = _coincident_groups(per_kc, metric, used)
+    seg = 4  # pt; segment length per color in striped overlay
+    lines: list[str] = []
+    legend_labels: list[str] = []
+    for group in groups:
+        # Coords are the same across the group by construction.
+        anchor_idx = group[0]
+        sub = (per_kc[per_kc['config'] == used[anchor_idx]['tag']]
                .sort_values('m'))
         coords = ' '.join(
             f'({int(k)},{float(v):.6g})'
             for k, v in zip(sub['m'], sub[metric]))
-        lines.append(
-            rf"\addplot[color=cfgcolor{idx}, "
-            rf"mark=*, mark size=1.0pt, very thick] "
-            rf"coordinates {{{coords}}};")
-    return '\n'.join(lines)
+        if len(group) == 1:
+            idx = anchor_idx
+            lines.append(
+                rf"\addplot[color=cfgcolor{idx}, no markers, "
+                rf"line width=1.0pt] coordinates {{{coords}}};")
+        else:
+            off = (len(group) - 1) * seg
+            for i, idx in enumerate(group):
+                phase = i * seg
+                forget = (', forget plot'
+                          if i < len(group) - 1 else '')
+                lines.append(
+                    rf"\addplot[color=cfgcolor{idx}, no markers, "
+                    rf"line width=1.2pt, "
+                    rf"dash pattern=on {seg}pt off {off}pt, "
+                    rf"dash phase={phase}pt{forget}] "
+                    rf"coordinates {{{coords}}};")
+        legend_labels.append(_group_label(group, used))
+    return '\n'.join(lines), legend_labels
 
 
 def color_definitions(used: list[dict]) -> str:
@@ -603,8 +687,8 @@ def build_single_figure(metric: str,
                   + r'} (\%)')
     else:
         ylabel = r'mean \texttt{' + tex_esc(metric) + r'}'
-    addplots = panel_addplots(per_kc, metric, used)
-    legend_entries = ', '.join(cfg['label'] for cfg in used)
+    addplots, legend_labels = panel_addplots(per_kc, metric, used)
+    legend_entries = ', '.join(legend_labels)
     # NOTE: keep the axis-options block on contiguous lines
     # (no blank line allowed inside `\begin{axis}[...]` --
     # TeX treats it as `\par` and closes the options early).
@@ -745,6 +829,25 @@ state after $k$ starts on its map. Each subsection below
 covers one counter: a short description and a min/max
 observation at $k={k_max}$, followed by its line chart
 and per-$k$ table.
+
+\paragraph{{Color \& line convention.}} Monotone "darker $=$
+deeper" palette:
+\textbf{{\textcolor[HTML]{{1976D2}}{{depth=0 (blue)}}}}
+$=$ BPMX off,
+\textbf{{\textcolor[HTML]{{0D47A1}}{{depth=1 (dark blue)}}}}
+$=$ BPMX on but inert on consistent $h$,
+\textbf{{\textcolor[HTML]{{424242}}{{depth=2 (dark gray)}}}}
+$=$ cascade fires,
+\textbf{{\textcolor[HTML]{{000000}}{{depth=3 (black)}}}}
+$=$ gains saturated. Each step is strictly darker than the
+previous, so the reader can rank depth at a glance. When two
+or more configs coincide exactly on a counter, their curves
+are merged into a single line that alternates 4\,pt segments
+of each config's color (e.g.~\texttt{{depth=0/1}} reads as a
+blue~--~dark-blue dashed band). The legend entry shows the
+merged label (\texttt{{depth=0/1}}, \texttt{{depth=0/1/2/3}},
+etc.) so the coincidence is visible without consulting the
+table.
 """
     omitted_zero = sorted(set(metric_cols)
                           - nontrivial
