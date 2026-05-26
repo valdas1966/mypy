@@ -1,6 +1,6 @@
 from collections import Counter
 
-from f_ds.collections.counter_rates.main import CounterRates
+from f_ds.rates.counter_rates.main import CounterRates
 
 
 class Factory:

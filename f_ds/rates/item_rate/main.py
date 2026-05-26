@@ -1,11 +1,11 @@
 from f_core.mixins.comparable.main import Comparable
-from f_core.protocols.comparison import SupportsComparison
+from f_core.protocols.comparison.main import SupportsComparison
 
 
-class KeyRate(Comparable):
+class ItemRate(Comparable):
     """
     ============================================================================
-     One key's positive/negative tally and positive rate.
+     One item's positive/negative tally and positive rate.
 
      `item` : the key, taken from the union of two counters.
      `pos`  : its count in the positive counter (0 if absent).
@@ -103,7 +103,7 @@ class KeyRate(Comparable):
     def __str__(self) -> str:
         """
         ========================================================================
-         Get the string representation of the KeyRate.
+         Get the string representation of the ItemRate.
         ========================================================================
         """
         rate = 'None' if self._rate is None else f'{self._rate:.3f}'
@@ -113,7 +113,7 @@ class KeyRate(Comparable):
     def __repr__(self) -> str:
         """
         ========================================================================
-         Get the repr representation of the KeyRate.
+         Get the repr representation of the ItemRate.
         ========================================================================
         """
-        return f'<KeyRate {str(self)}>'
+        return f'<ItemRate {str(self)}>'

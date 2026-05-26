@@ -322,21 +322,32 @@ if __name__ == '__main__':
     # The __main__ guard is mandatory: macOS uses `spawn` for
     # ProcessPoolExecutor, so each worker re-imports this module.
     # Without the guard, every worker would re-launch the benchmark.
-    path_drive_pkl_in = 'Experiments/OMSPP/i_3_problems.pkl'
+    #
+    # ── Mode toggle ─────────────────────────────────────────────────
+    # IS_EXTRA=False -> read canonical i_3_problems.pkl; write
+    #                   kastar_inc_extended.csv.
+    # IS_EXTRA=True  -> read i_3_problems_extra.pkl (build via s_3
+    #                   with IS_EXTRA=True first); write
+    #                   kastar_inc_extended_extra.csv.
+    IS_EXTRA = False
+    extra_suffix = '_extra' if IS_EXTRA else ''
+
+    path_drive_pkl_in = (f'Experiments/OMSPP/'
+                         f'i_3_problems{extra_suffix}.pkl')
     path_drive_grids_in = 'Experiments/Grids/grids.pkl'
     workers = 10
 
-    # Toy mode: process only the first N problems of the 500-problem
-    # pickle (None == all 500). Slicing happens BEFORE the k=200
-    # filter, so the chain count is roughly N // 20. Useful for
-    # smoke-testing the pipeline before a full run.
+    # Toy mode: process only the first N problems of the pickle (None
+    # == all). Slicing happens BEFORE the k=200 filter, so the chain
+    # count is roughly N // 20. Useful for smoke-testing.
     n_problems = None    # full run: set to None
 
-    # Output path -- auto-suffix in toy mode so we never clobber the
-    # full-run CSV.
-    suffix = f'_toy{n_problems}' if n_problems is not None else ''
+    # Output path -- combine the extras suffix with any toy-mode
+    # suffix; toy never clobbers the full-run CSV.
+    toy_suffix = f'_toy{n_problems}' if n_problems is not None else ''
     path_drive_csv_out = (f'Experiments/OMSPP/'
-                          f'kastar_inc_extended{suffix}.csv')
+                          f'kastar_inc_extended'
+                          f'{extra_suffix}{toy_suffix}.csv')
 
     run_extended_benchmark(
         path_drive_pkl_in=path_drive_pkl_in,

@@ -5,10 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change beforePath="$PROJECT_DIR$/.claude/settings.local.json" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/s_8_robustness.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/mospp/s_3_astar_inc_bpmx_depth.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/mospp/s_3_astar_inc_bpmx_depth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/rates/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/rates/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/counter_rates/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/rates/counter_rates/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/counter_rates/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/rates/counter_rates/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/counter_rates/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/rates/counter_rates/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/counter_rates/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/rates/counter_rates/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/counter_rates/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/rates/counter_rates/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/key_rate/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/rates/item_rate/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/key_rate/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/rates/item_rate/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/key_rate/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/rates/item_rate/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/key_rate/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/rates/item_rate/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/collections/key_rate/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/rates/item_rate/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/experiments/mospp/s_5_gen_report.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/mospp/s_5_gen_report.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/s_3_problems.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/s_3_problems.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/s_4_kastar_inc_extended.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/s_4_kastar_inc_extended.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/s_5_kastar_agg_all_configs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/s_5_kastar_agg_all_configs.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,12 +48,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
-    &quot;accountId&quot;: &quot;0f4621b9-87f9-4a4a-9ceb-401ed7593bcc&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/valdas1966/mypy.git",
+    "accountId": "a1e5e179-580e-4572-8eba-3d60343860e3"
   }
-}</component>
+}]]></component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../miniconda3/envs/mypy/lib/python3.13/typing.py" root0="SKIP_INSPECTION" />
   </component>
@@ -60,6 +76,7 @@
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "DefaultHtmlFileTemplate": "HTML File",
+    "Python tests.Python tests for f_ds.collections.key_rate._tester.test_rate.executor": "Run",
     "Python tests.Python tests for f_ds.set_ordered._tester.test_repr_large.executor": "Run",
     "Python tests.Python tests for f_google.bigquery._tester.test_big_query.executor": "Run",
     "Python tests.Python tests for f_google.services.bigquery._tester.test_big_query.executor": "Run",
@@ -1133,8 +1150,8 @@
       <recent name="F:\mypy\f_log\_comparing" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_3_astar_inc_bpmx_depth (2)">
-    <configuration name="_study" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests for f_ds.collections.key_rate._tester.test_rate">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -1143,11 +1160,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/creds/oauth" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_ds/collections/key_rate" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/creds/oauth/_study.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_ds/collections/key_rate/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1169,6 +1187,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1191,6 +1210,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/mospp/s_3_astar_inc_bpmx_depth.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1213,29 +1233,8 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/mospp/s_3_astar_inc_bpmx_depth.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="s_5_kastar_agg_all_configs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/experiments/omspp" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/omspp/s_5_kastar_agg_all_configs.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1257,6 +1256,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/omspp/s_8_sample_size_diagnosis.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1266,28 +1266,44 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Python tests for f_ds.collections.key_rate._tester.test_rate" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;f_ds.collections.key_rate._tester.test_rate&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.p_4_solutions" />
+      <item itemvalue="Python.main" />
       <item itemvalue="Python.s_3_astar_inc_bpmx_depth (2)" />
-      <item itemvalue="Python._study" />
       <item itemvalue="Python.s_3_astar_inc_bpmx_depth (1)" />
-      <item itemvalue="Python.s_5_kastar_agg_all_configs" />
       <item itemvalue="Python.s_8_sample_size_diagnosis" />
+      <item itemvalue="Python tests.Python tests for f_ds.collections.key_rate._tester.test_rate" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for f_ds.collections.key_rate._tester.test_rate" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.s_3_astar_inc_bpmx_depth (2)" />
         <item itemvalue="Python.s_3_astar_inc_bpmx_depth (1)" />
         <item itemvalue="Python.s_8_sample_size_diagnosis" />
-        <item itemvalue="Python.s_5_kastar_agg_all_configs" />
-        <item itemvalue="Python._study" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
+        <option value="bundled-python-sdk-ca5e2b39c7df-6e1f45a539f7-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.29346.308" />
       </set>
     </attachedChunks>
   </component>
@@ -1799,10 +1815,6 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/f_search/solutions/__init__.py</url>
           <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/f_core/protocols/__init__.py</url>
-          <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/f_search/experiments/p_2_diamonds.py</url>

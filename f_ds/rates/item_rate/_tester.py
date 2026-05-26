@@ -1,4 +1,4 @@
-from f_ds.collections.key_rate import KeyRate
+from f_ds.rates.item_rate import ItemRate
 
 
 def test_rate() -> None:
@@ -10,25 +10,25 @@ def test_rate() -> None:
     ========================================================================
     """
     # Mixed
-    kr = KeyRate(item='a', pos=3, neg=1)
+    kr = ItemRate(item='a', pos=3, neg=1)
     actual = kr.rate
     expected = 0.75
     assert actual == expected
 
     # Positive only
-    kr = KeyRate(item='x', pos=5, neg=0)
+    kr = ItemRate(item='x', pos=5, neg=0)
     actual = kr.rate
     expected = 1.0
     assert actual == expected
 
     # Negative only
-    kr = KeyRate(item='y', pos=0, neg=7)
+    kr = ItemRate(item='y', pos=0, neg=7)
     actual = kr.rate
     expected = 0.0
     assert actual == expected
 
     # Zero total
-    kr = KeyRate(item='z', pos=0, neg=0)
+    kr = ItemRate(item='z', pos=0, neg=0)
     actual = kr.rate
     expected = None
     assert actual == expected
@@ -41,13 +41,13 @@ def test_total() -> None:
     ========================================================================
     """
     # Mixed
-    kr = KeyRate(item='a', pos=3, neg=1)
+    kr = ItemRate(item='a', pos=3, neg=1)
     actual = kr.total
     expected = 4
     assert actual == expected
 
     # Zero total
-    kr = KeyRate(item='z', pos=0, neg=0)
+    kr = ItemRate(item='z', pos=0, neg=0)
     actual = kr.total
     expected = 0
     assert actual == expected
@@ -60,13 +60,13 @@ def test_eq() -> None:
     ========================================================================
     """
     # Same fields -> equal
-    actual = KeyRate(item='a', pos=3, neg=1)
-    expected = KeyRate(item='a', pos=3, neg=1)
+    actual = ItemRate(item='a', pos=3, neg=1)
+    expected = ItemRate(item='a', pos=3, neg=1)
     assert actual == expected
 
     # Different item -> not equal
-    actual = KeyRate(item='a', pos=3, neg=1)
-    expected = KeyRate(item='b', pos=3, neg=1)
+    actual = ItemRate(item='a', pos=3, neg=1)
+    expected = ItemRate(item='b', pos=3, neg=1)
     assert actual != expected
 
 
@@ -78,16 +78,16 @@ def test_order() -> None:
     ========================================================================
     """
     # Higher rate ranks higher
-    actual = KeyRate(item='a', pos=3, neg=1) > KeyRate(item='b', pos=1, neg=3)
+    actual = ItemRate(item='a', pos=3, neg=1) > ItemRate(item='b', pos=1, neg=3)
     expected = True
     assert actual == expected
 
     # Equal rate -> larger total ranks higher
-    actual = KeyRate(item='q', pos=4, neg=4) > KeyRate(item='p', pos=1, neg=1)
+    actual = ItemRate(item='q', pos=4, neg=4) > ItemRate(item='p', pos=1, neg=1)
     expected = True
     assert actual == expected
 
     # None rate ranks lowest
-    actual = KeyRate(item='r', pos=0, neg=5) > KeyRate(item='z', pos=0, neg=0)
+    actual = ItemRate(item='r', pos=0, neg=5) > ItemRate(item='z', pos=0, neg=0)
     expected = True
     assert actual == expected

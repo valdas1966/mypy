@@ -287,6 +287,7 @@ def run_toy_example() -> dict:
                         start=grid[TOY_START[0]][TOY_START[1]],
                         goal=goal_cell)
     runs = []
+    popped_by_label: dict[str, set[tuple[int, int]]] = {}
     for label, rule, depth in [
         ('depth=0 (rule=none)', None, 1),
         ('depth=1',             '1',  1),
@@ -294,8 +295,13 @@ def run_toy_example() -> dict:
     ]:
         algo = AStarBPMX(problem=p_toy, h=h, cache=cache,
                          goal=p_toy.goals[0],
-                         rule_bpmx=rule, depth_bpmx=depth)
+                         rule_bpmx=rule, depth_bpmx=depth,
+                         is_recording=True)
         sol = algo.run()
+        popped_by_label[label] = {
+            (e['state'].key.row, e['state'].key.col)
+            for e in algo.recorder.events
+            if e['type'] == 'pop'}
         runs.append({
             'label': label,
             'cnt_expanded': int(algo.counters['cnt_expanded']),
@@ -303,6 +309,14 @@ def run_toy_example() -> dict:
             'cnt_bpmx_attempts': int(algo.counters['cnt_bpmx_attempts']),
             'cost': float(sol.cost),
         })
+
+    # Cells expanded by depth=0 AND depth=1 but NOT by depth=2 --
+    # the saving the cascade buys. Computed at render time so the
+    # marker on the toy grid can never drift from the algo.
+    saved = sorted(
+        (popped_by_label['depth=0 (rule=none)']
+         & popped_by_label['depth=1'])
+        - popped_by_label['depth=2'])
 
     walls: list[tuple[int, int]] = []
     for c in range(1, 5):
@@ -317,6 +331,7 @@ def run_toy_example() -> dict:
         'start': TOY_START,
         'goal': TOY_GOAL,
         'cached': [TOY_CACHED_CELL],
+        'saved': saved,
         'h_star_cached': h_star_cached,
         'runs': runs,
     }
@@ -326,16 +341,19 @@ def _toy_tikz_grid(rows: int, cols: int,
                    walls: list[tuple[int, int]],
                    start: tuple[int, int],
                    goal: tuple[int, int],
-                   cached: list[tuple[int, int]]) -> str:
+                   cached: list[tuple[int, int]],
+                   saved: list[tuple[int, int]]) -> str:
     """
     ========================================================================
      Emit a TikZ block visualizing the toy grid. Cells are
      unit squares; row 0 at top (y flipped); walls black,
-     start green, goal red, cached blue.
+     start green, goal red, cached blue, saved (expanded by
+     depth=0/1 but skipped by depth=2) yellow with a "x" mark.
     ========================================================================
     """
     walls_set = set(walls)
     cached_set = set(cached)
+    saved_set = set(saved)
     cell_fills = []
     cell_labels = []
     for r in range(rows):
@@ -359,6 +377,11 @@ def _toy_tikz_grid(rows: int, cols: int,
                     rf'  \fill[blue!30] ({c},{y}) rectangle ({c+1},{y-1});')
                 cell_labels.append(
                     rf'  \node[font=\small\bfseries] at ({c+0.5},{y-0.5}) {{$C$}};')
+            elif (r, c) in saved_set:
+                cell_fills.append(
+                    rf'  \fill[yellow!55] ({c},{y}) rectangle ({c+1},{y-1});')
+                cell_labels.append(
+                    rf'  \node[font=\small\bfseries] at ({c+0.5},{y-0.5}) {{$\times$}};')
     grid_lines = (
         rf'  \foreach \r in {{0,...,{rows-1}}} '
         rf'\foreach \c in {{0,...,{cols-1}}} '
@@ -390,7 +413,8 @@ def build_toy_subsection(toy: dict) -> str:
     """
     tikz = _toy_tikz_grid(
         rows=toy['rows'], cols=toy['cols'], walls=toy['walls'],
-        start=toy['start'], goal=toy['goal'], cached=toy['cached'])
+        start=toy['start'], goal=toy['goal'],
+        cached=toy['cached'], saved=toy['saved'])
     rows_tex = []
     for r in toy['runs']:
         rows_tex.append(
@@ -398,31 +422,20 @@ def build_toy_subsection(toy: dict) -> str:
             rf"& {r['cnt_bpmx_lifts']:,} "
             rf"& {r['cnt_bpmx_attempts']:,} \\")
     table_body = '\n'.join(rows_tex)
-    s_r, s_c = toy['start']
-    g_r, g_c = toy['goal']
-    cached_rc = toy['cached'][0]
     h_star = toy['h_star_cached']
+    saved_tex = ', '.join(
+        rf"$({r},{c})$" for r, c in toy['saved']) or '---'
     return rf"""\subsection{{Toy: why \texttt{{depth=1}} lifts
 nothing on consistent~$h$}}
-
-We isolate the mechanism on a single hand-crafted instance.
-The grid is the canonical 6$\times$6 zigzag fixture
-(\texttt{{ProblemGrid.Factory.grid\_6x6\_zigzag}}) -- two
-horizontal walls force a snake-shape detour from row~0 to
-row~5 (Manhattan h grossly underestimates true cost in the
-upper region). The cache contains \textbf{{exactly one
-cell}}: $C=({cached_rc[0]},{cached_rc[1]})$ with
-$h^{{*}}(C,T)={h_star:.0f}$, seeded by a sub-search-1 run
-from $(0,0)\to({g_r},{g_c})$ and then pruned to a single
-entry. Start $S=({s_r},{s_c})$, goal $T=({g_r},{g_c})$.
 
 \begin{{figure}}[H]
 \centering
 {tikz}
-\caption{{\textbf{{Toy grid.}} Walls (black); start $S$
-(green) at $({s_r},{s_c})$; goal $T$ (red) at $({g_r},{g_c})$;
-cached cell $C$ (blue) at $({cached_rc[0]},{cached_rc[1]})$
-with $h^{{*}}(C,T)={h_star:.0f}$.}}
+\caption{{Legend: $S$ start, $T$ goal,
+$C$ cache ($h^{{*}}(C,T)={h_star:.0f}$),
+$\times$ = expanded by \texttt{{depth=0}} and
+\texttt{{depth=1}} but skipped by \texttt{{depth=2}}
+({saved_tex}).}}
 \end{{figure}}
 
 \begin{{table}}[H]
@@ -438,30 +451,7 @@ with $h^{{*}}(C,T)={h_star:.0f}$.}}
 {table_body}
 \bottomrule
 \end{{tabular}}
-\caption{{\textbf{{Toy counters.}} \texttt{{depth=0}} and
-\texttt{{depth=1}} are \emph{{identical}} (0 lifts $\Rightarrow$ no
-$h$-value changes $\Rightarrow$ same expansion sequence);
-\texttt{{depth=2}} fires a lift and expands one fewer state.}}
 \end{{table}}
-
-\paragraph{{Reading.}} The BPMX sweep walks a BFS subtree
-from the expanded state via \texttt{{problem.successors()}}
--- this is graph traversal, \emph{{not}} A* expansion, so no
-early-exit fires on cached touches. At \texttt{{depth=1}} the
-sweep only inspects (expanded state, immediate successor)
-pairs; the expanded state's $h$ is always Manhattan
-(cache-hits early-exit \emph{{before}} \texttt{{\_pre\_expand}}),
-so on consistent Manhattan~$h$ no lift can fire
-(\,$h(\text{{parent}})-1 > h(\text{{child}})$ has no solution
-when neighbors differ by exactly $\pm 1$\,). At
-\texttt{{depth=2}} the cascade extends to grandchildren: a
-level-1 \emph{{parent}} can now be $C$ (cached parents are
-\emph{{not}} skipped -- only cached children are), with
-$h(C)=h^{{*}}(C,T)\gg \text{{Manhattan}}(C,T)$, which raises a
-grandchild's $h$. The lift writes to \texttt{{HBounded}}; the
-next time that grandchild is touched, its $f$ is larger,
-removing it from the $f\le f^{{*}}$ frontier and saving one
-expansion. The mechanism in miniature.
 """
 
 def load_configs(drive: Drive,

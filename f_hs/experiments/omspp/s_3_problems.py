@@ -396,16 +396,39 @@ if __name__ == '__main__':
     # (domain, map). k=[10..200] in steps of 10 -- 20 problems per
     # map; goals are strictly nested across k (k=20's 20 goals = k=10's
     # 10 + 10 new, etc.).
+    #
+    # ── Mode toggle ─────────────────────────────────────────────────
+    # IS_EXTRA=False -> canonical pipeline (n_per_map=1, seed=0):
+    #                   writes i_3_problems.{pkl,csv}.
+    # IS_EXTRA=True  -> additional robustness batch on a fresh seed
+    #                   with a `_extra` suffix on the output paths,
+    #                   so the canonical artefacts stay intact and
+    #                   the original 25 chains remain reproducible.
+    # The shared `rng` inside generate_problems means bumping
+    # n_per_map in place on seed=0 reshuffles every chain's goals
+    # (RNG state diverges after the larger sample). The disjoint-seed
+    # path keeps the canonical 25 chains byte-identical.
+    IS_EXTRA = False
+    _N_PER_MAP_EXTRA = 4   # +100 new chains (25 maps x 4)
+    _SEED_EXTRA = 1
+
+    if IS_EXTRA:
+        n_per_map = _N_PER_MAP_EXTRA
+        seed = _SEED_EXTRA
+        suffix = '_extra'
+    else:
+        n_per_map = 1
+        seed = 0
+        suffix = ''
+
     path_drive_csv_in = ('Experiments/OMSPP/'
                          'i_2_pairs_clusters.csv')
     path_drive_grids_pkl = 'Experiments/Grids/grids.pkl'
-    n_per_map = 1
     k = list(range(10, 201, 10))
-    seed = 0
-    path_drive_pkl_out = ('Experiments/OMSPP/'
-                          'i_3_problems.pkl')
-    path_drive_csv_out = ('Experiments/OMSPP/'
-                          'i_3_problems.csv')
+    path_drive_pkl_out = (f'Experiments/OMSPP/'
+                          f'i_3_problems{suffix}.pkl')
+    path_drive_csv_out = (f'Experiments/OMSPP/'
+                          f'i_3_problems{suffix}.csv')
     # Run
     generate_problems(path_drive_csv_in=path_drive_csv_in,
                       path_drive_pkl_out=path_drive_pkl_out,

@@ -3,7 +3,7 @@ from typing import Iterator
 
 from f_core.mixins.equatable.main import Equatable
 from f_core.protocols.equality.main import SupportsEquality
-from f_ds.collections.key_rate.main import KeyRate
+from f_ds.rates.item_rate.main import ItemRate
 
 
 class CounterRates(Equatable):
@@ -12,7 +12,7 @@ class CounterRates(Equatable):
      Per-key positive rate built from two counters.
 
      For every key in the union of `positive` and `negative`,
-      holds a KeyRate(item, pos, neg, rate). Binary by
+      holds an ItemRate(item, pos, neg, rate). Binary by
       construction: the rate pos / (pos + neg) is a two-class
       quantity, so exactly two counters are accepted.
 
@@ -33,24 +33,24 @@ class CounterRates(Equatable):
                  negative: Counter) -> None:
         """
         ========================================================================
-         Build and sort the KeyRate rows from both counters.
+         Build and sort the ItemRate rows from both counters.
         ========================================================================
         """
         keys = positive.keys() | negative.keys()
-        rows = [KeyRate(item=k,
-                        pos=positive.get(k, 0),
-                        neg=negative.get(k, 0))
+        rows = [ItemRate(item=k,
+                         pos=positive.get(k, 0),
+                         neg=negative.get(k, 0))
                 for k in keys]
         # Comparable ranks higher rate / larger total first;
         # reverse gives descending order, None-rate rows last.
         rows.sort(reverse=True)
-        self._rows: tuple[KeyRate, ...] = tuple(rows)
+        self._rows: tuple[ItemRate, ...] = tuple(rows)
 
     @property
-    def rows(self) -> tuple[KeyRate, ...]:
+    def rows(self) -> tuple[ItemRate, ...]:
         """
         ========================================================================
-         Get the sorted KeyRate rows.
+         Get the sorted ItemRate rows.
         ========================================================================
         """
         return self._rows
@@ -66,7 +66,7 @@ class CounterRates(Equatable):
         """
         return self._rows
 
-    def top(self, n: int) -> list[KeyRate]:
+    def top(self, n: int) -> list[ItemRate]:
         """
         ========================================================================
          Return the `n` highest-rate rows (already sorted).
@@ -82,7 +82,7 @@ class CounterRates(Equatable):
         """
         return len(self._rows)
 
-    def __iter__(self) -> Iterator[KeyRate]:
+    def __iter__(self) -> Iterator[ItemRate]:
         """
         ========================================================================
          Iterate the rows in sorted order.
