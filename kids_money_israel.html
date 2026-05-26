@@ -1,0 +1,969 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>לומדים כסף: שקלים ואגורות</title>
+  <style>
+    :root {
+      --bg: #f8fbf7;
+      --ink: #20302a;
+      --muted: #607168;
+      --line: #d8e4dc;
+      --panel: #ffffff;
+      --green: #3d8b5f;
+      --green-dark: #1f6d45;
+      --yellow: #f2c14e;
+      --red: #d95d4e;
+      --blue: #4b7bec;
+      --purple: #8f6dd4;
+      --shadow: 0 14px 35px rgba(31, 54, 42, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Arial, "Noto Sans Hebrew", sans-serif;
+      background:
+        radial-gradient(circle at 16% 8%, rgba(242, 193, 78, 0.18), transparent 24rem),
+        radial-gradient(circle at 86% 10%, rgba(75, 123, 236, 0.12), transparent 28rem),
+        var(--bg);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      padding: 20px 0 18px;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 4.4rem);
+      line-height: 1.02;
+      max-width: 780px;
+    }
+
+    .subtitle {
+      margin-top: 12px;
+      max-width: 680px;
+      color: var(--muted);
+      font-size: 1.15rem;
+      line-height: 1.55;
+    }
+
+    .hero-money {
+      position: relative;
+      width: 220px;
+      height: 170px;
+    }
+
+    .hero-money .note {
+      position: absolute;
+      width: 148px;
+      height: 82px;
+      border: 3px solid rgba(255, 255, 255, 0.8);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 900;
+      font-size: 1.9rem;
+      transform: rotate(-8deg);
+    }
+
+    .hero-money .note:nth-child(1) {
+      inset: 14px auto auto 34px;
+      background: linear-gradient(135deg, #3ca66e, #78c68c);
+    }
+
+    .hero-money .note:nth-child(2) {
+      inset: 60px 20px auto auto;
+      background: linear-gradient(135deg, #4978e9, #73a1ff);
+      transform: rotate(9deg);
+    }
+
+    .hero-money .coin {
+      position: absolute;
+      width: 74px;
+      height: 74px;
+      right: 14px;
+      bottom: 6px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 34% 32%, #fff0a8, #d8a52e 62%, #9d711d);
+      box-shadow: var(--shadow);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 1.4rem;
+      border: 5px solid #f8d86d;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      margin: 0 -10px 22px;
+      background: rgba(248, 251, 247, 0.88);
+      backdrop-filter: blur(12px);
+      overflow-x: auto;
+    }
+
+    .tab {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 10px 16px;
+      white-space: nowrap;
+      min-height: 42px;
+      box-shadow: 0 4px 14px rgba(31, 54, 42, 0.06);
+    }
+
+    .tab.active {
+      background: var(--green-dark);
+      color: #fff;
+      border-color: var(--green-dark);
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-size: clamp(1.6rem, 3vw, 2.35rem);
+    }
+
+    .hint {
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 1.02rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+
+    .panel {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .wide {
+      grid-column: span 8;
+    }
+
+    .side {
+      grid-column: span 4;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .money-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+      gap: 12px;
+    }
+
+    .money-card {
+      min-height: 154px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fff;
+      display: grid;
+      gap: 10px;
+      align-content: start;
+      text-align: center;
+    }
+
+    .money-card strong {
+      font-size: 1.08rem;
+    }
+
+    .money-card small {
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .coin-visual {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #3d2f12;
+      font-weight: 900;
+      border: 5px solid #e4bf53;
+      background: radial-gradient(circle at 35% 28%, #fff3b7, #dab448 58%, #a87a21);
+      box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.24);
+    }
+
+    .coin-visual.silver {
+      color: #303742;
+      border-color: #cbd5df;
+      background: radial-gradient(circle at 35% 28%, #ffffff, #ccd6df 60%, #8998a4);
+    }
+
+    .coin-visual.two-tone {
+      color: #2e2a24;
+      border-color: #d7b34e;
+      background:
+        radial-gradient(circle, #ccd6df 0 44%, transparent 45%),
+        radial-gradient(circle at 35% 28%, #fff3b7, #dbb84f 62%, #9f741f);
+    }
+
+    .note-visual {
+      width: 112px;
+      height: 66px;
+      margin: 6px auto 4px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 900;
+      box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.35);
+    }
+
+    .n20 { background: linear-gradient(135deg, #268f58, #7cc483); }
+    .n50 { background: linear-gradient(135deg, #b64f70, #e28493); }
+    .n100 { background: linear-gradient(135deg, #c77622, #f1aa58); }
+    .n200 { background: linear-gradient(135deg, #3469d8, #7ca5ff); }
+
+    .fact-box {
+      display: grid;
+      gap: 12px;
+      font-size: 1.12rem;
+      line-height: 1.55;
+    }
+
+    .big-equation {
+      border: 2px dashed #b6cec0;
+      background: #f2faf5;
+      border-radius: 8px;
+      padding: 16px;
+      font-size: clamp(1.4rem, 4vw, 2.3rem);
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .converter {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .converter label {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .converter input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .result {
+      min-height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: #f5f8ff;
+      color: #264d9e;
+      font-weight: 900;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+    }
+
+    .product {
+      border: 2px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 126px;
+      display: grid;
+      gap: 8px;
+      place-items: center;
+      text-align: center;
+    }
+
+    .product.active {
+      border-color: var(--green);
+      background: #effaf3;
+    }
+
+    .product .emoji {
+      font-size: 2.1rem;
+    }
+
+    .price {
+      color: var(--green-dark);
+      font-weight: 900;
+      font-size: 1.2rem;
+    }
+
+    .wallet {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(88px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .pay-btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      padding: 10px 8px;
+      min-height: 58px;
+      display: grid;
+      gap: 4px;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .pay-btn span {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .shop-status {
+      display: grid;
+      gap: 12px;
+    }
+
+    .meter {
+      background: #edf3ef;
+      border-radius: 999px;
+      height: 18px;
+      overflow: hidden;
+    }
+
+    .meter-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--yellow), var(--green));
+      transition: width 180ms ease;
+    }
+
+    .primary,
+    .secondary {
+      border: 0;
+      border-radius: 8px;
+      min-height: 44px;
+      padding: 10px 16px;
+      font-weight: 900;
+    }
+
+    .primary {
+      background: var(--green-dark);
+      color: #fff;
+    }
+
+    .secondary {
+      background: #e9f1ec;
+      color: var(--ink);
+    }
+
+    .change-list {
+      min-height: 76px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      padding: 10px;
+      border-radius: 8px;
+      background: #fff8e1;
+      border: 1px solid #efd98f;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 8px 10px;
+      background: #fff;
+      border: 1px solid var(--line);
+      font-weight: 900;
+      min-width: 54px;
+    }
+
+    .math-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+    }
+
+    .math-row input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+      font-size: 1.15rem;
+    }
+
+    .operator {
+      font-size: 1.8rem;
+      font-weight: 900;
+    }
+
+    .feedback {
+      min-height: 54px;
+      border-radius: 8px;
+      margin-top: 14px;
+      padding: 12px;
+      display: grid;
+      align-items: center;
+      background: #f2faf5;
+      border: 1px solid #c8e3d0;
+      color: var(--green-dark);
+      font-weight: 900;
+      line-height: 1.45;
+    }
+
+    .practice-card {
+      display: grid;
+      gap: 12px;
+    }
+
+    .question {
+      font-size: clamp(1.25rem, 3vw, 1.8rem);
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+    }
+
+    .answer {
+      border: 2px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      min-height: 58px;
+      padding: 10px;
+      font-weight: 900;
+    }
+
+    .answer.correct {
+      border-color: var(--green);
+      background: #edf9f1;
+    }
+
+    .answer.wrong {
+      border-color: var(--red);
+      background: #fff0ee;
+    }
+
+    @media (max-width: 860px) {
+      .app {
+        padding: 16px;
+      }
+
+      header {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-money {
+        width: 100%;
+        max-width: 260px;
+        justify-self: center;
+      }
+
+      .wide,
+      .side {
+        grid-column: 1 / -1;
+      }
+
+      .section-title {
+        display: grid;
+      }
+
+      .math-row {
+        grid-template-columns: 1fr;
+      }
+
+      .operator {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div>
+        <h1>לומדים כסף: שקלים ואגורות</h1>
+        <p class="subtitle">משחק קטן על קנייה בחנות, תשלום, עודף, וחיבור וחיסור של כסף ישראלי.</p>
+      </div>
+      <div class="hero-money" aria-hidden="true">
+        <div class="note">₪20</div>
+        <div class="note">₪200</div>
+        <div class="coin">₪10</div>
+      </div>
+    </header>
+
+    <nav aria-label="בחירת פעילות">
+      <button class="tab active" data-screen="learn">מכירים כסף</button>
+      <button class="tab" data-screen="shop">משחק חנות</button>
+      <button class="tab" data-screen="math">חיבור וחיסור</button>
+      <button class="tab" data-screen="quiz">חידון קצר</button>
+    </nav>
+
+    <section id="learn" class="screen active">
+      <div class="section-title">
+        <div>
+          <h2>מה ההבדל בין שקלים לאגורות?</h2>
+          <p class="hint">שקל הוא יחידה גדולה. אגורה היא חלק קטן משקל.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="panel wide">
+          <div class="big-equation">100 אגורות = 1 שקל</div>
+          <div class="converter">
+            <label for="agorotInput">כמה אגורות יש לך?</label>
+            <input id="agorotInput" type="number" min="0" value="250" inputmode="numeric">
+            <div id="convertResult" class="result" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <div class="panel side fact-box">
+          <p><strong>איך כותבים מחיר?</strong></p>
+          <p>₪3.50 אומר: 3 שקלים ועוד 50 אגורות.</p>
+          <p>₪0.10 אומר: 10 אגורות.</p>
+          <p>כשמשלמים יותר מהמחיר, מקבלים עודף.</p>
+        </div>
+
+        <div class="panel full">
+          <div class="section-title">
+            <h2>איך כסף ישראלי נראה?</h2>
+            <p class="hint">אלה איורים לימודיים של הערכים הנפוצים.</p>
+          </div>
+          <div class="money-grid" id="moneyGallery"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="shop" class="screen">
+      <div class="section-title">
+        <div>
+          <h2>משחק חנות</h2>
+          <p class="hint">בחרי מוצר, לחצי על כסף מהארנק, ואז בדקי אם צריך לקבל עודף.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="panel wide">
+          <h3>מוצרים</h3>
+          <div class="products" id="products"></div>
+        </div>
+
+        <div class="panel side shop-status">
+          <h3>הקופה</h3>
+          <p>מוצר: <strong id="selectedName">בחרי מוצר</strong></p>
+          <p>מחיר: <strong id="selectedPrice">₪0.00</strong></p>
+          <p>שילמת: <strong id="paidAmount">₪0.00</strong></p>
+          <div class="meter" aria-hidden="true"><div class="meter-fill" id="payMeter"></div></div>
+          <button class="primary" id="checkPay">בדקי תשלום</button>
+          <button class="secondary" id="resetPay">ריקון הארנק לקופה</button>
+          <div id="shopMessage" class="feedback" aria-live="polite">בחרי מוצר כדי להתחיל.</div>
+        </div>
+
+        <div class="panel full">
+          <h3>הארנק שלי</h3>
+          <div class="wallet" id="wallet"></div>
+        </div>
+
+        <div class="panel full">
+          <h3>עודף</h3>
+          <div id="changeList" class="change-list">כאן יופיע העודף אחרי תשלום.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="math" class="screen">
+      <div class="section-title">
+        <div>
+          <h2>חיבור וחיסור עם כסף</h2>
+          <p class="hint">כותבים שקלים ואגורות בתיבות נפרדות. המחשב יעזור לראות את התוצאה.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="panel wide">
+          <h3>מחשבון כסף</h3>
+          <div class="math-row">
+            <input id="aShekels" type="number" min="0" value="4" aria-label="שקלים במספר הראשון">
+            <span class="operator">₪</span>
+            <input id="aAgorot" type="number" min="0" max="99" value="80" aria-label="אגורות במספר הראשון">
+            <span class="operator" id="opSymbol">+</span>
+            <button class="secondary" id="toggleOp">החלפה לחיסור</button>
+          </div>
+          <div class="math-row">
+            <input id="bShekels" type="number" min="0" value="2" aria-label="שקלים במספר השני">
+            <span class="operator">₪</span>
+            <input id="bAgorot" type="number" min="0" max="99" value="70" aria-label="אגורות במספר השני">
+            <span class="operator">=</span>
+            <button class="primary" id="calcMoney">חשבתי</button>
+          </div>
+          <div id="mathResult" class="feedback" aria-live="polite"></div>
+        </div>
+
+        <div class="panel side fact-box">
+          <p><strong>טיפ חשוב:</strong></p>
+          <p>אם באגורות יוצא 100 או יותר, מחליפים 100 אגורות בשקל אחד.</p>
+          <p>למשל: 80 אגורות + 70 אגורות = 150 אגורות = שקל ו-50 אגורות.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="quiz" class="screen">
+      <div class="section-title">
+        <div>
+          <h2>חידון קצר</h2>
+          <p class="hint">עני על שאלה וקבלי שאלה חדשה.</p>
+        </div>
+      </div>
+      <div class="panel practice-card">
+        <div id="quizQuestion" class="question"></div>
+        <div id="quizAnswers" class="answers"></div>
+        <div id="quizFeedback" class="feedback" aria-live="polite">בחרי תשובה.</div>
+        <button class="secondary" id="nextQuestion">שאלה חדשה</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const denominations = [
+      { label: "10 אגורות", value: 10, kind: "coin silver", note: "עשירית שקל" },
+      { label: "חצי שקל", value: 50, kind: "coin silver", note: "50 אגורות" },
+      { label: "₪1", value: 100, kind: "coin silver", note: "100 אגורות" },
+      { label: "₪2", value: 200, kind: "coin silver", note: "שני שקלים" },
+      { label: "₪5", value: 500, kind: "coin two-tone", note: "חמישה שקלים" },
+      { label: "₪10", value: 1000, kind: "coin two-tone", note: "עשרה שקלים" },
+      { label: "₪20", value: 2000, kind: "note n20", note: "שטר ירוק" },
+      { label: "₪50", value: 5000, kind: "note n50", note: "שטר אדמדם" },
+      { label: "₪100", value: 10000, kind: "note n100", note: "שטר כתום" },
+      { label: "₪200", value: 20000, kind: "note n200", note: "שטר כחול" }
+    ];
+
+    const products = [
+      { name: "מדבקות", emoji: "⭐", price: 250 },
+      { name: "תפוח", emoji: "🍎", price: 370 },
+      { name: "מחברת", emoji: "📓", price: 680 },
+      { name: "מיץ", emoji: "🧃", price: 920 },
+      { name: "כדור קטן", emoji: "⚽", price: 1450 },
+      { name: "ספרון", emoji: "📘", price: 2190 }
+    ];
+
+    const quiz = [
+      {
+        question: "כמה אגורות יש בשקל אחד?",
+        answers: ["10", "100", "1"],
+        correct: "100",
+        explain: "בשקל אחד יש בדיוק 100 אגורות."
+      },
+      {
+        question: "אם מוצר עולה ₪3.50 ושילמת ₪5, כמה עודף תקבלי?",
+        answers: ["₪1.50", "₪2.50", "50 אגורות"],
+        correct: "₪1.50",
+        explain: "₪5.00 פחות ₪3.50 שווה ₪1.50."
+      },
+      {
+        question: "מה גדול יותר?",
+        answers: ["90 אגורות", "₪1", "הם שווים"],
+        correct: "₪1",
+        explain: "₪1 הוא 100 אגורות, וזה יותר מ-90 אגורות."
+      },
+      {
+        question: "כמה זה ₪2.30 + ₪1.20?",
+        answers: ["₪3.50", "₪3.10", "₪4.50"],
+        correct: "₪3.50",
+        explain: "2 שקלים ועוד שקל הם 3, ו-30 אגורות ועוד 20 אגורות הן 50."
+      },
+      {
+        question: "אם שילמת בדיוק את המחיר, כמה עודף מקבלים?",
+        answers: ["₪0", "₪1", "10 אגורות"],
+        correct: "₪0",
+        explain: "כשמשלמים בדיוק, לא צריך להחזיר עודף."
+      }
+    ];
+
+    let selectedProduct = products[0];
+    let paid = 0;
+    let adding = true;
+    let quizIndex = 0;
+
+    const formatMoney = (agorot) => {
+      const safe = Math.max(0, Math.round(agorot));
+      const shekels = Math.floor(safe / 100);
+      const cents = safe % 100;
+      return `₪${shekels}.${String(cents).padStart(2, "0")}`;
+    };
+
+    const describeMoney = (agorot) => {
+      const safe = Math.max(0, Math.round(agorot));
+      const shekels = Math.floor(safe / 100);
+      const cents = safe % 100;
+      const shekelText = shekels === 1 ? "שקל אחד" : `${shekels} שקלים`;
+      const agoraText = cents === 1 ? "אגורה אחת" : `${cents} אגורות`;
+      if (shekels === 0) return agoraText;
+      if (cents === 0) return shekelText;
+      return `${shekelText} ו-${agoraText}`;
+    };
+
+    function showScreen(id) {
+      document.querySelectorAll(".screen").forEach((screen) => {
+        screen.classList.toggle("active", screen.id === id);
+      });
+      document.querySelectorAll(".tab").forEach((tab) => {
+        tab.classList.toggle("active", tab.dataset.screen === id);
+      });
+    }
+
+    function renderGallery() {
+      const gallery = document.getElementById("moneyGallery");
+      gallery.innerHTML = denominations.map((item) => {
+        const visual = item.kind.startsWith("note")
+          ? `<div class="note-visual ${item.kind.replace("note ", "")}">${item.label}</div>`
+          : `<div class="coin-visual ${item.kind.replace("coin", "")}">${item.label}</div>`;
+        return `
+          <article class="money-card">
+            ${visual}
+            <strong>${item.label}</strong>
+            <small>${item.note}</small>
+            <small>${formatMoney(item.value)}</small>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function updateConverter() {
+      const raw = Number(document.getElementById("agorotInput").value || 0);
+      document.getElementById("convertResult").textContent =
+        `${raw} אגורות הן ${formatMoney(raw)} - כלומר ${describeMoney(raw)}.`;
+    }
+
+    function renderProducts() {
+      const container = document.getElementById("products");
+      container.innerHTML = products.map((product, index) => `
+        <button class="product ${product === selectedProduct ? "active" : ""}" data-index="${index}">
+          <span class="emoji" aria-hidden="true">${product.emoji}</span>
+          <strong>${product.name}</strong>
+          <span class="price">${formatMoney(product.price)}</span>
+        </button>
+      `).join("");
+      container.querySelectorAll(".product").forEach((button) => {
+        button.addEventListener("click", () => {
+          selectedProduct = products[Number(button.dataset.index)];
+          paid = 0;
+          updateShop();
+          renderProducts();
+        });
+      });
+    }
+
+    function renderWallet() {
+      const wallet = document.getElementById("wallet");
+      const walletValues = denominations.filter((item) => item.value <= 5000);
+      wallet.innerHTML = walletValues.map((item) => `
+        <button class="pay-btn" data-value="${item.value}">
+          ${item.label}
+          <span>${formatMoney(item.value)}</span>
+        </button>
+      `).join("");
+      wallet.querySelectorAll(".pay-btn").forEach((button) => {
+        button.addEventListener("click", () => {
+          paid += Number(button.dataset.value);
+          updateShop();
+        });
+      });
+    }
+
+    function makeChange(amount) {
+      const values = [10000, 5000, 2000, 1000, 500, 200, 100, 50, 10];
+      const parts = [];
+      let rest = Math.max(0, amount);
+      values.forEach((value) => {
+        while (rest >= value) {
+          parts.push(value);
+          rest -= value;
+        }
+      });
+      return parts;
+    }
+
+    function renderChange(amount) {
+      const list = document.getElementById("changeList");
+      const parts = makeChange(amount);
+      if (parts.length === 0) {
+        list.textContent = "אין עודף.";
+        return;
+      }
+      list.innerHTML = parts.map((value) => `<span class="pill">${formatMoney(value)}</span>`).join("");
+    }
+
+    function updateShop() {
+      document.getElementById("selectedName").textContent = selectedProduct.name;
+      document.getElementById("selectedPrice").textContent = formatMoney(selectedProduct.price);
+      document.getElementById("paidAmount").textContent = formatMoney(paid);
+      const percent = selectedProduct.price === 0 ? 0 : Math.min(100, (paid / selectedProduct.price) * 100);
+      document.getElementById("payMeter").style.width = `${percent}%`;
+      document.getElementById("shopMessage").textContent =
+        paid === 0 ? "לחצי על מטבע או שטר מהארנק." : "בדקי אם שילמת מספיק.";
+      document.getElementById("changeList").textContent = "כאן יופיע העודף אחרי תשלום.";
+    }
+
+    function checkPayment() {
+      const message = document.getElementById("shopMessage");
+      if (paid < selectedProduct.price) {
+        const missing = selectedProduct.price - paid;
+        message.textContent = `עוד לא מספיק. חסרים ${formatMoney(missing)} (${describeMoney(missing)}).`;
+        document.getElementById("changeList").textContent = "צריך לשלם עוד לפני שמקבלים עודף.";
+        return;
+      }
+      const change = paid - selectedProduct.price;
+      if (change === 0) {
+        message.textContent = "שילמת בדיוק! אין עודף.";
+      } else {
+        message.textContent = `שילמת יותר מהמחיר. העודף הוא ${formatMoney(change)} (${describeMoney(change)}).`;
+      }
+      renderChange(change);
+    }
+
+    function calcMoney() {
+      const a = Number(document.getElementById("aShekels").value || 0) * 100 +
+        Number(document.getElementById("aAgorot").value || 0);
+      const b = Number(document.getElementById("bShekels").value || 0) * 100 +
+        Number(document.getElementById("bAgorot").value || 0);
+      const result = adding ? a + b : a - b;
+      const output = document.getElementById("mathResult");
+      if (result < 0) {
+        output.textContent = "בחיסור הזה המספר השני גדול יותר. נסי להחליף מספרים או לעבור לחיבור.";
+        return;
+      }
+      const sign = adding ? "+" : "-";
+      output.textContent = `${formatMoney(a)} ${sign} ${formatMoney(b)} = ${formatMoney(result)}. במילים: ${describeMoney(result)}.`;
+    }
+
+    function renderQuiz() {
+      const item = quiz[quizIndex];
+      document.getElementById("quizQuestion").textContent = item.question;
+      document.getElementById("quizFeedback").textContent = "בחרי תשובה.";
+      const answers = document.getElementById("quizAnswers");
+      answers.innerHTML = item.answers.map((answer) => `
+        <button class="answer" data-answer="${answer}">${answer}</button>
+      `).join("");
+      answers.querySelectorAll(".answer").forEach((button) => {
+        button.addEventListener("click", () => {
+          const isCorrect = button.dataset.answer === item.correct;
+          answers.querySelectorAll(".answer").forEach((btn) => {
+            btn.classList.toggle("correct", btn.dataset.answer === item.correct);
+            btn.classList.toggle("wrong", btn === button && !isCorrect);
+          });
+          document.getElementById("quizFeedback").textContent = isCorrect
+            ? `נכון. ${item.explain}`
+            : `כמעט. התשובה הנכונה היא ${item.correct}. ${item.explain}`;
+        });
+      });
+    }
+
+    document.querySelectorAll(".tab").forEach((tab) => {
+      tab.addEventListener("click", () => showScreen(tab.dataset.screen));
+    });
+    document.getElementById("agorotInput").addEventListener("input", updateConverter);
+    document.getElementById("checkPay").addEventListener("click", checkPayment);
+    document.getElementById("resetPay").addEventListener("click", () => {
+      paid = 0;
+      updateShop();
+    });
+    document.getElementById("toggleOp").addEventListener("click", () => {
+      adding = !adding;
+      document.getElementById("toggleOp").textContent = adding ? "החלפה לחיסור" : "החלפה לחיבור";
+      document.getElementById("opSymbol").textContent = adding ? "+" : "-";
+      calcMoney();
+    });
+    document.getElementById("calcMoney").addEventListener("click", calcMoney);
+    document.getElementById("nextQuestion").addEventListener("click", () => {
+      quizIndex = (quizIndex + 1) % quiz.length;
+      renderQuiz();
+    });
+
+    renderGallery();
+    updateConverter();
+    renderProducts();
+    renderWallet();
+    updateShop();
+    calcMoney();
+    renderQuiz();
+  </script>
+</body>
+</html>
