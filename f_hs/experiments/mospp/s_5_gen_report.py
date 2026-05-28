@@ -57,20 +57,24 @@ OVERLEAF_FILE = 'MOSPP.tex'
 # called out once in the setup paragraph instead).
 #
 # Color: monotone blue gradient with perceptually-even steps
-# (CIELAB L* ~ 70, 52, 33, 12; Delta ~ 18-21 each) so the
-# human eye can rank all four lines at a glance, even when
-# they sit close together on a chart. The darkest rung stays
-# in the blue family rather than collapsing to pure black, so
-# the gradient reads as one ramp end-to-end. The light-end
-# choice (#6BAED6) supplies the contrast the prior all-dark
-# palette lacked -- merged-dash bands (e.g. depth=0/1) now
-# alternate light-blue against medium-blue and are visibly
-# two-toned.
+# (CIELAB L* ~ 70, 60, 46, 33, 22, 12; Delta ~ 10-14 each --
+# tighter than the prior 4-entry 18-21 spread, but still
+# above the ~10 perceptual-distinctness threshold) so the
+# human eye can rank all six lines at a glance, even when
+# they sit close together on a chart. The interior d=1..d=4
+# is the canonical Colorbrewer Blues9-6..9 sequence -- which
+# is designed exactly for sequential perceptual evenness; the
+# light anchor (d=0=#6BAED6 = Blues9-5) and the dark anchor
+# (d=5=#041F4B = custom navy) bracket the canonical sequence
+# so the ramp stays in the blue family end-to-end without
+# collapsing to pure black at the deepest rung.
 #
 #   depth=0 = #6BAED6   Colorbrewer Blues9-5   -- light blue
-#   depth=1 = #3182BD   Colorbrewer Blues7-5   -- medium blue
-#   depth=2 = #08519C   Colorbrewer Blues9-8   -- dark blue
-#   depth=3 = #041F4B   custom navy            -- very dark navy
+#   depth=1 = #4292C6   Colorbrewer Blues9-6   -- medium-light blue
+#   depth=2 = #2171B5   Colorbrewer Blues9-7   -- medium blue
+#   depth=3 = #08519C   Colorbrewer Blues9-8   -- dark blue
+#   depth=4 = #08306B   Colorbrewer Blues9-9   -- darkest canonical
+#   depth=5 = #041F4B   custom navy            -- very dark navy
 CONFIGS = [
     {'tag':   'rule_none',
      'label': r'depth=0',
@@ -81,16 +85,26 @@ CONFIGS = [
      'label': r'depth=1',
      'csv':   ('Experiments/MOSPP/'
                'astar_inc_nested__rule_1__bpmx_1__prop_0.csv'),
-     'color': '3182BD'},
+     'color': '4292C6'},
     {'tag':   'rule_1__d_2',
      'label': r'depth=2',
      'csv':   ('Experiments/MOSPP/'
                'astar_inc_nested__rule_1__bpmx_2__prop_0.csv'),
-     'color': '08519C'},
+     'color': '2171B5'},
     {'tag':   'rule_1__d_3',
      'label': r'depth=3',
      'csv':   ('Experiments/MOSPP/'
                'astar_inc_nested__rule_1__bpmx_3__prop_0.csv'),
+     'color': '08519C'},
+    {'tag':   'rule_1__d_4',
+     'label': r'depth=4',
+     'csv':   ('Experiments/MOSPP/'
+               'astar_inc_nested__rule_1__bpmx_4__prop_0.csv'),
+     'color': '08306B'},
+    {'tag':   'rule_1__d_5',
+     'label': r'depth=5',
+     'csv':   ('Experiments/MOSPP/'
+               'astar_inc_nested__rule_1__bpmx_5__prop_0.csv'),
      'color': '041F4B'},
 ]
 
@@ -574,8 +588,8 @@ def panel_addplots(per_kc: pd.DataFrame,
      Emit one \\addplot per config, with COINCIDENT configs merged
      into a single visual line as overlaid offset-dash plots so
      the colors alternate in 4pt segments (e.g. d=0 light-blue +
-     d=1 medium-blue dashed together when both produce identical
-     curves).
+     d=1 medium-light-blue dashed together when both produce
+     identical curves).
      Returns (addplots_string, legend_labels) -- the legend
      entries are 1-per-group, not 1-per-config, with combined
      labels like `depth=0/1`.
@@ -836,24 +850,29 @@ observation at $k={k_max}$, followed by its line chart
 and per-$k$ table.
 
 \paragraph{{Color \& line convention.}} Monotone blue gradient
-with perceptually-even steps so all four lines remain
+with perceptually-even steps so all six lines remain
 distinguishable even when they sit close together on a chart:
 \textbf{{\textcolor[HTML]{{6BAED6}}{{depth=0 (light blue)}}}}
 $=$ BPMX off,
-\textbf{{\textcolor[HTML]{{3182BD}}{{depth=1 (medium blue)}}}}
+\textbf{{\textcolor[HTML]{{4292C6}}{{depth=1 (medium-light blue)}}}}
 $=$ BPMX on but inert on consistent $h$,
-\textbf{{\textcolor[HTML]{{08519C}}{{depth=2 (dark blue)}}}}
+\textbf{{\textcolor[HTML]{{2171B5}}{{depth=2 (medium blue)}}}}
 $=$ cascade fires,
-\textbf{{\textcolor[HTML]{{041F4B}}{{depth=3 (very dark navy)}}}}
+\textbf{{\textcolor[HTML]{{08519C}}{{depth=3 (dark blue)}}}}
+$=$ deeper cascade,
+\textbf{{\textcolor[HTML]{{08306B}}{{depth=4 (darkest canonical)}}}}
+$=$ near-saturation,
+\textbf{{\textcolor[HTML]{{041F4B}}{{depth=5 (very dark navy)}}}}
 $=$ gains saturated. Each step is strictly darker than the
-previous, so the reader can rank depth at a glance. When two
-or more configs coincide exactly on a counter, their curves
-are merged into a single line that alternates 4\,pt segments
-of each config's color (e.g.~\texttt{{depth=0/1}} reads as a
-light-blue~--~medium-blue dashed band). The legend entry shows
-the merged label (\texttt{{depth=0/1}},
-\texttt{{depth=0/1/2/3}}, etc.) so the coincidence is visible
-without consulting the table.
+previous (Colorbrewer Blues9-5..9 plus a custom navy at the
+deepest rung), so the reader can rank depth at a glance.
+When two or more configs coincide exactly on a counter, their
+curves are merged into a single line that alternates 4\,pt
+segments of each config's color (e.g.~\texttt{{depth=0/1}}
+reads as a light-blue~--~medium-light-blue dashed band). The
+legend entry shows the merged label (\texttt{{depth=0/1}},
+\texttt{{depth=0/1/2/3/4/5}}, etc.) so the coincidence is
+visible without consulting the table.
 """
     omitted_zero = sorted(set(metric_cols)
                           - nontrivial
@@ -980,9 +999,9 @@ def main(push_drive: bool = True,
     tex_path = work / 'MOSPP.tex'
     drive.download(path_src=PATH_TEX_DRIVE,
                    path_dest=str(tex_path))
-    tex = tex_path.read_text()
+    tex = tex_path.read_text(encoding='utf-8')
     tex = splice(tex, section)
-    tex_path.write_text(tex)
+    tex_path.write_text(tex, encoding='utf-8')
 
     print('compiling via tectonic ...')
     subprocess.run(['tectonic', str(tex_path)],
