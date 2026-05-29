@@ -153,9 +153,14 @@ _COUNTER_INFO: dict[str, str] = {
         'sub-searches --- the headline cost metric; lower means '
         'fewer states the inner search had to settle.'),
     'cnt_bpmx_attempts': (
-        'BPMX cascade attempts on inconsistent successor pairs; '
-        'grows with \\texttt{depth\\_bpmx} since deeper cascades '
-        'reach more candidates.'),
+        'BPMX sweeps launched --- one per inner-A* expansion that '
+        'runs the cascade, so it mirrors \\texttt{cnt\\_expanded} '
+        '(the \\texttt{depth=0} baseline is BPMX-off, hence 0). '
+        'It \\emph{falls} with \\texttt{depth\\_bpmx} as deeper '
+        'lifts prune expansions, and peaks at \\texttt{depth=1}, '
+        'where a depth-1 sweep cannot lift on a consistent base '
+        'heuristic and so pays the per-expansion cost over the '
+        'full baseline expansion set.'),
     'cnt_bpmx_lifts': (
         'BPMX lifts that actually raised an $h$-value '
         '--- the cascade work that pays off, summed across '
@@ -676,9 +681,21 @@ def build_insight(metric: str,
                rf'max $= {fmt_value(metric, vmax)}$ ({lab_max}); '
                rf'spread $\approx {ratio:.2g}\times$.')
     else:
-        obs = (rf'At $k={k_max}$, mean across all 25~maps: '
-               rf'max $= {fmt_value(metric, vmax)}$ ({lab_max}); '
-               rf'other configs at or near zero.')
+        pos = [(lab, v) for lab, v in pairs if v > 0]
+        zeros = [lab for lab, v in pairs if v == 0]
+        if len(pos) >= 2:
+            vmin_pos = min(v for _, v in pos)
+            lab_min_pos = next(lab for lab, v in pos if v == vmin_pos)
+            zero_lab = (zeros[0] if len(zeros) == 1
+                        else f'{len(zeros)} configs')
+            obs = (rf'At $k={k_max}$, mean across all 25~maps: '
+                   rf'max $= {fmt_value(metric, vmax)}$ ({lab_max}), '
+                   rf'min among non-zero $= {fmt_value(metric, vmin_pos)}$ '
+                   rf'({lab_min_pos}); {zero_lab} at 0.')
+        else:
+            obs = (rf'At $k={k_max}$, mean across all 25~maps: '
+                   rf'max $= {fmt_value(metric, vmax)}$ ({lab_max}); '
+                   rf'other configs at or near zero.')
     sep = ' ' if desc else ''
     return desc + sep + obs
 
