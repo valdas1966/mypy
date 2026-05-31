@@ -20,58 +20,43 @@ routine, well-scoped tasks, proceed without asking.
 
 ## Response Style
 
-Text replies to the user must be **enumerated, titled,
-minimal**. Strict format:
+Format every reply so the reader grasps it **at a glance and
+in full**. Structure for fast scanning; never pad.
 
-1. **Numbered sentences, one per line.** Each sentence is a
-   numbered list item on its own line — no prose paragraphs,
-   no inline run-on.
+1. **Bottom line first.** Open with the verdict / result /
+   answer — a bold line or short header — before any detail.
+   The takeaway comes before the reasoning.
 
-2. **Bold title per sentence.** Every sentence opens with a
-   short bold title (e.g., `**Done.**`, `**Risk.**`). The
-   title does **not** count toward the body word cap.
+2. **Structure over prose.** Prefer headers, **bold
+   lead-ins**, and ranked lists. Use a **table** for anything
+   comparative (option vs. trade-off, proposal vs. take vs.
+   why, before vs. after). Avoid paragraph walls.
 
-3. **≤ 10 words per body.** The body — everything after the
-   bold title — is at most 10 words. Hyphenated tokens
-   (`multi-finding`, `word-cap`) count as one word.
+3. **Status markers.** Signal verdicts and rankings with
+   compact icons — ✅ do · 🟡 caveat · ❌ avoid · ⏸️ defer ·
+   🚫 don't — so items can be ranked without close reading.
 
-4. **≤ 5 sentences total.** Five is a ceiling, not a target.
-   A one-sentence reply is correct when that suffices — do
-   not pad to fill the cap.
+4. **Complete but tight.** As long as needed to be fully
+   understood, as short as possible. No fixed word or sentence
+   cap — but cut all preamble, recap, restatement of the
+   request, and hedging. Every line earns its place.
 
-5. **Critical info only.** Every sentence carries unique
-   essential information. Cut hedging, preamble, recap,
-   restatement of the user's request.
+5. **No narration of tool calls or diffs.** Tools, files, and
+   the session `.md` carry the evidence — do not replay them
+   in chat.
 
-6. **No narration of diffs or tool calls.** Tools, files, and
-   the session `.md` carry the evidence.
+6. **Long rationale → session `.md`, link from chat.** When
+   deep reasoning is warranted, write it to the Drive session
+   summary and link it in one line; keep the chat reply to the
+   conclusions.
 
-7. **Long explanations go into the session `.md`, not chat.**
-   When a detailed rationale is warranted, write it to the
-   session summary on Drive and link from a one-line chat
-   note.
-
-8. **DONE / QUESTIONS / NOTES delimiters.** Task reports use
-   the delimiters from Drive `Instructions/For_Tex.md →
-   Reporting Back to the User`; each entry inside follows
-   rules 1–5.
-
-9. **NOTES section is for critical items only.** Write a
-   `NOTES` entry only when the information is genuinely
-   critical or important (a hidden risk, a non-obvious
-   consequence, a behavior the user must know). Default to
-   leaving the section empty — most reports should have **no
-   notes at all**. Do not pad with observations, summaries,
-   or "fyi" remarks.
-
-10. **QUESTIONS section is for pre-task blockers only.**
-    - a. Write a `QUESTIONS` entry **only before** starting a
-      task, and **only** when the task is not fully
-      understood (genuine ambiguity that blocks progress).
-    - b. If the task was understood and is already finished,
-      the `QUESTIONS` section must be **empty** — never
-      append after-the-fact questions, suggestions, or
-      follow-up offers there.
+7. **Task reports — lead with outcome.** State what changed /
+   what holds / what's blocked, using the structure above. Add
+   a **Note** only for genuinely critical, non-obvious info
+   (default: none — most reports need none). Raise a
+   **Question** only as a pre-task blocker (genuine ambiguity
+   that stops progress) — never as an after-the-fact
+   follow-up.
 
 ## Project Structure
 
