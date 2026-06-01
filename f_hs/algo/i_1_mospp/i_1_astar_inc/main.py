@@ -45,9 +45,11 @@ class AStarIncMOSPP(Generic[State],
          sub-search. Goal is fixed ⇒ every entry stays exact
          for later sub-searches.
        - **admissible bounds** `bounds[x] ≥ h*(x, goal)` —
-         from the just-finished search's CLOSED set (SPI:
-         `C_i − g_i(x)`) and from the inner `HBounded` layer
-         (BPMX-lifted / pathmax-propagated values).
+         from the just-finished search's CLOSED set (the
+         Adaptive A* heuristic, Koenig & Likhachev 2005:
+         `h(x) ← C_i − g_i(x)` for every expanded x) and from
+         the inner `HBounded` layer (BPMX-lifted /
+         pathmax-propagated values).
 
      **Headline win — cache-hit-at-init.** If a later start
      `s_j` is already in the carried cache, the inner
@@ -70,7 +72,7 @@ class AStarIncMOSPP(Generic[State],
        | knob | effect |
        |---|---|
        | `carry_cache` | replay `to_cache()` harvest across sub-searches (drives cache-hit-at-init) |
-       | `carry_bounds` | replay SPI + HBounded bounds across sub-searches |
+       | `adaptive_h` | replay adaptive (`C_i−g_i`) + HBounded bounds across sub-searches |
        | `propagate` / `propagate_depth` | run pre-search `propagate_pathmax(depth)` per sub-search (needs seeds: cache or bounds) |
        | `rule_bpmx` / `depth_bpmx` | in-search Felner BPMX on every sub-search |
 
@@ -103,8 +105,9 @@ class AStarIncMOSPP(Generic[State],
      **Assumptions / requirements:**
 
        - **Admissible heuristic.** The carried cache holds
-         exact h* (admissible by definition); SPI / HBounded
-         entries are admissible lower bounds. Consistency is
+         exact h* (admissible by definition); adaptive /
+         HBounded entries are admissible lower bounds.
+         Consistency is
          NOT required (BPMX exists precisely for inconsistent
          h).
        - Non-negative edge costs (inherited from `ProblemSPP`
@@ -181,7 +184,7 @@ class AStarIncMOSPP(Generic[State],
                  is_timing: bool = True,
                  order_starts: str = 'near',
                  carry_cache: bool = True,
-                 carry_bounds: bool = True,
+                 adaptive_h: bool = True,
                  propagate: bool = False,
                  propagate_depth: int | None = None,
                  rule_bpmx: str | None = None,
@@ -231,7 +234,7 @@ class AStarIncMOSPP(Generic[State],
         self._goal: State = problem.goals[0]
         self._order_starts: str = order_starts
         self._carry_cache: bool = carry_cache
-        self._carry_bounds: bool = carry_bounds
+        self._adaptive_h: bool = adaptive_h
         self._propagate: bool = propagate
         self._propagate_depth: int | None = propagate_depth
         self._rule_bpmx: str | None = rule_bpmx
@@ -345,7 +348,7 @@ class AStarIncMOSPP(Generic[State],
         # bounds for BPMX, but not for propagate-only.
         cache_arg = (dict(self._cache)
                      if self._carry_cache else None)
-        if self._carry_bounds:
+        if self._adaptive_h:
             bounds_arg: dict[State, float] | None = dict(
                 self._bounds)
         elif self._propagate:
@@ -441,12 +444,12 @@ class AStarIncMOSPP(Generic[State],
         self._solutions[start] = sol
 
         # Harvest reuse stores for later sub-searches (only
-        # from a reached search — to_cache / SPI need a
-        # terminal).
+        # from a reached search — to_cache / adaptive harvest
+        # need a terminal).
         if sol.cost != float('inf'):
             if self._carry_cache:
                 self._cache.update(algo.to_cache())
-            if self._carry_bounds:
+            if self._adaptive_h:
                 self._harvest_bounds(algo, cost=sol.cost)
 
         # ExtendableMOSPP bookkeeping — record the trailing
@@ -590,7 +593,8 @@ class AStarIncMOSPP(Generic[State],
          from the just-finished sub-search (goal is fixed, so
          every bound stays valid for later sub-searches):
 
-           - **SPI** — for every CLOSED state x:
+           - **Adaptive A*** (Koenig & Likhachev 2005) — for
+             every CLOSED (expanded) state x:
              `h*(x, goal) ≥ C_i − g_i(x)` (the s_i→goal path
              constrained through x costs ≥ C_i; g_i(x) ≥
              g*(s_i, x), so the bound is admissible even under

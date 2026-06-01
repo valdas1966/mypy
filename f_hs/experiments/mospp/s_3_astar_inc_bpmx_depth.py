@@ -51,7 +51,7 @@
      order_starts='given' -- no reordering, so run() and the
        19 extend()s process the chain coherently in problem
        order (the order the nested chain is built in).
-     carry_cache=True, carry_bounds=False -- the on-path
+     carry_cache=True, adaptive_h=False -- the on-path
        cache is the SOLE carried reuse store (the oracle's
        "only cached" Group-C family; see
        `f_hs/algo/i_1_mospp/i_1_astar_inc/study/oracle.py`).
@@ -117,9 +117,9 @@ _log = get_log(__name__)
 
 # ── Fixed algorithm config ──────────────────────────────────────────────────
 # "only cached": carry the on-path cache across sub-searches, nothing
-# else. carry_bounds=False so the cache is the sole reuse store.
+# else. adaptive_h=False so the cache is the sole reuse store.
 _CARRY_CACHE = True
-_CARRY_BOUNDS = False
+_ADAPTIVE_H = False
 # 'given' order: run() + every extend() process the chain in problem
 # order -- the consistent policy for an extend()-based nested chain.
 _ORDER_STARTS = 'given'
@@ -399,7 +399,7 @@ def _experiment_astar_inc_chain(chain: _MapChain,
         is_timing=True,
         order_starts=_ORDER_STARTS,
         carry_cache=_CARRY_CACHE,
-        carry_bounds=_CARRY_BOUNDS,
+        adaptive_h=_ADAPTIVE_H,
         propagate=propagate,
         propagate_depth=propagate_depth,
         rule_bpmx=rule_bpmx,

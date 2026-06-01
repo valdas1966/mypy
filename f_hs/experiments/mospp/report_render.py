@@ -758,7 +758,7 @@ BPMX-off baseline (rule\_none), deeper $d$ = deeper cascade
 reach.}} Configs are referred to by depth alone in the
 legends and tables below. Shared params:
 \texttt{{depth\_prop=0}}, \texttt{{order\_starts='given'}},
-\texttt{{carry\_cache=True}}, \texttt{{carry\_bounds=False}}.
+\texttt{{carry\_cache=True}}, \texttt{{adaptive\_h=False}}.
 Problem set: 500~OMSPP instances ($=$ 5~domains $\times$
 5~maps $\times$ 20~$k$-values $\in
 \{{10, 20, \ldots, 200\}}$, Moving~AI grids), flipped to

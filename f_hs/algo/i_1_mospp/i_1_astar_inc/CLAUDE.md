@@ -16,7 +16,7 @@ they stay valid across sub-searches):
 
 - **on-path cache** `cache[x] = h*(x, t)` — harvested by
   `AStarLookup.to_cache()` after each reached sub-search.
-- **admissible bounds** `bounds[x] ≥ h*(x, t)` — SPI
+- **admissible bounds** `bounds[x] ≥ h*(x, t)` — Adaptive A*
   (`C_i − g_i(x)` for CLOSED x) + the inner `HBounded` layer
   (BPMX-lifted / pathmax-propagated values).
 
@@ -44,7 +44,7 @@ AStarIncMOSPP(problem: ProblemSPP[State],
               is_timing: bool = True,
               order_starts: str = 'near',
               carry_cache: bool = True,
-              carry_bounds: bool = True,
+              adaptive_h: bool = True,
               propagate: bool = False,
               propagate_depth: int | None = None,
               rule_bpmx: str | None = None,
@@ -63,7 +63,7 @@ AStarIncMOSPP(problem: ProblemSPP[State],
   - `given` — `problem.starts` as-is, no reordering (the
     identity policy; the consistent choice for `extend()`-based
     nested chains — see **Extendable** below).
-- `carry_cache` / `carry_bounds` — replay the respective
+- `carry_cache` / `adaptive_h` — replay the respective
   goal-anchored store across sub-searches.
 - **`propagate` is a separate boolean from `propagate_depth`.**
   `propagate_pathmax(depth=None)` means "run to convergence",
@@ -211,7 +211,7 @@ for i, s_i in enumerate(ordered_starts):
     emit on_start(expanded | unreachable)
     if reached:
         if carry_cache: cache.update(algo.to_cache())
-        if carry_bounds: harvest SPI + HBounded into bounds
+        if adaptive_h: harvest Adaptive A* + HBounded into bounds
 ```
 
 ## Factory
@@ -336,7 +336,7 @@ neutral. Columns follow the counter-scaffold group
 order; the `uniq` column is dropped (dimming + `≡ canonical`
 badge replace it). Counter headers drop the `cnt_` prefix.
 The two globally-invariant params
-(`carry_cache=True, carry_bounds=False`) are lifted out of
+(`carry_cache=True, adaptive_h=False`) are lifted out of
 every row's kw line into a single "Display" note; the kw
 line shows only the discriminating params. These are
 presentation-only — the counter data and the
@@ -344,7 +344,7 @@ distinctness contract are unchanged.
 
 ## Assumptions & limitations
 
-1. **Admissible h** (cache holds exact h*; SPI / HBounded are
+1. **Admissible h** (cache holds exact h*; Adaptive A* / HBounded are
    admissible LBs). Consistency NOT required — BPMX exists for
    inconsistent h.
 2. **Exactly one goal** — `ValueError` at construction

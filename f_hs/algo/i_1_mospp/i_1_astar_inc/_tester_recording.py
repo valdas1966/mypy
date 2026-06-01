@@ -58,10 +58,10 @@ def test_recording_only_cache() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `only_cache` (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx=None).
+     `only_cache` (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx=None).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx=None)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx=None)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -138,10 +138,10 @@ def test_recording_only_propagate_depth_1() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `only_propagate_depth_1` (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=1, rule_bpmx=None).
+     `only_propagate_depth_1` (carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=1, rule_bpmx=None).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=1, rule_bpmx=None)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=1, rule_bpmx=None)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -234,10 +234,10 @@ def test_recording_only_propagate_depth_2() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `only_propagate_depth_2` (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=2, rule_bpmx=None).
+     `only_propagate_depth_2` (carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=2, rule_bpmx=None).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=2, rule_bpmx=None)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=2, rule_bpmx=None)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -332,10 +332,10 @@ def test_recording_only_propagate_depth_3() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `only_propagate_depth_3` (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=3, rule_bpmx=None).
+     `only_propagate_depth_3` (carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=3, rule_bpmx=None).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=3, rule_bpmx=None)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=3, rule_bpmx=None)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -434,10 +434,10 @@ def test_recording_only_propagate_depth_inf() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `only_propagate_depth_inf` (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=None, rule_bpmx=None).
+     `only_propagate_depth_inf` (carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=None, rule_bpmx=None).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=None, rule_bpmx=None)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=None, rule_bpmx=None)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -544,10 +544,10 @@ def test_recording_only_bpmx_rule_1_depth_1() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `only_bpmx_rule_1_depth_1` (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=1).
+     `only_bpmx_rule_1_depth_1` (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=1).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=1)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=1)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -624,10 +624,10 @@ def test_recording_only_bpmx_rule_1_depth_2() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `only_bpmx_rule_1_depth_2` (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=2).
+     `only_bpmx_rule_1_depth_2` (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=2).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=2)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=2)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -704,10 +704,10 @@ def test_recording_only_bpmx_rule_1_depth_3() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `only_bpmx_rule_1_depth_3` (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=3).
+     `only_bpmx_rule_1_depth_3` (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=3).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=3)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=3)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -784,10 +784,10 @@ def test_recording_only_bpmx_rule_1_depth_inf() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `only_bpmx_rule_1_depth_inf` (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=None).
+     `only_bpmx_rule_1_depth_inf` (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=None).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=None)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=None)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -864,10 +864,10 @@ def test_recording_only_bpmx_rule_2_depth_1() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `only_bpmx_rule_2_depth_1` (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='2', depth_bpmx=1).
+     `only_bpmx_rule_2_depth_1` (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='2', depth_bpmx=1).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='2', depth_bpmx=1)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='2', depth_bpmx=1)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -950,10 +950,10 @@ def test_recording_only_bpmx_rule_3_depth_1() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `only_bpmx_rule_3_depth_1` (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=1).
+     `only_bpmx_rule_3_depth_1` (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=1).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=1)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=1)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -1031,10 +1031,10 @@ def test_recording_only_bpmx_rule_3_depth_2() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `only_bpmx_rule_3_depth_2` (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=2).
+     `only_bpmx_rule_3_depth_2` (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=2).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=2)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=2)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -1113,10 +1113,10 @@ def test_recording_only_bpmx_rule_3_depth_3() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `only_bpmx_rule_3_depth_3` (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=3).
+     `only_bpmx_rule_3_depth_3` (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=3).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=3)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=3)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -1193,10 +1193,10 @@ def test_recording_only_bpmx_rule_3_depth_inf() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `only_bpmx_rule_3_depth_inf` (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=None).
+     `only_bpmx_rule_3_depth_inf` (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=None).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=None)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=None)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -1273,10 +1273,10 @@ def test_recording_only_bpmx_rule_CASCADE_depth_1() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `only_bpmx_rule_CASCADE_depth_1` (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=1).
+     `only_bpmx_rule_CASCADE_depth_1` (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=1).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=1)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=1)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -1381,10 +1381,10 @@ def test_recording_only_bpmx_rule_CASCADE_depth_2() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `only_bpmx_rule_CASCADE_depth_2` (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=2).
+     `only_bpmx_rule_CASCADE_depth_2` (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=2).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=2)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=2)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -1488,10 +1488,10 @@ def test_recording_only_bpmx_rule_CASCADE_depth_3() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `only_bpmx_rule_CASCADE_depth_3` (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=3).
+     `only_bpmx_rule_CASCADE_depth_3` (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=3).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=3)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=3)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -1592,10 +1592,10 @@ def test_recording_only_bpmx_rule_CASCADE_depth_inf() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `only_bpmx_rule_CASCADE_depth_inf` (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=None).
+     `only_bpmx_rule_CASCADE_depth_inf` (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=None).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=None)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=None)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -1701,10 +1701,10 @@ def test_recording_prop_1_bpmx_rule_CASCADE_depth_1() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `prop_1_bpmx_rule_CASCADE_depth_1` (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=1, rule_bpmx='CASCADE', depth_bpmx=1).
+     `prop_1_bpmx_rule_CASCADE_depth_1` (carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=1, rule_bpmx='CASCADE', depth_bpmx=1).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=1, rule_bpmx='CASCADE', depth_bpmx=1)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=1, rule_bpmx='CASCADE', depth_bpmx=1)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -1826,10 +1826,10 @@ def test_recording_prop_2_bpmx_rule_3_depth_2() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `prop_2_bpmx_rule_3_depth_2` (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=2, rule_bpmx='3', depth_bpmx=2).
+     `prop_2_bpmx_rule_3_depth_2` (carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=2, rule_bpmx='3', depth_bpmx=2).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=2, rule_bpmx='3', depth_bpmx=2)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=2, rule_bpmx='3', depth_bpmx=2)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -1926,10 +1926,10 @@ def test_recording_prop_2_bpmx_rule_CASCADE_depth_2() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `prop_2_bpmx_rule_CASCADE_depth_2` (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=2, rule_bpmx='CASCADE', depth_bpmx=2).
+     `prop_2_bpmx_rule_CASCADE_depth_2` (carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=2, rule_bpmx='CASCADE', depth_bpmx=2).
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=2, rule_bpmx='CASCADE', depth_bpmx=2)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=2, rule_bpmx='CASCADE', depth_bpmx=2)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},
@@ -2050,14 +2050,14 @@ def test_recording_prop_inf_bpmx_rule_3_depth_3() -> None:
     """
     ========================================================================
      Pin the full event stream for config
-     `prop_inf_bpmx_rule_3_depth_3` (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=None, rule_bpmx='3', depth_bpmx=3).
+     `prop_inf_bpmx_rule_3_depth_3` (carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=None, rule_bpmx='3', depth_bpmx=3).
      Subsumption canary: rule_3_depth_3 lifts 4 in
      isolation but 0 here (convergent propagation already
      saturated HBounded); the bpmx_* events are attempts
      with no lift/forward.
     ========================================================================
     """
-    actual = _events(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=None, rule_bpmx='3', depth_bpmx=3)
+    actual = _events(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=None, rule_bpmx='3', depth_bpmx=3)
     assert actual == [
         {'type': 'push', 'state': (0, 0), 'g': 0, 'parent': None, 'h': 5, 'f': 5},
         {'type': 'pop', 'state': (0, 0), 'g': 0, 'h': 5, 'f': 5},

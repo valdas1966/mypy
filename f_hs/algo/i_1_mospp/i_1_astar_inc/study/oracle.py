@@ -24,13 +24,13 @@ from f_hs.problem.i_1_grid import ProblemGrid
 CONFIGS: list[tuple[str, dict]] = [
     # Group A — only cache.
     ('only_cache',
-     dict(carry_cache=True, carry_bounds=False,
+     dict(carry_cache=True, adaptive_h=False,
           propagate=False, propagate_depth=None,
           rule_bpmx=None)),
 
     # Group B — only propagation (depths 1, 2, 3, inf).
     *[(f'only_propagate_depth_{d if d is not None else "inf"}',
-       dict(carry_cache=True, carry_bounds=False,
+       dict(carry_cache=True, adaptive_h=False,
             propagate=True, propagate_depth=d,
             rule_bpmx=None))
       for d in [1, 2, 3, None]],
@@ -42,11 +42,11 @@ CONFIGS: list[tuple[str, dict]] = [
     # with no cache, Rules 1/3 never lift and
     # rule_1_depth_1 == rule_3_depth_1 (documented BPMX
     # inconsistency-engine requirement — see
-    # i_3_astar_bpmx/CLAUDE.md). propagate / carry_bounds stay
+    # i_3_astar_bpmx/CLAUDE.md). propagate / adaptive_h stay
     # off so the BPMX axis is isolated.
     *[(f'only_bpmx_rule_{r}_depth_'
        f'{d if d is not None else "inf"}',
-       dict(carry_cache=True, carry_bounds=False,
+       dict(carry_cache=True, adaptive_h=False,
             propagate=False, propagate_depth=None,
             rule_bpmx=r, depth_bpmx=d))
       for r, d in [
@@ -68,19 +68,19 @@ CONFIGS: list[tuple[str, dict]] = [
     # for BPMX only when uncached / depth-capped). Optimality
     # is preserved (admissible composition).
     ('prop_1_bpmx_rule_CASCADE_depth_1',
-     dict(carry_cache=True, carry_bounds=False,
+     dict(carry_cache=True, adaptive_h=False,
           propagate=True, propagate_depth=1,
           rule_bpmx='CASCADE', depth_bpmx=1)),
     ('prop_2_bpmx_rule_3_depth_2',
-     dict(carry_cache=True, carry_bounds=False,
+     dict(carry_cache=True, adaptive_h=False,
           propagate=True, propagate_depth=2,
           rule_bpmx='3', depth_bpmx=2)),
     ('prop_2_bpmx_rule_CASCADE_depth_2',
-     dict(carry_cache=True, carry_bounds=False,
+     dict(carry_cache=True, adaptive_h=False,
           propagate=True, propagate_depth=2,
           rule_bpmx='CASCADE', depth_bpmx=2)),
     ('prop_inf_bpmx_rule_3_depth_3',
-     dict(carry_cache=True, carry_bounds=False,
+     dict(carry_cache=True, adaptive_h=False,
           propagate=True, propagate_depth=None,
           rule_bpmx='3', depth_bpmx=3)),
 ]

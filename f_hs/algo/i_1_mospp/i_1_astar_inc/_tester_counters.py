@@ -55,10 +55,10 @@ def test_only_cache() -> None:
     """
     ========================================================================
      Pin counters for config `only_cache`
-     (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx=None).
+     (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx=None).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx=None)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx=None)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 0,
         'cnt_bpmx_depth': 0,
@@ -83,10 +83,10 @@ def test_only_propagate_depth_1() -> None:
     """
     ========================================================================
      Pin counters for config `only_propagate_depth_1`
-     (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=1, rule_bpmx=None).
+     (carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=1, rule_bpmx=None).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=1, rule_bpmx=None)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=1, rule_bpmx=None)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 0,
         'cnt_bpmx_depth': 0,
@@ -111,10 +111,10 @@ def test_only_propagate_depth_2() -> None:
     """
     ========================================================================
      Pin counters for config `only_propagate_depth_2`
-     (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=2, rule_bpmx=None).
+     (carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=2, rule_bpmx=None).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=2, rule_bpmx=None)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=2, rule_bpmx=None)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 0,
         'cnt_bpmx_depth': 0,
@@ -139,10 +139,10 @@ def test_only_propagate_depth_3() -> None:
     """
     ========================================================================
      Pin counters for config `only_propagate_depth_3`
-     (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=3, rule_bpmx=None).
+     (carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=3, rule_bpmx=None).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=3, rule_bpmx=None)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=3, rule_bpmx=None)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 0,
         'cnt_bpmx_depth': 0,
@@ -167,10 +167,10 @@ def test_only_propagate_depth_inf() -> None:
     """
     ========================================================================
      Pin counters for config `only_propagate_depth_inf`
-     (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=None, rule_bpmx=None).
+     (carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=None, rule_bpmx=None).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=None, rule_bpmx=None)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=None, rule_bpmx=None)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 0,
         'cnt_bpmx_depth': 0,
@@ -195,10 +195,10 @@ def test_only_bpmx_rule_1_depth_1() -> None:
     """
     ========================================================================
      Pin counters for config `only_bpmx_rule_1_depth_1`
-     (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=1).
+     (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=1).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=1)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=1)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 25,
         'cnt_bpmx_depth': 0,
@@ -223,10 +223,10 @@ def test_only_bpmx_rule_1_depth_2() -> None:
     """
     ========================================================================
      Pin counters for config `only_bpmx_rule_1_depth_2`
-     (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=2).
+     (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=2).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=2)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=2)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 25,
         'cnt_bpmx_depth': 0,
@@ -251,10 +251,10 @@ def test_only_bpmx_rule_1_depth_3() -> None:
     """
     ========================================================================
      Pin counters for config `only_bpmx_rule_1_depth_3`
-     (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=3).
+     (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=3).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=3)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=3)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 25,
         'cnt_bpmx_depth': 0,
@@ -279,10 +279,10 @@ def test_only_bpmx_rule_1_depth_inf() -> None:
     """
     ========================================================================
      Pin counters for config `only_bpmx_rule_1_depth_inf`
-     (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=None).
+     (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=None).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=None)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=None)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 25,
         'cnt_bpmx_depth': 0,
@@ -307,10 +307,10 @@ def test_only_bpmx_rule_2_depth_1() -> None:
     """
     ========================================================================
      Pin counters for config `only_bpmx_rule_2_depth_1`
-     (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='2', depth_bpmx=1).
+     (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='2', depth_bpmx=1).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='2', depth_bpmx=1)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='2', depth_bpmx=1)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 25,
         'cnt_bpmx_depth': 0,
@@ -335,10 +335,10 @@ def test_only_bpmx_rule_3_depth_1() -> None:
     """
     ========================================================================
      Pin counters for config `only_bpmx_rule_3_depth_1`
-     (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=1).
+     (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=1).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=1)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=1)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 25,
         'cnt_bpmx_depth': 0,
@@ -363,10 +363,10 @@ def test_only_bpmx_rule_3_depth_2() -> None:
     """
     ========================================================================
      Pin counters for config `only_bpmx_rule_3_depth_2`
-     (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=2).
+     (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=2).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=2)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=2)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 24,
         'cnt_bpmx_depth': 1,
@@ -391,10 +391,10 @@ def test_only_bpmx_rule_3_depth_3() -> None:
     """
     ========================================================================
      Pin counters for config `only_bpmx_rule_3_depth_3`
-     (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=3).
+     (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=3).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=3)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=3)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 23,
         'cnt_bpmx_depth': 2,
@@ -419,10 +419,10 @@ def test_only_bpmx_rule_3_depth_inf() -> None:
     """
     ========================================================================
      Pin counters for config `only_bpmx_rule_3_depth_inf`
-     (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=None).
+     (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=None).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=None)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=None)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 23,
         'cnt_bpmx_depth': 2,
@@ -447,10 +447,10 @@ def test_only_bpmx_rule_CASCADE_depth_1() -> None:
     """
     ========================================================================
      Pin counters for config `only_bpmx_rule_CASCADE_depth_1`
-     (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=1).
+     (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=1).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=1)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=1)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 25,
         'cnt_bpmx_depth': 1,
@@ -475,10 +475,10 @@ def test_only_bpmx_rule_CASCADE_depth_2() -> None:
     """
     ========================================================================
      Pin counters for config `only_bpmx_rule_CASCADE_depth_2`
-     (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=2).
+     (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=2).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=2)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=2)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 24,
         'cnt_bpmx_depth': 2,
@@ -503,10 +503,10 @@ def test_only_bpmx_rule_CASCADE_depth_3() -> None:
     """
     ========================================================================
      Pin counters for config `only_bpmx_rule_CASCADE_depth_3`
-     (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=3).
+     (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=3).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=3)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=3)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 23,
         'cnt_bpmx_depth': 2,
@@ -531,10 +531,10 @@ def test_only_bpmx_rule_CASCADE_depth_inf() -> None:
     """
     ========================================================================
      Pin counters for config `only_bpmx_rule_CASCADE_depth_inf`
-     (carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=None).
+     (carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=None).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=None)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=None)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 23,
         'cnt_bpmx_depth': 2,
@@ -568,10 +568,10 @@ def test_prop_1_bpmx_rule_CASCADE_depth_1() -> None:
     """
     ========================================================================
      Pin counters for config `prop_1_bpmx_rule_CASCADE_depth_1`
-     (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=1, rule_bpmx='CASCADE', depth_bpmx=1).
+     (carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=1, rule_bpmx='CASCADE', depth_bpmx=1).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=1, rule_bpmx='CASCADE', depth_bpmx=1)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=1, rule_bpmx='CASCADE', depth_bpmx=1)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 24,
         'cnt_bpmx_depth': 1,
@@ -596,10 +596,10 @@ def test_prop_2_bpmx_rule_3_depth_2() -> None:
     """
     ========================================================================
      Pin counters for config `prop_2_bpmx_rule_3_depth_2`
-     (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=2, rule_bpmx='3', depth_bpmx=2).
+     (carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=2, rule_bpmx='3', depth_bpmx=2).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=2, rule_bpmx='3', depth_bpmx=2)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=2, rule_bpmx='3', depth_bpmx=2)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 23,
         'cnt_bpmx_depth': 0,
@@ -624,10 +624,10 @@ def test_prop_2_bpmx_rule_CASCADE_depth_2() -> None:
     """
     ========================================================================
      Pin counters for config `prop_2_bpmx_rule_CASCADE_depth_2`
-     (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=2, rule_bpmx='CASCADE', depth_bpmx=2).
+     (carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=2, rule_bpmx='CASCADE', depth_bpmx=2).
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=2, rule_bpmx='CASCADE', depth_bpmx=2)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=2, rule_bpmx='CASCADE', depth_bpmx=2)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 23,
         'cnt_bpmx_depth': 1,
@@ -652,13 +652,13 @@ def test_prop_inf_bpmx_rule_3_depth_3() -> None:
     """
     ========================================================================
      Pin counters for config `prop_inf_bpmx_rule_3_depth_3`
-     (carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=None, rule_bpmx='3', depth_bpmx=3).
+     (carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=None, rule_bpmx='3', depth_bpmx=3).
      Subsumption canary: rule_3_depth_3 lifts 4 in isolation
      (see test_only_bpmx_rule_3_depth_3) but 0 here — convergent
      propagation already saturated the HBounded layer.
     ========================================================================
     """
-    algo = _run(carry_cache=True, carry_bounds=False, propagate=True, propagate_depth=None, rule_bpmx='3', depth_bpmx=3)
+    algo = _run(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=None, rule_bpmx='3', depth_bpmx=3)
     assert _counters(algo) == {
         'cnt_bpmx_attempts': 23,
         'cnt_bpmx_depth': 0,

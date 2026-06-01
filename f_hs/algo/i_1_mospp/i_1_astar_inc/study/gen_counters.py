@@ -74,7 +74,7 @@ def _kw_html(kwargs: dict) -> str:
     """
     parts = []
     for k, v in kwargs.items():
-        if k in ('carry_cache', 'carry_bounds'):
+        if k in ('carry_cache', 'adaptive_h'):
             continue
         if isinstance(v, str):
             parts.append(f"{k}=&#x27;{v}&#x27;")

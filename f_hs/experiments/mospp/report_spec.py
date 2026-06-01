@@ -152,7 +152,7 @@ _COUNTER_INFO: dict[str, str] = {
         'sub-search; folded into \\texttt{mem\\_total}.'),
     'mem_bounds': (
         'Final size of the admissible-bounds store. This '
-        'experiment runs \\texttt{carry\\_bounds=False}, so the '
+        'experiment runs \\texttt{adaptive\\_h=False}, so the '
         'store stays empty and the value is the bare dict '
         'overhead ($64$\\,B) at every depth.'),
     'mem_total': (
@@ -163,7 +163,7 @@ _COUNTER_INFO: dict[str, str] = {
         'cumulative across the $k$ sub-searches.'),
     'elapsed_update': (
         'Time in the goal-anchored cache/bounds update phase; '
-        '$\\equiv 0$ here since \\texttt{carry\\_bounds=False}.'),
+        '$\\equiv 0$ here since \\texttt{adaptive\\_h=False}.'),
 }
 
 
@@ -221,7 +221,7 @@ _CAPTION_INSIGHT: dict[str, str] = {
         r'covering slightly fewer cells (non-monotone).'),
     'mem_bounds': (
         r'Identically $64$\,B (empty-dict overhead) at every depth '
-        r'because this experiment runs \texttt{carry\_bounds=False}; '
+        r'because this experiment runs \texttt{adaptive\_h=False}; '
         r'the admissible-bounds store is never populated, so the '
         r'line carries no depth signal.'),
     'mem_total': (
