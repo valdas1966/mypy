@@ -191,6 +191,33 @@ def run_toy_example() -> dict:
     for c in range(0, 5):
         walls.append((3, c))
 
+    # f-value story for the single skipped cell, all computed at
+    # render time so it can never drift from the toy: optimal cost
+    # C* (any run's cost; BPMX preserves optimality), g(START->cell),
+    # base Manhattan h(cell->T), and the depth-2 BPMX lift from the
+    # one-step-away cached cell (h*(C) - dist).
+    c_star = float(runs[0]['cost'])
+    saved_detail: dict | None = None
+    if len(saved) == 1:
+        sc = saved[0]
+        cell = grid[sc[0]][sc[1]]
+        p_g = ProblemGrid(grid=grid,
+                          start=grid[TOY_START[0]][TOY_START[1]],
+                          goal=cell)
+        a_g = AStarLookup(problem=p_g,
+                          h=lambda s: float(s.distance(p_g.goals[0])),
+                          goal=p_g.goals[0])
+        g_saved = float(a_g.run().cost)
+        h_base = float(cell.distance(goal_cell))
+        dist_cache = float(abs(sc[0] - TOY_CACHED_CELL[0])
+                           + abs(sc[1] - TOY_CACHED_CELL[1]))
+        h_lift = max(h_base, float(h_star_cached) - dist_cache)
+        saved_detail = {
+            'cell': sc, 'g': g_saved, 'h_base': h_base,
+            'dist_cache': dist_cache, 'h_lift': h_lift,
+            'c_star': c_star,
+        }
+
     return {
         'rows': TOY_GRID_ROWS,
         'cols': TOY_GRID_COLS,
@@ -200,6 +227,8 @@ def run_toy_example() -> dict:
         'cached': [TOY_CACHED_CELL],
         'saved': saved,
         'h_star_cached': h_star_cached,
+        'c_star': c_star,
+        'saved_detail': saved_detail,
         'runs': runs,
     }
 
@@ -271,17 +300,20 @@ def _toy_tikz_grid(rows: int, cols: int,
     )
 
 
-def build_toy_subsection(toy: dict) -> str:
+def build_toy_subsection(toy: dict) -> tuple[str, tuple[str, str]]:
     """
     ========================================================================
      Emit the toy subsection: explanatory text + TikZ grid +
-     counters table + reading paragraph.
+     counters table + reading paragraph. Returns
+     `(subsection, ('fig_toy', standalone))` -- the grid TikZ is
+     externalized like the per-counter charts.
     ========================================================================
     """
-    tikz = _toy_tikz_grid(
+    grid_tikz = _toy_tikz_grid(
         rows=toy['rows'], cols=toy['cols'], walls=toy['walls'],
         start=toy['start'], goal=toy['goal'],
         cached=toy['cached'], saved=toy['saved'])
+    toy_standalone = standalone_doc(grid_tikz)
     runs = toy['runs']
     toy_metrics = ['cnt_expanded', 'cnt_bpmx_lifts', 'cnt_bpmx_attempts']
     col_min = {m: float(min(r[m] for r in runs)) for m in toy_metrics}
@@ -296,12 +328,34 @@ def build_toy_subsection(toy: dict) -> str:
     h_star = toy['h_star_cached']
     saved_tex = ', '.join(
         rf"$({r},{c})$" for r, c in toy['saved']) or '---'
-    return rf"""\subsection{{Toy: why \texttt{{depth=1}} lifts
+    # f-value reading of the skipped cell (answers "why expanded at
+    # d<=1 but pruned at d=2"): the depth-2 BPMX lift pushes f above
+    # C*. All numbers render-computed in `run_toy_example`.
+    sd = toy.get('saved_detail')
+    if sd:
+        r, c = sd['cell']
+        g, hb, hl = sd['g'], sd['h_base'], sd['h_lift']
+        cs, hs, dc = sd['c_star'], float(h_star), sd['dist_cache']
+        fval_prose = (
+            rf"""
+\paragraph{{Reading the skipped cell.}} Cell $({r},{c})$ has
+$g={g:g}$ and base (Manhattan) $h={hb:g}$, so $f=g+h={g + hb:g}
+=C^{{*}}={cs:g}$: it sits exactly on the optimal frontier, so
+\texttt{{depth=0/1}} expand it --- a depth-1 sweep cannot lift on a
+consistent base~$h$. \texttt{{depth=2}}'s cascade lifts its
+heuristic via the one-step-away cache to
+$\max({hb:g},\,h^{{*}}(C){{-}}{dc:g})=\max({hb:g},\,{hs:g}{{-}}{dc:g})={hl:g}$,
+giving $f={g:g}+{hl:g}={g + hl:g}>C^{{*}}$, so it is pruned.
+"""
+        )
+    else:
+        fval_prose = ''
+    sub = rf"""\subsection{{Toy: why \texttt{{depth=1}} lifts
 nothing on consistent~$h$}}
 
 \begin{{figure}}[H]
 \centering
-{tikz}
+\includegraphics{{fig_toy}}
 \caption{{Legend: $S$ start, $T$ goal,
 $C$ cache ($h^{{*}}(C,T)={h_star:.0f}$),
 $\times$ = expanded by \texttt{{depth=0}} and
@@ -323,7 +377,8 @@ $\times$ = expanded by \texttt{{depth=0}} and
 \bottomrule
 \end{{tabular}}
 \end{{table}}
-"""
+{fval_prose}"""
+    return sub, ('fig_toy', toy_standalone)
 
 
 def metric_columns(df: pd.DataFrame) -> list[str]:
@@ -422,9 +477,9 @@ def _diff_annotations(per_kc: pd.DataFrame,
      Dotted vertical spans at each $k$ in `_ANNOT_K`, drawn from
      the second-highest visible line up to the highest at that $k$.
      Visible lines are the coincident GROUPS (so merged curves
-     count once). Each span is labelled with the top-two gap --
-     a percentage when the top is $<100\\%$ larger, else a
-     $\\times$ multiplier -- and the highest line is tagged with
+     count once). Each span is labelled with the ratio of the
+     higher line to the second as an $N\\times$ multiplier (e.g.
+     $1.77\\times$) -- and the highest line is tagged with
      its short id (e.g. \\texttt{d=0}). Skips a $k$ when fewer
      than two groups have data, when the top two coincide (no
      visible gap), or when a log axis would need a non-positive
@@ -450,11 +505,12 @@ def _diff_annotations(per_kc: pd.DataFrame,
             continue
         if is_log and (top_val <= 0 or second_val <= 0):
             continue
-        # Gap label: percentage if top is <100% larger, else x-fold.
+        # Gap label: the ratio of the higher line to the second as
+        # an N-fold multiplier (e.g. 1.77x). Always a multiplier so
+        # the annotation is unambiguous about direction and never
+        # disagrees with the caption's framing of the same gap.
         if second_val > 0:
-            pct = (top_val / second_val - 1.0) * 100.0
-            diff_txt = (rf'{pct:.0f}\%' if pct < 100.0
-                        else rf'{top_val / second_val:.1f}$\times$')
+            diff_txt = rf'{top_val / second_val:.2f}$\times$'
         else:
             diff_txt = fmt_value(metric, top_val - second_val)
         d_label = _group_label(top_g, used).replace('depth=', 'd=')
@@ -542,6 +598,38 @@ def color_definitions(used: list[dict]) -> str:
         for idx, cfg in enumerate(used))
 
 
+def standalone_doc(body: str, color_defs: str = '') -> str:
+    """
+    ========================================================================
+     Wrap a TikZ / PGFPlots `body` in a `standalone` document so it
+     compiles to a single tightly-cropped PDF (an "externalized"
+     figure). The preamble mirrors the report's font + math + color
+     setup so the externalized image is faithful to the former
+     inline render; `color_defs` injects the per-config
+     \\texttt{cfgcolorN} definitions the plot curves reference.
+
+     Externalizing the heavy PGFPlots figures lets Overleaf render
+     the report by \\includegraphics-ing pre-built PDFs instead of
+     re-running PGFPlots on every compile -- which is what blew the
+     Overleaf compile timeout (the same document builds in ~2.5s
+     under `tectonic` locally).
+    ========================================================================
+    """
+    return rf"""\documentclass[border=3pt]{{standalone}}
+\usepackage[T1]{{fontenc}}
+\usepackage{{lmodern}}
+\usepackage{{amsmath, amssymb}}
+\usepackage{{xcolor}}
+\usepackage{{pgfplots}}
+\pgfplotsset{{compat=1.18}}
+\usetikzlibrary{{arrows.meta, positioning, calc}}
+{color_defs}
+\begin{{document}}
+{body}
+\end{{document}}
+"""
+
+
 def build_insight(metric: str,
                   overall: pd.DataFrame,
                   used: list[dict],
@@ -585,13 +673,20 @@ def build_insight(metric: str,
 
 def build_single_figure(metric: str,
                         per_kc: pd.DataFrame,
-                        used: list[dict]) -> str:
+                        used: list[dict]) -> tuple[str, tuple[str, str]]:
     """
     ========================================================================
      Single-axis line chart for one counter: N config-colored
      curves of the (config, k) mean across all 25 maps. Log-y
      applied automatically when the dynamic range exceeds one
      decade. `pct_*` metrics use a percent y-label.
+
+     The PGFPlots body is externalized: returns
+     `(figure_float, (fig_name, standalone_source))` where the
+     float \\includegraphics-es `fig_name` and `standalone_source`
+     is the self-contained doc the orchestrator compiles to
+     `fig_name.pdf`. Externalizing keeps the heavy plot off
+     Overleaf's compile path.
     ========================================================================
     """
     vals = per_kc[metric].astype(float).to_numpy()
@@ -613,9 +708,7 @@ def build_single_figure(metric: str,
     # NOTE: keep the axis-options block on contiguous lines
     # (no blank line allowed inside `\begin{axis}[...]` --
     # TeX treats it as `\par` and closes the options early).
-    return rf"""\begin{{figure}}[H]
-\centering
-\begin{{tikzpicture}}
+    tikz = rf"""\begin{{tikzpicture}}
 \begin{{axis}}[
     width=11.5cm, height=5.6cm,
     xlabel={{$k$}},
@@ -632,11 +725,17 @@ def build_single_figure(metric: str,
 \legend{{{legend_entries}}}
 {annotations}
 \end{{axis}}
-\end{{tikzpicture}}
+\end{{tikzpicture}}"""
+    fig_name = f'fig_{metric}'
+    standalone = standalone_doc(tikz, color_definitions(used))
+    figure = rf"""\begin{{figure}}[H]
+\centering
+\includegraphics{{{fig_name}}}
 \caption{{\textbf{{\texttt{{{tex_esc(metric)}}} --- mean vs.~$k$.}}\\
 {caption_body}}}
 \end{{figure}}
 """
+    return figure, (fig_name, standalone)
 
 
 def render_counter(metric: str,
@@ -644,28 +743,30 @@ def render_counter(metric: str,
                    overall: pd.DataFrame,
                    used: list[dict],
                    k_values: list[int],
-                   k_max: int) -> str:
+                   k_max: int) -> tuple[str, tuple[str, str]]:
     """
     ========================================================================
      Render one counter as a self-contained subsection:
      semantic description + data-driven observation + line
      chart + per-$k$ table. Each subsection is the unit the
-     reader scans.
+     reader scans. Returns `(subsection, (fig_name, standalone))`
+     -- the externalized line chart travels alongside the prose.
     ========================================================================
     """
     insight = build_insight(metric=metric, overall=overall,
                             used=used, k_max=k_max)
-    fig = build_single_figure(metric=metric, per_kc=per_kc,
-                              used=used)
+    fig, fig_art = build_single_figure(metric=metric, per_kc=per_kc,
+                                       used=used)
     tab = build_table_for_metric(per_kc=per_kc, used=used,
                                  metric=metric, k_values=k_values)
-    return rf"""\subsection{{\texttt{{{tex_esc(metric)}}}}}
+    sub = rf"""\subsection{{\texttt{{{tex_esc(metric)}}}}}
 {insight}
 
 {fig}
 
 {tab}
 """
+    return sub, fig_art
 
 
 # ── Tables (one per counter; rows = depth, cols = k) ────────────────────────
@@ -744,7 +845,7 @@ def build_section(df: pd.DataFrame,
                   nontrivial: set[str],
                   omitted_user: list[str],
                   k_values: list[int],
-                  k_max: int) -> str:
+                  k_max: int) -> tuple[str, list[tuple[str, str]]]:
     depth_list = ', '.join(cfg['label'] for cfg in used)
     color_defs = color_definitions(used)
     setup = rf"""\section{{Experimental Results --- BPMX depth ladder}}
@@ -803,9 +904,9 @@ column whose values are all equal is left unshaded.
 
 \paragraph{{Chart annotations.}} In every line chart, dotted
 vertical spans at $k=100$ and $k=200$ mark the gap between the
-two highest lines at that $k$, labelled with their relative
-difference (a percentage when the top line is $<100\%$ larger,
-otherwise an $N\times$ multiplier). The short tag at the top of
+two highest lines at that $k$, labelled with their ratio as an
+$N\times$ multiplier (e.g.~$1.77\times$ means the top line is
+$1.77$ times the second). The short tag at the top of
 each span (e.g.~\texttt{{d=0}}) names the highest line.
 """
     omitted_zero = sorted(set(metric_cols)
@@ -823,19 +924,24 @@ each span (e.g.~\texttt{{d=0}}) names the highest line.
                   + '.\n')
 
     blocks = [setup]
+    figures: list[tuple[str, str]] = []
     # Toy example -- explains depth=0 == depth=1 vs. depth=2
     # mechanism in miniature, before the macro per-counter
     # comparison.
     toy = run_toy_example()
-    blocks.append(build_toy_subsection(toy))
+    toy_sub, toy_fig = build_toy_subsection(toy)
+    blocks.append(toy_sub)
+    figures.append(toy_fig)
     for _, metrics in COUNTER_GROUPS:
         for m in metrics:
             if m in nontrivial:
-                blocks.append(
-                    render_counter(metric=m, per_kc=per_kc,
-                                   overall=overall, used=used,
-                                   k_values=k_values, k_max=k_max))
-    return '\n\n'.join(blocks)
+                sub, fig = render_counter(
+                    metric=m, per_kc=per_kc,
+                    overall=overall, used=used,
+                    k_values=k_values, k_max=k_max)
+                blocks.append(sub)
+                figures.append(fig)
+    return '\n\n'.join(blocks), figures
 
 
 # ── Splice into MOSPP.tex ───────────────────────────────────────────────────

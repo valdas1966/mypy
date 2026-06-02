@@ -788,94 +788,18 @@ rules), and compilation. If it conflicts with this section,
 
 ## Session Management
 
-### Starting a New Session
+The session lifecycle lives in two skills under `.claude/skills/`:
 
-When the user announces a new session (e.g., "new session: kids_math",
-"opening session: drive_refactor", or "start session 'instructions'"),
-do the following **immediately**:
+- **`start-session`** — start or continue a named session: read Drive
+  instructions, find & continue a prior same-named session, create
+  today's skeleton, report back. Triggers: "start session '<name>'",
+  "new session", "open session".
+- **`finish-session`** — save / close / summarize / end the session:
+  write & upload the full summary. Triggers: "save the session", "close
+  session", "summarize the session", "end session".
 
-1. **Acknowledge** the session name.
-
-2. **Read Drive instructions** — read all `.md` files from the
-   `Instructions/` folder on Drive to load the latest workflows.
-   These instruction files define formats and workflows for:
-   - **Session summaries** — `For_Session_Summary.md`
-   - **Paper summaries** — `For_Summary.md`
-   - **LaTeX documents** — `For_Tex.md`
-   Always follow the latest version on Drive (not cached copies).
-
-3. **Look up prior sessions with the same name** on Drive. The
-   user's default intent when starting a named session is to
-   **continue the most recent session with that name**. Search
-   across year folders for files matching
-   `YYYY/MM/DD/<name>_session.md` (case-insensitive) and branch
-   on the result:
-
-   - **Exact name match exists** → continue automatically:
-     read the most recent `<name>_session.md` from Drive to
-     restore context, and announce which date you are continuing
-     from (e.g., "continuing `instructions` session from
-     2026-04-10"). Today's work goes under today's date folder
-     with the same name.
-   - **No exact match, but a similar name exists** (substring
-     match or obvious typo, case-insensitive — e.g.,
-     `instruction` vs. `instructions`, `kids_math` vs.
-     `kids_maths`) → **ask the user** whether to continue that
-     session. Do not assume — wait for confirmation. If they
-     decline, proceed as a fresh session.
-   - **No match at all** → proceed as a fresh session.
-
-4. **Create the session file on Drive for today's date**:
-   - Write a skeleton `.md` to `/tmp/<name>_session.md` with the
-     title, date, project path, and purpose filled in. If
-     continuing, seed Purpose / What We Built / Next Steps from
-     the prior summary.
-   - Upload to `YYYY/MM/DD/<name>_session.md` on Drive (today's
-     date, even when continuing — the prior date's file stays
-     intact as a historical record).
-   - **`.md` only** — do not generate `.tex` or `.pdf` at session
-     start.
-
-5. **Report back the prev-session summary** *(opening
-   session only)*. After steps 1–4 are complete, send a
-   single chat reply that obeys the *Response Style* rules
-   (enumerated, titled, ≤ 10-word bodies, ≤ 5 sentences):
-   - a. **Sentence 1 — Done (mandatory).** State which
-        session started, today's date, and the date of the
-        prior session being continued (or "fresh session"
-        when none).
-   - b. **Sentences 2–5 — optional, in this order, drop any
-        that add no value:** recap of prior session (1–3
-        sentences, chronologically or by topic), where the
-        prior session ended, recommended starting point for
-        today. Combine into one sentence when possible. Do
-        not pad to fill the cap.
-   - c. **Skeleton fallback.** If the immediately prior file
-        is only a skeleton (purpose set, work sections
-        empty), recap the most recent *substantive* session
-        instead and flag the skeleton in sentence 1.
-   - d. **Fresh session.** If no prior session exists,
-        sentence 1 says so; remaining sentences (if any)
-        propose a starting plan.
-
-6. **Track** important information throughout the session:
-   - Key decisions and their reasoning.
-   - What was built (deliverables, files, features).
-   - Architecture and design choices.
-   - Unresolved issues and next steps.
-
-### Ending a Session
-
-When the user asks to save/close/summarize the session, or when a
-meaningful chunk of work is complete:
-
-1. Write the full session summary to `/tmp/<name>_session.md`
-   following the format in `Instructions/For_Session_Summary.md`
-   on Drive.
-2. Upload the `.md` to Drive at `YYYY/MM/DD/<name>_session.md`.
-3. **Only if the user explicitly asks for a TeX/PDF export**,
-   follow the "On-Demand: TeX and PDF Exports" section in
-   `Instructions/For_Session_Summary.md`: convert to `.tex`,
-   compile with `tectonic`, and upload both. Do not generate
-   these proactively.
-4. No local saves — `/tmp/` only. Do not auto-open the PDF.
+Both call the shared Drive helper at
+`.claude/skills/_session_lib/session.py` and are the authoritative
+workflows. Session summaries live on Drive at
+`YYYY/MM/DD/<name>_session.md` (flat names); the Drive rules above (read
+`Instructions/` first; Drive-only; `/tmp` for intermediates) still apply.

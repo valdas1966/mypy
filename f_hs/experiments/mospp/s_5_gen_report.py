@@ -21,10 +21,20 @@
  Missing CSVs are skipped with a warning (so the script can
  run incrementally as configs come in).
 
+ Each line chart / toy grid is EXTERNALIZED: rendered to a
+ standalone `fig_<metric>.pdf` (and `fig_toy.pdf`) up front,
+ then \\includegraphics-ed by the main doc. This keeps PGFPlots
+ off the main -- and Overleaf -- compile path (10 inline axes
+ were overrunning Overleaf's compile timeout; the same doc
+ builds in ~2.5s under `tectonic` locally).
+
  After splicing the section into `Reports/MOSPP.tex` it
- compiles via `tectonic`, uploads `.tex` + `.pdf` to Drive,
- and pushes a sanitized `.tex` to the Overleaf `MOSPP`
- project (`f_overleaf` upload is ASCII-only --
+ compiles via `tectonic`, uploads `.tex` + `.pdf` to Drive
+ (the `.pdf` embeds the figures, so Drive stays a 2-file
+ artifact -- the loose `fig_*.pdf` live only in the work dir
+ and on Overleaf, which needs them to recompile), and pushes a
+ sanitized `.tex` + the `fig_*.pdf` set to the Overleaf `MOSPP`
+ project (`f_overleaf` text upload is ASCII-only --
  box-drawing chars in comments are replaced).
 
  Run:
@@ -116,10 +126,21 @@ def main(push_drive: bool = True,
     k_values = [k for k in K_TABLE if k <= k_max]
 
     print('building section ...')
-    section = build_section(
+    section, figures = build_section(
         df=df, per_kc=per_kc, overall=overall,
         used=used, metric_cols=metric_cols, nontrivial=nontrivial,
         omitted_user=omitted_user, k_values=k_values, k_max=k_max)
+
+    # Externalized figures: compile each PGFPlots/TikZ figure to a
+    # standalone PDF in the work dir BEFORE the main compile, so the
+    # main doc only \includegraphics them (no PGFPlots on the main --
+    # or Overleaf -- compile path; that is what blew the timeout).
+    print(f'rendering {len(figures)} externalized figures ...')
+    for name, src in figures:
+        (work / f'{name}.tex').write_text(src, encoding='utf-8')
+        subprocess.run(['tectonic', f'{name}.tex'],
+                       check=True, cwd=str(work))
+        print(f'  OK     — {name}.pdf')
 
     print('downloading MOSPP.tex + splicing ...')
     tex_path = work / 'MOSPP.tex'
@@ -161,8 +182,20 @@ def main(push_drive: bool = True,
                 'sanitized text still has non-ASCII; abort')
         print(f'  sanitized chars: {sc}')
         project.create_file(path=OVERLEAF_FILE, text=sanitized)
+        # Refresh externalized figures: drop any stale fig_*.pdf
+        # (a counter dropping out of the report would otherwise
+        # leave an orphan), then upload the current set so Overleaf
+        # \includegraphics-es PDFs instead of re-running PGFPlots.
+        existing = project.list_files()
+        for f in existing:
+            if f.startswith('fig_') and f.endswith('.pdf'):
+                project.delete_file(path=f)
+        for name, _ in figures:
+            project.upload_file(path_src=str(work / f'{name}.pdf'),
+                                path_dest=f'{name}.pdf')
+        print(f'  pushed {len(figures)} figures')
         project.set_root_doc(name=OVERLEAF_FILE)
-        if 'main.tex' in project.list_files():
+        if 'main.tex' in existing:
             project.delete_file(path='main.tex')
         print(f'  pushed: {OVERLEAF_PROJECT}/{OVERLEAF_FILE}')
 

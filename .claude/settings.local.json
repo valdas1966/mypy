@@ -137,7 +137,10 @@
       "WebFetch(domain:d-nb.info)",
       "WebFetch(domain:eva.fing.edu.uy)",
       "WebFetch(domain:drops.dagstuhl.de)",
-      "WebFetch(domain:core.ac.uk)"
+      "WebFetch(domain:core.ac.uk)",
+      "Bash(mkdir -p .claude/skills/_session_lib)",
+      "Bash(cp .claude/skills/session/scripts/session.py .claude/skills/_session_lib/session.py)",
+      "Bash(rm -rf .claude/skills/session)"
     ],
     "defaultMode": "acceptEdits"
   }

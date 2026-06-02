@@ -165,3 +165,58 @@ def test_build_insight_minmax_observation() -> None:
     assert R._COUNTER_INFO['cnt_expanded'] in insight
     assert 'min $= 146,114$ (depth=1)' in insight
     assert 'max $= 285,235$ (depth=0)' in insight
+
+
+def test_build_single_figure_externalizes_plot() -> None:
+    """
+    ========================================================================
+     The line chart is EXTERNALIZED to dodge Overleaf's compile
+     timeout: the figure float \\includegraphics-es `fig_<metric>`
+     (no inline axis), and the returned standalone source is a
+     self-contained `standalone` doc carrying the PGFPlots axis +
+     the per-config color definitions it references.
+    ========================================================================
+    """
+    used = [{'tag': 'a', 'label': 'depth=0', 'color': '6BAED6'},
+            {'tag': 'b', 'label': 'depth=1', 'color': '4292C6'}]
+    rows = []
+    for tag, vals in [('a', [10.0, 20.0]), ('b', [5.0, 8.0])]:
+        for m, v in zip([10, 20], vals):
+            rows.append({'config': tag, 'm': m, 'cnt_expanded': v})
+    per_kc = pd.DataFrame(rows)
+
+    figure, (name, standalone) = R.build_single_figure(
+        'cnt_expanded', per_kc, used)
+
+    assert name == 'fig_cnt_expanded'
+    # Float references the externalized PDF, not an inline plot.
+    assert r'\includegraphics{fig_cnt_expanded}' in figure
+    assert r'\begin{axis}' not in figure
+    # Standalone is self-contained and carries the plot.
+    assert r'\documentclass[border=3pt]{standalone}' in standalone
+    assert r'\begin{axis}' in standalone
+    assert r'\addplot' in standalone
+    # cfgcolor defs travel into the standalone preamble.
+    assert r'\definecolor{cfgcolor0}{HTML}{6BAED6}' in standalone
+
+
+def test_diff_annotations_label_is_x_multiplier() -> None:
+    """
+    ========================================================================
+     The k=100/200 gap label is a `Nx` multiplier (ratio of the two
+     highest lines), never a percentage -- so it is unambiguous
+     about direction and cannot disagree with a caption's framing.
+    ========================================================================
+    """
+    used = [{'tag': 'a', 'label': 'depth=0'},
+            {'tag': 'b', 'label': 'depth=1'}]
+    rows = []
+    # top line 'a' = 2x the second line 'b' at both annotated k.
+    for tag, val in [('a', 200.0), ('b', 100.0)]:
+        for k in (100, 200):
+            rows.append({'config': tag, 'm': k, 'cnt_expanded': val})
+    per_kc = pd.DataFrame(rows)
+
+    out = R._diff_annotations(per_kc, 'cnt_expanded', used, is_log=False)
+    assert r'2.00$\times$' in out
+    assert r'\%' not in out
