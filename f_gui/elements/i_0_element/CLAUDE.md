@@ -2,72 +2,106 @@
 
 ## Purpose
 
-Base class for all GUI elements. Combines `HasName` and `HasParent` mixins to provide identity and tree structure. Each element has rectangular `Bounds` (relative to its parent) that define its position and size within a 0-100 coordinate space.
+**Abstract** base class for all GUI elements. Combines `HasName` and
+`HasParent` mixins to provide identity and tree structure. Each element
+has rectangular `Bounds` (relative to its parent) in a 0-100 coordinate
+space.
+
+`Element` is **not instantiable directly** — `Element()` raises
+`TypeError`. Create a concrete subclass instead (`Container`, `Label`,
+`Window`).
+
+## Why Abstract (and how)
+
+There is no natural abstract method: `bounds` / `name` / `parent` are
+fully implemented here, and the only candidate hook (rendering) is
+deliberately kept **out** of this pure data model (`f_gui` stores
+structure; `RenderHtml` renders). Since `abc.ABC` without an
+`@abstractmethod` does **not** block instantiation, abstractness is
+enforced with a `__new__` guard:
+
+```python
+def __new__(cls, *args, **kwargs) -> 'Element':
+    if cls is Element:
+        raise TypeError('Element is abstract; instantiate a concrete '
+                        'subclass (Container, Label, Window).')
+    return super().__new__(cls)
+```
+
+The guard blocks `Element()` while allowing every subclass — no
+metaclass, no fake abstract method.
 
 ## Public API
 
-### Class Attributes
-
-```python
-Factory: type = None
-```
-Factory class for creating instances. Attached via `__init__.py`.
-
-### Constructor
+### Constructor (subclasses only)
 
 ```python
 def __init__(self,
              bounds: Bounds[float] = None,
-             name: str = 'Element') -> None
+             name: str = 'Element',
+             background: RGB | None = None) -> None
 ```
-Initializes the element with optional bounds (defaults to full `(0, 0, 100, 100)`) and a name.
+Called by subclasses via `Element.__init__(self, ...)`. Bounds default
+to full `(0, 0, 100, 100)`; `background` defaults to `None`
+(transparent). All four element types accept and forward `background`.
 
 ### Properties
 
 ```python
 @property
-def bounds(self) -> Bounds[float]
-```
-Returns the bounds of the element (relative to parent).
-
-```python
+def bounds(self) -> Bounds[float]      # relative to parent
 @property
-def parent(self) -> Element | None
-```
-Inherited from `HasParent`. Returns the parent element, or `None` for root elements.
-
-```python
+def background(self) -> RGB | None     # fill color; None = transparent
 @property
-def name(self) -> str
+def parent(self) -> Element | None     # from HasParent; None for roots
+@property
+def name(self) -> str                  # from HasName
 ```
-Inherited from `HasName`. Returns the name of the element.
+
+### Visual style — `background`
+
+The first visual feature on the data model. Stored as a **loose
+attribute** (not a `Style` object) and typed as `f_color.rgb.RGB`. To
+keep `f_gui` light, `RGB` is imported only under `TYPE_CHECKING` — a
+plain `Element`/`Label` never pulls in `matplotlib`; only *passing* an
+`RGB` does. The renderer reads `elem.background` and emits
+`background:{rgb.to.hex()}` (duck-typed; `RenderHtml` imports no color
+type). Border is still type-dispatched in the renderer — a future step.
 
 ### Methods
 
 ```python
-def path_from_root(self) -> list[Self]
+def path_from_root(self) -> list[Self]   # from HasParent
 ```
-Inherited from `HasParent`. Returns the path from root to this element.
 
 ### Dunder Methods
 
 ```python
-def __str__(self) -> str
+def __str__(self) -> str    # 'Name(top, left, bottom, right)'
 ```
-Returns `'Name(top, left, bottom, right)'` — e.g. `'Element(0, 0, 100, 100)'`.
+
+## No Factory
+
+`Element` has **no** `Factory` — an abstract class has no canonical
+instances to manufacture, and a factory would itself be a way to create
+bare elements (the thing abstractness forbids). Concrete subclasses
+carry their own factories (`Container.Factory`, `Window.Factory`, …).
 
 ## Inheritance (Hierarchy)
 
 ```
 HasName
 HasParent
- └── Element
+ └── Element  (abstract)
+      ├── Container
+      │    └── Window
+      └── Label
 ```
 
 | Base | Responsibility |
 |------|----------------|
 | `HasName` | Provides `name` property and `_name` storage |
-| `HasParent` | Provides `parent` property, `_parent` storage, and `path_from_root()` |
+| `HasParent` | Provides `parent`, `_parent`, and `path_from_root()` |
 
 ## Dependencies
 
@@ -80,16 +114,26 @@ HasParent
 ## Usage Example
 
 ```python
-from f_gui.elements.i_0_element import Element
+from f_gui.elements.i_0_element.main import Element
+from f_gui.elements.i_1_label.main     import Label
+from f_ds.geometry.bounds              import Bounds
 
-# Full-size element (default bounds 0,0,100,100)
-full = Element.Factory.full()
-print(full.bounds.to_tuple())  # (0, 0, 100, 100)
-print(full.name)               # 'Element'
-print(full.parent)             # None
-print(str(full))               # 'Element(0, 0, 100, 100)'
+Element()                       # TypeError — abstract
 
-# Half-size element (centered 25,25,75,75)
-half = Element.Factory.half()
-print(half.bounds.to_tuple())  # (25, 25, 75, 75)
+label = Label(bounds=Bounds(top=10, left=10, bottom=40, right=40),
+              text='Hi')        # OK — concrete subclass
+print(label.bounds.to_tuple())  # (10, 10, 40, 40)
+print(label.parent)             # None
+
+# Testing the abstract base uses a minimal local concrete subclass:
+class _Concrete(Element):
+    pass
+print(_Concrete().bounds.to_tuple())   # (0, 0, 100, 100)
 ```
+
+## Testing Note
+
+`_tester.py` tests inherited behavior through a local `_Concrete(Element)`
+subclass and asserts that `Element()` raises `TypeError`. The
+`i_1_container` tests use `Label` as their neutral leaf child (previously
+a bare `Element`).

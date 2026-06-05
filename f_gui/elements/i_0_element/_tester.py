@@ -1,22 +1,74 @@
+import pytest
+
 from f_gui.elements.i_0_element.main import Element
+from f_ds.geometry.bounds import Bounds
+from f_color.rgb import RGB
 
 
-def test_bounds() -> None:
+class _Concrete(Element):
     """
     ========================================================================
-     Test the bounds property.
+     Minimal concrete subclass — Element itself is abstract.
     ========================================================================
     """
-    assert Element.Factory.full().bounds.to_tuple() == (0, 0, 100, 100)
+    pass
 
 
-def test_bounds_half() -> None:
+def test_element_is_abstract() -> None:
     """
     ========================================================================
-     Test the bounds of a half-size Element.
+     Test that Element cannot be instantiated directly.
     ========================================================================
     """
-    assert Element.Factory.half().bounds.to_tuple() == (25, 25, 75, 75)
+    with pytest.raises(TypeError):
+        Element()
+
+
+def test_subclass_is_instantiable() -> None:
+    """
+    ========================================================================
+     Test that a concrete subclass can be instantiated.
+    ========================================================================
+    """
+    assert isinstance(_Concrete(), Element)
+
+
+def test_bounds_default() -> None:
+    """
+    ========================================================================
+     Test the default bounds (0, 0, 100, 100).
+    ========================================================================
+    """
+    assert _Concrete().bounds.to_tuple() == (0, 0, 100, 100)
+
+
+def test_bounds_custom() -> None:
+    """
+    ========================================================================
+     Test custom bounds are stored on the element.
+    ========================================================================
+    """
+    bounds = Bounds(top=25, left=25, bottom=75, right=75)
+    assert _Concrete(bounds=bounds).bounds.to_tuple() == (25, 25, 75, 75)
+
+
+def test_background_default() -> None:
+    """
+    ========================================================================
+     Test that background is None (transparent) by default.
+    ========================================================================
+    """
+    assert _Concrete().background is None
+
+
+def test_background_set() -> None:
+    """
+    ========================================================================
+     Test that a given background Color is stored on the element.
+    ========================================================================
+    """
+    color = RGB(name='steelblue')
+    assert _Concrete(background=color).background is color
 
 
 def test_parent() -> None:
@@ -25,7 +77,7 @@ def test_parent() -> None:
      Test that parent is None by default.
     ========================================================================
     """
-    assert Element.Factory.full().parent is None
+    assert _Concrete().parent is None
 
 
 def test_name() -> None:
@@ -34,7 +86,7 @@ def test_name() -> None:
      Test the default name.
     ========================================================================
     """
-    assert Element.Factory.full().name == 'Element'
+    assert _Concrete().name == 'Element'
 
 
 def test_str() -> None:
@@ -43,4 +95,4 @@ def test_str() -> None:
      Test the string representation.
     ========================================================================
     """
-    assert str(Element.Factory.full()) == 'Element(0, 0, 100, 100)'
+    assert str(_Concrete()) == 'Element(0, 0, 100, 100)'

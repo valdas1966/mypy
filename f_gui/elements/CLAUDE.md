@@ -7,21 +7,24 @@ Aggregator package holding the four GUI element classes. Organized with
 
 | Folder           | Class       | Depth | Role                                |
 |------------------|-------------|-------|-------------------------------------|
-| `i_0_element/`   | `Element`   | 0     | Base: bounds + name + parent        |
+| `i_0_element/`   | `Element`   | 0     | **Abstract** base: bounds+name+parent|
 | `i_1_container/` | `Container` | 1     | Element + `HasChildren`             |
 | `i_1_label/`     | `Label`     | 1     | Element + text (leaf)               |
 | `i_2_window/`    | `Window`    | 2     | Container with implicit full bounds |
 
 ## Package Exports
 
-The `__init__.py` is a **lazy aggregator** (PEP 562 `__getattr__`).
-Importing one class does not trigger loading of its siblings.
+The `__init__.py` is a **lazy aggregator** (PEP 562 `__getattr__` via
+`ULazy`). Importing one class does not trigger loading of its siblings.
+A `TYPE_CHECKING` mirror block makes the aggregator form resolve in
+IDEs / mypy (autocomplete + go-to-definition) while staying lazy at
+runtime — so this form is now static-clean, no "unresolved reference":
 
 ```python
 from f_gui.elements import Element, Container, Label, Window
 ```
 
-Equivalent direct imports (preferred — bypass the aggregator entirely):
+Equivalent direct imports (also valid — bypass the aggregator entirely):
 
 ```python
 from f_gui.elements.i_0_element   import Element

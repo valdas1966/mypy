@@ -148,23 +148,23 @@ def test_coincident_groups_merges_identical_series() -> None:
     assert label == 'depth=0/1'
 
 
-def test_build_insight_minmax_observation() -> None:
+def test_build_insight_boxed_and_rule_fallback() -> None:
     """
     ========================================================================
-     `build_insight` appends a data-driven min/max observation at
-     k_max; a uniform-value metric gets the description only.
+     `build_insight` renders a numbered `sentences` list inside
+     the lightblue `insights` box from
+     `_INSIGHT_ITEMS[rule][metric]`; an uncurated (rule, counter)
+     -- e.g. rule_3 before its data lands -- falls back to the
+     rule-agnostic `_COUNTER_NEUTRAL` one-liner.
     ========================================================================
     """
-    used = [{'tag': 'a', 'label': 'depth=0'},
-            {'tag': 'b', 'label': 'depth=1'}]
-    overall = pd.DataFrame({
-        'config': ['a', 'b'],
-        'cnt_expanded': [285235.0, 146114.0],
-    })
-    insight = R.build_insight('cnt_expanded', overall, used, k_max=200)
-    assert R._COUNTER_INFO['cnt_expanded'] in insight
-    assert 'min $= 146,114$ (depth=1)' in insight
-    assert 'max $= 285,235$ (depth=0)' in insight
+    box = R.build_insight('cnt_expanded')            # default rule1
+    assert r'\begin{insights}' in box
+    assert r'\begin{sentences}' in box
+    assert R._INSIGHT_ITEMS['rule1']['cnt_expanded'][0] in box
+    fallback = R.build_insight('cnt_expanded', rule_key='rule3')
+    assert r'\begin{insights}' in fallback
+    assert R._COUNTER_NEUTRAL['cnt_expanded'] in fallback
 
 
 def test_build_single_figure_externalizes_plot() -> None:
@@ -220,3 +220,64 @@ def test_diff_annotations_label_is_x_multiplier() -> None:
     out = R._diff_annotations(per_kc, 'cnt_expanded', used, is_log=False)
     assert r'2.00$\times$' in out
     assert r'\%' not in out
+    # The d= line-id tag no longer rides on the gap span -- it now
+    # lives once at the line's left start (see _start_labels).
+    assert 'd=0' not in out
+
+
+def test_start_labels_only_when_gap_and_placed_at_start() -> None:
+    """
+    ========================================================================
+     Line-id tags are decided at the MIDDLE k (=100) and drawn at
+     the line's left START (k=10): the topmost line is always
+     tagged; a lower line only when it sits >=1.1x below the line
+     immediately above it at the middle k.
+    ========================================================================
+    """
+    used = [{'tag': 'a', 'label': 'depth=0'},
+            {'tag': 'b', 'label': 'depth=1'},
+            {'tag': 'c', 'label': 'depth=2'}]
+    series = {
+        'a': {10: 30.0, 100: 300.0, 200: 600.0},
+        'b': {10: 29.0, 100: 290.0, 200: 580.0},
+        'c': {10: 20.0, 100: 200.0, 200: 400.0},
+    }
+    rows = [{'config': tag, 'm': k, 'cnt_expanded': v}
+            for tag, kv in series.items() for k, v in kv.items()]
+    per_kc = pd.DataFrame(rows)
+
+    out = R._start_labels(per_kc, 'cnt_expanded', used, is_log=False)
+    # d=0 top -> tagged; d=2 is 290/200 = 1.45x below its neighbour
+    # -> tagged; d=1 is only 300/290 = 1.03x below d=0 -> not.
+    assert 'd=0' in out
+    assert 'd=2' in out
+    assert 'd=1' not in out
+    # Tags sit at the LEFT start (k=10) at each line's start value,
+    # never at the middle/right k.
+    assert r'(axis cs:10,30)' in out
+    assert r'(axis cs:10,20)' in out
+    assert r'(axis cs:100,' not in out
+
+
+def test_start_labels_merge_coincident_into_one_tag() -> None:
+    """
+    ========================================================================
+     Coincident configs share one curve, so they carry one combined
+     start tag (e.g. d=0/1), not one per config.
+    ========================================================================
+    """
+    used = [{'tag': 'a', 'label': 'depth=0'},
+            {'tag': 'b', 'label': 'depth=1'},
+            {'tag': 'c', 'label': 'depth=2'}]
+    series = {
+        'a': {10: 30.0, 100: 300.0, 200: 600.0},
+        'b': {10: 30.0, 100: 300.0, 200: 600.0},
+        'c': {10: 20.0, 100: 200.0, 200: 400.0},
+    }
+    rows = [{'config': tag, 'm': k, 'cnt_expanded': v}
+            for tag, kv in series.items() for k, v in kv.items()]
+    per_kc = pd.DataFrame(rows)
+
+    out = R._start_labels(per_kc, 'cnt_expanded', used, is_log=False)
+    assert 'd=0/1' in out
+    assert 'd=2' in out

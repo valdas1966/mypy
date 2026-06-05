@@ -6,6 +6,7 @@ from f_gui.elements.i_2_window.main import Window
 from f_gui.elements.i_1_container.main import Container
 from f_gui.elements.i_1_label.main import Label
 from f_ds.geometry.bounds import Bounds
+from f_color.rgb import RGB
 
 
 def test_element_label_has_text() -> None:
@@ -27,6 +28,27 @@ def test_element_label_escapes_text() -> None:
     html = RenderHtml.element(elem=Label(text='<script>'))
     assert '<script>' not in html
     assert '&lt;script&gt;' in html
+
+
+def test_element_background_renders_hex() -> None:
+    """
+    ========================================================================
+     Test that a set background renders as a CSS hex color.
+    ========================================================================
+    """
+    html = RenderHtml.element(elem=Label(text='Hi',
+                                         background=RGB(name='steelblue')))
+    assert 'background:#4682B4' in html
+
+
+def test_element_no_background_by_default() -> None:
+    """
+    ========================================================================
+     Test that no background CSS is emitted when none is set.
+    ========================================================================
+    """
+    html = RenderHtml.element(elem=Label(text='Hi'))
+    assert 'background:' not in html
 
 
 def test_element_uses_percent_bounds() -> None:

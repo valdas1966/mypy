@@ -1,5 +1,5 @@
 from f_gui.elements.i_1_container.main import Container
-from f_gui.elements.i_0_element.main import Element
+from f_gui.elements.i_1_label.main import Label
 from f_ds.geometry.bounds import Bounds
 
 
@@ -28,7 +28,7 @@ def test_add() -> None:
     ========================================================================
     """
     container = Container.Factory.full()
-    child = Element(bounds=Bounds(top=10, left=10, bottom=50, right=50))
+    child = Label(bounds=Bounds(top=10, left=10, bottom=50, right=50))
     container.add_child(child=child)
     assert len(container.children) == 1
     assert container.children[0] is child
@@ -41,7 +41,7 @@ def test_add_sets_parent() -> None:
     ========================================================================
     """
     container = Container.Factory.full()
-    child = Element(bounds=Bounds(top=10, left=10, bottom=50, right=50))
+    child = Label(bounds=Bounds(top=10, left=10, bottom=50, right=50))
     container.add_child(child=child)
     assert child.parent is container
 
@@ -53,8 +53,8 @@ def test_add_multiple() -> None:
     ========================================================================
     """
     container = Container.Factory.full()
-    a = Element(bounds=Bounds(top=0, left=0, bottom=50, right=50))
-    b = Element(bounds=Bounds(top=50, left=50, bottom=100, right=100))
+    a = Label(bounds=Bounds(top=0, left=0, bottom=50, right=50))
+    b = Label(bounds=Bounds(top=50, left=50, bottom=100, right=100))
     container.add_child(child=a)
     container.add_child(child=b)
     assert len(container.children) == 2
@@ -67,7 +67,7 @@ def test_remove_child() -> None:
     ========================================================================
     """
     container = Container.Factory.full()
-    child = Element(bounds=Bounds(top=0, left=0, bottom=10, right=10))
+    child = Label(bounds=Bounds(top=0, left=0, bottom=10, right=10))
     container.add_child(child=child)
     container.remove_child(child=child)
     assert container.children == []
@@ -83,7 +83,7 @@ def test_reparent() -> None:
     """
     old = Container.Factory.full()
     new = Container.Factory.full()
-    child = Element(bounds=Bounds(top=0, left=0, bottom=10, right=10))
+    child = Label(bounds=Bounds(top=0, left=0, bottom=10, right=10))
     old.add_child(child=child)
     new.add_child(child=child)
     assert child.parent is new
@@ -98,7 +98,7 @@ def test_add_same_parent_is_noop() -> None:
     ========================================================================
     """
     container = Container.Factory.full()
-    child = Element(bounds=Bounds(top=0, left=0, bottom=10, right=10))
+    child = Label(bounds=Bounds(top=0, left=0, bottom=10, right=10))
     container.add_child(child=child)
     container.add_child(child=child)
     assert container.children == [child]

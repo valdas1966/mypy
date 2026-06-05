@@ -1,4 +1,11 @@
+from typing import TYPE_CHECKING
+
 from f_core.imports import ULazy
+
+if TYPE_CHECKING:
+    from f_hs.frontier.i_0_base import FrontierBase
+    from f_hs.frontier.i_1_fifo import FrontierFIFO
+    from f_hs.frontier.i_1_priority import FrontierPriority
 
 ULazy.install(globals(), {
     'FrontierBase': 'f_hs.frontier.i_0_base:FrontierBase',

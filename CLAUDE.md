@@ -474,22 +474,27 @@ body.
 
 ## Import Conventions
 
-### Direct Imports (Preferred)
-Always import from the **specific module**, not from aggregator packages:
-```python
-# GOOD — direct import, no cascade risk
-from f_google.services.drive import Drive
-from f_core.mixins.comparable import Comparable
-from f_search.algos.i_1_spp.i_1_astar import AStar
+### Aggregator vs Direct Imports — both first-class
+Either form is fine; pick by ergonomics. They are equivalent in safety
+and speed because aggregators are **lazy** (`ULazy`): `from f_pkg import X`
+loads only `X`'s module on access, not its siblings — so it is just as
+cascade-immune as a direct import (importing `Drive` won't fail if
+`vertexai` for `Gemini` is broken).
 
-# AVOID — triggers lazy loading through aggregator __init__.py
-from f_google import Drive
+```python
+# Aggregator — ergonomic, groups related names
+from f_gui.elements import Window, Container, Label
 from f_core.mixins import Comparable
-from f_search.algos.i_1_spp import AStar
+
+# Direct — addresses one leaf module explicitly
+from f_google.services.drive import Drive
+from f_search.algos.i_1_spp.i_1_astar import AStar
 ```
-Both forms work, but direct imports are faster and immune to
-dependency failures in sibling packages (e.g., importing `Drive`
-won't fail if `vertexai` for `Gemini` is broken).
+
+**Requirement for aggregators:** the package's `__init__.py` MUST carry
+the `TYPE_CHECKING` mirror block (see below) so the aggregator form
+resolves in IDEs / mypy (no "unresolved reference", real autocomplete).
+All `ULazy` aggregators in the repo now have it.
 
 ### Import Order (PEP 8)
 1. Standard library (`os`, `typing`, `abc`, `collections`)
@@ -510,28 +515,29 @@ from f_class._factory import Factory
 MyClass.Factory = Factory
 ```
 
-**Aggregator packages** — lazy re-exports (PEP 562 `__getattr__`):
+**Aggregator packages** — lazy re-exports via `ULazy` + a
+`TYPE_CHECKING` mirror block. `ULazy.install` wires the runtime
+`__getattr__`/`__all__`/`__dir__`; the `if TYPE_CHECKING:` block (False
+at runtime, so laziness is untouched; True for analyzers) makes the
+names statically resolvable. Mirror each `module:attr` spec exactly.
 ```python
-__all__ = ['ClassA', 'ClassB']
+from typing import TYPE_CHECKING
 
+from f_core.imports import ULazy
 
-def __getattr__(name: str):
-    _lazy = {
-        'ClassA': 'f_pkg.sub_a',
-        'ClassB': 'f_pkg.sub_b',
-    }
-    if name in _lazy:
-        from importlib import import_module
-        mod = import_module(_lazy[name])
-        val = getattr(mod, name)
-        globals()[name] = val
-        return val
-    raise AttributeError(
-        f"module {__name__!r} has no attribute {name!r}"
-    )
+if TYPE_CHECKING:                        # analyzers only — never runs
+    from f_pkg.sub_a import ClassA
+    from f_pkg.sub_b import ClassB
+
+ULazy.install(globals(), {
+    'ClassA': 'f_pkg.sub_a:ClassA',
+    'ClassB': 'f_pkg.sub_b:ClassB',
+})
 ```
 Lazy aggregators prevent cascade failures: importing one class
-won't trigger loading all sibling packages.
+won't trigger loading all sibling packages. See
+`f_core/imports/CLAUDE.md` for `ULazy` spec forms (symbol / module /
+relative).
 
 Never put business logic in `__init__.py`.
 

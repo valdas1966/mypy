@@ -1,0 +1,281 @@
+\section{Experimental Results --- BPMX Rule 3 depth ladder}
+
+\subsection{Mean |Expanded Nodes| per k.}
+\begin{figure}[H]
+\centering
+\includegraphics{fig_rule3_cnt_expanded}
+\caption{Line chart.}
+\end{figure}
+
+
+\begin{table}[H]
+\centering
+\caption{Data results.}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{depth} & \textbf{$k{=}10$} & \textbf{$k{=}50$} & \textbf{$k{=}100$} & \textbf{$k{=}150$} & \textbf{$k{=}200$} \\
+\midrule
+  depth=0 & \cellcolor[HTML]{F8696B}113,538 & \cellcolor[HTML]{F8696B}217,159 & \cellcolor[HTML]{F8696B}257,358 & \cellcolor[HTML]{F8696B}274,123 & \cellcolor[HTML]{F8696B}285,235 \\
+  depth=1 & \cellcolor[HTML]{F8696B}113,538 & \cellcolor[HTML]{F8696B}217,159 & \cellcolor[HTML]{F8696B}257,358 & \cellcolor[HTML]{F8696B}274,123 & \cellcolor[HTML]{F8696B}285,235 \\
+  depth=2 & \cellcolor[HTML]{B1D47F}83,424 & \cellcolor[HTML]{BED880}133,219 & \cellcolor[HTML]{C1D980}154,868 & \cellcolor[HTML]{C3DA81}165,654 & \cellcolor[HTML]{C1D980}169,714 \\
+  depth=3 & \cellcolor[HTML]{8BC97D}78,513 & \cellcolor[HTML]{7BC57C}107,481 & \cellcolor[HTML]{81C77D}124,816 & \cellcolor[HTML]{82C77D}133,089 & \cellcolor[HTML]{83C77D}136,695 \\
+  depth=4 & \cellcolor[HTML]{86C87D}77,979 & \cellcolor[HTML]{77C47C}105,938 & \cellcolor[HTML]{75C37C}118,812 & \cellcolor[HTML]{74C37C}125,990 & \cellcolor[HTML]{74C37C}128,423 \\
+  depth=5 & \cellcolor[HTML]{63BE7B}73,415 & \cellcolor[HTML]{63BE7B}98,486 & \cellcolor[HTML]{63BE7B}110,512 & \cellcolor[HTML]{63BE7B}117,490 & \cellcolor[HTML]{63BE7B}119,567 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{insights}
+\begin{sentences}
+\item Inner-A* node expansions, summed across the $k$ sub-searches.
+\end{sentences}
+\end{insights}
+
+
+\subsection{Mean |BPMX Attempts| per k.}
+\begin{figure}[H]
+\centering
+\includegraphics{fig_rule3_cnt_bpmx_attempts}
+\caption{Line chart.}
+\end{figure}
+
+
+\begin{table}[H]
+\centering
+\caption{Data results.}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{depth} & \textbf{$k{=}10$} & \textbf{$k{=}50$} & \textbf{$k{=}100$} & \textbf{$k{=}150$} & \textbf{$k{=}200$} \\
+\midrule
+  depth=0 & \cellcolor[HTML]{63BE7B}0 & \cellcolor[HTML]{63BE7B}0 & \cellcolor[HTML]{63BE7B}0 & \cellcolor[HTML]{63BE7B}0 & \cellcolor[HTML]{63BE7B}0 \\
+  depth=1 & \cellcolor[HTML]{F8696B}113,538 & \cellcolor[HTML]{F8696B}217,159 & \cellcolor[HTML]{F8696B}257,358 & \cellcolor[HTML]{F8696B}274,123 & \cellcolor[HTML]{F8696B}285,235 \\
+  depth=2 & \cellcolor[HTML]{FCAE78}83,424 & \cellcolor[HTML]{FDCE7E}133,219 & \cellcolor[HTML]{FED17F}154,868 & \cellcolor[HTML]{FED07F}165,654 & \cellcolor[HTML]{FED27F}169,714 \\
+  depth=3 & \cellcolor[HTML]{FCB97A}78,513 & \cellcolor[HTML]{FDEB84}107,481 & \cellcolor[HTML]{FAEA84}124,816 & \cellcolor[HTML]{FAEA84}133,089 & \cellcolor[HTML]{F9E984}136,695 \\
+  depth=4 & \cellcolor[HTML]{FCBA7B}77,979 & \cellcolor[HTML]{FBEA84}105,938 & \cellcolor[HTML]{F3E883}118,812 & \cellcolor[HTML]{F2E783}125,990 & \cellcolor[HTML]{EFE783}128,423 \\
+  depth=5 & \cellcolor[HTML]{FDC57D}73,415 & \cellcolor[HTML]{F0E783}98,486 & \cellcolor[HTML]{E9E583}110,512 & \cellcolor[HTML]{E9E583}117,490 & \cellcolor[HTML]{E6E483}119,567 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{insights}
+\begin{sentences}
+\item BPMX sweeps launched -- one per inner-A* expansion.
+\end{sentences}
+\end{insights}
+
+
+\subsection{Mean |BPMX Lifts| per k.}
+\begin{figure}[H]
+\centering
+\includegraphics{fig_rule3_cnt_bpmx_lifts}
+\caption{Line chart.}
+\end{figure}
+
+
+\begin{table}[H]
+\centering
+\caption{Data results.}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{depth} & \textbf{$k{=}10$} & \textbf{$k{=}50$} & \textbf{$k{=}100$} & \textbf{$k{=}150$} & \textbf{$k{=}200$} \\
+\midrule
+  depth=0 & \cellcolor[HTML]{63BE7B}0 & \cellcolor[HTML]{63BE7B}0 & \cellcolor[HTML]{63BE7B}0 & \cellcolor[HTML]{63BE7B}0 & \cellcolor[HTML]{63BE7B}0 \\
+  depth=1 & \cellcolor[HTML]{F8696B}65,573 & \cellcolor[HTML]{F8696B}158,693 & \cellcolor[HTML]{F8696B}193,743 & \cellcolor[HTML]{F8696B}208,612 & \cellcolor[HTML]{F8696B}218,596 \\
+  depth=2 & \cellcolor[HTML]{FDC47C}42,740 & \cellcolor[HTML]{FEDB81}89,362 & \cellcolor[HTML]{FED880}110,925 & \cellcolor[HTML]{FED580}121,802 & \cellcolor[HTML]{FED780}126,214 \\
+  depth=3 & \cellcolor[HTML]{FDC47D}42,500 & \cellcolor[HTML]{F1E783}72,323 & \cellcolor[HTML]{F6E883}91,001 & \cellcolor[HTML]{F8E984}99,892 & \cellcolor[HTML]{F8E984}104,079 \\
+  depth=4 & \cellcolor[HTML]{FDC37C}42,759 & \cellcolor[HTML]{F1E783}72,320 & \cellcolor[HTML]{EFE683}87,108 & \cellcolor[HTML]{F2E783}95,435 & \cellcolor[HTML]{EFE683}98,301 \\
+  depth=5 & \cellcolor[HTML]{FDCE7E}40,150 & \cellcolor[HTML]{EAE583}68,829 & \cellcolor[HTML]{E9E583}82,975 & \cellcolor[HTML]{ECE583}91,378 & \cellcolor[HTML]{E9E583}94,063 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{insights}
+\begin{sentences}
+\item BPMX lifts that raised an $h$-value, summed across the $k$ sub-searches.
+\end{sentences}
+\end{insights}
+
+
+\subsection{Mean \%(BPMX Lifts / Attempts) per k.}
+\begin{figure}[H]
+\centering
+\includegraphics{fig_rule3_pct_bpmx_lifts}
+\caption{Line chart.}
+\end{figure}
+
+
+\begin{table}[H]
+\centering
+\caption{Data results.}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{depth} & \textbf{$k{=}10$} & \textbf{$k{=}50$} & \textbf{$k{=}100$} & \textbf{$k{=}150$} & \textbf{$k{=}200$} \\
+\midrule
+  depth=0 & \cellcolor[HTML]{63BE7B}0\% & \cellcolor[HTML]{63BE7B}0\% & \cellcolor[HTML]{63BE7B}0\% & \cellcolor[HTML]{63BE7B}0\% & \cellcolor[HTML]{63BE7B}0\% \\
+  depth=1 & \cellcolor[HTML]{FA8F72}25.80\% & \cellcolor[HTML]{FB9A74}35.39\% & \cellcolor[HTML]{FB9C75}38.59\% & \cellcolor[HTML]{FB9E75}40.32\% & \cellcolor[HTML]{FBA076}41.13\% \\
+  depth=2 & \cellcolor[HTML]{FA8971}26.51\% & \cellcolor[HTML]{FB9974}35.53\% & \cellcolor[HTML]{FB9A74}38.88\% & \cellcolor[HTML]{FB9B75}40.82\% & \cellcolor[HTML]{FB9A74}42.31\% \\
+  depth=3 & \cellcolor[HTML]{F97E6F}27.80\% & \cellcolor[HTML]{F98470}39.06\% & \cellcolor[HTML]{F98370}43.26\% & \cellcolor[HTML]{F98370}45.51\% & \cellcolor[HTML]{F98270}47.13\% \\
+  depth=4 & \cellcolor[HTML]{F97F6F}27.69\% & \cellcolor[HTML]{F98370}39.24\% & \cellcolor[HTML]{F97F6F}43.84\% & \cellcolor[HTML]{F97E6F}46.50\% & \cellcolor[HTML]{F97D6F}48.12\% \\
+  depth=5 & \cellcolor[HTML]{F8696B}30.19\% & \cellcolor[HTML]{F8696B}43.64\% & \cellcolor[HTML]{F8696B}47.97\% & \cellcolor[HTML]{F8696B}50.64\% & \cellcolor[HTML]{F8696B}52.18\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{insights}
+\begin{sentences}
+\item BPMX hit-rate per attempt (lifts / attempts).
+\end{sentences}
+\end{insights}
+
+
+\subsection{\texttt{mem\_open}}
+\begin{figure}[H]
+\centering
+\includegraphics{fig_rule3_mem_open}
+\caption{Line chart.}
+\end{figure}
+
+
+\begin{table}[H]
+\centering
+\caption{Data results.}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{depth} & \textbf{$k{=}10$} & \textbf{$k{=}50$} & \textbf{$k{=}100$} & \textbf{$k{=}150$} & \textbf{$k{=}200$} \\
+\midrule
+  depth=0 & \cellcolor[HTML]{63BE7B}160,063 & \cellcolor[HTML]{63BE7B}164,506 & \cellcolor[HTML]{63BE7B}165,856 & \cellcolor[HTML]{63BE7B}165,856 & \cellcolor[HTML]{63BE7B}165,856 \\
+  depth=1 & \cellcolor[HTML]{63BE7B}160,063 & \cellcolor[HTML]{63BE7B}164,506 & \cellcolor[HTML]{63BE7B}165,856 & \cellcolor[HTML]{63BE7B}165,856 & \cellcolor[HTML]{63BE7B}165,856 \\
+  depth=2 & \cellcolor[HTML]{FCAB78}275,278 & \cellcolor[HTML]{F8696B}355,983 & \cellcolor[HTML]{F8696B}372,861 & \cellcolor[HTML]{F8696B}377,292 & \cellcolor[HTML]{F8696B}377,292 \\
+  depth=3 & \cellcolor[HTML]{F8696B}314,175 & \cellcolor[HTML]{F9746D}348,184 & \cellcolor[HTML]{F9756D}363,197 & \cellcolor[HTML]{F8716D}370,630 & \cellcolor[HTML]{F8716D}370,630 \\
+  depth=4 & \cellcolor[HTML]{FCAD78}273,854 & \cellcolor[HTML]{FCB97A}297,091 & \cellcolor[HTML]{FDC47D}300,069 & \cellcolor[HTML]{FCB479}316,622 & \cellcolor[HTML]{FCB479}316,622 \\
+  depth=5 & \cellcolor[HTML]{FCB179}271,305 & \cellcolor[HTML]{FDBF7C}292,777 & \cellcolor[HTML]{FDCB7E}294,701 & \cellcolor[HTML]{FDCA7E}298,338 & \cellcolor[HTML]{FDCA7E}298,338 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{insights}
+\begin{sentences}
+\item Per-sub-search peak OPEN size (bytes), aggregated across the $k$ sub-searches.
+\end{sentences}
+\end{insights}
+
+
+\subsection{\texttt{mem\_closed}}
+\begin{figure}[H]
+\centering
+\includegraphics{fig_rule3_mem_closed}
+\caption{Line chart.}
+\end{figure}
+
+
+\begin{table}[H]
+\centering
+\caption{Data results.}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{depth} & \textbf{$k{=}10$} & \textbf{$k{=}50$} & \textbf{$k{=}100$} & \textbf{$k{=}150$} & \textbf{$k{=}200$} \\
+\midrule
+  depth=0 & 5,571,775 & \cellcolor[HTML]{F8696B}5,572,168 & \cellcolor[HTML]{F8696B}5,572,474 & \cellcolor[HTML]{F8696B}5,572,474 & \cellcolor[HTML]{F8696B}5,572,474 \\
+  depth=1 & 5,571,775 & \cellcolor[HTML]{F8696B}5,572,168 & \cellcolor[HTML]{F8696B}5,572,474 & \cellcolor[HTML]{F8696B}5,572,474 & \cellcolor[HTML]{F8696B}5,572,474 \\
+  depth=2 & 5,571,775 & \cellcolor[HTML]{FCB67A}5,572,165 & \cellcolor[HTML]{FCB67A}5,572,470 & \cellcolor[HTML]{FCB67A}5,572,470 & \cellcolor[HTML]{FCB67A}5,572,470 \\
+  depth=3 & 5,571,775 & \cellcolor[HTML]{63BE7B}5,572,157 & \cellcolor[HTML]{63BE7B}5,572,463 & \cellcolor[HTML]{63BE7B}5,572,463 & \cellcolor[HTML]{63BE7B}5,572,463 \\
+  depth=4 & 5,571,775 & \cellcolor[HTML]{63BE7B}5,572,157 & \cellcolor[HTML]{63BE7B}5,572,463 & \cellcolor[HTML]{63BE7B}5,572,463 & \cellcolor[HTML]{63BE7B}5,572,463 \\
+  depth=5 & 5,571,775 & \cellcolor[HTML]{63BE7B}5,572,157 & \cellcolor[HTML]{63BE7B}5,572,463 & \cellcolor[HTML]{63BE7B}5,572,463 & \cellcolor[HTML]{63BE7B}5,572,463 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{insights}
+\begin{sentences}
+\item Per-sub-search peak CLOSED size (bytes), aggregated across the $k$ sub-searches.
+\end{sentences}
+\end{insights}
+
+
+\subsection{\texttt{mem\_total}}
+\begin{figure}[H]
+\centering
+\includegraphics{fig_rule3_mem_total}
+\caption{Line chart.}
+\end{figure}
+
+
+\begin{table}[H]
+\centering
+\caption{Data results.}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{depth} & \textbf{$k{=}10$} & \textbf{$k{=}50$} & \textbf{$k{=}100$} & \textbf{$k{=}150$} & \textbf{$k{=}200$} \\
+\midrule
+  depth=0 & \cellcolor[HTML]{63BE7B}5,866,594 & \cellcolor[HTML]{63BE7B}5,936,732 & \cellcolor[HTML]{63BE7B}5,962,686 & \cellcolor[HTML]{63BE7B}5,970,732 & \cellcolor[HTML]{63BE7B}5,989,624 \\
+  depth=1 & \cellcolor[HTML]{63BE7B}5,866,594 & \cellcolor[HTML]{63BE7B}5,936,732 & \cellcolor[HTML]{63BE7B}5,962,686 & \cellcolor[HTML]{63BE7B}5,970,732 & \cellcolor[HTML]{63BE7B}5,989,624 \\
+  depth=2 & \cellcolor[HTML]{FBAA77}5,976,218 & \cellcolor[HTML]{F8696B}6,110,016 & \cellcolor[HTML]{F8696B}6,144,695 & \cellcolor[HTML]{F8696B}6,164,465 & \cellcolor[HTML]{F8696B}6,169,727 \\
+  depth=3 & \cellcolor[HTML]{F8696B}6,012,558 & \cellcolor[HTML]{F9786E}6,099,747 & \cellcolor[HTML]{F97F6F}6,129,243 & \cellcolor[HTML]{F9776E}6,153,712 & \cellcolor[HTML]{F9796E}6,158,375 \\
+  depth=4 & \cellcolor[HTML]{FCB379}5,971,024 & \cellcolor[HTML]{FDC87D}6,046,428 & \cellcolor[HTML]{FED880}6,066,734 & \cellcolor[HTML]{FDC37C}6,097,426 & \cellcolor[HTML]{FDCB7E}6,102,150 \\
+  depth=5 & \cellcolor[HTML]{FCB97A}5,967,439 & \cellcolor[HTML]{FED37F}6,039,493 & \cellcolor[HTML]{FFE382}6,059,546 & \cellcolor[HTML]{FEDE81}6,077,532 & \cellcolor[HTML]{FFE783}6,082,402 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{insights}
+\begin{sentences}
+\item Sum of every memory region per sub-search.
+\end{sentences}
+\end{insights}
+
+
+\subsection{Mean Runtime (in seconds) per k}
+\begin{figure}[H]
+\centering
+\includegraphics{fig_rule3_elapsed_total}
+\caption{Line chart.}
+\end{figure}
+
+
+\begin{table}[H]
+\centering
+\caption{Data results.}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{depth} & \textbf{$k{=}10$} & \textbf{$k{=}50$} & \textbf{$k{=}100$} & \textbf{$k{=}150$} & \textbf{$k{=}200$} \\
+\midrule
+  depth=0 & \cellcolor[HTML]{63BE7B}6.83 & \cellcolor[HTML]{63BE7B}11.75 & \cellcolor[HTML]{63BE7B}13.62 & \cellcolor[HTML]{63BE7B}14.44 & \cellcolor[HTML]{63BE7B}14.99 \\
+  depth=1 & \cellcolor[HTML]{7BC57C}12.09 & \cellcolor[HTML]{83C77D}20.74 & \cellcolor[HTML]{85C87D}24.02 & \cellcolor[HTML]{85C87D}25.41 & \cellcolor[HTML]{86C87D}26.34 \\
+  depth=2 & \cellcolor[HTML]{9BCE7E}19.20 & \cellcolor[HTML]{A0CF7E}28.67 & \cellcolor[HTML]{A1D07F}32.62 & \cellcolor[HTML]{A2D07F}34.66 & \cellcolor[HTML]{A2D07F}35.51 \\
+  depth=3 & \cellcolor[HTML]{E1E282}34.72 & \cellcolor[HTML]{DEE182}46.03 & \cellcolor[HTML]{E1E282}51.97 & \cellcolor[HTML]{E1E282}54.91 & \cellcolor[HTML]{E2E382}56.32 \\
+  depth=4 & \cellcolor[HTML]{FCB379}56.30 & \cellcolor[HTML]{FCB379}74.08 & \cellcolor[HTML]{FCB479}81.44 & \cellcolor[HTML]{FCB57A}85.46 & \cellcolor[HTML]{FCB479}87.06 \\
+  depth=5 & \cellcolor[HTML]{F8696B}75.81 & \cellcolor[HTML]{F8696B}98.87 & \cellcolor[HTML]{F8696B}108.72 & \cellcolor[HTML]{F8696B}114.54 & \cellcolor[HTML]{F8696B}116.47 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{insights}
+\begin{sentences}
+\item Total wall-clock seconds, cumulative across the $k$ sub-searches.
+\end{sentences}
+\end{insights}
+

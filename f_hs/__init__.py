@@ -1,4 +1,31 @@
+from typing import TYPE_CHECKING
+
 from f_core.imports import ULazy
+
+if TYPE_CHECKING:
+    from f_hs.state import StateBase
+    from f_hs.state import StateCell
+    from f_hs.problem import ProblemSPP
+    from f_hs.problem import ProblemGrid
+    from f_hs.solution import SolutionSPP
+    from f_hs.solution import SolutionOMSPP
+    from f_hs.solution import SolutionMOSPP
+    from f_hs.solution import SolutionPerKey
+    from f_hs.algo import AlgoSPP
+    from f_hs.algo import BFS
+    from f_hs.algo import AStar
+    from f_hs.algo import AStarLookup
+    from f_hs.algo import AStarBPMX
+    from f_hs.algo import Dijkstra
+    from f_hs.algo.i_1_omspp import KAStarInc
+    from f_hs.algo.i_1_omspp import KAStarAgg
+    from f_hs.algo.i_1_omspp import KBFS
+    from f_hs.algo.i_1_omspp import KDijkstra
+    from f_hs.heuristic import HBase
+    from f_hs.heuristic import HCallable
+    from f_hs.heuristic import HCached
+    from f_hs.heuristic import HBounded
+    from f_hs.heuristic import CacheEntry
 
 ULazy.install(globals(), {
     'StateBase': 'f_hs.state:StateBase',

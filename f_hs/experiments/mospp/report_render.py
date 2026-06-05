@@ -14,6 +14,7 @@ import pandas as pd
 from f_hs.experiments.mospp.report_spec import (
     CONFIGS, K_TABLE, COUNTER_GROUPS, _EXCLUDED_COUNTERS,
     _COUNTER_INFO, _DEFAULT_CAPTION_BODY, _CAPTION_INSIGHT,
+    _TITLES, _INSIGHT_ITEMS, _COUNTER_NEUTRAL,
     _HEAT_GREEN, _HEAT_YELLOW, _HEAT_RED, _ANNOT_K,
     TOY_CACHED_CELL, TOY_START, TOY_GOAL, TOY_GRID_ROWS,
     TOY_GRID_COLS,
@@ -479,11 +480,11 @@ def _diff_annotations(per_kc: pd.DataFrame,
      Visible lines are the coincident GROUPS (so merged curves
      count once). Each span is labelled with the ratio of the
      higher line to the second as an $N\\times$ multiplier (e.g.
-     $1.77\\times$) -- and the highest line is tagged with
-     its short id (e.g. \\texttt{d=0}). Skips a $k$ when fewer
-     than two groups have data, when the top two coincide (no
-     visible gap), or when a log axis would need a non-positive
-     endpoint.
+     $1.77\\times$). The line-id tags now live at each line's
+     left start (see `_start_labels`), not on these spans. Skips
+     a $k$ when fewer than two groups have data, when the top two
+     coincide (no visible gap), or when a log axis would need a
+     non-positive endpoint.
     ========================================================================
     """
     groups = _coincident_groups(per_kc, metric, used)
@@ -499,7 +500,7 @@ def _diff_annotations(per_kc: pd.DataFrame,
         if len(gv) < 2:
             continue
         gv.sort(key=lambda t: t[0], reverse=True)
-        top_val, top_g = gv[0]
+        top_val = gv[0][0]
         second_val = gv[1][0]
         if top_val - second_val <= 1e-9 * max(abs(top_val), 1.0):
             continue
@@ -513,14 +514,12 @@ def _diff_annotations(per_kc: pd.DataFrame,
             diff_txt = rf'{top_val / second_val:.2f}$\times$'
         else:
             diff_txt = fmt_value(metric, top_val - second_val)
-        d_label = _group_label(top_g, used).replace('depth=', 'd=')
         if is_log:
             mid = (top_val * second_val) ** 0.5
         else:
             mid = (top_val + second_val) / 2.0
         side = 'west' if k < k_right else 'east'
         xsh = '2pt' if side == 'west' else '-2pt'
-        d_anchor = 'south' if k < k_right else 'south east'
         out.append(
             rf'\draw[dotted, thick, |-|] '
             rf'(axis cs:{k},{second_val:.6g}) -- '
@@ -529,10 +528,82 @@ def _diff_annotations(per_kc: pd.DataFrame,
             rf'\node[anchor={side}, font=\scriptsize, fill=white, '
             rf'fill opacity=0.85, text opacity=1, inner sep=1pt, '
             rf'xshift={xsh}] at (axis cs:{k},{mid:.6g}) {{{diff_txt}}};')
+    return '\n'.join(out)
+
+
+def _start_labels(per_kc: pd.DataFrame,
+                  metric: str,
+                  used: list[dict],
+                  is_log: bool) -> str:
+    """
+    ========================================================================
+     Inline line-id tags (e.g. \\texttt{d=0}) drawn ONCE at the
+     left start of each visible line -- replacing the per-$k$ tags
+     that used to sit on the gap spans at $k=100/200$.
+
+     Which lines get a tag is decided at the MIDDLE $k$ (the median
+     of the k-grid -- $k=100$ here), where the lines are spread
+     enough to rank but not yet maximally fanned out: the topmost
+     line is always tagged; every lower line is tagged only when it
+     sits at least $1.1\\times$ below the line IMMEDIATELY above it
+     at that middle $k$, so a cluster of near-coincident neighbours
+     collapses to a single tag and the start margin stays readable.
+     The tag is then placed just above the line's leftmost point;
+     lines left untagged remain identifiable via the legend.
+
+     Visible lines are the coincident GROUPS, so a merged curve
+     (e.g. \\texttt{d=0/1}) carries one combined tag.
+    ========================================================================
+    """
+    groups = _coincident_groups(per_kc, metric, used)
+    ks = sorted(int(k) for k in per_kc['m'].unique())
+    if not ks:
+        return ''
+    start_k = ks[0]
+    mid_k = ks[(len(ks) - 1) // 2]
+
+    def val_at(g: list[int], k: int) -> float | None:
+        mask = ((per_kc['config'] == used[g[0]]['tag'])
+                & (per_kc['m'] == k))
+        if not mask.any():
+            return None
+        return float(per_kc.loc[mask, metric].iloc[0])
+
+    # Rank visible groups top-to-bottom by their MIDDLE-k value.
+    ranked: list[tuple[float, list[int]]] = []
+    for g in groups:
+        v = val_at(g, mid_k)
+        if v is not None:
+            ranked.append((v, g))
+    if not ranked:
+        return ''
+    ranked.sort(key=lambda t: t[0], reverse=True)
+
+    # Greedy top-down keep: the top line always; a lower line only
+    # when its ratio to the line IMMEDIATELY above it is >= 1.1x.
+    keep: list[list[int]] = []
+    for i, (v, g) in enumerate(ranked):
+        if i == 0:
+            keep.append(g)
+            continue
+        v_above = ranked[i - 1][0]
+        if v > 0 and v_above / v >= 1.1:
+            keep.append(g)
+
+    out: list[str] = []
+    for g in keep:
+        y = val_at(g, start_k)
+        if y is None or (is_log and y <= 0):
+            continue
+        d_label = _group_label(g, used).replace('depth=', 'd=')
+        # Sit the tag a little ABOVE the line's start point
+        # (south-west anchor + upward yshift), so it clears the
+        # curve rather than overprinting it.
         out.append(
-            rf'\node[anchor={d_anchor}, font=\scriptsize\bfseries, '
-            rf'inner sep=1pt, yshift=2pt] '
-            rf'at (axis cs:{k},{top_val:.6g}) {{{d_label}}};')
+            rf'\node[anchor=south west, font=\scriptsize\bfseries, '
+            rf'fill=white, fill opacity=0.85, text opacity=1, '
+            rf'inner sep=1pt, xshift=2pt, yshift=2pt] '
+            rf'at (axis cs:{start_k},{y:.6g}) {{{d_label}}};')
     return '\n'.join(out)
 
 
@@ -630,50 +701,36 @@ def standalone_doc(body: str, color_defs: str = '') -> str:
 """
 
 
-def build_insight(metric: str,
-                  overall: pd.DataFrame,
-                  used: list[dict],
-                  k_max: int) -> str:
+def build_insight(metric: str, rule_key: str = 'rule1') -> str:
     """
     ========================================================================
-     Curated semantic description + auto-computed min/max
-     observation at $k=k_{\\max}$ (overall mean across all 25
-     maps). Skips the observation when the metric is
-     uniformly zero or all configs share a single value.
+     The curated Insights box for one counter in one rule
+     section: a numbered `sentences` list inside the lightblue
+     `insights` callout. Items come from
+     `_INSIGHT_ITEMS[rule_key][metric]`; a (rule, counter) with
+     no curated items falls back to the rule-agnostic
+     `_COUNTER_NEUTRAL` one-liner (e.g. rule_3 / cascade before
+     their data lands).
     ========================================================================
     """
-    desc = _COUNTER_INFO.get(metric, '')
-    pairs: list[tuple[str, float]] = []
-    for cfg in used:
-        mask = overall['config'] == cfg['tag']
-        if mask.any():
-            pairs.append(
-                (cfg['label'], float(overall.loc[mask, metric].iloc[0])))
-    if not pairs:
-        return desc
-    vmin = min(v for _, v in pairs)
-    vmax = max(v for _, v in pairs)
-    if vmax == 0 or vmin == vmax:
-        return desc
-    lab_min = next(lab for lab, v in pairs if v == vmin)
-    lab_max = next(lab for lab, v in pairs if v == vmax)
-    if vmin > 0:
-        ratio = vmax / vmin
-        obs = (rf'At $k={k_max}$, mean across all 25~maps: '
-               rf'min $= {fmt_value(metric, vmin)}$ ({lab_min}); '
-               rf'max $= {fmt_value(metric, vmax)}$ ({lab_max}); '
-               rf'spread $\approx {ratio:.2g}\times$.')
-    else:
-        obs = (rf'At $k={k_max}$, mean across all 25~maps: '
-               rf'max $= {fmt_value(metric, vmax)}$ ({lab_max}); '
-               rf'other configs at or near zero.')
-    sep = ' ' if desc else ''
-    return desc + sep + obs
+    items = _INSIGHT_ITEMS.get(rule_key, {}).get(metric)
+    if not items:
+        neutral = _COUNTER_NEUTRAL.get(metric, '')
+        items = [neutral] if neutral else []
+    if not items:
+        return ''
+    body = '\n'.join(rf'\item {it}' for it in items)
+    return ('\\begin{insights}\n'
+            '\\begin{sentences}\n'
+            f'{body}\n'
+            '\\end{sentences}\n'
+            '\\end{insights}')
 
 
 def build_single_figure(metric: str,
                         per_kc: pd.DataFrame,
-                        used: list[dict]) -> tuple[str, tuple[str, str]]:
+                        used: list[dict],
+                        rule_key: str = '') -> tuple[str, tuple[str, str]]:
     """
     ========================================================================
      Single-axis line chart for one counter: N config-colored
@@ -704,6 +761,7 @@ def build_single_figure(metric: str,
     addplots, legend_labels = panel_addplots(per_kc, metric, used)
     legend_entries = ', '.join(legend_labels)
     annotations = _diff_annotations(per_kc, metric, used, is_log)
+    start_labels = _start_labels(per_kc, metric, used, is_log)
     caption_body = _CAPTION_INSIGHT.get(metric, _DEFAULT_CAPTION_BODY)
     # NOTE: keep the axis-options block on contiguous lines
     # (no blank line allowed inside `\begin{axis}[...]` --
@@ -724,15 +782,15 @@ def build_single_figure(metric: str,
 {addplots}
 \legend{{{legend_entries}}}
 {annotations}
+{start_labels}
 \end{{axis}}
 \end{{tikzpicture}}"""
-    fig_name = f'fig_{metric}'
+    fig_name = f'fig_{rule_key}_{metric}' if rule_key else f'fig_{metric}'
     standalone = standalone_doc(tikz, color_definitions(used))
     figure = rf"""\begin{{figure}}[H]
 \centering
 \includegraphics{{{fig_name}}}
-\caption{{\textbf{{\texttt{{{tex_esc(metric)}}} --- mean vs.~$k$.}}\\
-{caption_body}}}
+\caption{{Line chart.}}
 \end{{figure}}
 """
     return figure, (fig_name, standalone)
@@ -740,10 +798,9 @@ def build_single_figure(metric: str,
 
 def render_counter(metric: str,
                    per_kc: pd.DataFrame,
-                   overall: pd.DataFrame,
                    used: list[dict],
                    k_values: list[int],
-                   k_max: int) -> tuple[str, tuple[str, str]]:
+                   rule_key: str = 'rule1') -> tuple[str, tuple[str, str]]:
     """
     ========================================================================
      Render one counter as a self-contained subsection:
@@ -753,18 +810,18 @@ def render_counter(metric: str,
      -- the externalized line chart travels alongside the prose.
     ========================================================================
     """
-    insight = build_insight(metric=metric, overall=overall,
-                            used=used, k_max=k_max)
+    insight = build_insight(metric=metric, rule_key=rule_key)
     fig, fig_art = build_single_figure(metric=metric, per_kc=per_kc,
-                                       used=used)
+                                       used=used, rule_key=rule_key)
     tab = build_table_for_metric(per_kc=per_kc, used=used,
                                  metric=metric, k_values=k_values)
-    sub = rf"""\subsection{{\texttt{{{tex_esc(metric)}}}}}
-{insight}
-
+    title = _TITLES.get(metric, rf'\texttt{{{tex_esc(metric)}}}')
+    sub = rf"""\subsection{{{title}}}
 {fig}
 
 {tab}
+
+{insight}
 """
     return sub, fig_art
 
@@ -819,9 +876,7 @@ def build_table_for_metric(per_kc: pd.DataFrame,
     align = 'l' + 'r' * (n_cols - 1)
     return rf"""\begin{{table}}[H]
 \centering
-\caption{{\textbf{{\texttt{{{tex_esc(metric)}}} --- mean across 25~maps
-at selected~$k$.}}\\Rows are BPMX cascade depths (depth=0 is the
-BPMX-off baseline); columns are $k$ snapshots.}}
+\caption{{Data results.}}
 \small
 \setlength{{\tabcolsep}}{{6pt}}
 \begin{{tabular}}{{{align}}}
@@ -837,108 +892,34 @@ BPMX-off baseline); columns are $k$ snapshots.}}
 
 # ── Section assembly ────────────────────────────────────────────────────────
 
-def build_section(df: pd.DataFrame,
-                  per_kc: pd.DataFrame,
-                  overall: pd.DataFrame,
+def build_section(per_kc: pd.DataFrame,
                   used: list[dict],
-                  metric_cols: list[str],
                   nontrivial: set[str],
-                  omitted_user: list[str],
                   k_values: list[int],
-                  k_max: int) -> tuple[str, list[tuple[str, str]]]:
-    depth_list = ', '.join(cfg['label'] for cfg in used)
-    color_defs = color_definitions(used)
-    setup = rf"""\section{{Experimental Results --- BPMX depth ladder}}
-
-{color_defs}
-
-\paragraph{{Setup.}} \texttt{{AStarIncMOSPP}} compared across
-{len(used)}~BPMX depths ({depth_list}). \textbf{{All BPMX-active
-configs use \texttt{{rule\_bpmx='1'}}; \texttt{{depth=0}} is the
-BPMX-off baseline (rule\_none), deeper $d$ = deeper cascade
-reach.}} Configs are referred to by depth alone in the
-legends and tables below. Shared params:
-\texttt{{depth\_prop=0}}, \texttt{{order\_starts='given'}},
-\texttt{{carry\_cache=True}}, \texttt{{adaptive\_h=False}}.
-Problem set: 500~OMSPP instances ($=$ 5~domains $\times$
-5~maps $\times$ 20~$k$-values $\in
-\{{10, 20, \ldots, 200\}}$, Moving~AI grids), flipped to
-MOSPP via \texttt{{ProblemSPP.flipped()}}. CSVs are
-nested-chain output: each row is the cumulative counter
-state after $k$ starts on its map. Each subsection below
-covers one counter: a short description and a min/max
-observation at $k={k_max}$, followed by its line chart
-and per-$k$ table.
-
-\paragraph{{Color \& line convention.}} Monotone blue gradient
-with perceptually-even steps so all six lines remain
-distinguishable even when they sit close together on a chart:
-\textbf{{\textcolor[HTML]{{6BAED6}}{{depth=0 (light blue)}}}}
-$=$ BPMX off,
-\textbf{{\textcolor[HTML]{{4292C6}}{{depth=1 (medium-light blue)}}}}
-$=$ BPMX on but inert on consistent $h$,
-\textbf{{\textcolor[HTML]{{2171B5}}{{depth=2 (medium blue)}}}}
-$=$ cascade fires,
-\textbf{{\textcolor[HTML]{{08519C}}{{depth=3 (dark blue)}}}}
-$=$ deeper cascade,
-\textbf{{\textcolor[HTML]{{08306B}}{{depth=4 (darkest canonical)}}}}
-$=$ near-saturation,
-\textbf{{\textcolor[HTML]{{041F4B}}{{depth=5 (very dark navy)}}}}
-$=$ gains saturated. Each step is strictly darker than the
-previous (Colorbrewer Blues9-5..9 plus a custom navy at the
-deepest rung), so the reader can rank depth at a glance.
-When two or more configs coincide exactly on a counter, their
-curves are merged into a single line that alternates 4\,pt
-segments of each config's color (e.g.~\texttt{{depth=0/1}}
-reads as a light-blue~--~medium-light-blue dashed band). The
-legend entry shows the merged label (\texttt{{depth=0/1}},
-\texttt{{depth=0/1/2/3/4/5}}, etc.) so the coincidence is
-visible without consulting the table.
-
-\paragraph{{Table shading.}} In every results table each cell is
-shaded by its value relative to the other cells in the same
-column: \textbf{{\textcolor[HTML]{{F8696B}}{{red}}}} $=$ largest,
-\textbf{{\textcolor[HTML]{{D9C24A}}{{yellow}}}} $=$ middle,
-\textbf{{\textcolor[HTML]{{63BE7B}}{{green}}}} $=$ smallest; a
-column whose values are all equal is left unshaded.
-
-\paragraph{{Chart annotations.}} In every line chart, dotted
-vertical spans at $k=100$ and $k=200$ mark the gap between the
-two highest lines at that $k$, labelled with their ratio as an
-$N\times$ multiplier (e.g.~$1.77\times$ means the top line is
-$1.77$ times the second). The short tag at the top of
-each span (e.g.~\texttt{{d=0}}) names the highest line.
-"""
-    omitted_zero = sorted(set(metric_cols)
-                          - nontrivial
-                          - set(omitted_user))
-    if omitted_zero:
-        setup += (rf"""
-\paragraph{{Omitted (uniformly zero across every config).}}
-""" + ', '.join(rf'\texttt{{{tex_esc(m)}}}' for m in omitted_zero)
-                  + '.\n')
-    if omitted_user:
-        setup += (rf"""
-\paragraph{{Omitted (excluded by author choice).}}
-""" + ', '.join(rf'\texttt{{{tex_esc(m)}}}' for m in omitted_user)
-                  + '.\n')
-
+                  rule_key: str,
+                  section_title: str
+                  ) -> tuple[str, list[tuple[str, str]]]:
+    """
+    ========================================================================
+     One report SECTION (a BPMX-rule depth ladder): a `\\section`
+     header (`Experimental Results --- {section_title}`) followed
+     directly by one per-counter subsection (figure + table +
+     Insights box). `rule_key` selects the rule-specific insight
+     text and prefixes the externalized figure names
+     (`fig_{rule_key}_{metric}`) so sections never collide.
+     Setup/convention paragraphs + the Toy + excluded counters
+     are all dropped.
+    ========================================================================
+    """
+    setup = rf'\section{{Experimental Results --- {section_title}}}'
     blocks = [setup]
     figures: list[tuple[str, str]] = []
-    # Toy example -- explains depth=0 == depth=1 vs. depth=2
-    # mechanism in miniature, before the macro per-counter
-    # comparison.
-    toy = run_toy_example()
-    toy_sub, toy_fig = build_toy_subsection(toy)
-    blocks.append(toy_sub)
-    figures.append(toy_fig)
     for _, metrics in COUNTER_GROUPS:
         for m in metrics:
             if m in nontrivial:
                 sub, fig = render_counter(
-                    metric=m, per_kc=per_kc,
-                    overall=overall, used=used,
-                    k_values=k_values, k_max=k_max)
+                    metric=m, per_kc=per_kc, used=used,
+                    k_values=k_values, rule_key=rule_key)
                 blocks.append(sub)
                 figures.append(fig)
     return '\n\n'.join(blocks), figures
@@ -972,17 +953,49 @@ def splice(tex: str, new_section: str) -> str:
             '\\begin{document}',
             me_block + '\n\\begin{document}',
             1)
-    # 3. Idempotent: strip the prior "Experimental Results"
-    #    section if present, then insert the new one before
-    #    \end{document}.
-    for marker in (
-            r'\section{Experimental Results --- BPMX depth ladder}',
-            r'\section{Experimental Results}'):
-        if marker in tex:
-            i = tex.index(marker)
-            j = tex.index('\\end{document}', i)
-            tex = tex[:i] + tex[j:]
-            break
+    # 2b. Insights callout box + its colors / list style, if the
+    #     base predates them (idempotent: each guarded by a probe).
+    if '\\usepackage{tcolorbox}' not in tex:
+        tex = tex.replace(
+            '\\begin{document}',
+            '\\usepackage{tcolorbox}\n'
+            '\\tcbuselibrary{skins, breakable}\n\n\\begin{document}', 1)
+    if '\\definecolor{lightblue}' not in tex:
+        tex = tex.replace(
+            '\\begin{document}',
+            '\\definecolor{accentblue}{RGB}{30, 90, 160}\n'
+            '\\definecolor{lightblue}{RGB}{220, 235, 252}\n\n'
+            '\\begin{document}', 1)
+    if '\\newlist{sentences}' not in tex:
+        tex = tex.replace(
+            '\\begin{document}',
+            '\\newlist{sentences}{enumerate}{1}\n'
+            '\\setlist[sentences]{label=\\textbf{\\color{accentblue}'
+            '(\\arabic*)}, leftmargin=2.4em, itemsep=3pt, '
+            'parsep=0pt, topsep=4pt}\n\n\\begin{document}', 1)
+    if '\\newtcolorbox{insights}' not in tex:
+        ins = (
+            '\n% -- Insights callout box --\n'
+            '\\newtcolorbox{insights}{%\n'
+            '    enhanced, breakable,\n'
+            '    colback=lightblue, colframe=accentblue,\n'
+            '    coltitle=white, fonttitle=\\bfseries\\small,\n'
+            '    title=Insights, fontupper=\\small,\n'
+            '    boxrule=0.4pt, arc=2pt,\n'
+            '    left=6pt, right=6pt, top=3pt, bottom=3pt,\n'
+            '    before skip=8pt, after skip=10pt,\n'
+            '}\n')
+        tex = tex.replace(
+            '\\begin{document}', ins + '\n\\begin{document}', 1)
+    # 3. Idempotent: strip ALL prior "Experimental Results"
+    #    sections (prefix match -- there may now be one per BPMX
+    #    rule), from the FIRST such header to \end{document},
+    #    then insert the freshly built block before it.
+    marker = r'\section{Experimental Results'
+    if marker in tex:
+        i = tex.index(marker)
+        j = tex.index('\\end{document}', i)
+        tex = tex[:i] + tex[j:]
     tex = tex.replace(
         '\\end{document}',
         new_section + '\n\n\\end{document}',

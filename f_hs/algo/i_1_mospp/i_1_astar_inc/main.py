@@ -257,10 +257,16 @@ class AStarIncMOSPP(Generic[State],
         self._all_starts: list[State] = []
         self._last_reached_start: State | None = None
         self._last_algo: AStarBPMX[State] | None = None
-        # Peak memory across sub-searches (rule-3: MAX across
-        # disjoint-in-time per-start sub-search bundles).
-        self._mem_open_peak: int = 0
-        self._mem_closed_peak: int = 0
+        # Memory across sub-searches: MEAN of each per-start
+        # sub-search's peak footprint (rule-3 changed from MAX to
+        # MEAN -- the mean reflects the typical sub-search and
+        # exposes BPMX's effect on memory, whereas the MAX was
+        # pinned by the single hardest, near-uncached sub-search
+        # and hid it). Running sum + count; the snapshot divides
+        # for the cumulative mean over sub-searches 1..k.
+        self._mem_open_sum: int = 0
+        self._mem_closed_sum: int = 0
+        self._mem_n_searches: int = 0
         # `mem_cache` / `mem_bounds` are read final-on-owner at
         # end-of-run (rule-4: persist + accumulate across
         # sub-searches — final == peak for monotone stores).
@@ -297,8 +303,9 @@ class AStarIncMOSPP(Generic[State],
         """
         self._cache = {}
         self._bounds = {}
-        self._mem_open_peak = 0
-        self._mem_closed_peak = 0
+        self._mem_open_sum = 0
+        self._mem_closed_sum = 0
+        self._mem_n_searches = 0
         self._prop_waves_peak = 0
         self._bpmx_depth_peak = 0
         self._all_starts = self._apply_order_starts(
@@ -422,7 +429,7 @@ class AStarIncMOSPP(Generic[State],
             self._emit_cache_hit_at_init(
                 start, cost=sol.cost, start_index=idx)
 
-        # Track peak (open, closed) memory — rule-3 MAX across
+        # Accumulate (open, closed) peak memory — rule-3 MEAN across
         # disjoint-in-time per-start sub-searches. `mem_cache`
         # / `mem_bounds` are NOT tracked here: they are read
         # final-on-owner at end-of-run in `_sync_memory_snapshot`
@@ -432,10 +439,9 @@ class AStarIncMOSPP(Generic[State],
         # orchestrator's `update()` / `_harvest_bounds` avoids
         # the prior stale-inner-snapshot bias).
         open_mem, closed_mem = self._mem_of(algo)
-        if open_mem > self._mem_open_peak:
-            self._mem_open_peak = open_mem
-        if closed_mem > self._mem_closed_peak:
-            self._mem_closed_peak = closed_mem
+        self._mem_open_sum += open_mem
+        self._mem_closed_sum += closed_mem
+        self._mem_n_searches += 1
 
         reason = ('expanded' if sol.cost != float('inf')
                   else 'unreachable')
@@ -491,12 +497,14 @@ class AStarIncMOSPP(Generic[State],
          base auto-probe (there is no single shared
          search-state to probe). Covers:
 
-           - `mem_open` / `mem_closed`: rule-3 MAX across
+           - `mem_open` / `mem_closed`: rule-3 MEAN across
              disjoint-in-time per-start sub-search bundles
-             (tracked via `_mem_open_peak` / `_mem_closed_peak`
-             in `_handle_start`; each per-sub-search probe uses
+             (running sums `_mem_open_sum` / `_mem_closed_sum`
+             over `_mem_n_searches`, accumulated in
+             `_handle_start`; each per-sub-search probe uses
              that sub-search's `frontier.max_size` for the OPEN
-             count, rule-2).
+             count, rule-2). Divided here for the cumulative
+             mean over sub-searches 1..k.
            - `mem_cache` / `mem_bounds`: rule-4 final-on-owner.
              The carried goal-anchored stores
              (`self._cache` / `self._bounds`) grow monotonically
@@ -515,9 +523,13 @@ class AStarIncMOSPP(Generic[State],
              and `cnt_bpmx_attempts` / `cnt_bpmx_lifts`.
         ====================================================================
         """
-        self._counters.assign('mem_open', self._mem_open_peak)
+        n = self._mem_n_searches
         self._counters.assign(
-            'mem_closed', self._mem_closed_peak)
+            'mem_open',
+            round(self._mem_open_sum / n) if n else 0)
+        self._counters.assign(
+            'mem_closed',
+            round(self._mem_closed_sum / n) if n else 0)
         # Rule-4: final == peak for monotone-growing stores.
         # Measure on the owning dicts AFTER every harvest.
         mem_cache = sys.getsizeof(self._cache)

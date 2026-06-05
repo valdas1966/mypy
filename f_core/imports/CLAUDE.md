@@ -37,6 +37,33 @@ ULazy.install(globals(), {
 })
 ```
 
+### IDE-friendly variant (recommended)
+
+`ULazy` injects names at **runtime** via `__getattr__`, so static
+analyzers (PyCharm, pyright) can't see them — `from pkg import Name`
+shows *"unresolved reference"* and gets no autocomplete. Mirror the
+specs in a `TYPE_CHECKING` block: it is **False at runtime** (laziness
+untouched — verified: importing the aggregator does not load a
+submodule until its name is accessed) but **True for analyzers**, so
+the names resolve with real go-to-definition.
+
+```python
+from typing import TYPE_CHECKING
+
+from f_core.imports import ULazy
+
+if TYPE_CHECKING:                      # never runs — analyzers only
+    from f_psl.builtins.list import UList
+
+ULazy.install(globals(), {
+    'UList': 'f_psl.builtins.list:UList',
+})
+```
+
+The export list is necessarily stated twice (literal imports can't be
+generated for a static tool) — a small, stable cost. Mirror the
+`module:attr` spec exactly so both point at the same target.
+
 ## Files
 | File | Purpose |
 |------|---------|

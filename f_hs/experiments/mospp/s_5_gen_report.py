@@ -42,6 +42,7 @@
    python f_hs/experiments/mospp/s_5_gen_report.py
 ===============================================================================
 """
+import shutil
 import subprocess
 import tempfile
 from pathlib import Path
@@ -52,11 +53,11 @@ from f_google.services.drive import Drive
 from f_overleaf import OverLeaf
 
 from f_hs.experiments.mospp.report_spec import (
-    CONFIGS, K_TABLE, _EXCLUDED_COUNTERS,
+    RULE_SECTIONS, K_TABLE, _EXCLUDED_COUNTERS,
 )
 from f_hs.experiments.mospp.report_render import (
     add_derived_columns, metric_columns, build_section,
-    splice, sanitize_ascii,
+    sanitize_ascii,
 )
 
 
@@ -95,112 +96,157 @@ def load_configs(drive: Drive,
 
 # ── Main ────────────────────────────────────────────────────────────────────
 
-def main(push_drive: bool = True,
+def main(rules: list[str] | None = None,
          push_overleaf: bool = True) -> None:
+    """
+    ===========================================================================
+     Generate the experimental sections as an `\\input`-split
+     report (no splice): one file per BPMX rule
+     (rule1/rule2/rule3/cascade.tex) that the human-owned
+     `report/main.tex` `\\input`s. The generator never touches
+     main.tex; git is the source of truth.
+
+     `rules`: which rules' FIGURES to (re)compile (e.g.
+     `['rule2']`); None = all rendered. The per-rule .tex files
+     are always rewritten (instant); only the requested rules'
+     figures are recompiled, the rest are reused from the
+     persistent fig cache (and stay on Overleaf). That is what
+     makes a single-rule update touch one file + its figures
+     instead of regenerating the whole report.
+    ===========================================================================
+    """
+    report_dir = Path(__file__).resolve().parent / 'report'
+    fig_dir = Path('/tmp/mospp_figs')
+    fig_dir.mkdir(parents=True, exist_ok=True)
     drive = Drive.Factory.valdas()
     work = Path(tempfile.mkdtemp(prefix='mospp_s5_', dir='/tmp'))
-    print(f'work dir: {work}')
+    print(f'work {work} | report {report_dir} | figs {fig_dir}')
 
+    # 1. Download every UNIQUE CSV once (baseline shared by all
+    #    rule sections). Missing CSVs are skipped.
     print('downloading CSVs ...')
-    df, used = load_configs(drive=drive, configs=CONFIGS, work=work)
-    df = add_derived_columns(df)
-    metric_cols = metric_columns(df)
-    nontrivial_all = {m for m in metric_cols
-                      if float(df[m].astype(float).max()) > 0}
-    omitted_user = sorted(nontrivial_all & _EXCLUDED_COUNTERS)
-    nontrivial = nontrivial_all - _EXCLUDED_COUNTERS
-    domains = sorted(df['domain'].astype(str).unique())
-    k_max = int(df['m'].max())
-    print(f'  {len(used)} configs, {len(domains)} domains, '
-          f'{len(metric_cols)} metrics '
-          f'({len(nontrivial_all)} non-trivial, '
-          f'{len(omitted_user)} excluded by author, '
-          f'{len(nontrivial)} active); '
-          f'k_max = {k_max}')
+    frames: dict[str, pd.DataFrame] = {}
+    seen: set[str] = set()
+    for sec in RULE_SECTIONS:
+        for c in sec['configs']:
+            if c['tag'] in seen:
+                continue
+            seen.add(c['tag'])
+            if not drive.is_exists(path=c['csv']):
+                print(f"  MISSING — {c['tag']}")
+                continue
+            local = work / (c['tag'] + '.csv')
+            drive.download(path_src=c['csv'], path_dest=str(local))
+            d = pd.read_csv(local)
+            d['config'] = c['tag']
+            frames[c['tag']] = d
+            print(f"  OK     — {c['tag']} ({len(d):,} rows)")
+    if not frames:
+        raise RuntimeError('No CSVs found on Drive.')
 
-    print('aggregating ...')
-    per_kc = (df.groupby(['config', 'm'])[metric_cols]
-              .mean().reset_index())
-    at_max = df[df['m'] == k_max]
-    overall = at_max.groupby('config')[metric_cols].mean().reset_index()
-    k_values = [k for k in K_TABLE if k <= k_max]
+    # 2. Build each rule's section -> write report/<key>.tex. A
+    #    rule renders only when >=1 of its depth CSVs is present.
+    print('writing per-rule section files ...')
+    fig_specs: dict[str, str] = {}
+    rendered: list[str] = []
+    for sec in RULE_SECTIONS:
+        used = [c for c in sec['configs'] if c['tag'] in frames]
+        if not [c for c in used if c['tag'] != 'rule_none']:
+            print(f"  skip '{sec['key']}' — no depth CSVs")
+            continue
+        df = add_derived_columns(
+            pd.concat([frames[c['tag']] for c in used],
+                      ignore_index=True))
+        metric_cols = metric_columns(df)
+        nontrivial = ({m for m in metric_cols
+                       if float(df[m].astype(float).max()) > 0}
+                      - _EXCLUDED_COUNTERS)
+        k_max = int(df['m'].max())
+        per_kc = (df.groupby(['config', 'm'])[metric_cols]
+                  .mean().reset_index())
+        k_values = [k for k in K_TABLE if k <= k_max]
+        sec_tex, sec_figs = build_section(
+            per_kc=per_kc, used=used, nontrivial=nontrivial,
+            k_values=k_values, rule_key=sec['key'],
+            section_title=sec['title'])
+        (report_dir / f"{sec['key']}.tex").write_text(
+            sec_tex + '\n', encoding='utf-8')
+        for name, src in sec_figs:
+            fig_specs[name] = src
+        rendered.append(sec['key'])
+        print(f"  wrote report/{sec['key']}.tex ({len(sec_figs)} figs)")
+    if not rendered:
+        raise RuntimeError('No rule sections had depth data.')
 
-    print('building section ...')
-    section, figures = build_section(
-        df=df, per_kc=per_kc, overall=overall,
-        used=used, metric_cols=metric_cols, nontrivial=nontrivial,
-        omitted_user=omitted_user, k_values=k_values, k_max=k_max)
+    main_tex = report_dir / 'main.tex'
+    if not main_tex.exists():
+        raise FileNotFoundError(
+            f'{main_tex} missing — the human-owned main.tex '
+            f'(preamble + sections 1-2 + the \\input list) must exist.')
 
-    # Externalized figures: compile each PGFPlots/TikZ figure to a
-    # standalone PDF in the work dir BEFORE the main compile, so the
-    # main doc only \includegraphics them (no PGFPlots on the main --
-    # or Overleaf -- compile path; that is what blew the timeout).
-    print(f'rendering {len(figures)} externalized figures ...')
-    for name, src in figures:
+    # 3. Compile figures — SELECTIVE. `rules=None` -> all rendered;
+    #    else only the listed rules' figures (the rest are reused
+    #    from the persistent cache + Overleaf).
+    todo = set(rules) if rules is not None else set(rendered)
+    to_build = [(n, s) for n, s in fig_specs.items()
+                if any(n.startswith(f'fig_{k}_') for k in todo)]
+    print(f'compiling {len(to_build)} figures (rules={sorted(todo)}) ...')
+    for name, src in to_build:
         (work / f'{name}.tex').write_text(src, encoding='utf-8')
         subprocess.run(['tectonic', f'{name}.tex'],
                        check=True, cwd=str(work))
+        shutil.copy(work / f'{name}.pdf', fig_dir / f'{name}.pdf')
         print(f'  OK     — {name}.pdf')
 
-    print('downloading MOSPP.tex + splicing ...')
-    tex_path = work / 'MOSPP.tex'
-    drive.download(path_src=PATH_TEX_DRIVE,
-                   path_dest=str(tex_path))
-    tex = tex_path.read_text(encoding='utf-8')
-    tex = splice(tex, section)
-    tex_path.write_text(tex, encoding='utf-8')
+    # 4. Validate: compile main.tex with every rendered rule's
+    #    figures (from the persistent cache).
+    val = Path(tempfile.mkdtemp(prefix='mospp_val_', dir='/tmp'))
+    shutil.copy(main_tex, val / 'main.tex')
+    for key in rendered:
+        shutil.copy(report_dir / f'{key}.tex', val / f'{key}.tex')
+    missing = [n for n in fig_specs
+               if not (fig_dir / f'{n}.pdf').exists()]
+    if missing:
+        raise RuntimeError(
+            'figure cache incomplete — run once with rules=None: '
+            f'{missing[:5]}')
+    for name in fig_specs:
+        shutil.copy(fig_dir / f'{name}.pdf', val / f'{name}.pdf')
+    print('compiling main.tex (validation) ...')
+    subprocess.run(['tectonic', 'main.tex'], check=True, cwd=str(val))
+    print(f'  pdf: {(val / "main.pdf").stat().st_size:,} bytes')
 
-    print('compiling via tectonic ...')
-    subprocess.run(['tectonic', str(tex_path)],
-                   check=True, cwd=str(work))
-    pdf_path = tex_path.with_suffix('.pdf')
-    print(f'pdf size: {pdf_path.stat().st_size:,} bytes')
-
-    if push_drive:
-        print('uploading to Drive ...')
-        drive.upload(path_src=str(tex_path),
-                     path_dest=PATH_TEX_DRIVE)
-        drive.upload(path_src=str(pdf_path),
-                     path_dest=PATH_PDF_DRIVE)
-        print(f'  {PATH_TEX_DRIVE}')
-        print(f'  {PATH_PDF_DRIVE}')
-
+    # 5. Push the \input-split report to Overleaf (multi-file):
+    #    main.tex + each rendered rule file + ONLY the (re)built
+    #    figures (others stay on Overleaf).
     if push_overleaf:
         print('pushing to Overleaf ...')
-        overleaf = OverLeaf.Factory.valdas()
-        if OVERLEAF_PROJECT not in overleaf:
-            project = overleaf.create_project(name=OVERLEAF_PROJECT)
-            print(f'  created Overleaf project {OVERLEAF_PROJECT!r} '
-                  f'(key={project.key})')
-        else:
-            project = overleaf[OVERLEAF_PROJECT]
-            print(f'  reusing Overleaf project {OVERLEAF_PROJECT!r} '
-                  f'(key={project.key})')
-        sanitized, sc = sanitize_ascii(tex)
-        if any(ord(c) > 127 for c in sanitized):
-            raise ValueError(
-                'sanitized text still has non-ASCII; abort')
-        print(f'  sanitized chars: {sc}')
-        project.create_file(path=OVERLEAF_FILE, text=sanitized)
-        # Refresh externalized figures: drop any stale fig_*.pdf
-        # (a counter dropping out of the report would otherwise
-        # leave an orphan), then upload the current set so Overleaf
-        # \includegraphics-es PDFs instead of re-running PGFPlots.
-        existing = project.list_files()
-        for f in existing:
-            if f.startswith('fig_') and f.endswith('.pdf'):
-                project.delete_file(path=f)
-        for name, _ in figures:
-            project.upload_file(path_src=str(work / f'{name}.pdf'),
-                                path_dest=f'{name}.pdf')
-        print(f'  pushed {len(figures)} figures')
-        project.set_root_doc(name=OVERLEAF_FILE)
-        if 'main.tex' in existing:
-            project.delete_file(path='main.tex')
-        print(f'  pushed: {OVERLEAF_PROJECT}/{OVERLEAF_FILE}')
+        proj = OverLeaf.Factory.valdas()[OVERLEAF_PROJECT]
 
+        def _up(path: str, p: Path) -> None:
+            txt, _ = sanitize_ascii(p.read_text(encoding='utf-8'))
+            if any(ord(c) > 127 for c in txt):
+                raise ValueError(f'non-ASCII in {path}')
+            proj.create_file(path=path, text=txt)
+
+        _up('main.tex', main_tex)
+        for key in rendered:
+            _up(f'{key}.tex', report_dir / f'{key}.tex')
+        for name, _ in to_build:
+            proj.upload_file(path_src=str(fig_dir / f'{name}.pdf'),
+                             path_dest=f'{name}.pdf')
+        proj.set_root_doc('main.tex')
+        if 'MOSPP.tex' in proj.list_files():
+            proj.delete_file(path='MOSPP.tex')
+        print(f'  pushed main.tex + {len(rendered)} rule files + '
+              f'{len(to_build)} figs; root=main.tex')
     print('done.')
 
 
 if __name__ == '__main__':
-    main(push_drive=True, push_overleaf=True)
+    import sys
+    # `python s_5_gen_report.py`              -> recompile ALL figures.
+    # `python s_5_gen_report.py rule2`        -> recompile only rule2's
+    #                                            figures (others reused);
+    #                                            every .tex is rewritten.
+    main(rules=sys.argv[1:] or None)

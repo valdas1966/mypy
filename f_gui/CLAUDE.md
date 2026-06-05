@@ -18,7 +18,7 @@ from f_gui import Element, Container, Label, Window
 
 | Export      | Source module                       | Role                        |
 |-------------|-------------------------------------|-----------------------------|
-| `Element`   | `f_gui.elements.i_0_element`        | Base: bounds + name + parent|
+| `Element`   | `f_gui.elements.i_0_element`        | Abstract base: bounds+name+parent|
 | `Container` | `f_gui.elements.i_1_container`      | Holds children              |
 | `Label`     | `f_gui.elements.i_1_label`          | Leaf with text              |
 | `Window`    | `f_gui.elements.i_2_window`         | Root container (full bounds)|

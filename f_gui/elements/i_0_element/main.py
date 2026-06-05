@@ -1,21 +1,41 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from f_core.mixins.has.name import HasName
 from f_core.mixins.has.parent import HasParent
 from f_ds.geometry.bounds import Bounds
+
+if TYPE_CHECKING:
+    from f_color.rgb import RGB
 
 
 class Element(HasName, HasParent):
     """
     ========================================================================
-     Base-Class for all GUI Elements.
+     Abstract Base-Class for all GUI Elements (not instantiable).
     ========================================================================
     """
 
-    # Factory
-    Factory: type = None
+    def __new__(cls, *args, **kwargs) -> 'Element':
+        """
+        ========================================================================
+         Block direct instantiation — Element is abstract.
+        ========================================================================
+         Element provides bounds/name/parent for every GUI element but is
+         never a usable leaf itself; create a concrete subclass instead.
+        ========================================================================
+        """
+        if cls is Element:
+            raise TypeError(
+                'Element is abstract; instantiate a concrete subclass '
+                '(Container, Label, Window).')
+        return super().__new__(cls)
 
     def __init__(self,
                  bounds: Bounds[float] = None,
-                 name: str = 'Element') -> None:
+                 name: str = 'Element',
+                 background: RGB | None = None) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -24,6 +44,7 @@ class Element(HasName, HasParent):
         HasName.__init__(self, name=name)
         HasParent.__init__(self)
         self._bounds = bounds or Bounds.Factory.full()
+        self._background = background
 
     @property
     def bounds(self) -> Bounds[float]:
@@ -33,6 +54,15 @@ class Element(HasName, HasParent):
         ========================================================================
         """
         return self._bounds
+
+    @property
+    def background(self) -> RGB | None:
+        """
+        ========================================================================
+         Get the background Color of the Element (None = transparent).
+        ========================================================================
+        """
+        return self._background
 
     def __str__(self) -> str:
         """

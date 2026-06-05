@@ -27,23 +27,30 @@ single `<div>` string. Label text is HTML-escaped.
 
 ```python
 @staticmethod
-def page(root: Element, size: int = 600) -> str
+def page(root: Element, size: int | None = None) -> str
 ```
-Wraps the rendered tree in a full HTML document with a centered
-`size × size` stage on a dark background.
+Wraps the rendered tree in a full HTML document.
+- **`size=None` (default)** — the stage fills the browser **viewport**
+  (full-screen, `position:fixed;inset:0`), matching what a `Window`
+  models. Bounds map naturally: `left/right` = % of width,
+  `top/bottom` = % of height.
+- **`size=<int>`** — a fixed `size × size` centered square stage on a
+  dark background (e.g. a deterministic thumbnail); keeps the two axes
+  pixel-isotropic.
 
 ```python
 @staticmethod
-def to_file(root: Element, path: str, size: int = 600) -> None
+def to_file(root: Element, path: str, size: int | None = None) -> None
 ```
-Writes `page(root, size)` to `path` as UTF-8.
+Writes `page(root, size)` to `path` as UTF-8 (full-screen by default).
 
 ## Convenience — `Window.to_html()`
 
 A thin wrapper lives on `Window` (lazy import to avoid a cycle):
 
 ```python
-win.to_html(path='/tmp/demo.html', size=800)
+win.to_html(path='/tmp/demo.html')            # full-screen (default)
+win.to_html(path='/tmp/demo.html', size=800)  # fixed 800x800 square
 ```
 
 ## Type → Style Dispatch
@@ -56,6 +63,9 @@ win.to_html(path='/tmp/demo.html', size=800)
 | `Element`     | `1px solid #888` (fallback) | empty                |
 
 `Window` is checked before `Container` because `Window` IS-A `Container`.
+The `Element` fallback row is now only reachable by a *future* direct
+subclass of `Element` — `Element` itself is abstract (non-instantiable),
+and the three concrete types above are all matched explicitly.
 
 ## Rendering Semantics
 
@@ -64,6 +74,9 @@ win.to_html(path='/tmp/demo.html', size=800)
 - `overflow:hidden` clips descendants that exceed parent bounds.
 - `display:flex; align-items:center; justify-content:center` centers
   label text inside its rectangle.
+- **Background:** if `elem.background` is set, `_background()` emits
+  `background:{color.to.hex()};` (duck-typed — the renderer imports no
+  color type). Unset → no `background` declaration (transparent).
 
 ## Dependencies
 
@@ -100,6 +113,22 @@ Or using the renderer directly:
 from f_gui.render.html import RenderHtml
 html_string = RenderHtml.page(root=win)
 ```
+
+## Study Script
+
+`_study.py` — exploratory, not a test. A `Window` with two side-by-side
+`Container`s, each holding one `Label`. Its point is to exercise the
+**emitter directly** (`RenderHtml.to_file(...)`) rather than the
+`Window.to_html()` convenience wrapper, and to leave a *viewable*
+artifact (the `_tester.py` asserts on strings and discards its output).
+Writes `study.html` in the working directory.
+
+```bash
+python -m f_gui.render.html._study   # then open study.html
+```
+
+The dashed/solid borders are a **render-time** choice (`_border`), not
+element state — `Container` etc. carry no styling.
 
 ## Scope Notes
 

@@ -33,32 +33,42 @@ class RenderHtml:
         """
         b = elem.bounds
         border = RenderHtml._border(elem=elem)
+        bg = RenderHtml._background(elem=elem)
         style = (f'position:absolute;'
                  f'top:{b.top}%;left:{b.left}%;'
                  f'bottom:{100 - b.bottom}%;right:{100 - b.right}%;'
-                 f'box-sizing:border-box;border:{border};'
+                 f'box-sizing:border-box;border:{border};{bg}'
                  f'display:flex;align-items:center;justify-content:center;'
                  f'overflow:hidden;font-family:monospace;font-size:12px;')
         inner = RenderHtml._inner(elem=elem)
         return f'<div style="{style}">{inner}</div>'
 
     @staticmethod
-    def page(root: Element, size: int = 600) -> str:
+    def page(root: Element, size: int | None = None) -> str:
         """
         ========================================================================
-         Wrap the Element tree in a full HTML document with a sized stage.
+         Wrap the Element tree in a full HTML document with a stage.
+        ========================================================================
+         size=None (default) -> the stage fills the browser viewport
+         (full-screen), matching what a Window models. Pass an int for a
+         fixed size x size centered square stage (e.g. a thumbnail).
         ========================================================================
         """
         body = RenderHtml.element(elem=root)
+        if size is None:
+            # Fill the viewport — a Window models the whole screen.
+            stage = 'position:fixed;inset:0;background:#161b22;'
+        else:
+            stage = (f'position:relative;'
+                     f'width:{size}px;height:{size}px;'
+                     f'margin:20px auto;background:#161b22;')
         return (f'<!doctype html><html><body '
                 f'style="margin:0;background:#0d1117;color:#e6edf3;">'
-                f'<div style="position:relative;'
-                f'width:{size}px;height:{size}px;'
-                f'margin:20px auto;background:#161b22;">'
-                f'{body}</div></body></html>')
+                f'<div style="{stage}">{body}</div>'
+                f'</body></html>')
 
     @staticmethod
-    def to_file(root: Element, path: str, size: int = 600) -> None:
+    def to_file(root: Element, path: str, size: int | None = None) -> None:
         """
         ========================================================================
          Write the rendered HTML page to the given file path.
@@ -66,6 +76,18 @@ class RenderHtml:
         """
         Path(path).write_text(data=RenderHtml.page(root=root, size=size),
                               encoding='utf-8')
+
+    @staticmethod
+    def _background(elem: Element) -> str:
+        """
+        ========================================================================
+         CSS background declaration for the Element, or '' if none set.
+        ========================================================================
+        """
+        color = elem.background
+        if color is None:
+            return ''
+        return f'background:{color.to.hex()};'
 
     @staticmethod
     def _border(elem: Element) -> str:

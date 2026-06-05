@@ -1,0 +1,683 @@
+\documentclass[11pt, a4paper]{article}
+
+% -- Packages -----------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage[table]{xcolor}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{tikz}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{groupplots}
+
+
+\tcbuselibrary{skins, breakable}
+\usetikzlibrary{arrows.meta, positioning, calc}
+
+% -- Colors -------------------------------------------------------
+\definecolor{accentblue}{RGB}{30, 90, 160}
+\definecolor{lightblue}{RGB}{220, 235, 252}
+\definecolor{secgray}{RGB}{90, 90, 90}
+
+\definecolor{cache}{RGB}{34, 139, 34}
+\definecolor{cachebg}{RGB}{232, 245, 232}
+\definecolor{boundary}{RGB}{180, 130, 0}
+\definecolor{boundarybg}{RGB}{255, 248, 225}
+\definecolor{regular}{RGB}{200, 40, 40}
+\definecolor{regularbg}{RGB}{255, 232, 232}
+
+\definecolor{newcolor}{RGB}{210, 85, 15}
+\definecolor{newbg}{RGB}{255, 238, 222}
+\definecolor{paperbg}{RGB}{228, 238, 252}
+\definecolor{felnerbg}{RGB}{240, 232, 248}
+\definecolor{felner}{RGB}{100, 50, 150}
+
+% -- Styling ------------------------------------------------------
+\hypersetup{
+    colorlinks=true,
+    linkcolor=accentblue,
+    citecolor=accentblue,
+    urlcolor=accentblue,
+}
+
+\titleformat{\section}
+    {\Large\bfseries\color{accentblue}}{\thesection}{1em}{}
+    [\vspace{-4pt}{\color{secgray}\titlerule[0.4pt]}]
+
+\titleformat{\subsection}
+    {\large\bfseries\color{accentblue!80!black}}{\thesubsection}{1em}{}
+
+\titleformat{\subsubsection}
+    {\normalsize\bfseries\color{accentblue!70!black}}{\thesubsubsection}{1em}{}
+
+% -- Enumerated sentences -----------------------------------------
+\newlist{sentences}{enumerate}{1}
+\setlist[sentences]{
+    label=\textbf{\color{accentblue}(\arabic*)},
+    leftmargin=2.4em,
+    itemsep=3pt,
+    parsep=0pt,
+    topsep=4pt,
+}
+
+% -- Origin tags --------------------------------------------------
+\newcommand{\tagours}{%
+    {\footnotesize\colorbox{newbg}{%
+    \textcolor{newcolor}{\textsf{\textbf{Ours}}}}}%
+}
+\newcommand{\tagfelner}{%
+    {\footnotesize\colorbox{felnerbg}{%
+    \textcolor{felner}{\textsf{\textbf{Felner 2011}}}}}%
+}
+
+% -- Step badge (for numbered cascade steps) ----------------------
+\newcommand{\stepbadge}[1]{%
+    \tikz[baseline=(X.base)]%
+    \node[circle, fill=regular, text=white,
+          font=\bfseries\scriptsize,
+          minimum size=0.42cm, inner sep=0pt] (X) {#1};%
+}
+
+% ================================================================
+
+% -- Author annotations (draft only) -------------
+\newif\ifdraft\drafttrue
+\newcommand{\me}[1]{%
+    \ifdraft\textcolor{red}{\textbf{[me:\,#1]}}\fi%
+}
+\newcommand{\you}[1]{%
+    \ifdraft\textcolor{blue}{\textbf{[you:\,#1]}}\fi%
+}
+
+
+% -- Insights callout box --
+\newtcolorbox{insights}{%
+    enhanced, breakable,
+    colback=lightblue, colframe=accentblue,
+    coltitle=white, fonttitle=\bfseries\small,
+    title=Insights, fontupper=\small,
+    boxrule=0.4pt, arc=2pt,
+    left=6pt, right=6pt, top=3pt, bottom=3pt,
+    before skip=8pt, after skip=10pt,
+}
+
+\begin{document}
+% ================================================================
+
+% -- Title Block --------------------------------------------------
+\begin{center}
+    {\LARGE\bfseries\color{accentblue}
+    MOSPP}
+
+    \vspace{8pt}
+    {\large Heuristic Propagation\\[2pt]
+    Connection to BPMX}
+
+\end{center}
+
+\vspace{16pt}
+
+% ================================================================
+\section{Bidirectional Pathmax (BPMX)}
+\hfill\tagfelner
+% ================================================================
+
+\paragraph{What is BPMX?}
+
+A heuristic-propagation algorithm that bounds $h$-values
+on inconsistent heuristics using the
+\textbf{triangle inequality}. BPMX is the cascading
+combination of Rules~1 and~3 (Felner et~al., 2011),
+depth-bounded by parameter~$d$. The three pathmax rules
+below are the building blocks; the BPMX cascade is
+defined after them.\\[2pt]
+\textit{Notation:}\;\; $p$ = parent,\;\; $c$ = child,\;\;
+$d$ = edge distance,\;\; $g$ = goal.
+
+\paragraph{The three pathmax rules
+(Felner numbering).}
+
+\begin{sentences}
+\item \textbf{Rule 1 --- Pathmax} (Mero, 1984): tighten
+      child from parent (``path'' + ``max''):
+      \[
+          h'(c) = \max\bigl(h(c),\; h(p) - d\bigr).
+      \]
+
+      \begin{center}
+      \begin{tikzpicture}[
+          nd/.style={circle, minimum size=0.95cm,
+                     very thick, font=\bfseries,
+                     inner sep=0pt},
+      ]
+      \node[nd, fill=cachebg, draw=cache] (p)
+          at (0, 0) {$p$};
+      \node[nd, fill=lightblue, draw=accentblue] (c)
+          at (3.6, 0) {$c$};
+      \node[nd, fill=regularbg, draw=regular] (g)
+          at (1.8, -2.4) {$g$};
+      \draw[very thick]
+          (p) -- node[above=2pt, font=\footnotesize]
+          {$d = 1$} (c);
+      \draw[dotted, thick, color=secgray] (p) --
+          node[midway, left=2pt, font=\footnotesize,
+          color=black]
+          {$h(p) = 5$} (g);
+      \draw[dashed, thick, color=regular] (c) --
+          node[midway, right=2pt, font=\footnotesize,
+          color=black]
+          {$h(c) = 1 \;\Rightarrow\;
+          \textcolor{regular}{\mathbf{h'(c) = 4}}$} (g);
+      \end{tikzpicture}
+      \end{center}
+
+\item \textbf{Rule 2 --- Min-of-children}
+      (Felner et~al., 2011): tighten parent from the
+      minimum-cost child. Limited utility when Rules~1
+      and~3 are both used (Felner~\S5.4.1).
+      \textbf{Depth-1 only by structural constraint:}
+      Rule~2's operator consumes \emph{a parent and its
+      full children set} and aggregates via $\min$. Chained
+      application would require treating the lifted parent
+      as a child of its grandparent, but Rule~2 expects to
+      receive ``a parent + complete children set'' at each
+      invocation, not ``a single child''. The grandparent's
+      children set does not include the lifted parent's
+      siblings, so the operation has no chained-grandparent
+      analogue. Rule~2 is therefore not part of the BPMX
+      cascade (which composes Rules~1 and~3 only) and
+      cannot be extended to depth $d > 1$ as a standalone
+      mechanism. Formally:
+      \[
+          h'(p) = \max\bigl(h(p),\;
+                  \min_{i}\bigl(h(c_i) + d_i\bigr)\bigr).
+      \]
+
+      \begin{center}
+      \begin{tikzpicture}[
+          nd/.style={circle, minimum size=0.95cm,
+                     very thick, font=\bfseries,
+                     inner sep=0pt},
+          hlab/.style={font=\footnotesize},
+      ]
+      \node[nd, fill=cachebg, draw=cache] (p)
+          at (0, 0) {$p$};
+      \node[nd, fill=lightblue, draw=accentblue] (c1)
+          at (-2.8, -2.0) {$c_1$};
+      \node[nd, fill=lightblue, draw=accentblue] (c2)
+          at (2.8, -2.0)  {$c_2$};
+
+      % h-value annotations
+      \node[hlab, above=6pt of p]
+          {$h(p)\!:\,1\!\to\!%
+           \textcolor{regular}{\mathbf{4}}$};
+      \node[hlab, left=6pt of c1]
+          {$h(c_1)\!=\!3$};
+      \node[hlab, right=6pt of c2]
+          {$h(c_2)\!=\!5$};
+
+      % Tree edges with d labels
+      \draw[very thick] (p) -- node[sloped,
+          above=2pt, font=\footnotesize]
+          {$d_1\!=\!1$} (c1);
+      \draw[very thick] (p) -- node[sloped,
+          above=2pt, font=\footnotesize]
+          {$d_2\!=\!1$} (c2);
+
+      % Min-of-children annotation
+      \node[font=\footnotesize, color=secgray,
+            below=4pt of c1, anchor=north]
+          {$h(c_1){+}d_1\!=\!4$};
+      \node[font=\footnotesize, color=secgray,
+            below=4pt of c2, anchor=north]
+          {$h(c_2){+}d_2\!=\!6$};
+      \node[font=\footnotesize\bfseries,
+            color=regular, below=22pt of p]
+          {$\min(4,\,6)\!=\!4$};
+      \end{tikzpicture}
+      \end{center}
+
+\item \textbf{Rule 3 --- Reverse pathmax}
+      (Felner et~al., 2011): tighten parent from a
+      single child --- the upward counterpart of
+      Rule~1, the step that makes pathmax
+      \textbf{bidirectional}:
+      \[
+          h'(p) = \max\bigl(h(p),\; h(c) - d\bigr).
+      \]
+
+      \begin{center}
+      \begin{tikzpicture}[
+          nd/.style={circle, minimum size=0.95cm,
+                     very thick, font=\bfseries,
+                     inner sep=0pt},
+      ]
+      \node[nd, fill=cachebg, draw=cache] (p)
+          at (0, 0) {$p$};
+      \node[nd, fill=lightblue, draw=accentblue] (c)
+          at (3.6, 0) {$c$};
+      \node[nd, fill=regularbg, draw=regular] (g)
+          at (1.8, -2.4) {$g$};
+      \draw[very thick]
+          (p) -- node[above=2pt, font=\footnotesize]
+          {$d = 1$} (c);
+      \draw[dashed, thick, color=regular] (p) --
+          node[midway, left=2pt, font=\footnotesize,
+          color=black]
+          {$h(p) = 1 \;\Rightarrow\;
+          \textcolor{regular}{\mathbf{h'(p) = 4}}$} (g);
+      \draw[dotted, thick, color=secgray] (c) --
+          node[midway, right=2pt, font=\footnotesize,
+          color=black]
+          {$h(c) = 5$} (g);
+      \end{tikzpicture}
+      \end{center}
+\end{sentences}
+
+\paragraph{BPMX = Rules~1 + 3 cascading
+(Felner Algorithm~2).}
+At each expansion of node~$p$ with children
+$\{c_i\}$: \textbf{Rule~3} lifts $h(p)$ from a
+high-$h$ child; if $h(p)$ is lifted, \textbf{Rule~1}
+propagates the new value to every other child~$c'$:
+\[
+    h'(c') = \max\bigl(h(c'),\; h'(p) - d\bigr).
+\]
+The cascade extends outward up to depth~$d$ (denoted
+BPMX($d$)) or until no node is improved in the last
+layer.
+
+\begin{center}
+\begin{tikzpicture}[
+    nd/.style={circle, minimum size=1.0cm,
+               very thick, font=\bfseries,
+               inner sep=0pt},
+    cascarr/.style={->, line width=1.4pt,
+                    color=newcolor,
+                    >={Stealth[length=3mm,
+                               width=2.2mm]},
+                    opacity=0.85},
+    hlab/.style={font=\footnotesize},
+]
+
+% -- Nodes ----------------------------------
+\node[nd, fill=cachebg, draw=cache]
+    (p)  at (0, 0)       {$p$};
+\node[nd, fill=lightblue, draw=accentblue]
+    (c1) at (-3.2, -2.0) {$c_1$};
+\node[nd, fill=lightblue, draw=accentblue]
+    (c2) at (3.2, -2.0)  {$c_2$};
+
+% -- h-value annotations (step-badged) ------
+\node[hlab, above=6pt of p]
+    {\stepbadge{2}\;\,%
+     $h(p)\!:\,1\!\to\!%
+     \textcolor{regular}{\mathbf{4}}$};
+\node[hlab, left=6pt of c1]
+    {$h(c_1)\!=\!5$\;\stepbadge{1}};
+\node[hlab, right=6pt of c2]
+    {\stepbadge{3}\;\,%
+     $h(c_2)\!:\,1\!\to\!%
+     \textcolor{regular}{\mathbf{3}}$};
+
+% -- Trigger marker under c1 -----------------
+\node[font=\scriptsize\itshape,
+      color=newcolor, below=2pt of c1]
+    {trigger};
+
+% -- Tree edges ------------------------------
+\draw[very thick] (p) -- node[sloped,
+    above=2pt, font=\footnotesize]
+    {$d\!=\!1$} (c1);
+\draw[very thick] (p) -- node[sloped,
+    above=2pt, font=\footnotesize]
+    {$d\!=\!1$} (c2);
+
+% -- Cascade-flow overlay arrows -------------
+% (1) Rule 3: c1 upward to p
+\draw[cascarr]
+    ($(c1.north east)+(0.1,0.1)$)
+    to[bend left=40]
+    node[pos=0.5, sloped, above=2pt,
+         font=\scriptsize\bfseries,
+         color=newcolor]
+    {Rule 3 (up)}
+    ($(p.south west)+(-0.1,-0.1)$);
+
+% (2) Rule 1: p downward to c2
+\draw[cascarr]
+    ($(p.south east)+(0.1,-0.1)$)
+    to[bend left=40]
+    node[pos=0.5, sloped, above=2pt,
+         font=\scriptsize\bfseries,
+         color=newcolor]
+    {Rule 1 (down)}
+    ($(c2.north west)+(-0.1,0.1)$);
+
+\end{tikzpicture}
+\end{center}
+
+% -- 1.1 Detailed Example -----------------------------------
+\subsection{Detailed Example: BPMX($d{=}2$) Cascade}
+
+\paragraph{Reading the example.}
+\begin{sentences}
+\item In this example $A$ has the highest $h$ in its
+      local neighborhood, so \textbf{Rule~3 (upward)
+      does not fire} --- no child can lift $h(A)$. The
+      BPMX cascade therefore reduces to a pure
+      \textbf{Rule~1 (downward) propagation} of
+      depth~2 from $A$ to its descendants.
+\item For an example where Rule~3 (upward) does fire
+      and triggers downward Rule~1, see the BPMX
+      cascade diagram above (with $c_1$ as trigger).
+\end{sentences}
+
+\vspace{6pt}
+
+\begin{center}
+\begin{tikzpicture}[
+    nd/.style={circle, minimum size=1.1cm, very thick,
+               font=\bfseries, inner sep=0pt},
+]
+
+% -- Legend (vertical, left side) --
+\begin{scope}[xshift=-5cm, yshift=-0.6cm]
+    \node[circle, fill=cachebg, draw=cache,
+          very thick, minimum size=0.35cm,
+          inner sep=0pt] at (0, 0.9) {};
+    \node[right, font=\footnotesize] at (0.3, 0.9)
+        {expanded};
+    \node[circle, fill=lightblue, draw=accentblue,
+          very thick, minimum size=0.35cm,
+          inner sep=0pt] at (0, 0.3) {};
+    \node[right, font=\footnotesize] at (0.3, 0.3)
+        {generated};
+    \node[circle, fill=boundarybg, draw=boundary,
+          very thick, minimum size=0.35cm,
+          inner sep=0pt] at (0, -0.3) {};
+    \node[right, font=\footnotesize] at (0.3, -0.3)
+        {not generated};
+    \node[circle, fill=regularbg, draw=regular,
+          very thick, minimum size=0.35cm,
+          inner sep=0pt] at (0, -0.9) {};
+    \node[right, font=\footnotesize] at (0.3, -0.9)
+        {goal};
+\end{scope}
+
+% -- Nodes --
+\node[nd, fill=cachebg, draw=cache] (A)
+    at (0, 0) {$A$};
+\node[nd, fill=lightblue, draw=accentblue] (C)
+    at (1.8, 1.5) {$C$};
+\node[nd, fill=lightblue, draw=accentblue] (F)
+    at (3.6, 3.0) {$F$};
+\node[nd, fill=lightblue, draw=accentblue] (B)
+    at (1.8, -1.5) {$B$};
+\node[nd, fill=lightblue, draw=accentblue] (D)
+    at (3.6, -3.0) {$D$};
+\node[nd, fill=boundarybg, draw=boundary] (E)
+    at (5.4, -4.5) {$E$};
+\node[nd, fill=regularbg, draw=regular] (G)
+    at (9.5, 0) {$G$};
+
+% -- Graph edges (solid, labels perpendicular) --
+\draw[very thick]
+    (A) -- node[sloped, above=2pt,
+    font=\footnotesize] {$d\!=\!1$} (C);
+\draw[very thick]
+    (C) -- node[sloped, above=2pt,
+    font=\footnotesize] {$d\!=\!1$} (F);
+\draw[very thick]
+    (A) -- node[sloped, below=2pt,
+    font=\footnotesize] {$d\!=\!1$} (B);
+\draw[very thick]
+    (B) -- node[sloped, below=2pt,
+    font=\footnotesize] {$d\!=\!1$} (D);
+\draw[very thick]
+    (D) -- node[sloped, below=2pt,
+    font=\footnotesize] {$d\!=\!1$} (E);
+
+% -- Heuristic lines to G (unchanged) --
+\draw[dotted, thick, color=secgray]
+    (A) -- node[above, font=\footnotesize,
+    color=black, pos=0.5] {$h\!=\!5$} (G);
+\draw[dotted, thick, color=secgray]
+    (C) -- node[above, font=\footnotesize,
+    color=black, pos=0.4] {$h\!=\!4$} (G);
+\draw[dotted, thick, color=secgray]
+    (F) -- node[above, font=\footnotesize,
+    color=black, pos=0.4]
+    {$h\!=\!1$\;\textcolor{secgray}{\small(not
+    reached)}} (G);
+
+% -- BPMX-improved lines (red dashed) --
+\draw[dashed, thick, color=regular]
+    (B) -- node[above, font=\footnotesize,
+    sloped, pos=0.5]
+    {$h\!=\!1 \;\Rightarrow\;
+    \textcolor{regular}{\mathbf{h'\!=\!4}}$} (G);
+\draw[dashed, thick, color=regular]
+    (D) -- node[above, font=\footnotesize,
+    sloped, pos=0.45]
+    {$h\!=\!1 \;\Rightarrow\;
+    \textcolor{regular}{\mathbf{h'\!=\!3}}$} (G);
+
+% -- E to G (not generated, dotted) --
+\draw[dotted, thick, color=boundary]
+    (E) -- node[above, font=\footnotesize,
+    color=boundary, sloped, pos=0.45]
+    {\textsf{not generated}} (G);
+
+\end{tikzpicture}
+\end{center}
+
+\vspace{6pt}
+
+\paragraph{Example.}
+\begin{sentences}
+\item $A$ is expanded ($h\!=\!5$). Its children $C$
+      and $B$ are generated.
+\item $C$: $\max(4,\;5\!-\!1) = 4$, no improvement
+      (value unchanged). Cascade \textbf{stops} at~$C$.
+\item $F$: would improve
+      ($\max(1,\;4\!-\!1)=3$), but cascade stopped
+      at~$C$ --- deferred to $C$'s expansion.
+\item $B$: $\max(1,\;5\!-\!1) = 4$, improved.
+      Cascade continues.
+\item $D$: $\max(1,\;4\!-\!1) = 3$, improved.
+\item $E$: not generated --- cascade stops.
+\end{sentences}
+
+\vspace{6pt}
+
+\paragraph{How can inconsistency arise in heuristic search?}
+\begin{sentences}
+\item[\tagfelner] Random PDB selection, dual state
+      heuristic, compressed PDBs, Interleaved
+      Differential Heuristics (IDH).
+\item In MOSPP: mixing cached $h^*$ with
+      regular $h$ across sequential searches.
+\end{sentences}
+
+\vspace{8pt}
+
+% -- Comparison Summary --------------------------------------
+\subsection{Comparison Summary}
+
+\vspace{4pt}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{l p{4.8cm} p{4.8cm}}
+\toprule
+& \textbf{HS for OMSPP \& MOSPP}
+& \textbf{Inconsistent Heuristics}
+  \;\tagfelner \\
+\midrule
+\rowcolor{accentblue!25}
+\textbf{Mechanism}
+    & \multicolumn{2}{c}{\textbf{Same: triangle
+      inequality on adjacent nodes}} \\
+\textbf{Context}
+    & $k$ sequential A* searches to
+      shared target~$t$
+    & Single A* or IDA* search \\
+\rowcolor{black!5}
+\textbf{Source value}
+    & $h^*$ --- exact distance, cached
+      from a previous search
+    & $h$ --- admissible estimate from
+      inconsistent heuristic (random PDB
+      selection, dual state lookup,
+      compressed PDB, IDH) \\
+\textbf{Inconsistency}
+    & Localized at cached/uncached
+      boundary; structurally predictable
+    & Distributed across the graph;
+      location-unpredictable \\
+\rowcolor{black!5}
+\textbf{Timing}
+    & Pre-propagation between searches
+    & Online during node expansion \\
+\textbf{Depth}
+    & Tunable parameter~$d$
+      ($d\!=\!2$ empirically best),
+      \textbf{or} adaptive: stop when no
+      node was improved in the last
+      propagation step
+    & BPMX($d$): $d\!=\!1$ to $\infty$;
+      stops when value no longer improves
+      neighbors \\
+\rowcolor{black!5}
+\textbf{Beyond}
+    & Early termination: cached node
+      expanded $\Rightarrow$ path
+      reconstruction
+    & Value propagation only \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{8pt}
+\section{Heuristic-Reuse Mechanisms: Adaptive, Propagation, BPMX}
+% ================================================================
+
+\paragraph{Three mechanisms, one shared store.}
+
+The incremental orchestrator strengthens the inner heuristic by
+three independent mechanisms. Two are \textbf{sources} (they
+originate new admissible bounds); two are \textbf{spreaders}
+(they extend existing bounds to further nodes). All three write
+the \emph{same} admissible \texttt{HBounded} layer and combine
+by~$\max$, so they stack freely and A* optimality is preserved.
+
+\paragraph{The three mechanisms.}
+
+\begin{sentences}
+\item \textbf{Adaptive heuristic} (\emph{source};
+      Koenig \& Likhachev, 2005): after a sub-search solves
+      start $s_i$ with optimal cost $C_i$, set
+      \[
+          h(x) \leftarrow \max\bigl(h(x),\; C_i - g_i(x)\bigr)
+          \quad\text{for every expanded } x,
+      \]
+      admissible since $C_i \le g_i(x) + h^*(x, t)$. Turns each
+      solved start into a landmark; covers \emph{all}
+      previously expanded nodes (on- and off-path); free --- a
+      by-product of the closed list. Intrinsically cross-search.
+      Knob: \texttt{adaptive\_h}.
+
+\item \textbf{Heuristic propagation} (\emph{spreader}, eager):
+      before a sub-search, pathmax is propagated outward from
+      already-elevated nodes (cache and carried bounds) to
+      \texttt{propagate\_depth} levels. Spreads known
+      information; originates none, so on a cold first search it
+      does nothing. Pays a one-off pre-search cost over a
+      region. Knobs: \texttt{propagate}, \texttt{propagate\_depth}.
+
+\item \textbf{BPMX} (\emph{spreader}, lazy; Felner et~al.,
+      2011): during search, the pathmax cascade runs on the BFS
+      subtree around each expanded node. Spreads rather than
+      originates, but lazily, on the live frontier, paying per
+      expansion only where the search goes. Knobs:
+      \texttt{rule\_bpmx}, \texttt{depth\_bpmx}.
+\end{sentences}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Mechanism} & \textbf{Role} & \textbf{When} & \textbf{Covers} \\
+\midrule
+Adaptive    & source   & cross-search & every expanded node \\
+Propagation & spreader & pre-search   & seeds $+$ depth-neighbours \\
+BPMX        & spreader & in-search    & live-frontier subtree \\
+\bottomrule
+\end{tabular}
+\caption{Sources originate admissible bounds; spreaders extend
+them. The three write one shared \texttt{HBounded} layer and
+compose by~$\max$.}
+\end{table}
+
+\paragraph{Can they be combined?}
+
+Yes. Every bound is an admissible lower bound on $h^*(x, t)$, so
+their $\max$ is admissible and A* optimality holds under any
+combination; co-active propagation~$+$~BPMX is verified in the
+unit tests. The three are orthogonal knobs on one shared store,
+not competing alternatives.
+
+\paragraph{When is each beneficial?}
+
+\begin{sentences}
+\item \textbf{Adaptive} --- whenever later sub-searches revisit
+      regions earlier searches expanded. Pays most when the base
+      heuristic is \emph{loose} (obstacles, weights, detours)
+      and adds nothing when the base is already exact (open grid
+      with Manhattan, where $C_i - g_i(x) \le \text{Manhattan}$
+      always).
+\item \textbf{Propagation} --- when the current search enters
+      \emph{new} territory adjacent to known bounds; the cheap
+      global informer that carries the cache/adaptive bounds
+      into the unexplored neighbourhood.
+\item \textbf{BPMX} --- only when a live inconsistency exists in
+      territory neither cached nor propagated; the expensive
+      local option. Prefer propagation; reach for BPMX when
+      propagation is depth-capped and residual inconsistency
+      remains.
+      \me{why should i always prefer propagation over bpmx in MOSPP? what bpmx rule is best for MOSPP?}
+      \you{Because in MOSPP all inconsistency originates in the carried cache/bounds (the base Manhattan $h$ is consistent) and is known before the sub-search, propagation spreads it once pre-search whereas BPMX re-derives the same lifts per expansion (wall-clock rose about $10\times$ with depth in our runs); it is not literally always---reach for \texttt{rule\_bpmx=1} at \texttt{depth=2} (the 44\% expansion drop) only for residual inconsistency that propagation's depth cap misses.}
+\item \textbf{First sub-search} --- none help (no prior $C_i$,
+      no seeds, consistent base): it is plain A*.
+\item \textbf{Static graph (MOSPP)} --- edge costs never change,
+      so the adaptive update needs only basic Adaptive A*, never
+      the cost-change correction of Generalized Adaptive A*.
+\end{sentences}
+
+\vspace{8pt}
+
+% ====================================================================
+%  Experimental results -- per-rule sections generated by s_5.
+%  Do NOT hand-edit rule1/rule2/rule3/cascade.tex; edit
+%  report_spec.py / report_render.py instead. This main.tex
+%  (preamble + sections 1-2 + the \input list) is human-owned.
+% ====================================================================
+\IfFileExists{rule1.tex}{\input{rule1}}{}
+\IfFileExists{rule2.tex}{\input{rule2}}{}
+\IfFileExists{rule3.tex}{\input{rule3}}{}
+\IfFileExists{cascade.tex}{\input{cascade}}{}
+
+\end{document}

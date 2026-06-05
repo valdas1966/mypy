@@ -1,6 +1,13 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from f_gui.elements.i_0_element.main import Element
 from f_core.mixins.has.children import HasChildren
 from f_ds.geometry.bounds import Bounds
+
+if TYPE_CHECKING:
+    from f_color.rgb import RGB
 
 
 class Container(Element, HasChildren):
@@ -15,13 +22,14 @@ class Container(Element, HasChildren):
 
     def __init__(self,
                  bounds: Bounds[float] = None,
-                 name: str = 'Container') -> None:
+                 name: str = 'Container',
+                 background: RGB | None = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        Element.__init__(self, bounds=bounds, name=name)
+        Element.__init__(self, bounds=bounds, name=name, background=background)
         HasChildren.__init__(self)
 
     def add_child(self, child: Element) -> None:
