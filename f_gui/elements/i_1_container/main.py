@@ -8,6 +8,7 @@ from f_ds.geometry.bounds import Bounds
 
 if TYPE_CHECKING:
     from f_color.rgb import RGB
+    from f_gui.style.border import Border
 
 
 class Container(Element, HasChildren):
@@ -23,13 +24,15 @@ class Container(Element, HasChildren):
     def __init__(self,
                  bounds: Bounds[float] = None,
                  name: str = 'Container',
-                 background: RGB | None = None) -> None:
+                 background: RGB | None = None,
+                 border: Border | None = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        Element.__init__(self, bounds=bounds, name=name, background=background)
+        Element.__init__(self, bounds=bounds, name=name,
+                         background=background, border=border)
         HasChildren.__init__(self)
 
     def add_child(self, child: Element) -> None:

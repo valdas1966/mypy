@@ -4,7 +4,8 @@ from pathlib import Path
 from f_gui.elements.i_0_element.main import Element
 from f_gui.elements.i_1_container.main import Container
 from f_gui.elements.i_1_label.main import Label
-from f_gui.elements.i_2_window.main import Window
+from f_gui.elements.i_1_line.main import Line
+from f_gui.style.stroke import LineStyle
 
 
 class RenderHtml:
@@ -17,27 +18,30 @@ class RenderHtml:
     # Factory
     Factory: type = None
 
-    # Per-type border styles (Window checked before Container since Window IS-A
-    # Container). Kept here so the emitter stays stateless.
-    _BORDER_WINDOW = '3px solid #ff8c42'
-    _BORDER_CONTAINER = '2px dashed #58a6ff'
-    _BORDER_LABEL = '2px solid #bc8cff'
-    _BORDER_ELEMENT = '1px solid #888'
+    # Fallback color when a Stroke (Line or Border edge) carries no color.
+    _STROKE_DEFAULT = '#e6edf3'
+
+    # SVG stroke-dasharray per LineStyle (solid -> no dasharray).
+    _DASH = {LineStyle.DASHED: '8 6', LineStyle.DOTTED: '1 6'}
 
     @staticmethod
     def element(elem: Element) -> str:
         """
         ========================================================================
-         Render the Element (and its descendants) as a single <div> string.
+         Render the Element (and its descendants) as a single HTML string.
+        ========================================================================
+         A Line emits an <svg> overlay; every other Element emits a <div>.
         ========================================================================
         """
+        if isinstance(elem, Line):
+            return RenderHtml._line(elem=elem)
         b = elem.bounds
         border = RenderHtml._border(elem=elem)
         bg = RenderHtml._background(elem=elem)
         style = (f'position:absolute;'
                  f'top:{b.top}%;left:{b.left}%;'
                  f'bottom:{100 - b.bottom}%;right:{100 - b.right}%;'
-                 f'box-sizing:border-box;border:{border};{bg}'
+                 f'box-sizing:border-box;{border}{bg}'
                  f'display:flex;align-items:center;justify-content:center;'
                  f'overflow:hidden;font-family:monospace;font-size:12px;')
         inner = RenderHtml._inner(elem=elem)
@@ -90,19 +94,91 @@ class RenderHtml:
         return f'background:{color.to.hex()};'
 
     @staticmethod
+    def _line(elem: Line) -> str:
+        """
+        ========================================================================
+         Render a Line as a self-contained <svg> overlay filling its parent.
+        ========================================================================
+         Endpoints are percentages of the parent box (0-100 -> SVG %), so a
+         diagonal maps exactly onto the scene graph's coordinate space.
+         color->stroke, width->stroke-width (px), style->stroke-dasharray,
+         arrow->a per-svg <marker> referenced by marker-end.
+        ========================================================================
+        """
+        p1, p2 = elem.p1, elem.p2
+        stroke = elem.stroke
+        color = RenderHtml._stroke_color(stroke=stroke)
+        cap = 'round' if stroke.style is LineStyle.DOTTED else 'butt'
+        dash = RenderHtml._dash(style=stroke.style)
+        # Arrowhead — id is content-derived so it is unique per distinct Line
+        # (duplicate ids across inline SVGs would otherwise collide).
+        defs = marker = ''
+        if elem.arrow:
+            uid = (f'{color}-{p1.x}-{p1.y}-{p2.x}-{p2.y}'
+                   .replace('#', '').replace('.', '_'))
+            mid = f'arrow-{uid}'
+            defs = (f'<defs><marker id="{mid}" markerWidth="10" '
+                    f'markerHeight="10" refX="8" refY="5" orient="auto" '
+                    f'markerUnits="strokeWidth">'
+                    f'<path d="M0,0 L10,5 L0,10 z" fill="{color}"/>'
+                    f'</marker></defs>')
+            marker = f' marker-end="url(#{mid})"'
+        line = (f'<line x1="{p1.x}%" y1="{p1.y}%" '
+                f'x2="{p2.x}%" y2="{p2.y}%" '
+                f'stroke="{color}" stroke-width="{stroke.width}" '
+                f'stroke-linecap="{cap}"{dash}{marker}/>')
+        style = ('position:absolute;inset:0;width:100%;height:100%;'
+                 'overflow:visible;pointer-events:none;')
+        return f'<svg style="{style}">{defs}{line}</svg>'
+
+    @staticmethod
+    def _dash(style: LineStyle) -> str:
+        """
+        ========================================================================
+         CSS stroke-dasharray attribute for the style, or '' for solid.
+        ========================================================================
+        """
+        pattern = RenderHtml._DASH.get(style)
+        if pattern is None:
+            return ''
+        return f' stroke-dasharray="{pattern}"'
+
+    @staticmethod
+    def _stroke_color(stroke) -> str:
+        """
+        ========================================================================
+         Hex color of a Stroke, or the default when it carries no color.
+        ========================================================================
+        """
+        color = stroke.color
+        if color is None:
+            return RenderHtml._STROKE_DEFAULT
+        return color.to.hex()
+
+    @staticmethod
     def _border(elem: Element) -> str:
         """
         ========================================================================
-         Pick a border style based on the Element's concrete type.
+         Per-side CSS border declarations from the Element's Border state.
+        ========================================================================
+         Border is opt-in: an Element with no border emits nothing. Each set
+         side maps 1:1 onto `border-{side}: {width}px {style} {color}` —
+         LineStyle values are the exact CSS border-style keywords.
         ========================================================================
         """
-        if isinstance(elem, Window):
-            return RenderHtml._BORDER_WINDOW
-        if isinstance(elem, Container):
-            return RenderHtml._BORDER_CONTAINER
-        if isinstance(elem, Label):
-            return RenderHtml._BORDER_LABEL
-        return RenderHtml._BORDER_ELEMENT
+        border = elem.border
+        if border is None:
+            return ''
+        sides = (('top', border.top), ('right', border.right),
+                 ('bottom', border.bottom), ('left', border.left))
+        out = ''
+        for side, stroke in sides:
+            if stroke is None:
+                continue
+            color = RenderHtml._stroke_color(stroke=stroke)
+            out += (f'border-{side}:{stroke.width}px '
+                    f'{stroke.style.value} {color};')
+        return out
 
     @staticmethod
     def _inner(elem: Element) -> str:

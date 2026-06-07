@@ -20,10 +20,13 @@ Factory: type = None
 def __init__(self,
              bounds: Bounds[float] = None,
              name: str = 'Container',
-             background: RGB | None = None) -> None
+             background: RGB | None = None,
+             border: Border | None = None) -> None
 ```
 Bounds default to full `(0, 0, 100, 100)`; `background` (an
-`f_color.rgb.RGB`, `None` = transparent) is forwarded to `Element`.
+`f_color.rgb.RGB`, `None` = transparent) and `border` (an
+`f_gui.style.border.Border`, `None` = no border) are forwarded to
+`Element`.
 
 ### Methods
 

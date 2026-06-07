@@ -81,8 +81,8 @@
    Experiments/Grids/grids.pkl          -- name -> GridMap
 
  Output  (Drive)
-   Experiments/MOSPP/
-     astar_inc_nested__rule_{R}__bpmx_{B}__prop_{P}.csv
+   Results/
+     astar_inc_nested_rule_{R}_bpmx_{B}_prop_{P}.csv
    R = rule_bpmx (None -> 'none'), B = depth_bpmx
    (None -> 'inf'), P = depth_prop (None -> 'inf'). Toy runs
    get a trailing `_toy{N}`.
@@ -109,6 +109,7 @@ from f_log import setup_log, get_log
 from f_google.services.drive import Drive
 from f_hs.problem.i_1_grid import ProblemGrid
 from f_hs.algo.i_1_mospp.i_1_astar_inc import AStarIncMOSPP
+from f_hs.algo.i_1_mospp import AStarRepMOSPP
 
 
 setup_log(sink='console', level=logging.INFO)
@@ -221,7 +222,7 @@ def _csv_filename(rule_bpmx: str | None,
     ========================================================================
      Build the output CSV filename, encoding the run config so
      repeated single-config runs never clobber each other:
-       astar_inc_nested__rule_{R}__bpmx_{B}__prop_{P}[_toy{N}].csv
+       astar_inc_nested_rule_{R}_bpmx_{B}_prop_{P}[_toy{N}].csv
      None renders as 'none' for the rule and 'inf' for either
      depth. A toy run appends `_toy{N}` (N = n_maps).
     ========================================================================
@@ -230,8 +231,20 @@ def _csv_filename(rule_bpmx: str | None,
     b = 'inf' if depth_bpmx is None else depth_bpmx
     p = 'inf' if depth_prop is None else depth_prop
     toy = f'_toy{n_maps}' if n_maps is not None else ''
-    return (f'astar_inc_nested__rule_{r}__bpmx_{b}'
-            f'__prop_{p}{toy}.csv')
+    return (f'astar_inc_nested_rule_{r}_bpmx_{b}'
+            f'_prop_{p}{toy}.csv')
+
+
+def _csv_filename_rep(n_maps: int | None) -> str:
+    """
+    ========================================================================
+     Output CSV filename for the AStarRepMOSPP baseline (single
+     config -- no rule / depth ladder):
+       astar_rep_nested[_toy{N}].csv
+    ========================================================================
+    """
+    toy = f'_toy{n_maps}' if n_maps is not None else ''
+    return f'astar_rep_nested{toy}.csv'
 
 
 # ── Config validation ───────────────────────────────────────────────────────
@@ -425,53 +438,100 @@ def _experiment_astar_inc_chain(chain: _MapChain,
     return rows
 
 
+def _experiment_astar_rep_chain(chain: _MapChain) -> list[dict]:
+    """
+    ========================================================================
+     Solve one map's nested k-chain with a SINGLE AStarRepMOSPP
+     (the no-sharing baseline), exploiting prefix reuse. `run()`
+     the smallest-k MOSPP instance, then `extend()` by each
+     subsequent stage's +10 genuinely-new starts. Rep shares NO
+     state across sub-searches, but `extend()` still runs each
+     start's independent A* EXACTLY ONCE across the whole chain
+     (it never re-solves the prefix), so the chain costs the same
+     as 20 from-scratch runs would in total -- minus the
+     redundant prefix re-solves a per-k loop would incur.
+
+     Returns one (cumulative) row per k-stage (20 rows). Reuses
+     the Inc `_row` builder with a None BPMX config: the rule /
+     depth columns render 'none' / 'inf', and Rep's absent
+     counters (`cnt_prop_*`, `cnt_bpmx_*`, `cnt_cache_hits_at_init`,
+     `mem_cache`, `mem_bounds`) default to 0 -- keeping the CSV
+     schema identical to the Inc runs for easy comparison.
+    ========================================================================
+    """
+    problems = list(chain)               # ascending m
+    domain = getattr(problems[0].grid, 'domain', '') or ''
+    map_name = problems[0].grid_name
+    flipped = [p.flipped() for p in problems]
+    _log.info(f'start  REP ({domain}, {map_name}) chain '
+              f'm={len(flipped[0].starts)}..'
+              f'{len(flipped[-1].starts)}')
+
+    # Seed with the smallest-k MOSPP problem.
+    algo = AStarRepMOSPP(
+        problem=flipped[0],
+        h=_h,
+        is_recording=False,
+        is_timing=True,
+    )
+    algo.run()
+    rows = [_row(domain, map_name, len(flipped[0].starts),
+                 None, None, None, algo)]
+
+    # Extend by each subsequent problem's +10 genuinely-new
+    # starts; snapshot a (cumulative) row per stage.
+    seen = set(flipped[0].starts)
+    for fp in flipped[1:]:
+        new = [s for s in fp.starts if s not in seen]
+        if new:
+            algo.extend(new)
+            seen.update(new)
+        rows.append(_row(domain, map_name, len(fp.starts),
+                         None, None, None, algo))
+
+    _log.info(f'done   REP ({domain}, {map_name}) {len(rows)} rows '
+              f'elapsed={algo.elapsed:.2f}s')
+    return rows
+
+
 # ── Public API ──────────────────────────────────────────────────────────────
 
-def run_astar_inc(path_drive_pkl_in: str,
-                  path_drive_grids_in: str,
-                  path_drive_csv_out: str,
-                  rule_bpmx: str | None,
-                  depth_bpmx: int | None,
-                  depth_prop: int | None,
-                  workers: int = 10,
-                  n_maps: int | None = None) -> None:
+def _run_chain_experiment(experiment,
+                          path_drive_pkl_in: str,
+                          path_drive_grids_in: str,
+                          path_drive_csv_out: str,
+                          workers: int,
+                          n_maps: int | None) -> None:
     """
     ========================================================================
-     Run AStarIncMOSPP across every map in `path_drive_pkl_in`
-     as a NESTED k-chain (OMSPP problems flipped to MOSPP),
-     for ONE config (`rule_bpmx`, `depth_bpmx`, `depth_prop`).
-     Parallelized over `workers` processes -- one task per
-     map. Emits one CSV to `path_drive_csv_out` on Drive --
-     one (cumulative) row per (map, k) stage.
+     Shared nested-chain runner (used by both `run_astar_inc` and
+     `run_astar_rep`). One task per map; one CSV to
+     `path_drive_csv_out`; one (cumulative) row per (map, k) stage.
+
+     `experiment` is a picklable callable taking a single
+     `_MapChain` and returning `list[dict]`. The Inc config rides
+     into the workers via a `functools.partial`; the Rep baseline
+     needs no config.
 
      `n_maps` slices the chain list to the first N maps (toy /
-     smoke mode); None processes all of them. `workers` is
-     clamped to `min(workers, n_maps_effective)`.
+     smoke mode); None processes all. `workers` is clamped to
+     `min(workers, n_tasks)`.
 
      Flow:
-       1. Validate the config; fail fast before the pool.
-       2. Download the OMSPP problems pickle + grids pickle.
-       3. Group problems into per-map chains; verify the
+       1. Download the OMSPP problems pickle + grids pickle.
+       2. Group problems into per-map chains; verify the
           nested-chain preconditions; optionally toy-slice;
-          wrap each chain in a `_MapChain` and re-pickle for
-          the Runner.
-       4. `ProblemGrid.Runner.run` dispatches one task per
-          chain; each worker attaches the chain, runs the
-          `run()` + `extend()` sequence. The config ships
-          into the workers via a `functools.partial`.
-       5. Flatten the per-chain row lists; write + upload the
-          CSV.
+          wrap each chain in a `_MapChain` and re-pickle for the
+          Runner.
+       3. `ProblemGrid.Runner.run` dispatches one task per chain;
+          each worker attaches the chain and runs the `run()` +
+          `extend()` sequence via `experiment`.
+       4. Flatten the per-chain row lists; write + upload the CSV.
     ========================================================================
     """
-    _validate_config(rule_bpmx=rule_bpmx,
-                     depth_bpmx=depth_bpmx,
-                     depth_prop=depth_prop)
     if n_maps is not None and n_maps < 1:
         raise ValueError(f'n_maps must be >= 1; got {n_maps}')
     drive = Drive.Factory.valdas()
-    _log.info(f'astar_inc nested: workers={workers}, '
-              f'rule_bpmx={rule_bpmx!r}, depth_bpmx={depth_bpmx!r}, '
-              f'depth_prop={depth_prop!r}')
 
     # Allocate temp files up front so the finally block always cleans.
     fd_in, path_in = tempfile.mkstemp(suffix='.pkl')
@@ -509,17 +569,11 @@ def run_astar_inc(path_drive_pkl_in: str,
                         protocol=pickle.HIGHEST_PROTOCOL)
 
         # 3. Dispatch one task per chain over the worker pool.
-        #    The config rides into each worker on a picklable
-        #    partial.
         n_tasks = len(chain_units)
         effective_workers = max(1, min(workers, n_tasks))
         _log.info(f'spawning {effective_workers} workers '
                   f'(requested {workers}, n_tasks={n_tasks}); '
                   f'{n_tasks} nested chains (chunksize=1)')
-        experiment = partial(_experiment_astar_inc_chain,
-                             rule_bpmx=rule_bpmx,
-                             depth_bpmx=depth_bpmx,
-                             depth_prop=depth_prop)
         results = ProblemGrid.Runner.run(
             path_problems=path_run,
             path_grids=path_grids,
@@ -548,6 +602,69 @@ def run_astar_inc(path_drive_pkl_in: str,
                 os.unlink(path)
 
 
+def run_astar_inc(path_drive_pkl_in: str,
+                  path_drive_grids_in: str,
+                  path_drive_csv_out: str,
+                  rule_bpmx: str | None,
+                  depth_bpmx: int | None,
+                  depth_prop: int | None,
+                  workers: int = 10,
+                  n_maps: int | None = None) -> None:
+    """
+    ========================================================================
+     Run AStarIncMOSPP across every map as a NESTED k-chain
+     (OMSPP problems flipped to MOSPP), for ONE config
+     (`rule_bpmx`, `depth_bpmx`, `depth_prop`). Validates the
+     config (fail-fast before the pool spins up), then delegates
+     the download / dispatch / write to `_run_chain_experiment`.
+     The config ships into the workers via a `functools.partial`.
+    ========================================================================
+    """
+    _validate_config(rule_bpmx=rule_bpmx,
+                     depth_bpmx=depth_bpmx,
+                     depth_prop=depth_prop)
+    _log.info(f'astar_inc nested: workers={workers}, '
+              f'rule_bpmx={rule_bpmx!r}, depth_bpmx={depth_bpmx!r}, '
+              f'depth_prop={depth_prop!r}')
+    experiment = partial(_experiment_astar_inc_chain,
+                         rule_bpmx=rule_bpmx,
+                         depth_bpmx=depth_bpmx,
+                         depth_prop=depth_prop)
+    _run_chain_experiment(
+        experiment=experiment,
+        path_drive_pkl_in=path_drive_pkl_in,
+        path_drive_grids_in=path_drive_grids_in,
+        path_drive_csv_out=path_drive_csv_out,
+        workers=workers,
+        n_maps=n_maps)
+
+
+def run_astar_rep(path_drive_pkl_in: str,
+                  path_drive_grids_in: str,
+                  path_drive_csv_out: str,
+                  workers: int = 10,
+                  n_maps: int | None = None) -> None:
+    """
+    ========================================================================
+     Run the AStarRepMOSPP baseline across every map as a NESTED
+     k-chain, exploiting prefix reuse: per map ONE AStarRepMOSPP
+     `run()`s the smallest-k instance, then `extend()`s by each
+     stage's +10 genuinely-new starts -- so each start's
+     independent A* runs exactly once across the chain (no prefix
+     re-solve). Single config (no rule / depth ladder); same CSV
+     schema as the Inc runs. Delegates to `_run_chain_experiment`.
+    ========================================================================
+    """
+    _log.info(f'astar_rep nested: workers={workers}')
+    _run_chain_experiment(
+        experiment=_experiment_astar_rep_chain,
+        path_drive_pkl_in=path_drive_pkl_in,
+        path_drive_grids_in=path_drive_grids_in,
+        path_drive_csv_out=path_drive_csv_out,
+        workers=workers,
+        n_maps=n_maps)
+
+
 # ── Main ────────────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':
@@ -563,28 +680,51 @@ if __name__ == '__main__':
     # run -- N=1 is one nested chain (~200 sub-searches).
     n_maps = None
 
-    # ── Algorithm config — one run, one config, one CSV ─────────────────────
-    # rule_bpmx  : {None, '1', '2', '3', 'CASCADE'}; None = BPMX off.
-    # depth_bpmx : int >= 1, or None = BPMX to convergence.
-    # depth_prop : 0 = no propagation; int >= 1 = propagate to that
-    #              depth; None = propagate to convergence.
-    rule_bpmx = 'CASCADE'
-    depth_bpmx = 5
-    depth_prop = 0
+    # Which algorithm to run this invocation:
+    #   'inc' -- AStarIncMOSPP, ONE BPMX config (the depth ladder
+    #            is run by repeating with different rule/depth).
+    #   'rep' -- AStarRepMOSPP baseline (single config, no ladder).
+    ALGO = 'rep'
 
-    # Output path — encodes the config so repeated single-config
-    # runs never clobber each other; `_toy{N}` suffix in toy mode.
-    path_drive_csv_out = (
-        f'Experiments/MOSPP/'
-        f'{_csv_filename(rule_bpmx, depth_bpmx, depth_prop, n_maps)}')
+    if ALGO == 'inc':
+        # ── AStarIncMOSPP config — one run, one config, one CSV ──────────────
+        # rule_bpmx  : {None, '1', '2', '3', 'CASCADE'}; None = BPMX off.
+        # depth_bpmx : int >= 1, or None = BPMX to convergence.
+        # depth_prop : 0 = no propagation; int >= 1 = propagate to that
+        #              depth; None = propagate to convergence.
+        rule_bpmx = 'CASCADE'
+        depth_bpmx = 5
+        depth_prop = 0
 
-    run_astar_inc(
-        path_drive_pkl_in=path_drive_pkl_in,
-        path_drive_grids_in=path_drive_grids_in,
-        path_drive_csv_out=path_drive_csv_out,
-        rule_bpmx=rule_bpmx,
-        depth_bpmx=depth_bpmx,
-        depth_prop=depth_prop,
-        workers=workers,
-        n_maps=n_maps)
+        # Output path — encodes the config so repeated single-config
+        # runs never clobber each other; `_toy{N}` suffix in toy mode.
+        path_drive_csv_out = (
+            f'Results/'
+            f'{_csv_filename(rule_bpmx, depth_bpmx, depth_prop, n_maps)}')
+
+        run_astar_inc(
+            path_drive_pkl_in=path_drive_pkl_in,
+            path_drive_grids_in=path_drive_grids_in,
+            path_drive_csv_out=path_drive_csv_out,
+            rule_bpmx=rule_bpmx,
+            depth_bpmx=depth_bpmx,
+            depth_prop=depth_prop,
+            workers=workers,
+            n_maps=n_maps)
+
+    elif ALGO == 'rep':
+        # AStarRepMOSPP baseline — single config, one CSV.
+        path_drive_csv_out = (
+            f'Results/{_csv_filename_rep(n_maps)}')
+
+        run_astar_rep(
+            path_drive_pkl_in=path_drive_pkl_in,
+            path_drive_grids_in=path_drive_grids_in,
+            path_drive_csv_out=path_drive_csv_out,
+            workers=workers,
+            n_maps=n_maps)
+
+    else:
+        raise ValueError(f"ALGO must be 'inc' or 'rep'; got {ALGO!r}")
+
     _log.info('--- done ---')

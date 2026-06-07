@@ -7,6 +7,7 @@ from f_ds.geometry.bounds import Bounds
 
 if TYPE_CHECKING:
     from f_color.rgb import RGB
+    from f_gui.style.border import Border
 
 
 class Label(Element):
@@ -23,13 +24,15 @@ class Label(Element):
                  bounds: Bounds[float] = None,
                  text: str = '',
                  name: str = 'Label',
-                 background: RGB | None = None) -> None:
+                 background: RGB | None = None,
+                 border: Border | None = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        Element.__init__(self, bounds=bounds, name=name, background=background)
+        Element.__init__(self, bounds=bounds, name=name,
+                         background=background, border=border)
         self._text = text
 
     @property

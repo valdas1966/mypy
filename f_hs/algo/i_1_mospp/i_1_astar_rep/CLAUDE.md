@@ -51,8 +51,8 @@ AStarRepMOSPP(problem: ProblemSPP[State],
 | `cnt_decrease` | Cumulative `frontier.decrease`. |
 | `cnt_expanded` | Cumulative expanded states. |
 | `cnt_generated` | Cumulative first-time pushes. |
-| `mem_open` / `mem_closed` | **Peak** memory snapshot across sub-searches. Each sub-search probe uses that sub-search's `frontier.max_size` for the OPEN count (rule-2 + rule-3). |
-| `mem_total` | `Σ mem_*` — conservative upper-bound coincident peak. |
+| `mem_open` / `mem_closed` | **Node-count** components of the **peak (MAX-total) sub-search**: per sub-search the live coincident `\|OPEN\| + \|CLOSED\|` is measured (`len(frontier)` / `len(closed)` at sub-search end), and the parts of the largest are kept. Counts, not bytes (`getsizeof` dropped). |
+| `mem_total` | `Σ mem_*` — the **exact** coincident peak (open+closed of the peak sub-search). |
 
 `cnt_h_update` is **absent** — no PHASE_UPDATE in kxA*.
 

@@ -174,3 +174,22 @@ the principled rule-2 reading. For shared-frontier
 orchestrators (KAStarInc / KBFS / KDijkstra) the SAME
 `FrontierPriority` accumulates across all k sub-searches, so
 `max_size` is automatically the cross-sub-search peak.
+
+### MOSPP orchestrators — coincident node-count peak (2026-06-07)
+
+`AStarIncMOSPP` and `AStarRepMOSPP` measure memory as
+**node counts** (not bytes — `getsizeof` was dropped as
+CPython-overhead noise) and as a **coincident peak**, not a
+sum of independently-peaked regions. Per sub-search they
+snapshot the live coincident occupancy
+`|OPEN| + |CLOSED| (+ |cache| + |bounds|)` — OPEN/CLOSED via
+`len(frontier)` / `len(closed)` at sub-search end (each runs
+its own frontier, freed between searches; cache/bounds are the
+carried goal-anchored stores as they stand *during* that
+sub-search) — and keep the components of the **MAX-total**
+sub-search. Because those components co-occur,
+`finalize_mem_total`'s `Σ` is the **exact** coincident peak,
+not an upper bound. The base auto-probe + `max_size` /
+byte rule above still governs the single-search OOSPP algos
+and the shared-frontier K* delegators (KBFS / KDijkstra),
+which are **not yet** migrated to this metric.

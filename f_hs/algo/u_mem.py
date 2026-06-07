@@ -10,10 +10,16 @@
  per-region `mem_*` value (each of which is itself the right
  reading for its region — peak for non-monotone OPEN, final-on-
  owner for monotone CLOSED/cache/bounds, max-across-sub-searches
- for disjoint-in-time orchestrator scopes). Component peaks need
- not coincide in time, so the sum is an *upper bound* on the
- true coincident peak; this bias is shared across every algo,
- so cross-algo deltas (Inc - Rep) largely cancel it out.
+ for disjoint-in-time orchestrator scopes). For algos whose
+ components need not coincide in time (base auto-probe /
+ shared-frontier orchestrators), the sum is an *upper bound* on
+ the true coincident peak; this bias is shared, so cross-algo
+ deltas largely cancel it out. The MOSPP orchestrators
+ (`AStarIncMOSPP` / `AStarRepMOSPP`, 2026-06-07) instead assign
+ the node-count components of a SINGLE peak sub-search, which DO
+ coincide — so for them `Σ mem_*` is the *exact* coincident
+ peak. Either way the `Σ` rule is correct; only the tightness
+ differs.
 
  `finalize_mem_total` is called LAST in each algo's memory-
  snapshot routine, after every other `mem_*` has been assigned.

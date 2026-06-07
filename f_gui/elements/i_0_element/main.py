@@ -8,6 +8,7 @@ from f_ds.geometry.bounds import Bounds
 
 if TYPE_CHECKING:
     from f_color.rgb import RGB
+    from f_gui.style.border import Border
 
 
 class Element(HasName, HasParent):
@@ -35,7 +36,8 @@ class Element(HasName, HasParent):
     def __init__(self,
                  bounds: Bounds[float] = None,
                  name: str = 'Element',
-                 background: RGB | None = None) -> None:
+                 background: RGB | None = None,
+                 border: Border | None = None) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -45,6 +47,7 @@ class Element(HasName, HasParent):
         HasParent.__init__(self)
         self._bounds = bounds or Bounds.Factory.full()
         self._background = background
+        self._border = border
 
     @property
     def bounds(self) -> Bounds[float]:
@@ -63,6 +66,15 @@ class Element(HasName, HasParent):
         ========================================================================
         """
         return self._background
+
+    @property
+    def border(self) -> Border | None:
+        """
+        ========================================================================
+         Get the Border of the Element (None = no border).
+        ========================================================================
+        """
+        return self._border
 
     def __str__(self) -> str:
         """

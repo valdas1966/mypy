@@ -94,7 +94,7 @@ Group order mirrors the COUNTERS.html column order:
 | h | `cnt_h_search` (orchestrator-owned; wrapped h) |
 | frontier | `cnt_push`, `cnt_pop`, `cnt_decrease` |
 | reuse | `cnt_cache_hits_at_init` |
-| memory | `mem_open`, `mem_closed` (rule-3 **MEAN** across per-start sub-searches — the mean of each sub-search's peak footprint; each per-sub-search probe uses that sub-search's `frontier.max_size`. Changed from MAX to MEAN so the metric reflects the typical sub-search and exposes BPMX's memory effect instead of being pinned by the single hardest, near-uncached sub-search), `mem_cache`, `mem_bounds` (rule-4 final-on-owner — measured on `self._cache` / `self._bounds` at end-of-run, after every harvest; supersedes the prior stale-inner-snapshot reading), `mem_total = Σ mem_*` (now mean OPEN + mean CLOSED + final cache + final bounds — a typical-footprint sum, no longer a coincident-peak upper bound) |
+| memory | `mem_open`, `mem_closed`, `mem_cache`, `mem_bounds` — the four **node-count** components of the single **peak (MAX-total) sub-search**. Per sub-search the live coincident occupancy `\|OPEN\| + \|CLOSED\| + \|cache\| + \|bounds\|` is measured (`len(frontier)` / `len(closed)` at sub-search end; cache/bounds as they stand *during* that sub-search, i.e. the 1..i-1 contributions), and the four parts of the largest are kept. `mem_total = Σ mem_*` is then the **exact** coincident peak (the parts co-occur). Node counts, not bytes — `getsizeof` dropped (CPython-overhead noise). |
 
 `cnt_bpmx_lifts` was formerly `cnt_bpmx_successes` — renamed
 for prop/bpmx symmetry (`*_attempts` / `*_lifts`); pure
@@ -113,10 +113,9 @@ sub-searches, with three exceptions:
   count and surprises (`depth_1` would read k−1, not 1). The
   wave *work* is already carried by the summed
   `cnt_prop_attempts` / `cnt_prop_lifts`, so MAX loses no
-  information (tracked via `_prop_waves_peak`, flushed in
-  `_sync_memory_snapshot`; this horizon stays MAX even though
-  `mem_open` / `mem_closed` are now mean-aggregated). The first
-  sub-search typically
+  information. Mirrors the peak aggregation of `mem_open` /
+  `mem_closed` (see `_prop_waves_peak`, flushed in
+  `_sync_memory_snapshot`). The first sub-search typically
   contributes 0 (empty carried cache ⇒ no propagate seeds);
   on the canonical fixture `depth_1/2/3 → 1/2/3`,
   `depth_inf → 5`. OMSPP `KAStarInc` never propagates so
@@ -129,10 +128,9 @@ sub-searches, with three exceptions:
   `depth_bpmx` param). Summing k per-search maxima is
   meaningless; the cross-sub-search horizon is the MAX.
   Lift *work* is carried by the summed `cnt_bpmx_attempts` /
-  `cnt_bpmx_lifts`. Same MAX-horizon pattern as
-  `_prop_waves_peak` (see `_bpmx_depth_peak`, flushed in
-  `_sync_memory_snapshot`; stays MAX even though `mem_open` /
-  `mem_closed` are now mean-aggregated). Within-search semantics are
+  `cnt_bpmx_lifts`. Mirrors `_prop_waves_peak` /
+  `mem_*` (see `_bpmx_depth_peak`, flushed in
+  `_sync_memory_snapshot`). Within-search semantics are
   unchanged, so standalone `AStarBPMX` is unaffected and no
   OOSPP regeneration was needed; on the canonical MOSPP
   fixture only one sub-search lifts, so SUM and MAX happen

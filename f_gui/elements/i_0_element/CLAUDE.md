@@ -39,11 +39,14 @@ metaclass, no fake abstract method.
 def __init__(self,
              bounds: Bounds[float] = None,
              name: str = 'Element',
-             background: RGB | None = None) -> None
+             background: RGB | None = None,
+             border: Border | None = None) -> None
 ```
 Called by subclasses via `Element.__init__(self, ...)`. Bounds default
 to full `(0, 0, 100, 100)`; `background` defaults to `None`
-(transparent). All four element types accept and forward `background`.
+(transparent); `border` defaults to `None` (no border). `Container`,
+`Label` and `Window` accept and forward both `background` and `border`.
+(`Line` forwards neither — it carries a `Stroke` and renders as SVG.)
 
 ### Properties
 
@@ -52,6 +55,8 @@ to full `(0, 0, 100, 100)`; `background` defaults to `None`
 def bounds(self) -> Bounds[float]      # relative to parent
 @property
 def background(self) -> RGB | None     # fill color; None = transparent
+@property
+def border(self) -> Border | None      # 4 edge Strokes; None = no border
 @property
 def parent(self) -> Element | None     # from HasParent; None for roots
 @property
@@ -66,7 +71,16 @@ keep `f_gui` light, `RGB` is imported only under `TYPE_CHECKING` — a
 plain `Element`/`Label` never pulls in `matplotlib`; only *passing* an
 `RGB` does. The renderer reads `elem.background` and emits
 `background:{rgb.to.hex()}` (duck-typed; `RenderHtml` imports no color
-type). Border is still type-dispatched in the renderer — a future step.
+type).
+
+### Visual style — `border`
+
+`border` is a `f_gui.style.border.Border` — four optional edge `Stroke`s
+(top/left/bottom/right). Opt-in: `None` means no border. The renderer
+emits per-side CSS (`border-{side}: {width}px {style} {color}`); the old
+per-type default borders were removed (appearance is element state, not a
+renderer-imposed default). Imported under `TYPE_CHECKING` to keep
+`Element` light.
 
 ### Methods
 

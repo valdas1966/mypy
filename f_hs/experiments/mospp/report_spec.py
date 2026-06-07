@@ -39,8 +39,8 @@
 _BASELINE = {
     'tag':   'rule_none',
     'label': r'depth=0',
-    'csv':   ('Experiments/MOSPP/'
-              'astar_inc_nested__rule_none__bpmx_inf__prop_0.csv'),
+    'csv':   ('Results/'
+              'astar_inc_nested_rule_none_bpmx_inf_prop_0.csv'),
     'color': '6BAED6',
 }
 # depth=1..5 line colors (shared across rules).
@@ -54,7 +54,7 @@ def _rule_configs(rule: str, depths=range(1, 6)) -> list[dict]:
      one BPMX rule. `rule` is the inner-AStarBPMX `rule_bpmx`
      value ('1', '2', '3', 'CASCADE'); the CSV path encodes it
      exactly as `s_3` writes it
-     (`astar_inc_nested__rule_{rule}__bpmx_{d}__prop_0.csv`).
+     (`astar_inc_nested_rule_{rule}_bpmx_{d}_prop_0.csv`).
      `depths` defaults to the full 1..5 ladder; pass a subset
      (e.g. `[1]`) for a rule that was only run at some depths.
     ========================================================================
@@ -62,8 +62,8 @@ def _rule_configs(rule: str, depths=range(1, 6)) -> list[dict]:
     return [_BASELINE] + [
         {'tag':   f'rule_{rule}__d_{d}',
          'label': f'depth={d}',
-         'csv':   ('Experiments/MOSPP/'
-                   f'astar_inc_nested__rule_{rule}__bpmx_{d}__prop_0.csv'),
+         'csv':   ('Results/'
+                   f'astar_inc_nested_rule_{rule}_bpmx_{d}_prop_0.csv'),
          'color': _DEPTH_COLORS[d - 1]}
         for d in depths
     ]

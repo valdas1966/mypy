@@ -22,8 +22,10 @@ Factory: type = None
 @staticmethod
 def element(elem: Element) -> str
 ```
-Recursively renders a single `Element` (and all its descendants) as a
-single `<div>` string. Label text is HTML-escaped.
+Recursively renders a single `Element` (and all its descendants). Most
+elements become a single `<div>` string (Label text is HTML-escaped); a
+`Line` is special-cased to an inline `<svg>` overlay (see **Line
+Rendering** below).
 
 ```python
 @staticmethod
@@ -53,19 +55,72 @@ win.to_html(path='/tmp/demo.html')            # full-screen (default)
 win.to_html(path='/tmp/demo.html', size=800)  # fixed 800x800 square
 ```
 
-## Type → Style Dispatch
+## Inner-Content Dispatch
 
-| Concrete type | Border                  | Inner content           |
-|---------------|-------------------------|--------------------------|
-| `Window`      | `3px solid #ff8c42`     | children (recursive)     |
-| `Container`   | `2px dashed #58a6ff`    | children (recursive)     |
-| `Label`       | `2px solid #bc8cff`     | `html.escape(text)`      |
-| `Element`     | `1px solid #888` (fallback) | empty                |
+| Concrete type | Inner content        |
+|---------------|----------------------|
+| `Window`      | children (recursive) |
+| `Container`   | children (recursive) |
+| `Label`       | `html.escape(text)`  |
+| `Line`        | — (rendered as `<svg>`, intercepted first) |
 
-`Window` is checked before `Container` because `Window` IS-A `Container`.
-The `Element` fallback row is now only reachable by a *future* direct
-subclass of `Element` — `Element` itself is abstract (non-instantiable),
-and the three concrete types above are all matched explicitly.
+`Container` is matched in `_inner()` (Window IS-A Container, so it's
+covered). `Line` is intercepted at the top of `element()` and renders as
+`<svg>`, not a `<div>`.
+
+**Borders are no longer type-dispatched.** The old per-type default
+borders (`_BORDER_WINDOW` etc.) were removed — borders are now opt-in
+`Element.border` state (see **Border Rendering** below).
+
+## Border Rendering (CSS)
+
+`_border()` reads `elem.border` (an `f_gui.style.border.Border`) and emits
+one declaration per set side:
+
+```
+border-{side}: {stroke.width}px {stroke.style.value} {color};
+```
+
+- `LineStyle` values (`'solid'`/`'dashed'`/`'dotted'`) are the **exact CSS
+  `border-style` keywords** — no translation.
+- `stroke.color` → hex; `None` → `_STROKE_DEFAULT` (`#e6edf3`), shared with
+  lines via `_stroke_color()`.
+- `border is None` (or a side `None`) → that declaration is omitted; an
+  Element with no border emits no `border-{side}` CSS (the always-present
+  `box-sizing:border-box` is unrelated).
+- Duck-typed: `RenderHtml` imports neither `Border` nor `Stroke`.
+
+## Line Rendering (SVG)
+
+`element()` checks `isinstance(elem, Line)` first and delegates to
+`_line()`, which emits a **self-contained `<svg>`** filling the parent
+(`position:absolute;inset:0;width/height:100%`). This is the only pure
+HTML/CSS way to draw a diagonal with dashes and arrowheads (no JS, no
+images).
+
+| `Line` attribute    | SVG mapping                                          |
+|---------------------|------------------------------------------------------|
+| `p1`/`p2`           | `<line x1="p1.x%" y1="p1.y%" x2="p2.x%" y2="p2.y%">` |
+| `stroke.color`      | `stroke` (hex); `None` → `_STROKE_DEFAULT` (`#e6edf3`) |
+| `stroke.width`      | `stroke-width` (px)                                  |
+| `stroke.style`      | `_dash()` → `stroke-dasharray` (`_DASH` map)         |
+| `arrow`             | per-`<svg>` `<marker>` + `marker-end="url(#…)"`      |
+
+The line's `color`/`width`/`style` come from its `Stroke` (the same value
+object Border edges use) via `_stroke_color()` and `_dash()`.
+
+- **Percent coords, no `viewBox`.** SVG `%` resolves `x` against width and
+  `y` against height — so the `0-100` scene-graph coords map 1:1 onto the
+  parent box, and `stroke-width` stays a true pixel value (no viewBox
+  scale distortion).
+- **`_DASH`:** `DASHED → "8 6"`, `DOTTED → "1 6"` (+ `stroke-linecap:round`
+  for dots); `SOLID → ''` (omitted).
+- **Arrowhead id is content-derived** (`arrow-{color}-{x1}-{y1}-{x2}-{y2}`)
+  so it is unique per distinct line — duplicate ids across separate inline
+  `<svg>`s would otherwise make `url(#id)` resolve to the wrong marker.
+  `orient="auto"` aims the head along `p1→p2`; `markerUnits="strokeWidth"`
+  scales it with `width`.
+- `Line` carries no `background` and is not bordered.
 
 ## Rendering Semantics
 
@@ -77,17 +132,23 @@ and the three concrete types above are all matched explicitly.
 - **Background:** if `elem.background` is set, `_background()` emits
   `background:{color.to.hex()};` (duck-typed — the renderer imports no
   color type). Unset → no `background` declaration (transparent).
+- **Border:** `_border()` emits per-side `border-{side}` CSS from
+  `elem.border` (see **Border Rendering**). Unset → no border.
 
 ## Dependencies
 
 | Import                                   | Purpose                   |
 |------------------------------------------|---------------------------|
-| `f_gui.elements.i_0_element.Element`     | Base type dispatch        |
+| `f_gui.elements.i_0_element.Element`     | Base type / element dispatch |
 | `f_gui.elements.i_1_container.Container` | Children recursion        |
 | `f_gui.elements.i_1_label.Label`         | Text emission             |
-| `f_gui.elements.i_2_window.Window`       | Priority dispatch         |
+| `f_gui.elements.i_1_line.Line`           | SVG line dispatch         |
+| `f_gui.style.stroke.LineStyle`           | Dasharray / linecap selection |
 | `html.escape` (stdlib)                   | Text safety               |
 | `pathlib.Path` (stdlib)                  | File write                |
+
+`Border` and `Stroke` are **duck-typed** (read via `elem.border` /
+`line.stroke`) — not imported, keeping the renderer color/style-type free.
 
 ## Usage Example
 
@@ -116,19 +177,38 @@ html_string = RenderHtml.page(root=win)
 
 ## Study Script
 
-`_study.py` — exploratory, not a test. A `Window` with two side-by-side
-`Container`s, each holding one `Label`. Its point is to exercise the
-**emitter directly** (`RenderHtml.to_file(...)`) rather than the
-`Window.to_html()` convenience wrapper, and to leave a *viewable*
-artifact (the `_tester.py` asserts on strings and discards its output).
-Writes `study.html` in the working directory.
+`_study.py` — exploratory, not a test. A white `Window` with two yellow
+side-by-side `Container`s, plus a dashed blue diagonal `Line` and a solid
+red arrow `Line` bridging the containers — exercising the SVG line path.
+Its point is to exercise the **emitter directly**
+(`RenderHtml.to_file(...)`) rather than the `Window.to_html()` convenience
+wrapper, and to leave a *viewable* artifact (the `_tester.py` asserts on
+strings and discards its output). Writes `study.html` in the working
+directory.
 
 ```bash
 python -m f_gui.render.html._study   # then open study.html
 ```
 
-The dashed/solid borders are a **render-time** choice (`_border`), not
-element state — `Container` etc. carry no styling.
+### Per-component studies (`s_<feature>.py`)
+
+Focused galleries, one feature each — run from the repo root, then open
+the matching HTML in a browser:
+
+| Script           | Output            | Demonstrates                                   |
+|------------------|-------------------|------------------------------------------------|
+| `s_bounds.py`    | `bounds.html`     | 0-100 coords: relative-to-parent, concentric scale, corners |
+| `s_background.py`| `background.html` | named-color grid, `RGB.Factory.gradient` strip, transparent vs filled |
+| `s_border.py`    | `border.html`     | solid/dashed/dotted, per-side, 4-color, width variants |
+| `s_line.py`      | `line.html`       | solid/dashed/dotted, arrow, 4 directions, width variants |
+
+```bash
+python -m f_gui.render.html.s_border   # then open border.html
+```
+
+`s_border.py` and `s_line.py` both place **solid, dashed and dotted side
+by side** — dashed renders as segments, dotted as round dots (a 1px dash
+with a round linecap; see **Line Rendering** / **Border Rendering**).
 
 ## Scope Notes
 

@@ -146,9 +146,14 @@ class AStarRepMOSPP(Generic[State],
         self._all_starts: list[State] = []
         self._last_reached_start: State | None = None
         self._last_algo: AStar[State] | None = None
-        # Peak memory across sub-searches.
-        self._mem_open_peak: int = 0
-        self._mem_closed_peak: int = 0
+        # Peak COINCIDENT memory across sub-searches, in node
+        # counts: per sub-search |OPEN| + |CLOSED| (live
+        # end-of-search sizes). Keep the components of the
+        # MAX-total sub-search so they stay coincident (their sum,
+        # via `finalize_mem_total`, is the exact coincident peak).
+        self._mem_peak_total: int = 0
+        self._mem_peak_open: int = 0
+        self._mem_peak_closed: int = 0
 
     # ──────────────────────────────────────────────────
     #  Lifecycle
@@ -165,8 +170,9 @@ class AStarRepMOSPP(Generic[State],
         self._all_starts = list(self.problem.starts)
         self._last_reached_start = None
         self._last_algo = None
-        self._mem_open_peak = 0
-        self._mem_closed_peak = 0
+        self._mem_peak_total = 0
+        self._mem_peak_open = 0
+        self._mem_peak_closed = 0
         for i, start in enumerate(self._all_starts):
             self._handle_start(start, idx=i)
         return SolutionMOSPP(self._solutions)
@@ -225,12 +231,15 @@ class AStarRepMOSPP(Generic[State],
         self._counters.inc('cnt_decrease',
                            n=ic['cnt_decrease'])
 
-        # Track peak memory.
-        open_mem, closed_mem = self._mem_of(algo)
-        if open_mem > self._mem_open_peak:
-            self._mem_open_peak = open_mem
-        if closed_mem > self._mem_closed_peak:
-            self._mem_closed_peak = closed_mem
+        # Track peak COINCIDENT memory (node counts): per
+        # sub-search |OPEN| + |CLOSED|; keep the components of the
+        # MAX-total sub-search so they stay coincident.
+        n_open, n_closed = self._mem_of(algo)
+        total = n_open + n_closed
+        if total > self._mem_peak_total:
+            self._mem_peak_total = total
+            self._mem_peak_open = n_open
+            self._mem_peak_closed = n_closed
 
         # Emit on_start.
         reason = ('expanded' if sol.cost != float('inf')
@@ -274,9 +283,9 @@ class AStarRepMOSPP(Generic[State],
          `self._counters`. Overrides the base auto-probe.
         ====================================================================
         """
-        self._counters.assign('mem_open', self._mem_open_peak)
+        self._counters.assign('mem_open', self._mem_peak_open)
         self._counters.assign(
-            'mem_closed', self._mem_closed_peak)
+            'mem_closed', self._mem_peak_closed)
 
     # ──────────────────────────────────────────────────
     #  Path Reconstruction
@@ -344,45 +353,16 @@ class AStarRepMOSPP(Generic[State],
                 ) -> tuple[int, int]:
         """
         ====================================================================
-         Compute (open, closed) memory footprint for a
-         completed sub-search's `SearchStateSPP`. Mirrors the
-         per-entry split logic in
-         `AlgoMOSPP._sync_memory_snapshot` so the cross-algo
-         memory metric is comparable.
+         (|OPEN|, |CLOSED|) node counts for a completed
+         sub-search's `SearchStateSPP` — the live end-of-search
+         occupancy of the frontier and closed set (each State
+         appears at most once in either; g/parent are per-node
+         satellite data on the SAME nodes, so they add no count).
+         Mirrors `AStarIncMOSPP._mem_of` so the cross-algo memory
+         metric is comparable.
         ====================================================================
         """
-        import sys
         ss = algo.search_state
         if ss is None or not hasattr(ss, 'frontier'):
             return (0, 0)
-        frontier = ss.frontier
-        closed = ss.closed
-        g, parent = ss.g, ss.parent
-        queue = getattr(frontier, '_queue', None)
-        if queue is not None and hasattr(queue, '_heap'):
-            frontier_struct = (sys.getsizeof(queue._heap)
-                               + sys.getsizeof(queue._index)
-                               + sum(sys.getsizeof(t)
-                                     for t in queue._heap))
-        else:
-            frontier_struct = sys.getsizeof(
-                queue if queue is not None else frontier)
-        n_g = len(g)
-        # Rule-2: use this sub-search's frontier lifetime peak.
-        n_open_peak = min(
-            getattr(frontier, 'max_size', len(frontier)), n_g)
-        if n_g > 0:
-            g_parent_total = (sys.getsizeof(g)
-                              + sum(sys.getsizeof(v)
-                                    for v in g.values())
-                              + sys.getsizeof(parent))
-            per_entry = g_parent_total / n_g
-            g_parent_open = round(per_entry * n_open_peak)
-            g_parent_closed = round(per_entry * (n_g - n_open_peak))
-        else:
-            g_parent_open = 0
-            g_parent_closed = 0
-        return (
-            frontier_struct + g_parent_open,
-            sys.getsizeof(closed) + g_parent_closed,
-        )
+        return (len(ss.frontier), len(ss.closed))

@@ -1,5 +1,4 @@
 import random
-import sys
 
 from f_hs.algo.i_0_oospp.i_3_astar_bpmx import AStarBPMX
 from f_hs.algo.i_1_mospp._single_start_view import _SingleStartView
@@ -257,16 +256,19 @@ class AStarIncMOSPP(Generic[State],
         self._all_starts: list[State] = []
         self._last_reached_start: State | None = None
         self._last_algo: AStarBPMX[State] | None = None
-        # Memory across sub-searches: MEAN of each per-start
-        # sub-search's peak footprint (rule-3 changed from MAX to
-        # MEAN -- the mean reflects the typical sub-search and
-        # exposes BPMX's effect on memory, whereas the MAX was
-        # pinned by the single hardest, near-uncached sub-search
-        # and hid it). Running sum + count; the snapshot divides
-        # for the cumulative mean over sub-searches 1..k.
-        self._mem_open_sum: int = 0
-        self._mem_closed_sum: int = 0
-        self._mem_n_searches: int = 0
+        # Peak COINCIDENT memory across sub-searches, in node
+        # counts. Per sub-search we snapshot the live occupancy
+        # |OPEN| + |CLOSED| + |cache| + |bounds| (cache/bounds as
+        # they stand DURING that sub-search) and keep the four
+        # components of the MAX-total sub-search, so they stay
+        # mutually coincident — their sum (via
+        # `finalize_mem_total`) is the EXACT coincident-peak
+        # `mem_total`, not an upper bound.
+        self._mem_peak_total: int = 0
+        self._mem_peak_open: int = 0
+        self._mem_peak_closed: int = 0
+        self._mem_peak_cache: int = 0
+        self._mem_peak_bounds: int = 0
         # `mem_cache` / `mem_bounds` are read final-on-owner at
         # end-of-run (rule-4: persist + accumulate across
         # sub-searches — final == peak for monotone stores).
@@ -303,9 +305,11 @@ class AStarIncMOSPP(Generic[State],
         """
         self._cache = {}
         self._bounds = {}
-        self._mem_open_sum = 0
-        self._mem_closed_sum = 0
-        self._mem_n_searches = 0
+        self._mem_peak_total = 0
+        self._mem_peak_open = 0
+        self._mem_peak_closed = 0
+        self._mem_peak_cache = 0
+        self._mem_peak_bounds = 0
         self._prop_waves_peak = 0
         self._bpmx_depth_peak = 0
         self._all_starts = self._apply_order_starts(
@@ -429,19 +433,24 @@ class AStarIncMOSPP(Generic[State],
             self._emit_cache_hit_at_init(
                 start, cost=sol.cost, start_index=idx)
 
-        # Accumulate (open, closed) peak memory — rule-3 MEAN across
-        # disjoint-in-time per-start sub-searches. `mem_cache`
-        # / `mem_bounds` are NOT tracked here: they are read
-        # final-on-owner at end-of-run in `_sync_memory_snapshot`
-        # (the carried stores grow monotonically across
-        # sub-searches, so final == peak — measuring on the
-        # owning `self._cache` / `self._bounds` after the
-        # orchestrator's `update()` / `_harvest_bounds` avoids
-        # the prior stale-inner-snapshot bias).
-        open_mem, closed_mem = self._mem_of(algo)
-        self._mem_open_sum += open_mem
-        self._mem_closed_sum += closed_mem
-        self._mem_n_searches += 1
+        # Track the peak COINCIDENT memory occupancy (node
+        # counts) across sub-searches. Per sub-search:
+        # |OPEN| + |CLOSED| (this search's live end sizes) +
+        # |cache| + |bounds| (the carried goal-anchored stores AS
+        # THEY STAND DURING this search — measured HERE, before
+        # this search's post-harvest below, so cache/bounds hold
+        # only the 1..i-1 contributions that coexisted with this
+        # frontier). Keep the four components of the MAX-total
+        # sub-search so they stay mutually coincident.
+        n_open, n_closed = self._mem_of(algo)
+        n_cache, n_bounds = len(self._cache), len(self._bounds)
+        total = n_open + n_closed + n_cache + n_bounds
+        if total > self._mem_peak_total:
+            self._mem_peak_total = total
+            self._mem_peak_open = n_open
+            self._mem_peak_closed = n_closed
+            self._mem_peak_cache = n_cache
+            self._mem_peak_bounds = n_bounds
 
         reason = ('expanded' if sol.cost != float('inf')
                   else 'unreachable')
@@ -497,25 +506,14 @@ class AStarIncMOSPP(Generic[State],
          base auto-probe (there is no single shared
          search-state to probe). Covers:
 
-           - `mem_open` / `mem_closed`: rule-3 MEAN across
-             disjoint-in-time per-start sub-search bundles
-             (running sums `_mem_open_sum` / `_mem_closed_sum`
-             over `_mem_n_searches`, accumulated in
-             `_handle_start`; each per-sub-search probe uses
-             that sub-search's `frontier.max_size` for the OPEN
-             count, rule-2). Divided here for the cumulative
-             mean over sub-searches 1..k.
-           - `mem_cache` / `mem_bounds`: rule-4 final-on-owner.
-             The carried goal-anchored stores
-             (`self._cache` / `self._bounds`) grow monotonically
-             across sub-searches, so final == peak. Measured
-             directly here on the orchestrator's stores AFTER
-             every harvest — supersedes the prior stale-inner-
-             snapshot reading (the inner reported its
-             *pre-harvest* size; the orchestrator's
-             `update()` / `_harvest_bounds` grew the store
-             immediately after, so the inner snapshot
-             understated by the harvest delta).
+           - `mem_open` / `mem_closed` / `mem_cache` /
+             `mem_bounds`: the four node-count components of the
+             single MAX-total sub-search (the coincident peak
+             occupancy), captured in `_handle_start`. Because
+             they all come from the same sub-search they are
+             mutually coincident, so `finalize_mem_total`'s
+             `Σ mem_*` yields the EXACT coincident-peak
+             `mem_total` — not an upper bound.
            - `cnt_prop_waves` / `cnt_bpmx_depth`: MAX-aggregated
              horizons (deepest wave ladder / deepest lift
              level any single sub-search ran). Summed work
@@ -523,24 +521,10 @@ class AStarIncMOSPP(Generic[State],
              and `cnt_bpmx_attempts` / `cnt_bpmx_lifts`.
         ====================================================================
         """
-        n = self._mem_n_searches
-        self._counters.assign(
-            'mem_open',
-            round(self._mem_open_sum / n) if n else 0)
-        self._counters.assign(
-            'mem_closed',
-            round(self._mem_closed_sum / n) if n else 0)
-        # Rule-4: final == peak for monotone-growing stores.
-        # Measure on the owning dicts AFTER every harvest.
-        mem_cache = sys.getsizeof(self._cache)
-        for entry in self._cache.values():
-            mem_cache += sys.getsizeof(entry)
-            mem_cache += sys.getsizeof(entry.h_perfect)
-        mem_bounds = sys.getsizeof(self._bounds)
-        mem_bounds += sum(sys.getsizeof(v)
-                          for v in self._bounds.values())
-        self._counters.assign('mem_cache', mem_cache)
-        self._counters.assign('mem_bounds', mem_bounds)
+        self._counters.assign('mem_open', self._mem_peak_open)
+        self._counters.assign('mem_closed', self._mem_peak_closed)
+        self._counters.assign('mem_cache', self._mem_peak_cache)
+        self._counters.assign('mem_bounds', self._mem_peak_bounds)
         self._counters.assign(
             'cnt_prop_waves', self._prop_waves_peak)
         self._counters.assign(
@@ -707,43 +691,16 @@ class AStarIncMOSPP(Generic[State],
                 ) -> tuple[int, int]:
         """
         ====================================================================
-         Compute (open, closed) memory footprint for a
-         completed sub-search's `SearchStateSPP`. Mirrors
-         `AStarRepMOSPP._mem_of` so the cross-algo memory
+         (|OPEN|, |CLOSED|) node counts for a completed
+         sub-search's `SearchStateSPP` — the live end-of-search
+         occupancy of the frontier and closed set (each State
+         appears at most once in either; g/parent are per-node
+         satellite data on the SAME nodes, so they add no count).
+         Mirrors `AStarRepMOSPP._mem_of` so the cross-algo memory
          metric is comparable.
         ====================================================================
         """
         ss = algo.search_state
         if ss is None or not hasattr(ss, 'frontier'):
             return (0, 0)
-        frontier = ss.frontier
-        closed = ss.closed
-        g, parent = ss.g, ss.parent
-        queue = getattr(frontier, '_queue', None)
-        if queue is not None and hasattr(queue, '_heap'):
-            frontier_struct = (sys.getsizeof(queue._heap)
-                               + sys.getsizeof(queue._index)
-                               + sum(sys.getsizeof(t)
-                                     for t in queue._heap))
-        else:
-            frontier_struct = sys.getsizeof(
-                queue if queue is not None else frontier)
-        n_g = len(g)
-        # Rule-2: use this sub-search's frontier lifetime peak.
-        n_open_peak = min(
-            getattr(frontier, 'max_size', len(frontier)), n_g)
-        if n_g > 0:
-            g_parent_total = (sys.getsizeof(g)
-                              + sum(sys.getsizeof(v)
-                                    for v in g.values())
-                              + sys.getsizeof(parent))
-            per_entry = g_parent_total / n_g
-            g_parent_open = round(per_entry * n_open_peak)
-            g_parent_closed = round(per_entry * (n_g - n_open_peak))
-        else:
-            g_parent_open = 0
-            g_parent_closed = 0
-        return (
-            frontier_struct + g_parent_open,
-            sys.getsizeof(closed) + g_parent_closed,
-        )
+        return (len(ss.frontier), len(ss.closed))

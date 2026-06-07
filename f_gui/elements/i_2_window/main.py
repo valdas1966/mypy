@@ -6,6 +6,7 @@ from f_gui.elements.i_1_container.main import Container
 
 if TYPE_CHECKING:
     from f_color.rgb import RGB
+    from f_gui.style.border import Border
 
 
 class Window(Container):
@@ -20,13 +21,15 @@ class Window(Container):
 
     def __init__(self,
                  name: str = 'Window',
-                 background: RGB | None = None) -> None:
+                 background: RGB | None = None,
+                 border: Border | None = None) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        Container.__init__(self, name=name, background=background)
+        Container.__init__(self, name=name, background=background,
+                           border=border)
 
     def to_html(self, path: str, size: int | None = None) -> None:
         """

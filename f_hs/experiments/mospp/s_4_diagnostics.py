@@ -10,7 +10,7 @@
  intra-cluster correlation is acknowledged?
 -------------------------------------------------------------------------------
  Seven diagnostics, all computed on an existing nested
- `astar_inc_nested__*.csv` (no new experiments). Each consumes
+ `astar_inc_nested_*.csv` (no new experiments). Each consumes
  the same long-format DataFrame (one row per (map, k) stage,
  columns include `domain` / `map` / `m` + counter / mem /
  elapsed metrics).
@@ -51,7 +51,7 @@
        to "do I need another 500 in-distribution maps?".
 -------------------------------------------------------------------------------
  Inputs  (Drive)
-   `Experiments/MOSPP/astar_inc_nested__*.csv` — the nested
+   `Results/astar_inc_nested_*.csv` — the nested
    per-(map,k) CSV produced by `s_3`.
 
  Outputs (Drive)
@@ -946,8 +946,8 @@ if __name__ == '__main__':
     # Point at any `s_3` nested CSV on Drive; each run produces
     # one report + two derived CSVs in `dir_drive_out`.
     path_drive_csv_in = (
-        'Experiments/MOSPP/'
-        'astar_inc_nested__rule_1__bpmx_inf__prop_0.csv')
+        'Results/'
+        'astar_inc_nested_rule_1_bpmx_inf_prop_0.csv')
     diagnose(
         path_drive_csv_in=path_drive_csv_in,
         dir_drive_out='Experiments/MOSPP/diagnostics',

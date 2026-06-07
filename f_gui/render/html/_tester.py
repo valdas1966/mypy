@@ -5,7 +5,11 @@ from f_gui.render.html.main import RenderHtml
 from f_gui.elements.i_2_window.main import Window
 from f_gui.elements.i_1_container.main import Container
 from f_gui.elements.i_1_label.main import Label
+from f_gui.elements.i_1_line.main import Line
+from f_gui.style.stroke import Stroke, LineStyle
+from f_gui.style.border import Border
 from f_ds.geometry.bounds import Bounds
+from f_ds.geometry.point import Point
 from f_color.rgb import RGB
 
 
@@ -105,6 +109,159 @@ def test_to_file_writes_document() -> None:
         content = path.read_text()
         assert '<!doctype html>' in content
         assert '<div' in content
+
+
+def test_line_renders_svg() -> None:
+    """
+    ========================================================================
+     Test that a Line renders as an <svg> with a <line> at % endpoints.
+    ========================================================================
+    """
+    html = RenderHtml.element(elem=Line(p1=Point(x=10, y=20),
+                                        p2=Point(x=80, y=90)))
+    assert html.startswith('<svg')
+    assert '<line ' in html
+    assert 'x1="10%"' in html
+    assert 'y1="20%"' in html
+    assert 'x2="80%"' in html
+    assert 'y2="90%"' in html
+
+
+def test_line_color_renders_hex() -> None:
+    """
+    ========================================================================
+     Test that a Line's stroke color renders as a CSS hex stroke.
+    ========================================================================
+    """
+    html = RenderHtml.element(elem=Line(
+        p1=Point(x=0, y=0), p2=Point(x=100, y=100),
+        stroke=Stroke(color=RGB(name='steelblue'))))
+    assert 'stroke="#4682B4"' in html
+
+
+def test_line_width() -> None:
+    """
+    ========================================================================
+     Test that a Line's stroke width renders as stroke-width.
+    ========================================================================
+    """
+    html = RenderHtml.element(elem=Line(
+        p1=Point(x=0, y=0), p2=Point(x=100, y=100),
+        stroke=Stroke(width=4)))
+    assert 'stroke-width="4"' in html
+
+
+def test_line_solid_has_no_dasharray() -> None:
+    """
+    ========================================================================
+     Test that a solid Line emits no stroke-dasharray.
+    ========================================================================
+    """
+    html = RenderHtml.element(elem=Line(p1=Point(x=0, y=0),
+                                        p2=Point(x=100, y=100)))
+    assert 'stroke-dasharray' not in html
+
+
+def test_line_dashed_has_dasharray() -> None:
+    """
+    ========================================================================
+     Test that a dashed Line emits a stroke-dasharray.
+    ========================================================================
+    """
+    html = RenderHtml.element(elem=Line(
+        p1=Point(x=0, y=0), p2=Point(x=100, y=100),
+        stroke=Stroke(style=LineStyle.DASHED)))
+    assert 'stroke-dasharray="8 6"' in html
+
+
+def test_line_arrow_emits_marker() -> None:
+    """
+    ========================================================================
+     Test that an arrow Line emits a <marker> and references it.
+    ========================================================================
+    """
+    html = RenderHtml.element(elem=Line(p1=Point(x=0, y=0),
+                                        p2=Point(x=100, y=0), arrow=True))
+    assert '<marker ' in html
+    assert 'marker-end="url(#arrow-' in html
+
+
+def test_line_no_arrow_no_marker() -> None:
+    """
+    ========================================================================
+     Test that a Line without an arrow emits no <marker>.
+    ========================================================================
+    """
+    html = RenderHtml.element(elem=Line(p1=Point(x=0, y=0),
+                                        p2=Point(x=100, y=0)))
+    assert '<marker' not in html
+    assert 'marker-end' not in html
+
+
+def test_line_in_tree() -> None:
+    """
+    ========================================================================
+     Test that a Line nested under a Window renders inside the tree.
+    ========================================================================
+    """
+    win = Window.Factory.default()
+    win.add_child(child=Line(p1=Point(x=0, y=0), p2=Point(x=100, y=100)))
+    html = RenderHtml.element(elem=win)
+    assert '<svg' in html
+    assert '<line ' in html
+
+
+def test_no_border_by_default() -> None:
+    """
+    ========================================================================
+     Test that an Element with no Border emits no border CSS.
+    ========================================================================
+    """
+    html = RenderHtml.element(elem=Container())
+    # box-sizing:border-box is always present; assert no border-<side> decls.
+    assert 'border-top' not in html
+    assert 'border-right' not in html
+    assert 'border-bottom' not in html
+    assert 'border-left' not in html
+
+
+def test_border_uniform_renders_four_sides() -> None:
+    """
+    ========================================================================
+     Test that a uniform Border emits all four per-side declarations.
+    ========================================================================
+    """
+    border = Border.Factory.all(stroke=Stroke(color=RGB(name='RED'), width=2))
+    html = RenderHtml.element(elem=Container(border=border))
+    assert 'border-top:2px solid #FF0000;' in html
+    assert 'border-right:2px solid #FF0000;' in html
+    assert 'border-bottom:2px solid #FF0000;' in html
+    assert 'border-left:2px solid #FF0000;' in html
+
+
+def test_border_per_side() -> None:
+    """
+    ========================================================================
+     Test that only set sides emit border CSS (dashed maps to CSS keyword).
+    ========================================================================
+    """
+    border = Border(top=Stroke(width=3, style=LineStyle.DASHED))
+    html = RenderHtml.element(elem=Container(border=border))
+    assert 'border-top:3px dashed #e6edf3;' in html
+    assert 'border-bottom' not in html
+    assert 'border-left' not in html
+    assert 'border-right' not in html
+
+
+def test_border_style_keywords() -> None:
+    """
+    ========================================================================
+     Test that LineStyle maps 1:1 to the CSS border-style keyword.
+    ========================================================================
+    """
+    border = Border(top=Stroke(style=LineStyle.DOTTED))
+    html = RenderHtml.element(elem=Container(border=border))
+    assert 'border-top:1px dotted ' in html
 
 
 def test_window_to_html() -> None:
