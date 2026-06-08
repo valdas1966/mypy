@@ -665,6 +665,348 @@ def run_astar_rep(path_drive_pkl_in: str,
         n_maps=n_maps)
 
 
+# ── Full INC config sweep (sequential) ──────────────────────────────────────
+
+# Per-rule in-search BPMX depth ladders. depth_prop is held at 0
+# (propagation OFF) so each ladder isolates the in-search BPMX effect.
+# depth_bpmx must be >= 1, so the "depth 0" point of every ladder is BPMX
+# OFF -- the rule is then irrelevant and the point collapses to the single
+# shared baseline below. Rule '2' is depth-locked to 1 by AStarIncMOSPP.
+_RULE_DEPTH_LADDERS: dict[str, tuple[int, ...]] = {
+    '1':       (1, 2, 3, 4, 5),
+    '2':       (1,),
+    '3':       (1, 2, 3, 4, 5),
+    'CASCADE': (1, 2, 3, 4, 5),
+}
+
+# No-BPMX pre-search pathmax propagation ladder. depth_prop == 0 is the
+# shared baseline (no propagation), emitted once below, so this starts at 1.
+_PROP_LADDER: tuple[int, ...] = (1, 2, 3, 4, 5)
+
+# The single shared origin of every ladder: in-search BPMX OFF AND no
+# pre-search propagation. The "depth 0" point of all five ladders decodes
+# to exactly this, so it is run ONCE.
+_BASELINE_CONFIG: tuple[str | None, int | None, int] = (None, None, 0)
+
+
+def _all_inc_configs() -> list[tuple[str | None, int | None, int]]:
+    """
+    ========================================================================
+     Build the full ordered list of UNIQUE INC configs for the
+     sequential sweep, as (rule_bpmx, depth_bpmx, depth_prop)
+     trios:
+
+       - one shared baseline (None, None, 0) -- BPMX OFF, no
+         propagation; the "depth 0" point common to every ladder,
+         emitted ONCE;
+       - per-rule in-search BPMX depth ladders (rules 1/3/CASCADE
+         at depth_bpmx 1..5, rule 2 at depth_bpmx 1), depth_prop=0;
+       - the no-BPMX pre-search propagation ladder (depth_prop 1..5).
+
+     22 configs total. Order: baseline first, then the rule
+     ladders, then the propagation ladder -- so the shared point
+     runs first and a mid-sweep crash leaves the most-comparable
+     CSVs already done.
+    ========================================================================
+    """
+    configs: list[tuple[str | None, int | None, int]] = [_BASELINE_CONFIG]
+    for rule, depths in _RULE_DEPTH_LADDERS.items():
+        for depth_bpmx in depths:
+            configs.append((rule, depth_bpmx, 0))
+    for depth_prop in _PROP_LADDER:
+        configs.append((None, None, depth_prop))
+    return configs
+
+
+def run_astar_inc_all_configs(path_drive_pkl_in: str,
+                              path_drive_grids_in: str,
+                              workers: int = 10,
+                              n_maps: int | None = None) -> None:
+    """
+    ========================================================================
+     Run the FULL INC config sweep IN SEQUENCE: one
+     `run_astar_inc` per unique config from `_all_inc_configs`
+     (22 runs), each writing its own config-named CSV under
+     `Results/` (via `_csv_filename`, so runs never clobber).
+
+     The five ladders (rule 1/2/3/CASCADE BPMX-depth, plus the
+     no-BPMX propagation-depth ladder) share one origin -- BPMX
+     OFF + no propagation -- so that (None, None, 0) baseline is
+     run ONCE up front, not once per ladder.
+
+     Sequential (not nested): each config is itself a full
+     25-map x 20-stage run already parallel across maps, so the
+     pool's cores go to ONE config at a time. `run_astar_inc`
+     rebuilds the worker pool per config and validates each.
+
+     `n_maps` toy-slices every run identically (CSVs get the
+     `_toy{N}` suffix); `workers` is forwarded unchanged.
+    ========================================================================
+    """
+    configs = _all_inc_configs()
+    _log.info(f'astar_inc ALL configs: {len(configs)} sequential runs '
+              f'(workers={workers}, n_maps={n_maps})')
+    for i, (rule_bpmx, depth_bpmx, depth_prop) in enumerate(configs, 1):
+        path_drive_csv_out = (
+            f'Results/'
+            f'{_csv_filename(rule_bpmx, depth_bpmx, depth_prop, n_maps)}')
+        _log.info(f'[{i}/{len(configs)}] rule={rule_bpmx!r} '
+                  f'depth_bpmx={depth_bpmx!r} depth_prop={depth_prop!r} '
+                  f'-> {path_drive_csv_out}')
+        run_astar_inc(
+            path_drive_pkl_in=path_drive_pkl_in,
+            path_drive_grids_in=path_drive_grids_in,
+            path_drive_csv_out=path_drive_csv_out,
+            rule_bpmx=rule_bpmx,
+            depth_bpmx=depth_bpmx,
+            depth_prop=depth_prop,
+            workers=workers,
+            n_maps=n_maps)
+    _log.info(f'astar_inc ALL configs: {len(configs)} runs complete')
+
+
+# ── Flat-pool full sweep (fastest) ──────────────────────────────────────────
+
+def _upload_rows(drive: Drive,
+                 rows: list[dict],
+                 path_drive_csv_out: str) -> None:
+    """
+    ========================================================================
+     Write `rows` to a temp CSV (header = `_CSV_COLUMNS`,
+     extra keys ignored) and upload to `path_drive_csv_out` on
+     Drive; always clean up the temp file.
+    ========================================================================
+    """
+    fd_csv, path_csv = tempfile.mkstemp(suffix='.csv')
+    os.close(fd_csv)
+    try:
+        with open(path_csv, 'w', newline='') as f:
+            writer = csv.DictWriter(f,
+                                    fieldnames=_CSV_COLUMNS,
+                                    extrasaction='ignore')
+            writer.writeheader()
+            for row in rows:
+                writer.writerow(row)
+        drive.upload(path_src=path_csv, path_dest=path_drive_csv_out)
+    finally:
+        if os.path.exists(path_csv):
+            os.unlink(path_csv)
+
+
+class _ConfigMapChain:
+    """
+    ========================================================================
+     Flat-pool task unit: one INC config paired with one map's
+     nested k-chain.
+
+     Wrapping (config x chain) lets the whole 22-config x 25-map
+     sweep run as ONE flat pool of 550 work items, so the worker
+     pool, the grids load, and the per-grid StateCell-cache build
+     are paid ONCE for the entire sweep (not once per config), and
+     dynamic scheduling keeps every worker saturated to the end.
+
+     Exposes exactly what `ProblemGrid.Runner._worker_task` needs
+     -- `grid_name` and `attach(grid, states)` -- by delegating to
+     the wrapped `_MapChain`, plus `__iter__` so the existing
+     `_experiment_astar_inc_chain` runs on it unchanged.
+
+     The wrapped `_MapChain` instances are SHARED across the 22
+     configs of a map, so one `pickle.dump` of the task list
+     memoizes each chain's 20 detached problems ONCE on disk.
+    ========================================================================
+    """
+
+    def __init__(self,
+                 chain: _MapChain,
+                 rule_bpmx: str | None,
+                 depth_bpmx: int | None,
+                 depth_prop: int) -> None:
+        self._chain = chain
+        self.rule_bpmx = rule_bpmx
+        self.depth_bpmx = depth_bpmx
+        self.depth_prop = depth_prop
+
+    @property
+    def grid_name(self) -> str:
+        """
+        ====================================================================
+         Delegate to the wrapped chain (Runner reads this).
+        ====================================================================
+        """
+        return self._chain.grid_name
+
+    def attach(self, grid, states=None) -> None:
+        """
+        ====================================================================
+         Delegate to the wrapped chain (Runner calls this to
+         rehydrate the chain's problems onto the worker's grid).
+        ====================================================================
+        """
+        self._chain.attach(grid=grid, states=states)
+
+    def __iter__(self):
+        """
+        ====================================================================
+         Iterate the wrapped chain's problems (ascending m) so
+         `_experiment_astar_inc_chain` runs on this unit unchanged.
+        ====================================================================
+        """
+        return iter(self._chain)
+
+
+def _experiment_inc_flat(unit: _ConfigMapChain) -> list[dict]:
+    """
+    ========================================================================
+     Flat-pool worker experiment: run the unit's single INC config
+     on its map-chain by delegating to the shared
+     `_experiment_astar_inc_chain`. Returns the chain's 20
+     (cumulative) rows. Module-level => picklable for the pool.
+    ========================================================================
+    """
+    return _experiment_astar_inc_chain(
+        unit,
+        rule_bpmx=unit.rule_bpmx,
+        depth_bpmx=unit.depth_bpmx,
+        depth_prop=unit.depth_prop)
+
+
+def run_astar_inc_all_configs_flat(path_drive_pkl_in: str,
+                                   path_drive_grids_in: str,
+                                   workers: int = 11,
+                                   n_maps: int | None = None) -> None:
+    """
+    ========================================================================
+     Fastest full INC sweep: run all 22 configs x every map as ONE
+     flat pool of (config, map-chain) tasks, then split the
+     results into 22 config-named CSVs uploaded to `Results/`
+     (identical names / schema to `run_astar_inc_all_configs`, so
+     the s_5 report reads them unchanged).
+
+     Why this beats the sequential driver
+       `run_astar_inc_all_configs` spins a FRESH pool per config
+       (22x), paying -- 22 times -- the pool spawn, the per-worker
+       grids load, the per-worker StateCell-cache build over all
+       grids (the dominant init cost), and the input download; and
+       it eats an idle-worker TAIL as each config's uneven chains
+       drain. This driver pays every fixed cost ONCE and, with
+       ~550 tasks over `workers` cores (deep oversubscription),
+       keeps all workers busy to the end -- makespan approaches the
+       ideal total_work / workers, cheap configs filling the gaps
+       expensive ones leave.
+
+     Task ordering is map-major (every config of a map, then the
+     next map) so the dispatch tail is a MIX of cheap+expensive
+     configs rather than a cluster of one config -- a cheap hedge;
+     with tasks ~50x the worker count the tail is at most one task
+     regardless.
+
+     Flow
+       1. Download problems + grids ONCE.
+       2. Per-map chains; verify nesting; optional toy-slice.
+       3. Cross each surviving chain with every `_all_inc_configs`
+          config -> shared-chain task units.
+       4. ONE `ProblemGrid.Runner.run` over all tasks (chunksize=1,
+          dynamic) -> results in submission order.
+       5. Regroup results by config (results[i] <-> units[i]) and
+          write + upload one CSV per config.
+
+     `n_maps` toy-slices the map set (CSVs get `_toy{N}`).
+     `workers` defaults to 11 (one shy of a 12-core box; each
+     worker also holds all grids + caches in RAM -- drop it if RAM
+     bites).
+    ========================================================================
+    """
+    if n_maps is not None and n_maps < 1:
+        raise ValueError(f'n_maps must be >= 1; got {n_maps}')
+
+    configs = _all_inc_configs()
+    # Fail fast on any bad config BEFORE the pool spins up.
+    for rule_bpmx, depth_bpmx, depth_prop in configs:
+        _validate_config(rule_bpmx=rule_bpmx,
+                         depth_bpmx=depth_bpmx,
+                         depth_prop=depth_prop)
+
+    drive = Drive.Factory.valdas()
+    _log.info(f'astar_inc FLAT sweep: {len(configs)} configs '
+              f'(workers={workers}, n_maps={n_maps})')
+
+    fd_in, path_in = tempfile.mkstemp(suffix='.pkl')
+    os.close(fd_in)
+    fd_g, path_grids = tempfile.mkstemp(suffix='.pkl')
+    os.close(fd_g)
+    fd_run, path_run = tempfile.mkstemp(suffix='.pkl')
+    os.close(fd_run)
+
+    try:
+        # 1. Download inputs ONCE.
+        _log.info(f'downloading {path_drive_pkl_in}')
+        drive.download(path_src=path_drive_pkl_in, path_dest=path_in)
+        _log.info(f'downloading {path_drive_grids_in}')
+        drive.download(path_src=path_drive_grids_in, path_dest=path_grids)
+
+        # 2. Group into per-map chains; verify nesting; toy-slice.
+        with open(path_in, 'rb') as f:
+            problems = pickle.load(f)
+        _log.info(f'loaded {len(problems):,} problems')
+        chains = _build_chains(problems)
+        _verify_chains(chains)
+        map_chains = [_MapChain(c) for c in chains.values()]
+        if n_maps is not None:
+            map_chains = map_chains[:n_maps]
+            _log.info(f'toy mode: sliced to first {len(map_chains)} maps')
+        _log.info(f'built {len(map_chains)} per-map chains '
+                  f'(nesting verified)')
+
+        # 3. Cross every map-chain with every config (map-major).
+        #    Chains are SHARED across a map's 22 configs, so the
+        #    on-disk pickle memoizes each chain's problems once.
+        units: list[_ConfigMapChain] = [
+            _ConfigMapChain(chain, rule_bpmx, depth_bpmx, depth_prop)
+            for chain in map_chains
+            for rule_bpmx, depth_bpmx, depth_prop in configs]
+        with open(path_run, 'wb') as f:
+            pickle.dump(units, f, protocol=pickle.HIGHEST_PROTOCOL)
+
+        # 4. ONE pool over all (config, chain) tasks.
+        n_tasks = len(units)
+        effective_workers = max(1, min(workers, n_tasks))
+        _log.info(f'spawning {effective_workers} workers '
+                  f'(requested {workers}, n_tasks={n_tasks}); '
+                  f'{len(configs)} configs x {len(map_chains)} maps '
+                  f'= {n_tasks} (config, chain) tasks (chunksize=1)')
+        results = ProblemGrid.Runner.run(
+            path_problems=path_run,
+            path_grids=path_grids,
+            experiment=_experiment_inc_flat,
+            workers=effective_workers,
+            chunksize=1)
+
+        # 5. Regroup by config (results[i] <-> units[i]); one CSV each.
+        rows_by_cfg: dict[tuple, list[dict]] = defaultdict(list)
+        for unit, chain_rows in zip(units, results):
+            cfg = (unit.rule_bpmx, unit.depth_bpmx, unit.depth_prop)
+            rows_by_cfg[cfg].extend(chain_rows)
+        _log.info(f'received rows for {len(rows_by_cfg)} configs; '
+                  f'writing + uploading {len(configs)} CSVs')
+        for cfg in configs:
+            rows = rows_by_cfg.get(cfg, [])
+            if not rows:
+                _log.warning(f'no rows for config {cfg} -- skipping CSV')
+                continue
+            path_drive_csv_out = f'Results/{_csv_filename(*cfg, n_maps)}'
+            _upload_rows(drive=drive,
+                         rows=rows,
+                         path_drive_csv_out=path_drive_csv_out)
+            _log.info(f'uploaded {len(rows):,} rows -> '
+                      f'{path_drive_csv_out}')
+        _log.info(f'astar_inc FLAT sweep: {len(configs)} CSVs complete')
+
+    finally:
+        for path in (path_in, path_grids, path_run):
+            if os.path.exists(path):
+                os.unlink(path)
+
+
 # ── Main ────────────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':
@@ -673,7 +1015,9 @@ if __name__ == '__main__':
     # Without the guard, every worker would re-launch the run.
     path_drive_pkl_in = 'Experiments/OMSPP/i_3_problems.pkl'
     path_drive_grids_in = 'Experiments/Grids/grids.pkl'
-    workers = 10
+    # 11 = one shy of a 12-core box (leaves a core for the main
+    # process); each worker also holds all grids + caches in RAM.
+    workers = 11
 
     # Toy mode: process only the first N of the 25 maps
     # (None == all 25). Useful for smoke-testing before a full
@@ -681,10 +1025,14 @@ if __name__ == '__main__':
     n_maps = None
 
     # Which algorithm to run this invocation:
-    #   'inc' -- AStarIncMOSPP, ONE BPMX config (the depth ladder
-    #            is run by repeating with different rule/depth).
-    #   'rep' -- AStarRepMOSPP baseline (single config, no ladder).
-    ALGO = 'rep'
+    #   'inc'     -- AStarIncMOSPP, ONE BPMX config (the depth ladder
+    #                is run by repeating with different rule/depth).
+    #   'inc_all' -- AStarIncMOSPP, the FULL 22-config sweep as ONE
+    #                FLAT pool (fastest); one CSV per config. See
+    #                `run_astar_inc_all_configs_flat`. The sequential
+    #                `run_astar_inc_all_configs` stays as a fallback.
+    #   'rep'     -- AStarRepMOSPP baseline (single config, no ladder).
+    ALGO = 'inc_all'
 
     if ALGO == 'inc':
         # ── AStarIncMOSPP config — one run, one config, one CSV ──────────────
@@ -709,6 +1057,20 @@ if __name__ == '__main__':
             rule_bpmx=rule_bpmx,
             depth_bpmx=depth_bpmx,
             depth_prop=depth_prop,
+            workers=workers,
+            n_maps=n_maps)
+
+    elif ALGO == 'inc_all':
+        # ── Full INC sweep — FLAT pool (fastest), one CSV per config ─────────
+        # rule 1/3/CASCADE x depth_bpmx 1..5, rule 2 x depth_bpmx 1
+        # (all depth_prop=0), plus the no-BPMX propagation ladder
+        # depth_prop 1..5, plus the shared (None,None,0) baseline once
+        # = 22 configs x every map run as ONE pool: pool spawn, grids
+        # load, per-grid cache build, and download paid ONCE (not 22x),
+        # dynamic scheduling busy to the end.
+        run_astar_inc_all_configs_flat(
+            path_drive_pkl_in=path_drive_pkl_in,
+            path_drive_grids_in=path_drive_grids_in,
             workers=workers,
             n_maps=n_maps)
 

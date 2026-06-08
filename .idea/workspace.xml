@@ -5,65 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/background.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/border.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bounds.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/geometry/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/geometry/point/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/geometry/point/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/geometry/point/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/geometry/point/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/geometry/point/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_label/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_line/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_line/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_line/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_line/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_line/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_2_window/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/render/html/s_background.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/render/html/s_border.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/render/html/s_bounds.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/render/html/s_line.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/style/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/style/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/style/border/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/style/border/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/style/border/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/style/border/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/style/border/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/style/stroke/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/style/stroke/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/style/stroke/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/style/stroke/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/style/stroke/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/line.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/study.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/geometry/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/geometry/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/elements/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/elements/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_0_element/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_0_element/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_0_element/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_0_element/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_1_container/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_1_container/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_1_container/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_1_container/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_1_label/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_1_label/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_2_window/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_2_window/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/render/html/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/render/html/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/render/html/_study.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/render/html/_study.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/render/html/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/render/html/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/render/html/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/render/html/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/render/html/study.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/render/html/study.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_rep/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_rep/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_rep/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_rep/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/u_mem.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/u_mem.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/mospp/report_spec.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/mospp/report_spec.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/experiments/mospp/s_3_astar_inc_bpmx_depth.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/mospp/s_3_astar_inc_bpmx_depth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/mospp/s_4_diagnostics.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/mospp/s_4_diagnostics.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,12 +32,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
-    &quot;accountId&quot;: &quot;a1e5e179-580e-4572-8eba-3d60343860e3&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/valdas1966/mypy.git",
+    "accountId": "0f4621b9-87f9-4a4a-9ceb-401ed7593bcc"
   }
-}</component>
+}]]></component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../miniconda3/envs/mypy/lib/python3.13/typing.py" root0="SKIP_INSPECTION" />
   </component>
@@ -1190,7 +1135,7 @@
       <recent name="F:\mypy\f_log\_comparing" />
     </key>
   </component>
-  <component name="RunManager" selected="Python._study (1)">
+  <component name="RunManager" selected="Python.s_3_astar_inc_bpmx_depth">
     <configuration name="_study (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -1204,8 +1149,29 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_gui/render/html/_study.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="_study (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_google/creds/oauth" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/creds/oauth/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1227,7 +1193,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/creds/oauth/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1250,31 +1215,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="s_3_astar_inc_bpmx_depth (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/experiments/mospp" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/mospp/s_3_astar_inc_bpmx_depth.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1296,7 +1237,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/mospp/s_3_astar_inc_bpmx_depth.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1319,7 +1259,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/mospp/s_5_gen_report.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1331,26 +1270,26 @@
     </configuration>
     <list>
       <item itemvalue="Python.p_4_solutions" />
+      <item itemvalue="Python._study (2)" />
       <item itemvalue="Python._study (1)" />
       <item itemvalue="Python.s_5_gen_report" />
-      <item itemvalue="Python.s_3_astar_inc_bpmx_depth (1)" />
       <item itemvalue="Python._study" />
       <item itemvalue="Python.s_3_astar_inc_bpmx_depth" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.s_3_astar_inc_bpmx_depth" />
+        <item itemvalue="Python._study (2)" />
         <item itemvalue="Python._study (1)" />
         <item itemvalue="Python._study" />
         <item itemvalue="Python.s_5_gen_report" />
-        <item itemvalue="Python.s_3_astar_inc_bpmx_depth (1)" />
-        <item itemvalue="Python.s_3_astar_inc_bpmx_depth" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-ca5e2b39c7df-6e1f45a539f7-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.29346.308" />
+        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
       </set>
     </attachedChunks>
   </component>
