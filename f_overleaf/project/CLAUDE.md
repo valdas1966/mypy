@@ -85,6 +85,22 @@ the document content via the Overleaf WebSocket / ShareJS
 protocol (`joinDoc` + insert operations). `pyoverleaf` only
 exposes the read side (`_pull_doc_project_file_content`).
 
+## Realtime-Socket Note — `_root()` closes its socket.io connection
+
+Every file op (`list_files`, `create_file`, `upload_file`,
+`delete_file`, `set_root_doc`, `create_folder`, …) calls `_root()`
+to fetch the project tree. Upstream
+`pyoverleaf.Api.project_get_files` gets that tree over a
+**socket.io** realtime connection but **never closes it**, so each
+call leaked an open connection that Overleaf counts as an online
+"me" collaborator — a single push left dozens of phantom viewers.
+`_root()` therefore reimplements the read directly
+(`api._open_socket` → read `joinProjectResponse` →
+`ProjectFolder.from_data`) and **closes the socket in `finally`**.
+Couples to a couple of pyoverleaf privates (`_open_socket`),
+consistent with the wrapper's existing use of `_get_session` /
+`_host` / `_get_csrf_token` / `_request_kwargs`.
+
 ## Inheritance (Hierarchy)
 ```
 HasName

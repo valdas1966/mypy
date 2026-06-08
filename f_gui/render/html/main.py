@@ -5,6 +5,7 @@ from f_gui.elements.i_0_element.main import Element
 from f_gui.elements.i_1_container.main import Container
 from f_gui.elements.i_1_label.main import Label
 from f_gui.elements.i_1_line.main import Line
+from f_gui.elements.i_1_connector.main import Connector
 from f_gui.style.stroke import LineStyle
 
 
@@ -35,6 +36,8 @@ class RenderHtml:
         """
         if isinstance(elem, Line):
             return RenderHtml._line(elem=elem)
+        if isinstance(elem, Connector):
+            return RenderHtml._connector(elem=elem)
         b = elem.bounds
         border = RenderHtml._border(elem=elem)
         bg = RenderHtml._background(elem=elem)
@@ -118,7 +121,7 @@ class RenderHtml:
                    .replace('#', '').replace('.', '_'))
             mid = f'arrow-{uid}'
             defs = (f'<defs><marker id="{mid}" markerWidth="10" '
-                    f'markerHeight="10" refX="8" refY="5" orient="auto" '
+                    f'markerHeight="10" refX="10" refY="5" orient="auto" '
                     f'markerUnits="strokeWidth">'
                     f'<path d="M0,0 L10,5 L0,10 z" fill="{color}"/>'
                     f'</marker></defs>')
@@ -130,6 +133,48 @@ class RenderHtml:
         style = ('position:absolute;inset:0;width:100%;height:100%;'
                  'overflow:visible;pointer-events:none;')
         return f'<svg style="{style}">{defs}{line}</svg>'
+
+    @staticmethod
+    def _connector(elem: Connector) -> str:
+        """
+        ========================================================================
+         Render a Connector as a self-contained <svg> overlay (a polyline).
+        ========================================================================
+         The live `path` (>= 2 points) becomes a chain of <line> segments —
+         the same percent-coordinate SVG model as a single Line, so it is
+         distortion-free. The arrowhead (if any) sits on the last segment via
+         a per-svg <marker> with a content-derived id (unique per path).
+        ========================================================================
+        """
+        pts = elem.path
+        stroke = elem.stroke
+        color = RenderHtml._stroke_color(stroke=stroke)
+        cap = 'round' if stroke.style is LineStyle.DOTTED else 'butt'
+        dash = RenderHtml._dash(style=stroke.style)
+        # Arrowhead — id is content-derived (unique per distinct path).
+        defs = marker = ''
+        if elem.arrow:
+            seq = '-'.join(f'{p.x}_{p.y}' for p in pts)
+            uid = f'{color}-{seq}'.replace('#', '').replace('.', '_')
+            mid = f'arrow-{uid}'
+            defs = (f'<defs><marker id="{mid}" markerWidth="10" '
+                    f'markerHeight="10" refX="10" refY="5" orient="auto" '
+                    f'markerUnits="strokeWidth">'
+                    f'<path d="M0,0 L10,5 L0,10 z" fill="{color}"/>'
+                    f'</marker></defs>')
+            marker = f'url(#{mid})'
+        last = len(pts) - 1
+        segments = ''
+        for i in range(last):
+            a, b = pts[i], pts[i + 1]
+            end = f' marker-end="{marker}"' if marker and i == last - 1 else ''
+            segments += (f'<line x1="{a.x}%" y1="{a.y}%" '
+                         f'x2="{b.x}%" y2="{b.y}%" '
+                         f'stroke="{color}" stroke-width="{stroke.width}" '
+                         f'stroke-linecap="{cap}"{dash}{end}/>')
+        style = ('position:absolute;inset:0;width:100%;height:100%;'
+                 'overflow:visible;pointer-events:none;')
+        return f'<svg style="{style}">{defs}{segments}</svg>'
 
     @staticmethod
     def _dash(style: LineStyle) -> str:

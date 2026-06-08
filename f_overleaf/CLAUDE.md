@@ -39,6 +39,24 @@ one dashboard `GET` (CSRF + existing tags), optionally one
 - `len(overleaf)` — number of projects
 - `'Name' in overleaf` — check if project exists
 
+### `close() -> None` + context manager (`__enter__`/`__exit__`)
+Explicit teardown hook. pyoverleaf keeps **no** long-lived
+connection (each HTTP call builds a throwaway `requests.Session`),
+and the realtime socket.io connections are closed at the source in
+`ProjectOverLeaf._root` — so there is no persistent handle to
+release; `close()` forces a GC sweep to reap any stray socket
+objects. Use `with OverLeaf.Factory.valdas() as ol:` to guarantee
+close on block exit.
+
+## Online-Presence Note — realtime sockets must be closed
+Overleaf shows a client as an online "me" collaborator for every
+open **socket.io** realtime connection. Upstream
+`pyoverleaf.Api.project_get_files` opens such a socket per call and
+**never closes it**, so each file op leaked a phantom online
+viewer (a single push spawned dozens). `ProjectOverLeaf._root`
+reimplements that read and closes the socket in `finally` — keeping
+at most one transient connection open at a time and none behind.
+
 ## Inheritance (Hierarchy)
 ```
 Sizable

@@ -39,8 +39,8 @@
 _BASELINE = {
     'tag':   'rule_none',
     'label': r'depth=0',
-    'csv':   ('Results/'
-              'astar_inc_nested_rule_none_bpmx_inf_prop_0.csv'),
+    'csv':   ('Results/agg/'
+              'astar_inc_nested_rule_none_bpmx_inf_prop_0_by_k.csv'),
     'color': '6BAED6',
 }
 # depth=1..5 line colors (shared across rules).
@@ -52,9 +52,9 @@ def _rule_configs(rule: str, depths=range(1, 6)) -> list[dict]:
     ========================================================================
      Baseline (depth=0) + one config per depth in `depths` for
      one BPMX rule. `rule` is the inner-AStarBPMX `rule_bpmx`
-     value ('1', '2', '3', 'CASCADE'); the CSV path encodes it
-     exactly as `s_3` writes it
-     (`astar_inc_nested_rule_{rule}_bpmx_{d}_prop_0.csv`).
+     value ('1', '2', '3', 'CASCADE'); the CSV path is the `s_4`
+     by-k aggregate of the raw `s_3` CSV
+     (`Results/agg/astar_inc_nested_rule_{rule}_bpmx_{d}_prop_0_by_k.csv`).
      `depths` defaults to the full 1..5 ladder; pass a subset
      (e.g. `[1]`) for a rule that was only run at some depths.
     ========================================================================
@@ -62,10 +62,33 @@ def _rule_configs(rule: str, depths=range(1, 6)) -> list[dict]:
     return [_BASELINE] + [
         {'tag':   f'rule_{rule}__d_{d}',
          'label': f'depth={d}',
-         'csv':   ('Results/'
-                   f'astar_inc_nested_rule_{rule}_bpmx_{d}_prop_0.csv'),
+         'csv':   ('Results/agg/astar_inc_nested_'
+                   f'rule_{rule}_bpmx_{d}_prop_0_by_k.csv'),
          'color': _DEPTH_COLORS[d - 1]}
         for d in depths
+    ]
+
+
+def _prop_configs(depths=range(1, 6)) -> list[dict]:
+    """
+    ========================================================================
+     Baseline (depth=0) + one config per pre-search pathmax
+     PROPAGATION depth in `depths`, with in-search BPMX OFF
+     (`rule_none`). The orthogonal axis to the BPMX ladders:
+     here `depth` = `propagate_pathmax(depth)`, not the in-search
+     cascade. The depth=0 config IS `_BASELINE`
+     (`rule_none_bpmx_inf_prop_0` = everything off), shared with
+     every BPMX section. CSV is the `s_4` by-k aggregate of
+     `astar_inc_nested_rule_none_bpmx_inf_prop_{p}.csv`.
+    ========================================================================
+    """
+    return [_BASELINE] + [
+        {'tag':   f'prop__d_{p}',
+         'label': f'depth={p}',
+         'csv':   ('Results/agg/astar_inc_nested_'
+                   f'rule_none_bpmx_inf_prop_{p}_by_k.csv'),
+         'color': _DEPTH_COLORS[p - 1]}
+        for p in depths
     ]
 
 
@@ -88,6 +111,14 @@ RULE_SECTIONS = [
     {'key': 'cascade', 'rule': 'CASCADE',
      'title': 'BPMX Cascade depth ladder',
      'configs': _rule_configs('CASCADE')},
+    # Orthogonal axis: pre-search pathmax propagation depth ladder
+    # (in-search BPMX off). Renders once the `prop_{1..5}`
+    # aggregates exist (they do). `key='propdepth'` prefixes its
+    # figures (`fig_propdepth_*`) so it never collides with the
+    # BPMX sections.
+    {'key': 'propdepth', 'rule': None,
+     'title': 'Pathmax Propagation depth ladder (BPMX off)',
+     'configs': _prop_configs()},
 ]
 
 # Back-compat: the flat 6-config list (rule 1) some callers import.
@@ -126,14 +157,15 @@ _EXCLUDED_COUNTERS: set[str] = {
     'cnt_bpmx_depth',
     'cnt_cache_hits_at_init',
     'elapsed_search',
-    # mem_bounds: dropped from the report (empty store under
-    # adaptive_h=False); still summed into mem_total.
-    'mem_bounds',
-    # mem_cache: dropped from the report (its depth variation is a
-    # path-selection artifact, not part of the analysis); still
-    # summed into mem_total (mem_total is computed in the algo as
-    # the sum of every mem_* region, independent of display).
+    # Per-region memory metrics are hidden: each swings with the
+    # coincident-peak RELOCATION (a sub-search-selection artifact,
+    # not a real memory change), so individually they mislead. Only
+    # mem_total -- the honest coincident peak -- is shown; the
+    # regions are still summed into it.
+    'mem_open',
+    'mem_closed',
     'mem_cache',
+    'mem_bounds',
 }
 
 # Per-counter semantic description: one sentence each. Joined
@@ -172,9 +204,10 @@ _COUNTER_INFO: dict[str, str] = {
         'Per-sub-search peak CLOSED-list size, averaged over the '
         '$k$ sub-searches.'),
     'mem_cache': (
-        'Final size of the carried $h^{*}$ cache --- the '
-        'optimal-path cells kept from each reached sub-search and '
-        'reused by the next; folded into \\texttt{mem\\_total}.'),
+        'Size of the carried $h^{*}$ cache DURING the '
+        'coincident-peak sub-search (not the final cache size) '
+        '--- the cache component of the memory peak; folded into '
+        '\\texttt{mem\\_total}.'),
     'mem_bounds': (
         'Final size of the admissible-bounds store. This '
         'experiment runs \\texttt{adaptive\\_h=False}, so the '
@@ -224,32 +257,48 @@ _CAPTION_INSIGHT: dict[str, str] = {
         r'cached-boundary inconsistencies per attempt. Unweighted '
         r'mean of per-map rates, so it need not equal '
         r'charted-lifts$/$charted-attempts.'),
+    'cnt_prop_attempts': (
+        r'Pre-search pathmax-propagation attempts, summed across '
+        r'the $k$ sub-searches. Grows steeply with propagation '
+        r'depth (zero at $P{=}0$); each deeper wave revisits more '
+        r'cells.'),
+    'cnt_prop_lifts': (
+        r'Propagation attempts that raised an $h$-value. Grows with '
+        r'depth, but per-attempt yield falls --- deeper waves reach '
+        r'fewer fresh inconsistencies.'),
+    'cnt_prop_waves': (
+        r'Mean propagation-wave count per sub-search '
+        r'(MAX-aggregated, so a depth horizon, not work). Stays '
+        r'below the depth cap $P$ because many maps converge '
+        r'before reaching it.'),
     'mem_open': (
-        r'Nearly flat ($\approx\!1.1\times$ spread): the peak is set '
-        r'by the hardest, mostly-uncached sub-search, which BPMX '
-        r'prunes only late, so depth barely moves it.'),
+        r'Nearly flat across depth ($\approx\!1.1\times$): the OPEN '
+        r'component of the coincident-peak sub-search; pruning '
+        r'barely moves it.'),
     'mem_closed': (
-        r'Identical across all depths: the peak-CLOSED sub-search '
-        r'explores mostly uncached space where BPMX finds no '
-        r'inconsistency, so it expands the same at every depth. '
-        r'Depth only prunes the smaller cache-interior sub-searches '
-        r'the MAX does not see.'),
+        r'NOT flat --- it steps UP from the depth-0 baseline '
+        r'($\approx\!+0.9\%$) then plateaus. A coincident-peak '
+        r'RELOCATION artifact: pruning (BPMX cascade or pathmax '
+        r'propagation) shrinks the cache-interior sub-searches, so '
+        r'the memory peak relocates from a cache-heavy to a '
+        r'closed-heavy sub-search --- raising the reported CLOSED '
+        r'component even as total work falls. \texttt{mem\_total} is '
+        r'the honest memory summary.'),
     'mem_cache': (
-        r'The $\approx\!9\%$ depth variation is not pruning: cached '
-        r'cells lie on optimal paths and are always found. It is a '
-        r'tie-break artifact --- lifted $h$ picks different '
-        r'equally-optimal paths covering slightly fewer cells '
-        r'(non-monotone).'),
+        r'Mirror-image of \texttt{mem\_closed}: drops sharply from '
+        r'the depth-0 baseline ($\approx\!-40\%$) then declines '
+        r'slowly. The cache component of the RELOCATED coincident '
+        r'peak --- not cache pruning (cached cells lie on optimal '
+        r'paths and are always found).'),
     'mem_bounds': (
         r'Flat at $64$\,B (empty-dict overhead) for every depth: '
         r'with \texttt{adaptive\_h=False} the store is never '
         r'populated, so the line carries no depth signal.'),
     'mem_total': (
-        r'Dominated by \texttt{mem\_closed} ($\approx\!93\%$, '
-        r'depth-invariant), so total memory barely moves: $d{\ge}2$ '
-        r'sits about $0.6\%$ below $d{\le}1$, with a small '
-        r'non-monotone wiggle from '
-        r'\texttt{mem\_open}$+$\texttt{mem\_cache}.'),
+        r'Nearly flat (within $\approx\!0.4\%$), gently decreasing: '
+        r'dominated by the $\approx$depth-invariant '
+        r'\texttt{mem\_closed} ($\approx\!97\%$ of total), so total '
+        r'memory barely moves with depth.'),
     'elapsed_total': (
         r'Wall-clock rises $\approx\!10\times$ with depth '
         r'($15$s$\to\!148$s) even as expansions fall, because '
@@ -265,6 +314,9 @@ _TITLES: dict[str, str] = {
     'cnt_bpmx_attempts':  r'Mean |BPMX Attempts| per k.',
     'cnt_bpmx_lifts':     r'Mean |BPMX Lifts| per k.',
     'pct_bpmx_lifts':     r'Mean \%(BPMX Lifts / Attempts) per k.',
+    'cnt_prop_attempts':  r'Mean |Propagation Attempts| per k.',
+    'cnt_prop_lifts':     r'Mean |Propagation Lifts| per k.',
+    'cnt_prop_waves':     r'Mean |Propagation Waves| per k.',
     'elapsed_total':      r'Mean Runtime (in seconds) per k',
 }
 
@@ -299,21 +351,14 @@ _INSIGHT_ITEMS: dict[str, dict[str, list[str]]] = {
             r'$d{\ge}2$: the hit-rate rises monotonically with '
             r'depth.',
         ],
-        # mem_open / mem_closed / mem_total: pending the s_3 re-run
-        # that switches the data to mean aggregation (kept neutral
-        # until then; mean framing + numbers added once the fresh
-        # CSVs exist).
-        'mem_open': [
-            r'Per-sub-search peak OPEN size (bytes), aggregated '
-            r'across the $k$ sub-searches.',
-        ],
-        'mem_closed': [
-            r'Per-sub-search peak CLOSED size (bytes), aggregated '
-            r'across the $k$ sub-searches.',
-        ],
         'mem_total': [
-            r'Sum of every memory region per sub-search: OPEN $+$ '
-            r'CLOSED $+$ cache $+$ bounds.',
+            r'Nearly flat, within $\approx\!0.3\%$ '
+            r'($36161\to36045$ over $d{=}0\!\to\!5$): the '
+            r'coincident memory peak barely moves with depth.',
+            r'The honest memory summary --- its OPEN/CLOSED/cache '
+            r'components individually shift as the peak sub-search '
+            r'relocates with depth, but the total (the quantity '
+            r'that matters) is stable.',
         ],
         'elapsed_total': [
             r'Runtime rises monotonically with depth.',
@@ -355,6 +400,48 @@ _INSIGHT_ITEMS: dict[str, dict[str, list[str]]] = {
     # data-derived insights once their s_3 runs land.
     'rule3': {},
     'cascade': {},
+    # Propagation depth ladder (BPMX off). Data-derived from the
+    # prop_0..5 aggregates.
+    'propdepth': {
+        'cnt_expanded': [
+            r'Propagation prunes expansions monotonically: '
+            r'$285$k ($P{=}0$) $\to214$k ($P{=}1$, $-25\%$) '
+            r'$\to131$k ($P{=}5$).',
+            r'Unlike BPMX rule~1 (inert at $d{=}1$), propagation '
+            r'already lifts at $P{=}1$ --- it seeds from the '
+            r'exact-$h^{*}$ cache.',
+            r'Diminishing returns past $P{=}3$.',
+        ],
+        'cnt_prop_attempts': [
+            r'$0$ at $P{=}0$ (off) up to $\approx\!2.2$M at '
+            r'$P{=}5$ --- grows steeply; each deeper wave revisits '
+            r'more cells.',
+        ],
+        'cnt_prop_lifts': [
+            r'Grows with depth ($\approx\!241$k at $P{=}1$ to '
+            r'$\approx\!822$k at $P{=}5$).',
+            r'Per-attempt yield falls --- deeper waves reach fewer '
+            r'fresh inconsistencies.',
+        ],
+        'cnt_prop_waves': [
+            r'Mean rises with $P$ but stays below it '
+            r'($1.0, 1.9, 2.8, 3.6, 4.4$): many maps converge '
+            r'before the depth cap.',
+        ],
+        'elapsed_total': [
+            r'RISES $\approx\!3.5\times$ ($21$s$\to75$s) despite '
+            r'fewer expansions.',
+            r'The per-wave $h$-evaluation cost dominates '
+            r'(\texttt{cnt\_h\_search} grows $\approx\!14\times$) '
+            r'--- propagation trades compute for pruning.',
+        ],
+        'mem_total': [
+            r'Nearly flat, slightly decreasing '
+            r'($36161\to36003$): the coincident memory peak is '
+            r'essentially depth-invariant --- propagation buys '
+            r'fewer expansions, not less peak memory.',
+        ],
+    },
 }
 
 
@@ -373,14 +460,17 @@ _COUNTER_NEUTRAL: dict[str, str] = {
         r'$k$ sub-searches.',
     'pct_bpmx_lifts':
         r'BPMX hit-rate per attempt (lifts / attempts).',
-    'mem_open':
-        r'Per-sub-search peak OPEN size (bytes), aggregated across '
+    'cnt_prop_attempts':
+        r'Pre-search pathmax-propagation attempts, summed across '
         r'the $k$ sub-searches.',
-    'mem_closed':
-        r'Per-sub-search peak CLOSED size (bytes), aggregated '
-        r'across the $k$ sub-searches.',
+    'cnt_prop_lifts':
+        r'Propagation attempts that raised an $h$-value.',
+    'cnt_prop_waves':
+        r'Mean propagation-wave count per sub-search (a depth '
+        r'horizon, MAX-aggregated).',
     'mem_total':
-        r'Sum of every memory region per sub-search.',
+        r'Coincident peak: $\sum$ of the OPEN/CLOSED/cache/bounds '
+        r'components of the peak sub-search.',
     'elapsed_total':
         r'Total wall-clock seconds, cumulative across the $k$ '
         r'sub-searches.',

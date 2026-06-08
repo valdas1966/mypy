@@ -63,10 +63,11 @@ win.to_html(path='/tmp/demo.html', size=800)  # fixed 800x800 square
 | `Container`   | children (recursive) |
 | `Label`       | `html.escape(text)`  |
 | `Line`        | — (rendered as `<svg>`, intercepted first) |
+| `Connector`   | — (rendered as `<svg>` polyline, intercepted first) |
 
 `Container` is matched in `_inner()` (Window IS-A Container, so it's
-covered). `Line` is intercepted at the top of `element()` and renders as
-`<svg>`, not a `<div>`.
+covered). `Line` and `Connector` are intercepted at the top of `element()`
+and render as `<svg>`, not a `<div>`.
 
 **Borders are no longer type-dispatched.** The old per-type default
 borders (`_BORDER_WINDOW` etc.) were removed — borders are now opt-in
@@ -119,8 +120,37 @@ object Border edges use) via `_stroke_color()` and `_dash()`.
   so it is unique per distinct line — duplicate ids across separate inline
   `<svg>`s would otherwise make `url(#id)` resolve to the wrong marker.
   `orient="auto"` aims the head along `p1→p2`; `markerUnits="strokeWidth"`
-  scales it with `width`.
+  scales it with `width`. **`refX="10"`** pins the marker's *tip* (the path
+  point `10,5`) to the line's endpoint, so the arrowhead **ends on** the
+  endpoint with its body trailing behind — it does not overshoot past it
+  (important for a `Connector`, whose endpoint sits on the target's border).
 - `Line` carries no `background` and is not bordered.
+
+## Connector Rendering (SVG polyline)
+
+`element()` checks `isinstance(elem, Connector)` (after `Line`) and
+delegates to `_connector()`. A `Connector` reads its **live** `path` (a
+list of `Point`s ≥ 2, pulled from the two connected elements' bounds) and
+emits one `<svg>` overlay filling the parent, containing a **chain of
+`<line>` segments** — the same percent-coordinate model as a single `Line`,
+so the polyline is distortion-free and needs no `viewBox`.
+
+| `Connector` source | SVG mapping |
+|--------------------|-------------|
+| `path` (n points)  | `n-1` `<line>` segments, percent coords |
+| `stroke`           | `stroke` / `stroke-width` / dash / linecap (via `_stroke_color` / `_dash`) |
+| `arrow`            | `<marker>` on the **last** segment only (`marker-end`) |
+
+- **Why a chain of `<line>`s** (not a single `<polyline>`): a `<polyline>`'s
+  `points` cannot use per-coordinate `%`, so it would need a stretched
+  `viewBox` that distorts `stroke-width`. Reusing the existing `<line>`
+  percent model keeps strokes true-pixel and dashes/caps identical to
+  `Line`.
+- **Arrowhead id** is content-derived from the whole path
+  (`arrow-{color}-{x0_y0}-{x1_y1}-…`) — unique per distinct path.
+- **Corner note:** butt-capped perpendicular segments can leave a
+  sub-pixel notch at an outer 90-degree corner — cosmetically negligible.
+- `Connector` carries no `background` and is not bordered.
 
 ## Rendering Semantics
 
@@ -143,6 +173,7 @@ object Border edges use) via `_stroke_color()` and `_dash()`.
 | `f_gui.elements.i_1_container.Container` | Children recursion        |
 | `f_gui.elements.i_1_label.Label`         | Text emission             |
 | `f_gui.elements.i_1_line.Line`           | SVG line dispatch         |
+| `f_gui.elements.i_1_connector.Connector` | SVG connector (polyline) dispatch |
 | `f_gui.style.stroke.LineStyle`           | Dasharray / linecap selection |
 | `html.escape` (stdlib)                   | Text safety               |
 | `pathlib.Path` (stdlib)                  | File write                |
@@ -201,6 +232,7 @@ the matching HTML in a browser:
 | `s_background.py`| `background.html` | named-color grid, `RGB.Factory.gradient` strip, transparent vs filled |
 | `s_border.py`    | `border.html`     | solid/dashed/dotted, per-side, 4-color, width variants |
 | `s_line.py`      | `line.html`       | solid/dashed/dotted, arrow, 4 directions, width variants |
+| `s_connector.py` | `connector.html`  | direct vs orthogonal, auto vs explicit sides, 4 directions, stroke variants |
 
 ```bash
 python -m f_gui.render.html.s_border   # then open border.html

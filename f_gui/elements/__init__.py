@@ -11,6 +11,7 @@ if TYPE_CHECKING:
     from f_gui.elements.i_1_container import Container
     from f_gui.elements.i_1_label import Label
     from f_gui.elements.i_1_line import Line
+    from f_gui.elements.i_1_connector import Connector, Routing
     from f_gui.elements.i_2_window import Window
 
 ULazy.install(globals(), {
@@ -18,5 +19,7 @@ ULazy.install(globals(), {
     'Container': 'f_gui.elements.i_1_container:Container',
     'Label': 'f_gui.elements.i_1_label:Label',
     'Line': 'f_gui.elements.i_1_line:Line',
+    'Connector': 'f_gui.elements.i_1_connector:Connector',
+    'Routing': 'f_gui.elements.i_1_connector:Routing',
     'Window': 'f_gui.elements.i_2_window:Window',
 })

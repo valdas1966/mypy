@@ -1,3 +1,4 @@
+import json
 import pyoverleaf
 from pathlib import Path
 from f_core.mixins.has.key import HasKey
@@ -163,9 +164,36 @@ class ProjectOverLeaf(HasName, HasKey[str]):
         """
         ====================================================================
          Return the root folder of the project.
+
+         Reimplements `pyoverleaf.Api.project_get_files`: open the
+         project's realtime socket.io connection, read the
+         `joinProjectResponse` (which carries the file tree), and
+         ALWAYS close the socket in `finally`. The upstream method
+         NEVER closes its socket, so each call leaked an open
+         realtime connection that Overleaf counts as an online
+         'me' collaborator -- and `_root` is hit once per file
+         op, so a single push spawned dozens of phantom viewers.
+         Closing at the source keeps at most one transient socket
+         open at a time and leaves none behind.
         ====================================================================
         """
-        return self._api.project_get_files(project_id=self._key)
+        socket = self._api._open_socket(self._key)
+        try:
+            while True:
+                line = socket.recv()
+                if line.startswith('7:'):
+                    raise RuntimeError('Could not get project files.')
+                if line.startswith('5:'):
+                    break
+            data = json.loads(line[len('5:'):].lstrip(':'))
+            assert data['name'] == 'joinProjectResponse'
+            folders = data['args'][0]['project']['rootFolder']
+            return pyoverleaf.ProjectFolder.from_data(folders[0])
+        finally:
+            try:
+                socket.close()
+            except Exception:
+                pass
 
     def _find_in(self,
                  root: pyoverleaf.ProjectFolder,

@@ -9,6 +9,8 @@ from f_ds.geometry.bounds import Bounds
 if TYPE_CHECKING:
     from f_color.rgb import RGB
     from f_gui.style.border import Border
+    from f_ds.geometry.point import Point
+    from f_ds.geometry.side import Side
 
 
 class Element(HasName, HasParent):
@@ -75,6 +77,18 @@ class Element(HasName, HasParent):
         ========================================================================
         """
         return self._border
+
+    def anchor(self, side: Side) -> Point:
+        """
+        ========================================================================
+         A connection point of the Element — the mid-point of the given Side.
+        ========================================================================
+         The four anchors (TOP / RIGHT / BOTTOM / LEFT) are where a Connector
+         attaches; delegated to the Element's Bounds. Reads `self.bounds` (the
+         property) so subclasses that compute bounds dynamically stay correct.
+        ========================================================================
+        """
+        return self.bounds.anchor(side=side)
 
     def __str__(self) -> str:
         """

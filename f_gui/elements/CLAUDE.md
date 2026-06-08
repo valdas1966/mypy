@@ -7,10 +7,11 @@ Aggregator package holding the four GUI element classes. Organized with
 
 | Folder           | Class       | Depth | Role                                |
 |------------------|-------------|-------|-------------------------------------|
-| `i_0_element/`   | `Element`   | 0     | **Abstract** base: bounds+name+parent|
+| `i_0_element/`   | `Element`   | 0     | **Abstract** base: bounds+name+parent; `anchor(side)`|
 | `i_1_container/` | `Container` | 1     | Element + `HasChildren`             |
 | `i_1_label/`     | `Label`     | 1     | Element + text (leaf)               |
 | `i_1_line/`      | `Line`      | 1     | Element + two `Point`s + `Stroke` (leaf, SVG)|
+| `i_1_connector/` | `Connector` | 1     | Element + two element refs + routing (leaf, SVG)|
 | `i_2_window/`    | `Window`    | 2     | Container with implicit full bounds |
 
 `Line` holds a `Stroke`; the `Stroke` / `LineStyle` / `Border` styling
@@ -25,16 +26,19 @@ IDEs / mypy (autocomplete + go-to-definition) while staying lazy at
 runtime — so this form is now static-clean, no "unresolved reference":
 
 ```python
-from f_gui.elements import Element, Container, Label, Line, Window
+from f_gui.elements import Element, Container, Label, Line, Connector, Window
 ```
 
-Equivalent direct imports (also valid — bypass the aggregator entirely):
+`Routing` (the connector's `DIRECT`/`ORTHOGONAL` enum) is also exported
+from the aggregator. Equivalent direct imports (also valid — bypass the
+aggregator entirely):
 
 ```python
 from f_gui.elements.i_0_element   import Element
 from f_gui.elements.i_1_container import Container
 from f_gui.elements.i_1_label     import Label
 from f_gui.elements.i_1_line      import Line
+from f_gui.elements.i_1_connector import Connector, Routing
 from f_gui.elements.i_2_window    import Window
 ```
 
@@ -44,12 +48,17 @@ Styling value objects (`Stroke`, `LineStyle`, `Border`) come from
 ## Inheritance Graph
 
 ```
-Element                  i_0_element      (HasName, HasParent)
+Element                  i_0_element      (HasName, HasParent; anchor(side))
  ├── Container           i_1_container    (+ HasChildren)
  │    └── Window         i_2_window       (root, full bounds 0-100)
  ├── Label               i_1_label        (leaf, text)
- └── Line                i_1_line         (leaf, two Points; SVG stroke)
+ ├── Line                i_1_line         (leaf, two Points; SVG stroke)
+ └── Connector           i_1_connector    (leaf, two element refs; SVG, auto-routed)
 ```
+
+`Connector` attaches to two elements by their `Side` anchors and routes a
+straight (`DIRECT`) or 90-degree elbow (`ORTHOGONAL`) path between them,
+recomputed live from their bounds. See `i_1_connector/CLAUDE.md`.
 
 ## Tree-Mutation Contract
 

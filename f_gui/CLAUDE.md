@@ -3,10 +3,11 @@
 ## Purpose
 
 Lightweight GUI **scene-graph** primitives for the MyPy framework. Provides
-composable classes (`Element`, `Container`, `Label`, `Line`, `Window`) that
-model a tree of regions in a normalized `0-100` coordinate space — mostly
-rectangles, plus `Line` (a two-`Point` directed segment). This package is a
-*data model* — it does **not** perform rendering.
+composable classes (`Element`, `Container`, `Label`, `Line`, `Connector`,
+`Window`) that model a tree of regions in a normalized `0-100` coordinate
+space — mostly rectangles, plus `Line` (a two-`Point` directed segment) and
+`Connector` (an auto-routing line/arrow between two elements). This package
+is a *data model* — it does **not** perform rendering.
 
 ## Package Exports
 
@@ -19,10 +20,11 @@ from f_gui import Element, Container, Label, Window
 
 | Export      | Source module                       | Role                        |
 |-------------|-------------------------------------|-----------------------------|
-| `Element`   | `f_gui.elements.i_0_element`        | Abstract base: bounds+name+parent|
+| `Element`   | `f_gui.elements.i_0_element`        | Abstract base: bounds+name+parent; `anchor(side)`|
 | `Container` | `f_gui.elements.i_1_container`      | Holds children              |
 | `Label`     | `f_gui.elements.i_1_label`          | Leaf with text              |
 | `Line`      | `f_gui.elements.i_1_line`           | Leaf: two `Point`s + `Stroke`; SVG|
+| `Connector` | `f_gui.elements.i_1_connector`      | Leaf: two element refs, auto-routed; SVG|
 | `Window`    | `f_gui.elements.i_2_window`         | Root container (full bounds)|
 
 Styling value objects live in **`f_gui.style`**: `Stroke`, `LineStyle`
@@ -58,11 +60,12 @@ f_gui/
 
 ```
 HasName, HasParent                   (f_core mixins)
- └── Element            i_0_element
+ └── Element            i_0_element   (anchor(side) -> connection points)
       ├── Container     i_1_container (+ HasChildren)
       │    └── Window   i_2_window
       ├── Label         i_1_label    (leaf, carries text)
-      └── Line          i_1_line     (leaf, two Points; SVG stroke)
+      ├── Line          i_1_line     (leaf, two Points; SVG stroke)
+      └── Connector     i_1_connector(leaf, two element refs; auto-routed SVG)
 ```
 
 ## Coordinate System
@@ -102,7 +105,7 @@ so the renderer is ~30 lines.
 ```bash
 python -m f_gui._run_tests
 ```
-Runs every `_tester.py` under `f_gui/` (currently 25 tests, 4 files).
+Runs every `_tester.py` under `f_gui/` (currently 78 tests, 9 files).
 
 ## Dependencies
 

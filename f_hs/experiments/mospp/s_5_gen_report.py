@@ -3,9 +3,14 @@
  Script: regenerate `Reports/MOSPP.tex` -> Experimental Results
  section with a MULTI-CONFIG comparison.
 
- Reads each config's nested CSV from Drive (one CSV per
- (rule_bpmx, depth_bpmx, depth_prop) trio), aggregates, and
- emits one subsection per non-trivial counter, each
+ Reads each config's by-k aggregate from Drive `Results/agg/`
+ (one `*_by_k.csv` per (rule_bpmx, depth_bpmx, depth_prop)
+ trio, produced by `s_4` -- already one row per (config, k)
+ with every metric meaned across the 25 maps and the derived
+ `pct_bpmx_lifts` baked in). `s_4` is the single aggregation
+ authority; this script no longer downloads the raw per-map
+ CSVs or re-aggregates -- it tags, concatenates, and renders.
+ Emits one subsection per non-trivial counter, each
  containing:
 
    - a curated semantic description of the counter +
@@ -28,22 +33,27 @@
  were overrunning Overleaf's compile timeout; the same doc
  builds in ~2.5s under `tectonic` locally).
 
- After splicing the section into `Reports/MOSPP.tex` it
- compiles via `tectonic`, uploads `.tex` + `.pdf` to Drive
- (the `.pdf` embeds the figures, so Drive stays a 2-file
- artifact -- the loose `fig_*.pdf` live only in the work dir
- and on Overleaf, which needs them to recompile), and pushes a
- sanitized `.tex` + the `fig_*.pdf` set to the Overleaf `MOSPP`
- project (`f_overleaf` text upload is ASCII-only --
- box-drawing chars in comments are replaced).
+ NO PC TRACES. The generator writes nothing into the repo:
+ `report/main.tex` (the human-owned `\\input` host) is READ-ONLY;
+ every generated artifact -- per-rule `.tex`, figure
+ `.tex`/`.pdf`, downloaded aggregates, compiled `main.pdf` --
+ lives in ONE `/tmp` scratch dir that is wiped on exit. Outputs
+ land only on:
+   - Overleaf `MOSPP`: sanitized `main.tex` + rule `.tex` +
+     the `fig_*.pdf` set (`f_overleaf` upload is ASCII-only --
+     box-drawing chars in comments are replaced), and
+   - Drive `Reports/`: the compiled `MOSPP.pdf` + the `\\input`
+     bundle (`MOSPP.tex` + each rule `.tex`), kept recompilable.
+ No persistent figure cache -> every figure is rebuilt per run.
 
- Run:
-   PYTHONPATH=/mnt/f/mypy \
-   python f_hs/experiments/mospp/s_5_gen_report.py
+ Run (reads s_4 aggregates from Drive + compiles + pushes):
+   PYTHONPATH=/Users/eyalberkovich/mypy \
+   python f_hs/experiments/mospp/s_5_gen_report.py [--no-push]
 ===============================================================================
 """
 import shutil
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
@@ -56,9 +66,40 @@ from f_hs.experiments.mospp.report_spec import (
     RULE_SECTIONS, K_TABLE, _EXCLUDED_COUNTERS,
 )
 from f_hs.experiments.mospp.report_render import (
-    add_derived_columns, metric_columns, build_section,
-    sanitize_ascii,
+    metric_columns, build_section, sanitize_ascii,
 )
+
+
+def _tectonic_bin() -> str:
+    """
+    ========================================================================
+     Resolve the `tectonic` executable robustly. `subprocess`
+     inherits the launcher's PATH -- which, when the script is
+     run from an IDE or a non-base conda env (e.g. `mypy`), often
+     EXCLUDES the conda-base `bin/` where tectonic is installed.
+     Try PATH first (`shutil.which`), then the usual installs:
+     this env, conda base (`envs/<x>/.. -> base`), cargo,
+     homebrew. Fail with an actionable message if none exist.
+    ========================================================================
+    """
+    exe = shutil.which('tectonic')
+    if exe:
+        return exe
+    prefix = Path(sys.prefix)
+    candidates = [
+        prefix / 'bin' / 'tectonic',                  # this env
+        prefix.parent.parent / 'bin' / 'tectonic',    # conda base
+        Path.home() / '.cargo' / 'bin' / 'tectonic',  # cargo
+        Path('/opt/homebrew/bin/tectonic'),           # brew (arm)
+        Path('/usr/local/bin/tectonic'),              # brew (intel)
+    ]
+    for c in candidates:
+        if c.is_file():
+            return str(c)
+    raise FileNotFoundError(
+        'tectonic not found on PATH or in the usual locations. '
+        'Install it (e.g. `conda install -n mypy -c conda-forge '
+        'tectonic`) or add it to PATH.')
 
 
 PATH_TEX_DRIVE = 'Reports/MOSPP.tex'
@@ -66,187 +107,184 @@ PATH_PDF_DRIVE = 'Reports/MOSPP.pdf'
 OVERLEAF_PROJECT = 'MOSPP'
 OVERLEAF_FILE = 'MOSPP.tex'
 
-def load_configs(drive: Drive,
-                 configs: list[dict],
-                 work: Path) -> tuple[pd.DataFrame, list[dict]]:
-    """
-    ========================================================================
-     Download each available CSV; combine into one DataFrame
-     with a `config` column carrying the tag. Skip missing
-     CSVs with a warning. Return (df, configs_used).
-    ========================================================================
-    """
-    frames = []
-    used = []
-    for cfg in configs:
-        if not drive.is_exists(path=cfg['csv']):
-            print(f"  MISSING — skip {cfg['tag']}: {cfg['csv']}")
-            continue
-        local = work / (cfg['tag'] + '.csv')
-        drive.download(path_src=cfg['csv'], path_dest=str(local))
-        d = pd.read_csv(local)
-        d['config'] = cfg['tag']
-        frames.append(d)
-        used.append(cfg)
-        print(f"  OK     — {cfg['tag']} ({len(d):,} rows)")
-    if not frames:
-        raise RuntimeError('No CSVs found on Drive.')
-    return pd.concat(frames, ignore_index=True), used
-
-
 # ── Main ────────────────────────────────────────────────────────────────────
 
-def main(rules: list[str] | None = None,
-         push_overleaf: bool = True) -> None:
+def main(push_overleaf: bool = True) -> None:
     """
     ===========================================================================
      Generate the experimental sections as an `\\input`-split
      report (no splice): one file per BPMX rule
      (rule1/rule2/rule3/cascade.tex) that the human-owned
-     `report/main.tex` `\\input`s. The generator never touches
-     main.tex; git is the source of truth.
+     `report/main.tex` `\\input`s.
 
-     `rules`: which rules' FIGURES to (re)compile (e.g.
-     `['rule2']`); None = all rendered. The per-rule .tex files
-     are always rewritten (instant); only the requested rules'
-     figures are recompiled, the rest are reused from the
-     persistent fig cache (and stay on Overleaf). That is what
-     makes a single-rule update touch one file + its figures
-     instead of regenerating the whole report.
+     **No PC traces.** The generator NEVER writes into the repo:
+     `report/main.tex` is the only repo file and it is READ-ONLY
+     (the human-owned source). Every generated artifact -- the
+     per-rule `.tex`, the figure `.tex`/`.pdf`, the downloaded
+     aggregates, the compiled `main.pdf` -- lives in a single
+     `/tmp` scratch dir that is WIPED on exit (success or error).
+     Outputs go only to **Overleaf** (`.tex` sources + figure
+     PDFs) and **Drive** (`Reports/MOSPP.{tex,pdf}` + rule
+     `.tex`). Nothing is left on disk.
+
+     Because nothing is cached between runs, EVERY figure is
+     recompiled each run (the prior selective-recompile cache is
+     gone -- the trade for leaving no trace). `push_overleaf` is
+     the only knob; Drive upload always happens.
     ===========================================================================
     """
     report_dir = Path(__file__).resolve().parent / 'report'
-    fig_dir = Path('/tmp/mospp_figs')
-    fig_dir.mkdir(parents=True, exist_ok=True)
-    drive = Drive.Factory.valdas()
-    work = Path(tempfile.mkdtemp(prefix='mospp_s5_', dir='/tmp'))
-    print(f'work {work} | report {report_dir} | figs {fig_dir}')
-
-    # 1. Download every UNIQUE CSV once (baseline shared by all
-    #    rule sections). Missing CSVs are skipped.
-    print('downloading CSVs ...')
-    frames: dict[str, pd.DataFrame] = {}
-    seen: set[str] = set()
-    for sec in RULE_SECTIONS:
-        for c in sec['configs']:
-            if c['tag'] in seen:
-                continue
-            seen.add(c['tag'])
-            if not drive.is_exists(path=c['csv']):
-                print(f"  MISSING — {c['tag']}")
-                continue
-            local = work / (c['tag'] + '.csv')
-            drive.download(path_src=c['csv'], path_dest=str(local))
-            d = pd.read_csv(local)
-            d['config'] = c['tag']
-            frames[c['tag']] = d
-            print(f"  OK     — {c['tag']} ({len(d):,} rows)")
-    if not frames:
-        raise RuntimeError('No CSVs found on Drive.')
-
-    # 2. Build each rule's section -> write report/<key>.tex. A
-    #    rule renders only when >=1 of its depth CSVs is present.
-    print('writing per-rule section files ...')
-    fig_specs: dict[str, str] = {}
-    rendered: list[str] = []
-    for sec in RULE_SECTIONS:
-        used = [c for c in sec['configs'] if c['tag'] in frames]
-        if not [c for c in used if c['tag'] != 'rule_none']:
-            print(f"  skip '{sec['key']}' — no depth CSVs")
-            continue
-        df = add_derived_columns(
-            pd.concat([frames[c['tag']] for c in used],
-                      ignore_index=True))
-        metric_cols = metric_columns(df)
-        nontrivial = ({m for m in metric_cols
-                       if float(df[m].astype(float).max()) > 0}
-                      - _EXCLUDED_COUNTERS)
-        k_max = int(df['m'].max())
-        per_kc = (df.groupby(['config', 'm'])[metric_cols]
-                  .mean().reset_index())
-        k_values = [k for k in K_TABLE if k <= k_max]
-        sec_tex, sec_figs = build_section(
-            per_kc=per_kc, used=used, nontrivial=nontrivial,
-            k_values=k_values, rule_key=sec['key'],
-            section_title=sec['title'])
-        (report_dir / f"{sec['key']}.tex").write_text(
-            sec_tex + '\n', encoding='utf-8')
-        for name, src in sec_figs:
-            fig_specs[name] = src
-        rendered.append(sec['key'])
-        print(f"  wrote report/{sec['key']}.tex ({len(sec_figs)} figs)")
-    if not rendered:
-        raise RuntimeError('No rule sections had depth data.')
-
-    main_tex = report_dir / 'main.tex'
-    if not main_tex.exists():
+    main_tex_src = report_dir / 'main.tex'
+    if not main_tex_src.exists():
         raise FileNotFoundError(
-            f'{main_tex} missing — the human-owned main.tex '
+            f'{main_tex_src} missing — the human-owned main.tex '
             f'(preamble + sections 1-2 + the \\input list) must exist.')
+    tectonic = _tectonic_bin()        # fail fast before any Drive work
+    drive = Drive.Factory.valdas()
+    # Single scratch dir under /tmp -- every generated artifact
+    # lives here and the whole dir is wiped in `finally`. Nothing
+    # is ever written into the repo / PC.
+    work = Path(tempfile.mkdtemp(prefix='mospp_s5_', dir='/tmp'))
+    print(f'scratch {work} (wiped on exit) | main.tex {main_tex_src}')
+    try:
+        # 1. Download every UNIQUE by-k aggregate once (baseline
+        #    shared by all rule sections). Missing aggregates are
+        #    skipped -- run `s_4` first if a config is absent.
+        print('downloading s_4 by-k aggregates ...')
+        frames: dict[str, pd.DataFrame] = {}
+        seen: set[str] = set()
+        for sec in RULE_SECTIONS:
+            for c in sec['configs']:
+                if c['tag'] in seen:
+                    continue
+                seen.add(c['tag'])
+                if not drive.is_exists(path=c['csv']):
+                    print(f"  MISSING — {c['tag']}")
+                    continue
+                local = work / (c['tag'] + '.csv')
+                drive.download(path_src=c['csv'], path_dest=str(local))
+                d = pd.read_csv(local)
+                d['config'] = c['tag']
+                frames[c['tag']] = d
+                print(f"  OK     — {c['tag']} ({len(d):,} rows)")
+        if not frames:
+            raise RuntimeError(
+                'No by-k aggregates on Drive — run s_4 first.')
 
-    # 3. Compile figures — SELECTIVE. `rules=None` -> all rendered;
-    #    else only the listed rules' figures (the rest are reused
-    #    from the persistent cache + Overleaf).
-    todo = set(rules) if rules is not None else set(rendered)
-    to_build = [(n, s) for n, s in fig_specs.items()
-                if any(n.startswith(f'fig_{k}_') for k in todo)]
-    print(f'compiling {len(to_build)} figures (rules={sorted(todo)}) ...')
-    for name, src in to_build:
-        (work / f'{name}.tex').write_text(src, encoding='utf-8')
-        subprocess.run(['tectonic', f'{name}.tex'],
+        # 2. Build each rule's section -> write work/<key>.tex (NOT
+        #    the repo). A rule renders only when >=1 depth CSV is
+        #    present.
+        print('writing per-rule section files (to scratch) ...')
+        fig_specs: dict[str, str] = {}
+        rendered: list[str] = []
+        for sec in RULE_SECTIONS:
+            used = [c for c in sec['configs'] if c['tag'] in frames]
+            if not [c for c in used if c['tag'] != 'rule_none']:
+                print(f"  skip '{sec['key']}' — no depth CSVs")
+                continue
+            # The frames are already `s_4` by-k aggregates: one row
+            # per (config, k), every metric meaned, `pct_bpmx_lifts`
+            # baked in. Tagged with `config` on load -> the concat
+            # IS `per_kc`. No re-aggregation / derived step here.
+            per_kc = pd.concat([frames[c['tag']] for c in used],
+                               ignore_index=True)
+            metric_cols = metric_columns(per_kc)
+            nontrivial = ({m for m in metric_cols
+                           if float(per_kc[m].astype(float).max()) > 0}
+                          - _EXCLUDED_COUNTERS)
+            k_max = int(per_kc['m'].max())
+            k_values = [k for k in K_TABLE if k <= k_max]
+            sec_tex, sec_figs = build_section(
+                per_kc=per_kc, used=used, nontrivial=nontrivial,
+                k_values=k_values, rule_key=sec['key'],
+                section_title=sec['title'])
+            (work / f"{sec['key']}.tex").write_text(
+                sec_tex + '\n', encoding='utf-8')
+            for name, src in sec_figs:
+                fig_specs[name] = src
+            rendered.append(sec['key'])
+            print(f"  wrote {sec['key']}.tex ({len(sec_figs)} figs)")
+        if not rendered:
+            raise RuntimeError('No rule sections had depth data.')
+
+        # 3. Compile EVERY figure into the scratch dir (no
+        #    persistent cache -> all rebuilt each run).
+        print(f'compiling {len(fig_specs)} figures ...')
+        for name, src in fig_specs.items():
+            (work / f'{name}.tex').write_text(src, encoding='utf-8')
+            subprocess.run([tectonic, f'{name}.tex'],
+                           check=True, cwd=str(work))
+            print(f'  OK     — {name}.pdf')
+
+        # 4. Compile main.tex in the scratch dir (main + rule files
+        #    + figure PDFs all co-located). main.tex is COPIED in,
+        #    never edited in the repo.
+        shutil.copy(main_tex_src, work / 'main.tex')
+        print('compiling main.tex ...')
+        subprocess.run([tectonic, 'main.tex'],
                        check=True, cwd=str(work))
-        shutil.copy(work / f'{name}.pdf', fig_dir / f'{name}.pdf')
-        print(f'  OK     — {name}.pdf')
+        pdf = work / 'main.pdf'
+        print(f'  pdf: {pdf.stat().st_size:,} bytes')
 
-    # 4. Validate: compile main.tex with every rendered rule's
-    #    figures (from the persistent cache).
-    val = Path(tempfile.mkdtemp(prefix='mospp_val_', dir='/tmp'))
-    shutil.copy(main_tex, val / 'main.tex')
-    for key in rendered:
-        shutil.copy(report_dir / f'{key}.tex', val / f'{key}.tex')
-    missing = [n for n in fig_specs
-               if not (fig_dir / f'{n}.pdf').exists()]
-    if missing:
-        raise RuntimeError(
-            'figure cache incomplete — run once with rules=None: '
-            f'{missing[:5]}')
-    for name in fig_specs:
-        shutil.copy(fig_dir / f'{name}.pdf', val / f'{name}.pdf')
-    print('compiling main.tex (validation) ...')
-    subprocess.run(['tectonic', 'main.tex'], check=True, cwd=str(val))
-    print(f'  pdf: {(val / "main.pdf").stat().st_size:,} bytes')
+        # 5. Push the \input-split report to Overleaf: main.tex +
+        #    every rendered rule file + every figure PDF.
+        if push_overleaf:
+            print('pushing to Overleaf ...')
+            # `with` -> the Overleaf session is closed on block exit
+            # (success or error). Each file op's realtime socket is
+            # also closed at the source (ProjectOverLeaf._root), so
+            # no phantom online 'me' viewers are left behind.
+            with OverLeaf.Factory.valdas() as ol:
+                proj = ol[OVERLEAF_PROJECT]
 
-    # 5. Push the \input-split report to Overleaf (multi-file):
-    #    main.tex + each rendered rule file + ONLY the (re)built
-    #    figures (others stay on Overleaf).
-    if push_overleaf:
-        print('pushing to Overleaf ...')
-        proj = OverLeaf.Factory.valdas()[OVERLEAF_PROJECT]
+                def _up(path: str, p: Path) -> None:
+                    txt, _ = sanitize_ascii(
+                        p.read_text(encoding='utf-8'))
+                    if any(ord(c) > 127 for c in txt):
+                        raise ValueError(f'non-ASCII in {path}')
+                    proj.create_file(path=path, text=txt)
 
-        def _up(path: str, p: Path) -> None:
-            txt, _ = sanitize_ascii(p.read_text(encoding='utf-8'))
-            if any(ord(c) > 127 for c in txt):
-                raise ValueError(f'non-ASCII in {path}')
-            proj.create_file(path=path, text=txt)
+                _up('main.tex', main_tex_src)
+                for key in rendered:
+                    _up(f'{key}.tex', work / f'{key}.tex')
+                for name in fig_specs:
+                    proj.upload_file(
+                        path_src=str(work / f'{name}.pdf'),
+                        path_dest=f'{name}.pdf')
+                proj.set_root_doc('main.tex')
+                if 'MOSPP.tex' in proj.list_files():
+                    proj.delete_file(path='MOSPP.tex')
+            print(f'  pushed main.tex + {len(rendered)} rule files + '
+                  f'{len(fig_specs)} figs; root=main.tex '
+                  f'(session closed)')
 
-        _up('main.tex', main_tex)
+        # 6. Upload the compiled report to Drive: the self-contained
+        #    PDF + the \input bundle (main.tex + rule files), so
+        #    Reports/ stays recompilable. main.tex from the repo
+        #    source; rule files from scratch.
+        print('uploading to Drive ...')
+        drive.upload(path_src=str(pdf), path_dest=PATH_PDF_DRIVE)
+        drive.upload(path_src=str(main_tex_src), path_dest=PATH_TEX_DRIVE)
         for key in rendered:
-            _up(f'{key}.tex', report_dir / f'{key}.tex')
-        for name, _ in to_build:
-            proj.upload_file(path_src=str(fig_dir / f'{name}.pdf'),
-                             path_dest=f'{name}.pdf')
-        proj.set_root_doc('main.tex')
-        if 'MOSPP.tex' in proj.list_files():
-            proj.delete_file(path='MOSPP.tex')
-        print(f'  pushed main.tex + {len(rendered)} rule files + '
-              f'{len(to_build)} figs; root=main.tex')
-    print('done.')
+            drive.upload(path_src=str(work / f'{key}.tex'),
+                         path_dest=f'Reports/{key}.tex')
+        print(f'  {PATH_PDF_DRIVE} + {PATH_TEX_DRIVE} + '
+              f'{len(rendered)} rule .tex')
+        print('done.')
+    finally:
+        # Leave NO trace: wipe the scratch dir + any legacy fig
+        # cache from the pre-"no-PC-traces" design.
+        shutil.rmtree(work, ignore_errors=True)
+        legacy = Path('/tmp/mospp_figs')
+        if legacy.exists():
+            shutil.rmtree(legacy, ignore_errors=True)
+        print(f'cleaned scratch {work}')
 
 
 if __name__ == '__main__':
-    import sys
-    # `python s_5_gen_report.py`              -> recompile ALL figures.
-    # `python s_5_gen_report.py rule2`        -> recompile only rule2's
-    #                                            figures (others reused);
-    #                                            every .tex is rewritten.
-    main(rules=sys.argv[1:] or None)
+    # `python s_5_gen_report.py`            -> Overleaf + Drive.
+    # `python s_5_gen_report.py --no-push`  -> Drive only (skip the
+    #                                          Overleaf push; safe
+    #                                          first look that can't
+    #                                          overwrite Overleaf).
+    main(push_overleaf='--no-push' not in sys.argv)

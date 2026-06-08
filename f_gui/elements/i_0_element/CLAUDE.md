@@ -85,8 +85,16 @@ renderer-imposed default). Imported under `TYPE_CHECKING` to keep
 ### Methods
 
 ```python
-def path_from_root(self) -> list[Self]   # from HasParent
+def anchor(self, side: Side) -> Point     # connection point on an edge
+def path_from_root(self) -> list[Self]    # from HasParent
 ```
+
+`anchor(side)` returns the mid-point of the named edge (`TOP`/`RIGHT`/
+`BOTTOM`/`LEFT`) — the connection point a `Connector` attaches to. It
+delegates to `self.bounds.anchor(side)` and reads the `bounds` **property**
+(not `_bounds`), so subclasses that compute bounds dynamically (e.g.
+`Connector`) stay correct. `Side` is imported under `TYPE_CHECKING` to keep
+`Element` light.
 
 ### Dunder Methods
 

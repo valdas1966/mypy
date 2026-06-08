@@ -28,6 +28,40 @@ class OverLeaf(Dictable[str, ProjectOverLeaf]):
                     for p in self._api.get_projects()}
         Dictable.__init__(self, data=projects)
 
+    def close(self) -> None:
+        """
+        ====================================================================
+         Explicit teardown hook. pyoverleaf keeps NO long-lived
+         connection: every HTTP call builds a throwaway
+         `requests.Session`, and the realtime socket.io
+         connections are now closed at the source in
+         `ProjectOverLeaf._root` (upstream `project_get_files`
+         leaked them -> phantom online 'me' collaborators). So
+         there is no persistent handle to release here; this hook
+         forces a GC sweep to promptly reap any stray socket
+         objects and gives callers an explicit close +
+         `with`-statement support. Safe + idempotent.
+        ====================================================================
+        """
+        import gc
+        gc.collect()
+
+    def __enter__(self) -> 'OverLeaf':
+        """
+        ====================================================================
+         Enter a `with OverLeaf.Factory...() as ol:` block.
+        ====================================================================
+        """
+        return self
+
+    def __exit__(self, *exc: object) -> None:
+        """
+        ====================================================================
+         Close on block exit (success or exception).
+        ====================================================================
+        """
+        self.close()
+
     def create_project(self, name: str) -> ProjectOverLeaf:
         """
         ====================================================================

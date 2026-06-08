@@ -53,6 +53,14 @@ Returns the right coordinate.
 ### Methods
 
 ```python
+def anchor(self, side: Side) -> Point
+```
+Returns the **mid-point of the named edge** — a connection point of the
+rectangle. `TOP`/`BOTTOM` → horizontal center on that edge; `LEFT`/`RIGHT`
+→ vertical center. These are the four points a `Connector` attaches to
+(via `Element.anchor`). `Side` comes from `f_ds.geometry.side`.
+
+```python
 def to_tuple(self) -> tuple[T, T, T, T]
 ```
 Returns `(top, left, bottom, right)` as a tuple.
@@ -88,8 +96,11 @@ No mixins. Pure immutable data container.
 |--------|---------|
 | `typing.Generic` | Generic type parameterization |
 | `typing.TypeVar` | Defines `T` constrained to `int`, `float` |
+| `f_ds.geometry.point.Point` | Return type of `anchor()` |
+| `f_ds.geometry.side.Side` | Edge selector for `anchor()` |
 
-All dependencies are stdlib. No internal or third-party imports.
+`Point` and `Side` are sibling geometry primitives (neither imports
+`Bounds`, so there is no cycle).
 
 ## Usage Example
 
