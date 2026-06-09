@@ -60,6 +60,8 @@ def test_only_cache() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx=None)
     assert _counters(algo) == {
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
         'cnt_bpmx_attempts': 0,
         'cnt_bpmx_depth': 0,
         'cnt_bpmx_lifts': 0,
@@ -88,6 +90,8 @@ def test_only_propagate_depth_1() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=1, rule_bpmx=None)
     assert _counters(algo) == {
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
         'cnt_bpmx_attempts': 0,
         'cnt_bpmx_depth': 0,
         'cnt_bpmx_lifts': 0,
@@ -116,6 +120,8 @@ def test_only_propagate_depth_2() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=2, rule_bpmx=None)
     assert _counters(algo) == {
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
         'cnt_bpmx_attempts': 0,
         'cnt_bpmx_depth': 0,
         'cnt_bpmx_lifts': 0,
@@ -144,6 +150,8 @@ def test_only_propagate_depth_3() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=3, rule_bpmx=None)
     assert _counters(algo) == {
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
         'cnt_bpmx_attempts': 0,
         'cnt_bpmx_depth': 0,
         'cnt_bpmx_lifts': 0,
@@ -172,6 +180,8 @@ def test_only_propagate_depth_inf() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=None, rule_bpmx=None)
     assert _counters(algo) == {
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
         'cnt_bpmx_attempts': 0,
         'cnt_bpmx_depth': 0,
         'cnt_bpmx_lifts': 0,
@@ -200,7 +210,9 @@ def test_only_bpmx_rule_1_depth_1() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=1)
     assert _counters(algo) == {
-        'cnt_bpmx_attempts': 25,
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
+        'cnt_bpmx_attempts': 54,
         'cnt_bpmx_depth': 0,
         'cnt_bpmx_lifts': 0,
         'cnt_cache_hits_at_init': 1,
@@ -228,7 +240,9 @@ def test_only_bpmx_rule_1_depth_2() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=2)
     assert _counters(algo) == {
-        'cnt_bpmx_attempts': 25,
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
+        'cnt_bpmx_attempts': 112,
         'cnt_bpmx_depth': 0,
         'cnt_bpmx_lifts': 0,
         'cnt_cache_hits_at_init': 1,
@@ -256,7 +270,9 @@ def test_only_bpmx_rule_1_depth_3() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=3)
     assert _counters(algo) == {
-        'cnt_bpmx_attempts': 25,
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
+        'cnt_bpmx_attempts': 168,
         'cnt_bpmx_depth': 0,
         'cnt_bpmx_lifts': 0,
         'cnt_cache_hits_at_init': 1,
@@ -284,7 +300,9 @@ def test_only_bpmx_rule_1_depth_inf() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='1', depth_bpmx=None)
     assert _counters(algo) == {
-        'cnt_bpmx_attempts': 25,
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
+        'cnt_bpmx_attempts': 554,
         'cnt_bpmx_depth': 0,
         'cnt_bpmx_lifts': 0,
         'cnt_cache_hits_at_init': 1,
@@ -312,6 +330,8 @@ def test_only_bpmx_rule_2_depth_1() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='2', depth_bpmx=1)
     assert _counters(algo) == {
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
         'cnt_bpmx_attempts': 25,
         'cnt_bpmx_depth': 0,
         'cnt_bpmx_lifts': 6,
@@ -340,6 +360,8 @@ def test_only_bpmx_rule_3_depth_1() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=1)
     assert _counters(algo) == {
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
         'cnt_bpmx_attempts': 25,
         'cnt_bpmx_depth': 0,
         'cnt_bpmx_lifts': 1,
@@ -368,7 +390,9 @@ def test_only_bpmx_rule_3_depth_2() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=2)
     assert _counters(algo) == {
-        'cnt_bpmx_attempts': 24,
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
+        'cnt_bpmx_attempts': 75,
         'cnt_bpmx_depth': 1,
         'cnt_bpmx_lifts': 4,
         'cnt_cache_hits_at_init': 1,
@@ -396,7 +420,9 @@ def test_only_bpmx_rule_3_depth_3() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=3)
     assert _counters(algo) == {
-        'cnt_bpmx_attempts': 23,
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
+        'cnt_bpmx_attempts': 121,
         'cnt_bpmx_depth': 2,
         'cnt_bpmx_lifts': 4,
         'cnt_cache_hits_at_init': 1,
@@ -424,7 +450,9 @@ def test_only_bpmx_rule_3_depth_inf() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='3', depth_bpmx=None)
     assert _counters(algo) == {
-        'cnt_bpmx_attempts': 23,
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
+        'cnt_bpmx_attempts': 469,
         'cnt_bpmx_depth': 2,
         'cnt_bpmx_lifts': 4,
         'cnt_cache_hits_at_init': 1,
@@ -452,7 +480,9 @@ def test_only_bpmx_rule_CASCADE_depth_1() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=1)
     assert _counters(algo) == {
-        'cnt_bpmx_attempts': 25,
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
+        'cnt_bpmx_attempts': 81,
         'cnt_bpmx_depth': 1,
         'cnt_bpmx_lifts': 2,
         'cnt_cache_hits_at_init': 1,
@@ -480,7 +510,9 @@ def test_only_bpmx_rule_CASCADE_depth_2() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=2)
     assert _counters(algo) == {
-        'cnt_bpmx_attempts': 24,
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
+        'cnt_bpmx_attempts': 191,
         'cnt_bpmx_depth': 2,
         'cnt_bpmx_lifts': 4,
         'cnt_cache_hits_at_init': 1,
@@ -508,7 +540,9 @@ def test_only_bpmx_rule_CASCADE_depth_3() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=3)
     assert _counters(algo) == {
-        'cnt_bpmx_attempts': 23,
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
+        'cnt_bpmx_attempts': 292,
         'cnt_bpmx_depth': 2,
         'cnt_bpmx_lifts': 4,
         'cnt_cache_hits_at_init': 1,
@@ -536,7 +570,9 @@ def test_only_bpmx_rule_CASCADE_depth_inf() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=False, propagate_depth=None, rule_bpmx='CASCADE', depth_bpmx=None)
     assert _counters(algo) == {
-        'cnt_bpmx_attempts': 23,
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
+        'cnt_bpmx_attempts': 1024,
         'cnt_bpmx_depth': 2,
         'cnt_bpmx_lifts': 4,
         'cnt_cache_hits_at_init': 1,
@@ -573,7 +609,9 @@ def test_prop_1_bpmx_rule_CASCADE_depth_1() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=1, rule_bpmx='CASCADE', depth_bpmx=1)
     assert _counters(algo) == {
-        'cnt_bpmx_attempts': 24,
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
+        'cnt_bpmx_attempts': 83,
         'cnt_bpmx_depth': 1,
         'cnt_bpmx_lifts': 3,
         'cnt_cache_hits_at_init': 1,
@@ -601,7 +639,9 @@ def test_prop_2_bpmx_rule_3_depth_2() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=2, rule_bpmx='3', depth_bpmx=2)
     assert _counters(algo) == {
-        'cnt_bpmx_attempts': 23,
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
+        'cnt_bpmx_attempts': 72,
         'cnt_bpmx_depth': 0,
         'cnt_bpmx_lifts': 2,
         'cnt_cache_hits_at_init': 1,
@@ -629,7 +669,9 @@ def test_prop_2_bpmx_rule_CASCADE_depth_2() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=2, rule_bpmx='CASCADE', depth_bpmx=2)
     assert _counters(algo) == {
-        'cnt_bpmx_attempts': 23,
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
+        'cnt_bpmx_attempts': 186,
         'cnt_bpmx_depth': 1,
         'cnt_bpmx_lifts': 2,
         'cnt_cache_hits_at_init': 1,
@@ -660,7 +702,9 @@ def test_prop_inf_bpmx_rule_3_depth_3() -> None:
     """
     algo = _run(carry_cache=True, adaptive_h=False, propagate=True, propagate_depth=None, rule_bpmx='3', depth_bpmx=3)
     assert _counters(algo) == {
-        'cnt_bpmx_attempts': 23,
+        'cnt_adapt_attempts': 0,
+        'cnt_adapt_lifts': 0,
+        'cnt_bpmx_attempts': 121,
         'cnt_bpmx_depth': 0,
         'cnt_bpmx_lifts': 0,
         'cnt_cache_hits_at_init': 1,

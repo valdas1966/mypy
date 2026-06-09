@@ -5,67 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/connector.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/diagram_argument_a.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/diagram_argument_q.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/diagram_modus_a.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/diagram_modus_q.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/diagram_syllogism_a.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/diagram_syllogism_q.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/geometry/side/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/geometry/side/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/geometry/side/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/geometry/side/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_connector/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_connector/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_connector/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_connector/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_connector/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/render/html/background.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/render/html/border.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/render/html/connector.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/render/html/line.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/render/html/s_connector.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/experiments/mospp/s_4_aggregate.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/question_diagram/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/question_diagram/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/question_diagram/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/question_diagram/_scene.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/question_diagram/_study.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/question_diagram/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/question_diagram/diagram_argument_a.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/question_diagram/diagram_argument_q.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/question_diagram/diagram_modus_a.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/question_diagram/diagram_modus_q.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_quiz/question_diagram/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/geometry/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/geometry/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/geometry/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/geometry/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/geometry/bounds/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/geometry/bounds/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/geometry/bounds/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/geometry/bounds/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/elements/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/elements/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_0_element/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_0_element/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_0_element/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_0_element/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/render/html/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/render/html/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/render/html/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/render/html/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/render/html/study.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/mospp/report/cascade.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_tester_counters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/mixins/bpmx/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/mixins/bpmx/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/mixins/bpmx/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/mixins/bpmx/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/COUNTERS.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/COUNTERS.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/_tester_counters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/experiments/mospp/report/main.tex" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/mospp/report/main.tex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/mospp/report/rule1.tex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/mospp/report/rule2.tex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/mospp/report/rule3.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/experiments/mospp/report_render.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/mospp/report_render.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/experiments/mospp/report_spec.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/mospp/report_spec.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/mospp/s_4_diagnostics.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/experiments/mospp/s_3_astar_inc_bpmx_depth.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/mospp/s_3_astar_inc_bpmx_depth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/experiments/mospp/s_4_aggregate.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/mospp/s_4_aggregate.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/experiments/mospp/s_5_gen_report.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/mospp/s_5_gen_report.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_overleaf/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_overleaf/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_overleaf/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_overleaf/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_overleaf/project/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_overleaf/project/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_overleaf/project/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_overleaf/project/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_quiz/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_quiz/CLAUDE.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +49,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "a1e5e179-580e-4572-8eba-3d60343860e3"
+    "accountId": "0f4621b9-87f9-4a4a-9ceb-401ed7593bcc"
   }
 }]]></component>
   <component name="HighlightingSettingsPerFile">
@@ -1016,6 +973,7 @@
     "Python.s_4_aggregate.executor": "Run",
     "Python.s_4_kastar_inc_extended (1).executor": "Run",
     "Python.s_4_kastar_inc_extended.executor": "Run",
+    "Python.s_5_gen_report (1).executor": "Run",
     "Python.s_5_gen_report.executor": "Run",
     "Python.s_5_kastar_agg_all_configs (1).executor": "Run",
     "Python.s_5_kastar_agg_all_configs.executor": "Run",
@@ -1197,8 +1155,8 @@
       <recent name="F:\mypy\f_log\_comparing" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_5_gen_report">
-    <configuration name="_study" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.s_5_gen_report (1)">
+    <configuration name="_study (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -1207,12 +1165,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_quiz/question_diagram" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_overleaf" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_quiz/question_diagram/_study.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_overleaf/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1234,8 +1191,29 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="s_3_astar_inc_bpmx_depth" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/experiments/mospp" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/mospp/s_3_astar_inc_bpmx_depth.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1257,8 +1235,29 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/mospp/s_4_aggregate.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="s_5_gen_report (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/experiments/mospp" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/mospp/s_5_gen_report.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1280,54 +1279,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/mospp/s_5_gen_report.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="s_connector" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/render/html" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_gui/render/html/s_connector.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="s_line" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/render/html" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_gui/render/html/s_line.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1338,26 +1290,26 @@
     </configuration>
     <list>
       <item itemvalue="Python.p_4_solutions" />
+      <item itemvalue="Python._study (1)" />
+      <item itemvalue="Python.s_3_astar_inc_bpmx_depth" />
+      <item itemvalue="Python.s_5_gen_report (1)" />
       <item itemvalue="Python.s_4_aggregate" />
-      <item itemvalue="Python.s_connector" />
-      <item itemvalue="Python.s_line" />
       <item itemvalue="Python.s_5_gen_report" />
-      <item itemvalue="Python._study" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.s_5_gen_report" />
-        <item itemvalue="Python._study" />
-        <item itemvalue="Python.s_connector" />
+        <item itemvalue="Python.s_5_gen_report (1)" />
         <item itemvalue="Python.s_4_aggregate" />
-        <item itemvalue="Python.s_line" />
+        <item itemvalue="Python.s_3_astar_inc_bpmx_depth" />
+        <item itemvalue="Python._study (1)" />
+        <item itemvalue="Python.s_5_gen_report" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-ca5e2b39c7df-6e1f45a539f7-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.29346.308" />
+        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
       </set>
     </attachedChunks>
   </component>

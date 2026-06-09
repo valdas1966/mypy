@@ -52,6 +52,10 @@ mospp/
 │                             (goal-anchored cache + bounds
 │                              reuse; cache-hit-at-init;
 │                              study/oracle.py)
+├── i_1_kastar_inc/         KAStarIncMOSPP — Incremental kA*
+│                             via flip-to-OMSPP delegation
+│                             (one shared search grown from the
+│                             goal; undirected, consistent-h)
 ├── i_1_kbfs/               KBFSMOSPP — k-BFS via flip-to-
 │                             OMSPP delegation (undirected,
 │                             uniform-weight)
@@ -80,6 +84,7 @@ from f_hs import AStarRepMOSPP, KBFSMOSPP, KDijkstraMOSPP
 | `AStarIncMOSPP` | shipped | yes | Incremental k×A* — k sequential forward `AStarBPMX` sub-searches sharing a goal-anchored on-path cache + admissible bounds (NOT a shared `SearchStateSPP`; start varies). Cache-hit-at-init headline win. Opt-in pre-search `propagate_pathmax` and in-search BPMX. Composes `ExtendableMOSPP` — the carried goal-anchored stores survive an `extend()` for free, making nested MOSPP chains solvable in one pass. Admissible h sufficient (consistency not required). Works on directed graphs. |
 | `KBFSMOSPP` | shipped | no | k-BFS via flip-to-OMSPP delegation. **Undirected, uniform-weight precondition.** Single backward BFS pass from the goal; emits `on_start` (translated by `_OnGoalToOnStartShim` from the inner OMSPP `KBFS`'s `on_goal`). Mirror of OMSPP `KBFS`. |
 | `KDijkstraMOSPP` | shipped | no | k-Dijkstra via flip-to-OMSPP delegation. **Undirected, non-negative-weight precondition.** Single backward Dijkstra pass from the goal; same event-translation pattern as `KBFSMOSPP`. Mirror of OMSPP `KDijkstra`. |
+| `KAStarIncMOSPP` | shipped | yes (batch) | **Incremental kA* via flip-to-OMSPP.** Delegates to OMSPP `KAStarInc` — ONE shared `SearchStateSPP` grown OUTWARD from the goal to all starts (OMSPP-side mirror of `AStarIncMOSPP`'s forward reuse). `extend()` is BATCH (delegates to `KAStarInc.extend`), so it does NOT compose `ExtendableMOSPP` (`is_extendable` is False) yet drives the nested chain. **Undirected + consistent-h precondition** (the flip + inner kA*_inc). Exposes `cnt_h_update`. |
 
 `AStarIncMOSPP` is the realized state-sharing MOSPP
 algorithm: forward-direction sub-searches with goal-anchored

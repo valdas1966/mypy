@@ -114,11 +114,16 @@ def _is_results_csv(name: str) -> bool:
 def _algo_of(name: str) -> str:
     """
     ========================================================================
-     Algorithm tag from the filename: `astar_inc_*` -> 'inc',
-     `astar_rep_*` -> 'rep' (the two `s_3` runners).
+     Algorithm tag from the filename: `astar_rep_*` -> 'rep',
+     `astar_kinc_*` -> 'kinc' (MOSPP via flip-to-OMSPP kA*_inc),
+     everything else (`astar_inc_*`) -> 'inc'. The `s_3` runners.
     ========================================================================
     """
-    return 'rep' if name.startswith('astar_rep') else 'inc'
+    if name.startswith('astar_rep'):
+        return 'rep'
+    if name.startswith('astar_kinc'):
+        return 'kinc'
+    return 'inc'
 
 
 # ── Aggregation (pure -- no Drive) ──────────────────────────────────────────

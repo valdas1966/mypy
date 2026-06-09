@@ -680,5 +680,12 @@ not competing alternatives.
 \IfFileExists{rule3.tex}{\input{rule3}}{}
 \IfFileExists{cascade.tex}{\input{cascade}}{}
 \IfFileExists{propdepth.tex}{\input{propdepth}}{}
+% Value-of-reuse: repetitive (no-sharing) vs incremental cache-only.
+\IfFileExists{incvsrep.tex}{\input{incvsrep}}{}
+% Cross-mechanism comparison at depth=1 -- the closing synthesis,
+% after the per-mechanism depth ladders.
+\IfFileExists{compare1.tex}{\input{compare1}}{}
+% Adaptive-A* companion comparison (renders once the _adapt_1 runs land).
+\IfFileExists{compare1_adapt.tex}{\input{compare1_adapt}}{}
 
 \end{document}

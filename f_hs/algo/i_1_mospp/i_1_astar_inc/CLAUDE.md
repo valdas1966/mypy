@@ -17,8 +17,20 @@ they stay valid across sub-searches):
 - **on-path cache** `cache[x] = h*(x, t)` — harvested by
   `AStarLookup.to_cache()` after each reached sub-search.
 - **admissible bounds** `bounds[x] ≥ h*(x, t)` — Adaptive A*
-  (`C_i − g_i(x)` for CLOSED x) + the inner `HBounded` layer
-  (BPMX-lifted / pathmax-propagated values).
+  (`C_i − g_i(x)` for CLOSED x **not already cached**) + the
+  inner `HBounded` layer (BPMX-lifted / pathmax-propagated
+  values). Cache and bounds are a **disjoint partition** of the
+  reused nodes (on-path-exact `cache` vs off-path lower-bound
+  `bounds` = CLOSED \ CACHE): a cached node's exact `h*`
+  dominates and shadows any bound (HCached intercepts before
+  HBounded), so harvesting a bound there would be a dead entry
+  that double-counts the node in `mem_cache` + `mem_bounds`.
+  The partition is kept from **both** sides: `_harvest_bounds`
+  never ADDS a cached key to bounds (skips it in both the
+  `C_i − g` sweep and the HBounded-layer copy), and
+  `cache.update()` DROPS any newly-cached key from bounds —
+  catching a node bounded off-path in an earlier sub-search
+  that later becomes on-path (and thus cached).
 
 **Headline win — cache-hit-at-init.** If a later start `s_j`
 is already in the carried cache, the inner `AStarLookup` pops
@@ -91,6 +103,7 @@ Group order mirrors the COUNTERS.html column order:
 | search | `cnt_expanded`, `cnt_generated` |
 | propagate | `cnt_prop_attempts`, `cnt_prop_lifts`, `cnt_prop_waves` (MAX-aggregated — see below) |
 | bpmx | `cnt_bpmx_attempts`, `cnt_bpmx_lifts`, `cnt_bpmx_depth` (MAX-aggregated — see below) |
+| adapt | `cnt_adapt_attempts`, `cnt_adapt_lifts` (orchestrator-owned; Adaptive-A* `_harvest_bounds`) |
 | h | `cnt_h_search` (orchestrator-owned; wrapped h) |
 | frontier | `cnt_push`, `cnt_pop`, `cnt_decrease` |
 | reuse | `cnt_cache_hits_at_init` |
@@ -140,6 +153,21 @@ sub-searches, with three exceptions:
 
 `cnt_cache_hits_at_init` is orchestrator-owned. No
 `cnt_h_update` (no PHASE_UPDATE); `elapsed_update` ≡ 0.0.
+
+**`cnt_adapt_attempts` / `cnt_adapt_lifts`** (orchestrator-owned,
+SUM-accumulated across reached sub-searches, both `0` when
+`adaptive_h=False`) instrument the Adaptive-A* harvest in
+`_harvest_bounds`, symmetric to the BPMX pair: one **attempt** per
+plausibly-liftable closed node (`cand = C_i − g_i(x) > 0`, non-cached),
+one **lift** when that `cand` tightens the carried bound store. So
+`attempts ≥ lifts` and `pct_adapt_lifts = lifts/attempts` is a true
+harvest hit-rate. **Sound harvest prune:** closed nodes with `cand ≤ 0`
+(`g_i(x) ≥ C_i`, possible only under the inconsistent carried
+heuristic) are skipped — `h* ≥ 0` shadows such a bound, so it is dead.
+Pruning a node's whole *subtree* on "failed to beat the **accumulated**
+bound" would be **unsound** (accumulated bounds are inconsistent → a
+child with a weaker stored bound can still lift); only the `cand ≤ 0`
+test, measured against the consistent base `h ≥ 0`, propagates safely.
 
 ## Recording — event schema
 
@@ -210,8 +238,10 @@ for i, s_i in enumerate(ordered_starts):
                                emit cache_hit_at_init
     emit on_start(expanded | unreachable)
     if reached:
-        if carry_cache: cache.update(algo.to_cache())
-        if adaptive_h: harvest Adaptive A* + HBounded into bounds
+        if carry_cache: cache.update(algo.to_cache())   # on-path exact h*
+        if adaptive_h:  harvest Adaptive A* (C_i-g) + HBounded into
+                        bounds, for CLOSED \ CACHE only (cache runs
+                        first, so its on-path keys are skipped here)
 ```
 
 ## Factory

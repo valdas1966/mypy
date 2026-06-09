@@ -92,6 +92,149 @@ def _prop_configs(depths=range(1, 6)) -> list[dict]:
     ]
 
 
+# ── Cross-mechanism comparison at a fixed depth (categorical) ────────────────
+# The depth ladders above each vary DEPTH for ONE mechanism, so
+# they use the sequential blue gradient. This section is the
+# orthogonal cut: it FIXES depth=1 and varies the MECHANISM, so the
+# palette is QUALITATIVE (distinct hues, Tableau10) rather than a
+# sequential ramp -- the axis is categorical, not ordinal. depth=0
+# is the shared BPMX-off / prop-off baseline (`_BASELINE`'s CSV).
+_COMPARE_COLORS = {
+    'baseline': '7F7F7F',   # gray   -- the depth=0 reference
+    'rule_1':   '1F77B4',   # blue
+    'rule_2':   'FF7F0E',   # orange
+    'rule_3':   '2CA02C',   # green
+    'cascade':  'D62728',   # red
+    'prop':     '9467BD',   # purple
+    'combo':    '8C564B',   # brown  -- cascade+prop stacked, both d=1
+}
+
+
+def _compare_d1_configs() -> list[dict]:
+    """
+    ========================================================================
+     The seven configs of the depth-1 mechanism comparison. The
+     first six REUSE a depth-ladder `tag`/CSV (so the `s_4`
+     aggregates are shared -- `s_5` downloads each once across all
+     sections) but are RE-LABELED by mechanism and RE-COLORED from
+     the qualitative `_COMPARE_COLORS` palette. depth=0 is the
+     shared `_BASELINE` (BPMX off, prop off); the next five are the
+     depth-1 rung of each mechanism: pathmax rules 1/2/3, their BPMX
+     cascade (`rule_bpmx=CASCADE`, d=1), and pre-search pathmax
+     propagation (P=1, BPMX off). The SEVENTH is the COMBINATION --
+     cascade AND propagation stacked, both at depth 1 -- which (unlike
+     the other six) has its OWN combined-config CSV
+     (`rule_CASCADE_bpmx_1_prop_1`, the s_3 `inc_pb` run), not a
+     reused single-axis aggregate.
+    ========================================================================
+    """
+    return [
+        {'tag': 'rule_none', 'label': r'depth=0',
+         'csv': _BASELINE['csv'], 'color': _COMPARE_COLORS['baseline']},
+        {'tag': 'rule_1__d_1', 'label': r'rule 1',
+         'csv': ('Results/agg/astar_inc_nested_'
+                 'rule_1_bpmx_1_prop_0_by_k.csv'),
+         'color': _COMPARE_COLORS['rule_1']},
+        {'tag': 'rule_2__d_1', 'label': r'rule 2',
+         'csv': ('Results/agg/astar_inc_nested_'
+                 'rule_2_bpmx_1_prop_0_by_k.csv'),
+         'color': _COMPARE_COLORS['rule_2']},
+        {'tag': 'rule_3__d_1', 'label': r'rule 3',
+         'csv': ('Results/agg/astar_inc_nested_'
+                 'rule_3_bpmx_1_prop_0_by_k.csv'),
+         'color': _COMPARE_COLORS['rule_3']},
+        {'tag': 'rule_CASCADE__d_1', 'label': r'cascade',
+         'csv': ('Results/agg/astar_inc_nested_'
+                 'rule_CASCADE_bpmx_1_prop_0_by_k.csv'),
+         'color': _COMPARE_COLORS['cascade']},
+        {'tag': 'prop__d_1', 'label': r'prop',
+         'csv': ('Results/agg/astar_inc_nested_'
+                 'rule_none_bpmx_inf_prop_1_by_k.csv'),
+         'color': _COMPARE_COLORS['prop']},
+        {'tag': 'combo_d1', 'label': r'cascade+prop',
+         'csv': ('Results/agg/astar_inc_nested_'
+                 'rule_CASCADE_bpmx_1_prop_1_by_k.csv'),
+         'color': _COMPARE_COLORS['combo']},
+    ]
+
+
+# ── Adaptive-A* comparison at a fixed depth (categorical) ────────────────────
+# Companion to the mechanism comparison above, but every non-baseline curve
+# additionally turns ON Adaptive A* (the C_i-g_i CLOSED-list bound store,
+# `adaptive_h=True`) on top of the carried cache. Reads the `_adapt_1`
+# aggregates produced by `s_3` ALGO='inc_adapt' -> `s_4`; the section is
+# auto-skipped by `s_5` until those CSVs exist. Colors echo the mechanism
+# section (cascade=red, prop=purple, combo=brown) so each adaptive curve is
+# recognizable as the adaptive twin of its non-adaptive counterpart;
+# `adaptive`-alone is blue, the depth=0 reference gray.
+_ADAPT_COLORS = {
+    'baseline': '7F7F7F',   # gray   -- the depth=0 reference (no adaptive)
+    'adaptive': '1F77B4',   # blue
+    'cascade':  'D62728',   # red    (echoes the mechanism section)
+    'prop':     '9467BD',   # purple
+    'combo':    '8C564B',   # brown
+}
+
+
+def _compare_d1_adaptive_configs() -> list[dict]:
+    """
+    ========================================================================
+     The five curves of the depth-1 ADAPTIVE comparison: the
+     non-adaptive BPMX-off baseline (depth=0, `_BASELINE`'s CSV)
+     plus the four `adaptive_h=True` configs (cache + Adaptive A*),
+     all at depth 1 -- adaptive alone, adaptive+cascade,
+     adaptive+prop, adaptive+cascade+prop. Each adaptive curve reads
+     the `_adapt_1`-tagged `s_4` aggregate from `s_3` ALGO='inc_adapt'
+     (distinct tags + CSVs from the mechanism section, so no collision).
+    ========================================================================
+    """
+    return [
+        {'tag': 'rule_none', 'label': r'depth=0',
+         'csv': _BASELINE['csv'], 'color': _ADAPT_COLORS['baseline']},
+        {'tag': 'adapt_only', 'label': r'adaptive',
+         'csv': ('Results/agg/astar_inc_nested_'
+                 'rule_none_bpmx_inf_prop_0_adapt_1_by_k.csv'),
+         'color': _ADAPT_COLORS['adaptive']},
+        {'tag': 'adapt_cascade_d1', 'label': r'adaptive+cascade',
+         'csv': ('Results/agg/astar_inc_nested_'
+                 'rule_CASCADE_bpmx_1_prop_0_adapt_1_by_k.csv'),
+         'color': _ADAPT_COLORS['cascade']},
+        {'tag': 'adapt_prop_d1', 'label': r'adaptive+prop',
+         'csv': ('Results/agg/astar_inc_nested_'
+                 'rule_none_bpmx_inf_prop_1_adapt_1_by_k.csv'),
+         'color': _ADAPT_COLORS['prop']},
+        {'tag': 'adapt_combo_d1', 'label': r'adaptive+cascade+prop',
+         'csv': ('Results/agg/astar_inc_nested_'
+                 'rule_CASCADE_bpmx_1_prop_1_adapt_1_by_k.csv'),
+         'color': _ADAPT_COLORS['combo']},
+    ]
+
+
+def _compare_inc_vs_rep_configs() -> list[dict]:
+    """
+    ========================================================================
+     The two curves of the value-of-reuse comparison: the
+     repetitive baseline `rep` (\\texttt{AStarRepMOSPP} -- k
+     independent A* searches, NO sharing; `astar_rep_nested_by_k`)
+     against the incremental cache-only baseline `inc`
+     (\\texttt{AStarIncMOSPP} `depth=0` = `_BASELINE`). A DIFFERENT
+     algorithm comparison from the mechanism sections -- `rep`
+     dwarfs every inc config (~24x expansions at k=200), so it gets
+     its own section rather than squashing the bpmx-vs-prop deltas
+     onto a log axis in `compare1`. Only the counters where both are
+     non-trivial survive (cnt_expanded / mem_total / elapsed_total);
+     the bpmx/prop counters are 0 for both and auto-dropped.
+    ========================================================================
+    """
+    return [
+        {'tag': 'rep', 'label': r'rep (no reuse)',
+         'csv': 'Results/agg/astar_rep_nested_by_k.csv',
+         'color': '000000'},
+        {'tag': 'rule_none', 'label': r'inc (cache)',
+         'csv': _BASELINE['csv'], 'color': '2CA02C'},
+    ]
+
+
 # One report SECTION per BPMX rule (a depth ladder, baseline +
 # depth 1..5). `s_5` renders a section only when at least one of
 # its depth CSVs is present; otherwise it is skipped (so rule_3 /
@@ -119,6 +262,73 @@ RULE_SECTIONS = [
     {'key': 'propdepth', 'rule': None,
      'title': 'Pathmax Propagation depth ladder (BPMX off)',
      'configs': _prop_configs()},
+    # Value-of-reuse: the repetitive (no-sharing) baseline vs the
+    # incremental cache-only baseline. A DIFFERENT-algorithm
+    # comparison (rep dwarfs every inc config ~24x), so it gets its
+    # own section ahead of the mechanism comparison rather than
+    # squashing the bpmx-vs-prop deltas onto a log axis. Renders once
+    # `astar_rep_nested_by_k.csv` exists (it does, after s_4).
+    {'key': 'incvsrep', 'rule': None,
+     'title': r'Incremental vs Repetitive: the value of reuse',
+     'intro': (
+         r'\paragraph{What this compares.} The incremental '
+         r'orchestrator (\texttt{AStarIncMOSPP}) carries a '
+         r'goal-anchored on-path cache across the $k$ sub-searches; '
+         r'the repetitive baseline (\texttt{AStarRepMOSPP}) shares '
+         r'NOTHING --- it runs $k$ independent A* searches. This '
+         r'isolates the value of that reuse alone, BEFORE any BPMX or '
+         r'propagation: \texttt{rep} is the no-sharing ceiling and '
+         r'\texttt{inc (cache)} is the same orchestrator with only '
+         r'the cache (the \texttt{depth=0} baseline every mechanism '
+         r'section builds on). The cache alone cuts expansions '
+         r'$\approx\!24\times$ and runtime $\approx\!18\times$ at '
+         r'$k{=}200$ --- at essentially equal peak memory --- and the '
+         r'gap COMPOUNDS with $k$.'),
+     'configs': _compare_inc_vs_rep_configs()},
+    # Orthogonal cut: fix depth=1, vary the MECHANISM. Renders once
+    # all six d=1 aggregates exist (they do). Placed LAST among the
+    # experimental sections by `main.tex`'s \input order (a closing
+    # synthesis after the per-mechanism ladders); its position in
+    # this list only sets `s_5`'s build order, not the doc order.
+    # `intro` is an opt-in framing paragraph (other sections omit it
+    # -> unchanged). `key='compare1'` prefixes its figures
+    # (`fig_compare1_*`).
+    {'key': 'compare1', 'rule': None,
+     'title': 'Mechanism comparison at depth=1',
+     'intro': (
+         r'\paragraph{What this compares.} Each preceding section is '
+         r'a depth ladder for ONE mechanism; this closing section is '
+         r'orthogonal --- it FIXES the depth at $1$ and varies the '
+         r'MECHANISM, drawing the mechanisms side by side at their '
+         r'shallowest reach. The seven curves are the BPMX-off '
+         r'baseline ($d{=}0$) and, all at their depth-1 setting, the '
+         r'three pathmax rules (1, 2, 3), their BPMX cascade '
+         r'(\texttt{rule\_bpmx=CASCADE}, $d{=}1$), pre-search '
+         r'pathmax propagation ($P{=}1$, BPMX off), and their '
+         r'COMBINATION --- cascade $+$ propagation stacked, both at '
+         r'depth~1.'),
+     'configs': _compare_d1_configs()},
+    # Adaptive-A* companion: fix depth=1, turn ON Adaptive A* on top of
+    # the cache, vary which spreader (if any) is added. Auto-skipped by
+    # `s_5` until the `_adapt_1` aggregates exist (run `s_3`
+    # ALGO='inc_adapt' -> `s_4`). Placed LAST by `main.tex`'s \input
+    # order (after the mechanism comparison). `key='compare1_adapt'`
+    # prefixes its figures (`fig_compare1_adapt_*`).
+    {'key': 'compare1_adapt', 'rule': None,
+     'title': 'Adaptive-A* comparison at depth=1',
+     'intro': (
+         r'\paragraph{What this compares.} The companion to the '
+         r'mechanism comparison above: every non-baseline curve here '
+         r'additionally turns ON Adaptive A* (the $C_i - g_i(x)$ '
+         r'CLOSED-list bound store) on top of the carried cache. '
+         r'Against the BPMX-off baseline ($d{=}0$) it charts the four '
+         r'depth-1 adaptive configs --- adaptive alone, and adaptive '
+         r'combined with the BPMX cascade ($d{=}1$), with pre-search '
+         r'pathmax propagation ($P{=}1$), and with both --- isolating '
+         r'what Adaptive A* adds and whether it stacks with the '
+         r'spreaders. Compare each curve against its non-adaptive twin '
+         r'in the section above.'),
+     'configs': _compare_d1_adaptive_configs()},
 ]
 
 # Back-compat: the flat 6-config list (rule 1) some callers import.
@@ -135,6 +345,8 @@ COUNTER_GROUPS = [
                      'cnt_prop_waves']),
     ('BPMX',        ['cnt_bpmx_attempts', 'cnt_bpmx_lifts',
                      'pct_bpmx_lifts', 'cnt_bpmx_depth']),
+    ('Adaptive',    ['cnt_adapt_attempts', 'cnt_adapt_lifts',
+                     'pct_adapt_lifts']),
     ('Heuristic',   ['cnt_h_search']),
     ('Frontier',    ['cnt_push', 'cnt_pop', 'cnt_decrease']),
     ('Reuse',       ['cnt_cache_hits_at_init']),
@@ -442,6 +654,154 @@ _INSIGHT_ITEMS: dict[str, dict[str, list[str]]] = {
             r'fewer expansions, not less peak memory.',
         ],
     },
+    # Value-of-reuse (rep vs inc cache-only baseline). Data-derived
+    # from astar_rep_nested_by_k vs rule_none_..._prop_0_by_k.
+    'incvsrep': {
+        'cnt_expanded': [
+            r'\texttt{rep} expands roughly LINEARLY in $k$ ($347$k at '
+            r'$k{=}10 \to 6.9$M at $k{=}200$, $\approx\!20\times$ for '
+            r'$20\times$ the starts): with no sharing, every start '
+            r'pays a full independent A*.',
+            r'\texttt{inc} grows SUBLINEARLY ($114$k$\to285$k, only '
+            r'$\approx\!2.5\times$): cache-hit-at-init terminates a '
+            r'later start in ONE pop once its optimal path is cached.',
+            r'So the gap COMPOUNDS with $k$: $3.1\times$ ($k{=}10$) '
+            r'$\to24.3\times$ ($k{=}200$), and is unbounded --- the '
+            r'more starts share the goal, the more the cache pays.',
+        ],
+        'elapsed_total': [
+            r'Runtime tracks expansions: \texttt{rep} is $18.2\times$ '
+            r'slower at $k{=}200$ ($385$s vs $21$s), the gap widening '
+            r'from $3.1\times$ at $k{=}10$.',
+        ],
+        'mem_total': [
+            r'Essentially equal (within $\approx\!4\%$) --- '
+            r'\texttt{inc} is even marginally LOWER despite carrying '
+            r'the cache, because its early-terminating sub-searches '
+            r'hold smaller OPEN/CLOSED peaks.',
+            r'So the $\approx\!24\times$ compute win costs no extra '
+            r'memory: incremental reuse is close to a free lunch here.',
+        ],
+    },
+    # Cross-mechanism comparison at depth=1. Data-derived from the
+    # six d=1 aggregates (rule_none / rule_{1,2,3}_d1 / cascade_d1 /
+    # prop_1); numbers quoted at k=200 unless noted.
+    'compare1': {
+        'cnt_expanded': [
+            r'\texttt{depth=0}, rule 1, rule 2 and rule 3 expand '
+            r'the IDENTICAL count ($285$k at $k{=}200$): no single '
+            r'pathmax rule prunes at depth~1.',
+            r'rule 1 is inert (it lifts nothing on consistent~$h$); '
+            r'rule 2 and rule 3 DO lift, but the lifts never prune '
+            r'at $d{=}1$.',
+            r'The cascade and propagation each cut expansions on '
+            r'their own: cascade $2.6\times$ fewer '
+            r'($285$k$\to109$k, $-62\%$), propagation $-25\%$ '
+            r'($\to214$k).',
+            r'Stacking them (cascade$+$prop) prunes the MOST '
+            r'($\to103$k, $-64\%$) --- but only $\approx\!5\%$ below '
+            r'cascade alone ($109$k): once the cascade has pruned, '
+            r'propagation on top adds almost nothing.',
+            r'Takeaway: at depth~1 the in-search cascade does nearly '
+            r'all the pruning; neither the isolated pathmax rules '
+            r'nor the pre-search prop stacked on top moves '
+            r'expansions much further.',
+        ],
+        'cnt_bpmx_attempts': [
+            r'\texttt{depth=0} and prop launch no sweeps (BPMX off).',
+            r'rule 1/2/3 launch one sweep per expansion, so they sit '
+            r'at the full baseline expansion count ($285$k).',
+            r'cascade launches fewer ($109$k): it prunes its own '
+            r'expansions, so there are fewer nodes to sweep.',
+            r'cascade$+$prop launches the fewest ($103$k) --- it '
+            r'expands the fewest nodes, and one sweep fires per '
+            r'expansion.',
+        ],
+        'cnt_bpmx_lifts': [
+            r'\texttt{depth=0}, rule 1 and prop lift nothing (rule 1 '
+            r'is inert on consistent~$h$; prop is not a BPMX rule).',
+            r'rule 3 lifts the MOST ($219$k) --- yet prunes nothing '
+            r'(its |Expanded| stays at the baseline).',
+            r'Lift count does not predict pruning: rule 3 lifts '
+            r"$3.5\times$ the cascade ($63$k), but only the cascade's "
+            r'lifts translate into fewer expansions.',
+            r'cascade$+$prop lifts $\approx\!62$k --- essentially '
+            r'the same as cascade alone ($63$k): the pre-search '
+            r'propagation slightly SUBSUMES the cascade (it pre-'
+            r'raises some $h$, so a few cascade lifts no longer '
+            r'fire).',
+        ],
+        'pct_bpmx_lifts': [
+            r'Per-attempt hit-rate ranks rule 3 ($41\%$) $>$ '
+            r'cascade$+$prop ($32\%$) $\gtrsim$ cascade ($30\%$) $>$ '
+            r'rule 2 ($8\%$); \texttt{depth=0}, rule 1 and prop are '
+            r'$0\%$.',
+            r'The combination edges cascade-alone on hit-rate '
+            r'($32\%$ vs $30\%$): propagation enriches $h$ first, so '
+            r'each cascade sweep finds an inconsistency to lift '
+            r'slightly more often.',
+            r'The highest hit-rate (rule 3) still yields zero '
+            r'pruning: lifting the PARENT is wasted unless it is '
+            r"propagated DOWN to children --- the cascade's rule-1 "
+            r'step.',
+        ],
+        'cnt_prop_attempts': [
+            r'Two configs propagate: prop-alone ($\approx\!468$k '
+            r'attempts at $k{=}200$) and cascade$+$prop '
+            r'($\approx\!409$k); the other five run pre-search '
+            r'pathmax OFF.',
+            r'The combination makes FEWER prop attempts than '
+            r'prop-alone --- the in-search cascade pre-raises some '
+            r'$h$, leaving fewer fresh cells for propagation to '
+            r'reach.',
+        ],
+        'cnt_prop_lifts': [
+            r'prop-alone lifts $\approx\!241$k of its $\approx\!468$k '
+            r'attempts ($\approx\!52\%$); cascade$+$prop lifts '
+            r'$\approx\!223$k --- slightly fewer, the cascade having '
+            r'already raised some of the same cells (mutual '
+            r'subsumption).',
+        ],
+        'cnt_prop_waves': [
+            r'Propagation at depth~1 is a SINGLE wave (mean $=1.0$) '
+            r'for both prop-alone and cascade$+$prop; the in-search-'
+            r'only mechanisms run no propagation waves.',
+        ],
+        'mem_total': [
+            r'Essentially flat across all seven (within '
+            r'$\approx\!0.4\%$): the mechanism choice barely moves '
+            r'the coincident memory peak.',
+            r'cascade, propagation and their combination sit '
+            r'marginally lower (fewer expansions), but memory is not '
+            r'where depth-1 mechanisms differ --- expansions and '
+            r'runtime are.',
+        ],
+        'elapsed_total': [
+            r'cascade is the standout: $\approx$baseline runtime '
+            r'($21.1$s vs $21.2$s at $k{=}200$) while expanding '
+            r'$2.6\times$ fewer nodes --- the per-sweep cost is '
+            r'offset by the expansions it saves.',
+            r'rule 1 and rule 3 are pure overhead '
+            r'($\approx\!1.9\times$ baseline); rule 2 costs '
+            r'$1.6\times$ --- all three pay the per-expansion sweep '
+            r'yet prune nothing.',
+            r'propagation costs $1.6\times$ baseline (pre-search wave '
+            r'cost) to buy its $-25\%$ expansions.',
+            r'cascade$+$prop is the SLOWEST ($40.3$s, '
+            r'$\approx\!1.9\times$ baseline and $\approx\!1.9\times$ '
+            r'cascade alone): it pays BOTH the per-expansion cascade '
+            r'sweeps AND the pre-search propagation waves.',
+            r'Verdict at depth~1: the cascade dominates --- it prunes '
+            r'substantially AND stays runtime-neutral. Stacking '
+            r'propagation on top buys only $\approx\!5\%$ fewer '
+            r'expansions for $\approx\!2\times$ the runtime, so the '
+            r'combination does NOT pay off here.',
+        ],
+    },
+    # Adaptive-A* comparison. No curated items yet -> every subsection's
+    # Insights box falls back to `_COUNTER_NEUTRAL`. Replace with
+    # data-derived insights once the `_adapt_1` runs land (s_3 inc_adapt).
+    'compare1_adapt': {},
 }
 
 
@@ -460,6 +820,17 @@ _COUNTER_NEUTRAL: dict[str, str] = {
         r'$k$ sub-searches.',
     'pct_bpmx_lifts':
         r'BPMX hit-rate per attempt (lifts / attempts).',
+    'cnt_adapt_attempts':
+        r'Adaptive-A* harvest trials -- one per plausibly-liftable '
+        r'($C_i{-}g_i{>}0$) closed node, summed across the $k$ '
+        r'sub-searches.',
+    'cnt_adapt_lifts':
+        r'Adaptive-A* harvests that tightened the carried bound '
+        r'store ($C_i{-}g_i$ beat the prior bound).',
+    'pct_adapt_lifts':
+        r'Adaptive-A* harvest hit-rate per trial (lifts / '
+        r'attempts) -- the symmetric counterpart to '
+        r'\texttt{pct\_bpmx\_lifts}.',
     'cnt_prop_attempts':
         r'Pre-search pathmax-propagation attempts, summed across '
         r'the $k$ sub-searches.',

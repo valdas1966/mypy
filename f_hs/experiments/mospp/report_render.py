@@ -399,6 +399,10 @@ def add_derived_columns(df: pd.DataFrame) -> pd.DataFrame:
      the "average lift rate across maps", which is the
      reading we want; mean(lifts) / mean(attempts) would
      size-weight by map and is a different quantity.
+
+     `pct_adapt_lifts` is the symmetric Adaptive-A* harvest
+     hit-rate (`cnt_adapt_lifts / cnt_adapt_attempts * 100`),
+     built the same per-row way.
     ========================================================================
     """
     if ('cnt_bpmx_lifts' in df.columns
@@ -407,6 +411,12 @@ def add_derived_columns(df: pd.DataFrame) -> pd.DataFrame:
         lifts = df['cnt_bpmx_lifts'].astype(float)
         rate = lifts / att.replace(0, np.nan) * 100.0
         df['pct_bpmx_lifts'] = rate.fillna(0.0)
+    if ('cnt_adapt_lifts' in df.columns
+            and 'cnt_adapt_attempts' in df.columns):
+        att = df['cnt_adapt_attempts'].astype(float)
+        lifts = df['cnt_adapt_lifts'].astype(float)
+        rate = lifts / att.replace(0, np.nan) * 100.0
+        df['pct_adapt_lifts'] = rate.fillna(0.0)
     return df
 
 
@@ -464,9 +474,29 @@ def _coincident_groups(per_kc: pd.DataFrame,
 
 
 def _group_label(group: list[int], used: list[dict]) -> str:
-    """`depth=0` for solo, `depth=0/1` for 2-way, etc."""
-    nums = [used[i]['label'].replace('depth=', '') for i in group]
-    return 'depth=' + '/'.join(nums)
+    """
+    ========================================================================
+     Combined legend label for a coincident group. A depth ladder
+     shares a `depth=` prefix, so a 2-way merge factors it out and
+     reads `depth=0/1`. The mechanism-comparison section instead
+     carries categorical labels (`depth=0`, `rule 1`, ...) with no
+     shared `x=` prefix; those are joined whole (`depth=0/rule 1`),
+     which still reads as "these curves coincide". A solo group is
+     just its own label.
+    ========================================================================
+    """
+    labels = [used[i]['label'] for i in group]
+    if len(labels) == 1:
+        return labels[0]
+    # Shared `head=` prefix (every member is `head=<tail>`)? Factor
+    # it so the depth ladders keep their compact `depth=0/1` form.
+    if all('=' in lab for lab in labels):
+        heads = {lab.split('=', 1)[0] for lab in labels}
+        if len(heads) == 1:
+            head = next(iter(heads))
+            tails = [lab.split('=', 1)[1] for lab in labels]
+            return f'{head}=' + '/'.join(tails)
+    return '/'.join(labels)
 
 
 def _diff_annotations(per_kc: pd.DataFrame,
@@ -897,7 +927,8 @@ def build_section(per_kc: pd.DataFrame,
                   nontrivial: set[str],
                   k_values: list[int],
                   rule_key: str,
-                  section_title: str
+                  section_title: str,
+                  intro: str = ''
                   ) -> tuple[str, list[tuple[str, str]]]:
     """
     ========================================================================
@@ -908,11 +939,15 @@ def build_section(per_kc: pd.DataFrame,
      text and prefixes the externalized figure names
      (`fig_{rule_key}_{metric}`) so sections never collide.
      Setup/convention paragraphs + the Toy + excluded counters
-     are all dropped.
+     are all dropped. `intro`, when given (the mechanism-comparison
+     section uses it), is an opt-in framing paragraph emitted right
+     after the header; other sections pass '' and are unchanged.
     ========================================================================
     """
     setup = rf'\section{{Experimental Results --- {section_title}}}'
     blocks = [setup]
+    if intro:
+        blocks.append(intro)
     figures: list[tuple[str, str]] = []
     for _, metrics in COUNTER_GROUPS:
         for m in metrics:

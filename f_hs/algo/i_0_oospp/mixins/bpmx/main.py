@@ -314,9 +314,15 @@ class BPMXMixin:
     def _apply_bpmx(self, state) -> None:
         """
         ====================================================================
-         Dispatch by `rule_bpmx`. Increments
-         `cnt_bpmx_attempts` once per call (regardless of
-         whether any lift fires).
+         Dispatch by `rule_bpmx`. `cnt_bpmx_attempts` is NOT
+         incremented here: it counts one per LIFT-TARGET
+         evaluated (a node whose h the rule actually tries to
+         raise), tallied inside the sweeps / Rule 2. This makes
+         the count a uniform TRIAL unit across rules (Rule 2 /
+         Rule 3@d1 evaluate one target per call; Rule 1 and the
+         cascade evaluate many), so `pct = lifts / attempts` is
+         a true hit-rate bounded by 1. The number of dispatch
+         CALLS (one per non-perfect expansion) is `cnt_expanded`.
         ====================================================================
         """
         if self._h.is_perfect(state):
@@ -325,7 +331,6 @@ class BPMXMixin:
         if hb is None:
             return
         rule = self._rule_bpmx
-        self._counters.inc('cnt_bpmx_attempts')
 
         if rule == '2':
             children = list(self.problem.successors(state))
@@ -363,6 +368,8 @@ class BPMXMixin:
         """
         if self._h.is_perfect(state):
             return
+        # One lift-target per call: the parent. Count the trial.
+        self._counters.inc('cnt_bpmx_attempts')
         h_p_old = self._h(state)
         cand = min(self._h(c) + self.problem.w(parent=state, child=c)
                    for c in children)
@@ -405,6 +412,8 @@ class BPMXMixin:
                     continue
                 if self._h.is_perfect(p):
                     continue
+                # Lift-target: this parent. Count the trial.
+                self._counters.inc('cnt_bpmx_attempts')
                 h_p_old = self._h(p)
                 best, best_via = h_p_old, None
                 for c in children:
@@ -455,6 +464,8 @@ class BPMXMixin:
                 for c in edges[p]:
                     if self._h.is_perfect(c):
                         continue
+                    # Lift-target: this child. Count the trial.
+                    self._counters.inc('cnt_bpmx_attempts')
                     h_c_old = self._h(c)
                     cand = h_p - self.problem.w(parent=p, child=c)
                     if cand > h_c_old:

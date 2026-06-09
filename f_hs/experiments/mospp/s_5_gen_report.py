@@ -197,7 +197,8 @@ def main(push_overleaf: bool = True) -> None:
             sec_tex, sec_figs = build_section(
                 per_kc=per_kc, used=used, nontrivial=nontrivial,
                 k_values=k_values, rule_key=sec['key'],
-                section_title=sec['title'])
+                section_title=sec['title'],
+                intro=sec.get('intro', ''))
             (work / f"{sec['key']}.tex").write_text(
                 sec_tex + '\n', encoding='utf-8')
             for name, src in sec_figs:
@@ -230,33 +231,43 @@ def main(push_overleaf: bool = True) -> None:
         #    every rendered rule file + every figure PDF.
         if push_overleaf:
             print('pushing to Overleaf ...')
-            # `with` -> the Overleaf session is closed on block exit
-            # (success or error). Each file op's realtime socket is
-            # also closed at the source (ProjectOverLeaf._root), so
-            # no phantom online 'me' viewers are left behind.
-            with OverLeaf.Factory.valdas() as ol:
-                proj = ol[OVERLEAF_PROJECT]
+            # The Overleaf push is BEST-EFFORT: a failure here (e.g.
+            # expired login cookies -> get_projects() can't find the
+            # projects blob) must NOT abort the run, or the Drive
+            # upload below -- the reliable archive -- would be lost
+            # with the wiped scratch dir. Catch, warn, fall through
+            # to Drive. `with` -> the Overleaf session (and each file
+            # op's realtime socket, closed at ProjectOverLeaf._root)
+            # is released on block exit, so no phantom 'me' viewers.
+            try:
+                with OverLeaf.Factory.valdas() as ol:
+                    proj = ol[OVERLEAF_PROJECT]
 
-                def _up(path: str, p: Path) -> None:
-                    txt, _ = sanitize_ascii(
-                        p.read_text(encoding='utf-8'))
-                    if any(ord(c) > 127 for c in txt):
-                        raise ValueError(f'non-ASCII in {path}')
-                    proj.create_file(path=path, text=txt)
+                    def _up(path: str, p: Path) -> None:
+                        txt, _ = sanitize_ascii(
+                            p.read_text(encoding='utf-8'))
+                        if any(ord(c) > 127 for c in txt):
+                            raise ValueError(f'non-ASCII in {path}')
+                        proj.create_file(path=path, text=txt)
 
-                _up('main.tex', main_tex_src)
-                for key in rendered:
-                    _up(f'{key}.tex', work / f'{key}.tex')
-                for name in fig_specs:
-                    proj.upload_file(
-                        path_src=str(work / f'{name}.pdf'),
-                        path_dest=f'{name}.pdf')
-                proj.set_root_doc('main.tex')
-                if 'MOSPP.tex' in proj.list_files():
-                    proj.delete_file(path='MOSPP.tex')
-            print(f'  pushed main.tex + {len(rendered)} rule files + '
-                  f'{len(fig_specs)} figs; root=main.tex '
-                  f'(session closed)')
+                    _up('main.tex', main_tex_src)
+                    for key in rendered:
+                        _up(f'{key}.tex', work / f'{key}.tex')
+                    for name in fig_specs:
+                        proj.upload_file(
+                            path_src=str(work / f'{name}.pdf'),
+                            path_dest=f'{name}.pdf')
+                    proj.set_root_doc('main.tex')
+                    if 'MOSPP.tex' in proj.list_files():
+                        proj.delete_file(path='MOSPP.tex')
+                print(f'  pushed main.tex + {len(rendered)} rule files + '
+                      f'{len(fig_specs)} figs; root=main.tex '
+                      f'(session closed)')
+            except Exception as e:
+                print(f'  WARNING - Overleaf push skipped: {e}')
+                print('  (Drive upload still proceeds. Refresh the '
+                      'Overleaf login cookies and re-run to publish '
+                      'there.)')
 
         # 6. Upload the compiled report to Drive: the self-contained
         #    PDF + the \input bundle (main.tex + rule files), so

@@ -49,22 +49,26 @@ from f_hs.algo.i_0_oospp.i_3_astar_bpmx import AStarBPMX
 #  popped without expansion) and carry no extra signal.
 # ─────────────────────────────────────────────────────────────
 
+# `att` = lift-TARGETS evaluated (a true trial unit, so att >= suc
+# and pct = suc/att <= 1). Single-target rules (Rule 2; Rule 3 @ d1)
+# keep att == exp; multi-target rules (Rule 1 @ any d; Rule 3 @ d>=2;
+# CASCADE, iterated) inflate above exp.
 _BPMX_COUNTER_MATRIX = [
     # rule,      depth, att, suc, dmax, exp, gen
     (None,        1,    0,   0,   0,    20,  27),
-    ('1',         1,    20,  0,   0,    20,  27),
-    ('1',         2,    19,  1,   2,    19,  27),
-    ('1',         3,    18,  2,   3,    18,  26),
-    ('1',         None, 15,  5,   6,    15,  23),
+    ('1',         1,    44,  0,   0,    20,  27),
+    ('1',         2,    92,  1,   2,    19,  27),
+    ('1',         3,    137, 2,   3,    18,  26),
+    ('1',         None, 375, 5,   6,    15,  23),
     ('2',         1,    20,  6,   0,    20,  27),
     ('3',         1,    20,  5,   0,    20,  27),
-    ('3',         2,    19,  6,   1,    19,  27),
-    ('3',         3,    18,  7,   2,    18,  26),
-    ('3',         None, 15,  9,   5,    15,  23),
-    ('CASCADE',   1,    20,  6,   1,    20,  27),
-    ('CASCADE',   2,    18,  9,   2,    18,  26),
-    ('CASCADE',   3,    16,  9,   3,    16,  24),
-    ('CASCADE',   None, 15,  9,   6,    15,  23),
+    ('3',         2,    60,  6,   1,    19,  27),
+    ('3',         3,    98,  7,   2,    18,  26),
+    ('3',         None, 327, 9,   5,    15,  23),
+    ('CASCADE',   1,    74,  6,   1,    20,  27),
+    ('CASCADE',   2,    164, 9,   2,    18,  26),
+    ('CASCADE',   3,    236, 9,   3,    16,  24),
+    ('CASCADE',   None, 750, 9,   6,    15,  23),
 ]
 
 

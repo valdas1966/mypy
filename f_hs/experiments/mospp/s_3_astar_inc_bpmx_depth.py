@@ -51,10 +51,13 @@
      order_starts='given' -- no reordering, so run() and the
        19 extend()s process the chain coherently in problem
        order (the order the nested chain is built in).
-     carry_cache=True, adaptive_h=False -- the on-path
-       cache is the SOLE carried reuse store (the oracle's
-       "only cached" Group-C family; see
-       `f_hs/algo/i_1_mospp/i_1_astar_inc/study/oracle.py`).
+     carry_cache=True -- the on-path cache is always carried.
+     adaptive_h -- now a PER-RUN knob (default False: the cache
+       is the SOLE carried reuse store, the oracle's "only
+       cached" Group-C family). The `inc_adapt` driver sets True
+       to ADD the Adaptive A* (`C_i-g_i`) CLOSED-list bound store
+       ON TOP of the cache; see
+       `f_hs/algo/i_1_mospp/i_1_astar_inc/study/oracle.py`.
 
  One invocation = one config = one CSV. To sweep a knob, run
  the script repeatedly; each run's CSV is named by its config
@@ -82,9 +85,10 @@
 
  Output  (Drive)
    Results/
-     astar_inc_nested_rule_{R}_bpmx_{B}_prop_{P}.csv
+     astar_inc_nested_rule_{R}_bpmx_{B}_prop_{P}[_adapt_1].csv
    R = rule_bpmx (None -> 'none'), B = depth_bpmx
-   (None -> 'inf'), P = depth_prop (None -> 'inf'). Toy runs
+   (None -> 'inf'), P = depth_prop (None -> 'inf'). Adaptive
+   runs (adaptive_h=True) get an `_adapt_1` token; toy runs
    get a trailing `_toy{N}`.
 
  Toy mode
@@ -109,6 +113,7 @@ from f_log import setup_log, get_log
 from f_google.services.drive import Drive
 from f_hs.problem.i_1_grid import ProblemGrid
 from f_hs.algo.i_1_mospp.i_1_astar_inc import AStarIncMOSPP
+from f_hs.algo.i_1_mospp.i_1_kastar_inc import KAStarIncMOSPP
 from f_hs.algo.i_1_mospp import AStarRepMOSPP
 
 
@@ -117,8 +122,10 @@ _log = get_log(__name__)
 
 
 # ── Fixed algorithm config ──────────────────────────────────────────────────
-# "only cached": carry the on-path cache across sub-searches, nothing
-# else. adaptive_h=False so the cache is the sole reuse store.
+# "only cached": carry the on-path cache across sub-searches. `_ADAPTIVE_H`
+# is the DEFAULT for the per-run `adaptive_h` knob (False = the cache is the
+# sole reuse store); the `inc_adapt` driver passes adaptive_h=True to ADD
+# the Adaptive A* (C_i-g_i) CLOSED-list bound store on top of the cache.
 _CARRY_CACHE = True
 _ADAPTIVE_H = False
 # 'given' order: run() + every extend() process the chain in problem
@@ -136,6 +143,7 @@ _CSV_COLUMNS = [
     'cnt_expanded', 'cnt_generated',
     'cnt_prop_attempts', 'cnt_prop_lifts', 'cnt_prop_waves',
     'cnt_bpmx_attempts', 'cnt_bpmx_lifts', 'cnt_bpmx_depth',
+    'cnt_adapt_attempts', 'cnt_adapt_lifts',
     'cnt_h_search',
     'cnt_push', 'cnt_pop', 'cnt_decrease',
     'cnt_cache_hits_at_init',
@@ -217,22 +225,27 @@ class _MapChain:
 def _csv_filename(rule_bpmx: str | None,
                   depth_bpmx: int | None,
                   depth_prop: int | None,
-                  n_maps: int | None) -> str:
+                  n_maps: int | None,
+                  adaptive_h: bool = False) -> str:
     """
     ========================================================================
      Build the output CSV filename, encoding the run config so
      repeated single-config runs never clobber each other:
-       astar_inc_nested_rule_{R}_bpmx_{B}_prop_{P}[_toy{N}].csv
+       astar_inc_nested_rule_{R}_bpmx_{B}_prop_{P}[_adapt_1][_toy{N}].csv
      None renders as 'none' for the rule and 'inf' for either
-     depth. A toy run appends `_toy{N}` (N = n_maps).
+     depth. `adaptive_h=True` inserts an `_adapt_1` token (so an
+     adaptive run never clobbers the non-adaptive run of the same
+     rule/depth/prop -- the non-adaptive names carry no token).
+     A toy run appends a trailing `_toy{N}` (N = n_maps).
     ========================================================================
     """
     r = rule_bpmx if rule_bpmx is not None else 'none'
     b = 'inf' if depth_bpmx is None else depth_bpmx
     p = 'inf' if depth_prop is None else depth_prop
+    adapt = '_adapt_1' if adaptive_h else ''
     toy = f'_toy{n_maps}' if n_maps is not None else ''
     return (f'astar_inc_nested_rule_{r}_bpmx_{b}'
-            f'_prop_{p}{toy}.csv')
+            f'_prop_{p}{adapt}{toy}.csv')
 
 
 def _csv_filename_rep(n_maps: int | None) -> str:
@@ -245,6 +258,20 @@ def _csv_filename_rep(n_maps: int | None) -> str:
     """
     toy = f'_toy{n_maps}' if n_maps is not None else ''
     return f'astar_rep_nested{toy}.csv'
+
+
+def _csv_filename_kinc(n_maps: int | None) -> str:
+    """
+    ========================================================================
+     Output CSV filename for the KAStarIncMOSPP solver (MOSPP
+     via flip-to-OMSPP incremental kA*; single config):
+       astar_kinc_nested[_toy{N}].csv
+     `astar_`-prefixed + `nested` so `s_4._is_results_csv` picks
+     it up; `s_4._algo_of` tags it `kinc`.
+    ========================================================================
+    """
+    toy = f'_toy{n_maps}' if n_maps is not None else ''
+    return f'astar_kinc_nested{toy}.csv'
 
 
 # ── Config validation ───────────────────────────────────────────────────────
@@ -366,7 +393,8 @@ def _row(domain: str,
 def _experiment_astar_inc_chain(chain: _MapChain,
                                 rule_bpmx: str | None,
                                 depth_bpmx: int | None,
-                                depth_prop: int | None
+                                depth_prop: int | None,
+                                adaptive_h: bool = _ADAPTIVE_H
                                 ) -> list[dict]:
     """
     ========================================================================
@@ -412,7 +440,7 @@ def _experiment_astar_inc_chain(chain: _MapChain,
         is_timing=True,
         order_starts=_ORDER_STARTS,
         carry_cache=_CARRY_CACHE,
-        adaptive_h=_ADAPTIVE_H,
+        adaptive_h=adaptive_h,
         propagate=propagate,
         propagate_depth=propagate_depth,
         rule_bpmx=rule_bpmx,
@@ -490,6 +518,65 @@ def _experiment_astar_rep_chain(chain: _MapChain) -> list[dict]:
                          None, None, None, algo))
 
     _log.info(f'done   REP ({domain}, {map_name}) {len(rows)} rows '
+              f'elapsed={algo.elapsed:.2f}s')
+    return rows
+
+
+def _experiment_kastar_inc_chain(chain: _MapChain) -> list[dict]:
+    """
+    ========================================================================
+     Solve one map's nested k-chain with a SINGLE KAStarIncMOSPP
+     -- MOSPP via the axis-swap (flip to OMSPP) + the incremental
+     kA* solver, which grows ONE shared search tree OUTWARD from
+     the shared goal to reach all starts (the OMSPP-side mirror
+     of AStarIncMOSPP's forward reuse). `run()` the smallest-k
+     MOSPP instance, then `extend()` by each stage's +10
+     genuinely-new starts (the inner kA*_inc appends them as new
+     OMSPP goals and keeps growing the one tree).
+
+     Returns one (cumulative) row per k-stage (20 rows). Reuses
+     the Inc `_row` builder with a None BPMX/prop config -- this
+     solver has no BPMX / propagation / adaptive / cache-hit
+     counters, so those columns default to 0 (like the Rep
+     baseline). `cnt_h_update` (the inter-sub-search refresh
+     cost) is exposed on the algo but not in `_CSV_COLUMNS`, so
+     it is dropped from the CSV by design.
+
+     Precondition: undirected, consistent-h grids (the flip is
+     exact only there) -- satisfied by the experiment grids.
+    ========================================================================
+    """
+    problems = list(chain)               # ascending m
+    domain = getattr(problems[0].grid, 'domain', '') or ''
+    map_name = problems[0].grid_name
+    flipped = [p.flipped() for p in problems]
+    _log.info(f'start  KINC ({domain}, {map_name}) chain '
+              f'm={len(flipped[0].starts)}..'
+              f'{len(flipped[-1].starts)}')
+
+    # Seed with the smallest-k MOSPP problem.
+    algo = KAStarIncMOSPP(
+        problem=flipped[0],
+        h=_h,
+        is_recording=False,
+        is_timing=True,
+    )
+    algo.run()
+    rows = [_row(domain, map_name, len(flipped[0].starts),
+                 None, None, None, algo)]
+
+    # Extend by each subsequent problem's +10 genuinely-new
+    # starts; snapshot a (cumulative) row per stage.
+    seen = set(flipped[0].starts)
+    for fp in flipped[1:]:
+        new = [s for s in fp.starts if s not in seen]
+        if new:
+            algo.extend(new)
+            seen.update(new)
+        rows.append(_row(domain, map_name, len(fp.starts),
+                         None, None, None, algo))
+
+    _log.info(f'done   KINC ({domain}, {map_name}) {len(rows)} rows '
               f'elapsed={algo.elapsed:.2f}s')
     return rows
 
@@ -608,16 +695,20 @@ def run_astar_inc(path_drive_pkl_in: str,
                   rule_bpmx: str | None,
                   depth_bpmx: int | None,
                   depth_prop: int | None,
+                  adaptive_h: bool = _ADAPTIVE_H,
                   workers: int = 10,
                   n_maps: int | None = None) -> None:
     """
     ========================================================================
      Run AStarIncMOSPP across every map as a NESTED k-chain
      (OMSPP problems flipped to MOSPP), for ONE config
-     (`rule_bpmx`, `depth_bpmx`, `depth_prop`). Validates the
-     config (fail-fast before the pool spins up), then delegates
-     the download / dispatch / write to `_run_chain_experiment`.
-     The config ships into the workers via a `functools.partial`.
+     (`rule_bpmx`, `depth_bpmx`, `depth_prop`, `adaptive_h`).
+     Validates the config (fail-fast before the pool spins up),
+     then delegates the download / dispatch / write to
+     `_run_chain_experiment`. The config (incl. `adaptive_h`)
+     ships into the workers via a `functools.partial`. The
+     caller owns the output name -- pass `adaptive_h=True` to
+     `_csv_filename` so the `_adapt_1` token tags the CSV.
     ========================================================================
     """
     _validate_config(rule_bpmx=rule_bpmx,
@@ -625,16 +716,63 @@ def run_astar_inc(path_drive_pkl_in: str,
                      depth_prop=depth_prop)
     _log.info(f'astar_inc nested: workers={workers}, '
               f'rule_bpmx={rule_bpmx!r}, depth_bpmx={depth_bpmx!r}, '
-              f'depth_prop={depth_prop!r}')
+              f'depth_prop={depth_prop!r}, adaptive_h={adaptive_h}')
     experiment = partial(_experiment_astar_inc_chain,
                          rule_bpmx=rule_bpmx,
                          depth_bpmx=depth_bpmx,
-                         depth_prop=depth_prop)
+                         depth_prop=depth_prop,
+                         adaptive_h=adaptive_h)
     _run_chain_experiment(
         experiment=experiment,
         path_drive_pkl_in=path_drive_pkl_in,
         path_drive_grids_in=path_drive_grids_in,
         path_drive_csv_out=path_drive_csv_out,
+        workers=workers,
+        n_maps=n_maps)
+
+
+def run_astar_inc_prop_bpmx_depth1(path_drive_pkl_in: str,
+                                   path_drive_grids_in: str,
+                                   rule_bpmx: str = 'CASCADE',
+                                   workers: int = 10,
+                                   n_maps: int | None = None) -> None:
+    """
+    ========================================================================
+     Run the COMBINED (prop x bpmx) quadrant the main sweep omits:
+     pre-search pathmax propagation at depth 1 AND in-search BPMX at
+     depth 1, in ONE AStarIncMOSPP config, across every map as a
+     nested k-chain. One config-named CSV to `Results/`
+     (`astar_inc_nested_rule_{rule}_bpmx_1_prop_1[_toy{N}].csv`).
+
+     Order is fixed by the sub-search lifecycle, matching the
+     "prop first, then bpmx" intuition -- and it is the ONLY order
+     possible: `propagate_pathmax(1)` runs at each sub-search's init
+     (pre-search), THEN the in-search BPMX(rule, depth=1) cascade
+     fires during expansion. Both max-combine into the one shared
+     HBounded layer, so the result is admissible -- optimality is
+     preserved (verified at the unit level in AStarIncMOSPP Group D).
+
+     Why this is not already in the sweep: `_all_inc_configs`
+     deliberately ISOLATES the two axes -- the rule ladders hold
+     depth_prop=0 and the prop ladder holds rule_bpmx=None -- so no
+     swept config exercises both at once. This is the depth-1 x
+     depth-1 corner of the missing combined quadrant.
+
+     `rule_bpmx` selects the in-search Felner rule (default
+     'CASCADE' -- the canonical bidirectional pathmax, mirroring
+     the AStarIncMOSPP Group-D combined fixture). Rule '2' is also
+     valid (it is structurally depth-1-only). Both depths are
+     pinned to 1; vary `rule_bpmx` to compare rules at this corner.
+    ========================================================================
+    """
+    run_astar_inc(
+        path_drive_pkl_in=path_drive_pkl_in,
+        path_drive_grids_in=path_drive_grids_in,
+        path_drive_csv_out=(
+            f'Results/{_csv_filename(rule_bpmx, 1, 1, n_maps)}'),
+        rule_bpmx=rule_bpmx,
+        depth_bpmx=1,
+        depth_prop=1,
         workers=workers,
         n_maps=n_maps)
 
@@ -658,6 +796,33 @@ def run_astar_rep(path_drive_pkl_in: str,
     _log.info(f'astar_rep nested: workers={workers}')
     _run_chain_experiment(
         experiment=_experiment_astar_rep_chain,
+        path_drive_pkl_in=path_drive_pkl_in,
+        path_drive_grids_in=path_drive_grids_in,
+        path_drive_csv_out=path_drive_csv_out,
+        workers=workers,
+        n_maps=n_maps)
+
+
+def run_kastar_inc(path_drive_pkl_in: str,
+                   path_drive_grids_in: str,
+                   path_drive_csv_out: str,
+                   workers: int = 10,
+                   n_maps: int | None = None) -> None:
+    """
+    ========================================================================
+     Run the KAStarIncMOSPP solver across every map as a NESTED
+     k-chain: per map ONE KAStarIncMOSPP `run()`s the smallest-k
+     instance, then `extend()`s by each stage's +10 genuinely-new
+     starts. MOSPP solved by flipping to OMSPP and growing ONE
+     incremental kA* search outward from the shared goal -- the
+     OMSPP-side counterpart to the forward `AStarIncMOSPP`.
+     Single config; same CSV schema (BPMX/prop/adapt/cache
+     columns default to 0). Delegates to `_run_chain_experiment`.
+    ========================================================================
+    """
+    _log.info(f'kastar_inc nested: workers={workers}')
+    _run_chain_experiment(
+        experiment=_experiment_kastar_inc_chain,
         path_drive_pkl_in=path_drive_pkl_in,
         path_drive_grids_in=path_drive_grids_in,
         path_drive_csv_out=path_drive_csv_out,
@@ -1007,6 +1172,73 @@ def run_astar_inc_all_configs_flat(path_drive_pkl_in: str,
                 os.unlink(path)
 
 
+# ── Adaptive-A* configs (depth-1; cache + adaptive on top) ──────────────────
+
+# The four ADAPTIVE configs: every one keeps the carried on-path cache AND
+# turns on Adaptive A* (`adaptive_h=True` -> the C_i-g_i CLOSED-list bound
+# store accumulates ON TOP of the cache). All in-search BPMX / pre-search
+# propagation depths are pinned to 1. As (rule_bpmx, depth_bpmx, depth_prop)
+# trios (every one run with adaptive_h=True):
+#   1. adaptive only                     (None,      None, 0)
+#   2. adaptive + BPMX cascade d=1       ('CASCADE', 1,    0)
+#   3. adaptive + propagation d=1        (None,      None, 1)
+#   4. adaptive + cascade d=1 + prop d=1 ('CASCADE', 1,    1)
+# Each writes a config-named CSV with the `_adapt_1` token, so it never
+# clobbers the non-adaptive run of the same rule/depth/prop -- config 4 in
+# particular is DISTINCT from the non-adaptive cascade+prop combo
+# `astar_inc_nested_rule_CASCADE_bpmx_1_prop_1.csv` (run by `inc_pb`).
+_ADAPTIVE_CONFIGS: list[tuple[str | None, int | None, int]] = [
+    (None,      None, 0),
+    ('CASCADE', 1,    0),
+    (None,      None, 1),
+    ('CASCADE', 1,    1),
+]
+
+
+def run_astar_inc_adaptive_configs(path_drive_pkl_in: str,
+                                   path_drive_grids_in: str,
+                                   workers: int = 10,
+                                   n_maps: int | None = None) -> None:
+    """
+    ========================================================================
+     Run the four ADAPTIVE depth-1 configs IN SEQUENCE (cache +
+     Adaptive A* on top): one `run_astar_inc(adaptive_h=True)` per
+     config from `_ADAPTIVE_CONFIGS`, each writing its own
+     `_adapt_1`-tagged CSV under `Results/` (via `_csv_filename`,
+     so they never clobber the non-adaptive runs). Mirror of
+     `run_astar_inc_all_configs` with `adaptive_h=True` forced on.
+
+     Sequential (not nested): each config is itself a full
+     25-map x 20-stage run already parallel across maps, so the
+     pool's cores go to ONE config at a time. `n_maps` toy-slices
+     every run identically (CSVs get `_adapt_1_toy{N}`).
+    ========================================================================
+    """
+    _log.info(f'astar_inc ADAPTIVE configs: {len(_ADAPTIVE_CONFIGS)} '
+              f'sequential runs (adaptive_h=True, workers={workers}, '
+              f'n_maps={n_maps})')
+    for i, (rule_bpmx, depth_bpmx, depth_prop) in enumerate(
+            _ADAPTIVE_CONFIGS, 1):
+        csv_name = _csv_filename(rule_bpmx, depth_bpmx, depth_prop,
+                                 n_maps, adaptive_h=True)
+        path_drive_csv_out = f'Results/{csv_name}'
+        _log.info(f'[{i}/{len(_ADAPTIVE_CONFIGS)}] rule={rule_bpmx!r} '
+                  f'depth_bpmx={depth_bpmx!r} depth_prop={depth_prop!r} '
+                  f'adaptive_h=True -> {path_drive_csv_out}')
+        run_astar_inc(
+            path_drive_pkl_in=path_drive_pkl_in,
+            path_drive_grids_in=path_drive_grids_in,
+            path_drive_csv_out=path_drive_csv_out,
+            rule_bpmx=rule_bpmx,
+            depth_bpmx=depth_bpmx,
+            depth_prop=depth_prop,
+            adaptive_h=True,
+            workers=workers,
+            n_maps=n_maps)
+    _log.info(f'astar_inc ADAPTIVE configs: {len(_ADAPTIVE_CONFIGS)} '
+              f'runs complete')
+
+
 # ── Main ────────────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':
@@ -1031,6 +1263,18 @@ if __name__ == '__main__':
     #                FLAT pool (fastest); one CSV per config. See
     #                `run_astar_inc_all_configs_flat`. The sequential
     #                `run_astar_inc_all_configs` stays as a fallback.
+    #   'inc_pb'  -- AStarIncMOSPP, the COMBINED prop-1 + bpmx-1
+    #                config (the depth-1 x depth-1 corner the sweep
+    #                omits). See `run_astar_inc_prop_bpmx_depth1`.
+    #   'inc_adapt' -- AStarIncMOSPP, the FOUR adaptive-A* depth-1
+    #                configs (cache + adaptive on top): adaptive only /
+    #                +cascade d1 / +prop d1 / +cascade+prop d1. One
+    #                `_adapt_1`-tagged CSV each. See
+    #                `run_astar_inc_adaptive_configs`.
+    #   'kinc'    -- KAStarIncMOSPP: MOSPP via flip-to-OMSPP +
+    #                incremental kA* (one growing search from the
+    #                shared goal). Single config. See
+    #                `run_kastar_inc`.
     #   'rep'     -- AStarRepMOSPP baseline (single config, no ladder).
     ALGO = 'inc_all'
 
@@ -1074,6 +1318,32 @@ if __name__ == '__main__':
             workers=workers,
             n_maps=n_maps)
 
+    elif ALGO == 'inc_pb':
+        # ── Combined prop-1 + bpmx-1 — the depth-1 x depth-1 corner ──────────
+        # Pre-search propagate_pathmax(1) THEN in-search BPMX(rule, 1),
+        # both max-combined into one admissible HBounded layer. The
+        # sweep isolates the axes; this runs them together. Vary
+        # `rule_bpmx` ('CASCADE' default; '1'/'2'/'3' also valid) to
+        # compare rules at this corner.
+        run_astar_inc_prop_bpmx_depth1(
+            path_drive_pkl_in=path_drive_pkl_in,
+            path_drive_grids_in=path_drive_grids_in,
+            rule_bpmx='CASCADE',
+            workers=workers,
+            n_maps=n_maps)
+
+    elif ALGO == 'inc_adapt':
+        # ── Adaptive A* (depth-1) — 4 configs, cache + adaptive on top ───────
+        # adaptive only / +cascade d1 / +prop d1 / +cascade+prop d1, all
+        # with adaptive_h=True (the C_i-g_i CLOSED-list bound store added
+        # on top of the carried cache). Each CSV gets the `_adapt_1` token,
+        # so none clobbers a non-adaptive run (incl. the inc_pb combo).
+        run_astar_inc_adaptive_configs(
+            path_drive_pkl_in=path_drive_pkl_in,
+            path_drive_grids_in=path_drive_grids_in,
+            workers=workers,
+            n_maps=n_maps)
+
     elif ALGO == 'rep':
         # AStarRepMOSPP baseline — single config, one CSV.
         path_drive_csv_out = (
@@ -1086,7 +1356,21 @@ if __name__ == '__main__':
             workers=workers,
             n_maps=n_maps)
 
+    elif ALGO == 'kinc':
+        # KAStarIncMOSPP — MOSPP via flip-to-OMSPP incremental kA*.
+        path_drive_csv_out = (
+            f'Results/{_csv_filename_kinc(n_maps)}')
+
+        run_kastar_inc(
+            path_drive_pkl_in=path_drive_pkl_in,
+            path_drive_grids_in=path_drive_grids_in,
+            path_drive_csv_out=path_drive_csv_out,
+            workers=workers,
+            n_maps=n_maps)
+
     else:
-        raise ValueError(f"ALGO must be 'inc' or 'rep'; got {ALGO!r}")
+        raise ValueError(
+            f"ALGO must be 'inc', 'inc_all', 'inc_pb', 'inc_adapt', "
+            f"'rep' or 'kinc'; got {ALGO!r}")
 
     _log.info('--- done ---')

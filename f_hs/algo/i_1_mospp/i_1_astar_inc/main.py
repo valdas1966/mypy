@@ -143,6 +143,7 @@ class AStarIncMOSPP(Generic[State],
         ('cnt_expanded', 'cnt_generated'),
         ('cnt_prop_attempts', 'cnt_prop_lifts', 'cnt_prop_waves'),
         ('cnt_bpmx_attempts', 'cnt_bpmx_lifts', 'cnt_bpmx_depth'),
+        ('cnt_adapt_attempts', 'cnt_adapt_lifts'),
         ('cnt_h_search',),
         ('cnt_push', 'cnt_pop', 'cnt_decrease'),
         ('cnt_cache_hits_at_init',),
@@ -463,7 +464,20 @@ class AStarIncMOSPP(Generic[State],
         # need a terminal).
         if sol.cost != float('inf'):
             if self._carry_cache:
-                self._cache.update(algo.to_cache())
+                new_cache = algo.to_cache()
+                self._cache.update(new_cache)
+                # Keep cache / bounds a DISJOINT partition: a node
+                # that just entered the cache (now exact h*) must not
+                # linger in bounds (an admissible LB harvested while it
+                # was still off-path in an earlier sub-search). The
+                # exact value dominates + shadows the bound under
+                # HCached, and a stale bound would double-count the
+                # node in mem_cache + mem_bounds. (`_harvest_bounds`
+                # guards the other direction -- it never ADDS a cached
+                # key to bounds.)
+                if self._adaptive_h:
+                    for k in new_cache:
+                        self._bounds.pop(k, None)
             if self._adaptive_h:
                 self._harvest_bounds(algo, cost=sol.cost)
 
@@ -599,24 +613,60 @@ class AStarIncMOSPP(Generic[State],
              bounds dict (BPMX-lifted + pathmax-propagated
              admissible values).
 
+         Cached (on-path) nodes are SKIPPED -- their exact h*
+         already lives in the cache, which dominates any
+         admissible bound and shadows it under HCached, so a
+         bound there would be a DEAD, redundant entry that
+         double-counts the node in mem_cache + mem_bounds.
+         Result: cache and bounds are a DISJOINT partition of
+         the reused nodes (on-path-exact `cache` vs off-path
+         lower-bound `bounds` == CLOSED \\ CACHE).
+
          Cumulative max keeps the tightest bound seen.
         ====================================================================
         """
         ss = algo.search_state
         if ss is not None:
             for x in ss.closed:
+                # Skip on-path (cached) nodes: the cache holds their
+                # EXACT h* (dominates + shadows this C_i-g_i bound),
+                # so a bound here is dead + double-counts in memory.
+                # Keeps cache/bounds a disjoint partition.
+                if x in self._cache:
+                    continue
                 gx = ss.g.get(x)
                 if gx is None:
                     continue
                 cand = cost - gx
+                # Sound skip: cand <= 0 (g_i(x) >= C_i) is a DEAD bound --
+                # h* >= 0 already shadows it, so it can never tighten the
+                # effective heuristic. Such over-cost closed nodes arise
+                # only under the inconsistent carried heuristic (with a
+                # consistent h every expanded node has g <= C_i). Skipping
+                # avoids storing junk negative bounds and keeps the
+                # `cnt_adapt_*` trial unit meaningful. NB: pruning a node's
+                # whole SUBTREE when it merely fails to beat the ACCUMULATED
+                # bound would be UNSOUND -- accumulated bounds are
+                # inconsistent, so a child with a weaker stored bound can
+                # still lift; only this cand<=0 test (vs the consistent base
+                # h>=0) propagates safely down the tree.
+                if cand <= 0:
+                    continue
+                # Adaptive-harvest trial: one attempt per plausibly-liftable
+                # closed node; a lift tightens the carried bound store.
+                self._counters.inc('cnt_adapt_attempts')
                 if cand > self._bounds.get(x, float('-inf')):
+                    self._counters.inc('cnt_adapt_lifts')
                     self._bounds[x] = cand
         # Walk the heuristic chain for an HBounded storage
-        # layer (BPMX / pathmax lifts live there).
+        # layer (BPMX / pathmax lifts live there). Same cache-skip:
+        # a cached key's exact h* dominates any admissible lift.
         cur = algo._h
         while cur is not None:
             if isinstance(cur, HBounded):
                 for k, v in cur.bounds.items():
+                    if k in self._cache:
+                        continue
                     if v > self._bounds.get(k, float('-inf')):
                         self._bounds[k] = v
                 break

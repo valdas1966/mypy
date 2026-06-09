@@ -64,7 +64,7 @@ The mixin declares a 3-counter mechanism scaffold; the host class can override v
 
 ### Counter semantics
 
-- **`cnt_bpmx_attempts`** — incremented once per `_pre_expand` call when `rule_bpmx is not None` (excludes cache-hit early-exits, which fire before `_pre_expand`). Cumulative across the run.
+- **`cnt_bpmx_attempts`** — incremented once per **lift-target evaluated** (a node whose `h` the rule actually tries to raise), tallied inside Rule 2 / the sweeps — **NOT** once per `_pre_expand`. This makes it a uniform TRIAL unit across rules: Rule 2 and Rule 3 @ depth-1 evaluate one target per call (so `attempts == cnt_expanded`), whereas Rule 1 evaluates every child and CASCADE re-sweeps to a fixpoint (so `attempts > cnt_expanded`). It is therefore `>= cnt_bpmx_lifts`, making `lifts / attempts` a true hit-rate `<= 1`. The count of dispatch CALLS (one per non-perfect expansion) is carried by `cnt_expanded`, not this counter. Cumulative across the run.
 - **`cnt_bpmx_lifts`** — incremented per successful lift, regardless of which rule fired. Cumulative across the run. For Rule 1 and Rule 3 alone, this counts the rule's lifts; for Rule 2 it counts the parent lift; for CASCADE it sums all Rule 3 + Rule 1 lifts across iterations.
 - **`cnt_bpmx_depth`** — **max tracker** (not cumulative). Tracks the deepest BFS-level (0 = root) at which any successful lift fired. Updated via `assign` on each successful lift; stays at 0 if no lifts fire OR if Rule 2 lifts only the root.
 
