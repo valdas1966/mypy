@@ -8,9 +8,11 @@ from f_core.imports import ULazy
 if TYPE_CHECKING:
     from f_gui.style.stroke import LineStyle, Stroke
     from f_gui.style.border import Border
+    from f_gui.style.text_style import TextStyle
 
 ULazy.install(globals(), {
     'LineStyle': 'f_gui.style.stroke:LineStyle',
     'Stroke': 'f_gui.style.stroke:Stroke',
     'Border': 'f_gui.style.border:Border',
+    'TextStyle': 'f_gui.style.text_style:TextStyle',
 })

@@ -41,12 +41,13 @@ class RenderHtml:
         b = elem.bounds
         border = RenderHtml._border(elem=elem)
         bg = RenderHtml._background(elem=elem)
+        text = RenderHtml._text_style(elem=elem)
         style = (f'position:absolute;'
                  f'top:{b.top}%;left:{b.left}%;'
                  f'bottom:{100 - b.bottom}%;right:{100 - b.right}%;'
                  f'box-sizing:border-box;{border}{bg}'
                  f'display:flex;align-items:center;justify-content:center;'
-                 f'overflow:hidden;font-family:monospace;font-size:12px;')
+                 f'overflow:hidden;{text}')
         inner = RenderHtml._inner(elem=elem)
         return f'<div style="{style}">{inner}</div>'
 
@@ -83,6 +84,31 @@ class RenderHtml:
         """
         Path(path).write_text(data=RenderHtml.page(root=root, size=size),
                               encoding='utf-8')
+
+    @staticmethod
+    def _text_style(elem: Element) -> str:
+        """
+        ========================================================================
+         CSS text declarations (font / size / weight / color) for a Label.
+        ========================================================================
+         Non-Labels carry no text, so they emit nothing. A Label with no
+         `style` emits the baseline default (monospace, 12px) — identical to
+         the old hard-coded CSS. Set `font`/`size`/`bold` always map; `color`
+         is opt-in (None inherits the page color). Duck-typed: RenderHtml
+         imports no TextStyle type (like Border / Stroke).
+        ========================================================================
+        """
+        if not isinstance(elem, Label):
+            return ''
+        style = elem.style
+        if style is None:
+            return 'font-family:monospace;font-size:12px;'
+        css = f'font-family:{style.font};font-size:{style.size}px;'
+        if style.bold:
+            css += 'font-weight:bold;'
+        if style.color is not None:
+            css += f'color:{style.color.to.hex()};'
+        return css
 
     @staticmethod
     def _background(elem: Element) -> str:

@@ -14,22 +14,24 @@ The `__init__.py` is a **lazy aggregator** (`ULazy` + `TYPE_CHECKING`
 mirror block).
 
 ```python
-from f_gui.style import Stroke, LineStyle, Border
+from f_gui.style import Stroke, LineStyle, Border, TextStyle
 ```
 
-| Export      | Source module          | Role                                  |
-|-------------|------------------------|---------------------------------------|
-| `Stroke`    | `f_gui.style.stroke`   | `(color, width, style)` appearance    |
-| `LineStyle` | `f_gui.style.stroke`   | enum: `SOLID` / `DASHED` / `DOTTED`   |
-| `Border`    | `f_gui.style.border`   | four edge `Stroke`s (T/L/B/R)         |
+| Export      | Source module            | Role                                  |
+|-------------|--------------------------|---------------------------------------|
+| `Stroke`    | `f_gui.style.stroke`     | `(color, width, style)` appearance    |
+| `LineStyle` | `f_gui.style.stroke`     | enum: `SOLID` / `DASHED` / `DOTTED`   |
+| `Border`    | `f_gui.style.border`     | four edge `Stroke`s (T/L/B/R)         |
+| `TextStyle` | `f_gui.style.text_style` | `(font, size, bold, color)` text look |
 
 ## Module Hierarchy
 
 ```
 f_gui/style/
-├── __init__.py     lazy aggregator (Stroke, LineStyle, Border)
+├── __init__.py     lazy aggregator (Stroke, LineStyle, Border, TextStyle)
 ├── stroke/         Stroke + LineStyle — shared line/edge appearance
-└── border/         Border — four edge Strokes
+├── border/         Border — four edge Strokes
+└── text_style/     TextStyle — text appearance (font/size/bold/color)
 ```
 
 ## The Reuse Story
@@ -52,3 +54,4 @@ even though it now lives in the style package, not the line element.
 | `Stroke` on a `Border` edge | CSS `border-{side}: {width}px {style} {color}`  |
 | `Stroke` on a `Line`        | SVG `stroke` / `stroke-width` / `stroke-dasharray` |
 | `LineStyle.*`               | CSS `border-style` keyword / SVG dash pattern   |
+| `TextStyle` on a `Label`    | CSS `font-family` / `font-size` / `font-weight` / `color` |

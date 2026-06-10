@@ -8,12 +8,18 @@ from f_ds.geometry.bounds import Bounds
 if TYPE_CHECKING:
     from f_color.rgb import RGB
     from f_gui.style.border import Border
+    from f_gui.style.text_style import TextStyle
 
 
 class Label(Element):
     """
     ========================================================================
      Label Element (Leaf with Text).
+    ========================================================================
+     The text *content* is a plain `str`; its *appearance* (font, size,
+     bold, color) is an optional `TextStyle` — separate, opt-in, exactly
+     like `background` / `border`. `style=None` renders with the baseline
+     default look (monospace, 12px).
     ========================================================================
     """
 
@@ -25,7 +31,8 @@ class Label(Element):
                  text: str = '',
                  name: str = 'Label',
                  background: RGB | None = None,
-                 border: Border | None = None) -> None:
+                 border: Border | None = None,
+                 style: TextStyle | None = None) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -34,6 +41,7 @@ class Label(Element):
         Element.__init__(self, bounds=bounds, name=name,
                          background=background, border=border)
         self._text = text
+        self._style = style
 
     @property
     def text(self) -> str:
@@ -43,6 +51,15 @@ class Label(Element):
         ========================================================================
         """
         return self._text
+
+    @property
+    def style(self) -> TextStyle | None:
+        """
+        ========================================================================
+         Get the TextStyle of the Label (None = renderer default look).
+        ========================================================================
+        """
+        return self._style
 
     def __str__(self) -> str:
         """
