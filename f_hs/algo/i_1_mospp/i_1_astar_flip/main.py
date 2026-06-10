@@ -14,7 +14,7 @@ from typing import Callable, Generic, TypeVar
 State = TypeVar('State', bound=StateBase)
 
 
-class KAStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
+class AStarFlipMOSPP(Generic[State], AlgoMOSPP[State]):
     """
     ============================================================================
      Incremental kA* for the Many-to-One Shortest Path Problem
@@ -31,7 +31,7 @@ class KAStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
      undirected graph the per-start costs are exact; a path is
      recovered by reversing the OMSPP path.
 
-     Sibling of `KBFSMOSPP` / `KDijkstraMOSPP` (same
+     Sibling of `BFSFlipMOSPP` / `DijkstraFlipMOSPP` (same
      flip-delegation pattern) — but the inner solver is the
      INCREMENTAL kA*, which carries ONE shared `SearchStateSPP`
      across the k goals (a single growing search tree) rather
@@ -54,8 +54,8 @@ class KAStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
      one pass, exactly as the s_3 experiment drives the other
      incremental algos.
 
-     **Correctness preconditions** (shared with KBFS/KDijkstra
-     MOSPP):
+     **Correctness preconditions** (shared with `BFSFlipMOSPP`
+     / `DijkstraFlipMOSPP`):
 
        1. **Undirected graph** (or symmetric `successors` / `w`).
           The flipped view relabels which list is "starts" vs
@@ -70,11 +70,34 @@ class KAStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
        3. **Exactly one goal** — `ValueError` at construction
           if `len(problem.goals) != 1`.
 
-     **Counters** mirror the inner `KAStarInc` (search +
-     heuristic + frontier + memory); `cnt_h_update` is exposed
-     (the inter-sub-search refresh cost) alongside
-     `cnt_h_search`. No BPMX / propagation / adaptive / cache-
-     hit counters — this solver has none.
+     **Counters** mirror the inner `KAStarInc` heap-op + search
+     + heuristic counters; `cnt_h_update` is exposed (the
+     inter-sub-search refresh cost) alongside `cnt_h_search`. No
+     BPMX / propagation / adaptive / cache-hit counters — this
+     solver has none. `mem_*` are NODE COUNTS from the base
+     `_sync_memory_snapshot` (`|OPEN| + |CLOSED|` of the one
+     shared inner search, read once at completion — the exact
+     peak, since the search is accumulative) — apples-to-apples
+     with every MOSPP algo.
+
+     **Runtime accounting — the reverse work is INSIDE
+     `elapsed`.** All flip-direction overhead unique to this
+     solver is charged to the algo's wall-clock (`algo.elapsed`,
+     surfaced as `elapsed_total` in the s_3 CSV): the
+     `_FlippedView` construction (start↔goal swap), the inner
+     `KAStarInc.run()` (its `is_timing=False` disables only its
+     OWN bucketing, not its compute — which runs inside this
+     `_run()` window), and the per-start re-key
+     `dict(self._inner.solutions)` all execute inside `_run()`,
+     bracketed by `_run_pre` (`_time_start`) → `_run_post`
+     (`_time_finish`). `extend()` likewise accumulates its
+     `perf_counter` delta into `_elapsed`. The ONLY reversal
+     NOT timed is `reconstruct_path()`'s `list(reversed(...))`
+     — a post-hoc query (path reconstruction is excluded from
+     runtime framework-wide). The experiment-level `p.flipped()`
+     (OMSPP-fixture → MOSPP problem) is problem SETUP outside
+     `run()`, identical for every MOSPP algo, and is correctly
+     excluded.
     ============================================================================
     """
 
@@ -93,7 +116,7 @@ class KAStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
     def __init__(self,
                  problem: ProblemSPP[State],
                  h: Callable[[State, State], int],
-                 name: str = 'KAStarIncMOSPP',
+                 name: str = 'AStarFlipMOSPP',
                  is_recording: bool = False,
                  is_timing: bool = True) -> None:
         """
@@ -108,7 +131,7 @@ class KAStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
         """
         if len(problem.goals) != 1:
             raise ValueError(
-                f'KAStarIncMOSPP requires exactly 1 goal '
+                f'AStarFlipMOSPP requires exactly 1 goal '
                 f'(got {len(problem.goals)})')
         AlgoMOSPP.__init__(self, problem=problem, h=h, name=name,
                            is_recording=is_recording,
@@ -141,7 +164,7 @@ class KAStarIncMOSPP(Generic[State], AlgoMOSPP[State]):
          `KAStarInc`, re-key the per-goal solution as a
          per-start solution. The inner already keys by State
          (= MOSPP starts after the flip), so it is a direct
-         copy (mirror of `KBFSMOSPP._run`).
+         copy (mirror of `BFSFlipMOSPP._run`).
         ====================================================================
         """
         flipped = _FlippedView[State](base=self.problem)

@@ -11,7 +11,7 @@ from typing import Generic, TypeVar
 State = TypeVar('State', bound=StateBase)
 
 
-class KBFSMOSPP(Generic[State], AlgoMOSPP[State]):
+class BFSFlipMOSPP(Generic[State], AlgoMOSPP[State]):
     """
     ============================================================================
      k-BFS for the Many-to-One Shortest Path Problem on
@@ -29,7 +29,7 @@ class KBFSMOSPP(Generic[State], AlgoMOSPP[State]):
 
        1. **Uniform edge weights** (BFS depth = optimal cost).
           For non-uniform non-negative weights use
-          `KDijkstraMOSPP`.
+          `DijkstraFlipMOSPP`.
        2. **Undirected graph** (or symmetric weights and
           symmetric `successors`). The flipped view does NOT
           reverse the adjacency — it relabels which list is
@@ -73,9 +73,12 @@ class KBFSMOSPP(Generic[State], AlgoMOSPP[State]):
        - `cnt_push`, `cnt_pop` — frontier-sourced.
        - `cnt_decrease` — 0 (FIFO no-op).
        - `cnt_expanded`, `cnt_generated` — search-semantic.
-       - `mem_open`, `mem_closed` — post-run snapshot, auto-
-         probed by `AlgoMOSPP._sync_memory_snapshot` via
-         `self._inner.search_state`.
+       - `mem_open`, `mem_closed` — NODE COUNTS via
+         `AlgoMOSPP._sync_memory_snapshot`: `len(frontier)` +
+         `len(closed)` read once at completion. Exact peak
+         coincident memory (the search is accumulative, so
+         `|OPEN| + |CLOSED|` is monotone). Apples-to-apples with
+         every other MOSPP algo.
        - `cnt_h_*` — ABSENT from the scaffold (no heuristic).
 
      **Within/between elapsed split:**
@@ -94,7 +97,7 @@ class KBFSMOSPP(Generic[State], AlgoMOSPP[State]):
 
     def __init__(self,
                  problem: ProblemSPP[State],
-                 name: str = 'KBFSMOSPP',
+                 name: str = 'BFSFlipMOSPP',
                  is_recording: bool = False,
                  is_timing: bool = True) -> None:
         """
@@ -107,7 +110,7 @@ class KBFSMOSPP(Generic[State], AlgoMOSPP[State]):
         """
         if len(problem.goals) != 1:
             raise ValueError(
-                f'KBFSMOSPP requires exactly 1 goal '
+                f'BFSFlipMOSPP requires exactly 1 goal '
                 f'(got {len(problem.goals)})')
         AlgoMOSPP.__init__(
             self,

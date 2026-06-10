@@ -1,4 +1,4 @@
-# KBFSMOSPP — k-BFS for MOSPP (delegating to OMSPP)
+# BFSFlipMOSPP — k-BFS for MOSPP (delegating to OMSPP)
 
 ## Purpose
 
@@ -18,8 +18,8 @@ problem-flipping + solution-re-keying orchestrator.
 
 ### Constructor
 ```python
-KBFSMOSPP(problem: ProblemSPP[State],
-          name: str = 'KBFSMOSPP',
+BFSFlipMOSPP(problem: ProblemSPP[State],
+          name: str = 'BFSFlipMOSPP',
           is_recording: bool = False,
           is_timing: bool = True)
 ```
@@ -30,7 +30,7 @@ and never invoked.
 ### Inheritance
 ```
 AlgoMOSPP[State]
-    └── KBFSMOSPP[State]
+    └── BFSFlipMOSPP[State]
 
 # inner (private):
 AlgoOMSPP[State]
@@ -55,13 +55,13 @@ AlgoOMSPP[State]
 Uses the base `AlgoMOSPP` scaffold unchanged. No heuristic, no
 Φ — `cnt_h_*` / `cnt_phi_*` / `cnt_pop_stale` are ABSENT.
 
-| counter | KBFSMOSPP |
+| counter | BFSFlipMOSPP |
 |---|:---:|
 | `cnt_push` | ✓ (mirrored from inner OMSPP `KBFS`) |
 | `cnt_pop` | ✓ (mirrored) |
 | `cnt_decrease` | 0 (FIFO no-op) |
 | `cnt_expanded`, `cnt_generated` | ✓ (mirrored) |
-| `mem_open`, `mem_closed` | ✓ (post-run, auto-probed via `_inner.search_state`) |
+| `mem_open`, `mem_closed` | ✓ **node counts** via `AlgoMOSPP._sync_memory_snapshot`: `len(frontier)` + `len(closed)` from `_inner.search_state` at completion; `mem_total = \|OPEN\| + \|CLOSED\|` = exact peak (accumulative ⇒ monotone). Apples-to-apples with every MOSPP algo. |
 
 ### Within/between elapsed split
 
@@ -100,7 +100,7 @@ unchanged.
 ## Correctness preconditions
 
 1. **Uniform edge weights** — BFS depth = optimal cost. For
-   non-uniform non-negative weights use `KDijkstraMOSPP`.
+   non-uniform non-negative weights use `DijkstraFlipMOSPP`.
 2. **Undirected graph** (or symmetric `successors` and `w`).
    The flipped view does NOT reverse the adjacency — it
    relabels which list is "starts" vs "goals." On an

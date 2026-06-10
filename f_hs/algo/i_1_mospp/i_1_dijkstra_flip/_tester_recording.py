@@ -1,17 +1,17 @@
 """
 ============================================================================
- KDijkstraMOSPP — recording pin on the canonical MOSPP problem
+ DijkstraFlipMOSPP — recording pin on the canonical MOSPP problem
  (`Factory.grid_4x4_obstacle_mospp`: starts (0,3) / (3,0) /
  (3,3); goal (0,0); per-start optimal costs 7 / 3 / 6).
 
- KDijkstraMOSPP delegates to OMSPP `KDijkstra` via the flipped
+ DijkstraFlipMOSPP delegates to OMSPP `KDijkstra` via the flipped
  view. The flipped view of the canonical MOSPP problem is
  structurally identical to `grid_4x4_obstacle_omspp`, so the
  inner Dijkstra traces the exact same 14-push / 14-pop
  sequence as OMSPP's canonical recording pin — but the
  recorder shim rewrites the 3 `on_goal` events as `on_start`
  (with `start_index` instead of `goal_index`). Identical
- event stream to KBFSMOSPP on uniform weights.
+ event stream to BFSFlipMOSPP on uniform weights.
 
  Discovery order: (3,0) at g=3 (start_idx=1) → (3,3) at g=6
  (start_idx=2) → (0,3) at g=7 (start_idx=0). All
@@ -19,7 +19,7 @@
 ============================================================================
 """
 
-from f_hs.algo.i_1_mospp.i_1_kdijkstra import KDijkstraMOSPP
+from f_hs.algo.i_1_mospp.i_1_dijkstra_flip import DijkstraFlipMOSPP
 from f_hs.algo.u_event_normalize import normalize
 from f_hs.problem.i_1_grid import ProblemGrid
 
@@ -34,7 +34,7 @@ def test_recording_canonical_mospp_full_event_stream() -> None:
     ========================================================================
     """
     p = ProblemGrid.Factory.grid_4x4_obstacle_mospp()
-    algo = KDijkstraMOSPP(problem=p, is_recording=True)
+    algo = DijkstraFlipMOSPP(problem=p, is_recording=True)
     algo.run()
 
     actual = [normalize(e) for e in algo.recorder.events]

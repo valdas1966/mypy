@@ -1,4 +1,4 @@
-# KAStarIncMOSPP — Incremental kA* for MOSPP (flip-to-OMSPP)
+# AStarFlipMOSPP — Incremental kA* for MOSPP (flip-to-OMSPP)
 
 ## Purpose
 
@@ -9,7 +9,7 @@ the MOSPP starts become the OMSPP goals), delegate to the
 **incremental** OMSPP solver `KAStarInc`, then re-key the
 per-goal OMSPP result as a per-start MOSPP result.
 
-Sibling of `KBFSMOSPP` / `KDijkstraMOSPP` (same flip
+Sibling of `BFSFlipMOSPP` / `DijkstraFlipMOSPP` (same flip
 delegation) — but the inner solver carries **one shared
 `SearchStateSPP` across the k goals** (a single search tree
 grown OUTWARD from the shared goal), so it is the OMSPP-side
@@ -21,9 +21,9 @@ rather than running k forward searches into it.
 
 ### Constructor
 ```python
-KAStarIncMOSPP(problem: ProblemSPP[State],
+AStarFlipMOSPP(problem: ProblemSPP[State],
                h: Callable[[State, State], int],
-               name: str = 'KAStarIncMOSPP',
+               name: str = 'AStarFlipMOSPP',
                is_recording: bool = False,
                is_timing: bool = True)
 ```
@@ -72,18 +72,38 @@ Per-class `_COUNTER_NAMES` mirrors the inner `KAStarInc`:
 | frontier | `cnt_push`, `cnt_pop`, `cnt_decrease` |
 | memory | `mem_open`, `mem_closed`, `mem_total` |
 
-Mirrored from the inner (which accumulates across run+extend)
-via `assign` in `_sync_frontier_counters`. **No** BPMX /
+The `cnt_*` are mirrored from the inner (which accumulates
+across run+extend) via `assign` in `_sync_frontier_counters`;
+`mem_*` are **node counts** from the base
+`_sync_memory_snapshot` (`|OPEN| + |CLOSED|` of the one shared
+inner search, read once at completion; `mem_total = |OPEN| +
+|CLOSED|` = exact peak, since the search is accumulative) —
+apples-to-apples with every MOSPP algo. **No** BPMX /
 propagation / adaptive / cache-hit counters — this solver has
 none (they default to 0 in the shared s_3 CSV schema).
 `cnt_h_update` (inter-sub-search refresh cost) is exposed here
 but is intentionally NOT in `s_3._CSV_COLUMNS` (dropped from
 the CSV at this stage).
 
+## Runtime accounting (the reverse work is timed)
+
+All flip-direction overhead unique to this solver is charged
+to `algo.elapsed` (the s_3 CSV's `elapsed_total`): the
+`_FlippedView` build (start↔goal swap), the inner
+`KAStarInc.run()`, and the per-start re-key
+`dict(inner.solutions)` all run inside `_run()`, bracketed by
+`_run_pre`→`_run_post`. The inner's `is_timing=False` disables
+only its OWN bucketing, not its compute. `extend()` accumulates
+its `perf_counter` delta into `_elapsed`. **Excluded (by
+design):** `reconstruct_path()`'s `list(reversed(...))` — a
+post-hoc query, like all path reconstruction; and the
+experiment-level `p.flipped()` (OMSPP-fixture → MOSPP problem),
+which is problem setup identical for every MOSPP algo.
+
 ## Inheritance
 ```
 AlgoMOSPP[State]
-    └── KAStarIncMOSPP[State]      (this class)
+    └── AStarFlipMOSPP[State]      (this class)
 
 # inner (private):
 AlgoOMSPP[State] └── KAStarInc[State]  (OMSPP, ExtendableOMSPP)

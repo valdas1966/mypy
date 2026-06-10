@@ -11,7 +11,7 @@ from typing import Generic, TypeVar
 State = TypeVar('State', bound=StateBase)
 
 
-class KDijkstraMOSPP(Generic[State], AlgoMOSPP[State]):
+class DijkstraFlipMOSPP(Generic[State], AlgoMOSPP[State]):
     """
     ============================================================================
      k-Dijkstra for the Many-to-One Shortest Path Problem on
@@ -70,9 +70,12 @@ class KDijkstraMOSPP(Generic[State], AlgoMOSPP[State]):
        - `cnt_push`, `cnt_pop`, `cnt_decrease` — frontier-
          sourced.
        - `cnt_expanded`, `cnt_generated` — search-semantic.
-       - `mem_open`, `mem_closed` — post-run snapshot, auto-
-         probed by `AlgoMOSPP._sync_memory_snapshot` via
-         `self._inner.search_state`.
+       - `mem_open`, `mem_closed` — NODE COUNTS via
+         `AlgoMOSPP._sync_memory_snapshot`: `len(frontier)` +
+         `len(closed)` read once at completion. Exact peak
+         coincident memory (the search is accumulative, so
+         `|OPEN| + |CLOSED|` is monotone). Apples-to-apples with
+         every other MOSPP algo.
        - `cnt_h_*` — ABSENT from the scaffold (no heuristic).
 
      **Within/between elapsed split:**
@@ -91,7 +94,7 @@ class KDijkstraMOSPP(Generic[State], AlgoMOSPP[State]):
 
     def __init__(self,
                  problem: ProblemSPP[State],
-                 name: str = 'KDijkstraMOSPP',
+                 name: str = 'DijkstraFlipMOSPP',
                  is_recording: bool = False,
                  is_timing: bool = True) -> None:
         """
@@ -104,7 +107,7 @@ class KDijkstraMOSPP(Generic[State], AlgoMOSPP[State]):
         """
         if len(problem.goals) != 1:
             raise ValueError(
-                f'KDijkstraMOSPP requires exactly 1 goal '
+                f'DijkstraFlipMOSPP requires exactly 1 goal '
                 f'(got {len(problem.goals)})')
         AlgoMOSPP.__init__(
             self,

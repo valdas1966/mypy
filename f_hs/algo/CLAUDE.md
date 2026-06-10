@@ -75,9 +75,10 @@ algo/
 │   │                       to-OMSPP delegation pattern)
 │   ├── i_0_base/          AlgoMOSPP — orchestrator base
 │   ├── i_1_astar_rep/     AStarRepMOSPP (Repetitive k×A* baseline)
-│   ├── i_1_astar_inc/     AStarIncMOSPP (Incremental k×A*)
-│   ├── i_1_kbfs/          KBFSMOSPP (delegates to OMSPP KBFS)
-│   └── i_1_kdijkstra/     KDijkstraMOSPP (delegates to OMSPP KDijkstra)
+│   ├── i_1_astar_inc/     AStarIncMOSPP (Incremental k×A*, forward)
+│   ├── i_1_astar_flip/    AStarFlipMOSPP (Incremental kA* via flip-to-OMSPP KAStarInc)
+│   ├── i_1_bfs_flip/      BFSFlipMOSPP (k-BFS via flip-to-OMSPP KBFS)
+│   └── i_1_dijkstra_flip/ DijkstraFlipMOSPP (k-Dijkstra via flip-to-OMSPP KDijkstra)
 └── i_2_mmspp/             (future) Many-to-Many SPP
                            (composes both i_1_omspp and i_1_mospp)
 ```
@@ -175,21 +176,32 @@ orchestrators (KAStarInc / KBFS / KDijkstra) the SAME
 `FrontierPriority` accumulates across all k sub-searches, so
 `max_size` is automatically the cross-sub-search peak.
 
-### MOSPP orchestrators — coincident node-count peak (2026-06-07)
+### MOSPP memory — uniform node-count metric across ALL algos
 
-`AStarIncMOSPP` and `AStarRepMOSPP` measure memory as
-**node counts** (not bytes — `getsizeof` was dropped as
-CPython-overhead noise) and as a **coincident peak**, not a
-sum of independently-peaked regions. Per sub-search they
-snapshot the live coincident occupancy
-`|OPEN| + |CLOSED| (+ |cache| + |bounds|)` — OPEN/CLOSED via
-`len(frontier)` / `len(closed)` at sub-search end (each runs
-its own frontier, freed between searches; cache/bounds are the
-carried goal-anchored stores as they stand *during* that
-sub-search) — and keep the components of the **MAX-total**
-sub-search. Because those components co-occur,
-`finalize_mem_total`'s `Σ` is the **exact** coincident peak,
-not an upper bound. The base auto-probe + `max_size` /
-byte rule above still governs the single-search OOSPP algos
-and the shared-frontier K* delegators (KBFS / KDijkstra),
-which are **not yet** migrated to this metric.
+**Every** MOSPP algo reports `mem_open` / `mem_closed`
+(/ `mem_cache` / `mem_bounds` for Inc) as **node counts** (not
+bytes — `getsizeof` dropped as CPython-overhead noise), with
+`mem_total = Σ mem_* = |OPEN| + |CLOSED|` = the **EXACT** peak
+coincident node occupancy. It is exact (not an upper bound)
+because the searches are **accumulative**: a node moves
+OPEN → CLOSED (or CLOSED → OPEN on re-open) but never leaves
+both, so `|OPEN| + |CLOSED| = |nodes seen|` is monotone and
+peaks at completion — so the metric is read ONCE at the end,
+with no per-step peak tracking and no over-count from summing
+non-coincident region peaks. Fully apples-to-apples across the
+`i_1_mospp` scope; only WHERE the end snapshot is taken differs
+by structure:
+
+- **Forward family** (`AStarRepMOSPP`, `AStarIncMOSPP`) — k
+  disjoint sub-searches (each own frontier, freed before the
+  next). `_sync_memory_snapshot` keeps the `(len(frontier),
+  len(closed)) (+ cache + bounds)` of the **MAX-total**
+  sub-search end — that run's peak.
+- **Flip family** (`AStarFlipMOSPP`, `BFSFlipMOSPP`,
+  `DijkstraFlipMOSPP`) — ONE shared inner search; the base
+  `AlgoMOSPP._sync_memory_snapshot` reads `len(frontier)` +
+  `len(closed)` from `_inner.search_state` at completion.
+
+The `max_size` / `getsizeof` byte rule above still governs the
+single-search OOSPP algos and the OMSPP orchestrators
+(`AlgoOMSPP._sync_memory_snapshot`) — a separate scope.

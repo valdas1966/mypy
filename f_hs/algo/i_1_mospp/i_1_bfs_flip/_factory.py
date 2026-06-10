@@ -1,16 +1,16 @@
-from f_hs.algo.i_1_mospp.i_1_kbfs.main import KBFSMOSPP
+from f_hs.algo.i_1_mospp.i_1_bfs_flip.main import BFSFlipMOSPP
 from f_hs.problem.i_0_base._factory import _ProblemGraph
 
 
 class Factory:
     """
     ============================================================================
-     Factory for KBFSMOSPP test instances.
+     Factory for BFSFlipMOSPP test instances.
     ============================================================================
     """
 
     @staticmethod
-    def graph_abc_two_starts() -> KBFSMOSPP:
+    def graph_abc_two_starts() -> BFSFlipMOSPP:
         """
         ========================================================================
          k-BFS-MOSPP on A -> B -> C (undirected via the
@@ -25,10 +25,10 @@ class Factory:
         )
         p._starts = [p._states['A'], p._states['B']]
         p._goals = [p._states['C']]
-        return KBFSMOSPP(problem=p)
+        return BFSFlipMOSPP(problem=p)
 
     @staticmethod
-    def graph_abc_repeated_start() -> KBFSMOSPP:
+    def graph_abc_repeated_start() -> BFSFlipMOSPP:
         """
         ========================================================================
          k-BFS-MOSPP on A -> B (undirected) with starts [A, A],
@@ -43,4 +43,4 @@ class Factory:
         )
         p._starts = [p._states['A'], p._states['A']]
         p._goals = [p._states['B']]
-        return KBFSMOSPP(problem=p)
+        return BFSFlipMOSPP(problem=p)

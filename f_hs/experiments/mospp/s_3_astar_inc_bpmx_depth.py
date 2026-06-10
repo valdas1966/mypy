@@ -113,8 +113,10 @@ from f_log import setup_log, get_log
 from f_google.services.drive import Drive
 from f_hs.problem.i_1_grid import ProblemGrid
 from f_hs.algo.i_1_mospp.i_1_astar_inc import AStarIncMOSPP
-from f_hs.algo.i_1_mospp.i_1_kastar_inc import KAStarIncMOSPP
-from f_hs.algo.i_1_mospp import AStarRepMOSPP
+from f_hs.algo.i_1_mospp.i_1_astar_flip import AStarFlipMOSPP
+from f_hs.algo.i_1_mospp import (
+    AStarRepMOSPP, BFSFlipMOSPP, DijkstraFlipMOSPP,
+)
 
 
 setup_log(sink='console', level=logging.INFO)
@@ -260,18 +262,46 @@ def _csv_filename_rep(n_maps: int | None) -> str:
     return f'astar_rep_nested{toy}.csv'
 
 
-def _csv_filename_kinc(n_maps: int | None) -> str:
+def _csv_filename_flip(n_maps: int | None) -> str:
     """
     ========================================================================
-     Output CSV filename for the KAStarIncMOSPP solver (MOSPP
+     Output CSV filename for the AStarFlipMOSPP solver (MOSPP
      via flip-to-OMSPP incremental kA*; single config):
-       astar_kinc_nested[_toy{N}].csv
+       astar_flip_nested[_toy{N}].csv
      `astar_`-prefixed + `nested` so `s_4._is_results_csv` picks
-     it up; `s_4._algo_of` tags it `kinc`.
+     it up; `s_4._algo_of` tags it `flip`.
     ========================================================================
     """
     toy = f'_toy{n_maps}' if n_maps is not None else ''
-    return f'astar_kinc_nested{toy}.csv'
+    return f'astar_flip_nested{toy}.csv'
+
+
+def _csv_filename_bfs_flip(n_maps: int | None) -> str:
+    """
+    ========================================================================
+     Output CSV filename for the BFSFlipMOSPP solver (MOSPP via
+     flip-to-OMSPP backward BFS; single config):
+       bfs_flip_nested[_toy{N}].csv
+     `nested` + the `bfs_flip` prefix so `s_4._is_results_csv`
+     picks it up; `s_4._algo_of` tags it `bfs`.
+    ========================================================================
+    """
+    toy = f'_toy{n_maps}' if n_maps is not None else ''
+    return f'bfs_flip_nested{toy}.csv'
+
+
+def _csv_filename_dijkstra_flip(n_maps: int | None) -> str:
+    """
+    ========================================================================
+     Output CSV filename for the DijkstraFlipMOSPP solver (MOSPP
+     via flip-to-OMSPP backward Dijkstra; single config):
+       dijkstra_flip_nested[_toy{N}].csv
+     `nested` + the `dijkstra_flip` prefix so `s_4._is_results_csv`
+     picks it up; `s_4._algo_of` tags it `dijkstra`.
+    ========================================================================
+    """
+    toy = f'_toy{n_maps}' if n_maps is not None else ''
+    return f'dijkstra_flip_nested{toy}.csv'
 
 
 # ── Config validation ───────────────────────────────────────────────────────
@@ -522,10 +552,10 @@ def _experiment_astar_rep_chain(chain: _MapChain) -> list[dict]:
     return rows
 
 
-def _experiment_kastar_inc_chain(chain: _MapChain) -> list[dict]:
+def _experiment_astar_flip_chain(chain: _MapChain) -> list[dict]:
     """
     ========================================================================
-     Solve one map's nested k-chain with a SINGLE KAStarIncMOSPP
+     Solve one map's nested k-chain with a SINGLE AStarFlipMOSPP
      -- MOSPP via the axis-swap (flip to OMSPP) + the incremental
      kA* solver, which grows ONE shared search tree OUTWARD from
      the shared goal to reach all starts (the OMSPP-side mirror
@@ -550,12 +580,12 @@ def _experiment_kastar_inc_chain(chain: _MapChain) -> list[dict]:
     domain = getattr(problems[0].grid, 'domain', '') or ''
     map_name = problems[0].grid_name
     flipped = [p.flipped() for p in problems]
-    _log.info(f'start  KINC ({domain}, {map_name}) chain '
+    _log.info(f'start  FLIP ({domain}, {map_name}) chain '
               f'm={len(flipped[0].starts)}..'
               f'{len(flipped[-1].starts)}')
 
     # Seed with the smallest-k MOSPP problem.
-    algo = KAStarIncMOSPP(
+    algo = AStarFlipMOSPP(
         problem=flipped[0],
         h=_h,
         is_recording=False,
@@ -576,8 +606,105 @@ def _experiment_kastar_inc_chain(chain: _MapChain) -> list[dict]:
         rows.append(_row(domain, map_name, len(fp.starts),
                          None, None, None, algo))
 
-    _log.info(f'done   KINC ({domain}, {map_name}) {len(rows)} rows '
+    _log.info(f'done   FLIP ({domain}, {map_name}) {len(rows)} rows '
               f'elapsed={algo.elapsed:.2f}s')
+    return rows
+
+
+def _experiment_bfs_flip_chain(chain: _MapChain) -> list[dict]:
+    """
+    ========================================================================
+     Solve one map's nested k-chain with BFSFlipMOSPP -- MOSPP via
+     the axis-swap (flip to OMSPP) + a single backward BFS pass
+     from the shared goal that reaches ALL k starts (goals after
+     the flip) in one sweep.
+
+     INDEPENDENT per-k runs (NOT run()+extend): BFSFlipMOSPP has no
+     `extend()` -- one backward BFS already reaches every start, so
+     there is no per-start sub-search to amortize. Each k-stage is
+     therefore a fresh from-scratch BFSFlipMOSPP on that stage's
+     MOSPP problem (k starts, 1 goal). The per-row metrics stay
+     apples-to-apples with the incremental algos: the cost to reach
+     the k-th start with one reverse BFS is identical whether the
+     search is grown incrementally or restarted (BFS expands the
+     same node set to reach a given start); only TOTAL experiment
+     compute differs (each k re-explores the prefix). Memory is the
+     node-count |OPEN|+|CLOSED| at completion and `elapsed` includes
+     the flip + re-key, both via the shared `_row` builder.
+
+     Returns one row per k-stage (20 rows). BFS has no BPMX / prop /
+     adaptive / cache / heuristic counters, so those columns default
+     to 0 (like the rep baseline).
+
+     Precondition: undirected, UNIFORM-weight grids (BFS depth =
+     optimal cost) -- satisfied by the experiment grids.
+    ========================================================================
+    """
+    problems = list(chain)               # ascending m, OMSPP-shaped
+    domain = getattr(problems[0].grid, 'domain', '') or ''
+    map_name = problems[0].grid_name
+    flipped = [p.flipped() for p in problems]
+    _log.info(f'start  BFS  ({domain}, {map_name}) chain '
+              f'm={len(flipped[0].starts)}..'
+              f'{len(flipped[-1].starts)}')
+
+    rows = []
+    for fp in flipped:
+        algo = BFSFlipMOSPP(problem=fp, is_recording=False,
+                            is_timing=True)
+        algo.run()
+        rows.append(_row(domain, map_name, len(fp.starts),
+                         None, None, None, algo))
+
+    total = sum(r['elapsed_total'] for r in rows)
+    _log.info(f'done   BFS  ({domain}, {map_name}) {len(rows)} rows '
+              f'elapsed={total:.2f}s')
+    return rows
+
+
+def _experiment_dijkstra_flip_chain(chain: _MapChain) -> list[dict]:
+    """
+    ========================================================================
+     Solve one map's nested k-chain with DijkstraFlipMOSPP -- MOSPP
+     via the axis-swap (flip to OMSPP) + a single backward Dijkstra
+     pass from the shared goal that reaches ALL k starts in one
+     g-ordered sweep.
+
+     INDEPENDENT per-k runs (NOT run()+extend), for the same reason
+     as `_experiment_bfs_flip_chain`: DijkstraFlipMOSPP has no
+     `extend()` -- one backward Dijkstra reaches every start, so
+     each k-stage is a fresh from-scratch run. Per-row metrics stay
+     apples-to-apples (cost to reach the k-th start is the same
+     expanded set whether grown or restarted); only total compute
+     differs. Memory is node-count |OPEN|+|CLOSED| at completion;
+     `elapsed` includes the flip + re-key. Same `_row` builder.
+
+     Returns one row per k-stage (20 rows). No BPMX / prop /
+     adaptive / cache / heuristic counters (default 0).
+
+     Precondition: undirected, NON-NEGATIVE-weight grids
+     (Dijkstra-family) -- satisfied by the experiment grids.
+    ========================================================================
+    """
+    problems = list(chain)               # ascending m, OMSPP-shaped
+    domain = getattr(problems[0].grid, 'domain', '') or ''
+    map_name = problems[0].grid_name
+    flipped = [p.flipped() for p in problems]
+    _log.info(f'start  DIJK ({domain}, {map_name}) chain '
+              f'm={len(flipped[0].starts)}..'
+              f'{len(flipped[-1].starts)}')
+
+    rows = []
+    for fp in flipped:
+        algo = DijkstraFlipMOSPP(problem=fp, is_recording=False,
+                                 is_timing=True)
+        algo.run()
+        rows.append(_row(domain, map_name, len(fp.starts),
+                         None, None, None, algo))
+
+    total = sum(r['elapsed_total'] for r in rows)
+    _log.info(f'done   DIJK ({domain}, {map_name}) {len(rows)} rows '
+              f'elapsed={total:.2f}s')
     return rows
 
 
@@ -803,15 +930,15 @@ def run_astar_rep(path_drive_pkl_in: str,
         n_maps=n_maps)
 
 
-def run_kastar_inc(path_drive_pkl_in: str,
+def run_astar_flip(path_drive_pkl_in: str,
                    path_drive_grids_in: str,
                    path_drive_csv_out: str,
                    workers: int = 10,
                    n_maps: int | None = None) -> None:
     """
     ========================================================================
-     Run the KAStarIncMOSPP solver across every map as a NESTED
-     k-chain: per map ONE KAStarIncMOSPP `run()`s the smallest-k
+     Run the AStarFlipMOSPP solver across every map as a NESTED
+     k-chain: per map ONE AStarFlipMOSPP `run()`s the smallest-k
      instance, then `extend()`s by each stage's +10 genuinely-new
      starts. MOSPP solved by flipping to OMSPP and growing ONE
      incremental kA* search outward from the shared goal -- the
@@ -822,7 +949,62 @@ def run_kastar_inc(path_drive_pkl_in: str,
     """
     _log.info(f'kastar_inc nested: workers={workers}')
     _run_chain_experiment(
-        experiment=_experiment_kastar_inc_chain,
+        experiment=_experiment_astar_flip_chain,
+        path_drive_pkl_in=path_drive_pkl_in,
+        path_drive_grids_in=path_drive_grids_in,
+        path_drive_csv_out=path_drive_csv_out,
+        workers=workers,
+        n_maps=n_maps)
+
+
+def run_bfs_flip(path_drive_pkl_in: str,
+                 path_drive_grids_in: str,
+                 path_drive_csv_out: str,
+                 workers: int = 10,
+                 n_maps: int | None = None) -> None:
+    """
+    ========================================================================
+     Run the BFSFlipMOSPP solver across every map's nested k-chain
+     as INDEPENDENT per-k from-scratch runs (BFS has no `extend()`;
+     one backward BFS pass reaches all k starts). Single config;
+     same CSV schema (BPMX/prop/adapt/cache/h columns default to 0).
+     Per-row metrics are apples-to-apples with the incremental algos
+     -- see `_experiment_bfs_flip_chain`. Delegates to
+     `_run_chain_experiment`. Precondition: undirected, uniform-
+     weight grids.
+    ========================================================================
+    """
+    _log.info(f'bfs_flip nested: workers={workers}')
+    _run_chain_experiment(
+        experiment=_experiment_bfs_flip_chain,
+        path_drive_pkl_in=path_drive_pkl_in,
+        path_drive_grids_in=path_drive_grids_in,
+        path_drive_csv_out=path_drive_csv_out,
+        workers=workers,
+        n_maps=n_maps)
+
+
+def run_dijkstra_flip(path_drive_pkl_in: str,
+                      path_drive_grids_in: str,
+                      path_drive_csv_out: str,
+                      workers: int = 10,
+                      n_maps: int | None = None) -> None:
+    """
+    ========================================================================
+     Run the DijkstraFlipMOSPP solver across every map's nested
+     k-chain as INDEPENDENT per-k from-scratch runs (Dijkstra has
+     no `extend()`; one backward Dijkstra pass reaches all k
+     starts). Single config; same CSV schema (BPMX/prop/adapt/cache/
+     h columns default to 0). Per-row metrics are apples-to-apples
+     with the incremental algos -- see
+     `_experiment_dijkstra_flip_chain`. Delegates to
+     `_run_chain_experiment`. Precondition: undirected, non-
+     negative-weight grids.
+    ========================================================================
+    """
+    _log.info(f'dijkstra_flip nested: workers={workers}')
+    _run_chain_experiment(
+        experiment=_experiment_dijkstra_flip_chain,
         path_drive_pkl_in=path_drive_pkl_in,
         path_drive_grids_in=path_drive_grids_in,
         path_drive_csv_out=path_drive_csv_out,
@@ -1271,12 +1453,18 @@ if __name__ == '__main__':
     #                +cascade d1 / +prop d1 / +cascade+prop d1. One
     #                `_adapt_1`-tagged CSV each. See
     #                `run_astar_inc_adaptive_configs`.
-    #   'kinc'    -- KAStarIncMOSPP: MOSPP via flip-to-OMSPP +
+    #   'flip'    -- AStarFlipMOSPP: MOSPP via flip-to-OMSPP +
     #                incremental kA* (one growing search from the
     #                shared goal). Single config. See
-    #                `run_kastar_inc`.
+    #                `run_astar_flip`.
+    #   'bfs'     -- BFSFlipMOSPP: MOSPP via flip-to-OMSPP backward
+    #                BFS (uniform-weight). INDEPENDENT per-k runs (no
+    #                extend). Single config. See `run_bfs_flip`.
+    #   'dijkstra'-- DijkstraFlipMOSPP: MOSPP via flip-to-OMSPP
+    #                backward Dijkstra (non-negative weights).
+    #                INDEPENDENT per-k runs. See `run_dijkstra_flip`.
     #   'rep'     -- AStarRepMOSPP baseline (single config, no ladder).
-    ALGO = 'inc_all'
+    ALGO = 'dijkstra'
 
     if ALGO == 'inc':
         # ── AStarIncMOSPP config — one run, one config, one CSV ──────────────
@@ -1356,12 +1544,38 @@ if __name__ == '__main__':
             workers=workers,
             n_maps=n_maps)
 
-    elif ALGO == 'kinc':
-        # KAStarIncMOSPP — MOSPP via flip-to-OMSPP incremental kA*.
+    elif ALGO == 'flip':
+        # AStarFlipMOSPP — MOSPP via flip-to-OMSPP incremental kA*.
         path_drive_csv_out = (
-            f'Results/{_csv_filename_kinc(n_maps)}')
+            f'Results/{_csv_filename_flip(n_maps)}')
 
-        run_kastar_inc(
+        run_astar_flip(
+            path_drive_pkl_in=path_drive_pkl_in,
+            path_drive_grids_in=path_drive_grids_in,
+            path_drive_csv_out=path_drive_csv_out,
+            workers=workers,
+            n_maps=n_maps)
+
+    elif ALGO == 'bfs':
+        # BFSFlipMOSPP — MOSPP via flip-to-OMSPP backward BFS
+        # (uniform-weight); independent per-k runs.
+        path_drive_csv_out = (
+            f'Results/{_csv_filename_bfs_flip(n_maps)}')
+
+        run_bfs_flip(
+            path_drive_pkl_in=path_drive_pkl_in,
+            path_drive_grids_in=path_drive_grids_in,
+            path_drive_csv_out=path_drive_csv_out,
+            workers=workers,
+            n_maps=n_maps)
+
+    elif ALGO == 'dijkstra':
+        # DijkstraFlipMOSPP — MOSPP via flip-to-OMSPP backward
+        # Dijkstra (non-negative weights); independent per-k runs.
+        path_drive_csv_out = (
+            f'Results/{_csv_filename_dijkstra_flip(n_maps)}')
+
+        run_dijkstra_flip(
             path_drive_pkl_in=path_drive_pkl_in,
             path_drive_grids_in=path_drive_grids_in,
             path_drive_csv_out=path_drive_csv_out,
@@ -1371,6 +1585,6 @@ if __name__ == '__main__':
     else:
         raise ValueError(
             f"ALGO must be 'inc', 'inc_all', 'inc_pb', 'inc_adapt', "
-            f"'rep' or 'kinc'; got {ALGO!r}")
+            f"'rep', 'flip', 'bfs' or 'dijkstra'; got {ALGO!r}")
 
     _log.info('--- done ---')

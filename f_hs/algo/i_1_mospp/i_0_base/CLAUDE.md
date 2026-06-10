@@ -16,11 +16,37 @@ f_cs.algo.Algo[ProblemSPP[State], SolutionMOSPP]
             └── AStarRepMOSPP
 ```
 
-Mirrors `AlgoOMSPP` exactly in body — counter scaffold,
-phase setter, lifecycle hooks, `_flush_phase_timer`,
-`_sync_memory_snapshot`, `_sync_frontier_counters`. The
-only difference is the `Algo` Solution generic argument
-(`SolutionMOSPP` vs `SolutionOMSPP`) and naming.
+Mirrors `AlgoOMSPP` in body — counter scaffold, phase
+setter, lifecycle hooks, `_flush_phase_timer`,
+`_sync_frontier_counters`. The differences are the `Algo`
+Solution generic argument (`SolutionMOSPP` vs
+`SolutionOMSPP`), naming, and `_sync_memory_snapshot` (see
+below).
+
+## Memory metric — node counts at completion (exact peak)
+
+`_sync_memory_snapshot` writes **node counts**, read ONCE at
+search completion: `mem_open = |OPEN|` (`len(frontier)`) and
+`mem_closed = |CLOSED|` (`len(closed)`), with `mem_total =
+|OPEN| + |CLOSED|` (via `u_mem.finalize_mem_total`).
+
+The end snapshot is the **EXACT** peak coincident memory
+because the search is **accumulative**: a node moves OPEN →
+CLOSED (or CLOSED → OPEN on re-open) but never leaves both, so
+`|OPEN| + |CLOSED| = |nodes seen|` is monotone and peaks at the
+end. No per-step peak tracking, and no over-count from summing
+region peaks (e.g. `max_size` + final `|CLOSED|`) that never
+co-occur.
+
+This base reading is used by the flip-to-OMSPP delegates
+(`AStarFlipMOSPP` / `BFSFlipMOSPP` / `DijkstraFlipMOSPP`) via
+`_inner.search_state`. The forward family (`AStarRepMOSPP` /
+`AStarIncMOSPP`) **overrides** it to take the MAX-total over
+its k disjoint sub-searches (each freed before the next) —
+that run's peak. Either way every MOSPP algo reports the same
+node-count `|OPEN| + |CLOSED|` exact peak — fully
+apples-to-apples. Contrast `AlgoOMSPP`, which still uses the
+`getsizeof` byte probe.
 
 ## Problem shape
 

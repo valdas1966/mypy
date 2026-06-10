@@ -1,16 +1,16 @@
-from f_hs.algo.i_1_mospp.i_1_kdijkstra.main import KDijkstraMOSPP
+from f_hs.algo.i_1_mospp.i_1_dijkstra_flip.main import DijkstraFlipMOSPP
 from f_hs.problem.i_0_base._factory import _ProblemGraph
 
 
 class Factory:
     """
     ============================================================================
-     Factory for KDijkstraMOSPP test instances.
+     Factory for DijkstraFlipMOSPP test instances.
     ============================================================================
     """
 
     @staticmethod
-    def graph_abc_two_starts() -> KDijkstraMOSPP:
+    def graph_abc_two_starts() -> DijkstraFlipMOSPP:
         """
         ========================================================================
          k-Dijkstra-MOSPP on A -> B -> C (undirected) with
@@ -25,10 +25,10 @@ class Factory:
         )
         p._starts = [p._states['A'], p._states['B']]
         p._goals = [p._states['C']]
-        return KDijkstraMOSPP(problem=p)
+        return DijkstraFlipMOSPP(problem=p)
 
     @staticmethod
-    def graph_abc_repeated_start() -> KDijkstraMOSPP:
+    def graph_abc_repeated_start() -> DijkstraFlipMOSPP:
         """
         ========================================================================
          k-Dijkstra-MOSPP on A -> B (undirected) with starts
@@ -42,4 +42,4 @@ class Factory:
         )
         p._starts = [p._states['A'], p._states['A']]
         p._goals = [p._states['B']]
-        return KDijkstraMOSPP(problem=p)
+        return DijkstraFlipMOSPP(problem=p)

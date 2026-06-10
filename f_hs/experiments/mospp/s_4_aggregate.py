@@ -98,31 +98,46 @@ _TAG_COLS = ('algo', 'rule_bpmx', 'depth_bpmx', 'depth_prop')
 
 # ── File discovery ──────────────────────────────────────────────────────────
 
+# Recognised raw-CSV prefixes -> algo tag, in priority order
+# (more specific before the `astar_` inc fallback). The `s_3`
+# runners write one of these.
+_ALGO_PREFIXES: tuple[tuple[str, str], ...] = (
+    ('astar_rep', 'rep'),
+    ('astar_flip', 'flip'),
+    ('bfs_flip', 'bfs'),
+    ('dijkstra_flip', 'dijkstra'),
+    ('astar_', 'inc'),        # fallback: the inc sweep configs
+)
+
+
 def _is_results_csv(name: str) -> bool:
     """
     ========================================================================
-     True for a raw `s_3` nested Results CSV (inc or rep),
-     skipping `_toy*` smoke runs and any non-CSV / agg output.
+     True for a raw `s_3` nested Results CSV (inc / rep / flip /
+     bfs / dijkstra), skipping `_toy*` smoke runs and any non-CSV /
+     agg output.
     ========================================================================
     """
-    return (name.startswith('astar_')
-            and name.endswith('.csv')
+    return (name.endswith('.csv')
             and 'nested' in name
-            and '_toy' not in name)
+            and '_toy' not in name
+            and any(name.startswith(p) for p, _ in _ALGO_PREFIXES))
 
 
 def _algo_of(name: str) -> str:
     """
     ========================================================================
      Algorithm tag from the filename: `astar_rep_*` -> 'rep',
-     `astar_kinc_*` -> 'kinc' (MOSPP via flip-to-OMSPP kA*_inc),
-     everything else (`astar_inc_*`) -> 'inc'. The `s_3` runners.
+     `astar_flip_*` -> 'flip', `bfs_flip_*` -> 'bfs',
+     `dijkstra_flip_*` -> 'dijkstra', everything else
+     (`astar_inc_*`) -> 'inc'. The `s_3` runners. (Flip/bfs/dijkstra
+     are MOSPP via flip-to-OMSPP; matched before the `astar_` inc
+     fallback.)
     ========================================================================
     """
-    if name.startswith('astar_rep'):
-        return 'rep'
-    if name.startswith('astar_kinc'):
-        return 'kinc'
+    for prefix, tag in _ALGO_PREFIXES:
+        if name.startswith(prefix):
+            return tag
     return 'inc'
 
 

@@ -1,4 +1,4 @@
-# KDijkstraMOSPP — k-Dijkstra for MOSPP (delegating to OMSPP)
+# DijkstraFlipMOSPP — k-Dijkstra for MOSPP (delegating to OMSPP)
 
 ## Purpose
 
@@ -11,15 +11,15 @@ become the OMSPP goals), run OMSPP `KDijkstra`, re-key the
 per-goal result as a per-start result.
 
 Mirror of OMSPP `KDijkstra` over the axis-swap. Sibling of
-`KBFSMOSPP`; `KDijkstraMOSPP` is the more general one
+`BFSFlipMOSPP`; `DijkstraFlipMOSPP` is the more general one
 (arbitrary non-negative weights vs. unit weights only).
 
 ## Public API
 
 ### Constructor
 ```python
-KDijkstraMOSPP(problem: ProblemSPP[State],
-               name: str = 'KDijkstraMOSPP',
+DijkstraFlipMOSPP(problem: ProblemSPP[State],
+               name: str = 'DijkstraFlipMOSPP',
                is_recording: bool = False,
                is_timing: bool = True)
 ```
@@ -30,7 +30,7 @@ and never invoked.
 ### Inheritance
 ```
 AlgoMOSPP[State]
-    └── KDijkstraMOSPP[State]
+    └── DijkstraFlipMOSPP[State]
 
 # inner (private):
 AlgoOMSPP[State]
@@ -55,11 +55,11 @@ AlgoOMSPP[State]
 Uses the base `AlgoMOSPP` scaffold unchanged. No heuristic, no
 Φ — `cnt_h_*` / `cnt_phi_*` / `cnt_pop_stale` are ABSENT.
 
-| counter | KDijkstraMOSPP |
+| counter | DijkstraFlipMOSPP |
 |---|:---:|
 | `cnt_push`, `cnt_pop`, `cnt_decrease` | ✓ (mirrored from inner OMSPP `KDijkstra`) |
 | `cnt_expanded`, `cnt_generated` | ✓ (mirrored) |
-| `mem_open`, `mem_closed` | ✓ (post-run, auto-probed via `_inner.search_state`) |
+| `mem_open`, `mem_closed` | ✓ **node counts** via `AlgoMOSPP._sync_memory_snapshot`: `len(frontier)` + `len(closed)` from `_inner.search_state` at completion; `mem_total = \|OPEN\| + \|CLOSED\|` = exact peak (accumulative ⇒ monotone). Apples-to-apples with every MOSPP algo. |
 
 ### Within/between elapsed split
 
@@ -109,9 +109,9 @@ return SolutionMOSPP(self._solutions)
 
 | File | Scope | Count |
 |---|---|---|
-| `_tester.py` | lifecycle (single/two/unreachable start), duplicate-start, recording-schema cleanliness, counter scaffold, elapsed_update zero, multi-goal rejection, cross-algo equivalence vs `AStarRepMOSPP` and `KBFSMOSPP`, path reconstruction | 10 |
+| `_tester.py` | lifecycle (single/two/unreachable start), duplicate-start, recording-schema cleanliness, counter scaffold, elapsed_update zero, multi-goal rejection, cross-algo equivalence vs `AStarRepMOSPP` and `BFSFlipMOSPP`, path reconstruction | 10 |
 | `_tester_counters.py` | counter pin on canonical MOSPP grid (14 push / 14 pop); per-start optimal costs pin (7 / 3 / 6) | 2 |
-| `_tester_recording.py` | FULL event-stream pin on canonical MOSPP — 31 events (14 push / 14 pop with 3 INTERLEAVED `on_start` events at discovery order). Identical to `KBFSMOSPP` on this uniform-cost canonical (pinned independently so a future tiebreak divergence surfaces in both testers). | 1 |
+| `_tester_recording.py` | FULL event-stream pin on canonical MOSPP — 31 events (14 push / 14 pop with 3 INTERLEAVED `on_start` events at discovery order). Identical to `BFSFlipMOSPP` on this uniform-cost canonical (pinned independently so a future tiebreak divergence surfaces in both testers). | 1 |
 
 ## Dependencies
 

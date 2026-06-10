@@ -8,7 +8,7 @@ class _OnGoalToOnStartShim:
      `Recorder`, rewriting `on_goal` events into `on_start`
      events (and `goal_index` payload field into `start_index`).
 
-     Used by `KBFSMOSPP` and `KDijkstraMOSPP` to delegate to
+     Used by `BFSFlipMOSPP` and `DijkstraFlipMOSPP` to delegate to
      the OMSPP `KBFS` / `KDijkstra` orchestrators (which emit
      `on_goal` events natively) while keeping the MOSPP
      recording convention (`on_start`, `start_index`). Push /
@@ -21,8 +21,8 @@ class _OnGoalToOnStartShim:
      inner OMSPP follows.
 
      This is intentionally a narrow, MOSPP-local utility — not
-     in `f_core`. Two callers today (`KBFSMOSPP`,
-     `KDijkstraMOSPP`); extract if MMSPP later grows a third.
+     in `f_core`. Two callers today (`BFSFlipMOSPP`,
+     `DijkstraFlipMOSPP`); extract if MMSPP later grows a third.
     ========================================================================
     """
 

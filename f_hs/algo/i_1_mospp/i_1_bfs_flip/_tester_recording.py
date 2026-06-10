@@ -1,10 +1,10 @@
 """
 ============================================================================
- KBFSMOSPP — recording pin on the canonical MOSPP problem
+ BFSFlipMOSPP — recording pin on the canonical MOSPP problem
  (`Factory.grid_4x4_obstacle_mospp`: starts (0,3) / (3,0) /
  (3,3); goal (0,0); per-start optimal costs 7 / 3 / 6).
 
- KBFSMOSPP delegates to OMSPP `KBFS` via the flipped view.
+ BFSFlipMOSPP delegates to OMSPP `KBFS` via the flipped view.
  The flipped view of the canonical MOSPP problem is
  structurally identical to `grid_4x4_obstacle_omspp` (starts
  = [(0,0)], goals = [(0,3), (3,0), (3,3)]), so the inner BFS
@@ -19,7 +19,7 @@
 ============================================================================
 """
 
-from f_hs.algo.i_1_mospp.i_1_kbfs import KBFSMOSPP
+from f_hs.algo.i_1_mospp.i_1_bfs_flip import BFSFlipMOSPP
 from f_hs.algo.u_event_normalize import normalize
 from f_hs.problem.i_1_grid import ProblemGrid
 
@@ -34,7 +34,7 @@ def test_recording_canonical_mospp_full_event_stream() -> None:
     ========================================================================
     """
     p = ProblemGrid.Factory.grid_4x4_obstacle_mospp()
-    algo = KBFSMOSPP(problem=p, is_recording=True)
+    algo = BFSFlipMOSPP(problem=p, is_recording=True)
     algo.run()
 
     actual = [normalize(e) for e in algo.recorder.events]

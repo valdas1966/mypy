@@ -13,7 +13,7 @@ class _FlippedView(Generic[State], ProblemSPP[State]):
      base's single goal becomes the OMSPP shared start; the
      base's k starts become the OMSPP k goals).
 
-     Used by `KBFSMOSPP` and `KDijkstraMOSPP` to delegate to
+     Used by `BFSFlipMOSPP` and `DijkstraFlipMOSPP` to delegate to
      the OMSPP single-pass orchestrators (`KBFS`, `KDijkstra`).
      `successors()` and `w()` delegate to the base unchanged —
      so the same `(parent, child)` edges are walked. On an

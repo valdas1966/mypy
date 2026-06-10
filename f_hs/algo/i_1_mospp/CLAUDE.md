@@ -34,8 +34,8 @@ mospp/
 │                           OMSPP _SingleGoalView)
 ├── _flipped_view.py        ProblemSPP wrapper that SWAPS
 │                           starts ↔ goals (turns MOSPP into
-│                           OMSPP). Used by KBFSMOSPP /
-│                           KDijkstraMOSPP delegation.
+│                           OMSPP). Used by BFSFlipMOSPP /
+│                           DijkstraFlipMOSPP delegation.
 ├── _recorder_shim.py       _OnGoalToOnStartShim — rewrites
 │                           `on_goal` → `on_start` events
 │                           for the OMSPP-delegation algos.
@@ -52,14 +52,14 @@ mospp/
 │                             (goal-anchored cache + bounds
 │                              reuse; cache-hit-at-init;
 │                              study/oracle.py)
-├── i_1_kastar_inc/         KAStarIncMOSPP — Incremental kA*
+├── i_1_astar_flip/         AStarFlipMOSPP — Incremental kA*
 │                             via flip-to-OMSPP delegation
 │                             (one shared search grown from the
 │                             goal; undirected, consistent-h)
-├── i_1_kbfs/               KBFSMOSPP — k-BFS via flip-to-
+├── i_1_bfs_flip/               BFSFlipMOSPP — k-BFS via flip-to-
 │                             OMSPP delegation (undirected,
 │                             uniform-weight)
-└── i_1_kdijkstra/          KDijkstraMOSPP — k-Dijkstra via
+└── i_1_dijkstra_flip/          DijkstraFlipMOSPP — k-Dijkstra via
                               flip-to-OMSPP delegation
                               (undirected, non-negative
                               weights)
@@ -69,11 +69,11 @@ mospp/
 
 ```python
 from f_hs.algo.i_1_mospp import (
-    AStarRepMOSPP, KBFSMOSPP, KDijkstraMOSPP,
+    AStarRepMOSPP, BFSFlipMOSPP, DijkstraFlipMOSPP,
 )
 from f_hs.algo.i_1_mospp.i_1_astar_inc import AStarIncMOSPP
 # also re-exported at top-level:
-from f_hs import AStarRepMOSPP, KBFSMOSPP, KDijkstraMOSPP
+from f_hs import AStarRepMOSPP, BFSFlipMOSPP, DijkstraFlipMOSPP
 ```
 
 ## Algorithm matrix
@@ -82,9 +82,9 @@ from f_hs import AStarRepMOSPP, KBFSMOSPP, KDijkstraMOSPP
 |---|---|---|---|
 | `AStarRepMOSPP` | shipped | yes | Repetitive k×A* — MOSPP paper baseline; k independent A*s, no state sharing. Composes `ExtendableMOSPP`; gains the `already_reached` fast-path skip only. Admissible h sufficient. Works on directed graphs. |
 | `AStarIncMOSPP` | shipped | yes | Incremental k×A* — k sequential forward `AStarBPMX` sub-searches sharing a goal-anchored on-path cache + admissible bounds (NOT a shared `SearchStateSPP`; start varies). Cache-hit-at-init headline win. Opt-in pre-search `propagate_pathmax` and in-search BPMX. Composes `ExtendableMOSPP` — the carried goal-anchored stores survive an `extend()` for free, making nested MOSPP chains solvable in one pass. Admissible h sufficient (consistency not required). Works on directed graphs. |
-| `KBFSMOSPP` | shipped | no | k-BFS via flip-to-OMSPP delegation. **Undirected, uniform-weight precondition.** Single backward BFS pass from the goal; emits `on_start` (translated by `_OnGoalToOnStartShim` from the inner OMSPP `KBFS`'s `on_goal`). Mirror of OMSPP `KBFS`. |
-| `KDijkstraMOSPP` | shipped | no | k-Dijkstra via flip-to-OMSPP delegation. **Undirected, non-negative-weight precondition.** Single backward Dijkstra pass from the goal; same event-translation pattern as `KBFSMOSPP`. Mirror of OMSPP `KDijkstra`. |
-| `KAStarIncMOSPP` | shipped | yes (batch) | **Incremental kA* via flip-to-OMSPP.** Delegates to OMSPP `KAStarInc` — ONE shared `SearchStateSPP` grown OUTWARD from the goal to all starts (OMSPP-side mirror of `AStarIncMOSPP`'s forward reuse). `extend()` is BATCH (delegates to `KAStarInc.extend`), so it does NOT compose `ExtendableMOSPP` (`is_extendable` is False) yet drives the nested chain. **Undirected + consistent-h precondition** (the flip + inner kA*_inc). Exposes `cnt_h_update`. |
+| `BFSFlipMOSPP` | shipped | no | k-BFS via flip-to-OMSPP delegation. **Undirected, uniform-weight precondition.** Single backward BFS pass from the goal; emits `on_start` (translated by `_OnGoalToOnStartShim` from the inner OMSPP `KBFS`'s `on_goal`). Mirror of OMSPP `KBFS`. |
+| `DijkstraFlipMOSPP` | shipped | no | k-Dijkstra via flip-to-OMSPP delegation. **Undirected, non-negative-weight precondition.** Single backward Dijkstra pass from the goal; same event-translation pattern as `BFSFlipMOSPP`. Mirror of OMSPP `KDijkstra`. |
+| `AStarFlipMOSPP` | shipped | yes (batch) | **Incremental kA* via flip-to-OMSPP.** Delegates to OMSPP `KAStarInc` — ONE shared `SearchStateSPP` grown OUTWARD from the goal to all starts (OMSPP-side mirror of `AStarIncMOSPP`'s forward reuse). `extend()` is BATCH (delegates to `KAStarInc.extend`), so it does NOT compose `ExtendableMOSPP` (`is_extendable` is False) yet drives the nested chain. **Undirected + consistent-h precondition** (the flip + inner kA*_inc). Exposes `cnt_h_update`. |
 
 `AStarIncMOSPP` is the realized state-sharing MOSPP
 algorithm: forward-direction sub-searches with goal-anchored
@@ -130,10 +130,11 @@ same function name in their respective modules.
    counter scaffold (incl. `mem_open` / `mem_closed` /
    `mem_total` with `mem_total = Σ mem_*` finalized via
    `u_mem.finalize_mem_total`), phase setter,
-   `_flush_phase_timer`, `_sync_memory_snapshot` (OPEN
-   count from `frontier.max_size` — rule-2), and lifecycle
-   hooks are identical to `AlgoOMSPP` — only the `Algo`
-   Solution generic argument and naming differ. This
+   `_flush_phase_timer`, and lifecycle hooks are identical to
+   `AlgoOMSPP` — only the `Algo` Solution generic argument,
+   naming, and `_sync_memory_snapshot` (node counts read at
+   completion — see the Memory metric note in `i_0_base/`,
+   vs `AlgoOMSPP`'s `getsizeof` byte probe) differ. This
    duplication is accepted in exchange for natural
    OMSPP/MOSPP naming; refactor into a shared abstract
    base if/when a third variant (MMSPP) arrives.

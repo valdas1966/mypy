@@ -1,6 +1,6 @@
 """
 ===============================================================================
- Script: regenerate `Reports/MOSPP.tex` -> Experimental Results
+ Script: regenerate `Reports/MOSPP-BPMX.tex` -> Experimental Results
  section with a MULTI-CONFIG comparison.
 
  Reads each config's by-k aggregate from Drive `Results/agg/`
@@ -39,11 +39,11 @@
  `.tex`/`.pdf`, downloaded aggregates, compiled `main.pdf` --
  lives in ONE `/tmp` scratch dir that is wiped on exit. Outputs
  land only on:
-   - Overleaf `MOSPP`: sanitized `main.tex` + rule `.tex` +
+   - Overleaf `MOSPP-BPMX`: sanitized `main.tex` + rule `.tex` +
      the `fig_*.pdf` set (`f_overleaf` upload is ASCII-only --
      box-drawing chars in comments are replaced), and
-   - Drive `Reports/`: the compiled `MOSPP.pdf` + the `\\input`
-     bundle (`MOSPP.tex` + each rule `.tex`), kept recompilable.
+   - Drive `Reports/`: the compiled `MOSPP-BPMX.pdf` + the `\\input`
+     bundle (`MOSPP-BPMX.tex` + each rule `.tex`), kept recompilable.
  No persistent figure cache -> every figure is rebuilt per run.
 
  Run (reads s_4 aggregates from Drive + compiles + pushes):
@@ -102,10 +102,15 @@ def _tectonic_bin() -> str:
         'tectonic`) or add it to PATH.')
 
 
-PATH_TEX_DRIVE = 'Reports/MOSPP.tex'
-PATH_PDF_DRIVE = 'Reports/MOSPP.pdf'
-OVERLEAF_PROJECT = 'MOSPP'
-OVERLEAF_FILE = 'MOSPP.tex'
+# This generator owns the BPMX/propagation/adaptive depth-ladder
+# report, renamed `MOSPP-BPMX` (2026-06-10) to free the `MOSPP`
+# name for the new top-level report. Drive paths + the Overleaf
+# project both carry the `MOSPP-BPMX` name; re-running this script
+# republishes there (Overleaf project must already exist).
+PATH_TEX_DRIVE = 'Reports/MOSPP-BPMX.tex'
+PATH_PDF_DRIVE = 'Reports/MOSPP-BPMX.pdf'
+OVERLEAF_PROJECT = 'MOSPP-BPMX'
+OVERLEAF_FILE = 'MOSPP-BPMX.tex'
 
 # ── Main ────────────────────────────────────────────────────────────────────
 
@@ -124,7 +129,7 @@ def main(push_overleaf: bool = True) -> None:
      aggregates, the compiled `main.pdf` -- lives in a single
      `/tmp` scratch dir that is WIPED on exit (success or error).
      Outputs go only to **Overleaf** (`.tex` sources + figure
-     PDFs) and **Drive** (`Reports/MOSPP.{tex,pdf}` + rule
+     PDFs) and **Drive** (`Reports/MOSPP-BPMX.{tex,pdf}` + rule
      `.tex`). Nothing is left on disk.
 
      Because nothing is cached between runs, EVERY figure is
@@ -258,8 +263,8 @@ def main(push_overleaf: bool = True) -> None:
                             path_src=str(work / f'{name}.pdf'),
                             path_dest=f'{name}.pdf')
                     proj.set_root_doc('main.tex')
-                    if 'MOSPP.tex' in proj.list_files():
-                        proj.delete_file(path='MOSPP.tex')
+                    if 'MOSPP-BPMX.tex' in proj.list_files():
+                        proj.delete_file(path='MOSPP-BPMX.tex')
                 print(f'  pushed main.tex + {len(rendered)} rule files + '
                       f'{len(fig_specs)} figs; root=main.tex '
                       f'(session closed)')

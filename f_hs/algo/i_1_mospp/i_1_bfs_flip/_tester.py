@@ -1,4 +1,4 @@
-from f_hs.algo.i_1_mospp.i_1_kbfs import KBFSMOSPP
+from f_hs.algo.i_1_mospp.i_1_bfs_flip import BFSFlipMOSPP
 from f_hs.algo.i_1_mospp.i_1_astar_rep import AStarRepMOSPP
 from f_hs.problem.i_0_base._factory import _ProblemGraph
 from f_hs.problem.i_1_grid import ProblemGrid
@@ -10,7 +10,7 @@ def _graph_abc_multistart(starts: list[str],
     ========================================================================
      Undirected A -- B -- C with configurable start list and
      a single goal. The undirected adjacency satisfies the
-     KBFSMOSPP precondition (the delegation relies on symmetric
+     BFSFlipMOSPP precondition (the delegation relies on symmetric
      `successors`).
     ========================================================================
     """
@@ -54,7 +54,7 @@ def test_kbfs_mospp_single_start() -> None:
     ========================================================================
     """
     p = _graph_abc_multistart(starts=['A'], goal='C')
-    algo = KBFSMOSPP(problem=p, is_recording=True)
+    algo = BFSFlipMOSPP(problem=p, is_recording=True)
     sols = algo.run()
     assert len(sols) == 1
     assert next(iter(sols.values())).cost == 2
@@ -74,7 +74,7 @@ def test_kbfs_mospp_two_starts_both_expanded() -> None:
     ========================================================================
     """
     p = _graph_abc_multistart(starts=['A', 'B'], goal='C')
-    algo = KBFSMOSPP(problem=p, is_recording=True)
+    algo = BFSFlipMOSPP(problem=p, is_recording=True)
     sols = algo.run()
     by_key = {s.key: v.cost for s, v in sols.items()}
     assert by_key == {'A': 2, 'B': 1}
@@ -101,7 +101,7 @@ def test_kbfs_mospp_unreachable_start() -> None:
     )
     p._starts = [p._states['A'], p._states['X']]
     p._goals = [p._states['B']]
-    algo = KBFSMOSPP(problem=p, is_recording=True)
+    algo = BFSFlipMOSPP(problem=p, is_recording=True)
     sols = algo.run()
     assert sols[p._states['X']].cost == float('inf')
     on_starts = [e for e in algo.recorder.events
@@ -122,7 +122,7 @@ def test_kbfs_mospp_duplicate_start() -> None:
      one `on_start` per duplicate index.
     ========================================================================
     """
-    algo = KBFSMOSPP.Factory.graph_abc_repeated_start()
+    algo = BFSFlipMOSPP.Factory.graph_abc_repeated_start()
     algo.recorder.is_active = True
     sols = algo.run()
     by_key = {s.key: v.cost for s, v in sols.items()}
@@ -144,13 +144,13 @@ def test_kbfs_mospp_duplicate_start() -> None:
 def test_kbfs_mospp_no_transition_or_on_goal() -> None:
     """
     ========================================================================
-     KBFSMOSPP delegates to OMSPP KBFS but the recorder shim
+     BFSFlipMOSPP delegates to OMSPP KBFS but the recorder shim
      rewrites `on_goal` → `on_start`. Stream must NOT contain
      `on_goal`, `update_frontier`, or `update_heuristic` events.
     ========================================================================
     """
     p = _graph_diamond_multistart(starts=['A', 'B'])
-    algo = KBFSMOSPP(problem=p, is_recording=True)
+    algo = BFSFlipMOSPP(problem=p, is_recording=True)
     algo.run()
     events = algo.recorder.events
     assert not any(e['type'] == 'on_goal' for e in events)
@@ -168,13 +168,13 @@ def test_kbfs_mospp_no_transition_or_on_goal() -> None:
 def test_kbfs_mospp_counter_scaffold() -> None:
     """
     ========================================================================
-     KBFSMOSPP uses the base AlgoMOSPP scaffold unchanged —
+     BFSFlipMOSPP uses the base AlgoMOSPP scaffold unchanged —
      no heuristic, no Φ, so no `cnt_h_*` / `cnt_phi_*` /
      `cnt_pop_stale` counters on the scaffold. `cnt_decrease`
      is 0 (FIFO no-op).
     ========================================================================
     """
-    algo = KBFSMOSPP.Factory.graph_abc_two_starts()
+    algo = BFSFlipMOSPP.Factory.graph_abc_two_starts()
     algo.run()
     c = algo.counters
     assert 'cnt_h_search' not in c
@@ -189,11 +189,11 @@ def test_kbfs_mospp_counter_scaffold() -> None:
 def test_kbfs_mospp_elapsed_update_is_zero() -> None:
     """
     ========================================================================
-     KBFSMOSPP never enters PHASE_UPDATE — `elapsed_update` is
+     BFSFlipMOSPP never enters PHASE_UPDATE — `elapsed_update` is
      0.0 by construction.
     ========================================================================
     """
-    algo = KBFSMOSPP.Factory.graph_abc_two_starts()
+    algo = BFSFlipMOSPP.Factory.graph_abc_two_starts()
     algo.run()
     assert algo.elapsed_search > 0.0
     assert algo.elapsed_update == 0.0
@@ -207,7 +207,7 @@ def test_kbfs_mospp_elapsed_update_is_zero() -> None:
 def test_kbfs_mospp_rejects_multi_goal_problem() -> None:
     """
     ========================================================================
-     KBFSMOSPP requires exactly one goal. A multi-goal problem
+     BFSFlipMOSPP requires exactly one goal. A multi-goal problem
      raises ValueError at construction.
     ========================================================================
     """
@@ -219,7 +219,7 @@ def test_kbfs_mospp_rejects_multi_goal_problem() -> None:
     p._starts = [p._states['A']]
     p._goals = [p._states['B'], p._states['C']]
     with pytest.raises(ValueError):
-        KBFSMOSPP(problem=p)
+        BFSFlipMOSPP(problem=p)
 
 
 # ──────────────────────────────────────────────────
@@ -230,14 +230,14 @@ def test_kbfs_mospp_rejects_multi_goal_problem() -> None:
 def test_kbfs_mospp_costs_match_kxastar() -> None:
     """
     ========================================================================
-     KBFSMOSPP and AStarRepMOSPP must produce identical per-
+     BFSFlipMOSPP and AStarRepMOSPP must produce identical per-
      start optimal costs on the canonical MOSPP grid (the
      reference baseline). Uniform weights — KBFS is valid.
     ========================================================================
     """
     p1 = ProblemGrid.Factory.grid_4x4_obstacle_mospp()
     p2 = ProblemGrid.Factory.grid_4x4_obstacle_mospp()
-    a = KBFSMOSPP(problem=p1)
+    a = BFSFlipMOSPP(problem=p1)
     b = AStarRepMOSPP(
         problem=p2,
         h=lambda s, g: float(s.distance(g)),
@@ -262,7 +262,7 @@ def test_kbfs_mospp_reconstruct_path() -> None:
     ========================================================================
     """
     p = _graph_abc_multistart(starts=['A', 'B'], goal='C')
-    algo = KBFSMOSPP(problem=p)
+    algo = BFSFlipMOSPP(problem=p)
     algo.run()
     a_state = p._states['A']
     b_state = p._states['B']

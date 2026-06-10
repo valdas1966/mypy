@@ -1,5 +1,3 @@
-import sys
-
 from f_core.counters.main import Counters
 from f_cs.algo import Algo
 from f_hs.problem.i_0_base.main import ProblemSPP
@@ -55,12 +53,13 @@ class AlgoMOSPP(Generic[State],
         # (e.g., AStarRepMOSPP accumulates inner sub-search
         # totals per iteration).
         ('cnt_expanded', 'cnt_generated'),
-        # Memory snapshots — populated by _run_post() AFTER
-        # _elapsed is recorded (outside the runtime budget).
-        # `mem_open` uses `frontier.max_size` (rule-2; lifetime
-        # peak |OPEN|); `mem_total = Σ mem_*` is the
-        # conservative upper-bound coincident peak (component
-        # peaks need not be simultaneous).
+        # Memory snapshots (node counts) — populated by
+        # _run_post() AFTER _elapsed is recorded (outside the
+        # runtime budget). `mem_open` / `mem_closed` =
+        # `len(frontier)` / `len(closed)` read once at completion;
+        # `mem_total = |OPEN| + |CLOSED|` is the EXACT coincident
+        # peak (accumulative search ⇒ the union is monotone). See
+        # `_sync_memory_snapshot`.
         ('mem_open', 'mem_closed', 'mem_total'),
     )
 
@@ -243,10 +242,32 @@ class AlgoMOSPP(Generic[State],
     def _sync_memory_snapshot(self) -> None:
         """
         ====================================================================
-         Default implementation: locate the snapshot state via
-         common attribute names and write `mem_open`,
-         `mem_closed` into `self._counters`. Same probe order
-         as `AlgoOMSPP._sync_memory_snapshot`.
+         Node-count memory from the located `SearchStateSPP`,
+         read ONCE at search completion: `mem_open = |OPEN|`
+         (`len(frontier)`) and `mem_closed = |CLOSED|`
+         (`len(closed)`); `g` / `parent` are per-node satellite
+         data on the SAME nodes, so they add no count.
+         `mem_total = |OPEN| + |CLOSED|` (via finalize_mem_total).
+
+         The end snapshot is the EXACT peak for these
+         ACCUMULATIVE searches: a node moves OPEN → CLOSED (or
+         CLOSED → OPEN on re-open) but never leaves BOTH sets, so
+         `|OPEN| + |CLOSED| = |nodes seen|` grows monotonically
+         and peaks at completion. Hence the end occupancy IS the
+         peak coincident node count — no per-step peak tracking,
+         and no over-count from summing region peaks that never
+         co-occur (e.g. peak |OPEN| + final |CLOSED|). Counts,
+         NOT bytes. (A future MOSPP algo that EVICTS nodes would
+         break monotonicity and need explicit peak tracking.)
+
+         Used by the flip-to-OMSPP delegates (`AStarFlipMOSPP` /
+         `BFSFlipMOSPP` / `DijkstraFlipMOSPP`) via
+         `_inner.search_state`. Mirrors the forward family's
+         per-sub-search `(len(frontier), len(closed))` reading, so
+         the metric is apples-to-apples across EVERY MOSPP algo;
+         `AStarRepMOSPP` / `AStarIncMOSPP` override to take the
+         MAX-total over their k disjoint sub-searches (each freed
+         before the next) — that run's peak.
         ====================================================================
         """
         ss = (getattr(self, '_shared_state', None)
@@ -256,46 +277,12 @@ class AlgoMOSPP(Generic[State],
             if inner is not None:
                 ss = getattr(inner, 'search_state', None)
         if ss is not None and hasattr(ss, 'frontier'):
-            frontier, closed = ss.frontier, ss.closed
-            g, parent = ss.g, ss.parent
+            self._counters.assign('mem_open', len(ss.frontier))
+            self._counters.assign('mem_closed', len(ss.closed))
         elif hasattr(self, '_frontier'):
-            frontier = self._frontier
-            closed = getattr(self, '_closed', set())
-            g = getattr(self, '_g', {})
-            parent = getattr(self, '_parent', {})
-        else:
-            return
-        queue = getattr(frontier, '_queue', None)
-        if queue is not None and hasattr(queue, '_heap'):
-            frontier_struct = (sys.getsizeof(queue._heap)
-                               + sys.getsizeof(queue._index)
-                               + sum(sys.getsizeof(t)
-                                     for t in queue._heap))
-        else:
-            frontier_struct = sys.getsizeof(
-                queue if queue is not None else frontier)
-        n_g = len(g)
-        # Rule-2 fix: peak |OPEN| over the whole run, not the
-        # post-loop snapshot. Mirrors `AlgoSPP._memory_snapshot`
-        # and `AlgoOMSPP._sync_memory_snapshot`.
-        n_open_peak = min(
-            getattr(frontier, 'max_size', len(frontier)), n_g)
-        if n_g > 0:
-            g_parent_total = (sys.getsizeof(g)
-                              + sum(sys.getsizeof(v)
-                                    for v in g.values())
-                              + sys.getsizeof(parent))
-            per_entry = g_parent_total / n_g
-            g_parent_open = round(per_entry * n_open_peak)
-            g_parent_closed = round(per_entry * (n_g - n_open_peak))
-        else:
-            g_parent_open = 0
-            g_parent_closed = 0
-        self._counters.assign('mem_open',
-                              frontier_struct + g_parent_open)
-        self._counters.assign(
-            'mem_closed',
-            sys.getsizeof(closed) + g_parent_closed)
+            self._counters.assign('mem_open', len(self._frontier))
+            self._counters.assign(
+                'mem_closed', len(getattr(self, '_closed', ())))
 
     # ──────────────────────────────────────────────────
     #  Subclass Hooks

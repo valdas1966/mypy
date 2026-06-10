@@ -1,4 +1,4 @@
-from f_hs.algo.i_1_mospp.i_1_kastar_inc.main import KAStarIncMOSPP
+from f_hs.algo.i_1_mospp.i_1_astar_flip.main import AStarFlipMOSPP
 from f_hs.problem.i_0_base._factory import _ProblemGraph
 from f_hs.problem.i_1_grid import ProblemGrid
 
@@ -16,12 +16,12 @@ def _h_grid(s, g) -> float:
 class Factory:
     """
     ============================================================================
-     Factory for KAStarIncMOSPP test instances.
+     Factory for AStarFlipMOSPP test instances.
     ============================================================================
     """
 
     @staticmethod
-    def grid_6x6_zigzag_mospp() -> KAStarIncMOSPP:
+    def grid_6x6_zigzag_mospp() -> AStarFlipMOSPP:
         """
         ========================================================================
          Canonical MOSPP grid: the `grid_6x6_zigzag_mospp`
@@ -32,13 +32,13 @@ class Factory:
          exact.
         ========================================================================
         """
-        return KAStarIncMOSPP(
+        return AStarFlipMOSPP(
             problem=ProblemGrid.Factory.grid_6x6_zigzag_mospp(),
             h=_h_grid,
         )
 
     @staticmethod
-    def graph_abc_two_starts() -> KAStarIncMOSPP:
+    def graph_abc_two_starts() -> AStarFlipMOSPP:
         """
         ========================================================================
          kA*_inc-MOSPP on undirected A--B--C with starts [A, B],
@@ -52,4 +52,4 @@ class Factory:
         )
         p._starts = [p._states['A'], p._states['B']]
         p._goals = [p._states['C']]
-        return KAStarIncMOSPP(problem=p, h=lambda s, g: 0)
+        return AStarFlipMOSPP(problem=p, h=lambda s, g: 0)
