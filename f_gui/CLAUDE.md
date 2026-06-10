@@ -28,10 +28,11 @@ from f_gui import Element, Container, Label, Window
 | `Window`    | `f_gui.elements.i_2_window`         | Root container (full bounds)|
 
 Styling value objects live in **`f_gui.style`**: `Stroke`, `LineStyle`
-(`SOLID`/`DASHED`/`DOTTED`), `Border`.
+(`SOLID`/`DASHED`/`DOTTED`), `Border`, `TextStyle` (`font`/`size`/`bold`/
+`color`, attached to a `Label`).
 
 ```python
-from f_gui.style import Stroke, LineStyle, Border
+from f_gui.style import Stroke, LineStyle, Border, TextStyle
 ```
 
 ## Module Hierarchy
@@ -48,9 +49,10 @@ f_gui/
 │   ├── i_1_line/        Line      (Element + two Points + Stroke)
 │   └── i_2_window/      Window    (Container with implicit full bounds)
 ├── style/
-│   ├── __init__.py      lazy aggregator (Stroke, LineStyle, Border)
+│   ├── __init__.py      lazy aggregator (Stroke, LineStyle, Border, TextStyle)
 │   ├── stroke/          Stroke + LineStyle  (shared line/edge appearance)
-│   └── border/          Border    (four edge Strokes)
+│   ├── border/          Border    (four edge Strokes)
+│   └── text_style/      TextStyle (text font/size/bold/color)
 └── render/
     ├── __init__.py      lazy aggregator
     └── html/            RenderHtml — emits a self-contained HTML document

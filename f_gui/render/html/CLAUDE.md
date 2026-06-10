@@ -73,6 +73,26 @@ and render as `<svg>`, not a `<div>`.
 borders (`_BORDER_WINDOW` etc.) were removed — borders are now opt-in
 `Element.border` state (see **Border Rendering** below).
 
+## Text Rendering (CSS)
+
+`_text_style()` reads a `Label`'s `style` (a `f_gui.style.text_style.
+TextStyle`) and emits the inline text CSS — applied **only** to Labels
+(non-text elements emit nothing here):
+
+```
+font-family:{font}; font-size:{size}px; [font-weight:bold;] [color:{hex};]
+```
+
+- `style is None` → the baseline `font-family:monospace;font-size:12px;`
+  (identical to the old hard-coded CSS — a styleless Label is unchanged).
+- `font` / `size` always map; `bold=True` adds `font-weight:bold`; `color`
+  is opt-in (`None` inherits the page color `#e6edf3`).
+- `color` → hex via `color.to.hex()`. **Duck-typed:** `RenderHtml` imports
+  no `TextStyle` type (like `Border` / `Stroke`).
+- Containers/Lines/Connectors carry no text, so `_text_style()` returns
+  `''` for them — the font CSS is no longer applied tree-wide (it had no
+  visual effect on non-text divs).
+
 ## Border Rendering (CSS)
 
 `_border()` reads `elem.border` (an `f_gui.style.border.Border`) and emits
@@ -175,6 +195,7 @@ so the polyline is distortion-free and needs no `viewBox`.
 | `f_gui.elements.i_1_line.Line`           | SVG line dispatch         |
 | `f_gui.elements.i_1_connector.Connector` | SVG connector (polyline) dispatch |
 | `f_gui.style.stroke.LineStyle`           | Dasharray / linecap selection |
+| `f_gui.style.text_style.TextStyle`       | **duck-typed** (read via `label.style`) — not imported |
 | `html.escape` (stdlib)                   | Text safety               |
 | `pathlib.Path` (stdlib)                  | File write                |
 
