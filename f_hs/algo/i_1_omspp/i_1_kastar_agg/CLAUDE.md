@@ -93,9 +93,9 @@ Reset on every `run()` call. Runtime decomposition for the
 | `cnt_decrease` | every `frontier.decrease`. Frontier-sourced. |
 | `cnt_expanded` | popped state whose successors were generated (Stern-style "expansions"). Incremented inside the main loop. |
 | `cnt_generated` | first-time push (state newly enters OPEN; excludes refresh re-pushes, lazy-re-pushed goals, decrease-key). |
-| `mem_open` | OPEN-region peak. Two contributions, summed: (a) frontier struct + g/parent slots for OPEN (from the base, via `frontier.max_size` — rule-2); (b) the AGG auxiliary per-state structures `_F_stored` + `_h_vector` (when `store_vector=True`) + `_responsible` (when `is_opt=True`), reported as their **running peak** (`self._mem_aux_peak`, maintained incrementally by `_aux_bump_peak()` at every aux write — O(1) per call). With free-on-close (`_aux_pop_on_close`, 2026-05-23) the aux dicts hold entries only for the live OPEN frontier, so by the region-attribution rule they belong here. There is no separate `mem_aux` counter (2026-05-23 merge). |
+| `mem_open` | OPEN-region footprint at **end of search** (2026-06-12). Two contributions, summed: (a) frontier struct + g/parent slots for the end-of-search OPEN (from the base, via `len(frontier)`); (b) the AGG auxiliary per-state structures `_F_stored` + `_h_vector` (when `store_vector=True`) + `_responsible` (when `is_opt=True`), at their **end-of-search size** (`self._aux_current()`, read once in the snapshot — no per-write peak tracking). With free-on-close (`_aux_pop_on_close`) the aux dicts hold entries only for the live OPEN frontier, so they belong here. There is no separate `mem_aux` counter. |
 | `mem_closed` | post-run snapshot — `closed` set + g/parent slots in CLOSED. Strict bucket. |
-| `mem_total` | `mem_open + mem_closed` — conservative upper-bound coincident peak. |
+| `mem_total` | `mem_open + mem_closed` — **exact** coincident total (both read at end of search, where `|OPEN|+|CLOSED|` peaks). |
 
 Stale pops are NOT a separate counter — they share the same heap-op cost as real pops (both do one `frontier.pop`), and their additional re-push contribution lives in `cnt_push`. The stale subset is derivable: `stale_pops = cnt_pop − cnt_expanded − #on_goal_events`.
 

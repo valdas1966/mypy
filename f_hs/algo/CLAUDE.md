@@ -149,32 +149,42 @@ Subclasses of `ProblemSPP` override for weighted graphs.
 ## Memory counters — single rule, applied uniformly
 
 Every `f_hs/algo` algo exposes a `mem_*` counter group with
-a uniform principle: each per-region `mem_k` is the right
-reading for its region (peak for non-monotone OPEN, final-on-
-owner for monotone CLOSED / cache / bounds, max-across-sub-
-searches for disjoint-in-time orchestrator scopes), and
+a per-region reading chosen so the total is meaningful
+(end-of-search OPEN for the accumulative OMSPP / MOSPP
+orchestrators, where `|OPEN|+|CLOSED|` is monotone and peaks at
+the end; lifetime-peak OPEN for single-search OOSPP, where the
+frontier drains; final-on-owner for monotone CLOSED / cache /
+bounds), and
 
   `mem_total := Σ_{k != 'mem_total'} mem_k`
 
-is the conservative upper-bound coincident peak. Implemented
+is the coincident total — **exact** for the accumulative OMSPP /
+MOSPP orchestrators (both regions read at the same end-of-search
+instant), a conservative upper bound only for multi-region
+single-search algos (e.g. `AStarLookup` summing non-simultaneous
+`mem_cache` / `mem_bounds` peaks). Implemented
 once in `f_hs/algo/u_mem.finalize_mem_total` and called LAST
 in each algo's memory-snapshot routine (after every other
 `mem_*` is assigned), so new `mem_*` keys (e.g.,
 `AStarLookup.mem_cache` / `mem_bounds`,
 `AStarIncMOSPP.mem_cache` / `mem_bounds`) are auto-absorbed
 without each algo being patched. (Note: KAStarAgg's
-auxiliary-structure peak is now folded into `mem_open` ---
-free-on-close + region-attribution, 2026-05-23 --- so there
-is no separate `mem_aux` key.)
+auxiliary-structure bytes are folded into `mem_open` ---
+free-on-close + region-attribution --- so there is no separate
+`mem_aux` key; like the rest of `mem_open` it is read at its
+end-of-search size, 2026-06-12.)
 
-The OPEN-region peak count comes from `FrontierBase.max_size`
-(lifetime high-water mark, updated by `_track_max_size()` on
-every push). End-of-run `len(frontier)` understates the peak
-when the loop exits with a drained frontier — `max_size` is
-the principled rule-2 reading. For shared-frontier
-orchestrators (KAStarInc / KBFS / KDijkstra) the SAME
-`FrontierPriority` accumulates across all k sub-searches, so
-`max_size` is automatically the cross-sub-search peak.
+For the **single-search OOSPP** byte algos the OPEN-region
+count comes from `FrontierBase.max_size` (lifetime high-water
+mark, updated by `_track_max_size()` on every push), because a
+single search drains its frontier and the end snapshot would
+understate the peak. The **OMSPP orchestrators**
+(`AlgoOMSPP._sync_memory_snapshot`: KAStarInc / KAStarAgg /
+KBFS / KDijkstra) instead read OPEN at **end of search**
+(`len(frontier)`, 2026-06-12): their shared frontier is never
+emptied between sub-searches, so `|OPEN|+|CLOSED|` is monotone
+and peaks at the end, where reading OPEN at the same instant as
+CLOSED makes `mem_total` exact (the MOSPP rule below).
 
 ### MOSPP memory — uniform node-count metric across ALL algos
 
@@ -202,6 +212,7 @@ by structure:
   `AlgoMOSPP._sync_memory_snapshot` reads `len(frontier)` +
   `len(closed)` from `_inner.search_state` at completion.
 
-The `max_size` / `getsizeof` byte rule above still governs the
-single-search OOSPP algos and the OMSPP orchestrators
-(`AlgoOMSPP._sync_memory_snapshot`) — a separate scope.
+The `max_size` peak rule now governs only the single-search
+OOSPP byte algos; the OMSPP orchestrators
+(`AlgoOMSPP._sync_memory_snapshot`) use the end-of-search byte
+snapshot (2026-06-12), aligning them with this MOSPP rule.

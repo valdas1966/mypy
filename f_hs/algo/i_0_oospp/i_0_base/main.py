@@ -372,7 +372,12 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
             self._counters.assign(n, v)
         self._goals_set = set(self.problem.goals)
         for start in self.problem.starts:
-            self._search.g[start] = 0.0
+            # Seed g as int 0 (not 0.0) so g stays int for the
+            # integer-cost default (`problem.w` returns int 1),
+            # matching KAStarAgg's int g. Weighted problems whose
+            # `w` returns float promote g to float naturally
+            # (int + float = float) — identically for both algos.
+            self._search.g[start] = 0
             self._search.parent[start] = None
             self._counters.inc('cnt_generated')
             self._push(state=start)

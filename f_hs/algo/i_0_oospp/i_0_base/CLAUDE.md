@@ -173,10 +173,13 @@ Three event types, duration in nanoseconds:
 | `pop` | state, g, duration |
 | `decrease_g` | state, g, parent, duration |
 
-`g` is recorded as **`int`** (cast from internal float).
-Assumption: edge costs are integer-valued — holds for all
-current problems (unit-cost BFS/A*/Dijkstra). Revisit when
-introducing fractional-weighted edges.
+`g` is recorded as **`int`** (cast for safety). The internal
+`self._search.g` is now **int** too: the start is seeded as
+`0` (not `0.0`, fixed 2026-06-12) and `problem.w` returns int
+`1` by default, so g stays int for the integer-cost problems
+(unit-cost BFS/A*/Dijkstra) — matching `KAStarAgg`'s int g.
+Fractional-weighted edges promote g to float naturally
+(`int + float = float`), identically across all SPP algos.
 
 `parent` carries the `State` object (or `None` for starts).
 AStar enriches all three event types with `h` and `f = g + h`.
@@ -227,11 +230,14 @@ works without replaying the push/decrease_g log — a strong
 consumer-convenience argument that overrides strict minimalism
 for this one field.
 
-`g` is recorded as **`int`** (cast from internal float).
-Assumption: edge costs are integer-valued — holds for all
-current problems. Revisit when introducing fractional weights.
-Internal `self._search.g` stays float so `float('inf')` remains
-usable for unreachable states.
+`g` is recorded as **`int`** (cast for safety). Internal
+`self._search.g` is **int** (start seeded `0`, `w` returns int
+`1`; fixed 2026-06-12 for cross-algo consistency with
+`KAStarAgg`). `float('inf')` is **never stored in `g`** — it
+appears only in `SolutionSPP.cost` for unreachable states
+(`main.py` returns `SolutionSPP(cost=float('inf'))`), so the
+int-g change does not affect unreachable handling. Fractional
+weights promote g to float naturally.
 
 ### Future-proofing
 

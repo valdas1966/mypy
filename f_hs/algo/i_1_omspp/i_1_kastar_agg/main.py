@@ -495,20 +495,20 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
          per-OPEN-node bookkeeping, so by the region-
          attribution rule it belongs to the OPEN region.
          There is no separate `mem_aux` counter --- `mem_open`
-         reports the true OPEN-region peak.
+         reports the OPEN-region footprint.
 
-         The aux contribution is the RUNNING PEAK
-         `self._mem_aux_peak`, maintained incrementally by
-         `_aux_bump_peak()` at every aux write (rule-2; the
-         aux dicts are non-monotone, so the end-of-run
-         snapshot would under-report). Adding it to
-         `mem_open` is O(1) at end-of-run.
+         The aux contribution is its END-of-search size
+         (`self._aux_current()`), read once here --- consistent
+         with `mem_open` being an end-of-search snapshot
+         (2026-06-12), so it lines up with the base g/parent and
+         CLOSED readings at the same instant and `mem_total`
+         stays an exact coincident total.
         ====================================================================
         """
         super()._sync_memory_snapshot()
         self._counters.assign(
             'mem_open',
-            self._counters['mem_open'] + self._mem_aux_peak)
+            self._counters['mem_open'] + self._aux_current())
 
     def _reset_search_state(self) -> None:
         """
@@ -527,18 +527,15 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
         self._F_stored = {}
         self._h_vector = {}
         self._responsible = {}
-        # Incremental aux byte-size accounting (rule-2 peak;
-        # see `_aux_bump_peak`). The aux dicts are
-        # non-monotone (entries freed on close in
-        # `_aux_pop_on_close`), so we maintain a running
-        # high-water mark rather than relying on an
-        # end-of-run snapshot.
+        # Aux byte-size accounting. `_aux_running` tracks the
+        # live OPEN-node aux values (entries freed on close in
+        # `_aux_pop_on_close`); read once at end-of-search via
+        # `_aux_current()` for the `mem_open` snapshot (2026-06-12).
         self._aux_running: int = 0
-        self._mem_aux_peak: int = 0
         self.traces = []
 
     # ──────────────────────────────────────────────────
-    #  Aux byte-size tracking (running peak; rule-2)
+    #  Aux byte-size tracking (end-of-search snapshot)
     # ──────────────────────────────────────────────────
 
     @staticmethod
@@ -549,49 +546,48 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                 + sum(sys.getsizeof(x)
                       for x in vec if x is not None))
 
-    def _aux_bump_peak(self) -> None:
-        """Refresh `_mem_aux_peak` from `_aux_running` plus
-        the current dict shells. O(1) per call."""
+    def _aux_current(self) -> int:
+        """End-of-search aux byte total: `_aux_running` (live
+        OPEN-node values, freed on close) plus the dict shells.
+        O(1), read once in `_sync_memory_snapshot` --- no per-write
+        peak tracking, since `mem_open` is an end-of-search
+        snapshot (2026-06-12)."""
         cur = self._aux_running + sys.getsizeof(self._F_stored)
         if self._store_vector:
             cur += sys.getsizeof(self._h_vector)
         if self._is_opt:
             cur += sys.getsizeof(self._responsible)
-        if cur > self._mem_aux_peak:
-            self._mem_aux_peak = cur
+        return cur
 
     def _aux_set_F_stored(self, state: State,
                           value: int) -> None:
         """Set / overwrite `_F_stored[state]` and update the
-        running aux byte total + peak."""
+        running aux byte total."""
         if state in self._F_stored:
             self._aux_running -= sys.getsizeof(
                 self._F_stored[state])
         self._F_stored[state] = value
         self._aux_running += sys.getsizeof(value)
-        self._aux_bump_peak()
 
     def _aux_set_h_vector(self, state: State,
                           vec: list[int | None]) -> None:
         """Set `_h_vector[state]` (first-encounter assignment)
-        and update the running aux byte total + peak."""
+        and update the running aux byte total."""
         if state in self._h_vector:
             self._aux_running -= self._h_vector_value_size(
                 self._h_vector[state])
         self._h_vector[state] = vec
         self._aux_running += self._h_vector_value_size(vec)
-        self._aux_bump_peak()
 
     def _aux_set_responsible(self, state: State,
                              goal: State) -> None:
         """Set / overwrite `_responsible[state]` and update
-        the running aux byte total + peak."""
+        the running aux byte total."""
         if state in self._responsible:
             self._aux_running -= sys.getsizeof(
                 self._responsible[state])
         self._responsible[state] = goal
         self._aux_running += sys.getsizeof(goal)
-        self._aux_bump_peak()
 
     def _aux_pop_on_close(self, state: State) -> None:
         """Free the three aux entries for a just-closed node

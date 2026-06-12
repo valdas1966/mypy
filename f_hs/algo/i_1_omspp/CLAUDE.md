@@ -98,10 +98,10 @@ overridden on `StateCell` to return the `(row, col)` tuple.
      - **KAStarInc** — adds `cnt_h_search`, `cnt_h_update`.
      - **KAStarAgg** — adds `cnt_h_search`, `cnt_h_update`,
        `cnt_phi_search`, `cnt_phi_update`. The
-       auxiliary-structure peak
+       auxiliary-structure bytes
        (`_F_stored` + sv·`_h_vector` + opt·`_responsible`,
-       freed on close) is folded into `mem_open` as the
-       OPEN-region peak (2026-05-23) --- no separate
+       freed on close) are folded into `mem_open` at their
+       end-of-search size (2026-06-12) --- no separate
        `mem_aux` counter.
        Under Path D (2026-05-11) the counter axis is
        strictly temporal — mirrors the structural `phase`

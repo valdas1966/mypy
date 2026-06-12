@@ -66,11 +66,11 @@ class AlgoOMSPP(Generic[State],
         # Memory snapshots — populated by _run_post() AFTER
         # _elapsed is recorded (outside the runtime budget).
         # mem_open / mem_closed split g/parent slot cost by
-        # peak-OPEN/CLOSED membership (rule-2 via
-        # `frontier.max_size`; states not in OPEN charged to
-        # mem_closed). `mem_total` = Σ mem_* — conservative
-        # upper-bound coincident peak (sum of per-region
-        # peaks; component peaks need not be simultaneous).
+        # END-of-search OPEN/CLOSED membership (`len(frontier)`;
+        # states not in OPEN charged to mem_closed). Because
+        # |OPEN|+|CLOSED| peaks at end (monotone — a node moves
+        # OPEN->CLOSED, never leaving the union), `mem_total` =
+        # mem_open + mem_closed is the EXACT coincident snapshot.
         ('mem_open', 'mem_closed', 'mem_total'),
     )
 
@@ -328,24 +328,26 @@ class AlgoOMSPP(Generic[State],
             frontier_struct = sys.getsizeof(
                 queue if queue is not None else frontier)
         n_g = len(g)
-        # Rule-2 fix: peak |OPEN| over the whole run, not the
-        # post-loop snapshot. For shared-state orchestrators
+        # End-of-search |OPEN| --- NOT the lifetime peak
+        # (2026-06-12). OPEN and CLOSED are disjoint and a node
+        # moves OPEN->CLOSED but never leaves the union, so
+        # |OPEN|+|CLOSED| = |generated| is monotone and peaks at the
+        # END of the whole search. Reading |OPEN| at end (the same
+        # instant as CLOSED) makes `mem_open + mem_closed = mem_total`
+        # an EXACT coincident snapshot, not a sum of non-simultaneous
+        # per-region peaks. For the continuous-OPEN orchestrators
         # (KAStarInc, KBFS, KDijkstra) the frontier is the SAME
-        # instance across all sub-searches, so `max_size` is the
-        # cross-sub-search peak (rule-3 also auto-satisfied).
-        # Falls back to `len(frontier)` if the frontier lacks
-        # the `max_size` API (defensive — every `FrontierBase`
-        # subclass provides it as of the 2026-05-20 fix).
-        n_open_peak = min(
-            getattr(frontier, 'max_size', len(frontier)), n_g)
+        # instance across all sub-searches (never emptied between
+        # them), so `len(frontier)` is the end-of-whole-search OPEN.
+        n_open_end = min(len(frontier), n_g)
         if n_g > 0:
             g_parent_total = (sys.getsizeof(g)
                               + sum(sys.getsizeof(v)
                                     for v in g.values())
                               + sys.getsizeof(parent))
             per_entry = g_parent_total / n_g
-            g_parent_open = round(per_entry * n_open_peak)
-            g_parent_closed = round(per_entry * (n_g - n_open_peak))
+            g_parent_open = round(per_entry * n_open_end)
+            g_parent_closed = round(per_entry * (n_g - n_open_end))
         else:
             g_parent_open = 0
             g_parent_closed = 0
