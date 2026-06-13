@@ -127,17 +127,42 @@ def _is_results_csv(name: str) -> bool:
 def _algo_of(name: str) -> str:
     """
     ========================================================================
-     Algorithm tag from the filename: `astar_rep_*` -> 'rep',
-     `astar_flip_*` -> 'flip', `bfs_flip_*` -> 'bfs',
-     `dijkstra_flip_*` -> 'dijkstra', everything else
-     (`astar_inc_*`) -> 'inc'. The `s_3` runners. (Flip/bfs/dijkstra
-     are MOSPP via flip-to-OMSPP; matched before the `astar_` inc
-     fallback.)
+     Algorithm tag from the filename. Cross-variant families are
+     matched by prefix: `astar_rep_*` -> 'rep', `astar_flip_*` ->
+     'flip', `bfs_flip_*` -> 'bfs', `dijkstra_flip_*` -> 'dijkstra'.
+
+     The `astar_inc_*` family shares ONE prefix but encodes its
+     reuse-store config in filename TOKENS -- no DATA column carries
+     `adaptive_h` / `carry_cache`, so without refinement the combined
+     `all_by_k.csv` would collapse cache-only, cache+adapt, and
+     adapt-no-cache onto a single 'inc' tag with the SAME
+     (rule_bpmx, depth_bpmx, depth_prop) identity. So the inc family
+     is split by tokens (the per-stem `_by_k.csv` files are already
+     distinct by filename -- this only disambiguates the long table):
+
+       `_adapt_1` + `_cacheoff` -> 'inc_adapt_nocache'  (ADAPT on, CACHE
+                                    off -- pure Koenig 2005 Adaptive A*)
+       `_adapt_1`               -> 'inc_adapt'  (cache + adaptive bound)
+       `_cacheoff`              -> 'inc_nocache' (cache off, no adaptive
+                                    -- equivalent to `rep`; edge case)
+       (neither)                -> 'inc'  (cache-only -- the default sweep)
     ========================================================================
     """
+    # Specific cross-variant families first; the inc family (the generic
+    # `astar_` fallback prefix) is refined by tokens below.
     for prefix, tag in _ALGO_PREFIXES:
+        if prefix == 'astar_':
+            continue
         if name.startswith(prefix):
             return tag
+    adapt = '_adapt_1' in name
+    cacheoff = '_cacheoff' in name
+    if adapt and cacheoff:
+        return 'inc_adapt_nocache'
+    if adapt:
+        return 'inc_adapt'
+    if cacheoff:
+        return 'inc_nocache'
     return 'inc'
 
 

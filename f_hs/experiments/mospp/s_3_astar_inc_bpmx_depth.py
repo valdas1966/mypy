@@ -51,7 +51,10 @@
      order_starts='given' -- no reordering, so run() and the
        19 extend()s process the chain coherently in problem
        order (the order the nested chain is built in).
-     carry_cache=True -- the on-path cache is always carried.
+     carry_cache -- a PER-RUN knob (default True: the on-path
+       cache is carried). The `inc_adapt_nocache` driver sets
+       False to turn the cache OFF (pure Adaptive A*, ADAPT-only)
+       -- its CSV gets a `_cacheoff` token.
      adaptive_h -- now a PER-RUN knob (default False: the cache
        is the SOLE carried reuse store, the oracle's "only
        cached" Group-C family). The `inc_adapt` driver sets True
@@ -228,26 +231,33 @@ def _csv_filename(rule_bpmx: str | None,
                   depth_bpmx: int | None,
                   depth_prop: int | None,
                   n_maps: int | None,
-                  adaptive_h: bool = False) -> str:
+                  adaptive_h: bool = False,
+                  carry_cache: bool = True) -> str:
     """
     ========================================================================
      Build the output CSV filename, encoding the run config so
      repeated single-config runs never clobber each other:
-       astar_inc_nested_rule_{R}_bpmx_{B}_prop_{P}[_adapt_1][_toy{N}].csv
+       astar_inc_nested_rule_{R}_bpmx_{B}_prop_{P}[_adapt_1][_cacheoff][_toy{N}].csv
      None renders as 'none' for the rule and 'inf' for either
      depth. `adaptive_h=True` inserts an `_adapt_1` token (so an
      adaptive run never clobbers the non-adaptive run of the same
      rule/depth/prop -- the non-adaptive names carry no token).
-     A toy run appends a trailing `_toy{N}` (N = n_maps).
+     `carry_cache=False` inserts a `_cacheoff` token (so an
+     ADAPT-on / CACHE-off run -- pure Koenig Adaptive A*, the
+     missing cache-off cell of the 2x2 ablation -- never clobbers
+     the cache-on run of the same rule/depth/prop/adapt). A toy run
+     appends a trailing `_toy{N}` (N = n_maps), kept LAST so
+     `s_4._is_results_csv` still detects + skips smoke runs.
     ========================================================================
     """
     r = rule_bpmx if rule_bpmx is not None else 'none'
     b = 'inf' if depth_bpmx is None else depth_bpmx
     p = 'inf' if depth_prop is None else depth_prop
     adapt = '_adapt_1' if adaptive_h else ''
+    cacheoff = '' if carry_cache else '_cacheoff'
     toy = f'_toy{n_maps}' if n_maps is not None else ''
     return (f'astar_inc_nested_rule_{r}_bpmx_{b}'
-            f'_prop_{p}{adapt}{toy}.csv')
+            f'_prop_{p}{adapt}{cacheoff}{toy}.csv')
 
 
 def _csv_filename_rep(n_maps: int | None) -> str:
@@ -424,7 +434,8 @@ def _experiment_astar_inc_chain(chain: _MapChain,
                                 rule_bpmx: str | None,
                                 depth_bpmx: int | None,
                                 depth_prop: int | None,
-                                adaptive_h: bool = _ADAPTIVE_H
+                                adaptive_h: bool = _ADAPTIVE_H,
+                                carry_cache: bool = _CARRY_CACHE
                                 ) -> list[dict]:
     """
     ========================================================================
@@ -469,7 +480,7 @@ def _experiment_astar_inc_chain(chain: _MapChain,
         is_recording=False,
         is_timing=True,
         order_starts=_ORDER_STARTS,
-        carry_cache=_CARRY_CACHE,
+        carry_cache=carry_cache,
         adaptive_h=adaptive_h,
         propagate=propagate,
         propagate_depth=propagate_depth,
@@ -823,19 +834,21 @@ def run_astar_inc(path_drive_pkl_in: str,
                   depth_bpmx: int | None,
                   depth_prop: int | None,
                   adaptive_h: bool = _ADAPTIVE_H,
+                  carry_cache: bool = _CARRY_CACHE,
                   workers: int = 10,
                   n_maps: int | None = None) -> None:
     """
     ========================================================================
      Run AStarIncMOSPP across every map as a NESTED k-chain
      (OMSPP problems flipped to MOSPP), for ONE config
-     (`rule_bpmx`, `depth_bpmx`, `depth_prop`, `adaptive_h`).
-     Validates the config (fail-fast before the pool spins up),
-     then delegates the download / dispatch / write to
-     `_run_chain_experiment`. The config (incl. `adaptive_h`)
-     ships into the workers via a `functools.partial`. The
-     caller owns the output name -- pass `adaptive_h=True` to
-     `_csv_filename` so the `_adapt_1` token tags the CSV.
+     (`rule_bpmx`, `depth_bpmx`, `depth_prop`, `adaptive_h`,
+     `carry_cache`). Validates the config (fail-fast before the
+     pool spins up), then delegates the download / dispatch /
+     write to `_run_chain_experiment`. The config (incl.
+     `adaptive_h` / `carry_cache`) ships into the workers via a
+     `functools.partial`. The caller owns the output name -- pass
+     the matching `adaptive_h` / `carry_cache` to `_csv_filename`
+     so the `_adapt_1` / `_cacheoff` tokens tag the CSV.
     ========================================================================
     """
     _validate_config(rule_bpmx=rule_bpmx,
@@ -843,12 +856,14 @@ def run_astar_inc(path_drive_pkl_in: str,
                      depth_prop=depth_prop)
     _log.info(f'astar_inc nested: workers={workers}, '
               f'rule_bpmx={rule_bpmx!r}, depth_bpmx={depth_bpmx!r}, '
-              f'depth_prop={depth_prop!r}, adaptive_h={adaptive_h}')
+              f'depth_prop={depth_prop!r}, adaptive_h={adaptive_h}, '
+              f'carry_cache={carry_cache}')
     experiment = partial(_experiment_astar_inc_chain,
                          rule_bpmx=rule_bpmx,
                          depth_bpmx=depth_bpmx,
                          depth_prop=depth_prop,
-                         adaptive_h=adaptive_h)
+                         adaptive_h=adaptive_h,
+                         carry_cache=carry_cache)
     _run_chain_experiment(
         experiment=experiment,
         path_drive_pkl_in=path_drive_pkl_in,
@@ -1453,6 +1468,11 @@ if __name__ == '__main__':
     #                +cascade d1 / +prop d1 / +cascade+prop d1. One
     #                `_adapt_1`-tagged CSV each. See
     #                `run_astar_inc_adaptive_configs`.
+    #   'inc_adapt_nocache' -- AStarIncMOSPP, pure Adaptive A* (Koenig
+    #                2005): ADAPT on, CACHE off (the missing cache-off
+    #                cell of the 2x2 ablation -- isolates the C_i-g_i
+    #                bound from the cache + its early-termination). One
+    #                `_adapt_1_cacheoff`-tagged CSV (rule=None, no prop).
     #   'flip'    -- AStarFlipMOSPP: MOSPP via flip-to-OMSPP +
     #                incremental kA* (one growing search from the
     #                shared goal). Single config. See
@@ -1464,7 +1484,7 @@ if __name__ == '__main__':
     #                backward Dijkstra (non-negative weights).
     #                INDEPENDENT per-k runs. See `run_dijkstra_flip`.
     #   'rep'     -- AStarRepMOSPP baseline (single config, no ladder).
-    ALGO = 'dijkstra'
+    ALGO = 'inc_adapt_nocache'
 
     if ALGO == 'inc':
         # ── AStarIncMOSPP config — one run, one config, one CSV ──────────────
@@ -1532,6 +1552,37 @@ if __name__ == '__main__':
             workers=workers,
             n_maps=n_maps)
 
+    elif ALGO == 'inc_adapt_nocache':
+        # ── Pure Adaptive A* — ADAPT on, CACHE off (Koenig 2005) ─────────────
+        # The missing cache-off cell of the 2x2 ablation: isolates the
+        # C_i-g_i CLOSED-list bound store from the on-path cache (and its
+        # cache-hit-at-init early-termination, which goes to 0 here). One
+        # config: adaptive only, no BPMX, no propagation (rule=None,
+        # depth_bpmx=None, depth_prop=0). The `_cacheoff` token keeps its
+        # CSV distinct from the cache-on `inc_adapt` baseline of the same
+        # rule/depth/prop. (BPMX/prop variants are omitted: BPMX needs the
+        # cache as its inconsistency engine on consistent Manhattan h, so
+        # they would collapse onto this config -- add them only if a harder
+        # fixture motivates it.)
+        rule_bpmx = None
+        depth_bpmx = None
+        depth_prop = 0
+        path_drive_csv_out = (
+            f'Results/'
+            f'{_csv_filename(rule_bpmx, depth_bpmx, depth_prop, n_maps, adaptive_h=True, carry_cache=False)}')
+
+        run_astar_inc(
+            path_drive_pkl_in=path_drive_pkl_in,
+            path_drive_grids_in=path_drive_grids_in,
+            path_drive_csv_out=path_drive_csv_out,
+            rule_bpmx=rule_bpmx,
+            depth_bpmx=depth_bpmx,
+            depth_prop=depth_prop,
+            adaptive_h=True,
+            carry_cache=False,
+            workers=workers,
+            n_maps=n_maps)
+
     elif ALGO == 'rep':
         # AStarRepMOSPP baseline — single config, one CSV.
         path_drive_csv_out = (
@@ -1585,6 +1636,7 @@ if __name__ == '__main__':
     else:
         raise ValueError(
             f"ALGO must be 'inc', 'inc_all', 'inc_pb', 'inc_adapt', "
-            f"'rep', 'flip', 'bfs' or 'dijkstra'; got {ALGO!r}")
+            f"'inc_adapt_nocache', 'rep', 'flip', 'bfs' or 'dijkstra'; "
+            f"got {ALGO!r}")
 
     _log.info('--- done ---')
