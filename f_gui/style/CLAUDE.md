@@ -22,7 +22,7 @@ from f_gui.style import Stroke, LineStyle, Border, TextStyle
 | `Stroke`    | `f_gui.style.stroke`     | `(color, width, style)` appearance    |
 | `LineStyle` | `f_gui.style.stroke`     | enum: `SOLID` / `DASHED` / `DOTTED`   |
 | `Border`    | `f_gui.style.border`     | four edge `Stroke`s (T/L/B/R)         |
-| `TextStyle` | `f_gui.style.text_style` | `(font, size, bold, color)` text look |
+| `TextStyle` | `f_gui.style.text` | `(font, size, bold, color)` text look |
 
 ## Module Hierarchy
 
@@ -31,7 +31,7 @@ f_gui/style/
 ├── __init__.py     lazy aggregator (Stroke, LineStyle, Border, TextStyle)
 ├── stroke/         Stroke + LineStyle — shared line/edge appearance
 ├── border/         Border — four edge Strokes
-└── text_style/     TextStyle — text appearance (font/size/bold/color)
+└── text/           TextStyle — text appearance (font/size/bold/color)
 ```
 
 ## The Reuse Story

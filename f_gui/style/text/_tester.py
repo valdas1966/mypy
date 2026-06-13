@@ -1,18 +1,27 @@
-from f_gui.style.text_style.main import TextStyle
+from f_gui.style.text.main import TextStyle
 from f_color.rgb import RGB
 
 
 def test_defaults() -> None:
     """
     ========================================================================
-     Test default appearance (monospace, 12px, not bold, no color).
+     Test default appearance (monospace, 12px, not bold, black).
     ========================================================================
     """
     t = TextStyle()
     assert t.font == 'monospace'
     assert t.size == 12
     assert t.bold is False
-    assert t.color is None
+    assert t.color == RGB('black')
+
+
+def test_color_none_inherits() -> None:
+    """
+    ========================================================================
+     Test that an explicit color=None opts out of a color (inherit).
+    ========================================================================
+    """
+    assert TextStyle(color=None).color is None
 
 
 def test_font() -> None:
@@ -58,7 +67,9 @@ def test_str() -> None:
      Test the string representation.
     ========================================================================
     """
-    assert str(TextStyle(size=18, bold=True)) == '(monospace 18px bold default)'
+    assert str(TextStyle(size=18, bold=True)) \
+        == '(monospace 18px bold black(0, 0, 0))'
+    assert str(TextStyle(color=None)) == '(monospace 12px normal inherit)'
 
 
 def test_factory_title() -> None:

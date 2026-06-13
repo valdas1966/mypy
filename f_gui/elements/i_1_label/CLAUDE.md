@@ -27,7 +27,7 @@ def __init__(self,
 Bounds default to full `(0, 0, 100, 100)`. `background`
 (`f_color.rgb.RGB`, `None` = transparent) and `border`
 (`f_gui.style.border.Border`, `None` = no border) are forwarded to
-`Element`. `style` (`f_gui.style.text_style.TextStyle`, `None` = baseline
+`Element`. `style` (`f_gui.style.text.TextStyle`, `None` = baseline
 monospace/12px) is the text *appearance* — content (`text`) and
 presentation (`style`) are separate, exactly as `background`/`border` are.
 
@@ -63,7 +63,7 @@ Element (HasName, HasParent)   abstract
 | `f_ds.geometry.bounds.Bounds` | Rectangular bounds |
 | `f_color.rgb.RGB` (TYPE_CHECKING) | Background color type |
 | `f_gui.style.border.Border` (TYPE_CHECKING) | Border type |
-| `f_gui.style.text_style.TextStyle` (TYPE_CHECKING) | Text appearance type |
+| `f_gui.style.text.TextStyle` (TYPE_CHECKING) | Text appearance type |
 
 ## Rendering
 

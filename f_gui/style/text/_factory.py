@@ -1,4 +1,4 @@
-from f_gui.style.text_style.main import TextStyle
+from f_gui.style.text.main import TextStyle
 
 
 class Factory:
@@ -12,9 +12,9 @@ class Factory:
     def default() -> TextStyle:
         """
         ========================================================================
-         Generate the default TextStyle (monospace, 12px, not bold, no color).
+         Generate the default TextStyle (monospace, 12px, not bold, black).
         ========================================================================
-         Matches the renderer's historical baseline text appearance.
+         Matches the renderer's baseline styleless-Label appearance.
         ========================================================================
         """
         return TextStyle()

@@ -1,9 +1,14 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from f_color.rgb import RGB
+
+# Sentinel: color not passed -> default to black. Resolved lazily in
+# __init__ so f_color stays off TextStyle's module-load path. Pass an
+# explicit `color=None` to opt OUT of a color (inherit the page color).
+_DEFAULT_BLACK: Any = object()
 
 
 class TextStyle:
@@ -16,9 +21,9 @@ class TextStyle:
      way `background` / `border` are — separate, opt-in, reusable across
      many Labels. Sits beside `Stroke` / `Border` in `f_gui.style`.
     ============================================================================
-     The defaults reproduce the renderer's historical hard-coded text CSS
-     (`monospace`, `12px`, not bold, no color -> inherits the page color),
-     so a Label with no style renders byte-identically to before.
+     The default color is black (readable on a light background); the other
+     defaults are `monospace`, `12px`, not bold. Pass `color=None` explicitly
+     to opt OUT of a color and inherit the surrounding page color instead.
     ============================================================================
     """
 
@@ -29,12 +34,17 @@ class TextStyle:
                  font: str = 'monospace',
                  size: float = 12,
                  bold: bool = False,
-                 color: RGB | None = None) -> None:
+                 color: RGB | None = _DEFAULT_BLACK) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
+         `color` omitted -> black; `color=None` -> inherit the page color.
+        ========================================================================
         """
+        if color is _DEFAULT_BLACK:
+            from f_color.rgb import RGB
+            color = RGB('black')
         self._font = font
         self._size = size
         self._bold = bold
@@ -83,5 +93,5 @@ class TextStyle:
         ========================================================================
         """
         weight = 'bold' if self._bold else 'normal'
-        color = self._color if self._color is not None else 'default'
+        color = self._color if self._color is not None else 'inherit'
         return f'({self._font} {self._size}px {weight} {color})'

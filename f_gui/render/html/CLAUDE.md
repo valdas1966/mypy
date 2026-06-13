@@ -31,7 +31,9 @@ Rendering** below).
 @staticmethod
 def page(root: Element, size: int | None = None) -> str
 ```
-Wraps the rendered tree in a full HTML document.
+Wraps the rendered tree in a full HTML document (with
+`<head><meta charset="utf-8">` so non-ASCII text — em dashes, accented
+names — decodes correctly in the browser instead of mojibaking).
 - **`size=None` (default)** — the stage fills the browser **viewport**
   (full-screen, `position:fixed;inset:0`), matching what a `Window`
   models. Bounds map naturally: `left/right` = % of width,
@@ -75,7 +77,7 @@ borders (`_BORDER_WINDOW` etc.) were removed — borders are now opt-in
 
 ## Text Rendering (CSS)
 
-`_text_style()` reads a `Label`'s `style` (a `f_gui.style.text_style.
+`_text_style()` reads a `Label`'s `style` (a `f_gui.style.text.
 TextStyle`) and emits the inline text CSS — applied **only** to Labels
 (non-text elements emit nothing here):
 
@@ -83,10 +85,12 @@ TextStyle`) and emits the inline text CSS — applied **only** to Labels
 font-family:{font}; font-size:{size}px; [font-weight:bold;] [color:{hex};]
 ```
 
-- `style is None` → the baseline `font-family:monospace;font-size:12px;`
-  (identical to the old hard-coded CSS — a styleless Label is unchanged).
+- `style is None` → the baseline
+  `font-family:monospace;font-size:12px;color:#000000;` — the same as
+  `TextStyle()` (default color is **black**, readable on a light bg).
 - `font` / `size` always map; `bold=True` adds `font-weight:bold`; `color`
-  is opt-in (`None` inherits the page color `#e6edf3`).
+  defaults to black, and an explicit `color=None` opts out (inherits the
+  page color `#e6edf3`).
 - `color` → hex via `color.to.hex()`. **Duck-typed:** `RenderHtml` imports
   no `TextStyle` type (like `Border` / `Stroke`).
 - Containers/Lines/Connectors carry no text, so `_text_style()` returns
@@ -195,7 +199,7 @@ so the polyline is distortion-free and needs no `viewBox`.
 | `f_gui.elements.i_1_line.Line`           | SVG line dispatch         |
 | `f_gui.elements.i_1_connector.Connector` | SVG connector (polyline) dispatch |
 | `f_gui.style.stroke.LineStyle`           | Dasharray / linecap selection |
-| `f_gui.style.text_style.TextStyle`       | **duck-typed** (read via `label.style`) — not imported |
+| `f_gui.style.text.TextStyle`       | **duck-typed** (read via `label.style`) — not imported |
 | `html.escape` (stdlib)                   | Text safety               |
 | `pathlib.Path` (stdlib)                  | File write                |
 
@@ -254,6 +258,7 @@ the matching HTML in a browser:
 | `s_border.py`    | `border.html`     | solid/dashed/dotted, per-side, 4-color, width variants |
 | `s_line.py`      | `line.html`       | solid/dashed/dotted, arrow, 4 directions, width variants |
 | `s_connector.py` | `connector.html`  | direct vs orthogonal, auto vs explicit sides, 4 directions, stroke variants |
+| `s_text.py`      | `text.html`       | TextStyle: presets (incl. `style=None` baseline), font, size, weight, color gradient, combinations |
 
 ```bash
 python -m f_gui.render.html.s_border   # then open border.html

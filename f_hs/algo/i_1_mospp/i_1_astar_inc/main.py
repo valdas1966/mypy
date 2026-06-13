@@ -270,15 +270,19 @@ class AStarIncMOSPP(Generic[State],
         self._mem_peak_closed: int = 0
         self._mem_peak_cache: int = 0
         self._mem_peak_bounds: int = 0
-        # `mem_cache` / `mem_bounds` are read final-on-owner at
-        # end-of-run (rule-4: persist + accumulate across
-        # sub-searches — final == peak for monotone stores).
-        # No per-sub-search peak-tracking needed; the
-        # orchestrator-owned `self._cache` / `self._bounds`
-        # ARE the final state. Avoids the prior stale-inner-
-        # snapshot bias (the inner sub-search reported the
-        # PRE-harvest size; the orchestrator's harvest grew
-        # the store immediately after).
+        # `mem_cache` / `mem_bounds` are the cache/bounds sizes of
+        # that SAME peak window, snapshotted PRE-harvest — i.e. the
+        # 1..i-1 contributions that coexisted with this sub-search's
+        # frontier (its own harvest runs only AFTER the snapshot,
+        # below). Pre-harvest is deliberate: sub-search i's harvest
+        # is derived FROM its CLOSED set, so reading post-harvest
+        # would count those nodes TWICE (once in mem_closed, once in
+        # mem_cache / mem_bounds). Accepted caveat: the full final
+        # store (1..k) is therefore never counted — mem_cache /
+        # mem_bounds lag by one harvest (~1/k of the store;
+        # OPEN/CLOSED stay exact). Counting it would re-introduce
+        # the double-count, so the lag is the price of a
+        # double-count-free metric.
         # MAX-aggregated propagation depth: the deepest wave
         # ladder any single sub-search ran (NOT the sum). 0
         # when no sub-search propagated (empty seeds).

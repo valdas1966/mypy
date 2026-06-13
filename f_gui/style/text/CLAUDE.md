@@ -8,10 +8,10 @@ content), a `TextStyle` is *how it looks*. Attached the same opt-in way as
 `background` / `border` (separate, reusable across many Labels), and sits
 beside `Stroke` / `Border` in `f_gui.style`.
 
-The defaults reproduce the renderer's historical hard-coded text CSS
-(`monospace`, `12px`, not bold, no color → inherits the page color), so a
-`Label` with `style=None` renders byte-identically to before this object
-existed.
+The default color is **black** (readable on a light background); the other
+defaults are `monospace`, `12px`, not bold. Pass `color=None` explicitly to
+opt OUT of a color and inherit the surrounding page color instead. A
+`Label` with `style=None` renders the same as `TextStyle()` (black).
 
 ## Public API
 
@@ -28,8 +28,9 @@ def __init__(self,
              font: str = 'monospace',
              size: float = 12,
              bold: bool = False,
-             color: RGB | None = None) -> None
+             color: RGB | None = <black>) -> None
 ```
+`color` omitted → black; `color=None` → inherit the page color.
 
 ### Properties
 
@@ -41,13 +42,14 @@ def size(self) -> float         # pixels
 @property
 def bold(self) -> bool
 @property
-def color(self) -> RGB | None   # None = inherit the page color
+def color(self) -> RGB | None   # default black; None = inherit page color
 ```
 
 ### Dunder Methods
 
 ```python
-def __str__(self) -> str   # '(monospace 12px normal default)'
+def __str__(self) -> str   # '(monospace 12px normal black(0, 0, 0))'
+                           # color=None -> '(... normal inherit)'
 ```
 
 ## Factory Presets
@@ -68,8 +70,8 @@ def __str__(self) -> str   # '(monospace 12px normal default)'
 | `font`       | `font-family:{font};`               |
 | `size`       | `font-size:{size}px;`               |
 | `bold`       | `font-weight:bold;` (only if True)  |
-| `color`      | `color:{color.to.hex()};` (opt-in)  |
-| `style=None` | `font-family:monospace;font-size:12px;` (baseline) |
+| `color`      | `color:{color.to.hex()};` (default black `#000000`; `None` = omit → inherit) |
+| `style=None` | `font-family:monospace;font-size:12px;color:#000000;` (same as `TextStyle()`) |
 
 Color is duck-typed (`color.to.hex()`); `RenderHtml` imports no
 `TextStyle` type (like `Border` / `Stroke`).
@@ -84,10 +86,11 @@ Color is duck-typed (`color.to.hex()`); `RenderHtml` imports no
 
 ```python
 from f_gui.elements.i_1_label import Label
-from f_gui.style.text_style import TextStyle
+from f_gui.style.text import TextStyle
 from f_color.rgb import RGB
 
 Label(text='Title', style=TextStyle.Factory.title())
 Label(text='note', style=TextStyle(size=14, color=RGB(name='RED')))
-Label(text='plain')   # style=None -> baseline monospace 12px
+Label(text='plain')   # style=None -> baseline monospace 12px black
+Label(text='on dark', style=TextStyle(color=None))  # inherit page color
 ```

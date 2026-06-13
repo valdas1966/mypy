@@ -70,8 +70,9 @@ class RenderHtml:
             stage = (f'position:relative;'
                      f'width:{size}px;height:{size}px;'
                      f'margin:20px auto;background:#161b22;')
-        return (f'<!doctype html><html><body '
-                f'style="margin:0;background:#0d1117;color:#e6edf3;">'
+        return (f'<!doctype html><html>'
+                f'<head><meta charset="utf-8"></head>'
+                f'<body style="margin:0;background:#0d1117;color:#e6edf3;">'
                 f'<div style="{stage}">{body}</div>'
                 f'</body></html>')
 
@@ -92,17 +93,17 @@ class RenderHtml:
          CSS text declarations (font / size / weight / color) for a Label.
         ========================================================================
          Non-Labels carry no text, so they emit nothing. A Label with no
-         `style` emits the baseline default (monospace, 12px) — identical to
-         the old hard-coded CSS. Set `font`/`size`/`bold` always map; `color`
-         is opt-in (None inherits the page color). Duck-typed: RenderHtml
-         imports no TextStyle type (like Border / Stroke).
+         `style` emits the baseline default (monospace, 12px, black) — the
+         same as `TextStyle()`. font/size/bold/color all map; an explicit
+         `color=None` opts out (inherits the page color). Duck-typed:
+         RenderHtml imports no TextStyle type (like Border / Stroke).
         ========================================================================
         """
         if not isinstance(elem, Label):
             return ''
         style = elem.style
         if style is None:
-            return 'font-family:monospace;font-size:12px;'
+            return 'font-family:monospace;font-size:12px;color:#000000;'
         css = f'font-family:{style.font};font-size:{style.size}px;'
         if style.bold:
             css += 'font-weight:bold;'

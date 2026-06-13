@@ -52,7 +52,7 @@ f_gui/
 │   ├── __init__.py      lazy aggregator (Stroke, LineStyle, Border, TextStyle)
 │   ├── stroke/          Stroke + LineStyle  (shared line/edge appearance)
 │   ├── border/          Border    (four edge Strokes)
-│   └── text_style/      TextStyle (text font/size/bold/color)
+│   └── text/            TextStyle (text font/size/bold/color)
 └── render/
     ├── __init__.py      lazy aggregator
     └── html/            RenderHtml — emits a self-contained HTML document

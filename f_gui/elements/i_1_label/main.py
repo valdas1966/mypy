@@ -8,7 +8,7 @@ from f_ds.geometry.bounds import Bounds
 if TYPE_CHECKING:
     from f_color.rgb import RGB
     from f_gui.style.border import Border
-    from f_gui.style.text_style import TextStyle
+    from f_gui.style.text import TextStyle
 
 
 class Label(Element):
