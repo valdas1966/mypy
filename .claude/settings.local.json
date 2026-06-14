@@ -140,7 +140,8 @@
       "WebFetch(domain:core.ac.uk)",
       "Bash(mkdir -p .claude/skills/_session_lib)",
       "Bash(cp .claude/skills/session/scripts/session.py .claude/skills/_session_lib/session.py)",
-      "Bash(rm -rf .claude/skills/session)"
+      "Bash(rm -rf .claude/skills/session)",
+      "WebFetch(domain:github.com)"
     ],
     "defaultMode": "acceptEdits"
   }
